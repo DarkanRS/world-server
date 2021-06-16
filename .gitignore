@@ -81,3 +81,27 @@ fabric.properties
 # modules.xml
 
 serverConfig.json
+/dumps/
+/bin/
+/logs/
+/data/backups/
+/data/characters/
+/data/clans/
+/data/charactersBackup/
+/checkacc/
+/data/grandexchange/
+/data/err.txt
+/data/reports.txt
+/data/pkRanks.json
+/data/displayNames.json
+/data/drop.json
+/data/dtRanks.json
+/data/ServerData.json
+/data/store.json
+/data/positions.txt
+/data/keystore.p12
+/data/highscores.json
+/data/npcs/packedSpawns/
+/data/items/packedSpawns/
+/data/map/packedSpawns/
+/public/images/items/*.png
