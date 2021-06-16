@@ -11,6 +11,7 @@ import com.rs.game.social.WorldFC;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
+import com.rs.lib.web.APIResponse;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
 import com.rs.lib.web.dto.WorldPlayerAction;
@@ -21,26 +22,28 @@ public class LobbyCommunicator {
 	private static Map<String, WorldCC> CLAN_CHATS = new ConcurrentHashMap<>();
 	
 	public static void addWorldPlayer(Player player, Consumer<Boolean> cb) {
-		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "addworldplayer", cb);
+		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "addworldplayer", response -> {
+			cb.accept(response.getData() != null ? response.getData() : false);
+		});
 	}
 	
 	public static void removeWorldPlayer(Player player) {
-		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
+		post(new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
 	}
 	
 	public static Account getAccountSync(String username, String password) {
-		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
+		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth").getData();
 	}
 	
-	public static void getAccount(String username, String password, Consumer<Account> cb) {
+	public static void getAccount(String username, String password, Consumer<APIResponse<Account>> cb) {
 		post(Account.class, new LoginRequest(username, password), "getaccountauth", cb);
 	}
 	
 	public static void updateAccount(Player player) {
-		post(Account.class, player.getAccount(), "updatewholeaccount");
+		post(player.getAccount(), "updatewholeaccount");
 	}
 	
-	public static void updateAccount(Player player, Consumer<Account> cb) {
+	public static void updateAccount(Player player, Consumer<APIResponse<Account>> cb) {
 		post(Account.class, player.getAccount(), "updatewholeaccount", cb);
 	}
 	
@@ -149,15 +152,15 @@ public class LobbyCommunicator {
 		
 	}
 	
-	public static <T> void post(Class<T> type, Object body, String endpoint) {
-		post(type, body, endpoint, null);
+	public static void post(Object body, String endpoint) {
+		post(null, body, endpoint, null);
 	}
 	
-	public static <T> void post(Class<T> type, Object body, String endpoint, Consumer<T> cb) {
+	public static <T> void post(Class<T> type, Object body, String endpoint, Consumer<APIResponse<T>> cb) {
 		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":8080/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 	
-	public static <T> T postSync(Class<T> type, Object body, String endpoint) {
+	public static <T> APIResponse<T> postSync(Class<T> type, Object body, String endpoint) {
 		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":8080/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 }

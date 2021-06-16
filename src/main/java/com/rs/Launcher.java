@@ -96,7 +96,7 @@ public final class Launcher {
 		Logger.log("Launcher", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
 		Logger.log("Launcher", "Registering world with lobby server...");
 		new WorldAPI().start();
-		LobbyCommunicator.post(String.class, Settings.getConfig().getWorldInfo(), "addworld");
+		LobbyCommunicator.post(Settings.getConfig().getWorldInfo(), "addworld");
 		addAccountsSavingTask();
 		addCleanMemoryTask();
 		addProcessGrandExchangeTask();

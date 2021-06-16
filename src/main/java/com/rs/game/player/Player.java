@@ -1245,8 +1245,8 @@ public class Player extends Entity {
 	}
 
 	public void run() {
-		LobbyCommunicator.addWorldPlayer(this, success -> {
-			if (!Settings.getConfig().isDebug() && !success) {
+		LobbyCommunicator.addWorldPlayer(this, response -> {
+			if (!Settings.getConfig().isDebug() && !response) {
 				this.forceLogout();
 				return;
 			}
