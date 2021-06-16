@@ -1,0 +1,32 @@
+{
+  "name": "Blackjack Seller",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4600,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 18644,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 590,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 954,
+        "amount": 10
+      }
+    }
+  ]
+}

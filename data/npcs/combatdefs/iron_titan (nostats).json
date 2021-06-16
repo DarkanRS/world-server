@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Iron titan"
+  ],
+  "hitpoints": 6940,
+  "attackAnim": 7946,
+  "defenceAnim": 7948,
+  "deathAnim": 7947,
+  "deathDelay": 4,
+  "respawnDelay": 0,
+  "maxHit": 230,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    215,
+    215,
+    215,
+    215,
+    215
+  ]
+}

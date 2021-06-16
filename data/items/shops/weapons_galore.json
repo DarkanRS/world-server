@@ -1,0 +1,38 @@
+{
+  "name": "Weapons Galore",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1315,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1299,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1285,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1343,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3099,
+        "amount": 10
+      }
+    }
+  ]
+}

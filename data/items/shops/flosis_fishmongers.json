@@ -1,0 +1,44 @@
+{
+  "name": "Flosi's Fishmongers",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 331,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 341,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 359,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 377,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 371,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 383,
+        "amount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "Draynor Seed Market",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 5318,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5319,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5324,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5322,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5320,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5323,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5321,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5305,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5306,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5097,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5096,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5307,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5308,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5310,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5311,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    2233
+  ]
+}

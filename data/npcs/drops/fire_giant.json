@@ -1,0 +1,253 @@
+{
+  "names": [
+    "Fire giant"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 532,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 40.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 60,
+          "max": 60
+        }
+      ]
+    },
+    {
+      "chance": 19.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "rollTable": "herb"
+    },
+    {
+      "chance": 11.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "rollTable": "rdt_gem"
+    },
+    {
+      "chance": 10.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 554,
+          "min": 150,
+          "max": 150
+        }
+      ]
+    },
+    {
+      "chance": 7.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 7.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 15,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "chance": 6.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 25,
+          "max": 25
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 892,
+          "min": 12,
+          "max": 12
+        }
+      ]
+    },
+    {
+      "chance": 4.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1353,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 379,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1181,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 300,
+          "max": 300
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2353,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1393,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1333,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 554,
+          "min": 37,
+          "max": 37
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 50,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 117,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 128.0,
+      "dropOne": false,
+      "rollTable": "rdt_standard"
+    }
+  ]
+}

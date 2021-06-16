@@ -1,0 +1,146 @@
+{
+  "name": "Inventory 603",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 19965,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 10150,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 590,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 596,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 19994,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 20047,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 5341,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 952,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5343,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 19922,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 19927,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 19932,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5350,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5325,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6036,
+        "amount": 20
+      }
+    },
+    {
+      "item": {
+        "id": 5329,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5340,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 5376,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 15366,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 20044,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 20045,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 19967,
+        "amount": 100
+      }
+    }
+  ]
+}

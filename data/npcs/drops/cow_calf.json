@@ -1,0 +1,67 @@
+{
+  "names": [
+    "Cow calf"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1739,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2132,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1381,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 19830,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 531",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 12130,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12125,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 12127,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12183,
+        "amount": 65000
+      }
+    },
+    {
+      "item": {
+        "id": 15262,
+        "amount": 65000
+      }
+    }
+  ]
+}

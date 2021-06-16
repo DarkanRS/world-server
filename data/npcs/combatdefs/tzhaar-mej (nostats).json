@@ -1,0 +1,23 @@
+{
+  "names": [
+    "TzHaar-Mej"
+  ],
+  "hitpoints": 1000,
+  "attackAnim": 16122,
+  "defenceAnim": 16124,
+  "deathAnim": 16123,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 134,
+  "attackStyle": "MAGE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

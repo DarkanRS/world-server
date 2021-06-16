@@ -1,0 +1,29 @@
+{
+  "name": "Ardougne Spice Stall",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1550,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2007,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    572
+  ]
+}

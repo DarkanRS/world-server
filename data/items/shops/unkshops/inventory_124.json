@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 124",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1145,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1161,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1183,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1199,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 4823,
+        "amount": 15
+      }
+    }
+  ]
+}

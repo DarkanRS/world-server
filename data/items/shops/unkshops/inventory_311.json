@@ -1,0 +1,56 @@
+{
+  "name": "Inventory 311",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 6392,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6394,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6396,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6398,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6400,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6402,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6404,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6406,
+        "amount": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Taverly Pet Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 15262,
+        "amount": 65000
+      }
+    },
+    {
+      "item": {
+        "id": 12183,
+        "amount": 65000
+      }
+    },
+    {
+      "item": {
+        "id": 12125,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 12127,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 12130,
+        "amount": 1000
+      }
+    }
+  ]
+}

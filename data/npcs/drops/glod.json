@@ -1,0 +1,19 @@
+{
+  "names": [
+    "Glod"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 532,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    }
+  ]
+}

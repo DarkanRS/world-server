@@ -1,0 +1,273 @@
+package com.rs.game.npc.dungeoneering;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.ObjectType;
+import com.rs.game.Entity;
+import com.rs.game.Hit;
+import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
+import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.object.GameObject;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
+import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
+import com.rs.game.player.content.skills.dungeoneering.RoomReference;
+import com.rs.game.region.Region;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Utils;
+import com.rs.utils.Ticks;
+
+public final class Stomp extends DungeonBoss {
+
+	private static final int IVULNERABLE_TIMER = 37; // 16.5 sec
+	private int stage;
+	private int count;
+	private int lodeStoneType;
+	private boolean[] lodestones;
+
+	private List<int[]> shadows;
+
+	public Stomp(WorldTile tile, DungeonManager manager, RoomReference reference) {
+		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9782, 9796), manager.getBossLevel()), tile, manager, reference);
+		setCantFollowUnderCombat(true); // force cant walk
+		freeze(5000000);
+		lodestones = new boolean[2];
+		shadows = new ArrayList<int[]>();
+	}
+	
+	@Override
+	public boolean ignoreWallsWhenMeleeing() {
+		return true;
+	}
+	
+	@Override
+	public WorldTile getMiddleWorldTile() {
+		return this;
+	}
+
+	@Override
+	public void processNPC() {
+		if (getId() == 9781)
+			setNextAnimation(new Animation(13460));
+		else {
+			if (count > 0) {
+				if (count == IVULNERABLE_TIMER - 3) {
+					List<Entity> possibleTargets = getPossibleTargets();
+					for (int[] s : shadows) {
+						GameObject object = getManager().spawnObjectTemporary(getReference(), 49268, ObjectType.SCENERY_INTERACT, 0, s[0], s[1], Ticks.fromSeconds(30));
+						for (Entity target : possibleTargets)
+							if (target.getX() == object.getX() && target.getY() == object.getY())
+								target.applyHit(new Hit(this, 1 + Utils.random((int) (target.getMaxHitpoints() * 0.8)), HitLook.TRUE_DAMAGE));
+					}
+				}
+				if (count == 1) {
+					setCantInteract(false);
+					if (lodestones[0] == true && lodestones[1] == true) {
+						stage++;
+						if (stage == 3) {
+							setHitpoints(0);
+							sendDeath(this);
+							destroyExistingDebris();
+						}
+						for (Entity target : getPossibleTargets()) {
+							if (target instanceof Player) {
+								Player player = (Player) target;
+								player.sendMessage("The portal weakens, harming Stomp!");
+							}
+						}
+					} else
+						heal((int) (getMaxHitpoints() * 0.25));
+					lodestones[0] = lodestones[1] = false;
+					refreshLodestones();
+					removeCrystals();
+				}
+
+				count--;
+				return;
+			}
+
+			super.processNPC();
+		}
+	}
+
+	@Override
+	public double getMeleePrayerMultiplier() {
+		return stage == 2 ? 0.6 : 0;
+	}
+
+	@Override
+	public double getMagePrayerMultiplier() {
+		return stage == 2 ? 0.6 : 0;
+	}
+
+	@Override
+	public double getRangePrayerMultiplier() {
+		return stage == 2 ? 0.6 : 0;
+	}
+
+	public void refreshLodestones() {
+		for (int i = 0; i < lodestones.length; i++)
+			refreshLodestone(i);
+	}
+
+	private static final int[] CRYSTAL = { 15752, 15751, 15750 };
+
+	public void refreshLodestone(int index) {
+
+		int id = count == IVULNERABLE_TIMER ? (49274 + lodeStoneType * 2 + index) : lodestones[index] ? lodeStoneType == 0 ? 51099 : lodeStoneType == 1 ? 51601 : 51647 : (49270 + index);
+
+		getManager().spawnObject(getReference(), id, ObjectType.SCENERY_INTERACT, 2, index == 1 ? 10 : 5, 10);
+	}
+
+	public void chargeLodeStone(Player player, int index) {
+		if (lodestones[index] || count <= 1)
+			return;
+		if (player.getInventory().containsItem(CRYSTAL[lodeStoneType], 1)) {
+			player.lock(1);
+			player.setNextAnimation(new Animation(833));
+			lodestones[index] = true;
+			player.getInventory().deleteItem(CRYSTAL[lodeStoneType], 1);
+			player.sendMessage("You place the crystal into the device and it powers up.");
+			refreshLodestone(index);
+			if (lodestones[0] == true && lodestones[1] == true) {
+				for (Entity target : getPossibleTargets()) {
+					if (target instanceof Player) {
+						Player p2 = (Player) target;
+						p2.sendMessage("The lodestone has been fully activated.");
+					}
+				}
+			}
+		} else
+			player.sendMessage("You need a " + ItemDefinitions.getDefs(CRYSTAL[lodeStoneType]).getName().toLowerCase() + " to activate this lodestone.");
+
+	}
+
+	public void charge() {
+		count = IVULNERABLE_TIMER;
+		lodeStoneType = Utils.random(3);
+		refreshLodestones();
+		setNextAnimation(new Animation(13451));
+		setNextSpotAnim(new SpotAnim(2407));
+		setCantInteract(true);
+		for (Entity target : getPossibleTargets()) {
+			if (target instanceof Player) {
+				Player player = (Player) target;
+				player.sendMessage("Stomp enters a defensive stance. It is currently invulnerable, but no longer protecting the portal's lodestones!");
+			}
+		}
+		destroyExistingDebris();
+		for (int count = 0; count < 11; count++) {
+			l: for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
+				int x = 3 + Utils.random(12);
+				int y = 3 + Utils.random(9);
+				if (containsShadow(x, y) || !getManager().isFloorFree(getReference(), x, y))
+					continue;
+				shadows.add(new int[] { x, y });
+				getManager().spawnObject(getReference(), 49269, ObjectType.SCENERY_INTERACT, 0, x, y);
+				break l;
+			}
+		}
+
+		for (int count = 0; count < 2; count++) {
+			l: for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
+				int x = 3 + Utils.random(12);
+				int y = 3 + Utils.random(9);
+				if (containsShadow(x, y) || !getManager().isFloorFree(getReference(), x, y))
+					continue;
+				getManager().spawnItem(getReference(), new Item(CRYSTAL[lodeStoneType]), x, y);
+				break l;
+			}
+		}
+	}
+
+	/*
+	 * if wasnt destroyed yet
+	 */
+	public void destroyExistingDebris() {
+		for (int[] s : shadows)
+			getManager().removeObject(getReference(), 49269, ObjectType.SCENERY_INTERACT, 0, s[0], s[1]);
+		shadows.clear();
+	}
+
+	public void removeCrystals() {
+		Region region = World.getRegion(getRegionId());
+		if (region.getGroundItems() != null) {
+			for (GroundItem item : region.getAllGroundItems())
+				if (item.getId() == CRYSTAL[lodeStoneType])
+					World.removeGroundItem(item);
+		}
+	}
+
+	public boolean containsShadow(int x, int y) {
+		for (int[] s : shadows)
+			if (s[0] == x && s[1] == y)
+				return true;
+		return false;
+	}
+
+	@Override
+	public void sendDeath(final Entity source) {
+		if (stage != 3) {
+			setHitpoints(1);
+			return;
+		}
+		final NPCCombatDefinitions defs = getCombatDefinitions();
+		resetWalkSteps();
+		getCombat().removeTarget();
+		setNextAnimation(null);
+		WorldTasksManager.schedule(new WorldTask() {
+			int loop;
+
+			@Override
+			public void run() {
+				if (loop == 0) {
+					setNextAnimation(new Animation(defs.getDeathEmote()));
+				} else if (loop >= defs.getDeathDelay()) {
+					if (source instanceof Player)
+						((Player) source).getControllerManager().processNPCDeath(Stomp.this);
+					drop();
+					reset();
+					setCantInteract(true);
+					setNextNPCTransformation(9781);
+					stop();
+				}
+				loop++;
+			}
+		}, 0, 1);
+		getManager().openStairs(getReference());
+	}
+
+	/*
+	 * @Override public Item sendDrop(Player player, Drop drop) { Item item = new Item(drop.getItemId()); player.getInventory().addItemDrop(item.getId(), item.getAmount()); return item; }
+	 */
+
+	@Override
+	public void setNextFaceEntity(Entity entity) {
+		// this boss doesnt face
+	}
+
+	@Override
+	public boolean lineOfSightTo(WorldTile tile, boolean checkClose) {
+		// because npc is under cliped data
+		return getManager().isAtBossRoom(tile);
+	}
+
+	public int getStage() {
+		return stage;
+	}
+
+	public void setStage(int stage) {
+		this.stage = stage;
+	}
+
+}

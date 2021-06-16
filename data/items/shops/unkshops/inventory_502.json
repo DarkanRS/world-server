@@ -1,0 +1,50 @@
+{
+  "name": "Inventory 502",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2347,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1734,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 1733,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4819,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1351,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1759,
+        "amount": 100
+      }
+    }
+  ]
+}

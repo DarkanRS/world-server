@@ -1,0 +1,65 @@
+{
+  "name": "Nardah Hunter Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 10010,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10012,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 10025,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 10150,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10006,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10008,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10029,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 596,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10031,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    5109
+  ]
+}

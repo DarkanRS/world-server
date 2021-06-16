@@ -1,0 +1,132 @@
+package com.rs.game.player.content.skills.prayer.cremation;
+
+import com.rs.game.player.Player;
+import com.rs.game.player.actions.Action;
+import com.rs.game.player.content.Potions;
+import com.rs.game.player.content.SkillsDialogue;
+import com.rs.lib.Constants;
+import com.rs.lib.game.Item;
+
+public class CraftPyreLogs extends Action {
+	
+	private static final int DOSE_4 = 3430, DOSE_3 = 3432, DOSE_2 = 3434, DOSE_1 = 3436;
+	
+	private PyreLog log;
+	private int makeX;
+
+	public CraftPyreLogs(PyreLog log) {
+		this.log = log;
+	}
+
+	@Override
+	public boolean start(Player player) {
+		this.makeX = SkillsDialogue.getQuantity(player);
+		return true;
+	}
+
+	@Override
+	public boolean process(Player player) {
+		return true;
+	}
+
+	@Override
+	public int processWithDelay(Player player) {
+		if (!player.getInventory().containsItem(log.baseLog, 1))
+			return -1;
+		int doses = getDosesInInv(player);
+		if (doses < log.oilDoses)
+			return -1;
+		if (makeX-- <= 0)
+			return -1;
+		player.getInventory().deleteItem(log.baseLog, 1);
+		deleteDoses(player, log.oilDoses);
+		player.getInventory().addItem(log.itemId);
+		player.getSkills().addXp(Constants.FIREMAKING, log.getCreationXP());
+		return 0;
+	}
+
+	@Override
+	public void stop(Player player) {
+		
+	}
+	
+	private static void deleteDoses(Player player, int doses) {
+		for (Item item : player.getInventory().getItems().getItems()) {
+			if (item == null)
+				continue;
+			if (doses <= 0) {
+				player.getInventory().refresh();
+				return;
+			}
+			switch(item.getId()) {
+			case DOSE_4:
+				if (doses >= 4) {
+					item.setId(Potions.VIAL);
+					doses -= 4;
+				} else if (doses >= 3) {
+					item.setId(DOSE_1);
+					doses -= 3;
+				} else if (doses >= 2) {
+					item.setId(DOSE_2);
+					doses -= 2;
+				} else if (doses >= 1) {
+					item.setId(DOSE_3);
+					doses -= 1;
+				}
+				break;
+			case DOSE_3:
+				if (doses >= 3) {
+					item.setId(Potions.VIAL);
+					doses -= 3;
+				} else if (doses >= 2) {
+					item.setId(DOSE_1);
+					doses -= 2;
+				} else if (doses >= 1) {
+					item.setId(DOSE_2);
+					doses -= 1;
+				}
+				break;
+			case DOSE_2:
+				if (doses >= 2) {
+					item.setId(Potions.VIAL);
+					doses -= 2;
+				} else if (doses >= 1) {
+					item.setId(DOSE_1);
+					doses -= 1;
+				}
+				break;
+			case DOSE_1:
+				if (doses >= 1) {
+					item.setId(Potions.VIAL);
+					doses -= 1;
+				}
+				break;
+			}
+		}
+		player.getInventory().refresh();
+	}
+	
+	private static int getDosesInInv(Player player) {
+		int doses = 0;
+		for (Item item : player.getInventory().getItems().getItems()) {
+			if (item == null)
+				continue;
+			switch(item.getId()) {
+			case DOSE_4:
+				doses += 4;
+				break;
+			case DOSE_3:
+				doses += 3;
+				break;
+			case DOSE_2:
+				doses += 2;
+				break;
+			case DOSE_1:
+				doses += 1;
+				break;
+			}
+		}
+		return doses;
+	}
+
+}

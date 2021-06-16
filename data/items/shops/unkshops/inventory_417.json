@@ -1,0 +1,62 @@
+{
+  "name": "Inventory 417",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 9068,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9069,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9070,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9071,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9072,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9073,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9074,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1733,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1734,
+        "amount": 1000
+      }
+    }
+  ]
+}

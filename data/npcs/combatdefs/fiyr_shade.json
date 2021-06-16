@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Fiyr Shade"
+  ],
+  "hitpoints": 1100,
+  "attackAnim": 1284,
+  "defenceAnim": 1286,
+  "deathAnim": 1287,
+  "deathDelay": 2,
+  "respawnDelay": 60,
+  "maxHit": 110,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    120,
+    100,
+    85,
+    0,
+    0
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "name": "Rasolo the Wandering Merchant",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1969,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2023,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 579,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1215,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 550,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1941,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 273,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 970,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 975,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1599,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2976,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1823,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1837,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1854,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 2524,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3377,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2894,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1909,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3787,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3711,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3678,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3424,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3420,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    1972
+  ]
+}

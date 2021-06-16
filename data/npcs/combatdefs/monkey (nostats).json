@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Monkey"
+  ],
+  "hitpoints": 300,
+  "attackAnim": 220,
+  "defenceAnim": 221,
+  "deathAnim": 223,
+  "deathDelay": 2,
+  "respawnDelay": 25,
+  "maxHit": 24,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

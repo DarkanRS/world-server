@@ -1,0 +1,91 @@
+{
+    "names": [
+      "nest_tree_seed"
+    ],
+    "tables": [
+      {
+        "chance": 20.3, "outOf": 100,
+        "drops": [
+          { "id": 5312, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 14.6, "outOf": 100,
+        "drops": [
+          { "id": 5283, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 14.3, "outOf": 100,
+        "drops": [
+          { "id": 5313, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 10.7, "outOf": 100,
+        "drops": [
+          { "id": 5284, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 8.0, "outOf": 100,
+        "drops": [
+          { "id": 5285, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 7.2, "outOf": 100,
+        "drops": [
+          { "id": 5286, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 5.9, "outOf": 100,
+        "drops": [
+          { "id": 5314, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 5.4, "outOf": 100,
+        "drops": [
+          { "id": 5287, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 4.3, "outOf": 100,
+        "drops": [
+          { "id": 5288, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 3.2, "outOf": 100,
+        "drops": [
+          { "id": 5289, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 2.4, "outOf": 100,
+        "drops": [
+          { "id": 5315, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 2.2, "outOf": 100,
+        "drops": [
+          { "id": 5290, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 1.1, "outOf": 100,
+        "drops": [
+          { "id": 5316, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 0.4, "outOf": 100,
+        "drops": [
+          { "id": 5317, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

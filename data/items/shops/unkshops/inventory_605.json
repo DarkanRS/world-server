@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 605",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1823,
+        "amount": 3
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 3
+      }
+    },
+    {
+      "item": {
+        "id": 1833,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1835,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1837,
+        "amount": 1
+      }
+    }
+  ]
+}

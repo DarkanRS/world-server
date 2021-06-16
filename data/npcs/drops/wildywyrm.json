@@ -1,0 +1,463 @@
+{
+  "names": [
+    "WildyWyrm"
+  ],
+  "tables": [
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 200,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 202,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 204,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 206,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 385,
+          "min": 1,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 560,
+          "min": 50,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 50,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3054,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4091,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4093,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4699,
+          "min": 50,
+          "max": 950
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5292,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5294,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5311,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5323,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 25.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5698,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 210,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 216,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 218,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 892,
+          "min": 100,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 3000,
+          "max": 3000
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1623,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2364,
+          "min": 1,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2434,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2436,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2442,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5295,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1079,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1127,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1319,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1373,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4091,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4093,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 1876.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9244,
+          "min": 100,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

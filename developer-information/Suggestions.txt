@@ -1,0 +1,20 @@
+Referral system with rewards based on total level or achievements. If the same IP logs in after referral, then you can log it and look at it later.
+Excressence/charms adjustments from jadinkos
+Jadinko lair seed gaining and skilling
+Change VIP zone to island east of pest
+Combination runecrafting
+Fix summoning familiars
+Duel arena
+
+Options with one dialogue: 1 = option, 2 = do nothing by default
+
+DEATH REWARD SHOP IDEAS
+-imbued rings
+-frozen key peices (2-3 points)
+
+2830 - charm sprite projectiles
+
+2938-2942-char maybe
+
+Portal objects:
+3826 - skilling tele maybe (has fishy barrel)

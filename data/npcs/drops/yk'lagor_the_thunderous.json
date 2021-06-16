@@ -1,0 +1,139 @@
+{
+  "names": [
+    "Yk\u0027Lagor the Thunderous"
+  ],
+  "tables": [
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15753,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15755,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15757,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15759,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15761,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15763,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15765,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15767,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15769,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15771,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15773,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

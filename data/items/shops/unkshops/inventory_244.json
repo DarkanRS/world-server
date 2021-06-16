@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 244",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 4331,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4351,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4371,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4391,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4411,
+        "amount": 10
+      }
+    }
+  ]
+}

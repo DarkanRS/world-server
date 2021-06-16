@@ -1,0 +1,114 @@
+{
+  "name": "Varrock Sword Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1205,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1203,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1207,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1209,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1211,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1277,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1279,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1281,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1283,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1285,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1287,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1291,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1293,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1295,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1297,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1299,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1301,
+        "amount": 100
+      }
+    }
+  ],
+  "npcIds": [
+    551,
+    552
+  ]
+}

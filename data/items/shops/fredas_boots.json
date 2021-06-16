@@ -1,0 +1,17 @@
+{
+  "name": "Freda's Boots",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 3105,
+        "amount": 30
+      }
+    }
+  ],
+  "npcIds": [
+    15099
+  ]
+}

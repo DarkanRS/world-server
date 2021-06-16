@@ -1,0 +1,127 @@
+{
+  "names": [
+    "Zombie impling"
+  ],
+  "tables": [
+    {
+      "chance": 5597.0,
+      "outOf": 20000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 533,
+          "min": 5,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "chance": 5597.0,
+      "outOf": 20000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 535,
+          "min": 2,
+          "max": 6
+        }
+      ]
+    },
+    {
+      "chance": 5597.0,
+      "outOf": 20000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 537,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 1749.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 10976,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1749.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 10977,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 233.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4830,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 233.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4832,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 233.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4834,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 233.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 6816,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 93.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4034,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

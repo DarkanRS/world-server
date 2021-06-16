@@ -1,0 +1,49 @@
+{
+  "names": [
+    "variable_allotment"
+  ],
+  "tables": [
+    {
+      "chance": 96, "outOf": 263,
+      "drops": [
+        { "id": 5318, "min": 1, "max": 4 }
+      ]
+    },
+    {
+      "chance": 72, "outOf": 263,
+      "drops": [
+        { "id": 5319, "min": 1, "max": 3 }
+      ]
+    },
+    {
+      "chance": 48, "outOf": 263,
+      "drops": [
+        { "id": 5324, "min": 1, "max": 3 }
+      ]
+    },
+    {
+      "chance": 24, "outOf": 263,
+      "drops": [
+        { "id": 5322, "min": 1, "max": 2 }
+      ]
+    },
+    {
+      "chance": 12, "outOf": 263,
+      "drops": [
+        { "id": 5320, "min": 1, "max": 2 }
+      ]
+    },
+    {
+      "chance": 7, "outOf": 263,
+      "drops": [
+        { "id": 5323, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 4, "outOf": 263,
+      "drops": [
+        { "id": 5321, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

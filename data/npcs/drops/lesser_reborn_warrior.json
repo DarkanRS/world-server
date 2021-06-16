@@ -1,0 +1,199 @@
+{
+  "names": [
+    "Lesser reborn warrior"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 592,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 41977.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 379,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 41977.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 443,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 199,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 201,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2011,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 373.0,
+      "outOf": 20000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2359,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 149,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 161,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 167,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 447,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 73,
+          "max": 861
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1181,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1428,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5318,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 5000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 7060,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

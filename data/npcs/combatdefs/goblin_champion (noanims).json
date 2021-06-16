@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Goblin Champion"
+  ],
+  "hitpoints": 320,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 40,
+  "maxHit": 40,
+  "attackStyle": "MAGE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    1,
+    1,
+    14,
+    1,
+    26
+  ]
+}

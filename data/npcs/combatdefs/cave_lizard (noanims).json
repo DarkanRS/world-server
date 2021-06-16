@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Cave lizard"
+  ],
+  "hitpoints": 200,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 50,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    38,
+    36,
+    35,
+    1,
+    1
+  ]
+}

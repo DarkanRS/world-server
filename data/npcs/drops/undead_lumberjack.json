@@ -1,0 +1,139 @@
+{
+  "names": [
+    "Undead Lumberjack"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 960,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 558,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 884,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 886,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1291,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3363,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3365,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3367,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 60.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 7666,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

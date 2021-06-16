@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Kree\u0027arra"
+  ],
+  "hitpoints": 2550,
+  "attackAnim": -1,
+  "defenceAnim": 6974,
+  "deathAnim": 6975,
+  "deathDelay": 3,
+  "respawnDelay": 150,
+  "maxHit": 715,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    300,
+    200,
+    260,
+    380,
+    200
+  ]
+}

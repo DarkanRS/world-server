@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Black Guard crossbowdwarf"
+  ],
+  "hitpoints": 800,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 100,
+  "attackStyle": "RANGE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

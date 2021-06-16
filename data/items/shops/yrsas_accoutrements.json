@@ -1,0 +1,134 @@
+{
+  "name": "Yrsa's Accoutrements",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 3775,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3773,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3767,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3769,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3771,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3793,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3795,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3797,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3799,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3791,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3765,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3763,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3761,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3759,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3777,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3779,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3781,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3783,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3785,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3787,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3789,
+        "amount": 10
+      }
+    }
+  ]
+}

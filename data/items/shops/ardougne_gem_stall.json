@@ -1,0 +1,35 @@
+{
+  "name": "Ardougne Gem Stall",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1607,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1605,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1603,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1601,
+        "amount": 0
+      }
+    }
+  ],
+  "npcIds": [
+    570
+  ]
+}

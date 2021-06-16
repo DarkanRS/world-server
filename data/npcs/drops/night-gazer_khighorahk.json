@@ -1,0 +1,151 @@
+{
+  "names": [
+    "Night-gazer Khighorahk"
+  ],
+  "tables": [
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15741,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16647,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16649,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16651,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16653,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16655,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16657,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16659,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16661,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16663,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16665,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16667,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Flockleader Geerin"
+  ],
+  "hitpoints": 1320,
+  "attackAnim": 6954,
+  "defenceAnim": 6955,
+  "deathAnim": 6956,
+  "deathDelay": 2,
+  "respawnDelay": 60,
+  "maxHit": 250,
+  "attackStyle": "RANGE",
+  "attackGfx": -1,
+  "attackProjectile": 1190,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    80,
+    80,
+    175,
+    150,
+    50
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Inventory 158",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 3170,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3171,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3172,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3173,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3174,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3175,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3188,
+        "amount": 10
+      }
+    }
+  ]
+}

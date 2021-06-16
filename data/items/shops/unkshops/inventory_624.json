@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 624",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 22969,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 22972,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 22970,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 22971,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10166,
+        "amount": 1
+      }
+    }
+  ]
+}

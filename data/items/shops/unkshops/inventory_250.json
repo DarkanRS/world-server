@@ -1,0 +1,62 @@
+{
+  "name": "Inventory 250",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 886,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 888,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 890,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 843,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 845,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 849,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 847,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 853,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 851,
+        "amount": 10
+      }
+    }
+  ]
+}

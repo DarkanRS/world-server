@@ -1,0 +1,23 @@
+{
+  "ids": [
+    5237
+  ],
+  "hitpoints": 0,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 0,
+  "attackStyle": "RANGE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Inventory 115",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 821,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 41,
+        "amount": 15
+      }
+    },
+    {
+      "item": {
+        "id": 865,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 2370,
+        "amount": 1
+      }
+    }
+  ]
+}

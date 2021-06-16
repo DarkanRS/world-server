@@ -1,0 +1,14 @@
+{
+  "name": "Ye Olde Tea Shoppe",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 712,
+        "amount": 10
+      }
+    }
+  ]
+}

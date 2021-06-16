@@ -1,0 +1,16 @@
+{
+  "names": [
+    "TokHaar-Jad"
+  ],
+  "hitpoints": 2500,
+  "attackAnim": 16204,
+  "defenceAnim": 16201,
+  "deathAnim": 16188,
+  "deathDelay": 6,
+  "respawnDelay": 1,
+  "maxHit": 1014,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE"
+}

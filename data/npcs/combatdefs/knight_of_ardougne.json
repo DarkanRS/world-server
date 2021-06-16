@@ -1,0 +1,26 @@
+{
+  "names": [
+    "Knight of Ardougne"
+  ],
+  "hitpoints": 520,
+  "attackAnim": 12311,
+  "defenceAnim": 388,
+  "deathAnim": 836,
+  "deathDelay": 3,
+  "respawnDelay": 40,
+  "maxHit": 60,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "attackBonus": "SLASH_ATT",
+  "deAggroDistance": 8,
+  "maxDistFromSpawn": 8,
+  "levels": [
+    38,
+    40,
+    31,
+    1,
+    1
+  ]
+}

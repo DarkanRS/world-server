@@ -1,0 +1,24 @@
+{
+  "names": [
+    "sweets"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 10476,
+          "min": 2,
+          "max": 27
+        },
+        {
+          "id": 19467,
+          "min": 2,
+          "max": 27
+        }
+      ]
+    }
+  ]
+}

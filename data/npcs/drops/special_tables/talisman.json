@@ -1,0 +1,61 @@
+{
+  "names": [
+    "talisman"
+  ],
+  "tables": [
+    {
+      "chance": 10, "outOf": 70,
+      "drops": [
+        { "id": 1438, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 10, "outOf": 70,
+      "drops": [
+        { "id": 1446, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 10, "outOf": 70,
+      "drops": [
+        { "id": 1440, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 10, "outOf": 70,
+      "drops": [
+        { "id": 1442, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 10, "outOf": 70,
+      "drops": [
+        { "id": 1448, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 10, "outOf": 70,
+      "drops": [
+        { "id": 1444, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 4, "outOf": 70,
+      "drops": [
+        { "id": 1454, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 3, "outOf": 70,
+      "drops": [
+        { "id": 1452, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 3, "outOf": 70,
+      "drops": [
+        { "id": 1462, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

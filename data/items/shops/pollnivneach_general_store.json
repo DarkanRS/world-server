@@ -1,0 +1,92 @@
+{
+  "name": "Pollnivneach General Store",
+  "generalStore": true,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1931,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1935,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1825,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1833,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1837,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 4593,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4591,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1985,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2120,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1982,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1937,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1921,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1929,
+        "amount": 10
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+    "names": [
+      "nest_ring"
+    ],
+    "tables": [
+      {
+        "chance": 34, "outOf": 100,
+        "drops": [
+          { "id": 1635, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 41, "outOf": 100,
+        "drops": [
+          { "id": 1637, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 15, "outOf": 100,
+        "drops": [
+          { "id": 1639, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 9, "outOf": 100,
+        "drops": [
+          { "id": 1641, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 1, "outOf": 100,
+        "drops": [
+          { "id": 1643, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

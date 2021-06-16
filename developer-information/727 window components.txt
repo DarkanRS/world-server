@@ -1,0 +1,16 @@
+fixed
+3,28,29,46,47,48 walkable overlay
+15,16(no chatbox),17,18, 204, 249, 271 walkable full screen overlay
+27 top middle small
+37 system update prob?
+38-40 small bottom right
+42-43 bottom span
+44 main central interface
+
+
+
+resizeable
+1,2,11,13,44,45,46,47,48 walkable overlay
+12 overlay that stays out of the way of inters
+16 right under minimap
+19 possibly system update proper

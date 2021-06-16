@@ -1,0 +1,39 @@
+{
+  "names": [
+    "firelighters"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 7329,
+          "min": 3,
+          "max": 15
+        },
+        {
+          "id": 7330,
+          "min": 3,
+          "max": 15
+        },
+        {
+          "id": 7331,
+          "min": 3,
+          "max": 15
+        },
+        {
+          "id": 10326,
+          "min": 3,
+          "max": 15
+        },
+        {
+          "id": 10327,
+          "min": 3,
+          "max": 15
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "ids": [
+    10196,
+    10197,
+    10198,
+    10199,
+    10200,
+    10201,
+    10202,
+    10203,
+    10204,
+    10205,
+    10206
+  ],
+  "hitpoints": 1,
+  "attackAnim": 2791,
+  "defenceAnim": 425,
+  "deathAnim": 836,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 1,
+  "attackStyle": "MAGE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

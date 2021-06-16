@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 410",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 333,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 365,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2289,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6705,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2003,
+        "amount": 10
+      }
+    }
+  ]
+}

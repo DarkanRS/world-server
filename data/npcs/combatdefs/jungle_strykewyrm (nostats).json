@@ -1,0 +1,17 @@
+{
+  "ids": [
+    9466,
+    9467
+  ],
+  "hitpoints": 1100,
+  "attackAnim": 12791,
+  "defenceAnim": 12792,
+  "deathAnim": 12793,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 87,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": 2314,
+  "agressivenessType": "PASSIVE"
+}

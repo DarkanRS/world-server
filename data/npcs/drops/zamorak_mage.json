@@ -1,0 +1,91 @@
+{
+  "names": [
+    "Zamorak mage"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 41977.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 6,
+          "max": 19
+        }
+      ]
+    },
+    {
+      "chance": 41977.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 100,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 75.0,
+      "outOf": 1072.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 28,
+          "max": 28
+        }
+      ]
+    },
+    {
+      "chance": 75.0,
+      "outOf": 1072.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 5.0,
+      "outOf": 268.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 536.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 245,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

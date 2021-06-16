@@ -1,0 +1,32 @@
+{
+  "name": "Valaine's Shop of Champions",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1021,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1165,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1077,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1123,
+        "amount": 10
+      }
+    }
+  ]
+}

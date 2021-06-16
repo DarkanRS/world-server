@@ -1,0 +1,38 @@
+{
+  "name": "Razmire Builders' Merchants",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 3211,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 3420,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 8837,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 1941,
+        "amount": 1500
+      }
+    },
+    {
+      "item": {
+        "id": 960,
+        "amount": 50
+      }
+    }
+  ]
+}

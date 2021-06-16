@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 309",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 6408,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6412,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6418,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6416,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 4600,
+        "amount": 30
+      }
+    }
+  ]
+}

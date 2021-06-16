@@ -1,0 +1,91 @@
+{
+  "names": [
+    "Gnome guard"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 20.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 20.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2102,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 20.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2120,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 20.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2128,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 20.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2169,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 20.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2171,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Barricade"
+  ],
+  "hitpoints": 500,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 0,
+  "respawnDelay": 0,
+  "maxHit": 0,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

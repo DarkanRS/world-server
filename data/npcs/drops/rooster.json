@@ -1,0 +1,43 @@
+{
+  "names": [
+    "Rooster"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2138,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 10.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 314,
+          "min": 5,
+          "max": 15
+        }
+      ]
+    }
+  ]
+}

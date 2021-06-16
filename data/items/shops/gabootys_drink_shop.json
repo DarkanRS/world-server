@@ -1,0 +1,50 @@
+{
+  "name": "Gabooty's Drink Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2028,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2030,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2032,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2034,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2036,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2038,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2040,
+        "amount": 10
+      }
+    }
+  ]
+}

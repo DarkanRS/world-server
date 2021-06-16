@@ -1,0 +1,247 @@
+{
+  "names": [
+    "Giant skeleton"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 532,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 18.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 18.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 841,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 18.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 18.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1325,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 18.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2351,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 115,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 18,
+          "max": 18
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 556,
+          "min": 30,
+          "max": 30
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 8,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 884,
+          "min": 24,
+          "max": 24
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1281,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1335,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1353,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1557.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9145,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 373.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 207,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 373.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 211,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 373.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 373.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 564,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 373.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2485,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

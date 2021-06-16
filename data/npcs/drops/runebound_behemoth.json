@@ -1,0 +1,151 @@
+{
+  "names": [
+    "Runebound behemoth"
+  ],
+  "tables": [
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16845,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16847,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16849,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16851,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16853,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16855,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16857,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16859,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16861,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16863,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16865,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 19685,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

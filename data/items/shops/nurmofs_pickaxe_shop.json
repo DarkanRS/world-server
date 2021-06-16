@@ -1,0 +1,47 @@
+{
+  "name": "Nurmof's Pickaxe Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1265,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1267,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1269,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1273,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1271,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1275,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    594
+  ]
+}

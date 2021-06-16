@@ -1,0 +1,139 @@
+{
+  "names": [
+    "Shadow-Forger Ihlakhizan"
+  ],
+  "tables": [
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 16971,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17341,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17343,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17345,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17347,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17349,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17351,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17353,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17355,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17359,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17361,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

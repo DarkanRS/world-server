@@ -1,0 +1,53 @@
+{
+  "name": "Meme test shop",
+  "generalStore": true,
+  "buyOnly": true,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4151,
+        "amount": 15
+      },
+      "customPrice": 25000000
+    },
+    {
+      "item": {
+        "id": 1050,
+        "amount": 0
+      },
+      "customPrice": 50
+    },
+    {
+      "item": {
+        "id": 1044,
+        "amount": 10
+      },
+      "customPrice": 500000
+    },
+    {
+      "item": {
+        "id": 314,
+        "amount": 100
+      },
+      "customPrice": 1,
+      "restockTicks": 1
+    },
+    {
+      "item": {
+        "id": 314,
+        "amount": 100
+      },
+      "customPrice": 1,
+      "restockTicks": 5
+    },
+    {
+      "item": {
+        "id": 314,
+        "amount": 100
+      },
+      "customPrice": 1,
+      "restockTicks": 10
+    }
+  ]
+}

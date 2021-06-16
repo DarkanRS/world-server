@@ -1,0 +1,67 @@
+{
+  "names": [
+    "Terrorbird"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 90.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2171,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 15.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1458,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2102,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2120,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Inventory 384",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1935,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7919,
+        "amount": 10
+      }
+    }
+  ]
+}

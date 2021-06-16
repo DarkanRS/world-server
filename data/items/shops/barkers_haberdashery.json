@@ -1,0 +1,161 @@
+{
+  "name": "Barker's Haberdashery",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2894,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2896,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2898,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2900,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2902,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2904,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2906,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2908,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2910,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2912,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2914,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2916,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2918,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2920,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2922,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2924,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2926,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2928,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2930,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2932,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2934,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2936,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2938,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2940,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2942,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    1039
+  ]
+}

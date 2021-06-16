@@ -1,0 +1,146 @@
+{
+  "name": "Inventory 63",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1949,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 579,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1023,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 958,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 948,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1733,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1734,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 1059,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1061,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 428,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 426,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1757,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1013,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1015,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1011,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1007,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1025,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10088,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 10090,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 10091,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 10089,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 10087,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 11525,
+        "amount": 0
+      }
+    }
+  ]
+}

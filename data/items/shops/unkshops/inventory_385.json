@@ -1,0 +1,32 @@
+{
+  "name": "Inventory 385",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7810,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7919,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1935,
+        "amount": 10
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Inventory 320",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1555,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1556,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1557,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1558,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1559,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1560,
+        "amount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Construction goods",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 8794,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 8784,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 8786,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 8788,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 8790,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 3420,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1539,
+        "amount": 500
+      }
+    }
+  ]
+}

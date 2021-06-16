@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Pack yak"
+  ],
+  "hitpoints": 7100,
+  "attackAnim": 853,
+  "defenceAnim": 851,
+  "deathAnim": 852,
+  "deathDelay": 3,
+  "respawnDelay": 0,
+  "maxHit": 180,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

@@ -1,0 +1,187 @@
+{
+  "names": [
+    "Elite Dark Ranger"
+  ],
+  "tables": [
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 886,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 888,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1195,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1747,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1778,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2323,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3093,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9142,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9143,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9191,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 7500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9439,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    }
+  ]
+}

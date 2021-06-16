@@ -1,0 +1,44 @@
+{
+  "name": "Trader Sven",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 9640,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9642,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9644,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9634,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9636,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9638,
+        "amount": 10
+      }
+    }
+  ]
+}

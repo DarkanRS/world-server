@@ -1,0 +1,41 @@
+{
+  "name": "Construction Supplies",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 8794,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 8790,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 4819,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 4820,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 1539,
+        "amount": 300
+      }
+    }
+  ],
+  "npcIds": [
+    14862
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "names": [
+    "teleport_scrolls"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 19475,
+          "min": 5,
+          "max": 16
+        },
+        {
+          "id": 19476,
+          "min": 5,
+          "max": 16
+        },
+        {
+          "id": 19477,
+          "min": 5,
+          "max": 16
+        },
+        {
+          "id": 19478,
+          "min": 5,
+          "max": 16
+        },
+        {
+          "id": 19479,
+          "min": 5,
+          "max": 16
+        },
+        {
+          "id": 19480,
+          "min": 5,
+          "max": 16
+        }
+      ]
+    }
+  ]
+}

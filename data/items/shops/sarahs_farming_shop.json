@@ -1,0 +1,185 @@
+{
+  "name": "Sarah's Farming Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 12622,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5996,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 6006,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5376,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15366,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1965,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 6032,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 5418,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15367,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 5325,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5994,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5931,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 6000,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1957,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 6036,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5350,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1942,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5341,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5329,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5343,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 952,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5504,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5986,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1982,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5331,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 5982,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 6002,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 5998,
+        "amount": 0
+      }
+    }
+  ],
+  "npcIds": [
+    2304
+  ]
+}

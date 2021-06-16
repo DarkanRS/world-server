@@ -1,0 +1,127 @@
+{
+  "names": [
+    "Spider"
+  ],
+  "tables": [
+    {
+      "chance": 45.0,
+      "outOf": 214.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 558,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 45.0,
+      "outOf": 214.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 45.0,
+      "outOf": 214.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 45.0,
+      "outOf": 214.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2307,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 229,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 554,
+          "min": 1,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 1,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 877,
+          "min": 1,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1965,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 107.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 839,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

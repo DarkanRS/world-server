@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Ket-Zek"
+  ],
+  "hitpoints": 1600,
+  "attackAnim": 16134,
+  "defenceAnim": 16135,
+  "deathAnim": 16111,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 540,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "STAB_ATT",
+  "levels": [
+    320,
+    480,
+    240,
+    480,
+    240
+  ]
+}

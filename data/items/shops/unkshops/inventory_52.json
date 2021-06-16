@@ -1,0 +1,56 @@
+{
+  "name": "Inventory 52",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1623,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1621,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1619,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1617,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1607,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1605,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1603,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1601,
+        "amount": 0
+      }
+    }
+  ]
+}

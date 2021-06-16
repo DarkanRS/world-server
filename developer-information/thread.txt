@@ -1,0 +1,416 @@
+[CENTER]
+
+[img]http://i.imgur.com/2LiLbs7.png[/img]
+
+[ADMIN=About]
+[B][SIZE=4]Darkan is a server targeted at remaking how RS was during 2012. We are looking for players who not only want to play, but also want to improve the server into a 100% remake through bug reports.[/SIZE][/B]
+[/ADMIN]
+
+[ADMIN=Links]
+Website: [URL="http://darkan.org"]Darkan[/URL]
+Discord: [URL="http://discord.gg/Z32ggEB"]Discord[/URL]
+Client Download: [URL="http://darkan.org/assets/uploads/files/Darkan.jar"]Darkan.jar[/URL]
+Live Updating World Map: [URL="http://darkan.org/worldmap"]World Map[/URL]
+Highscores: [URL="http://darkan.org/highscores"]Highscores[/URL]
+[/ADMIN]
+
+[ADMIN=Patch notes]
+[SPOILER=Patch Notes]
+[SPOILER=Older Notes]
+[B]March 15th 2013[/B]
+-fixed the blood barrage spell healing
+-fixed non combat familiars attacking when they shouldn't be
+-removed the note herb option for herblore habitat herbs since they aren't notable
+ 
+[B]March 16th 2013[/B]
+-made the juju farming potion realistic with the chance to give double herb instead of increasing herb yield
+-fixed the glacors sapping effect
+-added the bucket filling with slime and what not for ectofuntus
+ 
+[B]March 17th 2013[/B]
+-sped up the arrow flight projectile
+-ectofuntus completed
+-fixed shop glitch buying negative items
+-fixed the blood barrage animation
+-added the insert option for banking
+ 
+[B]March 18th 2013[/B]
+-chinchompas now fully work
+-Completionist cape now works as an Ava's accumulator
+-statius warhammer and bandos godsword specials now lower npcs defence as well
+-fixed some database nulls that cause npc spawning problems
+-fixed the dungeoneering logging out and spawning you in white space when you login
+-goliath gloves will now lower npcs stats a little when the random special is activated
+-chaotics now degrade and can be repaired with the armor stand at home
+-ectotokens can be claimed from the ghost disciple in the ectofuntus
+-fixed dungeoneering and optimized the dungeon reload so it will be faster loading when moving on to the next dungeon
+-fixed a turmoil null that caused the walking and npc processing to screw up
+-high level potions such as overloads, super prayers, etc have been made untradeable
+-administrators are unable to trade items
+ 
+[B]March 19th 2013[/B]
+-added a ton of animations and bonuses to broken slayer monsters (took over 4 hours to get animation ids..)
+-skeletal wyverns added as a slayer monster and slayer task
+-added morchella mushroom, cactus, and fellstalk farming support
+-added the ability to make prayer renewal potions
+-added several items to a shop that can be exchanged for ectotokens
+-fixed tons of the clues that were broken
+-removed gambling using mithril seeds
+-fixed juju woodcutting potions banking nulls while cutting ivy
+ 
+[B]March 20th 2013[/B]
+-added filling buckets of sand with sand pits
+-added the trollheim herb patch
+-added a ton of spells in the lunar spellbook and normal spellbook (superheat item, plank make, etc)
+-fixed alchemy spells animations and graphics changing with other staves (staff of fire, etc)
+-ALL staves now give proper infinite rune effects
+-fixed alchemy spells to give proper amounts of coins instead of overpowered amounts
+-fixed all bugged titles that are supposed to come after your name
+
+[B]March 21st 2013[/B]
+-Added full jewelry crafting. Use a gold bar on a furnace to start.
+-All jewelry enchanting now works
+-You can now spin wool and yak hair on a spinning wheel for balls of wool and rope
+-You can now string jewelry by using a ball of wool on an unstrung piece of bling
+-fixed a bunch of graphical bugs with the new spell's graphics (heights and timers)
+-filling things using pumps now works
+-fixed a fishing bug that causes it to tell you that you need a higher fishing level when you are 1 fishing level away
+-fixed the tormented demon's attack speed
+-first login should now default to old item looks
+-added super antifire potions effects
+-veng group now works in singleway combat areas
+-fixed enchanting on ruby amulets
+-sped up the delay between enchants
+
+[B]March 22nd 2013[/B]
+-added ring of stone
+-fixed the ring of stone logging out and back in
+-fixed overpowered alching prices
+-fixed the ring of stone in pvp areas (facepalm)
+
+[B]March 23rd 2013[/B]
+-Started and finished fruit tree farming (no potting plants, just plant the seeds)
+-Started and finished hop farming.. due to unpopular request
+
+[B]March 24th 2013[/B]
+-Started and finished tree farming (just like fruit, plant the seeds)
+
+[B]March 25th 2013[/B]
+-Fixed the leprechaun noting produce of the new patches I added yesterday
+-Fixed the nothing interesting happens with item on item
+-Superheat has been fixed to require 43 instead of 86 magic lol
+
+[B]April 6th 2013[/B]
+-Started the variables and classes I will use for the grand exchange
+
+[B]April 7th 2013[/B]
+-Researched and looped configs to find grand exchange configs (lots of time on RSBot lol)
+
+[B]April 8th 2013[/B]
+-Finished the basic outline of using the grand exchange interface and updating the interface properly
+
+[B]April 9th 2013[/B]
+-Added nightshade farming (random but required for weapon poison which will be added soon)
+-Worked a ton on the system that will process the grand exchange offers (still figuring out how this will work)
+
+[B]April 10th 2013[/B]
+-Finished up the collection box configs for grand exchange and got collection of money from it working
+-Offering up a buy offer is completed (working on sell offers now :P)
+-Completely finished saving offers for selling and buying in a global way so all offers can be processed while players are offline and be saved when the server gets updated/restarted.
+
+[B]April 11th 2013[/B]
+-Finished the entire GE.. That was annoying..
+-Using the vengeance spell will no longer interrupt what you are doing such as stop combat
+
+[B]April 12th 2013[/B]
+-The max cape now requires the correct stats to wear
+-The completionist cape now requires a couple extra things as well as 120 dungeoneering to wear
+-The grand exchange has been released and is fully working!
+-Black dragons, blue dragons, and black demons can now be recieved as slayer tasks
+-The slayer helmet, hexcrest, and focus sight are effective on the king black dragon and queen black dragon when on a black dragon task
+
+[B]April 13th 2013[/B]
+-Fixed a grand exchange null error
+-Added new seed drops to the monsters in the polypore dungeon
+-fixed the dragon slayer tasks
+
+[B]April 14th 2013[/B]
+-Fixed shark fishing.
+-added the scroll of life, scroll of efficiency, and scroll of cleansing as rewards to the dungeoneering shop
+-added the effects of the dungeoneering scroll rewards
+-the rigour, rapid renewal, and augury prayers now require unlocks via dungeoneering to use
+-added the tome of frost to the dungeoneering reward shop
+-added the mercenary gloves to the dungeoneering reward shop
+
+[B]April 15th 2013[/B]
+-fixed the skill interface bug not showing up
+-added the client logo
+
+[B]April 18th 2013[/B]
+-added the new title screen music (next time I upload the cache)
+-fixed the godwars bosses getting stuck behind other npcs allowing people to safespot them
+
+[B]April 19th 2013[/B]
+-Started work on construction
+-Got a basic house loading with one room type
+-You can preview rooms before buying them and rotate them how you want
+-You can change your house look (stone, wood, etc)
+-Fixed idle logout with NPC combat
+-Fixed super prayer potions
+-added teak and mahogany woodcutting
+
+[B]April 20th 2013[/B]
+-Fixed a farming seed dupe involving the scroll of life (good thing I was the one to figure it out lol)
+-added a shit ton of construction objects (thanks devin for getting the majority of the ids)
+
+[B]April 21st 2013[/B]
+-Fixed a few banking areas
+-fixed the length of time items stay appeared on the ground
+-Fully added the forinthry bracelet.
+
+[B]April 22nd 2013[/B]
+-Fixed the metal dragons completely buttraping you when you walk in (super antifire makes you invincible)
+
+[B]April 25th 2013[/B]
+-Redid the misc spells such as alching to have better timers (allowing it while in combat etc)
+-being stuck logged in should no longer happen
+
+[B]April 29th 2013[/B]
+-Fixed a pointless and meaningless nomad paft
+-fixed goliath glove special attack rate on high defence npcs
+-fixed blocking the agility course and placing hunter traps on clipped tiles
+
+[B]May 4th 2013[/B]
+-Added killcount for godwars
+-Fixed the zamorak godwars boss
+-Fixed the saradomin godwars boss
+-Added drops and npcs for zaros killcount
+-Ancient ceremonial gets you into the Nex waiting room without requiring killcount
+-Frozen key has been added fully
+-You can repair a frozen key on the repair stand at home for 50k per charge
+-All objects in godwars now work
+-un-nerfed nex's drop rates
+-un-nerfed armadyl's drop rates
+-nerfed zamorak's drop rates
+
+[B]May 19th 2013[/B]
+-Silver crafting has been added
+
+[B]May 20th 2013[/B]
+-Fixed laying maramasaw plant traps
+
+[B]May 24th 2013[/B]
+-Found an easy way to display patches as diseased, watered, and dead
+-Added diseasing and curing
+-added watering and composting
+
+[B]May 25th 2013[/B]
+-finished bush farming
+
+[B]June 30th 2013[/B]
+-redid the entire drop system to be more accurate to the wiki's descriptions
+-dumped all npc drops from the runescape wiki and implemented them
+
+[B]June 23rd 2013[/B]
+-added brewing in port phasmatys 100%
+
+[B]July 25th 2013[/B]
+-added the rare drop table correctly
+-updated the ring of wealth's effect to allow access to the rare drop table more commonly
+-slayer monsters now have more common access to the rare drop table based of combat level and slayer requirement
+
+[B]July 27th 2013[/B]
+-added remote farming 100%
+-added bank pins 100% with all interfaces working properly
+
+[B]July 30th 2013[/B]
+-added excressence drops to jadinkos
+-added the ZMI runecrafting altar fully
+
+[B]August 9th 2013[/B]
+-added revenants with every single drop
+-added goldsmith gauntlets
+-added cooking gauntlets
+-added brawling gloves with their full effects
+-added ring drops to the dagannoth kings since they weren't in for some reason
+-added dagannoth rex's drops
+
+[/spoiler]
+
+[B]October 13th 2015[/B]
+-Glacor drops shards
+-Fixed and fully added crushing items with pestle and mortar
+-Armadyl runes can be crafted now
+-Crafting armadyl battlestaff works
+-Wicked hood has been completely finished to the same functionality as RS
+-Battlestaves can now be enchanted into their mystic counterparts via Thormac
+
+[B]October 14th 2015[/B]
+-Added cure plant and fertile soil lunar spells
+
+[B]October 20th 2015[/B]
+-Construction started
+-All construction objects constructable
+-All construction rooms creatable/rotatable
+
+[B]October 21st 2015[/B]
+-Menagerie functionality with pet house finished
+-Added altars and bones on altars to POH
+-POH npcs spawn in build mode inside dungeons
+-Doors and oubliette cages are interactable and manoeuvrable
+-Various combat rings can be climbed into/out of
+-Chairs/thrones/benches are sittable
+-Fireplaces can be lit
+-Armor repair stand repairs degraded items
+-All objects that have items to take off can be taken off
+
+[B]October 22nd 2015[/B]
+-Fixed hunter npcs/dynamic region npcs not clipping when walking properly
+-Most items with teleport options now can be teleported with
+-Fairy rings finished
+-Pest control added. Not enabling until bugs are worked out.
+-Sorceress's garden nulls fixed and re-enabled
+-When a monster focuses on attacking a familiar, it switches to the familiar's owner instead
+
+[B]October 23rd 2015[/B]
+-Tea can be made in your kitchen in your POH to boost up to 3 construction levels
+-Dragonstone jewlery can be recharged on geyser titans
+-You can fight other players inside combat rings in POH
+-Sawmill operator has been added to convert wood into planks (Sawmill operator located north of home portal and very close to VIP zone bank)
+-When adding or removing pets from your menagerie, the pets roaming the house will update accordingly
+-The traps in the throne room work properly now
+-PVP challenge mode can be toggled on and off via the throne room lever by the house owner
+
+[B]October 24th 2015[/B]
+-Throne room trap works with lever. Can drop players into oubliette or release them.
+-Estate agent can change your house styling for a price
+-Player owned house menagerie pet house limited number of pets to donator types (5 non donor 10 normal donor 15 extreme 25 VIP)
+
+[B]October 26th 2015[/B]
+-Master farmer and Dwarf trader NPCs have been added to pickpocket near the thieving area at home.
+-A bug with Max's dialogue forcing you to buy a max cape has been fixed.
+-Various random miscellaneous activities are tracked on your players
+
+[B]October 27th 2015[/B]
+-A new title shop and title achievement system has been added to utilize the misc tracker better. Speak to the
+title master who stands next to Max at home.
+
+[B]October 28th 2015[/B]
+-Loadout system added to the collect option on banks making loadouts MUCH easier to manage and use
+-New offer viewing system added to the grand exchange clerks.
+
+[B]October 29th 2015[/B]
+-Search function in bank no longer requires you to re-open the bank to use again.
+-Heavily buffed revenants and chaos elemental. Revenants now have 100% chance to drop a decent amount of coins
+and chaos elemental drops brawling gloves at a much much higher rate.
+-Fixed a safespot glitch with Glacors
+-Fixed a server null with the new boss coming out soon.
+-Added the "Ice Prison" and "Contain this" attacks to the ice phase of Nex which fully completes the boss.
+-Polypore creatures are now severely strong to melee and range hits. Mage them to kill them effectively.
+-Ganodermic beasts no longer slide around everywhere.
+-Abyssal demons have the annoying teleport effect now.
+-Added a few more charm drop rates to lower level monsters such as cows and goblins.
+-All 3 of the strykewyrms have been added as slayer tasks and slayer monsters. Teleports to them have been added to the
+training and dungeons teleports
+
+[B]October 30th 2015[/B]
+-Fixed a problem getting people stuck in Wilderness course.
+-Reaper assignments. You can speak with Death to get a reaper assignment at home. Any boss currently added can be
+assigned as a task. You get one task per day and 3 rerolls per day.
+-The clan motif editing interface has been heavily improved and updates live.
+
+[B]October 31st 2015[/B]
+-Lootshare has been added. To share loot, you must have LS enabled and be of a high enough rank in the FC that the FC owner specifies.
+-Teleport to house tablets now work properly.
+-Gnome advanced agility course done.
+-Red sandstone mining, robust glass making, and flask making are now available.
+
+[B]November 4th 2015[/B]
+-Cutting gems into bolt tips finished.
+-Putting bolt tips on bolts now works.
+-Enchanting bolts now works.
+-The hardwood grove in tai bwo wannai is now open to those with trading sticks.
+-Slayer portal added to the portal room of a POH. Building this allows you to teleport DIRECTLY to your current slayer task.
+
+[B]November 11th 2015[/B]
+-Familiar damage counts towards your own damage as getting drops now. (fixes many issues with drops)
+-Slayer portal look changed so it doesn't screw your walls over in your house.
+-Changed server pathfinding to Mangis's which fixes a lot of pathing issues and "Can't reach that".
+
+[B]November 12th 2015[/B]
+-Chaos Elemental combat added. 
+-Drops for Chaos Elemental buffed.
+
+[B]November 16th 2015[/B]
+-Fixed agility courses to be much smoother. Shouldn't get stuck or have to maneuver your player all over the place.
+-Routefinder fixed when getting frozen
+-Gazebo in player owned house has been fixed
+
+[B]June 17th 2017[/B]
+-Reworked slayer and added all slayer masters/tasks
+-Spirit tree teleporting added
+-Fairy rings added
+-Charter ships and misc ship transportation added
+
+[B]June 18th 2017[/B]
+-Added burthorpe low level agility course.
+-Added ground item spawns throughout the world
+-Every clue scroll finished
+-All task reward items added as ground item spawns around the world until task system is finished
+-Server back-end API started and finished
+-Added a live world map and players online list to website using the API
+-Finished highscores using the API
+
+[B]June 19th 2017[/B]
+-Added magic guild and fishing guild requirements to enter as well as pure essence mining transportation
+-Added a metric shitload of NPC spawns around the map to complete a lot of the dungeons
+
+[/SPOILER]
+[/ADMIN]
+
+[ADMIN=Media]
+[SPOILER=Server Media]
+
+Player-Run Grand Exchange
+[img]https://puu.sh/woKOu/37c8b72415.png[/img]
+[img]https://puu.sh/wo0Bn/5a402ddb2e.png[/img]
+[img]https://puu.sh/wo0FT/9ea3aa9afe.png[/img]
+
+Construction completely finished
+[img]https://i.gyazo.com/656567a83acad7f33ea43ccb6280d51c.png[/img]
+[img]https://i.imgur.com/qvapGr5.jpg[/img]
+[img]https://i.imgur.com/F2GQ0aH.png[/img]
+[img]https://puu.sh/wo2Qm/4fa64959ca.jpg[/img]
+[img]https://puu.sh/wo3fd/707e672625.jpg[/img]
+
+Party room
+[img]https://i.imgur.com/A4mHBEV.jpg[/img]
+[img]https://puu.sh/wnZJM/ed9cb29f6d.jpg[/img]
+[img]https://puu.sh/wnZQc/9e206db17f.jpg[/img]
+
+Jadinko Hunting and Farming with all Herblore Habitat potions
+[img]https://puu.sh/woLut/56cfb2eecf.jpg[/img]
+
+Puro Puro
+[img]https://puu.sh/woLca/9b253c2851.jpg[/img]
+
+All Slayer Masters with all Slayer Tasks
+[img]https://puu.sh/woLkT/f40655916b.jpg[/img]
+
+All Agility Courses
+[img]https://puu.sh/woLDs/f497250fa3.jpg[/img]
+
+Dungeoneering
+[img]https://puu.sh/wo0Px/905310481e.jpg[/img]
+
+Misc
+[img]https://i.imgur.com/zfblOzd.png[/img]
+[img]https://puu.sh/woM5g/e2ef8d2f03.jpg[/img]
+[img]https://puu.sh/woM8K/26ae7a6e8d.png[/img]
+[img]https://puu.sh/woMax/a0a239119a.jpg[/img]
+[img]https://puu.sh/woMgg/03c98f9cbc.jpg[/img]
+[img]https://puu.sh/woMil/5469c0b067.jpg[/img]
+[/SPOILER]
+[/ADMIN]
+
+[/CENTER]

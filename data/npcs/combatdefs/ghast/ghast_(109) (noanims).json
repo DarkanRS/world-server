@@ -1,0 +1,24 @@
+{
+  "ids": [
+    14039
+  ],
+  "hitpoints": 1070,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 30,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    135,
+    110,
+    80,
+    30,
+    30
+  ]
+}

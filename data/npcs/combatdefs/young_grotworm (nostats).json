@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Young grotworm"
+  ],
+  "hitpoints": 150,
+  "attackAnim": 16777,
+  "defenceAnim": 16779,
+  "deathAnim": 16778,
+  "deathDelay": 3,
+  "respawnDelay": 30,
+  "maxHit": 20,
+  "attackStyle": "MAGE",
+  "attackGfx": 3162,
+  "attackProjectile": 3164,
+  "agressivenessType": "PASSIVE"
+}

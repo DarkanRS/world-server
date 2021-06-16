@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Revenant hellhound"
+  ],
+  "hitpoints": 800,
+  "attackAnim": 7460,
+  "defenceAnim": 7462,
+  "deathAnim": 7461,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 250,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "STAB_ATT",
+  "levels": [
+    76,
+    80,
+    80,
+    80,
+    104
+  ]
+}

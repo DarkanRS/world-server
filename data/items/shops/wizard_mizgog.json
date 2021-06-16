@@ -1,0 +1,14 @@
+{
+  "name": "Wizard Mizgog",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1478,
+        "amount": 30
+      }
+    }
+  ]
+}

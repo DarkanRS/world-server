@@ -1,0 +1,26 @@
+{
+  "name": "Inventory 508",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 10818,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 10816,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10814,
+        "amount": 10
+      }
+    }
+  ]
+}

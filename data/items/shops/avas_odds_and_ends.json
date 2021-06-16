@@ -1,0 +1,38 @@
+{
+  "name": "Ava's Odds and Ends",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 314,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 884,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 886,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 40,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 41,
+        "amount": 1000
+      }
+    }
+  ]
+}

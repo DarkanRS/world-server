@@ -1,0 +1,151 @@
+{
+  "names": [
+    "Black Guard berserker"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 6.0,
+      "outOf": 7.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 35
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 438,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1335,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1337,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1339,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1341,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1592,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1917,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1929,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 357.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3711,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Zakl\u0027n Gritch"
+  ],
+  "hitpoints": 1500,
+  "attackAnim": 6945,
+  "defenceAnim": 65,
+  "deathAnim": 67,
+  "deathDelay": 2,
+  "respawnDelay": 60,
+  "maxHit": 265,
+  "attackStyle": "RANGE",
+  "attackGfx": 1208,
+  "attackProjectile": 1209,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    83,
+    76,
+    127,
+    150,
+    50
+  ]
+}

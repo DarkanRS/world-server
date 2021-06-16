@@ -1,0 +1,151 @@
+{
+  "names": [
+    "Water elemental"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 227,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 3.893,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 12,
+          "max": 12
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 9.294,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 15,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 9.294,
+      "dropOne": false,
+      "rollTable": "herb"
+    },
+    {
+      "chance": 1.0,
+      "outOf": 13.203,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 18.884,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 20.973,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 36.744,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 560,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 46.931,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 20,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 47.879,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 42,
+          "max": 42
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 57.108,
+      "dropOne": false,
+      "rollTable": "rdt_gem"
+    },
+    {
+      "chance": 1.0,
+      "outOf": 66.761,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1383,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 91.154,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

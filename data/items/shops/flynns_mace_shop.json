@@ -1,0 +1,41 @@
+{
+  "name": "Flynn's Mace Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1422,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1420,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1424,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1428,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1430,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    580
+  ]
+}

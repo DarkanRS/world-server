@@ -1,0 +1,14 @@
+{
+  "name": "Inventory 623",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 995,
+        "amount": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Nulodion's Cannon Parts",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 6,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 8,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4,
+        "amount": 10
+      }
+    }
+  ]
+}

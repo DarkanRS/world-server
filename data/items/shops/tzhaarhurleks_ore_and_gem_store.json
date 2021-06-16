@@ -1,0 +1,53 @@
+{
+  "name": "TzHaar-Hur-Lek's Ore and Gem Store",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 6529,
+  "items": [
+    {
+      "item": {
+        "id": 438,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 436,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 440,
+        "amount": 2
+      }
+    },
+    {
+      "item": {
+        "id": 1623,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1621,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 6571,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 9194,
+        "amount": 50
+      }
+    }
+  ],
+  "npcIds": [
+    2622
+  ]
+}

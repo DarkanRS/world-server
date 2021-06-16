@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Fire titan"
+  ],
+  "hitpoints": 4760,
+  "attackAnim": 7834,
+  "defenceAnim": 7832,
+  "deathAnim": 7833,
+  "deathDelay": 4,
+  "respawnDelay": 0,
+  "maxHit": 152,
+  "attackStyle": "MAGE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

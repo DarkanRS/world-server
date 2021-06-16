@@ -1,0 +1,29 @@
+{
+  "names": [
+    "god_arrows"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 19152,
+          "min": 20,
+          "max": 100
+        },
+        {
+          "id": 19157,
+          "min": 20,
+          "max": 100
+        },
+        {
+          "id": 19162,
+          "min": 20,
+          "max": 100
+        }
+      ]
+    }
+  ]
+}

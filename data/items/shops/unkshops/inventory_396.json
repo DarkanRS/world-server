@@ -1,0 +1,32 @@
+{
+  "name": "Inventory 396",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 3420,
+        "amount": 500
+      }
+    },
+    {
+      "item": {
+        "id": 8786,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 8784,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 8788,
+        "amount": 30
+      }
+    }
+  ]
+}

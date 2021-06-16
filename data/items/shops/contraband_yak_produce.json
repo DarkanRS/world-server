@@ -1,0 +1,26 @@
+{
+  "name": "Contraband Yak Produce",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 10814,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10816,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10818,
+        "amount": 1000
+      }
+    }
+  ]
+}

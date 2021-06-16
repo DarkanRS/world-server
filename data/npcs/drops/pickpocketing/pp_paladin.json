@@ -1,0 +1,31 @@
+{
+  "names": [
+    "pp_paladin"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 80,
+          "max": 80
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    }
+  ]
+}

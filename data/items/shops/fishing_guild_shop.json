@@ -1,0 +1,50 @@
+{
+  "name": "Fishing Guild Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 307,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 313,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 314,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 335,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 331,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 349,
+        "amount": 0
+      }
+    }
+  ]
+}

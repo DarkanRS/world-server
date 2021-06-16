@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Sea Troll Queen"
+  ],
+  "hitpoints": 2000,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 2345,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    100,
+    70,
+    100,
+    1,
+    150
+  ]
+}

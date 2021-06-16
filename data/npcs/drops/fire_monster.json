@@ -1,0 +1,19 @@
+{
+  "names": [
+    "Fire monster"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 592,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

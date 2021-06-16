@@ -1,0 +1,24 @@
+{
+  "names": [
+    "K\u0027ril Tsutsaroth"
+  ],
+  "hitpoints": 2550,
+  "attackAnim": -1,
+  "defenceAnim": 14965,
+  "deathAnim": -1,
+  "deathDelay": 2,
+  "respawnDelay": 150,
+  "maxHit": 463,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    340,
+    300,
+    270,
+    1,
+    200
+  ]
+}

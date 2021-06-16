@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Cockatrice"
+  ],
+  "hitpoints": 370,
+  "attackAnim": 7762,
+  "defenceAnim": 7761,
+  "deathAnim": 7763,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 51,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    22,
+    37,
+    37,
+    1,
+    1
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "names": [
+    "Giant frog"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 532,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 28517.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 1,
+          "max": 9
+        }
+      ]
+    },
+    {
+      "chance": 28517.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 2,
+          "max": 37
+        }
+      ]
+    },
+    {
+      "chance": 28517.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4517,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 297.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 453,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 297.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 564,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 297.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 297.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 884,
+          "min": 22,
+          "max": 22
+        }
+      ]
+    },
+    {
+      "chance": 297.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 886,
+          "min": 45,
+          "max": 45
+        }
+      ]
+    },
+    {
+      "chance": 297.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1243,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

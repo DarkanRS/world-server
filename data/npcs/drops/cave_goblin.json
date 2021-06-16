@@ -1,0 +1,211 @@
+{
+  "names": [
+    "Cave goblin"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 4.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 288,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 6,
+          "max": 6
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 13
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1101,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1237,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 559,
+          "min": 7,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 590,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1009,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1173,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1438,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 160.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4535,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 150.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1917,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 150.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5016,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 150.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5018,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

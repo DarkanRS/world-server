@@ -1,0 +1,50 @@
+{
+  "name": "Initiate Rank Armory",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 5574,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5575,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5576,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9672,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9674,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9676,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9678,
+        "amount": 10
+      }
+    }
+  ]
+}

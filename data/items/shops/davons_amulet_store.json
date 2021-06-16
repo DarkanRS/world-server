@@ -1,0 +1,41 @@
+{
+  "name": "Davon's Amulet Store",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1718,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1727,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1729,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1725,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1731,
+        "amount": 0
+      }
+    }
+  ],
+  "npcIds": [
+    588
+  ]
+}

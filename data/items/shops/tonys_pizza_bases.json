@@ -1,0 +1,17 @@
+{
+  "name": "Tony's Pizza Bases",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2283,
+        "amount": 50
+      }
+    }
+  ],
+  "npcIds": [
+    596
+  ]
+}

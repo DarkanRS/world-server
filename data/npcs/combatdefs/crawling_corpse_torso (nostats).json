@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Crawling corpse torso"
+  ],
+  "hitpoints": 87,
+  "attackAnim": 12891,
+  "defenceAnim": 12890,
+  "deathAnim": 12893,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 21,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 237",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 4317,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4337,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4357,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4377,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4397,
+        "amount": 10
+      }
+    }
+  ]
+}

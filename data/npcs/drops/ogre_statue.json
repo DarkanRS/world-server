@@ -1,0 +1,403 @@
+{
+  "names": [
+    "Ogre statue"
+  ],
+  "tables": [
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 440,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 442,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 447,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 449,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 453,
+          "min": 6,
+          "max": 6
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 50,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1385,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1420,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1428,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1430,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1601,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1603,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1605,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1607,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2349,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4696,
+          "min": 50,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1399,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1422,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 583.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 14679,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 830,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 886,
+          "min": 150,
+          "max": 150
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1319,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1373,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1407,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2363,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 560,
+          "min": 50,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 67,
+          "max": 67
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 45,
+          "max": 45
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 892,
+          "min": 42,
+          "max": 42
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1185,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 31.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1615,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

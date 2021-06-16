@@ -1,0 +1,211 @@
+{
+  "names": [
+    "Warped tortoise"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 532,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5257.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 448,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 5257.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 449,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 5257.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 3,
+          "max": 49
+        }
+      ]
+    },
+    {
+      "chance": 5257.0,
+      "outOf": 25000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 33,
+          "max": 49
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 454,
+          "min": 1,
+          "max": 6
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1121,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1275,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1343,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1347,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1357,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1458,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1939,
+          "min": 10,
+          "max": 32
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1966,
+          "min": 2,
+          "max": 54
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 7940,
+          "min": 1,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 467.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 187,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 467.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 556,
+          "min": 49,
+          "max": 49
+        }
+      ]
+    }
+  ]
+}

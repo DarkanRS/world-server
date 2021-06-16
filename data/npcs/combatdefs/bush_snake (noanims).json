@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Bush snake"
+  ],
+  "hitpoints": 250,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 38,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "STAB_ATT",
+  "levels": [
+    25,
+    25,
+    50,
+    1,
+    1
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "ids": [
+    6244
+  ],
+  "hitpoints": 750,
+  "attackAnim": 6953,
+  "defenceAnim": 6955,
+  "deathAnim": 6956,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 110,
+  "attackStyle": "RANGE",
+  "attackGfx": -1,
+  "attackProjectile": 1227,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    1,
+    1,
+    115,
+    96,
+    1
+  ]
+}

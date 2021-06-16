@@ -1,0 +1,247 @@
+{
+  "names": [
+    "Rockslug"
+  ],
+  "tables": [
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 436,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 438,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 453,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 5,
+          "max": 42
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1436,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1913,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2347,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2349,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2351,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5318,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5319,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 647.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5324,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 447,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 2,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 279,
+          "max": 418
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5320,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 2803.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5322,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 467.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4095,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 467.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5323,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    }
+  ]
+}

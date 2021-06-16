@@ -1,0 +1,119 @@
+{
+  "name": "Funch's Fine Groceries",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2021,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2019,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2015,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2017,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2114,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2128,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2108,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2102,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2120,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2126,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2025,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1973,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1975,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2130,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1927,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2023,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2026,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    603
+  ]
+}

@@ -1,0 +1,4 @@
+rootProject.name = 'darkan-world-server'
+include ':darkan-core'
+
+project(':darkan-core').projectDir = new File("../darkan-core")

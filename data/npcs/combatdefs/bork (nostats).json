@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Bork"
+  ],
+  "hitpoints": 3000,
+  "attackAnim": 8754,
+  "defenceAnim": 8755,
+  "deathAnim": 8756,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 254,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ]
+}

@@ -1,0 +1,97 @@
+{
+    "names": [
+      "nest_shit_seed"
+    ],
+    "tables": [
+      {
+        "chance": 17, "outOf": 100,
+        "drops": [
+          { "id": 5320, "min": 3, "max": 3 }
+        ]
+      },
+      {
+        "chance": 14, "outOf": 100,
+        "drops": [
+          { "id": 5322, "min": 6, "max": 6 }
+        ]
+      },
+      {
+        "chance": 13, "outOf": 100,
+        "drops": [
+          { "id": 5100, "min": 2, "max": 2 }
+        ]
+      },
+      {
+        "chance": 12.5, "outOf": 100,
+        "drops": [
+          { "id": 5324, "min": 9, "max": 9 }
+        ]
+      },
+      {
+        "chance": 11.1, "outOf": 100,
+        "drops": [
+          { "id": 5321, "min": 2, "max": 2 }
+        ]
+      },
+      {
+        "chance": 11, "outOf": 100,
+        "drops": [
+          { "id": 12148, "min": 2, "max": 2 }
+        ]
+      },
+      {
+        "chance": 10, "outOf": 100,
+        "drops": [
+          { "id": 5323, "min": 3, "max": 3 }
+        ]
+      },
+      {
+        "chance": 4, "outOf": 100,
+        "drops": [
+          { "id": 5312, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 2, "outOf": 100,
+        "drops": [
+          { "id": 5295, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 2, "outOf": 100,
+        "drops": [
+          { "id": 5313, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 1, "outOf": 100,
+        "drops": [
+          { "id": 5314, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 1, "outOf": 100,
+        "drops": [
+          { "id": 5315, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 1, "outOf": 100,
+        "drops": [
+          { "id": 21620, "min": 2, "max": 2 }
+        ]
+      },
+      {
+        "chance": 0.2, "outOf": 100,
+        "drops": [
+          { "id": 5316, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 0.2, "outOf": 100,
+        "drops": [
+          { "id": 5317, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

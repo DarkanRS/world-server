@@ -1,0 +1,68 @@
+{
+  "name": "'Two Feet' Charley's Fish Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 321,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 363,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 341,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 345,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 377,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 353,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 327,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 317,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 359,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 371,
+        "amount": 0
+      }
+    }
+  ]
+}

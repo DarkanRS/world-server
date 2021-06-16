@@ -1,0 +1,16 @@
+{
+  "names": [
+    "TokHaar-Ket"
+  ],
+  "hitpoints": 1500,
+  "attackAnim": 16180,
+  "defenceAnim": 16182,
+  "deathAnim": 16181,
+  "deathDelay": 2,
+  "respawnDelay": 60,
+  "maxHit": 214,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE"
+}

@@ -1,0 +1,164 @@
+{
+  "names": [
+    "shade_gold_chest"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 10,
+          "max": 10000
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1941,
+          "min": 30,
+          "max": 50
+        }
+      ]
+    },
+    {
+      "chance": 73.0,
+      "outOf": 128.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 1643,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1731,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1259,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1085,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1183,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1345,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1123,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1113,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 565,
+          "min": 20,
+          "max": 25
+        }
+      ]
+    },
+    {
+      "chance": 32.0,
+      "outOf": 128.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 1303,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1163,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1391,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1215,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 3678,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 1514,
+          "min": 5,
+          "max": 10
+        },
+        {
+          "id": 452,
+          "min": 11,
+          "max": 13
+        }
+      ]
+    },
+    {
+      "chance": 10.0,
+      "outOf": 128.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 1377,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 21488,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 21489,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 19041,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 13.0,
+      "outOf": 128.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 3470,
+          "min": 1,
+          "max": 4
+        }
+      ]
+    }
+  ]
+}

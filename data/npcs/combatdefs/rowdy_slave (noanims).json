@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Rowdy slave"
+  ],
+  "hitpoints": 180,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 40,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    7,
+    7,
+    7,
+    0,
+    0
+  ]
+}

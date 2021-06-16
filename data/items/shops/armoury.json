@@ -1,0 +1,68 @@
+{
+  "name": "Armoury",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1317,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1313,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1307,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 882,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 39,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 877,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 837,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 40,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 1363,
+        "amount": 10
+      }
+    }
+  ]
+}

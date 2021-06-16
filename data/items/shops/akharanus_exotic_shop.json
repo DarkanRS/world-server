@@ -1,0 +1,14 @@
+{
+  "name": "Ak-Haranu's Exotic Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4740,
+        "amount": 100
+      }
+    }
+  ]
+}

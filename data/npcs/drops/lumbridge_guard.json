@@ -1,0 +1,175 @@
+{
+  "names": [
+    "Lumbridge guard"
+  ],
+  "tables": [
+    {
+      "chance": 1.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 436,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 438,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 4,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2140,
+          "min": 1,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2142,
+          "min": 1,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 40.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2327,
+          "min": 1,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 6,
+          "max": 6
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 556,
+          "min": 2,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 558,
+          "min": 7,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 559,
+          "min": 1,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 882,
+          "min": 16,
+          "max": 16
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1279,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 400.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1381,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

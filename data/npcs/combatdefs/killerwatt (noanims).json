@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Killerwatt"
+  ],
+  "hitpoints": 510,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 64,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    50,
+    50,
+    40,
+    67,
+    67
+  ]
+}

@@ -1,0 +1,73 @@
+-Donator Pricing-
+
+Donator status box (tradable) - $15
+
+Using the box ingame will promote you one donator rank, maximum rank being VIP.
+Ranks: Normal, Extreme, VIP
+
+Legendary accounts only require two boxes to reach VIP as they are already normal donators to start with.
+
+Donator token (tradable) - $5 each
+
+These will open up the following shop:
+
+[img]http://i.imgur.com/nKwkO0O.png[/img]
+
+Everything costs one token except for the faithful shield and halos which are 5 tokens each.
+
+Charm magnet (tradable) - $10 each
+
+The charm magnet will attract charms automatically into your inventory so long as there is space to do so.
+
+
+
+
+-Donator Status Benefits-
+
+Player owned house pet storage space:
+Normal donator: Increases from 5 pets to 10 pets
+Extreme: 15 pets
+VIP: 25 pets
+
+Normal:
+
+Can use ::yell
+
+Normal donators have access to the Donator Zone (::dz)
+
+This area contains some donator shops and gem rocks north which are only accessible to donators.
+
+Donator shops:
+
+Wing and gaze auras
+[img]http://i.imgur.com/vAsFTWo.png[/img]
+
+Donator misc shop
+[img]http://i.imgur.com/yL2fTGb.png[/img]
+
+Skilling outfits and wisdom aura
+[img]http://i.imgur.com/AwIeGyv.png[/img]
+
+Extreme:
+
+Extreme donators have all the above privileges along with:
+
+Yell title customization
+
+Extreme donator shop
+[img]http://i.imgur.com/WYDlSqi.png[/img]
+
+VIP:
+
+VIPs have access to all the extreme and normal donator privileges but also get:
+
+Access to the VIP zone which includes rocktail/cavefish fishing, all herb patches very very close to bank, and the VIP shop/Particle customizer
+
+VIP Zone:
+[img]http://i.imgur.com/olEODOF.jpg[/img]
+
+VIP shop:
+[img]http://i.imgur.com/N7zpujX.png[/img]
+
+Particle customization
+[img]https://media.giphy.com/media/xTiTnAbCDNdgCTjBQY/giphy.gif[/img]

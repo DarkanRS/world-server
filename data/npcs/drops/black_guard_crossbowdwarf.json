@@ -1,0 +1,175 @@
+{
+  "names": [
+    "Black Guard crossbowdwarf"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 6.0,
+      "outOf": 7.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 25
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 199,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 203,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 207,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 436,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 438,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1592,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1891,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3711,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9174,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9177,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9179,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 119.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 9181,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

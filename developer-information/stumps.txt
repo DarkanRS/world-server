@@ -1,0 +1,119 @@
+1341 - Tree stump [10]
+1342 - Tree stump [10]
+1343 - Tree stump [10]
+1347 - Tree stump [10]
+1349 - Tree stump [10]
+1350 - Tree stump [10]
+1351 - Tree stump [10]
+1352 - Tree stump [10]
+1353 - Tree stump [10]
+1355 - Tree stump [10]
+1356 - Tree stump [10]
+1358 - Tree stump [10]
+1359 - Tree stump [10]
+2310 - Tree stump [10] //small hollow tree
+3371 - Achey Tree stump [10]
+3880 - Tree stump [10]
+3884 - Tree stump [10]
+4061 - Tree stump [10] //fat hollow tree
+4328 - Tree stump [10]
+4329 - Tree stump [10]
+4819 - Jungle Tree Stump [10]
+4821 - Jungle Tree Stump [10]
+4822 - Tree stump [10]
+5554 - Tree Stump [10]
+6212 - Tree stump [10]
+7399 - Tree Stump [10]
+7400 - Tree Stump [10]
+7401 - Tree Stump [10]
+7402 - Tree Stump [10]
+9035 - Tree stump [10]
+9037 - Tree stump [10]
+9389 - Tree stump [10]
+9661 - Tree stump [10]
+10951 - Tree stump [10] //swampy
+11059 - Tree stump [10]
+11855 - Tree stump [10]
+11862 - Tree stump [10]
+11864 - Tree stump [10]
+11865 - Swamp tree [10]
+12001 - Tree stump [10]
+12004 - Tree stump [10]
+12007 - Tree stump [10]
+12733 - Tree stump [10]
+12894 - Tree Stump [10]
+15775 - Stump [10]
+16266 - Tree Stump [10]
+16605 - Dream Tree stump [10]
+17493 - Tree stump [10]
+21274 - Tree Stump [10]
+23054 - Tree stump [10] //snowy old
+24169 - Dying tree Stump [10]
+25186 - Tree stump [10]
+26200 - Tree stump [10]
+26203 - Tree stump [10]
+27200 - Tree stump [10]
+31057 - Tree stump [10]
+36510 - Tree stump [10] //old east
+36891 - Tree stump [10] //old south
+37653 - Tree stump [10] //old southeast
+
+37751 - Tree Stump [10]
+
+37822 - Tree Stump [10] //new magics
+37824 - Tree Stump [10] //new magics
+
+38867 - Tree stump [10] //group start
+38868 - Tree stump [10]
+38869 - Tree stump [10]
+38871 - Tree stump [10]
+38877 - Tree stump [10]
+38879 - Tree stump [10]
+38899 - Tree stump [10]
+38909 - Tree stump [10] //group end
+
+40350 - Tree stump [10] //new ones start
+40351 - Tree stump [10]
+40352 - Tree stump [10]
+40353 - Tree stump [10]
+40354 - Tree stump [10]
+40355 - Tree stump [10]
+40356 - Tree stump [10]
+40357 - Tree stump [10]
+42860 - Tree stump [10] //snowy old large
+46326 - Tree stump [10]
+47595 - Tree stump [10] //old
+47597 - Tree stump [10] //old
+47599 - Tree stump [10] //old
+47601 - Tree stump [10] //old
+54766 - Tree Stump [10] //smaller maple
+
+54783 - Tree Stump [10] //diff color maples
+57931 - Tree Stump [10]
+
+58131 - Tree stump [10] //haunted woods?
+58132 - Tree stump [10]
+58134 - Tree stump [10]
+
+61411 - Tree stump [10] //old large dark
+
+63179 - Tree Stump [10] //new magics
+65256 - Tree stump [10]
+68904 - Tree stump [10]
+68905 - Tree stump [10]
+68906 - Tree stump [10]
+69140 - Tree Stump [10] //new small stump?
+69555 - Achey Tree stump [10]
+69557 - Achey Tree stump [10]
+70059 - Tree Stump [10]
+70062 - Tree stump [10]
+70065 - Tree stump [10]
+70067 - Tree stump [10]
+70070 - Tree stump [10]
+70073 - Tree stump [10]
+70100 - Tree Stump [10]
+73724 - Blue tree stump [10]
+73727 - Gold tree stump [10]
+73730 - Black tree stump [10]
+73733 - Green tree stump [10]
+73736 - Red tree stump [10]

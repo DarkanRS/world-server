@@ -1,0 +1,41 @@
+{
+  "name": "Legends' Guild Shop of Useful Items",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 299,
+        "amount": 500
+      }
+    },
+    {
+      "item": {
+        "id": 1590,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1542,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2368,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1052,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    933
+  ]
+}

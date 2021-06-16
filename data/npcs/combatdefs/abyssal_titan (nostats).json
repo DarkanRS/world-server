@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Abyssal titan"
+  ],
+  "hitpoints": 6670,
+  "attackAnim": 7693,
+  "defenceAnim": 7691,
+  "deathAnim": 7979,
+  "deathDelay": 4,
+  "respawnDelay": 0,
+  "maxHit": 229,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

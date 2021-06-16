@@ -1,0 +1,375 @@
+package com.rs.game.player.content.skills.agility;
+
+import com.rs.cache.loaders.ObjectType;
+import com.rs.game.ForceMovement;
+import com.rs.game.World;
+import com.rs.game.pathing.Direction;
+import com.rs.game.pathing.RouteEvent;
+import com.rs.game.player.Player;
+import com.rs.game.player.managers.InterfaceManager.Tab;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.Constants;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ObjectClickHandler;
+
+@PluginEventHandler
+public class BarbarianOutpostAgility {
+	
+	public static ObjectClickHandler handleObstaclePipe = new ObjectClickHandler(new Object[] { 20210 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 35))
+				return;
+			e.getPlayer().lock();
+			e.getPlayer().setNextAnimation(new Animation(10580));
+			final WorldTile toTile = new WorldTile(e.getObject().getX(), e.getPlayer().getY() >= 3561 ? 3558 : 3561, e.getObject().getPlane());
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 2, e.getPlayer().getY() >= 3561 ? Direction.SOUTH : Direction.NORTH));
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					e.getPlayer().unlock();
+					e.getPlayer().setNextWorldTile(toTile);
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 1.0 / 20.0);
+				}
+
+			}, 1);
+		}
+	};
+	
+	public static ObjectClickHandler handleRopeSwing = new ObjectClickHandler(false, new Object[] { 43526 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 35))
+				return;
+			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(2551, 3554, 0), () -> {
+				e.getPlayer().lock();
+				e.getPlayer().setNextAnimation(new Animation(751));
+				World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(497));
+				final WorldTile toTile = new WorldTile(e.getObject().getX(), 3549, e.getObject().getPlane());
+				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.SOUTH));
+				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
+				e.getPlayer().sendMessage("You skilfully swing across.", true);
+				WorldTasksManager.schedule(new WorldTask() {
+					@Override
+					public void run() {
+						e.getPlayer().unlock();
+						e.getPlayer().setNextWorldTile(toTile);
+						setStage(e.getPlayer(), 0);
+					}
+				}, 1);
+			}));
+		}
+	};
+	
+	public static ObjectClickHandler handleLogBalance = new ObjectClickHandler(new Object[] { 43595 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 35))
+				return;
+			e.getPlayer().sendMessage("You walk carefully across the slippery log...", true);
+			e.getPlayer().lock();
+			e.getPlayer().setNextAnimation(new Animation(9908));
+			final WorldTile toTile = new WorldTile(2541, e.getObject().getY(), e.getObject().getPlane());
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, toTile, 12, Direction.WEST));
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					e.getPlayer().setNextWorldTile(toTile);
+					e.getPlayer().unlock();
+					e.getPlayer().setNextAnimation(new Animation(-1));
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 13);
+					e.getPlayer().sendMessage("... and make it safely to the other side.", true);
+					if (getStage(e.getPlayer()) == 0)
+						setStage(e.getPlayer(), 1);
+				}
+
+			}, 11);
+		}
+	};
+	
+	public static ObjectClickHandler handleClimbingNet = new ObjectClickHandler(new Object[] { 20211 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 35))
+				return;
+			e.getPlayer().sendMessage("You climb the netting...", true);
+			e.getPlayer().getSkills().addXp(Constants.AGILITY, 8.2);
+			e.getPlayer().useStairs(828, new WorldTile(e.getObject().getX() - 1, e.getPlayer().getY(), 1), 1, 2);
+			if (getStage(e.getPlayer()) == 1)
+				setStage(e.getPlayer(), 2);
+		}
+	};
+	
+	public static ObjectClickHandler handleBalancingLedge = new ObjectClickHandler(new Object[] { 2302 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 35))
+				return;
+			e.getPlayer().sendMessage("You put your foot on the ledge and try to edge across...", true);
+			e.getPlayer().lock();
+			WorldTasksManager.schedule(new WorldTask() {
+				int stage = 0;
+				
+				@Override
+				public void run() {
+					if (stage == 0) {
+						e.getPlayer().faceObject(e.getObject());
+					} else if (stage == 1) {
+						e.getPlayer().setNextAnimation(new Animation(753));
+						e.getPlayer().getAppearance().setBAS(157);
+					} else if (stage == 2) {
+						WorldTile toTile = new WorldTile(2532, e.getObject().getY(), e.getObject().getPlane());
+						e.getPlayer().addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
+					} else if (stage == 5) {
+						e.getPlayer().setNextAnimation(new Animation(759));
+						e.getPlayer().getAppearance().setBAS(-1);
+						e.getPlayer().unlock();
+						e.getPlayer().addWalkSteps(2532, 3546);
+						e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
+						e.getPlayer().sendMessage("You skilfully edge across the gap.", true);
+						if (getStage(e.getPlayer()) == 2)
+							setStage(e.getPlayer(), 3);
+						stop();
+					}
+					stage++;
+				}
+			}, 0, 0);
+		}
+	};
+	
+	public static ObjectClickHandler handleLowWall = new ObjectClickHandler(new Object[] { 1948 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 35))
+				return;
+			if (e.getPlayer().getX() >= e.getObject().getX()) {
+				e.getPlayer().sendMessage("You cannot climb that from this side.");
+				return;
+			}
+			e.getPlayer().sendMessage("You climb the low wall...", true);
+			e.getPlayer().lock();
+			e.getPlayer().setNextAnimation(new Animation(4853));
+			final WorldTile toTile = new WorldTile(e.getObject().getX() + 1, e.getObject().getY(), e.getObject().getPlane());
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 2, Direction.EAST));
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					e.getPlayer().unlock();
+					e.getPlayer().setNextWorldTile(toTile);
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 13.7);
+					int stage = getStage(e.getPlayer());
+					if (stage == 3)
+						setStage(e.getPlayer(), 4);
+					else if (stage == 4) {
+						e.getPlayer().incrementCount("Barbarian normal laps");
+						removeStage(e.getPlayer());
+						e.getPlayer().getSkills().addXp(Constants.AGILITY, 46.2);
+					}
+				}
+			}, 1);
+		}
+	};
+	
+	public static ObjectClickHandler handleWallRun = new ObjectClickHandler(new Object[] { 43533 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 90))
+				return;
+			e.getPlayer().lock();
+			final WorldTile toTile = new WorldTile(2538, 3545, 2);
+			WorldTasksManager.schedule(new WorldTask() {
+				int stage = 0;
+				
+				@Override
+				public void run() {
+					if (stage == 0) {
+						e.getPlayer().setNextFaceWorldTile(e.getPlayer().transform(0, 1, 0));
+					} else if (stage == 1) {
+						e.getPlayer().setNextAnimation(new Animation(10492));
+					} else if (stage == 7) {
+						e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, 0, 2));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 1, Direction.NORTH));
+						e.getPlayer().setNextAnimation(new Animation(10493));
+					} else if (stage == 10) {
+						e.getPlayer().unlock();
+						e.getPlayer().setNextWorldTile(toTile);
+						e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
+					}
+					stage++;
+				}
+			}, 0, 0);
+		}
+	};
+	
+	public static ObjectClickHandler handleWallClimb = new ObjectClickHandler(false, new Object[] { 43597 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 90))
+				return;
+			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(e.getObject()), () -> {
+				e.getPlayer().lock();
+				WorldTasksManager.schedule(new WorldTask() {
+					int stage = 0;
+					@Override
+					public void run() {
+						if (stage == 0) {
+							e.getPlayer().faceTile(e.getPlayer().transform(-1, 0, 0));
+						} else if (stage == 1) {
+							e.getPlayer().setNextAnimation(new Animation(10023));
+						} else if (stage == 3) {
+							e.getPlayer().setNextWorldTile(new WorldTile(2536, 3546, 3));
+							e.getPlayer().setNextAnimation(new Animation(11794));
+						} else if (stage == 4) {
+							e.getPlayer().unlock();
+							e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
+						}
+						stage++;
+					}
+				}, 0, 0);
+			}));
+		}
+	};
+	
+	public static ObjectClickHandler handleSpringDevice = new ObjectClickHandler(false, new Object[] { 43587 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 90))
+				return;
+			
+			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(2533, 3547, 3), () -> {
+				WorldTile toTile = new WorldTile(2532, 3553, 3);
+				
+				e.getPlayer().lock();
+				WorldTasksManager.schedule(new WorldTask() {
+					int stage = 0;
+					@Override
+					public void run() {
+						if (stage == 0) {
+							e.getPlayer().faceTile(new WorldTile(2531, 3554, 3));
+						} else if (stage == 1) {
+							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.NORTH));
+							e.getPlayer().setNextAnimation(new Animation(4189));
+							World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(11819));
+						} else if (stage == 4) {
+							e.getPlayer().unlock();
+							e.getPlayer().setNextWorldTile(toTile);
+							e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
+							World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(2531, 3554, 3), ObjectType.SCENERY_INTERACT), new Animation(7527));
+							stop();
+						}
+						stage++;
+					}
+				}, 0, 0);
+			}));
+		}
+	};
+
+	public static ObjectClickHandler handleBalanceBeam = new ObjectClickHandler(new Object[] { 43527 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 90))
+				return;
+			e.getPlayer().lock();
+			final WorldTile toTile = new WorldTile(2536, 3553, 3);
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.EAST));
+			e.getPlayer().setNextAnimation(new Animation(16079));
+			e.getPlayer().getAppearance().setBAS(330);
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					e.getPlayer().stopAll();
+					e.getPlayer().getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.MAGIC, Tab.EMOTES, Tab.EQUIPMENT, Tab.PRAYER);
+					e.getPlayer().unlock();
+					e.getPlayer().setNextWorldTile(toTile);
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
+					e.getPlayer().setNextAnimation(new Animation(-1));
+					stop();
+				}
+
+			}, 2);
+		}
+	};
+
+	public static ObjectClickHandler handleJumpGap = new ObjectClickHandler(new Object[] { 43531 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 90))
+				return;
+			e.getPlayer().lock();
+			e.getPlayer().setNextAnimation(new Animation(2586));
+			e.getPlayer().getAppearance().setBAS(-1);
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					e.getPlayer().unlock();
+					e.getPlayer().getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.MAGIC, Tab.EMOTES, Tab.EQUIPMENT, Tab.PRAYER);
+					e.getPlayer().setNextWorldTile(new WorldTile(2538, 3553, 2));
+					e.getPlayer().setNextAnimation(new Animation(2588));
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
+					stop();
+				}
+
+			}, 0);
+		}
+	};
+	
+	public static ObjectClickHandler handleRoofSlide = new ObjectClickHandler(new Object[] { 43532 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 90))
+				return;
+			e.getPlayer().lock();
+			e.getPlayer().setNextAnimation(new Animation(11792));
+			final WorldTile toTile = new WorldTile(2544, e.getPlayer().getY(), 0);
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 5, Direction.EAST));
+			WorldTasksManager.schedule(new WorldTask() {
+				int stage;
+
+				@Override
+				public void run() {
+					if (stage == 0) {
+						e.getPlayer().setNextWorldTile(new WorldTile(2541, e.getPlayer().getY(), 1));
+						e.getPlayer().setNextAnimation(new Animation(11790));
+						stage = 1;
+					} else if (stage == 1) {
+						stage = 2;
+					} else if (stage == 2) {
+						e.getPlayer().setNextAnimation(new Animation(11791));
+						stage = 3;
+					} else if (stage == 3) {
+						e.getPlayer().unlock();
+						e.getPlayer().setNextWorldTile(toTile);
+						e.getPlayer().setNextAnimation(new Animation(2588));
+						e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
+						if (getStage(e.getPlayer()) == 1) {
+							e.getPlayer().incrementCount("Barbarian advanced laps");
+							removeStage(e.getPlayer());
+							e.getPlayer().getSkills().addXp(Constants.AGILITY, 615);
+						}
+						stop();
+					}
+				}
+
+			}, 0, 0);
+		}
+	};
+
+	public static void removeStage(Player player) {
+		player.getTemporaryAttributes().remove("BarbarianOutpostCourse");
+	}
+
+	public static void setStage(Player player, int stage) {
+		player.getTemporaryAttributes().put("BarbarianOutpostCourse", stage);
+	}
+
+	public static int getStage(Player player) {
+		Integer stage = (Integer) player.getTemporaryAttributes().get("BarbarianOutpostCourse");
+		if (stage == null)
+			return -1;
+		return stage;
+	}
+}

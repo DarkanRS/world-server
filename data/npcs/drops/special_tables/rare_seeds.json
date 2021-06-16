@@ -1,0 +1,79 @@
+{
+  "names": [
+    "rare_seeds"
+  ],
+  "tables": [
+    {
+      "chance": 27.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5296, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 18.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5297, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 18.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5281, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 13.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5106, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 12.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5280, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 12.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5298, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 9.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5299, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 6.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5300, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 4.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5301, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5302, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5303, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 125.0,
+      "drops": [
+        { "id": 5304, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

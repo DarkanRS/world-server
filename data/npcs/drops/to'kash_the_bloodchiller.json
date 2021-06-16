@@ -1,0 +1,139 @@
+{
+  "names": [
+    "To\u0027Kash the Bloodchiller"
+  ],
+  "tables": [
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17151,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17153,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17155,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17157,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17159,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17161,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17163,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17165,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17167,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17169,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 110.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 17171,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

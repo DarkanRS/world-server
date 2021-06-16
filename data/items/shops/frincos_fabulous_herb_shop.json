@@ -1,0 +1,41 @@
+{
+  "name": "Frincos' Fabulous Herb Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 229,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 221,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 233,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15362,
+        "amount": 6
+      }
+    },
+    {
+      "item": {
+        "id": 15364,
+        "amount": 20
+      }
+    }
+  ],
+  "npcIds": [
+    578
+  ]
+}

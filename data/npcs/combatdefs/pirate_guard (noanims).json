@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Pirate Guard"
+  ],
+  "hitpoints": 250,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 20,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    18,
+    16,
+    10,
+    1,
+    1
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "names": [
+    "Greater reborn mage"
+  ],
+  "tables": [
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 209,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 379,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 7,
+          "max": 7
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 556,
+          "min": 75,
+          "max": 75
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 560,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 15,
+          "max": 15
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 567,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 592,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 1000
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1391,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2011,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3054,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5297,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5300,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 8000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 5318,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    }
+  ]
+}

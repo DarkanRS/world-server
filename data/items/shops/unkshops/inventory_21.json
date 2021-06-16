@@ -1,0 +1,44 @@
+{
+  "name": "Inventory 21",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1375,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1363,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1365,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1367,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1369,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1371,
+        "amount": 10
+      }
+    }
+  ]
+}

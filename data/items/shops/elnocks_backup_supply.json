@@ -1,0 +1,14 @@
+{
+  "name": "Elnock's Backup Supply",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 11260,
+        "amount": 10
+      }
+    }
+  ]
+}

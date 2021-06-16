@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Jelly"
+  ],
+  "hitpoints": 750,
+  "attackAnim": 8569,
+  "defenceAnim": 8571,
+  "deathAnim": 8570,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 60,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    45,
+    45,
+    120,
+    1,
+    45
+  ]
+}

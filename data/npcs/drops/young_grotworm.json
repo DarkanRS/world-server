@@ -1,0 +1,211 @@
+{
+  "names": [
+    "Young grotworm"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 7009.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 453,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 7009.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 7009.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 100,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 7009.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1237,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 7009.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 24304,
+          "min": 20,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "chance": 7009.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 24315,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 339,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 355,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 442,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 8,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 8,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 558,
+          "min": 8,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "chance": 219.0,
+      "outOf": 12500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1780,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 467.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 119,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 467.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 125,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

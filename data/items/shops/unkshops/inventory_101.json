@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 101",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1205,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1277,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1321,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1291,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1307,
+        "amount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "The Big Heist Lodge",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4627,
+        "amount": 10
+      }
+    }
+  ]
+}

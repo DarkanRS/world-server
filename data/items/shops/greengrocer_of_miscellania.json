@@ -1,0 +1,38 @@
+{
+  "name": "Greengrocer of Miscellania",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1965,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1957,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1942,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1550,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1982,
+        "amount": 10
+      }
+    }
+  ]
+}

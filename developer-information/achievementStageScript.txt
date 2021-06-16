@@ -1,0 +1,2341 @@
+int getAchievementStage(int areaId) {
+	if (getAttributeMapValue(datamap('i', 'J', (DataMap) 3483, areaId), 1270) != 4094) { //if areaId != null
+		return getQuestStage(getAttributeMapValue(datamap('i', 'J', (DataMap)3483, areaId), 1270));
+	}
+	switch (areaId) {
+		case 0:
+			if (VARPBIT[6598] == 1) {
+				return 2;
+			}
+			break;
+		case 1:
+			if (VARPBIT[6599] == 1) {
+				return 2;
+			}
+			break;
+		case 2:
+			if (VARPBIT[6600] == 1) {
+				return 2;
+			}
+			break;
+		case 3:
+			if (VARPBIT[6601] == 1) {
+				return 2;
+			}
+			break;
+		case 4:
+			if (VARPBIT[6602] == 1) {
+				return 2;
+			}
+			break;
+		case 5:
+			if (VARPBIT[6603] == 1) {
+				return 2;
+			}
+			break;
+		case 6:
+			if (VARPBIT[6604] == 1) {
+				return 2;
+			}
+			break;
+		case 7:
+			if (VARPBIT[6605] == 1) {
+				return 2;
+			}
+			break;
+		case 8:
+			if (VARPBIT[6606] == 1) {
+				return 2;
+			}
+			break;
+		case 9:
+			if (VARPBIT[6607] == 1) {
+				return 2;
+			}
+			break;
+		case 10:
+			if (VARPBIT[6608] == 1) {
+				return 2;
+			}
+			break;
+		case 11:
+			if (VARPBIT[6609] == 1) {
+				return 2;
+			}
+			break;
+		case 12:
+			if (VARPBIT[1421] == 1) {
+				return 2;
+			}
+			break;
+		case 13:
+			if (VARPBIT[6611] == 1) {
+				return 2;
+			}
+			break;
+		case 14:
+			if (VARPBIT[6612] == 1) {
+				return 2;
+			}
+			break;
+		case 15:
+			if (VARPBIT[6613] == 1) {
+				return 2;
+			}
+			break;
+		case 16:
+			if (VARPBIT[6614] == 1) {
+				return 2;
+			}
+			break;
+		case 17:
+			if (VARPBIT[6615] == 1) {
+				return 2;
+			}
+			break;
+		case 18:
+			if (VARPBIT[6616] == 1) {
+				return 2;
+			}
+			break;
+		case 19:
+			if (VARPBIT[6617] == 1) {
+				return 2;
+			}
+			break;
+		case 20:
+			if (VARPBIT[6618] == 1) {
+				return 2;
+			}
+			break;
+		case 21:
+			if (VARPBIT[6619] == 1) {
+				return 2;
+			}
+			break;
+		case 22:
+			if (VARPBIT[6620] == 1) {
+				return 2;
+			}
+			break;
+		case 23:
+			if (VARPBIT[6622] == 1) {
+				return 2;
+			}
+			break;
+		case 24:
+			if (VARPBIT[6623] == 1) {
+				return 2;
+			}
+			break;
+		case 25:
+			if (VARPBIT[6624] == 1) {
+				return 2;
+			}
+			break;
+		case 26:
+			if (VARPBIT[6625] == 1) {
+				return 2;
+			}
+			break;
+		case 27:
+			if (VARPBIT[6626] == 1) {
+				return 2;
+			}
+			break;
+		case 28:
+			if (VARPBIT[6627] == 1) {
+				return 2;
+			}
+			break;
+		case 29:
+			if (VARPBIT[6628] == 1) {
+				return 2;
+			}
+			break;
+		case 30:
+			if (VARPBIT[6629] == 1) {
+				return 2;
+			}
+			break;
+		case 31:
+			if (VARPBIT[6630] == 1) {
+				return 2;
+			}
+			break;
+		case 32:
+			if (VARPBIT[6631] == 1) {
+				return 2;
+			}
+			break;
+		case 33:
+			if (VARPBIT[6632] == 1) {
+				return 2;
+			}
+			break;
+		case 34:
+			if (VARPBIT[6633] == 1) {
+				return 2;
+			}
+			break;
+		case 35:
+			if (VARPBIT[6634] == 1) {
+				return 2;
+			}
+			break;
+		case 36:
+			if (VARPBIT[6635] == 1) {
+				return 2;
+			}
+			break;
+		case 37:
+			if (VARPBIT[6636] == 1) {
+				return 2;
+			}
+			break;
+		case 38:
+			if (VARPBIT[6637] == 1) {
+				return 2;
+			}
+			break;
+		case 39:
+			if (VARPBIT[6639] == 1) {
+				return 2;
+			}
+			break;
+		case 40:
+			if (VARPBIT[6640] == 1) {
+				return 2;
+			}
+			break;
+		case 41:
+			if (VARPBIT[6641] == 1) {
+				return 2;
+			}
+			break;
+		case 42:
+			if (VARPBIT[6642] == 1) {
+				return 2;
+			}
+			break;
+		case 43:
+			if (VARPBIT[6643] == 1) {
+				return 2;
+			}
+			break;
+		case 44:
+			if (VARPBIT[6644] == 1) {
+				return 2;
+			}
+			break;
+		case 45:
+			if (VARPBIT[6645] == 1) {
+				return 2;
+			}
+			break;
+		case 46:
+			if (VARPBIT[6646] == 1) {
+				return 2;
+			}
+			break;
+		case 47:
+			if (VARPBIT[6647] == 1) {
+				return 2;
+			}
+			break;
+		case 48:
+			if (VARPBIT[6648] == 1) {
+				return 2;
+			}
+			break;
+		case 49:
+			if (VARPBIT[6649] == 1) {
+				return 2;
+			}
+			break;
+		case 50:
+			if (VARPBIT[6650] == 1) {
+				return 2;
+			}
+			break;
+		case 51:
+			if (VARPBIT[6651] == 1) {
+				return 2;
+			}
+			break;
+		case 52:
+			if (VARPBIT[6652] == 1) {
+				return 2;
+			}
+			break;
+		case 53:
+			if (VARPBIT[6653] == 1) {
+				return 2;
+			}
+			break;
+		case 54:
+			if (VARPBIT[6654] == 1) {
+				return 2;
+			}
+			break;
+		case 55:
+			if (VARPBIT[6655] == 1) {
+				return 2;
+			}
+			break;
+		case 56:
+			if (VARPBIT[6658] == 1) {
+				return 2;
+			}
+			break;
+		case 57:
+			if (VARPBIT[6659] == 1) {
+				return 2;
+			}
+			break;
+		case 58:
+			if (VARPBIT[6660] == 1) {
+				return 2;
+			}
+			break;
+		case 59:
+			if (VARPBIT[6661] == 1) {
+				return 2;
+			}
+			break;
+		case 60:
+			if (VARPBIT[6662] == 63) {
+				return 2;
+			}
+			if (VARPBIT[6662] > 0) {
+				return 1;
+			}
+			break;
+		case 61:
+			if (VARPBIT[4949] == 1) {
+				return 2;
+			}
+			break;
+		case 62:
+			if (VARPBIT[4950] == 1) {
+				return 2;
+			}
+			break;
+		case 63:
+			if (VARPBIT[4951] == 1) {
+				return 2;
+			}
+			break;
+		case 64:
+			if (VARPBIT[4952] == 1) {
+				return 2;
+			}
+			break;
+		case 65:
+			if (VARPBIT[4953] == 1) {
+				return 2;
+			}
+			break;
+		case 66:
+			if (VARPBIT[4954] == 1) {
+				return 2;
+			}
+			break;
+		case 67:
+			if (VARPBIT[4955] == 1) {
+				return 2;
+			}
+			break;
+		case 68:
+			if (VARPBIT[4956] == 1) {
+				return 2;
+			}
+			break;
+		case 69:
+			if (VARPBIT[4957] == 1) {
+				return 2;
+			}
+			break;
+		case 70:
+			if (VARPBIT[4958] == 1) {
+				return 2;
+			}
+			break;
+		case 71:
+			if (VARPBIT[4959] == 1) {
+				return 2;
+			}
+			break;
+		case 72:
+			if (VARPBIT[4960] == 1) {
+				return 2;
+			}
+			break;
+		case 73:
+			if (VARPBIT[4961] == 1) {
+				return 2;
+			}
+			break;
+		case 74:
+			if (VARPBIT[4962] == 1) {
+				return 2;
+			}
+			break;
+		case 75:
+			if (VARPBIT[4963] == 1) {
+				return 2;
+			}
+			break;
+		case 76:
+			if (VARPBIT[4964] == 1) {
+				return 2;
+			}
+			break;
+		case 77:
+			if (VARPBIT[4965] == 1) {
+				return 2;
+			}
+			break;
+		case 78:
+			if (VARPBIT[4966] == 1) {
+				return 2;
+			}
+			break;
+		case 79:
+			if (VARPBIT[4967] == 1) {
+				return 2;
+			}
+			break;
+		case 80:
+			if (VARPBIT[4968] == 1) {
+				return 2;
+			}
+			break;
+		case 81:
+			if (VARPBIT[4969] == 1) {
+				return 2;
+			}
+			break;
+		case 82:
+			if (VARPBIT[4970] == 1) {
+				return 2;
+			}
+			break;
+		case 83:
+			if (VARPBIT[4971] == 1) {
+				return 2;
+			}
+			break;
+		case 84:
+			if (VARPBIT[4972] == 1) {
+				return 2;
+			}
+			break;
+		case 85:
+			if (VARPBIT[4973] == 1) {
+				return 2;
+			}
+			break;
+		case 86:
+			if (VARPBIT[4974] == 1) {
+				return 2;
+			}
+			break;
+		case 87:
+			if (VARPBIT[4975] == 1) {
+				return 2;
+			}
+			break;
+		case 88:
+			if (VARPBIT[4976] == 1) {
+				return 2;
+			}
+			break;
+		case 89:
+			if (VARPBIT[4977] == 1) {
+				return 2;
+			}
+			break;
+		case 90:
+			if (VARPBIT[4978] == 1) {
+				return 2;
+			}
+			break;
+		case 91:
+			if (VARPBIT[4979] == 1) {
+				return 2;
+			}
+			break;
+		case 92:
+			if (VARPBIT[4980] == 1) {
+				return 2;
+			}
+			break;
+		case 93:
+			if (VARPBIT[4981] == 1) {
+				return 2;
+			}
+			break;
+		case 94:
+			if (VARPBIT[4982] == 1) {
+				return 2;
+			}
+			break;
+		case 95:
+			if (VARPBIT[4983] == 1) {
+				return 2;
+			}
+			break;
+		case 96:
+			if (VARPBIT[4984] == 1) {
+				return 2;
+			}
+			break;
+		case 97:
+			if (VARPBIT[4985] == 1) {
+				return 2;
+			}
+			break;
+		case 98:
+			if (VARPBIT[4986] == 1) {
+				return 2;
+			}
+			break;
+		case 99:
+			if (VARPBIT[4987] == 1) {
+				return 2;
+			}
+			break;
+		case 100:
+			if (VARPBIT[4988] == 1) {
+				return 2;
+			}
+			break;
+		case 101:
+			if (VARPBIT[4989] == 1) {
+				return 2;
+			}
+			break;
+		case 102:
+			if (VARPBIT[4991] == 1) {
+				return 2;
+			}
+			break;
+		case 103:
+			if (VARPBIT[4992] == 1) {
+				return 2;
+			}
+			break;
+		case 104:
+			if (VARPBIT[4993] == 1) {
+				return 2;
+			}
+			break;
+		case 105:
+			if (VARPBIT[4994] == 1) {
+				return 2;
+			}
+			break;
+		case 106:
+			if (VARPBIT[4995] == 1) {
+				return 2;
+			}
+			break;
+		case 107:
+			if (VARPBIT[4996] == 1) {
+				return 2;
+			}
+			break;
+		case 108:
+			if (VARPBIT[4997] == 1) {
+				return 2;
+			}
+			break;
+		case 109:
+			if (VARPBIT[4998] == 1) {
+				return 2;
+			}
+			break;
+		case 110:
+			if (VARPBIT[4999] == 1) {
+				return 2;
+			}
+			break;
+		case 111:
+			if (VARPBIT[5998] == 1) {
+				return 2;
+			}
+			break;
+		case 112:
+			if (VARPBIT[5001] == 1) {
+				return 2;
+			}
+			break;
+		case 113:
+			if (VARPBIT[5002] == 1) {
+				return 2;
+			}
+			break;
+		case 114:
+			if (VARPBIT[5003] == 1) {
+				return 2;
+			}
+			break;
+		case 351:
+			if (VARPBIT[8180] == 1) {
+				return 2;
+			}
+			break;
+		case 352:
+			if (VARPBIT[8181] == 1) {
+				return 2;
+			}
+			break;
+		case 353:
+			if (VARPBIT[8188] == 1) {
+				return 2;
+			}
+			break;
+		case 354:
+			if (VARPBIT[8191] == 1) {
+				return 2;
+			}
+			break;
+		case 355:
+			if (VARPBIT[8192] == 1) {
+				return 2;
+			}
+			break;
+		case 356:
+			if (VARPBIT[8193] == 1) {
+				return 2;
+			}
+			break;
+		case 357:
+			if (VARPBIT[8194] == 1) {
+				return 2;
+			}
+			break;
+		case 115:
+			if (VARPBIT[5691] == 1) {
+				return 2;
+			}
+			break;
+		case 116:
+			if (VARPBIT[5692] == 1) {
+				return 2;
+			}
+			break;
+		case 117:
+			if (VARPBIT[5693] == 1) {
+				return 2;
+			}
+			break;
+		case 118:
+			if (VARPBIT[5694] == 1) {
+				return 2;
+			}
+			break;
+		case 119:
+			if (VARPBIT[5695] == 1) {
+				return 2;
+			}
+			break;
+		case 120:
+			if (VARPBIT[5696] == 1) {
+				return 2;
+			}
+			break;
+		case 121:
+			if (VARPBIT[5697] == 1) {
+				return 2;
+			}
+			break;
+		case 122:
+			if (VARPBIT[5698] == 1) {
+				return 2;
+			}
+			break;
+		case 123:
+			if (VARPBIT[5699] == 1) {
+				return 2;
+			}
+			break;
+		case 124:
+			if (VARPBIT[5700] == 1) {
+				return 2;
+			}
+			break;
+		case 125:
+			if (VARPBIT[5701] == 1) {
+				return 2;
+			}
+			break;
+		case 126:
+			if (VARPBIT[5702] == 1) {
+				return 2;
+			}
+			break;
+		case 127:
+			if (VARPBIT[5703] == 1) {
+				return 2;
+			}
+			break;
+		case 128:
+			if (VARPBIT[5704] == 1) {
+				return 2;
+			}
+			break;
+		case 129:
+			if (VARPBIT[5705] == 3) {
+				return 2;
+			}
+			if (VARPBIT[5705] > 0) {
+				return 1;
+			}
+			break;
+		case 130:
+			if (VARPBIT[5706] == 1) {
+				return 2;
+			}
+			break;
+		case 131:
+			if (VARPBIT[5707] == 1) {
+				return 2;
+			}
+			break;
+		case 132:
+			if (VARPBIT[5723] == 1) {
+				return 2;
+			}
+			break;
+		case 133:
+			if (VARPBIT[5709] == 3) {
+				return 2;
+			}
+			if (VARPBIT[5709] > 0) {
+				return 1;
+			}
+			break;
+		case 134:
+			if (VARPBIT[5710] == 1) {
+				return 2;
+			}
+			break;
+		case 135:
+			if (VARPBIT[5711] == 1) {
+				return 2;
+			}
+			break;
+		case 136:
+			if (VARPBIT[5712] == 1) {
+				return 2;
+			}
+			break;
+		case 137:
+			if (VARPBIT[5713] == 1) {
+				return 2;
+			}
+			break;
+		case 138:
+			if (VARPBIT[5714] == 1) {
+				return 2;
+			}
+			break;
+		case 139:
+			if (VARPBIT[5715] == 1) {
+				return 2;
+			}
+			break;
+		case 140:
+			if (VARPBIT[5716] == 1) {
+				return 2;
+			}
+			break;
+		case 141:
+			if (VARPBIT[5717] == 1) {
+				return 2;
+			}
+			break;
+		case 142:
+			if (VARPBIT[5718] == 1) {
+				return 2;
+			}
+			break;
+		case 143:
+			if (VARPBIT[5719] == 1) {
+				return 2;
+			}
+			break;
+		case 144:
+			if (VARPBIT[5720] == 1) {
+				return 2;
+			}
+			break;
+		case 145:
+			if (VARPBIT[5721] == 1) {
+				return 2;
+			}
+			break;
+		case 146:
+			if (VARPBIT[5722] == 1) {
+				return 2;
+			}
+			break;
+		case 147:
+			if (VARPBIT[5708] == 1) {
+				return 2;
+			}
+			break;
+		case 148:
+			if (VARPBIT[5724] == 1) {
+				return 2;
+			}
+			break;
+		case 149:
+			if (VARPBIT[5725] == 1) {
+				return 2;
+			}
+			break;
+		case 150:
+			if (VARPBIT[5726] == 1) {
+				return 2;
+			}
+			break;
+		case 151:
+			if (VARPBIT[5727] == 1) {
+				return 2;
+			}
+			break;
+		case 309:
+			if (VARPBIT[8114] == 1) {
+				return 2;
+			}
+			break;
+		case 310:
+			if (VARPBIT[8115] == 1) {
+				return 2;
+			}
+			break;
+		case 311:
+			if (VARPBIT[8116] == 1) {
+				return 2;
+			}
+			break;
+		case 312:
+			if (VARPBIT[8117] == 1) {
+				return 2;
+			}
+			break;
+		case 313:
+			if (VARPBIT[8118] == 1) {
+				return 2;
+			}
+			break;
+		case 314:
+			if (VARPBIT[8119] == 1) {
+				return 2;
+			}
+			break;
+		case 315:
+			if (VARPBIT[8120] == 1) {
+				return 2;
+			}
+			break;
+		case 152:
+			if (VARPBIT[5648] == 1) {
+				return 2;
+			}
+			break;
+		case 153:
+			if (VARPBIT[5649] == 1) {
+				return 2;
+			}
+			break;
+		case 154:
+			if (VARPBIT[5650] == 1) {
+				return 2;
+			}
+			break;
+		case 155:
+			if (VARPBIT[5651] == 1) {
+				return 2;
+			}
+			break;
+		case 156:
+			if (VARPBIT[5652] == 1) {
+				return 2;
+			}
+			break;
+		case 157:
+			if (VARPBIT[5653] == 1) {
+				return 2;
+			}
+			break;
+		case 158:
+			if (VARPBIT[5654] == 1) {
+				return 2;
+			}
+			break;
+		case 159:
+			if (VARPBIT[5655] == 1) {
+				return 2;
+			}
+			break;
+		case 160:
+			if (VARPBIT[5656] == 1) {
+				return 2;
+			}
+			break;
+		case 161:
+			if (VARPBIT[5657] == 1) {
+				return 2;
+			}
+			break;
+		case 162:
+			if (VARPBIT[5658] == 1) {
+				return 2;
+			}
+			break;
+		case 163:
+			if (VARPBIT[5659] == 1) {
+				return 2;
+			}
+			break;
+		case 164:
+			if (VARPBIT[5660] == 1) {
+				return 2;
+			}
+			break;
+		case 165:
+			if (VARPBIT[5661] == 1) {
+				return 2;
+			}
+			break;
+		case 166:
+			if (VARPBIT[5662] == 1) {
+				return 2;
+			}
+			break;
+		case 167:
+			if (VARPBIT[5663] == 1) {
+				return 2;
+			}
+			break;
+		case 168:
+			if (VARPBIT[5664] == 1) {
+				return 2;
+			}
+			break;
+		case 169:
+			if (VARPBIT[5665] == 1) {
+				return 2;
+			}
+			break;
+		case 170:
+			if (VARPBIT[5666] == 1) {
+				return 2;
+			}
+			break;
+		case 171:
+			if (VARPBIT[5667] == 1) {
+				return 2;
+			}
+			break;
+		case 172:
+			if (VARPBIT[5668] == 1) {
+				return 2;
+			}
+			break;
+		case 173:
+			if (VARPBIT[5669] == 1) {
+				return 2;
+			}
+			break;
+		case 174:
+			if (VARPBIT[5670] == 1) {
+				return 2;
+			}
+			break;
+		case 175:
+			if (VARPBIT[5671] == 1) {
+				return 2;
+			}
+			break;
+		case 176:
+			if (VARPBIT[5672] == 1) {
+				return 2;
+			}
+			break;
+		case 177:
+			if (VARPBIT[5673] == 1) {
+				return 2;
+			}
+			break;
+		case 178:
+			if (VARPBIT[5674] == 1) {
+				return 2;
+			}
+			break;
+		case 179:
+			if (VARPBIT[5675] == 1) {
+				return 2;
+			}
+			break;
+		case 180:
+			if (VARPBIT[5676] == 1) {
+				return 2;
+			}
+			break;
+		case 181:
+			if (VARPBIT[5677] == 1) {
+				return 2;
+			}
+			break;
+		case 428:
+			if (VARPBIT[9067] > 0) {
+				return 2;
+			}
+			break;
+		case 316:
+			if (VARPBIT[8231] == 1) {
+				return 2;
+			}
+			break;
+		case 317:
+			if (VARPBIT[8232] == 1) {
+				return 2;
+			}
+			break;
+		case 318:
+			if (VARPBIT[8233] == 1) {
+				return 2;
+			}
+			break;
+		case 319:
+			if (VARPBIT[8234] == 1) {
+				return 2;
+			}
+			break;
+		case 320:
+			if (VARPBIT[8235] == 1) {
+				return 2;
+			}
+			break;
+		case 321:
+			if (VARPBIT[8236] == 1) {
+				return 2;
+			}
+			break;
+		case 322:
+			if (VARPBIT[8237] == 1) {
+				return 2;
+			}
+			break;
+		case 323:
+			if (VARPBIT[8238] == 1) {
+				return 2;
+			}
+			break;
+		case 417:
+			if (VARPBIT[8239] == 1) {
+				return 2;
+			}
+			break;
+		case 182:
+			if (VARPBIT[3566] == 5) {
+				return 2;
+			}
+			if (VARPBIT[3566] > 0) {
+				return 1;
+			}
+			break;
+		case 183:
+			if (VARPBIT[3567] == 1) {
+				return 2;
+			}
+			break;
+		case 184:
+			if (VARPBIT[3568] == 1) {
+				return 2;
+			}
+			break;
+		case 185:
+			if (VARPBIT[3569] == 1) {
+				return 2;
+			}
+			break;
+		case 186:
+			if (VARPBIT[3570] == 1) {
+				return 2;
+			}
+			break;
+		case 187:
+			if (VARPBIT[3571] == 1) {
+				return 2;
+			}
+			break;
+		case 188:
+			if (VARPBIT[3572] == 1) {
+				return 2;
+			}
+			break;
+		case 189:
+			if (VARPBIT[3573] == 5) {
+				return 2;
+			}
+			if (VARPBIT[3573] > 0) {
+				return 1;
+			}
+			break;
+		case 190:
+			if (VARPBIT[3574] == 1) {
+				return 2;
+			}
+			break;
+		case 191:
+			if (VARPBIT[3575] == 1) {
+				return 2;
+			}
+			break;
+		case 192:
+			if (VARPBIT[3579] == 1) {
+				return 2;
+			}
+			break;
+		case 193:
+			if (VARPBIT[3580] == 1) {
+				return 2;
+			}
+			break;
+		case 194:
+			if (VARPBIT[3581] == 1) {
+				return 2;
+			}
+			break;
+		case 195:
+			if (VARPBIT[3582] == 1) {
+				return 2;
+			}
+			break;
+		case 196:
+			if (VARPBIT[3583] == 1) {
+				return 2;
+			}
+			break;
+		case 197:
+			if (VARPBIT[3584] == 1) {
+				return 2;
+			}
+			break;
+		case 198:
+			if (VARPBIT[3585] == 1) {
+				return 2;
+			}
+			break;
+		case 199:
+			if (VARPBIT[3586] == 1) {
+				return 2;
+			}
+			break;
+		case 200:
+			if (VARPBIT[3587] == 1) {
+				return 2;
+			}
+			break;
+		case 201:
+			if (VARPBIT[3588] == 1) {
+				return 2;
+			}
+			break;
+		case 202:
+			if (VARPBIT[3589] == 1) {
+				return 2;
+			}
+			break;
+		case 203:
+			if (VARPBIT[3590] == 1) {
+				return 2;
+			}
+			break;
+		case 204:
+			if (VARPBIT[3591] == 1) {
+				return 2;
+			}
+			break;
+		case 205:
+			if (VARPBIT[3592] == 1) {
+				return 2;
+			}
+			break;
+		case 206:
+			if (VARPBIT[3593] == 1) {
+				return 2;
+			}
+			break;
+		case 207:
+			if (VARPBIT[3594] == 1) {
+				return 2;
+			}
+			break;
+		case 208:
+			if (VARPBIT[3595] == 1) {
+				return 2;
+			}
+			break;
+		case 209:
+			if (VARPBIT[3596] == 1) {
+				return 2;
+			}
+			break;
+		case 210:
+			if (VARPBIT[3597] == 1) {
+				return 2;
+			}
+			break;
+		case 211:
+			if (VARPBIT[3600] == 1) {
+				return 2;
+			}
+			break;
+		case 212:
+			if (VARPBIT[3601] == 1) {
+				return 2;
+			}
+			break;
+		case 213:
+			if (VARPBIT[3602] == 1) {
+				return 2;
+			}
+			break;
+		case 214:
+			if (VARPBIT[3603] == 1) {
+				return 2;
+			}
+			break;
+		case 215:
+			if (VARPBIT[3604] == 1) {
+				return 2;
+			}
+			break;
+		case 216:
+			if (VARPBIT[3605] == 1) {
+				return 2;
+			}
+			break;
+		case 217:
+			if (VARPBIT[3606] == 1) {
+				return 2;
+			}
+			break;
+		case 218:
+			if (VARPBIT[3607] == 5) {
+				return 2;
+			}
+			if (VARPBIT[3607] > 0) {
+				return 1;
+			}
+			break;
+		case 219:
+			if (VARPBIT[3608] == 1) {
+				return 2;
+			}
+			break;
+		case 220:
+			if (VARPBIT[3609] == 1) {
+				return 2;
+			}
+			break;
+		case 324:
+			if (VARPBIT[8121] == 1) {
+				return 2;
+			}
+			break;
+		case 325:
+			if (VARPBIT[8122] == 1) {
+				return 2;
+			}
+			break;
+		case 326:
+			if (VARPBIT[8123] == 1) {
+				return 2;
+			}
+			break;
+		case 327:
+			if (VARPBIT[8124] == 1) {
+				return 2;
+			}
+			break;
+		case 328:
+			if (VARPBIT[8125] == 1) {
+				return 2;
+			}
+			break;
+		case 329:
+			if (VARPBIT[8126] == 1) {
+				return 2;
+			}
+			break;
+		case 330:
+			if (VARPBIT[8127] == 1) {
+				return 2;
+			}
+			break;
+		case 331:
+			if (VARPBIT[8128] == 1) {
+				return 2;
+			}
+			break;
+		case 221:
+			if (VARPBIT[5782] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5782] > 0) {
+				return 1;
+			}
+			break;
+		case 222:
+			if (VARPBIT[5783] == 1) {
+				return 2;
+			}
+			break;
+		case 223:
+			if (VARPBIT[5784] == 1) {
+				return 2;
+			}
+			break;
+		case 224:
+			if (VARPBIT[5785] == 1) {
+				return 2;
+			}
+			break;
+		case 225:
+			if (VARPBIT[5786] == 1) {
+				return 2;
+			}
+			break;
+		case 226:
+			if (VARPBIT[5787] == 5) {
+				return 2;
+			}
+			break;
+		case 227:
+			if (VARPBIT[5788] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5788] > 0) {
+				return 1;
+			}
+			break;
+		case 228:
+			if (VARPBIT[5789] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5789] > 0) {
+				return 1;
+			}
+			break;
+		case 229:
+			if (VARPBIT[5790] == 1) {
+				return 2;
+			}
+			break;
+		case 230:
+			if (VARPBIT[5791] == 1) {
+				return 2;
+			}
+			break;
+		case 231:
+			if (VARPBIT[5792] == 1) {
+				return 2;
+			}
+			break;
+		case 232:
+			if (VARPBIT[5793] == 1) {
+				return 2;
+			}
+			break;
+		case 233:
+			if (VARPBIT[5794] == 1) {
+				return 2;
+			}
+			break;
+		case 234:
+			if (VARPBIT[5795] == 1) {
+				return 2;
+			}
+			break;
+		case 235:
+			if (VARPBIT[5796] == 1) {
+				return 2;
+			}
+			break;
+		case 236:
+			if (VARPBIT[5797] == 15) {
+				return 2;
+			}
+			if (VARPBIT[5797] > 0) {
+				return 1;
+			}
+			break;
+		case 237:
+			if (VARPBIT[5798] == 1) {
+				return 2;
+			}
+			break;
+		case 238:
+			if (VARPBIT[5799] == 1) {
+				return 2;
+			}
+			break;
+		case 239:
+			if (VARPBIT[5800] == 1) {
+				return 2;
+			}
+			break;
+		case 240:
+			if (VARPBIT[5801] == 1) {
+				return 2;
+			}
+			break;
+		case 241:
+			if (VARPBIT[5802] == 1) {
+				return 2;
+			}
+			break;
+		case 242:
+			if (VARPBIT[5803] == 1) {
+				return 2;
+			}
+			break;
+		case 243:
+			if (VARPBIT[5804] == 1) {
+				return 2;
+			}
+			break;
+		case 244:
+			if (VARPBIT[5805] == 15) {
+				return 2;
+			}
+			if (VARPBIT[5805] > 0) {
+				return 1;
+			}
+			break;
+		case 245:
+			if (VARPBIT[5806] == 1) {
+				return 2;
+			}
+			break;
+		case 246:
+			if (VARPBIT[5807] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5807] > 0) {
+				return 1;
+			}
+			break;
+		case 247:
+			if (VARPBIT[5808] == 1) {
+				return 2;
+			}
+			break;
+		case 248:
+			if (VARPBIT[5809] == 1) {
+				return 2;
+			}
+			break;
+		case 249:
+			if (VARPBIT[5810] == 1) {
+				return 2;
+			}
+			break;
+		case 250:
+			if (VARPBIT[5811] == 1) {
+				return 2;
+			}
+			break;
+		case 251:
+			if (VARPBIT[5812] == 1) {
+				return 2;
+			}
+			break;
+		case 252:
+			if (VARPBIT[5813] == 1) {
+				return 2;
+			}
+			break;
+		case 253:
+			if (VARPBIT[5814] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5814] > 0) {
+				return 1;
+			}
+			break;
+		case 254:
+			if (VARPBIT[5815] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5815] > 0) {
+				return 1;
+			}
+			break;
+		case 255:
+			if (VARPBIT[5816] == 5) {
+				return 2;
+			}
+			if (VARPBIT[5816] > 0) {
+				return 1;
+			}
+			break;
+		case 332:
+			if (VARPBIT[8205] == 1) {
+				return 2;
+			}
+			break;
+		case 333:
+			if (VARPBIT[8212] == 1) {
+				return 2;
+			}
+			break;
+		case 334:
+			if (VARPBIT[8217] == 1) {
+				return 2;
+			}
+			break;
+		case 335:
+			if (VARPBIT[8221] == 1) {
+				return 2;
+			}
+			break;
+		case 336:
+			if (VARPBIT[8224] == 1) {
+				return 2;
+			}
+			break;
+		case 256:
+			if (VARPBIT[3986] == 1) {
+				return 2;
+			}
+			break;
+		case 257:
+			if (VARPBIT[3987] == 1) {
+				return 2;
+			}
+			break;
+		case 258:
+			if (VARPBIT[3988] == 1) {
+				return 2;
+			}
+			break;
+		case 259:
+			if (VARPBIT[3989] == 1) {
+				return 2;
+			}
+			break;
+		case 260:
+			if (VARPBIT[3990] == 1) {
+				return 2;
+			}
+			break;
+		case 261:
+			if (VARPBIT[3991] == 1) {
+				return 2;
+			}
+			break;
+		case 262:
+			if (VARPBIT[3992] == 1) {
+				return 2;
+			}
+			break;
+		case 263:
+			if (VARPBIT[3993] == 1) {
+				return 2;
+			}
+			break;
+		case 264:
+			if (VARPBIT[3994] == 1) {
+				return 2;
+			}
+			break;
+		case 265:
+			if (VARPBIT[3995] == 1) {
+				return 2;
+			}
+			break;
+		case 266:
+			if (VARPBIT[3996] == 1) {
+				return 2;
+			}
+			break;
+		case 267:
+			if (VARPBIT[3997] == 1) {
+				return 2;
+			}
+			break;
+		case 268:
+			if (VARPBIT[3998] == 1) {
+				return 2;
+			}
+			break;
+		case 269:
+			if (VARPBIT[3999] == 1) {
+				return 2;
+			}
+			break;
+		case 270:
+			if (VARPBIT[4000] == 1) {
+				return 2;
+			}
+			break;
+		case 271:
+			if (VARPBIT[4001] == 1) {
+				return 2;
+			}
+			break;
+		case 272:
+			if (VARPBIT[4002] == 1) {
+				return 2;
+			}
+			break;
+		case 273:
+			if (VARPBIT[4004] == 1) {
+				return 2;
+			}
+			break;
+		case 274:
+			if (VARPBIT[4005] == 1) {
+				return 2;
+			}
+			break;
+		case 275:
+			if (VARPBIT[4003] == 1) {
+				return 2;
+			}
+			break;
+		case 276:
+			if (VARPBIT[4007] == 1) {
+				return 2;
+			}
+			break;
+		case 277:
+			if (VARPBIT[4008] == 1) {
+				return 2;
+			}
+			break;
+		case 278:
+			if (VARPBIT[4009] == 1) {
+				return 2;
+			}
+			break;
+		case 279:
+			if (VARPBIT[4010] == 1) {
+				return 2;
+			}
+			break;
+		case 280:
+			if (VARPBIT[4011] == 1) {
+				return 2;
+			}
+			break;
+		case 281:
+			if (VARPBIT[4012] == 4) {
+				return 2;
+			}
+			if (VARPBIT[4012] > 0) {
+				return 1;
+			}
+			break;
+		case 282:
+			if (VARPBIT[4013] == 1) {
+				return 2;
+			}
+			break;
+		case 283:
+			if (VARPBIT[4014] == 1) {
+				return 2;
+			}
+			break;
+		case 284:
+			if (VARPBIT[4015] == 1) {
+				return 2;
+			}
+			break;
+		case 285:
+			if (VARPBIT[4016] == 1) {
+				return 2;
+			}
+			break;
+		case 286:
+			if (VARPBIT[4017] == 1) {
+				return 2;
+			}
+			break;
+		case 287:
+			if (VARPBIT[4018] == 1) {
+				return 2;
+			}
+			break;
+		case 288:
+			if (VARPBIT[4019] == 1) {
+				return 2;
+			}
+			break;
+		case 289:
+			if (VARPBIT[4020] == 1) {
+				return 2;
+			}
+			break;
+		case 290:
+			if (VARPBIT[4021] == 1) {
+				return 2;
+			}
+			break;
+		case 291:
+			if (VARPBIT[4022] == 1) {
+				return 2;
+			}
+			break;
+		case 292:
+			if (VARPBIT[4023] == 1) {
+				return 2;
+			}
+			break;
+		case 293:
+			if (VARPBIT[4024] == 1) {
+				return 2;
+			}
+			break;
+		case 294:
+			if (VARPBIT[4025] == 1) {
+				return 2;
+			}
+			break;
+		case 295:
+			if (VARPBIT[4026] == 1) {
+				return 2;
+			}
+			break;
+		case 296:
+			if (VARPBIT[4027] == 1) {
+				return 2;
+			}
+			break;
+		case 297:
+			if (VARPBIT[4028] == 1) {
+				return 2;
+			}
+			break;
+		case 298:
+			if (VARPBIT[4029] == 1) {
+				return 2;
+			}
+			break;
+		case 299:
+			if (VARPBIT[4030] == 1) {
+				return 2;
+			}
+			break;
+		case 300:
+			if (VARPBIT[4031] == 1) {
+				return 2;
+			}
+			break;
+		case 301:
+			if (VARPBIT[4032] == 1) {
+				return 2;
+			}
+			break;
+		case 302:
+			if (VARPBIT[4033] == 1) {
+				return 2;
+			}
+			break;
+		case 303:
+			if (VARPBIT[4034] == 1) {
+				return 2;
+			}
+			break;
+		case 304:
+			if (VARPBIT[4035] == 1) {
+				return 2;
+			}
+			break;
+		case 305:
+			if (VARPBIT[4036] == 1) {
+				return 2;
+			}
+			break;
+		case 306:
+			if (VARPBIT[4037] == 1) {
+				return 2;
+			}
+			break;
+		case 307:
+			if (VARPBIT[4038] == 1) {
+				return 2;
+			}
+			break;
+		case 308:
+			if (VARPBIT[4039] == 1) {
+				return 2;
+			}
+			break;
+		case 337:
+			if (VARPBIT[8136] == 1) {
+				return 2;
+			}
+			break;
+		case 338:
+			if (VARPBIT[8137] == 1) {
+				return 2;
+			}
+			break;
+		case 339:
+			if (VARPBIT[8138] == 1) {
+				return 2;
+			}
+			break;
+		case 340:
+			if (VARPBIT[8139] == 1) {
+				return 2;
+			}
+			break;
+		case 341:
+			if (VARPBIT[8140] == 1) {
+				return 2;
+			}
+			break;
+		case 342:
+			if (VARPBIT[8141] == 1) {
+				return 2;
+			}
+			break;
+		case 343:
+			if (VARPBIT[8145] == 1) {
+				return 2;
+			}
+			break;
+		case 344:
+			if (VARPBIT[8146] == 1) {
+				return 2;
+			}
+			break;
+		case 345:
+			if (VARPBIT[8148] == 1) {
+				return 2;
+			}
+			break;
+		case 358:
+			if (VARPBIT[8517] == 1) {
+				return 2;
+			}
+			break;
+		case 359:
+			if (VARPBIT[8518] == 1) {
+				return 2;
+			}
+			break;
+		case 360:
+			if (VARPBIT[8519] == 1) {
+				return 2;
+			}
+			break;
+		case 361:
+			if (VARPBIT[8520] == 1) {
+				return 2;
+			}
+			break;
+		case 362:
+			if (VARPBIT[8521] == 1) {
+				return 2;
+			}
+			break;
+		case 363:
+			if (VARPBIT[8522] == 1) {
+				return 2;
+			}
+			break;
+		case 412:
+			if (VARPBIT[8523] == 1) {
+				return 2;
+			}
+			break;
+		case 365:
+			if (VARPBIT[8524] == 1) {
+				return 2;
+			}
+			break;
+		case 413:
+			if (VARPBIT[8525] == 1) {
+				return 2;
+			}
+			break;
+		case 366:
+			if (VARPBIT[8526] == 1) {
+				return 2;
+			}
+			break;
+		case 368:
+			if (VARPBIT[8527] == 1) {
+				return 2;
+			}
+			break;
+		case 369:
+			if (VARPBIT[8528] == 1) {
+				return 2;
+			}
+			break;
+		case 370:
+			if (VARPBIT[8529] == 1) {
+				return 2;
+			}
+			break;
+		case 367:
+			if (VARPBIT[8530] == 1) {
+				return 2;
+			}
+			break;
+		case 371:
+			if (VARPBIT[8531] == 1) {
+				return 2;
+			}
+			break;
+		case 372:
+			if (VARPBIT[8532] == 1) {
+				return 2;
+			}
+			break;
+		case 373:
+			if (VARPBIT[8533] == 1) {
+				return 2;
+			}
+			break;
+		case 374:
+			if (VARPBIT[8534] == 1) {
+				return 2;
+			}
+			break;
+		case 375:
+			if (VARPBIT[8535] == 1) {
+				return 2;
+			}
+			break;
+		case 376:
+			if (VARPBIT[8536] == 1) {
+				return 2;
+			}
+			break;
+		case 377:
+			if (VARPBIT[8537] == 1) {
+				return 2;
+			}
+			break;
+		case 378:
+			if (VARPBIT[8538] == 1) {
+				return 2;
+			}
+			break;
+		case 379:
+			if (VARPBIT[8539] == 1) {
+				return 2;
+			}
+			break;
+		case 380:
+			if (VARPBIT[8540] == 1) {
+				return 2;
+			}
+			break;
+		case 381:
+			if (VARPBIT[8541] == 1) {
+				return 2;
+			}
+			break;
+		case 382:
+			if (VARPBIT[8542] == 1) {
+				return 2;
+			}
+			break;
+		case 383:
+			if (VARPBIT[8543] == 1) {
+				return 2;
+			}
+			break;
+		case 384:
+			if (VARPBIT[8544] == 1) {
+				return 2;
+			}
+			break;
+		case 385:
+			if (VARPBIT[8545] == 1) {
+				return 2;
+			}
+			break;
+		case 386:
+			if (VARPBIT[8546] == 1) {
+				return 2;
+			}
+			break;
+		case 387:
+			if (VARPBIT[8547] == 1) {
+				return 2;
+			}
+			break;
+		case 388:
+			if (VARPBIT[8548] == 1) {
+				return 2;
+			}
+			break;
+		case 389:
+			if (VARPBIT[8549] == 1) {
+				return 2;
+			}
+			break;
+		case 390:
+			if (VARPBIT[8550] == 1) {
+				return 2;
+			}
+			break;
+		case 391:
+			if (VARPBIT[8551] == 1) {
+				return 2;
+			}
+			break;
+		case 392:
+			if (VARPBIT[8552] == 1) {
+				return 2;
+			}
+			break;
+		case 393:
+			if (VARPBIT[8553] == 1) {
+				return 2;
+			}
+			break;
+		case 394:
+			if (VARPBIT[8554] == 1) {
+				return 2;
+			}
+			break;
+		case 395:
+			if (VARPBIT[8555] == 1) {
+				return 2;
+			}
+			break;
+		case 396:
+			if (VARPBIT[8556] == 1) {
+				return 2;
+			}
+			break;
+		case 397:
+			if (VARPBIT[8557] == 1) {
+				return 2;
+			}
+			break;
+		case 398:
+			if (VARPBIT[8558] == 1) {
+				return 2;
+			}
+			break;
+		case 399:
+			if (VARPBIT[8559] == 1) {
+				return 2;
+			}
+			break;
+		case 414:
+			if (VARPBIT[8560] == 1) {
+				return 2;
+			}
+			break;
+		case 415:
+			if (VARPBIT[8573] == 1) {
+				return 2;
+			}
+			break;
+		case 416:
+			if (VARPBIT[8574] == 1) {
+				return 2;
+			}
+			break;
+		case 400:
+			if (VARPBIT[8561] == 1) {
+				return 2;
+			}
+			break;
+		case 401:
+			if (VARPBIT[8562] == 1) {
+				return 2;
+			}
+			break;
+		case 402:
+			if (VARPBIT[8563] == 1) {
+				return 2;
+			}
+			break;
+		case 403:
+			if (VARPBIT[8564] == 1) {
+				return 2;
+			}
+			break;
+		case 404:
+			if (VARPBIT[8565] == 1) {
+				return 2;
+			}
+			break;
+		case 405:
+			if (VARPBIT[8566] == 1) {
+				return 2;
+			}
+			break;
+		case 406:
+			if (VARPBIT[8567] == 1) {
+				return 2;
+			}
+			break;
+		case 407:
+			if (VARPBIT[8568] == 1) {
+				return 2;
+			}
+			break;
+		case 408:
+			if (VARPBIT[8569] == 1) {
+				return 2;
+			}
+			break;
+		case 409:
+			if (VARPBIT[8570] == 1) {
+				return 2;
+			}
+			break;
+		case 410:
+			if (VARPBIT[8571] == 1) {
+				return 2;
+			}
+			break;
+		case 411:
+			if (VARPBIT[8572] == 1) {
+				return 2;
+			}
+			break;
+		case 418:
+			if (VARPBIT[8781] == 1) {
+				return 2;
+			}
+			break;
+		case 3522:
+			if (VARP[281] >= 7) {
+				return 2;
+			}
+			break;
+		case 3500:
+			if (VARP[281] > 7) {
+				return 2;
+			}
+			break;
+		case 3501:
+			if (VARP[281] > 10) {
+				return 2;
+			}
+			break;
+		case 3505:
+			if (VARP[281] > 49) {
+				return 2;
+			}
+			break;
+		case 3511:
+			if (VARP[281] > 95) {
+				return 2;
+			}
+			break;
+		case 3502:
+			if (VARP[281] > 15) {
+				return 2;
+			}
+			break;
+		case 3503:
+			if (VARP[281] > 30) {
+				return 2;
+			}
+			break;
+		case 3504:
+			if (VARP[281] > 40) {
+				return 2;
+			}
+			break;
+		case 3506:
+			if (VARP[281] > 55) {
+				return 2;
+			}
+			break;
+		case 3508:
+			if (VARP[281] > 60) {
+				return 2;
+			}
+			break;
+		case 3509:
+			if (VARP[281] > 62) {
+				return 2;
+			}
+			break;
+		case 3507:
+			if (VARP[281] > 75) {
+				return 2;
+			}
+			break;
+		case 3523:
+			if (VARP[281] > 70) {
+				return 2;
+			}
+			break;
+		case 3510:
+			if (VARP[281] > 90) {
+				return 2;
+			}
+			break;
+		case 3512:
+			if (VARP[281] > 115) {
+				return 2;
+			}
+			break;
+		case 3513:
+			if (VARP[281] > 127) {
+				return 2;
+			}
+			break;
+		case 3514:
+			if (VARP[281] > 165) {
+				return 2;
+			}
+			break;
+		case 3515:
+			if (VARP[281] > 160) {
+				return 2;
+			}
+			break;
+		case 3516:
+			if (VARP[281] > 160) {
+				return 2;
+			}
+			break;
+		case 3517:
+			if (getSkillActualLvl(8) > 1 || getSkillActualLvl(14) > 1) {
+				return 2;
+			}
+			break;
+		case 3518:
+			if (getSkillActualLvl(8) > 1 || getSkillActualLvl(14) > 1) {
+				return 2;
+			}
+			break;
+		case 3519:
+			if (VARP[281] > 170) {
+				return 2;
+			}
+			break;
+		case 3520:
+			if (VARPBIT[6494] > 2) {
+				return 2;
+			}
+			break;
+		case 422:
+			if (VARPBIT[9013] == 3) {
+				return 2;
+			}
+			break;
+		case 423:
+			if (VARPBIT[9015] == 1) {
+				return 2;
+			}
+			break;
+		case 424:
+			if (VARPBIT[9016] == 1) {
+				return 2;
+			}
+			break;
+		case 425:
+			if (VARPBIT[9018] == 1) {
+				return 2;
+			}
+			break;
+		case 419:
+			if (VARPBIT[9019] == 1) {
+				return 2;
+			}
+			break;
+		case 420:
+			if (VARPBIT[9010] == 1) {
+				return 2;
+			}
+			break;
+		case 421:
+			if (VARPBIT[9011] == 3) {
+				return 2;
+			}
+			if (VARPBIT[9011] > 0) {
+				return 1;
+			}
+			break;
+		case 426:
+			if (VARPBIT[9020] == 1) {
+				return 2;
+			}
+			break;
+		case 427:
+			if (VARPBIT[9027] == 1) {
+				return 2;
+			}
+			break;
+		case 3525:
+			if (VARPBIT[9021] == 1) {
+				return 2;
+			}
+			break;
+		case 3526:
+			if (VARPBIT[9022] == 1) {
+				return 2;
+			}
+			break;
+		case 3527:
+			if (VARPBIT[9023] == 1) {
+				return 2;
+			}
+			break;
+		case 3528:
+			if (VARPBIT[9024] == 1) {
+				return 2;
+			}
+			break;
+		case 3529:
+			if (VARPBIT[9025] == 1) {
+				return 2;
+			}
+			break;
+		case 3530:
+			if (VARPBIT[9026] == 1) {
+				return 2;
+			}
+			break;
+		case 429:
+			if (VARPBIT[9638] == 1) {
+				return 2;
+			}
+			break;
+		case 430:
+			if (VARPBIT[9639] == 1) {
+				return 2;
+			}
+			break;
+		case 431:
+			if (VARPBIT[9640] == 1) {
+				return 2;
+			}
+			break;
+		case 432:
+			if (VARPBIT[9641] == 1) {
+				return 2;
+			}
+			break;
+		default:
+			return 0;
+	}
+	return 0;
+}

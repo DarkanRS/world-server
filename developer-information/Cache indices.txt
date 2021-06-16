@@ -1,0 +1,157 @@
+Cache indices
+
+Index 0: Animation Skeletons
+Index 1: Animation Skins
+Index 2: Miscellaneous
+	Archive 1: Floor underlay
+	Archive 3: Identikit
+	Archive 4: Floor overlay
+	Archive 5: Inventories
+	Archive 6: Empty (Pre 488: Locations)
+	Archive 7: Unknown <font color="#D0D0FF">(Server sided only)</font>
+	Archive 8: Empty (Pre 488: Enums)
+	Archive 9: Empty (Pre 488: Npcs)
+	Archive 10: Empty (Pre 488: Objects)
+	Archive 11: Params
+	Archive 12: Empty (Pre 488: Sequences)
+	Archive 13: Empty (Pre 488: Spotanim)
+	Archive 14: Empty (Pre 488: Var Bit)
+	Archive 15: Empty (Pre 745: Var Client Strings)
+	Archive 16: Empty (Pre 745: Var Player)
+	Archive 18: Areas <font color="#D0D0FF">(Server sided only)</font>
+	Archive 19: Empty (Pre 745: Var Client)
+	Archive 26: Empty (Pre 763: Structs)
+	Archive 29: Skyboxes
+	Archive 30: Sun definitions (Archive is empty)
+	Archive 31: Light intensity
+	Archive 32: Render anims
+	Archive 33: Cursors
+	Archive 34: Mapscenes
+	Archive 35: Quests
+	Archive 36: Worldmap info
+	Archive 40: Database Tables <font color="#D0D0FF">(Server sided only)</font>
+	Archive 41: Database Rows <font color="#D0D0FF">(Server sided only)</font>
+	Archive 42: Unknown <font color="#D0D0FF">(Server sided only)</font>
+	Archive 46: Hitmarks
+	Archive 47: Empty (Pre 745: Var Clan)
+	Archive 48: Item Codes <font color="#D0D0FF">(Server sided only)</font>
+	Archive 49: Categories <font color="#D0D0FF">(Server sided only)</font>
+	Archive 54: Empty (Pre 745: Var Clan Settings)
+	Archive 60: Var Player
+	Archive 61: Var Npc
+	Archive 62: Var Client
+	Archive 63: Var World <font color="#D0D0FF">(Server sided only)</font>
+	Archive 64: Var Region <font color="#D0D0FF">(Server sided only)</font>
+	Archive 65: Var Object <font color="#D0D0FF">(Server sided only)</font>
+	Archive 66: Var Clan
+	Archive 67: Var Clan Setting
+	Archive 68: Unknown Var related <font color="#D0D0FF">(Server sided only)</font>
+	Archive 69: Var Bit
+	Archive 70: Game log event <font color="#D0D0FF">(Server sided only)</font>
+	Archive 72: Hitbars
+	Archive 73: Unknown <font color="#D0D0FF">(Server sided only)</font>
+	Archive 75: Unknown Var related <font color="#D0D0FF">(Server sided only)</font>
+	Archive 76: Unknown <font color="#D0D0FF">(Server sided only)</font>
+	Archive 77: Anim flow control
+	Archive 80: Var Group
+Index 3: Interfaces
+Index 4: Empty (Pre 772: Sound Effects)
+Index 5: Maps
+Index 6: Empty (Pre 772: Music)
+Index 7: Models
+Index 8: Sprites
+Index 9: Empty (Pre 839: Textures)
+Index 10: Huffman encoding
+Index 11: Empty
+Index 12: Clientscripts
+Index 13: Font metrics
+Index 14: Sound Effects (Pre 772: MIDI Instruments)
+Index 15: Empty
+Index 16: Locations
+Index 17: Enums
+Index 18: Npcs 
+Index 19: Objects
+Index 20: Sequences
+Index 21: Spotanim
+Index 22: Structs (Pre 745: Var Bit)
+Index 23: World Map Information
+Index 24: Quick chat messages
+Index 25: Quick chat menus
+Index 26: Texture definitions
+Index 27: Particles
+Index 28: Defaults
+Index 29: Billboards
+Index 30: Native libraries
+	Archive 0: windows/x86/twitchtv.dll
+	Archive 1: windows/x86/hw3d.dll
+	Archive 2: windows/x86/jaggl.dll
+	Archive 3: windows/x86/sw3d.dll
+	Archive 4: windows/x86/jaclib.dll
+	Archive 5: windows/x86/jagdx.dll
+	Archive 6: windows/x86/twitchsdk_32_release.dll
+	Archive 7: windows/x86_64/hw3d.dll
+	Archive 8: windows/x86_64/jaggl.dll
+	Archive 9: windows/x86_64/jaclib.dll
+	Archive 10: windows/x86_64/jagdx.dll
+	Archive 11: windows/x86/avutil-ttv-51.dll
+	Archive 12: macos/universal/libhw3d.dylib
+	Archive 13: macos/universal/libjaggl.dylib
+	Archive 14: macos/universal/libjaclib.dylib
+	Archive 15: macos/x86/libhw3d.dylib
+	Archive 16: macos/x86/libjaggl.dylib
+	Archive 17: macos/x86/libjaclib.dylib
+	Archive 18: macos/x86_64/libhw3d.dylib
+	Archive 19: macos/x86_64/libjaggl.dylib
+	Archive 20: macos/x86_64/libjaclib.dylib
+	Archive 21: macos/ppc/libhw3d.dylib
+	Archive 22: macos/ppc/libjaggl.dylib
+	Archive 23: macos/ppc/libjaclib.dylib
+	Archive 24: linux/x86/libjaclib.so
+	Archive 25: linux/x86/libjaggl.so
+	Archive 26: linux/x86/libhw3d.so
+	Archive 27: linux/x86_64/libjaclib.so
+	Archive 28: linux/x86_64/libjaggl.so
+	Archive 29: linux/x86_64/libhw3d.so
+	Archive 30: linux/x86_64/libsw3d.so
+	Archive 31: linux/x86/libsw3d.so
+	Archive 32: windows/x86_64/sw3d.dll
+	Archive 33: macos/x86_64/libsw3d.dylib
+	Archive 34: macos/universal/libsw3d.dylib
+	Archive 35: macos/x86/libsw3d.dylib
+	Archive 36: windows/x86/libmfxsw32.dll
+	Archive 37: windows/x86/swresample-ttv-0.dll
+	Archive 38: windows/x86/libmp3lame-ttv.dll
+	Archive 39: windows/x86_64/libmfxsw64.dll
+	Archive 40: windows/x86_64/twitchtv.dll
+	Archive 41: windows/x86_64/avutil-ttv-51.dll
+	Archive 42: windows/x86_64/swresample-ttv-0.dll
+	Archive 43: windows/x86_64/twitchsdk_64_release.dll
+	Archive 44: windows/x86_64/libmp3lame-ttv.dll
+	Archive 45: macos/universal/libsdk-mac-dynamic.dylib
+	Archive 46: macos/universal/libtwitchtv.dylib
+	Archive 47: macos/universal/libtwitchsdk.dylib
+	Archive 48: macos/x86_64/libsdk-mac-dynamic.dylib
+	Archive 49: macos/x86_64/libtwitchtv.dylib
+	Archive 50: macos/x86_64/libtwitchsdk.dylib
+Index 31: Shaders
+Index 32: Loading Fonts &amp; Images
+Index 33: Game tips
+Index 34: Loading Fonts &amp; Images (jagex format images)
+Index 35: Cutscenes
+Index 36: Empty
+Index 37: Empty (Pre 839: Materials)
+Index 38: Empty
+Index 39: Empty
+Index 40: Music
+Index 41: World Map Data
+Index 42: Empty
+Index 43: Textures
+Index 44: Materials
+Index 45: Empty
+Index 46: Empty
+
+
+
+
+
+

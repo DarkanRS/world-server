@@ -1,0 +1,32 @@
+{
+  "name": "Inventory 83",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 373,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2323,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 121,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 886,
+        "amount": 10
+      }
+    }
+  ]
+}

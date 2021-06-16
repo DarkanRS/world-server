@@ -1,0 +1,68 @@
+[
+  {
+    "comment": "Portal",
+    "objectId": 2273,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2919,
+      "y": 4852,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Portal",
+    "objectId": 2273,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2934,
+      "y": 4818,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Portal",
+    "objectId": 2273,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2927,
+      "y": 4827,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Portal",
+    "objectId": 2273,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2892,
+      "y": 4826,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Portal",
+    "objectId": 2273,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2899,
+      "y": 4858,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Portal",
+    "objectId": 2273,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2886,
+      "y": 4849,
+      "plane": 0
+    }
+  }
+]

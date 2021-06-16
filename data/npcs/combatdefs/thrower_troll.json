@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Thrower Troll"
+  ],
+  "hitpoints": 950,
+  "attackAnim": 5016,
+  "defenceAnim": 5375,
+  "deathAnim": 5209,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 90,
+  "attackStyle": "RANGE",
+  "attackGfx": -1,
+  "attackProjectile": 1889,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    30,
+    80,
+    30,
+    60,
+    0
+  ]
+}

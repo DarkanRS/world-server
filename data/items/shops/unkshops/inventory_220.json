@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 220",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1965,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1942,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1957,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1982,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1550,
+        "amount": 0
+      }
+    }
+  ]
+}

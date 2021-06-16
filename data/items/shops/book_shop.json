@@ -1,0 +1,44 @@
+{
+  "name": "Book shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 3839,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 3841,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 3843,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19612,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19614,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19616,
+        "amount": 1
+      }
+    }
+  ]
+}

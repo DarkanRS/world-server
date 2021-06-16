@@ -1,0 +1,63 @@
+{
+  "names": [
+    "TzHaar-Xil"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 12168, "min": 2, "max": 2 },
+        { "id": 6529, "min": 100, "max": 2000 }
+      ]
+    },
+    {
+      "chance": 200.0,
+      "outOf": 512.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 1623, "min": 1, "max": 1 },
+        { "id": 1621, "min": 1, "max": 1 },
+        { "id": 1619, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 20.0,
+      "outOf": 512.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 1617, "min": 1, "max": 1 },
+        { "id": 9194, "min": 1, "max": 4 }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 512.0,
+      "drops": [
+        { "id": 6522, "min": 9, "max": 29 }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 512.0,
+      "drops": [
+        { "id": 6523, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 512.0,
+      "drops": [
+        { "id": 6525, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 512.0,
+      "drops": [
+        { "id": 6568, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

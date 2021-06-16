@@ -1,0 +1,188 @@
+{
+  "name": "Inventory 407",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 8062,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8070,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8055,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8057,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8056,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8069,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8079,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8082,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8076,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8063,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8071,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8064,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8072,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8080,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8058,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8060,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8059,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8065,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8073,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8066,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8074,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8083,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8081,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8077,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8075,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8067,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8061,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8068,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8084,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8078,
+        "amount": 1
+      }
+    }
+  ]
+}

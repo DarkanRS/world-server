@@ -1,0 +1,131 @@
+{
+  "name": "Rometti's Fine Fashions",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 646,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 648,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 650,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 652,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 654,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 656,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 658,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 660,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 662,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 664,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 636,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 638,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 640,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 642,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 644,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 626,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 628,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 630,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 632,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 634,
+        "amount": 30
+      }
+    }
+  ],
+  "npcIds": [
+    601
+  ]
+}

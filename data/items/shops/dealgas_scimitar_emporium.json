@@ -1,0 +1,14 @@
+{
+  "name": "Dealga's Scimitar Emporium",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4587,
+        "amount": 10
+      }
+    }
+  ]
+}

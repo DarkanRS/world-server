@@ -1,0 +1,44 @@
+{
+  "name": "Inventory 462",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 4089,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4091,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4093,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4095,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4097,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9763,
+        "amount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Arrg"
+  ],
+  "hitpoints": 1500,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 386,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    140,
+    280,
+    40,
+    140,
+    0
+  ]
+}

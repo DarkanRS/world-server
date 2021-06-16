@@ -1,0 +1,29 @@
+{
+  "name": "Karamja Wines, Spirits, and Beers",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1917,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 431,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    568
+  ]
+}

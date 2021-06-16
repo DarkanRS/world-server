@@ -1,0 +1,239 @@
+{
+  "name": "Warrior Guild Armory",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1363,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1365,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1369,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1277,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1279,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1281,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1283,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1285,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1287,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1291,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1293,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1295,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1297,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1299,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1301,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1205,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1203,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1207,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1217,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1209,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1211,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1422,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1420,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1424,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1428,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1430,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1307,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1311,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1313,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1315,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1317,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1103,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1101,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1105,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1139,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1137,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1141,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    4295
+  ]
+}

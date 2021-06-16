@@ -1,0 +1,83 @@
+{
+  "name": "Pie Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 7162,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2325,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 2327,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 7170,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 2323,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 7178,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 7188,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 7198,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 7208,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 7218,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1933,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 2313,
+        "amount": 100
+      }
+    }
+  ],
+  "npcIds": [
+    3205
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "ids": [
+    941,
+    4677,
+    4678,
+    4679,
+    4680
+  ],
+  "hitpoints": 750,
+  "attackAnim": 12252,
+  "defenceAnim": 12251,
+  "deathAnim": 12250,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 85,
+  "attackStyle": "SPECIAL2",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    68,
+    68,
+    68,
+    1,
+    68
+  ]
+}

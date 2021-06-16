@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Granite crab"
+  ],
+  "hitpoints": 390,
+  "attackAnim": 8104,
+  "defenceAnim": 8105,
+  "deathAnim": 8106,
+  "deathDelay": 4,
+  "respawnDelay": 0,
+  "maxHit": 40,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

@@ -1,0 +1,19 @@
+{
+  "names": [
+    "medium_casket"
+  ],
+  "tables": [
+    {
+      "chance": 1.0,
+      "outOf": 11.0,
+      "dropOne": false,
+      "rollTable": "medium_rare"
+    },
+    {
+      "chance": 10.0,
+      "outOf": 11.0,
+      "dropOne": false,
+      "rollTable": "medium_standard"
+    }
+  ]
+}

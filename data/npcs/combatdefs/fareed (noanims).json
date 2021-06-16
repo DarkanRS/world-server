@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Fareed"
+  ],
+  "hitpoints": 1300,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 360,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    190,
+    120,
+    135,
+    1,
+    1
+  ]
+}

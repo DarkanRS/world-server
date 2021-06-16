@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Sapping glacyte"
+  ],
+  "hitpoints": 1000,
+  "attackAnim": 9955,
+  "defenceAnim": 9962,
+  "deathAnim": 9961,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 54,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Irksol",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1641,
+        "amount": 10
+      }
+    }
+  ]
+}

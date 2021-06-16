@@ -1,0 +1,67 @@
+{
+  "names": [
+    "Gnome woman"
+  ],
+  "tables": [
+    {
+      "chance": 2.0,
+      "outOf": 7.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2102,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 7.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2120,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 7.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2128,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3571.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2169,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3571.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2171,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

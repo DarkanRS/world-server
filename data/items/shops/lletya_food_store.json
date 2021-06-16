@@ -1,0 +1,38 @@
+{
+  "name": "Lletya Food Store",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1891,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1985,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 379,
+        "amount": 10
+      }
+    }
+  ]
+}

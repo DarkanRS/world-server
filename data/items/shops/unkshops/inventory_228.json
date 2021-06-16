@@ -1,0 +1,44 @@
+{
+  "name": "Inventory 228",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 47,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1133,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 892,
+        "amount": 50
+      }
+    },
+    {
+      "item": {
+        "id": 1169,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1135,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 829,
+        "amount": 20
+      }
+    }
+  ]
+}

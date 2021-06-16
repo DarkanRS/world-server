@@ -1,0 +1,19 @@
+{
+  "names": [
+    "Mosquito swarm"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 6319,
+          "min": 3,
+          "max": 5
+        }
+      ]
+    }
+  ]
+}

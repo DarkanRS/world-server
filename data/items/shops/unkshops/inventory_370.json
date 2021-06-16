@@ -1,0 +1,68 @@
+{
+  "name": "Inventory 370",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 7453,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7454,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7455,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7456,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7457,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7433,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7435,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7437,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7439,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7441,
+        "amount": 10
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Inventory 464",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 14834,
+        "amount": 150
+      }
+    },
+    {
+      "item": {
+        "id": 954,
+        "amount": 120
+      }
+    },
+    {
+      "item": {
+        "id": 303,
+        "amount": 120
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 100
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+package com.rs.game.player.content.tutorialisland;
+
+import com.rs.game.npc.NPC;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.statements.NPCStatement;
+import com.rs.game.player.controllers.TutorialIslandController;
+import com.rs.game.player.controllers.TutorialIslandController.Stage;
+
+public class QuestGuide extends Conversation {
+
+    public QuestGuide(Player player, NPC npc, TutorialIslandController ctrl) {
+        super(player);
+        npc.faceEntity(player);
+        npc.resetWalkSteps();
+
+        if (ctrl.getStage().ordinal() >= Stage.TALK_TO_QUEST_GUIDE.ordinal() && ctrl.getStage().ordinal() < Stage.TALK_TO_QUEST_GUIDE_2.ordinal()) {
+            addNext(new Dialogue(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Ah. Welcome, adventurer. I'm here to tell you all about", "quests. Let's start by opening the quest side panel."), () -> ctrl.nextStage(Stage.OPEN_QUEST_TAB)));
+        } else {
+            addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Now you have the journal open I'll tell you a bit about", "it. At the moment all the quests are shown in red, which", "means you have not started them yet."));
+            addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "When you start a quest it will change colour to yellow,", "and to green when you've finished. This is so you can", "easily see what's complete, what's started, and what's left", "to begin."));
+            addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "The start of quests are easy to find. Look out for the", "star icons on the minimap, just like the one you should", "see marking my house."));
+            addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "The quests themselves can vary greatly from collecting", "beads to hunting down dragons. Generally quests are", "started by talking to a non-player character like me,", "and will involve a series of tasks."));
+            addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "There's a lot more I can tell you about questing.", "You have to experience the thrill of it yourself to fully", "understand. You may find some adventure in the caves", "under my house."));
+            addNext(new Dialogue().setFunc(() -> ctrl.nextStage(Stage.LEAVE_QUEST_GUIDE_HOUSE)));
+        }
+
+        create();
+    }
+}

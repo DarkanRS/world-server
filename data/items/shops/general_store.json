@@ -1,0 +1,86 @@
+{
+  "name": "General Store",
+  "generalStore": true,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1931,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 1935,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 1735,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 1923,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 952,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 1887,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 590,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 1755,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 2347,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 550,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 9003,
+        "amount": 100000
+      }
+    },
+    {
+      "item": {
+        "id": 299,
+        "amount": 2000000000
+      }
+    }
+  ]
+}

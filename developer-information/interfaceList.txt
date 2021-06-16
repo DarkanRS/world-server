@@ -1,0 +1,1059 @@
+::interface 0 //Eggs on left of screen
+::interface 1 //Sac on bottom right
+::interface 2 //Question Marks & Box in Middle
+::interface 3 //Vial with question marks coming out of it
+::interface 4 //Water Collected/Time Left
+::interface 5 //Red/Green bar on top right
+::interface 6 //Brimhaven Agility Arena Ticket Exchange (Buy XP, ToadFlax, Wergali, Snapdragon, Pirate's Hook)
+::interface 7 //Black screen with text on it
+::interface 8 //Dagannoth Island Map
+::interface 9 //Rune-Draw
+::interface 10 //Windspeed - High
+::interface 11 //Bank of RS Deposit Box
+::interface 12 //Left side of screen glowing
+::interface 13 //PIN Screen
+::interface 14 //Bank PIN settings
+::interface 15 //Water/Activity Bars
+::interface 16 //Message of the Week
+::interface 17 //Items Kept on Death{"Wildy"}
+::interface 18 //Message of the Week/Blue spikes on bottom of screen
+::interface 19 //Message of the Week/Brown ball on bottom of screen
+::interface 20 //Message of the Week/Black ball on bottom of screen
+::interface 21 //Message of the Week
+::interface 22 //Message of the Week with Onion-Ring like thing
+::interface 23 //Message of the Week with cannon
+::interface 24 //Kill Count %1
+::interface 25 //Which is the next shape in the above sequence? Screen
+::interface 26 //Book
+::interface 27 //Next book page
+::interface 28 //Blast Furnace Bar Stock
+::interface 29 //Blast Furnace Plan
+::interface 30 //Blast Furnace Temp Gauge
+::interface 31 //Challenge:Select Game
+::interface 32 //Checkersboard
+::interface 33 //Message of the Week
+::interface 34 //Notes?
+::interface 35 //Your Statistics
+::interface 36 //Connect Four
+::interface 37 //Some game that IDK
+::interface 38 //Rescue Scenario
+::interface 39 //My Squads
+::interface 40 //Game Name
+::interface 41 //Nulls 554 client
+::interface 42 //Scenario Scores
+::interface 43 //RuneSquares
+::interface 44 //Game Name
+::interface 45 //Formation Options
+::interface 46 //Scenarion : Name top right box
+::interface 47 //Scenario Selection
+::interface 48 //Some weird clock-thingy. It's green
+::interface 49 //Book Title
+::interface 50 //Brooch
+::interface 51 //Choose your path Mort Myre swamp
+::interface 52 //What Canoe would you like to make
+::interface 53 //Please Select Your Destination Canoe
+::interface 54 //Catapault Controls
+::interface 55 //Total Wins This Season Sara/Zammy
+::interface 56 //Nothing
+::interface 57 //Waiting for Players to join the Team
+::interface 58 //Castle Wars interface
+::interface 59 //Castle Wars interface
+::interface 60 //Castle Wars Ticket Exchange
+::interface 61 //Name your Cat
+::interface 62 //Rocks
+::interface 63 //Congratulations! Well done, you defeated the Champion 0 Slay Xp 0 HP Xp
+::interface 64 //Line1 Click here to continue
+::interface 65 //Line 1 Line 2 click here to continue
+::interface 66 //Line 1 Line 2 Line 3 Click here to continue
+::interface 67 //Line 1 Lune 2 Line 3 Line 4 click here to continue
+::interface 68 //Line 1
+::interface 69 //Line 1 Line 2
+::interface 70 //Line 1 Line 2 Line 3
+::interface 71 //Line 1 Line 2 Line 3 Line 4
+::interface 72 //What would you like to make in the churn? Churn cheese
+::interface 73 //What would you like to make in the churn? Churn cheese/Churn butter
+::interface 74 //What would you like to make in the churn? Churn cheese/Churn butter/Churn Cream
+::interface 75 //Combat Tab On Screen(Axe)
+::interface 76 //Combat Tab on Screen(Warhammer)
+::interface 77 //Combat Tab on Screen(Bow)
+::interface 78 //Combat Tab on Screen(Claws)
+::interface 79 //Combat Tab on Screen(Crossbow)
+::interface 80 //Combat Tab on Screen(Aim & Fire and Kick)
+::interface 81 //Combat Tab on Screen(Swords)
+::interface 82 //Combat Tab on Screen(LongSwords)
+::interface 83 //Combat Tab on Screen(Pickaxes)
+::interface 84 //Combat Tab on Screen(Halberds)
+::interface 85 //Combat Tab on Screen(Staffs)
+::interface 86 //Combat Tab on Screen(Reapers Staff)
+::interface 87 //Combat Tab on Screen(Spear)
+::interface 88 //Combat Tab on Screen(Mace)
+::interface 89 //Combat Tab on Screen(Sword)
+::interface 90 //Combat Tab on Screen(Staff w/ Cast Spell)
+::interface 91 //Combat Tab on Screen(Darts)
+::interface 92 //Combat Tab on Screen(Unarmed)
+::interface 93 //Combat Tab on Screen(Whip)
+::interface 94 //Are you sure you want to destroy this object?
+::interface 95 //RS Evil Map
+::interface 96 //Black-ish Screen
+::interface 97 //Dark-ish Screen
+::interface 98 //More Dark-ish Screen
+::interface 99 //Harold/Player dice. You win!
+::interface 100 //Blue-ish Screen
+::interface 101 //Scroll with blood on it
+::interface 102 //Items Kept on Death
+::interface 103 //What comes next? Tomatos
+::interface 104 //Star Chart Viewer
+::interface 105 //Grand Exchange (dwarf remains)
+::interface 106 //Grand Exchange (German text)
+::interface 107 //Nothing
+::interface 108 //Grand Exchange (German text showing Air Staff)
+::interface 109 //Grand Exchange Collection Box
+::interface 110 //Grand Exchange (German text highlighting Buy Offer)
+::interface 111 //%1 Book
+::interface 112 //Some guy's head and Line1
+::interface 113 //Map of some sort
+::interface 114 //Schematic thing on left side
+::interface 115 //Screen blackens
+::interface 116 //Title scroll, you can scroll down
+::interface 117 //Thunder striking down
+::interface 118 //Foggy
+::interface 119 //Screen blackens
+::interface 120 //Screen Blackens, but slower
+::interface 121 //Screen lightens to blue
+::interface 122 //Screen lightens to white
+::interface 123 //Certificate of Advanced Healing
+::interface 124 //List of Fairy Queen's Symptoms
+::interface 125 //Amazing Farming Equipment Store
+::interface 126 //Store spade, watering can, scarecrow, compost, dibber, secateurs, trowel, buckets, supercompost
+::interface 127 //Remove This Key
+::interface 128 //Some weird map/junction like thing
+::interface 129 //Same as above
+::interface 130 //More complex map/junction-like thing
+::interface 131 //Line 1 Click here to continue
+::interface 132 //Items I need to get for King Roald's Garden
+::interface 133 //[A] [B] [C]
+::interface 134 //Choose the stat you wish to be advanced
+::interface 135 //To the NORTH/EAST/SOUTH/WEST
+::interface 136 //Both. ARGH!
+::interface 137 //Chatbox appears in screen, everything is typed in x2 letters
+::interface 138 //QuickChat on screen
+::interface 139 //Gnomeball Score
+::interface 140 //Select an Option
+::interface 141 //Coffin
+::interface 142 //Earth, Water, Arrow, Sword, Fire, Air interface from Horror from the Deep
+::interface 143 //Spinning pot
+::interface 144 //Points Settings map
+::interface 145 //Recipe for Disaster 8 mini quests scroll
+::interface 146 //Like looking through cannon
+::interface 147 //Puzzle
+::interface 148 //Nothing
+::interface 149 //Sign Up Request{RS}
+::interface 150 //Motorboat on a map and a statue
+::interface 151 //Nothing
+::interface 152 //Nothing
+::interface 153 //Saga Story Player
+::interface 154 //What would you like to make? Armour, Gloves, Boots, Vambraces, Chaps, Coif, Cowl
+::interface 155 //Mirror
+::interface 156 //Lj_Title
+::interface 157 //Empty screen
+::interface 158 //Black to fog
+::interface 159 //A hand
+::interface 160 //Dogs and cats
+::interface 161 //Assignment tab (Current Points)
+::interface 162 //Fog to black
+::interface 163 //Learn Tab (Learn how to fletch board arrows/bolts)
+::interface 164 //Buy tab (Buy slayer xp, ring of slaying)
+::interface 165 //Fog
+::interface 166 //Cannonball flying
+::interface 167 //Watery view
+::interface 168 //Chordion looking at you
+::interface 169 //Implings on right
+::interface 170 //Black to regular
+::interface 171 //Normal to black
+::interface 172 //Hand showing some options
+::interface 173 //Line 1 click here to continue
+::interface 174 //Scroll with lines of text
+::interface 175 //Looks like heat
+::interface 176 //Black and white box
+::interface 177 //White to regular
+::interface 178 //Click arrow buttons to move the Taper
+::interface 179 //Blue vision
+::interface 180 //Nothing
+::interface 181 //North East South West rotate mirror
+::interface 182 //Click Here to Logout on Screen
+::interface 183 //A history of the goblin race
+::interface 184 //Is this A) B) C)
+::interface 185 //For each column, click the arrows until the middle picture...
+::interface 186 //Nothing
+::interface 187 //Music Player on screen
+::interface 188 //Anti-bot "Dance, cry, Glass Wall, etc. etc.." on screen
+::interface 189 //Lock and keys spinning
+::interface 190 //Quests tab on screen
+::interface 191 //Pick the odd one out
+::interface 192 //Modern Magics tab on screen
+::interface 193 //Ancient Magics tab on screen
+::interface 194 //Alchemy Pizazz Points screen
+::interface 195 //Enchantment Pizzaz Points Bonus:
+::interface 196 //Graveyard Pizzazz Points
+::interface 197 //Mage Training Arena Shop
+::interface 198 //Telekinetic Pizzazz Pints
+::interface 199 //Hairdresser's Salon
+::interface 200 //Ysra's shoe store
+::interface 201 //Cash in your points for costume items
+::interface 202 //Choose your reward
+::interface 203 //Hairdresser's Salon
+::interface 204 //Hairdresser's Salon
+::interface 205 //Select skin colour and gender
+::interface 206 //Price Checker
+::interface 207 //Nothing
+::interface 208 //Nothing
+::interface 209 //Complete the maze as fast as possible!
+::interface 210 //Line 1 click here to continue
+::interface 211 //Line 1 Line 2 Click here to continue
+::interface 212 //Line 1 Line 2 Line 3 Click here to continue
+::interface 213 //Line 1 Line 2 Line 3 Line 4 Click here to continue
+::interface 214 //Line 1 Line 2 Line 3 Line 4 Line 5 Click here to continue
+::interface 215 //Line 1
+::interface 216 //Line 1 Line 2
+::interface 217 //Line 1 Line 2 Line 3
+::interface 218 //Line 1 Line 2 Line 3 Line 4
+::interface 219 //Line 1 Line 2 Line 3 Line 4 Line 5
+::interface 220 //Empty scroll
+::interface 221 //Scroll made of rocks
+::interface 222 //Empty Scroll
+::interface 223 //Pengiun Emotes
+::interface 224 //Map of Rellekka, Waterbirth, etc
+::interface 225 //Empty scroll made of rocks
+::interface 226 //Mud splat
+::interface 227 //List of needed items:
+::interface 228 //Select an option option1 option2
+::interface 229 //Same as above
+::interface 230 //Select an option option1 option2 option3
+::interface 231 //Same as above
+::interface 232 //Select an option option1 option2 option3 option4
+::interface 233 //Same as above
+::interface 234 //Select an option option1 option2 option3 option4 option5
+::interface 235 //Same as above
+::interface 236 //Select an option option1 option2
+::interface 237 //Select an option option1 option2 option3 option4
+::interface 238 //Select an option option1 option2 option3 option4 option5
+::interface 239 //Engineer Claus Mousetrap
+::interface 240 //That one anti-bot minigame with the twin. Control on left of screen
+::interface 241 //Name line1 click here to continue
+::interface 242 //Name line1 line2 click here to continue
+::interface 243 //Name line1 line2 line3 click here to continue
+::interface 244 //Name line1 line2 line3 line4 click here to continue
+::interface 245 //Name line1
+::interface 246 //Name line1 line2
+::interface 247 //Name line1 line2 line3
+::interface 248 //Name line1 line2 line3 line4
+::interface 249 //Some weird text on screen
+::interface 250 //Probably weird text above translated
+::interface 251 //Instructions for Beacon Ring
+::interface 252 //Keyholes
+::interface 253 //A skull puzzle
+::interface 254 //A Map
+::interface 255 //Empty scroll
+::interface 256 //Current Team
+::interface 257 //A ball of flash
+::interface 258 //Trail rolls by
+::interface 259 //Achievements tab on screen
+::interface 260 //Cyrisus's Bank
+::interface 261 //Optinos tab on screen
+::interface 262 //Attach/Detach pipe
+::interface 263 //Score:0 with blue screen
+::interface 264 //Weird window
+::interface 265 //Clan Wars Players: Kills: thing
+::interface 266 //Skinny scroll with ---
+::interface 267 //Void Knight's Reward Options Pest Control
+::interface 268 //Left thing on screen
+::interface 269 //Manipulate cog
+::interface 270 //Misthalin and Asgarnia map
+::interface 271 //Prayer tab on screen
+::interface 272 //Saradomin Grave Monument
+::interface 273 //Pop the correct animal balloon to find a key
+::interface 274 //Instructions for a machine
+::interface 275 //Quest scroll
+::interface 276 //Experience tab for Soul Wars
+::interface 277 //Congratulations! You have completed Death Plateau!
+::interface 278 //Ranging Guild Ticket Exchange
+::interface 279 //Player's Cat Opponent's Cat Accept Decline
+::interface 280 //Do you really want to bet x?
+::interface 281 //Cats on top-right of screen
+::interface 282 //Play flute scroll
+::interface 283 //Same as above
+::interface 284 //Mouse on bottom left of screen
+::interface 285 //Combinations Lock Door
+::interface 286 //Fractional Still
+::interface 287 //Barred Window
+::interface 288 //Place Room open casket
+::interface 289 //Same as above, less squares
+::interface 290 //Gears grinding
+::interface 291 //Scenario Options
+::interface 292 //Squad Contract Management
+::interface 293 //Puzzle
+::interface 294 //Rum Deal
+::interface 295 //Rum Deal
+::interface 296 //Lights on Screen
+::interface 297 //Bread Lady
+::interface 298 //Combination Lock Door
+::interface 299 //Map of RS
+::interface 300 //Smithing Interface
+::interface 301 //Assist XP System Display (You are assisting)
+::interface 302 //Empty document with ribbon
+::interface 303 //Black screen
+::interface 304 //Document that says Save Yourself!
+::interface 305 //Black to brown-ish screen
+::interface 306 //Hit the red button to discard an item
+::interface 307 //Flippers on bottom of screen
+::interface 308 //Statue Selection
+::interface 309 //Hairdresser's Salon
+::interface 310 //Crumble Undead/Wave attacks on screen
+::interface 311 //Smelt 1 ... Interface
+::interface 312 //Report Abuse info
+::interface 313 //Fog
+::interface 314 //Select an Option
+::interface 315 //Rage Level Bar
+::interface 316 //Nothing
+::interface 317 //Black screen
+::interface 318 //HOLY SHIT the grim reaper comes at you
+::interface 319 //Strike/Bolt/Blast/Wave spells on screen
+::interface 320 //Stats tab on screen
+::interface 321 //Map
+::interface 322 //Same as above
+::interface 323 //Tai Bwo Wannai Parcel Service
+::interface 324 //What hides would you like tanning?
+::interface 325 //Target View
+::interface 326 //Tele-other Option
+::interface 327 //Warning! Cold area
+::interface 328 //*Temple Repair*
+::interface 329 //Routes Mort Myre Swamp
+::interface 330 //Microwave-ish thing
+::interface 331 //Whatever you need goes here! Paper
+::interface 332 //What would you like to enchant? (Staffs)
+::interface 333 //Black screen
+::interface 334 //Trade Modified (2nd trade screen)
+::interface 335 //Trading with: (1st Screen)
+::interface 336 //Nothing
+::interface 337-365 //Treasure Hunting Maps and other things
+::interface 366 //Trawler Water on Ship bar
+::interface 367 //Trawler Catch
+::interface 368 //Trawler how to play
+::interface 369 //Combination Lock Door
+::interface 370 //Snowflakes falling
+::interface 371 //Tutorial Island Progress
+::interface 372 //Title lines1-6
+::interface 373 //Current Champion: TzHaar-Xil-Huz
+::interface 374 //North-West, North-East, South-East, South-West, Centre teleport on screen
+::interface 375 //Unmorph
+::interface 376 //Planet with rings around it
+::interface 377 //Tai Bwo Favour
+::interface 378 //Welcome to RuneScape! Login Screen
+::interface 379 //Time/XP Score with skulls
+::interface 380 //Congratulations! You have completed Death Plateau!
+::interface 381 //Skull on Player
+::interface 382 //Warning! For Wilderness
+::interface 383 //Pick a colour
+::interface 384 //Empty scroll
+::interface 385 //Cracked glass
+::interface 386 //Old Man's telescope
+::interface 387 //Equipment Tab on screen
+::interface 388 //Rush/Burst/Blitz/Barrage Ancients spells on screen
+::interface 389 //Grand Exchange search
+::interface 390 //Show Riddle
+::interface 391 //Kingdom of Miscellania
+::interface 392 //Resources Collected
+::interface 393 //Keyboard on screen
+::interface 394 //Select a piece of furniture to build
+::interface 395 //Green star exploding
+::interface 396 //Select a piece of furniture to build
+::interface 397 //Furniture Creation Menu
+::interface 398 //House Options on screen
+::interface 399 //There's no place like home... loading screen
+::interface 400 //Make teleport tab interface
+::interface 401 //PLAYER SHOTS SCORE
+::interface 402 //Room Creation Menu
+::interface 403 //What wood do you want converting to planks?
+::interface 404 //Purple portal thing
+::interface 405 //Message of the Week Construction
+::interface 406 //Crumble Undead/Claws of Guthix/Wave spells on screen
+::interface 407 //Pest Control Departure
+::interface 408 //Pest Control In-game
+::interface 409 //Choose a tool to use on moving parts
+::interface 410 //Catapult Defence Game Key
+::interface 411 //Defence Style Catapault Game
+::interface 412 //Attack Dummy Key
+::interface 413 //Being looked at through scope
+::interface 414 //Congratulations! Your team won!
+::interface 415 //Mini-game interface, IDK which one
+::interface 416 //Craft interface, having to do with Construction
+::interface 417 //Take bamboo pipe, bridge section, etc..
+::interface 418 //Players Waiting: Next game in
+::interface 419 //Buy Bandanas
+::interface 420 //Bee Keeper anti-bot
+::interface 421 //Lines1-12 scroll-able on screen
+::interface 422 //Take box, nothing in it
+::interface 423 //Certificate of Advanced Healing
+::interface 424 //Weird text
+::interface 425 //Some more weird text
+::interface 426 //Snowballs falling
+::interface 427 //Declaration
+::interface 428 //Room 0/8 Level 0
+::interface 429 //Choose a Character
+::interface 430 //Lunar Tab on Screen
+::interface 431 //Ship circling Pirate's Cove
+::interface 432 //Enchant Crossbow Bolt
+::interface 433 //Crossbow Bolt Pouch
+::interface 434 //Gnome Battas
+::interface 435 //Gnome Bowls
+::interface 436 //Gnome Cocktails
+::interface 437 //Gnome Crunchies
+::interface 438 //Silver Casting
+::interface 439 //Map, 2 flags going towards eachother
+::interface 440 //Certificate of Qualification Level 1
+::interface 441 //Certificate of Qualification Level 2
+::interface 442 //Hand showing exchange thing
+::interface 443 //Boxes stacked up
+::interface 444 //Certificate of Qualification Level 3
+::interface 445 //Click here to Continue Visit the Website
+::interface 446 //What would you like to make? (Rings, Necklaces, Amulets, Bracelets)
+::interface 447 //Message of the Week Blue PHat on bottom of screen
+::interface 448 //Green-ish screen
+::interface 449 //Item Information
+::interface 450 //Light shining
+::interface 451 //option1-2
+::interface 452 //Statue Holding Key
+::interface 453 //Black screen
+::interface 454-457 //Maps
+::interface 458 //option1-3
+::interface 459 //What would you like to Spin?
+::interface 460 //Green-ish screen
+::interface 461 //Map of Fishing Platform & surroundings
+::interface 462 //Show/Select Piece1-3
+::interface 463 //Quest Completion Blank
+::interface 464 //Emote Tab on Screen
+::interface 465 //Newspaper flies at you, fairies cut red string
+::interface 466 //Instructions maybe
+::interface 467 //Empty box
+::interface 468 //Diango Item Return
+::interface 469 //RuneScape semi-map
+::interface 470 //Picture
+::interface 471 //Balloon Controls
+::interface 472 //More Ballon Things
+::interface 473 //Short Fuse on screen
+::interface 474 //Scorch, Flare, Blaze on screen
+::interface 475 //Short fuse on screen
+::interface 476 //Scorch, Flare, Blaze on screen
+::interface 477 //Custom Fur Clothing
+::interface 478 //Imp Release Negotiation Form
+::interface 479 //Map of some sort
+::interface 480 //Ava's Accumulator instructions
+::interface 481 //Level -2 Wildy
+::interface 482 //Snow falling diagonally
+::interface 483 //Blue-ish screen
+::interface 484 //Horn of Glory
+::interface 485 //Wave 1 of Eggs defend
+::interface 486 //Wave 1 of Eggs attack
+::interface 487 //Wave 1 of Eggs heal
+::interface 488 //Wave 1 of Eggs poison
+::interface 489 //#Players in Room of egg thing
+::interface 490 //Player status for Egg thing
+::interface 491 //Barbarian Assault Rewards
+::interface 492 //Player 1 Interface Screen
+::interface 493 //Player 2 Interface Screen
+::interface 494 //Time until next wave: XX
+::interface 495 //Barbarian Assault Poison, Explosion, Stun
+::interface 496 //Tutorial Progress
+::interface 497 //Wave Complete!
+::interface 498 //Kaleef Mission
+::interface 499 //Members Only skill
+::interface 500 //Troll Invasion HP with details
+::interface 501 //Something with cannons and a box
+::interface 502 //Something with rope and a box
+::interface 503 //Clockwork Toys Chapter 1
+::interface 504 //Gray planks on top and bottom of screen
+::interface 505 //Map of Relekka, surroundings
+::interface 506 //Jester Controls
+::interface 507 //Keyboard on screen
+::interface 508 //The Mind of Homunculus!
+::interface 509 //A puzzle or something
+::interface 510 //Level 2 of that puzzle
+::interface 511 //Level 3 of that puzzle
+::interface 512 //Nothing
+::interface 513 //Null click the object to see more options
+::interface 514 //Cat playing with ball
+::interface 515 //Green-ish screen
+::interface 516 //Black Screen
+::interface 517 //Nothing
+::interface 518 //Follower Inv
+::interface 519 //Click here to Continue
+::interface 520 //Cyrisus's Courage
+::interface 521 //Guidance System
+::interface 522 //Monster Name line1-4
+::interface 523 //Stat Spy on screen
+::interface 524 //Text text
+::interface 525 //This is an interface 1/2
+::interface 526 //This is an interface 1/1
+::interface 527 //Gnome Glider 5th age
+::interface 528 //Black screen, text
+::interface 529 //This is an interface 2/1
+::interface 530 //Text text book
+::interface 531 //V.J.A.M.
+::interface 532 //Museum Kudos:
+::interface 533 //Black Screen Display Number 03
+::interface 534 //Black Screen Display Number 03 text
+::interface 535 //Piano
+::interface 536 //Shrink-Me-Quick Recipe
+::interface 537 //Piano keys
+::interface 538 //Things to do:
+::interface 539 //Nothing
+::interface 540 //Elnock's Exchange
+::interface 541 //Screen goes black
+::interface 542 //What would you like to make? Beer glass, etc...
+::interface 543 //Clouds and thunder
+::interface 544 //Boat going to island
+::interface 545 //Green Dragon flying by
+::interface 546 //Green Dragon flying
+::interface 547 //Map
+::interface 548 //Player Default Screen
+::interface 549 //Photo Booth
+::interface 550 //Friends List Tab on screen
+::interface 551 //Ignore List Tab on screen
+::interface 552 //Look at stars through telescope
+::interface 553 //Book title line1-23
+::interface 554 //Select an Option
+::interface 555 //Select an Option
+::interface 556 //Select an Option option1-2
+::interface 557 //Zoom in on grass around Edge bank
+::interface 558 //Zoom in on grass around Edge bank
+::interface 559 //Select tomato
+::interface 560 //Warning to low lvl players about spiders and goblins
+::interface 561 //Kalphite Queen Warning
+::interface 562 //Very dark area Warning
+::interface 563 //Entering Building mode warning
+::interface 564 //Warning for archers on top of tower
+::interface 565 //High temperatures, robbers, etc warnings
+::interface 566 //Do I need to collect any dropped items? Warning
+::interface 567 //Very dark - you sure you wanna go in w/o light source? Warning
+::interface 568 //Very dark - don't extinguish light source Warning
+::interface 569 //Very Dark - sure you wanna go in w/o light source? Warning
+::interface 570 //Very dark cave warning
+::interface 571 //Tunnel is very dark warning
+::interface 572 //Light source goes out warning
+::interface 573 //Run past but dangerous area follows warning
+::interface 574 //Very dangerous area warning
+::interface 575 //Portals with question marks map
+::interface 576 //This way leads one way, to Wildy warning
+::interface 577 //Tunnel very dark warning
+::interface 578 //Fairy Ring code leads to dark area warning
+::interface 579 //Sure you want to climb down warning
+::interface 580 //Mort Myre warning
+::interface 581 //Death Plateau warning
+::interface 582 //Shows grass around Edge bank
+::interface 583 //Reset warning messages
+::interface 584 //Statue unmelting into king
+::interface 585 //Wizard climbing through window
+::interface 586 //Change of Address from Seers Village
+::interface 587 //Meet at Camel
+::interface 588 //Tumbler thing
+::interface 589 //Clan Chat Tab on Screen
+::interface 590 //Clan Chat Setup
+::interface 591 //BH Target
+::interface 592 //Clan Chan Setup
+::interface 593 //Report Abuse
+::interface 594 //Report Abuse
+::interface 595 //Rebuilding the Mummy
+::interface 596 //Scroll trade-in
+::interface 597 //GodWars Dungeon KillCount Dark
+::interface 598 //GodWars Dungeon KillCount Lighter
+::interface 599 //GodWars Dungeon KillCount Lighter
+::interface 600 //This way Leads into Wilderness Warning
+::interface 601 //GodWars Dungeon KillCount Normal
+::interface 602 //Nothing
+::interface 603 //Hand with {"?"} Item GIF
+::interface 604 //3 Flags on Map
+::interface 605 //Microwave-like vision
+::interface 606 //Thing in hand opening
+::interface 607 //Pasting poster on board
+::interface 608 //A tree slowly spinning
+::interface 609 //Removing poster
+::interface 610 //Black screen slides over
+::interface 611 //Posters
+::interface 612 //Posters
+::interface 613 //Jukebox
+::interface 614 //Posters on boards
+::interface 615 //Gnome King coming closer
+::interface 616 //3 flags on map
+::interface 617 //Bolrie's Diary
+::interface 618 //One Poster on Board
+::interface 619 //Pay Bank Charge With... Runes
+::interface 620 //Lowe's Archery Emporium
+::interface 621 //Two Player icons with HP
+::interface 622 //Message of the Week
+::interface 623 //Message of the Week
+::interface 624 //Fairy Ring Power Delay
+::interface 625 //Select your Goblin
+::interface 626 //Are you sure you want to fight this duel?
+::interface 627 //Warning! Duelling is an honorable pasttime...
+::interface 628 //Nothing
+::interface 629 //Tournament Value
+::interface 630 //Jukebox thing
+::interface 631 //Duel screen
+::interface 632 //Duel scoreboard
+::interface 633 //You are victorious!
+::interface 634 //You are victorious!
+::interface 635 //Tournament
+::interface 636 //Upcoming tournament rules
+::interface 637 //Dueling with: screen
+::interface 638 //Dueling Tournament Axe
+::interface 639 //Are you sure you want to fight this duel?
+::interface 640 //Friendly duel Staked Duel option
+::interface 641 //Style: Options:
+::interface 642 //Common Item Costs
+::interface 643 //Item Back History
+::interface 644 //Nothing
+::interface 645 //Grand Exchange Item Sets
+::interface 646 //Step 4: Grand Exchange
+::interface 647 //Party Room Items Being Dropped
+::interface 648 //Nothing
+::interface 649 //Teleports to NE, SW, NW, SE, Centre On Screen
+::interface 650 //The Beasts's Warning
+::interface 651 //The beast
+::interface 652 //Gravestones
+::interface 653 //Investment Grand Exchange
+::interface 654 //Purchase Special Units
+::interface 655 //Scenario Selection
+::interface 656 //Nothing
+::interface 657 //Scenario Investment Options
+::interface 658 //Select a Snowman Hat
+::interface 659 //SnowGlobe
+::interface 660 //White around middle of screen
+::interface 661 //The runes must be in sets of 3 document
+::interface 662 //Summoning Tab on Screen
+::interface 663 //Summoned Tab on Screen
+::interface 664 //Staff Summon on Screen
+::interface 665 //Nothing
+::interface 666 //Scroll Creation
+::interface 667 //Equip your character...
+::interface 668 //Pick a Puppy
+::interface 669 //Summoning Pouch Creation
+::interface 670 //Inventory items overview
+::interface 671 //Familiar Inventory
+::interface 672 //Summoning Pouch Creation
+::interface 673 //Scroll Creation
+::interface 674 //Pressure Gauge
+::interface 675 //What would you like to make? Rings, Amulets, etc..
+::interface 676 //Dangers and death is more than possibility warning
+::interface 677 //Dangers and death is more than possibility warning
+::interface 678 //Dangers and death is more than possibility warning
+::interface 679 //Message of the week
+::interface 680 //Tooth pointing up at middle of screen
+::interface 681 //Catapault
+::interface 682 //Counterweight/Direction
+::interface 683 //More catapault things
+::interface 684 //Watch out for rabbits
+::interface 685 //Farmer Blinkin's Vinesweeper Instructions
+::interface 686 //Mrs. Winkin's World of Seeds
+::interface 687 //Use a spade to dig/puzzle
+::interface 688 //Points/XP document
+::interface 689 //Points:0 In top right
+::interface 690 //Farmers wander area document
+::interface 691 //Goblins coming out of ground
+::interface 692 //Bork goblin close-up
+::interface 693 //Congratulations you have slain Bork!
+::interface 694 //Player Safety Test
+::interface 695 //Report Abuse instructions
+::interface 696 //Player Safety Test
+::interface 697 //Player Safety Test
+::interface 698 //Report Abuse Instructions
+::interface 699 //Player Safety Test
+::interface 700 //KGP BIC
+::interface 701 //Report Abuse Instructions
+::interface 702 //Report Abuse Instructions
+::interface 703 //Report Abuse Instructions
+::interface 704 //Player Safety Test
+::interface 705 //Player Safety Test
+::interface 706 //Report Abuse Instructions
+::interface 707 //Player Safety Test
+::interface 708 //Player Safety Test
+::interface 709 //End of Safety Exam 101
+::interface 710 //Player Safety Test
+::interface 711 //Report Abuse Instructions
+::interface 712 //Dear Friend document
+::interface 713 //Black screen lightening as it gets to middle
+::interface 714 //Nothing
+::interface 715 //Message of the week Easter Eggs
+::interface 716 //Chocatrice on screen
+::interface 717 //Add-Coal Add-Water gauge
+::interface 718 //Select an Option option1-2
+::interface 719 //Operating your Incubator
+::interface 720 //Here, the player will see an interface anim of the chocatrice hatching
+::interface 721 //Some kind of machine
+::interface 722 //Yellow on left of screen
+::interface 723 //Mysteries of the Mahjarrat subquests
+::interface 724 //Monster trapped in ice
+::interface 725 //Reinald's Smithing Emporium
+::interface 726 //Empty Scroll
+::interface 727 //Map of Waterbirth Island and surroundings
+::interface 728 //Ysra's Shoe Store
+::interface 729 //Thessalia's Makeovers
+::interface 730 //Fist of Guthix Interface
+::interface 731 //FoG The following item is not allowed in arena
+::interface 732 //FoG Reward Shop
+::interface 733 //Ivandis Flail document
+::interface 734 //Choose a combination
+::interface 735 //Travel Log on screen
+::interface 736 //Dragons hatching
+::interface 737 //Pick a kitten
+::interface 738 //Tok-Xil-Im, Tok-Ket-Hurt, TokJal-Hurt
+::interface 739 //TzHaar Numbers
+::interface 740 //Open your stats and click on flashing icon for more info
+::interface 741 //Congratulations! Empty
+::interface 742 //Graphic Options
+::interface 743 //Audio Options
+::interface 744 //LogIn Screen
+::interface 745 //Nothing
+::interface 746 //Dc - Error
+::interface 747 //Nothing
+::interface 748 //HP on top-left of screen
+::interface 749 //Prayer on top-left of screen
+::interface 750 //Run on top-left of screen
+::interface 751 //Chatbox options on top of screen
+::interface 752 //Chatbox on screen
+::interface 753 //Black Screen
+::interface 754 //Nothing
+::interface 755 //Loading Map Screen (Crashes Client)
+::interface 756 //Draughts: Options
+::interface 757 //Name line1 Click to Continue
+::interface 758 //You journey to the canoe...
+::interface 759 //Accept this Display Mode?
+::interface 760 //Paw Print in Sand
+::interface 761 //Sir Vant's Requests
+::interface 762 //Bank of RuneScape
+::interface 763 //Items in Inventory{Unclickable}
+::interface 764 //RuneScape MiniMap Key
+::interface 765 //Gauge
+::interface 766 //Oh Dear, You Are Dead!.. But Don't worry!
+::interface 767 //Bank of RuneScape Help
+::interface 768 //Daughts Rank:1%
+::interface 769 //Game Name
+::interface 770 //Squad Recruitment
+::interface 771 //::Char screen
+::interface 772 //Returned Items:
+::interface 773 //Runes flying around a green mage
+::interface 774 //Where do you want to rub the key?
+::interface 775 //White screen to ghostly screen
+::interface 776 //Ghostly screen to white screen
+::interface 777 //Black screen to orangey screen
+::interface 778 //Normal Screen
+::interface 779 //RuneCrafting Guild Rewards
+::interface 780 //RuneScape Map
+::interface 781 //Waiting for players to join..
+::interface 782 //Comet flying through space
+::interface 783 //Circus Emotes on Screen
+::interface 784 //Nothing
+::interface 785 //Circus Rewards
+::interface 786 //Performance Equipment
+::interface 787 //Landing Time: Discovered By:
+::interface 788 //Circus Performance Scoreboard
+::interface 789 //Nothing
+::interface 790 //Empty Scroll
+::interface 791 //Mini-Game Interface, looks badass
+::interface 792 //Game overview
+::interface 793 //Free-For-All (Safe) Warning
+::interface 794 //Book
+::interface 795 //Black screen
+::interface 796 //Ghost in white background
+::interface 797 //Ancient Magics Attack Spells on Screen
+::interface 798 //WARNING you are carrying a lot of items
+::interface 799 //Various pens
+::interface 800 //Message of the Week
+::interface 801 //Quick Chat Restriction
+::interface 802 //Score: 0
+::interface 803 //Nothing
+::interface 804 //You 0 Combat Levels 0 Skilling Levels
+::interface 805 //Giving Items To:
+::interface 806 //Remaining Clay
+::interface 807 //Nothing
+::interface 808 //Yellow screen
+::interface 809 //Score: 0 19:52
+::interface 810 //The Winner Takes Victory!
+::interface 811 //Stealing Creation Reward Shop
+::interface 812 //Clan Leader: You have no clan leader
+::interface 813 //Creation Kiln
+::interface 814 //While Guthix Sleeps Chapter 2
+::interface 815 //The stone circle...
+::interface 816 //Being looked at through telescope
+::interface 817 //Weird vault or something
+::interface 818 //Wall on left of screen
+::interface 819 //Poster of some evil guy
+::interface 820 //Papers
+::interface 821 //Crazy spinning circle
+::interface 822 //While Guthix Sleeps Chapter 3
+::interface 823 //Opened thing in hand
+::interface 824 //Screen fades out
+::interface 825 //Gears on left of screen
+::interface 826 //While Guthix Sleeps Chapter 1
+::interface 827 //Grim Reaper laughing
+::interface 828 //Papers with gray on them
+::interface 829 //Further Access Prohibited
+::interface 830 //Gray on ice
+::interface 831 //Gray on ice
+::interface 832 //Gray on ice
+::interface 833 //Gray on ice
+::interface 834 //Soul Wars Interface
+::interface 835 //Click here to continue
+::interface 836 //Soul Wars Interface 2
+::interface 837 //Players Needed Soul Wars
+::interface 838 //Empty interface with scroll bars
+::interface 839 //Nothing
+::interface 840 //Forfeit Game on screen
+::interface 841 //Nothing
+::interface 842 //Kicks player
+::interface 843 //Squad Contract
+::interface 844 //Resource Locator
+::interface 845 //Special Unit Contract
+::interface 846 //Click here to continue
+::interface 847 //Siege-Scenario
+::interface 848 //Spoils of War
+::interface 849 //Scenario Options
+::interface 850 //Welcome to Mobilising Armies
+::interface 851 //Mobilising Armies ScoreBoard
+::interface 852 //Scenario Investment Options
+::interface 853 //Camera on screen
+::interface 854 //Extra Lessons
+::interface 855 //Special Units on screen
+::interface 856 //Name
+::interface 857 //Show BreakDown
+::interface 858 //Conflict Scenario
+::interface 859 //Squad Commands
+::interface 860 //Commodities
+::interface 861 //Hord Scenario
+::interface 862 //Investment Grand Exchange
+::interface 863 //Squad Recruitment
+::interface 864 //Spirit Tree
+::interface 865 //Prefixes on screen
+::interface 866 //Some kinda code
+::interface 867 //Empty, old document
+::interface 868 //Questname
+::interface 869 //Ghostly fog
+::interface 870 //Black screen to ghostly fog
+::interface 871 //Ghostly fog to black screen
+::interface 872 //Old, empty document
+::interface 873 //Old, empty document
+::interface 874 //Old, round, empty document
+::interface 875 //Ghostly fog
+::interface 876 //Ghostly fog and black in middle
+::interface 877 //Insert what you wish here:
+::interface 878 //Nothing
+::interface 879 //Pet House~
+::interface 880 //Follower Details/Spec Attack/Attack/etc.
+::interface 881 //Nothing
+::interface 882 //Graphics Options
+::interface 883 //Accept this Setting?
+::interface 884 //Combat tab on Screen
+::interface 885 //Common Item Costs *type*
+::interface 886 //Close screen to stop viewing
+::interface 887 //Take various colored stones
+::interface 888 //Screen moves by itself
+::interface 889 //Map of White Wolf Mountain/GE
+::interface 890 //null Right-click for more options
+::interface 891 //Artisans Workshop map
+inter 892 (warning message)
+inter 893 (fungal storage)
+inter 894 (storable items)
+inter 895 (ancient scales {Place Tokkuls}
+inter 896 (Nothing)
+inter 897 (Controls)
+inter 898 (Please follow the instructions below)
+inter 899 (Nothing)
+inter 900 (Skin Color)
+inter 901 (Sawmill Job Board)
+inter 902 (What cuts would you like to make?)
+inter 903 (Contents of the cart)
+inter 904 (Game Name)
+inter 905 (Slide Option Blank Box)
+inter 906 (Nothing)
+inter 907 (Lobby {Last Logged in})
+inter 908 (Nothing)
+inter 909 (Lobby {Friends List + Ignore List})
+inter 910 (Lobby {Selecting a world})
+inter 911 (Lobby {Volume Options}) 
+inter 912 (Lobby {Clan Chat Channel})
+inter 913 (Lobby {Ignore Player Option})
+inter 914 (Lobby {Report Player})
+inter 915 (Report:Select Offence)
+inter 916 (Slide-out screen: "All" option)
+inter 917 (Task list)
+inter 918 (Date of birth entry)
+inter 919 (Fish details e.g. Caught)
+inter 920 (Nothing)
+inter 921 (Fish Flingers History)
+inter 922 (Competition Results)
+inter 923 (Fishing Equipment)
+inter 924 (Tackle Box)
+inter 925 (Fish Flingers Reward Shop)
+inter 926 (Colour Wheel)
+inter 927 (Game Over)
+inter 928 (Factory management help)
+inter 929 (End of turn report)
+inter 930 (Factory management help)
+inter 931 (Management planning)
+inter 932 (Conveyer Belt in factory)
+inter 933 (Dungeoneering Finish with gained xp)
+inter 934 (Smithing)
+inter 935 (Dungeon completed!)
+inter 936 (Other player dungeon stats)
+inter 937 (Book Title)
+inter 938 (Select complexity)
+inter 939 (Party details)
+inter 940 (Daemonheim rewards)
+inter 941 (What would you like to smelt?)
+inter 942 (Blank teared paper)
+inter 943 (Blank Newspaper-style box)
+inter 944 (Choose a resource)
+inter 945 (Deaths in dungeoneering)
+inter 946 (Other player dungeon summoning details)
+inter 947 (Select Floor)
+inter 948 (Dungeon journal)
+inter 949 (Dungeon Party invitation)
+inter 950 (Magic options with teleports for dungeoneering)
+inter 951 (Event title)
+inter 952 (Bind items - select)
+inter 953 (Other player dungeon inventory)
+inter 954 (Other player dungeon worn equipment)
+inter 955 (Custom Home screen Loading...)
+inter 956 (Shop)
+inter 957 (Nothing)
+inter 958 (Book Title)
+inter 959 (Book Title)
+inter 960 (Book Title)
+inter 961 (GIF image rays of light moving)
+inter 962 (ROTM)
+inter 963 (Screen Fades)
+inter 964 (Another ROTM)
+inter 965 (Blank White Screen)
+inter 966 (Rotm)
+inter 967 (Transparent rays of light)
+inter 968 (Transparent rays of light)
+inter 969 (Blank Screen)
+inter 970 (Npc clipped as an image box)
+inter 971 (ROTM)
+inter 972 (Book details for ROTM)
+inter 973 (Two Npc's colour hp bar?)
+inter 974 (Zanaris Needs you)
+inter 975 (Play Game - {"RS"})
+inter 976 (auto setup button- client)
+inter 977 (settings)
+inter 978 (settings)
+inter 979 (report:select player)
+inter 980 (Powered:Unpowered)
+inter 981 (change view - overview {works})
+inter 982 (chat setup)
+inter 983 (purple orbs view)
+inter 984 (old chatbox)
+inter 985 (red/bluw team scores)
+inter 986 (Confirm match)
+inter 987 (choose a jury member)
+inter 988 (toll:0/15)
+inter 989 (ruined boat)
+inter 990 (nothing)
+inter 991 (destination node)
+inter 992 (old mage details)
+inter 993 (Ring of kinship: customisation)
+inter 994 (select autogrouping floor)
+inter 995 (start room modifications)
+inter 996 (north sign with arrow)
+inter 997 (north sign with arrow)
+inter 998 (box with squares)
+inter 999 (book shop)
+inter 1000 (match runes)
+inter 1001 (Treasure trails - Cletic Knots)
+inter 1002 (Treasure trails - Cletic Knots)
+inter 1003 (Treasure trails - Cletic Knots)
+inter 1004 (A void dance - ****ysing the goo)
+inter 1005 (A void dance - clue location)
+inter 1006 (Herbicide Settings)
+inter 1007 (Statue collection bag)
+inter 1008 (Truce Offer, Accept/Decline)
+inter 1009 (Conquest Minigame - Ranking)
+inter 1010 (Conquest Minigame - Options on Phases)
+inter 1011 (Commendation Rewards)
+inter 1012 (Troop Details)
+inter 1013 (Black screen fading)
+inter 1014 (Yellow screen fading)
+inter 1015 (Squad Selection)
+inter 1016 (Conquest Time Options)
+inter 1017 (Squad Formation)
+inter 1018 (Chat interface)
+inter 1019 (Diplomacy Truce Resign/Offer Option)
+inter 1020 (Chat Interface)
+inter 1021 (Confirm Conquest Time options)
+inter 1022 (Conquest Player's Stake Options)
+inter 1023 (Confirm Player's Stake Options)
+inter 1024 (Command Points)
+inter 1025 (Black Interface)
+inter 1026 (Select Challenge type - regular/staked conquest)
+inter 1027 (Opponent Logged out conquest interface)
+inter 1028 (choose your character login)
+inter 1079 (controls interface)
+inter 1083 (rewards interface)
+inter 1093 (invitation to start a clan)
+inter 1096 (inside the clan interface)
+inter 1105 (clan motif designer)
+inter 1106 (color to choose for clan motif designing)
+inter 1126 (temple trekking interface)
+inter 1128 (stealing creations reward shop)
+inter 1133 (vampire hp interface)
+inter 1139 (squeal of fortune game tab interface)
+inter 1143 (loyalty emotes interface shop)
+inter 1167 (decide your handicap)
+inter 1168 (class dominion bosses interface)
+inter 1170 (sunfreet and other special bosses interface)
+inter 1178 (toolbelt - working)
+inter 1183 (destroy this item)
+inter 1184-1201 (new interfaces with wave(s) interface)
+inter 1214 (enabling different counters with xp button like xp sprite or other skill sprites)
+inter 1225 (new login message)
+inter 1231 (subscribe message)
+inter 1216 (new level up icon)
+inter 1218 (skills details interface)
+inter 1243 (quest details interface)
+inter 1244 (new finished quest interface)
+inter 1246 (egg hatch interface - fight kiln quest)
+inter 1247 (attacks for the fight kiln quest)
+inter 1252 (squeal of fortune button in game)
+inter 1253 (squeal of fortune interface)
+inter 1254 (logout alert)
+inter 1255 (logging out interface)
+inter 1256 (logout request)
+inter 1263 (xp interface)
+inter 1270 (hunt for the memories interface)
+inter 1273 (wicked hood loyalty interface)
+inter 1278 (blue smoke effect around screen)
+inter 1279 (white smoke effect around screen)
+inter 1280 (light blue smoke effect around screen)
+inter 1281 (brown-ish smoke effect around screen)
+inter 1282 (green smoke effect around screen)
+inter 1283 (re-colour gear set interface)
+inter 1284 (reward chest dtower interface)
+inter 1285 (qbd hp fade screen and bright interface)
+inter 1292 (crucible enter interface)
+inter 1294 (crucible key interface)
+inter 1295 (crucible lessons interface)
+inter 1296 (crucible target interface)
+inter 1297 (crucible rewards interface)
+inter 1298 (crucible bounty interface)
+inter 1306 (furniture to build interface)
+inter 1307 (bronze rewards etc..atheletes stuff)
+inter 1308 (slayer shop and information)
+inter 1309 (co-op slayer interface to invite other player)
+inter 1310 (invitation to a slayer group{accept/decline})
+inter 1311 (looking at the new general store shop emotes etc)
+inter 1312 (choose your motto)
+inter 1313 (Solomon's general store visit interface)
+inter 1314 (quest points/combat level/hit points showing all skills of the player)
+inter 1315 (re-color gear)
+inter 1316 (blank interface)
+inter 1317 (bronze rewards etc..atheletes stuff)
+inter 1318 (number "3" showing for the resource race)

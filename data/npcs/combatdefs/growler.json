@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Growler"
+  ],
+  "hitpoints": 1460,
+  "attackAnim": 7019,
+  "defenceAnim": 7017,
+  "deathAnim": 7016,
+  "deathDelay": 2,
+  "respawnDelay": 150,
+  "maxHit": 160,
+  "attackStyle": "MAGE",
+  "attackGfx": 1184,
+  "attackProjectile": 1227,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    100,
+    101,
+    120,
+    1,
+    150
+  ]
+}

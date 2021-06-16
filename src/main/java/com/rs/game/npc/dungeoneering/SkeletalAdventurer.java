@@ -1,0 +1,114 @@
+package com.rs.game.npc.dungeoneering;
+
+import java.util.List;
+import java.util.Set;
+
+import com.rs.game.Entity;
+import com.rs.game.Hit;
+import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
+import com.rs.game.npc.NPC;
+import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
+import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
+import com.rs.game.player.content.skills.dungeoneering.RoomReference;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Utils;
+
+public final class SkeletalAdventurer extends DungeonBoss {
+
+	public static final int MELEE = 0, RANGE = 1, MAGE = 2;
+	
+	private int npcId;
+
+	public SkeletalAdventurer(int type, WorldTile tile, DungeonManager manager, RoomReference reference) {
+		super(type == MELEE ? DungeonUtils.getClosestToCombatLevel(Utils.range(11940, 11984, 3), manager.getBossLevel()) : type == RANGE ? DungeonUtils.getClosestToCombatLevel(Utils.range(12044, 12088, 3), manager.getBossLevel()) : DungeonUtils.getClosestToCombatLevel(Utils.range(11999, 12043, 3), manager.getBossLevel()), tile, manager, reference);
+		npcId = getId();
+	}
+
+	@Override
+	public void processNPC() {
+		if (isDead())
+			return;
+		super.processNPC();
+		if (Utils.random(15) == 0)
+			setNextNPCTransformation(npcId + Utils.random(3));
+	}
+
+	@Override
+	public void sendDeath(final Entity source) {
+		final NPCCombatDefinitions defs = getCombatDefinitions();
+		resetWalkSteps();
+		getCombat().removeTarget();
+		setNextAnimation(null);
+		boolean last = true;
+		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
+		if (npcsIndexes != null) {
+			for (int npcIndex : npcsIndexes) {
+				NPC npc = World.getNPCs().get(npcIndex);
+				if (npc == this || npc.isDead() || npc.hasFinished() || !npc.getName().startsWith("Skeletal "))
+					continue;
+				last = false;
+				break;
+			}
+		}
+		final boolean l = last;
+		WorldTasksManager.schedule(new WorldTask() {
+			int loop;
+
+			@Override
+			public void run() {
+				if (loop == 0) {
+					setNextAnimation(new Animation(defs.getDeathEmote()));
+				} else if (loop >= defs.getDeathDelay()) {
+					if (source instanceof Player)
+						((Player) source).getControllerManager().processNPCDeath(SkeletalAdventurer.this);
+					if (l)
+						drop();
+					reset();
+					finish();
+					stop();
+				}
+				loop++;
+			}
+		}, 0, 1);
+		if (last)
+			getManager().openStairs(getReference());
+	}
+
+	@Override
+	public int getMaxHit() {
+		return super.getMaxHit() * 2;
+	}
+
+	public int getPrayer() {
+		return this.getId() - npcId;
+	}
+
+	@Override
+	public void handlePreHit(Hit hit) {
+		if ((hit.getLook() == HitLook.MELEE_DAMAGE && getPrayer() == 0) || (hit.getLook() == HitLook.RANGE_DAMAGE && getPrayer() == 1) || (hit.getLook() == HitLook.MAGIC_DAMAGE && getPrayer() == 2))
+			hit.setDamage(0);
+		super.handlePreHit(hit);
+	}
+
+	@Override
+	public void sendDrop(Player player, Item item) {
+		List<Player> players = getManager().getParty().getTeam();
+		if (players.size() == 0)
+			return;
+		player.getInventory().addItemDrop(item);
+		player.sendMessage("<col=D2691E>You received: " + item.getAmount() + " " + item.getName() + ".");
+		for (Player p2 : players) {
+			if (p2 == player)
+				continue;
+			p2.sendMessage("<col=D2691E>" + player.getDisplayName() + " received: " + item.getAmount() + " " + item.getName() + ".");
+		}
+	}
+
+}

@@ -1,0 +1,187 @@
+{
+  "names": [
+    "Saradomin wizard"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 554,
+          "min": 51,
+          "max": 188
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 555,
+          "min": 42,
+          "max": 146
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 556,
+          "min": 189,
+          "max": 196
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 79,
+          "max": 107
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 560,
+          "min": 45,
+          "max": 45
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 28,
+          "max": 30
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 9,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 564,
+          "min": 25,
+          "max": 25
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 8,
+          "max": 40
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 77,
+          "max": 89
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1393,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1395,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1397,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 280.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1399,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

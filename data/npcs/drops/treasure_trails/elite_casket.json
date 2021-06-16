@@ -1,0 +1,19 @@
+{
+  "names": [
+    "elite_casket"
+  ],
+  "tables": [
+    {
+      "chance": 1.0,
+      "outOf": 25.0,
+      "dropOne": false,
+      "rollTable": "elite_rare"
+    },
+    {
+      "chance": 24.0,
+      "outOf": 25.0,
+      "dropOne": false,
+      "rollTable": "elite_standard"
+    }
+  ]
+}

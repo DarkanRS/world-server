@@ -1,0 +1,71 @@
+{
+  "name": "Arnold's Eclectic Supplies",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1917,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1927,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1931,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1785,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 311,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1733,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 303,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1734,
+        "amount": 1000
+      }
+    }
+  ],
+  "npcIds": [
+    3824
+  ]
+}

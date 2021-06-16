@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Revenant dragon"
+  ],
+  "hitpoints": 1550,
+  "attackAnim": 14261,
+  "defenceAnim": 14264,
+  "deathAnim": 14265,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 302,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    106,
+    126,
+    87,
+    151,
+    150
+  ]
+}

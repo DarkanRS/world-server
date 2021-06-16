@@ -1,0 +1,23 @@
+{
+  "ids": [
+    2025
+  ],
+  "hitpoints": 1050,
+  "attackAnim": 14223,
+  "defenceAnim": 2079,
+  "deathAnim": 7197,
+  "deathDelay": 3,
+  "respawnDelay": 0,
+  "maxHit": 200,
+  "attackStyle": "MAGE",
+  "attackGfx": 2741,
+  "attackProjectile": 2735,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    1,
+    1,
+    100,
+    1,
+    100
+  ]
+}

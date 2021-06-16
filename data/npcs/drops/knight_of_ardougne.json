@@ -1,0 +1,19 @@
+{
+  "names": [
+    "Knight of Ardougne"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

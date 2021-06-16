@@ -1,0 +1,113 @@
+package com.rs.game.player.content.skills.cooking;
+
+import com.rs.game.player.Player;
+import com.rs.game.player.actions.Action;
+import com.rs.game.player.content.SkillsDialogue;
+import com.rs.game.player.dialogues.Dialogue;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.handlers.ItemOnItemHandler;
+
+@PluginEventHandler
+public class DoughMaking  {
+
+	public static int POT_OF_FLOUR = 1933;
+	public static int JUG_OF_WATER = 1937;
+	public static int BOWL_OF_WATER = 1921;
+	public static int BUCKET_OF_WATER = 1929;
+
+	static class DoughMakeD extends Dialogue {
+
+		public int getAmountOfWaterItems() {
+			return player.getInventory().getAmountOf(JUG_OF_WATER) + player.getInventory().getAmountOf(BOWL_OF_WATER) + player.getInventory().getAmountOf(BUCKET_OF_WATER);
+		}
+
+		public int getMaxAmount() {
+			int min = player.getInventory().getAmountOf(POT_OF_FLOUR);
+			if (min > getAmountOfWaterItems())
+				min = getAmountOfWaterItems();
+			return min;
+		}
+
+		@Override
+		public void start() {
+			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.MAKE_INTERVAL, "Which item would you like to make?", getMaxAmount(), new int[] { 2307, 1953, 2283, 1863 }, null);
+		}
+
+		@Override
+		public void run(int interfaceId, int componentId) {
+			int type = SkillsDialogue.getItemSlot(componentId);
+			player.getActionManager().setAction(new DoughMakeAction(type));
+			end();
+		}
+
+		@Override
+		public void finish() {
+
+		}
+
+	}
+
+	static class DoughMakeAction extends Action {
+
+		private int[] doughs = new int[] { 2307, 1953, 2283, 1863 };
+		private int type;
+
+		public DoughMakeAction(int type) {
+			this.type = type;
+		}
+
+		@Override
+		public boolean start(Player player) {
+			if (!player.getInventory().hasFreeSlots() || !player.getInventory().containsItem(POT_OF_FLOUR, 1) || !player.getInventory().containsItem(POT_OF_FLOUR, 1) || !player.getInventory().containsItem(POT_OF_FLOUR, 1)
+					|| !player.getInventory().containsItem(POT_OF_FLOUR, 1))
+				return false;
+			return true;
+		}
+
+		@Override
+		public boolean process(Player player) {
+			if (!player.getInventory().hasFreeSlots() || !player.getInventory().containsItem(POT_OF_FLOUR, 1) || !player.getInventory().containsItem(POT_OF_FLOUR, 1) || !player.getInventory().containsItem(POT_OF_FLOUR, 1)
+					|| !player.getInventory().containsItem(POT_OF_FLOUR, 1))
+				return false;
+			return true;
+		}
+
+		@Override
+		public int processWithDelay(Player player) {
+			if (!player.getInventory().hasFreeSlots()) {
+				player.sendMessage("You don't have enough inventory space.");
+				stop(player);
+			} else {
+				if (player.getInventory().containsItem(BOWL_OF_WATER, 1)) {
+					player.getInventory().deleteItem(BOWL_OF_WATER, 1);
+					player.getInventory().addItem(1923, 1);
+				} else if (player.getInventory().containsItem(BUCKET_OF_WATER, 1)) {
+					player.getInventory().deleteItem(BUCKET_OF_WATER, 1);
+					player.getInventory().addItem(1925, 1);
+				} else if (player.getInventory().containsItem(JUG_OF_WATER, 1)) {
+					player.getInventory().deleteItem(JUG_OF_WATER, 1);
+					player.getInventory().addItem(1935, 1);
+				}
+				player.getInventory().deleteItem(POT_OF_FLOUR, 1);
+				player.getInventory().addItem(1931, 1);
+				player.getInventory().addItem(doughs[type], 1);
+			}
+			return 2;
+		}
+
+		@Override
+		public void stop(Player player) {
+
+		}
+
+	}
+	
+	public static ItemOnItemHandler makeDough = new ItemOnItemHandler(POT_OF_FLOUR, new int[] { BUCKET_OF_WATER, BOWL_OF_WATER, JUG_OF_WATER }) {
+		@Override
+		public void handle(ItemOnItemEvent e) {
+			e.getPlayer().getDialogueManager().execute(new DoughMakeD());
+		}
+	};
+
+}

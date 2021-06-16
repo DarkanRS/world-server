@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Spirit mosquito"
+  ],
+  "hitpoints": 430,
+  "attackAnim": 8032,
+  "defenceAnim": 8034,
+  "deathAnim": 8033,
+  "deathDelay": 4,
+  "respawnDelay": 0,
+  "maxHit": 42,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

@@ -1,0 +1,68 @@
+{
+  "name": "Inventory 380",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 7554,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 857,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 438,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 440,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 3840,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 2126,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 7552,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 333,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 442,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 7560,
+        "amount": 1
+      }
+    }
+  ]
+}

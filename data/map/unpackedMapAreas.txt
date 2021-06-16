@@ -1,0 +1,2 @@
+//use: AreaName - plane minX maxX minY maxY and repeat other possible coords squares
+GiantMoleLair - 0 1721 1791 5123 5249

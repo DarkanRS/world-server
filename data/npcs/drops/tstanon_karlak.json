@@ -1,0 +1,211 @@
+{
+  "names": [
+    "Tstanon Karlak"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 592,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 66.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1300,
+          "max": 1400
+        }
+      ]
+    },
+    {
+      "chance": 8.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 808,
+          "min": 95,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 8.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 560,
+          "min": 5,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 8.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 5,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 8.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 385,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 8.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 7060,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 8.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 246,
+          "min": 5,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 7.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 886,
+          "min": 95,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 145,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2.0,
+      "outOf": 127.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 157,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 124.0,
+      "outOf": 16129.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1300,
+          "max": 1400
+        }
+      ]
+    },
+    {
+      "chance": 9.0,
+      "outOf": 1524.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1300,
+          "max": 1400
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 1524.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 11710,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 1524.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 11712,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 1524.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 11714,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 16129.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 11716,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

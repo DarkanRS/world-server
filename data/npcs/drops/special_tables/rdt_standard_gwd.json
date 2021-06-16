@@ -1,0 +1,117 @@
+{
+  "names": [
+    "rdt_standard_gwd"
+  ],
+  "tables": [
+  	{
+      "chance": 20.0, "outOf": 128.0,
+      "drops": [
+        { "id": 995, "min": 19500, "max": 20000 }
+      ]
+    },
+    {
+      "chance": 20.0, "outOf": 128.0,
+      "rollTable": "rdt_gem_gwd"
+    },
+    {
+      "chance": 15.0, "outOf": 128.0,
+      "rollTable": "rdt_mega_rare_gwd"
+    },
+    {
+      "chance": 20.0, "outOf": 128.0,
+      "drops": [
+        { "id": 987, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 20.0, "outOf": 128.0,
+      "drops": [
+        { "id": 985, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 5.0, "outOf": 128.0,
+      "drops": [
+        { "id": 2363, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1615, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 443, "min": 100, "max": 100 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 128.0,
+      "drops": [
+        { "id": 561, "min": 67, "max": 67 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 563, "min": 45, "max": 45 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 560, "min": 45, "max": 45 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 886, "min": 150, "max": 150 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 892, "min": 42, "max": 42 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 829, "min": 20, "max": 20 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1319, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1373, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1185, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1201, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1149, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "names": [
+    "Ghostly warrior"
+  ],
+  "tables": [
+    {
+      "chance": 7129.0,
+      "outOf": 50000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 566,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 558,
+          "min": 1,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 1,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 564,
+          "min": 1,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1069,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1119,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 225.0,
+      "outOf": 1841.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1157,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 19.0,
+      "outOf": 10000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 13734,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

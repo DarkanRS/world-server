@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Geyser titan"
+  ],
+  "hitpoints": 6200,
+  "attackAnim": 7879,
+  "defenceAnim": 7878,
+  "deathAnim": 7880,
+  "deathDelay": 4,
+  "respawnDelay": 0,
+  "maxHit": 215,
+  "attackStyle": "SPECIAL",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE"
+}

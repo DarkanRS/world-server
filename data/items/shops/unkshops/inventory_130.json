@@ -1,0 +1,26 @@
+{
+  "name": "Inventory 130",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 824,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 44,
+        "amount": 15
+      }
+    },
+    {
+      "item": {
+        "id": 868,
+        "amount": 5
+      }
+    }
+  ]
+}

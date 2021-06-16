@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Blood reaver"
+  ],
+  "hitpoints": 1010,
+  "attackAnim": 7004,
+  "defenceAnim": -1,
+  "deathAnim": 7000,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 150,
+  "attackStyle": "MAGE",
+  "attackGfx": -1,
+  "attackProjectile": 374,
+  "agressivenessType": "AGGRESSIVE"
+}

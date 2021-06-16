@@ -1,0 +1,43 @@
+package com.rs.game.player.content.tutorialisland;
+
+import com.rs.Settings;
+import com.rs.game.World;
+import com.rs.game.npc.NPC;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.achievements.Achievement;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.statements.LegacyItemStatement;
+import com.rs.game.player.content.dialogue.statements.NPCStatement;
+import com.rs.game.player.content.dialogue.statements.OptionStatement;
+import com.rs.game.player.content.dialogue.statements.SimpleStatement;
+import com.rs.game.player.controllers.TutorialIslandController;
+import com.rs.game.player.managers.InterfaceManager;
+
+public class Skippy extends Conversation {
+
+	public Skippy(Player player, NPC npc, TutorialIslandController ctrl) {
+		super(player);
+		npc.faceEntity(player);
+		npc.resetWalkSteps();
+
+		addNext(new NPCStatement(npc.getId(), HeadE.DRUNK, "Hey. Do you wanna skip the Tutorial?", "I can send you straight to Lumbridge, easy."));
+		addNext(new OptionStatement("Do you want to go to the mainland?", "Yes, send me to Lumbridge now.", "No, I'd like to enjoy the nostalgic Tutorial Trent worked so hard on."));
+		addNext(new NPCStatement(npc.getId(), HeadE.DRUNK, "Right on. I'll read you the official messages first, then", "send you on your way. Ahem..."));
+		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "When you get to the mainland you will find yourself in", "the town of Lumbridge. If you want some ideas on", "where to go next, talk to my friend the Lumbridge", "Guide. You can't miss him; he's holding a big staff with"));
+		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "a question mark on the end. He also has a white beard", "and carries a rucksack full of scrolls. There are also", "many tutors willing to teach you about the many skills", "you could learn."));
+		addNext(new LegacyItemStatement(5079, "", "When you get to Lumbridge, look for this icon on your", "mini-map. The Lumbridge Guide or one of the other", "tutors should be standing near there. The Lumbridge", "Guide should be standing slightly to the north-east of"));
+		addNext(new LegacyItemStatement(5079, "", "the castle's courtyard and the others you will find", "scattered around Lumbridge."));
+		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "If all else fails, visit the " + Settings.getConfig().getServerName() + " website for a whole", "chestload of information on quests, skills and minigames", "as well as a very good starter's guide."));
+		addNext(new Dialogue(new SimpleStatement("Welcome to Lumbridge! To get more help, simply click on the", "Lumbridge Guide or one of the Tutors - these can be found by", "looking for the question mark icon on your mini map. If you find", "you are lost at any time, look for a signpost or use the Lumbridge", "Home Port spell."), () -> {
+			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has just joined "+Settings.getConfig().getServerName()+"!</col>", false);
+			player.setNextWorldTile(Settings.getConfig().getPlayerStartTile());
+			player.getControllerManager().forceStop();
+			player.getInterfaceManager().sendTabs(InterfaceManager.Tab.values());
+			player.giveStarter();
+			player.getInterfaceManager().sendAchievementComplete(Achievement.THE_JOURNEY_BEGINS_3521);
+		}));
+		create();
+	}
+}

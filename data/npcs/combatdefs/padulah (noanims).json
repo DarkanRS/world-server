@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Padulah"
+  ],
+  "hitpoints": 1330,
+  "attackAnim": -1,
+  "defenceAnim": -1,
+  "deathAnim": -1,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 200,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+    130,
+    130,
+    130,
+    1,
+    130
+  ]
+}

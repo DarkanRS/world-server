@@ -1,0 +1,51 @@
+{
+  "names": [
+    "pp_gnome"
+  ],
+  "tables": [
+    {
+      "chance": 30.0,
+      "outOf": 31.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 995,
+          "min": 300,
+          "max": 300
+        },
+        {
+          "id": 557,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 444,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 2150,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 2162,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 31.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 569,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

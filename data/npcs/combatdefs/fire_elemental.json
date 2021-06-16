@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Fire elemental"
+  ],
+  "hitpoints": 300,
+  "attackAnim": 1029,
+  "defenceAnim": 1030,
+  "deathAnim": 1031,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 60,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    35,
+    35,
+    20,
+    20,
+    20
+  ]
+}

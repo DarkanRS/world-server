@@ -1,0 +1,67 @@
+{
+  "names": [
+    "Living rock patriarch"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 452,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 125,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1618,
+          "min": 8,
+          "max": 8
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 4698,
+          "min": 125,
+          "max": 125
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 15263,
+          "min": 5,
+          "max": 125
+        }
+      ]
+    }
+  ]
+}

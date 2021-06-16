@@ -1,0 +1,53 @@
+{
+  "name": "Ore Seller",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 436,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 438,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 440,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 447,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 442,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 444,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 453,
+        "amount": 100
+      }
+    }
+  ],
+  "npcIds": [
+    2564
+  ]
+}

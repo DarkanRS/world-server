@@ -1,0 +1,24 @@
+{
+  "names": [
+    "General Graardor"
+  ],
+  "hitpoints": 2540,
+  "attackAnim": 7060,
+  "defenceAnim": 7061,
+  "deathAnim": 7062,
+  "deathDelay": 4,
+  "respawnDelay": 150,
+  "maxHit": 610,
+  "attackStyle": "SPECIAL2",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    280,
+    350,
+    250,
+    350,
+    80
+  ]
+}

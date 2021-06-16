@@ -1,0 +1,32 @@
+{
+  "name": "Inventory 313",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 554,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 555,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 556,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 557,
+        "amount": 300
+      }
+    }
+  ]
+}

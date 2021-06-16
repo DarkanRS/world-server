@@ -1,0 +1,245 @@
+{
+  "names": [
+    "Dagon\u0027hai Monk"
+  ],
+  "tables": [
+    {
+      "chance": 7.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 554,
+          "min": 10,
+          "max": 36
+        }
+      ]
+    },
+    {
+      "chance": 7.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 556,
+          "min": 10,
+          "max": 36
+        }
+      ]
+    },
+    {
+      "chance": 7.0,
+      "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 10,
+          "max": 36
+        }
+      ]
+    },
+    {
+      "chance": 70.0,
+      "outOf": 500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 558,
+          "min": 10,
+          "max": 36
+        }
+      ]
+    },
+    {
+      "chance": 69.0,
+      "outOf": 500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 559,
+          "min": 10,
+          "max": 36
+        }
+      ]
+    },
+    {
+      "chance": 69.0,
+      "outOf": 500.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 1,
+          "max": 26
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 561,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 4,
+          "max": 4
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 563,
+          "min": 3,
+          "max": 3
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 564,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 565,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 579,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1213,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1379,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1401.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1442,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 623.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 623.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 623.0,
+      "outOf": 100000.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 526,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 1.0,
+      "outOf": 512.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 14497, "min": 1, "max": 1 },
+        { "id": 14499, "min": 1, "max": 1 },
+        { "id": 14501, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

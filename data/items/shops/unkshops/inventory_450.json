@@ -1,0 +1,188 @@
+{
+  "name": "Inventory 450",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 10758,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10760,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10762,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10764,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10766,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19482,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19485,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19488,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19491,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 19494,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10682,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10683,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10696,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10697,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10698,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10768,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10770,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10772,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10736,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10748,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10756,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10689,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13164,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13169,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13171,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13173,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13170,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13172,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 13167,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 10165,
+        "amount": 1
+      }
+    }
+  ]
+}

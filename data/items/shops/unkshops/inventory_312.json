@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 312",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 6382,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6384,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6386,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6388,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 6390,
+        "amount": 30
+      }
+    }
+  ]
+}

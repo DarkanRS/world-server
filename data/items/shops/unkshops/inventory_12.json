@@ -1,0 +1,44 @@
+{
+  "name": "Inventory 12",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1075,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1067,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1069,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1077,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1071,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1073,
+        "amount": 10
+      }
+    }
+  ]
+}

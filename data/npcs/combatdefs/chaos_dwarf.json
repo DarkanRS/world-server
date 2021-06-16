@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Chaos dwarf"
+  ],
+  "hitpoints": 610,
+  "attackAnim": 99,
+  "defenceAnim": 100,
+  "deathAnim": 102,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 63,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    38,
+    42,
+    28,
+    1,
+    1
+  ]
+}

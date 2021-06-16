@@ -1,0 +1,38 @@
+{
+  "name": "Inventory 40",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 229,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15362,
+        "amount": 6
+      }
+    },
+    {
+      "item": {
+        "id": 233,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 221,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15364,
+        "amount": 20
+      }
+    }
+  ]
+}

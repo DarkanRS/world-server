@@ -1,0 +1,135 @@
+{
+  "names": [
+    "Dust devil"
+  ],
+  "tables": [
+    {
+      "chance": 0.0, "outOf": 0.0,
+      "drops": [
+        { "id": 526, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 11.0, "outOf": 128.0,
+      "rollTable": "rdt_gem" 
+    },
+    {
+      "chance": 19.0, "outOf": 128.0,
+      "rollTable": "herb" 
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1213, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 2489, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 995, "min": 300, "max": 300 }
+      ]
+    },
+    {
+      "chance": 2.0, "outOf": 128.0,
+      "drops": [
+        { "id": 554, "min": 150, "max": 150 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1883, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1399, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 5.0, "outOf": 128.0,
+      "drops": [
+        { "id": 892, "min": 12, "max": 12 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 995, "min": 50, "max": 50 }
+      ]
+    },
+    {
+      "chance": 8.0, "outOf": 128.0,
+      "drops": [
+        { "id": 554, "min": 150, "max": 150 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 128.0,
+      "drops": [
+        { "id": 1353, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 40.0, "outOf": 128.0,
+      "drops": [
+        { "id": 995, "min": 60, "max": 60 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 554, "min": 37, "max": 37 }
+      ]
+    },
+    {
+      "chance": 4.0, "outOf": 128.0,
+      "drops": [
+        { "id": 566, "min": 5, "max": 5 }
+      ]
+    },
+    {
+      "chance": 6.0, "outOf": 128.0,
+      "drops": [
+        { "id": 995, "min": 25, "max": 25 }
+      ]
+    },
+    {
+      "chance": 3.0, "outOf": 128.0,
+      "drops": [
+        { "id": 2359, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 128.0,
+      "drops": [
+        { "id": 566, "min": 2, "max": 2 }
+      ]
+    },
+    {
+      "chance": 7.0, "outOf": 128.0,
+      "drops": [
+        { "id": 562, "min": 5, "max": 5 }
+      ]
+    },
+    {
+      "chance": 7.0, "outOf": 128.0,
+      "drops": [
+        { "id": 995, "min": 15, "max": 15 }
+      ]
+    },
+    {
+      "chance": 1.0, "outOf": 32768.0,
+      "drops": [
+        { "id": 3140, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

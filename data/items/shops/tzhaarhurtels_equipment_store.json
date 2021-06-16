@@ -1,0 +1,59 @@
+{
+  "name": "TzHaar-Hur-Tel's Equipment Store",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 6529,
+  "items": [
+    {
+      "item": {
+        "id": 6522,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6523,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6524,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6525,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6526,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6527,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6528,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 6568,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    2620
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Jukat",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1215,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1305,
+        "amount": 10
+      }
+    }
+  ]
+}

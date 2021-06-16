@@ -1,0 +1,16 @@
+{
+  "names": [
+    "Fungal mage"
+  ],
+  "hitpoints": 1200,
+  "attackAnim": 15507,
+  "defenceAnim": 15508,
+  "deathAnim": 15511,
+  "deathDelay": 2,
+  "respawnDelay": 60,
+  "maxHit": 114,
+  "attackStyle": "MAGE",
+  "attackGfx": 2036,
+  "attackProjectile": 2035,
+  "agressivenessType": "PASSIVE"
+}

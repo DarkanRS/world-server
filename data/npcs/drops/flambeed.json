@@ -1,0 +1,19 @@
+{
+  "names": [
+    "Flambeed"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1891,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    }
+  ]
+}

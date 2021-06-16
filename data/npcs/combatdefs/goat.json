@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Goat"
+  ],
+  "hitpoints": 210,
+  "attackAnim": 5338,
+  "defenceAnim": 5337,
+  "deathAnim": 5336,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 47,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "attackBonus": "CRUSH_ATT",
+  "levels": [
+    20,
+    20,
+    20,
+    1,
+    1
+  ]
+}

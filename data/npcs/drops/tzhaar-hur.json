@@ -1,0 +1,40 @@
+{
+  "names": [
+    "TzHaar-Hur"
+  ],
+  "tables": [
+  	{
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 12168, "min": 1, "max": 1 },
+        { "id": 6529, "min": 100, "max": 400 }
+      ]
+    },
+    {
+      "chance": 450.0,
+      "outOf": 512.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 1755, "min": 1, "max": 1 },
+        { "id": 2347, "min": 1, "max": 1 },
+        { "id": 1935, "min": 1, "max": 1 },
+        { "id": 946, "min": 1, "max": 1 },
+        { "id": 1931, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 62.0,
+      "outOf": 512.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 1755, "min": 1, "max": 1 },
+        { "id": 2347, "min": 1, "max": 1 },
+        { "id": 1935, "min": 1, "max": 1 },
+        { "id": 946, "min": 1, "max": 1 },
+        { "id": 1931, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}

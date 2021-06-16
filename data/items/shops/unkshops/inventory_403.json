@@ -1,0 +1,218 @@
+{
+  "name": "Inventory 403",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 8316,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8322,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8317,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8323,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8052,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8334,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8324,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8341,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8354,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8348,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8335,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8336,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8342,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8053,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8337,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8338,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8343,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8355,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8349,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8318,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8339,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8340,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8344,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8128,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8125,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8345,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8356,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8126,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8129,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8350,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8054,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8346,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8127,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8130,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 8347,
+        "amount": 1
+      }
+    }
+  ]
+}

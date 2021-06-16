@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Basilisk"
+  ],
+  "hitpoints": 750,
+  "attackAnim": 260,
+  "defenceAnim": 261,
+  "deathAnim": 264,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 59,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    30,
+    45,
+    75,
+    1,
+    1
+  ]
+}

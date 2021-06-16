@@ -1,0 +1,4682 @@
+[
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 1008,
+      "y": 4533,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 1012,
+      "y": 4528,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 1012,
+      "y": 4519,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 1003,
+      "y": 4507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 997,
+      "y": 4498,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 989,
+      "y": 4490,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 977,
+      "y": 4493,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 969,
+      "y": 4495,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 972,
+      "y": 4503,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 984,
+      "y": 4508,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 984,
+      "y": 4508,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 993,
+      "y": 4496,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grimy marrentill",
+    "itemId": 201,
+    "amount": 1,
+    "tile": {
+      "x": 988,
+      "y": 4576,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grimy harralander",
+    "itemId": 205,
+    "amount": 1,
+    "tile": {
+      "x": 1002,
+      "y": 4576,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grimy ranarr",
+    "itemId": 207,
+    "amount": 1,
+    "tile": {
+      "x": 999,
+      "y": 4579,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grimy irit",
+    "itemId": 209,
+    "amount": 1,
+    "tile": {
+      "x": 1005,
+      "y": 4573,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 1133,
+      "y": 4502,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 1108,
+      "y": 4504,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 1116,
+      "y": 4518,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 1143,
+      "y": 4515,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Limpwurt root",
+    "itemId": 225,
+    "amount": 1,
+    "tile": {
+      "x": 1127,
+      "y": 4575,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Limpwurt root",
+    "itemId": 225,
+    "amount": 1,
+    "tile": {
+      "x": 1114,
+      "y": 4571,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Clean harralander",
+    "itemId": 255,
+    "amount": 1,
+    "tile": {
+      "x": 1111,
+      "y": 4578,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Clean harralander",
+    "itemId": 255,
+    "amount": 1,
+    "tile": {
+      "x": 1120,
+      "y": 4567,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Limpwurt root",
+    "itemId": 225,
+    "amount": 1,
+    "tile": {
+      "x": 1316,
+      "y": 4583,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Limpwurt root",
+    "itemId": 225,
+    "amount": 1,
+    "tile": {
+      "x": 1310,
+      "y": 4578,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Limpwurt root",
+    "itemId": 225,
+    "amount": 1,
+    "tile": {
+      "x": 1304,
+      "y": 4584,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Limpwurt root",
+    "itemId": 225,
+    "amount": 1,
+    "tile": {
+      "x": 1307,
+      "y": 4574,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "White berries",
+    "itemId": 239,
+    "amount": 1,
+    "tile": {
+      "x": 2262,
+      "y": 3167,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "White berries",
+    "itemId": 239,
+    "amount": 1,
+    "tile": {
+      "x": 2261,
+      "y": 3167,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "White berries",
+    "itemId": 239,
+    "amount": 1,
+    "tile": {
+      "x": 2262,
+      "y": 3168,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2419,
+      "y": 3510,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2418,
+      "y": 3512,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2417,
+      "y": 3515,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2418,
+      "y": 3517,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2415,
+      "y": 3516,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2415,
+      "y": 3511,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2413,
+      "y": 3511,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2411,
+      "y": 3512,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2409,
+      "y": 3514,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2408,
+      "y": 3517,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2409,
+      "y": 3518,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2412,
+      "y": 3519,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2420,
+      "y": 3519,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2422,
+      "y": 3519,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2424,
+      "y": 3517,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2425,
+      "y": 3515,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2428,
+      "y": 3513,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2428,
+      "y": 3509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2426,
+      "y": 3507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2422,
+      "y": 3507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2420,
+      "y": 3509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp toad",
+    "itemId": 2150,
+    "amount": 1,
+    "tile": {
+      "x": 2420,
+      "y": 3509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chart",
+    "itemId": 2576,
+    "amount": 1,
+    "tile": {
+      "x": 2440,
+      "y": 3185,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 2452,
+      "y": 4476,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 2451,
+      "y": 4477,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fighter hat",
+    "itemId": 10548,
+    "amount": 1,
+    "tile": {
+      "x": 2534,
+      "y": 3574,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fighter torso",
+    "itemId": 10551,
+    "amount": 1,
+    "tile": {
+      "x": 2534,
+      "y": 3576,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Magic Secateurs",
+    "itemId": 7409,
+    "amount": 1,
+    "tile": {
+      "x": 2446,
+      "y": 4426,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2541,
+      "y": 3766,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2543,
+      "y": 3765,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2542,
+      "y": 3765,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2525,
+      "y": 3767,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2508,
+      "y": 3761,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2505,
+      "y": 3759,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2503,
+      "y": 3756,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2503,
+      "y": 3754,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2503,
+      "y": 3752,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2507,
+      "y": 3754,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2522,
+      "y": 3761,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2519,
+      "y": 3755,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2518,
+      "y": 3755,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2524,
+      "y": 3751,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2553,
+      "y": 3750,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2553,
+      "y": 3754,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lit candle",
+    "itemId": 33,
+    "amount": 1,
+    "tile": {
+      "x": 2598,
+      "y": 3211,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Watch",
+    "itemId": 2575,
+    "amount": 1,
+    "tile": {
+      "x": 2570,
+      "y": 3252,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lobster pot",
+    "itemId": 301,
+    "amount": 1,
+    "tile": {
+      "x": 2605,
+      "y": 3401,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Big fishing net",
+    "itemId": 305,
+    "amount": 1,
+    "tile": {
+      "x": 2607,
+      "y": 3394,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Harpoon",
+    "itemId": 311,
+    "amount": 1,
+    "tile": {
+      "x": 2606,
+      "y": 3394,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2591,
+      "y": 9738,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2578,
+      "y": 9739,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2583,
+      "y": 9731,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Sextant",
+    "itemId": 2574,
+    "amount": 1,
+    "tile": {
+      "x": 2661,
+      "y": 3162,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cooking apple",
+    "itemId": 1955,
+    "amount": 1,
+    "tile": {
+      "x": 2645,
+      "y": 3363,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Papyrus",
+    "itemId": 970,
+    "amount": 1,
+    "tile": {
+      "x": 2724,
+      "y": 3367,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Elemental shield",
+    "itemId": 2890,
+    "amount": 1,
+    "tile": {
+      "x": 2709,
+      "y": 3495,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 2832,
+      "y": 9581,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 2833,
+      "y": 9585,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 2840,
+      "y": 9584,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2906,
+      "y": 3296,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2907,
+      "y": 3293,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Snape grass",
+    "itemId": 231,
+    "amount": 1,
+    "tile": {
+      "x": 2904,
+      "y": 3294,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Dusty key",
+    "itemId": 1590,
+    "amount": 1,
+    "tile": {
+      "x": 2931,
+      "y": 9692,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2914,
+      "y": 9807,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2907,
+      "y": 9807,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2899,
+      "y": 9802,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2900,
+      "y": 9799,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2907,
+      "y": 9796,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2910,
+      "y": 9797,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2914,
+      "y": 9797,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2918,
+      "y": 9797,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2920,
+      "y": 9801,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2920,
+      "y": 9804,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2911,
+      "y": 9810,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2906,
+      "y": 9812,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2902,
+      "y": 9810,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue dragon scale",
+    "itemId": 243,
+    "amount": 1,
+    "tile": {
+      "x": 2901,
+      "y": 9808,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spade",
+    "itemId": 952,
+    "amount": 1,
+    "tile": {
+      "x": 2981,
+      "y": 3370,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Wine of zamorak",
+    "itemId": 245,
+    "amount": 1,
+    "tile": {
+      "x": 2946,
+      "y": 3473,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Wine of zamorak",
+    "itemId": 245,
+    "amount": 1,
+    "tile": {
+      "x": 2946,
+      "y": 3474,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 2959,
+      "y": 3510,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 2977,
+      "y": 3528,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 2978,
+      "y": 3530,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Small fishing net",
+    "itemId": 303,
+    "amount": 1,
+    "tile": {
+      "x": 2999,
+      "y": 3701,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fishing bait",
+    "itemId": 313,
+    "amount": 1,
+    "tile": {
+      "x": 2988,
+      "y": 3683,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fishing bait",
+    "itemId": 313,
+    "amount": 1,
+    "tile": {
+      "x": 2998,
+      "y": 3705,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2969,
+      "y": 3689,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2962,
+      "y": 3697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2969,
+      "y": 3682,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2983,
+      "y": 3700,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2975,
+      "y": 3697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2974,
+      "y": 3708,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2957,
+      "y": 3699,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2952,
+      "y": 3704,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2956,
+      "y": 3706,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2961,
+      "y": 3702,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2964,
+      "y": 3704,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2976,
+      "y": 3682,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2983,
+      "y": 3697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2978,
+      "y": 3704,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2969,
+      "y": 3697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2967,
+      "y": 3697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2955,
+      "y": 3700,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2956,
+      "y": 3702,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 2963,
+      "y": 3706,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 2979,
+      "y": 3675,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 2985,
+      "y": 3675,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 2990,
+      "y": 3675,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel nails",
+    "itemId": 1539,
+    "amount": 1,
+    "tile": {
+      "x": 2986,
+      "y": 3680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel nails",
+    "itemId": 1539,
+    "amount": 1,
+    "tile": {
+      "x": 2992,
+      "y": 3688,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel nails",
+    "itemId": 1539,
+    "amount": 1,
+    "tile": {
+      "x": 2984,
+      "y": 3685,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel nails",
+    "itemId": 1539,
+    "amount": 1,
+    "tile": {
+      "x": 2981,
+      "y": 3689,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cake tin",
+    "itemId": 1887,
+    "amount": 1,
+    "tile": {
+      "x": 2987,
+      "y": 3686,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 2981,
+      "y": 3691,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 2970,
+      "y": 3705,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 2985,
+      "y": 3685,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 2992,
+      "y": 3686,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Hammer",
+    "itemId": 2347,
+    "amount": 1,
+    "tile": {
+      "x": 2957,
+      "y": 3708,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel bar",
+    "itemId": 2353,
+    "amount": 1,
+    "tile": {
+      "x": 2986,
+      "y": 3681,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rake",
+    "itemId": 5341,
+    "amount": 1,
+    "tile": {
+      "x": 2995,
+      "y": 3707,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Seed dibber",
+    "itemId": 5343,
+    "amount": 1,
+    "tile": {
+      "x": 2997,
+      "y": 3703,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2980,
+      "y": 3764,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2978,
+      "y": 3763,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Water rune",
+    "itemId": 555,
+    "amount": 1,
+    "tile": {
+      "x": 2960,
+      "y": 3899,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cosmic rune",
+    "itemId": 564,
+    "amount": 1,
+    "tile": {
+      "x": 2947,
+      "y": 3898,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2992,
+      "y": 3920,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2995,
+      "y": 3922,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2994,
+      "y": 3924,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3002,
+      "y": 3922,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3004,
+      "y": 3923,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 2999,
+      "y": 10341,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3002,
+      "y": 10343,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3005,
+      "y": 10343,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3003,
+      "y": 10340,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Beer",
+    "itemId": 1917,
+    "amount": 1,
+    "tile": {
+      "x": 3049,
+      "y": 3257,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3022,
+      "y": 3284,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3022,
+      "y": 3298,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3016,
+      "y": 3291,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3015,
+      "y": 3295,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3014,
+      "y": 3294,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze pickaxe",
+    "itemId": 1265,
+    "amount": 1,
+    "tile": {
+      "x": 3009,
+      "y": 3342,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tinderbox",
+    "itemId": 590,
+    "amount": 1,
+    "tile": {
+      "x": 3008,
+      "y": 3448,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Monk\u0027s robe",
+    "itemId": 542,
+    "amount": 1,
+    "tile": {
+      "x": 3059,
+      "y": 3487,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Monk\u0027s robe",
+    "itemId": 542,
+    "amount": 1,
+    "tile": {
+      "x": 3044,
+      "y": 3487,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Monk\u0027s robe",
+    "itemId": 544,
+    "amount": 1,
+    "tile": {
+      "x": 3059,
+      "y": 3488,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Monk\u0027s robe",
+    "itemId": 544,
+    "amount": 1,
+    "tile": {
+      "x": 3044,
+      "y": 3488,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Fire rune",
+    "itemId": 554,
+    "amount": 5,
+    "tile": {
+      "x": 3026,
+      "y": 3637,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Water rune",
+    "itemId": 555,
+    "amount": 5,
+    "tile": {
+      "x": 3028,
+      "y": 3637,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Air rune",
+    "itemId": 556,
+    "amount": 5,
+    "tile": {
+      "x": 3030,
+      "y": 3637,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Earth rune",
+    "itemId": 557,
+    "amount": 5,
+    "tile": {
+      "x": 3032,
+      "y": 3637,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Mind rune",
+    "itemId": 558,
+    "amount": 5,
+    "tile": {
+      "x": 3023,
+      "y": 3640,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Body rune",
+    "itemId": 559,
+    "amount": 5,
+    "tile": {
+      "x": 3021,
+      "y": 3637,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 5,
+    "tile": {
+      "x": 3021,
+      "y": 3640,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tomato",
+    "itemId": 1982,
+    "amount": 1,
+    "tile": {
+      "x": 3039,
+      "y": 3706,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cheese",
+    "itemId": 1985,
+    "amount": 1,
+    "tile": {
+      "x": 3039,
+      "y": 3707,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Iron full helm",
+    "itemId": 1153,
+    "amount": 1,
+    "tile": {
+      "x": 3069,
+      "y": 3831,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold necklace",
+    "itemId": 1654,
+    "amount": 1,
+    "tile": {
+      "x": 3065,
+      "y": 3864,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Half a redberry pie",
+    "itemId": 2333,
+    "amount": 1,
+    "tile": {
+      "x": 3042,
+      "y": 3952,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Attack potion (1)",
+    "itemId": 125,
+    "amount": 1,
+    "tile": {
+      "x": 3026,
+      "y": 10325,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grimy guam",
+    "itemId": 199,
+    "amount": 1,
+    "tile": {
+      "x": 3044,
+      "y": 10313,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3087,
+      "y": 3266,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3087,
+      "y": 3265,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze pickaxe",
+    "itemId": 1265,
+    "amount": 1,
+    "tile": {
+      "x": 3081,
+      "y": 3429,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Beer",
+    "itemId": 1917,
+    "amount": 1,
+    "tile": {
+      "x": 3077,
+      "y": 3439,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Beer",
+    "itemId": 1917,
+    "amount": 1,
+    "tile": {
+      "x": 3077,
+      "y": 3443,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Beer",
+    "itemId": 1917,
+    "amount": 1,
+    "tile": {
+      "x": 3080,
+      "y": 3441,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Empty pot",
+    "itemId": 1931,
+    "amount": 1,
+    "tile": {
+      "x": 3074,
+      "y": 3431,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cooked meat",
+    "itemId": 2142,
+    "amount": 1,
+    "tile": {
+      "x": 3077,
+      "y": 3441,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cooked meat",
+    "itemId": 2142,
+    "amount": 1,
+    "tile": {
+      "x": 3080,
+      "y": 3443,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Leather gloves",
+    "itemId": 1059,
+    "amount": 1,
+    "tile": {
+      "x": 3097,
+      "y": 3486,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Iron mace",
+    "itemId": 1420,
+    "amount": 1,
+    "tile": {
+      "x": 3111,
+      "y": 3519,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 3,
+    "tile": {
+      "x": 3108,
+      "y": 3534,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 6,
+    "tile": {
+      "x": 3103,
+      "y": 3548,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 4,
+    "tile": {
+      "x": 3099,
+      "y": 3557,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 2,
+    "tile": {
+      "x": 3098,
+      "y": 3564,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 8,
+    "tile": {
+      "x": 3099,
+      "y": 3572,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 3,
+    "tile": {
+      "x": 3097,
+      "y": 3578,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 3,
+    "tile": {
+      "x": 3110,
+      "y": 3611,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 3,
+    "tile": {
+      "x": 3109,
+      "y": 3604,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 3,
+    "tile": {
+      "x": 3105,
+      "y": 3607,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 4,
+    "tile": {
+      "x": 3101,
+      "y": 3606,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 6,
+    "tile": {
+      "x": 3103,
+      "y": 3600,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 2,
+    "tile": {
+      "x": 3098,
+      "y": 3600,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 3,
+    "tile": {
+      "x": 3098,
+      "y": 3596,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 5,
+    "tile": {
+      "x": 3103,
+      "y": 3596,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 3,
+    "tile": {
+      "x": 3101,
+      "y": 3592,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Body rune",
+    "itemId": 559,
+    "amount": 1,
+    "tile": {
+      "x": 3091,
+      "y": 3865,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 3076,
+      "y": 3845,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 3108,
+      "y": 3859,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel platebody",
+    "itemId": 1119,
+    "amount": 1,
+    "tile": {
+      "x": 3085,
+      "y": 3859,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Staff of earth",
+    "itemId": 1385,
+    "amount": 1,
+    "tile": {
+      "x": 3100,
+      "y": 3862,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Brass key",
+    "itemId": 983,
+    "amount": 1,
+    "tile": {
+      "x": 3128,
+      "y": 9863,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3116,
+      "y": 9950,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3127,
+      "y": 9956,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3129,
+      "y": 9953,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3121,
+      "y": 9959,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3118,
+      "y": 9958,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3115,
+      "y": 9958,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3124,
+      "y": 9955,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3126,
+      "y": 9952,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3123,
+      "y": 9951,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3177,
+      "y": 3166,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3176,
+      "y": 3171,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3177,
+      "y": 3174,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3171,
+      "y": 3174,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3165,
+      "y": 3180,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3163,
+      "y": 3186,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3167,
+      "y": 3188,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3173,
+      "y": 3188,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3177,
+      "y": 3188,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3181,
+      "y": 3184,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3182,
+      "y": 3181,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3182,
+      "y": 3175,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3184,
+      "y": 3171,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3190,
+      "y": 3167,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Swamp tar",
+    "itemId": 1939,
+    "amount": 1,
+    "tile": {
+      "x": 3194,
+      "y": 3167,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Shears",
+    "itemId": 1735,
+    "amount": 1,
+    "tile": {
+      "x": 3192,
+      "y": 3272,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3195,
+      "y": 3352,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3196,
+      "y": 3355,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3196,
+      "y": 3357,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Doogle leaves",
+    "itemId": 1573,
+    "amount": 1,
+    "tile": {
+      "x": 3154,
+      "y": 3400,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Doogle leaves",
+    "itemId": 1573,
+    "amount": 1,
+    "tile": {
+      "x": 3152,
+      "y": 3401,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Doogle leaves",
+    "itemId": 1573,
+    "amount": 1,
+    "tile": {
+      "x": 3152,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Doogle leaves",
+    "itemId": 1573,
+    "amount": 1,
+    "tile": {
+      "x": 3156,
+      "y": 3401,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Doogle leaves",
+    "itemId": 1573,
+    "amount": 1,
+    "tile": {
+      "x": 3156,
+      "y": 3399,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cake tin",
+    "itemId": 1887,
+    "amount": 1,
+    "tile": {
+      "x": 3141,
+      "y": 3452,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Bowl",
+    "itemId": 1923,
+    "amount": 1,
+    "tile": {
+      "x": 3140,
+      "y": 3452,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Empty pot",
+    "itemId": 1931,
+    "amount": 1,
+    "tile": {
+      "x": 3144,
+      "y": 3449,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Jug",
+    "itemId": 1935,
+    "amount": 1,
+    "tile": {
+      "x": 3142,
+      "y": 3447,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Cooking apple",
+    "itemId": 1955,
+    "amount": 1,
+    "tile": {
+      "x": 3141,
+      "y": 3447,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Cooking apple",
+    "itemId": 1955,
+    "amount": 1,
+    "tile": {
+      "x": 3140,
+      "y": 3447,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Cooking apple",
+    "itemId": 1955,
+    "amount": 1,
+    "tile": {
+      "x": 3141,
+      "y": 3447,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Chocolate bar",
+    "itemId": 1973,
+    "amount": 1,
+    "tile": {
+      "x": 3143,
+      "y": 3453,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grapes",
+    "itemId": 1987,
+    "amount": 1,
+    "tile": {
+      "x": 3144,
+      "y": 3450,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Pie dish",
+    "itemId": 2313,
+    "amount": 1,
+    "tile": {
+      "x": 3142,
+      "y": 3447,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Earth rune",
+    "itemId": 557,
+    "amount": 1,
+    "tile": {
+      "x": 3199,
+      "y": 3517,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Body rune",
+    "itemId": 559,
+    "amount": 1,
+    "tile": {
+      "x": 3193,
+      "y": 3493,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Vial",
+    "itemId": 229,
+    "amount": 1,
+    "tile": {
+      "x": 3188,
+      "y": 3839,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 1,
+    "tile": {
+      "x": 3137,
+      "y": 3833,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 1,
+    "tile": {
+      "x": 3144,
+      "y": 3826,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 1,
+    "tile": {
+      "x": 3149,
+      "y": 3823,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 1,
+    "tile": {
+      "x": 3151,
+      "y": 3831,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 1,
+    "tile": {
+      "x": 3145,
+      "y": 3814,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos rune",
+    "itemId": 562,
+    "amount": 1,
+    "tile": {
+      "x": 3139,
+      "y": 3814,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Black dagger",
+    "itemId": 1217,
+    "amount": 1,
+    "tile": {
+      "x": 3180,
+      "y": 3824,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Vial",
+    "itemId": 229,
+    "amount": 1,
+    "tile": {
+      "x": 3196,
+      "y": 3849,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Sapphire",
+    "itemId": 1607,
+    "amount": 1,
+    "tile": {
+      "x": 3170,
+      "y": 3885,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tarn\u0027s diary",
+    "itemId": 10587,
+    "amount": 1,
+    "tile": {
+      "x": 3147,
+      "y": 4666,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3195,
+      "y": 9821,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 3,
+    "tile": {
+      "x": 3195,
+      "y": 9834,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 4,
+    "tile": {
+      "x": 3195,
+      "y": 9820,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 5,
+    "tile": {
+      "x": 3191,
+      "y": 9821,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 9,
+    "tile": {
+      "x": 3190,
+      "y": 9819,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 9,
+    "tile": {
+      "x": 3189,
+      "y": 9819,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 9,
+    "tile": {
+      "x": 3188,
+      "y": 9819,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 9,
+    "tile": {
+      "x": 3188,
+      "y": 9820,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Brass necklace",
+    "itemId": 1009,
+    "amount": 1,
+    "tile": {
+      "x": 3191,
+      "y": 9820,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ruby ring",
+    "itemId": 1641,
+    "amount": 1,
+    "tile": {
+      "x": 3196,
+      "y": 9822,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold necklace",
+    "itemId": 1654,
+    "amount": 1,
+    "tile": {
+      "x": 3192,
+      "y": 9821,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold bar",
+    "itemId": 2357,
+    "amount": 1,
+    "tile": {
+      "x": 3192,
+      "y": 9822,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3163,
+      "y": 9888,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red spiders\u0027 eggs",
+    "itemId": 223,
+    "amount": 1,
+    "tile": {
+      "x": 3168,
+      "y": 9900,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Mind rune",
+    "itemId": 558,
+    "amount": 1,
+    "tile": {
+      "x": 3206,
+      "y": 3208,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze arrow",
+    "itemId": 882,
+    "amount": 1,
+    "tile": {
+      "x": 3205,
+      "y": 3227,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Knife",
+    "itemId": 946,
+    "amount": 1,
+    "tile": {
+      "x": 3205,
+      "y": 3212,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Knife",
+    "itemId": 946,
+    "amount": 1,
+    "tile": {
+      "x": 3223,
+      "y": 3201,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Iron dagger",
+    "itemId": 1203,
+    "amount": 1,
+    "tile": {
+      "x": 3248,
+      "y": 3245,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bronze dagger",
+    "itemId": 1205,
+    "amount": 1,
+    "tile": {
+      "x": 3213,
+      "y": 3216,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Bronze pickaxe",
+    "itemId": 1265,
+    "amount": 1,
+    "tile": {
+      "x": 3228,
+      "y": 3218,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Bronze pickaxe",
+    "itemId": 1265,
+    "amount": 1,
+    "tile": {
+      "x": 3228,
+      "y": 3222,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3205,
+      "y": 3226,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3205,
+      "y": 3224,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3208,
+      "y": 3225,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3209,
+      "y": 3224,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Bowl",
+    "itemId": 1923,
+    "amount": 1,
+    "tile": {
+      "x": 3208,
+      "y": 3214,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Empty pot",
+    "itemId": 1931,
+    "amount": 1,
+    "tile": {
+      "x": 3209,
+      "y": 3214,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Empty jug",
+    "itemId": 3732,
+    "amount": 1,
+    "tile": {
+      "x": 3211,
+      "y": 3212,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3263,
+      "y": 3276,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3228,
+      "y": 3299,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3230,
+      "y": 3300,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3231,
+      "y": 3299,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Egg",
+    "itemId": 1944,
+    "amount": 1,
+    "tile": {
+      "x": 3227,
+      "y": 3300,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Leather body",
+    "itemId": 1129,
+    "amount": 1,
+    "tile": {
+      "x": 3244,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3243,
+      "y": 3397,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3243,
+      "y": 3395,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 4,
+    "tile": {
+      "x": 3232,
+      "y": 3500,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 3,
+    "tile": {
+      "x": 3228,
+      "y": 3504,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Wooden shield",
+    "itemId": 1171,
+    "amount": 1,
+    "tile": {
+      "x": 3204,
+      "y": 3515,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Pie dish",
+    "itemId": 2313,
+    "amount": 1,
+    "tile": {
+      "x": 3222,
+      "y": 3494,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Body rune",
+    "itemId": 559,
+    "amount": 1,
+    "tile": {
+      "x": 3223,
+      "y": 3583,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Body rune",
+    "itemId": 559,
+    "amount": 1,
+    "tile": {
+      "x": 3232,
+      "y": 3574,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Body rune",
+    "itemId": 559,
+    "amount": 1,
+    "tile": {
+      "x": 3229,
+      "y": 3566,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 3234,
+      "y": 3556,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3246,
+      "y": 3615,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3244,
+      "y": 3611,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3237,
+      "y": 3611,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3234,
+      "y": 3608,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3235,
+      "y": 3607,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3235,
+      "y": 3605,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3236,
+      "y": 3604,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3237,
+      "y": 3604,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3237,
+      "y": 3603,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3238,
+      "y": 3603,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3239,
+      "y": 3604,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3239,
+      "y": 3606,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3232,
+      "y": 3605,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3233,
+      "y": 3605,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3235,
+      "y": 3603,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Yew longbow (u)",
+    "itemId": 66,
+    "amount": 1,
+    "tile": {
+      "x": 3245,
+      "y": 3682,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Crossbow",
+    "itemId": 837,
+    "amount": 1,
+    "tile": {
+      "x": 3236,
+      "y": 3673,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3209,
+      "y": 3681,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3215,
+      "y": 3680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3215,
+      "y": 3669,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3232,
+      "y": 3690,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3244,
+      "y": 3679,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3210,
+      "y": 3684,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3227,
+      "y": 3670,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3235,
+      "y": 3698,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Iron helm",
+    "itemId": 1137,
+    "amount": 1,
+    "tile": {
+      "x": 3239,
+      "y": 3694,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Iron dagger",
+    "itemId": 1203,
+    "amount": 1,
+    "tile": {
+      "x": 3217,
+      "y": 3693,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel dagger",
+    "itemId": 1207,
+    "amount": 1,
+    "tile": {
+      "x": 3219,
+      "y": 3682,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3230,
+      "y": 3743,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3226,
+      "y": 3751,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3236,
+      "y": 3750,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3236,
+      "y": 3740,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3236,
+      "y": 3728,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3249,
+      "y": 3732,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3247,
+      "y": 3726,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3242,
+      "y": 3722,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3249,
+      "y": 3742,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3248,
+      "y": 3751,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3257,
+      "y": 3743,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3256,
+      "y": 3733,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3255,
+      "y": 3761,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tinderbox",
+    "itemId": 590,
+    "amount": 1,
+    "tile": {
+      "x": 3209,
+      "y": 3737,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spade",
+    "itemId": 952,
+    "amount": 1,
+    "tile": {
+      "x": 3247,
+      "y": 3735,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 3248,
+      "y": 3718,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 3240,
+      "y": 3750,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 3256,
+      "y": 3744,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 3258,
+      "y": 3733,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 3253,
+      "y": 3764,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel platelegs",
+    "itemId": 1069,
+    "amount": 1,
+    "tile": {
+      "x": 3249,
+      "y": 3739,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "White berries",
+    "itemId": 239,
+    "amount": 1,
+    "tile": {
+      "x": 3214,
+      "y": 3809,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "White berries",
+    "itemId": 239,
+    "amount": 1,
+    "tile": {
+      "x": 3218,
+      "y": 3814,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3219,
+      "y": 3816,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3218,
+      "y": 3818,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3214,
+      "y": 3820,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3213,
+      "y": 3821,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 3220,
+      "y": 3826,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Coins",
+    "itemId": 995,
+    "amount": 1,
+    "tile": {
+      "x": 3221,
+      "y": 3829,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Iron kiteshield",
+    "itemId": 1191,
+    "amount": 1,
+    "tile": {
+      "x": 3247,
+      "y": 3795,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Headless arrow",
+    "itemId": 53,
+    "amount": 1,
+    "tile": {
+      "x": 3240,
+      "y": 3940,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Headless arrow",
+    "itemId": 53,
+    "amount": 1,
+    "tile": {
+      "x": 3237,
+      "y": 3949,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Headless arrow",
+    "itemId": 53,
+    "amount": 1,
+    "tile": {
+      "x": 3235,
+      "y": 3950,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3250,
+      "y": 3953,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3232,
+      "y": 3948,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3236,
+      "y": 3939,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Sapphire lantern",
+    "itemId": 4702,
+    "amount": 1,
+    "tile": {
+      "x": 3219,
+      "y": 9529,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Knife",
+    "itemId": 946,
+    "amount": 1,
+    "tile": {
+      "x": 3215,
+      "y": 9625,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Leather boots",
+    "itemId": 1061,
+    "amount": 1,
+    "tile": {
+      "x": 3210,
+      "y": 9615,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3216,
+      "y": 9625,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cabbage",
+    "itemId": 1965,
+    "amount": 1,
+    "tile": {
+      "x": 3217,
+      "y": 9623,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fire rune",
+    "itemId": 554,
+    "amount": 1,
+    "tile": {
+      "x": 3304,
+      "y": 3311,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Water rune",
+    "itemId": 555,
+    "amount": 1,
+    "tile": {
+      "x": 3297,
+      "y": 3315,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cadava berries",
+    "itemId": 753,
+    "amount": 1,
+    "tile": {
+      "x": 3275,
+      "y": 3370,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cadava berries",
+    "itemId": 753,
+    "amount": 1,
+    "tile": {
+      "x": 3274,
+      "y": 3370,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Redberries",
+    "itemId": 1951,
+    "amount": 1,
+    "tile": {
+      "x": 3276,
+      "y": 3373,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Redberries",
+    "itemId": 1951,
+    "amount": 1,
+    "tile": {
+      "x": 3279,
+      "y": 3373,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Cup of tea",
+    "itemId": 1978,
+    "amount": 1,
+    "tile": {
+      "x": 3271,
+      "y": 3413,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Empty jug",
+    "itemId": 3732,
+    "amount": 1,
+    "tile": {
+      "x": 3271,
+      "y": 3409,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3303,
+      "y": 3502,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3303,
+      "y": 3501,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3310,
+      "y": 3504,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3311,
+      "y": 3503,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3302,
+      "y": 3507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3301,
+      "y": 3507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3300,
+      "y": 3509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3299,
+      "y": 3511,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Logs",
+    "itemId": 1511,
+    "amount": 1,
+    "tile": {
+      "x": 3302,
+      "y": 3511,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3273,
+      "y": 3664,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3268,
+      "y": 3660,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3271,
+      "y": 3658,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3273,
+      "y": 3660,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3278,
+      "y": 3657,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3279,
+      "y": 3659,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3280,
+      "y": 3658,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3281,
+      "y": 3658,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3280,
+      "y": 3657,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3272,
+      "y": 3690,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3269,
+      "y": 3686,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3274,
+      "y": 3688,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3276,
+      "y": 3688,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3272,
+      "y": 3683,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3276,
+      "y": 3682,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3275,
+      "y": 3680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3277,
+      "y": 3676,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3275,
+      "y": 3675,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3268,
+      "y": 3679,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Big bones",
+    "itemId": 532,
+    "amount": 1,
+    "tile": {
+      "x": 3268,
+      "y": 3689,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Big bones",
+    "itemId": 532,
+    "amount": 1,
+    "tile": {
+      "x": 3273,
+      "y": 3686,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Big bones",
+    "itemId": 532,
+    "amount": 1,
+    "tile": {
+      "x": 3273,
+      "y": 3676,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Big bones",
+    "itemId": 532,
+    "amount": 1,
+    "tile": {
+      "x": 3267,
+      "y": 3678,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3291,
+      "y": 3652,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3275,
+      "y": 3664,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3289,
+      "y": 3651,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3281,
+      "y": 3663,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3278,
+      "y": 3664,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3271,
+      "y": 3656,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Steel sword",
+    "itemId": 1281,
+    "amount": 1,
+    "tile": {
+      "x": 3283,
+      "y": 3658,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3279,
+      "y": 3764,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 3271,
+      "y": 3767,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Tile",
+    "itemId": 966,
+    "amount": 1,
+    "tile": {
+      "x": 3279,
+      "y": 3767,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3316,
+      "y": 3888,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3313,
+      "y": 3890,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3321,
+      "y": 3892,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3292,
+      "y": 3887,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3291,
+      "y": 3888,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3290,
+      "y": 3890,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3288,
+      "y": 3891,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Burnt bones",
+    "itemId": 528,
+    "amount": 1,
+    "tile": {
+      "x": 3287,
+      "y": 3887,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Nature rune",
+    "itemId": 561,
+    "amount": 3,
+    "tile": {
+      "x": 3308,
+      "y": 3859,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Nature rune",
+    "itemId": 561,
+    "amount": 4,
+    "tile": {
+      "x": 3308,
+      "y": 3858,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blood rune",
+    "itemId": 565,
+    "amount": 1,
+    "tile": {
+      "x": 3297,
+      "y": 3890,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3291,
+      "y": 3927,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3292,
+      "y": 3931,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3296,
+      "y": 3933,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3287,
+      "y": 3932,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Gold ore",
+    "itemId": 444,
+    "amount": 1,
+    "tile": {
+      "x": 3283,
+      "y": 3936,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Bronze sq shield",
+    "itemId": 1173,
+    "amount": 1,
+    "tile": {
+      "x": 3294,
+      "y": 3935,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Iron dagger",
+    "itemId": 1203,
+    "amount": 1,
+    "tile": {
+      "x": 3279,
+      "y": 3938,
+      "plane": 3
+    }
+  },
+  {
+    "comment": "Bones",
+    "itemId": 526,
+    "amount": 1,
+    "tile": {
+      "x": 3334,
+      "y": 3753,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skull",
+    "itemId": 964,
+    "amount": 1,
+    "tile": {
+      "x": 3335,
+      "y": 3752,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Salve amulet (e)",
+    "itemId": 10588,
+    "amount": 1,
+    "tile": {
+      "x": 3443,
+      "y": 3254,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Wolfbane",
+    "itemId": 2952,
+    "amount": 1,
+    "tile": {
+      "x": 3439,
+      "y": 9896,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Darklight",
+    "itemId": 6746,
+    "amount": 1,
+    "tile": {
+      "x": 3480,
+      "y": 3091,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spade",
+    "itemId": 952,
+    "amount": 1,
+    "tile": {
+      "x": 3571,
+      "y": 3311,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Boots of lightness",
+    "itemId": 88,
+    "amount": 1,
+    "tile": {
+      "x": 2654,
+      "y": 9767,
+      "plane": 0
+    }
+  }
+]

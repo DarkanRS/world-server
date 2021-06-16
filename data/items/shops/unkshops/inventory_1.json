@@ -1,0 +1,50 @@
+{
+  "name": "Inventory 1",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 1265,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1351,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1349,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1353,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1363,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1365,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1369,
+        "amount": 10
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "names": [
+    "Dagannoth Rex"
+  ],
+  "hitpoints": 2550,
+  "attackAnim": 2853,
+  "defenceAnim": 2852,
+  "deathAnim": 2856,
+  "deathDelay": 2,
+  "respawnDelay": 60,
+  "maxHit": 280,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "attackBonus": "SLASH_ATT",
+  "levels": [
+    255,
+    255,
+    255,
+    255,
+    0
+  ]
+}
