@@ -1013,15 +1013,16 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {
-			Player target = World.forceGetPlayer(Utils.concat(args));
-			if (target == null)
-				p.sendMessage("Couldn't find player.");
-			else {
-				p.sendMessage("<col=ff0000>IP addresses for " + Utils.concat(args));
-				for (String ip : target.getIpAddresses()) {
-					p.sendMessage("<col=ff0000>" + ip);
+			World.forceGetPlayer(Utils.concat(args), target -> {
+				if (target == null)
+					p.sendMessage("Couldn't find player.");
+				else {
+					p.sendMessage("<col=ff0000>IP addresses for " + Utils.concat(args));
+					for (String ip : target.getIpAddresses()) {
+						p.sendMessage("<col=ff0000>" + ip);
+					}
 				}
-			}
+			});
 		});
 		
 		Commands.add(Rights.ADMIN, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {

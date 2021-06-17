@@ -20,8 +20,7 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
 import com.rs.cores.CoresManager;
-import com.rs.db.collection.Highscores;
-import com.rs.db.collection.Players;
+import com.rs.db.WorldDB;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.Hit;
@@ -1753,11 +1752,11 @@ public class Player extends Entity {
 		lastLoggedIn = System.currentTimeMillis();
 		setFinished(true);
 		session.setDecoder(null);
-		Players.save(this, () -> {
+		WorldDB.getPlayers().save(this, () -> {
 			LobbyCommunicator.removeWorldPlayer(this);
 			World.removePlayer(this);
 			World.updateEntityRegion(this);
-			Highscores.savePlayer(this);
+			WorldDB.getHighscores().save(this);
 			if (Settings.getConfig().isDebug())
 				Logger.log(this, "Finished Player: " + getUsername());
 		});
@@ -2337,7 +2336,7 @@ public class Player extends Entity {
 		inventory.reset();
 		equipment.reset();
 		appearence.generateAppearanceData();
-		Players.save(this, () -> {});
+		WorldDB.getPlayers().save(this);
 		for (Item item : items[0])
 			inventory.addItem(item);
 		for (Item item : items[1]) {
@@ -2411,7 +2410,7 @@ public class Player extends Entity {
 		}
 		inventory.reset();
 		equipment.reset();
-		Players.save(this, () -> {});
+		WorldDB.getPlayers().save(this);
 		for (Item item : keptItems) {
 			if (item.getId() != 1)
 				getInventory().addItem(item);
@@ -4371,5 +4370,9 @@ public class Player extends Entity {
 
 	public Account getAccount() {
 		return account;
+	}
+
+	public void setAccount(Account account2) {
+		this.account = account;
 	}
 }

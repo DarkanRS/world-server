@@ -2,7 +2,7 @@ package com.rs.net.decoders;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.db.collection.Players;
+import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
@@ -189,21 +189,21 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 
-		Player player = Players.getSync(username);
+		WorldDB.getPlayers().get(username, player -> {
+			if (player == null)
+				player = new Player(account);
 
-		if (player == null)
-			player = new Player(account);
-
-		if (account.isBanned()) {
-			session.sendClientPacket(4);
-			return -1;
-		}
-		player.init(session, account, displayMode, screenWidth, screenHeight, mInformation);
-		session.setIsaac(new IsaacKeyPair(isaacKeys));
-		session.write(new WorldLoginDetails(Settings.getConfig().isDebug() ? 2 : player.getRights().getCrown(), player.getIndex(), player.getDisplayName()));
-		session.setDecoder(new GameDecoder(session));
-		session.setEncoder(new WorldEncoder(player, session));
-		player.start();
+			if (account.isBanned()) {
+				session.sendClientPacket(4);
+				return;
+			}
+			player.init(session, account, displayMode, screenWidth, screenHeight, mInformation);
+			session.setIsaac(new IsaacKeyPair(isaacKeys));
+			session.write(new WorldLoginDetails(Settings.getConfig().isDebug() ? 2 : player.getRights().getCrown(), player.getIndex(), player.getDisplayName()));
+			session.setDecoder(new GameDecoder(session));
+			session.setEncoder(new WorldEncoder(player, session));
+			player.start();
+		});
 		return stream.getOffset();
 	}
 

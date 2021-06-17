@@ -6,49 +6,53 @@ import java.util.ArrayList;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.json.simple.JSONObject;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.Sorts;
-import com.rs.db.WorldDB;
 import com.rs.db.model.Highscore;
 import com.rs.game.player.Player;
+import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Rights;
-import com.rs.lib.util.MongoUtil;
 
-public class Highscores {
+public class HighscoresManager extends DBItemManager {
 	
-	private static MongoCollection<Document> HIGHSCORES;
+	public HighscoresManager() {
+		super("highscores");
+	}
 	
-	public static void init() {
-		if (!MongoUtil.collectionExists(WorldDB.getDatabase(), "highscores")) {
-			WorldDB.getDatabase().createCollection("highscores");
-			HIGHSCORES = WorldDB.getDatabase().getCollection("highscores");
-			HIGHSCORES.createIndex(Indexes.text("username"));
-			HIGHSCORES.createIndex(Indexes.descending("totalLevel", "totalXp"));
-		} else
-			HIGHSCORES = WorldDB.getDatabase().getCollection("highscores");
+	@Override
+	public void initCollection() {
+		getDocs().createIndex(Indexes.text("username"));
+		getDocs().createIndex(Indexes.descending("totalLevel", "totalXp"));
+	}
+	
+	public void save(Player player) {
+		save(player, null);
+	}
+	
+	public void save(Player player, Runnable done) {
+		getConn().execute(() -> {
+			saveSync(player);
+			if (done != null)
+				done.run();
+		});
 	}
 
-	public static void savePlayer(Player player) {
-		if (!WorldDB.ACTIVE)
-			return;
+	public void saveSync(Player player) {
 		if (player.hasRights(Rights.OWNER)|| player.hasRights(Rights.DEVELOPER) || player.hasRights(Rights.ADMIN) || player.getSkills().getTotalXp() < 50000)
 			return;
 		try {
-			HIGHSCORES.findOneAndReplace(eq("username", player.getUsername()), Document.parse(JsonFileManager.toJson(new Highscore(player))), new FindOneAndReplaceOptions().upsert(true));
+			getDocs().findOneAndReplace(eq("username", player.getUsername()), Document.parse(JsonFileManager.toJson(new Highscore(player))), new FindOneAndReplaceOptions().upsert(true));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static ArrayList<Document> getTotal(int page, int ironman) {
+	public ArrayList<Document> getTotalSync(int page, int ironman) {
 		ArrayList<Document> docs = new ArrayList<Document>();
 		
 		Bson filters = null, iron = null;
@@ -59,7 +63,7 @@ public class Highscores {
 				filters = iron;
 		}
 						
-		FindIterable<Document> res = filters == null ? HIGHSCORES.find() : HIGHSCORES.find(filters);
+		FindIterable<Document> res = filters == null ? getDocs().find() : getDocs().find(filters);
 		MongoCursor<Document> cursor = res.sort(Sorts.descending("totalLevel", "totalXp")).skip(20 * page).limit(20).iterator();
 		
         while (cursor.hasNext()) {
@@ -70,7 +74,7 @@ public class Highscores {
 		return docs;
 	}
 	
-	public static ArrayList<Document> getLevel(int skill, int page, int ironman) {
+	public ArrayList<Document> getLevelSync(int skill, int page, int ironman) {
 		ArrayList<Document> docs = new ArrayList<Document>();
 		
 		try {
@@ -82,7 +86,7 @@ public class Highscores {
 				filters = iron;
 		}
 		
-		FindIterable<Document> res = filters == null ? HIGHSCORES.find() : HIGHSCORES.find(filters);
+		FindIterable<Document> res = filters == null ? getDocs().find() : getDocs().find(filters);
 		
 		MongoCursor<Document> cursor = res.sort(new BasicDBObject("xp."+skill+"", -1)).skip(20 * page).limit(20).iterator();
         while (cursor.hasNext()) {
@@ -95,12 +99,10 @@ public class Highscores {
         
 		return docs;
 	}
-	
-	public JSONObject toJSONObject() {
-		return new JSONObject();
-	}
 
-	public static void clearAllHighscores() {
-		HIGHSCORES.drop();
+	public void clearAllHighscores() {
+		getConn().execute(() -> {
+			getDocs().drop();
+		});
 	}
 }

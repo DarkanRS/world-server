@@ -10,7 +10,6 @@ import com.rs.game.grandexchange.GrandExchange.GrandExchangeType;
 import com.rs.game.grandexchange.GrandExchangeDatabase;
 import com.rs.game.grandexchange.Offer;
 import com.rs.game.npc.NPC;
-import com.rs.game.player.Player;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -108,12 +107,13 @@ public class Normal {
 		});
 		
 		Commands.add(Rights.PLAYER, "checkbank [player name]", "Displays the contents of another player's bank.", (p, args) -> {
-			Player target = World.forceGetPlayer(Utils.concat(args));
-			if (target == null) {
-				p.sendMessage("Player not found.");
-				return;
-			}
-			p.getBank().openBankOther(target);
+			World.forceGetPlayer(Utils.concat(args), target -> {
+				if (target == null) {
+					p.sendMessage("Player not found.");
+					return;
+				}
+				p.getBank().openBankOther(target);
+			});
 		});
 		
 		Commands.add(Rights.PLAYER, "searchnpc,searchn,findnpc,getnpcid [npc name]", "Displays all NPC ids containing the query searched.", (p, args) -> {

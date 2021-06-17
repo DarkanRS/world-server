@@ -1,7 +1,6 @@
 package com.rs;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -14,7 +13,6 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
-import com.rs.db.collection.Players;
 import com.rs.game.World;
 import com.rs.game.grandexchange.GrandExchangeDatabase;
 import com.rs.game.npc.familiar.Familiar;
@@ -31,31 +29,16 @@ import com.rs.lib.util.PacketAdapter;
 import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
-import com.rs.utils.AutoBackup;
 import com.rs.utils.Ticks;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.utils.json.FamiliarAdapter;
 import com.rs.web.WorldAPI;
 
 public final class Launcher {
-
-	public static AutoBackup autoBackup;
-		
-	private static final String[] dataPaths = {
-		"./data/backups/players/",
-		"./data/backups/grandexchange/",
-		"./data/backups/clans/",
-		"./data/characters/",
-		"./data/charactersBackup/",
-		"./data/clans/",
-	};
+	
+	private static WorldDB DB = new WorldDB();
 
 	public static void main(String[] args) throws Exception {
-		for (String path : dataPaths) {
-			File f = new File(path);
-			if (!f.exists())
-				f.mkdirs();
-		}
 		JsonFileManager.setGSON(new GsonBuilder()
 			.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
 			.registerTypeAdapter(Controller.class, new ControllerAdapter())
@@ -82,7 +65,7 @@ public final class Launcher {
 		PluginManager.executeStartupHooks();
 		
 		Logger.log("MongoDB", "Connecting to MongoDB and initializing databases...");
-		WorldDB.init();
+		DB.init();
 		
 		Logger.log("ServerChannelHandler", "Putting server online...");
 		try {
@@ -146,7 +129,7 @@ public final class Launcher {
 		for (Player player : World.getPlayers()) {
 			if (player == null || !player.hasStarted() || player.hasFinished())
 				continue;
-			Players.saveSync(player);
+			WorldDB.getPlayers().saveSync(player);
 		}
 		PartyRoom.save();
 	}

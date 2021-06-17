@@ -36,6 +36,10 @@ public class LobbyCommunicator {
 		post(Account.class, new LoginRequest(username, password), "getaccountauth", cb);
 	}
 	
+	public static void getAccount(String username, Consumer<Account> cb) {
+		post(Account.class, new LoginRequest(username, "cock"), "getaccount", cb);
+	}
+	
 	public static void updateAccount(Player player) {
 		post(player.getAccount(), "updatewholeaccount");
 	}

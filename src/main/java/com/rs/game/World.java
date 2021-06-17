@@ -14,7 +14,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.cores.WorldThread;
-import com.rs.db.collection.Players;
+import com.rs.db.WorldDB;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.ClipType;
@@ -43,6 +43,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
+import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -50,7 +51,6 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Areas;
-import com.rs.utils.AutoBackup;
 import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -72,7 +72,6 @@ public final class World {
 		addRestoreShopItemsTask();
 		addBrewingProcessTask();
 		processPartyRoom();
-		addSaveBackupsTask();
 		PuroPuroController.initPuroImplings();
 		LivingRockCavern.init();
 	}
@@ -128,25 +127,12 @@ public final class World {
 		}, 0, 1);
 	}
 
-	private static void addSaveBackupsTask() {
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					AutoBackup.backupAll();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, Ticks.fromHours(4));
-	}
-
 	private static final void addSavePlayersTask() {
 		CoresManager.schedule(() -> {
 			for (Player player : getPlayers()) {
 				if (player == null || !player.hasStarted())
 					continue;
-				Players.saveSync(player);
+				WorldDB.getPlayers().save(player);
 			}
 			PartyRoom.save();
 		}, 0, Ticks.fromSeconds(30));
@@ -891,8 +877,20 @@ public final class World {
 		return PLAYER_MAP.get(Utils.formatPlayerNameForProtocol(username));
 	}
 
-	public static Player forceGetPlayer(String username) {
-		return Players.getSync(Utils.formatPlayerNameForProtocol(username));
+	public static void forceGetPlayer(String username, Consumer<Player> result) {
+		Player player = getPlayer(username);
+		if (player != null) {
+			result.accept(player);
+			return;
+		}
+		LobbyCommunicator.getAccount(username, acc -> {
+			WorldDB.getPlayers().get(Utils.formatPlayerNameForProtocol(username), p -> {
+				if (acc == null || p == null)
+					result.accept(null);
+				p.setAccount(acc);
+				result.accept(p);
+			});
+		});
 	}
 
 	public static final EntityList<Player> getPlayers() {
