@@ -26,16 +26,17 @@ public class PlayerModifiers {
 		});
 		
 		Commands.add(Rights.MOD, "ban [player name]", "Bans a player for 2 days.", (p, args) -> {
-			Player target = World.forceGetPlayer(Utils.concat(args));
-			if (target != null) {
-				target.getAccount().banDays(2);
-				p.sendMessage("You have banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
-				LobbyCommunicator.updateAccount(target);
-				if (target.hasStarted())
-					target.getSession().getChannel().close();
-			} else {
-				p.sendMessage("Unable to find player.");
-			}
+			World.forceGetPlayer(Utils.concat(args), target -> {
+				if (target != null) {
+					target.getAccount().banDays(2);
+					p.sendMessage("You have banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
+					LobbyCommunicator.updateAccount(target);
+					if (target.hasStarted())
+						target.getSession().getChannel().close();
+				} else {
+					p.sendMessage("Unable to find player.");
+				}
+			});
 		});
 		
 		Commands.add(Rights.MOD, "teleto", "Teleports the user to another player as long as they aren't in a controller or locked.", (p, args) -> {
@@ -73,14 +74,15 @@ public class PlayerModifiers {
 		});
 		
 		Commands.add(Rights.MOD, "mute [player name]", "Mutes a player for 2 days.", (p, args) -> {
-			Player target = World.forceGetPlayer(Utils.concat(args));
-			if (target != null) {
-				target.getAccount().muteDays(2);
-				p.sendMessage("You have muted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
-				LobbyCommunicator.updateAccount(target);
-			} else {
-				p.sendMessage("Unable to find player.");
-			}
+			World.forceGetPlayer(Utils.concat(args), target -> {
+				if (target != null) {
+					target.getAccount().muteDays(2);
+					p.sendMessage("You have muted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
+					LobbyCommunicator.updateAccount(target);
+				} else {
+					p.sendMessage("Unable to find player.");
+				}
+			});
 		});
 		
 		Commands.add(Rights.MOD, "clicks [player name]", "Displays the last 50 clicks the player has done.", (p, args) -> {
