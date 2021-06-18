@@ -36,7 +36,7 @@ import com.rs.web.WorldAPI;
 
 public final class Launcher {
 	
-	private static WorldDB DB = new WorldDB();
+	private static WorldDB DB;
 
 	public static void main(String[] args) throws Exception {
 		JsonFileManager.setGSON(new GsonBuilder()
@@ -65,6 +65,7 @@ public final class Launcher {
 		PluginManager.executeStartupHooks();
 		
 		Logger.log("MongoDB", "Connecting to MongoDB and initializing databases...");
+		DB = new WorldDB();
 		DB.init();
 		
 		Logger.log("ServerChannelHandler", "Putting server online...");
