@@ -1035,7 +1035,7 @@ public class Player extends Entity {
 				if (!(getActionManager().getAction() instanceof PlayerCombat)) {
 					logout(true);
 				} else {
-					if (!(((PlayerCombat) getActionManager().getAction()).getTarget() instanceof Player)) {
+					if (!inCombat(10000)) {
 						idleLog();
 					}
 				}
