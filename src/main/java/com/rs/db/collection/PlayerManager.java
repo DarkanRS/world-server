@@ -27,7 +27,7 @@ public class PlayerManager extends DBItemManager {
 	}
 
 	public void get(String username, Consumer<Player> func) {
-		getConn().execute(() -> {
+		execute(() -> {
 			func.accept(getSync(username));
 		});
 	}
@@ -37,7 +37,7 @@ public class PlayerManager extends DBItemManager {
 	}
 	
 	public void save(Player account, Runnable done) {
-		getConn().execute(() -> {
+		execute(() -> {
 			saveSync(account);
 			if (done != null)
 				done.run();

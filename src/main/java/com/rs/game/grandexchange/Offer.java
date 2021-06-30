@@ -1,5 +1,6 @@
 package com.rs.game.grandexchange;
 
+import com.rs.db.WorldDB;
 import com.rs.game.grandexchange.GrandExchange.GrandExchangeOfferType;
 import com.rs.game.grandexchange.GrandExchange.GrandExchangeType;
 import com.rs.game.grandexchange.GrandExchange.OfferType;
@@ -138,29 +139,33 @@ public final class Offer {
 	public void claimAndClear(Player player) {
 		if (amountLeft == 0 || aborted) {
 			if (player.getInventory().getFreeSlots() > 1) {
-				if (offerType == OfferType.BUY) {
-					int noted = GrandExchange.getNotedId(itemId);
-					if (noted != -1 && getAmountProcessed() > 0) {
-						player.getInventory().addItem(noted, getAmountProcessed());
-					}
-				} else {
-					if (aborted) {
+				player.lock();
+				WorldDB.getGE().remove(player.getUsername(), box, () -> {
+					if (offerType == OfferType.BUY) {
 						int noted = GrandExchange.getNotedId(itemId);
-						if (GrandExchange.getNotedId(itemId) != -1 && amountLeft > 0) {
-							player.getInventory().addItem(noted, amountLeft);
+						if (noted != -1 && getAmountProcessed() > 0) {
+							player.getInventory().addItem(noted, getAmountProcessed());
+						}
+					} else {
+						if (aborted) {
+							int noted = GrandExchange.getNotedId(itemId);
+							if (GrandExchange.getNotedId(itemId) != -1 && amountLeft > 0) {
+								player.getInventory().addItem(noted, amountLeft);
+							}
 						}
 					}
-				}
-				processCashToClaim(player);
-				player.setGrandExchangeOffer(null, box);
-				GrandExchangeDatabase.updateOfferSet(player.getUsername(), player.getOfferSet(), true);
+					processCashToClaim(player);
+					player.setGrandExchangeOffer(null, box);
+					player.unlock();
+				});
 			} else {
 				player.sendMessage("You don't have enough inventory space.");
 			}
 		} else {
 			processCashToClaim(player);
-			GrandExchangeDatabase.updateOfferSet(player.getUsername(), player.getOfferSet(), true);
+			GEHandler.updateOffer(player.getUsername(), this);
 		}
+		GrandExchange.updateGrandExchangeBoxes(player);
 	}
 	
 	public void processCashToClaim(Player player) {

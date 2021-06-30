@@ -35,7 +35,7 @@ public class HighscoresManager extends DBItemManager {
 	}
 	
 	public void save(Player player, Runnable done) {
-		getConn().execute(() -> {
+		execute(() -> {
 			saveSync(player);
 			if (done != null)
 				done.run();
@@ -101,7 +101,7 @@ public class HighscoresManager extends DBItemManager {
 	}
 
 	public void clearAllHighscores() {
-		getConn().execute(() -> {
+		execute(() -> {
 			getDocs().drop();
 		});
 	}

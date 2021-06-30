@@ -1,13 +1,11 @@
 package com.rs.game.player.content.commands.normal;
 
-import java.util.List;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.grandexchange.GrandExchange.GrandExchangeType;
-import com.rs.game.grandexchange.GrandExchangeDatabase;
 import com.rs.game.grandexchange.Offer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.content.commands.Command;
@@ -79,31 +77,33 @@ public class Normal {
 //		});
 		
 		Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> {
-			List<Offer> offers = GrandExchangeDatabase.getAllOffersOfType(GrandExchangeType.BUYING);
-			p.getPackets().sendRunScript(1207, offers.size());
-			p.getInterfaceManager().sendInterface(275);
-			p.getPackets().setIFText(275, 1, "Grand Exchange Buy Offers");
-			int num = 10;
-			for (Offer offer : offers) {
-				if (num > 288)
-					break;
-				p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.getAmountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPricePerItem() + " ea");
-				num++;
-			}
+			WorldDB.getGE().getAllOffersOfType(GrandExchangeType.BUYING, offers -> {
+				p.getPackets().sendRunScript(1207, offers.size());
+				p.getInterfaceManager().sendInterface(275);
+				p.getPackets().setIFText(275, 1, "Grand Exchange Buy Offers");
+				int num = 10;
+				for (Offer offer : offers) {
+					if (num > 288)
+						break;
+					p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.getAmountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPricePerItem() + " ea");
+					num++;
+				}
+			});
 		});
 		
 		Commands.add(Rights.PLAYER, "selloffers", "Displays all sell offers currently active in the Grand Exchange.", (p, args) -> {
-			List<Offer> offers = GrandExchangeDatabase.getAllOffersOfType(GrandExchangeType.SELLING);
-			p.getPackets().sendRunScript(1207, offers.size());
-			p.getInterfaceManager().sendInterface(275);
-			p.getPackets().setIFText(275, 1, "Grand Exchange Sell Offers");
-			int num = 10;
-			for (Offer offer : offers) {
-				if (num > 288)
-					break;
-				p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.getAmountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPricePerItem() + " ea");
-				num++;
-			}
+			WorldDB.getGE().getAllOffersOfType(GrandExchangeType.SELLING, offers -> {
+				p.getPackets().sendRunScript(1207, offers.size());
+				p.getInterfaceManager().sendInterface(275);
+				p.getPackets().setIFText(275, 1, "Grand Exchange Sell Offers");
+				int num = 10;
+				for (Offer offer : offers) {
+					if (num > 288)
+						break;
+					p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.getAmountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPricePerItem() + " ea");
+					num++;
+				}
+			});
 		});
 		
 		Commands.add(Rights.PLAYER, "checkbank [player name]", "Displays the contents of another player's bank.", (p, args) -> {

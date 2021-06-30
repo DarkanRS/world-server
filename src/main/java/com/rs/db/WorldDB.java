@@ -1,6 +1,7 @@
 package com.rs.db;
 
 import com.rs.Settings;
+import com.rs.db.collection.GEManager;
 import com.rs.db.collection.HighscoresManager;
 import com.rs.db.collection.PlayerManager;
 import com.rs.lib.db.DBConnection;
@@ -9,13 +10,13 @@ public class WorldDB extends DBConnection {
 	
 	private static PlayerManager PLAYERS = new PlayerManager();
 	private static HighscoresManager HIGHSCORES = new HighscoresManager();
-	//private static GEManager GE = new GEManager(); //TODO
+	private static GEManager GE = new GEManager();
 	
 	public WorldDB() {
 		super(Settings.getConfig().getMongoDb());
 		addItemManager(PLAYERS);
 		addItemManager(HIGHSCORES);
-		//addItemManager(GE);
+		addItemManager(GE);
 	}
 
 	public static PlayerManager getPlayers() {
@@ -24,5 +25,9 @@ public class WorldDB extends DBConnection {
 
 	public static HighscoresManager getHighscores() {
 		return HIGHSCORES;
+	}
+	
+	public static GEManager getGE() {
+		return GE;
 	}
 }

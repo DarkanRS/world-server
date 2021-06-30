@@ -162,8 +162,8 @@ public class GrandExchange {
 
 	public static void claim(Player player) {
 		if (player.geBox != -1) {
-			if (player.getOfferSet().offers[player.geBox] != null) {
-				player.getOfferSet().offers[player.geBox].claimAndClear(player);
+			if (player.getOffers()[player.geBox] != null) {
+				player.getOffers()[player.geBox].claimAndClear(player);
 				updateGrandExchangeBoxes(player);
 				open(player);
 			}
@@ -183,9 +183,9 @@ public class GrandExchange {
 		if (slot < 0)
 			return;
 		player.getInterfaceManager().closeChatBoxInterface();
-		if (player.getOfferSet().offers[slot].getAmountLeft() == 0)
+		if (player.getOffers()[slot].getAmountLeft() == 0)
 			return;
-		player.getOfferSet().offers[slot].abort();
+		player.getOffers()[slot].abort();
 		player.sendMessage("Abort request acknowledged. Please be aware that your offer may have already been completed.");
 		updateCollectionBox(player);
 		updateGrandExchangeBoxes(player);
@@ -194,7 +194,7 @@ public class GrandExchange {
 	public static void updateCollectionBox(Player player) {
 		if (player.geBox < 0)
 			return;
-		Offer offer = player.getOfferSet().offers[player.geBox];
+		Offer offer = player.getOffers()[player.geBox];
 		if (offer == null)
 			return;
 
@@ -377,8 +377,8 @@ public class GrandExchange {
 	}
 
 	public static void offerOffer(Player player) {
-		if (player.geBox >= 0 && player.geBox <= player.getOfferSet().offers.length) {
-			if (player.getOfferSet().offers[player.geBox] != null)
+		if (player.geBox >= 0 && player.geBox <= player.getOffers().length) {
+			if (player.getOffers()[player.geBox] != null)
 				return;
 		}
 
@@ -414,7 +414,7 @@ public class GrandExchange {
 				player.getInventory().deleteItem(995, player.geTotalPrice);
 				Offer offer = new Offer(player.getUsername(), player.geBox, player.geAwaitingBuy.getId(), player.geAwaitingBuy.getAmount(), player.gePrice, OfferType.BUY);
 				player.setGrandExchangeOffer(offer, player.geBox);
-				GrandExchangeDatabase.updateOfferSet(player.getUsername(), player.getOfferSet(), true);
+				GEHandler.updateOffer(player.getUsername(), offer);
 			} else {
 				player.sendMessage("You don't have enough coins to buy that many.");
 				return;
@@ -431,7 +431,7 @@ public class GrandExchange {
 					Offer offer = new Offer(player.getUsername(), player.geBox, player.geAwaitingSell.getId(), player.geAwaitingSell.getAmount(), player.gePrice, OfferType.SELL);
 					player.getInventory().deleteItem(player.geAwaitingSell.getId(), player.geAwaitingSell.getAmount());
 					player.setGrandExchangeOffer(offer, player.geBox);
-					GrandExchangeDatabase.updateOfferSet(player.getUsername(), player.getOfferSet(), true);
+					GEHandler.updateOffer(player.getUsername(), offer);
 				} else {
 					player.sendMessage("You don't have enough of that item to sell.");
 					return;
@@ -441,7 +441,7 @@ public class GrandExchange {
 					Offer offer = new Offer(player.getUsername(), player.geBox, player.geAwaitingSell.getId(), player.geAwaitingSell.getAmount(), player.gePrice, OfferType.SELL);
 					player.getInventory().deleteItem(player.geNoteId, player.geAwaitingSell.getAmount());
 					player.setGrandExchangeOffer(offer, player.geBox);
-					GrandExchangeDatabase.updateOfferSet(player.getUsername(), player.getOfferSet(), true);
+					GEHandler.updateOffer(player.getUsername(), offer);
 				} else {
 					player.sendMessage("You don't have enough of that item to sell.");
 					return;
@@ -521,7 +521,7 @@ public class GrandExchange {
 		player.geTotalPrice = player.gePrice * player.geAmount;
 		player.getVars().setVar(1110, player.geAmount);
 		player.getVars().setVar(1111, player.gePrice);
-		player.getPackets().setIFText(105, 143, "Best offer: " + GrandExchangeDatabase.getBestOffer(itemId, sell));
+		GEHandler.getBestOffer(itemId, sell, amount -> player.getPackets().setIFText(105, 143, "Best offer: " + amount));
 	}
 
 	public static void reset(Player player) {
@@ -552,9 +552,9 @@ public class GrandExchange {
 	}
 
 	public static void updateGrandExchangeBoxes(Player player) {
-		for (int i = 0; i < player.getOfferSet().offers.length; i++) {
-			if (player.getOfferSet().offers[i] != null)
-				player.getPackets().updateGESlot(i, player.getOfferSet().offers[i].getProgressOpcode(), player.getOfferSet().offers[i].getItemId(), player.getOfferSet().offers[i].getPricePerItem(), player.getOfferSet().offers[i].getItemAmount(), player.getOfferSet().offers[i].getItemAmount() - player.getOfferSet().offers[i].getAmountLeft());
+		for (int i = 0; i < player.getOffers().length; i++) {
+			if (player.getOffers()[i] != null)
+				player.getPackets().updateGESlot(i, player.getOffers()[i].getProgressOpcode(), player.getOffers()[i].getItemId(), player.getOffers()[i].getPricePerItem(), player.getOffers()[i].getItemAmount(), player.getOffers()[i].getItemAmount() - player.getOffers()[i].getAmountLeft());
 			else
 				player.getPackets().updateGESlot(i, 0, -1, -1, -1, -1);
 		}

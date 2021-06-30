@@ -29,9 +29,7 @@ import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.WorldProjectile;
 import com.rs.game.grandexchange.GrandExchange;
-import com.rs.game.grandexchange.GrandExchangeDatabase;
 import com.rs.game.grandexchange.Offer;
-import com.rs.game.grandexchange.OfferSet;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
@@ -170,7 +168,7 @@ public class Player extends Entity {
 	
 	private long docileTimer;
 
-	private OfferSet offerSet;
+	private Offer[] offers;
 	// END GRAND EXCHANGE
 
 	private Brewery keldagrimBrewery;
@@ -676,11 +674,6 @@ public class Player extends Entity {
 
 		if (herbicideSettings == null)
 			herbicideSettings = new HashSet<HerbicideSetting>();
-
-		offerSet = GrandExchangeDatabase.getOfferSet(this);
-		if (offerSet == null) {
-			offerSet = new OfferSet(getUsername());
-		}
 		if (notes == null)
 			notes = new Notes();
 		reflectionChecks = new HashMap<Integer, ReflectionCheck>();
@@ -1304,7 +1297,12 @@ public class Player extends Entity {
 				PluginManager.handle(new ItemEquipEvent(this, item, true));
 		}
 
-		GrandExchange.updateGrandExchangeBoxes(this);
+		WorldDB.getGE().get(this.getUsername(), o -> {
+			offers = o;
+			if (offers == null)
+				offers = new Offer[6];
+			GrandExchange.updateGrandExchangeBoxes(this);
+		});
 		
 		if (familiar != null) {
 			familiar.respawnFamiliar(this);
@@ -3417,14 +3415,8 @@ public class Player extends Entity {
 		this.clanCapeSymbols = clanCapeSymbols;
 	}
 
-	public OfferSet getOfferSet() {
-		return offerSet;
-	}
-
 	public void setGrandExchangeOffer(Offer offer, int geBox) {
-		if (offerSet != null) {
-			offerSet.offers[geBox] = offer;
-		}
+		offers[geBox] = offer;
 	}
 
 	public boolean checkCompRequirements(boolean trimmed) {
@@ -4372,7 +4364,11 @@ public class Player extends Entity {
 		return account;
 	}
 
-	public void setAccount(Account account2) {
+	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	public Offer[] getOffers() {
+		return offers;
 	}
 }

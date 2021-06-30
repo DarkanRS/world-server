@@ -14,7 +14,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.grandexchange.GrandExchangeDatabase;
+import com.rs.game.grandexchange.GEHandler;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.partyroom.PartyRoom;
@@ -104,7 +104,7 @@ public final class Launcher {
 			@Override
 			public void run() {
 				try {
-					GrandExchangeDatabase.processOffers();
+					GEHandler.processOffers();
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}
