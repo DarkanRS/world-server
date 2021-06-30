@@ -1,12 +1,8 @@
 package com.rs.game.player.content.clans;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.model.Clan;
 import com.rs.lib.model.ClanMember;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -17,14 +13,6 @@ import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
 public class ClansManager {
-
-	private Clan clan;
-	private ArrayList<Player> channelPlayers; // players connected to clan channel, may be less than on clan itself
-	private ArrayList<Player> membersOnline; // members connected to clan
-	private HashMap<String, Long> bannedChannelPlayers;
-	private int nextUpdateNumber; // increases every time a change is done on clansettings
-
-	private static HashMap<String, ClansManager> cachedClans = new HashMap<String, ClansManager>();
 	
 	public static ItemClickHandler handleClanVex = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport" }) {
 		@Override
