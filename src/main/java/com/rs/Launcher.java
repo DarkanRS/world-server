@@ -14,7 +14,6 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.grandexchange.GEHandler;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.partyroom.PartyRoom;
@@ -83,7 +82,6 @@ public final class Launcher {
 		LobbyCommunicator.post(Settings.getConfig().getWorldInfo(), "addworld");
 		addAccountsSavingTask();
 		addCleanMemoryTask();
-		addProcessGrandExchangeTask();
 	}
 
 	private static void addCleanMemoryTask() {
@@ -97,19 +95,6 @@ public final class Launcher {
 				}
 			}
 		}, 0, Ticks.fromMinutes(10));
-	}
-
-	private static void addProcessGrandExchangeTask() {
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					GEHandler.processOffers();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, 0, Ticks.fromSeconds(5));
 	}
 
 	private static void addAccountsSavingTask() {
