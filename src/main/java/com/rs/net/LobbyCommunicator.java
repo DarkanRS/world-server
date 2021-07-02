@@ -158,10 +158,10 @@ public class LobbyCommunicator {
 	}
 	
 	public static <T> void post(Class<T> type, Object body, String endpoint, Consumer<T> cb) {
-		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":8080/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
+		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 	
 	public static <T> T postSync(Class<T> type, Object body, String endpoint) {
-		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":8080/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
+		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 }
