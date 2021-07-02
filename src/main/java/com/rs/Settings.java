@@ -46,9 +46,9 @@ public final class Settings {
 		this.ownerName = "trent";
 		this.cachePath = "../darkan-cache/";
 		this.debug = false;
-		this.mongoDb = "mongodb+srv://mongousername:mongopassword@mongourl?retryWrites=true&w=majority";
-		this.lobbyIp = "127.0.0.1";
-		this.lobbyApiKey = "DON'T ASK TRENT FOR THIS THE ANSWER IS NO";
+		this.mongoDb = "mongodb://testlobby.darkan.org/darkan-server?retryWrites=true&w=majority";
+		this.lobbyIp = "testlobby.darkan.org";
+		this.lobbyApiKey = "TEST_API_KEY";
 		this.worldInfo = new WorldInfo(3, "127.0.0.1", "Admin Server", 1, true, true);
 		this.loginMessage = "";
 		this.playerStartTile = new WorldTile(3226, 3219, 0);
