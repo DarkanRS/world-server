@@ -20,7 +20,7 @@ git clone git@github.com:titandino/darkan-game-client.git
 - Run the command `git lfs pull` within the darkan-cache project to get the packed information data file.
 
 ### Running and Testing
-- Make sure you have a MongoDB server running on your local machine or somewhere else (the connection URL for the Mongo server can be configured through the serverConfig.json file that gets generated after trying to run the world server once)
+- (Optional if not using the test-lobby-db) Make sure you have a MongoDB server running on your local machine or somewhere else (the connection URL for the Mongo server can be configured through the serverConfig.json file that gets generated after trying to run the world server once)
 - Create an account on the test lobby server using the following CURL command:
 `curl -X POST -H "Content-Type: application/json" -d '{ "username": "DESIRED_USERNAME", "password": "DESIRED_PASSWORD", "email": "ANY_EMAIL_ADDRESS" }' http://testlobby.darkan.org:4040/api/createaccount`
 - Run the world server with the command `gradle run` within the darkan-world-server project.
