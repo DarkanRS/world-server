@@ -24,7 +24,7 @@ public class NPCStatFixer {
 	
 	private static void loadDefs() {
 		try {
-			File[] dropFiles = new File("data/npcs/combatdefs/").listFiles();
+			File[] dropFiles = new File("").listFiles();
 			for (File f : dropFiles)
 				loadFile(f);
 		} catch (Throwable e) {
