@@ -35,10 +35,14 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "attackBonus": "CRUSH_ATT",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
   "levels": [
     120,
-    106,
     85,
+    106,
     120,
     120
   ]

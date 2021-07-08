@@ -52,7 +52,7 @@ public class Macaw extends Familiar {
 			herb = Herbs.values()[Utils.random(Herbs.values().length)];
 		else
 			herb = Herbs.values()[Utils.getRandomInclusive(3)];
-		World.addGroundItem(new Item(herb.getHerbId(), 1), player);
+		World.addGroundItem(new Item(herb.getHerbId(), 1), new WorldTile(player, 1), player);
 		return true;
 	}
 }

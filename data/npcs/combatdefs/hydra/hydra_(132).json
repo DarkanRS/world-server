@@ -20,5 +20,16 @@
   "attackStyle": "RANGE",
   "attackGfx": -1,
   "attackProjectile": 1489,
-  "agressivenessType": "AGGRESSIVE"
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
+  "levels": [
+    1,
+    100,
+    1,
+    210,
+    210
+  ]
 }

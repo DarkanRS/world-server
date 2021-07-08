@@ -90,8 +90,8 @@ public class GEManager extends DBItemManager {
 			return null;
 		case BUYING:
 			FindIterable<Document> docs = getDocs()
-			.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("currentType", GrandExchangeType.SELLING.name()), Filters.lt("pricePerItem", other.getPricePerItem())))
-			.sort(Sorts.ascending("pricePerItem"));
+				.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("currentType", GrandExchangeType.SELLING.name()), Filters.lt("pricePerItem", other.getPricePerItem())))
+				.sort(Sorts.ascending("pricePerItem"));
 			try {
 				return JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer[].class);
 			} catch (JsonIOException | IOException e) {
@@ -99,8 +99,8 @@ public class GEManager extends DBItemManager {
 			}
 		case SELLING:
 			docs = getDocs()
-			.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("currentType", GrandExchangeType.BUYING.name()), Filters.gt("pricePerItem", other.getPricePerItem())))
-			.sort(Sorts.descending("pricePerItem"));
+				.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("currentType", GrandExchangeType.BUYING.name()), Filters.gt("pricePerItem", other.getPricePerItem())))
+				.sort(Sorts.descending("pricePerItem"));
 			try {
 				return JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer[].class);
 			} catch (JsonIOException | IOException e) {

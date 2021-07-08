@@ -14,10 +14,14 @@
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
   "attackBonus": "CRUSH_ATT",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
   "levels": [
     30,
-    30,
     29,
+    30,
     1,
     1
   ]

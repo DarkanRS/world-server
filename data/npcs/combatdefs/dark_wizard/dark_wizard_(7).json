@@ -20,10 +20,11 @@
   "aggroDistance": 8,
   "deAggroDistance": 13,
   "maxDistFromSpawn": 7,
+  "attackRange": -1,
   "levels": [
     5,
-    2,
     5,
+    2,
     1,
     6
   ]

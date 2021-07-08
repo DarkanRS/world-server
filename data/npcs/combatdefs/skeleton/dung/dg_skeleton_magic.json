@@ -23,5 +23,16 @@
   "attackStyle": "MAGE",
   "attackGfx": 1650,
   "attackProjectile": 1651,
-  "agressivenessType": "AGGRESSIVE"
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
+  "levels": [
+    17,
+    17,
+    17,
+    1,
+    1
+  ]
 }

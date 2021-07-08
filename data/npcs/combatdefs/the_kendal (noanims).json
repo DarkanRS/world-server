@@ -1,11 +1,11 @@
 {
-  "names": [
-    "The Kendal"
-  ],
   "ids": [
     1811,
     8609,
     8611
+  ],
+  "names": [
+    "The Kendal"
   ],
   "hitpoints": 500,
   "attackAnim": -1,
@@ -19,9 +19,13 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "attackBonus": "CRUSH_ATT",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
   "levels": [
-    65,
-    65,
+    0,
+    0,
     60,
     0,
     0

@@ -50,9 +50,9 @@ public class Pyre extends OwnedObject {
 	public void onDestroy() {
 		if (lit)
 			return;
-		World.addGroundItem(new Item(log.itemId), getCoordFace());
+		World.addGroundItem(new Item(log.itemId), getCoordFace(), getOwner());
 		if (corpse != null)
-			World.addGroundItem(new Item(corpse.itemIds[0]), getCoordFace());
+			World.addGroundItem(new Item(corpse.itemIds[0]), getCoordFace(), getOwner());
 	}
 
 	public void light(Player player) {

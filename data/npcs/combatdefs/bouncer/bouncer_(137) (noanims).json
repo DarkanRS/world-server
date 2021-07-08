@@ -1,7 +1,7 @@
 {
   "ids": [
     269,
-	7521,
+    7521,
     14483,
     14555
   ],
@@ -17,9 +17,13 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "attackBonus": "STAB_ATT",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
   "levels": [
     120,
-    120,
+    0,
     120,
     1,
     1

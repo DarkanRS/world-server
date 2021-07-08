@@ -1,6 +1,6 @@
 {
   "names": [
-    "Zakl\u0027n Gritch"
+    "Zakl'n Gritch"
   ],
   "hitpoints": 1500,
   "attackAnim": 6945,
@@ -13,10 +13,14 @@
   "attackGfx": 1208,
   "attackProjectile": 1209,
   "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1,
   "levels": [
     83,
-    76,
     127,
+    76,
     150,
     50
   ]

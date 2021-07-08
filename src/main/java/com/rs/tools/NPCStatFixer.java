@@ -14,66 +14,64 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.tools.old.WebPage;
 
-public class NPCStatDumper {
-		
-	private static Map<String, Map<Integer, NPCCombatDefinitions>> DEF_BY_CB_LVL = new HashMap<>();
+public class NPCStatFixer {
+	
+	private static Map<File, NPCCombatDefinitions> DEFS = new HashMap<>();
+	
+	private static void loadDefs() {
+		try {
+			File[] dropFiles = new File("data/npcs/combatdefs/").listFiles();
+			for (File f : dropFiles)
+				loadFile(f);
+		} catch (Throwable e) {
+			Logger.handle(e);
+		}
+	}
+	
+	private static void loadFile(File f) {
+		try {
+			if (f.isDirectory()) {
+				for (File dir : f.listFiles())
+					loadFile(dir);
+				return;
+			}
+			NPCCombatDefinitions defs = (NPCCombatDefinitions) JsonFileManager.loadJsonFile(f, NPCCombatDefinitions.class);
+			if (defs != null) {
+				DEFS.put(f, defs);
+			}
+		} catch(Throwable e) {
+			System.err.println("Error loading file: " + f.getPath());
+		}
+	}
 		
 	public static void main(String[] args) throws IOException {
+		Settings.loadConfig();
 		Cache.init(Settings.getConfig().getCachePath());
-		NPCCombatDefinitions.init();
-		for (int npcId = 0;npcId < Utils.getNPCDefinitionsSize();npcId++) {
-			NPCDefinitions defs = NPCDefinitions.getDefs(npcId);
-			if (defs.hasAttackOption()) {
-				String name = defs.getName()
-						.replace(" (second form)", "")
-						.replace(" (third form)", "")
-						.replace(" (fourth form)", "");
-				Map<Integer, NPCCombatDefinitions> cbDefs = DEF_BY_CB_LVL.get(name);
-				if (cbDefs == null)
-					cbDefs = new HashMap<>();
-				NPCCombatDefinitions cbDef = cbDefs.get(defs.combatLevel);
-				if (cbDef == null)
-					cbDef = new NPCCombatDefinitions(NPCCombatDefinitions.getDefs(npcId));
-				cbDef.addId(npcId);
-				cbDefs.put(defs.combatLevel, cbDef);
-				DEF_BY_CB_LVL.put(name, cbDefs);
-			}
-		}
+		loadDefs();
+
 		
-		for (String name : DEF_BY_CB_LVL.keySet()) {
-			Map<Integer, NPCCombatDefinitions> cbMap = DEF_BY_CB_LVL.get(name);
-			if (cbMap.size() == 1) {
-				for (int combatLevel : cbMap.keySet()) {
-					cbMap.get(combatLevel).addName(name);
-					if (dumpNPC(name, cbMap.get(combatLevel), combatLevel, false))
-						System.out.println("Successfully dumped " + name);
-					else
-						System.out.println("Failed to dump " + name);
-				}
-			} else {
-				for (int combatLevel : cbMap.keySet()) {
-					if (dumpNPC(name, cbMap.get(combatLevel), combatLevel, true))
-						System.out.println("Successfully dumped " + name);
-					else
-						System.out.println("Failed to dump " + name);
-				}
-			}
+		for (File f : DEFS.keySet()) {
+			NPCCombatDefinitions cbDef = DEFS.get(f);
+			String name = cbDef.getNames() != null && cbDef.getNames().length > 0 ? cbDef.getNames()[0] : NPCDefinitions.getDefs(cbDef.getIds()[0]).getName();
+			name = name.replace(" (second form)", "").replace(" (third form)", "").replace(" (fourth form)", "");
+			int combatLevel = cbDef.getNames() != null && cbDef.getNames().length > 0 ? 1 : NPCDefinitions.getDefs(cbDef.getIds()[0]).combatLevel;
+			dumpNPC(name, f, cbDef, combatLevel);
 		}
 	}
 		
 	@SuppressWarnings("unused")
-	public static boolean dumpNPC(String pageName, NPCCombatDefinitions originalDef, int combatLevel, boolean folderItUp) {
+	public static boolean dumpNPC(String pageName, File file, NPCCombatDefinitions cbDef, int combatLevel) {
 		try {
 			WebPage page = new WebPage("https://oldschool.runescape.wiki/w/"+pageName+"?action=raw");
 			try {
 				page.load();
 			} catch (SocketTimeoutException e) {
-				return dumpNPC(pageName, originalDef, combatLevel, folderItUp);
+				return dumpNPC(pageName, file, cbDef, combatLevel);
 			} catch (Exception e) {
-				saveDef(pageName + (folderItUp ? (" (" + combatLevel + ")") : ""), originalDef, folderItUp ? pageName.toLowerCase().replace(" ", "_") : null);
 				return false;
 			}
 			
@@ -94,6 +92,10 @@ public class NPCStatDumper {
 			int[] maxhits = new int[20];
 			
 			for (String line : page.getLines()) {
+				if (line.contains("#REDIRECT [[Nonexistence]]")) {
+					System.out.println("NPC is nonexistent " + pageName);
+					return false;
+				}
 				if (line.contains("{{Infobox Monster"))
 					started = true;
 				if (line.contains("version1"))
@@ -227,35 +229,26 @@ public class NPCStatDumper {
 			}
 			if (multi) {
 				int closestIdx = Utils.findClosestIdx(combats, combatLevel);
-				NPCCombatDefinitions cbDef;
-				if (originalDef != null) {
-					cbDef = originalDef;
-				} else {
-					cbDef = new NPCCombatDefinitions();
-					cbDef.setHitpoints(higher(hitpointss[closestIdx]*10, hitpoints*10));
-					cbDef.setMaxHit(higher(maxhits[closestIdx]*10, maxhit*10));
+				int[] wikiLevels = new int[] { higher(atks[closestIdx], atk), higher(defs[closestIdx], str), higher(strs[closestIdx], def), higher(ranges[closestIdx], range), higher(mages[closestIdx], mage) };
+				int[] currDefLevels = cbDef.getLevels();
+				if (wikiLevels[NPCCombatDefinitions.DEFENSE] != currDefLevels[NPCCombatDefinitions.DEFENSE] && !(wikiLevels[0] == 0 && wikiLevels[1] == 0 && wikiLevels[2] == 0 && wikiLevels[3] == 0 && wikiLevels[4] == 0)) {
+					System.out.println("Fixing levels for " + pageName + " " + combatLevel + " " + Arrays.toString(combats));
+					cbDef.setLevels(wikiLevels);
+					saveDef(file, cbDef);
 				}
-				cbDef.setAttackBonus(nonNull(attackStyles[closestIdx], attackStyle));
-				cbDef.setLevels(new int[] { higher(atks[closestIdx], atk), higher(defs[closestIdx], str), higher(strs[closestIdx], def), higher(ranges[closestIdx], range), higher(mages[closestIdx], mage) });
-				saveDef(pageName + (folderItUp ? (" (" + combatLevel + ")") : ""), cbDef, folderItUp ? pageName.toLowerCase().replace(" ", "_") : null);
 			} else {
-				NPCCombatDefinitions cbDef;
-				if (originalDef != null) {
-					cbDef = originalDef;
-				} else {
-					cbDef = new NPCCombatDefinitions(pageName);
-					cbDef.setHitpoints(hitpoints*10);
-					cbDef.setMaxHit(maxhit*10);
+				int[] wikiLevels = new int[] { atk, def, str, range, mage };
+				int[] currDefLevels = cbDef.getLevels();
+				if (wikiLevels[NPCCombatDefinitions.DEFENSE] != currDefLevels[NPCCombatDefinitions.DEFENSE] && !(wikiLevels[0] == 0 && wikiLevels[1] == 0 && wikiLevels[2] == 0 && wikiLevels[3] == 0 && wikiLevels[4] == 0)) {
+					System.out.println("Fixing levels for " + pageName + " " + combatLevel + " " + Arrays.toString(combats));
+					cbDef.setLevels(wikiLevels);
+					saveDef(file, cbDef);
 				}
-				cbDef.setAttackBonus(attackStyle);
-				cbDef.setLevels(new int[] { atk, def, str, range, mage });
-				saveDef(pageName + (folderItUp ? (" (" + combatLevel + ")") : ""), cbDef, folderItUp ? pageName.toLowerCase().replace(" ", "_") : null);
 			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		saveDef(pageName + (folderItUp ? (" (" + combatLevel + ")") : ""), originalDef, folderItUp ? pageName.toLowerCase().replace(" ", "_") : null);
 		return false;
 	}
 	
@@ -277,16 +270,9 @@ public class NPCStatDumper {
 		return i1 > i2 ? i1 : i2;
 	}
 
-	public static void saveDef(String name, NPCCombatDefinitions def, String folder) {
+	public static void saveDef(File file, NPCCombatDefinitions def) {
 		try {
-			String additions = "";
-			if (def.getLevels()[0] == 0 && def.getLevels()[1] == 0 && def.getLevels()[2] == 0 && def.getLevels()[3] == 0 && def.getLevels()[4] == 0 && def.getAttackBonus() == null) {
-				additions += " (nostats)";
-			}
-			if (def.getAttackEmote() == -1 || def.getDeathEmote() == -1)
-				additions += " (noanims)";
-			System.out.println(name + ": " + Arrays.toString(def.getLevels()) + ", " + def.getAttackBonus());
-			JsonFileManager.saveJsonFile(def, new File("./dumps/"+(folder != null ? (folder+"/") : "")+name.toLowerCase().replace(" ", "_")+additions+".json"));
+			JsonFileManager.saveJsonFile(def, file);
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
