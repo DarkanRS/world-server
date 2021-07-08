@@ -3,6 +3,7 @@ package com.rs.tools;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class NPCStatFixer {
 	
 	private static void loadDefs() {
 		try {
-			File[] dropFiles = new File("").listFiles();
+			File[] dropFiles = new File("./combatdefs").listFiles();
 			for (File f : dropFiles)
 				loadFile(f);
 		} catch (Throwable e) {
@@ -53,8 +54,9 @@ public class NPCStatFixer {
 		Cache.init(Settings.getConfig().getCachePath());
 		loadDefs();
 
-		
 		for (File f : DEFS.keySet()) {
+			if (f.getName().toLowerCase().contains("cerberus") || f.getName().toLowerCase().contains("graardor"))
+				continue;
 			NPCCombatDefinitions cbDef = DEFS.get(f);
 			String name = cbDef.getNames() != null && cbDef.getNames().length > 0 ? cbDef.getNames()[0] : NPCDefinitions.getDefs(cbDef.getIds()[0]).getName();
 			name = name.replace(" (second form)", "").replace(" (third form)", "").replace(" (fourth form)", "");
@@ -81,15 +83,15 @@ public class NPCStatFixer {
 			Bonus attackStyle = null;
 			int combat = 0, atk = 0, str = 0, def = 0, range = 0, mage = 0, hitpoints = 0, maxhit = 0;
 			
-			Bonus[] attackStyles = new Bonus[20];
-			int[] combats = new int[20];
-			int[] atks = new int[20];
-			int[] strs = new int[20];
-			int[] defs = new int[20];
-			int[] ranges = new int[20];
-			int[] mages = new int[20];
-			int[] hitpointss = new int[20];
-			int[] maxhits = new int[20];
+			ArrayList<Bonus> attackStyles = new ArrayList<>();
+			ArrayList<Integer> combats = new ArrayList<>();
+			ArrayList<Integer> atks = new ArrayList<>();
+			ArrayList<Integer> strs = new ArrayList<>();
+			ArrayList<Integer> defs = new ArrayList<>();
+			ArrayList<Integer> ranges = new ArrayList<>();
+			ArrayList<Integer> mages = new ArrayList<>();
+			ArrayList<Integer> hitpointss = new ArrayList<>();
+			ArrayList<Integer> maxhits = new ArrayList<>();
 			
 			for (String line : page.getLines()) {
 				if (line.contains("#REDIRECT [[Nonexistence]]")) {
@@ -118,7 +120,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							attackStyle = getBonus(split[1]);
 						} else {
-							attackStyles[Integer.valueOf(split[0])-1] = getBonus(split[1]);
+							attackStyles.add(Integer.valueOf(split[0])-1, getBonus(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("combat")) {
@@ -131,7 +133,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							combat = Integer.valueOf(split[1]);
 						} else {
-							combats[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							combats.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("att")) {
@@ -144,7 +146,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							atk = Integer.valueOf(split[1]);
 						} else {
-							atks[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							atks.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("str")) {
@@ -157,7 +159,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							str = Integer.valueOf(split[1]);
 						} else {
-							strs[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							strs.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("def")) {
@@ -170,7 +172,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							def = Integer.valueOf(split[1]);
 						} else {
-							defs[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							defs.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("range")) {
@@ -183,7 +185,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							range = Integer.valueOf(split[1]);
 						} else {
-							ranges[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							ranges.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("mage")) {
@@ -196,7 +198,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							mage = Integer.valueOf(split[1]);
 						} else {
-							mages[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							mages.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("hitpoints")) {
@@ -209,7 +211,7 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							hitpoints = Integer.valueOf(split[1]);
 						} else {
-							hitpointss[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							hitpointss.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("maxhit")) {
@@ -222,36 +224,54 @@ public class NPCStatFixer {
 						if (split[0].isEmpty()) {
 							maxhit = Integer.valueOf(split[1]);
 						} else {
-							maxhits[Integer.valueOf(split[0])-1] = Integer.valueOf(split[1]);
+							maxhits.add(Integer.valueOf(split[0])-1, Integer.valueOf(split[1]));
 						}
 					} catch (Exception e) { }
 				}
 			}
 			if (multi) {
-				int closestIdx = Utils.findClosestIdx(combats, combatLevel);
-				int[] wikiLevels = new int[] { higher(atks[closestIdx], atk), higher(defs[closestIdx], str), higher(strs[closestIdx], def), higher(ranges[closestIdx], range), higher(mages[closestIdx], mage) };
+				int closestIdx = combats.size() == 0 ? 0 : Utils.findClosestIdx(combats.stream().mapToInt(i -> i).toArray(), combatLevel);
+				int[] wikiLevels = new int[] { 
+						higher(closestIdx < atks.size() ? atks.get(closestIdx) : 0, atk), 
+						higher(closestIdx < defs.size() ? defs.get(closestIdx) : 0, def), 
+						higher(closestIdx < strs.size() ? strs.get(closestIdx) : 0, str), 
+						higher(closestIdx < ranges.size() ? ranges.get(closestIdx) : 0, range), 
+						higher(closestIdx < mages.size() ? mages.get(closestIdx) : 0, mage)
+					};
 				int[] currDefLevels = cbDef.getLevels();
-				if (wikiLevels[NPCCombatDefinitions.DEFENSE] != currDefLevels[NPCCombatDefinitions.DEFENSE] && !(wikiLevels[0] == 0 && wikiLevels[1] == 0 && wikiLevels[2] == 0 && wikiLevels[3] == 0 && wikiLevels[4] == 0)) {
-					System.out.println("Fixing levels for " + pageName + " " + combatLevel + " " + Arrays.toString(combats));
+				if (!equal(currDefLevels, wikiLevels) && !(wikiLevels[0] == 0 && wikiLevels[1] == 0 && wikiLevels[2] == 0 && wikiLevels[3] == 0 && wikiLevels[4] == 0)) {
+					System.out.println("Fixing levels for " + pageName + " " + combatLevel + " " + combats);
+					System.out.println(Arrays.toString(wikiLevels));
 					cbDef.setLevels(wikiLevels);
-					saveDef(file, cbDef);
+					//saveDef(file, cbDef);
 				}
 			} else {
 				int[] wikiLevels = new int[] { atk, def, str, range, mage };
 				int[] currDefLevels = cbDef.getLevels();
-				if (wikiLevels[NPCCombatDefinitions.DEFENSE] != currDefLevels[NPCCombatDefinitions.DEFENSE] && !(wikiLevels[0] == 0 && wikiLevels[1] == 0 && wikiLevels[2] == 0 && wikiLevels[3] == 0 && wikiLevels[4] == 0)) {
-					System.out.println("Fixing levels for " + pageName + " " + combatLevel + " " + Arrays.toString(combats));
+				if (!equal(currDefLevels, wikiLevels) && !(wikiLevels[0] == 0 && wikiLevels[1] == 0 && wikiLevels[2] == 0 && wikiLevels[3] == 0 && wikiLevels[4] == 0)) {
+					System.out.println("Fixing levels for " + pageName + " " + combatLevel + " " + combats);
+					System.out.println(Arrays.toString(wikiLevels));
 					cbDef.setLevels(wikiLevels);
-					saveDef(file, cbDef);
+					//saveDef(file, cbDef);
 				}
 			}
 			return true;
 		} catch (Exception e) {
+			System.err.println("Error parsing: " + pageName);
 			e.printStackTrace();
 		}
 		return false;
 	}
 	
+	private static boolean equal(int[] arr1, int[] arr2) {
+		if (arr1.length != arr2.length)
+			return false;
+		for (int i = 0;i < arr1.length;i++)
+			if (arr1[i] != arr2[i])
+				return false;
+		return true;
+	}
+
 	public static Bonus getBonus(String str) {
 		if (str.toLowerCase().contains("slash"))
 			return Bonus.SLASH_ATT;

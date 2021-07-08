@@ -43,9 +43,9 @@
   "maxDistFromSpawn": -1,
   "attackRange": -1,
   "levels": [
-    12,
-    7,
-    13,
+    1,
+    1,
+    1,
     1,
     1
   ]
