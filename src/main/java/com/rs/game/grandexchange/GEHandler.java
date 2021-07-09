@@ -22,6 +22,9 @@ public class GEHandler {
 			List<Offer> offers = WorldDB.getGE().getBestOffersSync(offer);
 			if (offers == null || offers.size() <= 0)
 				return;
+			for (Offer opposing : offers) {
+				
+			}
 			System.out.println(offers);
 			System.out.println(offers.size());
 			
