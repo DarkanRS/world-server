@@ -1,5 +1,6 @@
 package com.rs.game.npc.others;
 
+import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -26,7 +27,7 @@ public class GiantMole extends NPC {
 	@Override
 	public void handlePostHit(Hit hit) {
 		if (getHPPerc() > 5.0 && getHPPerc() < 50.0 && Utils.random(4) == 0)
-			move();
+			move(hit);
 		super.handlePostHit(hit);
 	}
 
@@ -34,12 +35,12 @@ public class GiantMole extends NPC {
 		return ((double) getHitpoints() / (double) getMaxHitpoints()) * 100.0;
 	}
 
-	public void move() {
+	public void move(Hit hit) {
 		setNextAnimation(new Animation(3314));
 		setCantInteract(true);
-		setCapDamage(0);
 		getCombat().removeTarget();
-		final Player player = (Player) (getAttackedBy() instanceof Player ? getAttackedBy() : null);
+		Entity source = hit.getSource();
+		final Player player = source == null ? null : (Player) (source instanceof Player ? source : null);
 		if (player != null)
 			player.getInterfaceManager().setOverlay(226);
 		final WorldTile middle = getMiddleWorldTile();
@@ -49,7 +50,6 @@ public class GiantMole extends NPC {
 				if (player != null)
 					player.getInterfaceManager().removeOverlay();
 				setCantInteract(false);
-				setCapDamage(-1);
 				if (isDead())
 					return;
 				World.sendSpotAnim(GiantMole.this, new SpotAnim(572), middle);
