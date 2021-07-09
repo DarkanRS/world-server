@@ -11,7 +11,10 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Logger;
@@ -25,7 +28,7 @@ public class ItemWeights {
 	private final static String PACKED_PATH = "data/items/packedWeights.dat";
 	private final static String UNPACKED_PATH = "data/items/unpackedWeights.txt";
 
-	private static final int[] NEGATIVE_WEIGHT_ITEMS = { 88, 10553, 10069, 10071, 24210, 24208, 24206, 14936, 14938, 24560, 24561, 24562, 24563, 24564 };
+	private static final Set<Integer> NEGATIVE_WEIGHT_ITEMS = new HashSet<>(Arrays.asList(new Integer[] { 88, 10553, 10069, 10071, 24210, 24208, 24206, 14936, 14938, 24560, 24561, 24562, 24563, 24564 }));
 
 	@ServerStartupEvent
 	public static final void init() {
@@ -35,16 +38,16 @@ public class ItemWeights {
 			loadUnpackedItemWeights();
 	}
 
-	public static final double getWeight(Item item, boolean equiped) {
+	public static final double getWeight(Item item, boolean equipped) {
 		if (item.getDefinitions().isNoted())
 			return 0;
 		Double weight = itemWeights.get(item.getId());
 		if (weight == null)
 			return 0;
-		if (equiped) {
-			for (int i : NEGATIVE_WEIGHT_ITEMS)
-				if (i == item.getId())
-					return -weight;
+		if (NEGATIVE_WEIGHT_ITEMS.contains(item.getId())) {
+			if (equipped)
+				return -weight;
+			return 0;
 		}
 		return weight;
 	}
