@@ -16,7 +16,7 @@ public class AchievementTitles {
 		ABYSSAL("990000", "The Abyssal", "Abyssal demon", 1000, true),
 		UNDERTAKER("006600", "Undertaker", "%Zombie", 2500, true),
 		ZAROS("6600CC", "Zaros Zerger", "Nex", 25, true),
-		CORPOREAL("S666666", "Corporeal", "Corporeal beast", 50, true),
+		CORPOREAL("S666666", "Corporeal", "Corporeal Beast", 50, true),
 		BANDOS("006600", "Bandos Basher", "General Graardor", 100, true),
 		SARADOMIN("3333FF", "Saradomin Slayer", "Commander Zilyana", 100, true),
 		ZAMORAK("CC0000", "Zamorak Zapper", "K'ril Tsutsaroth", 100, true),
