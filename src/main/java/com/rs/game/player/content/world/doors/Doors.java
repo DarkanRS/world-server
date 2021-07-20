@@ -22,19 +22,21 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class Doors {
-	
+
 	public static ObjectClickHandler handleDoors = new ObjectClickHandler(new Object[] { 39, 1531, "Door", "Throne Room Door", "Magic door", "Doorway", "Sturdy door", "Bamboo Door", "Long hall door", "Castle door", "Heavy door", "Gate", "Large door", "Metal door", "City gate", "Red door", "Orange door", "Yellow door", "Cell door", "Cell Door", "Wall", "Storeroom Door", "Solid bronze door", "Solid steel door", "Solid black door", "Solid silver door" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-            WorldObject obj = e.getObject();
-            if(obj.getId() == 22921) {
-                handleLeftHandedDoor(e.getPlayer(), e.getObject());
-                return;
-            }
 			handleDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
+    public static ObjectClickHandler handleLeftHandedDoors = new ObjectClickHandler(new Object[] { 22921 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            handleLeftHandedDoor(e.getPlayer(), e.getObject());
+        }
+    };
+
 	public static ObjectClickHandler handleInvertedDoors = new ObjectClickHandler(new Object[] { 1531 }, ObjectType.WALL_INTERACT) {
 		@Override
 		public void handle(ObjectClickEvent e) {
