@@ -284,8 +284,6 @@ public class DungeonManager {
 		region.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }, () -> {
 			int regionId = region.getRegionId();
 			for (Player player : party.getTeam()) {
-				if (!player.getMapRegionsIds().contains(regionId))
-					continue;
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 			}
