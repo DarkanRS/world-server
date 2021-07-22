@@ -6,6 +6,8 @@ import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.dialogue.statements.NPCStatement;
+import com.rs.game.player.content.dialogue.statements.PlayerStatement;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -42,8 +44,30 @@ public class Lumbridge  {
 			});
 		}
 	};
-	
-	public static NPCClickHandler handleBob = new NPCClickHandler(519) {
+
+    public static NPCClickHandler handleLachtopher = new NPCClickHandler(7870) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                {
+                    addPlayer(HeadE.CALM_TALK, "Hello there");
+                    addNPC(e.getNPCId(), HeadE.DRUNK, "Hello, I suppose. I'm Lachtopher. Could you lend me some money?");
+                    addPlayer(HeadE.SKEPTICAL, "Lend you money? I really don't think so. Don't you have any of your own?");
+                    addNPC(e.getNPCId(), HeadE.DRUNK, "I spend it all and I can't be bothered to earn any more");
+                    addPlayer(HeadE.VERY_FRUSTRATED, "Right, and you want my hard earned money instead? no chance!");
+                    addNPC(e.getNPCId(), HeadE.DRUNK, "You are just like my sister, Victoria. She wont give me any money");
+                    addPlayer(HeadE.VERY_FRUSTRATED, "Your sister sounds like she has the right idea");
+                    addNPC(e.getNPCId(), HeadE.DRUNK, "Yeah, i've heard it all before. 'Oh', she says, 'it is easy to make money: just complete tasks for cash'");
+                    addPlayer(HeadE.VERY_FRUSTRATED, "Well, if you want to make money...");
+                    addNPC(e.getNPCId(), HeadE.DRUNK, "That's just it. I don't want to make money. I just want to have money");
+                    addPlayer(HeadE.VERY_FRUSTRATED, "I've had it with you!");
+                    create();
+                }
+            });
+        }
+    };
+
+            public static NPCClickHandler handleBob = new NPCClickHandler(519) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1) {

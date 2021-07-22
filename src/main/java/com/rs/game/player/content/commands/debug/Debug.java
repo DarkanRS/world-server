@@ -8,6 +8,7 @@ import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.commands.Commands;
+import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -91,7 +92,20 @@ public class Debug {
 			p.getInventory().addItem(Integer.valueOf(args[0]), args.length >= 2 ? Integer.valueOf(args[1]) : 1);
 			p.stopAll();
 		});
-		
+
+        Commands.add(Rights.PLAYER, "setqstage [Quest_ID, Stage]", "Sets stage for a quest.", (p, args) -> {
+            int questID = Integer.parseInt(args[0]);
+            int stage = Integer.parseInt(args[1]);
+
+            p.getQuestManager().setStage(Quest.forId(questID), stage, true);
+        });
+
+        Commands.add(Rights.PLAYER, "qstage [Quest_ID]", "Gets stage for a quest.", (p, args) -> {
+            int questID = Integer.parseInt(args[0]);
+            int stage = p.getQuestManager().getStage(Quest.forId(questID));
+            p.sendMessage(Quest.forId(questID).name() + " Stage: " + stage);
+        });
+
 		Commands.add(Rights.PLAYER, "master,max", "Maxes all stats out.", (p, args) -> {
 			for (int skill = 0; skill < 25; skill++)
 				p.getSkills().setXp(skill, 105000000);

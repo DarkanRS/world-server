@@ -1,8 +1,8 @@
 package com.rs.game.player.quests;
 
-import java.util.ArrayList;
-
 import com.rs.game.player.Player;
+
+import java.util.ArrayList;
 
 public abstract class QuestOutline {
 	

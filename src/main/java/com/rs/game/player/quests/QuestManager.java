@@ -1,16 +1,16 @@
 package com.rs.game.player.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.quests.data.QuestInformation;
-import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @PluginEventHandler
 public class QuestManager {
@@ -66,7 +66,7 @@ public class QuestManager {
 							for (int skillId : info.getSkillReq().keySet()) {
 								if (info.getSkillReq().get(skillId) == 0)
 									continue;
-								lines.add(info.getSkillReq().get(skillId) + " " + Constants.SKILL_NAME[skillId]);
+								lines.add(info.getSkillReq().get(skillId) + " " + Skills.SKILL_NAME[skillId]);
 							}
 						} else {
 							lines.add("None.");
@@ -77,7 +77,7 @@ public class QuestManager {
 							for (int skillId : info.getPreReqSkillReqs().keySet()) {
 								if (info.getPreReqSkillReqs().get(skillId) == 0)
 									continue;
-								lines.add(info.getPreReqSkillReqs().get(skillId) + " " + Constants.SKILL_NAME[skillId]);
+								lines.add(info.getPreReqSkillReqs().get(skillId) + " " + Skills.SKILL_NAME[skillId]);
 							}
 						} else {
 							lines.add("None.");
