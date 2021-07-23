@@ -1,0 +1,35 @@
+{
+  "name": "Alison's Flying Arrow Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 314,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 39,
+        "amount": 15
+      }
+    },
+    {
+      "item": {
+        "id": 1777,
+        "amount": 15
+      }
+    }
+  ],
+  "npcIds": [
+    14858
+  ]
+}

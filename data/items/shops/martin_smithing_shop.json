@@ -1,0 +1,17 @@
+{
+  "name": "Martin's Smithing Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2347,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    14874
+  ]
+}

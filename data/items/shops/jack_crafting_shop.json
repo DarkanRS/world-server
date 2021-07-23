@@ -1,0 +1,95 @@
+{
+  "name": "Jack's Crafting Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1755,
+        "amount": 14
+      }
+    },
+    {
+      "item": {
+        "id": 1733,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1734,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1931,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 1735,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1592,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1595,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1597,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 11065,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 1599,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 5523,
+        "amount": 1
+      }
+    },
+    {
+      "item": {
+        "id": 2976,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9434,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    14877
+  ]
+}
