@@ -5,6 +5,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -24,11 +25,11 @@ public class WysonTheGardener extends Conversation {
     static final int ALLOTMENTS_SEED_NEST = 7413;
     private static int determineNestMoleParts() {//https://runescape.fandom.com/wiki/Mole_skin?oldid=5371847
         Random random = new Random();
-        int roll = random.nextInt(100);//0-99
+        int roll = Utils.random(0, 100);//0-99
         if(roll < 20)//1/5
             return EMPTY_BIRD_NEST;
         else {//4/5
-            int roll2 = random.nextInt(3);//0-2
+            int roll2 = Utils.random(0, 3);//0-2
             if(roll2 == 0)
                 return RING_NEST;
             if(roll2 == 1)
