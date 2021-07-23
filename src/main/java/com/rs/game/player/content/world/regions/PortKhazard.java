@@ -16,7 +16,10 @@ public class PortKhazard {
 			if (option == 1)
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {{
 					addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Can I help you at all?");
-						create();
+					addNext(() -> {
+                        ShopsHandler.openShop(e.getPlayer(), "khazard_general_store");
+                    });
+                    create();
 				}});
 			if (option == 3)
 				ShopsHandler.openShop(e.getPlayer(), "khazard_general_store");
