@@ -622,6 +622,7 @@ public abstract class Entity extends WorldTile {
 			case 9712:
 			case 9710:
 			case 706:
+            case 14860:
 				return true;
 			}
 			switch(npc.getName()) {
