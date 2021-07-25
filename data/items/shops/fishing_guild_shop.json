@@ -30,21 +30,73 @@
     },
     {
       "item": {
-        "id": 335,
+        "id": 363,
         "amount": 0
       }
     },
     {
       "item": {
-        "id": 331,
+        "id": 341,
         "amount": 0
       }
     },
     {
       "item": {
-        "id": 349,
+        "id": 377,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 353,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 371,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 359,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 365,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 339,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 379,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 373,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 361,
         "amount": 0
       }
     }
+
+  ],
+  "npcIds": [
+    592
   ]
 }
