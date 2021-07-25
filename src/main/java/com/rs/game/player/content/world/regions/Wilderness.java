@@ -1,9 +1,12 @@
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.pathing.Direction;
+import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.controllers.WildernessController;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -58,9 +61,41 @@ public class Wilderness {
 	public static ObjectClickHandler handleRedDragIsleShortcut = new ObjectClickHandler(new Object[] { 73657 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Agility.hasLevel(e.getPlayer(), 54))
-				return;
+			if (!Agility.hasLevel(e.getPlayer(), 54)) {
+                e.getPlayer().getPackets().sendGameMessage("You need level 54 agility to use this shortcut.");
+                return;
+            }
 			AgilityShortcuts.forceMovement(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getY() > 3800 ? 1 : -1, e.getPlayer().getY() > 3800 ? -2 : 2), 4721, 1, 1);
 		}
 	};
+
+    public static ObjectClickHandler handleGWDShortcut = new ObjectClickHandler(new Object[] { 26323, 26324, 26328, 26327 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+            if (!Agility.hasLevel(p, 60)) {
+                p.getPackets().sendGameMessage("You need level 60 agility to use this shortcut.");
+                return;
+            }
+
+            //Wildy
+            if(obj.getId() == 26327) {
+                AgilityShortcuts.forceMovement(p, new WorldTile(2943, 3767, 0), 2049, 1, 1);
+            }
+            if(obj.getId() == 26328) {
+                p.setNextWorldTile(new WorldTile(2943, 3767, 0));
+                AgilityShortcuts.forceMovementInstant(p, new WorldTile(2950, 3767, 0), 2050, 1, 1, Direction.WEST);
+            }
+
+            //Outside GWD
+            if(obj.getId() == 26324) {
+                AgilityShortcuts.forceMovementInstant(p, new WorldTile(2928, 3757, 0), 2049, 1, 1, Direction.NORTH);
+            }
+            if(obj.getId() == 26323) {
+                AgilityShortcuts.forceMovementInstant(p, new WorldTile(2927, 3761, 0), 2050, 1, 1, Direction.NORTH);
+            }
+
+        }
+    };
 }
