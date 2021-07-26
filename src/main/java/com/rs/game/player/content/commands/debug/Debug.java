@@ -21,6 +21,8 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 
+import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
+
 @PluginEventHandler
 public class Debug {
 	
@@ -78,6 +80,10 @@ public class Debug {
 					p.getPackets().sendPanelBoxMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
 			}
 		});
+
+        Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {
+            attemptSpawnRandom(p, true);
+        });
 		
 		Commands.add(Rights.PLAYER, "showhitchance", "Toggles the display of your hit chance when attacking opponents.", (p, args) -> {
 			p.setTempB("hitChance", p.getTempB("hitChance"));
