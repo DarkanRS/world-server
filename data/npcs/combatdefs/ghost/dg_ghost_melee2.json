@@ -1,12 +1,18 @@
 {
   "ids": [
-    10821,
-    10829
+    10822,
+    10823,
+    10824,
+    10825,
+    10826,
+    10827,
+    10828,
+    10830
   ],
   "hitpoints": 270,
-  "attackAnim": 5540,
-  "defenceAnim": 13406,
-  "deathAnim": 13407,
+  "attackAnim": 5535,
+  "defenceAnim": 5533,
+  "deathAnim": 5534,
   "deathDelay": 3,
   "respawnDelay": 40,
   "maxHit": 40,
