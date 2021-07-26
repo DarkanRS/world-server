@@ -1,29 +1,29 @@
 {
   "ids": [
-    113,
-    3449,
-    3450
+    116,
+    4291,
+    6078,
+    6080
   ],
-  "hitpoints": 600,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "hitpoints": 750,
+  "attackAnim": 4652,
+  "defenceAnim": 4651,
+  "deathAnim": 4653,
   "deathDelay": 3,
   "respawnDelay": 60,
-  "maxHit": 73,
+  "maxHit": 60,
   "attackStyle": "MELEE",
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "attackBonus": "CRUSH_ATT",
   "aggroDistance": -1,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1,
   "attackRange": -1,
   "levels": [
-    43,
-    43,
-    43,
+    47,
+    26,
+    50,
     1,
     1
   ]

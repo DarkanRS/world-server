@@ -1,11 +1,13 @@
 {
   "ids": [
-    6268
+    113,
+    3449,
+    3450
   ],
-  "hitpoints": 800,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "hitpoints": 600,
+  "attackAnim": 2100,
+  "defenceAnim": 8578,
+  "deathAnim": 8576,
   "deathDelay": 3,
   "respawnDelay": 60,
   "maxHit": 73,
@@ -19,9 +21,9 @@
   "maxDistFromSpawn": -1,
   "attackRange": -1,
   "levels": [
-    46,
     43,
-    48,
+    43,
+    43,
     1,
     1
   ]

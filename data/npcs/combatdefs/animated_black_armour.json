@@ -1,23 +1,23 @@
 {
   "names": [
-    "Animated Iron Armour"
+    "Animated Black Armour"
   ],
-  "hitpoints": 200,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "hitpoints": 600,
+  "attackAnim": 12311,
+  "defenceAnim": 1156,
+  "deathAnim": 836,
   "deathDelay": 3,
   "respawnDelay": 60,
-  "maxHit": 40,
+  "maxHit": 75,
   "attackStyle": "MELEE",
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "attackBonus": "CRUSH_ATT",
+  "attackBonus": "STAB_ATT",
   "levels": [
-    20,
-    20,
-    20,
+    60,
+    60,
+    60,
     1,
     1
   ]
