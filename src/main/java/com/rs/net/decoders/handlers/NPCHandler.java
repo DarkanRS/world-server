@@ -76,12 +76,15 @@ import com.rs.utils.shop.ShopsHandler;
 public class NPCHandler {
 
 	public static void handleExamine(final Player player, final NPC npc) {
-		if (player.hasRights(Rights.DEVELOPER)) {
-			player.sendMessage("NPC - [id=" + npc.getId() + ", loc=[" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + "]]. " + npc.getDefinitions().respawnDirection);
-			if (npc.getDefinitions().transformTo != null) {
-				player.sendMessage(npc.getDefinitions().getConfigInfoString());
-			}
-		}
+        if (player.hasRights(Rights.DEVELOPER)) {
+            player.sendMessage("NPC - [id=" + npc.getId() + ", loc=[" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + "]]. " + npc.getDefinitions().respawnDirection);
+            player.sendMessage("HP: " + npc.getMaxHitpoints() + " Crush Def: " + npc.getDefinitions().getCrushDef() + " Slash Def: " +
+                    npc.getDefinitions().getSlashDef() + " Stab Def: " + npc.getDefinitions().getStabDef() + " Range Def: "+ npc.getDefinitions().getRangeDef() +
+                    " Mage Def: " + npc.getDefinitions().getMagicDef());
+            if (npc.getDefinitions().transformTo != null) {
+                player.sendMessage(npc.getDefinitions().getConfigInfoString());
+            }
+        }
 		player.getPackets().sendNPCMessage(player, 0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
 		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate")) {
 			player.sendOptionDialogue("Would you like to check the drops on this monster?", new String[] { "Show drops (1,000 kills)", "Show drops (5,000 kills)", "Show drops (50,000 kills)", "Nevermind"}, new DialogueOptionEvent() {
