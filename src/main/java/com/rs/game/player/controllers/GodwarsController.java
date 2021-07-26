@@ -7,6 +7,7 @@ import com.rs.game.npc.godwars.zaros.NexArena;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.RouteEvent;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.dialogues.NexEntrance;
 import com.rs.game.tasks.WorldTask;
@@ -125,47 +126,48 @@ public class GodwarsController extends Controller {
 			return false;
 		}
 
-		if (object.getId() == 26303) {
-			if (player.getSkills().getLevel(Constants.RANGE) >= 70 && ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).getName().toLowerCase().contains("crossbow")) {
-				boolean withinArmadyl = player.getY() < 5276;
-				final WorldTile tile = new WorldTile(2872, withinArmadyl ? 5279 : 5269, 2);
-				player.lock();
-				WorldTasksManager.schedule(new WorldTask() {
+        if (object.getId() == 26303) {
+            if (player.getSkills().getLevel(Skills.RANGE) >= 70 && ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).getName().toLowerCase().contains("crossbow")) {
+                boolean withinArmadyl = player.getY() < 5276;
+                final WorldTile tile = new WorldTile(2872, withinArmadyl ? 5279 : 5269, 2);
+                player.lock();
+                WorldTasksManager.schedule(new WorldTask() {
 
-					int ticks = 0, projectileTicks = 0;
+                    int ticks = 0, projectileTicks = 0;
 
-					@Override
-					public void run() {
-						ticks++;
-						if (ticks == 1) {
-							player.setNextAnimation(new Animation(827));
-							player.setNextFaceWorldTile(tile);
-						} else if (ticks == 3)
-							player.setNextAnimation(new Animation(385));
-						else if (ticks == 5) {
-							player.setNextAnimation(new Animation(16635));
-						} else if (ticks == 6) {
-							player.getAppearance().setHidden(true);
-							projectileTicks = ticks + World.sendProjectile(player, tile, 605, 18, 18, 20, 1, 30, 0).getTaskDelay();
-							player.setNextForceMovement(new ForceMovement(player, 1, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
-						} else if (ticks == projectileTicks) {
-							player.getAppearance().setHidden(false);
-							player.setNextAnimation(new Animation(16672));
-							player.setNextWorldTile(tile);
-							player.unlock();
-							player.resetReceivedHits();
-							stop();
-							return;
-						}
-					}
-				}, 0, 1);
-			} else {
-				player.sendMessage("You need a Ranged level of 70 and a crossbow of some sort to enter this area.");
-			}
-			return false;
-		}
+                    @Override
+                    public void run() {
+                        ticks++;
+                        if (ticks == 1) {
+                            player.setNextFaceWorldTile(tile);
+                            player.setNextAnimation(new Animation(385));
+                        } else if (ticks == 3) {
+                            player.setNextAnimation(new Animation(16635));
+                        } else if (ticks == 4) {
+//							player.getAppearance().setHidden(true);
+                            player.getAppearance().transformIntoNPC(266);
+                            projectileTicks = ticks + World.sendProjectile(player, tile, 605, 18, 18, 20, 1, 30, 0).getTaskDelay();
+                            player.setNextForceMovement(new ForceMovement(player, 1, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
+                        } else if (ticks == projectileTicks) {
+//							player.getAppearance().setHidden(false);
+                            player.getAppearance().transformIntoNPC(-1);
+                            player.setNextAnimation(new Animation(16672));
+                            player.setNextWorldTile(tile);
+                            player.unlock();
+                            player.resetReceivedHits();
+                            stop();
+                            return;
+                        }
+                    }
+                }, 0, 1);
+            } else {
+                player.sendMessage("You need a Ranged level of 70 and a crossbow of some sort to enter this area.");
+            }
+            return false;
+        }
 
-		if (object.getId() == 26426 && player.getY() <= 5295) {
+
+        if (object.getId() == 26426 && player.getY() <= 5295) {
 			if (killcount[ARMADYL] >= 40) {
 				player.setNextWorldTile(new WorldTile(2839, 5296, 2));
 				killcount[ARMADYL] -= 40;
