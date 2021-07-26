@@ -379,28 +379,6 @@ public class RunecraftingAltar {
 			}
 		}
 	};
-
-    public static NPCClickHandler handleAubury = new NPCClickHandler(5913) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            switch(e.getOption()) {
-                case "Trade":
-                    ShopsHandler.openShop(e.getPlayer(), "auburys_rune_shop");
-                    break;
-                case "Teleport":
-                    e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-                    World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-                    WorldTasksManager.schedule(new WorldTask() {
-                        @Override
-                        public void run() {
-                            e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-                            e.getPlayer().lastEssTele = new WorldTile(e.getNPC());
-                        }
-                    }, 2);
-                    break;
-            }
-        }
-    };
 	
 	public static NPCClickHandler handleOthers = new NPCClickHandler(462) {
 		@Override
