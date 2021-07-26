@@ -1,13 +1,13 @@
 {
   "ids": [
-    10208
+    4418
   ],
-  "hitpoints": 1280,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "hitpoints": 1120,
+  "attackAnim": 4300,
+  "defenceAnim": 4301,
+  "deathAnim": 4302,
   "deathDelay": 3,
-  "respawnDelay": 40,
+  "respawnDelay": 60,
   "maxHit": 140,
   "attackStyle": "MELEE",
   "attackGfx": -1,
