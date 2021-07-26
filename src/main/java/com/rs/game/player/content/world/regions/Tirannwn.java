@@ -1,5 +1,6 @@
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,13 +10,10 @@ import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.quests.Quest;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.*;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -29,8 +27,85 @@ public class Tirannwn {
 //		e.getPlayer().getVars().setVarBit(8749, 2); //expose vent and tie rope
 //		return false;
 //	}
-	
-	public static ObjectClickHandler handleGlouphrieCave = new ObjectClickHandler(new Object[] { 20750, 20753 }) {
+
+    public static ObjectClickHandler handleStickTraps = new ObjectClickHandler(new Object[] { 3922 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            /*
+            3 = S -> N
+            2 = W -> E
+            1 = N- > S
+            0 = E -> W
+              */
+            Player p = e.getPlayer();
+            WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+            if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 3 || e.getObject().getRotation()== 1))
+                if(p.getY() > objTile.getY())
+                    p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()-1, objTile.getPlane()), 5, false);
+                else if(p.getY() <= objTile.getY())
+                    p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()+2, objTile.getPlane()), 5, false);
+            if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation()== 2))
+                if(p.getX() > objTile.getX())
+                    p.addWalkSteps(new WorldTile(objTile.getX()-1, objTile.getY(), objTile.getPlane()), 5, false);
+                else if(p.getX() <= objTile.getX())
+                    p.addWalkSteps(new WorldTile(objTile.getX()+2, objTile.getY(), objTile.getPlane()), 5, false);
+        }
+    };
+
+    public static ObjectClickHandler handleTripWire = new ObjectClickHandler(new Object[] { 3921 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            /*
+            2 = S -> N
+            3 = W -> E
+            0 = N- > S
+            1 = E -> W
+              */
+            Player p = e.getPlayer();
+            WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+            if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation()== 2))
+                if(p.getY() > objTile.getY())
+                    p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()-1, objTile.getPlane()), 5, false);
+                else if(p.getY() <= objTile.getY())
+                    p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()+2, objTile.getPlane()), 5, false);
+            if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 1 || e.getObject().getRotation()== 3))
+                if(p.getX() > objTile.getX())
+                    p.addWalkSteps(new WorldTile(objTile.getX()-1, objTile.getY(), objTile.getPlane()), 5, false);
+                else if(p.getX() <= objTile.getX())
+                    p.addWalkSteps(new WorldTile(objTile.getX()+2, objTile.getY(), objTile.getPlane()), 5, false);
+        }
+    };
+
+    public static ObjectClickHandler handleLeafTrap = new ObjectClickHandler(new Object[] { 3923, 3925 }) {
+        @Override
+        public void handle(ObjectClickEvent e) { //Hard coded
+            Player p = e.getPlayer();
+            WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+            if(p.withinDistance(new WorldTile(2208, 3204, 0), 4))
+                if(p.getY() > objTile.getY())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2209, 3201, 0), 10963, 1, 0, Direction.SOUTH);
+                else if(p.getY() < objTile.getY())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2209, 3205, 0), 10963, 1, 0, Direction.NORTH);
+            if(p.withinDistance(new WorldTile(2267, 3202, 0), 4))
+                if(p.getY() > objTile.getY())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2267, 3201, 0), 10963, 1, 0, Direction.SOUTH);
+                else if(p.getY() < objTile.getY())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2267, 3205, 0), 10963, 1, 0, Direction.NORTH);
+            if(p.withinDistance(new WorldTile(2274, 3174, 0), 4))
+                if(p.getY() > objTile.getY())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2274, 3172, 0), 10963, 1, 0, Direction.SOUTH);
+                else if(p.getY() < objTile.getY())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2274, 3176, 0), 10963, 1, 0, Direction.NORTH);
+            if(p.withinDistance(new WorldTile(2278, 3262, 0), 4))
+                if(p.getX() > objTile.getX())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2275, 3262, 0), 10963, 1, 0, Direction.WEST);
+                else if(p.getX() < objTile.getX())
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2279, 3262, 0), 10963, 1, 0, Direction.EAST);
+        }
+    };
+
+
+    public static ObjectClickHandler handleGlouphrieCave = new ObjectClickHandler(new Object[] { 20750, 20753 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 20753)
@@ -73,8 +148,10 @@ public class Tirannwn {
 	public static ObjectClickHandler handleGrenwallLogBalance = new ObjectClickHandler(new Object[] { 3931, 3932 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Agility.hasLevel(e.getPlayer(), 45))
-				return;
+			if (!Agility.hasLevel(e.getPlayer(), 45)) {
+                e.getPlayer().sendMessage("You need 45 agility");
+                return;
+            }
 			AgilityShortcuts.walkLog(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() > e.getObject().getX() ? -6 : 6, 0, 0), 4);
 		}
 	};
@@ -82,8 +159,10 @@ public class Tirannwn {
 	public static ObjectClickHandler handleArandarLogBalance = new ObjectClickHandler(new Object[] { 3933 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Agility.hasLevel(e.getPlayer(), 45))
-				return;
+			if (!Agility.hasLevel(e.getPlayer(), 45)) {
+			    e.getPlayer().sendMessage("You need 45 agility");
+                return;
+            }
 			AgilityShortcuts.walkLog(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -7 : 7, 0), 6);
 		}
 	};
@@ -105,12 +184,81 @@ public class Tirannwn {
 	public static ObjectClickHandler handleDenseForest = new ObjectClickHandler(new Object[] { "Dense forest" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
+            if (!Agility.hasLevel(e.getPlayer(), 56)) {
+                e.getPlayer().sendMessage("You need 56 agility");
+                return;
+            }
 			if (e.getObject().getRotation() == 3 || e.getObject().getRotation() == 1)
 				Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 3 : -3, 0, 0), 0);
 			else
 				Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(0, e.getPlayer().getY() < e.getObject().getY() ? 3 : -3, 0), 0);
 		}
 	};
+
+    public static ObjectClickHandler handleHeavyGateToArandar = new ObjectClickHandler(new Object[] { 3945, 3944 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+
+            if(p.getY() > obj.getY())
+                p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY()-1, obj.getPlane()));
+            if(p.getY() < obj.getY())
+                p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY()+1, obj.getPlane()));
+        }
+    };
+
+    public static ObjectClickHandler handleAdvancedElvenCliffside = new ObjectClickHandler(new Object[] { 9297, 9296 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+
+            if(obj.getId() == 9296) {//above
+                if(obj.matches(new WorldTile(2333,3252, 0)))
+                    if (!Agility.hasLevel(p, 85)) {
+                        p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
+                        return;
+                    } else
+                        AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3253, 0), 2050, 1, 1, Direction.WEST);
+                if(obj.matches(new WorldTile(2338,3282, 0)))
+                    if (!Agility.hasLevel(p, 68)) {
+                        p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
+                        return;
+                    } else
+                        AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3286, 0), 2050, 1, 1, Direction.SOUTH);
+                if(obj.matches(new WorldTile(2346,3299, 0)))
+                    if (!Agility.hasLevel(p, 59)) {
+                        p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
+                        return;
+                    } else
+                        AgilityShortcuts.forceMovementInstant(p, new WorldTile(2344, 3294, 0), 2050, 1, 1, Direction.NORTH);
+            }
+
+            if(obj.getId() == 9297) {//below
+                if(obj.matches(new WorldTile(2337,3253, 0)))
+                    if (!Agility.hasLevel(p, 85)) {
+                        p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
+                        return;
+                    } else
+                        AgilityShortcuts.forceMovementInstant(p, new WorldTile(2332, 3252, 0), 2049, 1, 1, Direction.WEST);
+                if(obj.matches(new WorldTile(2338,3285, 0)))
+                    if (!Agility.hasLevel(p, 68)) {
+                        p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
+                        return;
+                    } else
+                        AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3281, 0), 2049, 1, 1, Direction.SOUTH);
+                if(obj.matches(new WorldTile(2344,3295, 0)))
+                    if (!Agility.hasLevel(p, 59)) {
+                        p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
+                        return;
+                    } else
+                        AgilityShortcuts.forceMovementInstant(p, new WorldTile(2346, 3300, 0), 2049, 1, 1, Direction.NORTH);
+            }
+
+
+        }
+    };
 
 	public static NPCClickHandler handleArianwynCampTalk = new NPCClickHandler("Arianwyn") {
 		@Override
@@ -241,4 +389,6 @@ public class Tirannwn {
 			}
 		}
 	};
+
+
 }
