@@ -1,9 +1,12 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 sourceCompatibility = '16'
 targetCompatibility = '16'
+
+mainClassName = 'com.rs.Launcher'
 
 repositories {
 	mavenLocal()
