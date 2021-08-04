@@ -13,6 +13,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -21,14 +22,21 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class Doors {
-	
+
 	public static ObjectClickHandler handleDoors = new ObjectClickHandler(new Object[] { 39, 1531, "Door", "Throne Room Door", "Magic door", "Doorway", "Sturdy door", "Bamboo Door", "Long hall door", "Castle door", "Heavy door", "Gate", "Large door", "Metal door", "City gate", "Red door", "Orange door", "Yellow door", "Cell door", "Cell Door", "Wall", "Storeroom Door", "Solid bronze door", "Solid steel door", "Solid black door", "Solid silver door" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
+    public static ObjectClickHandler handleLeftHandedDoors = new ObjectClickHandler(new Object[] { 22921 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            handleLeftHandedDoor(e.getPlayer(), e.getObject());
+        }
+    };
+
 	public static ObjectClickHandler handleInvertedDoors = new ObjectClickHandler(new Object[] { 1531 }, ObjectType.WALL_INTERACT) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -296,6 +304,59 @@ public class Doors {
 			player.addWalkSteps(toTile, 3, false);
 		}
 	}
+
+    public static void handleLeftHandedDoor(Player player, GameObject object) {
+        handleLeftHandedDoor(player, object, 0);
+    }
+
+    public static void handleLeftHandedDoor(Player player, GameObject object, int offset) {
+        boolean open = object.getDefinitions(player).containsOption("Open");
+        int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
+        WorldTile adjusted = new WorldTile(object);
+        switch (rotation) {
+            case 0:
+                adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
+                break;
+            case 1:
+                adjusted = adjusted.transform(0, open ? 1 : -1, 0);
+                break;
+            case 2:
+                adjusted = adjusted.transform(open ? 1 : -1, 0, 0);
+                break;
+            case 3:
+                adjusted = adjusted.transform(0, open ? -1 : 1, 0);
+                break;
+        }
+        Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
+        if (!isTempMove(opp.getDefinitions(player))) {
+            if (object instanceof Door) {
+                World.removeObject(object);
+                World.spawnObject(((Door)object).original, true);
+            } else {
+                World.removeObject(object);
+                World.spawnObject(opp, true);
+            }
+        } else {
+            WorldTile toTile = object.transform(0, 0, 0);
+            switch (object.getRotation()) {
+                case 0:
+                    toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
+                    break;
+                case 1:
+                    toTile = toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
+                    break;
+                case 2:
+                    toTile = toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
+                    break;
+                case 3:
+                    toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
+                    break;
+            }
+            World.spawnObjectTemporary(new GameObject(object).setIdNoRefresh(83), 2, true);
+            World.spawnObjectTemporary(opp, 2, true);
+            player.addWalkSteps(toTile, 3, false);
+        }
+    }
 	
 	public static void handleOneWayDoor(Player player, GameObject object, int rotation) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
