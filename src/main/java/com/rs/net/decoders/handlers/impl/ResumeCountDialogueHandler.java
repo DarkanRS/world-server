@@ -1,6 +1,5 @@
 package com.rs.net.decoders.handlers.impl;
 
-import com.rs.game.grandexchange.GrandExchange;
 import com.rs.game.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ResumeCountDialogue;
@@ -34,17 +33,6 @@ public class ResumeCountDialogueHandler implements PacketHandler<Player, ResumeC
 				player.getFamiliar().getBob().removeItem(bob_item_X_Slot, packet.getValue());
 			else
 				player.getFamiliar().getBob().addItem(bob_item_X_Slot, packet.getValue());
-		} else if (player.getInterfaceManager().containsInterface(105)) {
-			if (packet.getValue() < 0)
-				return;
-
-			if (player.getTemporaryAttributes().get("geCustomAmount") != null && (Boolean) player.getTemporaryAttributes().remove("geCustomAmount") == Boolean.TRUE) {
-				player.geAmount = packet.getValue();
-				GrandExchange.updatePrice(player);
-			} else if (player.getTemporaryAttributes().get("geCustomPrice") != null && (Boolean) player.getTemporaryAttributes().remove("geCustomPrice") == Boolean.TRUE) {
-				player.gePrice = packet.getValue();
-				GrandExchange.updatePrice(player);
-			}
 		} else if (player.getInterfaceManager().containsInterface(335) && player.getInterfaceManager().containsInterface(336)) {
 			if (packet.getValue() < 0)
 				return;

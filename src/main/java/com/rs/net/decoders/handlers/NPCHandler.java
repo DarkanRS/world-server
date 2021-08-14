@@ -1,7 +1,7 @@
 package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
-import com.rs.game.grandexchange.GrandExchange;
+import com.rs.game.ge.GE;
 import com.rs.game.grandexchange.GrandExchangeSets;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
@@ -119,9 +119,8 @@ public class NPCHandler {
 				player.sendOptionDialogue("What would you like to do?", new String[] { "Open Grand Exchange", "Nothing" }, new DialogueOptionEvent() {
 					@Override
 					public void run(Player player) {
-						if (getOption() == 1) {
-							GrandExchange.open(player);
-						}
+						if (getOption() == 1)
+							GE.open(player);
 					}
 				});
 				return;
@@ -282,7 +281,7 @@ public class NPCHandler {
 			else if (npc.getId() == 9711)
 				DungeonRewards.openRewardsShop(player);
 			else if (npc.getDefinitions().getName(player.getVars()).contains("Grand Exchange"))
-				GrandExchange.open(player);
+				GE.open(player);
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
 			    player.getDialogueManager().execute(new TanningD(), npc.getId());
 			else if (npc.getName().toLowerCase().contains("impling"))
@@ -382,7 +381,7 @@ public class NPCHandler {
 			}
 			
 			if (npc.getDefinitions().getName(player.getVars()).contains("Grand Exchange clerk")) {
-				GrandExchange.open(player);
+				GE.open(player);
 				return;
 			}
 			
@@ -487,7 +486,7 @@ public class NPCHandler {
 			else if (npc.getId() == 1288)
 				player.getBank().openDepositBox();
 			else if (npc.getId() == 1419)
-				GrandExchange.open(player);
+				GE.open(player);
 			else if (npc.getId() == 9711)
 				DungeonRewards.openRewardsShop(player);
 			else if (npc.getId() == 2676 || npc.getId() == 599)

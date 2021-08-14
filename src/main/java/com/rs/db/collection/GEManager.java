@@ -12,8 +12,8 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.Sorts;
-import com.rs.game.grandexchange.Offer;
-import com.rs.game.grandexchange.GrandExchange.GrandExchangeType;
+import com.rs.game.ge.Offer;
+import com.rs.game.ge.Offer.State;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
@@ -27,9 +27,9 @@ public class GEManager extends DBItemManager {
 	@Override
 	public void initCollection() {
 		getDocs().createIndex(Indexes.text("owner"));
-		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("amountLeft")));
-		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("pricePerItem")));
-		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("currentType")));
+		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("completedAmount")));
+		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("price")));
+		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("selling")));
 	}
 
 	public void get(String username, Consumer<Offer[]> func) {
@@ -85,60 +85,35 @@ public class GEManager extends DBItemManager {
 	}
 	
 	public List<Offer> getBestOffersSync(Offer other) {
-		switch(other.getCurrentType()) {
-		case ABORTED:
+		if (other.getState() == State.FINISHED)
 			return null;
-		case BUYING:
-			FindIterable<Document> docs = getDocs()
-				.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("currentType", GrandExchangeType.SELLING.name()), Filters.lt("pricePerItem", other.getPricePerItem())))
-				.sort(Sorts.ascending("pricePerItem"));
-			try {
-				return JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer[].class);
-			} catch (JsonIOException | IOException e) {
-				return null;
-			}
-		case SELLING:
-			docs = getDocs()
-				.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("currentType", GrandExchangeType.BUYING.name()), Filters.gt("pricePerItem", other.getPricePerItem())))
-				.sort(Sorts.descending("pricePerItem"));
-			try {
-				return JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer[].class);
-			} catch (JsonIOException | IOException e) {
-				return null;
-			}
-		default:
+		FindIterable<Document> docs = getDocs()
+			.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("selling", !other.isSelling()), Filters.lt("price", other.getPrice())))
+			.sort(Sorts.ascending("price"));
+		try {
+			return JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer[].class);
+		} catch (JsonIOException | IOException e) {
 			return null;
 		}
 	}
 
 	public void getBestOffer(int itemId, boolean sell, Consumer<Offer> func) {
 		execute(() -> {
-			if (sell) {
-				FindIterable<Document> docs = getDocs()
-						.find(Filters.and(Filters.eq("itemId", itemId), Filters.eq("currentType", GrandExchangeType.BUYING.name())))
-						.sort(Sorts.descending("pricePerItem"));
-				try {
-					func.accept(JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer.class));
-				} catch (JsonIOException | IOException e) {
-					func.accept(null);
-				}
-			} else {
-				FindIterable<Document> docs = getDocs()
-						.find(Filters.and(Filters.eq("itemId", itemId), Filters.eq("currentType", GrandExchangeType.SELLING.name())))
-						.sort(Sorts.ascending("pricePerItem"));
-				try {
-					func.accept(JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer.class));
-				} catch (JsonIOException | IOException e) {
-					func.accept(null);
-				}
+			FindIterable<Document> docs = getDocs()
+					.find(Filters.and(Filters.eq("itemId", itemId), Filters.eq("currentType", !sell)))
+					.sort(Sorts.descending("price"));
+			try {
+				func.accept(JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer.class));
+			} catch (JsonIOException | IOException e) {
+				func.accept(null);
 			}
 		});
 	}
 	
-	public void getAllOffersOfType(GrandExchangeType type, Consumer<List<Offer>> func) {
+	public void getAllOffersOfType(boolean selling, Consumer<List<Offer>> func) {
 		execute(() -> {
 			List<Offer> result = new ArrayList<Offer>();
-			FindIterable<Document> docs = getDocs().find(Filters.eq("currentType", type.name()));
+			FindIterable<Document> docs = getDocs().find(Filters.eq("selling", selling));
 			for (Document doc : docs) {
 				try {
 					Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);

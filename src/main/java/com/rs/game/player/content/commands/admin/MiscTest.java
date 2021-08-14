@@ -198,6 +198,10 @@ public class MiscTest {
 //			});
 //		});
 		
+		Commands.add(Rights.DEVELOPER, "ge", "Test GE opcodes", (p, args) -> {
+			p.getPackets().updateGESlot(2, Integer.valueOf(args[0]), 4151, 15, 200, 150);
+		});
+		
 		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {
 			p.getInterfaceManager().setWindowInterface(Integer.valueOf(args[0]), 1216);
 			p.getPackets().sendVarc(1756, Skills.getTargetIdBySkillId(0));

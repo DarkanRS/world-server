@@ -5,8 +5,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.grandexchange.GrandExchange.GrandExchangeType;
-import com.rs.game.grandexchange.Offer;
+import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
@@ -77,7 +76,7 @@ public class Normal {
 //		});
 		
 		Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> {
-			WorldDB.getGE().getAllOffersOfType(GrandExchangeType.BUYING, offers -> {
+			WorldDB.getGE().getAllOffersOfType(false, offers -> {
 				p.getPackets().sendRunScript(1207, offers.size());
 				p.getInterfaceManager().sendInterface(275);
 				p.getPackets().setIFText(275, 1, "Grand Exchange Buy Offers");
@@ -85,14 +84,14 @@ public class Normal {
 				for (Offer offer : offers) {
 					if (num > 288)
 						break;
-					p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.getAmountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPricePerItem() + " ea");
+					p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.amountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPrice() + " ea");
 					num++;
 				}
 			});
 		});
 		
 		Commands.add(Rights.PLAYER, "selloffers", "Displays all sell offers currently active in the Grand Exchange.", (p, args) -> {
-			WorldDB.getGE().getAllOffersOfType(GrandExchangeType.SELLING, offers -> {
+			WorldDB.getGE().getAllOffersOfType(true, offers -> {
 				p.getPackets().sendRunScript(1207, offers.size());
 				p.getInterfaceManager().sendInterface(275);
 				p.getPackets().setIFText(275, 1, "Grand Exchange Sell Offers");
@@ -100,7 +99,7 @@ public class Normal {
 				for (Offer offer : offers) {
 					if (num > 288)
 						break;
-					p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.getAmountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPricePerItem() + " ea");
+					p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.amountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPrice() + " ea");
 					num++;
 				}
 			});

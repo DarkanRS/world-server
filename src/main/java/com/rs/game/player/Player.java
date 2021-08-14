@@ -28,8 +28,8 @@ import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.WorldProjectile;
-import com.rs.game.grandexchange.GrandExchange;
-import com.rs.game.grandexchange.Offer;
+import com.rs.game.ge.GE;
+import com.rs.game.ge.Offer;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
@@ -146,18 +146,6 @@ public class Player extends Entity {
 	private Date dateJoined;
 
 	private Map<String, Object> dailyAttributes;
-
-	// GRAND EXCHANGE
-	public transient int geTotalPrice;
-	public transient int geItemId;
-	public transient int geAmount;
-	public transient int geNoteId;
-	public transient int gePrice;
-	
-	public transient Item geAwaitingSell;
-	public transient Item geAwaitingBuy;
-	public transient boolean geBuying;
-	public transient int geBox;
 		
 	public transient int chatType;
 	
@@ -167,9 +155,6 @@ public class Player extends Entity {
 	private transient HashMap<Integer, ReflectionCheck> reflectionChecks = new HashMap<Integer, ReflectionCheck>();
 	
 	private long docileTimer;
-
-	private Offer[] offers;
-	// END GRAND EXCHANGE
 
 	private Brewery keldagrimBrewery;
 	private Brewery phasmatysBrewery;
@@ -186,18 +171,6 @@ public class Player extends Entity {
 	private boolean aquanitesUnlocked;
 
 	private DungManager dungManager;
-
-	public void resetGEValues() {
-		geTotalPrice = -1;
-		geItemId = -1;
-		geAmount = -1;
-		gePrice = -1;
-		geBuying = false;
-		geBox = -1;
-		geNoteId = -1;
-		geAwaitingSell = null;
-		geAwaitingBuy = null;
-	}
 
 	public transient long tolerance = 0;
 	public transient long idleTime = 0;
@@ -376,6 +349,7 @@ public class Player extends Entity {
 	private BossTask bossTask;
 	private QuestManager questManager;
 	private TreasureTrailsManager treasureTrailsManager;
+	private Offer[] offers = new Offer[6];
 
 	public int reaperPoints;
 
@@ -1296,13 +1270,8 @@ public class Player extends Entity {
 			if (item != null)
 				PluginManager.handle(new ItemEquipEvent(this, item, true));
 		}
-
-		WorldDB.getGE().get(this.getUsername(), o -> {
-			offers = o;
-			if (offers == null)
-				offers = new Offer[6];
-			GrandExchange.updateGrandExchangeBoxes(this);
-		});
+		
+		GE.updateOffers(username);
 		
 		if (familiar != null) {
 			familiar.respawnFamiliar(this);
@@ -3415,10 +3384,6 @@ public class Player extends Entity {
 		this.clanCapeSymbols = clanCapeSymbols;
 	}
 
-	public void setGrandExchangeOffer(Offer offer, int geBox) {
-		offers[geBox] = offer;
-	}
-
 	public boolean checkCompRequirements(boolean trimmed) {
 		if (!getSkills().isMaxed(true)) {
 			return false;
@@ -4370,5 +4335,9 @@ public class Player extends Entity {
 
 	public Offer[] getOffers() {
 		return offers;
+	}
+
+	public void setOffers(Offer[] offers) {
+		this.offers = offers;
 	}
 }
