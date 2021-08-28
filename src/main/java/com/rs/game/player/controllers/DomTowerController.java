@@ -56,7 +56,7 @@ public class DomTowerController extends Controller {
 				player.sendMessage("You can't bank on endurance mode.");
 				return false;
 			}
-			player.getBank().openBank();
+			player.getBank().open();
 			return false;
 		} else if (object.getId() == 62689) {
 			if (player.getDominionTower().getProgress() == 0) {

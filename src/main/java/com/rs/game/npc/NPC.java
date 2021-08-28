@@ -190,19 +190,6 @@ public class NPC extends Entity {
 		changedName = false;
 	}
 	
-	public int getInteractionDistance(Player player) {
-		switch(getName()) {
-		case "Grand Exchange clerk":
-		case "Banker":
-			return 1;
-		}
-		switch(getId()) {
-		case 4250:
-			return 1;
-		}
-		return 0;
-	}
-	
 	public NPCDefinitions getDefinitions(Player player) {
 		return NPCDefinitions.getDefs(id, player.getVars());
 	}

@@ -32,7 +32,7 @@ public class GEManager extends DBItemManager {
 		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("selling")));
 	}
 
-	public void get(String username, Consumer<Offer[]> func) {
+	public void get(String username, Consumer<List<Offer>> func) {
 		execute(() -> {
 			func.accept(getSync(username));
 		});
@@ -54,16 +54,16 @@ public class GEManager extends DBItemManager {
 		getDocs().findOneAndReplace(Filters.and(Filters.eq("owner", offers.getOwner()), Filters.eq("box", offers.getBox())), Document.parse(JsonFileManager.toJson(offers)), new FindOneAndReplaceOptions().upsert(true));
 	}
 
-	public Offer[] getSync(String username) {
+	public List<Offer> getSync(String username) {
 		FindIterable<Document> offerDocs = getDocs().find(Filters.eq("owner", username));
 		if (offerDocs == null)
 			return null;
 		else
 			try {
-				Offer[] offers = new Offer[6];
+				List<Offer> offers = new ArrayList<>(6);
 				for (Document d : offerDocs) {
 					Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(d), Offer.class);
-					offers[offer.getBox()] = offer;
+					offers.add(offer);
 				}
 				return offers;
 			} catch (JsonIOException | IOException e) {

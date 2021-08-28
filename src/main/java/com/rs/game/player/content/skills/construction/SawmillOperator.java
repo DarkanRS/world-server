@@ -1,5 +1,6 @@
 package com.rs.game.player.content.skills.construction;
 
+import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -8,6 +9,7 @@ import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
@@ -16,6 +18,13 @@ public class SawmillOperator  {
 	private static int[] logs = { 1511, 1521, 6333, 6332 };
 	private static int[] planks = { 960, 8778, 8780, 8782 };
 	private static int[] prices = { 100, 250, 500, 1500 };
+	
+	public static NPCInteractionDistanceHandler sawmillDistance = new NPCInteractionDistanceHandler(4250) {
+		@Override
+		public int getDistance(Player player, NPC npc) {
+			return 1;
+		}
+	};
 	
 	public static NPCClickHandler handleOps = new NPCClickHandler(4250) {
 		@Override

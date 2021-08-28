@@ -39,7 +39,6 @@ import com.rs.game.player.content.skills.thieving.PickPocketAction;
 import com.rs.game.player.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.player.content.transportation.TravelMethods;
 import com.rs.game.player.content.transportation.TravelMethods.Carrier;
-import com.rs.game.player.dialogues.Banker;
 import com.rs.game.player.dialogues.BoatingDialogue;
 import com.rs.game.player.dialogues.BootDwarf;
 import com.rs.game.player.dialogues.ClanCloak;
@@ -68,6 +67,7 @@ import com.rs.lib.util.Logger;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.utils.NPCExamines;
 import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
@@ -103,17 +103,18 @@ public class NPCHandler {
 		
 		PluginManager.handle(new NPCClickEvent(player, npc, 1, false));
 		
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, npc.getInteractionDistance(player), () -> {
+		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
+		int distance = 0;
+		if (dist != null)
+			distance = (int) dist;
+		
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getControllerManager().processNPCClick1(npc))
 				return;
 			npc.resetWalkSteps();
 			player.faceEntity(npc);
 			npc.faceEntity(player);
-			
-			if (npc.getDefinitions().getName(player.getVars()).contains("Banker") || npc.getDefinitions().getName(player.getVars()).contains("banker") || npc.getId() == 14707 || npc.getId() == 2619) {
-				player.getDialogueManager().execute(new Banker(), npc.getId());
-				return;
-			}
+
 			Object[] shipAttributes = BoatingDialogue.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
 				player.getDialogueManager().execute(new BoatingDialogue(), npc.getId());
@@ -295,7 +296,7 @@ public class NPCHandler {
 		if (!npc.getDefinitions().hasAttackOption())
 			return;
 		if (npc.getId() == 7891) {
-			player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, npc.getInteractionDistance(player), () -> {
+			player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> {
                 if (!player.getControllerManager().canAttack(npc))
                     return;
                 npc.resetWalkSteps();
@@ -353,7 +354,12 @@ public class NPCHandler {
 		
 		PluginManager.handle(new NPCClickEvent(player, npc, 3, false));
 		
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, npc.getInteractionDistance(player), () -> {
+		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
+		int distance = 0;
+		if (dist != null)
+			distance = (int) dist;
+		
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getControllerManager().processNPCClick2(npc))
 				return;
 			player.faceEntity(npc);
@@ -363,7 +369,7 @@ public class NPCHandler {
 				return;
 						
 			if (npc.getDefinitions().getName(player.getVars()).contains("Banker") || npc.getDefinitions().getName(player.getVars()).contains("banker") || npc.getId() == 14707 || npc.getId() == 2619) {
-				player.getBank().openBank();
+				player.getBank().open();
 				return;
 			}
 			
@@ -438,7 +444,7 @@ public class NPCHandler {
 				grave.repair(player, false);
 				return;
 			} else if (npc.getId() == 13455 || npc.getId() == 2617 || npc.getId() == 2618 || npc.getId() == 15194) {
-				player.getBank().openBank();
+				player.getBank().open();
 			} else if (npc.getId() == 11267) {
 				int[] noteableFish = { 377, 371, 359, 317, 345, 327 };
 				for (Item item : player.getInventory().getItems().getItems()) {
@@ -497,7 +503,12 @@ public class NPCHandler {
 
 		PluginManager.handle(new NPCClickEvent(player, npc, 4, false));
 		
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, npc.getInteractionDistance(player), () -> {
+		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
+		int distance = 0;
+		if (dist != null)
+			distance = (int) dist;
+		
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getControllerManager().processNPCClick3(npc))
 				return;
 			npc.resetWalkSteps();
@@ -526,7 +537,7 @@ public class NPCHandler {
 			} else if (npc.getId() == 1526) {
 				player.getInterfaceManager().sendInterface(60);
 			} else if (npc.getDefinitions().getOption(3).equals("Bank")) {
-				player.getBank().openBank();
+				player.getBank().open();
 			} else if (npc.getId() == 1334)
 				ShopsHandler.openShop(player, "book_shop");
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true)))
@@ -544,7 +555,12 @@ public class NPCHandler {
 		
 		PluginManager.handle(new NPCClickEvent(player, npc, 5, false));
 		
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, npc.getInteractionDistance(player), () -> {
+		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
+		int distance = 0;
+		if (dist != null)
+			distance = (int) dist;
+		
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getControllerManager().processNPCClick3(npc))
 				return;
 			npc.resetWalkSteps();

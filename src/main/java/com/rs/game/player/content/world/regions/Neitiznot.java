@@ -129,7 +129,7 @@ public class Neitiznot  {
 	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(5488) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getBank().openBank();
+			e.getPlayer().getBank().open();
 		}
 	};
 }

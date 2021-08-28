@@ -1045,7 +1045,7 @@ public final class TutorialIslandController extends Controller {
 						player.getBank().clear();
 						player.getBank().addItem(new Item(995, 25), false);
 						nextStage(Stage.ENTER_FINANCIAL_ROOM);
-						player.getBank().openBank();
+						player.getBank().open();
 					}
 			)).finish()));
 			return false;
@@ -1118,7 +1118,7 @@ public final class TutorialIslandController extends Controller {
 					.addNext(new OptionStatement("Select an Option", "Yes.", "No thanks."))
 					.addNext(new Dialogue().setFunc(() -> {
 								nextStage(Stage.ENTER_FINANCIAL_ROOM);
-								player.getBank().openBank();
+								player.getBank().open();
 							}
 					)).finish()));
 		} else if (object.getId() == 3024 && pastStage(Stage.ENTER_FINANCIAL_ROOM)) {

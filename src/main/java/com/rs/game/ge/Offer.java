@@ -1,6 +1,8 @@
 package com.rs.game.ge;
 
+import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.item.ItemsContainer;
+import com.rs.game.player.Player;
 import com.rs.lib.game.Item;
 
 public class Offer {
@@ -84,5 +86,11 @@ public class Offer {
 
 	public int amountLeft() {
 		return amount - completedAmount;
+	}
+
+	public void sendCollectionBox(Player player) {
+		player.getPackets().sendItems(523+box, processedItems);
+		player.getPackets().setIFTargetParams(new IFTargetParams(105, 206, -1, 0).enableRightClickOptions(0,1));
+		player.getPackets().setIFTargetParams(new IFTargetParams(105, 208, -1, 0).enableRightClickOptions(0,1));
 	}
 }

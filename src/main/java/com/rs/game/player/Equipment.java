@@ -539,7 +539,7 @@ public final class Equipment {
 						Equipment.refreshEquipBonuses(e.getPlayer());
 					}
 				} else if (e.getComponentId() == 46 && e.getPlayer().getTemporaryAttributes().remove("Banking") != null) {
-					e.getPlayer().getBank().openBank();
+					e.getPlayer().getBank().open();
 				}
 			} else if (e.getInterfaceId() == 670) {
 				if (e.getComponentId() == 0) {

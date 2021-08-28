@@ -527,7 +527,7 @@ public final class DominionTower {
 			growFace();
 			return;
 		}
-		player.getBank().openBank();
+		player.getBank().open();
 	}
 
 	public boolean isTalkedWithFace() {

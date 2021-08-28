@@ -808,7 +808,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.ADMIN, "bank", "Opens the bank.", (p, args) -> {
-			p.getBank().openBank();
+			p.getBank().open();
 		});
 		
 		Commands.add(Rights.ADMIN, "empty", "Empties the player's inventory.", (p, args) -> {

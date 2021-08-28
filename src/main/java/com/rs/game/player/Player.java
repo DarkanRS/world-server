@@ -349,7 +349,7 @@ public class Player extends Entity {
 	private BossTask bossTask;
 	private QuestManager questManager;
 	private TreasureTrailsManager treasureTrailsManager;
-	private Offer[] offers = new Offer[6];
+	private Map<Integer, Offer> geOffers = new HashMap<>();
 
 	public int reaperPoints;
 
@@ -4333,11 +4333,14 @@ public class Player extends Entity {
 		this.account = account;
 	}
 
-	public Offer[] getOffers() {
-		return offers;
+	public Map<Integer, Offer> getGEOffers() {
+		return geOffers;
 	}
 
-	public void setOffers(Offer[] offers) {
-		this.offers = offers;
+	public void setGEOffers(List<Offer> offers) {
+		Map<Integer, Offer> offerMap = new HashMap<>();
+		for (Offer offer : offers)
+			offerMap.put(offer.getBox(), offer);
+		this.geOffers = offerMap;
 	}
 }

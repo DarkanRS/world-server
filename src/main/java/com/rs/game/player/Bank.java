@@ -90,7 +90,7 @@ public class Bank {
 				e.getPlayer().setCloseInterfacesEvent(new Runnable() {
 					@Override
 					public void run() {
-						e.getPlayer().getBank().openBank();
+						e.getPlayer().getBank().open();
 					}
 				});
 			} else if (e.getComponentId() >= 46 && e.getComponentId() <= 64) {
@@ -586,7 +586,7 @@ public class Bank {
 		}
 	};
 
-	public void openBank() {
+	public void open() {
 		if (!checkPin())
 			return;
 		player.getTemporaryAttributes().remove("viewingOtherBank");

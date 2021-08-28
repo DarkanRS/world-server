@@ -72,6 +72,7 @@ import com.rs.plugin.events.DropItemEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.Drop;
@@ -699,7 +700,12 @@ public class InventoryOptionsHandler {
 		
 		PluginManager.handle(new ItemOnNPCEvent(player, npc, item.setSlot(slot), false));
 		
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, npc.getInteractionDistance(player), () -> {
+		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
+		int distance = 0;
+		if (dist != null)
+			distance = (int) dist;
+		
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
 			if (!player.getInventory().containsItem(item.getId(), item.getAmount())) {
 				return;
 			}

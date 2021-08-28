@@ -118,7 +118,7 @@ public class Lumbridge  {
 		public void handle(ObjectClickEvent e) {
 			switch (e.getOpNum()) {
 			case OBJECT_OP1:
-				e.getPlayer().getBank().openBank();
+				e.getPlayer().getBank().open();
 				break;
 			case OBJECT_OP2:
 				ShopsHandler.openShop(e.getPlayer(), "culinaromancer_food_10");

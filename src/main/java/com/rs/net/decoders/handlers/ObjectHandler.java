@@ -65,7 +65,6 @@ import com.rs.game.player.controllers.WarriorsGuild;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.cutscenes.DTPreview;
 import com.rs.game.player.dialogues.AncientAltar;
-import com.rs.game.player.dialogues.Banker;
 import com.rs.game.player.dialogues.ClimbEmoteStairs;
 import com.rs.game.player.dialogues.ClimbNoEmoteStairs;
 import com.rs.game.player.dialogues.CookingD;
@@ -620,14 +619,6 @@ public final class ObjectHandler {
 					player.getDialogueManager().execute(new ZarosAltar());
 				} else if (id == 19222)
 					FalconryController.beginFalconry(player);
-				else if (id == 36786)
-					player.getDialogueManager().execute(new Banker(), 4907);
-				else if (id == 42377 || id == 42378)
-					player.getDialogueManager().execute(new Banker(), 2759);
-				else if (id == 42217 || id == 782 || id == 34752)
-					player.getDialogueManager().execute(new Banker(), 553);
-				else if (id == 57437)
-					player.getBank().openBank();
 				else if (id == 42425 && object.getX() == 3220 && object.getY() == 3222) { // zaros
 					// portal
 					player.useStairs(10256, new WorldTile(3353, 3416, 0), 4, 5, "And you find yourself into a digsite.");
@@ -1133,8 +1124,6 @@ public final class ObjectHandler {
 					player.useStairs(828, new WorldTile(3021, 3339, 0), 1, 2);
 				else if (id == 46250)
 					player.getInventory().addItem(new Item(1550, 1));
-				else if (/*id == 30963 ||*/ id == 2693)
-					player.getBank().openBank();
 				else if (id == 6045)
 					player.sendMessage("You search the cart but find nothing.");
 				else if (id == 5906) {
@@ -1227,8 +1216,6 @@ public final class ObjectHandler {
 					WildernessAgility.crossSteppingPalletes(player, object);
 				else if (id == 45078)
 					player.useStairs(2413, new WorldTile(3012, 9832, 0), 2, 2);
-				else if (id == 45079)
-					player.getBank().openDepositBox();
 				// champion guild
 				else if (id == 24357 && object.getX() == 3188 && object.getY() == 3355)
 					player.useStairs(-1, new WorldTile(3189, 3354, 1), 0, 1);
@@ -1387,8 +1374,6 @@ public final class ObjectHandler {
 						player.useStairs(-1, player.transform(0, 4, 1), 0, 1);
 					} else if (id == 19691) {
 						player.useStairs(-1, player.transform(0, -4, -1), 0, 1);
-					} else if (id == 66449) {
-						player.getBank().openBank();
 					} else if (id == 61336) {
 						final int maxPrayer = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 						if (player.getPrayer().getPoints() < maxPrayer) {
@@ -2137,19 +2122,6 @@ public final class ObjectHandler {
 								player.sendMessage("You have no bars which you have smithing level to use.");
 						}
 						break;
-					case "bank deposit box":
-					case "deposit box":
-						if (objectDef.containsOption(0, "Deposit"))
-							player.getBank().openDepositBox();
-						break;
-					case "bank":
-					case "bank chest":
-					case "bank booth":
-					case "bank table":
-					case "counter":
-						if (objectDef.containsOption(0, "Bank") || objectDef.containsOption(0, "Use"))
-							player.getBank().openBank();
-						break;
 //					case "gate":
 //					case "large door":
 //					case "metal door":
@@ -2330,14 +2302,6 @@ public final class ObjectHandler {
 						break;
 					case "spirit tree":
 						SpiritTree.openInterface(player, object.getId() != 68973 && object.getId() != 68974);
-						break;
-					case "bank":
-					case "bank chest":
-					case "bank booth":
-					case "counter":
-					case "bank table":
-						if (def.containsOption(1, "Bank"))
-							player.getBank().openBank();
 						break;
 					case "ladder":
 						handleLadder(player, object, 2);
