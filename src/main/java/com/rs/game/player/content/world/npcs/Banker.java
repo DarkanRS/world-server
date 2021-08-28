@@ -20,7 +20,7 @@ public class Banker extends Conversation {
 	public Banker(Player player, NPC npc) {
 		super(player);
 		
-		addNPC(npc.getId(), HeadE.CHEERFUL, "Good day. How may I help you?");
+		addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "Good day. How may I help you?");
 		addOptions(new Options() {
 			@Override
 			public void create() {
@@ -28,14 +28,14 @@ public class Banker extends Conversation {
 				option("I'd like to check my PIN settings.", () -> player.getBank().openPinSettings());
 				option("I'd like to see my collection box.", () -> GE.openCollection(player));
 				option("What is this place?", new Dialogue()
-					.addNPC(npc.getId(), HeadE.CHEERFUL, "This is a branch of the Bank of Gielinor. We have branches in many towns.")
+					.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "This is a branch of the Bank of Gielinor. We have branches in many towns.")
 					.addOptions(new Options() {
 						@Override
 						public void create() {
 							option("And what do you do?", new Dialogue()
-								.addNPC(npc.getId(), HeadE.CHEERFUL, "We will look after your items and money for you. Leave your valuables with us if you want to keep them safe."));
+								.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "We will look after your items and money for you. Leave your valuables with us if you want to keep them safe."));
 							option("Didn't you used to be called the Bank of Varrock?", new Dialogue()
-								.addNPC(npc.getId(), HeadE.CALM, "Yes we did, but people kept on coming into our branches outside of Varrock and telling us that our signs were wrong. They acted as if we didn't know what town we were in or something."));
+								.addNPC(npc.getId(), HeadE.CALM_TALK, "Yes we did, but people kept on coming into our branches outside of Varrock and telling us that our signs were wrong. They acted as if we didn't know what town we were in or something."));
 						}
 					}));
 			}
@@ -51,10 +51,20 @@ public class Banker extends Conversation {
 		}
 	};
 
-	public static NPCClickHandler bankerHandler = new NPCClickHandler("Banker") {
+	public static NPCClickHandler bankerHandler = new NPCClickHandler("Banker", 14707, 2619, 13455, 2617, 2618, 15194) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			
+			switch(e.getOption()) {
+			case "Bank":
+				e.getPlayer().getBank().open();
+				break;
+			case "Collect":
+				GE.openCollection(e.getPlayer());
+				break;
+			case "Talk-to":
+				e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
+				break;
+			}
 		}
 	};
 	

@@ -367,11 +367,6 @@ public class NPCHandler {
 			
 			if (player.getTreasureTrailsManager().useNPC(npc))
 				return;
-						
-			if (npc.getDefinitions().getName(player.getVars()).contains("Banker") || npc.getDefinitions().getName(player.getVars()).contains("banker") || npc.getId() == 14707 || npc.getId() == 2619) {
-				player.getBank().open();
-				return;
-			}
 			
 			PickPocketableNPC pocket = PickPocketableNPC.get(npc.getId());
 			if (pocket != null) {
@@ -443,8 +438,6 @@ public class NPCHandler {
 				GraveStone grave = (GraveStone) npc;
 				grave.repair(player, false);
 				return;
-			} else if (npc.getId() == 13455 || npc.getId() == 2617 || npc.getId() == 2618 || npc.getId() == 15194) {
-				player.getBank().open();
 			} else if (npc.getId() == 11267) {
 				int[] noteableFish = { 377, 371, 359, 317, 345, 327 };
 				for (Item item : player.getInventory().getItems().getItems()) {
@@ -471,8 +464,6 @@ public class NPCHandler {
 				player.setNextWorldTile(new WorldTile(2836, 10142, 0));
 			else if (npc.getId() == 1844)
 				player.setNextWorldTile(new WorldTile(2839, 10131, 0));
-			else if (npc.getId() == 1288)
-				player.getBank().openDepositBox();
 			else if (npc.getId() == 1419)
 				GE.open(player);
 			else if (npc.getId() == 9711)
@@ -536,8 +527,6 @@ public class NPCHandler {
 //				});
 			} else if (npc.getId() == 1526) {
 				player.getInterfaceManager().sendInterface(60);
-			} else if (npc.getDefinitions().getOption(3).equals("Bank")) {
-				player.getBank().open();
 			} else if (npc.getId() == 1334)
 				ShopsHandler.openShop(player, "book_shop");
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true)))

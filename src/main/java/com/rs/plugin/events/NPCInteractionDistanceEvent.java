@@ -5,12 +5,12 @@ import java.util.Map;
 
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.plugin.handlers.NPCInstanceHandler;
+import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class NPCInteractionDistanceEvent implements PluginEvent {
 	
-	private static Map<Object, NPCInstanceHandler> HANDLERS = new HashMap<>();
+	private static Map<Object, NPCInteractionDistanceHandler> HANDLERS = new HashMap<>();
 
 	private Player player;
 	private NPC npc;
@@ -30,7 +30,7 @@ public class NPCInteractionDistanceEvent implements PluginEvent {
 
 	@Override
 	public PluginHandler<? extends PluginEvent> getMethod() {
-		NPCInstanceHandler method = HANDLERS.get(npc.getId());
+		NPCInteractionDistanceHandler method = HANDLERS.get(npc.getId());
 		if (method == null)
 			method = HANDLERS.get(npc.getDefinitions().getName(player.getVars()));
 		if (method == null)
@@ -40,7 +40,7 @@ public class NPCInteractionDistanceEvent implements PluginEvent {
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
-			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCInstanceHandler) method);
+			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCInteractionDistanceHandler) method);
 			if (old != null) {
 				System.err.println("ERROR: Duplicate ItemOnNPC methods for key: " + key);
 			}
