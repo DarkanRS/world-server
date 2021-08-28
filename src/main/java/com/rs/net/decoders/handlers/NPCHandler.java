@@ -2,7 +2,6 @@ package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
 import com.rs.game.ge.GE;
-import com.rs.game.grandexchange.GrandExchangeSets;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.others.ConditionalDeath;
@@ -113,16 +112,6 @@ public class NPCHandler {
 			
 			if (npc.getDefinitions().getName(player.getVars()).contains("Banker") || npc.getDefinitions().getName(player.getVars()).contains("banker") || npc.getId() == 14707 || npc.getId() == 2619) {
 				player.getDialogueManager().execute(new Banker(), npc.getId());
-				return;
-			}
-			if (npc.getDefinitions().getName(player.getVars()).contains("Grand Exchange clerk")) {
-				player.sendOptionDialogue("What would you like to do?", new String[] { "Open Grand Exchange", "Nothing" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (getOption() == 1)
-							GE.open(player);
-					}
-				});
 				return;
 			}
 			Object[] shipAttributes = BoatingDialogue.getBoatForShip(player, npc.getId());
@@ -280,8 +269,6 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new ClanVex(), false);
 			else if (npc.getId() == 9711)
 				DungeonRewards.openRewardsShop(player);
-			else if (npc.getDefinitions().getName(player.getVars()).contains("Grand Exchange"))
-				GE.open(player);
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
 			    player.getDialogueManager().execute(new TanningD(), npc.getId());
 			else if (npc.getName().toLowerCase().contains("impling"))
@@ -377,11 +364,6 @@ public class NPCHandler {
 						
 			if (npc.getDefinitions().getName(player.getVars()).contains("Banker") || npc.getDefinitions().getName(player.getVars()).contains("banker") || npc.getId() == 14707 || npc.getId() == 2619) {
 				player.getBank().openBank();
-				return;
-			}
-			
-			if (npc.getDefinitions().getName(player.getVars()).contains("Grand Exchange clerk")) {
-				GE.open(player);
 				return;
 			}
 			
@@ -573,11 +555,6 @@ public class NPCHandler {
 				GraveStone grave = (GraveStone) npc;
 				grave.demolish(player);
 				npc.resetDirection();
-				return;
-			}
-			
-			if (npc.getDefinitions().getName(player.getVars()).contains("Grand Exchange clerk")) {
-				GrandExchangeSets.open(player);
 				return;
 			}
 			

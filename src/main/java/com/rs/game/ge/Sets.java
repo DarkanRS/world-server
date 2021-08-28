@@ -1,4 +1,4 @@
-package com.rs.game.grandexchange;
+package com.rs.game.ge;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,9 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
-public class GrandExchangeSets {
+public class Sets {
 
-	public enum Sets {
+	public enum Set {
 		BRONZE_LG(11814, 1155, 1117, 1075, 1189), 
 		BRONZE_SK(11816, 1155, 1117, 1087, 1189), 
 		IRON_LG(11818, 1153, 1115, 1067, 1191), 
@@ -137,19 +137,19 @@ public class GrandExchangeSets {
 		private int setId;
 		private int[] items;
 
-		private Sets(int setId, int... items) {
+		private Set(int setId, int... items) {
 			this.setId = setId;
 			this.items = items;
 		}
 
-		private static Map<Integer, Sets> SETS = new HashMap<Integer, Sets>();
+		private static Map<Integer, Set> SETS = new HashMap<Integer, Set>();
 
-		public static Sets forId(int itemId) {
+		public static Set forId(int itemId) {
 			return SETS.get(itemId);
 		}
 
 		static {
-			for (Sets set : Sets.values()) {
+			for (Set set : Set.values()) {
 				SETS.put(set.getId(), set);
 			}
 		}
@@ -172,7 +172,7 @@ public class GrandExchangeSets {
         player.getPackets().setIFRightClickOps(644, 0, 0, 27, 0, 1);
 	}
 
-	public static void unpackSet(Player player, Sets set) {
+	public static void unpackSet(Player player, Set set) {
 		if (set != null) {
 			if (!player.getInventory().containsItem(set.getId()))
 				return;
@@ -186,7 +186,7 @@ public class GrandExchangeSets {
 		}
 	}
 	
-	public static void packSet(Player player, Sets set) {
+	public static void packSet(Player player, Set set) {
 		if (set != null) {
 			for (int itemId : set.getItems()) {
 				if (!player.getInventory().containsItem(itemId)) {
@@ -200,7 +200,7 @@ public class GrandExchangeSets {
 		}
 	}
 	
-	public static void printSet(Player player, Sets set) {
+	public static void printSet(Player player, Set set) {
 		if (set != null) {
 			String components = "";
 			for (int i = 0;i < set.getItems().length;i++)
@@ -213,12 +213,12 @@ public class GrandExchangeSets {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPacket() == ClientPacket.IF_OP1) {
-				printSet(e.getPlayer(), Sets.forId(e.getSlotId2()));
+				printSet(e.getPlayer(), Set.forId(e.getSlotId2()));
 			} else {
 				if (e.getComponentId() == 16)
-					packSet(e.getPlayer(), Sets.forId(e.getSlotId2()));
+					packSet(e.getPlayer(), Set.forId(e.getSlotId2()));
 				else
-					unpackSet(e.getPlayer(), Sets.forId(e.getSlotId2()));
+					unpackSet(e.getPlayer(), Set.forId(e.getSlotId2()));
 			}
 		}
 	};
