@@ -549,11 +549,13 @@ public abstract class Entity extends WorldTile {
 				nextRunDirection = nextStep.getDir();
 			tileBehind = new WorldTile(this);
 			moveLocation(nextStep.getDir().getDx(), nextStep.getDir().getDy(), 0);
-			if (run && stepCount == 0) { // fixes impossible steps
+			if (run && stepCount == 0) { // fixes impossible steps TODO is this even necessary?
 				WalkStep previewStep = previewNextWalkStep();
 				if (previewStep == null)
 					break;
-				if (Utils.getPlayerRunningDirection(nextStep.getDir().getDx() + previewStep.getDir().getDx(), nextStep.getDir().getDy() + previewStep.getDir().getDy()) == -1)
+				int dx = nextStep.getDir().getDx() + previewStep.getDir().getDx();
+				int dy = nextStep.getDir().getDy() + previewStep.getDir().getDy();
+				if (Utils.getPlayerRunningDirection(dx, dy) == -1 && Utils.getPlayerWalkingDirection(dx, dy) == -1)
 					break;
 			}
 			if (player != null) {
