@@ -50,7 +50,7 @@ public final class Launcher {
 		
 		Logger.log("ServerChannelHandler", "Putting server online...");
 		try {
-			ServerChannelHandler.init(43595, BaseWorldDecoder.class);
+			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().getPort(), BaseWorldDecoder.class);
 		} catch (Throwable e) {
 			Logger.handle(e);
 			Logger.log("Launcher", "Failed to initialize server channel handler. Shutting down...");
@@ -59,6 +59,7 @@ public final class Launcher {
 		}
 		Logger.log("Launcher", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
 		Logger.log("Launcher", "Registering world with lobby server...");
+		Logger.log("Launcher", Settings.getConfig().getWorldInfo());
 		new WorldAPI().start();
 		LobbyCommunicator.post(Settings.getConfig().getWorldInfo(), "addworld");
 		addAccountsSavingTask();
