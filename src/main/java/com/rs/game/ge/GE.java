@@ -19,13 +19,19 @@ public class GE {
 	private static final int OFFER_SELECTION = 105;
 	private static final int DEPOSIT_INV = 107;
 	private static final int COLLECTION_BOX = 109;
+	
+	private static final int VAR_ITEM = 1109;
+	private static final int VAR_ITEM_AMOUNT = 1110;
+	private static final int VAR_TOTAL_PRICE = 1111;
+	private static final int VAR_CURR_BOX = 1112;
+	private static final int VAR_IS_SELLING = 1113;
 
 	public static void open(Player player) {
 		player.getPackets().closeGESearch();
-		player.getVars().setVar(1112, -1);
-		player.getVars().setVar(1113, -1);
-		player.getVars().setVar(1109, -1);
-		player.getVars().setVar(1110, 0);
+		player.getVars().setVar(VAR_CURR_BOX, -1);
+		player.getVars().setVar(VAR_IS_SELLING, -1);
+		player.getVars().setVar(VAR_ITEM, -1);
+		player.getVars().setVar(VAR_ITEM_AMOUNT, 0);
 		player.getInterfaceManager().removeInventoryInterface();
 		player.getInterfaceManager().sendInterface(OFFER_SELECTION);
 	}
@@ -43,14 +49,17 @@ public class GE {
 				offer.sendCollectionBox(player);
 	}
 
-	public static void openBuy(Player player) {
+	public static void openBuy(Player player, int box) {
 		Object[] o = new Object[] { "Grand Exchange Item Search" };
-		player.getVars().setVar(1113, 0);
+		player.getVars().setVar(VAR_CURR_BOX, box);
+		player.getVars().setVar(VAR_IS_SELLING, 0);
+		player.getVars().setVar(VAR_TOTAL_PRICE, 1); //TODO check if even is needed
 		player.getPackets().openGESearch(player, o);
 	}
 
-	public static void openSell(Player player) {
-		player.getVars().setVar(1113, 1);
+	public static void openSell(Player player, int box) {
+		player.getVars().setVar(VAR_CURR_BOX, box);
+		player.getVars().setVar(VAR_IS_SELLING, 1);
 		player.getInterfaceManager().sendInventoryInterface(DEPOSIT_INV);
 		player.getPackets().sendItems(93, player.getInventory().getItems());
 		player.getPackets().setIFRightClickOps(DEPOSIT_INV, 18, 0, 27, 0);
@@ -60,29 +69,29 @@ public class GE {
 	}
 
 	public static void selectItem(Player player, int itemId) {
-//		player.getVars().setVar(1109, id);
-//		player.getVars().setVar(1110, amount);
-//		player.getVars().setVar(1111, price * amount);
+//		player.getVars().setVar(VAR_ITEM, id);
+//		player.getVars().setVar(VAR_ITEM_AMOUNT, amount);
+//		player.getVars().setVar(VAR_TOTAL_PRICE, price * amount);
 	}
 
 	public static void updatePrice(Player player) {
-//		player.getVars().setVar(1110, amount);
-//		player.getVars().setVar(1111, price);
+//		player.getVars().setVar(VAR_ITEM_AMOUNT, amount);
+//		player.getVars().setVar(VAR_TOTAL_PRICE, price);
 	}
 
 	public static void updatePrice(Player player, int itemId, boolean sell) {
-//		player.getVars().setVar(1110, amount);
-//		player.getVars().setVar(1111, price);
+//		player.getVars().setVar(VAR_ITEM_AMOUNT, amount);
+//		player.getVars().setVar(VAR_TOTAL_PRICE, price);
 		// player.getPackets().setIFText(OFFER_SELECTION, 143, "Best offer: " +
 		// GE.getBestOffer(itemId, sell));
 	}
 
 	public static void resetVars(Player player) {
-		player.getVars().setVar(1109, -1);
-		player.getVars().setVar(1110, 0);
-		player.getVars().setVar(1111, 0);
-		player.getVars().setVar(1112, -1);
-		player.getVars().setVar(1113, 0);
+		player.getVars().setVar(VAR_ITEM, -1);
+		player.getVars().setVar(VAR_ITEM_AMOUNT, 0);
+		player.getVars().setVar(VAR_TOTAL_PRICE, 0);
+		player.getVars().setVar(VAR_CURR_BOX, -1);
+		player.getVars().setVar(VAR_IS_SELLING, 0);
 	}
 
 	public static void updateOffers(String username) {
@@ -100,8 +109,10 @@ public class GE {
 				}
 				player.setGEOffers(offers);
 				updateGE(player);
-				if (diff)
+				if (diff) {
+					//TODO sound effect
 					player.sendMessage("One or more of your Grand Exchange offers has been updated.");
+				}
 			});
 		}
 	}

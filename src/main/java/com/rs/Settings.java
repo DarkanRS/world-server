@@ -58,7 +58,7 @@ public final class Settings {
 		this.mongoDb = "mongodb://testlobby.darkan.org/darkan-server?retryWrites=true&w=majority";
 		this.lobbyIp = "testlobby.darkan.org";
 		this.lobbyApiKey = "TEST_API_KEY";
-		this.worldInfo = new WorldInfo(3, "127.0.0.1", "Admin Server", 1, true, true);
+		this.worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "Admin Server", 1, true, true);
 		this.loginMessage = "";
 		this.playerStartTile = new WorldTile(3226, 3219, 0);
 		this.playerRespawnTile = new WorldTile(3221, 3218, 0);
