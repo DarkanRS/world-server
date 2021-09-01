@@ -202,8 +202,8 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new QuickChatClan(display, rights, message, guest));
 	}
 
-	public void updateGESlot(int slot, int progress, int item, int price, int amount, int currAmount) {
-		session.writeToQueue(new UpdateGESlot(slot, progress, item, price, amount, currAmount));
+	public void updateGESlot(int slot, int progress, int item, int price, int amount, int currAmount, int totalPrice) {
+		session.writeToQueue(new UpdateGESlot(slot, progress, item, price, amount, currAmount, totalPrice));
 	}
 
 	public void sendDrawOrder(boolean playerFirst) {

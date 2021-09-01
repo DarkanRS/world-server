@@ -188,6 +188,8 @@ public final class Inventory {
 		for (Item item : list) {
 			if (item == null)
 				continue;
+			if (!containsItem(item))
+				return false;
 			deleteItem(item);
 		}
 		return true;

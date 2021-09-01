@@ -199,7 +199,10 @@ public class MiscTest {
 //		});
 		
 		Commands.add(Rights.DEVELOPER, "ge", "Test GE opcodes", (p, args) -> {
-			p.getPackets().updateGESlot(2, Integer.valueOf(args[0]), 4151, 15, 200, 150);
+			p.getPackets().updateGESlot(2, Integer.valueOf(args[0]), 4151, 15, 200, 150, 50000);
+			for (int i = 0;i < 6;i++) {
+				p.getPackets().sendItems(523+i, new Item[] { new Item(4151), new Item(4153) });
+			}
 		});
 		
 		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {

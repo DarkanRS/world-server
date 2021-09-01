@@ -15,6 +15,7 @@ public class Offer {
 	private int amount;
 	private int price;
 	private int completedAmount;
+	private int totalGold;
 	private ItemsContainer<Item> processedItems = new ItemsContainer<>(2, true);
 	
 	public Offer(String owner, int box, boolean selling, int itemId, int amount, int price) {
@@ -122,10 +123,33 @@ public class Offer {
 		if (itemId != other.getItemId())
 			return false;
 		int numTransact = Math.min(amountLeft(), other.amountLeft());
+		int finalPrice = numTransact * other.price;
+		
 		this.addCompleted(numTransact);
+		this.totalGold += finalPrice;
+		
 		other.addCompleted(numTransact);
-		processedItems.add(selling ? new Item(995, numTransact * other.price) : new Item(itemId, numTransact));
-		other.processedItems.add(selling ? new Item(itemId, numTransact) : new Item(995, numTransact * other.price));
+		other.totalGold += finalPrice;
+		
+		if (selling) {
+			processedItems.add(new Item(995, finalPrice));
+			other.processedItems.add(new Item(itemId, numTransact));
+		} else {
+			int diff = (this.price * numTransact) - finalPrice;
+			if (diff > 0)
+				processedItems.add(new Item(995, diff));
+			processedItems.add(new Item(itemId, numTransact));
+			other.processedItems.add(new Item(995, finalPrice));	
+		}
 		return true;
+	}
+
+	public void abort() {
+		state = State.FINISHED;
+		processedItems.add(selling ? new Item(itemId, amountLeft()) : new Item(995, amountLeft() * price));
+	}
+
+	public int getTotalGold() {
+		return totalGold;
 	}
 }

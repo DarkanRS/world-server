@@ -4338,9 +4338,7 @@ public class Player extends Entity {
 	}
 
 	public void setGEOffers(List<Offer> offers) {
-		Map<Integer, Offer> offerMap = new HashMap<>();
 		for (Offer offer : offers)
-			offerMap.put(offer.getBox(), offer);
-		this.geOffers = offerMap;
+			this.geOffers.put(offer.getBox(), offer);
 	}
 }

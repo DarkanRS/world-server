@@ -66,16 +66,20 @@ public class GE {
 				case 70 -> clickBox(e.getPlayer(), 3, e.getPacket() != ClientPacket.IF_OP1);
 				case 89 -> clickBox(e.getPlayer(), 4, e.getPacket() != ClientPacket.IF_OP1);
 				case 108 -> clickBox(e.getPlayer(), 5, e.getPacket() != ClientPacket.IF_OP1);
+				case 200 -> clickBox(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), true);
 				
 				//Back button
 				case 128 -> open(e.getPlayer());
 			
+				case 206, 208 -> collectItems(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), e.getComponentId() == 206 ? 0 : 1, e.getPacket() != ClientPacket.IF_OP1);
+				
 				//Amount adjustments
 				case 155 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) - 1, 0, Integer.MAX_VALUE));
-				case 160, 157 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
-				case 162 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 10, 0, Integer.MAX_VALUE));
-				case 164 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 100, 0, Integer.MAX_VALUE));
-				case 166 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1000, 0, Integer.MAX_VALUE));
+				case 157 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
+				case 160 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 1 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1, 0, Integer.MAX_VALUE));
+				case 162 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 10 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 10, 0, Integer.MAX_VALUE));
+				case 164 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? 100 : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 100, 0, Integer.MAX_VALUE));
+				case 166 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, e.getPlayer().getVars().getVar(VAR_IS_SELLING) == 1 ? e.getPlayer().getInventory().getAmountOf(e.getPlayer().getVars().getVar(VAR_ITEM)) : Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) + 1000, 0, Integer.MAX_VALUE));
 				case 168 -> e.getPlayer().sendInputInteger("Enter amount", amount -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(amount, 0, Integer.MAX_VALUE)));
 				
 				//Price adjustments
@@ -92,12 +96,12 @@ public class GE {
 				//Search item
 				case 190 -> e.getPlayer().getPackets().openGESearch(e.getPlayer(), "Grand Exchange Item Search");
 				
-				default -> System.out.println("Unhandled GE button: " + e.getComponentId());
+				default -> System.out.println("Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
 			}
 		}
 	};
 	
-	public static ButtonClickHandler sellInv = new ButtonClickHandler(107) {
+	public static ButtonClickHandler sellInv = new ButtonClickHandler(DEPOSIT_INV) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().getTempB("geLocked"))
@@ -112,6 +116,23 @@ public class GE {
 			}
 		}
 	};
+	
+	public static ButtonClickHandler collBox = new ButtonClickHandler(COLLECTION_BOX) {
+		@Override
+		public void handle(ButtonClickEvent e) {
+			if (e.getPlayer().getTempB("geLocked"))
+				return;
+			switch(e.getComponentId()) {
+				case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2, e.getPacket() != ClientPacket.IF_OP1);
+				case 23 -> collectItems(e.getPlayer(), 1, e.getSlotId() / 2, e.getPacket() != ClientPacket.IF_OP1);
+				case 27 -> collectItems(e.getPlayer(), 2, e.getSlotId() / 2, e.getPacket() != ClientPacket.IF_OP1);
+				case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() != ClientPacket.IF_OP1);
+				case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() != ClientPacket.IF_OP1);
+				case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() != ClientPacket.IF_OP1);
+				default -> System.out.println("Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
+			}
+		}
+	};
 
 	public static void open(Player player) {
 		player.getPackets().closeGESearch();
@@ -122,22 +143,63 @@ public class GE {
 			player.getInterfaceManager().sendInterface(OFFER_SELECTION);
 	}
 	
+	public static void collectItems(Player player, int box, int slot, boolean note) {
+		Offer offer = player.getGEOffers().get(box);
+		if (offer == null)
+			return;
+		Item item = offer.getProcessedItems().get(slot);
+		if (item == null)
+			return;
+		if (note && !item.getDefinitions().isNoted() && item.getDefinitions().certId != -1)
+			item = new Item(item.getDefinitions().certId, item.getAmount());
+		if (!item.getDefinitions().isStackable() && item.getAmount() > player.getInventory().getFreeSlots())
+			item.setAmount(player.getInventory().getFreeSlots());
+		if (item.getAmount() <= 0) {
+			player.sendMessage("Not enough space in your inventory.");
+			return;
+		}
+		if (!player.getInventory().hasRoomFor(item)) {
+			player.sendMessage("Not enough space in your inventory.");
+			return;
+		}
+		final Item toRemove = item;
+		offer.getProcessedItems().remove(toRemove);
+		player.setTempB("geLocked", true);
+		if (offer.getProcessedItems().isEmpty() && offer.getState() != State.STABLE) {
+			WorldDB.getGE().remove(offer.getOwner(), box, () -> {
+				player.getGEOffers().remove(box);
+				player.getInventory().addItemDrop(toRemove);
+				player.setTempB("geLocked", false);
+				updateGE(player);
+			});
+		} else {
+			WorldDB.getGE().save(offer, () -> {
+				player.getInventory().addItemDrop(toRemove);
+				player.setTempB("geLocked", false);
+				updateGE(player);
+			});
+		}
+	}
+
 	public static void clickBox(Player player, int box, boolean abort) {
+		Offer offer = player.getGEOffers().get(box);
+		if (offer == null)
+			return;
 		if (abort) {
-			Offer offer = player.getGEOffers().get(box);
-			if (offer == null)
-				return;
 			if (offer.getState() == State.FINISHED)
 				return;
-			offer.setState(State.FINISHED);
 			player.setTempB("geLocked", true);
-			WorldDB.getGE().save(offer, () -> {
+			WorldDB.getGE().remove(player.getUsername(), offer.getBox(), () -> {
 				player.setTempB("geLocked", false);
+				offer.abort();
 				updateGE(player);
 			});
 			return;
 		}
 		player.getVars().setVar(VAR_CURR_BOX, box);
+		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(offer.getItemId())));
+		player.getPackets().setIFTargetParams(new IFTargetParams(OFFER_SELECTION, 206, -1, 0).enableRightClickOptions(0,1));
+		player.getPackets().setIFTargetParams(new IFTargetParams(OFFER_SELECTION, 208, -1, 0).enableRightClickOptions(0,1));
 	}
 
 	public static void openCollection(Player player) {
@@ -222,11 +284,12 @@ public class GE {
 			player.sendMessage("You don't have the items to cover the offer.");
 			return;
 		}
+		resetVars(player);
 		player.getGEOffers().put(offer.getBox(), offer);
 		updateGE(player);
 		player.setTempB("geLocked", true);
-		Set<String> ownersNeedUpdate = new HashSet<>();
 		WorldDB.getGE().execute(() -> {
+			Set<String> ownersNeedUpdate = new HashSet<>();
 			List<Offer> offers = WorldDB.getGE().getBestOffersSync(offer);
 			offer.setState(State.STABLE);
 			if (offers == null || offers.isEmpty()) {
@@ -236,25 +299,20 @@ public class GE {
 				return;
 			}
 			for (Offer other : offers) {
-				System.out.println("Processing -->");
-				System.out.println(offer);
-				System.out.println(other);
 				if (offer.process(other)) {
 					WorldDB.getGE().saveSync(other);
 					ownersNeedUpdate.add(other.getOwner());
 				}
 			}
-			System.out.println("Finalized: " + offer);
-			System.out.println("Saving offer...");
-			WorldDB.getGE().saveSync(offer);
-			System.out.println("Syncing GE and updating.");
+			if (offer.getState() == State.STABLE)
+				WorldDB.getGE().saveSync(offer);
 			updateGE(player);
 			player.setTempB("geLocked", false);
+			if (!ownersNeedUpdate.isEmpty()) {
+				for (String username : ownersNeedUpdate)
+					GE.updateOffers(username);
+			}
 		});
-		if (!ownersNeedUpdate.isEmpty()) {
-			for (String username : ownersNeedUpdate)
-				GE.updateOffers(username);
-		}
 	}
 
 	private static boolean deleteItems(Player player, Offer offer) {
@@ -320,9 +378,9 @@ public class GE {
 		for (int i = 0; i < 6; i++) {
 			Offer offer = player.getGEOffers().get(i);
 			if (offer == null)
-				player.getPackets().updateGESlot(i, 0, -1, -1, -1, -1);
+				player.getPackets().updateGESlot(i, 0, -1, -1, -1, -1, -1);
 			else {
-				player.getPackets().updateGESlot(i, offer.getStateHash(), offer.getItemId(), offer.getPrice(), offer.getAmount(), offer.getCompletedAmount());
+				player.getPackets().updateGESlot(i, offer.getStateHash(), offer.getItemId(), offer.getPrice(), offer.getAmount(), offer.getCompletedAmount(), offer.getTotalGold());
 				offer.sendItems(player);
 			}
 		}

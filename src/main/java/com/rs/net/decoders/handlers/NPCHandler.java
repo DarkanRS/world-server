@@ -514,17 +514,6 @@ public class NPCHandler {
 			}
 			if (npc.getId() == 548) {
 				PlayerLook.openThessaliasMakeOver(player);
-			} else if (npc.getDefinitions().getOption(3).equals("Collect")) {
-//				player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, new DialogueOptionEvent() {
-//					@Override
-//					public void run(Player player) {
-//						if (option == 1) {
-//							player.openLoadouts();
-//						} else {
-//							player.openClanBank();
-//						}
-//					}
-//				});
 			} else if (npc.getId() == 1526) {
 				player.getInterfaceManager().sendInterface(60);
 			} else if (npc.getId() == 1334)
