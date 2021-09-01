@@ -724,7 +724,7 @@ public class WorldEncoder extends Encoder {
         sendObjectInterface(object, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
     }
     
-	public void openGESearch(Player player, Object[] o) {
+	public void openGESearch(Player player, Object... o) {
 		player.getInterfaceManager().sendChatBoxInterface(7, 389);
 		sendRunScriptReverse(570, o);
 	}
