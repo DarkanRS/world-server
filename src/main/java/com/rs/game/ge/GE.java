@@ -26,6 +26,7 @@ import com.rs.utils.ItemExamines;
 
 @PluginEventHandler
 public class GE {
+	//TODO change streams for updating players super super easy
 
 	private static final int OFFER_SELECTION = 105;
 	private static final int DEPOSIT_INV = 107;
