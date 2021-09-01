@@ -12,7 +12,7 @@ public class GEItemSelectHandler implements PacketHandler<Player, GEItemSelect> 
 	public void handle(Player player, GEItemSelect packet) {
 		ItemDefinitions def = ItemDefinitions.getDefs(packet.getItemId());
 		if (def != null)
-			GE.selectItem(player, packet.getItemId());
+			GE.selectItem(player, packet.getItemId(), 1);
 	}
 
 }
