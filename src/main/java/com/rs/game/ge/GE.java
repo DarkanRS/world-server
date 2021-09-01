@@ -1,15 +1,19 @@
 package com.rs.game.ge;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
+import com.rs.game.ge.Offer.State;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.ItemConstants;
 import com.rs.lib.game.Item;
+import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -37,6 +41,8 @@ public class GE {
 	public static ButtonClickHandler mainInterface = new ButtonClickHandler(105) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			if (e.getPlayer().getTempB("geLocked"))
+				return;
 			switch(e.getComponentId()) {
 				//Buy box selection
 				case 31 -> openBuy(e.getPlayer(), 0);
@@ -53,6 +59,13 @@ public class GE {
 				case 83 -> openSell(e.getPlayer(), 3);
 				case 102 -> openSell(e.getPlayer(), 4);
 				case 121 -> openSell(e.getPlayer(), 5);
+				
+				case 19 -> clickBox(e.getPlayer(), 0, e.getPacket() != ClientPacket.IF_OP1);
+				case 35 -> clickBox(e.getPlayer(), 1, e.getPacket() != ClientPacket.IF_OP1);
+				case 51 -> clickBox(e.getPlayer(), 2, e.getPacket() != ClientPacket.IF_OP1);
+				case 70 -> clickBox(e.getPlayer(), 3, e.getPacket() != ClientPacket.IF_OP1);
+				case 89 -> clickBox(e.getPlayer(), 4, e.getPacket() != ClientPacket.IF_OP1);
+				case 108 -> clickBox(e.getPlayer(), 5, e.getPacket() != ClientPacket.IF_OP1);
 				
 				//Back button
 				case 128 -> open(e.getPlayer());
@@ -87,6 +100,8 @@ public class GE {
 	public static ButtonClickHandler sellInv = new ButtonClickHandler(107) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			if (e.getPlayer().getTempB("geLocked"))
+				return;
 			if (e.getComponentId() == 18) {
 				Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
 				if (item == null)
@@ -106,6 +121,24 @@ public class GE {
 		if (!player.getInterfaceManager().containsInterface(OFFER_SELECTION))
 			player.getInterfaceManager().sendInterface(OFFER_SELECTION);
 	}
+	
+	public static void clickBox(Player player, int box, boolean abort) {
+		if (abort) {
+			Offer offer = player.getGEOffers().get(box);
+			if (offer == null)
+				return;
+			if (offer.getState() == State.FINISHED)
+				return;
+			offer.setState(State.FINISHED);
+			player.setTempB("geLocked", true);
+			WorldDB.getGE().save(offer, () -> {
+				player.setTempB("geLocked", false);
+				updateGE(player);
+			});
+			return;
+		}
+		player.getVars().setVar(VAR_CURR_BOX, box);
+	}
 
 	public static void openCollection(Player player) {
 		player.getInterfaceManager().sendInterface(COLLECTION_BOX);
@@ -117,7 +150,7 @@ public class GE {
 		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 42, 0, 2).enableRightClickOptions(0, 1));
 		for (Offer offer : player.getGEOffers().values())
 			if (offer != null)
-				offer.sendCollectionBox(player);
+				offer.sendItems(player);
 	}
 
 	public static void openBuy(Player player, int box) {
@@ -147,7 +180,10 @@ public class GE {
 		player.getVars().setVar(VAR_ITEM_AMOUNT, amount);
 		player.getVars().setVar(VAR_PRICE, ItemDefinitions.getDefs(itemId).getHighAlchPrice());
 		player.getVars().setVar(VAR_MEDIAN_PRICE, ItemDefinitions.getDefs(itemId).getHighAlchPrice());
-		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(itemId)) + "<br>" + "Best offer: " + GE.getBestOffer(itemId, player.getVars().getVar(VAR_IS_SELLING) == 1));
+		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(itemId)));
+		WorldDB.getGE().getBestOffer(itemId, player.getVars().getVar(VAR_IS_SELLING) == 1, offer -> {
+			player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(itemId)) + "<br>" + "Best offer: " + (offer == null ? "None" : Utils.formatNumber(offer.getPrice())));
+		});
 	}
 	
 	public static void confirmOffer(Player player) {
@@ -158,10 +194,96 @@ public class GE {
 		int itemId = player.getVars().getVar(VAR_ITEM);
 		int amount = player.getVars().getVar(VAR_ITEM_AMOUNT);
 		int price = player.getVars().getVar(VAR_PRICE);
+		int totalPrice = price * amount;
+		if (player.getVars().getVar(VAR_IS_SELLING) == -1)
+			return;
+		if (box < 0 || box > 5) {
+			player.sendMessage("Invalid box selection " + box + ".");
+			return;
+		}
+		if (itemId <= 0)
+			return;
+		if (totalPrice <= 0 || totalPrice > Integer.MAX_VALUE) {
+			player.sendMessage("Invalid total price.");
+			return;
+		}
+		if (amount <= 0) {
+			player.sendMessage("Invalid amount.");
+			return;
+		}
+		if (selling) {
+			
+		} else {
+			
+		}
+		
+		Offer offer = new Offer(player.getUsername(), box, selling, itemId, amount, price);
+		if (!deleteItems(player, offer)) {
+			player.sendMessage("You don't have the items to cover the offer.");
+			return;
+		}
+		player.getGEOffers().put(offer.getBox(), offer);
+		updateGE(player);
+		player.setTempB("geLocked", true);
+		Set<String> ownersNeedUpdate = new HashSet<>();
+		WorldDB.getGE().execute(() -> {
+			List<Offer> offers = WorldDB.getGE().getBestOffersSync(offer);
+			offer.setState(State.STABLE);
+			if (offers == null || offers.isEmpty()) {
+				WorldDB.getGE().saveSync(offer);
+				updateGE(player);
+				player.setTempB("geLocked", false);
+				return;
+			}
+			for (Offer other : offers) {
+				System.out.println("Processing -->");
+				System.out.println(offer);
+				System.out.println(other);
+				if (offer.process(other)) {
+					WorldDB.getGE().saveSync(other);
+					ownersNeedUpdate.add(other.getOwner());
+				}
+			}
+			System.out.println("Finalized: " + offer);
+			System.out.println("Saving offer...");
+			WorldDB.getGE().saveSync(offer);
+			System.out.println("Syncing GE and updating.");
+			updateGE(player);
+			player.setTempB("geLocked", false);
+		});
+		if (!ownersNeedUpdate.isEmpty()) {
+			for (String username : ownersNeedUpdate)
+				GE.updateOffers(username);
+		}
 	}
 
-	private static int getBestOffer(int itemId, boolean selling) {
-		return 1;
+	private static boolean deleteItems(Player player, Offer offer) {
+		if (!offer.isSelling()) {
+			if (player.getInventory().removeItems(new Item(995, offer.getPrice() * offer.getAmount())))
+				return true;
+			return false;
+		}
+		
+		int notedId = ItemDefinitions.getDefs(offer.getItemId()).certId;
+		int nonNotedAmt = player.getInventory().getAmountOf(offer.getItemId());
+		int notedAmt = player.getInventory().getAmountOf(notedId);
+		
+		if (nonNotedAmt >= offer.getAmount()) {
+			player.getInventory().deleteItem(offer.getItemId(), offer.getAmount());
+			return true;
+		}
+		if (notedAmt >= offer.getAmount()) {
+			player.getInventory().deleteItem(notedId, offer.getAmount());
+			return true;
+		}
+		if (notedAmt + nonNotedAmt >= offer.getAmount()) {
+			int amtLeft = offer.getAmount();
+			player.getInventory().deleteItem(offer.getItemId(), nonNotedAmt);
+			amtLeft -= nonNotedAmt;
+			player.getInventory().deleteItem(notedId, amtLeft);
+			return true;
+		}
+		return false;
 	}
 
 	public static void resetVars(Player player) {
@@ -181,8 +303,7 @@ public class GE {
 				for (Offer offer : offers) {
 					if (offer == null)
 						continue;
-					if (prev.get(offer.getBox()) != null && offer.amountLeft() != prev.get(offer.getBox()).amountLeft()
-							|| offer.getState() != prev.get(offer.getBox()).getState())
+					if (prev.get(offer.getBox()) != null && offer.amountLeft() != prev.get(offer.getBox()).amountLeft() || offer.getState() != prev.get(offer.getBox()).getState())
 						diff = true;
 				}
 				player.setGEOffers(offers);
@@ -200,9 +321,10 @@ public class GE {
 			Offer offer = player.getGEOffers().get(i);
 			if (offer == null)
 				player.getPackets().updateGESlot(i, 0, -1, -1, -1, -1);
-			else
-				player.getPackets().updateGESlot(i, offer.getStateHash(), offer.getItemId(), offer.getPrice(),
-						offer.getAmount(), offer.getCompletedAmount());
+			else {
+				player.getPackets().updateGESlot(i, offer.getStateHash(), offer.getItemId(), offer.getPrice(), offer.getAmount(), offer.getCompletedAmount());
+				offer.sendItems(player);
+			}
 		}
 	}
 	

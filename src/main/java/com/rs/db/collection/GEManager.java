@@ -28,6 +28,7 @@ public class GEManager extends DBItemManager {
 	public void initCollection() {
 		getDocs().createIndex(Indexes.text("owner"));
 		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("completedAmount")));
+		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("state")));
 		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("price")));
 		getDocs().createIndex(Indexes.compoundIndex(Indexes.ascending("itemId"), Indexes.ascending("selling")));
 	}
@@ -87,21 +88,26 @@ public class GEManager extends DBItemManager {
 	public List<Offer> getBestOffersSync(Offer other) {
 		if (other.getState() == State.FINISHED)
 			return null;
+		List<Offer> result = new ArrayList<Offer>();
 		FindIterable<Document> docs = getDocs()
-			.find(Filters.and(Filters.eq("itemId", other.getItemId()), Filters.eq("selling", !other.isSelling()), Filters.lt("price", other.getPrice())))
+			.find(Filters.and(Filters.eq("state", State.STABLE.toString()), Filters.eq("itemId", other.getItemId()), Filters.eq("selling", !other.isSelling()), other.isSelling() ? Filters.gte("price", other.getPrice()) : Filters.lte("price", other.getPrice())))
 			.sort(Sorts.ascending("price"));
-		try {
-			return JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer[].class);
-		} catch (JsonIOException | IOException e) {
-			return null;
+		for (Document doc : docs) {
+			try {
+				Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);
+				result.add(offer);
+			} catch (JsonIOException | IOException e) {
+				System.out.println("Error converting document: " + result);
+			}
 		}
+		return result;
 	}
 
 	public void getBestOffer(int itemId, boolean sell, Consumer<Offer> func) {
 		execute(() -> {
 			FindIterable<Document> docs = getDocs()
-					.find(Filters.and(Filters.eq("itemId", itemId), Filters.eq("currentType", !sell)))
-					.sort(Sorts.descending("price"));
+					.find(Filters.and(Filters.eq("state", State.STABLE.toString()), Filters.eq("itemId", itemId), Filters.eq("selling", !sell)))
+					.sort(sell ? Sorts.ascending("price") : Sorts.descending("price"));
 			try {
 				func.accept(JsonFileManager.fromJSONString(JsonFileManager.toJson(docs.first()), Offer.class));
 			} catch (JsonIOException | IOException e) {
@@ -113,7 +119,7 @@ public class GEManager extends DBItemManager {
 	public void getAllOffersOfType(boolean selling, Consumer<List<Offer>> func) {
 		execute(() -> {
 			List<Offer> result = new ArrayList<Offer>();
-			FindIterable<Document> docs = getDocs().find(Filters.eq("selling", selling));
+			FindIterable<Document> docs = getDocs().find(Filters.and(Filters.eq("state", State.STABLE.toString()), Filters.eq("selling", selling)));
 			for (Document doc : docs) {
 				try {
 					Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);

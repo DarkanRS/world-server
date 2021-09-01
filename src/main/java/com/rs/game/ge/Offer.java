@@ -3,6 +3,7 @@ package com.rs.game.ge;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.Player;
+import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 
 public class Offer {
@@ -23,6 +24,7 @@ public class Offer {
 		this.itemId = itemId;
 		this.amount = amount;
 		this.price = price;
+		this.state = State.SUBMITTING;
 	}
 	
 	public enum State {
@@ -87,10 +89,43 @@ public class Offer {
 	public int amountLeft() {
 		return amount - completedAmount;
 	}
+	
+	public void addCompleted(int num) {
+		completedAmount += num;
+		if (completedAmount >= this.amount) {
+			if (completedAmount > this.amount)
+				FileManager.logError("GRAND EXCHANGE COMPLETED AMOUNT HIGHER THAN SALE AMOUNT");
+			state = State.FINISHED;
+		}
+	}
 
-	public void sendCollectionBox(Player player) {
+	public void sendItems(Player player) {
 		player.getPackets().sendItems(523+box, processedItems);
-		player.getPackets().setIFTargetParams(new IFTargetParams(105, 206, -1, 0).enableRightClickOptions(0,1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(105, 208, -1, 0).enableRightClickOptions(0,1));
+		if (player.getInterfaceManager().containsInterface(105)) {
+			player.getPackets().setIFTargetParams(new IFTargetParams(105, 206, -1, 0).enableRightClickOptions(0,1));
+			player.getPackets().setIFTargetParams(new IFTargetParams(105, 208, -1, 0).enableRightClickOptions(0,1));
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + owner + ", " + box + ", " + selling + ", " + state + ", " + itemId + ", " + amount + ", " + price + "]";
+	}
+
+	public boolean process(Offer other) {
+		if (state != State.STABLE || other.getState() != State.STABLE)
+			return false;
+		if (selling && price > other.getPrice())
+			return false;
+		if (!selling && price < other.getPrice())
+			return false;
+		if (itemId != other.getItemId())
+			return false;
+		int numTransact = Math.min(amountLeft(), other.amountLeft());
+		this.addCompleted(numTransact);
+		other.addCompleted(numTransact);
+		processedItems.add(selling ? new Item(995, numTransact * other.price) : new Item(itemId, numTransact));
+		other.processedItems.add(selling ? new Item(itemId, numTransact) : new Item(995, numTransact * other.price));
+		return true;
 	}
 }
