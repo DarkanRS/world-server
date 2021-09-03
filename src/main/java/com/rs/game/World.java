@@ -75,7 +75,7 @@ public final class World {
 		PuroPuroController.initPuroImplings();
 		LivingRockCavern.init();
 	}
-
+	
 	private static void processPartyRoom() {
 		CoresManager.schedule(new Runnable() {
 			@Override

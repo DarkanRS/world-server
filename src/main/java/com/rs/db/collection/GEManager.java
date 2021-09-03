@@ -19,7 +19,7 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 
 public class GEManager extends DBItemManager {
-	
+		
 	public GEManager() {
 		super("grandexchange");
 	}
