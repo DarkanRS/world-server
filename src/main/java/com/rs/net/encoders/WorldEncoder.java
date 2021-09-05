@@ -633,24 +633,20 @@ public class WorldEncoder extends Encoder {
 		sendMessage(MessageType.TRADE_REQUEST, "wishes to trade with you.", p);
 	}
 
-	public void sendCoOpSlayerRequestMessage(Player p) {
-		sendMessage(100, "is inviting you to a co-op slayer group.", p);
-	}
-
 	public void sendClanWarsRequestMessage(Player p) {
-		sendMessage(101, "wishes to challenge your clan to a clan war.", p);
+		sendMessage(MessageType.CLAN_CHALLENGE_REQUEST, "wishes to challenge your clan to a clan war.", p);
 	}
 
 	public void sendDuelChallengeRequestMessage(Player p, boolean friendly) {
-		sendMessage(101, "wishes to duel with you (" + (friendly ? "friendly" : "stake") + ").", p);
+		sendMessage(MessageType.DUEL_REQUEST, "wishes to duel with you (" + (friendly ? "friendly" : "stake") + ").", p);
 	}
 	
 	public void sendDungeonneringRequestMessage(Player p) {
-		sendMessage(111, "has invited you to a dungeon party.", p);
+		sendMessage(MessageType.DUNGEONEERING_INVITE, "has invited you to a dungeon party.", p);
 	}
 
 	public void sendClanInviteMessage(Player p) {
-		sendMessage(117, p.getDisplayName() + " is inviting you to join their clan.", p);
+		sendMessage(MessageType.CLAN_INVITE, p.getDisplayName() + " is inviting you to join their clan.", p);
 	}
 
 	public void sendPouchInfusionOptionsScript(int interfaceId, int componentId, int slotLength, int width, int height, String... options) {

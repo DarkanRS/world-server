@@ -478,7 +478,7 @@ public class NPCHandler {
 					return;
 				}
 				Pet pet = player.getPet();
-				player.getPackets().sendMessage(99, "Pet [id=" + pet.getId() + ", hunger=" + pet.getDetails().getHunger() + ", growth=" + pet.getDetails().getGrowth() + ", stage=" + pet.getDetails().getStage() + "].", player);
+				player.getPackets().sendDevConsoleMessage("Pet [id=" + pet.getId() + ", hunger=" + pet.getDetails().getHunger() + ", growth=" + pet.getDetails().getGrowth() + ", stage=" + pet.getDetails().getStage() + "].");
 			} else if (PluginManager.handle(new NPCClickEvent(player, npc, 3, true))) {
 				return;
 			} else {
