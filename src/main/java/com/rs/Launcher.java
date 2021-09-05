@@ -145,14 +145,14 @@ public final class Launcher {
 					BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 					while ((line = in.readLine()) != null) {
 						if (player != null)
-							player.getPackets().sendPanelBoxMessage(line);
+							player.getPackets().sendDevConsoleMessage(line);
 						System.out.println(line);
 					}
 					proc.waitFor();
 					in.close();
 				} catch (IOException | InterruptedException e) {
 					if (player != null)
-						player.getPackets().sendPanelBoxMessage("Error: " + e.getMessage());
+						player.getPackets().sendDevConsoleMessage("Error: " + e.getMessage());
 					Logger.handle(e);
 				}
 			}

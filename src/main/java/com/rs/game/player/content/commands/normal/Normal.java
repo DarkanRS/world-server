@@ -116,10 +116,10 @@ public class Normal {
 		});
 		
 		Commands.add(Rights.PLAYER, "searchnpc,searchn,findnpc,getnpcid [npc name]", "Displays all NPC ids containing the query searched.", (p, args) -> {
-			p.getPackets().sendPanelBoxMessage("Searching for npcs containing name: " + Utils.concat(args));
+			p.getPackets().sendDevConsoleMessage("Searching for npcs containing name: " + Utils.concat(args));
 			for (int i = 0; i < Utils.getNPCDefinitionsSize(); i++) {
 				if (NPCDefinitions.getDefs(i).getName().toLowerCase().contains(Utils.concat(args).toLowerCase())) {
-					p.getPackets().sendPanelBoxMessage("Result found: " + i + " - " + NPCDefinitions.getDefs(i).getName() + " (" + NPCDefinitions.getDefs(i).combatLevel + ")");
+					p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + NPCDefinitions.getDefs(i).getName() + " (" + NPCDefinitions.getDefs(i).combatLevel + ")");
 				}
 			}
 		});

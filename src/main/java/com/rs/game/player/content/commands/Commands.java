@@ -105,7 +105,7 @@ public final class Commands {
 			NPCDefinitions defs = NPCDefinitions.getDefs(Integer.valueOf(args[1]));
 			if (defs == null)
 				return true;
-			p.getPackets().sendPanelBoxMessage(Integer.valueOf(args[1]) + ": " + defs.getCompatibleAnimations().toString());
+			p.getPackets().sendDevConsoleMessage(Integer.valueOf(args[1]) + ": " + defs.getCompatibleAnimations().toString());
 			p.sendMessage(Integer.valueOf(args[1]) + ": " + defs.getCompatibleAnimations().toString());
 			System.out.println(defs.getCompatibleAnimations().toString());
 			return true;
@@ -275,37 +275,37 @@ public final class Commands {
 
 		case "sound":
 			if (args.length < 2) {
-				p.getPackets().sendPanelBoxMessage("Use: ::sound soundid effecttype");
+				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid effecttype");
 				return true;
 			}
 			try {
 				p.getPackets().sendSound(Integer.valueOf(args[1]), 0, args.length > 2 ? Integer.valueOf(args[2]) : 1);
 			} catch (NumberFormatException e) {
-				p.getPackets().sendPanelBoxMessage("Use: ::sound soundid");
+				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid");
 			}
 			return true;
 
 		case "music":
 			if (args.length < 2) {
-				p.getPackets().sendPanelBoxMessage("Use: ::sound soundid effecttype");
+				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid effecttype");
 				return true;
 			}
 			try {
 				p.getPackets().sendMusic(Integer.valueOf(args[1]));
 			} catch (NumberFormatException e) {
-				p.getPackets().sendPanelBoxMessage("Use: ::sound soundid");
+				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid");
 			}
 			return true;
 
 		case "emusic":
 			if (args.length < 2) {
-				p.getPackets().sendPanelBoxMessage("Use: ::emusic soundid effecttype");
+				p.getPackets().sendDevConsoleMessage("Use: ::emusic soundid effecttype");
 				return true;
 			}
 			try {
 				p.getPackets().sendMusicEffect(Integer.valueOf(args[1]));
 			} catch (NumberFormatException e) {
-				p.getPackets().sendPanelBoxMessage("Use: ::emusic soundid");
+				p.getPackets().sendDevConsoleMessage("Use: ::emusic soundid");
 			}
 			return true;
 

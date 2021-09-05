@@ -105,7 +105,7 @@ public class LoyaltyShop {
 			}
 			refresh(e.getPlayer());
 			if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().getPackets().sendPanelBoxMessage("Loyalty click: " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
+				e.getPlayer().getPackets().sendDevConsoleMessage("Loyalty click: " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
 		}
 	};
 	

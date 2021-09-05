@@ -77,6 +77,7 @@ import com.rs.lib.net.packets.encoders.social.IgnoreList;
 import com.rs.lib.net.packets.encoders.social.MessageClan;
 import com.rs.lib.net.packets.encoders.social.MessageFriendsChat;
 import com.rs.lib.net.packets.encoders.social.MessageGame;
+import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.net.packets.encoders.social.MessagePrivate;
 import com.rs.lib.net.packets.encoders.social.MessagePrivateEcho;
 import com.rs.lib.net.packets.encoders.social.MessagePublic;
@@ -356,8 +357,8 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new AddIgnore(name));
 	}
 	
-	public void sendMessage(int type, String text, Player p) {
-		session.writeToQueue(new MessageGame(type, text, p == null ? null : p.getDisplayName()));
+	public void sendMessage(MessageType type, String text, Player p) {
+		session.writeToQueue(new MessageGame(type, text, p == null ? null : p.getAccount()));
 	}
 
 	public void sendPublicMessage(Player p, PublicChatMessage message) {
@@ -621,15 +622,15 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendGameMessage(String text, boolean filter) {
-		sendMessage(filter ? 109 : 0, text, null);
+		sendMessage(filter ? MessageType.FILTERABLE : MessageType.UNFILTERABLE, text, null);
 	}
 
-	public void sendPanelBoxMessage(String text) {
-		sendMessage(99, text, null);
+	public void sendDevConsoleMessage(String text) {
+		sendMessage(MessageType.DEV_CONSOLE, text, null);
 	}
 
 	public void sendTradeRequestMessage(Player p) {
-		sendMessage(100, "wishes to trade with you.", p);
+		sendMessage(MessageType.TRADE_REQUEST, "wishes to trade with you.", p);
 	}
 
 	public void sendCoOpSlayerRequestMessage(Player p) {

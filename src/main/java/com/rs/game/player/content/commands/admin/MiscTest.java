@@ -262,7 +262,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
 			int projId = p.getTempI("tempProjCheck", 0);
 			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
-			p.getPackets().sendPanelBoxMessage("Projectile: " + projId);
+			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
 				p.setTempI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
 			else
@@ -410,7 +410,7 @@ public class MiscTest {
 	        	p.setTempI("tempDialCheck", Utils.clampI(idx+1, 0, UNIDENTIFIED_ANIMS.length-1));
 	        else
 	        	p.setTempI("tempDialCheck", Utils.clampI(idx-1, 0, UNIDENTIFIED_ANIMS.length-1));
-	        p.getPackets().sendPanelBoxMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
+	        p.getPackets().sendDevConsoleMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "icompanim [interfaceId componentId animId]", "Plays animation id on interface component.", (p, args) -> {
@@ -428,7 +428,7 @@ public class MiscTest {
 	        	p.setTempI("tempDialCheck", Utils.clampI(idx+1, 0, UNIDENTIFIED_ANIMS.length-1));
 	        else
 	        	p.setTempI("tempDialCheck", Utils.clampI(idx-1, 0, UNIDENTIFIED_ANIMS.length-1));
-	        p.getPackets().sendPanelBoxMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
+	        p.getPackets().sendDevConsoleMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
 		});
 
 		Commands.add(Rights.DEVELOPER, "setlook [slot id]", "Appearance setting", (p, args) -> {
@@ -582,7 +582,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.ADMIN, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
-			p.getPackets().sendPanelBoxMessage("Searching for items containing: " + Arrays.toString(args));
+			p.getPackets().sendDevConsoleMessage("Searching for items containing: " + Arrays.toString(args));
 			for (int i = 0; i < Utils.getItemDefinitionsSize(); i++) {
 				boolean contains = true;
 				for (int idx = 0; idx < args.length; idx++) {
@@ -592,7 +592,7 @@ public class MiscTest {
 					}
 				}
 				if (contains)
-					p.getPackets().sendPanelBoxMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
+					p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
 			}
 		});
 		
@@ -664,7 +664,7 @@ public class MiscTest {
 				p.sendMessage("Nothing found for " + args[0]);
 			for (GameObject obj : objs) {
 				p.setNextWorldTile(obj);
-				p.getPackets().sendPanelBoxMessage(obj.toString());
+				p.getPackets().sendDevConsoleMessage(obj.toString());
 			}
 		});
 		
@@ -881,7 +881,7 @@ public class MiscTest {
 			NPCDefinitions defs = NPCDefinitions.getDefs(Integer.valueOf(args[0]));
 			if (defs == null)
 				return;
-			p.getPackets().sendPanelBoxMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
+			p.getPackets().sendDevConsoleMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
 			p.sendMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
 			System.out.println(defs.getCompatibleAnimations().toString());
 		});
@@ -915,7 +915,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> {
-			p.getPackets().sendPanelBoxMessage("Var: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVar(Integer.valueOf(args[0])));
+			p.getPackets().sendDevConsoleMessage("Var: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVar(Integer.valueOf(args[0])));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "varloop [startId endId value]", "Sets var value for all vars between 2 ids.", (p, args) -> {
@@ -927,7 +927,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> {
-			p.getPackets().sendPanelBoxMessage("Varbit: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVarBit(Integer.valueOf(args[0])));
+			p.getPackets().sendDevConsoleMessage("Varbit: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVarBit(Integer.valueOf(args[0])));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> {
@@ -950,7 +950,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "objectanim,oanim [x y (objectType)]", "Makes an object play an animation.", (p, args) -> {
 			GameObject object = args.length == 3 ? World.getObject(new WorldTile(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane())) : World.getObject(new WorldTile(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()), ObjectType.forId(Integer.parseInt(args[2])));
 			if (object == null) {
-				p.getPackets().sendPanelBoxMessage("No object was found.");
+				p.getPackets().sendDevConsoleMessage("No object was found.");
 				return;
 			}
 			p.getPackets().sendObjectAnimation(object, new Animation(Integer.parseInt(args[args.length == 3 ? 2 : 3])));
@@ -961,7 +961,7 @@ public class MiscTest {
 			int y = Integer.parseInt(args[1]);
 			GameObject o = World.getRegion(p.getRegionId()).getSpawnedObject(new WorldTile(x, y, p.getPlane()));
 			if (o == null) {
-				p.getPackets().sendPanelBoxMessage("Could not find object at [x=" + x + ", y=" + y + ", z=" + p.getPlane() + "].");
+				p.getPackets().sendDevConsoleMessage("Could not find object at [x=" + x + ", y=" + y + ", z=" + p.getPlane() + "].");
 				return;
 			}
 			if (!ObjAnimList.inited())

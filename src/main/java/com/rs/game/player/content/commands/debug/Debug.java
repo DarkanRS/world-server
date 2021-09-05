@@ -64,7 +64,7 @@ public class Debug {
 		});
 		
 		Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
-			p.getPackets().sendPanelBoxMessage("Searching for items containing: " + Arrays.toString(args));
+			p.getPackets().sendDevConsoleMessage("Searching for items containing: " + Arrays.toString(args));
 			for (int i = 0; i < Utils.getItemDefinitionsSize(); i++) {
 				boolean contains = true;
 				for (int idx = 0; idx < args.length; idx++) {
@@ -74,7 +74,7 @@ public class Debug {
 					}
 				}
 				if (contains)
-					p.getPackets().sendPanelBoxMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
+					p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
 			}
 		});
 		
