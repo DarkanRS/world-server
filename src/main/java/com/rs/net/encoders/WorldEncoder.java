@@ -25,6 +25,7 @@ import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.OutputStream;
+import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.net.Encoder;
 import com.rs.lib.net.ServerPacket;
@@ -369,8 +370,8 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new MessagePrivate(username, message));
 	}
 
-	public void receivePrivateMessage(String name, int rights, String message) {
-		session.writeToQueue(new MessagePrivateEcho(name, rights, message));
+	public void receivePrivateMessage(Account account, String message) {
+		session.writeToQueue(new MessagePrivateEcho(account, message));
 	}
 
 	public void receivePrivateChatQuickMessage(String name, int rights, QuickChatMessage message) {
