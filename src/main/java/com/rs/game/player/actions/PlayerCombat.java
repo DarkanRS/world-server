@@ -1345,16 +1345,6 @@ public class PlayerCombat extends Action {
 		if (current <= 0) // Splash.
 			return 0;
 
-		if (player.hasSlayerTask()) {
-			if (target instanceof NPC) {
-				if (player.getSlayer().isOnTaskAgainst((NPC) target)) {
-					if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
-						current *= 1.15;
-					}
-				}
-			}
-		}
-
 		int hit = Utils.random(current + 1);
 		if (hit > 0) {
 			if (target instanceof NPC) {
@@ -1449,6 +1439,16 @@ public class PlayerCombat extends Action {
 		}
 		boost = magicPerc / 100 + 1;
 		max_hit *= boost;
+		
+		if (player.hasSlayerTask()) {
+			if (target instanceof NPC) {
+				if (player.getSlayer().isOnTaskAgainst((NPC) target)) {
+					if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
+						max_hit *= 1.15;
+					}
+				}
+			}
+		}
 		
 		return (int) Math.floor(max_hit);
 	}
