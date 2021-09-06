@@ -72,9 +72,7 @@ import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveGroundI
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveNPC;
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveObject;
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActivePlayer;
-import com.rs.lib.net.packets.encoders.social.AddIgnore;
 import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
-import com.rs.lib.net.packets.encoders.social.IgnoreList;
 import com.rs.lib.net.packets.encoders.social.MessageClan;
 import com.rs.lib.net.packets.encoders.social.MessageFriendsChat;
 import com.rs.lib.net.packets.encoders.social.MessageGame;
@@ -348,14 +346,6 @@ public class WorldEncoder extends Encoder {
 	public void sendCustomizeObject(GameObject object, int[] modifiedModels, int[] modifiedColors, int[] modifiedTextures) {
 		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
 		session.writeToQueue(new CustomizeObject(object, modifiedModels, modifiedColors, modifiedTextures));
-	}
-
-	public void sendIgnores() {
-		session.writeToQueue(new IgnoreList());
-	}
-
-	public void sendIgnore(String name) {
-		session.writeToQueue(new AddIgnore(name));
 	}
 	
 	public void sendMessage(MessageType type, String text, Player p) {

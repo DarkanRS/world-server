@@ -31,6 +31,10 @@ public class LobbyCommunicator {
 	public static Account getAccountSync(String username, String password) {
 		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
 	}
+
+	public static void getAccountByDisplay(String displayName, Consumer<Account> cb) {
+		post(Account.class, new LoginRequest(displayName, "cock"), "getaccountbydisplay", cb);
+	}
 	
 	public static void getAccount(String username, String password, Consumer<Account> cb) {
 		post(Account.class, new LoginRequest(username, password), "getaccountauth", cb);

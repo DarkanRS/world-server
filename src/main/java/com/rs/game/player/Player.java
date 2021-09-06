@@ -119,6 +119,7 @@ import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.net.packets.encoders.ReflectionCheckRequest;
+import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -3519,6 +3520,10 @@ public class Player extends Entity {
 
 	public void sendMessage(String mes) {
 		sendMessage(mes, false);
+	}
+	
+	public void sendMessage(MessageType type, String message) {
+		getPackets().sendMessage(type, message, null);
 	}
 
 	public void sendMessage(String... mes) {
