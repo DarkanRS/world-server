@@ -13,7 +13,7 @@ import io.undertow.util.StatusCodes;
 public class WorldAPI extends WebAPI {
 
 	public WorldAPI() {
-		super("api", 4041);
+		super("api", Settings.getConfig().getWorldInfo().getPort()+1);
 	
 		this.routes.post("/sendpacket", ex -> {
 			ex.dispatch(() -> {
