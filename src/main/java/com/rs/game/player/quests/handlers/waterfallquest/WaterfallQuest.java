@@ -150,9 +150,6 @@ public class WaterfallQuest extends QuestOutline {
 				e.getPlayer().sendMessage("You try to swim down the river but you get swept away and over the waterfall.");
 				e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
 				e.getPlayer().applyHit(new Hit(e.getPlayer(), Utils.random(20, 56), HitLook.TRUE_DAMAGE));
-			} else if (e.getObjectId() == 1987) {
-				e.getPlayer().sendMessage("You board the log raft and crash on a small spit of land.");
-				e.getPlayer().setNextWorldTile(new WorldTile(2512, 3481, 0));
 			} else if (e.getObjectId() == 2020) {
 				e.getPlayer().sendMessage("You slip from the tree and fall down the waterfall.");
 				e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
