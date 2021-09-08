@@ -1,12 +1,15 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.World;
+import com.rs.game.pathing.RouteEvent;
+import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.controllers.GodwarsController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -66,7 +69,7 @@ public class Trollheim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			boolean lift = e.getOpNum() == ClientPacket.OBJECT_OP1;
-			if (e.getPlayer().getSkills().getLevel(lift ? Constants.STRENGTH : Constants.AGILITY) < 60) {
+			if (e.getPlayer().getSkills().getLevel(lift ? Skills.STRENGTH : Skills.AGILITY) < 60) {
 				e.getPlayer().sendMessage("You need a " + (lift ? "Strength" : "Agility") + " of 60 in order to " + (lift ? "lift" : "squeeze past") + " this boulder.");
 				return;
 			}
@@ -214,4 +217,40 @@ public class Trollheim {
 			}
 		}
 	};
+
+    public static ObjectClickHandler handleWildernessCliff = new ObjectClickHandler(false, new Object[] { 34878 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            if (!Agility.hasLevel(e.getPlayer(), 64)) {
+                e.getPlayer().sendMessage("You need 64 agility");
+                return;
+            }
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+
+            p.setRouteEvent(new RouteEvent(new WorldTile(2950, 3681, 0), () -> {
+                if(obj.matches(new WorldTile(2951, 3681, 0)) && p.getX() < obj.getX()) {
+                    WorldTile destinationTile = new WorldTile(2954, 3682, 0);
+                    p.faceTile(destinationTile);
+                    WorldTasksManager.schedule(new WorldTask() {
+                        @Override
+                        public void run() {
+                            p.setNextAnimation(new Animation(3382));
+                        }
+                    }, 1);
+
+                    p.lock();
+                    WorldTasksManager.schedule(new WorldTask() {
+                        @Override
+                        public void run() {
+                            p.setNextWorldTile(destinationTile);
+                            p.unlock();
+                        }
+                    }, 8);
+                }
+            }));
+
+        }
+    };
+
 }

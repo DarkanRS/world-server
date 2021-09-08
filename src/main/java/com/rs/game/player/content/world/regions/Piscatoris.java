@@ -2,11 +2,15 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.agility.Agility;
+import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -54,4 +58,20 @@ public class Piscatoris {
 		}
 	};
 
+    public static ObjectClickHandler handleEaglesPeakShortcut = new ObjectClickHandler(new Object[] { 19849 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+            if (!Agility.hasLevel(p, 25)) {
+                p.getPackets().sendGameMessage("You need level 25 agility to use this shortcut.");
+                return;
+            }
+                if(obj.matches(new WorldTile(2323,3497, 0)))//above
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2322, 3502, 0), 2050, 1, 1, Direction.SOUTH);
+                if(obj.matches(new WorldTile(2322,3501, 0)))//below
+                    AgilityShortcuts.forceMovementInstant(p, new WorldTile(2323, 3496, 0), 2049, 1, 1, Direction.SOUTH);
+
+        }
+    };
 }

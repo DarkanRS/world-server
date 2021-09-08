@@ -2,17 +2,21 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
+import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.skills.agility.Agility;
+import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.DoorPair;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -153,6 +157,25 @@ public class Draynor {
 				e.getPlayer().useStairs(new WorldTile(3115, 3355, 0));
 		}
 	};
+
+    public static ObjectClickHandler handleDraynorManorRailing = new ObjectClickHandler(new Object[] { 37703 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+            if (!Agility.hasLevel(p, 28)) {
+                p.getPackets().sendGameMessage("You need level 28 agility to use this shortcut.");
+                return;
+            }
+            if(!obj.matches(new WorldTile(3083, 3353, 0)))
+                return;
+            if(p.getX() > obj.getX())
+                AgilityShortcuts.climbOver(p, new WorldTile(obj.getX(), obj.getY(), obj.getPlane()));
+            if(p.getX() <= obj.getX())
+                AgilityShortcuts.climbOver(p, new WorldTile(obj.getX()+1, obj.getY(), obj.getPlane()));
+
+        }
+    };
 	
 	public static ObjectClickHandler handleDraynorManorStairs = new ObjectClickHandler(new Object[] { 47364, 47657 }) {
 		@Override

@@ -1,5 +1,140 @@
 [
   {
+    "comment": "Spider herald added by trent",
+    "npcId": 8976,
+    "tile": {
+      "x": 3743,
+      "y": 5280,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Royal Fly-Catcher added by trent",
+    "npcId": 8973,
+    "tile": {
+      "x": 3741,
+      "y": 5284,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3741,
+      "y": 5279,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3746,
+      "y": 5285,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3741,
+      "y": 5286,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3738,
+      "y": 5282,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3748,
+      "y": 5280,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3751,
+      "y": 5282,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Keeper of the Royal Eggs added by trent",
+    "npcId": 8974,
+    "tile": {
+      "x": 3747,
+      "y": 5283,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3747,
+      "y": 5277,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Courtier added by trent",
+    "npcId": 8972,
+    "tile": {
+      "x": 3741,
+      "y": 5276,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider Queen added by trent",
+    "npcId": 8975,
+    "tile": {
+      "x": 3807,
+      "y": 5279,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spider added by trent",
+    "npcId": 8978,
+    "tile": {
+      "x": 3811,
+      "y": 5156,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Muncher added by trent",
+    "npcId": 2329,
+    "tile": {
+      "x": 3819,
+      "y": 5141,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grim Reaper added by trent",
+    "npcId": 8977,
+    "tile": {
+      "x": 3807,
+      "y": 5150,
+      "plane": 0
+    }
+  },
+  {
     "comment": "transforming jadinko added by trent",
     "npcId": 13108,
     "tile": {
@@ -19809,28 +19944,10 @@
     "npcId": 1359
   },
   {
-     "comment": "Captain Barnaby",
+    "comment": "Captain Barnaby",
     "npcId": 4962,
     "tile": {
       "x": 2684,
-      "y": 3273,
-      "plane": 0
-    }
-  },
-   {
-    "comment": "Trader Crewmember",
-    "npcId": 4654,
-    "tile": {
-      "x": 2684,
-      "y": 3272,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Trader Crewmember",
-    "npcId": 4653,
-    "tile": {
-      "x": 2683,
       "y": 3273,
       "plane": 0
     }
@@ -39158,7 +39275,7 @@
     "comment": "Idria",
     "npcId": 1599
   },
-    {
+  {
     "comment": "White Knight",
     "npcId": 3348,
     "tile": {
@@ -39230,7 +39347,7 @@
       "plane": 2
     }
   },
-    {
+  {
     "comment": "White Knight",
     "npcId": 19,
     "tile": {
@@ -48377,8 +48494,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3180,
-      "y": 5539
+      "x": 3179,
+      "y": 5541
     },
     "comment": "Waterfiend",
     "npcId": 5361
@@ -48387,7 +48504,7 @@
     "tile": {
       "plane": 0,
       "x": 3176,
-      "y": 5538
+      "y": 5539
     },
     "comment": "Waterfiend",
     "npcId": 5361
@@ -50848,15 +50965,6 @@
     },
     "comment": "Iain",
     "npcId": 7868
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3224,
-      "y": 3241
-    },
-    "comment": "Julian",
-    "npcId": 7869
   },
   {
     "tile": {
@@ -60055,15 +60163,6 @@
     },
     "comment": "Sister Catherina",
     "npcId": 14638
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3400,
-      "y": 3149
-    },
-    "comment": "Valerio",
-    "npcId": 14640
   },
   {
     "tile": {
@@ -74545,7 +74644,7 @@
     },
     "comment": "Banker",
     "npcId": 2759
-  }, 
+  },
   {
     "comment": "Grand Exchange clerk",
     "npcId": 1419,
@@ -76751,7 +76850,7 @@
     "comment": "Black Knight",
     "npcId": 178
   },
-    {
+  {
     "comment": "Spinolyp added by devin",
     "npcId": 2892,
     "tile": {
@@ -104830,6 +104929,15 @@
     },
     "comment": "Ian",
     "npcId": 1779
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2993,
+      "y": 9686
+    },
+    "comment": "Larry",
+    "npcId": 1780
   },
   {
     "tile": {

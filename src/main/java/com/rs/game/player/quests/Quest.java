@@ -1,14 +1,14 @@
 package com.rs.game.player.quests;
 
+import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
+import com.rs.game.player.quests.data.QuestDefinitions;
+import com.rs.lib.util.Utils;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.rs.game.player.Player;
-import com.rs.game.player.quests.data.QuestDefinitions;
-import com.rs.lib.Constants;
-import com.rs.lib.util.Utils;
 
 public enum Quest {
 	COOKS_ASSISTANT(6, 1),
@@ -262,7 +262,7 @@ public enum Quest {
 		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet()) {
 			if (player.getSkills().getLevelForXp(skillId) < getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)) {
 				if (actionStr != null)
-					player.sendMessage("You need a " + Constants.SKILL_NAME[skillId] + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
+					player.sendMessage("You need a " + Skills.SKILL_NAME[skillId] + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
 				meetsRequirements = false;
 			}
 		}

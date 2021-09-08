@@ -1,12 +1,12 @@
 package com.rs.game.player.quests.data;
 
-import java.util.HashMap;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
+import com.rs.game.player.Skills;
 import com.rs.game.player.quests.Quest;
-import com.rs.lib.Constants;
 import com.rs.lib.game.WorldTile;
+
+import java.util.HashMap;
 
 public class QuestInformationParser {
 	
@@ -93,10 +93,10 @@ public class QuestInformationParser {
 				addPreReqs(info, quest);
 			}
 		}
-		Quest.RITUAL_OF_MAHJARRAT.getDefs().getExtraInfo().addSkillReq(Constants.MINING, 76);
-		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Constants.MINING, 60);
-		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Constants.MAGIC, 65);
-		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Constants.WOODCUTTING, 55);
+		Quest.RITUAL_OF_MAHJARRAT.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 76);
+		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 60);
+		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MAGIC, 65);
+		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.WOODCUTTING, 55);
 	}
 	
 	public static void addPreReqs(QuestInformation info, Quest quest) {

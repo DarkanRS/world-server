@@ -20,7 +20,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
-public class RunecraftingAltar  {
+public class RunecraftingAltar {
 
 	public static final int WICKED_HOOD = 22332;
 	public static final int WICKED_HOOD_INTER = 1153;
@@ -369,33 +369,18 @@ public class RunecraftingAltar  {
 	public static NPCClickHandler handleMageOfZamorak = new NPCClickHandler(2257) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			Abyss.teleport(e.getPlayer(), e.getNPC());
-		}
-	};
-	
-	public static NPCClickHandler handleAubury = new NPCClickHandler(5913) {
-		@Override
-		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
-			case "Trade":
-				ShopsHandler.openShop(e.getPlayer(), "auburys_rune_shop");
-				break;
-			case "Teleport":
-				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasksManager.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC());
-					}
-				}, 2);
-				break;
+				case "Trade":
+					ShopsHandler.openShop(e.getPlayer(), "zamorak_mage_shop");
+					break;
+				case "Talk-to":
+					Abyss.teleport(e.getPlayer(), e.getNPC());
+					break;
 			}
 		}
 	};
 	
-	public static NPCClickHandler handleOthers = new NPCClickHandler(462, 300) {
+	public static NPCClickHandler handleOthers = new NPCClickHandler(462) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

@@ -1,0 +1,29 @@
+{
+  "name": "Will Oakfeller's Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1351,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1349,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1353,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    14885
+  ]
+}

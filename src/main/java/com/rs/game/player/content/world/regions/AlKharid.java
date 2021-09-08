@@ -1,9 +1,12 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.pathing.Direction;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -56,5 +59,23 @@ public class AlKharid {
 			AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 3 : -3, 0, 0));
 		}
 	};
+
+    public static ObjectClickHandler handleMiningSiteShortcut = new ObjectClickHandler(new Object[] { 9331, 9332 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            if (!Agility.hasLevel(e.getPlayer(), 38)) {
+                e.getPlayer().sendMessage("You need 38 agility");
+                return;
+            }
+
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+
+            if(obj.matches(new WorldTile(3306, 3315, 0)))//above
+                AgilityShortcuts.forceMovementInstant(p, new WorldTile(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
+            if(obj.matches(new WorldTile(3304, 3315, 0)))//below
+                AgilityShortcuts.forceMovementInstant(p, new WorldTile(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
+        }
+    };
 
 }

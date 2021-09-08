@@ -33,7 +33,12 @@ public class RandomEvents {
 		if (player.getControllerManager().getController() != null)
 			return;
 		player.setTempL("lastRandom", World.getServerTicks());
-		new SandwichLady(player);
+
+        int random = Utils.random(0, 100);
+		if(random < 90)//90% chance
+            new SandwichLady(player);
+        else
+            new Genie(player);
 		//TODO add more than this rofl.
 	}
 

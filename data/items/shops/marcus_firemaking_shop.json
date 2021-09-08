@@ -1,0 +1,23 @@
+{
+  "name": "Marcus' Firemaking Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 596,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 590,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    14883
+  ]
+}

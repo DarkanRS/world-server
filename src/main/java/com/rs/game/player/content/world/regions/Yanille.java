@@ -1,13 +1,14 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
@@ -102,7 +103,7 @@ public class Yanille {
 	public static ObjectClickHandler handleMagicGuildEnter = new ObjectClickHandler(new Object[] { "Magic guild door" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getSkills().getLevel(Constants.MAGIC) < 66) {
+			if (e.getPlayer().getSkills().getLevel(Skills.MAGIC) < 66) {
 				e.getPlayer().sendMessage("You require 66 magic to enter the Magic Guild.");
 				return;
 			}
@@ -132,4 +133,21 @@ public class Yanille {
 			}, 0);
 		}
 	};
+
+    public static ObjectClickHandler handleTrellis = new ObjectClickHandler(new Object[] { 20056 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            if (!Agility.hasLevel(e.getPlayer(), 18)) {
+                e.getPlayer().sendMessage("You need 18 agility");
+                return;
+            }
+
+            Player p = e.getPlayer();
+            WorldObject obj = e.getObject();
+
+            if(obj.getId() == 20056)
+                p.useLadder(new WorldTile(2548, 3118, 1));
+
+        }
+    };
 }

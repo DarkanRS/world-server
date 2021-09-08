@@ -1,16 +1,16 @@
 package com.rs.game.player.quests.data;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-
 import com.rs.cache.ArchiveType;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.game.player.Player;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
 
 /**
  * @author Trenton
@@ -67,13 +67,13 @@ public class QuestDefinitions {
 	private static final HashMap<String, QuestDefinitions> QUESTS_NAME = new HashMap<String, QuestDefinitions>();
 
 	public static void main(String[] args) throws IOException {
-		//Cache.init();
-		for (int i = 0;i < Cache.STORE.getIndex(IndexType.CONFIG).getValidFilesCount(ArchiveType.QUESTS.getId());i++) {
-			QuestDefinitions def = new QuestDefinitions(i);
-			//System.out.println(def.name.toUpperCase().replace(" ", "_").replaceAll("[^A-Za-z0-9_]", "") + "(" + i + "),");
-			if (i == 0)
-				System.out.println(def);
-		}
+//		Cache.init();
+//		for (int i = 0;i < Cache.STORE.getIndex(IndexType.CONFIG).getValidFilesCount(ArchiveType.QUESTS.getId());i++) {
+//			QuestDefinitions def = new QuestDefinitions(i);
+//			//System.out.println(def.name.toUpperCase().replace(" ", "_").replaceAll("[^A-Za-z0-9_]", "") + "(" + i + "),");
+//			if (i == 0)
+//				System.out.println(def);
+//		}
 	}
 	
 	public QuestDefinitions(int id) {

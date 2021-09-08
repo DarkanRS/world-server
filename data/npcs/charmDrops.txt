@@ -46,6 +46,7 @@ cyclossus:11-6-9-3:
 dark_beast:9-4-8-14:
 dark_warrior:18-5-2-1:
 deadly_red_spider:25-1-2-0:
+dagannoth:13-6-25-1
 desert_strykewyrm:4-2-12-1:
 dried_zombie:7-4-4-6:
 dust_devil:12-6-26-1:

@@ -3,9 +3,9 @@ package com.rs.game.player.content.world;
 import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -28,6 +28,19 @@ public class AgilityShortcuts {
 			}
 		}, delay+useDelay);
 	}
+
+    public static void forceMovement(Player player, WorldTile tile, int animation, int useDelay, int delay, Direction direction) {
+        player.setNextAnimation(new Animation(animation));
+        player.setNextForceMovement(new ForceMovement(player, 1, tile, delay+1+useDelay, direction));
+        player.lock();
+        WorldTasksManager.schedule(new WorldTask() {
+            @Override
+            public void run() {
+                player.setNextWorldTile(tile);
+                player.unlock();
+            }
+        }, delay+useDelay);
+    }
 	
 	public static void forceMovementInstant(Player player, WorldTile tile, int animation, int delay) {
 		forceMovementInstant(player, tile, animation, 0, delay);
@@ -45,6 +58,19 @@ public class AgilityShortcuts {
 			}
 		}, delay+useDelay);
 	}
+
+    public static void forceMovementInstant(Player player, WorldTile tile, int animation, int useDelay, int delay, Direction direction) {
+        player.setNextAnimation(new Animation(animation));
+        player.setNextForceMovement(new ForceMovement(player, 0, tile, delay+1+useDelay, direction));
+        player.lock();
+        WorldTasksManager.schedule(new WorldTask() {
+            @Override
+            public void run() {
+                player.setNextWorldTile(tile);
+                player.unlock();
+            }
+        }, delay+useDelay);
+    }
 	
 	public static void climbOver(Player player, WorldTile toTile) {
 		climbOver(player, toTile, 1560);
@@ -130,7 +156,7 @@ public class AgilityShortcuts {
 				} else {
 					player.getAppearance().setBAS(-1);
 					player.setRunHidden(running);
-					player.getSkills().addXp(Constants.AGILITY, 7.5);
+					player.getSkills().addXp(Skills.AGILITY, 7.5);
 					player.sendMessage("... and make it safely to the other side.", true);
 					stop();
 				}

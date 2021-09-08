@@ -10,7 +10,7 @@
   ],
   "hitpoints": 450,
   "attackAnim": 8080,
-  "defenceAnim": 8079,
+  "defenceAnim": 8081,
   "deathAnim": 8078,
   "deathDelay": 4,
   "respawnDelay": 60,

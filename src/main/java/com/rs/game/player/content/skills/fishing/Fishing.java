@@ -45,6 +45,7 @@ public class Fishing extends Action {
 		FISHING_SPOTS.put(6267, new FishingSpot[] { FishingSpot.CRAYFISH });
 		FISHING_SPOTS.put(8841, new FishingSpot[] { FishingSpot.CAVEFISH });
 		FISHING_SPOTS.put(8842, new FishingSpot[] { FishingSpot.ROCKTAIL });
+        FISHING_SPOTS.put(14907, new FishingSpot[] { FishingSpot.CRAYFISH });
 	}
 	
 	public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray()) {

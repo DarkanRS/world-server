@@ -1,0 +1,131 @@
+{
+  "name": "King Lathas' Armoury",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 882,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 877,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 841,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 839,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 837,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 39,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 40,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 41,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 42,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1349,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1353,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1363,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1365,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1369,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1291,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1293,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1295,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1297,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1299,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1301,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    561
+  ]
+}

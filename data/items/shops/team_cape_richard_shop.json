@@ -1,0 +1,41 @@
+{
+  "name": "Richard's Cape Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4325,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4345,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4365,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4385,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4405,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    1783
+  ]
+}

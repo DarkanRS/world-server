@@ -1,5 +1,5 @@
 {
-  "name": "Jukat",
+  "name": "Jukat Sword Shop",
   "generalStore": false,
   "buyOnly": false,
   "currency": 995,
@@ -16,5 +16,8 @@
         "amount": 10
       }
     }
+  ],
+  "npcIds": [
+    564
   ]
 }
