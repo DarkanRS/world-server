@@ -4,6 +4,7 @@ import com.rs.game.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.SocialAddRemove;
 import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
+import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 
 public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRemove> {
@@ -17,7 +18,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 				return;
 			}
 			player.setTempB("addFriendLock", true);
-			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
+			LobbyCommunicator.getAccountByDisplay(Utils.formatPlayerNameForDisplay(packet.getName()), acc -> {
 				player.setTempB("addFriendLock", false);
 				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.FRIEND_NOTIFICATION, "Player not found.");
@@ -33,7 +34,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 				return;
 			}
 			player.setTempB("addIgnoreLock", true);
-			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
+			LobbyCommunicator.getAccountByDisplay(Utils.formatPlayerNameForDisplay(packet.getName()), acc -> {
 				player.setTempB("addIgnoreLock", false);
 				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.IGNORE_NOTIFICATION, "Player not found.");
@@ -49,7 +50,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 				return;
 			}
 			player.setTempB("removeFriendLock", true);
-			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
+			LobbyCommunicator.getAccountByDisplay(Utils.formatPlayerNameForDisplay(packet.getName()), acc -> {
 				player.setTempB("removeFriendLock", false);
 				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.FRIEND_NOTIFICATION, "Error removing friend.");
@@ -65,7 +66,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 				return;
 			}
 			player.setTempB("removeIgnoreLock", true);
-			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
+			LobbyCommunicator.getAccountByDisplay(Utils.formatPlayerNameForDisplay(packet.getName()), acc -> {
 				player.setTempB("removeIgnoreLock", false);
 				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.IGNORE_NOTIFICATION, "Error removing ignore.");
