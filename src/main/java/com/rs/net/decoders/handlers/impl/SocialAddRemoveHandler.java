@@ -19,7 +19,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 			player.setTempB("addFriendLock", true);
 			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
 				player.setTempB("addFriendLock", false);
-				if (acc == null) {
+				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.FRIEND_NOTIFICATION, "Player not found.");
 					return;
 				}
@@ -35,7 +35,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 			player.setTempB("addIgnoreLock", true);
 			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
 				player.setTempB("addIgnoreLock", false);
-				if (acc == null) {
+				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.IGNORE_NOTIFICATION, "Player not found.");
 					return;
 				}
@@ -51,7 +51,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 			player.setTempB("removeFriendLock", true);
 			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
 				player.setTempB("removeFriendLock", false);
-				if (acc == null) {
+				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.FRIEND_NOTIFICATION, "Error removing friend.");
 					return;
 				}
@@ -67,7 +67,7 @@ public class SocialAddRemoveHandler implements PacketHandler<Player, SocialAddRe
 			player.setTempB("removeIgnoreLock", true);
 			LobbyCommunicator.getAccountByDisplay(packet.getName(), acc -> {
 				player.setTempB("removeIgnoreLock", false);
-				if (acc == null) {
+				if (acc == null || acc.getUsername() == null) {
 					player.sendMessage(MessageType.IGNORE_NOTIFICATION, "Error removing ignore.");
 					return;
 				}
