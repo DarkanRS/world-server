@@ -39,7 +39,10 @@ public final class Settings {
 	private String ownerName;
 	private String cachePath;
 	private boolean debug = false;
-	private String mongoDb;
+	private String mongoUrl;
+	private int mongoPort;
+	private String mongoUser;
+	private String mongoPass;
 	private String lobbyIp;
 	private String lobbyApiKey;
 	private WorldInfo worldInfo;
@@ -55,8 +58,10 @@ public final class Settings {
 		this.ownerName = "trent";
 		this.cachePath = "../darkan-cache/";
 		this.debug = false;
-		this.mongoDb = "mongodb://testlobby.darkan.org/darkan-server?retryWrites=true&w=majority";
-		this.lobbyIp = "testlobby.darkan.org";
+		this.mongoUrl = "testlobby.darkan.org";
+		this.mongoPort = 27017;
+		this.mongoUser = "darkan";
+		this.mongoPass = "test";
 		this.lobbyApiKey = "TEST_API_KEY";
 		this.worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "Admin Server", 1, true, true);
 		this.loginMessage = "";
@@ -210,6 +215,13 @@ public final class Settings {
 	}
 
 	public String getMongoDb() {
-		return mongoDb;
+		String db = "mongodb://";
+		if (mongoUser != null && !mongoUser.isEmpty())
+			db += mongoUser + ":" + mongoPass + "@";
+		db += mongoUrl;
+		if (mongoPort > 0)
+			db += ":" + mongoPort;
+		db += "/darkan-server?retryWrites=true&w=majority";
+		return db;
 	}
 }
