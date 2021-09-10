@@ -13,6 +13,7 @@ import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
+import com.rs.lib.web.dto.SendPM;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
@@ -87,9 +88,8 @@ public class LobbyCommunicator {
 		
 	}
 	
-	public static void sendPM(Player player, String toUsername, String message) {
-		// TODO Auto-generated method stub
-		
+	public static void sendPM(Player from, String toDisplayName, String message, Consumer<Boolean> cb) {
+		post(Boolean.class, new SendPM(from.getDisplayName(), toDisplayName, message), "sendpm", cb);
 	}
 
 	public static void sendPMQuickChat(Player player, String toUsername, QuickChatMessage quickChatMessage) {
