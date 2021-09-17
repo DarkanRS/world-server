@@ -1,13 +1,9 @@
 package com.rs.net;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.game.player.Player;
-import com.rs.game.social.WorldCC;
-import com.rs.game.social.WorldFC;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
@@ -17,9 +13,6 @@ import com.rs.lib.web.dto.SendPM;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
-	
-	private static Map<String, WorldFC> FRIENDS_CHATS = new ConcurrentHashMap<>();
-	private static Map<String, WorldCC> CLAN_CHATS = new ConcurrentHashMap<>();
 	
 	public static void addWorldPlayer(Player player, Consumer<Boolean> cb) {
 		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "addworldplayer", cb);

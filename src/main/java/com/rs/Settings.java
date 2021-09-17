@@ -58,6 +58,7 @@ public final class Settings {
 		this.ownerName = "trent";
 		this.cachePath = "../darkan-cache/";
 		this.debug = false;
+		this.lobbyIp = "testlobby.darkan.org";
 		this.mongoUrl = "testlobby.darkan.org";
 		this.mongoPort = 27017;
 		this.mongoUser = "darkan";
