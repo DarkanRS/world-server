@@ -7,9 +7,10 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
+import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
-import com.rs.lib.web.dto.SendPM;
+import com.rs.lib.web.dto.PacketDto;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
@@ -46,6 +47,13 @@ public class LobbyCommunicator {
 		post(Account.class, player.getAccount(), "updatewholeaccount", cb);
 	}
 	
+	public static void forwardPackets(Player player, Packet... packets) {
+		post(Boolean.class, new PacketDto(player.getUsername(), packets), "forwardpackets", res -> {
+			if (res != null && !res)
+				player.sendMessage("Error forwarding packet to lobby.");
+		});
+	}
+	
 	public static void clanChatKick(Player player, boolean guest, String name) {
 		// TODO Auto-generated method stub
 		
@@ -79,10 +87,6 @@ public class LobbyCommunicator {
 	public static void sendGCCQuickChat(Player player, QuickChatMessage quickChatMessage) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public static void sendPM(Player from, String toDisplayName, String message, Consumer<Boolean> cb) {
-		post(Boolean.class, new SendPM(from.getDisplayName(), toDisplayName, message), "sendpm", cb);
 	}
 
 	public static void sendPMQuickChat(Player player, String toUsername, QuickChatMessage quickChatMessage) {

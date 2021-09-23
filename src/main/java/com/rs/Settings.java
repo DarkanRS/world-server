@@ -18,9 +18,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldInfo;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.json.DateAdapter;
+import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.PacketAdapter;
+import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.utils.json.FamiliarAdapter;
 
@@ -110,7 +112,8 @@ public final class Settings {
 				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
-				.registerTypeAdapter(PacketEncoder.class, new PacketAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
 				.disableHtmlEscaping()
 				.setPrettyPrinting()
 				.create());
