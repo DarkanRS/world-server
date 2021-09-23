@@ -45,6 +45,7 @@ public final class WorldThread extends Thread {
 				long startTime = System.currentTimeMillis();
 				WorldTasksManager.processTasks();
 				OwnedObject.process();
+				World.processRegions();
 				NAMES.clear();
 				for (NPC npc : World.getNPCs()) {
 					if (npc == null || npc.hasFinished())

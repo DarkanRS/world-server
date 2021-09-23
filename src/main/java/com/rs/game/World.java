@@ -1107,12 +1107,12 @@ public final class World {
 		addGroundItem(item, tile, owner, true, 60);
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenTime) {
-		addGroundItem(item, tile, owner, invisible, hiddenTime, DropMethod.NORMAL, 150);
+	public static final void addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs) {
+		addGroundItem(item, tile, owner, invisible, hiddenSecs, DropMethod.NORMAL, 150);
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type) {
-		return addGroundItem(item, tile, owner, invisible, hiddenTime, type, 150);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs, DropMethod type) {
+		return addGroundItem(item, tile, owner, invisible, hiddenSecs, type, 150);
 	}
 
 	@Deprecated
@@ -1123,7 +1123,7 @@ public final class World {
 		getRegion(tile.getRegionId()).addGroundItem(groundItem);
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type, int publicTime) {
+	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type, int deleteTime) {
 		if (item.getId() == -1)
 			return null;
 		if (owner != null && owner.getRights() == Rights.ADMIN)
@@ -1142,57 +1142,31 @@ public final class World {
 			for (int i = 0; i < floorItem.getAmount(); i++) {
 				Item oneItem = new Item(item.getId(), 1);
 				GroundItem newItem = new GroundItem(oneItem, tile, owner.getUsername(), invisible ? GroundItemType.INVISIBLE : GroundItemType.NORMAL);
-				finalizeGroundItem(newItem, tile, owner, hiddenTime, type, publicTime);
+				finalizeGroundItem(newItem, tile, owner, hiddenTime, type, deleteTime);
 			}
 		} else {
-			finalizeGroundItem(floorItem, tile, owner, hiddenTime, type, publicTime);
+			finalizeGroundItem(floorItem, tile, owner, hiddenTime, type, deleteTime);
 		}
 		return floorItem;
 	}
 
-	private static void finalizeGroundItem(GroundItem item, WorldTile tile, Player owner, int hiddenTime, DropMethod type, int publicTime) {
+	private static void finalizeGroundItem(GroundItem item, WorldTile tile, Player owner, int hiddenSeconds, DropMethod type, int lifeSeconds) {
 		if (item.getId() == -1)
 			return;
 		if (owner != null && owner.getRights() == Rights.ADMIN)
 			return;
 		if (getRegion(tile.getRegionId()).addGroundItem(item)) {
+			if (lifeSeconds != -1)
+				item.setDeleteTime(Ticks.fromSeconds(lifeSeconds + hiddenSeconds));
 			if (item.isInvisible()) {
-				if (hiddenTime != -1) {
-					CoresManager.schedule(() -> {
-						turnPublic(item, publicTime);
-					}, Ticks.fromSeconds(hiddenTime));
-				}
-			} else {
-				if (publicTime != -1)
-					scheduleGroundItemRemoval(item, publicTime);
+				if (hiddenSeconds != -1)
+					item.setPrivateTime(Ticks.fromSeconds(hiddenSeconds));
 			}
 		}
-	}
-	
-	public static final void turnPublic(GroundItem groundItem, int secondsTillDelete) {
-		if (!groundItem.isInvisible())
-			return;
-		final Region region = getRegion(groundItem.getTile().getRegionId());
-		if (!region.itemExists(groundItem))
-			return;
-		if (!ItemConstants.isTradeable(groundItem)) {
-			if (secondsTillDelete != -1)
-				scheduleGroundItemRemoval(groundItem, secondsTillDelete);
-			return;
-		}
-		region.publicizeGroundItem(groundItem);
-		if (secondsTillDelete != -1)
-			scheduleGroundItemRemoval(groundItem, secondsTillDelete);
 	}
 
 	public static final boolean removeGroundItem(GroundItem groundItem) {
 		return getRegion(groundItem.getTile().getRegionId()).deleteGroundItem(groundItem);
-	}
-
-	private static final void scheduleGroundItemRemoval(GroundItem groundItem, int publicTime) {
-		CoresManager.schedule(() -> {
-			getRegion(groundItem.getTile().getRegionId()).deleteGroundItem(groundItem);
-		}, Ticks.fromSeconds(publicTime));
 	}
 
 	public static final boolean removeGroundItem(Player player, GroundItem floorItem) {
@@ -1449,5 +1423,13 @@ public final class World {
 			}
 		}
 		return objects;
+	}
+	
+	public static void processRegions() {
+		synchronized(REGIONS) {
+			for (Region r : REGIONS.values())
+				if (r != null)
+					r.processGroundItems();
+		}
 	}
 }

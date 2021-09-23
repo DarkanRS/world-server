@@ -17,6 +17,7 @@ import com.rs.game.World;
 import com.rs.game.WorldProjectile;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.ItemConstants;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.InputStream;
@@ -819,13 +820,6 @@ public class Region {
 		return groundItemList;
 	}
 	
-	public GroundItem getGroundItem(int itemId, WorldTile tile, Player player) {
-		GroundItem item = getGroundItem(itemId, tile, player == null ? 0 : player.getUuid());
-		if (item == null)
-			item = getGroundItem(itemId, tile, 0);
-		return item;
-	}
-	
 	public GroundItem getGroundItem(int itemId, WorldTile tile, int playerId) {
 		if (groundItems == null)
 			return null;
@@ -846,11 +840,75 @@ public class Region {
 		return getGroundItem(item.getId(), item.getTile(), item.getVisibleToId()) != null;
 	}
 	
-	/**
-	 * 
-	 * @param The item to update.
-	 * @return True if a new item was added to the ground, false if an old item was updated in quantity.
-	 */
+	public GroundItem getGroundItem(int itemId, WorldTile tile, Player player) {
+		GroundItem item = getGroundItem(itemId, tile, player == null ? 0 : player.getUuid());
+		if (item == null)
+			item = getGroundItem(itemId, tile, 0);
+		return item;
+	}
+	
+	public void processGroundItems() {
+		if (groundItems == null || groundItemList == null)
+			return;
+		List<GroundItem> toRemove = new ArrayList<>();
+		for (GroundItem item : groundItemList) {
+			item.tick();
+			if (item.getDeleteTime() != -1 && item.getTicks() >= item.getDeleteTime())
+				toRemove.add(item);
+			if (item.getPrivateTime() != -1 && item.getTicks() >= item.getPrivateTime() && item.isPrivate()) {
+				if (!item.isInvisible() || !ItemConstants.isTradeable(item))
+					continue;
+				removeItemFromOwnerMapping(item);
+				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {
+					if (player.hasStarted() && !player.hasFinished() && player.getUuid() != item.getVisibleToId()) {
+						player.getPackets().sendGroundItem(item);
+					}
+				}
+				item.removeOwner();
+				addItemToOwnerMapping(item);
+			}
+		}
+		for (GroundItem item : toRemove)
+			deleteGroundItem(item);
+	}
+	
+	public boolean removeItemFromOwnerMapping(GroundItem item) {
+		if (groundItems == null)
+			return false;
+		int tileHash = item.getTile().getTileHash();
+		Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
+		if (tileMap == null)
+			return false;
+		List<GroundItem> items = tileMap.get(tileHash);
+		if (items == null)
+			return false;
+		if (items.remove(item)) {
+			if (items.isEmpty())
+				tileMap.remove(tileHash);
+			if (tileMap.isEmpty())
+				groundItems.remove(item.getVisibleToId());
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addItemToOwnerMapping(GroundItem item) {
+		if (groundItems == null)
+			groundItems = new ConcurrentHashMap<>();
+		Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
+		if (tileMap == null) {
+			tileMap = new ConcurrentHashMap<>();
+			groundItems.put(item.getVisibleToId(), tileMap);
+		}
+		List<GroundItem> items = tileMap.get(item.getTile().getTileHash());
+		if (items == null) {
+			items = new CopyOnWriteArrayList<>();
+			tileMap.put(item.getTile().getTileHash(), items);
+		}
+		items.add(item);
+		return true;
+	}
+	
 	public boolean addGroundItem(GroundItem item) {
 		if (groundItemList == null)
 			groundItemList = new CopyOnWriteArrayList<>();
@@ -883,7 +941,7 @@ public class Region {
 		} else {
 			groundItemList.add(item);
 			items.add(item);
-			if (World.getPlayer(item.getCreatorUsername()) != null)
+			if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
 				World.getPlayer(item.getCreatorUsername()).getPackets().sendGroundItem(item);
 			else {
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {
@@ -894,12 +952,6 @@ public class Region {
 			}
 		}
 		return true;
-	}
-	
-	public void publicizeGroundItem(GroundItem item) {
-		deleteGroundItem(item);
-		item.removeOwner();
-		addGroundItem(item);
 	}
 	
 	public boolean deleteGroundItem(GroundItem item) {
@@ -920,7 +972,7 @@ public class Region {
 				tileMap.remove(tileHash);
 			if (tileMap.isEmpty())
 				groundItems.remove(item.getVisibleToId());
-			if (World.getPlayer(item.getCreatorUsername()) != null)
+			if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
 				World.getPlayer(item.getCreatorUsername()).getPackets().removeGroundItem(item);
 			else {
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {

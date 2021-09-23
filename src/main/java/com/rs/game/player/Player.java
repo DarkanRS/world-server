@@ -853,15 +853,15 @@ public class Player extends Entity {
 		getAppearance().generateAppearanceData();
 	}
 
-	public void refreshSpawnedItems() {
+	public void refreshRegionItems() {
 		for (int regionId : getMapRegionsIds()) {
 			List<GroundItem> floorItems = World.getRegion(regionId).getAllGroundItems();
 			if (floorItems == null)
 				continue;
 			for (GroundItem item : floorItems) {
+				getPackets().removeGroundItem(item);
 				if (item.isPrivate() && item.getVisibleToId() != getUuid())
 					continue;
-				getPackets().removeGroundItem(item);
 				getPackets().sendGroundItem(item);
 			}
 		}

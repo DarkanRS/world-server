@@ -8,20 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.lib.Constants;
+import com.rs.game.player.Skills;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.events.DialogueOptionEvent;
+import com.rs.utils.Ticks;
 
 public class GraveStone extends NPC {// 652 - gravestone selection interface
 
@@ -51,7 +50,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		inscription = getInscription(player.getDisplayName());
 		floorItems = new ArrayList<GroundItem>();
 		for (Item item : items) {
-			GroundItem i = World.addGroundItem(item, deathTile, player, true, -1, DropMethod.NORMAL);
+			GroundItem i = World.addGroundItem(item, deathTile, player, true, -1, DropMethod.NORMAL, -1);
 			if (i != null)
 				floorItems.add(i);
 		}
@@ -85,20 +84,15 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 
 	public void addLeftTime(boolean clean) {
 		if (clean) {
-			for (GroundItem item : floorItems)
-				World.turnPublic(item, 60);
+			for (GroundItem item : floorItems) {
+				item.setHiddenTime(Ticks.fromSeconds(60));
+				item.setDeleteTime(Ticks.fromMinutes(3));
+			}
 		} else {
-			CoresManager.schedule(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						for (GroundItem item : floorItems)
-							World.turnPublic(item, 180);
-					} catch (Throwable e) {
-						Logger.handle(e);
-					}
-				}
-			}, ticks);
+			for (GroundItem item : floorItems) {
+				item.setHiddenTime(ticks + Ticks.fromSeconds(180));
+				item.setDeleteTime(Ticks.fromMinutes(6));
+			}
 		}
 	}
 
@@ -147,7 +141,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	}
 
 	public void repair(Player blesser, boolean bless) {
-		if (blesser.getSkills().getLevel(Constants.PRAYER) < (bless ? 70 : 2)) {
+		if (blesser.getSkills().getLevel(Skills.PRAYER) < (bless ? 70 : 2)) {
 			blesser.sendMessage("You need " + (bless ? 70 : 2) + " prayer to " + (bless ? "bless" : "repair") + " a gravestone.");
 			return;
 		}

@@ -11,7 +11,7 @@ public class RegionLoadedHandler implements PacketHandler<Player, RegionLoaded> 
 		if (!player.clientHasLoadedMapRegionFinished()) {
 			player.setClientHasLoadedMapRegion();
 			player.refreshSpawnedObjects();
-			player.refreshSpawnedItems();
+			player.refreshRegionItems();
 		}
 	}
 
