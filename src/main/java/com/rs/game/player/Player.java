@@ -1649,6 +1649,7 @@ public class Player extends Entity {
 			return;
 		}
 		getPackets().sendLogout(this, lobby);
+		finish();
 		running = false;
 	}
 
