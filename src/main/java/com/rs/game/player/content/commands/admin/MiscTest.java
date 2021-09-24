@@ -35,6 +35,7 @@ import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.social.SocialPlayer;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
@@ -45,7 +46,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.io.OutputStream;
 import com.rs.lib.net.packets.encoders.HintTrail;
+import com.rs.lib.net.packets.encoders.social.FriendsChatChannel;
 import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -199,8 +202,25 @@ public class MiscTest {
 //		});
 		
 		Commands.add(Rights.DEVELOPER, "test", "test", (p, args) -> {
-			p.setForceNextMapLoadRefresh(true);
-			p.loadMapRegions();
+			OutputStream stream = new OutputStream();
+			stream.writeString("dick");
+			stream.writeByte(1);
+			stream.writeString("Dick");
+			stream.writeLong(Utils.stringToLong("Bitch Boys"));
+			int kickOffset = stream.getOffset();
+			stream.writeByte(0);
+			stream.writeByte(1);
+			stream.writeString("dick");
+			stream.writeByte(1);
+			stream.writeString("Dick");
+			stream.writeShort(1);
+			stream.writeByte(Integer.valueOf(args[0]));
+			stream.writeString("cockwipes");
+			byte[] packet = new byte[stream.getOffset()];
+			stream.setOffset(0);
+			stream.getBytes(packet, 0, packet.length);
+			packet[kickOffset] = 0;
+			p.getSession().write(new FriendsChatChannel(packet));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {
