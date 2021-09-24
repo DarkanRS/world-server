@@ -94,7 +94,6 @@ import com.rs.game.player.managers.InteractionManager;
 import com.rs.game.player.managers.InterfaceManager;
 import com.rs.game.player.managers.MusicsManager;
 import com.rs.game.player.managers.PrayerManager;
-import com.rs.game.player.managers.PriceCheckManager;
 import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestManager;
@@ -239,11 +238,12 @@ public class Player extends Entity {
 	private transient ActionManager actionManager;
 	private transient InteractionManager interactionManager;
 	private transient CutscenesManager cutscenesManager;
-	private transient PriceCheckManager priceCheckManager;
 	private transient Trade trade;
 	private transient DuelRules lastDuelRules;
 	private transient Pet pet;
 	private VarManager varManager;
+	
+	private int lsp;
 
 	private boolean chosenAccountType;
 	private boolean ironMan;
@@ -656,7 +656,6 @@ public class Player extends Entity {
 		interfaceManager = new InterfaceManager(this);
 		dialogueManager = new DialogueManager(this);
 		hintIconsManager = new HintIconsManager(this);
-		priceCheckManager = new PriceCheckManager(this);
 		localPlayerUpdate = new LocalPlayerUpdate(this);
 		localNPCUpdate = new LocalNPCUpdate(this);
 		actionManager = new ActionManager(this);
@@ -2813,10 +2812,6 @@ public class Player extends Entity {
 		return null;
 	}
 
-	public PriceCheckManager getPriceCheckManager() {
-		return priceCheckManager;
-	}
-
 	public void setPestPoints(int pestPoints) {
 		this.pestPoints = pestPoints;
 	}
@@ -4346,5 +4341,13 @@ public class Player extends Entity {
 	public void setGEOffers(List<Offer> offers) {
 		for (Offer offer : offers)
 			this.geOffers.put(offer.getBox(), offer);
+	}
+
+	public int getLsp() {
+		return lsp;
+	}
+
+	public void setLsp(int lsp) {
+		this.lsp = lsp;
 	}
 }

@@ -5,6 +5,7 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.FriendsChat;
+import com.rs.lib.model.FriendsChat.Rank;
 
 public class ActiveFC {
 
@@ -12,15 +13,15 @@ public class ActiveFC {
 	private FriendsChat settings;
 	private Set<String> usernames;
 	
-	public int getRank(Player player) {
+	public Rank getRank(Player player) {
 		return getRank(player.getRights(), player.getUsername());
 	}
 
-	private int getRank(Rights rights, String username) {
+	private Rank getRank(Rights rights, String username) {
 		if (rights.ordinal() >= Rights.ADMIN.ordinal())
-			return 127;
+			return Rank.JMOD;
 		if (username.equals(owner.getUsername()))
-			return 7;
+			return Rank.OWNER;
 		return settings.getRank(username);
 	}
 	

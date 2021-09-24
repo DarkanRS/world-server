@@ -11,17 +11,7 @@ public class ResumeCountDialogueHandler implements PacketHandler<Player, ResumeC
 	public void handle(Player player, ResumeCountDialogue packet) {
 		if (!player.isRunning() || player.isDead())
 			return;
-		if (player.getInterfaceManager().containsInterface(206) && player.getInterfaceManager().containsInterface(207)) {
-			if (packet.getValue() < 0)
-				return;
-			Integer pc_item_X_Slot = (Integer) player.getTemporaryAttributes().remove("pc_item_X_Slot");
-			if (pc_item_X_Slot == null)
-				return;
-			if (player.getTemporaryAttributes().remove("pc_isRemove") != null)
-				player.getPriceCheckManager().removeItem(pc_item_X_Slot, packet.getValue());
-			else
-				player.getPriceCheckManager().addItem(pc_item_X_Slot, packet.getValue());
-		} else if (player.getInterfaceManager().containsInterface(671) && player.getInterfaceManager().containsInterface(665)) {
+		if (player.getInterfaceManager().containsInterface(671) && player.getInterfaceManager().containsInterface(665)) {
 			if (player.getFamiliar() == null || player.getFamiliar().getBob() == null)
 				return;
 			if (packet.getValue() < 0)

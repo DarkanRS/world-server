@@ -11,6 +11,7 @@ import com.rs.game.player.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.player.content.skills.firemaking.Bonfire;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.content.transportation.ItemTeleports;
+import com.rs.game.player.managers.PriceChecker;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -573,7 +574,7 @@ public final class Equipment {
 					return;
 				}
 				e.getPlayer().stopAll();
-				e.getPlayer().getPriceCheckManager().openPriceCheck();
+				PriceChecker.openPriceCheck(e.getPlayer());
 				return;
 			} else if (e.getComponentId() == 38) {
 				openEquipmentBonuses(e.getPlayer(), false);
@@ -587,7 +588,7 @@ public final class Equipment {
 				e.getPlayer().getInterfaceManager().sendInterface(1178);
 				return;
 			} else if (e.getComponentId() == 43) {
-				e.getPlayer().getPriceCheckManager().openPriceCheck();
+				PriceChecker.openPriceCheck(e.getPlayer());
 //				e.getPlayer().sendMessage("Customizations not finished.");
 				return;
 			}
