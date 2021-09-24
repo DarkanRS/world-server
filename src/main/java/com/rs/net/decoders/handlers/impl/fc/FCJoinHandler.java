@@ -11,12 +11,7 @@ public class FCJoinHandler implements PacketHandler<Player, FCJoin> {
 	public void handle(Player player, FCJoin packet) {
 		if ((!player.hasStarted()))
 			return;
-		if (packet.getName() == null) {
-			if (player.getSocial().getCurrentFriendsChat() != null)
-				LobbyCommunicator.leaveFC(player);
-			return;
-		}
-		LobbyCommunicator.joinFC(player, packet.getName());
+		LobbyCommunicator.forwardPackets(player, packet);
 	}
 
 }
