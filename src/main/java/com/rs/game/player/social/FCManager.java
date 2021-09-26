@@ -42,7 +42,10 @@ public class FCManager {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			switch (e.getComponentId()) {
-				case 26 -> LobbyCommunicator.forwardPackets(e.getPlayer(), new FCJoin(null));
+				case 26 -> {
+					if (e.getPlayer().getSocial().getCurrentFriendsChat() != null) //TODO make sure to force leave the player from existing if they try to join new FC without leaving old
+						LobbyCommunicator.forwardPackets(e.getPlayer(), new FCJoin().setOpcode(ClientPacket.FC_JOIN));
+				}
 				case 31 -> {
 					if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
 						e.getPlayer().sendMessage("Please close the interface you have opened before using Friends Chat setup.");
