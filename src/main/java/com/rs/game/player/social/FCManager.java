@@ -9,8 +9,11 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class FCManager {
+	
+	private static final int FC_SETUP_INTER = 1108;
+	private static final int FC_TAB = 1109;
 
-	public static ButtonClickHandler handleInterface = new ButtonClickHandler(1108) {
+	public static ButtonClickHandler handleInterface = new ButtonClickHandler(FC_SETUP_INTER) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			switch (e.getComponentId()) {
@@ -33,7 +36,7 @@ public class FCManager {
 		}
 	};
 
-	public static ButtonClickHandler handleTab = new ButtonClickHandler(1109) {
+	public static ButtonClickHandler handleTab = new ButtonClickHandler(FC_TAB) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			switch (e.getComponentId()) {
@@ -56,29 +59,29 @@ public class FCManager {
 	};
 
 	public static void openFriendChatSetup(Player player) {
-		player.getInterfaceManager().sendInterface(1108);
-		player.getPackets().setIFText(1108, 1, player.getSocial().getFriendsChat().getName() == null ? "Chat disabled" : player.getSocial().getFriendsChat().getName());
+		player.getInterfaceManager().sendInterface(FC_SETUP_INTER);
+		player.getPackets().setIFText(FC_SETUP_INTER, 1, player.getSocial().getFriendsChat().getName() == null ? "Chat disabled" : player.getSocial().getFriendsChat().getName());
 		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToEnter(), 2);
 		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToSpeak(), 3);
 		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToKick(), 4);
 		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToLS(), 5);
-		player.getPackets().setIFHidden(1108, 49, true);
-		player.getPackets().setIFHidden(1108, 63, true);
-		player.getPackets().setIFHidden(1108, 77, true);
-		player.getPackets().setIFHidden(1108, 91, true);
+		player.getPackets().setIFHidden(FC_SETUP_INTER, 49, true);
+		player.getPackets().setIFHidden(FC_SETUP_INTER, 63, true);
+		player.getPackets().setIFHidden(FC_SETUP_INTER, 77, true);
+		player.getPackets().setIFHidden(FC_SETUP_INTER, 91, true);
 	}
 
 	public static void sendRankRequirement(Player player, Rank rank, int component) {
 		switch (rank) {
-			case UNRANKED -> player.getPackets().setIFText(1108, component, "No-one");
-			case FRIEND -> player.getPackets().setIFText(1108, component, "Any friends");
-			case RECRUIT -> player.getPackets().setIFText(1108, component, "Recruit+");
-			case CORPORAL -> player.getPackets().setIFText(1108, component, "Corporal+");
-			case SERGEANT -> player.getPackets().setIFText(1108, component, "Sergeant+");
-			case LIEUTENANT -> player.getPackets().setIFText(1108, component, "Lieutenant+");
-			case CAPTAIN -> player.getPackets().setIFText(1108, component, "Captain+");
-			case GENERAL -> player.getPackets().setIFText(1108, component, "General+");
-			case OWNER -> player.getPackets().setIFText(1108, component, "Only me");
+			case UNRANKED -> player.getPackets().setIFText(FC_SETUP_INTER, component, "No-one");
+			case FRIEND -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Any friends");
+			case RECRUIT -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Recruit+");
+			case CORPORAL -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Corporal+");
+			case SERGEANT -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Sergeant+");
+			case LIEUTENANT -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Lieutenant+");
+			case CAPTAIN -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Captain+");
+			case GENERAL -> player.getPackets().setIFText(FC_SETUP_INTER, component, "General+");
+			case OWNER -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Only me");
 			default -> throw new IllegalArgumentException("Unexpected value: " + rank);
 		}
 	}
