@@ -3,6 +3,8 @@ package com.rs.game.player.social;
 import com.rs.game.player.Player;
 import com.rs.lib.model.FriendsChat.Rank;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.net.packets.decoders.fc.FCJoin;
+import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -40,14 +42,10 @@ public class FCManager {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			switch (e.getComponentId()) {
-				case 26 -> {
-					if (e.getPlayer().getCurrentFriendChat() != null)
-						e.getPlayer().getCurrentFriendChat().leaveChat(e.getPlayer(), false);
-				}
+				case 26 -> LobbyCommunicator.forwardPackets(e.getPlayer(), new FCJoin(null));
 				case 31 -> {
 					if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
-						e.getPlayer()
-								.sendMessage("Please close the interface you have opened before using Friends Chat setup.");
+						e.getPlayer().sendMessage("Please close the interface you have opened before using Friends Chat setup.");
 						return;
 					}
 					e.getPlayer().stopAll();
