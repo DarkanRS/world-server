@@ -9,6 +9,7 @@ public final class DungeonPartyManager {
 
 	private String leader; // username
 	private int floor;
+    private long seed=0;
 	private int complexity;
 	private int size;
 	private int difficulty;
@@ -107,6 +108,18 @@ public final class DungeonPartyManager {
 			return;
 		dungeon = new DungeonManager(this);
 	}
+
+    public long getStartingSeed() {
+        return this.seed;
+    }
+
+    /**
+     * Creates a seed for a dungeon to run off of
+     * @param seed
+     */
+    public void setStartingSeed(long seed) {
+        this.seed = seed;
+    }
 
 	public int getComplexity() {
 		return complexity;

@@ -1462,7 +1462,7 @@ public class DungeonManager {
 			public void run() {
 				try {
 					clearKeyList();
-					dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
+                    dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize(), party.getStartingSeed());
 					time = World.getServerTicks();
 					region = new DynamicRegionReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
 					region.clearMap(new int[1], () -> {

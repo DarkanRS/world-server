@@ -246,6 +246,37 @@ public class Debug {
 			p.getTemporaryAttributes().put("infPrayer", !spec);
 			p.sendMessage("INFINITE PRAYER: " + !spec);
 		});
+
+        Commands.add(Rights.PLAYER, "startdung [floor, seed, difficulty, size, complexity]", "Shows dungeon seed", (p, args) -> {
+            try {
+                int floor = Integer.parseInt(args[0]);
+                long seed = Long.parseLong(args[1]);
+                int difficulty = Integer.parseInt(args[2]);
+                int size = Integer.parseInt(args[3]);
+                int complexity = Integer.parseInt(args[4]);
+
+                if (!p.getDungManager().isInside()) {
+                    System.out.println("floor: " + args[0]);
+                    System.out.println("seed: " + args[1]);
+                    System.out.println("difficulty: " + args[2]);
+                    System.out.println("size: " + args[3]);
+                    System.out.println("complexity: " + args[4]);
+
+                    p.getDungManager().getParty().setFloor(floor);
+                    p.getDungManager().getParty().setStartingSeed(seed);
+                    p.getDungManager().getParty().setDificulty(difficulty);
+                    p.getDungManager().getParty().setSize(size);
+                    p.getDungManager().getParty().setComplexity(complexity);
+                    p.getDungManager().enterDungeon(false);
+                }
+                else {
+                    p.getPackets().sendGameMessage("You are already in a dungeon");
+                }
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+                p.getPackets().sendGameMessage("You need to be in a party");
+            }
+        });
 		
 		// case "load":
 					// if (!player.getInterfaceManager().containsInterface(762) || (Boolean)
