@@ -55,7 +55,7 @@ public final class Dungeon {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		long lastDung = System.currentTimeMillis();
-        test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON, 0);
+        test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON);
 		System.out.println("Generated dungeon in " + (System.currentTimeMillis() - lastDung) + "ms...");
 		frame.repaint();
 	}
@@ -186,24 +186,26 @@ public final class Dungeon {
 		return String.format("%1$-" + n + "s", s);
 	}
 
-    public Dungeon(DungeonManager manager, int floorId, int complexity, int size, long seed) {
-		this.manager = manager;
-		this.type = DungeonUtils.getFloorType(floorId);
-		this.complexity = complexity;
-		this.size = size;
+    public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
+        this.manager = manager;
+        this.type = DungeonUtils.getFloorType(floorId);
+        this.complexity = complexity;
+        this.size = size;
 
-        if(seed == 0)
-            seed = System.nanoTime();
+        this.seed = System.nanoTime();
+        if(manager.getParty().customSeed) {
+            this.seed = manager.getParty().getStartingSeed();
+            manager.getParty().customSeed = false;
+        }
 
-        this.seed = seed;
-		// seed = 3022668148508890112L;
-		Random random = new Random(seed);
-		DungeonStructure structure = new DungeonStructure(size, random, complexity);
-		// map structure to matrix dungeon
-		map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
-		RoomNode base = structure.getBase();
+        // seed = 3022668148508890112L;
+        Random random = new Random(seed);
+        DungeonStructure structure = new DungeonStructure(size, random, complexity);
+        // map structure to matrix dungeon
+        map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
+        RoomNode base = structure.getBase();
 
-		Room[] possibilities;
+        Room[] possibilities;
 		startRoom = new RoomReference(base.x, base.y);
 		List<RoomNode> children = base.getChildrenR();
 		children.add(base);
