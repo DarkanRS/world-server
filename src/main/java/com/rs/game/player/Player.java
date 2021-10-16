@@ -64,6 +64,7 @@ import com.rs.game.player.content.pet.PetManager;
 import com.rs.game.player.content.skills.construction.House;
 import com.rs.game.player.content.skills.cooking.Brewery;
 import com.rs.game.player.content.skills.dungeoneering.DungManager;
+import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.player.content.skills.farming.FarmPatch;
 import com.rs.game.player.content.skills.farming.PatchLocation;
@@ -882,6 +883,12 @@ public class Player extends Entity {
 		loadMapRegions();
 		started = true;
 		run();
+
+        //tele to demonheim if your physically in a dungeon but have no loaded dungeon/party
+        if(this.getDungManager().getParty() == null && this.getBool("isLoggedOutInDungeon"))
+            this.setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
+        this.save("isLoggedOutInDungeon", false);
+
 		if (isDead())
 			sendDeath(null);
 	}

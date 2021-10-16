@@ -5,6 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
 
+//Status: Done
+
 public final class DungeonPartyManager {
 
 	private String leader; // username

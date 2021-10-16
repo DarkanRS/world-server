@@ -5,6 +5,8 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.lib.game.WorldTile;
 
+//Status: Done
+
 public class DamonheimController extends Controller {
 
 	private boolean showingOption;
@@ -75,7 +77,7 @@ public class DamonheimController extends Controller {
 
 	@Override
 	public void moved() {
-		if (player.getDungManager().isInside())
+		if (player.getDungManager().isInsideDungeon())
 			return;
 		if (!isAtKalaboss(player)) {
 			setInviteOption(false);
