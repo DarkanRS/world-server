@@ -1,0 +1,77 @@
+package com.rs.game.player.quests.handlers.shieldofarrav;
+
+import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.quests.Quest;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
+
+@PluginEventHandler
+public class MuseumCuratorArravD extends Conversation {
+    final int CURATOR = 646;
+
+    public MuseumCuratorArravD(Player p) {
+        super(p);
+        addPlayer(HeadE.HAPPY_TALKING, "Hello.");
+        addNPC(CURATOR, HeadE.CALM_TALK, "Hi.");
+        if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING)
+            tradeShield(p);
+        else {
+            addNPC(CURATOR, HeadE.CALM_TALK, "Do you have anything for me?");
+            addPlayer(HeadE.SAD, "Not currently");
+        }
+    }
+
+    public MuseumCuratorArravD(Player p, boolean restartConversation) {
+        super(p);
+        if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING)
+            tradeShield(p);
+    }
+
+    private void tradeShield(Player p) {
+        addPlayer(HeadE.CALM_TALK, "Can you authenticate this item as the Shield Of Arrav?");
+        addNPC(CURATOR, HeadE.SKEPTICAL, "Let me have a look at it first.");
+        addSimple("The curator peers at the shield");
+        addNPC(CURATOR, HeadE.AMAZED, "This is incredible!");
+        addNPC(CURATOR, HeadE.AMAZED_MILD, "That shield has been missing for over twenty-five years!");
+        addNPC(CURATOR, HeadE.CALM, "Leave the shield here with me and I'll write you out a certificate saying that you have returned the shield, so that you " +
+                        "can claim your reward from the King.");
+        addPlayer(HeadE.HAPPY_TALKING, "Can I have two certificates please?");
+        addNPC(CURATOR, HeadE.CALM, "Yes, certainly. Please hand over the shield.");
+        addSimple("You hand over the shield half.");
+        addSimple("The curator writes out two half-certificates.", () -> {
+            if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_LEFT_HALF, 1)) {
+                p.getInventory().deleteItem(ShieldOfArrav.SHIELD_LEFT_HALF, 1);
+                p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_LEFT, 2);
+                ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE);
+            }
+            if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_RIGHT_HALF, 1)) {
+                p.getInventory().deleteItem(ShieldOfArrav.SHIELD_RIGHT_HALF, 1);
+                p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_RIGHT, 2);
+                ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE);
+            }
+        });
+        addNPC(CURATOR, HeadE.CALM_TALK, "Of course, you won't actually be able to claim the reward with only half the reward certificate...");
+        addPlayer(HeadE.CONFUSED, "What? I went through a lot of trouble to get that shield piece and now you tell me it was for nothing? That's not very fair!");
+        addNPC(CURATOR, HeadE.CALM_TALK, "Well, if you were to get me the other half of the shield, I could give you the other half of the reward certificate.");
+        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_PHOENIX))
+            addNPC(CURATOR, HeadE.CALM_TALK, "It's rumoured to be in the possession of the infamous Black Arm Gang, beyond that I can't help you.");
+        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM))
+            addNPC(CURATOR, HeadE.CALM_TALK, "It's rumoured to be in the possession of the infamous Phoenix Gang, beyond that I can't help you.");
+        addPlayer(HeadE.SKEPTICAL, "Okay, I'll see what I can do.");
+    }
+
+
+
+    public static ItemOnNPCHandler handleItemOnCurator = new ItemOnNPCHandler(646) {
+        @Override
+        public void handle(ItemOnNPCEvent e) {
+            if(e.getItem().getId() == ShieldOfArrav.SHIELD_LEFT_HALF || e.getItem().getId() == ShieldOfArrav.SHIELD_RIGHT_HALF)
+                e.getPlayer().startConversation(new MuseumCuratorArravD(e.getPlayer(), true).getStart());
+
+
+        }
+    };
+}

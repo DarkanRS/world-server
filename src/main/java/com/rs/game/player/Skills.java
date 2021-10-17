@@ -805,8 +805,10 @@ public final class Skills {
 		markedForLevelUp = -1;
 		bonusXpDrop = 0;
 	}
-	
-	public static final int[] SKILL_LEVEL_UP_MUSIC_EFFECTS = { 37, 37, 37, 37, 37, -1, 37, -1, 39, -1, -1, -1, -1, -1, 53, -1, -1, -1, -1, -1, -1, -1, -1, 300, 417 };
+
+    public static final int[] SKILL_LEVEL_UP_MUSIC_EFFECTS = { 30, 38, 65, 48,
+            58, 56, 52, 34, 70, 44, 42, 39, 36, 64, 54, 46, 28, 68, 62, -1, 60,
+            50, 32, 300, 417 };
 
 	private void sendLevelUp(int skill) {
 		int level = getLevelForXp(skill);

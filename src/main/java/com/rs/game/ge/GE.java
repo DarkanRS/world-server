@@ -407,7 +407,6 @@ public class GE {
 
     private static void updateCollectionBox(Player player) {
         for (int box = 0; box < 6; box++) {
-            System.out.println("updated " + box + " box");
             Offer offer = player.getGEOffers().get(box);
             if (offer == null) {
                 sendItems(player, new Item[]{new Item(-1, 0)}, box);

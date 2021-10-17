@@ -59,6 +59,8 @@ import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 
+//status: done
+
 @PluginEventHandler
 public class MiscTest {
 	
@@ -295,7 +297,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "cutscene [id]", "Plays a predefined cutscene", (p, args) -> {
 			p.getPackets().sendCutscene(Integer.valueOf(args[0]));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "customcs [id]", "Plays a custom cutscene", (p, args) -> {
 			p.getCutscenesManager().play(new ExampleCutscene());
 		});
@@ -457,6 +459,23 @@ public class MiscTest {
 			});
 		});
 		
+        Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "test1", "none", (p, args) -> {
+            p.getPackets().sendMusicEffect(Utils.random(0, 2) == 0 ? 152 : 154);
+        });
+
+        Commands.add(Rights.DEVELOPER, "customcs [id]", "Plays a custom cutscene", (p, args) -> {
+            switch(Integer.valueOf(args[0])) {
+                case 0:
+                    p.getCutscenesManager().play(new ExampleCutscene());
+                    break;
+                case 1:
+//                    p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
+                    break;
+                case 2:
+//                    p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+                    break;
+            }
+        });
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
 			p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
 		});
@@ -632,7 +651,14 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "resetquest [questName]", "Resets the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values()) {
 				if (quest.name().toLowerCase().contains(args[0])) {
-					p.getQuestManager().setStage(quest, 0);
+				    if(quest.name().equalsIgnoreCase("SHIELD_OF_ARRAV"))
+                        ;//ShieldOfArrav.reset(p);
+				    else if (quest.name().equalsIgnoreCase("DEMON_SLAYER"))
+                        ;//DemonSlayer.reset(p);
+				    else if (quest.name().equalsIgnoreCase("PRINCE_ALI_RESCUE"))
+                        ;//PrinceAliRescue.reset(p);
+				    else
+					    p.getQuestManager().setStage(quest, 0);
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}
@@ -787,8 +813,11 @@ public class MiscTest {
 			p.getAppearance().setBAS(Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "camlook [localX localY z]", "Points the camera at the specified tile.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "camlook [localX localY z  speed1 speed2]", "Points the camera at the specified tile.", (p, args) -> {
+			if(args.length == 3)
 			p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+			else if(args.length == 5)
+                p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "campos [localX localY z]", "Locks the camera to a specified tile.", (p, args) -> {
@@ -824,7 +853,12 @@ public class MiscTest {
 			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
+        Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
+            p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]),
+                    Integer.valueOf(args[4]));
+        });
+
+		Commands.add(Rights.DEVELOPER, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 		

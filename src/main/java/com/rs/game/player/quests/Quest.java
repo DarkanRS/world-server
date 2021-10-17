@@ -281,6 +281,7 @@ public enum Quest {
 		for (String l : lines) {
 			line += l + "<br>";
 		}
+        player.getPackets().sendMusicEffect(Utils.random(0, 2) == 0 ? 152 : 154);
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getDefs().name+"!");

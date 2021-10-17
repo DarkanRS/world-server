@@ -1,5 +1,113 @@
 [
   {
+    "comment": "Prince Ali: Prince Ali To The Rescue",
+    "npcId": 920,
+    "tile": {
+      "x": 3123,
+      "y": 3241,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Jail Guard 1: Prince Ali To The Rescue",
+    "npcId": 447,
+    "tile": {
+      "x": 3126,
+      "y": 3248,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Jail Guard 2: Prince Ali To The Rescue",
+    "npcId": 448,
+    "tile": {
+      "x": 3119,
+      "y": 3253,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Jail Guard 3: Prince Ali To The Rescue",
+    "npcId": 449,
+    "tile": {
+      "x": 3118,
+      "y": 3239,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Jail Guard 4: Prince Ali To The Rescue",
+    "npcId": 447,
+    "tile": {
+      "x": 3110,
+      "y": 3236,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Joe the guard: Prince Ali To The Rescue",
+    "npcId": 916,
+    "tile": {
+      "x": 3123,
+      "y": 3245,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lady Keli: Prince Ali To The Rescue",
+    "npcId": 919,
+    "tile": {
+      "x": 3128,
+      "y": 3245,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rats missing in Draynor Manor Basement",
+    "npcId": 47,
+    "tile": {
+      "x": 3111,
+      "y": 9750,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rats missing in Draynor Manor Basement",
+    "npcId": 47,
+    "tile": {
+      "x": 3106,
+      "y": 9751,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rats missing in Draynor Manor Basement",
+    "npcId": 47,
+    "tile": {
+      "x": 3105,
+      "y": 9745,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Gypsy Aris; Demon Slayer",
+    "npcId": 882,
+    "tile": {
+      "x": 3203,
+      "y": 3424,
+      "plane": 0
+    }
+  },
+  {
+  "comment": "Sir Prysin; Demon Slayer",
+  "npcId": 883,
+  "tile": {
+    "x": 3202,
+    "y": 3472,
+    "plane": 0
+  }
+  },
+  {
     "comment": "Spider herald added by trent",
     "npcId": 8976,
     "tile": {
@@ -48494,8 +48602,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3179,
-      "y": 5541
+      "x": 3180,
+      "y": 5539
     },
     "comment": "Waterfiend",
     "npcId": 5361
@@ -48504,7 +48612,7 @@
     "tile": {
       "plane": 0,
       "x": 3176,
-      "y": 5539
+      "y": 5538
     },
     "comment": "Waterfiend",
     "npcId": 5361
@@ -113281,6 +113389,33 @@
     },
     "comment": "Master fisher",
     "npcId": 308
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3246,
+      "y": 9781
+    },
+    "comment": "Straven, Quest NPC",
+    "npcId": 644
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3247,
+      "y": 9775
+    },
+    "comment": "Thieves to fill the room in phoenix hideout",
+    "npcId": 5926
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3234,
+      "y": 9769
+    },
+    "comment": "Thieves to fill the room in phoenix hideout",
+    "npcId": 5926
   },
   {
     "tile": {

@@ -8,6 +8,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.dialogues.RepairStandD;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -388,8 +389,6 @@ public class ItemConstants {
 	public static boolean isTradeable(Item item) {
 		if (item.getMetaData() != null)
 			return false;
-		if ((!item.getDefinitions().isStackable() && item.getDefinitions().getCertId() == -1) || item.getDefinitions().isDestroyItem() || item.getDefinitions().isLended())
-			return false;
 		switch(item.getId()) {
 		//tradeable non-exchangeable item exceptions
 		case 995:
@@ -405,8 +404,13 @@ public class ItemConstants {
 		case 20656:
 		case 20657:
 		case 20658:
+            case ShieldOfArrav.CERTIFICATE_LEFT:
+            case ShieldOfArrav.CERTIFICATE_RIGHT:
+            case ShieldOfArrav.WEAPONS_KEY:
 			return true;
 		}
+		if ((!item.getDefinitions().isStackable() && item.getDefinitions().getCertId() == -1) || item.getDefinitions().isDestroyItem() || item.getDefinitions().isLended())
+            return false;
 		return item.getDefinitions().canExchange();
 	}
 }
