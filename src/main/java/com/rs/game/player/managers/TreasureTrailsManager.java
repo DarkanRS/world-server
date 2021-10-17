@@ -145,6 +145,7 @@ public class TreasureTrailsManager {
 				if (!currentClue.isLast()) {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
+					player.sendMessage("You've found another clue!");
 					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!");
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
@@ -171,6 +172,7 @@ public class TreasureTrailsManager {
 				if (!currentClue.isLast()) {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
+                    player.sendMessage("You've been given another clue!");
 					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've been given another clue!");
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
@@ -182,6 +184,7 @@ public class TreasureTrailsManager {
 				if (!currentClue.isLast()) {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
+                    player.sendMessage("You've found another clue!");
 					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!");
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
@@ -242,6 +245,10 @@ public class TreasureTrailsManager {
 		currentClue = new Clue(generateClueDetails(level), generateClueSize(level), level);
 	}
 
+    public void SelectAClue(int level, int index) {
+	    ClueDetails detail = ClueDetails.values()[index];
+        currentClue = new Clue(detail, generateClueSize(level), level);
+    }
 	public boolean useItem(Item item, int slot) {
 		int level = getScrollboxLevel(item.getId());
 		if (level != -1) {
