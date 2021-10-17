@@ -23,6 +23,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
+//status: done
+
 public final class DivineSkinweaver extends DungeonBoss {
 
 	private static final int[][] HOLES =
@@ -87,17 +89,19 @@ public final class DivineSkinweaver extends DungeonBoss {
 		List<Entity> targets = getPossibleTargets();
 		if (respawnDelay > 0) {
 			respawnDelay--;
-		} else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 10) { //blablala spawn skeletons
+		} else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 8) { //blablala spawn skeletons
 			int[] coords = getOpenHole();
 			if (coords != null) {
 				int skeleType = Utils.random(3);
+                int cbLevel = getManager().getCombatLevelMonster();
+                cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.35));
 				if (skeleType == 0)
 					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), getManager().getCombatLevelMonster()), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 1)
 					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), getManager().getCombatLevelMonster()), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 2)
 					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), getManager().getCombatLevelMonster()), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
-				respawnDelay = 15;
+				respawnDelay = 25;
 			}
 		}
 		if (healDelay > 0) {
@@ -116,7 +120,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 		int distance = (int) (4 - Utils.getDistance(this, healTarget));
 		if (distance == 4 || distance < 0)
 			return;
-		int maxHeal = (int) (healTarget.getMaxHitpoints() * 0.25);
+		int maxHeal = (int) (healTarget.getMaxHitpoints() * 0.35);
 		
 		healTarget.heal((distance + 1) * maxHeal / 4, 60);
 		setNextAnimation(new Animation(13678));
