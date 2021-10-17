@@ -19,6 +19,8 @@ import com.rs.game.player.content.skills.dungeoneering.rooms.BossRoom;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 
+//Status: Done
+
 @SuppressWarnings("unused")
 public final class Dungeon {
 
@@ -288,4 +290,19 @@ public final class Dungeon {
 		return startRoom;
 	}
 
+	public int getType() {
+		return type;
+	}
+
+	public int getComplexity() {
+		return complexity;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public Room[][] getMap() {
+		return map;
+	}
 }

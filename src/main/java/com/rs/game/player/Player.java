@@ -885,8 +885,15 @@ public class Player extends Entity {
 		run();
 
         //tele to demonheim if your physically in a dungeon but have no loaded dungeon/party
-        if(this.getDungManager().getParty() == null && this.getBool("isLoggedOutInDungeon"))
-            this.setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
+        if(this.getBool("isLoggedOutInDungeon")) {
+            if(this.getDungManager().getParty() == null) {
+                this.setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
+                this.reset();
+                this.getEquipment().reset();
+                this.getInventory().reset();
+                this.getInventory().addItem(15707, 1);
+            }
+        }
         this.save("isLoggedOutInDungeon", false);
 
 		if (isDead())
