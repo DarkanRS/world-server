@@ -5,10 +5,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
 
+//Status: Done
+
 public final class DungeonPartyManager {
 
 	private String leader; // username
 	private int floor;
+	private long seed;
+	public boolean customSeed;
 	private int complexity;
 	private int size;
 	private int difficulty;
@@ -36,6 +40,7 @@ public final class DungeonPartyManager {
 			player.stopAll();
 			remove(player, logout);
 		}
+		player.getDungManager().refresh();
 	}
 
 	public void remove(Player player, boolean logout) {
@@ -51,13 +56,14 @@ public final class DungeonPartyManager {
 			else
 				dungeon.destroy();
 		} else {
-			for (Player p2 : team)
+			for (Player p2 : team) {
 				p2.sendMessage(player.getDisplayName() + " has left the party.");
-			if (isLeader(player) && team.size() > 0)
-				setLeader(team.get(0));
-			for (Player p2 : team)
+				if (isLeader(player))
+	                setLeader(p2);
 				refreshPartyDetails(p2);
 		}
+	}
+		player.getDungManager().refresh();
 	}
 
 	public void refreshPartyDetails(Player player) {
@@ -76,8 +82,7 @@ public final class DungeonPartyManager {
 				dungeon.endDestroyTimer();
 		} else
 			player.sendMessage("You join the party.");
-		for (Player p2 : team)
-			refreshPartyDetails(p2);
+		player.getDungManager().refresh();
 	}
 
 	public boolean isLeader(Player player) {
@@ -87,12 +92,15 @@ public final class DungeonPartyManager {
 	public void setLeader(Player player) {
 		leader = player.getUsername();
 		if (team.size() > 1) {
-			Player positionZero = team.get(0);
-			team.set(0, player);
-			team.remove(player);
-			team.add(positionZero);
+		    if (team.get(0).getUsername() != leader) {
+                Player positionZero = team.get(0);
+                team.remove(player);
+                team.set(0, player);
+                team.add(positionZero);
+            }
 		}
 		player.sendMessage("You have been set as the party leader.");
+		player.getDungManager().refresh();
 	}
 
 	public void lockParty() {
@@ -107,6 +115,19 @@ public final class DungeonPartyManager {
 			return;
 		dungeon = new DungeonManager(this);
 	}
+
+    public long getStartingSeed() {
+        return this.seed;
+    }
+
+    /**
+     * Creates a seed for a dungeon to run off of
+     * @param seed
+     */
+    public void setStartingSeed(long seed) {
+	    this.customSeed = true;
+        this.seed = seed;
+    }
 
 	public int getComplexity() {
 		return complexity;

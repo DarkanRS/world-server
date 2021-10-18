@@ -12,6 +12,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -22,6 +23,8 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 
 import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
+
+//Status: Done
 
 @PluginEventHandler
 public class Debug {
@@ -235,6 +238,10 @@ public class Debug {
 			p.sendMessage("GODMODE: " + !god);
 		});
 		
+        Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
+            p.delete(args[0]);
+        });
+
 		Commands.add(Rights.PLAYER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
 			boolean spec = p.getTemporaryAttributes().get("infSpecialAttack") != null ? (boolean) p.getTemporaryAttributes().get("infSpecialAttack") : false;
 			p.getTemporaryAttributes().put("infSpecialAttack", !spec);
@@ -246,7 +253,52 @@ public class Debug {
 			p.getTemporaryAttributes().put("infPrayer", !spec);
 			p.sendMessage("INFINITE PRAYER: " + !spec);
 		});
+
+        Commands.add(Rights.PLAYER, "startdung [floor, seed, difficulty, size, complexity]", "Shows dungeon seed", (p, args) -> {
+            try {
+                int floor = Integer.parseInt(args[0]);
+                long seed = Long.parseLong(args[1]);
+                int difficulty = Integer.parseInt(args[2]);
+                int size = Integer.parseInt(args[3]);
+                int complexity = Integer.parseInt(args[4]);
+
+                if (!p.getDungManager().isInsideDungeon()) {
+                    System.out.println("floor: " + args[0]);
+                    System.out.println("seed: " + args[1]);
+                    System.out.println("difficulty: " + args[2]);
+                    System.out.println("size: " + args[3]);
+                    System.out.println("complexity: " + args[4]);
+
+                    p.getDungManager().getParty().setFloor(floor);
+                    p.getDungManager().getParty().setStartingSeed(seed);
+                    p.getDungManager().getParty().setDificulty(difficulty);
+                    p.getDungManager().getParty().setSize(size);
+                    p.getDungManager().getParty().setComplexity(complexity);
+                    p.getDungManager().enterDungeon(false);
+                }
+                else {
+                    p.getPackets().sendGameMessage("You are already in a dungeon");
+                }
+            } catch(NullPointerException e) {
+                e.printStackTrace();
+                p.getPackets().sendGameMessage("You need to be in a party");
+            }
+        });
 		
+		Commands.add(Rights.PLAYER, "droptest", "Drops worn equipment and inventory items to the ground if not null, bound, or a ring of kinship.", (p, args) -> {
+			for (Item item : p.getEquipment().getItemsCopy()) {
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+					continue;
+				World.addGroundItem(item, new WorldTile(p));
+			}
+			for (Item item : p.getInventory().getItems().getItems()) {
+				if(item != null)
+					System.out.println(item.getName() + ": " + item.getAmount());
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+					continue;
+				World.addGroundItem(item, new WorldTile(p));
+			}
+		});
 		// case "load":
 					// if (!player.getInterfaceManager().containsInterface(762) || (Boolean)
 					// player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean)

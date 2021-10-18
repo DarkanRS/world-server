@@ -16,17 +16,33 @@ public class Offer {
 	private int price;
 	private int completedAmount;
 	private int totalGold;
+    private GE.GrandExchangeType currentType;
+    private final GE.OfferType offerType;
+    private boolean aborted = false;
 	private ItemsContainer<Item> processedItems = new ItemsContainer<>(2, true);
 	
-	public Offer(String owner, int box, boolean selling, int itemId, int amount, int price) {
+	public Offer(String owner, int box, boolean selling, int itemId, int amount, int price, GE.OfferType type) {
 		this.owner = owner;
 		this.box = box;
 		this.selling = selling;
 		this.itemId = itemId;
 		this.amount = amount;
 		this.price = price;
+        this.offerType = type;
 		this.state = State.SUBMITTING;
+        updateCurrentType();
 	}
+
+    public void updateCurrentType() {
+        if (offerType == GE.OfferType.BUY) {
+            this.currentType = GE.GrandExchangeType.BUYING;
+        } else {
+            this.currentType = GE.GrandExchangeType.SELLING;
+        }
+        if (aborted) {
+            this.currentType = GE.GrandExchangeType.ABORTED;
+        }
+    }
 	
 	public enum State {
 		EMPTY(),
@@ -147,9 +163,19 @@ public class Offer {
 	public void abort() {
 		state = State.FINISHED;
 		processedItems.add(selling ? new Item(itemId, amountLeft()) : new Item(995, amountLeft() * price));
+        aborted = true;
+        updateCurrentType();
 	}
 
 	public int getTotalGold() {
 		return totalGold;
 	}
+
+    public GE.GrandExchangeType getCurrentType() {
+        return currentType;
+    }
+
+    public GE.OfferType getOfferType() {
+        return offerType;
+    }
 }

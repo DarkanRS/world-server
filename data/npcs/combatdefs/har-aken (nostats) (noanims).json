@@ -12,5 +12,12 @@
   "attackStyle": "SPECIAL",
   "attackGfx": -1,
   "attackProjectile": -1,
-  "agressivenessType": "PASSIVE"
+  "agressivenessType": "PASSIVE",
+  "levels": [
+    770,
+    625,
+    770,
+    770,
+    525
+  ]
 }

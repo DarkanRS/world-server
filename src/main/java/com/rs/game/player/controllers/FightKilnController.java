@@ -44,42 +44,47 @@ public class FightKilnController extends Controller {
 	 * TokHaar-Tok-Xil - 15205 TokHaar-Yt-Mejkot - 15206 TokHaar-Ket-Zek - 15207
 	 * TokHaar-Jad - 15208 TokHaar-Ket-Dill - 15213
 	 */
-	private final int[][] WAVES = { { 15202, 15202, 15205, 15201, 15201 }, // 1
-			{ 15202, 15202, 15205, 15205, 15201 }, // 2
-			{ 15202, 15205, 15205, 15205, 15201 }, // 3
-			{ 15205, 15205, 15205, 15203, 15203 }, // 4
-			{ 15202, 15205, 15205, 15205, 15213 }, // 5
-			{ 15202, 15205, 15203, 15203, 15205, 15205 }, // 6
-			{ 15203, 15205, 15205, 15205, 15202, 15205 }, // 7
-			{ 15207, 15205, 15205 }, // 8
-			{ 15205, 15205, 15205, 15205, 15205, 15205 }, // 9
-			{ 15205, 15208 }, // 10
-			{ 15203, 15203, 15203, 15203 }, // 11
-			{ 15203, 15205, 15205, 15203 }, // 12
-			{ 15203, 15207, 15203 }, // 13
-			{ 15207, 15207, 15203, 15203 }, // 14
-			{ 15207, 15207, 15205 }, // 15
-			{ 15207, 15207, 15205, 15203, 15203 }, // 16
-			{ 15207, 15207, 15205, 15203, 15206 }, // 17
-			{ 15207, 15207, 15205, 15206, 15205, 15205 }, // 18
-			{ 15203, 15203, 15203, 15203, 15203, 15203, 15203, 15203, 15203 }, // 19
-			{ 15207, 15208 }, // 20
-			{ 15201, 15201, 15201, 15201, 15201, 15201, 15201, 15201, 15201, 15201, 15201, 15201 }, // 21
-			{ 15206, 15201, 15204, 15204, 15201 }, // 22
-			{ 15206, 15206, 15204, 15206, 15201 }, // 23
-			{ 15206, 15206, 15206, 15205, 15206 }, // 24
-			{ 15206, 15206, 15205, 15205, 15207 }, // 25
-			{ 15206, 15206, 15205, 15207, 15207 }, // 26
-			{ 15204, 15206, 15205, 15204, 15206 }, // 27
-			{ 15213, 15213, 15207, 15213, 15213, 15213, 15213 }, // 28
-			{ 15206, 15206, 15206, 15206, 15206, 15206 }, // 29
-			{ 15206, 15208, 15206, 15206 }, // 30
-			{ 15205, 15205, 15205, 15205 }, // 31
-			{ 15206, 15206, 15206, 15206 }, // 32
-			{ 15207, 15207, 15207, 15207 }, // 33
-			{ 15205, 15208, 15206 }, // 34
-			{ 15207, 15206, 15206, 15208 }, // 35
-			{ 15208, 15208 } // 36
+    private int Hur = 15201, Xil = 15202, Mej = 15203,
+            Ket = 15204, Tok_Xil = 15205, Yt_Mejkot = 15206,
+            Ket_Zek = 15207, Jad = 15208, Ket_Dill = 15213;
+
+
+    private final int[][] WAVES = { { Xil, Xil, Tok_Xil, Hur, Hur }, // 1
+            { Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 2
+            { Xil, Tok_Xil, Tok_Xil, Tok_Xil, Hur }, // 3
+            { Tok_Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 4
+            { Xil, Tok_Xil, Tok_Xil, Tok_Xil, Ket_Dill }, // 5
+            { Xil, Tok_Xil, Mej, Mej, Tok_Xil, Tok_Xil }, // 6
+            { Mej, Tok_Xil, Tok_Xil, Tok_Xil, Xil, Tok_Xil }, // 7
+            { Ket_Zek, Tok_Xil, Tok_Xil }, // 8
+            { Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 9
+            { Tok_Xil, Jad }, // 10
+            { Mej, Mej, Mej, Mej }, // 11
+            { Mej, Tok_Xil, Tok_Xil, Mej }, // 12
+            { Mej, Ket_Zek, Mej }, // 13
+            { Ket_Zek, Ket_Zek, Mej, Mej }, // 14
+            { Ket_Zek, Ket_Zek, Tok_Xil }, // 15
+            { Ket_Zek, Ket_Zek, Tok_Xil, Mej, Mej }, // 16
+            { Ket_Zek, Ket_Zek, Tok_Xil, Mej, Yt_Mejkot }, // 17
+            { Ket_Zek, Ket_Zek, Tok_Xil, Yt_Mejkot, Tok_Xil, Tok_Xil }, // 18
+            { Mej, Mej, Mej, Mej, Mej, Mej, Mej, Mej, Ket_Dill}, // 19
+            { Ket_Zek, Jad }, // 20
+            { Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur }, // 21
+            { Yt_Mejkot, Hur, Ket, Ket, Hur }, // 22
+            { Yt_Mejkot, Yt_Mejkot, Ket, Hur, Hur }, // 23
+            { Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Tok_Xil, Yt_Mejkot }, // 24
+            { Yt_Mejkot, Yt_Mejkot, Tok_Xil, Tok_Xil, Ket_Zek }, // 25
+            { Yt_Mejkot, Yt_Mejkot, Tok_Xil, Ket_Zek, Ket_Zek }, // 26
+            { Ket_Zek, Ket, Yt_Mejkot, Tok_Xil, Ket, Yt_Mejkot }, // 27
+            { Ket_Dill, Ket_Dill, Ket_Zek, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
+            { Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 29
+            { Yt_Mejkot, Jad, Yt_Mejkot, Yt_Mejkot }, // 30
+            { Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 31
+            { Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 32
+            { Ket_Zek, Ket_Zek, Ket_Zek, Ket_Zek }, // 33
+            { Tok_Xil, Jad, Yt_Mejkot }, // 34
+            { Ket_Zek, Yt_Mejkot, Tok_Xil, Jad }, // 35
+            { Jad, Jad } // 36
 	};
 
 	private transient DynamicRegionReference region;

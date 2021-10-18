@@ -33,6 +33,8 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+//Status: Done
+
 @PluginEventHandler
 public class DungManager {
 	
@@ -387,7 +389,7 @@ public class DungManager {
 		return bindedAmmo;
 	}
 
-	public boolean isInside() {
+	public boolean isInsideDungeon() {
 		return party != null && party.getDungeon() != null;
 	}
 
@@ -612,29 +614,30 @@ public class DungManager {
 		if (!player.getInterfaceManager().containsInterface(939))
 			return;
 		if (party != null) {
-			if (party.isLeader(player)) { // is party leader stuff here
-				player.getPackets().setIFHidden(939, 37, true);
+			if (party.isLeader(player)) { // party leader stuff here
 				player.getPackets().setIFHidden(939, 31, false);
+				player.getPackets().setIFHidden(939, 33, false);
+				player.getPackets().setIFHidden(939, 34, true); //Big Button leave Party
+				player.getPackets().setIFHidden(939, 37, true); //big button form party
+				player.getPackets().setIFHidden(939, 38, false); //right button, invite player
 				player.getPackets().setIFHidden(939, 105, true);// Complexity change
 				player.getPackets().setIFHidden(939, 111, true);// Floor change
-				player.getPackets().setIFHidden(939, 38, false);
-				player.getPackets().setIFHidden(939, 33, false);
-			} else { // not party leader stuff here
-				player.getPackets().setIFHidden(939, 37, true);
-				player.getPackets().setIFHidden(939, 34, false);
+			} else { // non-party leader stuff here
 				player.getPackets().setIFHidden(939, 31, true);
-				player.getPackets().setIFHidden(939, 105, false);// Complexity change
-				player.getPackets().setIFHidden(939, 111, false);// Floor change
-				player.getPackets().setIFHidden(939, 38, true);
+				player.getPackets().setIFHidden(939, 34, false); //Big Button leave Party
+				player.getPackets().setIFHidden(939, 37, true); //big button form party
+				player.getPackets().setIFHidden(939, 38, true); //right button, invite player
+				player.getPackets().setIFHidden(939, 105, true);// Complexity change
+				player.getPackets().setIFHidden(939, 111, true);// Floor change
 			}
 		} else if (party == null) {
-			player.getPackets().setIFHidden(939, 37, false);
-			player.getPackets().setIFHidden(939, 34, true);
-			player.getPackets().setIFHidden(939, 38, true);
-			player.getPackets().setIFHidden(939, 36, false);
 			player.getPackets().setIFHidden(939, 33, true);
-			player.getPackets().setIFHidden(939, 105, false);// Complexity change
-			player.getPackets().setIFHidden(939, 111, false);// Floor change
+			player.getPackets().setIFHidden(939, 34, true); //Big Button leave Party
+			player.getPackets().setIFHidden(939, 36, false);
+			player.getPackets().setIFHidden(939, 37, false);//big button form party
+			player.getPackets().setIFHidden(939, 38, true);//right button invite player
+			player.getPackets().setIFHidden(939, 105, true);// Complexity change
+			player.getPackets().setIFHidden(939, 111, true);// Floor change
 		}
 	}
 
@@ -651,10 +654,7 @@ public class DungManager {
 				this.player.sendMessage("You must be in a dungeon to do that.");
 				return;
 			}
-			if (player == this.player) {
-				this.player.sendMessage("Why don't you just use your inventory and stat interfaces?");
-				return;
-			}
+			inspectPlayer(player);
 		} else if (option == 1) {
 			if (player == this.player) {
 				this.player.sendMessage("You can't kick yourself!");
@@ -690,6 +690,89 @@ public class DungManager {
 		}
 	}
 
+	public static ButtonClickHandler handleInspectTab = new ButtonClickHandler(936, 946) {
+		@Override
+		public void handle(ButtonClickEvent e) {
+			int comp = e.getComponentId();
+			System.out.println(comp);
+			if(e.getInterfaceId() == 936) {
+				if (comp == 146)//exit button
+					e.getPlayer().getDungManager().openPartyInterface();
+				if (comp == 134)//inventory
+					e.getPlayer().sendMessage("Not implemented");
+				if (comp == 137)//equipment
+					e.getPlayer().sendMessage("Not implemented");
+				if (comp == 140)//summoning
+					e.getPlayer().sendMessage("Not implemented");
+			}
+		}
+	};
+
+	private void inspectPlayer(Player p) {
+		player.setCloseInterfacesEvent(new Runnable() {
+			@Override
+			public void run() {
+				openPartyInterface();
+			}
+		});
+
+		this.player.getInterfaceManager().sendTab(Tab.QUEST, 936);
+		String name = p.getUsername();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1);
+		this.player.getPackets().setIFText(936, 132, name);
+
+		this.player.getPackets().setIFText(936, 7, String.valueOf(p.getSkills().getLevel(Constants.ATTACK)));
+		this.player.getPackets().setIFText(936, 22, String.valueOf(p.getSkills().getLevel(Constants.STRENGTH)));
+		this.player.getPackets().setIFText(936, 37, String.valueOf(p.getSkills().getLevel(Constants.DEFENSE)));
+		this.player.getPackets().setIFText(936, 52, String.valueOf(p.getSkills().getLevel(Constants.RANGE)));
+		this.player.getPackets().setIFText(936, 67, String.valueOf(p.getSkills().getLevel(Constants.PRAYER)));
+		this.player.getPackets().setIFText(936, 82, String.valueOf(p.getSkills().getLevel(Constants.MAGIC)));
+		this.player.getPackets().setIFText(936, 97, String.valueOf(p.getSkills().getLevel(Constants.RUNECRAFTING)));
+		this.player.getPackets().setIFText(936, 112, String.valueOf(p.getSkills().getLevel(Constants.CONSTRUCTION)));
+		this.player.getPackets().setIFText(936, 127, String.valueOf(p.getSkills().getLevel(Constants.DUNGEONEERING)));
+		this.player.getPackets().setIFText(936, 12, String.valueOf(p.getSkills().getLevel(Constants.HITPOINTS)));
+		this.player.getPackets().setIFText(936, 27, String.valueOf(p.getSkills().getLevel(Constants.AGILITY)));
+		this.player.getPackets().setIFText(936, 42, String.valueOf(p.getSkills().getLevel(Constants.HERBLORE)));
+		this.player.getPackets().setIFText(936, 57, String.valueOf(p.getSkills().getLevel(Constants.THIEVING)));
+		this.player.getPackets().setIFText(936, 72, String.valueOf(p.getSkills().getLevel(Constants.CRAFTING)));
+		this.player.getPackets().setIFText(936, 87, String.valueOf(p.getSkills().getLevel(Constants.FLETCHING)));
+		this.player.getPackets().setIFText(936, 102, String.valueOf(p.getSkills().getLevel(Constants.SLAYER)));
+		this.player.getPackets().setIFText(936, 117, String.valueOf(p.getSkills().getLevel(Constants.HUNTER)));
+		this.player.getPackets().setIFText(936, 17, String.valueOf(p.getSkills().getLevel(Constants.MINING)));
+		this.player.getPackets().setIFText(936, 32, String.valueOf(p.getSkills().getLevel(Constants.SMITHING)));
+		this.player.getPackets().setIFText(936, 47, String.valueOf(p.getSkills().getLevel(Constants.FISHING)));
+		this.player.getPackets().setIFText(936, 62, String.valueOf(p.getSkills().getLevel(Constants.COOKING)));
+		this.player.getPackets().setIFText(936, 77, String.valueOf(p.getSkills().getLevel(Constants.FIREMAKING)));
+		this.player.getPackets().setIFText(936, 92, String.valueOf(p.getSkills().getLevel(Constants.WOODCUTTING)));
+		this.player.getPackets().setIFText(936, 107, String.valueOf(p.getSkills().getLevel(Constants.FARMING)));
+		this.player.getPackets().setIFText(936, 122, String.valueOf(p.getSkills().getLevel(Constants.SUMMONING)));
+
+		this.player.getPackets().setIFText(936, 8, String.valueOf(p.getSkills().getLevelForXp(Constants.ATTACK)));
+		this.player.getPackets().setIFText(936, 23, String.valueOf(p.getSkills().getLevelForXp(Constants.STRENGTH)));
+		this.player.getPackets().setIFText(936, 38, String.valueOf(p.getSkills().getLevelForXp(Constants.DEFENSE)));
+		this.player.getPackets().setIFText(936, 53, String.valueOf(p.getSkills().getLevelForXp(Constants.RANGE)));
+		this.player.getPackets().setIFText(936, 68, String.valueOf(p.getSkills().getLevelForXp(Constants.PRAYER)));
+		this.player.getPackets().setIFText(936, 83, String.valueOf(p.getSkills().getLevelForXp(Constants.MAGIC)));
+		this.player.getPackets().setIFText(936, 98, String.valueOf(p.getSkills().getLevelForXp(Constants.RUNECRAFTING)));
+		this.player.getPackets().setIFText(936, 113, String.valueOf(p.getSkills().getLevelForXp(Constants.CONSTRUCTION)));
+		this.player.getPackets().setIFText(936, 128, String.valueOf(p.getSkills().getLevelForXp(Constants.DUNGEONEERING)));
+		this.player.getPackets().setIFText(936, 13, String.valueOf(p.getSkills().getLevelForXp(Constants.HITPOINTS)));
+		this.player.getPackets().setIFText(936, 28, String.valueOf(p.getSkills().getLevelForXp(Constants.AGILITY)));
+		this.player.getPackets().setIFText(936, 43, String.valueOf(p.getSkills().getLevelForXp(Constants.HERBLORE)));
+		this.player.getPackets().setIFText(936, 58, String.valueOf(p.getSkills().getLevelForXp(Constants.THIEVING)));
+		this.player.getPackets().setIFText(936, 73, String.valueOf(p.getSkills().getLevelForXp(Constants.CRAFTING)));
+		this.player.getPackets().setIFText(936, 88, String.valueOf(p.getSkills().getLevelForXp(Constants.FLETCHING)));
+		this.player.getPackets().setIFText(936, 103, String.valueOf(p.getSkills().getLevelForXp(Constants.SLAYER)));
+		this.player.getPackets().setIFText(936, 118, String.valueOf(p.getSkills().getLevelForXp(Constants.HUNTER)));
+		this.player.getPackets().setIFText(936, 18, String.valueOf(p.getSkills().getLevelForXp(Constants.MINING)));
+		this.player.getPackets().setIFText(936, 33, String.valueOf(p.getSkills().getLevelForXp(Constants.SMITHING)));
+		this.player.getPackets().setIFText(936, 48, String.valueOf(p.getSkills().getLevelForXp(Constants.FISHING)));
+		this.player.getPackets().setIFText(936, 63, String.valueOf(p.getSkills().getLevelForXp(Constants.COOKING)));
+		this.player.getPackets().setIFText(936, 78, String.valueOf(p.getSkills().getLevelForXp(Constants.FIREMAKING)));
+		this.player.getPackets().setIFText(936, 93, String.valueOf(p.getSkills().getLevelForXp(Constants.WOODCUTTING)));
+		this.player.getPackets().setIFText(936, 108, String.valueOf(p.getSkills().getLevelForXp(Constants.FARMING)));
+		this.player.getPackets().setIFText(936, 123, String.valueOf(p.getSkills().getLevelForXp(Constants.SUMMONING)));
+	}
 	public void invite() {
 		if (party == null || !party.isLeader(player))
 			return;
@@ -851,16 +934,16 @@ public class DungManager {
 	public static int PLAYER_5_FLOORS_COMPLETE = 183;
 
 	public void changeFloor() {
+//		if (party.getDungeon() != null) {
+//			player.sendMessage("You cannot change these settings while in a dungeon.");
+//			return;
+//		}
+//		if (!party.isLeader(this.player)) {
+//			this.player.sendMessage("Only your party's leader can change floor!");
+//			return;
+//		}
 		if (party == null) {
-			player.sendMessage("You must be in a party to do that.");
-			return;
-		}
-		if (party.getDungeon() != null) {
-			player.sendMessage("You cannot change these settings while in a dungeon.");
-			return;
-		}
-		if (!party.isLeader(this.player)) {
-			this.player.sendMessage("Only your party's leader can change floor!");
+            player.sendMessage("You must be in a party to view your floors.");
 			return;
 		}
 		player.stopAll();
@@ -909,7 +992,17 @@ public class DungManager {
 
 	public void selectFloor(int floor) {
 		if (party == null) {
-			player.sendMessage("You must be in a party to do that.");
+			player.sendMessage("You must be in a party to select floors.");
+			return;
+		}
+
+        if(player.getDungManager().isInsideDungeon()) {
+            player.sendMessage("Floor settings cannot be changed in a dungeon.");
+            return;
+        }
+
+        if (!party.isLeader(this.player)) {
+			this.player.sendMessage("Only your party's leader can change floor!");
 			return;
 		}
 		/*
@@ -937,7 +1030,7 @@ public class DungManager {
 			return;
 		}
 		if (party.getDungeon() != null) {
-			player.sendMessage("You cannot change these settings while in a dungeon.");
+            player.sendMessage("Floor settings cannot be changed in a dungeon.");
 			return;
 		}
 		if (!party.isLeader(player)) {
@@ -1143,28 +1236,34 @@ public class DungManager {
 			player.getPackets().setIFHidden(939, 71, true);
 			return;
 		}
-		int index = 0;
-		int teamSize = party.getTeam().size();
-		for (Player p2 : party.getTeam()) {
-			player.getPackets().sendVarcString(292 + index++, p2.getDisplayName());
-		}
-		if (teamSize < 5) {
-			if (teamSize == 4) {
-				player.getPackets().setIFHidden(939, 71, true);
-			} else if (teamSize == 3) {
-				player.getPackets().setIFHidden(939, 65, true);
-				player.getPackets().setIFHidden(939, 68, true);
-			} else if (teamSize == 2) {
-				player.getPackets().setIFHidden(939, 65, true);
-				player.getPackets().setIFHidden(939, 68, true);
-				player.getPackets().setIFHidden(939, 71, true);
-			} else if (teamSize == 1) {
-				player.getPackets().setIFHidden(939, 62, true);
-				player.getPackets().setIFHidden(939, 65, true);
-				player.getPackets().setIFHidden(939, 68, true);
-				player.getPackets().setIFHidden(939, 71, true);
+		int index;
+		for (Player selectedPlayer : party.getTeam()) {
+			index = 0;
+			for (Player memberPosition : party.getTeam()) {
+//			     if (Settings.getConfig().isDebug())
+//			         System.out.println(selectedPlayer.getUsername() + " " + index + " Ring change: " + memberPosition.getUsername());
+				selectedPlayer.getPackets().sendVarcString(292 + index++, memberPosition.getDisplayName());
 			}
 		}
+		refreshDungRingPlayerNames();
+	}
+
+	public void refreshDungRingPlayerNames() {
+		for (Player player : party.getTeam()) {
+			for(int i = 0; i < 5; i++) {
+//			     if (Settings.getConfig().isDebug())
+//			         System.out.println(player.getUsername() + " size: " + party.getTeam().size() + " comp: " + i);
+				if(i >= party.getTeam().size())
+					hideICompRingPlayerText(player, i, true);
+				else
+					hideICompRingPlayerText(player, i, false);
+			}
+		}
+	}
+
+	public static void hideICompRingPlayerText(Player p, int slot, boolean hidden) {
+		if(slot >= 0 && slot <= 4)
+			p.getPackets().setIFHidden(939, slot==0 ? 59 : slot==1 ? 62 : slot==2 ? 65 : slot==3 ? 68 : 71, hidden);
 	}
 
 	public void refreshFloor() {

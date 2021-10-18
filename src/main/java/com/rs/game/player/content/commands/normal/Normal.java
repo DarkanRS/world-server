@@ -146,6 +146,27 @@ public class Normal {
 				switchTitle.addSimple("Your title has been changed.", () -> p.applyAccountTitle());
 			p.startConversation(switchTitle);
 		});
+
+        Commands.add(Rights.PLAYER, "dunginfo", "Shows dungeon seed", (p, args) -> {
+            try {
+                int floor = p.getDungManager().getParty().getFloor();
+                long seed = p.getDungManager().getParty().getDungeon().getDungeon().getSeed();
+                p.getPackets().sendGameMessage("floor: " + String.valueOf(floor));
+                p.getPackets().sendGameMessage("seed: " + String.valueOf(seed));
+                p.getPackets().sendGameMessage("difficulty: " + p.getDungManager().getParty().getDificulty());
+                p.getPackets().sendGameMessage("size: " + p.getDungManager().getParty().getSize());
+                p.getPackets().sendGameMessage("complexity: " + p.getDungManager().getParty().getComplexity());
+
+                System.out.println("floor seed difficulty size complexity");
+                System.out.print(" " + String.valueOf(floor));
+                System.out.print(" " + String.valueOf(seed));
+                System.out.print(" " + p.getDungManager().getParty().getDificulty());
+                System.out.print(" " + p.getDungManager().getParty().getSize());
+                System.out.print(" " + p.getDungManager().getParty().getComplexity());
+            } catch(NullPointerException e) {
+                p.getPackets().sendGameMessage("You need to be in a dungeon");
+            }
+        });
 	}
 
 }

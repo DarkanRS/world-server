@@ -1137,7 +1137,7 @@ public final class World {
 				item.setAmount(price);
 			}
 		}
-		final GroundItem floorItem = new GroundItem(item, tile, owner.getUsername(), invisible ? GroundItemType.INVISIBLE : GroundItemType.NORMAL);
+		final GroundItem floorItem = new GroundItem(item, tile, owner == null ? null : owner.getUsername(), invisible ? GroundItemType.INVISIBLE : GroundItemType.NORMAL);
 		if (floorItem.getAmount() > 1 && !item.getDefinitions().isStackable() && floorItem.getMetaData() == null) {
 			for (int i = 0; i < floorItem.getAmount(); i++) {
 				Item oneItem = new Item(item.getId(), 1);

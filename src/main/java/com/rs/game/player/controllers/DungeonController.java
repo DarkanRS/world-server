@@ -465,6 +465,7 @@ public class DungeonController extends Controller {
 			return false;
 		}
 		if (npc.getId() == DungeonConstants.FISH_SPOT_NPC_ID) {
+            player.faceEntity(npc);
 			player.getActionManager().setAction(new DungeoneeringFishing((DungeonFishSpot) npc));
 			return false;
 		} else if (npc.getId() == 10023) {

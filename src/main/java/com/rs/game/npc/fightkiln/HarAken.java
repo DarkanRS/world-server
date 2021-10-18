@@ -23,7 +23,7 @@ public class HarAken extends NPC {
 		underLava = !underLava;
 		if (time == 0)
 			spawnTentacleTime = System.currentTimeMillis() + 9000;
-		time = System.currentTimeMillis() + (underLava ? 45000 : 30000);
+		time = System.currentTimeMillis() + (underLava ? 43000 : 31000);
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class HarAken extends NPC {
 
 	public void spawnTentacle() {
 		tentacles.add(new HarAkenTentacle(Utils.random(2) == 0 ? 15209 : 15210, controller.getTentacleTile(), this));
-		spawnTentacleTime = System.currentTimeMillis() + Utils.random(15000, 25000);
+		spawnTentacleTime = System.currentTimeMillis() + Utils.random(20000, 30000);
 	}
 
 	public void removeTentacles() {

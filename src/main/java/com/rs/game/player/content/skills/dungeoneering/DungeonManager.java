@@ -74,6 +74,7 @@ import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringMinin
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.dialogues.SimpleMessage;
+import com.rs.game.player.managers.InterfaceManager;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
@@ -82,6 +83,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+//Status: Done
 
 public class DungeonManager {
 
@@ -481,6 +484,7 @@ public class DungeonManager {
 			public void run() {
 				for (Player player : party.getTeam()) {
 					resetItems(player, false, false);
+                    player.reset();
 					sendSettings(player);
 					if (party.getComplexity() >= 5 && party.isLeader(player))
 						player.getInventory().addItem(new Item(DungeonConstants.GROUP_GATESTONE));
@@ -594,7 +598,6 @@ public class DungeonManager {
 	}
 
 	public void sendSettings(Player player) {
-		player.reset();
 		if (player.getControllerManager().getController() instanceof DungeonController)
 			((DungeonController) player.getControllerManager().getController()).reset();
 		else {
@@ -604,6 +607,9 @@ public class DungeonManager {
 			player.getPackets().sendVarc(1725, 11);
 			setWorldMap(player, true);
 		}
+        player.getPackets().sendVarc(234, 3);
+        player.getInterfaceManager().sendTab(InterfaceManager.Tab.QUEST, 939);
+        player.getDungManager().refresh();
 		sendRing(player);
 		sendBindItems(player);
 		wearInventory(player);
@@ -630,26 +636,26 @@ public class DungeonManager {
 		}
 	}
 
-	public void resetItems(Player player, boolean drop, boolean logout) {
-		if (drop) {
-			for (Item item : player.getEquipment().getItemsCopy()) {
-				if (item == null || !ItemConstants.isTradeable(item))
-					continue;
-				World.addGroundItem(item, new WorldTile(player));
-			}
-			for (Item item : player.getInventory().getItems().getItems()) {
-				if (item == null || !ItemConstants.isTradeable(item))
-					continue;
-				if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
-					setGroupGatestone(new WorldTile(player));
-				World.addGroundItem(item, new WorldTile(player));
-			}
-		}
-		player.getEquipment().reset();
-		player.getInventory().reset();
-		if (!logout)
-			player.getAppearance().generateAppearanceData();
-	}
+    public void resetItems(Player player, boolean drop, boolean logout) {
+        if (drop) {
+            for (Item item : player.getEquipment().getItemsCopy()) {
+                if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+                    continue;
+                World.addGroundItem(item, new WorldTile(player));
+            }
+            for (Item item : player.getInventory().getItems().getItems()) {
+                if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+                    continue;
+                World.addGroundItem(item, new WorldTile(player));
+                if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
+                    setGroupGatestone(new WorldTile(player));
+            }
+        }
+        player.getEquipment().reset();
+        player.getInventory().reset();
+        if (!logout)
+            player.getAppearance().generateAppearanceData();
+    }
 
 	public void sendRing(Player player) {
 		if (player.getInventory().containsItem(15707, 1))
@@ -966,34 +972,35 @@ public class DungeonManager {
 		}
 	}
 
-	public void exitDungeon(final Player player, final boolean logout) {
-		party.remove(player, logout);
-		player.stopAll();
-		player.reset();
-		player.getControllerManager().removeControllerWithoutCheck();
-		player.getControllerManager().startController(new DamonheimController());
-		resetItems(player, true, logout);
-		resetTraps(player);
-		player.getInventory().addItem(15707, 1);
-		if (player.getFamiliar() != null)
-			player.getFamiliar().sendDeath(player);
-		if (logout)
-			player.setLocation(new WorldTile(DungeonConstants.OUTSIDE, 2));
-		else {
-			player.getDungManager().setRejoinKey(null);
-			player.useStairs(-1, new WorldTile(DungeonConstants.OUTSIDE, 2), 0, 3);
-			player.getCombatDefinitions().removeDungeonneringBook();
-			player.getPackets().sendVarc(1725, 1);
-			setWorldMap(player, false);
-			removeMark(player);
-			player.setLargeSceneView(false);
-			player.setForceMultiArea(false);
-			player.getInterfaceManager().removeOverlay(true);
-			player.getMusicsManager().reset();
-			player.getAppearance().setBAS(-1);
-		}
+    public void exitDungeon(final Player player, final boolean logout) {
+        resetItems(player, true, logout);
+        party.remove(player, logout);
+        player.stopAll();
+        player.getControllerManager().removeControllerWithoutCheck();
+        player.getControllerManager().startController(new DamonheimController());
+        resetTraps(player);
+        player.getInventory().addItem(15707, 1);
+        if (player.getFamiliar() != null)
+            player.getFamiliar().sendDeath(player);
+        if (logout) {
+            player.save("isLoggedOutInDungeon", true);
+            player.getSkills().restoreSkills();
+        }
+        else {
+            player.getDungManager().setRejoinKey(null);
+            player.useStairs(-1, new WorldTile(DungeonConstants.OUTSIDE, 2), 0, 3);
+            player.getCombatDefinitions().removeDungeonneringBook();
+            player.getPackets().sendVarc(1725, 1);
+            setWorldMap(player, false);
+            removeMark(player);
+            player.setLargeSceneView(false);
+            player.setForceMultiArea(false);
+            player.getInterfaceManager().removeOverlay(true);
+            player.getMusicsManager().reset();
+            player.getAppearance().setBAS(-1);
+        }
 
-	}
+    }
 
 	public void setWorldMap(Player player, boolean dungIcon) {
 		player.getVars().setVarBit(11297, dungIcon ? 1 : 0);
@@ -1462,7 +1469,7 @@ public class DungeonManager {
 			public void run() {
 				try {
 					clearKeyList();
-					dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
+                    dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 					time = World.getServerTicks();
 					region = new DynamicRegionReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
 					region.clearMap(new int[1], () -> {

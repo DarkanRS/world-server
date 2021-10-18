@@ -824,7 +824,7 @@ public class MiscTest {
 			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 		

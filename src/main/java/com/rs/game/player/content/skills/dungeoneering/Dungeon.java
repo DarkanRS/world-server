@@ -19,12 +19,15 @@ import com.rs.game.player.content.skills.dungeoneering.rooms.BossRoom;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 
+//Status: Done
+
 @SuppressWarnings("unused")
 public final class Dungeon {
 
 	private int type;
 	private int complexity;
 	private int size;
+    private long seed;
 	private Room[][] map;
 	private int creationCount;
 	private int critCount;
@@ -54,7 +57,7 @@ public final class Dungeon {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		long lastDung = System.currentTimeMillis();
-		test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON);
+        test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON);
 		System.out.println("Generated dungeon in " + (System.currentTimeMillis() - lastDung) + "ms...");
 		frame.repaint();
 	}
@@ -185,21 +188,26 @@ public final class Dungeon {
 		return String.format("%1$-" + n + "s", s);
 	}
 
-	public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
-		this.manager = manager;
-		this.type = DungeonUtils.getFloorType(floorId);
-		this.complexity = complexity;
-		this.size = size;
+    public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
+        this.manager = manager;
+        this.type = DungeonUtils.getFloorType(floorId);
+        this.complexity = complexity;
+        this.size = size;
 
-		long seed = System.nanoTime();
-		// seed = 3022668148508890112L;
-		Random random = new Random(seed);
-		DungeonStructure structure = new DungeonStructure(size, random, complexity);
-		// map structure to matrix dungeon
-		map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
-		RoomNode base = structure.getBase();
+        this.seed = System.nanoTime();
+        if(manager.getParty().customSeed) {
+            this.seed = manager.getParty().getStartingSeed();
+            manager.getParty().customSeed = false;
+        }
 
-		Room[] possibilities;
+        // seed = 3022668148508890112L;
+        Random random = new Random(seed);
+        DungeonStructure structure = new DungeonStructure(size, random, complexity);
+        // map structure to matrix dungeon
+        map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
+        RoomNode base = structure.getBase();
+
+        Room[] possibilities;
 		startRoom = new RoomReference(base.x, base.y);
 		List<RoomNode> children = base.getChildrenR();
 		children.add(base);
@@ -252,6 +260,10 @@ public final class Dungeon {
 			System.out.println("Dungeon roomCount: " + creationCount);
 	}
 
+    public long getSeed() {
+        return this.seed;
+    }
+
 	public int getRoomsCount() {
 		return creationCount;
 	}
@@ -278,4 +290,19 @@ public final class Dungeon {
 		return startRoom;
 	}
 
+	public int getType() {
+		return type;
+	}
+
+	public int getComplexity() {
+		return complexity;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public Room[][] getMap() {
+		return map;
+	}
 }
