@@ -460,7 +460,11 @@ public class MiscTest {
 		});
 		
         Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            p.getPackets().sendMusicEffect(Utils.random(0, 2) == 0 ? 152 : 154);
+            p.getPackets().sendMusicEffect(153);
+        });
+
+        Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
+            p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
         });
 
         Commands.add(Rights.DEVELOPER, "customcs [id]", "Plays a custom cutscene", (p, args) -> {

@@ -81,6 +81,7 @@ public class SlayerTaskManager {
 			player.sendMessage("You have completed " + player.consecutiveTasks + " tasks in a row and receive "+amount+" slayer points!");
 			player.sendMessage("You have finished your slayer task, talk to a slayer master for a new one.");
 			player.incrementCount("Slayer tasks completed");
+            player.getPackets().sendMusicEffect(61);
 			removeTask();
 			player.updateSlayerTask();
 		}
