@@ -147,6 +147,8 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("of the rune store. I will need to get a weapon key");
                 lines.add("from a player who is a Phoenix gang member.");
                 lines.add("");
+                lines.add("I can trade players by using quest items on them.");
+                lines.add("");
                 lines.add("If I am feeling doubt about this gang I can speak");
                 lines.add("to Straven to join the Phoenix Gang.");
                 lines.add("");
@@ -185,10 +187,16 @@ public class ShieldOfArrav extends QuestOutline {
                 if(ShieldOfArrav.isPhoenixGang(player)) {
                     lines.add("I am part of the Phoenix Gang. Maybe a Black Arm");
                     lines.add("member can help?");
+                    lines.add("");
+                    lines.add("I can trade players by using quest items on them.");
+                    lines.add("");
                 }
                 if(ShieldOfArrav.isBlackArmGang(player)) {
                     lines.add("I am part of the Black Arm Gang, Maybe a Phoenix");
                     lines.add("member can help?");
+                    lines.add("");
+                    lines.add("I can trade players by using quest items on them.");
+                    lines.add("");
                 }
                 lines.add("");
                 break;

@@ -35,6 +35,12 @@ public class KingRoaldShieldOfArravD extends Conversation {
             return;
         }
 
+        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.HAS_CERTIFICATE) {
+            addNPC(KING_ROALD, HeadE.SKEPTICAL, "How am I supposed to believe just half of a certificate?");
+            addPlayer(HeadE.SAD, "Darn, I need to find someone with another half...");
+            return;
+        }
+
         if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_LEFT_HALF) || p.getInventory().containsItem(ShieldOfArrav.SHIELD_RIGHT_HALF)) {
             addPlayer(HeadE.HAPPY_TALKING, " Your majesty, I have recovered the Shield Of Arrav; I would like to claim the reward.");
             addNPC(KING_ROALD, HeadE.SKEPTICAL, "The Shield of Arrav, eh? Yes, I do recall my father, King Roald, put a reward out for that");

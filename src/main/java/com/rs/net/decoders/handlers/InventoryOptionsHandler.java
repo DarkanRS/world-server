@@ -57,6 +57,7 @@ import com.rs.game.player.dialogues.FlowerPickup;
 import com.rs.game.player.dialogues.ItemMessage;
 import com.rs.game.player.dialogues.LeatherCraftingD;
 import com.rs.game.player.dialogues.SimplePlayerMessage;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
@@ -771,6 +772,30 @@ public class InventoryOptionsHandler {
 		Item item = player.getInventory().getItem(slotId);
 		if (item == null)
 			return;
+
+        if(item.getId() == ShieldOfArrav.WEAPONS_KEY || item.getId() == ShieldOfArrav.CERTIFICATE_LEFT || item.getId() == ShieldOfArrav.CERTIFICATE_RIGHT) {
+            player.getInteractionManager().setInteraction(new StandardEntityInteraction(other, 0, () -> {
+                player.faceEntity(other);
+                if (item.getAmount() >= 1) {
+                    if (other.getInventory().getFreeSlots() >= 1) {
+                        WorldTasksManager.delay(0, () -> {
+                            player.setNextAnimation(new Animation(881));
+                            player.getInventory().removeItems(new Item(item.getId(), 1));
+                            other.getInventory().addItem(new Item(item.getId(), 1));
+                            if (other.isIronMan())
+                                player.sendMessage("They stand alone, but not this once!");
+                        });
+                    } else {
+                        other.sendMessage("You need to make space in your inventory");
+                        player.sendMessage(other.getUsername() + " does not have enough space.");
+                    }
+                } else
+                    player.sendMessage("You need at least 1 of this item to give!");
+            }));
+            return;
+        }
+
+
 		if (other.isIronMan()) {
 			player.sendMessage("They stand alone!");
 			return;

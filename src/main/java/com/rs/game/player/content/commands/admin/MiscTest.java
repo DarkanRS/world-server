@@ -410,7 +410,7 @@ public class MiscTest {
 	        p.getPackets().sendDevConsoleMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
 		});
 		
-		Commands.add(Rights.DEVELOPER, "icompanim [interfaceId componentId animId]", "Plays animation id on interface component.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "icompanim [interfaceId componentId animId]", "Plays animation id on interface component.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 	        p.getPackets().setIFAnimation(Integer.valueOf(args[2]), Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
@@ -862,7 +862,7 @@ public class MiscTest {
                     Integer.valueOf(args[4]));
         });
 
-		Commands.add(Rights.DEVELOPER, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 		
@@ -875,7 +875,7 @@ public class MiscTest {
 			p.getInterfaceManager().setWindowInterfaceNoOverlay(Integer.valueOf(args[1]), Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {
 			int interId = Integer.valueOf(args[0]);
 			p.getInterfaceManager().sendInterface(interId);
 			for (int componentId = 0; componentId < Utils.getInterfaceDefinitionsComponentsSize(interId); componentId++)
@@ -931,7 +931,7 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Rights.DEVELOPER, "varc [id value]", "Sets a varc value.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "varc [id value]", "Sets a varc value.", (p, args) -> {
 			p.getPackets().sendVarc(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
 		
@@ -943,11 +943,11 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Rights.DEVELOPER, "var [id value]", "Sets a var value.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "var [id value]", "Sets a var value.", (p, args) -> {
 			p.getVars().setVar(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> {
 			p.getPackets().sendDevConsoleMessage("Var: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVar(Integer.valueOf(args[0])));
 		});
 		
@@ -959,11 +959,11 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> {
 			p.getPackets().sendDevConsoleMessage("Varbit: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVarBit(Integer.valueOf(args[0])));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> {
 			p.getVars().setVarBit(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
 		
@@ -1037,7 +1037,7 @@ public class MiscTest {
 			});
 		});
 		
-		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "Kills yourself.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
 			p.getPackets().setIFHidden(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Boolean.valueOf(args[2]));
 		});
 		
