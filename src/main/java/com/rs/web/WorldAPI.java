@@ -22,10 +22,10 @@ public class WorldAPI extends WebAPI {
 					return;
 				}
 				APIUtil.readJSON(ex, PacketEncoderDto.class, request -> {
-					Player player = World.getPlayer(request.getUsername());
+					Player player = World.getPlayer(request.username());
 					if (player == null || player.getSession() == null)
 						return;
-					player.getSession().writeToQueue(request.getEncoders());
+					player.getSession().writeToQueue(request.encoders());
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
 				});
 			});

@@ -72,7 +72,6 @@ import com.rs.game.player.dialogues.DTClaimRewards;
 import com.rs.game.player.dialogues.GrotwormLairD;
 import com.rs.game.player.dialogues.LunarAltar;
 import com.rs.game.player.dialogues.MagicPortal;
-import com.rs.game.player.dialogues.Marv;
 import com.rs.game.player.dialogues.MiningGuildDwarf;
 import com.rs.game.player.dialogues.PartyRoomLever;
 import com.rs.game.player.dialogues.RunespanPortalD;
@@ -2043,8 +2042,6 @@ public final class ObjectHandler {
 					player.useStairs(-1, new WorldTile(3359, 6110, 0), 0, 1);
 				else if (id == 67053)
 					player.useStairs(-1, new WorldTile(3120, 3519, 0), 0, 1);
-				else if (id == 67051)
-					player.getDialogueManager().execute(new Marv(), false);
 				else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true)))
 					return;
 				else {
@@ -2266,9 +2263,7 @@ public final class ObjectHandler {
 							new DropTable(1, 15, 10973, 1),
 							new DropTable(1, 15, 10980, 1)
 					));
-				} else if (id == 67051)
-					player.getDialogueManager().execute(new Marv(), true);
-				else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP2, true)))
+				} else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP2, true)))
 					return;
 				else {
 					switch (def.getName().toLowerCase()) {

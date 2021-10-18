@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.game.player.Player;
+import com.rs.game.player.social.ActiveFC;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
@@ -11,6 +12,7 @@ import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
 import com.rs.lib.web.dto.PacketDto;
+import com.rs.lib.web.dto.UpdateFC;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
@@ -47,11 +49,19 @@ public class LobbyCommunicator {
 		post(Account.class, player.getAccount(), "updatewholeaccount", cb);
 	}
 	
+	public static void updateFC(ActiveFC fc) {
+		post(new UpdateFC(fc.getOwner().getDisplayName(), fc.getSettings()), "updatefc");
+	}
+	
 	public static void forwardPackets(Player player, Packet... packets) {
 		post(Boolean.class, new PacketDto(player.getUsername(), packets), "forwardpackets", res -> {
 			if (res != null && !res)
 				player.sendMessage("Error forwarding packet to lobby.");
 		});
+	}
+	
+	public static void forwardPacket(Player player, Packet packet, Consumer<Boolean> cb) {
+		post(Boolean.class, new PacketDto(player.getUsername(), new Packet[] { packet }), "forwardpackets", cb);
 	}
 	
 	public static void clanChatKick(Player player, boolean guest, String name) {

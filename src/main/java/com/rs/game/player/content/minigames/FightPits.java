@@ -265,7 +265,7 @@ public final class FightPits {
 		currentChampion = champion.getDisplayName();
 		champion.getPackets().setIFText(373, 10, "Current Champion: JaLYt-Ket-" + currentChampion);
 		champion.setFightPitsSkull();
-		champion.setWonFightPits();
+		champion.incrementCount("Fight Pits victories");
 		champion.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_KAH, "Well done, you were the last person in the pit and won that fight! The next round will start soon, wait for my signal before fighting.");
 	}
 

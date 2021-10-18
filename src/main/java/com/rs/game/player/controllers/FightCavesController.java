@@ -305,7 +305,8 @@ public class FightCavesController extends Controller {
 			if (type == 1 || type == 4) {
 				player.setNextWorldTile(outside);
 				if (type == 4) {
-					player.setCompletedFightCaves();
+					player.incrementCount("Fight Caves clears");
+					player.refreshFightKilnEntrance();
 					player.reset();
 					player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "You even defeated Tz Tok-Jad, I am most impressed! Please accept this gift as a reward.");
 					player.sendMessage("You were victorious!!");

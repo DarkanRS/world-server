@@ -551,15 +551,6 @@ public class Player extends Entity {
 	private int[] clanCapeCustomized;
 	private int[] clanCapeSymbols;
 
-	// completionistcape reqs
-	private boolean completedFightCaves;
-	private boolean completedFightKiln;
-	private boolean wonFightPits;
-
-	// crucible
-	private boolean talkedWithMarv;
-	private int crucibleHighScore;
-
 	private int summoningLeftClickOption;
 
 	// objects
@@ -1410,8 +1401,8 @@ public class Player extends Entity {
 		refreshKalphiteLair();
 	}
 
-	private void refreshFightKilnEntrance() {
-		if (completedFightCaves)
+	public void refreshFightKilnEntrance() {
+		if (getCounterValue("Fight Caves clears") > 0)
 			getVars().setVarBit(10838, 1);
 	}
 
@@ -3097,33 +3088,6 @@ public class Player extends Entity {
 		return notes;
 	}
 
-	public boolean isCompletedFightCaves() {
-		return completedFightCaves;
-	}
-
-	public void setCompletedFightCaves() {
-		if (!completedFightCaves) {
-			completedFightCaves = true;
-			refreshFightKilnEntrance();
-		}
-	}
-
-	public boolean isCompletedFightKiln() {
-		return completedFightKiln;
-	}
-
-	public void setCompletedFightKiln() {
-		completedFightKiln = true;
-	}
-
-	public boolean isWonFightPits() {
-		return wonFightPits;
-	}
-
-	public void setWonFightPits() {
-		wonFightPits = true;
-	}
-
 	public boolean isCantTrade() {
 		return cantTrade;
 	}
@@ -3259,22 +3223,6 @@ public class Player extends Entity {
 		this.lastDuelRules = duelRules;
 	}
 
-	public boolean isTalkedWithMarv() {
-		return talkedWithMarv;
-	}
-
-	public void setTalkedWithMarv() {
-		talkedWithMarv = true;
-	}
-
-	public int getCrucibleHighScore() {
-		return crucibleHighScore;
-	}
-
-	public void increaseCrucibleHighScore() {
-		crucibleHighScore++;
-	}
-
 	public int getStarter() {
 		return starter;
 	}
@@ -3385,7 +3333,7 @@ public class Player extends Entity {
 		if (!getSkills().isMaxed(true)) {
 			return false;
 		}
-		if (!isCompletedFightKiln() && !Settings.getConfig().isDebug()) {
+		if (getCounterValue("Fight Kiln clears") <= 0 && !Settings.getConfig().isDebug()) {
 			sendMessage("You need to have completed the fight kiln at least once.");
 			return false;
 		}
@@ -3398,18 +3346,11 @@ public class Player extends Entity {
 			return false;
 		}
 		if (trimmed) {
-			if (getDominionTower().getKilledBossesCount() < 250 && !Settings.getConfig().isDebug()) {
-				sendMessage("You need to have killed 250 bosses in the dominion tower.");
-				return false;
-			}
+			
 		}
 		return true;
 	}
-
-	public void setCompletedFightCaves(boolean b) {
-		completedFightCaves = b;
-	}
-
+	
 	public void refreshForinthry() {
 		revenantImmune = 100; // 1 minute
 		revenantAggro = 6000; // 1 hour

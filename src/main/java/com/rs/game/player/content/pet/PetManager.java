@@ -110,16 +110,6 @@ public final class PetManager {
 	 */
 	private boolean hasRequirements(Pets pet) {
 		switch (pet) {
-		case TZREK_JAD:
-			if (!player.isCompletedFightCaves()) {
-				player.sendMessage("You need to complete at least one fight cave minigame to use this pet.");
-				return false;
-			}
-			if (!player.isWonFightPits()) {
-				player.sendMessage("You need to win at least one fight pits minigame to use this pet.");
-				return false;
-			}
-			return true;
 		default:
 			return true;
 		}

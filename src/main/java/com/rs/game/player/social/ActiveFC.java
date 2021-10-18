@@ -29,4 +29,11 @@ public class ActiveFC {
 		return usernames;
 	}
 
+	public FriendsChat getSettings() {
+		return settings;
+	}
+	
+	public Account getOwner() {
+		return owner;
+	}
 }
