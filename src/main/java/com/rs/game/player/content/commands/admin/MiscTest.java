@@ -410,7 +410,7 @@ public class MiscTest {
 	        p.getPackets().sendDevConsoleMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "icompanim [interfaceId componentId animId]", "Plays animation id on interface component.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "icompanim [interfaceId componentId animId]", "Plays animation id on interface component.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 	        p.getPackets().setIFAnimation(Integer.valueOf(args[2]), Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
@@ -433,7 +433,7 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
 			p.getPackets().sendSound(Integer.valueOf(args[0]), 0, args.length > 1 ? Integer.valueOf(args[1]) : 1);
 		});
 		
@@ -459,11 +459,11 @@ public class MiscTest {
 			});
 		});
 		
-        Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            p.getPackets().sendMusicEffect(153);
+        Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
+            System.out.println(p.getRights());
         });
 
-        Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
+        Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
             p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
         });
 
@@ -742,7 +742,7 @@ public class MiscTest {
 			p.getSkills().init();
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
 			if (args[0].contains(",")) {
 				args = args[0].split(",");
 				int plane = Integer.valueOf(args[0]);
@@ -794,17 +794,17 @@ public class MiscTest {
 			p.getTemporaryAttributes().put("sendingDropsToBank", true);
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
 			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[0]), 0, 0));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getAnimationDefinitionsSize())
 				return;
 			p.setNextAnimation(new Animation(Integer.valueOf(args[0])));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sync,animgfx [id]", "Animates the player with specified ID and plays a SpotAnim at the same time.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "sync,animgfx [id]", "Animates the player with specified ID and plays a SpotAnim at the same time.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getAnimationDefinitionsSize())
 				return;
 			if (Integer.valueOf(args[1]) > Utils.getSpotAnimDefinitionsSize())
@@ -851,18 +851,18 @@ public class MiscTest {
 				p.getQuestManager().completeQuest(quest);
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getNPCDefinitionsSize())
 				return;
 			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
 		});
 		
-        Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
+        Commands.add(Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
             p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]),
                     Integer.valueOf(args[4]));
         });
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 		
@@ -875,7 +875,7 @@ public class MiscTest {
 			p.getInterfaceManager().setWindowInterfaceNoOverlay(Integer.valueOf(args[1]), Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {
 			int interId = Integer.valueOf(args[0]);
 			p.getInterfaceManager().sendInterface(interId);
 			for (int componentId = 0; componentId < Utils.getInterfaceDefinitionsComponentsSize(interId); componentId++)
@@ -908,7 +908,7 @@ public class MiscTest {
 			p.getPackets().setIFModel(interId, compId, Integer.valueOf(args[2]));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "companim [npcId]", "Prints out animations compatible with the npc id.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "companim [npcId]", "Prints out animations compatible with the npc id.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getNPCDefinitionsSize())
 				return;
 			NPCDefinitions defs = NPCDefinitions.getDefs(Integer.valueOf(args[0]));
@@ -931,7 +931,7 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "varc [id value]", "Sets a varc value.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "varc [id value]", "Sets a varc value.", (p, args) -> {
 			p.getPackets().sendVarc(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
 		
@@ -943,11 +943,11 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "var [id value]", "Sets a var value.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "var [id value]", "Sets a var value.", (p, args) -> {
 			p.getVars().setVar(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> {
 			p.getPackets().sendDevConsoleMessage("Var: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVar(Integer.valueOf(args[0])));
 		});
 		
@@ -959,11 +959,11 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> {
 			p.getPackets().sendDevConsoleMessage("Varbit: " + Integer.valueOf(args[0]) + " -> " + p.getVars().getVarBit(Integer.valueOf(args[0])));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> {
 			p.getVars().setVarBit(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 		});
 		
@@ -1037,7 +1037,7 @@ public class MiscTest {
 			});
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
 			p.getPackets().setIFHidden(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Boolean.valueOf(args[2]));
 		});
 		

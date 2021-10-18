@@ -54,6 +54,8 @@ import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 
+//Status: Done
+
 @PluginEventHandler
 public final class World {
 
@@ -196,27 +198,27 @@ public final class World {
 		NPCS.remove(npc);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, boolean spawned, boolean withFunction, String customName) {
+	public static final NPC spawnNPC(int id, WorldTile tile, boolean permaDeath, boolean withFunction, String customName) {
 		NPC n = null;
 		if (withFunction) {
-			Object fObj = PluginManager.getObj(new NPCInstanceEvent(id, tile, spawned));
+			Object fObj = PluginManager.getObj(new NPCInstanceEvent(id, tile, permaDeath));
 			if (fObj != null)
 				n = (NPC) fObj;
 			else
-				n = new NPC(id, tile, spawned);
+				n = new NPC(id, tile, permaDeath);
 		} else
-			n = new NPC(id, tile, spawned);
+			n = new NPC(id, tile, permaDeath);
 		if (n != null)
 			n.setPermName(customName);
 		return n;
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, boolean withFunction) {
-		return spawnNPC(id, tile, spawned, withFunction, null);
+	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath, boolean withFunction) {
+		return spawnNPC(id, tile, permaDeath, withFunction, null);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned) {
-		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned, true);
+	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath) {
+		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, permaDeath, true);
 	}
 
 	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {

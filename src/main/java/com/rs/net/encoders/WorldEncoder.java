@@ -105,6 +105,8 @@ import com.rs.lib.net.packets.encoders.vars.VarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
 import com.rs.lib.util.Utils;
 
+//Status: done
+
 public class WorldEncoder extends Encoder {
 	
 	private Player player;
@@ -230,8 +232,8 @@ public class WorldEncoder extends Encoder {
 		sendCameraLook(viewLocalX, viewLocalY, viewZ, -1, -1);
 	}
 
-	public void sendCameraLook(int viewLocalX, int viewLocalY, int viewZ, int speed1, int speed2) {
-		session.writeToQueue(new CamLookAt(viewLocalX, viewLocalY, viewZ, speed1, speed2));
+	public void sendCameraLook(int viewLocalX, int viewLocalY, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
+		session.writeToQueue(new CamLookAt(viewLocalX, viewLocalY, viewZ, speedToExactDestination, speedOnRoutePath));
 	}
 
 	public void sendResetCamera() {
@@ -246,8 +248,12 @@ public class WorldEncoder extends Encoder {
 		sendCameraPos(moveLocalX, moveLocalY, moveZ, -1, -1);
 	}
 
-	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ, int speed1, int speed2) {
-		session.writeToQueue(new CamMoveTo(moveLocalX, moveLocalY, moveZ, speed1, speed2));
+    /**
+     * @param speedToWorldTile defines speed of the camera to the world tile with the default height then the exact position
+     * @param speedToExactDestination defines speed of camera to the exact position specified by previous parameters.
+     */
+	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ, int speedToWorldTile, int speedToExactDestination) {
+		session.writeToQueue(new CamMoveTo(moveLocalX, moveLocalY, moveZ, speedToWorldTile, speedToExactDestination));
 	}
 	
 	public void sendRunScript(int scriptId, Object... params) {
