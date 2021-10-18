@@ -12,6 +12,10 @@ public class MovePlayerAction extends CutsceneAction {
 		this(x, y, -1, run ? Player.RUN_MOVE_TYPE : Player.WALK_MOVE_TYPE, actionDelay);
 	}
 
+    /**
+     * If you are moving to a location outside your current region you must use hard region codes to change camera angles and positions.
+     * Being inside or outside the region when starting the cutscene changes the result tremendously
+     */
 	public MovePlayerAction(int x, int y, int plane, int movementType, int actionDelay) {
 		super(-1, actionDelay);
 		this.x = x;
