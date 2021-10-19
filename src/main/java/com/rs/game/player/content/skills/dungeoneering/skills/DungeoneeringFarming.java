@@ -117,8 +117,8 @@ public class DungeoneeringFarming {
 		final String productName = ItemDefinitions.getDefs(harvest.product).getName().toLowerCase();
 
 		DungFarmPatch patch = null;
-		if (object instanceof DungFarmPatch)
-			patch = (DungFarmPatch) object;
+		if (object instanceof DungFarmPatch p)
+			patch = p;
 		
 		if (isTextile) {
 			if (player.getSkills().getLevel(Constants.FARMING) < harvest.lvl) {

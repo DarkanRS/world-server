@@ -15,12 +15,11 @@ public class IFContinueHandler implements PacketHandler<Player, IFContinue> {
 	public void handle(Player player, IFContinue packet) {
 		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || !player.isRunning() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
 			return;
-		if (player.getTemporaryAttributes().get("pluginOption") != null && player.getTemporaryAttributes().get("pluginOption") instanceof DialogueOptionEvent) {
-			Object event = player.getTemporaryAttributes().remove("pluginOption");
-			((DialogueOptionEvent) event).setOption(packet.getComponentId() == 11 ? 1 : packet.getComponentId()-11);
+		if (player.getTemporaryAttributes().get("pluginOption") != null && player.getTemporaryAttributes().remove("pluginOption") instanceof DialogueOptionEvent doe) {
+			doe.setOption(packet.getComponentId() == 11 ? 1 : packet.getComponentId()-11);
 			if (player.getInterfaceManager().containsChatBoxInter())
 				player.getInterfaceManager().closeChatBoxInterface();
-			((DialogueOptionEvent) event).run(player);
+			doe.run(player);
 			return;
 		}
 		if (player.getConversation() != null) {

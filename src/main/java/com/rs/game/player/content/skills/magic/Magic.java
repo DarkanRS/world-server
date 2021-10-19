@@ -75,15 +75,13 @@ public class Magic {
 			player.setNextFaceWorldTile(new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
 			if (!player.getControllerManager().canAttack(target))
 				return;
-			if (target instanceof Player) {
-				Player p2 = (Player) target;
+			if (target instanceof Player p2) {
 				if (!player.isCanPvp() || !p2.isCanPvp()) {
 					player.sendMessage("You can only attack players in a player-vs-player area.");
 					return;
 				}
 			}
-			if (target instanceof Familiar) {
-				Familiar familiar = (Familiar) target;
+			if (target instanceof Familiar familiar) {
 				if (familiar == player.getFamiliar()) {
 					player.sendMessage("You can't attack your own familiar.");
 					return;
@@ -92,7 +90,7 @@ public class Magic {
 					player.sendMessage("You can't attack them.");
 					return;
 				}
-			} else if (!(target instanceof NPC) || !((NPC)target).isForceMultiAttacked()) {
+			} else if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
 				if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
 					if (player.getAttackedBy() != target && player.inCombat()) {
 						player.sendMessage("You are already in combat.");

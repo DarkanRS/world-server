@@ -366,8 +366,7 @@ public class PrayerManager {
 				closeAllPrayers();
 		}
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY)) {
-			if (player.getActionManager().getAction() instanceof PlayerCombat) {
-				PlayerCombat combat = (PlayerCombat) player.getActionManager().getAction();
+			if (player.getActionManager().getAction() instanceof PlayerCombat combat) {
 				if (active(Prayer.TURMOIL))
 					processTurmoil(combat.getTarget());
 				else
@@ -413,13 +412,11 @@ public class PrayerManager {
 	}
 	
 	private void setTurmoilBonus(Entity e) {
-		if (e instanceof Player) {
-			Player p2 = (Player) e;
+		if (e instanceof Player p2) {
 			setStatMod(StatMod.ATTACK, (int) Math.floor(((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Constants.ATTACK))) / player.getSkills().getLevelForXp(Constants.ATTACK))));
 			setStatMod(StatMod.STRENGTH, (int) Math.floor(((100 * Math.floor(0.1 * p2.getSkills().getLevelForXp(Constants.STRENGTH))) / player.getSkills().getLevelForXp(Constants.STRENGTH))));
 			setStatMod(StatMod.DEFENSE, (int) Math.floor(((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Constants.DEFENSE))) / player.getSkills().getLevelForXp(Constants.DEFENSE))));
-		} else if (e instanceof NPC) {
-			NPC npc = (NPC) e;
+		} else if (e instanceof NPC npc) {
 			setStatMod(StatMod.ATTACK, (int) Math.floor(((100 * Math.floor(0.15 * Utils.clampI(npc.getAttackLevel(), 1, 99))) / player.getSkills().getLevelForXp(Constants.ATTACK))));
 			setStatMod(StatMod.STRENGTH, (int) Math.floor(((100 * Math.floor(0.1 * Utils.clampI(npc.getStrengthLevel(), 1, 99))) / player.getSkills().getLevelForXp(Constants.STRENGTH))));
 			setStatMod(StatMod.DEFENSE, (int) Math.floor(((100 * Math.floor(0.15 * Utils.clampI(npc.getDefenseLevel(), 1, 99))) / player.getSkills().getLevelForXp(Constants.DEFENSE))));

@@ -20,9 +20,8 @@ public class WGCyclops extends NPC {
 	public void drop(Player killer) {
 		super.drop(killer);
 		WarriorsGuild.killedCyclopses++;
-		if (killer.getControllerManager().getController() != null && killer.getControllerManager().getController() instanceof WarriorsGuild) {
-			WarriorsGuild controller = (WarriorsGuild) killer.getControllerManager().getController();
-			if (controller.inCyclopse) {
+		if (killer.getControllerManager().getController() != null && killer.getControllerManager().getController() instanceof WarriorsGuild wguild) {
+			if (wguild.inCyclopse) {
 				if (Utils.random(50) == 0)
 					sendDrop(killer, new Item(WarriorsGuild.getBestDefender(killer)));
 			} else {

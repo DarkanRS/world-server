@@ -23,8 +23,7 @@ public final class Poison {
 	public void makePoisoned(int startDamage) {
 		if (poisonDamage > startDamage)
 			return;
-		if (entity instanceof Player) {
-			Player player = ((Player) entity);
+		if (entity instanceof Player player) {
 			if (player.hasEffect(Effect.ANTIPOISON))
 				return;
 			if (poisonDamage == 0)
@@ -41,15 +40,14 @@ public final class Poison {
 				return;
 			}
 			boolean heal = false;
-			if (entity instanceof Player) {
-				Player player = ((Player) entity);
+			if (entity instanceof Player player) {
 				if (player.getInterfaceManager().containsScreenInter())
 					return;
 				if (player.getAuraManager().isActivated(Aura.POISON_PURGE, Aura.GREATER_POISON_PURGE, Aura.MASTER_POISON_PURGE, Aura.SUPREME_POISON_PURGE))
 					heal = true;
 			}
-			if (!heal && entity instanceof Player) {
-				((Player)entity).incrementCount("Poison damage taken", poisonDamage);
+			if (!heal && entity instanceof Player p) {
+				p.incrementCount("Poison damage taken", poisonDamage);
 			}
 			entity.applyHit(new Hit(entity, poisonDamage, heal ? HitLook.HEALED_DAMAGE : HitLook.POISON_DAMAGE));
 			poisonDamage -= 2;
@@ -68,10 +66,8 @@ public final class Poison {
 	}
 
 	public void refresh() {
-		if (entity instanceof Player) {
-			Player player = ((Player) entity);
+		if (entity instanceof Player player)
 			player.getVars().setVar(102, isPoisoned() ? 1 : 0);
-		}
 	}
 
 	public boolean isPoisoned() {

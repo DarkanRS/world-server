@@ -68,8 +68,8 @@ public class ConfigurationNode {
 		builder.append("[");
 		for (Entry<String, Object> entry : children.entrySet()) {
 			builder.append(entry.getKey()).append(" => ");
-			if (entry.getValue() instanceof ConfigurationNode) {
-				builder.append(((ConfigurationNode) entry.getValue()).listChildren());
+			if (entry.getValue() instanceof ConfigurationNode cn) {
+				builder.append(cn.listChildren());
 			} else {
 				builder.append(entry.getValue());
 			}

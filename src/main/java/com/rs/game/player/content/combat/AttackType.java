@@ -32,8 +32,8 @@ public enum AttackType {
 	}
 	
 	public int getDefenseBonus(Entity entity) {
-		if (entity instanceof Player)
-			return ((Player) entity).getCombatDefinitions().getBonus(defBonus);
+		if (entity instanceof Player player)
+			return player.getCombatDefinitions().getBonus(defBonus);
 		else
 			return ((NPC) entity).getBonus(defBonus);
 	}

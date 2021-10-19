@@ -266,9 +266,9 @@ public final class World {
 	}
 	
 	public static final void updateEntityRegion(Entity entity) {
-		if (entity instanceof NPC) {
-			clipNPC((NPC) entity);
-		}
+		if (entity instanceof NPC n)
+			clipNPC(n);
+		
 		if (entity.hasFinished()) {
 			if (entity instanceof Player)
 				getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
@@ -284,12 +284,11 @@ public final class World {
 		}
 		int regionId = entity.getRegionId();
 		if (entity.getLastRegionId() != regionId || entity.isForceUpdateEntityRegion()) {
-			if (entity instanceof Player) {
+			if (entity instanceof Player player) {
 				if (entity.getLastRegionId() > 0)
 					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
 				Region region = getRegion(regionId);
 				region.addPlayerIndex(entity.getIndex());
-				Player player = (Player) entity;
 				int musicId = region.getMusicId();
 				if (musicId != -1)
 					player.getMusicsManager().checkMusic(musicId);
@@ -304,8 +303,7 @@ public final class World {
 			entity.setForceUpdateEntityRegion(false);
 			entity.setLastRegionId(regionId);
 		} else {
-			if (entity instanceof Player) {
-				Player player = (Player) entity;
+			if (entity instanceof Player player) {
 				player.getControllerManager().moved();
 				if (player.hasStarted())
 					checkControllersAtMove(player);
@@ -499,11 +497,11 @@ public final class World {
 	}
 	
 	public static boolean checkMeleeStep(WorldTile from, WorldTile to) {
-		if (to instanceof Entity && from instanceof Entity) {
+		if (to instanceof Entity fromE && from instanceof Entity toE) {
 			WorldTile closestFrom = from;
 			WorldTile closestTo = to;
-			int sizeFrom = ((Entity)from).getSize();
-			int sizeTo = ((Entity)to).getSize();
+			int sizeFrom = fromE.getSize();
+			int sizeTo = toE.getSize();
 			double shortest = 1000.0;
 			for (int x1 = 0; x1 < sizeFrom; x1++) {
 				for (int y1 = 0; y1 < sizeFrom; y1++) {
@@ -1286,19 +1284,19 @@ public final class World {
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
-		if (from instanceof Entity)
-			fromSizeX = fromSizeY = ((Entity) from).getSize();
-		else if (from instanceof GameObject) {
-			ObjectDefinitions defs = ((GameObject) from).getDefinitions();
+		if (from instanceof Entity e)
+			fromSizeX = fromSizeY = e.getSize();
+		else if (from instanceof GameObject go) {
+			ObjectDefinitions defs = go.getDefinitions();
 			fromSizeX = defs.getSizeX();
 			fromSizeY = defs.getSizeY();
 		} else
 			fromSizeX = fromSizeY = 1;
 		int toSizeX, toSizeY;
-		if (to instanceof Entity)
-			toSizeX = toSizeY = ((Entity) to).getSize();
-		else if (to instanceof GameObject) {
-			ObjectDefinitions defs = ((GameObject) to).getDefinitions();
+		if (to instanceof Entity e)
+			toSizeX = toSizeY = e.getSize();
+		else if (to instanceof GameObject go) {
+			ObjectDefinitions defs = go.getDefinitions();
 			toSizeX = defs.getSizeX();
 			toSizeY = defs.getSizeY();
 		} else

@@ -44,8 +44,8 @@ public class SnowballAction extends EntityInteractionAction {
 			player.getEquipment().deleteItem(player.getEquipment().getWeaponId(), 1);
 			player.getAppearance().generateAppearanceData();
 		}
-		if (target instanceof Player)
-			player.sendMessage("You pelt " + ((Player)target).getDisplayName() + " with a snowball.");
+		if (target instanceof Player other)
+			player.sendMessage("You pelt " + other.getDisplayName() + " with a snowball.");
 		player.setNextAnimation(new Animation(7530));
 		player.lock(3);
 		player.resetWalkSteps();

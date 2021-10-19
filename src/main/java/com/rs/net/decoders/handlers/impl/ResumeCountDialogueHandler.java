@@ -34,10 +34,8 @@ public class ResumeCountDialogueHandler implements PacketHandler<Player, ResumeC
 			else
 				player.getTrade().addItem(trade_item_X_Slot, packet.getValue());
 		} else {
-			if (player.getTemporaryAttributes().get("pluginInteger") != null && player.getTemporaryAttributes().get("pluginInteger") instanceof InputIntegerEvent) {
-				Object event = player.getTemporaryAttributes().remove("pluginInteger");
-				((InputIntegerEvent) event).run(packet.getValue());
-			}
+			if (player.getTemporaryAttributes().get("pluginInteger") != null && player.getTemporaryAttributes().remove("pluginInteger") instanceof InputIntegerEvent iie)
+				iie.run(packet.getValue());
 			return;
 		}
 	}

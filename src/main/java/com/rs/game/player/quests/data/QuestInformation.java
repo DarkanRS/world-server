@@ -1,12 +1,12 @@
 package com.rs.game.player.quests.data;
 
-import com.rs.game.player.quests.Quest;
-import com.rs.lib.game.WorldTile;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import com.rs.game.player.quests.Quest;
+import com.rs.lib.game.WorldTile;
 
 public class QuestInformation {
 	private int id;

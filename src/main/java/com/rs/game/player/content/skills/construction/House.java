@@ -1363,8 +1363,7 @@ public class House {
 					}
 				}
 				refreshServant();
-				if (player.getTemporaryAttributes().get("CRef") != null && player.getTemporaryAttributes().get("CRef") instanceof RoomReference) {
-					RoomReference toRoom = (RoomReference) player.getTemporaryAttributes().get("CRef");
+				if (player.getTemporaryAttributes().get("CRef") != null && player.getTemporaryAttributes().get("CRef") instanceof RoomReference toRoom) {
 					player.getTemporaryAttributes().remove("CRef");
 					teleportPlayer(player, toRoom);
 				}

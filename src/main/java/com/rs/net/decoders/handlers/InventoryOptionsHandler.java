@@ -731,12 +731,12 @@ public class InventoryOptionsHandler {
 						player.getDialogueManager().execute(new ItemMessage(), "Your ring of wealth and amulet of glory have all been recharged.", 1712);
 					}
 				}
-			} else if (npc instanceof Pet) {
+			} else if (npc instanceof Pet p) {
 				player.faceEntity(npc);
-				player.getPetManager().eat(item.getId(), (Pet) npc);
+				player.getPetManager().eat(item.getId(), p);
 				return;
-			} else if (npc instanceof ConditionalDeath) {
-				((ConditionalDeath) npc).useHammer(player);
+			} else if (npc instanceof ConditionalDeath cd) {
+				cd.useHammer(player);
 				return;
 			}
 			PluginManager.handle(new ItemOnNPCEvent(player, npc, item, true));

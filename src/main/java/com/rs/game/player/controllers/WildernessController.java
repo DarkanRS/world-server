@@ -72,8 +72,7 @@ public class WildernessController extends Controller {
 			return true;
 		if (!canAttack(target))
 			return false;
-		if (target instanceof Player) {
-			Player opp = (Player) target;
+		if (target instanceof Player opp) {
 			if (!player.attackedBy(opp.getUsername()))
 				player.setWildernessSkull();
 		}
@@ -86,8 +85,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public boolean canAttack(Entity target) {
-		if (target instanceof Player) {
-			Player p2 = (Player) target;
+		if (target instanceof Player p2) {
 			if (player.isCanPvp() && !p2.isCanPvp()) {
 				player.sendMessage("That player is not in the wilderness.");
 				return false;
@@ -221,8 +219,8 @@ public class WildernessController extends Controller {
 					player.getEquipment().init();
 					player.getInventory().init();
 					player.reset();
-					if (player.get("customspawn") instanceof WorldTile)
-						player.setNextWorldTile((WorldTile) player.get("customspawn"));
+					if (player.get("customspawn") instanceof WorldTile spawn)
+						player.setNextWorldTile(spawn);
 					else
 						player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
 					player.setNextAnimation(new Animation(-1));

@@ -2,8 +2,8 @@ package com.rs.game.player.content.interfacehandlers;
 
 import com.rs.game.player.actions.Rest;
 import com.rs.game.player.managers.InterfaceManager;
-import com.rs.game.player.managers.PriceChecker;
 import com.rs.game.player.managers.InterfaceManager.Tab;
+import com.rs.game.player.managers.PriceChecker;
 import com.rs.lib.net.ClientPacket;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;

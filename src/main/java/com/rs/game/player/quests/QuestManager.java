@@ -1,5 +1,8 @@
 package com.rs.game.player.quests;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.player.Player;
@@ -8,9 +11,6 @@ import com.rs.game.player.quests.data.QuestInformation;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @PluginEventHandler
 public class QuestManager {

@@ -10,7 +10,7 @@ public class WorldUtil {
 	
 	public static Direction getDirectionTo(Entity entity, WorldTile target) {
 		Vec2 from = entity.getMiddleWorldTileAsVector();
-		Vec2 to = target instanceof Entity ? ((Entity)target).getMiddleWorldTileAsVector() : new Vec2(target);
+		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2(target);
 		Vec2 sub = to.sub(from);
 		sub.norm();
 		WorldTile delta = sub.toTile();
@@ -39,7 +39,7 @@ public class WorldUtil {
 	}
 	
 	public static boolean collides(WorldTile entity, WorldTile target) {
-		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), entity instanceof Entity ? ((Entity) entity).getSize() : 1, target.getX(), target.getY(), target instanceof Entity ? ((Entity) target).getSize() : 1);
+		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), entity instanceof Entity e ? e.getSize() : 1, target.getX(), target.getY(), target instanceof Entity e ? e.getSize() : 1);
 	}
 
 	public static boolean collides(WorldTile entity, WorldTile target, int s1, int s2) {
@@ -47,7 +47,7 @@ public class WorldUtil {
 	}
 	
 	public static boolean isInRange(WorldTile entity, WorldTile target, int rangeRatio) {
-		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), entity instanceof Entity ? ((Entity) entity).getSize() : 1, target.getX(), target.getY(), target instanceof Entity ? ((Entity) target).getSize() : 1, rangeRatio);
+		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), entity instanceof Entity e ? e.getSize() : 1, target.getX(), target.getY(), target instanceof Entity e ? e.getSize() : 1, rangeRatio);
 	}
 	
 	public static boolean isInRange(Entity entity, Entity target, int rangeRatio) {

@@ -233,8 +233,8 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public void processReceivedHits() {
-		if (this instanceof Player) {
-			if (((Player) this).getEmotesManager().isAnimating())
+		if (this instanceof Player p) {
+			if (p.getEmotesManager().isAnimating())
 				return;
 		}
 		Hit hit;
@@ -251,11 +251,10 @@ public abstract class Entity extends WorldTile {
 		if (hit.getDamage() > 0)
 			World.sendProjectile(user, this, 2263, 11, 11, 0, -1, 0, 0);
 		user.heal(hit.getDamage() / 5);
-		if (user instanceof Player) {
-			((Player)user).incrementCount("Health soulsplitted back", (int) (hit.getDamage() / 5));
-		}
-		if (this instanceof Player)
-			((Player)this).getPrayer().drainPrayer(hit.getDamage() / 5);
+		if (user instanceof Player p)
+			p.incrementCount("Health soulsplitted back", (int) (hit.getDamage() / 5));
+		if (this instanceof Player p)
+			p.getPrayer().drainPrayer(hit.getDamage() / 5);
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -302,8 +301,7 @@ public abstract class Entity extends WorldTile {
 		addReceivedDamage(hit.getSource(), hit.getDamage());
 		setHitpoints(hitpoints - hit.getDamage());
 
-		if (this instanceof Player) {
-			Player p = (Player) this;
+		if (this instanceof Player p) {
 			boolean god = p.getTemporaryAttributes().get("godMode") != null ? (boolean) p.getTemporaryAttributes().get("godMode") : false;
 			if (god)
 				setHitpoints(getMaxHitpoints());
@@ -311,8 +309,7 @@ public abstract class Entity extends WorldTile {
 
 		if (hitpoints <= 0)
 			sendDeath(hit.getSource());
-		else if (this instanceof Player) {
-			Player player = (Player) this;
+		else if (this instanceof Player player) {
 			if (player.getEquipment().getRingId() == 2550) {
 				if (hit.getSource() != null && hit.getSource() != player && (hit.getLook() == HitLook.MELEE_DAMAGE || hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MAGIC_DAMAGE))
 					hit.getSource().applyHit(new Hit(player, (int) (hit.getDamage() * 0.1), HitLook.REFLECTED_DAMAGE));
@@ -391,7 +388,7 @@ public abstract class Entity extends WorldTile {
 
 	public boolean calcFollow(WorldTile target, int maxStepsCount, boolean calculate, boolean intelligent) {
 		if (intelligent) {
-			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), target instanceof GameObject ? new ObjectStrategy((GameObject) target) : target instanceof Entity ? new EntityStrategy((Entity) target) : new FixedTileStrategy(target.getX(), target.getY()), true);
+			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), target instanceof GameObject go ? new ObjectStrategy(go) : target instanceof Entity e ? new EntityStrategy(e) : new FixedTileStrategy(target.getX(), target.getY()), true);
 			if (steps == -1)
 				return false;
 			if (steps == 0)
@@ -449,8 +446,7 @@ public abstract class Entity extends WorldTile {
 			return;
 		Integer damage = receivedDamage.get(source);
 		damage = damage == null ? amount : damage + amount;
-		if (source instanceof Familiar) {
-			Familiar fs = (Familiar) source;
+		if (source instanceof Familiar fs) {
 			if (damage < 0)
 				receivedDamage.remove(fs.getOwner());
 			else
@@ -613,8 +609,7 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public boolean lineOfSightTo(WorldTile tile, boolean melee) {
-		if (tile instanceof NPC) {
-			NPC npc = (NPC) tile;
+		if (tile instanceof NPC npc) {
 			switch(npc.getId()) {
 			case 2440:
 			case 2443:
@@ -640,11 +635,11 @@ public abstract class Entity extends WorldTile {
 				return true;
 			}
 		}
-		if (tile instanceof Stomp)
-			return ((Stomp)tile).getManager().isAtBossRoom(this);
-		if (melee && !(tile instanceof Entity ? ((Entity) tile).ignoreWallsWhenMeleeing() : false))
-			return World.checkMeleeStep(this, tile) && World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity ? ((Entity) tile).getMiddleWorldTile() : tile);
-		return World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity ? ((Entity) tile).getMiddleWorldTile() : tile);
+		if (tile instanceof Stomp stomp)
+			return stomp.getManager().isAtBossRoom(this);
+		if (melee && !(tile instanceof Entity e ? e.ignoreWallsWhenMeleeing() : false))
+			return World.checkMeleeStep(this, tile) && World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
+		return World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
 	}
 	
 	public boolean addWalkSteps(final int destX, final int destY, int maxStepsCount) {
@@ -701,10 +696,10 @@ public abstract class Entity extends WorldTile {
 		Direction dir = Direction.forDelta(nextX - lastX, nextY - lastY);
 		if (dir == null)
 			return false;
-		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (this instanceof NPC && !((NPC)this).checkNPCCollision(dir)))// double
+		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (this instanceof NPC n && !n.checkNPCCollision(dir)))// double
 			return false;
-		if (this instanceof Player) {
-			if (!((Player) this).getControllerManager().checkWalkStep(lastX, lastY, nextX, nextY))
+		if (this instanceof Player player) {
+			if (!player.getControllerManager().checkWalkStep(lastX, lastY, nextX, nextY))
 				return false;
 		}
 		walkSteps.add(new WalkStep(dir, nextX, nextY, check));
@@ -998,8 +993,8 @@ public abstract class Entity extends WorldTile {
 	public void freeze(int ticks, boolean freezeBlock) {
 		if (isFreezeBlocked() && freezeBlock)
 			return;
-		if (this instanceof Player)
-			((Player)this).sendMessage("You have been frozen!");
+		if (this instanceof Player p)
+			p.sendMessage("You have been frozen!");
 		resetWalkSteps();
 		freezeTime = World.getServerTicks()+ticks;
 		if (freezeBlock)
@@ -1037,10 +1032,10 @@ public abstract class Entity extends WorldTile {
 	}
 	
 	public boolean isAttacking() {
-		if (this instanceof Player)
-			return ((Player)this).getActionManager().doingAction(PlayerCombat.class);
-		if (this instanceof NPC)
-			return ((NPC)this).getCombat().hasTarget();
+		if (this instanceof Player p)
+			return p.getActionManager().doingAction(PlayerCombat.class);
+		if (this instanceof NPC n)
+			return n.getCombat().hasTarget();
 		return false;
 	}
 
@@ -1053,7 +1048,7 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public boolean isAtMultiArea() {
-		if (this instanceof NPC && ((NPC)this).isForceMultiAttacked())
+		if (this instanceof NPC n && n.isForceMultiAttacked())
 			return true;
 		return multiArea;
 	}

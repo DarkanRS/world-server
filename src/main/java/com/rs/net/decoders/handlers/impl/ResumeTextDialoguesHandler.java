@@ -92,10 +92,8 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 			}
 			// END CUSTOM TITLES
 			else {
-				if (player.getTemporaryAttributes().get("pluginString") != null && player.getTemporaryAttributes().get("pluginString") instanceof InputStringEvent) {
-					Object event = player.getTemporaryAttributes().remove("pluginString");
-					((InputStringEvent) event).run(packet.getText());
-				}
+				if (player.getTemporaryAttributes().get("pluginString") != null && player.getTemporaryAttributes().remove("pluginString") instanceof InputStringEvent ise)
+					ise.run(packet.getText());
 				return;
 			}
 		case RESUME_TEXTDIALOG:

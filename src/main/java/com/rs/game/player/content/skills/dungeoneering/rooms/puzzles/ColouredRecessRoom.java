@@ -185,8 +185,8 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
-		if (npc instanceof Block) {
-			((Block) npc).handle(player, true);
+		if (npc instanceof Block block) {
+			block.handle(player, true);
 			return false;
 		}
 		return true;
@@ -194,8 +194,8 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 	@Override
 	public boolean processNPCClick2(Player player, NPC npc) {
-		if (npc instanceof Block) {
-			((Block) npc).handle(player, false);
+		if (npc instanceof Block block) {
+			block.handle(player, false);
 			return false;
 		}
 		return true;

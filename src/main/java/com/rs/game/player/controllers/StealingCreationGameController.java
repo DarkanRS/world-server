@@ -332,8 +332,8 @@ public class StealingCreationGameController {
 			score.updateKilled(dKills);
 			score.updateDied(dDeaths);
 			Controller controller = player.getControllerManager().getController();
-			if (controller instanceof StealingCreationController)
-				((StealingCreationController) controller).sendScore(score);
+			if (controller instanceof StealingCreationController ctrl)
+				ctrl.sendScore(score);
 		}
 	}
 
@@ -367,8 +367,8 @@ public class StealingCreationGameController {
 				player.getInventory().deleteItem(item);
 			World.addGroundItem(item, object);
 			Controller controller = player.getControllerManager().getController();
-			if (controller instanceof StealingCreationController)
-				((StealingCreationController) controller).sendScore(score);
+			if (controller instanceof StealingCreationController ctrl)
+				ctrl.sendScore(score);
 			break objectLoop;
 		}
 	}

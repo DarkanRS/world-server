@@ -27,10 +27,8 @@ public class RoomReference {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof RoomReference) {
-			RoomReference rRef = (RoomReference) object;
+		if (object instanceof RoomReference rRef)
 			return x == rRef.x && y == rRef.y;
-		}
 		return false;
 	}
 

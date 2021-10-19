@@ -409,9 +409,8 @@ public class WorldEncoder extends Encoder {
 					int realRegionY;
 					int realPlane;
 					int rotation;
-					if (region instanceof DynamicRegion) {
-						DynamicRegion dynamicRegion = (DynamicRegion) region;
-						int[] regionCoords = dynamicRegion.getRegionCoords()[plane][thisRegionX - ((thisRegionX / 8) * 8)][thisRegionY - ((thisRegionY / 8) * 8)];
+					if (region instanceof DynamicRegion dynRegion) {
+						int[] regionCoords = dynRegion.getRegionCoords()[plane][thisRegionX - ((thisRegionX / 8) * 8)][thisRegionY - ((thisRegionY / 8) * 8)];
 						realRegionX = regionCoords[0];
 						realRegionY = regionCoords[1];
 						realPlane = regionCoords[2];
@@ -483,14 +482,11 @@ public class WorldEncoder extends Encoder {
 
 	public void sendSpotAnim(SpotAnim spotAnim, Object target) {
 		int targetHash = 0;
-		if (target instanceof Player) {
-			Player p = (Player) target;
+		if (target instanceof Player p) {
 			targetHash = p.getIndex() & 0xffff | 1 << 28;
-		} else if (target instanceof NPC) {
-			NPC n = (NPC) target;
+		} else if (target instanceof NPC n) {
 			targetHash = n.getIndex() & 0xffff | 1 << 29;
-		} else {
-			WorldTile tile = (WorldTile) target;
+		} else if (target instanceof WorldTile tile) {
 			targetHash = tile.getPlane() << 28 | tile.getX() << 14 | tile.getY() & 0x3fff | 1 << 30;
 		}
 		session.writeToQueue(new SpotAnimSpecific(spotAnim, targetHash));

@@ -13,9 +13,9 @@ public class WorldProjectile extends Projectile {
 
 	public WorldProjectile(WorldTile from, WorldTile to, int spotAnimId, int startHeight, int endHeight, int startTime, int endTime, int slope, int angle, Runnable task) {
 		super(from, to, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
-		Entity fromE = from instanceof Entity ? (Entity) from : null;
+		Entity fromE = from instanceof Entity e ? e : null;
 		this.sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
-		Entity toE = to instanceof Entity ? (Entity) to : null;
+		Entity toE = to instanceof Entity e ? e : null;
 		this.lockOnId = toE == null ? 0 : (toE instanceof Player ? -(toE.getIndex() + 1) : toE.getIndex() + 1);
 		
 		if (task != null) {
@@ -27,18 +27,18 @@ public class WorldProjectile extends Projectile {
 			}, getTaskDelay());
 		}
 		
-		if (from instanceof Entity)
-			fromSizeX = fromSizeY = ((Entity) from).getSize();
-		else if (from instanceof GameObject) {
-			ObjectDefinitions defs = ((GameObject) from).getDefinitions();
+		if (from instanceof Entity e)
+			fromSizeX = fromSizeY = e.getSize();
+		else if (from instanceof GameObject go) {
+			ObjectDefinitions defs = go.getDefinitions();
 			fromSizeX = defs.getSizeX();
 			fromSizeY = defs.getSizeY();
 		} else
 			fromSizeX = fromSizeY = 1;
-		if (to instanceof Entity)
-			toSizeX = toSizeY = ((Entity) to).getSize();
-		else if (to instanceof GameObject) {
-			ObjectDefinitions defs = ((GameObject) to).getDefinitions();
+		if (to instanceof Entity e)
+			toSizeX = toSizeY = e.getSize();
+		else if (to instanceof GameObject go) {
+			ObjectDefinitions defs = go.getDefinitions();
 			toSizeX = defs.getSizeX();
 			toSizeY = defs.getSizeY();
 		} else

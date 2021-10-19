@@ -1,12 +1,12 @@
 package com.rs.game.player.quests.data;
 
+import java.util.HashMap;
+
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.game.player.Skills;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.WorldTile;
-
-import java.util.HashMap;
 
 public class QuestInformationParser {
 	
