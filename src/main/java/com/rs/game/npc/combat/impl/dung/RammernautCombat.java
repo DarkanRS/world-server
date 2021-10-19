@@ -36,9 +36,12 @@ public class RammernautCombat extends CombatScript {
 	public int attack(final NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int chargeCount = getChargeCount(npc);
+		
+		if (!(npc instanceof Rammernaut))
+			return 0;
 
-		if (chargeCount > 1 && target instanceof Player) {
-			((Rammernaut) npc).setChargeTarget((Player) target);
+		if (chargeCount > 1 && target instanceof Player player) {
+			((Rammernaut) npc).setChargeTarget(player);
 			setChargeCount(npc, 0);
 			return 0;
 		}
@@ -59,9 +62,8 @@ public class RammernautCombat extends CombatScript {
 			return npc.getAttackSpeed();
 		}
 
-		if (((Rammernaut) npc).isRequestSpecNormalAttack() && target instanceof Player) {
+		if (((Rammernaut) npc).isRequestSpecNormalAttack() && target instanceof Player player) {
 			((Rammernaut) npc).setRequestSpecNormalAttack(false);
-			Player player = (Player) target;
 			player.sendMessage("Your prayers have been disabled.");
 			player.setProtectionPrayBlock(12);
 			player.sendMessage("Your defence been reduced.");

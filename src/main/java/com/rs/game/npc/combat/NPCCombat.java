@@ -51,8 +51,7 @@ public final class NPCCombat {
 		Entity target = this.target; // prevents multithread issues
 		if (target == null)
 			return 0;
-		if (target instanceof Familiar && Utils.random(3) == 0) {
-			Familiar familiar = (Familiar) target;
+		if (target instanceof Familiar familiar && Utils.random(3) == 0) {
 			Player player = familiar.getOwner();
 			if (player != null) {
 				target = player;
@@ -125,10 +124,8 @@ public final class NPCCombat {
 			distanceY = target.getY() - npc.getY();
 		}
 		// checks for no multi area :)
-		if (npc instanceof Familiar) {
-			Familiar familiar = (Familiar) npc;
-			if (!familiar.canAttack(target))
-				return false;
+		if (npc instanceof Familiar familiar && !familiar.canAttack(target)) {
+			return false;
 		} else {
 			if (!npc.isForceMultiAttacked()) {
 				if (!target.isAtMultiArea() || !npc.isAtMultiArea()) {

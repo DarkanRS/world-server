@@ -22,8 +22,7 @@ public class AbbysalTitanCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(7980));
 		npc.setNextSpotAnim(new SpotAnim(1490));
 
-		if (target instanceof Player) { // cjay failed dragonkk saved the day
-			Player player = (Player) target;
+		if (target instanceof Player player) {
 			if (damage > 0 && player.getPrayer().getPoints() > 0)
 				player.getPrayer().drainPrayer(damage / 2);
 		}

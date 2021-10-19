@@ -29,12 +29,11 @@ public class KalphiteQueenCombat extends CombatScript {
 
 	public static void attackMageTarget(final List<Player> arrayList, Entity fromEntity, final NPC startTile, Entity t, final int projectile, final int gfx) {
 		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile) : t;
-		if (fromEntity instanceof NPC) {
-			final NPC npc = (NPC) fromEntity;
+		if (fromEntity instanceof NPC npc) {
 			if (target == null)
 				return;
-			if (target instanceof Player)
-				arrayList.add((Player) target);
+			if (target instanceof Player player)
+				arrayList.add(player);
 			World.sendProjectile(fromEntity, target, projectile, fromEntity == startTile ? 70 : 20, 20, 30, 6, 0, 0);
 			int endTime = 3;
 			delayHit(startTile, endTime, target, getMagicHit(startTile, getMaxHit(startTile, npc.getMaxHit(), AttackStyle.MAGE, target)));
@@ -52,8 +51,8 @@ public class KalphiteQueenCombat extends CombatScript {
 		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile) : t;
 		if (target == null)
 			return;
-		if (target instanceof Player)
-			arrayList.add((Player) target);
+		if (target instanceof Player player)
+			arrayList.add(player);
 		World.sendProjectile(fromEntity, target, 280, fromEntity == startTile ? 70 : 20, 20, 60, 30, 0, 0);
 		delayHit(startTile, 0, target, getMagicHit(startTile, getMaxHit(startTile, startTile.getMaxHit(), AttackStyle.MAGE, target)));
 		WorldTasksManager.schedule(new WorldTask() {

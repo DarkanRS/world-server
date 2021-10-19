@@ -61,8 +61,8 @@ public class FamishedEye extends DungeonNPC {
 		setHitpoints(getMaxHitpoints());
 		boss.refreshCapDamage();
 		for (Entity t : getPossibleTargets())
-			if (t instanceof Player)
-				((Player) t).sendMessage("The creature shifts, and one of it's many eyes opens.");
+			if (t instanceof Player player)
+				player.sendMessage("The creature shifts, and one of it's many eyes opens.");
 	}
 
 	@Override
@@ -77,8 +77,8 @@ public class FamishedEye extends DungeonNPC {
 		setCantInteract(true);
 		setNextAnimation(new Animation(14917));
 		for (Entity t : getPossibleTargets())
-			if (t instanceof Player)
-				((Player) t).sendMessage("The creature shifts, and one of it's many eyes closes.");
+			if (t instanceof Player player)
+				player.sendMessage("The creature shifts, and one of it's many eyes closes.");
 	}
 
 	public boolean isInactive() {

@@ -100,8 +100,7 @@ public class PlayerCombat extends Action {
 	public boolean start(Player player) {
 		player.setNextFaceEntity(target);
 		if (checkAll(player)) {
-			if (target instanceof Player) {
-				Player opp = (Player) target;
+			if (target instanceof Player opp) {
 				if ((!opp.attackedBy(player.getUsername())) && (!player.attackedBy(opp.getUsername())))
 					opp.addToAttackedBy(player.getUsername());
 			}
@@ -562,9 +561,9 @@ public class PlayerCombat extends Action {
 				player.setNextAnimation(weapon.getAttackAnimation());
 				target.setNextSpotAnim(new SpotAnim(44));
 				target.resetWalkSteps();
-				if (target instanceof NPC) {
+				if (target instanceof NPC npc) {
 					WorldTasksManager.delay(p.getTaskDelay(), () -> {
-						((NPC) target).setCapDamage(-1);
+						npc.setCapDamage(-1);
 						target.applyHit(new Hit(player, target.getHitpoints(), HitLook.TRUE_DAMAGE));
 					});
 					dropAmmo(player, Equipment.WEAPON, 1);
@@ -616,13 +615,10 @@ public class PlayerCombat extends Action {
 					case 9237:
 						damage = getRandomMaxHit(player, weaponId, attackStyle, true);
 						target.setNextSpotAnim(new SpotAnim(755));
-						if (target instanceof Player) {
-							Player p2 = (Player) target;
+						if (target instanceof Player p2)
 							p2.stopAll();
-						} else {
-							NPC n = (NPC) target;
+						else if (target instanceof NPC n)
 							n.setTarget(null);
-						}
 						soundId = 2914;
 						break;
 					case 9242:
@@ -717,8 +713,7 @@ public class PlayerCombat extends Action {
 				break;
 			case BOLAS:
 				int delay = Ticks.fromSeconds(15);
-				if (target instanceof Player) {
-					Player t = (Player) target;
+				if (target instanceof Player t) {
 					boolean slashBased = t.getEquipment().getItem(3) != null;
 					if (weapon != null) {
 						int slash = t.getCombatDefinitions().getBonus(Bonus.SLASH_ATT);
@@ -906,10 +901,8 @@ public class PlayerCombat extends Action {
 			case 23691:
 				player.setNextAnimation(new Animation(11971));
 				target.setNextSpotAnim(new SpotAnim(2108, 0, 100));
-				if (target instanceof Player) {
-					Player p2 = (Player) target;
+				if (target instanceof Player p2)
 					p2.setRunEnergy(p2.getRunEnergy() > 25 ? p2.getRunEnergy() - 25 : 0);
-				}
 				delayNormalHit(weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.25, 1.0)));
 				break;
 			case 11730: // sara sword
@@ -943,8 +936,7 @@ public class PlayerCombat extends Action {
 						player.setNextFaceEntity(null);
 					}
 				});
-				if (target instanceof Player) {
-					final Player other = (Player) target;
+				if (target instanceof Player other) {
 					other.lock();
 					other.addFoodDelay(3000);
 					other.setDisableEquip(true);
@@ -976,15 +968,14 @@ public class PlayerCombat extends Action {
 				Hit hit2 = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 2.0, 1.1));
 				delayNormalHit(weaponId, attackStyle, hit2);
 
-				if (target instanceof Player) {
-					Player targetPlayer = ((Player) target);
+				if (target instanceof Player other) {
 					int amountLeft;
-					if ((amountLeft = targetPlayer.getSkills().drainLevel(Constants.DEFENSE, hit2.getDamage()/10)) > 0) {
-						if ((amountLeft = targetPlayer.getSkills().drainLevel(Constants.STRENGTH, amountLeft)) > 0) {
-							if ((amountLeft = targetPlayer.getSkills().drainLevel(Constants.PRAYER, amountLeft)) > 0) {
-								if ((amountLeft = targetPlayer.getSkills().drainLevel(Constants.ATTACK, amountLeft)) > 0) {
-									if ((amountLeft = targetPlayer.getSkills().drainLevel(Constants.MAGIC, amountLeft)) > 0) {
-										if (targetPlayer.getSkills().drainLevel(Constants.RANGE, amountLeft) > 0) {
+					if ((amountLeft = other.getSkills().drainLevel(Constants.DEFENSE, hit2.getDamage()/10)) > 0) {
+						if ((amountLeft = other.getSkills().drainLevel(Constants.STRENGTH, amountLeft)) > 0) {
+							if ((amountLeft = other.getSkills().drainLevel(Constants.PRAYER, amountLeft)) > 0) {
+								if ((amountLeft = other.getSkills().drainLevel(Constants.ATTACK, amountLeft)) > 0) {
+									if ((amountLeft = other.getSkills().drainLevel(Constants.MAGIC, amountLeft)) > 0) {
+										if (other.getSkills().drainLevel(Constants.RANGE, amountLeft) > 0) {
 											break;
 										}
 									}
@@ -992,9 +983,9 @@ public class PlayerCombat extends Action {
 							}
 						}
 					}
-				} else if (target instanceof NPC) {
+				} else if (target instanceof NPC n) {
 					if (hit2.getDamage() != 0)
-						((NPC) target).lowerDefense(hit2.getDamage()/10);
+						n.lowerDefense(hit2.getDamage()/10);
 				}
 				break;
 			case 11061: // ancient mace
@@ -1002,10 +993,8 @@ public class PlayerCombat extends Action {
 				player.setNextSpotAnim(new SpotAnim(1052));
 				int maceDMG = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
 				delayNormalHit(weaponId, attackStyle, getMeleeHit(player, maceDMG));
-				if (target instanceof Player) {
-					Player targetPlayer = ((Player) target);
-					targetPlayer.getPrayer().drainPrayer(maceDMG);
-				}
+				if (target instanceof Player other)
+					other.getPrayer().drainPrayer(maceDMG);
 				break;
 			case 11694: // ags
 			case 23679:
@@ -1026,10 +1015,10 @@ public class PlayerCombat extends Action {
 				delayNormalHit(weaponId, attackStyle, hit1);
 
 				if (hit1.getDamage() != 0) {
-					if (target instanceof NPC) {
-						((NPC) target).lowerDefense(0.30f);
-					} else if (target instanceof Player) {
-						((Player)target).getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
+					if (target instanceof NPC n) {
+						n.lowerDefense(0.30f);
+					} else if (target instanceof Player p) {
+						p.getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
 					}
 				}
 
@@ -1117,10 +1106,8 @@ public class PlayerCombat extends Action {
 				player.setNextSpotAnim(new SpotAnim(1027));
 				Hit hitt = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 2.0, 1.1));
 				delayNormalHit(weaponId, attackStyle, hitt);
-				if (target instanceof Player) {
-					Player targetPlayer = ((Player) target);
-					targetPlayer.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
-				}
+				if (target instanceof Player other)
+					other.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
 				break;
 			case 1305: // dragon long
 				player.setNextAnimation(new Animation(12033));
@@ -1142,8 +1129,7 @@ public class PlayerCombat extends Action {
 				player.setNextAnimation(new Animation(12031));
 				player.setNextSpotAnim(new SpotAnim(2118));
 				Hit hit3 = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.25, 1.0));
-				if (target instanceof Player) {
-					Player p2 = (Player) target;
+				if (target instanceof Player p2) {
 					if (hit3.getDamage() > 0)
 						p2.setProtectionPrayBlock(10);
 				}
@@ -1174,10 +1160,8 @@ public class PlayerCombat extends Action {
 			if (weaponId == -2) {
 				int randomSeed = 25;
 
-				if (target instanceof NPC) {
-					NPC targetN = ((NPC) target);
-					randomSeed -= (targetN.getBonus(Bonus.CRUSH_DEF) / 100) * 1.3;
-				}
+				if (target instanceof NPC n)
+					randomSeed -= (n.getBonus(Bonus.CRUSH_DEF) / 100) * 1.3;
 
 				if (new Random().nextInt(randomSeed) == 0) {
 					player.setNextAnimation(new Animation(14417));
@@ -1200,20 +1184,17 @@ public class PlayerCombat extends Action {
 									stop();
 								}
 							}, 1);
-							if (target instanceof Player) {
-								Player p = (Player) target;
+							if (target instanceof Player p) {
 								for (int i = 0; i < 7; i++) {
 									if (i != 3 && i != 5) {
 										p.getSkills().drainLevel(i, 7);
 									}
 								}
 								p.sendMessage("Your stats have been drained!");
-							} else if (target instanceof NPC) {
-								((NPC) target).lowerDefense(0.05f);
-							}
-							if (!nextTarget) {
+							} else if (target instanceof NPC n)
+								n.lowerDefense(0.05f);
+							if (!nextTarget)
 								nextTarget = true;
-							}
 							return nextTarget;
 
 						}
@@ -1232,10 +1213,8 @@ public class PlayerCombat extends Action {
 		if (soundId == -1)
 			return;
 		player.getPackets().sendSound(soundId, 0, 1);
-		if (target instanceof Player) {
-			Player p2 = (Player) target;
+		if (target instanceof Player p2)
 			p2.getPackets().sendSound(soundId, 0, 1);
-		}
 	}
 
 	public static int getSpecialAmmount(int weaponId) {
@@ -1347,8 +1326,7 @@ public class PlayerCombat extends Action {
 
 		int hit = Utils.random(current + 1);
 		if (hit > 0) {
-			if (target instanceof NPC) {
-				NPC n = (NPC) target;
+			if (target instanceof NPC n) {
 				if (n.getId() == 9463 && hasFireCape(player))
 					hit += 40;
 			}
@@ -1367,18 +1345,15 @@ public class PlayerCombat extends Action {
 		double atk = Math.floor(lvl * (atkBonus + 64));
 
 		if (player.hasSlayerTask()) {
-			if (target instanceof NPC) {
-				if (player.getSlayer().isOnTaskAgainst((NPC) target)) {
-					if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
-						atk *= 1.15;
-					}
+			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n)) {
+				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
+					atk *= 1.15;
 				}
 			}
 		}
 		
 		double def;
-		if (target instanceof Player) {
-			Player p2 = (Player) target;
+		if (target instanceof Player p2) {
 			double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
 			defLvl += p2.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
 			defLvl += 8;
@@ -1426,8 +1401,7 @@ public class PlayerCombat extends Action {
 		if (spellcasterGloveSpell != null) {
 			if (maxHit > 60) {
 				magicPerc += 17;
-				if (target instanceof Player) {
-					Player p = (Player) target;
+				if (target instanceof Player p) {
 					p.getSkills().drainLevel(0, p.getSkills().getLevel(0) / 10);
 					p.getSkills().drainLevel(1, p.getSkills().getLevel(1) / 10);
 					p.getSkills().drainLevel(2, p.getSkills().getLevel(2) / 10);
@@ -1441,11 +1415,9 @@ public class PlayerCombat extends Action {
 		max_hit *= boost;
 		
 		if (player.hasSlayerTask()) {
-			if (target instanceof NPC) {
-				if (player.getSlayer().isOnTaskAgainst((NPC) target)) {
-					if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
-						max_hit *= 1.15;
-					}
+			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n)) {
+				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
+					max_hit *= 1.15;
 				}
 			}
 		}
@@ -1484,8 +1456,8 @@ public class PlayerCombat extends Action {
 				atk = Math.floor(atk * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.TACTICIAN) * 0.01));
 
 			if (player.hasSlayerTask()) {
-				if (target instanceof NPC) {
-					if (player.getSlayer().isOnTaskAgainst((NPC) target)) {
+				if (target instanceof NPC n) {
+					if (player.getSlayer().isOnTaskAgainst(n)) {
 						if (ranging) {
 							if (player.getEquipment().wearingFocusSight() || player.getEquipment().wearingSlayerHelmet()) {
 								atk *= (7.0/6.0);
@@ -1496,7 +1468,7 @@ public class PlayerCombat extends Action {
 								atk *= (7.0/6.0);
 								maxHit *= (7.0/6.0);
 							}
-							if (player.getEquipment().getSalveAmulet() != -1 && ((NPC)target).getDefinitions().isUndead()) {
+							if (player.getEquipment().getSalveAmulet() != -1 && n.getDefinitions().isUndead()) {
 								switch(player.getEquipment().getSalveAmulet()) {
 								case 0:
 									atk *= 1.15;
@@ -1514,8 +1486,7 @@ public class PlayerCombat extends Action {
 			}
 
 			double def;
-			if (target instanceof Player) {
-				Player p2 = (Player) target;
+			if (target instanceof Player p2) {
 				double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
 				defLvl += p2.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
@@ -1561,8 +1532,7 @@ public class PlayerCombat extends Action {
 		int hit = Utils.random(maxHit + 1);
 		if (veracsProc)
 			hit += 1.0;
-		if (target instanceof NPC) {
-			NPC n = (NPC) target;
+		if (target instanceof NPC n) {
 			if (n.getId() == 9463 && hasFireCape(player))
 				hit += 40;
 		}
@@ -1623,8 +1593,7 @@ public class PlayerCombat extends Action {
 			case 10582:
 			case 10583:
 			case 10584:
-				if (target != null && target instanceof NPC) {
-					NPC n = (NPC) target;
+				if (target != null && target instanceof NPC n) {
 					if (n.getName().startsWith("Kalphite")) {
 						if (Utils.random(51) == 0)
 							baseDamage *= 3.0;
@@ -1635,19 +1604,15 @@ public class PlayerCombat extends Action {
 				break;
 			case 15403:
 			case 22405:
-				if (target != null && target instanceof NPC) {
-					NPC n = (NPC) target;
-					if (n.getName().equals("Dagannoth") || n.getName().equals("Wallasalki") || n.getName().equals("Dagannoth Supreme")) {
+				if (target != null && target instanceof NPC n) {
+					if (n.getName().equals("Dagannoth") || n.getName().equals("Wallasalki") || n.getName().equals("Dagannoth Supreme"))
 						baseDamage *= 2.75;
-					}
 				}
 				break;
 			case 6746:
-				if (target != null && target instanceof NPC) {
-					NPC n = (NPC) target;
-					if (n.getName().toLowerCase().contains("demon")) {
+				if (target != null && target instanceof NPC n) {
+					if (n.getName().toLowerCase().contains("demon"))
 						baseDamage *= 1.6;
-					}
 				}
 				break;
 			default:
@@ -1802,8 +1767,7 @@ public class PlayerCombat extends Action {
 			if (afterDelay != null)
 				afterDelay.run();
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
-			if (target instanceof Player) {
-				Player p2 = (Player) target;
+			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (p2.getCombatDefinitions().isAutoRelatie() && !p2.getActionManager().hasSkillWorking() && !p2.hasWalkSteps())
 					p2.getActionManager().setAction(new PlayerCombat(player));
@@ -2214,8 +2178,7 @@ public class PlayerCombat extends Action {
 		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance) {
 			return false;
 		}
-		if (target instanceof Player) {
-			Player p2 = (Player) target;
+		if (target instanceof Player p2) {
 			if (!player.isCanPvp() || !p2.isCanPvp())
 				return false;
 		} else {
@@ -2223,8 +2186,7 @@ public class PlayerCombat extends Action {
 			if (n.isCantInteract()) {
 				return false;
 			}
-			if (n instanceof Familiar) {
-				Familiar familiar = (Familiar) n;
+			if (n instanceof Familiar familiar) {
 				if (!familiar.canAttack(target))
 					return false;
 			} else {
@@ -2232,7 +2194,7 @@ public class PlayerCombat extends Action {
 					return false;
 			}
 		}
-		if (!(target instanceof NPC && ((NPC) target).isForceMultiAttacked())) {
+		if (!(target instanceof NPC n && n.isForceMultiAttacked())) {
 			if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
 				if (player.getAttackedBy() != target && player.inCombat()) {
 					return false;
@@ -2413,8 +2375,7 @@ public class PlayerCombat extends Action {
 	}
 
 	public static int getDefenceEmote(Entity target) {
-		if (target instanceof NPC) {
-			NPC n = (NPC) target;
+		if (target instanceof NPC n) {
 			return n.getCombatDefinitions().getDefenceEmote();
 		} else {
 			Player p = (Player) target;

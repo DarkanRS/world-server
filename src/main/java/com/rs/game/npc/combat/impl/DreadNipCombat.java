@@ -33,8 +33,7 @@ public class DreadNipCombat extends CombatScript {
 		case 1:
 			int tickDelay = 5 + Utils.getRandomInclusive(3);
 			target.freeze(tickDelay);
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player) {
 				player.getActionManager().addActionDelay(tickDelay);
 			} else {
 				NPC npcTarget = (NPC) target;

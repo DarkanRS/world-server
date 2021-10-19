@@ -54,8 +54,7 @@ public class HopeDevourer extends DungeonBoss {
 	private void sendAuraAttack() {
 		for (Entity t : super.getPossibleTargets()) {
 			t.applyHit(new Hit(this, auraDamage, HitLook.TRUE_DAMAGE, 60));
-			if (t instanceof Player) {
-				Player player = (Player) t;
+			if (t instanceof Player player) {
 				int combatSkill = Utils.random(Constants.MAGIC);
 				if (combatSkill == 3)
 					combatSkill = 1;

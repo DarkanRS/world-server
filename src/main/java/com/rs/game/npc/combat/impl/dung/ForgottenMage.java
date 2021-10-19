@@ -99,8 +99,7 @@ public class ForgottenMage extends CombatScript {
 
 				@Override
 				public void run() {
-					if (target instanceof Player) {
-						Player player = (Player) target;
+					if (target instanceof Player player) {
 						if (percentDrain == 0) {
 							player.freeze(skill == 0 ? 8 : skill == 1 ? 12 : 16, true);
 						}else

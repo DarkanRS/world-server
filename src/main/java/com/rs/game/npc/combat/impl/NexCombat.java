@@ -112,8 +112,8 @@ public class NexCombat extends CombatScript {
 					int damage = getMaxHit(nex, 250, AttackStyle.MAGE, t);
 					delayHit(nex, World.sendProjectile(nex, t, 362, 41, 16, 41, 35, 16, 0).getTaskDelay(), t, getMagicHit(nex, damage));
 					if (damage > 0 && Utils.getRandomInclusive(5) == 0) {
-						if (t instanceof Player)
-							t.freeze(Ticks.fromSeconds(((Player)t).getPrayer().isProtectingMage() ? 3 : 18), true);
+						if (t instanceof Player player)
+							t.freeze(Ticks.fromSeconds(player.getPrayer().isProtectingMage() ? 3 : 18), true);
 						t.setNextSpotAnim(new SpotAnim(369));
 					}
 				}

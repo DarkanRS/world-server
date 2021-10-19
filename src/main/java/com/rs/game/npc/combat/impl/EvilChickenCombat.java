@@ -30,16 +30,12 @@ public class EvilChickenCombat extends CombatScript {
 			npc.setNextForceTalk(new ForceTalk("Bwuk bwuk bwuk"));
 			break;
 		case 2:
-			String name = "";
-			if (target instanceof Player)
-				name = ((Player) target).getDisplayName();
-			npc.setNextForceTalk(new ForceTalk("Flee from me, " + name));
+			if (target instanceof Player player)
+				npc.setNextForceTalk(new ForceTalk("Flee from me, " + player.getDisplayName()));
 			break;
 		case 3:
-			name = "";
-			if (target instanceof Player)
-				name = ((Player) target).getDisplayName();
-			npc.setNextForceTalk(new ForceTalk("Begone, " + name));
+			if (target instanceof Player player)
+				npc.setNextForceTalk(new ForceTalk("Begone, " + player.getDisplayName()));
 			break;
 		case 4:
 			npc.setNextForceTalk(new ForceTalk("Bwaaaauuuuk bwuk bwuk"));

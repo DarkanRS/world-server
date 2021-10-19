@@ -63,8 +63,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 					continue;
 				int damage = getMaxHit(npc, AttackStyle.MELEE, t);
 				int damage2 = getMaxHit(npc, AttackStyle.MELEE, t);
-				if (t instanceof Player) {
-					Player player = (Player) t;
+				if (t instanceof Player player) {
 					if ((damage > 0 || damage2 > 0)) {
 						player.setProtectionPrayBlock(2);
 						player.sendMessage("You are injured and currently cannot use protection prayers.");

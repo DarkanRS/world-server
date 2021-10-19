@@ -23,8 +23,8 @@ public class SappingGlacyteCombat extends CombatScript {
 
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
-		if (target instanceof Player)
-			((Player) target).getPrayer().drainPrayer(20);
+		if (target instanceof Player player)
+			player.getPrayer().drainPrayer(20);
 		delayHit(npc, 0, target, getMeleeHit(npc, damage));
 
 		return npc.getAttackSpeed();

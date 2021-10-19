@@ -19,8 +19,8 @@ public class TormentedDemonCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, Entity target) {
 		TormentedDemon torm = null;
-		if (npc instanceof TormentedDemon)
-			torm = (TormentedDemon) npc;
+		if (npc instanceof TormentedDemon td)
+			torm = td;
 		if (torm == null)
 			return 0;
 		int hit = 0;

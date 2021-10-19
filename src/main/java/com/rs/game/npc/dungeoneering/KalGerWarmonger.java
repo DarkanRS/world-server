@@ -88,15 +88,13 @@ public class KalGerWarmonger extends DungeonBoss {
 	public void handlePreHitOut(Entity target, Hit hit) {
 		if (annoyanceMeter == 10) {
 			annoyanceMeter = 0;// resets it
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player) {
 				player.setProtectionPrayBlock(2);
 				player.sendMessage("You have been injured and cannot use protective prayers.");
 			}
 			hit.setDamage(target.getHitpoints() - 1);
 		} else if (hit.getDamage() == 0) {
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player) {
 				if (player.getPrayer().isUsingProtectionPrayer())
 					annoyanceMeter++;
 			}
@@ -231,8 +229,7 @@ public class KalGerWarmonger extends DungeonBoss {
 					possibleTargets = getPossibleTargets();
 					WorldTile tile = getManager().getTile(getReference(), 9, 8);
 					for (Entity t : possibleTargets) {
-						if (t instanceof Player) {
-							Player player = (Player) t;
+						if (t instanceof Player player) {
 							player.setCantWalk(true);
 							YkLagorThunderousCombat.sendPullAttack(tile, player, false);
 						}

@@ -18,8 +18,7 @@ public class NechryaelCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
-		if (npc instanceof Nechryael) {
-			Nechryael n = (Nechryael) npc;
+		if (npc instanceof Nechryael n) {
 			if (Utils.random(10) == 0 && !n.hasActiveSpawns())
 				n.summonDeathSpawns();
 		}

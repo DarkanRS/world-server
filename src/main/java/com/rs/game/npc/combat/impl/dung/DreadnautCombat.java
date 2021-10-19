@@ -36,8 +36,7 @@ public class DreadnautCombat extends CombatScript {
 				target.setNextSpotAnim(new SpotAnim(2866, 75, 0));
 				sendReductionEffect(boss, target, damage);
 			}
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player) {
 				player.sendMessage("You have been injured and are unable to use protection prayers.");
 				player.setProtectionPrayBlock(12);
 			}

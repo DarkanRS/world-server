@@ -297,8 +297,7 @@ public class NPC extends Entity {
 		Entity source = hit.getSource();
 		if (source == null)
 			return;
-		if (source instanceof Player) {
-			Player player = (Player) source;
+		if (source instanceof Player player) {
 			SlayerMonsters thisMonster = SlayerMonsters.forId(getId());
 			if (thisMonster != null) {
 				if (player.getSkills().getLevel(Constants.SLAYER) < thisMonster.getRequirement()) {
@@ -418,8 +417,8 @@ public class NPC extends Entity {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
-					if (source instanceof Player)
-						((Player) source).getControllerManager().processNPCDeath(NPC.this);
+					if (source instanceof Player player)
+						player.getControllerManager().processNPCDeath(NPC.this);
 					drop();
 					reset();
 					setLocation(respawnTile);

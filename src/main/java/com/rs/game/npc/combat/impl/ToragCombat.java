@@ -22,10 +22,9 @@ public class ToragCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
-		if (damage != 0 && target instanceof Player && Utils.random(3) == 0) {
+		if (damage != 0 && target instanceof Player player && Utils.random(3) == 0) {
 			target.setNextSpotAnim(new SpotAnim(399));
-			Player targetPlayer = (Player) target;
-			targetPlayer.setRunEnergy(targetPlayer.getRunEnergy() > 4 ? targetPlayer.getRunEnergy() - 4 : 0);
+			player.setRunEnergy(player.getRunEnergy() > 4 ? player.getRunEnergy() - 4 : 0);
 		}
 		delayHit(npc, 0, target, getMeleeHit(npc, damage));
 		return npc.getAttackSpeed();

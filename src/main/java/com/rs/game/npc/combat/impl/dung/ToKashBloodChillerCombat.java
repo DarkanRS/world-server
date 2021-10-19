@@ -32,8 +32,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 
 		boolean perfectDamage = false;
 
-		if (target instanceof Player) {
-			Player player = (Player) target;
+		if (target instanceof Player player) {
 			if (player.getAppearance().isNPC())
 				perfectDamage = true;
 		}

@@ -40,8 +40,8 @@ public class RuneboundBehemothCombat extends CombatScript {
 			if (WorldUtil.collides(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				trample = true;
 				delayHit(npc, 0, t, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, t)));
-				if (t instanceof Player)
-					((Player) t).sendMessage("The beast tramples you.");
+				if (t instanceof Player player)
+					player.sendMessage("The beast tramples you.");
 			}
 		}
 		if (trample) {

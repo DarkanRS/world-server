@@ -37,7 +37,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			}
 		} else if (attackStyle == 1 || attackStyle == 2) {
 			int damage = Utils.getRandomInclusive(650);
-			final Player player = target instanceof Player ? (Player) target : null;
+			final Player player = target instanceof Player p ? p : null;
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = Utils.getRandomInclusive(150);
@@ -49,7 +49,7 @@ public class KingBlackDragonCombat extends CombatScript {
 
 		} else if (attackStyle == 3) {
 			int damage = Utils.getRandomInclusive(650);
-			final Player player = target instanceof Player ? (Player) target : null;
+			final Player player = target instanceof Player p ? p : null;
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
@@ -62,7 +62,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(81));
 		} else if (attackStyle == 4) {
 			int damage = Utils.getRandomInclusive(650);
-			final Player player = target instanceof Player ? (Player) target : null;
+			final Player player = target instanceof Player p ? p : null;
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
@@ -75,7 +75,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(81));
 		} else {
 			int damage = Utils.getRandomInclusive(650);
-			final Player player = target instanceof Player ? (Player) target : null;
+			final Player player = target instanceof Player p ? p : null;
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);

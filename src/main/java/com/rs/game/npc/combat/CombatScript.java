@@ -30,11 +30,10 @@ public abstract class CombatScript {
 			target.applyHit(hit, delay, () -> {
 				npc.getCombat().doDefenceEmote(target);
 				target.setNextSpotAnim(new SpotAnim(gfx));
-				if (target instanceof Player) {
-					Player p2 = (Player) target;
-					p2.closeInterfaces();
-					if (p2.getCombatDefinitions().isAutoRelatie() && !p2.getActionManager().hasSkillWorking() && !p2.hasWalkSteps())
-						p2.getActionManager().setAction(new PlayerCombat(npc));
+				if (target instanceof Player player) {
+					player.closeInterfaces();
+					if (player.getCombatDefinitions().isAutoRelatie() && !player.getActionManager().hasSkillWorking() && !player.hasWalkSteps())
+						player.getActionManager().setAction(new PlayerCombat(npc));
 				} else {
 					NPC n = (NPC) target;
 					if (!n.isUnderCombat() || n.canBeAutoRetaliated())
@@ -56,11 +55,10 @@ public abstract class CombatScript {
 			if (afterDelay != null)
 				afterDelay.run();
 			npc.getCombat().doDefenceEmote(target);
-			if (target instanceof Player) {
-				Player p2 = (Player) target;
-				p2.closeInterfaces();
-				if (p2.getCombatDefinitions().isAutoRelatie() && !p2.getActionManager().hasSkillWorking() && !p2.hasWalkSteps())
-					p2.getActionManager().setAction(new PlayerCombat(npc));
+			if (target instanceof Player player) {
+				player.closeInterfaces();
+				if (player.getCombatDefinitions().isAutoRelatie() && !player.getActionManager().hasSkillWorking() && !player.hasWalkSteps())
+					player.getActionManager().setAction(new PlayerCombat(npc));
 			} else {
 				NPC n = (NPC) target;
 				if (!n.isUnderCombat() || n.canBeAutoRetaliated())
@@ -146,43 +144,42 @@ public abstract class CombatScript {
 		atk *= accuracyModifier;
 		
 		double def;
-		if (target instanceof Player) {
-			Player p2 = (Player) target;
+		if (target instanceof Player player) {
 			switch (attType) {
 			case RANGE_ATT:
-				double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
-				double defBonus = p2.getCombatDefinitions().getBonus(Bonus.RANGE_DEF);
+				double defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
+				double defBonus = player.getCombatDefinitions().getBonus(Bonus.RANGE_DEF);
 				defLvl += 8;
 				def = Math.floor(defLvl * (defBonus + 64));
 				break;
 			case MAGIC_ATT:
-				defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
-				defLvl += p2.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
+				defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
+				defLvl += player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || player.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : player.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
 				defLvl *= 0.3;
-				double magLvl = Math.floor(p2.getSkills().getLevel(Constants.MAGIC) * p2.getPrayer().getMageMultiplier());
+				double magLvl = Math.floor(player.getSkills().getLevel(Constants.MAGIC) * player.getPrayer().getMageMultiplier());
 				magLvl *= 0.7;
 				
 				double totalDefLvl = defLvl+magLvl;
 				
-				defBonus = p2.getCombatDefinitions().getBonus(Bonus.MAGIC_DEF);
+				defBonus = player.getCombatDefinitions().getBonus(Bonus.MAGIC_DEF);
 				
 				def = Math.floor(totalDefLvl * (defBonus + 64));
 				break;
 			case STAB_ATT:
 			case SLASH_ATT:
 			case CRUSH_ATT:
-				defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
-				defBonus = p2.getCombatDefinitions().getBonus(attType == Bonus.CRUSH_ATT ? Bonus.CRUSH_DEF : attType == Bonus.STAB_ATT ? Bonus.STAB_DEF : Bonus.SLASH_DEF);
+				defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
+				defBonus = player.getCombatDefinitions().getBonus(attType == Bonus.CRUSH_ATT ? Bonus.CRUSH_DEF : attType == Bonus.STAB_ATT ? Bonus.STAB_DEF : Bonus.SLASH_DEF);
 				defLvl += 8;
 				def = Math.floor(defLvl * (defBonus + 64));
 				break;
 			default:
-				def = p2.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
+				def = player.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
 				break;
 			}
 			if (attackStyle == AttackStyle.MELEE) {
-				if (p2.getFamiliar() instanceof Steeltitan)
+				if (player.getFamiliar() instanceof Steeltitan)
 					def *= 1.15;
 			}
 		} else {
@@ -227,9 +224,9 @@ public abstract class CombatScript {
 			}
 		}
 		double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
-		if (Settings.getConfig().isDebug() && target instanceof Player)
-			if (((Player) target).getTempB("hitChance"))
-				((Player) target).sendMessage("Your chance of being hit: " + Utils.formatDouble(prob*100.0) + "%");
+		if (Settings.getConfig().isDebug() && target instanceof Player player)
+			if (player.getTempB("hitChance"))
+				player.sendMessage("Your chance of being hit: " + Utils.formatDouble(prob*100.0) + "%");
 		if (prob <= Math.random())
 			return 0;
 		return Utils.getRandomInclusive(maxHit);
