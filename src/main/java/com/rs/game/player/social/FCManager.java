@@ -21,12 +21,19 @@ public class FCManager {
 			switch (e.getComponentId()) {
 				case 1 -> {
 					switch (e.getPacket()) {
-						case IF_OP1 -> e.getPlayer().getPackets().sendRunScriptReverse(109,
-								new Object[] { "Enter chat prefix:" });
+						case IF_OP1 -> e.getPlayer().sendInputString("Enter chat prefix:", str -> {
+							e.getPlayer().getSocial().getFriendsChat().setName(str);
+							LobbyCommunicator.updateAccount(e.getPlayer(), res -> {
+								if (res == null)
+									e.getPlayer().sendMessage("Error communicating with social service.");
+								else
+									refreshFC(e.getPlayer());
+							});
+						});
 						case IF_OP2 -> e.getPlayer().getSocial().getFriendsChat().setName(null); // TODO when fc block update is
-																									// sent, check if name was
-																									// set to null and destroy
-																									// chat
+																								 // sent, check if name was
+																								 // set to null and destroy
+																								 // chat
 						default -> e.getPlayer().sendMessage("Unexpected FC interface packet...");
 					}
 				}
@@ -35,6 +42,12 @@ public class FCManager {
 				case 4 -> e.getPlayer().getSocial().getFriendsChat().setRankToKick(getRankFromPacket(e.getPacket()));
 				case 5 -> e.getPlayer().getSocial().getFriendsChat().setRankToLS(getRankFromPacket(e.getPacket()));
 			}
+			LobbyCommunicator.updateAccount(e.getPlayer(), res -> {
+				if (res == null)
+					e.getPlayer().sendMessage("Error communicating with social service.");
+				else
+					refreshFC(e.getPlayer());
+			});
 		}
 	};
 
@@ -61,20 +74,24 @@ public class FCManager {
 
 	public static void openFriendChatSetup(Player player) {
 		player.getInterfaceManager().sendInterface(FC_SETUP_INTER);
-		player.getPackets().setIFText(FC_SETUP_INTER, 1, player.getSocial().getFriendsChat().getName() == null ? "Chat disabled" : player.getSocial().getFriendsChat().getName());
-		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToEnter(), 2);
-		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToSpeak(), 3);
-		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToKick(), 4);
-		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToLS(), 5);
+		refreshFC(player);
 		player.getPackets().setIFHidden(FC_SETUP_INTER, 49, true);
 		player.getPackets().setIFHidden(FC_SETUP_INTER, 63, true);
 		player.getPackets().setIFHidden(FC_SETUP_INTER, 77, true);
 		player.getPackets().setIFHidden(FC_SETUP_INTER, 91, true);
 	}
+	
+	public static void refreshFC(Player player) {
+		player.getPackets().setIFText(FC_SETUP_INTER, 1, player.getSocial().getFriendsChat().getName() == null ? "Chat disabled" : player.getSocial().getFriendsChat().getName());
+		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToEnter(), 2);
+		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToSpeak(), 3);
+		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToKick(), 4);
+		sendRankRequirement(player, player.getSocial().getFriendsChat().getRankToLS(), 5);
+	}
 
 	public static void sendRankRequirement(Player player, Rank rank, int component) {
 		switch (rank) {
-			case UNRANKED -> player.getPackets().setIFText(FC_SETUP_INTER, component, "No-one");
+			case UNRANKED -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Anyone");
 			case FRIEND -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Any friends");
 			case RECRUIT -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Recruit+");
 			case CORPORAL -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Corporal+");
@@ -82,7 +99,7 @@ public class FCManager {
 			case LIEUTENANT -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Lieutenant+");
 			case CAPTAIN -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Captain+");
 			case GENERAL -> player.getPackets().setIFText(FC_SETUP_INTER, component, "General+");
-			case OWNER -> player.getPackets().setIFText(FC_SETUP_INTER, component, "Only me");
+			case OWNER -> player.getPackets().setIFText(FC_SETUP_INTER, component, component == 5 ? "No-one" : "Only me");
 			default -> throw new IllegalArgumentException("Unexpected value: " + rank);
 		}
 	}

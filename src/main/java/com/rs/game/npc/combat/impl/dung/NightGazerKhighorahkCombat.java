@@ -87,8 +87,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 							for (Entity t : targets) {
 								if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 1)) {
 									t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
-									if (t instanceof Player) {
-										Player player = (Player) t;
+									if (t instanceof Player player) {
 										player.lock(2);
 										player.stopAll();
 									}

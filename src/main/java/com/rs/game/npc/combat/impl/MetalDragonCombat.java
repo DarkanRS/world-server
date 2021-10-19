@@ -27,7 +27,7 @@ public class MetalDragonCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
 		} else {
 			int damage = 100 + Utils.getRandomInclusive(500);
-			final Player player = target instanceof Player ? (Player) target : null;
+			final Player player = target instanceof Player p ? p : null;
 			if (player != null) {
 				int protection = PlayerCombat.getAntifireLevel(target, false);
 				if (protection == 1) {

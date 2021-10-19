@@ -15,18 +15,9 @@ public class DagonHai extends Dialogue {
 		stage = (byte) ((int) parameters[2]);
 		if (stage == 1) {
 			stage = 2;
-			sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] { player.getDisplayName(), "That monk - he called to Zamorak for revenge." }, IS_PLAYER, player.getIndex(), 9827); // TODO
-																																													// Need
-																																													// correct
-																																													// Animation
-																																													// ID.
+			sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] { player.getDisplayName(), "That monk - he called to Zamorak for revenge." }, IS_PLAYER, player.getIndex(), 9827); // TODO Need correct Animation ID.
 		} else {
-			sendEntityDialogue(SEND_3_TEXT_CHAT, new String[] { NPCDefinitions.getDefs(npcId).getName(), "Our Lord Zamorak has power over life and death,",
-					Utils.formatPlayerNameForDisplay(player.getDisplayName()) + "! He has seen fit to ressurect Bork to", "continue his great work... and now you will fall before him!" }, IS_NPC, npcId, 9843); // TODO
-																																																					// Need
-																																																					// correct
-																																																					// Animation
-																																																					// ID.
+			sendEntityDialogue(SEND_3_TEXT_CHAT, new String[] { NPCDefinitions.getDefs(npcId).getName(), "Our Lord Zamorak has power over life and death,", Utils.formatPlayerNameForDisplay(player.getDisplayName()) + "! He has seen fit to ressurect Bork to", "continue his great work... and now you will fall before him!" }, IS_NPC, npcId, 9843); // TODO Need correct Animation ID.
 		}
 	}
 
@@ -37,8 +28,7 @@ public class DagonHai extends Dialogue {
 			sendPlayerDialogue(9827, "Uh-oh! Here we go again.");
 		} else if (stage == 2) {
 			stage = 3;
-			// player.getPackets().sendCameraShake(3, 30, 5,
-			// 30, 5);
+			// player.getPackets().sendCameraShake(3, 30, 5, 30, 5);
 			sendPlayerDialogue(9827, "What th-? This power again! It must be Zamorak! I", "can't fight something this strong! I better loot what I ", "can and get out of here!");
 		} else {
 			end();

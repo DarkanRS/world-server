@@ -59,9 +59,9 @@ public class CorporealBeast extends NPC {
 	public void handlePreHit(Hit hit) {
 		if (hit.getLook() == HitLook.CANNON_DAMAGE && hit.getDamage() > 80)
 			hit.setDamage(80);
-		if (hit.getSource() instanceof Player) {
-			if (((Player) hit.getSource()).getEquipment().getWeaponId() != -1) {
-				if (!ItemDefinitions.getDefs(((Player) hit.getSource()).getEquipment().getWeaponId()).getName().contains(" spear")) {
+		if (hit.getSource() instanceof Player player) {
+			if (player.getEquipment().getWeaponId() != -1) {
+				if (!ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).getName().contains(" spear")) {
 					if (hit.getLook() == HitLook.MELEE_DAMAGE || hit.getLook() == HitLook.RANGE_DAMAGE)
 						hit.setDamage(hit.getDamage() / 2);
 				}

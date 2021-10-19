@@ -53,10 +53,8 @@ public class StrykewyrmCombat extends CombatScript {
 						if (Utils.getRandomInclusive(10) == 0 && !target.isFrozen()) {
 							target.freeze(Ticks.fromSeconds(3));
 							target.setNextSpotAnim(new SpotAnim(369));
-							if (target instanceof Player) {
-								Player targetPlayer = (Player) target;
-								targetPlayer.stopAll();
-							}
+							if (target instanceof Player player)
+								player.stopAll();
 						} else if (hit.getDamage() != 0)
 							target.setNextSpotAnim(new SpotAnim(2315));
 					}

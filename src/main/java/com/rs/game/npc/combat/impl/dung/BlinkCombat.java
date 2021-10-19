@@ -46,8 +46,8 @@ public class BlinkCombat extends CombatScript {
 					boss.setNextForceTalk(new ForceTalk("Kapow!!"));
 					// boss.playSoundEffect(3002);
 					for (Entity t : boss.getPossibleTargets()) {
-						if (t instanceof Player)
-							((Player) t).sendMessage("You are hit by a powerful magical blast.");
+						if (t instanceof Player player)
+							player.sendMessage("You are hit by a powerful magical blast.");
 						t.setNextSpotAnim(new SpotAnim(2855, 0, 50));
 						delayHit(boss, 0, t, new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6D, boss.getMaxHit()), HitLook.MAGIC_DAMAGE));
 					}
@@ -112,8 +112,8 @@ public class BlinkCombat extends CombatScript {
 				boss.setNextSpotAnim(new SpotAnim(2854));
 				target.setNextSpotAnim(new SpotAnim(2854, 5, 0));
 				int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MAGE, target);
-				if (target instanceof Player) {
-					if (((Player) target).getPrayer().isProtectingMage())
+				if (target instanceof Player player) {
+					if (player.getPrayer().isProtectingMage())
 						damage *= .5D;
 				}
 				delayHit(boss, 1, target, getMagicHit(boss, damage));

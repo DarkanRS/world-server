@@ -19,11 +19,10 @@ public class CatableponCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, final Entity target) {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
-		if (Utils.random(10) == 0 && target instanceof Player) {
-			Player playerTarget = (Player) target;
-			int strLvl = playerTarget.getSkills().getLevelForXp(Constants.STRENGTH);
-			if (strLvl - playerTarget.getSkills().getLevel(Constants.STRENGTH) < 8) {
-				playerTarget.getSkills().drainLevel(Constants.STRENGTH, (int) (strLvl * 0.15));
+		if (Utils.random(10) == 0 && target instanceof Player player) {
+			int strLvl = player.getSkills().getLevelForXp(Constants.STRENGTH);
+			if (strLvl - player.getSkills().getLevel(Constants.STRENGTH) < 8) {
+				player.getSkills().drainLevel(Constants.STRENGTH, (int) (strLvl * 0.15));
 				npc.setNextAnimation(new Animation(4272));
 				delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
 				return npc.getAttackSpeed();

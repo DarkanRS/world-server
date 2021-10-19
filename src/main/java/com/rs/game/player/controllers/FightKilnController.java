@@ -103,7 +103,11 @@ public class FightKilnController extends Controller {
 	}
 
 	public static void enterFightKiln(Player player, boolean quickEnter) {
-		if (!player.isCompletedFightCaves() || player.getInventory().containsOneItem(23653, 23654, 23655, 23656, 23657, 23658))
+		if (player.getCounterValue("Fight Caves clears") <= 0) {
+			player.sendMessage("You need to have cleared the Fight Caves to enter the Kiln.");
+			return;
+		}
+		if (player.getInventory().containsOneItem(23653, 23654, 23655, 23656, 23657, 23658))
 			return;
 		Familiar familiar = player.getFamiliar();
 		if (familiar != null && ((familiar.getBob() != null && familiar.getBob().containsOneItem(23653, 23654, 23655, 23656, 23657, 23658)) || familiar.isFinished()))
@@ -721,7 +725,7 @@ public class FightKilnController extends Controller {
 			if (type == 1 || type == 4) {
 				player.setNextWorldTile(outside);
 				if (type == 4) {
-					player.setCompletedFightKiln();
+					player.incrementCount("Fight Kiln clears");
 					player.sendMessage("You were victorious!!");
 					Integer reward = (Integer) player.getTemporaryAttributes().get("FightKilnReward");
 					int itemId = reward != null && reward == 1 ? 6571 : 23659;

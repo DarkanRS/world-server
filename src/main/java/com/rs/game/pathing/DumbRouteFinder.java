@@ -29,10 +29,10 @@ public final class DumbRouteFinder {
 	}
 
 	private static Deque<WorldTile> find(WorldTile origin, WorldTile target, int maxSize, ClipType type) {
-		int size = origin instanceof Entity ? ((Entity)origin).getSize() : 1;
+		int size = origin instanceof Entity e ? e.getSize() : 1;
 		WorldTile real = new WorldTile(origin);
-		WorldTile curr = origin instanceof Entity ? ((Entity)origin).getMiddleWorldTile() : new WorldTile(origin);
-		WorldTile targ = target instanceof Entity ? ((Entity)target).getMiddleWorldTile() : new WorldTile(target);
+		WorldTile curr = origin instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(origin);
+		WorldTile targ = target instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(target);
 		Deque<WorldTile> positions = new ArrayDeque<>(maxSize);
 		while (true) {
 			WorldTile from = new WorldTile(curr);

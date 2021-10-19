@@ -65,8 +65,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 			} else {
 				npc.setNextSpotAnim(new SpotAnim(2600));
 				for (Entity t : npc.getPossibleTargets()) {
-					if (t instanceof Player) {
-						Player player = (Player) t;
+					if (t instanceof Player player) {
 						player.sendMessage("The shadow-forger starts to glow.");
 					}
 				}
@@ -78,7 +77,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 						npc.setNextAnimation(new Animation(13016));
 						for (Entity t : npc.getPossibleTargets()) {
 							t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
-							if (t instanceof Player) {
+							if (t instanceof Player player) {
 								WorldTasksManager.schedule(new WorldTask() {
 									private int ticks;
 									private WorldTile tile;
@@ -87,8 +86,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 									public void run() {
 										ticks++;
 										if (ticks == 1) {
-											if (target instanceof Player) {
-												Player player = (Player) target;
+											if (target instanceof Player player) {
 												player.lock(2);
 												player.stopAll();
 											}
@@ -110,7 +108,6 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 										}
 									}
 								}, 0, 0);
-								Player player = (Player) t;
 								for (int stat = 0; stat < 7; stat++) {
 									if (stat == Constants.HITPOINTS)
 										continue;

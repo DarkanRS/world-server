@@ -68,8 +68,7 @@ public class KrilTsutsaroth extends CombatScript {
 		case 2:// melee attack
 			int damage = 300;// normal
 			for (Entity e : npc.getPossibleTargets()) {
-				if (e instanceof Player && ((Player) e).getPrayer().isProtectingMelee() && Utils.random(10) == 0) {
-					Player player = (Player) e;
+				if (e instanceof Player player && ((Player) e).getPrayer().isProtectingMelee() && Utils.random(10) == 0) {
 					damage = 497;
 					npc.setNextForceTalk(new ForceTalk("YARRRRRRR!"));
 					player.getPrayer().drainPrayer(player.getPrayer().getPoints()/2);

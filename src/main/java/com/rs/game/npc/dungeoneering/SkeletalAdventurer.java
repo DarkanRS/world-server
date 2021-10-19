@@ -66,8 +66,8 @@ public final class SkeletalAdventurer extends DungeonBoss {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
-					if (source instanceof Player)
-						((Player) source).getControllerManager().processNPCDeath(SkeletalAdventurer.this);
+					if (source instanceof Player player)
+						player.getControllerManager().processNPCDeath(SkeletalAdventurer.this);
 					if (l)
 						drop();
 					reset();

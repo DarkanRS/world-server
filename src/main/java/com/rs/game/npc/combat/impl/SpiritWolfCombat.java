@@ -26,8 +26,8 @@ public class SpiritWolfCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(8293));
 			npc.setNextSpotAnim(new SpotAnim(1334));
 			World.sendProjectile(npc, target, 1333, 34, 16, 30, 35, 16, 0);
-			if (target instanceof NPC) {
-				if (!(((NPC) target).getCombatDefinitions().getAttackStyle() == AttackStyle.SPECIAL))
+			if (target instanceof NPC targN) {
+				if (targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL)
 					target.setAttackedByDelay(3000);// three seconds
 				else
 					familiar.getOwner().sendMessage("Your familiar cannot scare that monster.");

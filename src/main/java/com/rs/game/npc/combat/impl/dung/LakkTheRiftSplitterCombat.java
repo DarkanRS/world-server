@@ -95,8 +95,7 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 	private void regularMagicAttack(Entity target, NPC npc) {
 		npc.setNextAnimation(new Animation(14398));
 		World.sendProjectile(npc, target, 2579, 50, 30, 41, 40, 0, 0);
-		if (target instanceof Player) {
-			Player player = (Player) target;
+		if (target instanceof Player player) {
 			int damage = getMaxHit(npc, AttackStyle.MAGE, player);
 			if (player.getPrayer().getPoints() > 0 && player.getPrayer().isProtectingMage()) {
 				player.getPrayer().drainPrayer((int) (damage * .5));

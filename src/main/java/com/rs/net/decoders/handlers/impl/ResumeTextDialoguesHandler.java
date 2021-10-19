@@ -21,10 +21,7 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 		case RESUME_CLANFORUMQFCDIALOG:
 			break;
 		case RESUME_NAMEDIALOG:
-			if (player.getInterfaceManager().containsInterface(1108)) {
-				player.getSocial().getFriendsChat().setName(packet.getText());
-				LobbyCommunicator.updateAccount(player);
-			} else if (player.getTemporaryAttributes().remove("setclan") != null)
+			if (player.getTemporaryAttributes().remove("setclan") != null)
 				LobbyCommunicator.createClan(player, packet.getText());
 			else if (player.getTemporaryAttributes().remove("joinguestclan") != null)
 				LobbyCommunicator.connectToClan(player, packet.getText(), true);

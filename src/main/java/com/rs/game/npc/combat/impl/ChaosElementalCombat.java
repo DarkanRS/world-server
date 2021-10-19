@@ -42,11 +42,10 @@ public class ChaosElementalCombat extends CombatScript {
 			}, Utils.getDistanceI(npc, target)/3);
 		} else if (atk <= 18) {
 			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15, 0);
-			if (target instanceof Player) {
+			if (target instanceof Player player) {
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						Player player = (Player) target;
 						int num = player.getInventory().getFreeSlots();
 						if (num > 0) {
 							if (player.getEquipment().getWeaponId() != -1) {

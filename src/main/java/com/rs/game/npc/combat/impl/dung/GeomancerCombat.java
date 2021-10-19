@@ -100,8 +100,8 @@ public class GeomancerCombat extends CombatScript {
 			// target.setBoundDelay(20, false, 7);
 			target.freeze(20);
 			// }
-			if (target instanceof Player)
-				((Player) target).getActionManager().setActionDelay(4);
+			if (target instanceof Player player)
+				player.getActionManager().setActionDelay(4);
 		}
 	}
 
@@ -115,9 +115,7 @@ public class GeomancerCombat extends CombatScript {
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(107, 75, 150));
 
-			if (target instanceof Player) {
-				Player player = (Player) target;
-
+			if (target instanceof Player player) {
 				for (int skill = 0; skill < Constants.MAGIC; skill++) {
 					if (skill == 3 || skill == 5)
 						continue;

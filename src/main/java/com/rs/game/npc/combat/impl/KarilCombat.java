@@ -24,12 +24,11 @@ public class KarilCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target);
-		if (damage != 0 && target instanceof Player && Utils.random(3) == 0) {
+		if (damage != 0 && target instanceof Player player && Utils.random(3) == 0) {
 			target.setNextSpotAnim(new SpotAnim(401, 0, 100));
-			Player targetPlayer = (Player) target;
-			int drain = (int) (targetPlayer.getSkills().getLevelForXp(Constants.AGILITY) * 0.2);
-			int currentLevel = targetPlayer.getSkills().getLevel(Constants.AGILITY);
-			targetPlayer.getSkills().set(Constants.AGILITY, currentLevel < drain ? 0 : currentLevel - drain);
+			int drain = (int) (player.getSkills().getLevelForXp(Constants.AGILITY) * 0.2);
+			int currentLevel = player.getSkills().getLevel(Constants.AGILITY);
+			player.getSkills().set(Constants.AGILITY, currentLevel < drain ? 0 : currentLevel - drain);
 		}
 		World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 35, 16, 0);
 		delayHit(npc, 2, target, getRangeHit(npc, damage));

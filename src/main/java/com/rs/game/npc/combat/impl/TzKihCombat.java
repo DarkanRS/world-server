@@ -20,14 +20,13 @@ public class TzKihCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {// yoa
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int damage = 0;
-		if (npc instanceof Familiar) {// TODO get anim and gfx
-			Familiar familiar = (Familiar) npc;
+		if (npc instanceof Familiar familiar) {// TODO get anim and gfx
 			boolean usingSpecial = familiar.hasSpecialOn();
 			if (usingSpecial) {
 				for (Entity entity : npc.getPossibleTargets()) {
 					damage = getMaxHit(npc, 70, AttackStyle.MELEE, target);
-					if (target instanceof Player)
-						((Player) target).getPrayer().drainPrayer(damage);
+					if (target instanceof Player player)
+						player.getPrayer().drainPrayer(damage);
 					delayHit(npc, 0, entity, getMeleeHit(npc, damage));
 				}
 			}
@@ -35,8 +34,8 @@ public class TzKihCombat extends CombatScript {
 		}
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
-		if (target instanceof Player)
-			((Player) target).getPrayer().drainPrayer(damage + 10);
+		if (target instanceof Player player)
+			player.getPrayer().drainPrayer(damage + 10);
 		delayHit(npc, 0, target, getMeleeHit(npc, damage));
 		return npc.getAttackSpeed();
 	}

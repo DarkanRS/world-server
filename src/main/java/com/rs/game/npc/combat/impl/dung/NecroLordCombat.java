@@ -83,8 +83,7 @@ public class NecroLordCombat extends CombatScript {
 							if (attack == 2)
 								t.freeze(8);
 							else {
-								if (t instanceof Player) {
-									Player p2 = (Player) t;
+								if (t instanceof Player p2) {
 									p2.sendMessage("You feel weary.");
 									p2.setRunEnergy((int) (p2.getRunEnergy() * .5));
 								}

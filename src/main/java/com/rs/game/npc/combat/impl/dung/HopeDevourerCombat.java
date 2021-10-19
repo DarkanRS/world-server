@@ -74,10 +74,8 @@ public class HopeDevourerCombat extends CombatScript {
 		if (Utils.random(5) == 0) {
 			npc.setNextAnimation(new Animation(14458));
 			final int damage = (int) Utils.random(npc.getMaxHit(AttackStyle.MELEE) * .85, npc.getMaxHit(AttackStyle.MELEE));
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player)
 				player.getSkills().set(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) - (damage * .05)));
-			}
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));
 			WorldTasksManager.schedule(new WorldTask() {
 				private int ticks;
@@ -87,8 +85,7 @@ public class HopeDevourerCombat extends CombatScript {
 				public void run() {
 					ticks++;
 					if (ticks == 1) {
-						if (target instanceof Player) {
-							Player player = (Player) target;
+						if (target instanceof Player player) {
 							player.lock(2);
 							player.stopAll();
 						}
@@ -113,8 +110,7 @@ public class HopeDevourerCombat extends CombatScript {
 		} else {
 			npc.setNextAnimation(new Animation(14457));
 			int damage = (int) Utils.random(npc.getMaxHit(AttackStyle.MELEE) * .75, npc.getMaxHit(AttackStyle.MELEE));
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player) {
 				if (player.getPrayer().isProtectingMelee()) {
 					player.sendMessage("Your prayer completely negates the attack.", true);
 					damage = 0;

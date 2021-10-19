@@ -80,10 +80,8 @@ public final class Stomp extends DungeonBoss {
 							destroyExistingDebris();
 						}
 						for (Entity target : getPossibleTargets()) {
-							if (target instanceof Player) {
-								Player player = (Player) target;
+							if (target instanceof Player player)
 								player.sendMessage("The portal weakens, harming Stomp!");
-							}
 						}
 					} else
 						heal((int) (getMaxHitpoints() * 0.25));
@@ -141,10 +139,8 @@ public final class Stomp extends DungeonBoss {
 			refreshLodestone(index);
 			if (lodestones[0] == true && lodestones[1] == true) {
 				for (Entity target : getPossibleTargets()) {
-					if (target instanceof Player) {
-						Player p2 = (Player) target;
+					if (target instanceof Player p2)
 						p2.sendMessage("The lodestone has been fully activated.");
-					}
 				}
 			}
 		} else
@@ -160,10 +156,8 @@ public final class Stomp extends DungeonBoss {
 		setNextSpotAnim(new SpotAnim(2407));
 		setCantInteract(true);
 		for (Entity target : getPossibleTargets()) {
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player)
 				player.sendMessage("Stomp enters a defensive stance. It is currently invulnerable, but no longer protecting the portal's lodestones!");
-			}
 		}
 		destroyExistingDebris();
 		for (int count = 0; count < 11; count++) {
@@ -233,8 +227,8 @@ public final class Stomp extends DungeonBoss {
 				if (loop == 0) {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 				} else if (loop >= defs.getDeathDelay()) {
-					if (source instanceof Player)
-						((Player) source).getControllerManager().processNPCDeath(Stomp.this);
+					if (source instanceof Player player)
+						player.getControllerManager().processNPCDeath(Stomp.this);
 					drop();
 					reset();
 					setCantInteract(true);

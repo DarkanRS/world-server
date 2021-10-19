@@ -46,8 +46,7 @@ public class Rammernaut extends DungeonBoss {
 	public void applyStunHit(final Entity entity, int maxHit) {
 		entity.applyHit(new Hit(this, Utils.random(maxHit) + 1, HitLook.TRUE_DAMAGE));
 		entity.freeze(2);
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
+		if (entity instanceof Player player) {
 			player.stopAll();
 			player.sendMessage("You've been stunned.");
 			player.freeze(2);

@@ -126,8 +126,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 		case 0:
 			npc.setNextAnimation(new Animation(14392));
 			int damage = 0;
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player) {
 				if (player.getPrayer().getPoints() > 0 && damage > 0)
 					player.getPrayer().drainPrayer((int) (damage * .5));
 			}

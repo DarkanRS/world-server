@@ -91,8 +91,8 @@ public final class NightGazerKhighorahk extends DungeonBoss {
 					for (Entity target : getPossibleTargets()) {
 						if (target.withinDistance(light, 2)) {
 							target.applyHit(new Hit(NightGazerKhighorahk.this, Utils.random((int) (target.getMaxHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
-							if (target instanceof Player)
-								((Player) target).sendMessage("You are damaged by the shadows engulfing the pillar of light.");
+							if (target instanceof Player player)
+								player.sendMessage("You are damaged by the shadows engulfing the pillar of light.");
 						}
 					}
 				} catch (Throwable e) {

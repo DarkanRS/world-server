@@ -109,18 +109,15 @@ public class RevenantCombat extends CombatScript {
 			if ((distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1))
 				attackStyle = Utils.random(2);
 		}
-		if (attackStyle != 2 && target instanceof Player) {
-			Player targetPlayer = (Player) target;
-			targetPlayer.getPackets().sendSound(202, 0, 1);
-		}
+		
+		if (attackStyle != 2 && target instanceof Player player)
+			player.getPackets().sendSound(202, 0, 1);
+		
 		switch (attackStyle) {
 		case 0: // magic
 			int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target);
-			if (target instanceof Player) {
-				if (((Player) target).isRevenantImmune()) {
-					damage = 0;
-				}
-			}
+			if (target instanceof Player player && player.isRevenantImmune())
+				damage = 0;
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16, 0);
 			if (damage > 0) {
@@ -141,22 +138,16 @@ public class RevenantCombat extends CombatScript {
 			break;
 		case 1: // range
 			int damage2 = getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target);
-			if (target instanceof Player) {
-				if (((Player) target).isRevenantImmune()) {
-					damage2 = 0;
-				}
-			}
+			if (target instanceof Player player && player.isRevenantImmune())
+				damage = 0;
 			delayHit(npc, 2, target, getRangeHit(npc, damage2));
 			World.sendProjectile(npc, target, 1278, 34, 16, 30, 35, 16, 0);
 			npc.setNextAnimation(new Animation(getRangeAnimation(npc)));
 			break;
 		case 2: // melee
 			int damage3 = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
-			if (target instanceof Player) {
-				if (((Player) target).isRevenantImmune()) {
-					damage3 = 0;
-				}
-			}
+			if (target instanceof Player player && player.isRevenantImmune())
+				damage = 0;
 			delayHit(npc, 0, target, getMeleeHit(npc, damage3));
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			break;

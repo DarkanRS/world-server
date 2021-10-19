@@ -29,9 +29,8 @@ public class UnholyCursebearerCombat extends CombatScript {
 	public int attack(final NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int attackStyle = WorldUtil.isInRange(target.getX(), target.getY(), target.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0) ? Utils.random(2) : 0;
-		if (target instanceof Player && target.getTemporaryAttributes().get("UNHOLY_CURSEBEARER_ROT") == null) {
+		if (target instanceof Player player && target.getTemporaryAttributes().get("UNHOLY_CURSEBEARER_ROT") == null) {
 			target.getTemporaryAttributes().put("UNHOLY_CURSEBEARER_ROT", 1);
-			final Player player = (Player) target;
 			player.sendMessage("An undead rot starts to work at your body.");
 			WorldTasksManager.schedule(new WorldTask() {
 

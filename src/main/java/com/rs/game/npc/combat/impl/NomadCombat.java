@@ -34,13 +34,12 @@ public class NomadCombat extends CombatScript {
 	@Override
 	public int attack(final NPC npc, final Entity target) {
 		final Nomad nomad = (Nomad) npc;
-		if (target instanceof Player) {
+		if (target instanceof Player player) {
 			if (!nomad.isMeleeMode() && nomad.getHitpoints() < nomad.getMaxHitpoints() * 0.25) {
 				if (!nomad.isHealed()) {
 					nomad.setNextAnimation(new Animation(12700));
 					nomad.heal(2500);
 					nomad.setHealed(true);
-					final Player player = (Player) target;
 					Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "You're thougher than I thought, time to even things up!");
 					player.getPackets().sendVoice(8019);
 					WorldTasksManager.schedule(new WorldTask() {
@@ -52,7 +51,6 @@ public class NomadCombat extends CombatScript {
 					return npc.getAttackSpeed();
 				} else {
 					nomad.setMeleeMode();
-					final Player player = (Player) target;
 					Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "Enough! THIS..ENDS..NOW!");
 					player.getPackets().sendVoice(7964);
 					WorldTasksManager.schedule(new WorldTask() {
@@ -74,8 +72,7 @@ public class NomadCombat extends CombatScript {
 			delayHit(npc, 0, target, getRegularHit(npc, getMaxHit(npc, 322, AttackStyle.MELEE, target)));
 			return 2;
 		} else {
-			if (target instanceof Player && nomad.useSpecialSpecialMove()) {
-				final Player player = (Player) target;
+			if (target instanceof Player player && nomad.useSpecialSpecialMove()) {
 				switch (nomad.getNextMove()) {
 				case 0:
 					nomad.setNextMovePerform();

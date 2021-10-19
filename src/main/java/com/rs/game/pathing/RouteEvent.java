@@ -27,8 +27,8 @@ public class RouteEvent {
 
 	public boolean processEvent(Entity entity) {
 		Player player = null;
-		if (entity instanceof Player)
-			player = (Player) entity;
+		if (entity instanceof Player p)
+			player = p;
 		if (!simpleCheck(entity)) {
 			if (player != null) {
 				player.sendMessage("You can't reach that.");
@@ -80,7 +80,7 @@ public class RouteEvent {
 					player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
 				if (entity.isFrozen())
 					return false;
-				if (object instanceof Entity && ((Entity) object).hasWalkSteps() && WorldUtil.collides(entity, ((Entity) object)))
+				if (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e))
 					return false;
 				for (int step = steps - 1; step >= 0; step--) {
 					if (!entity.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
@@ -97,29 +97,28 @@ public class RouteEvent {
 	}
 
 	private boolean simpleCheck(Entity entity) {
-		if (object instanceof Entity) {
-			return entity.getPlane() == ((Entity) object).getPlane();
-		} else if (object instanceof GameObject) {
-			return entity.getPlane() == ((GameObject) object).getPlane();
-		} else if (object instanceof GroundItem) {
-			return entity.getPlane() == ((GroundItem) object).getTile().getPlane();
-		} else if (object instanceof WorldTile) {
-			return entity.getPlane() == ((WorldTile) object).getPlane();
+		if (object instanceof Entity e) {
+			return entity.getPlane() == e.getPlane();
+		} else if (object instanceof GameObject e) {
+			return entity.getPlane() == e.getPlane();
+		} else if (object instanceof GroundItem e) {
+			return entity.getPlane() == e.getTile().getPlane();
+		} else if (object instanceof WorldTile e) {
+			return entity.getPlane() == e.getPlane();
 		} else {
 			throw new RuntimeException(object + " is not instanceof any reachable entity.");
 		}
 	}
 
 	private RouteStrategy[] generateStrategies() {
-		if (object instanceof Entity) {
-			return new RouteStrategy[] { new EntityStrategy((Entity) object) };
-		} else if (object instanceof GameObject) {
-			return new RouteStrategy[] { new ObjectStrategy((GameObject) object) };
-		} else if (object instanceof WorldTile) {
-			return new RouteStrategy[] { new FixedTileStrategy(((WorldTile) object).getX(), ((WorldTile) object).getY()), new FloorItemStrategy(((WorldTile) object), true)};
-		} else if (object instanceof GroundItem) {
-			GroundItem item = (GroundItem) object;
-			return new RouteStrategy[] { new FixedTileStrategy(item.getTile().getX(), item.getTile().getY()), new FloorItemStrategy(item) };
+		if (object instanceof Entity e) {
+			return new RouteStrategy[] { new EntityStrategy(e) };
+		} else if (object instanceof GameObject go) {
+			return new RouteStrategy[] { new ObjectStrategy(go) };
+		} else if (object instanceof WorldTile wt) {
+			return new RouteStrategy[] { new FixedTileStrategy(wt.getX(), wt.getY()), new FloorItemStrategy(wt, true)};
+		} else if (object instanceof GroundItem gi) {
+			return new RouteStrategy[] { new FixedTileStrategy(gi.getTile().getX(), gi.getTile().getY()), new FloorItemStrategy(gi) };
 		} else {
 			throw new RuntimeException(object + " is not instanceof any reachable entity.");
 		}

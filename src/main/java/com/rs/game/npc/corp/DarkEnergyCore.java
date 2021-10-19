@@ -61,10 +61,8 @@ public class DarkEnergyCore extends NPC {
 			target.applyHit(new Hit(this, Utils.random(1, 131), HitLook.TRUE_DAMAGE));
 			beast.heal(damage);
 			delay = 2;
-			if (target instanceof Player) {
-				Player player = (Player) target;
+			if (target instanceof Player player)
 				player.sendMessage("The dark core creature steals some life from you for its master.", true);
-			}
 			sapTimer = getPoison().isPoisoned() ? 40 : 0;
 		}
 		delay = 2;

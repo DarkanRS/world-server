@@ -53,13 +53,12 @@ public class CorporealBeastCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(10410));
 			int delay = World.sendProjectile(npc, target, 1823, 41, 16, 10, 1, 16, 0).getTaskDelay();
 			delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, AttackStyle.MAGE, target)));
-			if (target instanceof Player) {
+			if (target instanceof Player player) {
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						int skill = Utils.getRandomInclusive(2);
 						skill = skill == 0 ? Constants.MAGIC : (skill == 1 ? Constants.SUMMONING : Constants.PRAYER);
-						Player player = (Player) target;
 						if (skill == Constants.PRAYER)
 							player.getPrayer().drainPrayer(10 + Utils.getRandomInclusive(40));
 						else {
