@@ -460,7 +460,14 @@ public class MiscTest {
 		});
 		
         Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            System.out.println(p.getRights());
+            final int STAKE = 1549;
+            final int STAKE_HAMMER = 15417;
+            final int REGULAR_HAMMER = 2347;
+            if(!p.getInventory().containsItem(STAKE, 1) ||
+                    (!p.getInventory().containsItem(STAKE_HAMMER, 1) && !p.getInventory().containsItem(REGULAR_HAMMER, 1)))
+                p.sendMessage("not enough");
+            else
+                p.sendMessage("Has everything");
         });
 
         Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {

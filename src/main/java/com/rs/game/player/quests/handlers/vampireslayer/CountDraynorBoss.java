@@ -1,0 +1,277 @@
+package com.rs.game.player.quests.handlers.vampireslayer;
+
+import com.rs.cache.loaders.ObjectType;
+import com.rs.game.Entity;
+import com.rs.game.ForceMovement;
+import com.rs.game.World;
+import com.rs.game.npc.NPC;
+import com.rs.game.object.GameObject;
+import com.rs.game.pathing.Direction;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.NPCInstanceHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
+
+@PluginEventHandler
+public class CountDraynorBoss extends NPC {
+    Player p;
+    private static int COUNT_DRAYNOR_ID = 9356;
+
+    //Vampyre animations
+    static final int STUNNED = 1568;
+    static final int ASLEEP_IN_COFFIN = 3111;
+    static final int AWAKEN = 3322;
+    static final int SPAWN = 3328;
+    static final int DEATH = 12604;
+
+    //Player animations
+    static final int OPEN_COFFIN = 2991;
+    static final int MISSING_STAKE_IN_COFFIN = 2992;
+    static final int PUSHED_BACK = 3064;
+    static final int ON_FLOOR = 16713;
+    static final int KILL_W_STAKE = 12606;
+
+    //Coffin ID/animations
+    static final int COFFIN_ID = 162;
+    static final int COFFIN_OPEN = 3112;
+
+    //Item
+    static final int STAKE = 1549;
+    static final int STAKE_HAMMER = 15417;
+    static final int REGULAR_HAMMER = 2347;
+    static final int GARLIC = 1550;
+
+    //Count draynor boss music
+    static final int COUNTING_ON_YOU = 717;
+
+    public boolean actuallyDead = false;
+
+    public CountDraynorBoss(WorldTile tile) {
+        super(COUNT_DRAYNOR_ID, tile, true);
+        p = World.getPlayersInRegion(this.getRegionId()).get(0);
+    }
+
+    private CountDraynorBoss getSelf() {
+        return this;
+    }
+
+    @Override
+    public void sendDeath(Entity source) {
+        removeTarget();
+        setAttackedBy(null);
+        resetHP();
+        setLocked(true);
+        faceEntity(source);
+
+        WorldTasksManager.schedule(new WorldTask() {
+            int tick = 0;
+            int finalTick = Ticks.fromSeconds(12);
+            @Override
+            public void run() {
+                if(World.getPlayersInRegion(getRegionId()).isEmpty())
+                    finish();
+                if(tick == 1)
+                    setNextAnimation(new Animation(STUNNED));
+                if(tick == finalTick - 1)
+                    setLocked(false);
+                if(tick == finalTick) {
+                    setTarget(source);
+                    stop();
+                }
+                tick++;
+            }
+        }, 0, 1);
+    }
+
+    /**
+     * player in die is seperate from player in the boss.
+     * @param player
+     */
+    public void die(Player player) {
+        WorldTasksManager.schedule(new WorldTask() {
+            int tick = 0;
+            @Override
+            public void run() {
+                if(tick == 0) {
+                    player.setNextAnimation(new Animation(KILL_W_STAKE));
+                    setNextAnimation(new Animation(DEATH));
+                }
+                if(tick == 5) {
+                    finish();
+                    p.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.VAMPYRE_KILLED);
+                    p.startConversation(new Conversation(p) {
+                        {
+                            addPlayer(HeadE.CALM_TALK, "I should tell Morgan that I've killed the vampyre!");
+                        }
+                    });
+                    stop();
+                }
+                tick++;
+            }
+        }, 0, 1);
+    }
+
+    public static ObjectClickHandler handleCoffin = new ObjectClickHandler(new Object[] { 158, COFFIN_ID}) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            if(p.getQuestManager().getStage(Quest.VAMPYRE_SLAYER) != VampireSlayer.STAKE_RECIEVED)
+                return;
+            if(e.getObject().getId() == COFFIN_ID) {
+                p.startConversation(new Conversation(p) {
+                    {
+                        addPlayer(HeadE.CALM_TALK, "Count Draynor isn't here. He'll probably be back soon...");
+                    }
+                });
+                return;
+            }
+            if(!p.getInventory().containsItem(STAKE, 1) ||
+                    (!p.getInventory().containsItem(STAKE_HAMMER, 1) && !p.getInventory().containsItem(REGULAR_HAMMER, 1))) {
+                p.startConversation(new Conversation(p) {
+                    {
+                        addPlayer(HeadE.CALM_TALK, "I'll need both a stake and stake hammer or hammer, better go get those...");
+                    }
+                });
+                return;
+            }
+            if(e.getObject().getId() == 158) {
+                World.removeObject(e.getObject());
+                World.spawnObject(new GameObject(COFFIN_ID, e.getObject().getType(), e.getObject().getRotation(), (WorldTile)e.getObject()), true);
+            }
+
+            p.save("live_in_scene", true);
+            p.lock();
+            GameObject coffin = World.getObject((WorldTile)e.getObject(), ObjectType.forId(10));
+            p.getMusicsManager().playMusic(COUNTING_ON_YOU);
+
+            NPC countDraynor = World.spawnNPC(COUNT_DRAYNOR_ID, new WorldTile(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()), -1, false, true);
+            countDraynor.setLocked(true);
+            countDraynor.faceTile(new WorldTile(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
+            countDraynor.transformIntoNPC(266);
+
+            WorldTasksManager.schedule(new WorldTask() {
+                @Override
+                public void run() {
+                    World.removeObject(coffin);
+                    World.spawnObject(new GameObject(158, e.getObject().getType(), e.getObject().getRotation(), (WorldTile)e.getObject()), true);
+                    countDraynor.finish();
+                }
+            }, Ticks.fromMinutes(3));
+
+            WorldTasksManager.schedule(new WorldTask() {
+                int tick = 0;
+                @Override
+                public void run() {
+                    if(tick == 0) {
+                        p.getInterfaceManager().setFadingInterface(115);
+                    }
+                    if(tick == 3) {
+                        p.setNextWorldTile(new WorldTile(3079, 9786, 0));
+                        p.getPackets().sendCameraPos(coffin.getXInScene(p.getSceneBaseChunkId())-4, coffin.getYInScene(p.getSceneBaseChunkId())-8, 3000);
+                        p.getPackets().sendCameraLook(coffin.getXInScene(p.getSceneBaseChunkId()), coffin.getYInScene(p.getSceneBaseChunkId()), 300);
+                    }
+                    if(tick == 4) {
+                        p.getInterfaceManager().setFadingInterface(170);
+                    }
+                    if(tick == 5) {
+                        p.faceObject(coffin);
+                    }
+                    if(tick == 6) {
+                        p.setNextAnimation(new Animation(OPEN_COFFIN));
+                        p.getPackets().sendObjectAnimation(coffin, new Animation(COFFIN_OPEN));
+                        countDraynor.transformIntoNPC(COUNT_DRAYNOR_ID);
+                        countDraynor.setNextAnimation(new Animation(ASLEEP_IN_COFFIN));
+                    }
+                    if(tick == 8) {
+                        p.getInventory().deleteItem(STAKE, 1);
+                        p.setNextAnimation(new Animation(MISSING_STAKE_IN_COFFIN));
+                        countDraynor.setNextAnimation(new Animation(AWAKEN));
+                    }
+                    if(tick == 9) {
+                        p.setNextAnimation(new Animation(PUSHED_BACK));
+                        p.setNextForceMovement(new ForceMovement(new WorldTile(p.getX()-1, p.getY(), p.getPlane()), 1, Direction.EAST));
+                    }
+                    if(tick == 10) {
+                        p.setNextAnimation(new Animation(ON_FLOOR));
+                        p.getPackets().sendCameraPos(coffin.getXInScene(p.getSceneBaseChunkId())-4, coffin.getYInScene(p.getSceneBaseChunkId())-16, 2200, 0, 5);
+                        p.getPackets().sendCameraLook(coffin.getXInScene(p.getSceneBaseChunkId()), coffin.getYInScene(p.getSceneBaseChunkId())-5, 50, 5, 0);
+                    }
+                    if(tick == 14) {
+                        countDraynor.faceTile(new WorldTile(countDraynor.getX(), countDraynor.getY()+3, countDraynor.getPlane()));
+                    }
+                    if(tick == 16) {
+                        countDraynor.setNextWorldTile(new WorldTile(3082, 9776, 0));
+                        countDraynor.setNextAnimation(new Animation(SPAWN));
+                    }
+
+                    if(tick == 19) {
+                        countDraynor.setLocked(false);
+                        countDraynor.setRandomWalk(true);
+                    }
+                    if(tick == 20) {
+                        countDraynor.setTarget(p);
+                        p.faceEntity(countDraynor);
+                    }
+                    if(tick == 22) {
+                        if(p.getInventory().containsItem(GARLIC, 1)) {
+                            countDraynor.lowerDefense(5);
+                            countDraynor.lowerStrength(5);
+                            p.sendMessage("The garlic has weakened Count Draynor...");
+                        }
+                        p.getPackets().sendResetCamera();
+                        p.unlock();
+                        p.save("live_in_scene", false);
+                        stop();
+                    }
+
+                    tick++;
+                }
+            }, 0, 1);
+
+
+        }
+    };
+
+    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(COUNT_DRAYNOR_ID) {
+        @Override
+        public NPC getNPC(int npcId, WorldTile tile) {
+            return new CountDraynorBoss(tile);
+        }
+    };
+
+    public static LoginHandler onLogin = new LoginHandler() {
+        @Override
+        public void handle(LoginEvent e) {
+            if(e.getPlayer().getBool("live_in_scene"))
+                e.getPlayer().unlock();
+        }
+    };
+
+    public static ItemOnNPCHandler hammerOnCountDraynor = new ItemOnNPCHandler(COUNT_DRAYNOR_ID) {
+        @Override
+        public void handle(ItemOnNPCEvent e) {
+            if(e.getItem().getId() == STAKE_HAMMER || e.getItem().getId() == REGULAR_HAMMER)
+                for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
+                    if(npc.getId() == COUNT_DRAYNOR_ID)
+                        if (npc.isLocked())
+                            ((CountDraynorBoss) npc).die(e.getPlayer());
+                        else
+                            e.getPlayer().sendMessage("I must weaken him first");
+                }
+        }
+    };
+
+}

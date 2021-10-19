@@ -102,11 +102,11 @@ public class NPC extends Entity {
 	private boolean intelligentRoutefinder;
 	public boolean maskTest;
 
-	public NPC(int id, WorldTile tile, boolean spawned) {
+	public NPC(int id, WorldTile tile, boolean permaDeath) {
 		super(tile);
 		this.id = id;
 		this.respawnTile = new WorldTile(tile);
-		this.setSpawned(spawned);
+		this.setSpawned(permaDeath);
 		combatLevel = -1;
 		setHitpoints(getMaxHitpoints());
 		setFaceAngle(getRespawnDirection());
