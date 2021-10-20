@@ -184,6 +184,7 @@ public class DemonSlayer extends QuestOutline {
                 p.startConversation(new Conversation(p) {
                     {
                         addPlayer(HeadE.WORRIED, "OK, I think I've washed the key down into the sewer. I'd better go down and get it!");
+                        create();
                     }
                 });
             }
@@ -204,6 +205,7 @@ public class DemonSlayer extends QuestOutline {
                         addPlayer(HeadE.HAPPY_TALKING, "Okay, time to go in the sewers and get that key...");
                     if(p.getVars().getVarBit(2568) == 2)
                         addPlayer(HeadE.SKEPTICAL_THINKING, "Filthy in there...");
+                    create();
                 }
             });
 
@@ -222,6 +224,7 @@ public class DemonSlayer extends QuestOutline {
             p.startConversation(new Conversation(p) {
                 {
                     addItem(PRYSIN_KEY, "You pick up an old rusty key.");
+                    create();
                 }
             });
             e.getPlayer().getVars().setVarBit(2568, 2);

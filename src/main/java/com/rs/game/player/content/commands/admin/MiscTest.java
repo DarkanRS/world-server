@@ -22,6 +22,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
+import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;
@@ -460,14 +461,11 @@ public class MiscTest {
 		});
 		
         Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            final int STAKE = 1549;
-            final int STAKE_HAMMER = 15417;
-            final int REGULAR_HAMMER = 2347;
-            if(!p.getInventory().containsItem(STAKE, 1) ||
-                    (!p.getInventory().containsItem(STAKE_HAMMER, 1) && !p.getInventory().containsItem(REGULAR_HAMMER, 1)))
-                p.sendMessage("not enough");
-            else
-                p.sendMessage("Has everything");
+            WorldTile eastBank = new WorldTile(3013, 3356, 0);
+            List<NPC> npcs = World.getNPCsInRegion(eastBank.getRegionId());
+            for(NPC npc : npcs)
+                if(npc.getName().equalsIgnoreCase("Banker"))
+                    npc.setFaceAngle(Direction.getById(0).getAngle());
         });
 
         Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {

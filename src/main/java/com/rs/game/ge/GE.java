@@ -27,9 +27,6 @@ import com.rs.utils.ItemExamines;
 
 @PluginEventHandler
 public class GE {
-    //TODO: 1. Make Coll box withdraw all of one slot
-    //TODO: 2. Make Coll Box withdraw noted versions when possible.
-
 	private static final int OFFER_SELECTION = 105;
 	private static final int SPECIAL_DEPOSIT_INV = 107;
 	private static final int COLLECTION_BOX = 109;

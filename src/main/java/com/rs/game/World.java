@@ -198,20 +198,25 @@ public final class World {
 		NPCS.remove(npc);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, boolean permaDeath, boolean withFunction, String customName) {
+	public static final NPC spawnNPC(int id, WorldTile tile, int direction, boolean permaDeath, boolean withFunction, String customName) {
 		NPC n = null;
 		if (withFunction) {
 			Object fObj = PluginManager.getObj(new NPCInstanceEvent(id, tile, permaDeath));
 			if (fObj != null)
 				n = (NPC) fObj;
 			else
-				n = new NPC(id, tile, permaDeath);
+				n = new NPC(id, tile, direction, permaDeath);
 		} else
-			n = new NPC(id, tile, permaDeath);
+			n = new NPC(id, tile, direction, permaDeath);
 		if (n != null)
 			n.setPermName(customName);
 		return n;
 	}
+
+    public static final NPC spawnNPC(int id, WorldTile tile, boolean permaDeath, boolean withFunction, String customName) {
+        return spawnNPC(id, tile, 4, permaDeath, withFunction, null);
+    }
+
 
 	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath, boolean withFunction) {
 		return spawnNPC(id, tile, permaDeath, withFunction, null);
