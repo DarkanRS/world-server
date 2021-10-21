@@ -7,13 +7,13 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
 
-public final class Runecrafting {
-
-	private Runecrafting() {
-
-	}
+@PluginEventHandler
+public class Runecrafting {
 
 	public final static int[] LEVEL_REQ = { 1, 25, 50, 75 };
 	public final static int AIR_TIARA = 5527, MIND_TIARA = 5529, WATER_TIARA = 5531, BODY_TIARA = 5533, EARTH_TIARA = 5535, FIRE_TIARA = 5537, COSMIC_TIARA = 5539, NATURE_TIARA = 5541, CHAOS_TIARA = 5543,
@@ -60,6 +60,28 @@ public final class Runecrafting {
 		}
 	}
 
+	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514 }, new String[] { "Fill", "Empty" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if (e.getOption().equals("Fill")) {
+				switch(e.getItem().getId()) {
+					case 5509 -> fillPouch(e.getPlayer(), 0);
+					case 5510 -> fillPouch(e.getPlayer(), 1);
+					case 5512 -> fillPouch(e.getPlayer(), 2);
+					case 5514 -> fillPouch(e.getPlayer(), 3);
+				}
+			} else {
+				switch(e.getItem().getId()) {
+					case 5509 -> emptyPouch(e.getPlayer(), 0);
+					case 5510 -> emptyPouch(e.getPlayer(), 1);
+					case 5512 -> emptyPouch(e.getPlayer(), 2);
+					case 5514 -> emptyPouch(e.getPlayer(), 3);
+				}
+			}
+			e.getPlayer().stopAll(false);
+		}
+	};
+	
 	public static boolean isTiara(int id) {
 		return id == AIR_TIARA || id == MIND_TIARA || id == WATER_TIARA || id == BODY_TIARA || id == EARTH_TIARA || id == FIRE_TIARA || id == COSMIC_TIARA || id == NATURE_TIARA || id == CHAOS_TIARA || id == LAW_TIARA || id == DEATH_TIARA
 				|| id == BLOOD_TIARA || id == SOUL_TIARA || id == ASTRAL_TIARA || id == OMNI_TIARA;
