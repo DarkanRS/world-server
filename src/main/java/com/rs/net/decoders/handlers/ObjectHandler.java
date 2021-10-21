@@ -144,25 +144,6 @@ public final class ObjectHandler {
 				} else if (object.getId() == 39468) {
 					player.setNextWorldTile(new WorldTile(1745, 5325, 0));
 					return;
-				} else if (object.getId() == 47232) {
-					if (player.getSlayer().getTask() != null) {
-						TaskMonster currentTask = player.getSlayer().getTask().getMonster();
-						switch (currentTask) {
-							case HELLHOUNDS:
-							case GREATER_DEMONS:
-							case BLUE_DRAGONS:
-							case GARGOYLES:
-							case ABYSSAL_DEMONS:
-							case DARK_BEASTS:
-							case IRON_DRAGONS:
-							case STEEL_DRAGONS:
-								player.getControllerManager().startController(new KuradalDungeonController());
-								return;
-							default:
-						}
-					}
-					player.sendMessage("Sorry, this dungeon is exclusive only to those who need to go in there.");
-					return;
 				} else if (id == 50552) {
 					if (player.getControllerManager().getController() instanceof DungeonController)
 						player.getControllerManager().removeControllerWithoutCheck();
