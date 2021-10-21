@@ -145,7 +145,7 @@ public final class ObjectHandler {
 					player.setNextWorldTile(new WorldTile(1745, 5325, 0));
 					return;
 				} else if (object.getId() == 47232) {
-					if (player.getSlayer().getTask() != null && player.getSlayer().getMaster() == Master.Kuradal) {
+					if (player.getSlayer().getTask() != null) {
 						TaskMonster currentTask = player.getSlayer().getTask().getMonster();
 						switch (currentTask) {
 							case HELLHOUNDS:
