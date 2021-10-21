@@ -104,8 +104,6 @@ import com.rs.utils.drop.DropTable;
 
 public final class ObjectHandler {
 
-	public static int[] seeds = new int[] { 19897, 19902, 19907, 19912, 19917, 19897, 19902, 19907, 19912, 19917, 19897, 19902, 19907, 19912, 19917 };
-
 	public static void handleOption1(final Player player, final GameObject object) {
 		final ObjectDefinitions objectDef = object.getDefinitions(player);
 		final int id = object.getId();
