@@ -36,6 +36,9 @@ import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.demonslayer.DemonSlayer;
+import com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
@@ -461,11 +464,7 @@ public class MiscTest {
 		});
 		
         Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            WorldTile eastBank = new WorldTile(3013, 3356, 0);
-            List<NPC> npcs = World.getNPCsInRegion(eastBank.getRegionId());
-            for(NPC npc : npcs)
-                if(npc.getName().equalsIgnoreCase("Banker"))
-                    npc.setFaceAngle(Direction.getById(0).getAngle());
+            p.getQuestManager().completeQuest(Quest.PRINCE_ALI_RESCUE);
         });
 
         Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
@@ -661,11 +660,11 @@ public class MiscTest {
 			for (Quest quest : Quest.values()) {
 				if (quest.name().toLowerCase().contains(args[0])) {
 				    if(quest.name().equalsIgnoreCase("SHIELD_OF_ARRAV"))
-                        ;//ShieldOfArrav.reset(p);
+                        ShieldOfArrav.reset(p);
 				    else if (quest.name().equalsIgnoreCase("DEMON_SLAYER"))
-                        ;//DemonSlayer.reset(p);
+                        DemonSlayer.reset(p);
 				    else if (quest.name().equalsIgnoreCase("PRINCE_ALI_RESCUE"))
-                        ;//PrinceAliRescue.reset(p);
+                        PrinceAliRescue.reset(p);
 				    else
 					    p.getQuestManager().setStage(quest, 0);
 					p.sendMessage("Resetted quest: " + quest.name());

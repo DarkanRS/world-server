@@ -23,6 +23,8 @@ public class NPCSpawn {
 	}
 	
 	public void spawn() {
+        if(this.direction == null)
+            this.direction = "SOUTH";
         int dir;
         if(direction.equalsIgnoreCase("north"))
             dir = 0;
