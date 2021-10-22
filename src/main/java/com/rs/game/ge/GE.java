@@ -22,7 +22,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
-import com.rs.utils.Getlineonce;
 import com.rs.utils.ItemExamines;
 
 @PluginEventHandler

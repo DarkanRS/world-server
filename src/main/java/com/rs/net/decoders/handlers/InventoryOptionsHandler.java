@@ -91,19 +91,7 @@ public class InventoryOptionsHandler {
 			return;
 		if (Firemaking.isFiremaking(player, itemId))
 			return;
-		if (itemId >= 5509 && itemId <= 5514) {
-			int pouch = -1;
-			if (itemId == 5509)
-				pouch = 0;
-			if (itemId == 5510)
-				pouch = 1;
-			if (itemId == 5512)
-				pouch = 2;
-			if (itemId == 5514)
-				pouch = 3;
-			Runecrafting.emptyPouch(player, pouch);
-			player.stopAll(false);
-		} else if (item.getDefinitions().containsInventoryOption(1, "Extinguish")) {
+		if (item.getDefinitions().containsInventoryOption(1, "Extinguish")) {
 			if (LightSource.extinguishSource(player, slotId, false))
 				return;
 		} else if (itemId >= 15086 && itemId <= 15100) {
@@ -188,20 +176,6 @@ public class InventoryOptionsHandler {
 			player.sendMessage("Your key has " + (item.getMetaDataI("frozenKeyCharges")-1) + " uses left.");
 			return;
 		}
-		if (itemId >= 5509 && itemId <= 5514) {
-			int pouch = -1;
-			if (itemId == 5509)
-				pouch = 0;
-			if (itemId == 5510)
-				pouch = 1;
-			if (itemId == 5512)
-				pouch = 2;
-			if (itemId == 5514)
-				pouch = 3;
-			Runecrafting.fillPouch(player, pouch);
-			return;
-		}
-		
 		if (item.getId() == 20667) {
 			player.stopAll(false);
 			Long lastVecna = (Long) player.getTemporaryAttributes().get("LAST_VECNA");
@@ -732,12 +706,12 @@ public class InventoryOptionsHandler {
 						player.getDialogueManager().execute(new ItemMessage(), "Your ring of wealth and amulet of glory have all been recharged.", 1712);
 					}
 				}
-			} else if (npc instanceof Pet) {
+			} else if (npc instanceof Pet p) {
 				player.faceEntity(npc);
-				player.getPetManager().eat(item.getId(), (Pet) npc);
+				player.getPetManager().eat(item.getId(), p);
 				return;
-			} else if (npc instanceof ConditionalDeath) {
-				((ConditionalDeath) npc).useHammer(player);
+			} else if (npc instanceof ConditionalDeath cd) {
+				cd.useHammer(player);
 				return;
 			}
 			PluginManager.handle(new ItemOnNPCEvent(player, npc, item, true));

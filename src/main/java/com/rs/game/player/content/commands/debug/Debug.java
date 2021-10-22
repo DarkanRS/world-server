@@ -1,5 +1,7 @@
 package com.rs.game.player.content.commands.debug;
 
+import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
+
 import java.util.Arrays;
 
 import com.rs.Settings;
@@ -22,8 +24,6 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 
-import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
-
 //Status: Done
 
 @PluginEventHandler
@@ -34,8 +34,7 @@ public class Debug {
 		public void handle(EnterChunkEvent e) {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (e.getEntity() instanceof Player) {
-				Player player = (Player) e.getEntity();
+			if (e.getEntity() instanceof Player player) {
 				if (player.getTempB("visChunks") && player.hasStarted()) {
 					player.devisualizeChunk(e.getEntity().getLastChunkId());
 					player.visualizeChunk(e.getChunkId());

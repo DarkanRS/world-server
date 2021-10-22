@@ -12,6 +12,7 @@ import com.rs.game.BodyGlow;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Dicing;
@@ -260,7 +261,7 @@ public final class Commands {
 		case "deathnpcs":
 			if (Settings.isOwner(p.getUsername().toLowerCase())) {
 				for (NPC npc : World.getNPCs()) {
-					if (npc instanceof Familiar)
+					if (npc instanceof Familiar || npc instanceof Pet)
 						continue;
 					if (Utils.getDistance(npc, p) < 9) {
 						npc.sendDeath(p);

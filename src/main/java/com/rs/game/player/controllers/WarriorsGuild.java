@@ -116,8 +116,7 @@ public class WarriorsGuild extends Controller {
 
 	@Override
 	public boolean canAttack(Entity target) {
-		if (target instanceof AnimatedArmor) {
-			AnimatedArmor npc = (AnimatedArmor) target;
+		if (target instanceof AnimatedArmor npc) {
 			if (player != npc.getCombat().getTarget())
 				return false;
 		}

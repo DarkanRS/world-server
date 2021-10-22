@@ -1004,13 +1004,11 @@ public class Player extends Entity {
 		super.processEntity();
 		if (hasStarted() && isIdle()) {
 			if (!hasRights(Rights.ADMIN)) {
-				if (!(getActionManager().getAction() instanceof PlayerCombat)) {
-					logout(true);
-				} else {
-					if (!(((PlayerCombat) getActionManager().getAction()).getTarget() instanceof Player)) {
+				if (getActionManager().getAction() instanceof PlayerCombat combat) {
+					if (!(combat.getTarget() instanceof Player))
 						idleLog();
-					}
-				}
+				} else
+					logout(true);
 			}
 		}
 		if (disconnected && !finishing) {
@@ -2089,8 +2087,7 @@ public class Player extends Entity {
 				}
 			});
 		}
-		if (source instanceof Player) {
-			final Player p2 = (Player) source;
+		if (source instanceof Player p2) {
 			if (p2.prayer.hasPrayersOn()) {
 				if (p2.prayer.active(Prayer.SMITE)) {
 					int drain = hit.getDamage() / 4;
@@ -2135,8 +2132,8 @@ public class Player extends Entity {
 				}
 			}
 		}
-		if (target instanceof Player) {
-			if (((Player) target).getTempL("SOL_SPEC") >= System.currentTimeMillis())
+		if (target instanceof Player opp) {
+			if (opp.getTempL("SOL_SPEC") >= System.currentTimeMillis())
 				target.setNextSpotAnim(new SpotAnim(2320));
 		}
 		getAuraManager().onOutgoingHit(hit);
@@ -2278,7 +2275,7 @@ public class Player extends Entity {
 					sendMessage("Oh dear, you have died.");
 				} else if (loop == 2) {
 					reset();
-					if (source instanceof Player && ((Player)source).hasRights(Rights.ADMIN))
+					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
 						setNextWorldTile(Settings.getConfig().getPlayerRespawnTile());
 					else
 						controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
@@ -2978,9 +2975,9 @@ public class Player extends Entity {
 			case 4153:
 			case 14679:
 				combatDefinitions.switchUsingSpecialAttack();
-				Entity target = (getActionManager().getAction() instanceof PlayerCombat) ? ((PlayerCombat) getActionManager().getAction()).getTarget() : (Entity) getTemporaryAttributes().get("last_target");
+				Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : (Entity) getTemporaryAttributes().get("last_target");
 				if (target != null) {
-					if (!(target instanceof NPC && ((NPC) target).isForceMultiAttacked())) {
+					if (!(target instanceof NPC n && n.isForceMultiAttacked())) {
 						if (!target.isAtMultiArea() || !isAtMultiArea()) {
 							if (getAttackedBy() != target && inCombat()) {
 								return;
@@ -2990,7 +2987,7 @@ public class Player extends Entity {
 							}
 						}
 					}
-					if (!(getActionManager().getAction() instanceof PlayerCombat) || ((PlayerCombat) getActionManager().getAction()).getTarget() != target)
+					if (!(getActionManager().getAction() instanceof PlayerCombat combat) || combat.getTarget() != target)
 						getActionManager().setAction(new PlayerCombat(target));
 					PlayerCombat pcb = (PlayerCombat) getActionManager().getAction();
 					if (pcb == null ||!inMeleeRange(target) || !PlayerCombat.specialExecute(this))
@@ -3827,8 +3824,8 @@ public class Player extends Entity {
 	
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof Player)
-			return ((Player) other).hashCode() == this.hashCode();
+		if (other instanceof Player p)
+			return p.hashCode() == this.hashCode();
 		return false;
 	}
 

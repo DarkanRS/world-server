@@ -1,6 +1,7 @@
 package com.rs.game.player.social;
 
 import java.util.Set;
+
 import com.rs.game.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.model.Account;

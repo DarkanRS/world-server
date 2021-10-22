@@ -133,8 +133,8 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 				npcLife--;
 				Runecrafting.runecraft(player, creatures.rune, true);
 				Controller controller = player.getControllerManager().getController();
-				if (controller instanceof RunespanController)
-					((RunespanController) controller).addRunespanPoints(creatures.pointValue);
+				if (controller instanceof RunespanController ctrl)
+					ctrl.addRunespanPoints(creatures.pointValue);
 			} else {
 				player.getSkills().addXp(Constants.RUNECRAFTING, 0.5);
 			}

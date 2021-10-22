@@ -58,6 +58,7 @@ public class SandwichLady extends OwnedNPC {
 			final Player owner = getOwner();
 			owner.lock();
 			owner.setNextAnimation(new Animation(836));
+			owner.stopAll();
 			owner.fadeScreen(() -> {
 				WorldTile tile = RandomEvents.getRandomTile();
 				owner.getControllerManager().processMagicTeleport(tile);

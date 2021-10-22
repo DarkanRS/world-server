@@ -201,8 +201,8 @@ public class DungeonController extends Controller {
 			if (player.getDungManager().getActivePerk() == KinshipPerk.KEEN_EYE && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.ACCURATE) {
 				int procChance = (int) (40 + (player.getDungManager().getKinshipTier(KinshipPerk.KEEN_EYE) * 6.5));
 				if (Utils.random(100) < procChance) {
-					if (target instanceof NPC)
-						((NPC)target).lowerDefense(1);
+					if (target instanceof NPC npc)
+						npc.lowerDefense(1);
 				}
 			}
 			rangeDamage += hit.getDamage();
@@ -482,8 +482,8 @@ public class DungeonController extends Controller {
 		} else if (npc.getId() >= 11096 && npc.getId() <= 11105) {
 			DungeoneeringTraps.skinMastyx(player, npc);
 			return false;
-		} else if (npc instanceof DivineSkinweaver) {
-			((DivineSkinweaver) npc).talkTo(player);
+		} else if (npc instanceof DivineSkinweaver skin) {
+			skin.talkTo(player);
 			return false;
 		}
 		return true;
@@ -499,8 +499,7 @@ public class DungeonController extends Controller {
 		if (!room.processNPCClick2(player, npc)) {
 			return false;
 		}
-		if (npc instanceof Familiar) {
-			Familiar familiar = (Familiar) npc;
+		if (npc instanceof Familiar familiar) {
 			if (player.getFamiliar() != familiar) {
 				player.sendMessage("That isn't your familiar.");
 				return false;
@@ -1036,9 +1035,7 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean keepCombating(Entity target) {
-		if (target instanceof DungeonSlayerNPC) {
-			DungeonSlayerNPC npc = (DungeonSlayerNPC) target;
-
+		if (target instanceof DungeonSlayerNPC npc) {
 			if (player.getSkills().getLevel(Constants.SLAYER) < npc.getType().getReq()) {
 				player.sendMessage("You need a Slayer level of " + npc.getType().getReq() + " in order to attack this monster.");
 				return false;

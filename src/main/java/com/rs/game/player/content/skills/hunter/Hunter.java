@@ -201,13 +201,13 @@ public final class Hunter {
 			if (e.getOption().equals("Set-trap"))
 				e.getPlayer().getActionManager().setAction(new BoxAction(BoxTrapType.TREE_NET, e.getObject()));
 			else if (e.getOption().equals("Dismantle")) {
-				if (e.getObject() instanceof OwnedObject && !((OwnedObject) e.getObject()).ownedBy(e.getPlayer())) {
+				if (e.getObject() instanceof OwnedObject oo && !oo.ownedBy(e.getPlayer())) {
 					e.getPlayer().sendMessage("This isn't your trap.");
 					return;
 				}
 				for (OwnedObject o : OwnedObject.getOwnedBy(e.getPlayer())) {
-					if (o instanceof NetTrap && o.withinDistance(e.getObject(), 1))
-						((NetTrap) o).dismantle(e.getPlayer());
+					if (o instanceof NetTrap nt && o.withinDistance(e.getObject(), 1))
+						nt.dismantle(e.getPlayer());
 				}
 			}
 		}

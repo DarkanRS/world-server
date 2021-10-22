@@ -37,23 +37,12 @@ public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
 			player.setRun(true);
 		
 		switch(packet.getOpcode()) {
-		case OBJECT_OP1:
-			ObjectHandler.handleOption1(player, object);
-			break;
-		case OBJECT_OP2:
-			ObjectHandler.handleOption2(player, object);
-			break;
-		case OBJECT_OP3:
-			ObjectHandler.handleOption3(player, object);
-			break;
-		case OBJECT_OP4:
-			ObjectHandler.handleOption4(player, object);
-			break;
-		case OBJECT_OP5:
-			ObjectHandler.handleOption5(player, object);
-			break;
-		default:
-			break;
+			case OBJECT_OP1 -> ObjectHandler.handleOption1(player, object);
+			case OBJECT_OP2 -> ObjectHandler.handleOption2(player, object);
+			case OBJECT_OP3 -> ObjectHandler.handleOption3(player, object);
+			case OBJECT_OP4 -> ObjectHandler.handleOption4(player, object);
+			case OBJECT_OP5 -> ObjectHandler.handleOption5(player, object);
+			default -> System.err.println("Unexpected object interaction packet: " + packet.getOpcode());
 		}
 	}
 

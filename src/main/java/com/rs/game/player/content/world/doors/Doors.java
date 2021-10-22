@@ -13,7 +13,6 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -278,9 +277,9 @@ public class Doors {
 		}
 		Door opp = new Door(DoorPair.getOpposingDoor(player, object), object.getType(), object.getRotation(open ? 1 : -1), adjusted, object);
 		if (!isTempMove(opp.getDefinitions(player))) {
-			if (object instanceof Door) {
+			if (object instanceof Door door) {
 				World.removeObject(object);
-				World.spawnObject(((Door)object).original, true);
+				World.spawnObject(door.original, true);
 			} else {
 				World.removeObject(object);
 				World.spawnObject(opp, true);
@@ -331,9 +330,9 @@ public class Doors {
         }
         Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
         if (!isTempMove(opp.getDefinitions(player))) {
-            if (object instanceof Door) {
+            if (object instanceof Door door) {
                 World.removeObject(object);
-                World.spawnObject(((Door)object).original, true);
+                World.spawnObject(door.original, true);
             } else {
                 World.removeObject(object);
                 World.spawnObject(opp, true);
@@ -380,8 +379,8 @@ public class Doors {
 		GameObject opp = new GameObject(DoorPair.getOpposingDoor(player, object), object.getType(), object.getRotation(1), adjusted);
 		if (!isTempMove(opp.getDefinitions(player))) {
 			World.removeObject(object);
-			if (object instanceof Door)
-				World.spawnObject(((Door) object).getOriginal());
+			if (object instanceof Door door)
+				World.spawnObject(door.getOriginal());
 			else
 				World.spawnObject(opp, true);
 		} else {
@@ -438,9 +437,9 @@ public class Doors {
 			} else {
 				World.removeObject(doors[0]);
 				World.removeObject(doors[1]);
-				if (doors[0] instanceof Door && doors[1] instanceof Door) {
-					World.spawnObject(((Door) doors[0]).getOriginal());
-					World.spawnObject(((Door) doors[1]).getOriginal());
+				if (doors[0] instanceof Door d0 && doors[1] instanceof Door d1) {
+					World.spawnObject(d0.getOriginal());
+					World.spawnObject(d1.getOriginal());
 				} else {
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? -1 : 1), open ? doors[0].transform(-1, 0, 0) : doors[0].transform(1, 0, 0), doors[0]));
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? 1 : -1), open ? doors[1].transform(-1, 0, 0) : doors[1].transform(1, 0, 0), doors[1]));
@@ -457,9 +456,9 @@ public class Doors {
 			} else {
 				World.removeObject(doors[0]);
 				World.removeObject(doors[1]);
-				if (doors[0] instanceof Door && doors[1] instanceof Door) {
-					World.spawnObject(((Door) doors[0]).getOriginal());
-					World.spawnObject(((Door) doors[1]).getOriginal());
+				if (doors[0] instanceof Door d0 && doors[1] instanceof Door d1) {
+					World.spawnObject(d0.getOriginal());
+					World.spawnObject(d1.getOriginal());
 				} else {
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? -1 : 1), open ? doors[0].transform(0, 1, 0) : doors[0].transform(0, -1, 0), doors[0]));
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? 1 : -1), open ? doors[1].transform(0, 1, 0) : doors[1].transform(0, -1, 0), doors[1]));
@@ -476,9 +475,9 @@ public class Doors {
 			} else {
 				World.removeObject(doors[0]);
 				World.removeObject(doors[1]);
-				if (doors[0] instanceof Door && doors[1] instanceof Door) {
-					World.spawnObject(((Door) doors[0]).getOriginal());
-					World.spawnObject(((Door) doors[1]).getOriginal());
+				if (doors[0] instanceof Door d0 && doors[1] instanceof Door d1) {
+					World.spawnObject(d0.getOriginal());
+					World.spawnObject(d1.getOriginal());
 				} else {
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? 1 : -1), open ? doors[0].transform(1, 0, 0) : doors[0].transform(-1, 0, 0), doors[0]));
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? -1 : 1), open ? doors[1].transform(1, 0, 0) : doors[1].transform(-1, 0, 0), doors[1]));
@@ -495,9 +494,9 @@ public class Doors {
 			} else {
 				World.removeObject(doors[0]);
 				World.removeObject(doors[1]);
-				if (doors[0] instanceof Door && doors[1] instanceof Door) {
-					World.spawnObject(((Door) doors[0]).getOriginal());
-					World.spawnObject(((Door) doors[1]).getOriginal());
+				if (doors[0] instanceof Door d0 && doors[1] instanceof Door d1) {
+					World.spawnObject(d0.getOriginal());
+					World.spawnObject(d1.getOriginal());
 				} else {
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? 1 : -1), open ? doors[0].transform(0, -1, 0) : doors[0].transform(0, 1, 0), doors[0]));
 					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? -1 : 1), open ? doors[1].transform(0, -1, 0) : doors[1].transform(0, 1, 0), doors[1]));

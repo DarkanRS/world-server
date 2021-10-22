@@ -21,14 +21,14 @@ public class EnterChunkEvent implements PluginEvent {
 	}
 	
 	public NPC getNPC() {
-		if (entity instanceof NPC)
-			return (NPC) entity;
+		if (entity instanceof NPC n)
+			return n;
 		return null;
 	}
 	
 	public Player getPlayer() {
-		if (entity instanceof Player)
-			return (Player) entity;
+		if (entity instanceof Player p)
+			return p;
 		return null;
 	}
 

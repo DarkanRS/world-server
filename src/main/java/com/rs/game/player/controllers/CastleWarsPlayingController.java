@@ -43,12 +43,11 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean processNPCClick2(NPC n) {
-		if (n.getId() == 1532 && n instanceof CastleWarBarricade) {
+		if (n.getId() == 1532 && n instanceof CastleWarBarricade barricade) {
 			if (!player.getInventory().containsItem(590, 1)) {
 				player.sendMessage("You do not have the required items to light this.");
 				return false;
 			}
-			CastleWarBarricade barricade = (CastleWarBarricade) n;
 			barricade.litFire();
 			return false;
 		}
@@ -138,8 +137,7 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean processItemOnNPC(NPC npc, Item item) {
-		if (npc.getId() == 1532 && npc instanceof CastleWarBarricade) {
-			CastleWarBarricade barricade = (CastleWarBarricade) npc;
+		if (npc.getId() == 1532 && npc instanceof CastleWarBarricade barricade) {
 			if (item.getId() == 590) {
 				barricade.litFire();
 				return false;

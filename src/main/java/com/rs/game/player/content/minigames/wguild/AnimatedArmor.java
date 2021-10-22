@@ -38,8 +38,7 @@ public class AnimatedArmor extends NPC {
 			@Override
 			public void run() {
 				if (loop >= 2) {
-					if (source instanceof Player) {
-						Player player = (Player) source;
+					if (source instanceof Player player) {
 						for (Integer items : getDroppedItems()) {
 							if (items == -1)
 								continue;

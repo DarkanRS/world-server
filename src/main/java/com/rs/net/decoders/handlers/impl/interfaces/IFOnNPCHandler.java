@@ -55,8 +55,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 					if (player.getFamiliar().getSpecialAttack() != SpecialAttack.ENTITY)
 						return;
 				}
-				if (npc instanceof Familiar) {
-					Familiar familiar = (Familiar) npc;
+				if (npc instanceof Familiar familiar) {
 					if (familiar == player.getFamiliar()) {
 						player.sendMessage("You can't attack your own familiar.");
 						return;

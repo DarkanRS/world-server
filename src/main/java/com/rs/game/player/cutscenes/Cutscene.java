@@ -113,10 +113,8 @@ public abstract class Cutscene {
 	}
 
 	public void destroyCache(Object object) {
-		if (object instanceof NPC) {
-			NPC n = (NPC) object;
+		if (object instanceof NPC n)
 			n.finish();
-		}
 	}
 
 	public final void createCache(Player player) {

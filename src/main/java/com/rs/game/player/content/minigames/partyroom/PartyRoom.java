@@ -194,8 +194,7 @@ public class PartyRoom {
 	public static ObjectClickHandler handleBalloons = new ObjectClickHandler(new Object[] { 115, 116, 117, 118, 119, 120, 121, 122 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getObject() instanceof Balloon) {
-				Balloon balloon = ((Balloon) e.getObject());
+			if (e.getObject() instanceof Balloon balloon) {
 				if (e.getPlayer().isIronMan()) {
 					e.getPlayer().sendMessage("You can't pop a party balloon as an ironman.");
 					if (balloon.getItem() != null)

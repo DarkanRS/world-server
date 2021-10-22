@@ -219,8 +219,8 @@ public final class RegionBuilder {
 	private static DynamicRegion createDynamicRegion(int regionId) {
 		Region region = World.getRegion(regionId);
 		if (region != null) {
-			if (region instanceof DynamicRegion)
-				return (DynamicRegion) region;
+			if (region instanceof DynamicRegion dr)
+				return dr;
 			else
 				destroyRegion(regionId);
 		}

@@ -59,7 +59,6 @@ import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants.MapRoomIcon;
@@ -262,8 +261,7 @@ public class DungeonManager {
 		if (room == null)
 			return;
 		VisibleRoom vr;
-		if (room.getRoom() instanceof HandledPuzzleRoom) {
-			HandledPuzzleRoom pr = (HandledPuzzleRoom) room.getRoom();
+		if (room.getRoom() instanceof HandledPuzzleRoom pr) {
 			vr = pr.createVisibleRoom();
 		} else {
 			vr = new VisibleRoom();
@@ -598,8 +596,8 @@ public class DungeonManager {
 	}
 
 	public void sendSettings(Player player) {
-		if (player.getControllerManager().getController() instanceof DungeonController)
-			((DungeonController) player.getControllerManager().getController()).reset();
+		if (player.getControllerManager().getController() instanceof DungeonController ctrl)
+			ctrl.reset();
 		else {
 			player.getControllerManager().startController(new DungeonController(DungeonManager.this));
 			player.setLargeSceneView(true);
@@ -1335,8 +1333,8 @@ public class DungeonManager {
 				player.getHintIconsManager().addHintIcon(6, target, 0, -1, true); //6th slot
 		} else
 			removeMark();
-		if (target instanceof DungeonNPC)
-			((DungeonNPC) target).setMarked(mark);
+		if (target instanceof DungeonNPC npc)
+			npc.setMarked(mark);
 	}
 
 	public void setGroupGatestone(WorldTile groupGatestone) {
@@ -1612,10 +1610,9 @@ public class DungeonManager {
 	public void showBar(RoomReference reference, String name, int percentage) {
 		for (Player player : party.getTeam()) {
 			RoomReference current = getCurrentRoomReference(player);
-			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController) {
-				DungeonController c = (DungeonController) player.getControllerManager().getController();
-				c.showBar(true, name);
-				c.sendBarPercentage(percentage);
+			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController ctrl) {
+				ctrl.showBar(true, name);
+				ctrl.sendBarPercentage(percentage);
 			}
 		}
 	}
@@ -1623,9 +1620,8 @@ public class DungeonManager {
 	public void hideBar(RoomReference reference) {
 		for (Player player : party.getTeam()) {
 			RoomReference current = getCurrentRoomReference(player);
-			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController) {
-				DungeonController c = (DungeonController) player.getControllerManager().getController();
-				c.showBar(false, null);
+			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController ctrl) {
+				ctrl.showBar(false, null);
 			}
 		}
 	}

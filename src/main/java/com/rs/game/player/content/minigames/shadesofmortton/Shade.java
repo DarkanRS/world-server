@@ -40,8 +40,8 @@ public class Shade extends NPC {
 	@Override
 	public void sendDeath(Entity source) {
 		super.sendDeath(source);
-		if (source instanceof Player)
-			ShadesOfMortton.addSanctity(((Player)source), 2.0);
+		if (source instanceof Player player)
+			ShadesOfMortton.addSanctity(player, 2.0);
 	}
 	
 	@Override

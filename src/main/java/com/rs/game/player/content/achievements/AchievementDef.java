@@ -205,59 +205,34 @@ public class AchievementDef {
 	}
 	
 	private static int toRealSkillId(int skillId) {
-		switch(skillId) {
-		case 1: //Attack
-			return 0;
-		case 2: //Strength
-			return 2;
-		case 3: //Ranged
-			return 4;
-		case 4: //Magic
-			return 6;
-		case 5: //Defence
-			return 1;
-		case 6: //Constitution
-			return 3;
-		case 7: //Prayer
-			return 5;
-		case 8: //Agility
-			return 16;
-		case 9: //Herblore
-			return 15;
-		case 10: //Thieving
-			return 17;
-		case 11: //Crafting
-			return 12;
-		case 12: //Runecrafting
-			return 20;
-		case 13: //Mining
-			return 14;
-		case 14: //Smithing
-			return 13;
-		case 15: //Fishing
-			return 10;
-		case 16: //Cooking
-			return 7;
-		case 17: //Firemaking
-			return 11;
-		case 18: //Woodcutting
-			return 8;
-		case 19: //Fletching
-			return 9;
-		case 20: //Slayer
-			return 18;
-		case 21: //Farming
-			return 19;
-		case 22: //Construction
-			return 22;
-		case 23: //Hunter
-			return 21;
-		case 24: //Summoning
-			return 23;
-		case 25: //Dungeoneering
-			return 24;
-		}
-		return 0;
+		return switch(skillId) {
+			case 1 -> 0;
+			case 2 -> 2;
+			case 3 -> 4;
+			case 4 -> 6;
+			case 5 -> 1;
+			case 6 -> 3;
+			case 7 -> 5;
+			case 8 -> 16;
+			case 9 -> 15;
+			case 10 -> 17;
+			case 11 -> 12;
+			case 12 -> 20;
+			case 13 -> 14;
+			case 14 -> 13;
+			case 15 -> 10;
+			case 16 -> 7;
+			case 17 -> 11;
+			case 18 -> 8;
+			case 19 -> 9;
+			case 20 -> 18;
+			case 21 -> 19;
+			case 22 -> 22;
+			case 23 -> 21;
+			case 24 -> 23;
+			case 25 -> 24;
+			default -> 0;
+		};
 	}
 	
 	@Override

@@ -157,8 +157,8 @@ public class BigBufferedImage extends BufferedImage {
     }
 
     public static void dispose(RenderedImage image) {
-        if (image instanceof BigBufferedImage) {
-            ((BigBufferedImage) image).dispose();
+        if (image instanceof BigBufferedImage bbi) {
+           bbi.dispose();
         }
     }
 

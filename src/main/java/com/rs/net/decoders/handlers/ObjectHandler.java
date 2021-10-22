@@ -104,8 +104,6 @@ import com.rs.utils.drop.DropTable;
 
 public final class ObjectHandler {
 
-	public static int[] seeds = new int[] { 19897, 19902, 19907, 19912, 19917, 19897, 19902, 19907, 19912, 19917, 19897, 19902, 19907, 19912, 19917 };
-
 	public static void handleOption1(final Player player, final GameObject object) {
 		final ObjectDefinitions objectDef = object.getDefinitions(player);
 		final int id = object.getId();
@@ -145,25 +143,6 @@ public final class ObjectHandler {
 					return;
 				} else if (object.getId() == 39468) {
 					player.setNextWorldTile(new WorldTile(1745, 5325, 0));
-					return;
-				} else if (object.getId() == 47232) {
-					if (player.getSlayer().getTask() != null && player.getSlayer().getMaster() == Master.Kuradal) {
-						TaskMonster currentTask = player.getSlayer().getTask().getMonster();
-						switch (currentTask) {
-							case HELLHOUNDS:
-							case GREATER_DEMONS:
-							case BLUE_DRAGONS:
-							case GARGOYLES:
-							case ABYSSAL_DEMONS:
-							case DARK_BEASTS:
-							case IRON_DRAGONS:
-							case STEEL_DRAGONS:
-								player.getControllerManager().startController(new KuradalDungeonController());
-								return;
-							default:
-						}
-					}
-					player.sendMessage("Sorry, this dungeon is exclusive only to those who need to go in there.");
 					return;
 				} else if (id == 50552) {
 					if (player.getControllerManager().getController() instanceof DungeonController)

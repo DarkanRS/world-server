@@ -123,8 +123,7 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new BoatingDialogue(), npc.getId());
 				return;
 			}
-			if (npc instanceof GraveStone) {
-				GraveStone grave = (GraveStone) npc;
+			if (npc instanceof GraveStone grave) {
 				grave.sendGraveInscription(player);
 				npc.resetDirection();
 				return;
@@ -154,8 +153,7 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new SorceressGardenNPCs(), npc);
 			else if (npc.getId() == 3373 || npc.getId() == 3705)
 				player.getDialogueManager().execute(new Max(), npc.getId());
-			else if (npc.getId() == 15451 && npc instanceof FireSpirit) {
-				FireSpirit spirit = (FireSpirit) npc;
+			else if (npc.getId() == 15451 && npc instanceof FireSpirit spirit) {
 				spirit.giveReward(player);
 			} else if (npc.getId() == 9462 || npc.getId() == 9464 || npc.getId() == 9466) {
 				Strykewyrm.handleStomping(player, npc);
@@ -279,8 +277,7 @@ public class NPCHandler {
 				FlyingEntityHunter.captureFlyingEntity(player, npc);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
 				
-			} else if (npc instanceof Pet) {
-				Pet pet = (Pet) npc;
+			} else if (npc instanceof Pet pet) {
 				if (pet != player.getPet()) {
 					player.sendMessage("This isn't your pet.");
 					return;
@@ -317,8 +314,7 @@ public class NPCHandler {
             }));
             return;
         }
-		if (npc instanceof Familiar) {
-			Familiar familiar = (Familiar) npc;
+		if (npc instanceof Familiar familiar) {
 			if (familiar == player.getFamiliar()) {
 				player.sendMessage("You can't attack your own familiar.");
 				return;
@@ -327,8 +323,8 @@ public class NPCHandler {
 				player.sendMessage("You can't attack this npc.");
 				return;
 			}
-		}  else if (npc instanceof DoorSupport) {
-			if (!((DoorSupport) npc).canDestroy(player)) {
+		}  else if (npc instanceof DoorSupport door) {
+			if (!door.canDestroy(player)) {
 				player.sendMessage("You cannot see a way to open this door...");
 				return;
 			}
@@ -437,8 +433,7 @@ public class NPCHandler {
 				}
 			} else if (npc.getId() == 9708 || npc.getId() == 14847)
 				FremennikShipmaster.sail(player, false);
-			else if (npc instanceof GraveStone) {
-				GraveStone grave = (GraveStone) npc;
+			else if (npc instanceof GraveStone grave) {
 				grave.repair(player, false);
 				return;
 			} else if (npc.getId() == 11267) {
@@ -455,8 +450,8 @@ public class NPCHandler {
 				}
 			} else if (npc.getId() == 8228) {
 			    StealingCreationShop.openInterface(player);
-			} else if (npc.getId() == 14849 && npc instanceof ConditionalDeath)
-			    ((ConditionalDeath) npc).useHammer(player);
+			} else if (npc.getId() == 14849 && npc instanceof ConditionalDeath cd)
+			    cd.useHammer(player);
 			else if (npc.getId() == 13633)
 				player.getDialogueManager().execute(new ClanCloak(), true);
 			else if (npc.getId() == 5915)
@@ -509,8 +504,7 @@ public class NPCHandler {
 			player.faceEntity(npc);
 			npc.faceEntity(player);
 			
-			if (npc instanceof GraveStone) {
-				GraveStone grave = (GraveStone) npc;
+			if (npc instanceof GraveStone grave) {
 				grave.repair(player, true);
 				npc.resetDirection();
 				return;
@@ -548,8 +542,7 @@ public class NPCHandler {
 			player.faceEntity(npc);
 			npc.faceEntity(player);
 			
-			if (npc instanceof GraveStone) {
-				GraveStone grave = (GraveStone) npc;
+			if (npc instanceof GraveStone grave) {
 				grave.demolish(player);
 				npc.resetDirection();
 				return;

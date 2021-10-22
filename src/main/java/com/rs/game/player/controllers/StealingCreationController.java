@@ -135,13 +135,10 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean canHit(Entity target) {
-		if (target instanceof Player) {
-			Player playerTarget = (Player) target;
-			if (playerTarget.getEquipment().getCapeId() == player.getEquipment().getCapeId() || Helper.withinSafeArea(playerTarget, game.getArea(), !getTeam())) {
+		if (target instanceof Player other) {
+			if (other.getEquipment().getCapeId() == player.getEquipment().getCapeId() || Helper.withinSafeArea(other, game.getArea(), !getTeam()))
 				return false;
-			}
-		} else if (target instanceof Familiar) {
-			Familiar familiar = (Familiar) target;
+		} else if (target instanceof Familiar familiar) {
 			Player owner = familiar.getOwner();
 			if (owner.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
 				return false;
@@ -152,17 +149,15 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean canAttack(Entity target) {
-		if (target instanceof Player) {
-			Player playerTarget = (Player) target;
-			if (playerTarget.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
+		if (target instanceof Player other) {
+			if (other.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
 				player.sendMessage("You cannot attack player's on the same team!");
 				return false;
 			} else if (target.getTemporaryAttributes().get("in_kiln") != null && (Long) target.getTemporaryAttributes().get("in_kiln") >= System.currentTimeMillis()) {
 				player.sendMessage("The power of the creation kiln is protecting the player.");
 				return false;
 			}
-		} else if (target instanceof Familiar) {
-			Familiar familiar = (Familiar) target;
+		} else if (target instanceof Familiar familiar) {
 			Player owner = familiar.getOwner();
 			if (owner.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
 				player.sendMessage("You cannot attack a familiar on the same side as you!");
@@ -325,12 +320,11 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean keepCombating(Entity target) {
-		if (target instanceof Player) {
-			Player playerTarget = (Player) target;
-			if (playerTarget.getAppearance().isNPC()) {
+		if (target instanceof Player other) {
+			if (other.getAppearance().isNPC()) {
 				player.sendMessage("Your target is nowhere to be found.");
 				return false;
-			} else if (Helper.withinSafeArea(playerTarget, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam())) {
+			} else if (Helper.withinSafeArea(other, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam())) {
 				return false;
 			}
 		}

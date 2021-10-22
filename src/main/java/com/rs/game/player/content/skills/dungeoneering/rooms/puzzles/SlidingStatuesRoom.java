@@ -157,8 +157,8 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
-		if (npc instanceof Statue) {
-			((Statue) npc).handle(player, true);
+		if (npc instanceof Statue s) {
+			s.handle(player, true);
 			return false;
 		}
 		return true;
@@ -166,8 +166,8 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 
 	@Override
 	public boolean processNPCClick2(Player player, NPC npc) {
-		if (npc instanceof Statue) {
-			((Statue) npc).handle(player, false);
+		if (npc instanceof Statue s) {
+			s.handle(player, false);
 			return false;
 		}
 		return true;
