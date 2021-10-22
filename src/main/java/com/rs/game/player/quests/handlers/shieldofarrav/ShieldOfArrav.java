@@ -236,35 +236,7 @@ public class ShieldOfArrav extends QuestOutline {
 		}
 		return lines;
 	}
-
-    public static void saveStageToPlayerSave(Player p, int questStage) {
-        if(p.get(STAGE_MAP_ID) instanceof ArrayList) {
-            ArrayList<Integer> questStages = (ArrayList<Integer>) p.get(STAGE_MAP_ID);
-            questStages.add(questStage);
-            p.save(STAGE_MAP_ID, questStages);
-        } else {
-            ArrayList<Integer> questStages = new ArrayList<>();
-            questStages.add(questStage);
-            p.delete(STAGE_MAP_ID);
-            p.save(STAGE_MAP_ID, questStages);
-        }
-    }
-
-    public static boolean isStageInPlayerSave(Player p, int questStage) {
-        if(p.get(STAGE_MAP_ID) instanceof ArrayList) {
-            return ((ArrayList<Integer>) p.get(STAGE_MAP_ID)).contains((double)questStage) ||
-                    ((ArrayList<Integer>) p.get(STAGE_MAP_ID)).contains(questStage);
-        } else {
-            return false;
-        }
-    }
-
-    public static void reset(Player p) {
-        p.getQuestManager().setStage(Quest.forId(63), 0, true);
-        p.delete(STAGE_MAP_ID);
-        p.delete("claimedArravLamp");
-    }
-
+	
     public static boolean hasGang(Player p) {
 	    if(isStageInPlayerSave(p, JOINED_BLACK_ARM) || isStageInPlayerSave(p, JOINED_PHOENIX))
 	        return true;

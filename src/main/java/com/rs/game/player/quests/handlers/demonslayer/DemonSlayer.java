@@ -2,7 +2,6 @@ package com.rs.game.player.quests.handlers.demonslayer;
 
 import java.util.ArrayList;
 
-import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -140,33 +139,6 @@ public class DemonSlayer extends QuestOutline {
         return lines;
     }
 
-    public static void saveStageToPlayerSave(Player p, int questStage) {
-        if(p.get(STAGE_MAP_ID) instanceof ArrayList) {
-            ArrayList<Integer> questStages = (ArrayList<Integer>) p.get(STAGE_MAP_ID);
-            questStages.add(questStage);
-            p.save(STAGE_MAP_ID, questStages);
-        } else {
-            ArrayList<Integer> questStages = new ArrayList<>();
-            questStages.add(questStage);
-            p.delete(STAGE_MAP_ID);
-            p.save(STAGE_MAP_ID, questStages);
-        }
-    }
-
-    public static boolean isStageInPlayerSave(Player p, int questStage) {
-        if(p.get(STAGE_MAP_ID) instanceof ArrayList) {
-            return ((ArrayList<Integer>) p.get(STAGE_MAP_ID)).contains((double)questStage) ||
-                    ((ArrayList<Integer>) p.get(STAGE_MAP_ID)).contains(questStage);
-        } else {
-            return false;
-        }
-    }
-
-    public static void reset(Player p) {
-        p.getQuestManager().setStage(Quest.forId(51), 0, true);
-        p.delete(STAGE_MAP_ID);
-    }
-
     @Override
     public void complete(Player player) {
         getQuest().sendQuestCompleteInterface(player, SILVERLIGHT, "Silverlight");
@@ -218,7 +190,6 @@ public class DemonSlayer extends QuestOutline {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             p.getInventory().addItem(PRYSIN_KEY);
             p.startConversation(new Conversation(p) {
                 {

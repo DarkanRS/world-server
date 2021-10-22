@@ -86,7 +86,6 @@ public class FlaskPotions {
             this.potions = potions;
         }
 
-        public int getFlaskId() { return flaskId; }
         public int[] getPotions() { return potions; }
 
         public static Flasks getFlaskEnum(int potionId) {

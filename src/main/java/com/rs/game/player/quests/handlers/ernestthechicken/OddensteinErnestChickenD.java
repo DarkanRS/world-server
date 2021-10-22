@@ -26,13 +26,8 @@ public class OddensteinErnestChickenD extends Conversation {
     static int RUBBER_TUBE = 276;
     static int OIL_CAN = 277;
 
-    private Player p;
-
-
     public OddensteinErnestChickenD(Player p) {
         super(p);
-        this.p = p;
-
         switch (p.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
             case ErnestTheChicken.NOT_STARTED:
             case ErnestTheChicken.STARTED:

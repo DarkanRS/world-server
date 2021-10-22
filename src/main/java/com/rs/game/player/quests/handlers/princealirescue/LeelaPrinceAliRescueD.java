@@ -19,7 +19,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class LeelaPrinceAliRescueD extends Conversation {
-    Player p;
     public final static int LEELA = 915;
     final int CONVO1 = 0;
     final int CONVO2 = 1;
@@ -27,15 +26,14 @@ public class LeelaPrinceAliRescueD extends Conversation {
 
     public LeelaPrinceAliRescueD(Player p) {
         super(p);
-        this.p = p;
         if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) <= PrinceAliRescue.STARTED) {
             addPlayer(HeadE.HAPPY_TALKING, "What are you waiting here for?");
             addNPC(LEELA, HeadE.FRUSTRATED, "That is no concern of yours, adventurer.");
         }
         if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.GEAR_CHECK) {
             //bronze key complete
-            if(PrinceAliRescue.isQuestInfoInPlayer(p, PrinceAliRescue.LEELA_HAS_KEY) && !p.getInventory().containsItem(PrinceAliRescue.BRONZE_KEY, 1)) {
-                if(PrinceAliRescue.isQuestInfoInPlayer(p, PrinceAliRescue.LEELA_GAVE_KEY)) {
+            if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) >= PrinceAliRescue.LEELA_HAS_KEY && !p.getInventory().containsItem(PrinceAliRescue.BRONZE_KEY, 1)) {
+                if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) >= PrinceAliRescue.LEELA_GAVE_KEY) {
                     addNPC(LEELA, HeadE.CALM_TALK, "You lost the key?");
                     addNPC(LEELA, HeadE.CALM_TALK, "I am going to need 15 coins from you to pay for the bronze.");
                     if(p.getInventory().containsItem(995, 15))
@@ -51,7 +49,7 @@ public class LeelaPrinceAliRescueD extends Conversation {
                     addNPC(LEELA, HeadE.CALM_TALK, "My father sent this key for you. Be careful not to lose it.");
                     addSimple("Leela gives you a copy of the key to the prince's door.", () -> {
                         p.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
-                        PrinceAliRescue.saveQuestInfoToPlayer(p, PrinceAliRescue.LEELA_GAVE_KEY);
+                        p.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.LEELA_GAVE_KEY);
                     });
                     addNPC(LEELA, HeadE.CALM_TALK, "Don't forget to deal with the guard on the door. He is talkative, try to find a weakness in him.");
                 }
@@ -109,8 +107,6 @@ public class LeelaPrinceAliRescueD extends Conversation {
 
     public LeelaPrinceAliRescueD(Player p, int convoID) {
         super(p);
-        this.p = p;
-
         switch(convoID) {
             case CONVO1:
                 convo1(p);

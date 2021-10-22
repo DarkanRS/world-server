@@ -110,6 +110,8 @@ public class TravelMethods {
                 else if(ship.getFixedName(returning).equalsIgnoreCase("brimhaven fare"))//ardy->brim fare
                     iComp = 41;
                 break;
+			default:
+				break;
         }
         return iComp;
     }

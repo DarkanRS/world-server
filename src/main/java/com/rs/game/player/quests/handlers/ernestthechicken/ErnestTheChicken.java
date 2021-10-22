@@ -54,9 +54,7 @@ public class ErnestTheChicken extends QuestOutline {
     private final static int RUBBER_TUBE = 276;
     private final static int SPADE = 952;
 
-    private static final int ERNEST = 287;
-
-	@Override
+    @Override
 	public int getCompletedStage() {
 		return QUEST_COMPLETE;
 	}
@@ -293,7 +291,6 @@ public class ErnestTheChicken extends QuestOutline {
     };
 
     public static LoginHandler onLogin = new LoginHandler() {
-        int regionId = 12340;
         @Override
         public void handle(LoginEvent e) {
             if(e.getPlayer().getQuestManager().getStage(Quest.ERNEST_CHICKEN) >= ERNEST_NOT_CHICKEN) {
