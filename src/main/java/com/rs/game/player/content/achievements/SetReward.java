@@ -67,4 +67,13 @@ public enum SetReward {
 		}
 		return true;
 	}
+    public boolean hasRequirements(Player player, int itemId, boolean print) {
+        for (int i = 0;i < diffs.length;i++) {
+            if (itemIds[i] != itemId)
+                continue;
+            if (!AchievementDef.meetsRequirements(player, area, diffs[i], print))
+                return false;
+        }
+        return true;
+    }
 }

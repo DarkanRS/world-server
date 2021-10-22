@@ -159,7 +159,7 @@ public final class RegionBuilder {
 		public int getLocalY(int offset) {
 			return getBaseY() + offset;
 		}
-		
+
 		public int getLocalX(int chunkXOffset, int tileXOffset) {
 			return (getChunkX(chunkXOffset) << 3) + tileXOffset;
 		}
@@ -206,9 +206,9 @@ public final class RegionBuilder {
 		}
 	}
 
-	private static boolean regionExists(int mapHash) {
+	private static boolean regionExists(int regionId) {
 		synchronized(EXISTING_MAPS) {
-			return EXISTING_MAPS.contains(mapHash);
+			return EXISTING_MAPS.contains(regionId);
 		}
 	}
 	
@@ -229,7 +229,7 @@ public final class RegionBuilder {
 		return newRegion;
 	}
 
-	private static void destroyRegion(int regionId) {
+	public static void destroyRegion(int regionId) {
 		Region region = World.getRegion(regionId);
 		if (region != null) {
 			Set<Integer> playerIndexes = region.getPlayerIndexes();
@@ -282,7 +282,7 @@ public final class RegionBuilder {
 		return new int[] { (regionHash >> 8), regionHash & 0xff };
 	}
 
-	private static int[] findEmptyChunkBound(int widthChunks, int heightChunks) {
+	public static int[] findEmptyChunkBound(int widthChunks, int heightChunks) {
 		int[] map = findEmptyRegionBound(widthChunks, heightChunks);
 		map[0] *= 8;
 		map[1] *= 8;
@@ -305,9 +305,10 @@ public final class RegionBuilder {
 				int regionHash = getRegionId(regionX, regionY);
 				for (int checkRegionX = regionX - 1; checkRegionX <= regionX + regionsDistanceX; checkRegionX++) {
 					for (int checkRegionY = regionY - 1; checkRegionY <= regionY + regionsDistanceY; checkRegionY++) {
-						int hash = getRegionId(checkRegionX, checkRegionY);
-						if (regionExists(hash))
+						int regionId = getRegionId(checkRegionX, checkRegionY);
+						if (regionExists(regionId)) {
 							continue skip;
+                        }
 
 					}
 				}
@@ -494,7 +495,10 @@ public final class RegionBuilder {
 		});
 	}
 
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size) {
+    /**
+     * This may actually be the World Map
+     */
+	public static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size) {
 		int[] planes = new int[4];
 		for (int plane = 1; plane < 4; plane++)
 			planes[plane] = plane;

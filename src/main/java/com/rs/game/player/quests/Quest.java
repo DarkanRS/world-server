@@ -281,6 +281,15 @@ public enum Quest {
 		for (String l : lines) {
 			line += l + "<br>";
 		}
+
+        //random quest jingle
+        int jingleNum = Utils.random(0, 4);
+        if(jingleNum == 3)
+            jingleNum = 318;
+        else
+            jingleNum+=152;
+        player.getPackets().sendMusicEffect(jingleNum);
+
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getDefs().name+"!");

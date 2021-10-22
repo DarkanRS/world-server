@@ -1,0 +1,130 @@
+16
+20 - enter building mode POH
+22 - enter POH
+28 - old agility
+29 - old attack
+30 - attack
+31 - old construction
+32 - construction
+33 - old cooking
+34 - cooking
+35 - old crafting
+36 - crafting
+37 - old defence
+38 - defence
+39 - firemaking
+40 -
+41 - old fishing
+42 - fishing
+43
+44 - fletching
+45 -
+46 - herblore
+47 -
+48 - hitpoints
+49 - old hunter
+50 - hunter
+51 - old magic
+52 - magic
+53 - old mining
+54 - mining
+55 - old prayer
+56 - prayer
+57 - old ranged
+58 - ranged
+59 - old runecrafting
+60 - runecrafting
+61 - slayer task complete
+62 - slayer
+63
+64 - smithing
+65 - strength (under 50)
+66 - strength (over 50)
+67 -
+68 - thieving
+69 - old woodcutting
+70 - woodcutting
+
+90 - death
+
+97 - castle wars or clan wars
+98 - won battle/game/duel/stake
+
+132 - flying carpet ride
+
+137 - mort myre swamp boat ride
+
+144 - pest control loss
+145 - pest control win
+
+148 - random event
+
+152 - quest complete
+153 - quest complete/treasure trail complete
+154 - quest complete
+
+163 - lyre or something.... cant quite put a word on it
+164 - lyre
+165 - lyre strum
+
+171 - travel by boat (short)
+172 - travel by boat (long)
+
+189 - variation of fishing level up
+190 - variation of winning battle/quest complete
+
+193 - treasure trail complete
+
+204 - zanaris something or other
+
+235 - super catchy :)
+236 - super catchy end of 235
+
+249 - chickin pickin
+250 - chickin pickin end
+
+252 - 257 - jungle sounds
+
+269 - air guitar maybe
+270 - another possible air guitar
+
+273 - hair cut/clothes change
+
+284 - grand exchange offer complete
+
+300 - Summoning level up
+301 - summoning level up
+302 - air guitar
+
+309 - very familiar not sure...
+310 - very familiar also not sure...
+
+318 - possible level up sound to 99, maybe quest complete
+319 - possible level up sound
+
+323 - level up combat level
+
+328 - flute salad complete
+
+330 - flute salad longer complete
+
+336 - losing soul wars
+337 - losing soul wars
+
+343 - end circus event
+
+345 - not sure.....
+
+349 - start of clan wars or something
+
+379 - soul wars loss
+380 - soul wars win
+
+401 - not sure...
+
+415 - dungeon complete
+416 - dungeon complete/level up
+417 - dungeoneering level up
+418 - die in dungeoneering
+
+521

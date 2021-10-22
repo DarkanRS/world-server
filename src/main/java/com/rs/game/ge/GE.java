@@ -26,9 +26,6 @@ import com.rs.utils.ItemExamines;
 
 @PluginEventHandler
 public class GE {
-    //TODO: 1. Make Coll box withdraw all of one slot
-    //TODO: 2. Make Coll Box withdraw noted versions when possible.
-
 	private static final int OFFER_SELECTION = 105;
 	private static final int SPECIAL_DEPOSIT_INV = 107;
 	private static final int COLLECTION_BOX = 109;
@@ -406,7 +403,6 @@ public class GE {
 
     private static void updateCollectionBox(Player player) {
         for (int box = 0; box < 6; box++) {
-            System.out.println("updated " + box + " box");
             Offer offer = player.getGEOffers().get(box);
             if (offer == null) {
                 sendItems(player, new Item[]{new Item(-1, 0)}, box);

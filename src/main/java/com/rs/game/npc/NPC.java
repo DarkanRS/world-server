@@ -102,44 +102,49 @@ public class NPC extends Entity {
 	private boolean intelligentRoutefinder;
 	public boolean maskTest;
 
-	public NPC(int id, WorldTile tile, boolean spawned) {
-		super(tile);
-		this.id = id;
-		this.respawnTile = new WorldTile(tile);
-		this.setSpawned(spawned);
-		combatLevel = -1;
-		setHitpoints(getMaxHitpoints());
-		setFaceAngle(getRespawnDirection());
-		setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
-		setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
-		size = getDefinitions().size;
-		if (getDefinitions().hasAttackOption())
-			setRandomWalk(true);
-		if (getDefinitions().getName().toLowerCase().contains("glac"))
-			setRandomWalk(false);
-		if (id == 7891)
-			setRandomWalk(false);
-		BoxHunterType npc = BoxHunterType.forId(id);
-		if (npc != null)
-			setRandomWalk(true);
-		if (getName().contains("impling")) {
-			setRandomWalk(true);
-			setClipType(ClipType.FLYING);
-		}
-		if (getDefinitions().combatLevel >= 200)
-			setIgnoreDocile(true);
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
-		combat = new NPCCombat(this);
-		capDamage = -1;
-		lureDelay = 12000;
-		// npc is inited on creating instance
-		initEntity();
-		World.addNPC(this);
-		World.updateEntityRegion(this);
-		// npc is started on creating instance
-		loadMapRegions();
-		checkMultiArea();
+    public NPC(int id, WorldTile tile, int direction, boolean permaDeath) {
+        super(tile);
+        this.id = id;
+        this.respawnTile = new WorldTile(tile);
+        this.setSpawned(permaDeath);
+        combatLevel = -1;
+        setHitpoints(getMaxHitpoints());
+        setFaceAngle(Direction.getById(direction).getAngle());
+        setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
+        setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
+        size = getDefinitions().size;
+        if (getDefinitions().hasAttackOption())
+            setRandomWalk(true);
+        if (getDefinitions().getName().toLowerCase().contains("glac"))
+            setRandomWalk(false);
+        if (id == 7891)
+            setRandomWalk(false);
+        BoxHunterType npc = BoxHunterType.forId(id);
+        if (npc != null)
+            setRandomWalk(true);
+        if (getName().contains("impling")) {
+            setRandomWalk(true);
+            setClipType(ClipType.FLYING);
+        }
+        if (getDefinitions().combatLevel >= 200)
+            setIgnoreDocile(true);
+        levels = NPCCombatDefinitions.getDefs(id).getLevels();
+        combat = new NPCCombat(this);
+        capDamage = -1;
+        lureDelay = 12000;
+        // npc is inited on creating instance
+        initEntity();
+        World.addNPC(this);
+        World.updateEntityRegion(this);
+        // npc is started on creating instance
+        loadMapRegions();
+        checkMultiArea();
+    }
+
+	public NPC(int id, WorldTile tile, boolean permaDeath) {
+		this(id,tile, 4, permaDeath);
 	}
+
 	
 	public NPC(int id, WorldTile tile) {
 		this(id, tile, false);

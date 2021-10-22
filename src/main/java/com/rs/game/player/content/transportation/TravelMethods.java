@@ -3,6 +3,8 @@ package com.rs.game.player.content.transportation;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.dialogues.QuickCharter;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -26,8 +28,8 @@ public class TravelMethods {
 		KARAMJA(new int[] { 3200, 2900, 480, 200, -1, 200, 400, -1, 225, -1, 2000 }, new WorldTile(0,46,49,10,22)),
 		BRIMHAVEN(new int[] { 3200, 2900, 480, 400, 200, -1, 400, 1600, 975, -1, 3800 }, new WorldTile(0,43,50,8,38)),
 		PORT_KHAZARD(new int[] { 3200, 4100, 1600, 1600, 1600, 1600, -1, 1280, 1025, -1, 5000 }, new WorldTile(0,41,49,50,8)),
-		PORT_SARIM(new int[] { 3200, 1300, 1000, 400, -1, 1600, 1280, -1, 325, -1, 1400 }, new WorldTile(0,47,49,35,55)),
-		MOS_LE_HARMLESS(new int[] { 1600, -1, 625, 275, 1025, 725, 1025, 325, -1, -1, 500 }, new WorldTile(0,57,45,23,51)),	
+		PORT_SARIM(new int[] { 3200, 1300, 1000, 400, -1, 1600, 1280, -1, 325, -1, 1400 }, new WorldTile(3038, 3192, 0)),
+		MOS_LE_HARMLESS(new int[] { 1600, -1, 625, 275, 1025, 725, 1025, 325, -1, -1, 500 }, new WorldTile(0,57,45,23,51)),
 		CRANDOR(new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, new WorldTile(0,40,44,63,41)), //disabled
 		OO_GLOG(new int[] { 3200, 2800, 3400, 900, 2000, 3800, 5000, 1400, 550, -1, -1 }, new WorldTile(0,40,44,63,41)),
 		ENTRANA_FARE(null, "Port Sarim", new WorldTile(2834, 3335, 0), new WorldTile(3048, 3234, 0)),
@@ -62,6 +64,10 @@ public class TravelMethods {
 			this.origin = origin;
 		}
 
+        public Carrier getCarrier() {
+            return this;
+        }
+
 		private Carrier(int[] fares, WorldTile destination) {
 			this(fares, null, destination, null);
 		}
@@ -82,6 +88,45 @@ public class TravelMethods {
 			return (returning ? secondDest : toString().toLowerCase().replace("_FARE", "").replace("_", " "));
 		}
 	}
+
+    private static int getComponentForMap(Carrier ship, boolean returning) {
+        int iComp = -1;
+        switch(ship) {
+            case ENTRANA_FARE:
+                if(ship.getFixedName(returning).equalsIgnoreCase("entrana fare"))//sarim->entrana
+                    iComp = 54;
+                else if(ship.getFixedName(returning).equalsIgnoreCase("port sarim"))//entrana-> sarim
+                    iComp = 46;
+                break;
+            case KARAMJA_FARE://fare, meaning not charter
+                if(ship.getFixedName(returning).equalsIgnoreCase("port sarim"))//brimhaven->port sarim
+                    iComp = 42;
+                else if(ship.getFixedName(returning).equalsIgnoreCase("karamja fare"))//sarim->karamja
+                    iComp = 43;
+                break;
+            case BRIMHAVEN_FARE:
+                if(ship.getFixedName(returning).equalsIgnoreCase("ardougne"))//karamja/brim->ardougn
+                    iComp = 40;
+                else if(ship.getFixedName(returning).equalsIgnoreCase("brimhaven fare"))//ardy->brim fare
+                    iComp = 41;
+                break;
+        }
+        return iComp;
+    }
+    /**Add map then sound, MAP -> 299, music-effect -> 171(short)/172(long)
+     * p.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+     * p.getPackets().setIFHidden(299, icomp, false);
+     * 40: brim->ardy(short)
+     * 41: ardy->brim(short)
+     * 42: Karamja->Sarim(short)
+     * 43: sarim -> karamja/(short)
+     * 46: entrana -> sarim(short)
+     * 54: sarim -> entrana(short)
+     *
+     * //save for dragon slayer
+     * * 45: crandor -> sarim(short)
+     * * 44: sarim -> crandor(short)
+     */
 	
 	public static NPCClickHandler handleCharterShips = new NPCClickHandler("Trader Crewmember", "Trader crewmember") {
 		@Override
@@ -137,6 +182,9 @@ public class TravelMethods {
 	}
 
 	public static boolean sendCarrier(final Player player, final Carrier ship, int shipIndex, boolean returning) {
+        System.out.println("origin: " + ship.name() + " destination: " + ship.getFixedName(returning));
+        System.out.println(getComponentForMap(ship, returning));
+
 		if (player.getTemporaryAttributes().get("using_carrier") != null)
 			return false;
 		int cost = -1;
@@ -171,22 +219,79 @@ public class TravelMethods {
 			int configValue = 1 + (((ship.ordinal() - 10) * 2) + (ship.ordinal() >= 17 ? returning ? -1 : 0 : returning ? 1 : 0));
 			player.getVars().setVar(75, configValue);
 		}
+        System.out.println(ship.name() + " " + returning);
 		final WorldTile tile = returning ? ship.getOrigon() : ship.getDestination();
 		player.lock();
 		player.getMusicsManager().playMusic(550);
 		player.getTemporaryAttributes().put("using_carrier", true);
-		FadingScreen.fade(player, new Runnable() {
 
-			@Override
-			public void run() {// 9
-				player.setNextWorldTile(tile);
-				player.lock(1);
-				player.closeInterfaces();
-				if (isFare)
-					player.getVars().setVar(75, 0);
-				player.getTemporaryAttributes().remove("using_carrier");
-			}
-		});
+        if(getComponentForMap(ship, returning) == -1)
+            FadingScreen.fade(player, new Runnable() {
+                @Override
+                public void run() {// 9
+                    player.setNextWorldTile(tile);
+                    player.lock(1);
+                    player.closeInterfaces();
+                    if (isFare)
+                        player.getVars().setVar(75, 0);
+                    player.getTemporaryAttributes().remove("using_carrier");
+                }
+            });
+        else {
+            player.lock();
+            if(getComponentForMap(ship, returning) == 54 || getComponentForMap(ship, returning) == 46)
+                WorldTasksManager.schedule(new WorldTask() {
+                    int tick;
+                    @Override
+                    public void run() {
+                        if (tick == 0)  //setup p1
+                            player.getInterfaceManager().setFadingInterface(115);
+                        else if (tick == 3) {
+                            player.getInterfaceManager().setFadingInterface(516);
+                            player.getPackets().setBlockMinimapState(2);
+                            player.getPackets().sendMusicEffect(172);
+                            player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+                            player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
+                        } else if (tick == 11) {
+                            player.setNextWorldTile(tile);
+                            player.closeInterfaces();
+                            player.getInterfaceManager().setFadingInterface(170);
+                            player.getPackets().setBlockMinimapState(0);
+                        } else if (tick == 12) {
+                            player.getTemporaryAttributes().remove("using_carrier");
+                            player.unlock();
+                            stop();
+                        }
+                        tick++;
+                    }
+                }, 0, 1);
+            else {
+                WorldTasksManager.schedule(new WorldTask() {
+                    int tick;
+                    @Override
+                    public void run() {
+                        if (tick == 0)  //setup p1
+                            player.getInterfaceManager().setFadingInterface(115);
+                        else if (tick == 3) {
+                            player.getPackets().setBlockMinimapState(2);
+                            player.getPackets().sendMusicEffect(171);
+                            player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+                            player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
+                        } else if (tick == 7) {
+                            player.setNextWorldTile(tile);
+                            player.closeInterfaces();
+                            player.getInterfaceManager().setFadingInterface(170);
+                            player.getPackets().setBlockMinimapState(0);
+                        } else if (tick == 8) {
+                            player.getTemporaryAttributes().remove("using_carrier");
+                            player.unlock();
+                            stop();
+                        }
+                        tick++;
+                    }
+                }, 0, 1);
+            }
+        }
 		return true;
 	}
 }

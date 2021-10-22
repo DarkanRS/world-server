@@ -2443,7 +2443,7 @@ public final class ObjectHandler {
 			player.sendMessage("You fail to cut through the web.");
 	}
 	
-	private static boolean handleStaircases(Player player, GameObject object, int optionId) {
+	public static boolean handleStaircases(Player player, GameObject object, int optionId) {
 		String option = object.getDefinitions(player).getOption(optionId);
 		if (option.equalsIgnoreCase("Climb-up")) {
 			if (player.getPlane() == 3)

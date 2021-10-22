@@ -1,5 +1,85 @@
 [
   {
+    "comment": "Rubber Tube Draynor Manor, Ernest The Chicken",
+    "itemId": 276,
+    "amount": 1,
+    "tile": {
+      "x": 3110,
+      "y": 3367,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Spade Draynor Manor, Ernest The Chicken",
+    "itemId": 952,
+    "amount": 1,
+    "tile": {
+      "x": 3121,
+      "y": 3362,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Poison Draynor Manor, Ernest The Chicken",
+    "itemId": 273,
+    "amount": 1,
+    "tile": {
+      "x": 3098,
+      "y": 3366,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fish food Draynor Manor 2nd floor, Ernest The Chicken",
+    "itemId": 272,
+    "amount": 1,
+    "tile": {
+      "x": 3108,
+      "y": 3356,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Oil Can in Draynor Manor Basement, Ernest The Chicken",
+    "itemId": 277,
+    "amount": 1,
+    "tile": {
+      "x": 3092,
+      "y": 9755,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Bucket in Varrock castle, Demon Slayer",
+    "itemId": 1925,
+    "amount": 1,
+    "tile": {
+      "x": 3221,
+      "y": 3497,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Phoenix crossbow, Shield Of Arrav",
+    "itemId": 767,
+    "amount": 1,
+    "tile": {
+      "x": 3245,
+      "y": 3385,
+      "plane": 1
+    }
+  },
+  {
+  "comment": "Phoenix crossbow, Shield Of Arrav",
+  "itemId": 767,
+  "amount": 1,
+  "tile": {
+    "x": 3245,
+    "y": 3385,
+    "plane": 1
+  }
+},
+  {
     "comment": "Blue dragon scale",
     "itemId": 243,
     "amount": 1,
@@ -4676,6 +4756,106 @@
     "tile": {
       "x": 2654,
       "y": 9767,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3460,
+      "y": 9484,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3461,
+      "y": 9480,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3465,
+      "y": 9477,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3479,
+      "y": 9483,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3467,
+      "y": 9493,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3470,
+      "y": 9502,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3474,
+      "y": 9509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3489,
+      "y": 9517,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3496,
+      "y": 9511,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Potato Cactus",
+    "itemId": 3138,
+    "amount": 1,
+    "tile": {
+      "x": 3501,
+      "y": 9505,
       "plane": 0
     }
   }

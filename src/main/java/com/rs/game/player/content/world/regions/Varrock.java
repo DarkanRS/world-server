@@ -13,10 +13,13 @@ import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.combat.XPType;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.shieldofarrav.*;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
@@ -32,18 +35,81 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.shop.ShopsHandler;
 
+//status: done
+
 @PluginEventHandler
 public class Varrock {
 	
-	public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(false, new Object[] { 733 }) {
+	public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(new Object[] { 733 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().setRouteEvent(new RouteEvent(e.getNPC(), () -> {
-				if (!WorldUtil.isInRange(e.getPlayer(), e.getNPC(), 2))
+		    Player p = e.getPlayer();
+
+			p.setRouteEvent(new RouteEvent(new WorldTile(3224, 3397, 0), () -> {
+			    p.faceEntity(e.getNPC());
+				if (p.getTreasureTrailsManager().useNPC(e.getNPC()))
 					return;
-				if (e.getPlayer().getTreasureTrailsManager().useNPC(e.getNPC()))
-					return;
-			}, true));
+                p.startConversation(new Conversation(p) {
+                    int BARTENDER = 733;
+                    {
+                        addNPC(BARTENDER, HeadE.HAPPY_TALKING, "What can I do yer for?");
+                        addOptions("Choose an option:", new Options() {
+                            @Override
+                            public void create() {
+                                option("A glass of your finest ale please.", new Dialogue()
+                                .addPlayer(HeadE.HAPPY_TALKING, "A glass of your finest ale please.")
+                                .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "No problemo. That'll be 2 coins.")
+                                .addNext(()->{
+                                    if(p.getInventory().containsItem(995, 2)) {
+                                        p.getInventory().deleteItem(995, 2);
+                                        p.getInventory().addItem(1917, 1);
+                                        p.startConversation(new Conversation(p) { {
+                                            addSimple("The bartender hands you a beer...");
+                                            create();
+                                        } });
+                                    } else {
+                                        p.startConversation(new Conversation(p) { {
+                                            addNPC(BARTENDER, HeadE.SKEPTICAL_THINKING, "You have 2 coins don't you?");
+                                            addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "No..");
+                                            addNPC(BARTENDER, HeadE.FRUSTRATED, "That's too bad...");
+                                            create();
+                                        } });
+                                    }
+                                }));
+                                option("Can you recommend where an adventurer might make his fortune?", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "Can you recommend where an adventurer might make his fortune?")
+                                    .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "Ooh I don't know if I should be giving away information, makes the game too easy.")
+                                    .addOptions("Choose an option:", new Options() {
+                                        @Override
+                                        public void create() {
+                                            option("Oh ah well...", new Dialogue()
+                                            .addPlayer(HeadE.SAD_MILD, "Oh ah well..."));
+                                            option("Game? What are you talking about?", new Dialogue()
+                                            .addPlayer(HeadE.SKEPTICAL_THINKING, "Game? What are you talking about?")
+                                            .addNPC(BARTENDER, HeadE.TALKING_ALOT, "This world around us... is an online game... called RuneScape.")
+                                            .addPlayer(HeadE.SKEPTICAL_THINKING, "Nope, still don't understand what you are talking about. What does 'online' mean?")
+                                            .addNPC(BARTENDER, HeadE.TALKING_ALOT, "It's a sort of connection between magic boxes across the world, big " +
+                                                    "boxes on people's desktops and little ones people can carry. They can talk to each other to play games.")
+                                            .addPlayer(HeadE.AMAZED_MILD, "I give up. You're obviously completely mad!"));
+                                            option("Just a small clue?", new Dialogue()
+                                                    .addPlayer(HeadE.HAPPY_TALKING, "Just a small clue?")
+                                                    .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "Go and talk to the bartender at the Jolly Boar Inn, he doesn't " +
+                                                            "seem to mind giving away clues.")
+                                            );
+                                        }
+                                    }));
+                                option("Do you know where I can get some good equipment", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "Do you know where I can get some good equipment?")
+                                    .addNPC(BARTENDER, HeadE.HAPPY_TALKING, "Well, there's the sword shop across the road, or there's also all sorts of " +
+                                            "shops up around the market."));
+                            }
+                        });
+
+                        create();
+                    }
+                });
+
+            }, false));
 		}
 	};
 	
@@ -75,11 +141,146 @@ public class Varrock {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
+							if(!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+							    option("About Shield Of Arrav...", new ReldoShieldOfArravD(player).getStart());
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.VARROCK_ARMOR).getStart());
 						}
 					});
+					create();
 				}
 			});
+		}
+	};
+
+    public static NPCClickHandler handleBaraek = new NPCClickHandler(547) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+                e.getPlayer().sendMessage("Nothing interesting happens");
+            else
+                e.getPlayer().startConversation(new BaraekShieldOfArravD(e.getPlayer()).getStart());
+        }
+    };
+
+    public static NPCClickHandler handleCharlie = new NPCClickHandler(641) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+                e.getPlayer().sendMessage("Nothing interesting happens");
+            else
+                e.getPlayer().startConversation(new CharlieTheTrampArravD(e.getPlayer()).getStart());
+        }
+    };
+
+    public static NPCClickHandler handleKatrine = new NPCClickHandler(642) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+                e.getPlayer().sendMessage("Nothing interesting happens");
+            else
+                e.getPlayer().startConversation(new KatrineShieldOfArravD(e.getPlayer()).getStart());
+        }
+    };
+
+    public static NPCClickHandler handleStraven = new NPCClickHandler(644) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+                e.getPlayer().sendMessage("Nothing interesting happens");
+            else {
+                e.getPlayer().startConversation(new StravenShieldOfArravD(e.getPlayer()).getStart());
+            }
+        }
+    };
+
+    public static NPCClickHandler handleJohnnyTheBeard = new NPCClickHandler(645) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("talk-to"))
+                e.getPlayer().sendMessage("Johnny the beard is not interested in talking.");
+        }
+    };
+
+    public static NPCClickHandler handleKingRoald = new NPCClickHandler(648) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("talk-to")) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addPlayer(HeadE.CHEERFUL, "Hello.");
+                        if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV)) {
+                            addOptions("What would you like to say?", new Options() {
+                                @Override
+                                public void create() {
+                                    option("About Shield Of Arrav...", new KingRoaldShieldOfArravD(player).getStart());
+                                    option("Farewell.");
+                                }
+                            });
+                        } else {
+                            addNPC(648, HeadE.HAPPY_TALKING, "Thank you for your good work adventurer!");
+                            addPlayer(HeadE.HAPPY_TALKING, "You are welcome.");
+                        }
+                        create();
+                    }
+                });
+            }
+        }
+    };
+
+    public static NPCClickHandler handleMuseumCurator = new NPCClickHandler(646) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("talk-to")) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addOptions("What would you like to say?", new Options() {
+                            @Override
+                            public void create() {
+                                if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+                                    option("About Shield Of Arrav...", new MuseumCuratorArravD(player).getStart());
+                                option("Farewell.");
+				}
+			});
+                        create();
+                    }
+                });
+            }
+        }
+    };
+
+    public static NPCClickHandler handleHistorianMinas = new NPCClickHandler(5931) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("talk-to")) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addPlayer(HeadE.CHEERFUL, "Hello.");
+                        addOptions("What would you like to say?", new Options() {
+                            @Override
+                            public void create() {
+                                if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV) && (boolean)e.getPlayer().get("claimedArravLamp") != true) {
+                                    option("About Shield Of Arrav...", new Dialogue()
+                                            .addNPC(5931, HeadE.HAPPY_TALKING, "Thank you for returning the shield")
+                                            .addSimple("A lamp is placed in your hand")
+                                            .addNext(() -> {
+                                                e.getPlayer().getInventory().addItem(4447, 1);
+                                                e.getPlayer().save("claimedArravLamp", true);
+                                            }));
+                                } else {
+                                    if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+                                        option("About Shield Of Arrav...", new Dialogue()
+                                            .addNPC(5931, HeadE.HAPPY_TALKING, "Thank you for returning the shield"));
+                                    else
+                                        option("About Shield Of Arrav...", new Dialogue()
+                                                .addPlayer(HeadE.HAPPY_TALKING, "There is nothing to say."));
+                                }
+                                option("Farewell.");
+                            }
+                        });
+                        create();
+                    }
+                });
+            }
 		}
 	};
 	
@@ -93,8 +294,10 @@ public class Varrock {
 						@Override
 						public void create() {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.VARROCK_ARMOR).getStart());
+							option("Farewell.");
 						}
 					});
+					create();
 				}
 			});
 		}
@@ -207,4 +410,63 @@ public class Varrock {
 			}, 0, 0);
 		}
 	};
+	public static ObjectClickHandler handleFenceShortcut = new ObjectClickHandler(new Object[] { 9300 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!e.isAtObject())
+				return;
+			switch (e.getObject().getRotation()) {
+			case 0:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -1 : 1, 0, 0), 839);
+				break;
+			case 1:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -1 : 1, 0), 839);
+				break;
+			case 2:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -1 : 1, 0, 0), 839);
+				break;
+			case 3:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -1 : 1, 0), 839);
+				break;
+			}
+		}
+	};
+
+	public static ObjectClickHandler handleStileShortcuts = new ObjectClickHandler(new Object[] { 45205, 34776, 48208 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!e.isAtObject())
+				return;
+			switch (e.getObject().getRotation()) {
+			case 0:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -2 : 2, 0), 839);
+				break;
+			case 1:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -2 : 2, 0, 0), 839);
+				break;
+			case 2:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -2 : 2, 0), 839);
+				break;
+			case 3:
+				AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -2 : 2, 0, 0), 839);
+				break;
+			}
+		}
+	};
+
+    public static ObjectClickHandler handlePhoenixGangHideoutLadder = new ObjectClickHandler(new Object[] { 24363 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            if(e.getObject().matches(new WorldTile(3244, 3383, 0)) && e.getOption().equalsIgnoreCase("climb-down"))
+                e.getPlayer().ladder(new WorldTile(3245, 9783, 0));
+        }
+    };
+
+    public static ObjectClickHandler handlePhoenixGangVarrockLadder = new ObjectClickHandler(new Object[] { 2405 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            if(e.getObject().matches(new WorldTile(3244, 9783, 0)) && e.getOption().equalsIgnoreCase("climb-up"))
+                e.getPlayer().ladder(new WorldTile(3243, 3383, 0));
+        }
+    };
 }

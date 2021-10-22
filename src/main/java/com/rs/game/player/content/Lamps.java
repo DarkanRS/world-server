@@ -33,7 +33,7 @@ public class Lamps {
             { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE }, { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE }, { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE }, { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE },
             { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE }, { LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE }, };
 
-    public static final int[] OTHER_LAMPS = new int[] { 2528 }; // for future, 2528 is random event genie lamp
+	public static final int[] OTHER_LAMPS = new int[] { 2528, 4447 }; // 2528:random event genie lamp, 4447: Shield Of Arrav Lamp
 
     private static final int[] DIALOGUE_INTERFACE_C2S = new int[] { Skills.ATTACK, Skills.MAGIC, Skills.MINING, Skills.WOODCUTTING, Skills.AGILITY, Skills.FLETCHING, Skills.THIEVING, Skills.STRENGTH, Skills.RANGE, Skills.SMITHING, Skills.FIREMAKING,
             Skills.HERBLORE, Skills.SLAYER, Skills.CONSTRUCTION, Skills.DEFENSE, Skills.PRAYER, Skills.FISHING, Skills.CRAFTING, Skills.FARMING, Skills.HUNTER, Skills.SUMMONING, Skills.HITPOINTS, Skills.DUNGEONEERING, Skills.COOKING,
@@ -70,7 +70,15 @@ public class Lamps {
 
     public static void openSelectableInterface(Player player, int slot, int id) {
         player.getDialogueManager().execute(new Dialogue() {
-            Lamp lamp = new Lamp(id, slot, 1);
+			Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
+
+			private int getLampsLevelReq(int id) {
+			    switch(id) {
+                    case 4447://Shield of Arrav
+                        return 20;
+                }
+			    return 1;
+            }
 
             @Override
             public void start() {
@@ -84,12 +92,19 @@ public class Lamps {
                 sendSelectedSkill(player);
                 player.getPackets().sendVarc(1797, 0);
                 player.getPackets().sendVarc(1798, lamp.getReq()); //level required to use lamp
-                player.getPackets().sendVarc(1799, id);
+				player.getPackets().sendVarc(1799, getVarCValueForLamp(id));
                 for (int i = 13; i < 38; i++)
                     player.getPackets().setIFRightClickOps(1263, i, -1, 0, 0);
                 player.getPackets().setIFTargetParams(new IFTargetParams(1263, 39, 1, 26).enableContinueButton());
             }
 
+			private int getVarCValueForLamp(int id) {
+                switch(id) {
+                    case 4447://Shield of Arrav
+                        return 23713;
+                }
+                return id;
+            }
             @Override
             public void run(int interfaceId, int componentId) {
                 if (componentId == 39) {
@@ -98,21 +113,25 @@ public class Lamps {
                         player.closeInterfaces();
                         return;
                     }
+                    int lvl = player.getSkills().getLevelForXp(lamp.getSelectedSkill());
+					if(lvl < lamp.getReq())//makes unmet req skill xp unclickable
+					    return;
 
                     player.getInventory().deleteItem(slot, new Item(lamp.getId(), 1));
                     double xpAmt = lamp.getXp() != 0 ? lamp.getXp() : getExp(player.getSkills().getLevelForXp(lamp.getSelectedSkill()), selectableLampType(lamp.getId()));
                     if (lamp.getId() == 18782) {
-                        int lvl = player.getSkills().getLevelForXp(lamp.getSelectedSkill());
                         if (lvl < 30) {
                             xpAmt = (EnumDefinitions.getEnum(716).getIntValueAtIndex(lvl) - EnumDefinitions.getEnum(716).getIntValueAtIndex(lvl-1));
                         } else {
                             xpAmt = (Math.pow(lvl, 3) - 2 * Math.pow(lvl, 2) + 100 * lvl) / 20.0;
                         }
                     } else if (lamp.getId() == 20960) {
-                        int lvl = player.getSkills().getLevelForXp(lamp.getSelectedSkill());
                         xpAmt = (lvl*lvl) - (2*lvl) + 100;
-                    } else if(lamp.getId() == 2528)
+					} else if(lamp.getId() == 2528) { //genie
                         xpAmt = player.getSkills().getLevel(lamp.getSelectedSkill())*10;
+                    } else if(lamp.getId() == 4447) { //shield of arrav
+                        xpAmt = 1000;
+                    }
                     double exp = player.getSkills().addXpLamp(lamp.getSelectedSkill(), xpAmt);
                     player.closeInterfaces();
                     player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");

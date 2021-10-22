@@ -3,8 +3,8 @@
     "Count Draynor"
   ],
   "hitpoints": 350,
-  "attackAnim": -1,
-  "defenceAnim": -1,
+  "attackAnim": 3331,
+  "defenceAnim": 3332,
   "deathAnim": -1,
   "deathDelay": 3,
   "respawnDelay": 60,

@@ -22,6 +22,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
+import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;
@@ -35,6 +36,9 @@ import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.demonslayer.DemonSlayer;
+import com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
@@ -58,6 +62,8 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+
+//status: done
 
 @PluginEventHandler
 public class MiscTest {
@@ -295,7 +301,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "cutscene [id]", "Plays a predefined cutscene", (p, args) -> {
 			p.getPackets().sendCutscene(Integer.valueOf(args[0]));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "customcs [id]", "Plays a custom cutscene", (p, args) -> {
 			p.getCutscenesManager().play(new ExampleCutscene());
 		});
@@ -431,7 +437,7 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
 			p.getPackets().sendSound(Integer.valueOf(args[0]), 0, args.length > 1 ? Integer.valueOf(args[1]) : 1);
 		});
 		
@@ -457,6 +463,27 @@ public class MiscTest {
 			});
 		});
 		
+        Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
+            p.getQuestManager().completeQuest(Quest.PRINCE_ALI_RESCUE);
+        });
+
+        Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
+            p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
+        });
+
+        Commands.add(Rights.DEVELOPER, "customcs [id]", "Plays a custom cutscene", (p, args) -> {
+            switch(Integer.valueOf(args[0])) {
+                case 0:
+                    p.getCutscenesManager().play(new ExampleCutscene());
+                    break;
+                case 1:
+//                    p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
+                    break;
+                case 2:
+//                    p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+                    break;
+            }
+        });
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
 			p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
 		});
@@ -632,7 +659,14 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "resetquest [questName]", "Resets the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values()) {
 				if (quest.name().toLowerCase().contains(args[0])) {
-					p.getQuestManager().setStage(quest, 0);
+				    if(quest.name().equalsIgnoreCase("SHIELD_OF_ARRAV"))
+                        ShieldOfArrav.reset(p);
+				    else if (quest.name().equalsIgnoreCase("DEMON_SLAYER"))
+                        DemonSlayer.reset(p);
+				    else if (quest.name().equalsIgnoreCase("PRINCE_ALI_RESCUE"))
+                        PrinceAliRescue.reset(p);
+				    else
+					    p.getQuestManager().setStage(quest, 0);
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}
@@ -712,7 +746,7 @@ public class MiscTest {
 			p.getSkills().init();
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
 			if (args[0].contains(",")) {
 				args = args[0].split(",");
 				int plane = Integer.valueOf(args[0]);
@@ -764,17 +798,17 @@ public class MiscTest {
 			p.getTemporaryAttributes().put("sendingDropsToBank", true);
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
 			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[0]), 0, 0));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getAnimationDefinitionsSize())
 				return;
 			p.setNextAnimation(new Animation(Integer.valueOf(args[0])));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sync,animgfx [id]", "Animates the player with specified ID and plays a SpotAnim at the same time.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "sync,animgfx [id]", "Animates the player with specified ID and plays a SpotAnim at the same time.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getAnimationDefinitionsSize())
 				return;
 			if (Integer.valueOf(args[1]) > Utils.getSpotAnimDefinitionsSize())
@@ -787,8 +821,11 @@ public class MiscTest {
 			p.getAppearance().setBAS(Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "camlook [localX localY z]", "Points the camera at the specified tile.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "camlook [localX localY z  speed1 speed2]", "Points the camera at the specified tile.", (p, args) -> {
+			if(args.length == 3)
 			p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+			else if(args.length == 5)
+                p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "campos [localX localY z]", "Locks the camera to a specified tile.", (p, args) -> {
@@ -818,13 +855,18 @@ public class MiscTest {
 				p.getQuestManager().completeQuest(quest);
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getNPCDefinitionsSize())
 				return;
 			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
+        Commands.add(Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
+            p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]),
+                    Integer.valueOf(args[4]));
+        });
+
+		Commands.add(Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 		
@@ -837,7 +879,7 @@ public class MiscTest {
 			p.getInterfaceManager().setWindowInterfaceNoOverlay(Integer.valueOf(args[1]), Integer.valueOf(args[0]));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {
 			int interId = Integer.valueOf(args[0]);
 			p.getInterfaceManager().sendInterface(interId);
 			for (int componentId = 0; componentId < Utils.getInterfaceDefinitionsComponentsSize(interId); componentId++)
@@ -870,7 +912,7 @@ public class MiscTest {
 			p.getPackets().setIFModel(interId, compId, Integer.valueOf(args[2]));
 		});
 		
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "companim [npcId]", "Prints out animations compatible with the npc id.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "companim [npcId]", "Prints out animations compatible with the npc id.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getNPCDefinitionsSize())
 				return;
 			NPCDefinitions defs = NPCDefinitions.getDefs(Integer.valueOf(args[0]));
@@ -999,7 +1041,7 @@ public class MiscTest {
 			});
 		});
 		
-		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "Kills yourself.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
 			p.getPackets().setIFHidden(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Boolean.valueOf(args[2]));
 		});
 		
