@@ -23,6 +23,7 @@ import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
+import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.utils.json.FamiliarAdapter;
 
@@ -108,16 +109,6 @@ public final class Settings {
 	public static ArrayList<String> COMMIT_HISTORY = new ArrayList<>();
 
 	public static void loadConfig() {
-		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
-				.registerTypeAdapter(Controller.class, new ControllerAdapter())
-				.registerTypeAdapter(Date.class, new DateAdapter())
-				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
-				.registerTypeAdapter(Packet.class, new PacketAdapter())
-				.disableHtmlEscaping()
-				.setPrettyPrinting()
-				.create());
-		
 		try {
 			File configFile = new File("./serverConfig.json");
 			if (configFile.exists())

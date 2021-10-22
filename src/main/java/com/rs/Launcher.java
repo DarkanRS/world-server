@@ -3,7 +3,9 @@ package com.rs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 
+import com.google.gson.GsonBuilder;
 import com.rs.cache.Cache;
 import com.rs.cache.Index;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -12,15 +14,26 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
+import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.partyroom.PartyRoom;
+import com.rs.game.player.controllers.Controller;
+import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.ServerChannelHandler;
 import com.rs.lib.net.decoders.GameDecoder;
+import com.rs.lib.net.packets.Packet;
+import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.PacketAdapter;
+import com.rs.lib.util.PacketEncoderAdapter;
+import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
 import com.rs.utils.Ticks;
+import com.rs.utils.json.ControllerAdapter;
+import com.rs.utils.json.FamiliarAdapter;
 import com.rs.web.WorldAPI;
 
 public final class Launcher {
@@ -28,6 +41,18 @@ public final class Launcher {
 	private static WorldDB DB;
 
 	public static void main(String[] args) throws Exception {
+		Logger.log("Settings", "Loading config...");
+		JsonFileManager.setGSON(new GsonBuilder()
+				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
+				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+				.registerTypeAdapter(Date.class, new DateAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
+				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+				.disableHtmlEscaping()
+				.setPrettyPrinting()
+				.create());
+		
 		Settings.loadConfig();
 		
 		long currentTime = System.currentTimeMillis();
