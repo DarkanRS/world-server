@@ -1,8 +1,9 @@
 package com.rs.game.player.quests.handlers.demonslayer;
 
+import java.util.ArrayList;
+
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.DwarfMultiCannon;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
@@ -20,8 +21,6 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Areas;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler

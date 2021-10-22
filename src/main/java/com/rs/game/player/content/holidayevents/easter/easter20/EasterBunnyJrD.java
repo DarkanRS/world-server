@@ -22,7 +22,7 @@ public class EasterBunnyJrD extends Conversation {
 	public EasterBunnyJrD(Player player) {
 		super(player);
 
-		switch(player.getEaster20Stage()) {
+		switch(player.getI(Easter2021.STAGE_KEY)) {
 		case 4:
 			addPlayer(HeadE.CHEERFUL, "Hello!");
 			addNPC(EASTER_BUNNY_JR, HeadE.CAT_PURRING, "What do you want?..");
@@ -33,7 +33,7 @@ public class EasterBunnyJrD extends Conversation {
 			addPlayer(HeadE.ANGRY, "That doesn't help much at all!");
 			addNPC(EASTER_BUNNY_JR, HeadE.CAT_DISAPPOINTED2, "Ok boomer.");
 			addPlayer(HeadE.ROLL_EYES, "*What a lazy sack of garbage.*", () -> {
-				player.setEaster20Stage(5);
+				player.save(Easter2021.STAGE_KEY, 5);
 			});
 			break;
 		case 5:

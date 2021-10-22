@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.shieldofarrav;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -16,12 +19,19 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.net.decoders.handlers.ObjectHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.ItemAddedToInventoryEvent;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @QuestHandler(Quest.SHIELD_OF_ARRAV)

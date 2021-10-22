@@ -28,7 +28,7 @@ public class SnowImpD extends Conversation {
 	public SnowImpD(Player player) {
 		super(player);
 
-		switch(player.getChrist19Stage()) {
+		switch(player.getI(Christmas2019.STAGE_KEY)) {
 		case 1:
 			addPlayer(HeadE.CALM_TALK, "Hey, you're Rasmus right?");
 			addNPC(IMP_HEAD, HeadE.CHEERFUL, "Yep, dats me. Heard ya need help findin summa dem rogue imps.");
@@ -39,7 +39,7 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da potatoes! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.setChrist19Stage(2);
+				player.save(Christmas2019.STAGE_KEY, 2);
 				player.setChrist19Loc(Imp.POTATOES.randomLoc());
 			});
 			break;
@@ -49,7 +49,7 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da wine! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.setChrist19Stage(4);
+				player.save(Christmas2019.STAGE_KEY, 4);
 				player.setChrist19Loc(Imp.WINE.randomLoc());
 			});
 			break;
@@ -59,7 +59,7 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da turkeys! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.setChrist19Stage(6);
+				player.save(Christmas2019.STAGE_KEY, 6);
 				player.setChrist19Loc(Imp.TURKEY.randomLoc());
 			});
 			break;
@@ -69,7 +69,7 @@ public class SnowImpD extends Conversation {
 			addSimple("The imp closes his eyes briefly and makes a grunting sound.");
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da yule logs! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
-				player.setChrist19Stage(8);
+				player.save(Christmas2019.STAGE_KEY, 8);
 				player.setChrist19Loc(Imp.YULE_LOG.randomLoc());
 			});
 			break;
@@ -77,7 +77,7 @@ public class SnowImpD extends Conversation {
 		case 4:
 		case 6:
 		case 8:
-			Location loc = (Location) player.getChrist19Loc();
+			Location loc = player.getChrist19Loc();
 			addPlayer(HeadE.CONFUSED, "Any hints as to where to go?");
 			addNPC(IMP_HEAD, HeadE.CHEERFUL, loc.getHint());
 			addPlayer(HeadE.CHEERFUL, "Thanks!");

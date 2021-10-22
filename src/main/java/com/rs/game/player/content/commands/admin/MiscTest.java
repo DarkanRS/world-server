@@ -22,7 +22,6 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
-import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;

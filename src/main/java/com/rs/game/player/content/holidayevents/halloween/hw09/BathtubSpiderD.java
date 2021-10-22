@@ -1,0 +1,99 @@
+package com.rs.game.player.content.holidayevents.halloween.hw09;
+
+import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
+
+@PluginEventHandler
+public class BathtubSpiderD extends Conversation {
+	
+	public static NPCClickHandler handleSpiderTalk = new NPCClickHandler(8978) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getNPC().resetDirection();
+			e.getPlayer().startConversation(new BathtubSpiderD(e.getPlayer()));
+		}
+	};
+
+	public BathtubSpiderD(Player player) {
+		super(player);
+		
+		switch(player.getI(Halloween2009.STAGE_KEY)) {
+		case 1:
+			addNPC(8979, HeadE.SPIDER_CALM, "Wot?");
+			addOptions(new Options("startOps", BathtubSpiderD.this) {
+				@Override
+				public void create() {
+					option("My goodness! A giant, talking spider!", new Dialogue()
+							.addPlayer(HeadE.AMAZED, "My goodness! A giant, talking spider!")
+							.addNPC(8979, HeadE.SPIDER_CALM, "Guess so.")
+							.addGotoStage("startOps", BathtubSpiderD.this));
+					option("Shoo! Horrible spider!", new Dialogue()
+							.addPlayer(HeadE.ANGRY, "Shoo! Horrible spider!")
+							.addNPC(8979, HeadE.SPIDER_CALM, "Nah.")
+							.addGotoStage("startOps", BathtubSpiderD.this));
+					option("Please move, spider.", new Dialogue()
+							.addPlayer(HeadE.CALM_TALK, "Please move, spider.")
+							.addNPC(8979, HeadE.SPIDER_CALM, "Nope.")
+							.addOptions(new Options("plsMoveOps", BathtubSpiderD.this) {
+								@Override
+								public void create() {
+									option("If you don't move, the Grim Reaper will kill you!", new Dialogue()
+											.addPlayer(HeadE.AMAZED, "If you don't move, the Grim Reaper will kill you!")
+											.addNPC(8979, HeadE.SPIDER_CALM, "Don't think so.")
+											.addGotoStage("plsMoveOps", BathtubSpiderD.this));
+									option("You don't talk much, do you?", new Dialogue()
+											.addPlayer(HeadE.CONFUSED, "You don't talk much, do you?")
+											.addNPC(8979, HeadE.SPIDER_CALM, "Nope.")
+											.addGotoStage("plsMoveOps", BathtubSpiderD.this));
+									option("What are you doing in Grim's bathtub?", new Dialogue()
+											.addPlayer(HeadE.CONFUSED, "What are you doing in Grim's bathtub?")
+											.addNPC(8979, HeadE.SPIDER_CALM, "Nuthin'.")
+											.addPlayer(HeadE.CONFUSED, "I mean, why are you here?")
+											.addNPC(8979, HeadE.SPIDER_CALM, "Spider Queen.")
+											.addOptions(new Options("queenOps", BathtubSpiderD.this) {
+												@Override
+												public void create() {
+													option("Who is the Spider Queen?", new Dialogue()
+															.addPlayer(HeadE.CONFUSED, "Who is the Spider Queen?")
+															.addNPC(8979, HeadE.SPIDER_CALM, "Queen of Spiders.")
+															.addGotoStage("queenOps", BathtubSpiderD.this));
+													option("So, the Spider Queen sent you here?", new Dialogue()
+															.addPlayer(HeadE.CONFUSED, "So, the Spider Queen sent you here?")
+															.addNPC(8979, HeadE.SPIDER_CALM, "Yup.")
+															.addGotoStage("queenOps", BathtubSpiderD.this));
+													option("Why would the Spider Queen tell you to sit in Grim's Bath?", new Dialogue()
+															.addPlayer(HeadE.CONFUSED, "Why would the Spider Queen tell you to sit in Grim's Bath?")
+															.addNPC(8979, HeadE.SPIDER_CALM, "Dunno.")
+															.addGotoStage("queenOps", BathtubSpiderD.this));
+													option(() -> !player.getTempB("queenKnown"), "Would you move if the Spider Queen told you to?", new Dialogue()
+															.addPlayer(HeadE.CONFUSED, "Would you move if the Spider Queen told you to?")
+															.addNPC(8979, HeadE.SPIDER_CALM, "Yup.")
+															.addPlayer(HeadE.UPSET, "I better report back to the Grim Reaper.", () -> {
+																if (player.getI(Halloween2009.STAGE_KEY) == 1)
+																	player.save(Halloween2009.STAGE_KEY, 2);
+															})
+															.addGotoStage("queenOps", BathtubSpiderD.this));
+													option("Goodbye.");
+												}
+											}));
+									option("Goodbye.");
+								}
+							}));
+					option("Goodbye.");
+				}
+			});
+			break;
+			default:
+				addNPC(8979, HeadE.SPIDER_CALM, "Wot?");
+			break;
+		}
+		create();
+	}
+
+}

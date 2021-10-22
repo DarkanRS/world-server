@@ -102,14 +102,14 @@ public class NPC extends Entity {
 	private boolean intelligentRoutefinder;
 	public boolean maskTest;
 
-    public NPC(int id, WorldTile tile, int direction, boolean permaDeath) {
+    public NPC(int id, WorldTile tile, Direction direction, boolean permaDeath) {
         super(tile);
         this.id = id;
         this.respawnTile = new WorldTile(tile);
         this.setSpawned(permaDeath);
         combatLevel = -1;
         setHitpoints(getMaxHitpoints());
-        setFaceAngle(Direction.getById(direction).getAngle());
+        setFaceAngle(direction != null ? direction.getAngle() : getRespawnDirection());
         setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
         setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
         size = getDefinitions().size;
@@ -142,7 +142,7 @@ public class NPC extends Entity {
     }
 
 	public NPC(int id, WorldTile tile, boolean permaDeath) {
-		this(id,tile, 4, permaDeath);
+		this(id,tile, Direction.SOUTH, permaDeath);
 	}
 
 	

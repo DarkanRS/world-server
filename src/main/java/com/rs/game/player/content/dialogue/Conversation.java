@@ -1,14 +1,20 @@
 package com.rs.game.player.content.dialogue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.impl.StageSelectDialogue;
 import com.rs.game.player.content.dialogue.statements.ItemStatement;
 import com.rs.game.player.content.dialogue.statements.NPCStatement;
 import com.rs.game.player.content.dialogue.statements.OptionStatement;
 import com.rs.game.player.content.dialogue.statements.PlayerStatement;
 import com.rs.game.player.content.dialogue.statements.SimpleStatement;
 import com.rs.game.player.content.dialogue.statements.Statement;
+import com.rs.lib.file.FileManager;
 import com.rs.lib.util.Utils;
 
 public class Conversation {
@@ -54,11 +60,16 @@ public class Conversation {
     }
 
     public boolean create() {
-    	if (current != null) {
-    		setFirst(current.getHead());
-    		return true;
-    	} else
-    		return false;
+    	try {
+	    	if (current != null) {
+	    		setFirst(current.getHead());
+	    		return true;
+	    	} else
+	    		return false;
+    	} catch(Exception e) {
+    		FileManager.logError("Error creating dialogue!");
+    		throw new RuntimeException("Error creating dialogue");
+    	}
     }
     
     public Dialogue getCurrent() {
@@ -66,10 +77,15 @@ public class Conversation {
     }
     
     public Dialogue getStart() {
-    	return current.getHead();
+    	try {
+    		return current.getHead();
+    	} catch(Exception e) {
+    		FileManager.logError("Error creating dialogue!");
+    		throw new RuntimeException("Error creating dialogue");
+    	}
     }
 
-    public void setFirst(Dialogue dialogue) {
+    public void setFirst(Dialogue dialogue)  {
         this.current = dialogue;
     }
 
@@ -122,8 +138,8 @@ public class Conversation {
     	return addNext(new OptionStatement(title, options));
     }
     
-    public void addOptions(Options options) {
-    	addOptions(null, options);
+    public Dialogue addOptions(Options options) {
+    	return addOptions(null, options);
     }
     
     public Dialogue addNext(Statement statement, Dialogue... options) {
@@ -152,16 +168,33 @@ public class Conversation {
     	return addNext(markedStages.get(markedStage));
     }
     
-	public Dialogue addOptions(String title, Options options) {
+    public Dialogue addOptions(String title, Options options) {
 		if (options.getOptions().size() <= 1) {
-			for (String opName : options.getOptions().keySet())
-				return addNext(options.getOptions().get(opName));
+			for (String opName : options.getOptions().keySet()) {
+				Option op = options.getOptions().get(opName);
+				if (op.show()) {
+					Dialogue next = addNext(op.getDialogue());
+					if (options.getConv() != null)
+						options.getConv().addStage(options.getStageName(), next);
+					return next;
+				}
+			}
+			return null;
 		} else if (options.getOptions().size() <= 5) {
-			String[] ops = new String[options.getOptions().keySet().size()];
-			options.getOptions().keySet().toArray(ops);
-			Dialogue op = new Dialogue(new OptionStatement(title, ops));
-			for (String opName : options.getOptions().keySet())
-				op.addNext(options.getOptions().get(opName));
+			List<String> ops = new ArrayList<>();
+			for (String opName : options.getOptions().keySet()) {
+				Option o = options.getOptions().get(opName);
+				if (o.show())
+					ops.add(opName);
+			}
+			Dialogue op = new Dialogue(new OptionStatement(title, ops.stream().toArray(String[] ::new)));
+			for (String opName : options.getOptions().keySet()) {
+				Option o = options.getOptions().get(opName);
+				if (o.show())
+					op.addNext(o.getDialogue());
+			}
+			if (options.getConv() != null)
+				options.getConv().addStage(options.getStageName(), op);
 			return addNext(op);
 		} else {
 			String[] ops = new String[options.getOptions().keySet().size()];
@@ -174,24 +207,28 @@ public class Conversation {
 			Dialogue baseOption = new Dialogue(new OptionStatement(title, baseOptions));
 			Dialogue currPage = baseOption;
 			for (int i = 0;i < ops.length;i++) {
-				currPage.addNext(options.getOptions().get(ops[i]));
-				if (i >= 3 && ((i+1) % 4) == 0) {
-					String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
-					for (int j = 1;j < 5;j++) {
-						if (i+j >= ops.length)
-							continue;
-						nextOps[j-1] = ops[i+j];
+				Option op = options.getOptions().get(ops[i]);
+				if (op.show()) {
+					currPage.addNext(op.getDialogue());
+					if (i >= 3 && ((i+1) % 4) == 0) {
+						String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
+						for (int j = 1;j < 5;j++) {
+							if (i+j >= ops.length)
+								continue;
+							nextOps[j-1] = ops[i+j];
+						}
+						nextOps[nextOps.length-1] = "More options...";
+						Dialogue nextPage = new Dialogue(new OptionStatement(title, nextOps));
+						currPage.addNext(nextPage);
+						currPage = nextPage;
 					}
-					nextOps[nextOps.length-1] = "More options...";
-					Dialogue nextPage = new Dialogue(new OptionStatement(title, nextOps));
-					currPage.addNext(nextPage);
-					currPage = nextPage;
 				}
 			}
 			currPage.addNext(baseOption);
+			if (options.getConv() != null)
+				options.getConv().addStage(options.getStageName(), baseOption);
 			return addNext(baseOption);
 		}
-		return null;
 	}
     
 	public Dialogue addItem(int itemId, String text) {
@@ -240,6 +277,10 @@ public class Conversation {
             player.endConversation();
             return;
         }
+        if (current instanceof StageSelectDialogue) {
+    		StageSelectDialogue d = (StageSelectDialogue) current;
+    		current = d.getConversation().getStage(d.getStageName());
+    	}
         if (player.getInterfaceManager().containsChatBoxInter())
             player.getInterfaceManager().closeChatBoxInterface();
         current.run(player);
@@ -247,5 +288,26 @@ public class Conversation {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public void addStage(String stageName, Dialogue dialogue) {
+		markedStages.put(stageName, dialogue);
+	}
+	
+	@Override
+	public String toString() {
+		Set<Dialogue> visited = new HashSet<>();
+		StringBuilder str = new StringBuilder();
+		Dialogue head = current;
+		Dialogue curr = current;
+		while(curr != null) {
+			visited.add(curr);
+			str.append(curr + "\n");
+			curr = curr.getNext(0);
+			if (visited.contains(curr))
+				break;
+		}
+		curr = head;
+		return str.toString();
 	}
 }

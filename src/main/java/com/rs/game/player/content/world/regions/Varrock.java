@@ -19,7 +19,13 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.shieldofarrav.*;
+import com.rs.game.player.quests.handlers.shieldofarrav.BaraekShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.CharlieTheTrampArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.KatrineShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.KingRoaldShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.MuseumCuratorArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.ReldoShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.StravenShieldOfArravD;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
@@ -32,7 +38,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.WorldUtil;
 import com.rs.utils.shop.ShopsHandler;
 
 //status: done

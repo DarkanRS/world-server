@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.vampireslayer;
 
+import java.util.ArrayList;
+
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
@@ -8,8 +10,6 @@ import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.VAMPYRE_SLAYER)
 @PluginEventHandler

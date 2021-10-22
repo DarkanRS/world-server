@@ -44,7 +44,7 @@ public class ResourceImpD extends Conversation {
 	public ResourceImpD(Player player, String noun, int stage) {
 		super(player);
 
-		switch(player.getChrist19Stage()) {
+		switch(player.getI(Christmas2019.STAGE_KEY)) {
 		case 2:
 		case 4:
 		case 6:
@@ -55,7 +55,7 @@ public class ResourceImpD extends Conversation {
 			addNPC(IMP_HEAD, HeadE.SCARED, "Oh.. Rasmus.. Sorry, guv. I'll bring da "+noun+" back to da feast den.");
 			addNPC(IMP_HEAD, HeadE.ANGRY, "You betta! Get moving dis instant!");
 			addPlayer(HeadE.CHEERFUL, "Alright, we'll see you there.", () -> {
-				player.setChrist19Stage(stage);
+				player.save(Christmas2019.STAGE_KEY, stage);
 				player.setChrist19Loc(null);
 				PluginManager.handle(new EnterChunkEvent(player, player.getChunkId()));
 			});
