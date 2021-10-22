@@ -262,7 +262,7 @@ public final class RegionBuilder {
 		}
 	}
 	
-	private static void findEmptyChunkBound(DynamicRegionReference ref, Runnable callback) {
+	public static void findEmptyChunkBound(DynamicRegionReference ref, Runnable callback) {
 		CoresManager.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -282,7 +282,7 @@ public final class RegionBuilder {
 		return new int[] { (regionHash >> 8), regionHash & 0xff };
 	}
 
-	public static int[] findEmptyChunkBound(int widthChunks, int heightChunks) {
+	private static int[] findEmptyChunkBound(int widthChunks, int heightChunks) {
 		int[] map = findEmptyRegionBound(widthChunks, heightChunks);
 		map[0] *= 8;
 		map[1] *= 8;
@@ -495,10 +495,7 @@ public final class RegionBuilder {
 		});
 	}
 
-    /**
-     * This may actually be the World Map
-     */
-	public static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size) {
+	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size) {
 		int[] planes = new int[4];
 		for (int plane = 1; plane < 4; plane++)
 			planes[plane] = plane;

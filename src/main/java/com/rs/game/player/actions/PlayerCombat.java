@@ -2252,9 +2252,9 @@ public class PlayerCombat extends Action {
 		}
 		if (player.getTempL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
 			player.setTempL("SOL_SPEC", 0);
-		player.getTemporaryAttributes().put("last_target", target);
+		player.getTempAttribs().put("last_target", target);
 		if (target != null)
-			target.getTemporaryAttributes().put("last_attacker", player);
+			target.getTempAttribs().put("last_attacker", player);
 		return true;
 	}
 	

@@ -36,7 +36,7 @@ public final class Notes {
 				break;
 			case 3:
 				e.getPlayer().getPackets().sendInputLongTextScript("Add note:");
-				e.getPlayer().getTemporaryAttributes().put("entering_note", Boolean.TRUE);
+				e.getPlayer().getTempAttribs().put("entering_note", Boolean.TRUE);
 				break;
 			case 9:
 				switch (e.getPacket()) {
@@ -49,7 +49,7 @@ public final class Notes {
 				case IF_OP2:
 					e.getPlayer().getPackets().sendInputLongTextScript("Edit note:");
 					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					e.getPlayer().getTemporaryAttributes().put("editing_note", Boolean.TRUE);
+					e.getPlayer().getTempAttribs().put("editing_note", Boolean.TRUE);
 					break;
 				case IF_OP3:
 					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
@@ -98,7 +98,7 @@ public final class Notes {
 	}
 
 	public int getCurrentNote() {
-		Integer note = (Integer) player.getTemporaryAttributes().get("CURRENT_NOTE");
+		Integer note = (Integer) player.getTempAttribs().get("CURRENT_NOTE");
 		if (note == null)
 			return -1;
 		return note;
@@ -107,12 +107,12 @@ public final class Notes {
 	public void setCurrentNote(int id) {
 		if (id >= 30)
 			return;
-		player.getTemporaryAttributes().put("CURRENT_NOTE", id);
+		player.getTempAttribs().put("CURRENT_NOTE", id);
 		player.getVars().setVar(1439, id);
 	}
 
 	public void removeCurrentNote() {
-		player.getTemporaryAttributes().remove("CURRENT_NOTE");
+		player.getTempAttribs().remove("CURRENT_NOTE");
 		player.getVars().setVar(1439, -1);
 	}
 

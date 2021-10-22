@@ -183,23 +183,23 @@ public class Player extends Entity {
 	private int hw07Stage;
 	
 	public void refreshChargeTimer() {
-		setTempL("chargeTimer", World.getServerTicks()+600);
+		getTempAttribs().setL("chargeTimer", World.getServerTicks()+600);
 	}
 	
 	public boolean isCharged() {
-		return World.getServerTicks() < getTempL("chargeTimer");
+		return World.getServerTicks() < getTempAttribs().getL("chargeTimer");
 	}
 	
 	public void refreshMiasmicTimer(int ticks) {
-		if (World.getServerTicks() < getTempL("miasmicImmune"))
+		if (World.getServerTicks() < getTempAttribs().getL("miasmicImmune"))
 			return;
 		sendMessage("You feel slowed down.");
-		setTempL("miasmicImmune", World.getServerTicks()+ticks+15);
-		setTempL("miasmicEffect", World.getServerTicks()+ticks);
+		getTempAttribs().setL("miasmicImmune", World.getServerTicks()+ticks+15);
+		getTempAttribs().setL("miasmicEffect", World.getServerTicks()+ticks);
 	}
 	
 	public boolean isMiasmicEffectActive() {
-		return World.getServerTicks() < getTempL("miasmicEffect");
+		return World.getServerTicks() < getTempAttribs().getL("miasmicEffect");
 	}
 
 	public void addSpellDelay(int ticks) {
@@ -1707,7 +1707,7 @@ public class Player extends Entity {
 	}
 
 	public void realFinish() {
-		setTempB("realFinished", true);
+		getTempAttribs().setB("realFinished", true);
 		if (isDead() || isDying())
 			return;
 		stopAll();
@@ -1820,34 +1820,34 @@ public class Player extends Entity {
 
 	public void sendOptionDialogue(String question, String[] options, DialogueOptionEvent e) {
 		e.setOptions(options);
-		getTemporaryAttributes().put("pluginOption", e);
+		getTempAttribs().setO("pluginOption", e);
 		Dialogue.sendOptionsDialogue(this, question, options);
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTemporaryAttributes().remove("pluginOption");
+				getTempAttribs().remove("pluginOption");
 			}
 		});
 	}
 
 	public void sendInputString(String question, InputStringEvent e) {
-		getTemporaryAttributes().put("pluginString", e);
+		getTempAttribs().setO("pluginString", e);
 		getPackets().sendInputNameScript(question);
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTemporaryAttributes().remove("pluginString");
+				getTempAttribs().remove("pluginString");
 			}
 		});
 	}
 
 	public void sendInputInteger(String question, InputIntegerEvent e) {
-		getTemporaryAttributes().put("pluginInteger", e);
+		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTemporaryAttributes().remove("pluginInteger");
+				getTempAttribs().remove("pluginInteger");
 			}
 		});
 	}
@@ -2004,7 +2004,7 @@ public class Player extends Entity {
 		if (source == null)
 			return;
 
-		if (getTempL("SOL_SPEC") > System.currentTimeMillis() && hit.getLook() == HitLook.MELEE_DAMAGE)
+		if (getTempAttribs().getL("SOL_SPEC") > System.currentTimeMillis() && hit.getLook() == HitLook.MELEE_DAMAGE)
 			hit.setDamage((int) (hit.getDamage() * 0.5));
 		if (prayer.hasPrayersOn() && hit.getDamage() != 0) {
 			if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
@@ -2133,7 +2133,7 @@ public class Player extends Entity {
 			}
 		}
 		if (target instanceof Player opp) {
-			if (opp.getTempL("SOL_SPEC") >= System.currentTimeMillis())
+			if (opp.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis())
 				target.setNextSpotAnim(new SpotAnim(2320));
 		}
 		getAuraManager().onOutgoingHit(hit);
@@ -2148,7 +2148,7 @@ public class Player extends Entity {
 	@Override
 	public void sendDeath(final Entity source) {
 		incrementCount("Deaths");
-		if (prayer.hasPrayersOn() && getTemporaryAttributes().get("startedDuel") != Boolean.TRUE) {
+		if (prayer.hasPrayersOn() && !getTempAttribs().getB("startedDuel")) {
 			if (prayer.active(Prayer.RETRIBUTION)) {
 				setNextSpotAnim(new SpotAnim(437));
 				final Player target = this;
@@ -2893,24 +2893,21 @@ public class Player extends Entity {
 	}
 
 	public void setTeleBlockDelay(long teleDelay) {
-		getTemporaryAttributes().put("TeleBlocked", teleDelay + System.currentTimeMillis());
+		getTempAttribs().setO("TeleBlocked", teleDelay + System.currentTimeMillis());
 	}
 
 	public long getTeleBlockDelay() {
-		Long teleblock = (Long) getTemporaryAttributes().get("TeleBlocked");
-		if (teleblock == null)
-			return 0;
-		return teleblock;
+		return getTempAttribs().getL("TeleBlocked");
 	}
 	
 	public void setProtectionPrayBlock(int ticks) {
-		setTempL("protPrayBlock", World.getServerTicks() + ticks);
+		getTempAttribs().setL("protPrayBlock", World.getServerTicks() + ticks);
 		if (ticks > 0)
 			prayer.closePrayers(Prayer.PROTECT_MAGIC, Prayer.PROTECT_MELEE, Prayer.PROTECT_RANGE, Prayer.PROTECT_SUMMONING, Prayer.DEFLECT_MAGIC, Prayer.DEFLECT_MELEE, Prayer.DEFLECT_RANGE, Prayer.DEFLECT_SUMMONING);
 	}
 
 	public boolean isProtectionPrayBlocked() {
-		return World.getServerTicks() < getTempL("protPrayBlock");
+		return World.getServerTicks() < getTempAttribs().getL("protPrayBlock");
 	}
 
 	public Familiar getFamiliar() {
@@ -2975,7 +2972,7 @@ public class Player extends Entity {
 			case 4153:
 			case 14679:
 				combatDefinitions.switchUsingSpecialAttack();
-				Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : (Entity) getTemporaryAttributes().get("last_target");
+				Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : getTempAttribs().getO("last_target");
 				if (target != null) {
 					if (!(target instanceof NPC n && n.isForceMultiAttacked())) {
 						if (!target.isAtMultiArea() || !isAtMultiArea()) {
@@ -3049,7 +3046,7 @@ public class Player extends Entity {
 				setNextAnimation(new Animation(12804));
 				setNextSpotAnim(new SpotAnim(2319));// 2320
 				setNextSpotAnim(new SpotAnim(2321));
-				setTempL("SOL_SPEC", System.currentTimeMillis() + 60000);
+				getTempAttribs().setL("SOL_SPEC", System.currentTimeMillis() + 60000);
 				combatDefinitions.drainSpec(specAmt);
 				break;
 		}
@@ -3688,10 +3685,7 @@ public class Player extends Entity {
 	}
 
 	public boolean isLootSharing() {
-		if (getTemporaryAttributes().get("lootShare") != null && (boolean) getTemporaryAttributes().get("lootShare")) {
-			return true;
-		}
-		return false;
+		return getTempAttribs().getB("lootShare");
 	}
 
 	public void refreshLootShare() {
@@ -3706,9 +3700,9 @@ public class Player extends Entity {
 	public void toggleLootShare() {
 		if (getAccount().getSocial().getCurrentFriendsChat() != null) {
 			if (isLootSharing()) {
-				getTemporaryAttributes().remove("lootShare");
+				getTempAttribs().remove("lootShare");
 			} else {
-				getTemporaryAttributes().put("lootShare", true);
+				getTempAttribs().setB("lootShare", true);
 			}
 			if (isLootSharing())
 				sendMessage("You are now lootsharing.");

@@ -55,11 +55,11 @@ public class TransformationRing {
 		player.lock();
 		player.getAppearance().transformIntoNPC(npcId);
 		player.getInterfaceManager().sendTab(Tab.INVENTORY, 375);
-		player.getTemporaryAttributes().put("TransformationRing", true);
+		player.getTempAttribs().put("TransformationRing", true);
 	}
 
 	public static void deactivateTransformation(Player player) {
-		player.getTemporaryAttributes().remove("TransformationRing");
+		player.getTempAttribs().remove("TransformationRing");
 		player.unlock();
 		player.setNextAnimation(new Animation(14884));
 		player.getAppearance().transformIntoNPC(-1);
@@ -67,7 +67,7 @@ public class TransformationRing {
 	}
 	
 	public static void triggerDeactivation(Player player) {
-		if (player.getTemporaryAttributes().get("TransformationRing") != null) {
+		if (player.getTempAttribs().get("TransformationRing") != null) {
 			deactivateTransformation(player);
 		}
 	}

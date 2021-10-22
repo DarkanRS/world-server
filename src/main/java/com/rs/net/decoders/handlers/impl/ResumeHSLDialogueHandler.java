@@ -12,9 +12,9 @@ public class ResumeHSLDialogueHandler implements PacketHandler<Player, ResumeHSL
 	public void handle(Player player, ResumeHSLDialogue packet) {
 		if (!player.hasStarted())
 			return;
-		if (player.getTemporaryAttributes().get("SkillcapeCustomize") != null)
+		if (player.getTempAttribs().get("SkillcapeCustomize") != null)
 			SkillCapeCustomizer.handleSkillCapeCustomizerColor(player, packet.getColorId());
-		else if (player.getTemporaryAttributes().get("MottifCustomize") != null) {
+		else if (player.getTempAttribs().get("MottifCustomize") != null) {
 			player.getClan().setMottifColour(player.getTempI("cMottifColorIndexSet"), packet.getColorId()); //TODO
 			LobbyCommunicator.updateClan(player.getClan());
 		}

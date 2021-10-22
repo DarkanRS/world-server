@@ -222,7 +222,7 @@ public class FairyRings {
 	}
 
 	public static boolean confirmRingHash(Player player) {
-		int[] locationArray = (int[]) player.getTemporaryAttributes().remove("location_array");
+		int[] locationArray = (int[]) player.getTempAttribs().remove("location_array");
 		if (locationArray == null)
 			return false;
 		StringBuilder string = new StringBuilder();
@@ -261,7 +261,7 @@ public class FairyRings {
 	}
 
 	private static void resetRingHash(Player player) {
-		player.getTemporaryAttributes().put("location_array", new int[3]);
+		player.getTempAttribs().put("location_array", new int[3]);
 		for (int i = 0; i < 3; i++)
 			player.getVars().setVarBit(2341 + i, 0);
 		player.getVars().syncVarsToClient();
@@ -272,7 +272,7 @@ public class FairyRings {
 	}
 
 	public static void handleDialButtons(final Player player, int componentId) {
-		int[] locationArray = (int[]) player.getTemporaryAttributes().get("location_array");
+		int[] locationArray = (int[]) player.getTempAttribs().get("location_array");
 		if (locationArray == null) {
 			player.closeInterfaces();
 			return;
@@ -283,7 +283,7 @@ public class FairyRings {
 		else
 			locationArray[index]--;
 		locationArray = getCorrectValues(locationArray);
-		player.getTemporaryAttributes().put("location_array", locationArray);
+		player.getTempAttribs().put("location_array", locationArray);
 		for (int i = 0; i < 3; i++)
 			player.getVars().setVarBit(2341 + i, locationArray[i] == 1 ? 3 : locationArray[i] == 3 ? 1 : locationArray[i]);
 		player.getVars().syncVarsToClient();

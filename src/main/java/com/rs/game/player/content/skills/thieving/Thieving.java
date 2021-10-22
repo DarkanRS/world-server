@@ -218,16 +218,16 @@ public class Thieving {
 	}
 
 	public static boolean pickDoor(Player player, GameObject object) {
-		if (player.getTemporaryAttributes().get("numbFingers") == null)
-			player.getTemporaryAttributes().put("numbFingers", 0);
+		if (player.getTempAttribs().get("numbFingers") == null)
+			player.getTempAttribs().put("numbFingers", 0);
 		int thievingLevel = player.getSkills().getLevel(Constants.THIEVING);
 		int increasedChance = getIncreasedChance(player);
-		int decreasedChance = (Integer) player.getTemporaryAttributes().get("numbFingers");
+		int decreasedChance = (Integer) player.getTempAttribs().get("numbFingers");
 		int level = Utils.getRandomInclusive(thievingLevel + (increasedChance - decreasedChance)) + 1;
 		double ratio = level / (Utils.getRandomInclusive(45 + 5) + 1);
 		if (Math.round(ratio * thievingLevel) < (player.inCombat() ? 50 : 40)) {
 			player.sendMessage("You fail to unlock the door and your hands begin to numb down.");
-			player.getTemporaryAttributes().put("numbFingers", decreasedChance + 1);
+			player.getTempAttribs().put("numbFingers", decreasedChance + 1);
 			return false;
 		}
 		player.sendMessage("You successfully unlock the door.");

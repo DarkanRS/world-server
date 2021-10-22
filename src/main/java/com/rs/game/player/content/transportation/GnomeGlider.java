@@ -30,7 +30,7 @@ public class GnomeGlider {
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(138) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getTemporaryAttributes().get("using_carrier") != null)
+			if (e.getPlayer().getTempAttribs().get("using_carrier") != null)
 				return;
 			
 			switch (e.getComponentId()) {
@@ -88,13 +88,13 @@ public class GnomeGlider {
 
 	public static void sendGlider(final Player player, final int index, final boolean isReturning) {
 		player.getVars().setVar(153, CONFIGS[isReturning ? 1 : 0][index]);
-		player.getTemporaryAttributes().put("using_carrier", true);
+		player.getTempAttribs().put("using_carrier", true);
 		FadingScreen.fade(player, 3, new Runnable() {
 			@Override
 			public void run() {
 				player.useStairs(-1, GLIDERS[isReturning ? 0 : index], 0, 2);
 				player.closeInterfaces();
-				player.getTemporaryAttributes().remove("using_carrier");
+				player.getTempAttribs().remove("using_carrier");
 				player.getVars().setVar(153, 0);
 			}
 		});

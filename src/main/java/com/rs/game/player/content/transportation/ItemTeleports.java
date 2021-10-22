@@ -124,7 +124,7 @@ public class ItemTeleports {
 		if (!checkAll(player, item, index, optionIndex, optionslength))
 			return;
 		if (HeroesGuild.isGloryOrROW(item.getId())) {
-			player.getTemporaryAttributes().put("glory", true);
+			player.getTempAttribs().put("glory", true);
 		}
 		if (Magic.sendTeleportSpell(player, getFirstEmote(index), -1, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.ITEM_TELEPORT)) {
 			if (hasCharges(index)) {

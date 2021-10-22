@@ -2,12 +2,14 @@ package com.rs.game.player.quests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.quests.data.QuestInformation;
+import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -21,10 +23,12 @@ public class QuestManager {
 	private int sort;
 	private boolean filter;
 	private boolean hideDone;
-	private HashMap<Integer, Integer> questStages;
+	private Map<Integer, Integer> questStages;
+	private Map<Integer, GenericAttribMap> questAttribs;
 
 	public QuestManager() {
-		questStages = new HashMap<Integer, Integer>();
+		questStages = new HashMap<>();
+		questAttribs = new HashMap<>();
 	}
 	
 	public static ButtonClickHandler handleQuestTabButtons = new ButtonClickHandler(190) {
@@ -151,12 +155,26 @@ public class QuestManager {
 			return;
 		if (!isComplete(quest)) {
 			setStage(quest, quest.getHandler().getCompletedStage());
+			clearQuestAttributes(quest);
 			quest.getHandler().complete(player);
 			sendQuestStage(quest, true);
 			sendQuestPoints();
 		}
 	}
 	
+	private void clearQuestAttributes(Quest quest) {
+		questAttribs.remove(quest.getId());
+	}
+	
+	public GenericAttribMap getAttribs(Quest quest) {
+		GenericAttribMap map = questAttribs.get(quest.getId());
+		if (map == null) {
+			map = new GenericAttribMap();
+			questAttribs.put(quest.getId(), map);
+		}
+		return map;
+	}
+
 	public boolean completedAllQuests() {
 		for (Quest quest : Quest.values()) {
 			if (!quest.isImplemented())

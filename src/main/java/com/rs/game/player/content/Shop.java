@@ -57,15 +57,15 @@ public class Shop {
 		public void handle(ButtonClickEvent e) {
 			if (e.getInterfaceId() == 449) {
 				if (e.getComponentId() == 1) {
-					Shop shop = (Shop) e.getPlayer().getTemporaryAttributes().get("Shop");
+					Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
 					if (shop == null)
 						return;
 					shop.sendInventory(e.getPlayer());
 				} else if (e.getComponentId() == 21) {
-					Shop shop = (Shop) e.getPlayer().getTemporaryAttributes().get("Shop");
+					Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
 					if (shop == null)
 						return;
-					Integer slot = (Integer) e.getPlayer().getTemporaryAttributes().get("ShopSelectedSlot");
+					Integer slot = (Integer) e.getPlayer().getTempAttribs().get("ShopSelectedSlot");
 					if (slot == null)
 						return;
 					if (e.getPacket() == ClientPacket.IF_OP1)
@@ -79,13 +79,13 @@ public class Shop {
 					shop.sendCustomPrices(e.getPlayer());
 				}
 			} else if (e.getInterfaceId() == 1265) {
-				Shop shop = (Shop) e.getPlayer().getTemporaryAttributes().get("Shop");
+				Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
 				if (shop == null)
 					return;
-				Integer slot = (Integer) e.getPlayer().getTemporaryAttributes().get("ShopSelectedSlot");
-				boolean isBuying = e.getPlayer().getTemporaryAttributes().get("shop_buying") != null;
+				Integer slot = (Integer) e.getPlayer().getTempAttribs().get("ShopSelectedSlot");
+				boolean isBuying = e.getPlayer().getTempAttribs().get("shop_buying") != null;
 				if (e.getComponentId() == 20) {
-					e.getPlayer().getTemporaryAttributes().put("ShopSelectedSlot", e.getSlotId());
+					e.getPlayer().getTempAttribs().put("ShopSelectedSlot", e.getSlotId());
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						shop.sendInfo(e.getPlayer(), e.getSlotId(), isBuying);
 					else if (e.getPacket() == ClientPacket.IF_OP2)
@@ -140,10 +140,10 @@ public class Shop {
 					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
 				} else if (e.getComponentId() == 29) {
 					e.getPlayer().getVars().setVar(2561, 93);
-					e.getPlayer().getTemporaryAttributes().remove("shop_buying");
+					e.getPlayer().getTempAttribs().remove("shop_buying");
 					e.getPlayer().setTempI("shopAmt", 1);
 				} else if (e.getComponentId() == 28) {
-					e.getPlayer().getTemporaryAttributes().put("shop_buying", true);
+					e.getPlayer().getTempAttribs().put("shop_buying", true);
 					e.getPlayer().setTempI("shopAmt", 1);
 					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
 				}
@@ -153,7 +153,7 @@ public class Shop {
 					if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 					else {
-						Shop shop = (Shop) e.getPlayer().getTemporaryAttributes().get("Shop");
+						Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
 						if (shop == null)
 							return;
 						e.getPlayer().getVars().setVar(2563, e.getSlotId());
@@ -175,7 +175,7 @@ public class Shop {
 					if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 					else {
-						Shop shop = (Shop) e.getPlayer().getTemporaryAttributes().get("Shop");
+						Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
 						if (shop == null)
 							return;
 						if (e.getPacket() == ClientPacket.IF_OP1)
@@ -200,12 +200,12 @@ public class Shop {
 
 	public void addPlayer(final Player player) {
 		viewingPlayers.add(player);
-		player.getTemporaryAttributes().put("Shop", this);
+		player.getTempAttribs().put("Shop", this);
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
 				viewingPlayers.remove(player);
-				player.getTemporaryAttributes().remove("Shop");
+				player.getTempAttribs().remove("Shop");
 			}
 		});		
 		player.getVars().setVar(118, MAIN_STOCK_ITEMS_KEY);
@@ -232,12 +232,12 @@ public class Shop {
 		if (isGeneralStore())
 			player.getPackets().setIFHidden(1265, 52, false);
 		sendInventory(player);
-		player.getTemporaryAttributes().put("shop_buying", true);
+		player.getTempAttribs().put("shop_buying", true);
 		WorldTasksManager.delay(1, () -> sendCustomPrices(player));
 	}
 
 	public void sendCustomPrices(Player player) {
-		if (player.getTemporaryAttributes().get("shop_buying") == null)
+		if (player.getTempAttribs().get("shop_buying") == null)
 			return;
 		for (int i = 0;i < mainStock.length;i++) {
 			if (mainStock[i] == null)
@@ -541,7 +541,7 @@ public class Shop {
 	 *            The amount
 	 */
 	public void handleShop(Player player, int slotId, int amount) {
-		boolean isBuying = player.getTemporaryAttributes().get("shop_buying") != null;
+		boolean isBuying = player.getTempAttribs().get("shop_buying") != null;
 		if (isBuying)
 			buy(player, slotId, amount);
 		else

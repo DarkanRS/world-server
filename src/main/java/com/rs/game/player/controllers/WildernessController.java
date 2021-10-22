@@ -127,11 +127,11 @@ public class WildernessController extends Controller {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
-		if (getWildLevel() <= 30 && player.getTemporaryAttributes().get("glory") == Boolean.TRUE) {
-			player.getTemporaryAttributes().put("glory", false);
+		if (getWildLevel() <= 30 && player.getTempAttribs().get("glory") == Boolean.TRUE) {
+			player.getTempAttribs().put("glory", false);
 			return true;
 		} else if (getWildLevel() > 20) {
-			player.getTemporaryAttributes().put("glory", false);
+			player.getTempAttribs().put("glory", false);
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}

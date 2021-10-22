@@ -75,7 +75,7 @@ public class FalconryController extends Controller {
 	public boolean processNPCClick1(final NPC npc) {
 		player.setNextFaceEntity(npc);
 		if (npc.getDefinitions().getName().toLowerCase().contains("kebbit")) {
-			if (player.getTemporaryAttributes().get("falconReleased") != null) {
+			if (player.getTempAttribs().get("falconReleased") != null) {
 				player.getDialogueManager().execute(new SimpleMessage(), "You cannot catch a kebbit without your falcon.");
 				return false;
 			}
@@ -95,7 +95,7 @@ public class FalconryController extends Controller {
 					player.getEquipment().set(3, new Item(10023, 1));
 					player.getEquipment().refresh(3);
 					player.getAppearance().generateAppearanceData();
-					player.getTemporaryAttributes().put("falconReleased", true);
+					player.getTempAttribs().put("falconReleased", true);
 					WorldTasksManager.schedule(new WorldTask() {
 						@Override
 						public void run() {
@@ -104,7 +104,7 @@ public class FalconryController extends Controller {
 								@Override
 								public void run() {
 									npc.transformIntoNPC(npc.getId() - 4);
-									player.getTemporaryAttributes().put("ownedFalcon", npc);
+									player.getTempAttribs().put("ownedFalcon", npc);
 									player.sendMessage("The falcon successfully swoops down and captures the kebbit.");
 									player.getHintIconsManager().addHintIcon(npc, 1, -1, false);
 								}
@@ -115,7 +115,7 @@ public class FalconryController extends Controller {
 					player.getEquipment().set(3, new Item(10023, 1));
 					player.getEquipment().refresh(3);
 					player.getAppearance().generateAppearanceData();
-					player.getTemporaryAttributes().put("falconReleased", true);
+					player.getTempAttribs().put("falconReleased", true);
 					WorldTasksManager.schedule(new WorldTask() {
 						@Override
 						public void run() {
@@ -130,7 +130,7 @@ public class FalconryController extends Controller {
 											player.getEquipment().set(3, new Item(10024, 1));
 											player.getEquipment().refresh(3);
 											player.getAppearance().generateAppearanceData();
-											player.getTemporaryAttributes().remove("falconReleased");
+											player.getTempAttribs().remove("falconReleased");
 											player.sendMessage("The falcon swoops down on the kebbit, but just barely misses catching it.");
 										}
 									});
@@ -142,7 +142,7 @@ public class FalconryController extends Controller {
 			}
 			return false;
 		} else if (npc.getDefinitions().getName().toLowerCase().contains("gyr falcon")) {
-			NPC kill = (NPC) player.getTemporaryAttributes().get("ownedFalcon");
+			NPC kill = (NPC) player.getTempAttribs().get("ownedFalcon");
 			if (kill == null)
 				return false;
 			if (kill != npc) {
@@ -161,8 +161,8 @@ public class FalconryController extends Controller {
 			player.getEquipment().set(3, new Item(10024, 1));
 			player.getEquipment().refresh(3);
 			player.getAppearance().generateAppearanceData();
-			player.getTemporaryAttributes().remove("ownedFalcon");
-			player.getTemporaryAttributes().remove("falconReleased");
+			player.getTempAttribs().remove("ownedFalcon");
+			player.getTempAttribs().remove("falconReleased");
 			return false;
 		}
 		return true;

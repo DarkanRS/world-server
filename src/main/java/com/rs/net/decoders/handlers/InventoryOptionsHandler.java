@@ -178,7 +178,7 @@ public class InventoryOptionsHandler {
 		}
 		if (item.getId() == 20667) {
 			player.stopAll(false);
-			Long lastVecna = (Long) player.getTemporaryAttributes().get("LAST_VECNA");
+			Long lastVecna = (Long) player.getTempAttribs().get("LAST_VECNA");
 			if (lastVecna != null && lastVecna + 420000 > System.currentTimeMillis()) {
 				player.sendMessage("The skull has not yet regained " +
 						"its mysterious aura. You will need to wait another " +
@@ -191,7 +191,7 @@ public class InventoryOptionsHandler {
 																: "1")))))) + " minutes.");
 				return;
 			}
-			player.getTemporaryAttributes().put("LAST_VECNA", System.currentTimeMillis());
+			player.getTempAttribs().put("LAST_VECNA", System.currentTimeMillis());
 			player.setNextSpotAnim(new SpotAnim(738, 0, 100));
 			player.setNextAnimation(new Animation(10530));
 			player.sendMessage("The skull feeds off the life around you, boosting your magical ability.");

@@ -601,7 +601,7 @@ public class NPC extends Entity {
 			}
 		}
 
-		if (dropTo.getTemporaryAttributes().get("sendingDropsToBank") != null && dropTo.getTemporaryAttributes().get("sendingDropsToBank") == Boolean.TRUE) {
+		if (dropTo.getTempAttribs().get("sendingDropsToBank") != null && dropTo.getTempAttribs().get("sendingDropsToBank") == Boolean.TRUE) {
 			if (item.getDefinitions().isNoted())
 				item.setId(item.getDefinitions().certId);
 			sendDropDirectlyToBank(dropTo, item);
@@ -686,7 +686,7 @@ public class NPC extends Entity {
 			return;
 		}
 		dropCollection.sortByItemId();
-		player.getTemporaryAttributes().put("viewingOtherBank", Boolean.TRUE);
+		player.getTempAttribs().put("viewingOtherBank", Boolean.TRUE);
 		player.getVars().setVarBit(8348, 0);
 		player.getVars().syncVarsToClient();
 		player.getInterfaceManager().sendInterface(762);

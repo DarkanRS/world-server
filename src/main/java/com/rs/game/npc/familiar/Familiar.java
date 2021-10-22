@@ -481,13 +481,13 @@ public abstract class Familiar extends NPC {
 
 	public void setSpecial(boolean on) {
 		if (!on)
-			owner.getTemporaryAttributes().remove("FamiliarSpec");
+			owner.getTempAttribs().remove("FamiliarSpec");
 		else {
 			if (specialEnergy < getSpecialAmount()) {
 				owner.sendMessage("You familiar doesn't have enough special energy.");
 				return;
 			}
-			owner.getTemporaryAttributes().put("FamiliarSpec", Boolean.TRUE);
+			owner.getTempAttribs().put("FamiliarSpec", Boolean.TRUE);
 		}
 	}
 
@@ -505,7 +505,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public boolean hasSpecialOn() {
-		if (owner.getTemporaryAttributes().remove("FamiliarSpec") != null) {
+		if (owner.getTempAttribs().remove("FamiliarSpec") != null) {
 			if (!owner.getInventory().containsItem(Summoning.getScrollId(pouch.getRealPouchId()), 1)) {
 				owner.sendMessage("You don't have the scrolls to use this move.");
 				return false;

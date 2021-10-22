@@ -613,7 +613,7 @@ public class FightKilnController extends Controller {
 				player.getPackets().setBlockMinimapState(0);
 				player.getVars().setVar(1241, 0);
 				if (getCurrentWave() == 38) {
-					Integer reward = (Integer) player.getTemporaryAttributes().get("FightKilnReward");
+					Integer reward = (Integer) player.getTempAttribs().get("FightKilnReward");
 					if (reward != null) {
 						win();
 						for (Player p : World.getPlayers()) {
@@ -727,7 +727,7 @@ public class FightKilnController extends Controller {
 				if (type == 4) {
 					player.incrementCount("Fight Kiln clears");
 					player.sendMessage("You were victorious!!");
-					Integer reward = (Integer) player.getTemporaryAttributes().get("FightKilnReward");
+					Integer reward = (Integer) player.getTempAttribs().get("FightKilnReward");
 					int itemId = reward != null && reward == 1 ? 6571 : 23659;
 					if (!player.getInventory().addItem(itemId, 1))
 						World.addGroundItem(new Item(itemId, 1), new WorldTile(player), player, true, 180);
@@ -746,7 +746,7 @@ public class FightKilnController extends Controller {
 		player.getSkills().restoreSkills();
 		player.setHpBoostMultiplier(0);
 		player.getEquipment().refreshConfigs(false);
-		player.getTemporaryAttributes().remove("FightKilnCrystal");
+		player.getTempAttribs().remove("FightKilnCrystal");
 	}
 
 	/*
@@ -818,19 +818,19 @@ public class FightKilnController extends Controller {
 	}
 
 	public static void useCrystal(final Player player, int id) {
-		if (!(player.getControllerManager().getController() instanceof FightKilnController) || player.getTemporaryAttributes().get("FightKilnCrystal") != null)
+		if (!(player.getControllerManager().getController() instanceof FightKilnController) || player.getTempAttribs().get("FightKilnCrystal") != null)
 			return;
 		player.getInventory().deleteItem(new Item(id, 1));
 		switch (id) {
 		case 23653: // invulnerability
 			player.sendMessage("<col=7E2217>>The power of this crystal makes you invulnerable.");
-			player.getTemporaryAttributes().put("FightKilnCrystal", Boolean.TRUE);
+			player.getTempAttribs().put("FightKilnCrystal", Boolean.TRUE);
 			player.setInvulnerable(true);
 			CoresManager.schedule(new Runnable() {
 				@Override
 				public void run() {
 					try {
-						player.getTemporaryAttributes().remove("FightKilnCrystal");
+						player.getTempAttribs().remove("FightKilnCrystal");
 						player.sendMessage("<col=7E2217>The power of the crystal dwindles and you're vulnerable once more.");
 						player.setInvulnerable(false);
 					} catch (Throwable e) {
@@ -854,7 +854,7 @@ public class FightKilnController extends Controller {
 			boostCrystal(player, Constants.STRENGTH);
 			break;
 		case 23658: // CONSTITUTION
-			player.getTemporaryAttributes().put("FightKilnCrystal", Boolean.TRUE);
+			player.getTempAttribs().put("FightKilnCrystal", Boolean.TRUE);
 			player.setHpBoostMultiplier(0.5);
 			player.getEquipment().refreshConfigs(false);
 			player.heal(player.getSkills().getLevelForXp(Constants.HITPOINTS) * 5);
@@ -864,7 +864,7 @@ public class FightKilnController extends Controller {
 				@Override
 				public void run() {
 					try {
-						player.getTemporaryAttributes().remove("FightKilnCrystal");
+						player.getTempAttribs().remove("FightKilnCrystal");
 						player.sendMessage("<col=7E2217>The power of the crystal dwindles and your constitution prowess returns to normal.");
 						player.setHpBoostMultiplier(0);
 						player.getEquipment().refreshConfigs(false);
@@ -879,7 +879,7 @@ public class FightKilnController extends Controller {
 	}
 
 	private static void boostCrystal(final Player player, final int skill) {
-		player.getTemporaryAttributes().put("FightKilnCrystal", Boolean.TRUE);
+		player.getTempAttribs().put("FightKilnCrystal", Boolean.TRUE);
 		if (skill == Constants.RANGE)
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Ranged prowess, at the expense of your Defence, Strength and Magical ability.");
 		else if (skill == Constants.MAGIC)
@@ -894,7 +894,7 @@ public class FightKilnController extends Controller {
 			public void run() {
 				try {
 					if (count++ == 7 || !(player.getControllerManager().getController() instanceof FightKilnController)) {
-						player.getTemporaryAttributes().remove("FightKilnCrystal");
+						player.getTempAttribs().remove("FightKilnCrystal");
 						player.sendMessage("<col=7E2217>The power of the crystal dwindles and your " + Constants.SKILL_NAME[skill] + " prowess returns to normal.");
 						player.getSkills().set(Constants.DEFENSE, player.getSkills().getLevelForXp(Constants.DEFENSE));
 						player.getSkills().set(Constants.STRENGTH, player.getSkills().getLevelForXp(Constants.STRENGTH));

@@ -46,8 +46,8 @@ public class SilverCraftingAction extends Action {
 	@Override
 	public boolean process(Player player) {
 		if (checkAll(player)) {
-			if (player.getTemporaryAttributes().get("silverObject") != null)
-				player.faceObject((GameObject) player.getTemporaryAttributes().get("silverObject"));
+			if (player.getTempAttribs().get("silverObject") != null)
+				player.faceObject((GameObject) player.getTempAttribs().get("silverObject"));
 			return true;
 		}
 		return false;

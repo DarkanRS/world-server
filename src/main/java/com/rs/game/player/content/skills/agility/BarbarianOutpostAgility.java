@@ -359,15 +359,15 @@ public class BarbarianOutpostAgility {
 	};
 
 	public static void removeStage(Player player) {
-		player.getTemporaryAttributes().remove("BarbarianOutpostCourse");
+		player.getTempAttribs().remove("BarbarianOutpostCourse");
 	}
 
 	public static void setStage(Player player, int stage) {
-		player.getTemporaryAttributes().put("BarbarianOutpostCourse", stage);
+		player.getTempAttribs().put("BarbarianOutpostCourse", stage);
 	}
 
 	public static int getStage(Player player) {
-		Integer stage = (Integer) player.getTemporaryAttributes().get("BarbarianOutpostCourse");
+		Integer stage = (Integer) player.getTempAttribs().get("BarbarianOutpostCourse");
 		if (stage == null)
 			return -1;
 		return stage;

@@ -206,7 +206,7 @@ public class TokHaarHok extends Dialogue {
 			case 4:
 			case 5:
 				if (componentId == OPTION_1) {
-					player.getTemporaryAttributes().put("FightKilnReward", stage == 4 ? 0 : 1);
+					player.getTempAttribs().put("FightKilnReward", stage == 4 ? 0 : 1);
 					stage = 6;
 					sendNPCDialogue(npcId, 9827, "Let us test our strength again...soon...");
 				} else {
