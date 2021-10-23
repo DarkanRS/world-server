@@ -102,11 +102,11 @@ public class ShadesOfMortton {
 	protected static void updateVars(Player player) {
 		player.getVars().setVar(343, REPAIR_STATE);
 		player.getVars().setVar(344, player.getI("shadeResources", 0));
-		player.getVars().setVar(345, (int) Math.ceil(player.getTempD("shadeSanctity")));
+		player.getVars().setVar(345, (int) Math.ceil(player.getTempAttribs().getD("shadeSanctity")));
 	}
 	
 	public static void addSanctity(Player player, double amount) {
-		player.setTempD("shadeSanctity", Utils.clampD(player.getTempD("shadeSanctity") + amount, 0, 100));
+		player.getTempAttribs().setD("shadeSanctity", Utils.clampD(player.getTempAttribs().getD("shadeSanctity") + amount, 0, 100));
 		updateVars(player);
 	}
 	
@@ -116,7 +116,7 @@ public class ShadesOfMortton {
 	}
 	
 	public static void removeSanctity(Player player, double amount) {
-		player.setTempD("shadeSanctity", Utils.clampD(player.getTempD("shadeSanctity") - amount, 0, 100));
+		player.getTempAttribs().setD("shadeSanctity", Utils.clampD(player.getTempAttribs().getD("shadeSanctity") - amount, 0, 100));
 		updateVars(player);
 	}
 	
@@ -130,13 +130,13 @@ public class ShadesOfMortton {
 		public void handle(EnterChunkEvent e) {
 			if (!(e.getEntity() instanceof Player))
 				return;
-			boolean wasIn = e.getEntity().getTempB("inShadeTemple");
+			boolean wasIn = e.getEntity().getTempAttribs().getB("inShadeTemple");
 			if (wasIn) {
 				if (!Areas.withinArea("shades_temple", e.getChunkId())) {
 					Player player = e.getPlayer();
 					if (player != null && player.hasStarted()) {
 						player.getInterfaceManager().removeOverlay();
-						e.getEntity().setTempB("inShadeTemple", false);
+						e.getEntity().getTempAttribs().setB("inShadeTemple", false);
 						updateVars(player);
 					}
 				}
@@ -145,7 +145,7 @@ public class ShadesOfMortton {
 					Player player = e.getPlayer();
 					if (player != null && player.hasStarted()) {
 						player.getInterfaceManager().setOverlay(328);
-						e.getEntity().setTempB("inShadeTemple", true);
+						e.getEntity().getTempAttribs().setB("inShadeTemple", true);
 						updateVars(player);
 					}
 				}
@@ -156,7 +156,7 @@ public class ShadesOfMortton {
 	public static ItemOnObjectHandler handleOilOnAltar = new ItemOnObjectHandler(new Object[] { 4090 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
-			if (e.getPlayer().getTempD("shadeSanctity") < 10) {
+			if (e.getPlayer().getTempAttribs().getD("shadeSanctity") < 10) {
 				e.getPlayer().sendMessage("You need more sanctity to bless an item.");
 				return;
 			}
@@ -204,7 +204,7 @@ public class ShadesOfMortton {
 	public static ObjectClickHandler handleLightAltar = new ObjectClickHandler(new Object[] { 4091 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getTempD("shadeSanctity") < 10) {
+			if (e.getPlayer().getTempAttribs().getD("shadeSanctity") < 10) {
 				e.getPlayer().sendMessage("You don't have enough sanctity to light the altar!");
 				return;
 			}

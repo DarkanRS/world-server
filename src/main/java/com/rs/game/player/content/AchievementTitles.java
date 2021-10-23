@@ -112,7 +112,7 @@ public class AchievementTitles {
 	public static void openInterface(Player player) {
 		int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
 				184, 186, 188 };
-		player.getTempAttribs().remove("RemoteFarm");
+		player.getTempAttribs().removeB("RemoteFarm");
 		player.getInterfaceManager().sendInterface(1082);
 		player.getPackets().setIFHidden(1082, 158, true);
 		player.getPackets().setIFText(1082, 41, "Titles");

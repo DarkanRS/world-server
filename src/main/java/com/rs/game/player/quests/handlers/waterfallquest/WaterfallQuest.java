@@ -218,7 +218,7 @@ public class WaterfallQuest extends QuestOutline {
 					e.getPlayer().sendMessage("I don't know how you got in here, but you shouldn't be.");
 				}
 			} else if (e.getItem().getId() == 295 && e.getObject().getId() == 2006 && !e.getPlayer().getQuestManager().isComplete(Quest.WATERFALL_QUEST)) {
-				if (e.getPlayer().getTempI("wfWaterRunes") >= 6 && e.getPlayer().getTempI("wfAirRunes") >= 6 && e.getPlayer().getTempI("wfEarthRunes") >= 6) {
+				if (e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfWaterRunes") >= 6 && e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfAirRunes") >= 6 && e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfEarthRunes") >= 6) {
 					e.getPlayer().setNextWorldTile(new WorldTile(e.getPlayer().getX() + 38, e.getPlayer().getY() - 1, 0));
 					e.getPlayer().sendMessage("You place the necklace on the statue.");
 					e.getPlayer().sendMessage("You hear a loud rumble beneath your feet.");
@@ -233,15 +233,15 @@ public class WaterfallQuest extends QuestOutline {
 			} else if (e.getItem().getId() == 555 && e.getObject().getId() == 2004) {
 				e.getPlayer().sendMessage("The rune stone disappears in a puff of smoke.");
 				e.getPlayer().getInventory().deleteItem(555, 1);
-				e.getPlayer().incTempI("wfWaterRunes");
+				e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).incI("wfWaterRunes");
 			} else if (e.getItem().getId() == 556 && e.getObject().getId() == 2004) {
 				e.getPlayer().sendMessage("The rune stone disappears in a puff of smoke.");
 				e.getPlayer().getInventory().deleteItem(556, 1);
-				e.getPlayer().incTempI("wfAirRunes");
+				e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).incI("wfAirRunes");
 			} else if (e.getItem().getId() == 557 && e.getObject().getId() == 2004) {
 				e.getPlayer().sendMessage("The rune stone disappears in a puff of smoke.");
 				e.getPlayer().getInventory().deleteItem(557, 1);
-				e.getPlayer().incTempI("wfEarthRunes");
+				e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).incI("wfEarthRunes");
 			} else if (e.getItem().getId() == 294 && e.getObject().getId() == 1992) {
 				if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) >= 4) {
 					e.getPlayer().sendMessage("You place the pebble in the gravestone's small indent.");

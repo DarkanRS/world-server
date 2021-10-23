@@ -47,7 +47,7 @@ public final class TimeStopAttack implements QueenAttack {
 				stage++;
 				if (stage == 8) {
 					stop();
-					npc.getTempAttribs().put("_time_stop_atk", npc.getTicks() + Utils.random(50) + 40);
+					npc.getTempAttribs().setI("_time_stop_atk", npc.getTicks() + Utils.random(50) + 40);
 					for (TorturedSoul s : npc.getSouls()) {
 						s.setLocked(false);
 					}
@@ -80,17 +80,15 @@ public final class TimeStopAttack implements QueenAttack {
 				soul.setNextForceTalk(MESSAGES[stage]);
 			}
 		}, 3, 3);
-		npc.getTempAttribs().put("_time_stop_atk", 9999999);
+		npc.getTempAttribs().setI("_time_stop_atk", 9999999);
 		return Utils.random(5, 10);
 	}
 
 	@Override
 	public boolean canAttack(QueenBlackDragon npc, Player victim) {
-		if (npc.getSouls().isEmpty()) {
+		if (npc.getSouls().isEmpty())
 			return false;
-		}
-		Integer tick = (Integer) npc.getTempAttribs().get("_time_stop_atk");
-		return tick == null || tick < npc.getTicks();
+		return npc.getTempAttribs().getI("_time_stop_atk") < npc.getTicks();
 	}
 
 }

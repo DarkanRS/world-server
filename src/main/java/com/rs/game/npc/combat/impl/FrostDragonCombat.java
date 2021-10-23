@@ -23,8 +23,8 @@ public class FrostDragonCombat extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int damage;
-		int mageRange = npc.getTempI("frostAtkStyle", -1) == -1 ? Utils.getRandomInclusive(1) : npc.getTempI("frostAtkStyle", -1);
-		npc.setTempI("frostAtkStyle", mageRange);
+		int mageRange = npc.getTempAttribs().getI("frostAtkStyle", -1) == -1 ? Utils.getRandomInclusive(1) : npc.getTempAttribs().getI("frostAtkStyle", -1);
+		npc.getTempAttribs().setI("frostAtkStyle", mageRange);
 		
 		if (Utils.random(3) == 0) {
 			if (WorldUtil.isInRange(npc, target, 0)) {

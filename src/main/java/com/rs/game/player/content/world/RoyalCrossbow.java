@@ -49,7 +49,7 @@ public class RoyalCrossbow {
 					e.getPlayer().sendMessage("There isn't even close to enough heat here. Perhaps the Queen Black Dragon's breath would be hot enough.");
 					return;
 				}
-				if (!e.getPlayer().getTempB("canBrandish")) {
+				if (!e.getPlayer().getTempAttribs().getB("canBrandish")) {
 					e.getPlayer().sendMessage("It doesn't seem like a good time to be doing that!");
 					return;
 				}

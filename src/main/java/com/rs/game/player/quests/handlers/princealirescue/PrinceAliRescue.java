@@ -1,5 +1,9 @@
 package com.rs.game.player.quests.handlers.princealirescue;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -17,10 +21,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import java.util.ArrayList;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.PRINCE_ALI_RESCUE)
 @PluginEventHandler

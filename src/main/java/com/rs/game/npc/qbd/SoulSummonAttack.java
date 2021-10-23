@@ -25,7 +25,7 @@ public final class SoulSummonAttack implements QueenAttack {
 				it.remove();
 			}
 		}
-		npc.getTempAttribs().put("_last_soul_summon", npc.getTicks() + Utils.random(41, 100));
+		npc.getTempAttribs().setI("_last_soul_summon", npc.getTicks() + Utils.random(41, 100));
 		int count = npc.getPhase() - 1;
 		if (count == 3) {
 			count = 4;
@@ -52,8 +52,8 @@ public final class SoulSummonAttack implements QueenAttack {
 
 	@Override
 	public boolean canAttack(QueenBlackDragon npc, Player victim) {
-		Integer last = (Integer) npc.getTempAttribs().get("_last_soul_summon");
-		return last == null || last < npc.getTicks();
+		int last = npc.getTempAttribs().getI("_last_soul_summon");
+		return last == -1 || last < npc.getTicks();
 	}
 
 }

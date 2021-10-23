@@ -27,29 +27,27 @@ public final class PlayerLook {
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 138) { // confirm
 				e.getPlayer().getInterfaceManager().setDefaultTopInterface();
-				e.getPlayer().getTempAttribs().remove("SelectWearDesignD");
-				e.getPlayer().getTempAttribs().remove("ViewWearDesign");
-				e.getPlayer().getTempAttribs().remove("ViewWearDesignD");
+				e.getPlayer().getTempAttribs().removeI("SelectWearDesignD");
+				e.getPlayer().getTempAttribs().removeI("ViewWearDesign");
+				e.getPlayer().getTempAttribs().removeI("ViewWearDesignD");
 				e.getPlayer().getAppearance().generateAppearanceData();
 			} else if (e.getComponentId() >= 68 && e.getComponentId() <= 74) {
-				e.getPlayer().getTempAttribs().put("ViewWearDesign", (e.getComponentId() - 68));
-				e.getPlayer().getTempAttribs().put("ViewWearDesignD", 0);
+				e.getPlayer().getTempAttribs().setI("ViewWearDesign", (e.getComponentId() - 68));
+				e.getPlayer().getTempAttribs().setI("ViewWearDesignD", 0);
 				setDesign(e.getPlayer(), e.getComponentId() - 68, 0);
 			} else if (e.getComponentId() >= 103 && e.getComponentId() <= 105) {
-				Integer index = (Integer) e.getPlayer().getTempAttribs().get("ViewWearDesign");
-				if (index == null)
-					return;
-				e.getPlayer().getTempAttribs().put("ViewWearDesignD", (e.getComponentId() - 103));
+				int index = e.getPlayer().getTempAttribs().getI("ViewWearDesign");
+				e.getPlayer().getTempAttribs().setI("ViewWearDesignD", (e.getComponentId() - 103));
 				setDesign(e.getPlayer(), index, e.getComponentId() - 103);
 			} else if (e.getComponentId() == 62 || e.getComponentId() == 63) {
 				setGender(e.getPlayer(), e.getComponentId() == 62);
 			} else if (e.getComponentId() == 65) {
 				setSkin(e.getPlayer(), e.getSlotId());
 			} else if (e.getComponentId() >= 116 && e.getComponentId() <= 121) {
-				e.getPlayer().getTempAttribs().put("SelectWearDesignD", (e.getComponentId() - 116));
+				e.getPlayer().getTempAttribs().setI("SelectWearDesignD", (e.getComponentId() - 116));
 			} else if (e.getComponentId() == 128) {
-				Integer index = (Integer) e.getPlayer().getTempAttribs().get("SelectWearDesignD");
-				if (index == null || index == 1) {
+				int index = e.getPlayer().getTempAttribs().getI("SelectWearDesignD");
+				if (index == 1) {
 					boolean male = e.getPlayer().getAppearance().isMale();
 					int map1 = EnumDefinitions.getEnum(male ? 3304 : 3302).getIntValue(e.getSlotId());
 					if (map1 == 0)
@@ -69,8 +67,8 @@ public final class PlayerLook {
 					e.getPlayer().getAppearance().setBeardStyle(EnumDefinitions.getEnum(3307).getIntValue(e.getSlotId()));
 				e.getPlayer().getAppearance().generateAppearanceData();
 			} else if (e.getComponentId() == 132) {
-				Integer index = (Integer) e.getPlayer().getTempAttribs().get("SelectWearDesignD");
-				if (index == null || index == 0)
+				int index = e.getPlayer().getTempAttribs().getI("SelectWearDesignD");
+				if (index == 0)
 					setSkin(e.getPlayer(), e.getSlotId());
 				else {
 					if (index == 1 || index == 5)
@@ -94,9 +92,9 @@ public final class PlayerLook {
 			player.getAppearance().female();
 		else
 			player.getAppearance().male();
-		Integer index1 = (Integer) player.getTempAttribs().get("ViewWearDesign");
-		Integer index2 = (Integer) player.getTempAttribs().get("ViewWearDesignD");
-		setDesign(player, index1 != null ? index1 : 0, index2 != null ? index2 : 0);
+		int index1 = player.getTempAttribs().getI("ViewWearDesign");
+		int index2 = player.getTempAttribs().getI("ViewWearDesignD");
+		setDesign(player, index1 != -1 ? index1 : 0, index2 != -1 ? index2 : 0);
 		player.getAppearance().generateAppearanceData();
 		player.getVars().setVarBit(8093, male ? 0 : 1);
 	}
@@ -136,7 +134,7 @@ public final class PlayerLook {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 14 || e.getComponentId() == 16 || e.getComponentId() == 15 || e.getComponentId() == 17)
-				e.getPlayer().getTempAttribs().put("MageMakeOverGender", e.getComponentId() == 14 || e.getComponentId() == 16);
+				e.getPlayer().getTempAttribs().setB("MageMakeOverGender", e.getComponentId() == 14 || e.getComponentId() == 16);
 			else if (e.getComponentId() >= 20 && e.getComponentId() <= 31) {
 
 				int skin;
@@ -164,13 +162,11 @@ public final class PlayerLook {
 					skin = 1;
 				else
 					skin = 0;
-				e.getPlayer().getTempAttribs().put("MageMakeOverSkin", skin);
+				e.getPlayer().getTempAttribs().setI("MageMakeOverSkin", skin);
 			} else if (e.getComponentId() == 33) {
-				Boolean male = (Boolean) e.getPlayer().getTempAttribs().remove("MageMakeOverGender");
-				Integer skin = (Integer) e.getPlayer().getTempAttribs().remove("MageMakeOverSkin");
+				boolean male = e.getPlayer().getTempAttribs().removeB("MageMakeOverGender");
+				int skin = e.getPlayer().getTempAttribs().removeI("MageMakeOverSkin");
 				e.getPlayer().closeInterfaces();
-				if (male == null || skin == null)
-					return;
 				if (male == e.getPlayer().getAppearance().isMale() && skin == e.getPlayer().getAppearance().getSkinColor())
 					e.getPlayer().getDialogueManager().execute(new MakeOverMage(), 2676, 1);
 				else {
@@ -196,14 +192,14 @@ public final class PlayerLook {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 6)
-				e.getPlayer().getTempAttribs().put("hairSaloon", true);
+				e.getPlayer().getTempAttribs().setB("hairSaloon", true);
 			else if (e.getComponentId() == 7)
-				e.getPlayer().getTempAttribs().put("hairSaloon", false);
+				e.getPlayer().getTempAttribs().setB("hairSaloon", false);
 			else if (e.getComponentId() == 18) {
 				e.getPlayer().closeInterfaces();
 			} else if (e.getComponentId() == 10) {
-				Boolean hairSalon = (Boolean) e.getPlayer().getTempAttribs().get("hairSaloon");
-				if (hairSalon != null && hairSalon) {
+				boolean hairSalon = e.getPlayer().getTempAttribs().getB("hairSaloon");
+				if (hairSalon) {
 					int value = (int) EnumDefinitions.getEnum(e.getPlayer().getAppearance().isMale() ? 2339 : 2342).getKeyForValue(e.getSlotId() / 2);
 					if (value == -1)
 						return;
@@ -228,32 +224,32 @@ public final class PlayerLook {
 		player.getPackets().setIFText(900, 33, "Confirm");
 		player.getVars().setVarBit(6098, player.getAppearance().isMale() ? 0 : 1);
 		player.getVars().setVarBit(6099, player.getAppearance().getSkinColor());
-		player.getTempAttribs().put("MageMakeOverGender", player.getAppearance().isMale());
-		player.getTempAttribs().put("MageMakeOverSkin", player.getAppearance().getSkinColor());
+		player.getTempAttribs().setB("MageMakeOverGender", player.getAppearance().isMale());
+		player.getTempAttribs().setI("MageMakeOverSkin", player.getAppearance().getSkinColor());
 	}
 	
 	public static ButtonClickHandler handleThessaliasMakeOverButtons = new ButtonClickHandler(729) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId()== 6)
-				e.getPlayer().getTempAttribs().put("ThessaliasMakeOver", 0);
+				e.getPlayer().getTempAttribs().setI("ThessaliasMakeOver", 0);
 			else if (e.getComponentId() == 7) {
 				if (EnumDefinitions.getEnum(e.getPlayer().getAppearance().isMale() ? 690 : 1591).getKeyForValue(e.getPlayer().getAppearance().getTopStyle()) >= 32) {
-					e.getPlayer().getTempAttribs().put("ThessaliasMakeOver", 1);
+					e.getPlayer().getTempAttribs().setI("ThessaliasMakeOver", 1);
 				} else
 					e.getPlayer().sendMessage("You can't select different arms to go with that top.");
 			} else if (e.getComponentId() == 8) {
 				if (EnumDefinitions.getEnum(e.getPlayer().getAppearance().isMale() ? 690 : 1591).getKeyForValue(e.getPlayer().getAppearance().getTopStyle()) >= 32) {
-					e.getPlayer().getTempAttribs().put("ThessaliasMakeOver", 2);
+					e.getPlayer().getTempAttribs().setI("ThessaliasMakeOver", 2);
 				} else
 					e.getPlayer().sendMessage("You can't select different wrists to go with that top.");
 			} else if (e.getComponentId() == 9)
-				e.getPlayer().getTempAttribs().put("ThessaliasMakeOver", 3);
+				e.getPlayer().getTempAttribs().setI("ThessaliasMakeOver", 3);
 			else if (e.getComponentId() == 19) { // confirm
 				e.getPlayer().closeInterfaces();
 			} else if (e.getComponentId() == 12) { // set part
-				Integer stage = (Integer) e.getPlayer().getTempAttribs().get("ThessaliasMakeOver");
-				if (stage == null || stage == 0)
+				int stage = e.getPlayer().getTempAttribs().getI("ThessaliasMakeOver");
+				if (stage == 0)
 					e.getPlayer().getAppearance().setTopStyle(EnumDefinitions.getEnum(e.getPlayer().getAppearance().isMale() ? 690 : 1591).getIntValue(e.getSlotId() / 2));
 				else if (stage == 1) // arms
 					e.getPlayer().getAppearance().setArmsStyle((int) EnumDefinitions.getEnum(e.getPlayer().getAppearance().isMale() ? 711 : 693).getIntValue(e.getSlotId() / 2));
@@ -263,8 +259,8 @@ public final class PlayerLook {
 					e.getPlayer().getAppearance().setLegsStyle((int) EnumDefinitions.getEnum(e.getPlayer().getAppearance().isMale() ? 1586 : 1607).getIntValue(e.getSlotId() / 2));
 
 			} else if (e.getComponentId() == 17) {// color
-				Integer stage = (Integer) e.getPlayer().getTempAttribs().get("ThessaliasMakeOver");
-				if (stage == null || stage == 0 || stage == 1)
+				int stage = e.getPlayer().getTempAttribs().getI("ThessaliasMakeOver");
+				if (stage == 0 || stage == 1)
 					e.getPlayer().getAppearance().setTopColor(EnumDefinitions.getEnum(3282).getIntValue(e.getSlotId() / 2));
 				else if (stage == 3)
 					e.getPlayer().getAppearance().setLegsColor(EnumDefinitions.getEnum(3284).getIntValue(e.getSlotId() / 2));
@@ -281,7 +277,7 @@ public final class PlayerLook {
 		player.setNextAnimation(new Animation(11623));
 		player.getInterfaceManager().sendInterface(729);
 		player.getPackets().setIFText(729, 21, "Free!");
-		player.getTempAttribs().put("ThessaliasMakeOver", 0);
+		player.getTempAttribs().setI("ThessaliasMakeOver", 0);
 		player.getPackets().setIFRightClickOps(729, 12, 0, 100, 0);
 		player.getPackets().setIFRightClickOps(729, 17, 0, EnumDefinitions.getEnum(3282).getSize() * 2, 0);
 		player.setCloseInterfacesEvent(new Runnable() {
@@ -291,7 +287,7 @@ public final class PlayerLook {
 				player.getDialogueManager().execute(new SimpleNPCMessage(), 548, "A marvellous choice. You look splendid!");
 				player.setNextAnimation(new Animation(-1));
 				player.getAppearance().generateAppearanceData();
-				player.getTempAttribs().remove("ThessaliasMakeOver");
+				player.getTempAttribs().removeI("ThessaliasMakeOver");
 			}
 
 		});
@@ -311,7 +307,7 @@ public final class PlayerLook {
 		player.getPackets().setIFRightClickOps(309, 10, 0, EnumDefinitions.getEnum(player.getAppearance().isMale() ? 2339 : 2342).getSize() * 2, 0);
 		player.getPackets().setIFRightClickOps(309, 16, 0, EnumDefinitions.getEnum(2345).getSize() * 2, 0);
 		player.getPackets().setIFText(309, 20, "Free!");
-		player.getTempAttribs().put("hairSaloon", true);
+		player.getTempAttribs().setB("hairSaloon", true);
 		player.setCloseInterfacesEvent(new Runnable() {
 
 			@Override
@@ -319,7 +315,7 @@ public final class PlayerLook {
 				player.getDialogueManager().execute(new SimpleNPCMessage(), 598, "An excellent choice, " + (player.getAppearance().isMale() ? "sir" : "madam") + ".");
 				player.setNextAnimation(new Animation(-1));
 				player.getAppearance().generateAppearanceData();
-				player.getTempAttribs().remove("hairSaloon");
+				player.getTempAttribs().removeB("hairSaloon");
 			}
 
 		});
@@ -333,7 +329,7 @@ public final class PlayerLook {
 		player.setNextAnimation(new Animation(11623));
 		player.getInterfaceManager().sendInterface(728);
 		player.getPackets().setIFText(728, 16, "Free");
-		player.getTempAttribs().put("YrsaBoot", 0);
+		player.getTempAttribs().setI("YrsaBoot", 0);
 		player.getPackets().setIFRightClickOps(728, 12, 0, 500, 0);
 		player.getPackets().setIFRightClickOps(728, 7, 0, EnumDefinitions.getEnum(3297).getSize() * 2, 0);
 		player.setCloseInterfacesEvent(new Runnable() {
@@ -343,7 +339,7 @@ public final class PlayerLook {
 				player.getDialogueManager().execute(new SimpleNPCMessage(), 1301, "Hey, They look great!");
 				player.setNextAnimation(new Animation(-1));
 				player.getAppearance().generateAppearanceData();
-				player.getTempAttribs().remove("YrsaBoot");
+				player.getTempAttribs().removeI("YrsaBoot");
 			}
 		});
 	}

@@ -119,7 +119,7 @@ public class AchievementSetRewards {
 	};
 	
 	private static void openERingInter(Player player, int type) {
-		player.setTempI("eRingInterType", type);
+		player.getTempAttribs().setI("eRingInterType", type);
 		String action = type == 0 ? "Low-alchemy" : type == 1 ? "High-alchemy" : "Superheat";
 		player.getPackets().setIFText(12, 11, action);
 		player.getPackets().sendInterSetItemsOptionsScript(12, 13, 93, 7, 4, action);
@@ -133,7 +133,7 @@ public class AchievementSetRewards {
 			Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
 			if (item == null)
 				return;
-			switch (e.getPlayer().getTempI("eRingInterType", 0)) {
+			switch (e.getPlayer().getTempAttribs().getI("eRingInterType", 0)) {
 			case 0:
 				if (e.getPlayer().getDailyI("eRingLowAlchs") >= 30) {
 					e.getPlayer().sendMessage("You have used up all your low alchemy charges for the day.");

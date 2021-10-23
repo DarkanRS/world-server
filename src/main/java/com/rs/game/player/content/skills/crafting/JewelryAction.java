@@ -1,7 +1,6 @@
 package com.rs.game.player.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 import com.rs.game.player.content.skills.crafting.Jewelry.Bling;
@@ -47,8 +46,8 @@ public class JewelryAction extends Action {
 	@Override
 	public boolean process(Player player) {
 		if (checkAll(player)) {
-			if (player.getTempAttribs().get("jewelryObject") != null)
-				player.faceObject((GameObject) player.getTempAttribs().get("jewelryObject"));
+			if (player.getTempAttribs().getO("jewelryObject") != null)
+				player.faceObject(player.getTempAttribs().getO("jewelryObject"));
 			return true;
 		}
 		return false;

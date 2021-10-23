@@ -117,8 +117,7 @@ public class Firemaking extends Action {
 			player.getInventory().deleteItem(fire.getLogId(), 1);
 			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(player), player, true, 180);
 		}
-		Long time = (Long) player.getTempAttribs().remove("Fire");
-		boolean quickFire = time != null && time > System.currentTimeMillis();
+		boolean quickFire = player.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
 		setActionDelay(player, quickFire ? 1 : 2);
 		if (!quickFire)
 			player.setNextAnimation(new Animation(16700));
@@ -198,7 +197,7 @@ public class Firemaking extends Action {
 				player.setNextFaceWorldTile(tile);
 			}
 		}, 1);
-		player.getTempAttribs().put("Fire", System.currentTimeMillis() + 1800);
+		player.getTempAttribs().setL("Fire", System.currentTimeMillis() + 1800);
 		return -1;
 	}
 

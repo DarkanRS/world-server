@@ -127,7 +127,7 @@ public class StealingCreationGameController {
 				blueTeam.remove(player);
 			else if (redTeam.contains(player))
 				redTeam.remove(player);
-			player.getTempAttribs().put("SC_PENALTY", System.currentTimeMillis() + Helper.PENALTY_DURATION);
+			player.getTempAttribs().setL("SC_PENALTY", System.currentTimeMillis() + Helper.PENALTY_DURATION);
 			Helper.sendHome(player);
 			// no players on a team so game ends sooner no? ye
 			if (redTeam.size() == 0 || blueTeam.size() == 0)

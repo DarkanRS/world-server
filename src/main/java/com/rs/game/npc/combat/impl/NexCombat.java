@@ -34,7 +34,7 @@ public class NexCombat extends CombatScript {
 		if (!(npc instanceof Nex))
 			return notNexAttack(npc, target);
 		Nex nex = (Nex) npc;
-		if (nex.getTempB("siphoning"))
+		if (nex.getTempAttribs().getB("siphoning"))
 			return 0;
 		switch(nex.getPhase()) {
 		case SMOKE:

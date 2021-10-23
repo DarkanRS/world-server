@@ -297,26 +297,20 @@ public class GnomeAgility {
 	};
 
 	public static void removeGnomeStage(Player player) {
-		player.getTempAttribs().remove("GnomeCourse");
-		player.getTempAttribs().remove("GnomeCourseAdv");
+		player.getTempAttribs().removeI("GnomeCourse");
+		player.getTempAttribs().removeI("GnomeCourseAdv");
 	}
 
 	public static void setGnomeStage(Player player, int stage) {
-		player.getTempAttribs().put("GnomeCourse", stage);
-		player.getTempAttribs().put("GnomeCourseAdv", stage);
+		player.getTempAttribs().setI("GnomeCourse", stage);
+		player.getTempAttribs().setI("GnomeCourseAdv", stage);
 	}
 	
 	public static int getGnomeStageAdv(Player player) {
-		Integer stage = (Integer) player.getTempAttribs().get("GnomeCourseAdv");
-		if (stage == null)
-			return -1;
-		return stage;
+		return player.getTempAttribs().getI("GnomeCourseAdv");
 	}
 
 	public static int getGnomeStage(Player player) {
-		Integer stage = (Integer) player.getTempAttribs().get("GnomeCourse");
-		if (stage == null)
-			return -1;
-		return stage;
+		return player.getTempAttribs().getI("GnomeCourse");
 	}
 }

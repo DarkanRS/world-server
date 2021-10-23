@@ -11,15 +11,15 @@ public class StealingCreationClay extends Dialogue {
 	public void run(int interfaceId, int componentId) {
 		if (stage == -1) {
 			if (componentId == OPTION_1) {
-				player.getTempAttribs().put("sc_request", 14182);
+				player.getTempAttribs().setI("sc_request", 14182);
 			} else if (componentId == OPTION_2) {
-				player.getTempAttribs().put("sc_request", 14184);
+				player.getTempAttribs().setI("sc_request", 14184);
 			} else if (componentId == OPTION_3) {
-				player.getTempAttribs().put("sc_request", 14186);
+				player.getTempAttribs().setI("sc_request", 14186);
 			} else if (componentId == OPTION_4) {
-				player.getTempAttribs().put("sc_request", 14188);
+				player.getTempAttribs().setI("sc_request", 14188);
 			} else if (componentId == OPTION_5) {
-				player.getTempAttribs().put("sc_request", 14190);
+				player.getTempAttribs().setI("sc_request", 14190);
 			}
 			end();
 			player.getPackets().sendInputIntegerScript("Enter Amount:");

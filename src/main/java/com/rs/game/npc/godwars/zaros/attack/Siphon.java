@@ -22,7 +22,7 @@ public class Siphon implements NexAttack {
 		nex.playSound(3317, 2);
 		nex.setNextAnimation(new Animation(6948));
 		nex.setNextSpotAnim(new SpotAnim(1201));
-		nex.setTempB("siphoning", true);
+		nex.getTempAttribs().setB("siphoning", true);
 		int bloodReaverSize = NPCDefinitions.getDefs(13458).size;
 		int respawnedBloodReaverCount = 0;
 		int maxMinions = Utils.getRandomInclusive(3);
@@ -40,7 +40,7 @@ public class Siphon implements NexAttack {
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				nex.setTempB("siphoning", false);
+				nex.getTempAttribs().setB("siphoning", false);
 			}
 		}, 9);
 		return nex.getAttackSpeed();

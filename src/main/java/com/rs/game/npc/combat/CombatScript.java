@@ -225,7 +225,7 @@ public abstract class CombatScript {
 		}
 		double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
 		if (Settings.getConfig().isDebug() && target instanceof Player player)
-			if (player.getTempB("hitChance"))
+			if (player.getNSV().getB("hitChance"))
 				player.sendMessage("Your chance of being hit: " + Utils.formatDouble(prob*100.0) + "%");
 		if (prob <= Math.random())
 			return 0;

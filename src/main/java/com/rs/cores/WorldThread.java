@@ -53,7 +53,7 @@ public final class WorldThread extends Thread {
 					npc.processEntity();
 				}
 				for (Player player : World.getPlayers()) {
-					if (player != null && player.getTempB("realFinished"))
+					if (player != null && player.getTempAttribs().getB("realFinished"))
 						player.realFinish();
 					if (player == null || !player.hasStarted() || player.hasFinished())
 						continue;

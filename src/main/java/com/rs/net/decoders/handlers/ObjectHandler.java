@@ -2507,12 +2507,12 @@ public final class ObjectHandler {
 				}
 				if (itemId == Jewelry.GOLD_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
 					Jewelry.openJewelryInterface(player);
-					player.getTempAttribs().put("jewelryObject", object);
+					player.getTempAttribs().setO("jewelryObject", object);
 					return;
 				}
 				if (itemId == Silver.SILVER_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
 					Silver.openSilverInterface(player);
-					player.getTempAttribs().put("silverObject", object);
+					player.getTempAttribs().setO("silverObject", object);
 					return;
 				}
 				if (object.getId() == 13715) {

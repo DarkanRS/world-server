@@ -198,7 +198,7 @@ public class ErnestTheChicken extends QuestOutline {
                         addPlayer(HeadE.CALM_TALK, "I already have the pressure gauge...");
                         create();
                 }});
-            if(p.getTempB("FountainFishDead"))
+            if(p.getTempAttribs().getB("FountainFishDead"))
                 p.startConversation(new Conversation(p) {
                     {
                         addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> {
@@ -240,7 +240,7 @@ public class ErnestTheChicken extends QuestOutline {
                         p.sendMessage("The piranhas start eating the food...");
                     if(tick == 2) {
                         p.sendMessage("...Then die and float to the surface.");
-                        p.setTempB("FountainFishDead", true);
+                        p.getTempAttribs().setB("FountainFishDead", true);
                         stop();
                     }
 

@@ -178,20 +178,20 @@ public class InventoryOptionsHandler {
 		}
 		if (item.getId() == 20667) {
 			player.stopAll(false);
-			Long lastVecna = (Long) player.getTempAttribs().get("LAST_VECNA");
-			if (lastVecna != null && lastVecna + 420000 > System.currentTimeMillis()) {
+			long lastVecna = player.getTempAttribs().getL("LAST_VECNA");
+			if (lastVecna != -1 && lastVecna + 420000 > System.currentTimeMillis()) {
 				player.sendMessage("The skull has not yet regained " +
 						"its mysterious aura. You will need to wait another " +
-						(lastVecna != null && lastVecna + 60000 > System.currentTimeMillis() ? "7" 
-						    : (lastVecna != null && lastVecna + 120000 > System.currentTimeMillis() ? "6" 
-								: (lastVecna != null && lastVecna + 180000 > System.currentTimeMillis() ? "5" 
-										: (lastVecna != null && lastVecna + 240000 > System.currentTimeMillis() ? "4" 
-												: (lastVecna != null && lastVecna + 300000 > System.currentTimeMillis() ? "3" 
-														: (lastVecna != null && lastVecna + 360000 > System.currentTimeMillis() ? "2" 
+						(lastVecna != -1 && lastVecna + 60000 > System.currentTimeMillis() ? "7" 
+						    : (lastVecna != -1 && lastVecna + 120000 > System.currentTimeMillis() ? "6" 
+								: (lastVecna != -1 && lastVecna + 180000 > System.currentTimeMillis() ? "5" 
+										: (lastVecna != -1 && lastVecna + 240000 > System.currentTimeMillis() ? "4" 
+												: (lastVecna != -1 && lastVecna + 300000 > System.currentTimeMillis() ? "3" 
+														: (lastVecna != -1 && lastVecna + 360000 > System.currentTimeMillis() ? "2" 
 																: "1")))))) + " minutes.");
 				return;
 			}
-			player.getTempAttribs().put("LAST_VECNA", System.currentTimeMillis());
+			player.getTempAttribs().setL("LAST_VECNA", System.currentTimeMillis());
 			player.setNextSpotAnim(new SpotAnim(738, 0, 100));
 			player.setNextAnimation(new Animation(10530));
 			player.sendMessage("The skull feeds off the life around you, boosting your magical ability.");

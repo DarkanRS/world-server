@@ -166,10 +166,10 @@ public class Easter2020 {
 	//@LoginHandler TODO
 	public static void handleLogin(LoginEvent e) {
 		e.getPlayer().setEaster20Stage(4);
-		e.getPlayer().setNSI("easterBirdFood", Utils.random(4));
-		e.getPlayer().setNSI("cogLocation", Utils.random(COG_LOCATIONS.length));
-		e.getPlayer().setNSI("pistonLocation", Utils.random(PISTON_LOCATIONS.length));
-		e.getPlayer().setNSI("chimneyLocation", Utils.random(CHIMNEY_LOCATIONS.length));
+		e.getPlayer().getNSV().setI("easterBirdFood", Utils.random(4));
+		e.getPlayer().getNSV().setI("cogLocation", Utils.random(COG_LOCATIONS.length));
+		e.getPlayer().getNSV().setI("pistonLocation", Utils.random(PISTON_LOCATIONS.length));
+		e.getPlayer().getNSV().setI("chimneyLocation", Utils.random(CHIMNEY_LOCATIONS.length));
 		e.getPlayer().getVars().setVarBit(6014, e.getPlayer().getEaster20Stage() >= 3 ? 1 : 0);
 		e.getPlayer().getVars().setVarBit(6016, e.getPlayer().getEaster20Stage() >= 6 ? 3: 0);
 		if (e.getPlayer().getEaster20Stage() >= 8)
@@ -211,7 +211,7 @@ public class Easter2020 {
 			e.getPlayer().getInventory().addItem(1925, 1);
 			e.getPlayer().getVars().setVarBit(6027, 1);
 			e.getPlayer().sendMessage("You fill the bird's dish with water.");
-			if (e.getPlayer().getVars().getVarBit(6026) == e.getPlayer().getNSI("easterBirdFood")) {
+			if (e.getPlayer().getVars().getVarBit(6026) == e.getPlayer().getNSV().getI("easterBirdFood")) {
 				e.getPlayer().sendMessage("The bird wakes up and begins eating and drinking!");
 				e.getPlayer().setEaster20Stage(3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
@@ -244,7 +244,7 @@ public class Easter2020 {
 				e.getPlayer().sendMessage("The bird still looks thirsty.");
 				return;
 			}
-			if (e.getPlayer().getVars().getVarBit(6026) == (e.getPlayer().getNSI("easterBirdFood")+1)) {
+			if (e.getPlayer().getVars().getVarBit(6026) == (e.getPlayer().getNSV().getI("easterBirdFood")+1)) {
 				e.getPlayer().setEaster20Stage(3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
 				WorldTasksManager.delay(10, () -> {
@@ -252,7 +252,7 @@ public class Easter2020 {
 					e.getPlayer().getVars().setVarBit(6027, 0);
 				});
 			} else {
-				e.getPlayer().sendMessage("That doesn't seem to be the correct food." + e.getPlayer().getNSI("easterBirdFood"));
+				e.getPlayer().sendMessage("That doesn't seem to be the correct food." + e.getPlayer().getNSV().getI("easterBirdFood"));
 			}
 		}
 	};
@@ -264,17 +264,17 @@ public class Easter2020 {
 				e.getPlayer().sendMessage("You don't find anything that looks useful to you right now.");
 				return;
 			}
-			if (COG_LOCATIONS[e.getPlayer().getNSI("cogLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(COG)) {
+			if (COG_LOCATIONS[e.getPlayer().getNSV().getI("cogLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(COG)) {
 				e.getPlayer().getInventory().addItem(COG);
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addItem(COG, "You find a cog in the crate!"));
 				return;
 			}
-			if (PISTON_LOCATIONS[e.getPlayer().getNSI("pistonLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(PISTON)) {
+			if (PISTON_LOCATIONS[e.getPlayer().getNSV().getI("pistonLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(PISTON)) {
 				e.getPlayer().getInventory().addItem(PISTON);
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addItem(PISTON, "You find some pistons in the crate!"));
 				return;
 			}
-			if (CHIMNEY_LOCATIONS[e.getPlayer().getNSI("chimneyLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(CHIMNEY)) {
+			if (CHIMNEY_LOCATIONS[e.getPlayer().getNSV().getI("chimneyLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(CHIMNEY)) {
 				e.getPlayer().getInventory().addItem(CHIMNEY);
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addItem(CHIMNEY, "You find a chimney in the crate!"));
 				return;

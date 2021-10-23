@@ -187,7 +187,7 @@ public class TravelMethods {
         System.out.println("origin: " + ship.name() + " destination: " + ship.getFixedName(returning));
         System.out.println(getComponentForMap(ship, returning));
 
-		if (player.getTempAttribs().get("using_carrier") != null)
+		if (player.getTempAttribs().getB("using_carrier"))
 			return false;
 		int cost = -1;
 		if (ship.getFares() != null)
@@ -225,7 +225,7 @@ public class TravelMethods {
 		final WorldTile tile = returning ? ship.getOrigon() : ship.getDestination();
 		player.lock();
 		player.getMusicsManager().playMusic(550);
-		player.getTempAttribs().put("using_carrier", true);
+		player.getTempAttribs().setB("using_carrier", true);
 
         if(getComponentForMap(ship, returning) == -1)
             FadingScreen.fade(player, new Runnable() {
@@ -236,7 +236,7 @@ public class TravelMethods {
                     player.closeInterfaces();
                     if (isFare)
                         player.getVars().setVar(75, 0);
-                    player.getTempAttribs().remove("using_carrier");
+                    player.getTempAttribs().removeB("using_carrier");
                 }
             });
         else {
@@ -260,7 +260,7 @@ public class TravelMethods {
                             player.getInterfaceManager().setFadingInterface(170);
                             player.getPackets().setBlockMinimapState(0);
                         } else if (tick == 12) {
-                            player.getTempAttribs().remove("using_carrier");
+                            player.getTempAttribs().removeB("using_carrier");
                             player.unlock();
                             stop();
                         }
@@ -285,7 +285,7 @@ public class TravelMethods {
                             player.getInterfaceManager().setFadingInterface(170);
                             player.getPackets().setBlockMinimapState(0);
                         } else if (tick == 8) {
-                            player.getTempAttribs().remove("using_carrier");
+                            player.getTempAttribs().removeB("using_carrier");
                             player.unlock();
                             stop();
                         }

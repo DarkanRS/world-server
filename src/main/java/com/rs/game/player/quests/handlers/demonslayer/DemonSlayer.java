@@ -216,13 +216,13 @@ public class DemonSlayer extends QuestOutline {
                 return;
             Player p = e.getPlayer();
 
-            if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempB("FinalDemonSlayerCutscene"))
+            if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene"))
                 return;
             if(!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight"))
                 return;
             if (p != null && p.hasStarted()) {
                 if (Areas.withinArea("dark_wizard_altar", e.getChunkId())) {
-                    p.setTempB("FinalDemonSlayerCutscene", true);
+                    p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
                     p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
                 }
             }

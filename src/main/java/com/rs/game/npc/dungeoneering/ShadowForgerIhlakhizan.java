@@ -37,17 +37,17 @@ public final class ShadowForgerIhlakhizan extends DungeonBoss {
 			return;
 		super.processNPC();
 		for (Player player : getManager().getParty().getTeam()) {
-			if (!getManager().isAtBossRoom(player) || lineOfSightTo(player, false) || player.getTempAttribs().get("SHADOW_FORGER_SHADOW") != null)
+			if (!getManager().isAtBossRoom(player) || lineOfSightTo(player, false) || player.getTempAttribs().getB("SHADOW_FORGER_SHADOW"))
 				continue;
 			player.setNextSpotAnim(new SpotAnim(2378));
-			player.getTempAttribs().put("SHADOW_FORGER_SHADOW", Boolean.TRUE);
+			player.getTempAttribs().setB("SHADOW_FORGER_SHADOW", true);
 			player.applyHit(new Hit(this, Utils.random((int) (player.getMaxHitpoints() * 0.1)) + 1, HitLook.TRUE_DAMAGE));
 		}
 	}
 
 	public void setUsedShadow() {
 		for (Player player : getManager().getParty().getTeam()) {
-			player.getTempAttribs().put("SHADOW_FORGER_SHADOW", Boolean.TRUE);
+			player.getTempAttribs().setB("SHADOW_FORGER_SHADOW", true);
 		}
 	}
 

@@ -13,10 +13,10 @@ import com.rs.utils.EconomyPrices;
 public class PriceChecker {
 
 	public static void openPriceCheck(Player player) {
-		player.setTempO("pcContainer", new ItemsContainer<Item>(28, false));
-		player.setTempO("pcInvContainer", new ItemsContainer<Item>(28, false));
-		ItemsContainer<Item> pc = player.getTempO("pcContainer");
-		ItemsContainer<Item> inv = player.getTempO("pcInvContainer");
+		player.getTempAttribs().setO("pcContainer", new ItemsContainer<Item>(28, false));
+		player.getTempAttribs().setO("pcInvContainer", new ItemsContainer<Item>(28, false));
+		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
+		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		for (int i = 0;i < player.getInventory().getItems().getItemsCopy().length;i++) {
 			Item[] items = player.getInventory().getItems().getItemsCopy();
 			inv.set(i, items[i] == null ? null : new Item(items[i]));
@@ -36,8 +36,8 @@ public class PriceChecker {
 	}
 
 	public static void removeItem(Player player, int clickSlotId, int amount) {
-		ItemsContainer<Item> pc = player.getTempO("pcContainer");
-		ItemsContainer<Item> inv = player.getTempO("pcInvContainer");
+		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
+		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		if (pc == null || inv == null)
 			return;
 		int slot = getSlotId(clickSlotId);
@@ -56,8 +56,8 @@ public class PriceChecker {
 	}
 
 	public static void addItem(Player player, int slot, int amount) {
-		ItemsContainer<Item> pc = player.getTempO("pcContainer");
-		ItemsContainer<Item> inv = player.getTempO("pcInvContainer");
+		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
+		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		if (pc == null || inv == null)
 			return;
 		Item item = inv.get(slot);
@@ -79,8 +79,8 @@ public class PriceChecker {
 	}
 
 	public static void refreshItems(Player player, Item[] itemsBefore) {
-		ItemsContainer<Item> pc = player.getTempO("pcContainer");
-		ItemsContainer<Item> inv = player.getTempO("pcInvContainer");
+		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
+		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		if (pc == null || inv == null)
 			return;
 		int totalPrice = 0;
@@ -103,8 +103,8 @@ public class PriceChecker {
 	}
 
 	public static void refresh(Player player, int... slots) {
-		ItemsContainer<Item> pc = player.getTempO("pcContainer");
-		ItemsContainer<Item> inv = player.getTempO("pcInvContainer");
+		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
+		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		if (pc == null || inv == null)
 			return;
 		player.getPackets().sendUpdateItems(90, pc, slots);
@@ -118,8 +118,8 @@ public class PriceChecker {
 	}
 
 	public static void sendInterItems(Player player) {
-		ItemsContainer<Item> pc = player.getTempO("pcContainer");
-		ItemsContainer<Item> inv = player.getTempO("pcInvContainer");
+		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
+		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		if (pc == null || inv == null)
 			return;
 		player.getPackets().sendItems(90, pc);

@@ -154,7 +154,7 @@ public class Smithing extends Action {
 
 	@Override
 	public boolean start(Player player) {
-		if ((bar = (ForgingBar) player.getTempAttribs().get("SmithingBar")) == null) {
+		if ((bar = player.getTempAttribs().getO("SmithingBar")) == null) {
 			return false;
 		}
 		if (!player.getInventory().containsOneItem(HAMMER, bar.getBarId())) {

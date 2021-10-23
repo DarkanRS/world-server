@@ -28,11 +28,11 @@ public class RandomEvents {
 	}
 	
 	public static void attemptSpawnRandom(Player player, boolean force) {
-		if (!force && (World.getServerTicks() - player.getTempL("lastRandom") < 3000)) //15 minutes limit on random events
+		if (!force && (World.getServerTicks() - player.getNSV().getL("lastRandom") < 3000)) //15 minutes limit on random events
 			return;
 		if (player.getControllerManager().getController() != null)
 			return;
-		player.setTempL("lastRandom", World.getServerTicks());
+		player.getNSV().setL("lastRandom", World.getServerTicks());
 
         int random = Utils.random(0, 100);
 		if(random < 90)//90% chance

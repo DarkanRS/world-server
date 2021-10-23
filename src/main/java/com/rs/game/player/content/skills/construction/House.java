@@ -228,11 +228,11 @@ public class House {
 					player.getPackets().setIFText(402, index + (refRoom == HouseConstants.Room.DUNGEON_STAIRS || refRoom == HouseConstants.Room.DUNGEON_PIT ? 69 : refRoom == HouseConstants.Room.TREASURE_ROOM ? 70 : 68), "<col=008000> " + refRoom.getPrice() + " coins");
 			}
 			player.getInterfaceManager().sendInterface(402);
-			player.getTempAttribs().put("CreationRoom", new int[] { roomX, roomY, plane });
+			player.getTempAttribs().setO("CreationRoom", new int[] { roomX, roomY, plane });
 			player.setCloseInterfacesEvent(new Runnable() {
 				@Override
 				public void run() {
-					player.getTempAttribs().remove("CreationRoom");
+					player.getTempAttribs().removeO("CreationRoom");
 				}
 			});
 		}
@@ -506,7 +506,7 @@ public class House {
 		Room[] rooms = HouseConstants.Room.values();
 		if (slot >= rooms.length)
 			return;
-		int[] position = (int[]) player.getTempAttribs().get("CreationRoom");
+		int[] position = player.getTempAttribs().getO("CreationRoom");
 		player.closeInterfaces();
 		if (position == null)
 			return;
@@ -576,7 +576,7 @@ public class House {
 			return;
 		}
 		player.getInventory().deleteItem(995, room.room.getPrice());
-		player.getTempAttribs().put("CRef", room);
+		player.getTempAttribs().setO("CRef", room);
 		roomsR.add(room);
 		refreshNumberOfRooms();
 		refreshHouse();
@@ -610,14 +610,14 @@ public class House {
 			player.getPackets().setIFTargetParams(new IFTargetParams(1306, 8 + 7 * i, 4, 4).enableContinueButton());
 		// options
 		player.getInterfaceManager().sendInterface(1306);
-		player.getTempAttribs().put("OpenedBuild", build);
-		player.getTempAttribs().put("OpenedBuildObject", object);
+		player.getTempAttribs().setO("OpenedBuild", build);
+		player.getTempAttribs().setO("OpenedBuildObject", object);
 		player.getDialogueManager().execute(new BuildD());
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				player.getTempAttribs().remove("OpenedBuild");
-				player.getTempAttribs().remove("OpenedBuildObject");
+				player.getTempAttribs().removeO("OpenedBuild");
+				player.getTempAttribs().removeO("OpenedBuildObject");
 			}
 
 		});
@@ -648,8 +648,8 @@ public class House {
 	}
 
 	public void build(int slot) {
-		final Builds build = (Builds) player.getTempAttribs().get("OpenedBuild");
-		GameObject object = (GameObject) player.getTempAttribs().get("OpenedBuildObject");
+		final Builds build = player.getTempAttribs().getO("OpenedBuild");
+		GameObject object = player.getTempAttribs().getO("OpenedBuildObject");
 		if (build == null || object == null || build.getPieces().length <= slot)
 			return;
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -910,7 +910,7 @@ public class House {
 			player.getAppearance().setBAS(-1);
 		if (isOwner(player) && servantInstance != null)
 			servantInstance.setFollowing(false);
-		player.getTempAttribs().put("inBoxingArena", false);
+		player.getTempAttribs().setB("inBoxingArena", false);
 		player.setCanPvp(false);
 		player.setForceMultiArea(false);
 	}
@@ -1363,8 +1363,8 @@ public class House {
 					}
 				}
 				refreshServant();
-				if (player.getTempAttribs().get("CRef") != null && player.getTempAttribs().get("CRef") instanceof RoomReference toRoom) {
-					player.getTempAttribs().remove("CRef");
+				if (player.getTempAttribs().getO("CRef") != null && player.getTempAttribs().getO("CRef") instanceof RoomReference toRoom) {
+					player.getTempAttribs().removeO("CRef");
 					teleportPlayer(player, toRoom);
 				}
 				loaded = true;

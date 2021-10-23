@@ -1825,7 +1825,7 @@ public class Player extends Entity {
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTempAttribs().remove("pluginOption");
+				getTempAttribs().removeO("pluginOption");
 			}
 		});
 	}
@@ -1836,7 +1836,7 @@ public class Player extends Entity {
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTempAttribs().remove("pluginString");
+				getTempAttribs().removeO("pluginString");
 			}
 		});
 	}
@@ -1847,7 +1847,7 @@ public class Player extends Entity {
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTempAttribs().remove("pluginInteger");
+				getTempAttribs().removeO("pluginInteger");
 			}
 		});
 	}
@@ -3700,7 +3700,7 @@ public class Player extends Entity {
 	public void toggleLootShare() {
 		if (getAccount().getSocial().getCurrentFriendsChat() != null) {
 			if (isLootSharing()) {
-				getTempAttribs().remove("lootShare");
+				getTempAttribs().removeB("lootShare");
 			} else {
 				getTempAttribs().setB("lootShare", true);
 			}

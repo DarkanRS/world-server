@@ -16,25 +16,19 @@ public class ResumeCountDialogueHandler implements PacketHandler<Player, ResumeC
 				return;
 			if (packet.getValue() < 0)
 				return;
-			Integer bob_item_X_Slot = (Integer) player.getTempAttribs().remove("bob_item_X_Slot");
-			if (bob_item_X_Slot == null)
-				return;
-			if (player.getTempAttribs().remove("bob_isRemove") != null)
-				player.getFamiliar().getBob().removeItem(bob_item_X_Slot, packet.getValue());
+			if (player.getTempAttribs().removeB("bob_isRemove"))
+				player.getFamiliar().getBob().removeItem(player.getTempAttribs().removeI("bob_item_X_Slot", 0), packet.getValue());
 			else
-				player.getFamiliar().getBob().addItem(bob_item_X_Slot, packet.getValue());
+				player.getFamiliar().getBob().addItem(player.getTempAttribs().removeI("bob_item_X_Slot", 0), packet.getValue());
 		} else if (player.getInterfaceManager().containsInterface(335) && player.getInterfaceManager().containsInterface(336)) {
 			if (packet.getValue() < 0)
 				return;
-			Integer trade_item_X_Slot = (Integer) player.getTempAttribs().remove("trade_item_X_Slot");
-			if (trade_item_X_Slot == null)
-				return;
-			if (player.getTempAttribs().remove("trade_isRemove") != null)
-				player.getTrade().removeItem(trade_item_X_Slot, packet.getValue());
+			if (player.getTempAttribs().removeB("trade_isRemove"))
+				player.getTrade().removeItem(player.getTempAttribs().removeI("trade_item_X_Slot", 0), packet.getValue());
 			else
-				player.getTrade().addItem(trade_item_X_Slot, packet.getValue());
+				player.getTrade().addItem(player.getTempAttribs().removeI("trade_item_X_Slot", 0), packet.getValue());
 		} else {
-			if (player.getTempAttribs().get("pluginInteger") != null && player.getTempAttribs().remove("pluginInteger") instanceof InputIntegerEvent iie)
+			if (player.getTempAttribs().getO("pluginInteger") != null && player.getTempAttribs().removeO("pluginInteger") instanceof InputIntegerEvent iie)
 				iie.run(packet.getValue());
 			return;
 		}

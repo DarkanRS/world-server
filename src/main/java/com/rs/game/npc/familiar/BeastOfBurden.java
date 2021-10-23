@@ -45,8 +45,8 @@ public class BeastOfBurden {
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					e.getPlayer().getFamiliar().getBob().addItem(e.getSlotId(), Integer.MAX_VALUE);
 				else if (e.getPacket() == ClientPacket.IF_OP5) {
-					e.getPlayer().getTempAttribs().put("bob_item_X_Slot", e.getSlotId());
-					e.getPlayer().getTempAttribs().remove("bob_isRemove");
+					e.getPlayer().getTempAttribs().setI("bob_item_X_Slot", e.getSlotId());
+					e.getPlayer().getTempAttribs().removeB("bob_isRemove");
 					e.getPlayer().getPackets().sendRunScriptReverse(108, new Object[] { "Enter Amount:" });
 				} else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getInventory().sendExamine(e.getSlotId());
@@ -69,8 +69,8 @@ public class BeastOfBurden {
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					e.getPlayer().getFamiliar().getBob().removeItem(e.getSlotId(), Integer.MAX_VALUE);
 				else if (e.getPacket() == ClientPacket.IF_OP5) {
-					e.getPlayer().getTempAttribs().put("bob_item_X_Slot", e.getSlotId());
-					e.getPlayer().getTempAttribs().put("bob_isRemove", Boolean.TRUE);
+					e.getPlayer().getTempAttribs().setI("bob_item_X_Slot", e.getSlotId());
+					e.getPlayer().getTempAttribs().setB("bob_isRemove", true);
 					e.getPlayer().getPackets().sendRunScriptReverse(108, new Object[] { "Enter Amount:" });
 				}
 			} else if (e.getComponentId() == 29)
