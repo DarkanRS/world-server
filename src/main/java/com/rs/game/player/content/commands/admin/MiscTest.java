@@ -32,6 +32,8 @@ import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
+import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
+import com.rs.game.player.controllers.DemonSlayer_WallyVSDelrith;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
@@ -463,7 +465,11 @@ public class MiscTest {
 		});
 		
         Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            p.getQuestManager().completeQuest(Quest.PRINCE_ALI_RESCUE);
+            p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+        });
+
+        Commands.add(Rights.DEVELOPER, "test2", "none", (p, args) -> {
+            p.getControllerManager().getController().forceClose();
         });
 
         Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
@@ -658,14 +664,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "resetquest [questName]", "Resets the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values()) {
 				if (quest.name().toLowerCase().contains(args[0])) {
-				    if(quest.name().equalsIgnoreCase("SHIELD_OF_ARRAV"))
-                        ShieldOfArrav.reset(p);
-				    else if (quest.name().equalsIgnoreCase("DEMON_SLAYER"))
-                        DemonSlayer.reset(p);
-				    else if (quest.name().equalsIgnoreCase("PRINCE_ALI_RESCUE"))
-                        PrinceAliRescue.reset(p);
-				    else
-					    p.getQuestManager().setStage(quest, 0);
+                    p.getQuestManager().setStage(quest, 0);
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}

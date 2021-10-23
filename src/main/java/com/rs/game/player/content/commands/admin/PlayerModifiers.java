@@ -6,6 +6,7 @@ import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.commands.Commands;
+import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
@@ -235,6 +236,18 @@ public class PlayerModifiers {
 				}
 			});
 		});
+
+        Commands.add(Rights.ADMIN, "playerquestreset [player_name questName]", "Resets the specified quest.", (p, args) -> {
+            Player player = World.getPlayer(args[0]);
+            for (Quest quest : Quest.values()) {
+                if (quest.name().toLowerCase().contains(args[1])) {
+                    player.getQuestManager().setStage(quest, 0);
+                    p.sendMessage("Resetted quest: " + quest.name() + " for " + player.getUsername());
+                    player.sendMessage("Resetted quest: " + quest.name());
+                    return;
+                }
+            }
+        });
 	}
 
 }

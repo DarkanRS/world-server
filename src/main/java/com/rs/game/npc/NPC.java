@@ -102,14 +102,14 @@ public class NPC extends Entity {
 	private boolean intelligentRoutefinder;
 	public boolean maskTest;
 
-    public NPC(int id, WorldTile tile, Direction direction, boolean permaDeath) {
+    public NPC(int id, WorldTile tile, int direction, boolean permaDeath) {
         super(tile);
         this.id = id;
         this.respawnTile = new WorldTile(tile);
         this.setSpawned(permaDeath);
         combatLevel = -1;
         setHitpoints(getMaxHitpoints());
-        setFaceAngle(direction != null ? direction.getAngle() : getRespawnDirection());
+        setFaceAngle(direction == -1 ? getRespawnDirection() : Direction.getById(direction).getAngle());
         setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
         setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
         size = getDefinitions().size;
@@ -142,7 +142,7 @@ public class NPC extends Entity {
     }
 
 	public NPC(int id, WorldTile tile, boolean permaDeath) {
-		this(id,tile, Direction.SOUTH, permaDeath);
+		this(id,tile, -1, permaDeath);
 	}
 
 	
@@ -601,7 +601,7 @@ public class NPC extends Entity {
 			}
 		}
 
-		if (dropTo.getTempAttribs().get("sendingDropsToBank") != null && dropTo.getTempAttribs().get("sendingDropsToBank") == Boolean.TRUE) {
+		if (dropTo.getTemporaryAttributes().get("sendingDropsToBank") != null && dropTo.getTemporaryAttributes().get("sendingDropsToBank") == Boolean.TRUE) {
 			if (item.getDefinitions().isNoted())
 				item.setId(item.getDefinitions().certId);
 			sendDropDirectlyToBank(dropTo, item);
@@ -686,7 +686,7 @@ public class NPC extends Entity {
 			return;
 		}
 		dropCollection.sortByItemId();
-		player.getTempAttribs().put("viewingOtherBank", Boolean.TRUE);
+		player.getTemporaryAttributes().put("viewingOtherBank", Boolean.TRUE);
 		player.getVars().setVarBit(8348, 0);
 		player.getVars().syncVarsToClient();
 		player.getInterfaceManager().sendInterface(762);

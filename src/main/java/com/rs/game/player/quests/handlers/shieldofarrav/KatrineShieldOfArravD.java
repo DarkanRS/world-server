@@ -15,12 +15,12 @@ public class KatrineShieldOfArravD extends Conversation {
     public KatrineShieldOfArravD(Player p) {
         super(p);
         this.p = p;
-        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM) {
+        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE) {
             addPlayer(HeadE.TALKING_ALOT, "What is this place?");
             addNPC(KATRINE, HeadE.FRUSTRATED, "It's a private business. Can I help you at all?");
             introductoryConversations(p);
             return;
-        } else if(!ShieldOfArrav.hasGang(p) && ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM)) {
+        } else if(!ShieldOfArrav.hasGang(p) && ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE)) {
             checkAboutCrossbowsConversation(p);
         } else if(ShieldOfArrav.isBlackArmGang(p)) {
             addPlayer(HeadE.HAPPY_TALKING, "Hey.");
@@ -74,7 +74,7 @@ public class KatrineShieldOfArravD extends Conversation {
             addSimple("You give the crossbows to Katrine.", () -> {
                 p.getInventory().deleteItem(PHOENIX_CROSSBOW, 1);
                 p.getInventory().deleteItem(PHOENIX_CROSSBOW, 1);
-                ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_BLACK_ARM);
+                ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE);
             });
             addNPC(HeadE.HAPPY_TALKING, "You're now a Black Arm Gang member. Feel free to enter any of the rooms of the ganghouse.");
         } else if(p.getInventory().containsItem(PHOENIX_CROSSBOW, 1)) {
@@ -91,7 +91,7 @@ public class KatrineShieldOfArravD extends Conversation {
         addOptions("Choose an option:", new Options() {
             @Override
             public void create() {
-                if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE)) {
+                if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE_STAGE)) {
                     option("I've heard you're part of the Black Arm Gang.", new Dialogue()
                     .addPlayer(HeadE.TALKING_ALOT, "I've heard you're part of the Black Arm Gang.")
                     .addNPC(KATRINE, HeadE.FRUSTRATED, "Who told you that?")
@@ -171,7 +171,7 @@ public class KatrineShieldOfArravD extends Conversation {
                                                 .addNPC(KATRINE, HeadE.HAPPY_TALKING, "Great! You'll find the Phoenix gang's weapon stash just next to a temple, due east of here.")
                                                 .addPlayer(HeadE.HAPPY_TALKING,"I'll get on it!")
                                                 .addNext(() -> {
-                                                    ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM);
+                                                    ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE);
                                                 }));
                                         option("Sounds a little tricky. Got anything easier?", new Dialogue()
                                                 .addPlayer(HeadE.WORRIED, "Sounds a little tricky. Got anything easier?")

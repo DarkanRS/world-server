@@ -23,12 +23,12 @@ public class QuestManager {
 	private int sort;
 	private boolean filter;
 	private boolean hideDone;
-	private Map<Integer, Integer> questStages;
-	private Map<Integer, GenericAttribMap> questAttribs;
+    private Map<Integer, Integer> questStages;
+    private Map<Integer, GenericAttribMap> questAttribs;
 
 	public QuestManager() {
-		questStages = new HashMap<>();
-		questAttribs = new HashMap<>();
+        questStages = new HashMap<>();
+        questAttribs = new HashMap<>();
 	}
 	
 	public static ButtonClickHandler handleQuestTabButtons = new ButtonClickHandler(190) {
@@ -149,32 +149,32 @@ public class QuestManager {
 		if (updateJournal)
 			sendQuestStage(quest, true);
 	}
-	
-	public void completeQuest(Quest quest) {
-		if (!quest.isImplemented())
-			return;
-		if (!isComplete(quest)) {
-			setStage(quest, quest.getHandler().getCompletedStage());
-			clearQuestAttributes(quest);
-			quest.getHandler().complete(player);
-			sendQuestStage(quest, true);
-			sendQuestPoints();
-		}
-	}
-	
-	private void clearQuestAttributes(Quest quest) {
-		questAttribs.remove(quest.getId());
-	}
-	
-	public GenericAttribMap getAttribs(Quest quest) {
-		GenericAttribMap map = questAttribs.get(quest.getId());
-		if (map == null) {
-			map = new GenericAttribMap();
-			questAttribs.put(quest.getId(), map);
-		}
-		return map;
-	}
 
+    public void completeQuest(Quest quest) {
+        if (!quest.isImplemented())
+            return;
+        if (!isComplete(quest)) {
+            setStage(quest, quest.getHandler().getCompletedStage());
+            clearQuestAttributes(quest);
+            quest.getHandler().complete(player);
+            sendQuestStage(quest, true);
+            sendQuestPoints();
+        }
+    }
+
+    private void clearQuestAttributes(Quest quest) {
+        questAttribs.remove(quest.getId());
+    }
+
+    public GenericAttribMap getAttribs(Quest quest) {
+        GenericAttribMap map = questAttribs.get(quest.getId());
+        if (map == null) {
+            map = new GenericAttribMap();
+            questAttribs.put(quest.getId(), map);
+        }
+        return map;
+    }
+	
 	public boolean completedAllQuests() {
 		for (Quest quest : Quest.values()) {
 			if (!quest.isImplemented())

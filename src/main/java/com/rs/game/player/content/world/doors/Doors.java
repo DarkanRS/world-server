@@ -137,6 +137,7 @@ public class Doors {
 	public static boolean isTempMove(ObjectDefinitions defs) {
 		switch(defs.id) {
 		case 2267:
+        case 3437:
 		case 45856:
 		case 45857:
 		case 45858:

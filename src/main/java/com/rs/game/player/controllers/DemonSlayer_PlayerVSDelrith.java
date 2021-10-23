@@ -251,7 +251,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 		player.unlock();
 		removeController();
 	}
-
+  
 	private void removeInstance() {
 		instance.destroy();
 	}

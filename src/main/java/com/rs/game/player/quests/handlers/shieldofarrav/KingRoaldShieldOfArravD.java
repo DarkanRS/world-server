@@ -10,7 +10,7 @@ public class KingRoaldShieldOfArravD extends Conversation {
 
     public KingRoaldShieldOfArravD(Player p) {
         super(p);
-        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < ShieldOfArrav.HAS_SHIELD) {
+        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < ShieldOfArrav.HAS_SHIELD_STAGE) {
             addPlayer(HeadE.WORRIED, "There is nothing to say...");
             return;
         }
@@ -29,13 +29,13 @@ public class KingRoaldShieldOfArravD extends Conversation {
             return;
         }
 
-        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.SPOKE_TO_KING) {
+        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.SPOKE_TO_KING_STAGE) {
             addNPC(KING_ROALD, HeadE.SKEPTICAL, "Have you gotten the shield authenticated with the museum curator?");
             addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "Not yet...");
             return;
         }
 
-        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.HAS_CERTIFICATE) {
+        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
             addNPC(KING_ROALD, HeadE.SKEPTICAL, "How am I supposed to believe just half of a certificate?");
             addPlayer(HeadE.SAD, "Darn, I need to find someone with another half...");
             return;
@@ -46,7 +46,7 @@ public class KingRoaldShieldOfArravD extends Conversation {
             addNPC(KING_ROALD, HeadE.SKEPTICAL, "The Shield of Arrav, eh? Yes, I do recall my father, King Roald, put a reward out for that");
             addNPC(KING_ROALD, HeadE.SKEPTICAL, "Very well, If you get the authenticity of the shield verified by the curator at the museum and then return" +
                     " here with authentication, I will grant you your reward.");
-            p.getQuestManager().setStage(Quest.SHIELD_OF_ARRAV, ShieldOfArrav.SPOKE_TO_KING);
+            p.getQuestManager().setStage(Quest.SHIELD_OF_ARRAV, ShieldOfArrav.SPOKE_TO_KING_STAGE);
         }
     }
 

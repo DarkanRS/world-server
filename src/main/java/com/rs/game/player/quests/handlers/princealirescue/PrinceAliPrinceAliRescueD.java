@@ -6,9 +6,14 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.JAIL_REGION_ID;
 
 @PluginEventHandler
 public class PrinceAliPrinceAliRescueD extends Conversation {
@@ -55,24 +60,41 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
             addPlayer(HeadE.SECRETIVE, "With a disguise. I have removed the Lady Keli. She is tied up, but will not stay tied up for long.");
             addPlayer(HeadE.SECRETIVE, "Take this disguise, and this key.");
             addSimple("You hand over the disguise and key over to Prince Ali.", ()-> {
-                for(NPC npc : World.getNPCsInRegion(p.getRegionId())) {
+                for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID)) {
                     if(npc.getId() == PRINCE_ALI) {
-                        npc.transformIntoNPC(PRINCE_ALI2);
-                        return;
+                        WorldTasksManager.schedule(new WorldTask() {//deletes all ali2s when region is loaded.
+                            int tick;
+                            NPC ali2;
+                            @Override
+                            public void run() {
+                                if(tick == 0) {
+                                    npc.setRespawnTask(50);
+                                    WorldTile tile = (WorldTile)npc;
+                                    npc.finish();
+                                    ali2 = World.spawnNPC(PRINCE_ALI2, tile, -1, false, true);
+                                }
+                                if(tick == 10) {
+                                    ali2.finish();
+                                    for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
+                                        if(npc.getId() == PRINCE_ALI2)
+                                            npc.finish();
+                                }
+                                if(tick == 11)
+                                    stop();
+
+                                if(World.isRegionLoaded(JAIL_REGION_ID)) {
+                                    tick++;
+                                    System.out.println("tick: " + tick);
+                                } else
+                                    System.out.println("Not loaded");
+                            }
+                        }, 0, 1);
                     }
                 }
             });
-            addNPC(PRINCE_ALI, HeadE.HAPPY_TALKING, "Thank you my friend, I must leave you now. My father will pay you well for this.");
+            addNPC(PRINCE_ALI2, HeadE.HAPPY_TALKING, "Thank you my friend, I must leave you now. My father will pay you well for this.");
             addSimple("The prince has escaped, well done! You are now a friend of Al-Kharid and may pass through the Al-Kharid toll gate for free.", ()->{
                 p.getQuestManager().completeQuest(Quest.PRINCE_ALI_RESCUE);
-                for(NPC npc : World.getNPCsInRegion(p.getRegionId())) {
-                    if(npc.getId() == PRINCE_ALI2) {
-                        npc.setRespawnTask(30);
-                        npc.finish();
-                        return;
-                    }
-                }
-
             });
         }
         else {

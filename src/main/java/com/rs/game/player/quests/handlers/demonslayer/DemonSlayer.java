@@ -24,18 +24,25 @@ import com.rs.utils.Areas;
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler
 public class DemonSlayer extends QuestOutline {
-    final static int NOT_STARTED = 0;
-    final static int AFTER_GYPSY_ARIS_INTRO = 1;
-    final static int AFTER_SIR_PRYSIN_INTRO = 2;
-    final static int KEY1_DRAIN_LOCATION_KNOWN = 3;
-    final static int KEY2_WIZARD_LOCATION_KNOWN = 4;
-    final static int KEY3_ROVIN_LOCATION_KNOWN = 5;
-    final static int WIZARD_RITUAL_KNOWN = 6;
-    final static int WIZARD_KEY_PREVIOUSLY_RETRIEVED = 7;
-    final static int SILVERLIGHT_OBTAINED = 8;
-    final static int QUEST_COMPLETE = 9;
+    //stages
+    final static int NOT_STARTED_STAGE = 0;
+    final static int AFTER_GYPSY_ARIS_INTRO_STAGE = 1;
+    final static int AFTER_SIR_PRYSIN_INTRO_STAGE = 2;
+    final static int KEY1_DRAIN_LOCATION_KNOWN_STAGE = 3;
+    final static int KEY2_WIZARD_LOCATION_KNOWN_STAGE = 4;
+    final static int KEY3_ROVIN_LOCATION_KNOWN_STAGE = 5;
+    final static int WIZARD_RITUAL_KNOWN_STAGE = 6;
+    final static int WIZARD_KEY_PREVIOUSLY_RETRIEVED_STAGE = 7;
+    final static int SILVERLIGHT_OBTAINED_STAGE = 8;
+    final static int QUEST_COMPLETE_STAGE = 9;
 
-    final static String STAGE_MAP_ID = "DemonSlayerStages";
+    //attributes
+    final static String AFTER_SIR_PRYSIN_INTRO_ATTR = "AFTER_PRYSIN_INTRO";
+    final static String KEY1_DRAIN_LOCATION_KNOWN_ATTR = "KEY1_DRAIN_LOC_KNOWN";
+    final static String KEY2_WIZARD_LOCATION_KNOWN_ATTR = "KEY2_WIZARD_LOC_KNOWN";
+    final static String KEY3_ROVIN_LOCATION_KNOWN_ATTR = "KEY3_ROVIN_LOC_KNOWN";
+    final static String WIZARD_RITUAL_KNOWN_ATTR = "WIZARD_RITUAL_KNOWN";
+    final static String WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR = "WIZARD_KEY_PREVIOUSLY_RETRIEVED";
 
     //Items
     final static int WIZARD_KEY = 2399;
@@ -46,13 +53,13 @@ public class DemonSlayer extends QuestOutline {
 
     @Override
     public int getCompletedStage() {
-  return QUEST_COMPLETE;
+  return QUEST_COMPLETE_STAGE;
  }
     @Override
     public ArrayList<String> getJournalLines(Player player, int stage) {
         ArrayList<String> lines = new ArrayList<String>();
         switch (stage) {
-        case NOT_STARTED:
+        case NOT_STARTED_STAGE:
             lines.add("A mighty demon is being summoned to destroy the city");
             lines.add("of Varrock. You are the one destined to stop him.");
             lines.add("");
@@ -63,24 +70,24 @@ public class DemonSlayer extends QuestOutline {
             lines.add("the demon and complete this quest.");
             lines.add("");
             break;
-        case AFTER_GYPSY_ARIS_INTRO:
+        case AFTER_GYPSY_ARIS_INTRO_STAGE:
             lines.add("Gypsy Aris says Sir Prysin knows where Silverlight");
             lines.add("would be. I can find him in the first floor of Varrock");
             lines.add("castle to the south west.");
             lines.add("");
             break;
-        case AFTER_SIR_PRYSIN_INTRO:
-        case KEY1_DRAIN_LOCATION_KNOWN:
-        case KEY2_WIZARD_LOCATION_KNOWN:
-        case KEY3_ROVIN_LOCATION_KNOWN:
-        case WIZARD_RITUAL_KNOWN:
-        case WIZARD_KEY_PREVIOUSLY_RETRIEVED:
+        case AFTER_SIR_PRYSIN_INTRO_STAGE:
+        case KEY1_DRAIN_LOCATION_KNOWN_STAGE:
+        case KEY2_WIZARD_LOCATION_KNOWN_STAGE:
+        case KEY3_ROVIN_LOCATION_KNOWN_STAGE:
+        case WIZARD_RITUAL_KNOWN_STAGE:
+        case WIZARD_KEY_PREVIOUSLY_RETRIEVED_STAGE:
             lines.add("Sir Prysin says Silverlight was placed in a special");
             lines.add("box. It can only be opened with special keys...");
             lines.add("");
 
             //---Sir Prysin---
-            if(isStageInPlayerSave(player, KEY1_DRAIN_LOCATION_KNOWN)) {
+            if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(KEY1_DRAIN_LOCATION_KNOWN_ATTR)) {
                 lines.add("Sir Prysin's key is stuck in a drain North West");
                 lines.add("of Varrock castle. I can use a bucket of water");
                 lines.add("to push it into the sewers.");
@@ -97,12 +104,12 @@ public class DemonSlayer extends QuestOutline {
             }
             //------
 
-            if(isStageInPlayerSave(player, KEY2_WIZARD_LOCATION_KNOWN)) {
+            if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(KEY2_WIZARD_LOCATION_KNOWN_ATTR)) {
                 lines.add("I can speak to Wizard Traiborn in the wizards");
                 lines.add("tower to ask about the 2nd key.");
                 lines.add("");
             }
-            if(isStageInPlayerSave(player, WIZARD_RITUAL_KNOWN)) {
+            if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(WIZARD_RITUAL_KNOWN_ATTR)) {
                 lines.add("Wizard Traiborn needs 25 unnoted regular bones for");
                 lines.add("a ritual to get a silverlight key.");
                 lines.add("");
@@ -112,7 +119,7 @@ public class DemonSlayer extends QuestOutline {
                 lines.add("");
             }
 
-            if(isStageInPlayerSave(player, KEY3_ROVIN_LOCATION_KNOWN)) {
+            if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(KEY3_ROVIN_LOCATION_KNOWN_ATTR)) {
                 lines.add("I can speak to Roving in the North West tower");
                 lines.add("on the 3rd floor for his key.");
                 lines.add("");
@@ -123,12 +130,13 @@ public class DemonSlayer extends QuestOutline {
                 lines.add("");
             }
             break;
-        case SILVERLIGHT_OBTAINED:
+        case SILVERLIGHT_OBTAINED_STAGE:
             lines.add("I can now fight Delrith at the Dark Wizards altar");
             lines.add("I must bring Silverlight for the scene to occur.");
+            lines.add("If I forgot the incantation I can ask Gypsy Aris");
             lines.add("");
             break;
-        case QUEST_COMPLETE:
+        case QUEST_COMPLETE_STAGE:
             lines.add("");
             lines.add("QUEST COMPLETE!");
             break;
@@ -208,7 +216,7 @@ public class DemonSlayer extends QuestOutline {
                 return;
             Player p = e.getPlayer();
 
-            if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED || p.getTempB("FinalDemonSlayerCutscene"))
+            if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempB("FinalDemonSlayerCutscene"))
                 return;
             if(!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight"))
                 return;
