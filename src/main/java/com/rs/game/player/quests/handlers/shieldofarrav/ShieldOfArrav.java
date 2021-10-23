@@ -13,6 +13,7 @@ import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.net.decoders.handlers.ObjectHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -28,33 +29,62 @@ import java.util.List;
 @PluginEventHandler
 public class ShieldOfArrav extends QuestOutline {
     //---Stages---
-    final static int NOT_STARTED = 0;
+    final static int NOT_STARTED_STAGE = 0;
 
     //Starting quest
-    final static int FIND_BOOK = 1;
-    final static int BOOK_IS_READ = 2;
-    final static int TALK_TO_BARAEK = 3;
-    final static int AFTER_BRIBE_BARAEK = 4;
+    final static int FIND_BOOK_STAGE = 1;
+    final static int BOOK_IS_READ_STAGE = 2;
+    final static int TALK_TO_BARAEK_STAGE = 3;
+    final static int AFTER_BRIBE_BARAEK_STAGE = 4;
 
     //Inititiation Phoenix gang
-    final static int PROVING_LOYALTY_PHOENIX = 5;
+    final static int PROVING_LOYALTY_PHOENIX_STAGE = 5;
 
     //Initiation Black arm gang
-    final static int AFTER_BRIBE_CHARLIE = 20;
-    final static int PROVING_LOYALTY_BLACK_ARM = 21;
+    final static int AFTER_BRIBE_CHARLIE_STAGE = 20;
+    final static int PROVING_LOYALTY_BLACK_ARM_STAGE = 21;
 
     //Gang activity
-    final public static int JOINED_PHOENIX = 22;
+    final public static int JOINED_PHOENIX_STAGE = 22;
 
     //Gang activity
-    final public static int JOINED_BLACK_ARM = 23;
+    final public static int JOINED_BLACK_ARM_STAGE = 23;
 
     //King Roald
-    final public static int HAS_SHIELD = 24;
-    final public static int SPOKE_TO_KING = 25;
-    final public static int HAS_CERTIFICATE = 26;
-    final static int QUEST_COMPLETE = 27;
+    final public static int HAS_SHIELD_STAGE = 24;
+    final public static int SPOKE_TO_KING_STAGE = 25;
+    final public static int HAS_CERTIFICATE_STAGE = 26;
+    final static int QUEST_COMPLETE_STAGE = 27;
     //------
+
+    //---Attributes---
+    final static String NOT_STARTED_ATTR = "NOT_STARTED";
+
+    //Starting quest
+    final static String FIND_BOOK_ATTR = "FIND_BOOK";
+    final static String BOOK_IS_READ_ATTR = "BOOK_IS_READ";
+    final static String TALK_TO_BARAEK_ATTR = "TALK_TO_BARAEK";
+    final static String AFTER_BRIBE_BARAEK_ATTR = "AFTER_BRIBE_BARAEK";
+
+    //Inititiation Phoenix gang
+    final static String PROVING_LOYALTY_PHOENIX_ATTR = "PROVING_LOYALTY_PHOENIX";
+
+    //Initiation Black arm gang
+    final static String AFTER_BRIBE_CHARLIE_ATTR = "AFTER_BRIBE_CHARLIE";
+    final static String PROVING_LOYALTY_BLACK_ARM_ATTR = "PROVING_LOYALTY_BLACK_ARM";
+
+    //Gang activity
+    final public static String JOINED_PHOENIX_ATTR = "JOINED_PHOENIX";
+
+    //Gang activity
+    final public static String JOINED_BLACK_ARM_ATTR = "JOINED_BLACK_ARM";
+
+    //King Roald
+    final public static String HAS_SHIELD_ATTR = "HAS_SHIELD";
+    final public static String SPOKE_TO_KING_ATTR = "SPOKE_TO_KING";
+    final public static String HAS_CERTIFICATE_ATTR = "HAS_CERTIFICATE";
+    //------
+    
 
     final static String STAGE_MAP_ID = "ShieldOfArravStages";
 
@@ -71,14 +101,14 @@ public class ShieldOfArrav extends QuestOutline {
 
 	@Override
 	public int getCompletedStage() {
-		return QUEST_COMPLETE;
+		return QUEST_COMPLETE_STAGE;
 	}
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<String>();
 		switch(stage) {
-            case NOT_STARTED:
+            case NOT_STARTED_STAGE:
                 lines.add("Varrockian literature tells of a valuable shield.");
                 lines.add("It was stolen long ago from the Museum of Varrock,");
                 lines.add("by a gang of professional thieves. See if you can");
@@ -89,22 +119,22 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("in the Varrock palace library.");
                 lines.add("");
                 break;
-            case FIND_BOOK:
+            case FIND_BOOK_STAGE:
                 lines.add("Look for a book in the bookshelves around Reldo");
                 lines.add("You also must read the book then talk to Reldo");
                 lines.add("Turn to page 2");
                 lines.add("");
 			    break;
-            case BOOK_IS_READ:
+            case BOOK_IS_READ_STAGE:
                 lines.add("Talk to Reldo");
                 lines.add("");
                 break;
-            case TALK_TO_BARAEK:
+            case TALK_TO_BARAEK_STAGE:
                 lines.add("Reldo said I should talk to Baraek about the");
                 lines.add("Pheonix gang at central square in Varrock");
                 lines.add("");
                 break;
-            case AFTER_BRIBE_BARAEK://good here
+            case AFTER_BRIBE_BARAEK_STAGE://good here
                 lines.add("I have bribed Baraek.");
                 lines.add("");
                 lines.add("If I wish to join the Phoenix Gang I must");
@@ -115,21 +145,21 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("speak to Charlie The Tramp to get directions.");
                 lines.add("");
                 break;
-            case AFTER_BRIBE_CHARLIE:
+            case AFTER_BRIBE_CHARLIE_STAGE:
                 lines.add("I have bribed Charlie the Tramp and discovered");
                 lines.add("the location of the black arm gang. If I wish to");
                 lines.add("join them I must speak to Katrine and prove my");
                 lines.add("loyalty.");
                 lines.add("");
                 break;
-            case PROVING_LOYALTY_PHOENIX:
+            case PROVING_LOYALTY_PHOENIX_STAGE:
                 lines.add("I have spoken with Straven, a Phoenix gang");
                 lines.add("member. To prove my loyalty I must kill");
                 lines.add("a Black Arm gang informant, Johnny the Beard ");
                 lines.add("at the blue moon inn and retrieve his intelligence");
                 lines.add("report then give it to Straven");
                 lines.add("");
-                if(isStageInPlayerSave(player, AFTER_BRIBE_CHARLIE)) {
+                if(isStageInPlayerSave(player, AFTER_BRIBE_CHARLIE_STAGE)) {
                     lines.add("If I am feeling doubt Charlie says I can speak");
                     lines.add("to Katrine to join the Black Arm Gang");
                 } else {
@@ -138,7 +168,7 @@ public class ShieldOfArrav extends QuestOutline {
                 }
                 lines.add("");
                 break;
-            case PROVING_LOYALTY_BLACK_ARM:
+            case PROVING_LOYALTY_BLACK_ARM_STAGE:
                 lines.add("I have spoken with Katrine, a Black Arm Gang");
                 lines.add("member. To join the Black Arm Gang I must find");
                 lines.add("two Phoenix Gang crossbows and bring them to her.");
@@ -153,32 +183,32 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("to Straven to join the Phoenix Gang.");
                 lines.add("");
                 break;
-            case JOINED_PHOENIX:
-                if(ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_PHOENIX)) {
+            case JOINED_PHOENIX_STAGE:
+                if(ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_PHOENIX_STAGE)) {
                     lines.add("You have joined the Phoenix Gang");
                     lines.add("I should find the Shield Of Arrav");
                     lines.add("at their hideout");
                     lines.add("");
                 }
                 break;
-            case JOINED_BLACK_ARM:
-                if(ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_BLACK_ARM)) {
+            case JOINED_BLACK_ARM_STAGE:
+                if(ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_BLACK_ARM_STAGE)) {
                     lines.add("You have joined the Black Arm Gang");
                     lines.add("I should find the Shield Of Arrav");
                     lines.add("at their hideout");
                     lines.add("");
                 }
                 break;
-            case HAS_SHIELD:
+            case HAS_SHIELD_STAGE:
                 lines.add("You should bring the shield half to King Roald");
                 lines.add("");
                 break;
-            case SPOKE_TO_KING:
+            case SPOKE_TO_KING_STAGE:
                 lines.add("I should get the shield authenticated by");
                 lines.add("the museum curator.");
                 lines.add("");
                 break;
-            case HAS_CERTIFICATE:
+            case HAS_CERTIFICATE_STAGE:
                 lines.add("Somehow I must get the other certificate half");
                 if(!ShieldOfArrav.hasGang(player)) {
                     lines.add("You dont' have a gang but the quest is complete");
@@ -200,7 +230,7 @@ public class ShieldOfArrav extends QuestOutline {
                 }
                 lines.add("");
                 break;
-            case QUEST_COMPLETE:
+            case QUEST_COMPLETE_STAGE:
                 lines.add("");
                 lines.add("");
                 lines.add("QUEST COMPLETE!");
@@ -228,45 +258,56 @@ public class ShieldOfArrav extends QuestOutline {
 	}
 
     public static void saveStageToPlayerSave(Player p, int questStage) {
-        if(p.get(STAGE_MAP_ID) instanceof ArrayList) {
-            ArrayList<Integer> questStages = (ArrayList<Integer>) p.get(STAGE_MAP_ID);
-            questStages.add(questStage);
-            p.save(STAGE_MAP_ID, questStages);
-        } else {
-            ArrayList<Integer> questStages = new ArrayList<>();
-            questStages.add(questStage);
-            p.delete(STAGE_MAP_ID);
-            p.save(STAGE_MAP_ID, questStages);
+        GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
+        switch(questStage) {
+            case NOT_STARTED_STAGE -> {questAttr.setB(NOT_STARTED_ATTR, true);}
+            case FIND_BOOK_STAGE -> {p.delete("claimedArravLamp"); questAttr.setB(FIND_BOOK_ATTR, true);}
+            case BOOK_IS_READ_STAGE -> {questAttr.setB(BOOK_IS_READ_ATTR, true);}
+            case TALK_TO_BARAEK_STAGE -> {questAttr.setB(TALK_TO_BARAEK_ATTR, true);}
+            case AFTER_BRIBE_BARAEK_STAGE -> {questAttr.setB(AFTER_BRIBE_BARAEK_ATTR, true);}
+            case PROVING_LOYALTY_PHOENIX_STAGE -> {questAttr.setB(PROVING_LOYALTY_PHOENIX_ATTR, true);}
+            case AFTER_BRIBE_CHARLIE_STAGE -> {questAttr.setB(AFTER_BRIBE_CHARLIE_ATTR, true);}
+            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {questAttr.setB(PROVING_LOYALTY_BLACK_ARM_ATTR, true);}
+            case JOINED_PHOENIX_STAGE -> {questAttr.setB(JOINED_PHOENIX_ATTR, true);}
+            case JOINED_BLACK_ARM_STAGE -> {questAttr.setB(JOINED_BLACK_ARM_ATTR, true);}
+            case HAS_SHIELD_STAGE -> {questAttr.setB(HAS_SHIELD_ATTR, true);}
+            case SPOKE_TO_KING_STAGE -> {questAttr.setB(SPOKE_TO_KING_ATTR, true);}
+            case HAS_CERTIFICATE_STAGE -> {questAttr.setB(HAS_CERTIFICATE_ATTR, true);}
         }
     }
 
     public static boolean isStageInPlayerSave(Player p, int questStage) {
-        if(p.get(STAGE_MAP_ID) instanceof ArrayList) {
-            return ((ArrayList<Integer>) p.get(STAGE_MAP_ID)).contains((double)questStage) ||
-                    ((ArrayList<Integer>) p.get(STAGE_MAP_ID)).contains(questStage);
-        } else {
-            return false;
+        GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
+        switch(questStage) {
+            case NOT_STARTED_STAGE -> {return questAttr.getB(NOT_STARTED_ATTR);}
+            case FIND_BOOK_STAGE -> {return questAttr.getB(FIND_BOOK_ATTR);}
+            case BOOK_IS_READ_STAGE -> {return questAttr.getB(BOOK_IS_READ_ATTR);}
+            case TALK_TO_BARAEK_STAGE -> {return questAttr.getB(TALK_TO_BARAEK_ATTR);}
+            case AFTER_BRIBE_BARAEK_STAGE -> {return questAttr.getB(AFTER_BRIBE_BARAEK_ATTR);}
+            case PROVING_LOYALTY_PHOENIX_STAGE -> {return questAttr.getB(PROVING_LOYALTY_PHOENIX_ATTR);}
+            case AFTER_BRIBE_CHARLIE_STAGE -> {return questAttr.getB(AFTER_BRIBE_CHARLIE_ATTR);}
+            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {return questAttr.getB(PROVING_LOYALTY_BLACK_ARM_ATTR);}
+            case JOINED_PHOENIX_STAGE -> {return questAttr.getB(JOINED_PHOENIX_ATTR);}
+            case JOINED_BLACK_ARM_STAGE -> {return questAttr.getB(JOINED_BLACK_ARM_ATTR);}
+            case HAS_SHIELD_STAGE -> {return questAttr.getB(HAS_SHIELD_ATTR);}
+            case SPOKE_TO_KING_STAGE -> {return questAttr.getB(SPOKE_TO_KING_ATTR);}
+            case HAS_CERTIFICATE_STAGE -> {return questAttr.getB(HAS_CERTIFICATE_ATTR);}
+            default -> {return false;}
         }
     }
 
-    public static void reset(Player p) {
-        p.getQuestManager().setStage(Quest.forId(63), 0, true);
-        p.delete(STAGE_MAP_ID);
-        p.delete("claimedArravLamp");
-    }
-
     public static boolean hasGang(Player p) {
-	    if(isStageInPlayerSave(p, JOINED_BLACK_ARM) || isStageInPlayerSave(p, JOINED_PHOENIX))
+	    if(isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE) || isStageInPlayerSave(p, JOINED_PHOENIX_STAGE))
 	        return true;
 	    return false;
     }
 
     public static boolean isPhoenixGang(Player p) {
-        return isStageInPlayerSave(p, JOINED_PHOENIX);
+        return isStageInPlayerSave(p, JOINED_PHOENIX_STAGE);
     }
 
     public static boolean isBlackArmGang(Player p) {
-        return isStageInPlayerSave(p, JOINED_BLACK_ARM);
+        return isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE);
     }
 
     public static void setStage(Player p, int questStage) {
@@ -293,7 +334,7 @@ public class ShieldOfArrav extends QuestOutline {
                 if(!p.getInventory().containsItem(757)) {
                     p.getInventory().addItem(757, 1);
                     p.getPackets().sendGameMessage("You found the book, \"Shield Of Arrav\".");
-                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK)
+                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
                         p.getDialogueManager().execute(new Dialogue() {
                         @Override
                         public void start() {
@@ -346,7 +387,7 @@ public class ShieldOfArrav extends QuestOutline {
         public void handle(ObjectClickEvent e) {
             if (e.getObject().matches(new WorldTile(3247, 9779, 0))) {
                 if (e.getOption().equalsIgnoreCase("open")) {
-                    if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_PHOENIX) && e.getPlayer().getY() > e.getObject().getY()) {
+                    if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_PHOENIX_STAGE) && e.getPlayer().getY() > e.getObject().getY()) {
                         e.getPlayer().startConversation(new com.rs.game.player.content.dialogue.Dialogue().addNPC(644, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of" +
                                 " the VTAM Corporation are allowed beyond this point."));
                         return;
@@ -364,7 +405,7 @@ public class ShieldOfArrav extends QuestOutline {
         public void handle(ObjectClickEvent e) {
             if (e.getObject().matches(new WorldTile(3185, 3388, 0))) {
                 if (e.getOption().equalsIgnoreCase("open")) {
-                    if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_BLACK_ARM) && e.getPlayer().getY() < e.getObject().getY()) {
+                    if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_BLACK_ARM_STAGE) && e.getPlayer().getY() < e.getObject().getY()) {
                         e.getPlayer().sendMessage("The door seems to be locked from the inside.");
                         return;
                     }
@@ -413,8 +454,8 @@ public class ShieldOfArrav extends QuestOutline {
                 } else {
                     p.sendMessage("You get the right half of the shield of Arrav");
                     p.getInventory().addItem(SHIELD_RIGHT_HALF, 1);
-                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD) {
-                        setStage(p, HAS_SHIELD);
+                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
+                        setStage(p, HAS_SHIELD_STAGE);
                         p.getDialogueManager().execute(new Dialogue() {
                             @Override
                             public void start() {
@@ -481,8 +522,8 @@ public class ShieldOfArrav extends QuestOutline {
                 } else {
                     p.sendMessage("You get the left half of the shield of Arrav");
                     p.getInventory().addItem(SHIELD_LEFT_HALF, 1);
-                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD) {
-                        setStage(p, HAS_SHIELD);
+                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
+                        setStage(p, HAS_SHIELD_STAGE);
                         p.getDialogueManager().execute(new Dialogue() {
                             @Override
                             public void start() {
@@ -536,7 +577,7 @@ public class ShieldOfArrav extends QuestOutline {
     public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[] {CERTIFICATE_LEFT}) {
         @Override
         public void handle(ItemOnItemEvent e) {
-            if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE) {
+            if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
                 e.getPlayer().getInventory().deleteItem(e.getItem1().getId(), 1);
                 e.getPlayer().getInventory().deleteItem(e.getItem2().getId(), 1);
                 e.getPlayer().getInventory().addItem(CERTIFICATE_FULL, 1);

@@ -110,8 +110,8 @@ public class BookShieldOfArrav {
                 set1stPage(e.getPlayer());
             if(page == 2) {
                 set2ndPage(e.getPlayer());
-                if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK)
-                    ShieldOfArrav.setStage(e.getPlayer(), ShieldOfArrav.BOOK_IS_READ);
+                if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
+                    ShieldOfArrav.setStage(e.getPlayer(), ShieldOfArrav.BOOK_IS_READ_STAGE);
             }
 
 

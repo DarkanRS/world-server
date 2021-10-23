@@ -36,7 +36,7 @@ public class CharlieTheTrampArravD extends Conversation {
                                 "pretty dangerous.")
                         .addNext(() -> {
                             p.getInventory().deleteItem(995, 10);
-                            ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE);
+                            ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE_STAGE);
                         }));
                 option("10 gold? That's too much. (Pay 5 gold.)", new Dialogue()
                         .addNPC(CHARLIE, HeadE.HAPPY_TALKING, "I guess that'll have to do, then.")
@@ -60,7 +60,7 @@ public class CharlieTheTrampArravD extends Conversation {
                                         .addPlayer(HeadE.VERY_FRUSTRATED, "I guess I don't have a choice.")
                                         .addSimple("You pay Charlie 5 gold", () -> {
                                             p.getInventory().deleteItem(995, 5);
-                                            ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE);
+                                            ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE_STAGE);
                                         })
                                         .addNPC(CHARLIE, HeadE.SECRETIVE, "The ruthless and notorious Black Arm Gang have their headquarters down the alleyway " +
                                                 "to the west of us.")
@@ -76,7 +76,7 @@ public class CharlieTheTrampArravD extends Conversation {
         addOptions("Choose an option:", new Options() {
             @Override
             public void create() {
-                if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE)) {
+                if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE_STAGE)) {
                     option("What's in it for me?", new Dialogue()
                             .addPlayer(HeadE.TALKING_ALOT, "What's in it for me?")
                             .addNPC(CHARLIE, HeadE.TALKING_ALOT, "'What's in it for me?' Whatever happened to charity? Have you no consideration for those " +
@@ -91,7 +91,7 @@ public class CharlieTheTrampArravD extends Conversation {
                                 " west of us.")
                         .addNPC(CHARLIE, HeadE.SECRETIVE, "Talk to a lady called Katrine. But don't upset her, and tell her I sent you. She's " +
                                 "pretty dangerous."));
-                } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_BARAEK)) {
+                } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE)) {
                     option("What's in it for me?", new Dialogue()
                         .addPlayer(HeadE.TALKING_ALOT, "What's in it for me?")
                         .addNPC(CHARLIE, HeadE.TALKING_ALOT, "I know you're looking for the Black Arm Gang.")

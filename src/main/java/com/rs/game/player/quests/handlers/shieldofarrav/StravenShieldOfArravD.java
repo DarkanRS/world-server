@@ -15,7 +15,7 @@ public class StravenShieldOfArravD extends Conversation {
     public StravenShieldOfArravD(Player p) {
         super(p);
 
-        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.PROVING_LOYALTY_PHOENIX) {
+        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE) {
             conversationOptions(p);
             return;
         }
@@ -35,7 +35,7 @@ public class StravenShieldOfArravD extends Conversation {
     }
 
     private void conversationOptions(Player p) {
-        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM)) {
+        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE)) {
             //Something
         } else if(ShieldOfArrav.isPhoenixGang(p)) {
 
@@ -84,7 +84,7 @@ public class StravenShieldOfArravD extends Conversation {
                     option("Farewell.");
                 }
             });
-        } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX)) {
+        } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE)) {
             addNPC(STRAVEN, HeadE.SECRETIVE, "How's your little mission going?");
             if(p.getInventory().containsItem(INTEL_REPORT)) {
                 addPlayer(HeadE.HAPPY_TALKING, "I have the intelligence report!");
@@ -96,7 +96,7 @@ public class StravenShieldOfArravD extends Conversation {
                         "front of this building.", () -> {
                     p.getInventory().deleteItem(INTEL_REPORT, 1);
                     p.save("ShieldOfArravGang", "Phoenix");
-                    ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX, true);
+                    ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX_STAGE, true);
                     p.getInventory().addItem(WEAPONS_KEY, 1);
                 });
             } else if(p.getBank().containsItem(INTEL_REPORT, 1)) {
@@ -109,7 +109,7 @@ public class StravenShieldOfArravD extends Conversation {
                 addNPC(HeadE.SECRETIVE, "You need to kill Jonny the Beard, who should be in the Blue Moon Inn. ...I would guess. Not being a member of " +
                         "the Phoenix Gang and all.");
             }
-        } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_BARAEK)) {
+        } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE)) {
             addOptions("Choose an option:", new Options() {
                 @Override
                 public void create() {
@@ -137,7 +137,7 @@ public class StravenShieldOfArravD extends Conversation {
                                                     "were to kill him and bring back his intelligence report, they would be considered loyal enough to join.")
                                             .addPlayer(HeadE.TALKING_ALOT, "I'll get right on it.")
                                             .addNext(() -> {
-                                                ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX, false);
+                                                ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE, false);
                                             }));
                                     option("I want nothing. I was just making sure you were them.", new Dialogue()
                                             .addPlayer(HeadE.SCARED, "I want nothing. I was just making sure you were them.")

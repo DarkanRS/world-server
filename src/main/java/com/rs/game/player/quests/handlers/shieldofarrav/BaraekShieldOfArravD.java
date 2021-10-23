@@ -13,7 +13,7 @@ public class BaraekShieldOfArravD extends Conversation {
     public BaraekShieldOfArravD(Player p) {
         super(p);
         switch(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV)) {
-            case ShieldOfArrav.TALK_TO_BARAEK:
+            case ShieldOfArrav.TALK_TO_BARAEK_STAGE:
                 addOptions("Choose an option: ", new Options() {
                     @Override
                     public void create() {
@@ -30,9 +30,9 @@ public class BaraekShieldOfArravD extends Conversation {
                                 if(p.getInventory().containsItem(995, 10)) {
                                     option("Alright. Have 10 gold coins.", new Dialogue()
                                             .addSimple("You give him 10 coins", () -> {
-                                                if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.TALK_TO_BARAEK) {
+                                                if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.TALK_TO_BARAEK_STAGE) {
                                                     p.getInventory().deleteItem(995, 10);
-                                                    ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_BARAEK);
+                                                    ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE);
                                                 }
                                             }).addNPC(BARAEK, HeadE.SECRETIVE, "To get to the gang hideout, enter Varrock through the south gate. Then, if you take the first turn east, " +
                                                     "somewhere along there is an alleyway to the south.")
@@ -80,7 +80,7 @@ public class BaraekShieldOfArravD extends Conversation {
                     }
                 });
                 break;
-            case ShieldOfArrav.AFTER_BRIBE_BARAEK:
+            case ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE:
                 addOptions("Choose an option:", new Options() {
                     @Override
                     public void create() {

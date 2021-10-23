@@ -16,7 +16,7 @@ public class MuseumCuratorArravD extends Conversation {
         super(p);
         addPlayer(HeadE.HAPPY_TALKING, "Hello.");
         addNPC(CURATOR, HeadE.CALM_TALK, "Hi.");
-        if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING)
+        if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING_STAGE)
             tradeShield(p);
         else {
             addNPC(CURATOR, HeadE.CALM_TALK, "Do you have anything for me?");
@@ -26,7 +26,7 @@ public class MuseumCuratorArravD extends Conversation {
 
     public MuseumCuratorArravD(Player p, boolean restartConversation) {
         super(p);
-        if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING)
+        if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING_STAGE)
             tradeShield(p);
     }
 
@@ -45,20 +45,20 @@ public class MuseumCuratorArravD extends Conversation {
             if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_LEFT_HALF, 1)) {
                 p.getInventory().deleteItem(ShieldOfArrav.SHIELD_LEFT_HALF, 1);
                 p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_LEFT, 2);
-                ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE);
+                ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE_STAGE);
             }
             if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_RIGHT_HALF, 1)) {
                 p.getInventory().deleteItem(ShieldOfArrav.SHIELD_RIGHT_HALF, 1);
                 p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_RIGHT, 2);
-                ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE);
+                ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE_STAGE);
             }
         });
         addNPC(CURATOR, HeadE.CALM_TALK, "Of course, you won't actually be able to claim the reward with only half the reward certificate...");
         addPlayer(HeadE.CONFUSED, "What? I went through a lot of trouble to get that shield piece and now you tell me it was for nothing? That's not very fair!");
         addNPC(CURATOR, HeadE.CALM_TALK, "Well, if you were to get me the other half of the shield, I could give you the other half of the reward certificate.");
-        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_PHOENIX))
+        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_PHOENIX_STAGE))
             addNPC(CURATOR, HeadE.CALM_TALK, "It's rumoured to be in the possession of the infamous Black Arm Gang, beyond that I can't help you.");
-        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM))
+        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE))
             addNPC(CURATOR, HeadE.CALM_TALK, "It's rumoured to be in the possession of the infamous Phoenix Gang, beyond that I can't help you.");
         addPlayer(HeadE.SKEPTICAL, "Okay, I'll see what I can do.");
     }
