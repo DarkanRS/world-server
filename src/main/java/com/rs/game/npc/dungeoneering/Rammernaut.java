@@ -133,7 +133,6 @@ public class Rammernaut extends DungeonBoss {
 			    return defs.getAttackDelay();
 			}
 		    }
-		//    System.out.println("Time to charge " + chargeCount);
 		    return 0;
 		}*/
 	}

@@ -256,8 +256,6 @@ public final class Dungeon {
 			}
 		}
 
-		if (Settings.getConfig().isDebug())
-			System.out.println("Dungeon roomCount: " + creationCount);
 	}
 
     public long getSeed() {

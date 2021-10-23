@@ -74,8 +74,6 @@ public class DungeonStructure {
 		double multiplier = 1D - ((double) (6D - complexity) * 0.06D);
 		maxSize *= multiplier;
 		minSize *= multiplier;
-		if (Settings.getConfig().isDebug())
-			System.out.println("max: " + maxSize + ", min: " + minSize + ", " + multiplier);
 		//Create gaps by removing random DE's
 		int remove = rooms.length * rooms[0].length - maxSize +  random.nextInt(maxSize - minSize);
 		for (int i = 0; i < remove; i++) {

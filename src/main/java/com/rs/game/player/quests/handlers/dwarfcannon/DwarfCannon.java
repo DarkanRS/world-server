@@ -138,7 +138,6 @@ public class DwarfCannon extends QuestOutline {
 	public static ButtonClickHandler handleToolkit = new ButtonClickHandler(409) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			System.out.println(e.getInterfaceId() + ", " + e.getComponentId());
 		}
 	};
 	

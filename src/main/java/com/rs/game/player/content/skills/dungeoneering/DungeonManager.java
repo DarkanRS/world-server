@@ -233,7 +233,6 @@ public class DungeonManager {
 
 	public boolean enterRoom(Player player, int x, int y) {
 		if (x < 0 || y < 0 || x >= visibleMap.length || y >= visibleMap[0].length) {
-			// System.out.println("ivalid room");
 			return false;
 		}
 		RoomReference roomReference = getCurrentRoomReference(player);

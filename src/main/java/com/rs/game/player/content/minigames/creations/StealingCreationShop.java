@@ -47,8 +47,6 @@ public class StealingCreationShop {
 				index = 6;
 			if (index != -1)
 				select(e.getPlayer(), index);
-//			else if (componentId == 45)
-//				System.out.println("componentId =" + componentId);
 			purchase(e.getPlayer());
 		}
 	};

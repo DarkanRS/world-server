@@ -245,7 +245,6 @@ public class Taverly {
         @Override
         public void handle(NPCClickEvent e) {
             int option = e.getOpNum();
-            System.out.println(option);
             if (option == 1 || option == 3) {
                 e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
                     {
