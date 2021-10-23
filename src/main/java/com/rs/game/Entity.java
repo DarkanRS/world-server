@@ -1167,7 +1167,7 @@ public abstract class Entity extends WorldTile {
 		return temporaryAttributes;
 	}
 	
-	public GenericAttribMap getNonSavingVars() {
+	public GenericAttribMap getNSV() {
 		return nonsavingVars;
 	}
 

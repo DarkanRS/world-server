@@ -31,7 +31,7 @@ public class DungeoneeringSmithing extends Action {
 			player.sendMessage("You can't smith that.");
 			return;
 		}
-		player.getTempAttribs().put("dungBar", item.getId());
+		player.getTempAttribs().setI("dungBar", item.getId());
 		player.getInterfaceManager().sendInterface(934);
 		for (int i = 0;i < prods.length;i++) {
 			player.getPackets().setIFItem(934, BASE_COMPONENTS[i], prods[i].product.getId(), prods[i].product.getAmount());
@@ -50,11 +50,11 @@ public class DungeoneeringSmithing extends Action {
 	}
 	
 	public static void handleButtons(Player player, ClientPacket packetId, int componentId) {
-		if (player.getTempAttribs().get("dungBar") == null || !(player.getTempAttribs().get("dungBar") instanceof Integer)) {
+		if (player.getTempAttribs().getI("dungBar") == -1) {
 			player.closeInterfaces();
 			return;
 		}
-		int barId = (int) player.getTempAttribs().get("dungBar");
+		int barId = player.getTempAttribs().getI("dungBar");
 		DungSmithables[] prods = DungSmithables.forBar(barId);
 		if (prods == null)
 			return;

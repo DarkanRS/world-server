@@ -8,12 +8,12 @@ public class ClickWorldMapHandler implements PacketHandler<Player, WorldMapClick
 
 	@Override
 	public void handle(Player player, WorldMapClick packet) {
-		Integer hash = (Integer) player.getTempAttribs().get("worldHash");
-		if (hash == null || packet.getTile().getTileHash() != hash)
-			player.getTempAttribs().put("worldHash", packet.getTile().getTileHash());
+		int hash = player.getTempAttribs().getI("worldHash");
+		if (packet.getTile().getTileHash() != hash)
+			player.getTempAttribs().setI("worldHash", packet.getTile().getTileHash());
 		else {
 			player.getHintIconsManager().removeAll();
-			player.getTempAttribs().remove("worldHash");
+			player.getTempAttribs().removeI("worldHash");
 			player.getHintIconsManager().addHintIcon(packet.getTile().getX(), packet.getTile().getY(), packet.getTile().getPlane(), 20, 0, 2, -1, true);
 			player.getVars().setVar(1159, packet.getTile().getTileHash());
 		}

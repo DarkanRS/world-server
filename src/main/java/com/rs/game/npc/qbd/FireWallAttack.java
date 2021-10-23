@@ -88,14 +88,14 @@ public final class FireWallAttack implements QueenAttack {
 				}
 			}
 		}, 1);
-		npc.getTempAttribs().put("fire_wall_tick_", npc.getTicks() + Utils.random((waves * 7) + 5, 60));
+		npc.getTempAttribs().setI("fire_wall_tick_", npc.getTicks() + Utils.random((waves * 7) + 5, 60));
 		return 8 + (waves * 2);
 	}
 
 	@Override
 	public boolean canAttack(QueenBlackDragon npc, Player victim) {
-		Integer tick = (Integer) npc.getTempAttribs().get("fire_wall_tick_");
-		return tick == null || tick < npc.getTicks();
+		int tick = npc.getTempAttribs().getI("fire_wall_tick_");
+		return tick == -1 || tick < npc.getTicks();
 	}
 
 }

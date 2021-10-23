@@ -70,7 +70,7 @@ public class Bank {
 	public static ButtonClickHandler handleInvButtons = new ButtonClickHandler(762) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if ((Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") != null && (Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") == true)
+			if (e.getPlayer().getTempAttribs().getB("viewingOtherBank"))
 				return;
 			if (e.getComponentId() == 15)
 				e.getPlayer().getBank().switchInsertItems();
@@ -135,7 +135,7 @@ public class Bank {
 	public static ButtonClickHandler handleBankButtons = new ButtonClickHandler(763) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if ((Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") != null && (Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") == true)
+			if (e.getPlayer().getTempAttribs().getB("viewingOtherBank"))
 				return;
 			if (e.getComponentId() == 0) {
 				if (e.getPacket() == ClientPacket.IF_OP1)
@@ -267,7 +267,7 @@ public class Bank {
 	}
 
 	public void depositAllInventory(boolean banking) {
-		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
+		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		if (Bank.MAX_BANK_SIZE - getBankSize() < player.getInventory().getItems().getSize()) {
 			player.sendMessage("Not enough space in your bank.");
@@ -281,7 +281,7 @@ public class Bank {
 	}
 
 	public void depositAllBob(boolean banking) {
-		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
+		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		Familiar familiar = player.getFamiliar();
 		if (familiar == null || familiar.getBob() == null)
@@ -299,7 +299,7 @@ public class Bank {
 	}
 
 	public void depositAllEquipment(boolean banking) {
-		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
+		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		int space = addItems(player.getEquipment().getItemsCopy(), banking);
 		if (space != 0) {
@@ -423,7 +423,7 @@ public class Bank {
 	}
 
 	public void openDepositBox() {
-		player.getTempAttribs().put("viewingOtherBank", Boolean.FALSE);
+		player.getTempAttribs().setB("viewingOtherBank", false);
 		player.getInterfaceManager().sendInterface(11);
 		player.getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.EQUIPMENT);
 		player.getInterfaceManager().openGameTab(Tab.FRIENDS);
@@ -454,9 +454,9 @@ public class Bank {
 	public void openPinSettings() {
 		if (!checkPin())
 			return;
-		player.setTempB("settingPin", false);
-		player.setTempB("cancellingPin", false);
-		player.setTempB("changingPin", false);
+		player.getTempAttribs().setB("settingPin", false);
+		player.getTempAttribs().setB("cancellingPin", false);
+		player.getTempAttribs().setB("changingPin", false);
 		player.getPackets().sendVarc(98, bankPin == 0 ? 0 : 1);
 		player.getPackets().sendVarcString(344, "Please set a secure pin.<br>0, 0, 0, 0 will be considered as no pin.");
 		player.getInterfaceManager().sendInterface(14);
@@ -471,31 +471,31 @@ public class Bank {
 	}
 
 	public void confirmSetPin() {
-		player.setTempB("settingPin", true);
+		player.getTempAttribs().setB("settingPin", true);
 		sendPinConfirmScreen("Do you really wish to set a PIN on your bank account?", "Yes, I really want a bank PIN. I will never forget it!", "No, I might forget it!");
 	}
 	
 	public void confirmCancelPin() {
-		player.setTempB("cancellingPin", true);
+		player.getTempAttribs().setB("cancellingPin", true);
 		sendPinConfirmScreen("Do you still want your PIN?", "Yes, I asked to cancel my PIN.", "No, I didn't ask to cancel my PIN.");
 	}
 	
 	public void confirmChangePin() {
-		player.setTempB("changingPin", true);
+		player.getTempAttribs().setB("changingPin", true);
 		sendPinConfirmScreen("Do you really want to change your PIN?", "Yes, I asked to change my PIN.", "No, I didn't ask to change my PIN.");
 	}
 	
 	public void openPin() {
-		player.setTempI("pinStage", 0);
-		player.setTempI("enteredPin", 0);
-		player.setTempI("prevPin", -1);
+		player.getTempAttribs().setI("pinStage", 0);
+		player.getTempAttribs().setI("enteredPin", 0);
+		player.getTempAttribs().setI("prevPin", -1);
 		player.getPackets().setIFText(13, 27, "Bank of " + Settings.getConfig().getServerName());
 		player.getInterfaceManager().sendInterface(13);
 		player.getInterfaceManager().setInterface(false, 13, 5, 759);
 		player.getPackets().sendVarc(98, bankPin == 0 ? 0 : 1);
 		player.getVars().setVarBit(1010, 1, true);
 		player.getVars().syncVarsToClient();
-		player.getVars().setVarBit(1010, player.getTempI("pinStage"), true);
+		player.getVars().setVarBit(1010, player.getTempAttribs().getI("pinStage"), true);
 		player.getVars().syncVarsToClient();
 		player.getPackets().sendRunScriptBlank(1107);
 	}
@@ -517,7 +517,7 @@ public class Bank {
 					if (e.getPlayer().getBank().bankPin == 0) {
 						e.getPlayer().getBank().openPin();
 					} else {
-						if (e.getPlayer().getTempB("changingPin")) {
+						if (e.getPlayer().getTempAttribs().getB("changingPin")) {
 							e.getPlayer().getBank().bankPin = 0;
 							e.getPlayer().sendMessage("Your pin has been removed. Please set a new one.");
 							e.getPlayer().getBank().openPin();
@@ -542,37 +542,37 @@ public class Bank {
 				break;
 			case 759:
 				int num = (e.getComponentId() / 4) - 1;
-				e.getPlayer().setTempI("enteredPin", e.getPlayer().getTempI("enteredPin") + (num << (e.getPlayer().getTempI("pinStage") * 4)));
-				e.getPlayer().incTempI("pinStage");
-				if (e.getPlayer().getTempI("pinStage") == 3) {
+				e.getPlayer().getTempAttribs().setI("enteredPin", e.getPlayer().getTempAttribs().getI("enteredPin") + (num << (e.getPlayer().getTempAttribs().getI("pinStage") * 4)));
+				e.getPlayer().getTempAttribs().incI("pinStage");
+				if (e.getPlayer().getTempAttribs().getI("pinStage") == 3) {
 					for (Object ifComp : EnumDefinitions.getEnum(3554).getValues().values())
 						e.getPlayer().getPackets().setIFHidden(Utils.interfaceIdFromHash((int) ifComp), Utils.componentIdFromHash((int) ifComp), false);
-				} else if (e.getPlayer().getTempI("pinStage") == 4) {
+				} else if (e.getPlayer().getTempAttribs().getI("pinStage") == 4) {
 					e.getPlayer().getVars().setVarBit(1010, 4, true);
 					e.getPlayer().getVars().syncVarsToClient();
 					if (e.getPlayer().getBank().bankPin == 0) {
-						if (e.getPlayer().getTempI("prevPin", -1) == -1) {
+						if (e.getPlayer().getTempAttribs().getI("prevPin", -1) == -1) {
 							e.getPlayer().getPackets().setIFText(13, 26, "Please repeat that PIN again.");
-							int prev = e.getPlayer().getTempI("enteredPin");
+							int prev = e.getPlayer().getTempAttribs().getI("enteredPin");
 							e.getPlayer().getBank().openPin();
-							e.getPlayer().setTempI("prevPin", prev);
-							e.getPlayer().setTempI("enteredPin", 0);
-							e.getPlayer().setTempI("pinStage", 0);
+							e.getPlayer().getTempAttribs().setI("prevPin", prev);
+							e.getPlayer().getTempAttribs().setI("enteredPin", 0);
+							e.getPlayer().getTempAttribs().setI("pinStage", 0);
 							e.getPlayer().getVars().setVarBit(1010, 0, true);
 							e.getPlayer().getVars().syncVarsToClient();
 						} else {
-							if (e.getPlayer().getTempI("prevPin") != e.getPlayer().getTempI("enteredPin")) {
+							if (e.getPlayer().getTempAttribs().getI("prevPin") != e.getPlayer().getTempAttribs().getI("enteredPin")) {
 								e.getPlayer().sendMessage("The PIN you entered did not match the first one.");
 								e.getPlayer().closeInterfaces();
 								e.getPlayer().getBank().openPinSettings();
 							} else {
-								e.getPlayer().getBank().bankPin = (short) e.getPlayer().getTempI("prevPin");
+								e.getPlayer().getBank().bankPin = (short) e.getPlayer().getTempAttribs().getI("prevPin");
 								e.getPlayer().sendMessage("Your PIN has been set.");
 								e.getPlayer().closeInterfaces();
 							}
 						}
 					} else {
-						if (e.getPlayer().getTempI("enteredPin") != e.getPlayer().getBank().bankPin) {
+						if (e.getPlayer().getTempAttribs().getI("enteredPin") != e.getPlayer().getBank().bankPin) {
 							e.getPlayer().sendMessage("That PIN was incorrect.");
 						} else {
 							e.getPlayer().sendMessage("You have entered your PIN successfully.");
@@ -589,7 +589,7 @@ public class Bank {
 	public void open() {
 		if (!checkPin())
 			return;
-		player.getTempAttribs().remove("viewingOtherBank");
+		player.getTempAttribs().removeB("viewingOtherBank");
 		player.getVars().setVar(638, 0);
 		player.getVars().setVarBit(8348, 0);
 		refreshTabs();
@@ -614,7 +614,7 @@ public class Bank {
 		refreshTabs(other);
 		sendItemsOther(other);
 		unlockButtons();
-		player.getTempAttribs().put("viewingOtherBank", Boolean.TRUE);
+		player.getTempAttribs().setB("viewingOtherBank", true);
 	}
 
 	public void refreshLastX() {
@@ -643,7 +643,7 @@ public class Bank {
 	}
 
 	public void withdrawItem(int bankSlot, int quantity) {
-		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == Boolean.TRUE)
+		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		if (quantity < 1)
 			return;
@@ -704,7 +704,7 @@ public class Bank {
 	}
 
 	public void depositItem(int invSlot, int quantity, boolean refresh) {
-		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
+		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		if (quantity < 1 || invSlot < 0 || invSlot > 27)
 			return;

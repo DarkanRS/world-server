@@ -231,8 +231,8 @@ public class DungeonRewards {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 64 && e.getPacket() == ClientPacket.IF_OP1) {
-				if (e.getPlayer().getTempAttribs().get("dungReward") != null) {
-					DungeonReward reward = (DungeonReward) e.getPlayer().getTempAttribs().get("dungReward");
+				if (e.getPlayer().getTempAttribs().getO("dungReward") != null) {
+					DungeonReward reward = e.getPlayer().getTempAttribs().getO("dungReward");
 					if (reward != null) {
 						if (e.getPlayer().getSkills().getLevelForXp(Constants.DUNGEONEERING) < reward.getRequirement()) {
 							e.getPlayer().sendMessage("You need " + reward.getRequirement() + " dungeoneering to buy this reward.");
@@ -250,7 +250,7 @@ public class DungeonRewards {
 				return;
 			}
 			if (e.getComponentId() == 48) {
-				DungeonReward reward = (DungeonReward) e.getPlayer().getTempAttribs().get("dungReward");
+				DungeonReward reward = e.getPlayer().getTempAttribs().getO("dungReward");
 				if (reward != null && e.getPlayer().getDungManager().getTokens() >= reward.getCost()) {
 					if (e.getPlayer().getInventory().hasFreeSlots()) {
 						if (reward.getId() >= 18349 && reward.getId() <= 18374) {
@@ -273,11 +273,11 @@ public class DungeonRewards {
 			if (e.getComponentId() == 2) {
 				DungeonReward reward = DungeonReward.forId(e.getSlotId());
 				if (reward == null) {
-					e.getPlayer().getTempAttribs().remove("dungReward");
+					e.getPlayer().getTempAttribs().removeO("dungReward");
 					e.getPlayer().sendMessage("Reward currently not supported. " + (e.getPlayer().hasRights(Rights.DEVELOPER) ? e.getSlotId() : ""));
 					return;
 				} else {
-					e.getPlayer().getTempAttribs().put("dungReward", reward);
+					e.getPlayer().getTempAttribs().setO("dungReward", reward);
 				}
 			}
 		}
