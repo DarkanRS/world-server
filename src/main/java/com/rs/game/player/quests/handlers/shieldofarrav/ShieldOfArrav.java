@@ -84,9 +84,6 @@ public class ShieldOfArrav extends QuestOutline {
     final public static String SPOKE_TO_KING_ATTR = "SPOKE_TO_KING";
     final public static String HAS_CERTIFICATE_ATTR = "HAS_CERTIFICATE";
     //------
-    
-
-    final static String STAGE_MAP_ID = "ShieldOfArravStages";
 
     //Items
     final static int BOOK = 757;

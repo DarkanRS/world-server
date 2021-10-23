@@ -463,7 +463,11 @@ public class MiscTest {
 				target.getPackets().sendMusic(Integer.valueOf(args[0]), 100, 255);
 			});
 		});
-		
+
+        Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
+            p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
+        });
+
         Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
             p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
         });
@@ -472,23 +476,6 @@ public class MiscTest {
             p.getControllerManager().getController().forceClose();
         });
 
-        Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
-            p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
-        });
-
-        Commands.add(Rights.DEVELOPER, "customcs [id]", "Plays a custom cutscene", (p, args) -> {
-            switch(Integer.valueOf(args[0])) {
-                case 0:
-                    p.getCutscenesManager().play(new ExampleCutscene());
-                    break;
-                case 1:
-//                    p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
-                    break;
-                case 2:
-//                    p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
-                    break;
-            }
-        });
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
 			p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
 		});
