@@ -31,8 +31,8 @@ public class WizardTraibornDemonSlayerD extends Conversation {
         this.p = p;
 
         addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Ello young thingummywut.");
-        if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER) && DemonSlayer.isStageInPlayerSave(p, DemonSlayer.WIZARD_RITUAL_KNOWN)) {
-            if(DemonSlayer.isStageInPlayerSave(p, DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED))
+        if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER) && p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_RITUAL_KNOWN_ATTR)) {
+            if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR))
                 if(p.getInventory().containsItem(DemonSlayer.WIZARD_KEY))
                     ;
                 else {
@@ -96,7 +96,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
                     }
                 }));
                 if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER)
-                    && p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO
+                    && p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
                     && !p.getInventory().containsItem(DemonSlayer.WIZARD_KEY)) {
                     option("I need to get a key given to you by Sir Prysin.", new Dialogue()
                             .addPlayer(HeadE.HAPPY_TALKING, "I need to get a key given to you by Sir Prysin.")
@@ -186,7 +186,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
                 .addPlayer(HeadE.HAPPY_TALKING, "I'll help get the bones for you.")
                 .addNPC(WIZARD_TRAIBORN, HeadE.CALM_TALK, "Ooh that would be very good of you.")
                 .addPlayer(HeadE.HAPPY_TALKING, "Okay, I'll speak to you when I've got some bones.", ()-> {
-                    DemonSlayer.saveStageToPlayerSave(p, DemonSlayer.WIZARD_RITUAL_KNOWN);
+                    p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.WIZARD_RITUAL_KNOWN_ATTR, true);
                 }));
             }
         });
@@ -214,7 +214,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
                 "please, unto me.", () -> {
             p.getInventory().deleteItem(526, 25);
             p.getInventory().addItem(new Item(DemonSlayer.WIZARD_KEY), false);
-            DemonSlayer.saveStageToPlayerSave(p, DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED);
+            p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR, true);
         });
         addPlayer(HeadE.HAPPY_TALKING, "Thank you very much.");
         addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Not a problem for a friend of Sir What's-his-face.");

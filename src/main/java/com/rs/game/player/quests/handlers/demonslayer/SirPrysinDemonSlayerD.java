@@ -33,7 +33,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
         super(p);
         this.p = p;
 
-        if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED) {
+        if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED_STAGE) {
             addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
             addNext(() -> {
                 p.startConversation(new SirPrysinDemonSlayerD(p, SILVERLIGHT_CUTSCENE).getStart());
@@ -41,7 +41,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
             return;
         }
 
-        if(DemonSlayer.isStageInPlayerSave(p, DemonSlayer.AFTER_SIR_PRYSIN_INTRO)) {
+        if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.AFTER_SIR_PRYSIN_INTRO_ATTR)) {
             if(hasAllKeys(p)) {
                 addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
                 addNext(() -> {
@@ -64,7 +64,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
                     option("I'm not sure, I was hoping you could tell me.", new Dialogue()
                             .addPlayer(HeadE.HAPPY_TALKING, "I'm not sure, I was hoping you could tell me.")
                             .addNPC(SIR_PRYSIN, HeadE.SKEPTICAL, "Well I've never met you before."));
-                    if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) == DemonSlayer.AFTER_GYPSY_ARIS_INTRO) {
+                    if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) == DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE) {
                         option("Gypsy Aris said I should come and talk to you.", new Dialogue()
                                 .addPlayer(HeadE.HAPPY_TALKING, "Gypsy Aris said I should come and talk to you.")
                                 .addNPC(SIR_PRYSIN, HeadE.AMAZED_MILD, "Gypsy Aris? Is she still alive? I remember her from when I was pretty young. Well what do you " +
@@ -151,8 +151,8 @@ public class SirPrysinDemonSlayerD extends Conversation {
         addNPC(SIR_PRYSIN, HeadE.NERVOUS, "One I gave to Rovin, the captain of the palace guard.");
         addNPC(SIR_PRYSIN, HeadE.NERVOUS, "I gave the other to the wizard Traiborn.");
         addNext(() -> {
-            DemonSlayer.saveStageToPlayerSave(p, DemonSlayer.AFTER_SIR_PRYSIN_INTRO);
-            p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_SIR_PRYSIN_INTRO);
+            p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.AFTER_SIR_PRYSIN_INTRO_ATTR, true);
+            p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE);
             p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());
         });
     }
@@ -180,20 +180,26 @@ public class SirPrysinDemonSlayerD extends Conversation {
                     .addNPC(SIR_PRYSIN, HeadE.WORRIED, "Um.... ah....")
                     .addNPC(SIR_PRYSIN, HeadE.SAD_MILD_LOOK_DOWN, "Well there's a problem there as well.")
                     .addNPC(SIR_PRYSIN, HeadE.SAD_MILD_LOOK_DOWN, "I managed to drop the key in the drain just outside the palace kitchen. " +
-                            "It is just inside and I can't reach it.", ()->{DemonSlayer.saveStageToPlayerSave(p, DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN);})
+                            "It is just inside and I can't reach it.", ()->{
+                        p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN_ATTR, true);
+                    })
                     .addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
                 option("Where can I find Captain Rovin?", new Dialogue()
                 .addPlayer(HeadE.CALM_TALK, "Where can I find Captain Rovin?")
                 .addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Captain Rovin lives at the top of the guards' quarters in the north-west wing of this" +
-                        " palace.", ()->{DemonSlayer.saveStageToPlayerSave(p, DemonSlayer.KEY3_ROVIN_LOCATION_KNOWN);})
+                        " palace.", ()->{
+                    p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.KEY3_ROVIN_LOCATION_KNOWN_ATTR, true);
+                })
                 .addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
                 option("Where does the wizard live?", new Dialogue()
                 .addPlayer(HeadE.CALM_TALK, "Where does the wizard live?")
                 .addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Wizard Traiborn?")
                 .addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "He is one of the wizards who lives in the tower on the little island just off the south coast. " +
-                        "I believe his quarters are on the first floor of the tower.", ()->{DemonSlayer.saveStageToPlayerSave(p, DemonSlayer.KEY2_WIZARD_LOCATION_KNOWN);})
+                        "I believe his quarters are on the first floor of the tower.", ()->{
+                    p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.KEY2_WIZARD_LOCATION_KNOWN_ATTR, true);
+                })
                 .addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
-                if(DemonSlayer.isStageInPlayerSave(p, DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN))
+                if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN_ATTR))
                     option("So what does the drain lead to?", new Dialogue()
                     .addPlayer(HeadE.SKEPTICAL_THINKING, "So what does the drain connect to?")
                     .addNPC(SIR_PRYSIN, HeadE.CALM_TALK, "It is the drain for the drainpipe running from the sink in the kitchen down to the palace sewers.")
@@ -216,7 +222,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
             addPlayer(HeadE.HAPPY_TALKING, "I guess it does");
             return;
         }
-        if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED) {
+        if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED_STAGE) {
             addPlayer(HeadE.SAD_MILD, "I lost Silverlight");
             if(!p.getInventory().hasFreeSlots()) {
                 addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Good thing I found Silverlight again.");
@@ -271,7 +277,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
                             dummy.transformIntoNPC(SIR_PRYSIN);
                             p.setNextAnimation(new Animation(15952));
                             p.getInventory().addItem(DemonSlayer.SILVERLIGHT, 1);
-                            p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.SILVERLIGHT_OBTAINED);
+                            p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.SILVERLIGHT_OBTAINED_STAGE);
                             p.getInventory().deleteItem(DemonSlayer.PRYSIN_KEY, 1);
                             p.getInventory().deleteItem(DemonSlayer.WIZARD_KEY, 1);
                             p.getInventory().deleteItem(DemonSlayer.ROVIN_KEY, 1);

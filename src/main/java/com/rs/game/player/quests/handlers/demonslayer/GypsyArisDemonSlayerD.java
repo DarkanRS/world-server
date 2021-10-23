@@ -21,14 +21,14 @@ public class GypsyArisDemonSlayerD extends Conversation {
         this.p = p;
 
         switch (p.getQuestManager().getStage(Quest.DEMON_SLAYER)) {
-            case DemonSlayer.NOT_STARTED:
+            case DemonSlayer.NOT_STARTED_STAGE:
                 if(p.getTempB("DemonSlayerCutscenePlayed")) {
                     afterCutsceneConvo(p);
                     break;
                 }
                 addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "Hello young one.");
                 addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "Cross my palm with silver and the future will be revealed to you.");
-                addOptions("Choose an option:", new Options() {
+                addOptions("Cross her palm?", new Options() {
                     @Override
                     public void create() {
                         option("Yes.", new Dialogue()
@@ -59,16 +59,19 @@ public class GypsyArisDemonSlayerD extends Conversation {
                     }
                 });
                 break;
-            case DemonSlayer.AFTER_GYPSY_ARIS_INTRO:
-            case DemonSlayer.AFTER_SIR_PRYSIN_INTRO:
-            case DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN:
-            case DemonSlayer.KEY2_WIZARD_LOCATION_KNOWN:
-            case DemonSlayer.KEY3_ROVIN_LOCATION_KNOWN:
-            case DemonSlayer.SILVERLIGHT_OBTAINED:
+            case DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE:
+            case DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE:
+            case DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN_STAGE:
+            case DemonSlayer.KEY2_WIZARD_LOCATION_KNOWN_STAGE:
+            case DemonSlayer.KEY3_ROVIN_LOCATION_KNOWN_STAGE:
+            case DemonSlayer.SILVERLIGHT_OBTAINED_STAGE:
                 addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Greetings. How goes thy quest?");
                 addPlayer(HeadE.WORRIED, "I'm still working on it.");
                 addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Well if you need any advice I'm always here, young one.");
                 afterQuestStartConvo(p);
+                break;
+            case DemonSlayer.QUEST_COMPLETE_STAGE:
+                addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Thank you for saving us from that demon.");
                 break;
         }
     }
@@ -135,7 +138,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
                     .addPlayer(HeadE.HAPPY_TALKING, "Ok thanks. I'll do my best to stop the demon.")
                     .addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Good luck, and may Guthix be with you!")
                     .addNext(()->{
-                        p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_GYPSY_ARIS_INTRO);
+                        p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE);
                     }));
                 } else {
                     option("Wally doesn't sound like a very heroic name.", new Dialogue()

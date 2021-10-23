@@ -667,8 +667,6 @@ public class MiscTest {
 				if (quest.name().toLowerCase().contains(args[0])) {
 				    if(quest.name().equalsIgnoreCase("SHIELD_OF_ARRAV"))
                         ShieldOfArrav.reset(p);
-				    else if (quest.name().equalsIgnoreCase("DEMON_SLAYER"))
-                        DemonSlayer.reset(p);
 				    else
 					    p.getQuestManager().setStage(quest, 0);
 					p.sendMessage("Resetted quest: " + quest.name());
