@@ -60,7 +60,7 @@ import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 
-//status: done
+
 
 @PluginEventHandler
 public class MiscTest {
@@ -464,18 +464,10 @@ public class MiscTest {
             p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
         });
 
-        Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
-        });
-
-        Commands.add(Rights.DEVELOPER, "test2", "none", (p, args) -> {
-            p.getControllerManager().getController().forceClose();
-        });
-
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
 			p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
 			p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.valueOf(args[0])));
 		});
