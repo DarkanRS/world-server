@@ -19,32 +19,35 @@ public class NPCSpawn {
     }
 
     public NPCSpawn(int npcId, WorldTile tile, String comment) {
-		this(npcId, tile, "SOUTH", comment);
+		this(npcId, tile, null, comment);
 	}
 	
 	public void spawn() {
-        if(this.direction == null)
-            this.direction = "SOUTH";
         int dir;
-        if(direction.equalsIgnoreCase("north"))
-            dir = 0;
-        else if(direction.equalsIgnoreCase("northeast"))
-            dir = 1;
-        else if(direction.equalsIgnoreCase("east"))
-            dir = 2;
-        else if(direction.equalsIgnoreCase("southeast"))
-            dir = 3;
-        else if(direction.equalsIgnoreCase("south"))
-            dir = 4;
-        else if(direction.equalsIgnoreCase("southwest"))
-            dir = 5;
-        else if(direction.equalsIgnoreCase("west"))
-            dir = 6;
-        else if(direction.equalsIgnoreCase("northwest"))
-            dir = 7;
-        else
-            dir = 4;
+        if(this.direction == null || this.direction.equalsIgnoreCase("CACHE"))
+            dir = -1;
+        else {
+            if (direction.equalsIgnoreCase("north"))
+                dir = 0;
+            else if (direction.equalsIgnoreCase("northeast"))
+                dir = 1;
+            else if (direction.equalsIgnoreCase("east"))
+                dir = 2;
+            else if (direction.equalsIgnoreCase("southeast"))
+                dir = 3;
+            else if (direction.equalsIgnoreCase("south"))
+                dir = 4;
+            else if (direction.equalsIgnoreCase("southwest"))
+                dir = 5;
+            else if (direction.equalsIgnoreCase("west"))
+                dir = 6;
+            else if (direction.equalsIgnoreCase("northwest"))
+                dir = 7;
+            else
+                dir = 4;
+        }
 		World.spawnNPC(npcId, tile, dir, false, true, null);
+
 	}
 	
 	public WorldTile getTile() {

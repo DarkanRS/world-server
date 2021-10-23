@@ -109,7 +109,7 @@ public class NPC extends Entity {
         this.setSpawned(permaDeath);
         combatLevel = -1;
         setHitpoints(getMaxHitpoints());
-        setFaceAngle(Direction.getById(direction).getAngle());
+        setFaceAngle(direction == -1 ? getRespawnDirection() : Direction.getById(direction).getAngle());
         setRandomWalk((getDefinitions().walkMask & 0x2) != 0 || forceRandomWalk(id));
         setClipType((getDefinitions().walkMask & 0x4) != 0 ? ClipType.WATER : ClipType.NORMAL);
         size = getDefinitions().size;
@@ -142,7 +142,7 @@ public class NPC extends Entity {
     }
 
 	public NPC(int id, WorldTile tile, boolean permaDeath) {
-		this(id,tile, 4, permaDeath);
+		this(id,tile, -1, permaDeath);
 	}
 
 	

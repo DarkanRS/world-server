@@ -13,6 +13,9 @@ import com.rs.lib.util.Logger;
 
 public final class RegionBuilder {
 
+    /**
+     * Instance builder
+     */
 	public static class DynamicRegionReference {
 		
 		private int[] base;
