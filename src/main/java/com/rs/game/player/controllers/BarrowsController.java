@@ -433,10 +433,10 @@ public final class BarrowsController extends Controller {
 	private int timer;
 
 	public int getAndIncreaseHeadIndex() {
-		Integer head = (Integer) player.getTempAttribs().remove("BarrowsHead");
-		if (head == null || head == player.getKilledBarrowBrothers().length - 1)
+		int head = player.getTempAttribs().removeI("BarrowsHead");
+		if (head == -1 || head == player.getKilledBarrowBrothers().length - 1)
 			head = 0;
-		player.getTempAttribs().put("BarrowsHead", head + 1);
+		player.getTempAttribs().setI("BarrowsHead", head + 1);
 		return player.getKilledBarrowBrothers()[head] ? head : -1;
 	}
 

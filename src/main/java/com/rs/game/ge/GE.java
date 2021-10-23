@@ -47,7 +47,7 @@ public class GE {
 	public static ButtonClickHandler mainInterface = new ButtonClickHandler(105) {
 		@Override
 		public void handle(ButtonClickEvent e) {;
-			if (e.getPlayer().getTempB("geLocked"))
+			if (e.getPlayer().getTempAttribs().getB("geLocked"))
 				return;
 			switch(e.getComponentId()) {
 				//Buy box selection
@@ -110,7 +110,7 @@ public class GE {
 	public static ButtonClickHandler sellInv = new ButtonClickHandler(SPECIAL_DEPOSIT_INV) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getTempB("geLocked"))
+			if (e.getPlayer().getTempAttribs().getB("geLocked"))
 				return;
 			if (e.getComponentId() == 18) {
 				Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
@@ -126,7 +126,7 @@ public class GE {
 	public static ButtonClickHandler collBox = new ButtonClickHandler(COLLECTION_BOX) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getTempB("geLocked"))
+			if (e.getPlayer().getTempAttribs().getB("geLocked"))
 				return;
 			switch(e.getComponentId()) {
 				case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2);
@@ -165,7 +165,7 @@ public class GE {
 		final Item toRemove = item;
 		offer.getProcessedItems().remove(toRemove);
         ItemDefinitions defs = toRemove.getDefinitions();
-		player.setTempB("geLocked", true);
+		player.getTempAttribs().setB("geLocked", true);
 		if (offer.getProcessedItems().isEmpty() && offer.getState() != State.STABLE) {
 			WorldDB.getGE().remove(offer.getOwner(), box, () -> {
 				player.getGEOffers().remove(box);
@@ -173,7 +173,7 @@ public class GE {
                 if (toRemove.getAmount() > 1 && !defs.isNoted() && defs.getCertId() != -1 && toRemove.getMetaData() == null)
                     toRemove.setId(defs.getCertId());
                 player.getInventory().addItemDrop(toRemove);
-				player.setTempB("geLocked", false);
+				player.getTempAttribs().setB("geLocked", false);
 				updateGE(player);
 			});
 		} else {
@@ -182,7 +182,7 @@ public class GE {
                 if (toRemove.getAmount() > 1 && !defs.isNoted() && defs.getCertId() != -1 && toRemove.getMetaData() == null)
                     toRemove.setId(defs.getCertId());
 				player.getInventory().addItemDrop(toRemove);
-				player.setTempB("geLocked", false);
+				player.getTempAttribs().setB("geLocked", false);
 				updateGE(player);
 			});
 		}
@@ -195,9 +195,9 @@ public class GE {
 		if (abort) {
 			if (offer.getState() == State.FINISHED)
 				return;
-			player.setTempB("geLocked", true);
+			player.getTempAttribs().setB("geLocked", true);
 			WorldDB.getGE().remove(player.getUsername(), offer.getBox(), () -> {
-				player.setTempB("geLocked", false);
+				player.getTempAttribs().setB("geLocked", false);
 				offer.abort();
 				updateGE(player);
 			});
@@ -294,7 +294,7 @@ public class GE {
 		resetVars(player);
 		player.getGEOffers().put(offer.getBox(), offer);
 		updateGE(player);
-		player.setTempB("geLocked", true);
+		player.getTempAttribs().setB("geLocked", true);
 		WorldDB.getGE().execute(() -> {
 			Set<String> ownersNeedUpdate = new HashSet<>();
 			List<Offer> offers = WorldDB.getGE().getBestOffersSync(offer);
@@ -302,7 +302,7 @@ public class GE {
 			if (offers == null || offers.isEmpty()) {
 				WorldDB.getGE().saveSync(offer);
 				updateGE(player);
-				player.setTempB("geLocked", false);
+				player.getTempAttribs().setB("geLocked", false);
 				return;
 			}
 			for (Offer other : offers) {
@@ -314,7 +314,7 @@ public class GE {
 			if (offer.getState() == State.STABLE)
 				WorldDB.getGE().saveSync(offer);
 			updateGE(player);
-			player.setTempB("geLocked", false);
+			player.getTempAttribs().setB("geLocked", false);
 			if (!ownersNeedUpdate.isEmpty()) {
 				for (String username : ownersNeedUpdate)
 					GE.updateOffers(username);
@@ -374,12 +374,12 @@ public class GE {
 				player.setGEOffers(offers);
 				updateGE(player);
 				if (diff) {
-                    if (player.getTempL("GENotificationTime") == 0) {
-                        player.setTempL("GENotificationTime", System.currentTimeMillis());
+                    if (player.getTempAttribs().getL("GENotificationTime") == 0) {
+                        player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
                         player.getPackets().sendSound(4042, 0, 1);
                         player.sendMessage("One or more of your grand exchange offers has been updated.");
-                    } else if ((System.currentTimeMillis() - player.getTempL("GENotificationTime")) > 1000*60*1) { //1 minute
-                        player.setTempL("GENotificationTime", System.currentTimeMillis());
+                    } else if ((System.currentTimeMillis() - player.getTempAttribs().getL("GENotificationTime")) > 1000*60*1) { //1 minute
+                        player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
                         player.getPackets().sendSound(4042, 0, 1);
                         player.sendMessage("One or more of your grand exchange offers has been updated.");
                     }

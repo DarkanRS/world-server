@@ -1,7 +1,6 @@
 package com.rs.game.player.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 import com.rs.game.player.content.skills.crafting.Silver.SilverItems;
@@ -46,8 +45,8 @@ public class SilverCraftingAction extends Action {
 	@Override
 	public boolean process(Player player) {
 		if (checkAll(player)) {
-			if (player.getTempAttribs().get("silverObject") != null)
-				player.faceObject((GameObject) player.getTempAttribs().get("silverObject"));
+			if (player.getTempAttribs().getO("silverObject") != null)
+				player.faceObject(player.getTempAttribs().getO("silverObject"));
 			return true;
 		}
 		return false;

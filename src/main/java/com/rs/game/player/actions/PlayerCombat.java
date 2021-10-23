@@ -64,9 +64,9 @@ public class PlayerCombat extends Action {
 				}
 			} else if (e.getOption().equals("Activate")) {
 				if (e.getItem().getMetaDataI("dfsCharges") > 0) {
-					if (World.getServerTicks() > e.getPlayer().getTempL("dfsCd")) {
-						e.getPlayer().setTempB("dfsActive", !e.getPlayer().getTempB("dfsActive"));
-						e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempB("dfsActive") ? "activated" : "deactivated") + " the shield.");
+					if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
+						e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
+						e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
 					} else {
 						e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
 					}
@@ -132,14 +132,14 @@ public class PlayerCombat extends Action {
 		if (!player.getControllerManager().keepCombating(target))
 			return -1;
 		addAttackedByDelay(player);
-		player.setTempO("combatTarget", target);
+		player.getTempAttribs().setO("combatTarget", target);
 		
 		CombatSpell spell = player.getCombatDefinitions().getSpell();
-		if (player.getTempB("dfsActive")) {
+		if (player.getTempAttribs().getB("dfsActive")) {
 			Item shield = player.getEquipment().get(Equipment.SHIELD);
 			player.setNextFaceEntity(target);
 			if (shield == null || shield.getMetaDataI("dfsCharges") < 0) {
-				player.setTempB("dfsActive", false);
+				player.getTempAttribs().setB("dfsActive", false);
 				player.sendMessage("Your shield was unable to be activated.");
 				return 3;
 			}
@@ -149,8 +149,8 @@ public class PlayerCombat extends Action {
 			delayMagicHit(p.getTaskDelay(), new Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), () -> {
 				target.setNextSpotAnim(new SpotAnim(1167, 0, 96));
 			}, null, null);
-			player.setTempB("dfsActive", false);
-			player.setTempL("dfsCd", World.getServerTicks() + 200);
+			player.getTempAttribs().setB("dfsActive", false);
+			player.getTempAttribs().setL("dfsCd", World.getServerTicks() + 200);
 			shield.addMetaData("dfsCharges", shield.getMetaDataI("dfsCharges")-1);
 			player.getCombatDefinitions().refreshBonuses();
 			return 3;
@@ -663,8 +663,8 @@ public class PlayerCombat extends Action {
 					damage = Utils.random(0, 60);
 					player.sendMessage("The Royal crossbow seems unresponsive against this target.", true);
 				} else {
-					int stacks = player.getTempI("rcbStacks", 0);
-					if (World.getServerTicks() < player.getTempL("rcbLockOnTimer"))
+					int stacks = player.getTempAttribs().getI("rcbStacks", 0);
+					if (World.getServerTicks() < player.getTempAttribs().getL("rcbLockOnTimer"))
 						stacks++;
 					else {
 						stacks = 1;
@@ -673,8 +673,8 @@ public class PlayerCombat extends Action {
 					if (stacks == 9)
 						player.sendMessage("Your crossbow locks onto your target.");
 					boolean lockedOn = stacks >= 9;
-					player.setTempI("rcbStacks", stacks);
-					player.setTempL("rcbLockOnTimer", World.getServerTicks()+28);
+					player.getTempAttribs().setI("rcbStacks", stacks);
+					player.getTempAttribs().setL("rcbLockOnTimer", World.getServerTicks()+28);
 					damage = getRandomMaxHit(player, weaponId, attackStyle, true);
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, damage), null, () -> {
 						if (weaponId == 24339 || target.isDead() || target.hasFinished())
@@ -1388,7 +1388,7 @@ public class PlayerCombat extends Action {
 		}
 		
 		double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
-		if (Settings.getConfig().isDebug() && player.getTempB("hitChance"))
+		if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 			player.sendMessage("Your hit chance: " + Utils.formatDouble(prob*100.0) + "%");
 		if (prob <= Math.random())
 			return 0;
@@ -1524,7 +1524,7 @@ public class PlayerCombat extends Action {
 				veracsProc = true;
 			}
 			double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
-			if (Settings.getConfig().isDebug() && player.getTempB("hitChance"))
+			if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 				player.sendMessage("Your hit chance: " + Utils.formatDouble(prob*100.0) + "%");
 			if (prob <= Math.random() && !veracsProc)
 				return 0;
@@ -2164,7 +2164,7 @@ public class PlayerCombat extends Action {
 	@Override
 	public void stop(Player player) {
 		player.setNextFaceEntity(null);
-		player.setTempO("combatTarget", null);
+		player.getTempAttribs().removeO("combatTarget");
 	}
 
 	public boolean checkAll(Player player) {
@@ -2250,17 +2250,17 @@ public class PlayerCombat extends Action {
 				}
 			}
 		}
-		if (player.getTempL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
-			player.setTempL("SOL_SPEC", 0);
-		player.getTempAttribs().put("last_target", target);
+		if (player.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
+			player.getTempAttribs().setL("SOL_SPEC", 0);
+		player.getTempAttribs().setO("last_target", target);
 		if (target != null)
-			target.getTempAttribs().put("last_attacker", player);
+			target.getTempAttribs().setO("last_attacker", player);
 		return true;
 	}
 	
 	public static boolean isRanging(Player player) {
 		int weaponId = player.getEquipment().getWeaponId();
-		if (player.getTempB("dfsActive"))
+		if (player.getTempAttribs().getB("dfsActive"))
 			return true;
 		if (player.getCombatDefinitions().getSpell() == null && PolyporeStaff.isWielding(player))
 			return true;

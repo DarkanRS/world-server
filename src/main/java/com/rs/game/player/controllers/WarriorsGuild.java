@@ -203,7 +203,7 @@ public class WarriorsGuild extends Controller {
 			player.getInterfaceManager().sendInterface(410);
 			return false;
 		} else if (object.getId() == 15664 || object.getId() == 15665) {
-			if (player.getTempAttribs().get("thrown_delay") != null) {
+			if (player.getTempAttribs().getB("thrown_delay")) {
 				int random = Utils.random(3);
 				player.getDialogueManager().execute(new SimpleNPCMessage(), 4300, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
 				return false;
@@ -261,7 +261,7 @@ public class WarriorsGuild extends Controller {
 	@Override
 	public boolean processItemOnObject(final GameObject object, final Item item) {
 		if (object.getId() == 15621) {
-			if (player.getTempAttribs().get("animator_spawned") != null) {
+			if (player.getTempAttribs().getB("animator_spawned")) {
 				player.sendMessage("You are already in combat with an animation.");
 				return false;
 			}
@@ -295,7 +295,7 @@ public class WarriorsGuild extends Controller {
 						npc.setNextForceTalk(new ForceTalk("IM ALIVE!"));
 						npc.setNextAnimation(new Animation(4166));
 						npc.addWalkSteps(player.getX(), player.getY() + 2);
-						player.getTempAttribs().put("animator_spawned", true);
+						player.getTempAttribs().setB("animator_spawned", true);
 						npc.getCombat().setTarget(player);
 						player.unlock();
 						player.getHintIconsManager().addHintIcon(npc, 0, -1, false);
@@ -533,7 +533,7 @@ public class WarriorsGuild extends Controller {
 					World.sendProjectile(player, tile, 690, 50, 0, 30, 1, 15, 0);
 				} else if (ticks == ((distance / 2) + 4)) {
 					player.getSkills().addXp(Constants.STRENGTH, distance);
-					player.getTempAttribs().put("thrown_delay", true);
+					player.getTempAttribs().setB("thrown_delay", true);
 				} else if (ticks >= ((distance / 2) + 5)) {
 					int random = Utils.random(3);
 					if (random == 0)
@@ -544,7 +544,7 @@ public class WarriorsGuild extends Controller {
 						player.sendMessage("The shot falls from the air like a brick, landing with a sickening thud.");
 					int base = random == 0 ? distance * 7 : random == 1 ? distance * 4 : distance;
 					player.setWarriorPoints(STRENGTH, base + Utils.random(2));
-					player.getTempAttribs().remove("thrown_delay");
+					player.getTempAttribs().removeB("thrown_delay");
 					stop();
 					return;
 				}

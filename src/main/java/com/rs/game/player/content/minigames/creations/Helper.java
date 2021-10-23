@@ -519,20 +519,20 @@ public class Helper {
 				break qualityLoop;
 			}
 		}
-		player.getTempAttribs().put("sc_kiln_quality", quality);
-		player.getTempAttribs().put("in_kiln", System.currentTimeMillis() + 10000);
+		player.getTempAttribs().setI("sc_kiln_quality", quality);
+		player.getTempAttribs().setL("in_kiln", System.currentTimeMillis() + 10000);
 		player.setCloseInterfacesEvent(new Runnable() {
 
 			@Override
 			public void run() {
-				player.getTempAttribs().remove("in_kiln");
+				player.getTempAttribs().removeL("in_kiln");
 			}
 		});
 		refreshKiln(player);
 	}
 
 	public static void refreshKiln(Player player) {
-		int quality = player.getTempAttribs().get("sc_kiln_quality") != null ? (int) player.getTempAttribs().get("sc_kiln_quality") : 4;
+		int quality = player.getTempAttribs().getI("sc_kiln_quality") != -1 ? player.getTempAttribs().getI("sc_kiln_quality") : 4;
 		for (int i = 0; i < 5; i++) {
 			player.getPackets().sendVarc(KILN_CONFIG_BASE + i, player.getInventory().getAmountOf(SACRED_CLAY[i]));
 			player.getPackets().setIFHidden(813, Helper.KILN_CLAY_COMP_BASE + (i * 2), quality != i);

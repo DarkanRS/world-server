@@ -71,7 +71,7 @@ public class BathtubSpiderD extends Conversation {
 															.addPlayer(HeadE.CONFUSED, "Why would the Spider Queen tell you to sit in Grim's Bath?")
 															.addNPC(8979, HeadE.SPIDER_CALM, "Dunno.")
 															.addGotoStage("queenOps", BathtubSpiderD.this));
-													option(() -> !player.getTempB("queenKnown"), "Would you move if the Spider Queen told you to?", new Dialogue()
+													option(() -> !player.getTempAttribs().getB("queenKnown"), "Would you move if the Spider Queen told you to?", new Dialogue()
 															.addPlayer(HeadE.CONFUSED, "Would you move if the Spider Queen told you to?")
 															.addNPC(8979, HeadE.SPIDER_CALM, "Yup.")
 															.addPlayer(HeadE.UPSET, "I better report back to the Grim Reaper.", () -> {

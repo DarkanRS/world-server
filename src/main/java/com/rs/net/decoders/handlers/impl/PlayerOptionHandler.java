@@ -120,8 +120,8 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 						player.sendMessage("Unable to find target " + target.getDisplayName());
 						return;
 					}
-					if (target.getTempAttribs().get("TradeTarget") == player) {
-						target.getTempAttribs().remove("TradeTarget");
+					if (target.getTempAttribs().getO("TradeTarget") == player) {
+						target.getTempAttribs().removeO("TradeTarget");
 						if (!player.getBank().checkPin())
 							return;
 						if (!target.getBank().checkPin())
@@ -130,7 +130,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 						target.getTrade().openTrade(player);
 						return;
 					}
-					player.getTempAttribs().put("TradeTarget", target);
+					player.getTempAttribs().setO("TradeTarget", target);
 					player.sendMessage("Sending " + target.getDisplayName() + " a request...");
 					target.getPackets().sendTradeRequestMessage(player);
 				}

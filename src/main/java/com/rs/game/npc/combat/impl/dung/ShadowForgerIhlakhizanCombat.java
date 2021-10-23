@@ -36,7 +36,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 		final DungeonManager manager = forger.getManager();
 
 		for (Entity t : npc.getPossibleTargets())
-			t.getTempAttribs().remove("SHADOW_FORGER_SHADOW");
+			t.getTempAttribs().removeB("SHADOW_FORGER_SHADOW");
 
 		if (Utils.random(4) == 0) {
 			if (Utils.random(3) == 0) {

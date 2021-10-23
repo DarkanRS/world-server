@@ -375,44 +375,44 @@ public class HouseController extends Controller {
 			if (player.getX() < object.getX()) {
 				target = object.transform(1, 0, 0);
 				direction = Direction.EAST;
-				player.getTempAttribs().put("inBoxingArena", false);
+				player.getTempAttribs().setB("inBoxingArena", false);
 			} else {
 				target = object.transform(-1, 0, 0);
 				direction = Direction.WEST;
-				player.getTempAttribs().put("inBoxingArena", true);
+				player.getTempAttribs().setB("inBoxingArena", true);
 			}
 			break;
 		case 1:
 			if (player.getY() <= object.getY()) {
 				target = object.transform(0, 1, 0);
 				direction = Direction.NORTH;
-				player.getTempAttribs().put("inBoxingArena", true);
+				player.getTempAttribs().setB("inBoxingArena", true);
 			} else {
 				target = object.transform(0, -1, 0);
 				direction = Direction.SOUTH;
-				player.getTempAttribs().put("inBoxingArena", false);
+				player.getTempAttribs().setB("inBoxingArena", false);
 			}
 			break;
 		case 2:
 			if (player.getX() > object.getX()) {
 				target = object.transform(-1, 0, 0);
 				direction = Direction.WEST;
-				player.getTempAttribs().put("inBoxingArena", false);
+				player.getTempAttribs().setB("inBoxingArena", false);
 			} else {
 				target = object.transform(1, 0, 0);
 				direction = Direction.EAST;
-				player.getTempAttribs().put("inBoxingArena", true);
+				player.getTempAttribs().setB("inBoxingArena", true);
 			}
 			break;
 		case 3:
 			if (player.getY() >= object.getY()) {
 				target = object.transform(0, -1, 0);
 				direction = Direction.SOUTH;
-				player.getTempAttribs().put("inBoxingArena", true);
+				player.getTempAttribs().setB("inBoxingArena", true);
 			} else {
 				target = object.transform(0, 1, 0);
 				direction = Direction.NORTH;
-				player.getTempAttribs().put("inBoxingArena", false);
+				player.getTempAttribs().setB("inBoxingArena", false);
 			}
 			break;
 		}
@@ -558,10 +558,7 @@ public class HouseController extends Controller {
 
 	@Override
 	public void process() {
-		boolean inBoxing = false;
-		if (player.getTempAttribs().get("inBoxingArena") != null && (boolean) player.getTempAttribs().get("inBoxingArena"))
-			inBoxing = true;
-		if ((house.isChallengeMode() && player.getPlane() == 0) || inBoxing) {
+		if ((house.isChallengeMode() && player.getPlane() == 0) || player.getTempAttribs().getB("inBoxingArena")) {
 			if (!player.isCanPvp())
 				player.setCanPvp(true);
 		} else {

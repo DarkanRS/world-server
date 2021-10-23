@@ -29,16 +29,16 @@ public class UnholyCursebearerCombat extends CombatScript {
 	public int attack(final NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int attackStyle = WorldUtil.isInRange(target.getX(), target.getY(), target.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0) ? Utils.random(2) : 0;
-		if (target instanceof Player player && target.getTempAttribs().get("UNHOLY_CURSEBEARER_ROT") == null) {
-			target.getTempAttribs().put("UNHOLY_CURSEBEARER_ROT", 1);
+		if (target instanceof Player player && target.getTempAttribs().getI("UNHOLY_CURSEBEARER_ROT") == -1) {
+			target.getTempAttribs().setI("UNHOLY_CURSEBEARER_ROT", 1);
 			player.sendMessage("An undead rot starts to work at your body.");
 			WorldTasksManager.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
-					Integer value = (Integer) target.getTempAttribs().get("UNHOLY_CURSEBEARER_ROT");
-					if (player.hasFinished() || npc.hasFinished() || !((DungeonBoss) npc).getManager().isAtBossRoom(player) || value == null) {
-						target.getTempAttribs().remove("UNHOLY_CURSEBEARER_ROT");
+					int value = target.getTempAttribs().getI("UNHOLY_CURSEBEARER_ROT");
+					if (player.hasFinished() || npc.hasFinished() || !((DungeonBoss) npc).getManager().isAtBossRoom(player) || value == -1) {
+						target.getTempAttribs().removeI("UNHOLY_CURSEBEARER_ROT");
 						stop();
 						return;
 					}
@@ -58,7 +58,7 @@ public class UnholyCursebearerCombat extends CombatScript {
 						player.sendMessage("The undead rot can now be cleansed by the unholy font.");
 					player.applyHit(new Hit(npc, damage, HitLook.TRUE_DAMAGE));
 					player.setNextSpotAnim(new SpotAnim(2440));
-					target.getTempAttribs().put("UNHOLY_CURSEBEARER_ROT", value + 1);
+					target.getTempAttribs().incI("UNHOLY_CURSEBEARER_ROT");
 				}
 
 			}, 0, 12);

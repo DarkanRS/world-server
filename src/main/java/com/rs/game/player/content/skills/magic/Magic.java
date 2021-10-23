@@ -458,7 +458,7 @@ public class Magic {
 	}
 
 	public static final boolean sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int delay, WorldTile tile) {
-		player.getTempAttribs().put("glory", true);
+		player.getTempAttribs().setB("glory", true);
 		return sendTeleportSpell(player, upEmoteId, -2, upGraphicId, -1, 0, 0, tile, delay, randomize, ITEM_TELEPORT, null);
 	}
 
@@ -502,7 +502,7 @@ public class Magic {
 				return false;
 		} else if (teleType == ITEM_TELEPORT) {
 			if (!player.getControllerManager().processItemTeleport(tile)) {
-				player.getTempAttribs().put("glory", false);
+				player.getTempAttribs().setB("glory", false);
 				return false;
 			}
 		} else if (teleType == OBJECT_TELEPORT) {

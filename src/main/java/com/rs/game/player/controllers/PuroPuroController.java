@@ -160,19 +160,19 @@ public class PuroPuroController extends Controller {
 
 			@Override
 			public void run() {
-				player.getTempAttribs().remove("puro_slot");
+				player.getTempAttribs().removeI("puro_slot");
 			}
 		});
 	}
 
 	public static void handlePuroInterface(Player player, int componentId) {
-		player.getTempAttribs().put("puro_slot", (componentId - 20) / 2);
+		player.getTempAttribs().setI("puro_slot", (componentId - 20) / 2);
 	}
 
 	public static void confirmPuroSelection(Player player) {
-		if (player.getTempAttribs().get("puro_slot") == null)
+		if (player.getTempAttribs().getI("puro_slot") == -1)
 			return;
-		int slot = (int) player.getTempAttribs().get("puro_slot");
+		int slot = player.getTempAttribs().getI("puro_slot");
 		Item exchangedItem = REWARD[slot];
 		Item[] requriedItems = REQUIRED[slot];
 		if (slot == 3) {

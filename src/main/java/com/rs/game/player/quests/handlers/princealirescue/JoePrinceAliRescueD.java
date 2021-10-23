@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.princealirescue;
 
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.BEER;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,8 +11,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.BEER;
 
 @PluginEventHandler
 public class JoePrinceAliRescueD extends Conversation {
@@ -64,7 +64,7 @@ public class JoePrinceAliRescueD extends Conversation {
                                             .addPlayer(HeadE.CALM_TALK, "I was just wondering what you do to relax.")
                                             .addNPC(JOE, HeadE.TALKING_ALOT, "You never relax with these people, but it's a good career for a young man and some " +
                                                     "of the shouting I rather like.")
-                                            .addNPC(JOE, HeadE.AMAZED, "RESISTANCE IS USELESS!", () -> {p.setTempB("JoeTheGuardTalksALot", true);})
+                                            .addNPC(JOE, HeadE.AMAZED, "RESISTANCE IS USELESS!", () -> {p.getTempAttribs().setB("JoeTheGuardTalksALot", true);})
                                             .addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
                                     option("What did you want to be when you were a boy?", new Dialogue()
                                         .addPlayer(HeadE.TALKING_ALOT, "What did you want to be when you were a boy?")
@@ -74,7 +74,7 @@ public class JoePrinceAliRescueD extends Conversation {
                                         .addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
                                 }
                             }));
-                    if(p.getTempB("JoeTheGuardTalksALot")) {
+                    if(p.getTempAttribs().getB("JoeTheGuardTalksALot")) {
                         option("So what do you buy with these great wages?", new Dialogue()
                                 .addPlayer(HeadE.TALKING_ALOT, "So what do you buy with these great wages?")
                                 .addNPC(JOE, HeadE.TALKING_ALOT, "Really, after working here, there's only time for a drink or three. All us guards go to the" +

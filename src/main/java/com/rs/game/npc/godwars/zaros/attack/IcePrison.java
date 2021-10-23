@@ -24,7 +24,7 @@ public class IcePrison implements NexAttack {
 		nex.setNextAnimation(new Animation(6987));
 		World.sendProjectile(nex, target, 362, 20, 20, 20, 0.45, 10, 0);
 		final WorldTile base = new WorldTile(target.getX(), target.getY(), target.getPlane());
-		target.setTempB("inIcePrison", true);
+		target.getTempAttribs().setB("inIcePrison", true);
 		for (int x = -1; x <= 1; x++) {
 			for (int y = -1; y <= 1; y++) {
 				final WorldTile tile = base.transform(x, y, target.getPlane());
@@ -43,7 +43,7 @@ public class IcePrison implements NexAttack {
 							return;
 						}
 						remove = true;
-						target.setTempB("inIcePrison", false);
+						target.getTempAttribs().setB("inIcePrison", false);
 						if (target.getX() == tile.getX() && target.getY() == tile.getY()) {
 							if (target instanceof Player)
 								((Player)target).sendMessage("The centre of the ice prison freezes you to the bone!");

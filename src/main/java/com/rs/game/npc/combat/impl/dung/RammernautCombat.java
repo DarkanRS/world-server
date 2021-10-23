@@ -20,15 +20,11 @@ public class RammernautCombat extends CombatScript {
 	}
 
 	public static int getChargeCount(NPC npc) {
-
-		Integer charge = (Integer) npc.getTempAttribs().get("RAMMERNAUT_CHARGE");
-
-		return charge == null ? 0 : charge;
-
+		return npc.getTempAttribs().getI("RAMMERNAUT_CHARGE", 0);
 	}
 
 	public static void setChargeCount(NPC npc, int count) {
-		npc.getTempAttribs().put("RAMMERNAUT_CHARGE", count);
+		npc.getTempAttribs().setI("RAMMERNAUT_CHARGE", count);
 
 	}
 

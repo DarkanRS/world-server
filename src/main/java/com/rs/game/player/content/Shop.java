@@ -57,16 +57,16 @@ public class Shop {
 		public void handle(ButtonClickEvent e) {
 			if (e.getInterfaceId() == 449) {
 				if (e.getComponentId() == 1) {
-					Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
+					Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
 					if (shop == null)
 						return;
 					shop.sendInventory(e.getPlayer());
 				} else if (e.getComponentId() == 21) {
-					Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
+					Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
 					if (shop == null)
 						return;
-					Integer slot = (Integer) e.getPlayer().getTempAttribs().get("ShopSelectedSlot");
-					if (slot == null)
+					int slot = e.getPlayer().getTempAttribs().getI("ShopSelectedSlot");
+					if (slot == -1)
 						return;
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						shop.buy(e.getPlayer(), slot, 1);
@@ -79,13 +79,13 @@ public class Shop {
 					shop.sendCustomPrices(e.getPlayer());
 				}
 			} else if (e.getInterfaceId() == 1265) {
-				Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
+				Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
 				if (shop == null)
 					return;
-				Integer slot = (Integer) e.getPlayer().getTempAttribs().get("ShopSelectedSlot");
-				boolean isBuying = e.getPlayer().getTempAttribs().get("shop_buying") != null;
+				int slot = e.getPlayer().getTempAttribs().getI("ShopSelectedSlot");
+				boolean isBuying = e.getPlayer().getTempAttribs().getB("shop_buying");
 				if (e.getComponentId() == 20) {
-					e.getPlayer().getTempAttribs().put("ShopSelectedSlot", e.getSlotId());
+					e.getPlayer().getTempAttribs().setI("ShopSelectedSlot", e.getSlotId());
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						shop.sendInfo(e.getPlayer(), e.getSlotId(), isBuying);
 					else if (e.getPacket() == ClientPacket.IF_OP2)
@@ -101,32 +101,32 @@ public class Shop {
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						shop.sendExamine(e.getPlayer(), e.getSlotId());
 				} else if (e.getComponentId() == 201) {
-					if (slot == null)
+					if (slot == -1)
 						return;
 					if (isBuying)
-						shop.buy(e.getPlayer(), slot, e.getPlayer().getTempI("shopAmt", 0));
+						shop.buy(e.getPlayer(), slot, e.getPlayer().getTempAttribs().getI("shopAmt", 0));
 					else {
-						shop.sell(e.getPlayer(), slot, e.getPlayer().getTempI("shopAmt", 0));
+						shop.sell(e.getPlayer(), slot, e.getPlayer().getTempAttribs().getI("shopAmt", 0));
 						e.getPlayer().getVars().setVar(2563, 0);
 						e.getPlayer().getVars().setVar(2565, 1); // this is to update the tab.
 					}
 				} else if (e.getComponentId() == 208) {
-					e.getPlayer().setTempI("shopAmt", Utils.clampI(e.getPlayer().getTempI("shopAmt", 0) + 5, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) + 5, 1, 5000));
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 15) {
-					e.getPlayer().setTempI("shopAmt", Utils.clampI(e.getPlayer().getTempI("shopAmt", 0) + 1, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) + 1, 1, 5000));
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 214) {
-					e.getPlayer().setTempI("shopAmt", Utils.clampI(e.getPlayer().getTempI("shopAmt", 0) - 1, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) - 1, 1, 5000));
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 217) {
-					e.getPlayer().setTempI("shopAmt", Utils.clampI(e.getPlayer().getTempI("shopAmt", 0) - 5, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) - 5, 1, 5000));
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 220) {
-					e.getPlayer().setTempI("shopAmt", 1);
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 211) {
-					if (slot == null)
+					if (slot == -1)
 						return;
 					if (shop.getMainStock() == null)
 						return;
@@ -136,16 +136,16 @@ public class Shop {
 						return;
 					if (e.getPlayer().getInventory().getItems().getItems()[slot] == null)
 						return;
-					e.getPlayer().setTempI("shopAmt", Utils.clampI(isBuying ? shop.getMainStock()[slot].getItem().getAmount() : e.getPlayer().getInventory().getItems().getItems()[slot].getAmount(), 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(isBuying ? shop.getMainStock()[slot].getItem().getAmount() : e.getPlayer().getInventory().getItems().getItems()[slot].getAmount(), 1, 5000));
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 29) {
 					e.getPlayer().getVars().setVar(2561, 93);
-					e.getPlayer().getTempAttribs().remove("shop_buying");
-					e.getPlayer().setTempI("shopAmt", 1);
+					e.getPlayer().getTempAttribs().removeB("shop_buying");
+					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
 				} else if (e.getComponentId() == 28) {
-					e.getPlayer().getTempAttribs().put("shop_buying", true);
-					e.getPlayer().setTempI("shopAmt", 1);
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempI("shopAmt", 0)));
+					e.getPlayer().getTempAttribs().setB("shop_buying", true);
+					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
+					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				}
 				shop.sendCustomPrices(e.getPlayer());
 			} else if (e.getInterfaceId() == 1266) {
@@ -153,7 +153,7 @@ public class Shop {
 					if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 					else {
-						Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
+						Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
 						if (shop == null)
 							return;
 						e.getPlayer().getVars().setVar(2563, e.getSlotId());
@@ -175,7 +175,7 @@ public class Shop {
 					if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 					else {
-						Shop shop = (Shop) e.getPlayer().getTempAttribs().get("Shop");
+						Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
 						if (shop == null)
 							return;
 						if (e.getPacket() == ClientPacket.IF_OP1)
@@ -200,12 +200,12 @@ public class Shop {
 
 	public void addPlayer(final Player player) {
 		viewingPlayers.add(player);
-		player.getTempAttribs().put("Shop", this);
+		player.getTempAttribs().setO("Shop", this);
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
 				viewingPlayers.remove(player);
-				player.getTempAttribs().remove("Shop");
+				player.getTempAttribs().removeO("Shop");
 			}
 		});		
 		player.getVars().setVar(118, MAIN_STOCK_ITEMS_KEY);
@@ -232,12 +232,12 @@ public class Shop {
 		if (isGeneralStore())
 			player.getPackets().setIFHidden(1265, 52, false);
 		sendInventory(player);
-		player.getTempAttribs().put("shop_buying", true);
+		player.getTempAttribs().setB("shop_buying", true);
 		WorldTasksManager.delay(1, () -> sendCustomPrices(player));
 	}
 
 	public void sendCustomPrices(Player player) {
-		if (player.getTempAttribs().get("shop_buying") == null)
+		if (!player.getTempAttribs().getB("shop_buying"))
 			return;
 		for (int i = 0;i < mainStock.length;i++) {
 			if (mainStock[i] == null)
@@ -541,8 +541,7 @@ public class Shop {
 	 *            The amount
 	 */
 	public void handleShop(Player player, int slotId, int amount) {
-		boolean isBuying = player.getTempAttribs().get("shop_buying") != null;
-		if (isBuying)
+		if (player.getTempAttribs().getB("shop_buying"))
 			buy(player, slotId, amount);
 		else
 			sell(player, slotId, amount);

@@ -135,7 +135,7 @@ public class Christmas2019 {
 						p.getVars().setVarBit(loc.getImp().varBit, 0);
 					} else {
 						if (p.getPet() != null) {
-							int prevDist = p.getTempI("christ19LocDist");
+							int prevDist = p.getTempAttribs().getI("christ19LocDist");
 							int currDist = (int) Utils.getDistance(p, loc.loc);
 							if (prevDist != 0) {
 								if (currDist > prevDist)
@@ -143,7 +143,7 @@ public class Christmas2019 {
 								else
 									p.getPet().setNextForceTalk(new ForceTalk("Yer gettin closer, guv!"));
 							}
-							p.setTempI("christ19LocDist", currDist);
+							p.getTempAttribs().setI("christ19LocDist", currDist);
 						}
 						p.getVars().setVarBit(6928, 1);
 						p.getVars().setVarBit(6929, 1);

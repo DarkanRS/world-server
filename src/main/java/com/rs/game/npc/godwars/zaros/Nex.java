@@ -63,7 +63,7 @@ public final class Nex extends NPC {
 	public static ObjectClickHandler handleIcePrison = new ObjectClickHandler(new Object[] { 57263 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getTempB("inIcePrison")) {
+			if (e.getPlayer().getTempAttribs().getB("inIcePrison")) {
 				e.getPlayer().sendMessage("You can't move!");
 				return;
 			}
@@ -269,7 +269,7 @@ public final class Nex extends NPC {
 	@Override
 	public void handlePreHit(Hit hit) {
 		checkPhase();
-		if (getTempB("siphoning"))
+		if (getTempAttribs().getB("siphoning"))
 			hit.setHealHit();
 		if (getId() == 13449 && hit.getLook() == HitLook.MELEE_DAMAGE) {
 			Entity source = hit.getSource();
@@ -285,14 +285,14 @@ public final class Nex extends NPC {
 
 	@Override
 	public void setNextAnimation(Animation nextAnimation) {
-		if (getTempB("siphoning"))
+		if (getTempAttribs().getB("siphoning"))
 			return;
 		super.setNextAnimation(nextAnimation);
 	}
 
 	@Override
 	public void setNextSpotAnim(SpotAnim nextGraphic) {
-		if (getTempB("siphoning"))
+		if (getTempAttribs().getB("siphoning"))
 			return;
 		super.setNextSpotAnim(nextGraphic);
 	}

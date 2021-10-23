@@ -303,7 +303,7 @@ public abstract class Entity extends WorldTile {
 		setHitpoints(hitpoints - hit.getDamage());
 
 		if (this instanceof Player p) {
-			if (p.getNSB("godMode"))
+			if (p.getNSV().getB("godMode"))
 				setHitpoints(getMaxHitpoints());
 		}
 

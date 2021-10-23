@@ -128,7 +128,7 @@ public class DungManager {
 	public static ButtonClickHandler handleKinshipInter = new ButtonClickHandler(993) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			Item ring = e.getPlayer().getTempO("kinshipToBeCustomized");
+			Item ring = e.getPlayer().getTempAttribs().getO("kinshipToBeCustomized");
 			if (ring == null) {
 				e.getPlayer().closeInterfaces();
 				return;
@@ -138,27 +138,27 @@ public class DungManager {
 			case 242:
 			case 227:
 			case 212:
-				e.getPlayer().setTempI("kinshipTab", (257-e.getComponentId()) / 15);
+				e.getPlayer().getTempAttribs().setI("kinshipTab", (257-e.getComponentId()) / 15);
 				e.getPlayer().getDungManager().refreshKinshipStrings();
 				break;
 			case 139:
 			case 46:
 			case 88:
-				e.getPlayer().getDungManager().promptRingUpgrade(getPerk(e.getPlayer().getTempI("kinshipTab"), e.getComponentId() == 139 ? 0 : e.getComponentId() == 46 ? 1 : 2));
+				e.getPlayer().getDungManager().promptRingUpgrade(getPerk(e.getPlayer().getTempAttribs().getI("kinshipTab"), e.getComponentId() == 139 ? 0 : e.getComponentId() == 46 ? 1 : 2));
 				break;
 			case 278:
-				e.getPlayer().setTempO("perkUpgradePrompt", null);
+				e.getPlayer().getTempAttribs().setO("perkUpgradePrompt", null);
 				break;
 			case 279:
-				e.getPlayer().getDungManager().upgradePerk(e.getPlayer().getTempO("perkUpgradePrompt"));
+				e.getPlayer().getDungManager().upgradePerk(e.getPlayer().getTempAttribs().getO("perkUpgradePrompt"));
 				break;
 			case 137:
 			case 44:
 			case 86:
 				if (e.getPacket() == ClientPacket.IF_OP1)
-					e.getPlayer().getDungManager().activeRingPerk = getPerk(e.getPlayer().getTempI("kinshipTab"), e.getComponentId() == 137 ? 0 : e.getComponentId() == 44 ? 1 : 2);
+					e.getPlayer().getDungManager().activeRingPerk = getPerk(e.getPlayer().getTempAttribs().getI("kinshipTab"), e.getComponentId() == 137 ? 0 : e.getComponentId() == 44 ? 1 : 2);
 				else
-					e.getPlayer().getDungManager().quickSwitch = getPerk(e.getPlayer().getTempI("kinshipTab"), e.getComponentId() == 137 ? 0 : e.getComponentId() == 44 ? 1 : 2);
+					e.getPlayer().getDungManager().quickSwitch = getPerk(e.getPlayer().getTempAttribs().getI("kinshipTab"), e.getComponentId() == 137 ? 0 : e.getComponentId() == 44 ? 1 : 2);
 				if (e.getPlayer().getDungManager().activeRingPerk != null)
 					ring.setId(e.getPlayer().getDungManager().activeRingPerk.getItemId());
 				e.getPlayer().getEquipment().refresh(Equipment.RING);
@@ -175,7 +175,7 @@ public class DungManager {
 	private void upgradePerk(KinshipPerk perk) {
 		if (perk == null)
 			return;
-		player.setTempO("perkUpgradePrompt", null);
+		player.getTempAttribs().setO("perkUpgradePrompt", null);
 		int cost = UPGRADE_COSTS[kinshipTiers[perk.ordinal()]];
 		if (tokens < cost) {
 			player.sendMessage("You don't have enough tokens to upgrade that.");
@@ -187,7 +187,7 @@ public class DungManager {
 	}
 
 	private void promptRingUpgrade(KinshipPerk perk) {
-		player.setTempO("perkUpgradePrompt", perk);
+		player.getTempAttribs().setO("perkUpgradePrompt", perk);
 		String upgradeInfo = EnumDefinitions.getEnum(3089 + perk.ordinal()).getStringValue(kinshipTiers[perk.ordinal()]);
 		upgradeInfo += "<br><br>";
 		upgradeInfo += EnumDefinitions.getEnum(3089 + perk.ordinal()).getStringValue(kinshipTiers[perk.ordinal()]+1);
@@ -198,8 +198,8 @@ public class DungManager {
 	}
 
 	public void customizeKinship(Item ring) {
-		player.setTempO("kinshipToBeCustomized", ring);
-		player.setTempI("kinshipTab", 0);
+		player.getTempAttribs().setO("kinshipToBeCustomized", ring);
+		player.getTempAttribs().setI("kinshipTab", 0);
 		player.getInterfaceManager().sendInterface(993);
 		refreshKinship();
 	}
@@ -240,9 +240,9 @@ public class DungManager {
 	}
 	
 	public void refreshKinshipStrings() {
-		player.getPackets().setIFText(993, 138, player.getDungManager().getStatus(getPerk(player.getTempI("kinshipTab"), 0)));
-		player.getPackets().setIFText(993, 45, player.getDungManager().getStatus(getPerk(player.getTempI("kinshipTab"), 1)));
-		player.getPackets().setIFText(993, 87, player.getDungManager().getStatus(getPerk(player.getTempI("kinshipTab"), 2)));
+		player.getPackets().setIFText(993, 138, player.getDungManager().getStatus(getPerk(player.getTempAttribs().getI("kinshipTab"), 0)));
+		player.getPackets().setIFText(993, 45, player.getDungManager().getStatus(getPerk(player.getTempAttribs().getI("kinshipTab"), 1)));
+		player.getPackets().setIFText(993, 87, player.getDungManager().getStatus(getPerk(player.getTempAttribs().getI("kinshipTab"), 2)));
 	}
 	
 	private String getStatus(KinshipPerk perk) {
@@ -785,13 +785,13 @@ public class DungManager {
 			@Override
 			public void run() {
 				player.getPackets().sendInputNameScript("Enter name:");
-				player.getTempAttribs().put("DUNGEON_INVITE", Boolean.TRUE);
+				player.getTempAttribs().setB("DUNGEON_INVITE", true);
 			}
 		});
 	}
 
 	public void acceptInvite() {
-		Player invitedBy = (Player) player.getTempAttribs().remove("DUNGEON_INVITED_BY");
+		Player invitedBy = player.getTempAttribs().removeO("DUNGEON_INVITED_BY");
 		if (invitedBy == null)
 			return;
 		DungeonPartyManager party = invitedBy.getDungManager().getParty();
@@ -836,7 +836,7 @@ public class DungManager {
 				player.sendMessage("You can't do that right now.");
 				return;
 			}
-			player.getTempAttribs().put("DUNGEON_INVITED_BY", p2);
+			player.getTempAttribs().setO("DUNGEON_INVITED_BY", p2);
 			player.getInterfaceManager().sendInterface(949);
 			for (int i = 0; i < 5; i++) {
 				Player teamMate = i >= party.getTeam().size() ? null : party.getTeam().get(i);
@@ -855,7 +855,7 @@ public class DungManager {
 				@Override
 				public void run() {
 					p2.getDungManager().expireInvitation();
-					player.getTempAttribs().remove("DUNGEON_INVITED_BY");
+					player.getTempAttribs().removeO("DUNGEON_INVITED_BY");
 				}
 
 			});
@@ -985,7 +985,7 @@ public class DungManager {
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				player.getTempAttribs().remove("DUNG_FLOOR");
+				player.getTempAttribs().removeI("DUNG_FLOOR");
 			}
 		});
 	}
@@ -1013,17 +1013,17 @@ public class DungManager {
 			return;
 		}
 		player.getPackets().setIFText(947, 765, "" + floor);
-		player.getTempAttribs().put("DUNG_FLOOR", floor);
+		player.getTempAttribs().setI("DUNG_FLOOR", floor);
 	}
 
 	public void confirmFloor() {
-		Integer selectedFloor = (Integer) player.getTempAttribs().remove("DUNG_FLOOR");
+		int selectedFloor = player.getTempAttribs().removeI("DUNG_FLOOR");
 		player.stopAll();
 		if (party == null) {
 			player.sendMessage("You must be in a party to do that.");
 			return;
 		}
-		if (selectedFloor == null)
+		if (selectedFloor == -1)
 			selectedFloor = party.getMaxFloor();
 		if (party.getMaxFloor() < party.getMaxFloor()) {
 			player.sendMessage("A member in your party can't do this floor.");
@@ -1059,7 +1059,7 @@ public class DungManager {
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				player.getTempAttribs().remove("DUNG_COMPLEXITY");
+				player.getTempAttribs().removeI("DUNG_COMPLEXITY");
 			}
 		});
 	}
@@ -1073,7 +1073,7 @@ public class DungManager {
 			player.sendMessage("A member in your party can't do this complexity.");
 			return;
 		}
-		Integer selectedComplexity = (Integer) player.getTempAttribs().remove("DUNG_COMPLEXITY");
+		Integer selectedComplexity = (Integer) player.getTempAttribs().removeI("DUNG_COMPLEXITY");
 		if (selectedComplexity != null) {
 			markComplexity(selectedComplexity, false);
 		}
@@ -1082,13 +1082,13 @@ public class DungManager {
 		int penalty = complexity == 6 ? 0 : ((6 - complexity) * 5 + 25);
 		player.getPackets().setIFText(938, 42, "" + complexity);
 		player.getPackets().setIFText(938, 119, penalty + "% XP Penalty");
-		player.getTempAttribs().put("DUNG_COMPLEXITY", complexity);
+		player.getTempAttribs().setI("DUNG_COMPLEXITY", complexity);
 	}
 
 	public void confirmComplexity() {
-		Integer selectedComplexity = (Integer) player.getTempAttribs().remove("DUNG_COMPLEXITY");
+		int selectedComplexity = player.getTempAttribs().removeI("DUNG_COMPLEXITY");
 		player.stopAll();
-		if (selectedComplexity == null)
+		if (selectedComplexity == -1)
 			return;
 		if (party == null) {
 			player.sendMessage("You must be in a party to do that.");

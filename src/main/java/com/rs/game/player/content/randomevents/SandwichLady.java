@@ -96,7 +96,7 @@ public class SandwichLady extends OwnedNPC {
 				e.getPlayer().startConversation(new Conversation(e.getPlayer())
 						.addNPC(8629, HeadE.HAPPY_TALKING, "You look hungry to me. I tell you what - have a chocolate bar on me.")
 						.addNext(() -> {
-							e.getPlayer().setTempO("sandwichLady", e.getNPC());
+							e.getPlayer().getTempAttribs().setO("sandwichLady", e.getNPC());
 							e.getPlayer().getInterfaceManager().sendInterface(297);
 						}));
 			}
@@ -107,7 +107,7 @@ public class SandwichLady extends OwnedNPC {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() >= 10 && e.getComponentId() <= 22) {
-				SandwichLady lady = e.getPlayer().getTempO("sandwichLady");
+				SandwichLady lady = e.getPlayer().getTempAttribs().getO("sandwichLady");
 				e.getPlayer().closeInterfaces();
 				if (lady == null) {
 					e.getPlayer().sendMessage("An error has ocurred.");

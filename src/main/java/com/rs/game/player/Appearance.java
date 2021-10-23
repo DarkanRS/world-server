@@ -95,7 +95,7 @@ public class Appearance {
 			flag |= 0x1;
 		if (transformedNpcId >= 0 && NPCDefinitions.getDefs(transformedNpcId).aBool4872)
 			flag |= 0x2;
-		if (player.getTempB("showSkillTotal") && !World.isPvpArea(player))
+		if (player.getTempAttribs().getB("showSkillTotal") && !World.isPvpArea(player))
 			flag |= 0x4;
 		if (title != 0 || player.getTitle() != null)
 			flag |= isTitleAfter(title) ? 0x80 : 0x40; // after/before
@@ -108,7 +108,7 @@ public class Appearance {
 			stream.writeGJString(player.getFormattedTitle());
 		}
 		stream.writeByte(player.hasSkull() ? player.getSkullId() : -1);
-		stream.writeByte(player.getTempI("customHeadIcon", -1) != -1 ? player.getTempI("customHeadIcon") : player.getPrayer().getPrayerHeadIcon());
+		stream.writeByte(player.getTempAttribs().getI("customHeadIcon", -1) != -1 ? player.getTempAttribs().getI("customHeadIcon") : player.getPrayer().getPrayerHeadIcon());
 		stream.writeByte(hidePlayer ? 1 : 0);
 
 		if (transformedNpcId >= 0) {
@@ -188,7 +188,7 @@ public class Appearance {
 		stream.writeString(player.getDisplayName());
 		boolean pvpArea = World.isPvpArea(player);
 		stream.writeByte(pvpArea ? player.getSkills().getCombatLevel() : player.getSkills().getCombatLevelWithSummoning());
-		if (player.getTempB("showSkillTotal") && !pvpArea) {
+		if (player.getTempAttribs().getB("showSkillTotal") && !pvpArea) {
 			stream.writeShort(player.getSkills().getTotalLevel());
 		} else {
 			stream.writeByte(pvpArea ? player.getSkills().getCombatLevelWithSummoning() : 0);

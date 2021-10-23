@@ -22,7 +22,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
 
         switch (p.getQuestManager().getStage(Quest.DEMON_SLAYER)) {
             case DemonSlayer.NOT_STARTED_STAGE:
-                if(p.getTempB("DemonSlayerCutscenePlayed")) {
+                if(p.getTempAttribs().getB("DemonSlayerCutscenePlayed")) {
                     afterCutsceneConvo(p);
                     break;
                 }
@@ -115,7 +115,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
                             p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
                         }));
 
-                if(p.getTempB("DemonSlayerCutscenePlayed")) {
+                if(p.getTempAttribs().getB("DemonSlayerCutscenePlayed")) {
                     option("What is the magical incantation?", new Dialogue()
                     .addPlayer(HeadE.WORRIED, "What is the magical incantation?")
                     .addNPC(GYPSY_ARIS, HeadE.SKEPTICAL_THINKING, "Oh yes, let me think a second...")

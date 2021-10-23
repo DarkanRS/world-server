@@ -39,7 +39,7 @@ public class Santa2020D extends Conversation {
 			addNPC(SANTA, HeadE.LAUGH, "Ho ho hohhh! You could guess a number between 1-1000 for me if that would make you feel more deserving of your presents this year.");
 			addPlayer(HeadE.CHEERFUL, "That's a lot more simple than last year, I guess!");
 			addNPC(SANTA, HeadE.CHEERFUL, "Yeah, when Torpid Trent has things he'd rather do. It seems to make our jobs easier.", () -> {
-				player.setTempI("santaRandNum", Utils.random(1, 1000));
+				player.getTempAttribs().setI("santaRandNum", Utils.random(1, 1000));
 			});
 			addNext(() -> {
 				player.save(Christmas2020.STAGE_KEY, 1);
@@ -76,10 +76,10 @@ public class Santa2020D extends Conversation {
 	}
 	
 	private static void guessNumber(Player player) {
-		if (player.getTempI("santaRandNum", -1) == -1)
-			player.setTempI("santaRandNum", Utils.random(1, 1000));
+		if (player.getTempAttribs().getI("santaRandNum", -1) == -1)
+			player.getTempAttribs().setI("santaRandNum", Utils.random(1, 1000));
 		player.sendInputInteger("Guess Santa's number between 1-1000!", result -> {
-			int answer = player.getTempI("santaRandNum");
+			int answer = player.getTempAttribs().getI("santaRandNum");
 			if (result > answer) {
 				player.startConversation(new Dialogue()
 						.addNPC(SANTA, player.getDisplayName().equalsIgnoreCase("jiren") ? HeadE.DRUNK : HeadE.CHEERFUL, player.getDisplayName().equalsIgnoreCase("jiren") ? "Dat shit's higha dan Snoop Dogg hoe." : "That's too high! Try again.")

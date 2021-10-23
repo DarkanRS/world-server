@@ -21,7 +21,7 @@ public class SkillCapeCustomizer {
 	}
 
 	public static void startCustomizing(Player player, int itemId) {
-		player.getTempAttribs().put("SkillcapeCustomizeId", itemId);
+		player.getTempAttribs().setI("SkillcapeCustomizeId", itemId);
 		int[] skillCape = itemId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
 		player.getInterfaceManager().sendInterface(20);
 		for (int i = 0; i < 4; i++)
@@ -30,10 +30,7 @@ public class SkillCapeCustomizer {
 	}
 
 	public static int getCapeId(Player player) {
-		Integer id = (Integer) player.getTempAttribs().get("SkillcapeCustomizeId");
-		if (id == null)
-			return -1;
-		return id;
+		return player.getTempAttribs().getI("SkillcapeCustomizeId");
 	}
 
 	public static void handleSkillCapeCustomizerColor(Player player, int colorId) {
@@ -44,8 +41,8 @@ public class SkillCapeCustomizer {
 		int capeId = getCapeId(player);
 		if (capeId == -1)
 			return;
-		Integer part = (Integer) player.getTempAttribs().get("SkillcapeCustomize");
-		if (part == null)
+		int part = player.getTempAttribs().getI("SkillcapeCustomize");
+		if (part == -1)
 			return;
 		int[] skillCape = capeId == 20767 ? player.getMaxedCapeCustomized() : player.getCompletionistCapeCustomized();
 		skillCape[part] = colorId;
@@ -73,19 +70,19 @@ public class SkillCapeCustomizer {
 				for (int i = 0; i < 4; i++)
 					e.getPlayer().getVars().setVarBit(9254 + i, skillCape[i]);
 			} else if (e.getComponentId() == 34) { // detail top
-				e.getPlayer().getTempAttribs().put("SkillcapeCustomize", 0);
+				e.getPlayer().getTempAttribs().setI("SkillcapeCustomize", 0);
 				e.getPlayer().getInterfaceManager().sendInterface(19);
 				e.getPlayer().getVars().setVar(2174, skillCape[0]);
 			} else if (e.getComponentId() == 71) { // background top
-				e.getPlayer().getTempAttribs().put("SkillcapeCustomize", 1);
+				e.getPlayer().getTempAttribs().setI("SkillcapeCustomize", 1);
 				e.getPlayer().getInterfaceManager().sendInterface(19);
 				e.getPlayer().getVars().setVar(2174, skillCape[1]);
 			} else if (e.getComponentId() == 83) { // detail button
-				e.getPlayer().getTempAttribs().put("SkillcapeCustomize", 2);
+				e.getPlayer().getTempAttribs().setI("SkillcapeCustomize", 2);
 				e.getPlayer().getInterfaceManager().sendInterface(19);
 				e.getPlayer().getVars().setVar(2174, skillCape[2]);
 			} else if (e.getComponentId() == 95) { // background button
-				e.getPlayer().getTempAttribs().put("SkillcapeCustomize", 3);
+				e.getPlayer().getTempAttribs().setI("SkillcapeCustomize", 3);
 				e.getPlayer().getInterfaceManager().sendInterface(19);
 				e.getPlayer().getVars().setVar(2174, skillCape[3]);
 			} else if (e.getComponentId() == 114 || e.getComponentId() == 142) { // done / close

@@ -539,7 +539,7 @@ public final class Equipment {
 						sendRemove(e.getPlayer(), e.getSlotId());
 						Equipment.refreshEquipBonuses(e.getPlayer());
 					}
-				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().remove("Banking") != null) {
+				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().removeB("Banking")) {
 					e.getPlayer().getBank().open();
 				}
 			} else if (e.getInterfaceId() == 670) {
@@ -762,11 +762,11 @@ public final class Equipment {
 			player.getPackets().sendRunScript(2319);
 		});
 		if (banking) {
-			player.getTempAttribs().put("Banking", Boolean.TRUE);
+			player.getTempAttribs().setB("Banking", true);
 			player.setCloseInterfacesEvent(new Runnable() {
 				@Override
 				public void run() {
-					player.getTempAttribs().remove("Banking");
+					player.getTempAttribs().removeB("Banking");
 				}
 
 			});

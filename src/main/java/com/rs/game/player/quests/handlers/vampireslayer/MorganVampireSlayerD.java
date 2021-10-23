@@ -56,13 +56,13 @@ public class MorganVampireSlayerD extends Conversation {
                 addNPC(MORGAN, HeadE.SCARED, "Please hurry! Every day we live in fear that we will be the vampyre's next victim!");
                 break;
             case VampireSlayer.STAKE_RECIEVED:
-                if(p.getTempB("morganHarlowPrompt")) {
+                if(p.getTempAttribs().getB("morganHarlowPrompt")) {
                     addNPC(MORGAN, HeadE.SCARED, "Please hurry...");
                     break;
                 }
                 addNPC(MORGAN, HeadE.CALM_TALK, "Have you talked to Dr. Harlow?");
                 addPlayer(HeadE.CALM_TALK, "Yes, I just need a stake & hammer and I am ready to kill the vampyre.");
-                addNPC(MORGAN, HeadE.SCARED, "Great, please hurry every day we live in fear we will be the vampyre's next victim!", ()->{p.setTempB("morganHarlowPrompt", true);});
+                addNPC(MORGAN, HeadE.SCARED, "Great, please hurry every day we live in fear we will be the vampyre's next victim!", ()->{p.getTempAttribs().setB("morganHarlowPrompt", true);});
 
                 break;
             case VampireSlayer.VAMPYRE_KILLED:

@@ -33,13 +33,9 @@ import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
-import com.rs.game.player.controllers.DemonSlayer_WallyVSDelrith;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.demonslayer.DemonSlayer;
-import com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue;
-import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
@@ -257,18 +253,18 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
-			p.setTempI("tempProjCheck", Integer.valueOf(args[0]));
+			p.getTempAttribs().getI("tempProjCheck", Integer.valueOf(args[0]));
 			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
-			int projId = p.getTempI("tempProjCheck", 0);
+			int projId = p.getTempAttribs().getI("tempProjCheck", 0);
 			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
 			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
-				p.setTempI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
+				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
 			else
-				p.setTempI("tempProjCheck", Utils.clampI(projId-1, 0, 5000));
+				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId-1, 0, 5000));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "object [id (type) (rotation)]", "Spawns an object south of the player's tile.", (p, args) -> {
@@ -347,7 +343,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "headicon", "Set custom headicon.", (player, args) -> {
-			player.setTempI("customHeadIcon", Integer.valueOf(args[0]));
+			player.getTempAttribs().setI("customHeadIcon", Integer.valueOf(args[0]));
 			player.getAppearance().generateAppearanceData();
 		});
 		
@@ -360,8 +356,8 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "vischunks", "Toggles the visualization of chunks.", (p, args) -> {
-			p.setTempB("visChunks", !p.getTempB("visChunks"));
-			p.sendMessage("Visualizing chunks: " + p.getTempB("visChunks"));
+			p.getNSV().setB("visChunks", !p.getNSV().getB("visChunks"));
+			p.sendMessage("Visualizing chunks: " + p.getNSV().getB("visChunks"));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns an invincible combat test NPC.", (p, args) -> {
@@ -399,7 +395,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev]", "Dialogue box", (p, args) -> {
-			int idx = p.getTempI("tempDialCheck", 0);
+			int idx = p.getTempAttribs().getI("tempDialCheck", 0);
 			int anim = UNIDENTIFIED_ANIMS[idx];
 			p.getInterfaceManager().sendChatBoxInterface(1184);
 	        p.getPackets().setIFText(1184, 17, NPCDefinitions.getDefs(Integer.valueOf(args[0])).getName());
@@ -409,9 +405,9 @@ public class MiscTest {
 	        p.getPackets().setIFAnimation(anim, 1184, 11);
 	        p.sendMessage("Anim: " + anim);
 	        if (args[1].equals("next"))
-	        	p.setTempI("tempDialCheck", Utils.clampI(idx+1, 0, UNIDENTIFIED_ANIMS.length-1));
+	        	p.getTempAttribs().setI("tempDialCheck", Utils.clampI(idx+1, 0, UNIDENTIFIED_ANIMS.length-1));
 	        else
-	        	p.setTempI("tempDialCheck", Utils.clampI(idx-1, 0, UNIDENTIFIED_ANIMS.length-1));
+	        	p.getTempAttribs().setI("tempDialCheck", Utils.clampI(idx-1, 0, UNIDENTIFIED_ANIMS.length-1));
 	        p.getPackets().sendDevConsoleMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
 		});
 		
@@ -421,15 +417,15 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "icompanimrot [interfaceId componentId next/prev]", "Rotates animations on an interface component.", (p, args) -> {
-			int idx = p.getTempI("tempDialCheck", 0);
+			int idx = p.getTempAttribs().getI("tempDialCheck", 0);
 			int anim = UNIDENTIFIED_ANIMS[idx];
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 	        p.getPackets().setIFAnimation(anim, Integer.valueOf(args[0]), Integer.valueOf(args[1]));
 	        p.sendMessage("Anim: " + anim);
 	        if (args[2].equals("next"))
-	        	p.setTempI("tempDialCheck", Utils.clampI(idx+1, 0, UNIDENTIFIED_ANIMS.length-1));
+	        	p.getTempAttribs().setI("tempDialCheck", Utils.clampI(idx+1, 0, UNIDENTIFIED_ANIMS.length-1));
 	        else
-	        	p.setTempI("tempDialCheck", Utils.clampI(idx-1, 0, UNIDENTIFIED_ANIMS.length-1));
+	        	p.getTempAttribs().setI("tempDialCheck", Utils.clampI(idx-1, 0, UNIDENTIFIED_ANIMS.length-1));
 	        p.getPackets().sendDevConsoleMessage(idx + "/" + UNIDENTIFIED_ANIMS.length);
 		});
 
@@ -523,21 +519,18 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.ADMIN, "god", "Toggles god mode for the player.", (p, args) -> {
-			boolean god = p.getTempAttribs().get("godMode") != null ? (boolean) p.getTempAttribs().get("godMode") : false;
-			p.getTempAttribs().put("godMode", !god);
-			p.sendMessage("GODMODE: " + !god);
+			p.getNSV().setB("godMode", !p.getNSV().getB("godMode"));
+			p.sendMessage("GODMODE: " + p.getNSV().getB("godMode"));
 		});
 		
 		Commands.add(Rights.ADMIN, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			boolean spec = p.getTempAttribs().get("infSpecialAttack") != null ? (boolean) p.getTempAttribs().get("infSpecialAttack") : false;
-			p.getTempAttribs().put("infSpecialAttack", !spec);
-			p.sendMessage("INFINITE SPECIAL ATTACK: " + !spec);
+			p.getNSV().setB("infSpecialAttack", !p.getNSV().getB("infSpecialAttack"));
+			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getNSV().getB("infSpecialAttack"));
 		});
 		
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
-			boolean spec = p.getTempAttribs().get("infPrayer") != null ? (boolean) p.getTempAttribs().get("infPrayer") : false;
-			p.getTempAttribs().put("infPrayer", !spec);
-			p.sendMessage("INFINITE PRAYER: " + !spec);
+			p.getNSV().setB("infPrayer", !p.getTempAttribs().getB("infPrayer"));
+			p.sendMessage("INFINITE PRAYER: " + p.getTempAttribs().getB("infPrayer"));
 		});
 		
 		Commands.add(Rights.ADMIN, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
@@ -793,7 +786,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "dropstobank,bankdrops", "Will send all drops recieved from monsters directly to the bank.", (p, args) -> {
-			p.getTempAttribs().put("sendingDropsToBank", true);
+			p.getNSV().setB("sendingDropsToBank", true);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
@@ -1003,13 +996,13 @@ public class MiscTest {
 				ObjAnimList.init();
 			final int start = args.length > 2 ? Integer.parseInt(args[2]) : 10;
 			final int end = args.length > 3 ? Integer.parseInt(args[3]) : 20000;
-			p.setTempI("loopAnim", start);
+			p.getTempAttribs().setI("loopAnim", start);
 			WorldTasksManager.schedule(new WorldTask() {
-				int anim = p.getTempI("loopAnim");
+				int anim = p.getTempAttribs().getI("loopAnim");
 
 				@Override
 				public void run() {
-					anim = p.getTempI("loopAnim");
+					anim = p.getTempAttribs().getI("loopAnim");
 					if (anim >= end || p == null || !p.isRunning() || p.hasFinished())
 						stop();
 					else {
@@ -1020,7 +1013,7 @@ public class MiscTest {
 						if (ObjAnimList.isUsed(i))
 							continue;
 						anim = i;
-						p.setTempI("loopAnim", anim);
+						p.getTempAttribs().setI("loopAnim", anim);
 						break;
 					}
 					return;

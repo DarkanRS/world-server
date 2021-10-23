@@ -287,12 +287,12 @@ public class Potions {
 		}),
 		
 		RECOVER_SPECIAL(VIAL, new int[] { 15300, 15301, 15302, 15303 }, true, p -> {
-			p.setTempL("recSpecPot", World.getServerTicks());
+			p.getTempAttribs().setL("recSpecPot", World.getServerTicks());
 			p.getCombatDefinitions().restoreSpecialAttack(25);
 		}) {
 			@Override
 			public boolean canDrink(Player player) {
-				if (World.getServerTicks() - player.getTempL("recSpecPot") < 50) {
+				if (World.getServerTicks() - player.getTempAttribs().getL("recSpecPot") < 50) {
 					player.sendMessage("You may only use this pot every 30 seconds.");
 					return false;
 				}
@@ -300,12 +300,12 @@ public class Potions {
 			}
 		},
 		RECOVER_SPECIAL_FLASK(-1, new int[] { 23483, 23484, 23485, 23486, 23487, 23488 }, true, p -> {
-			p.setTempL("recSpecPot", World.getServerTicks());
+			p.getTempAttribs().setL("recSpecPot", World.getServerTicks());
 			p.getCombatDefinitions().restoreSpecialAttack(25);
 		}) {
 			@Override
 			public boolean canDrink(Player player) {
-				if (World.getServerTicks() - player.getTempL("recSpecPot") < 50) {
+				if (World.getServerTicks() - player.getTempAttribs().getL("recSpecPot") < 50) {
 					player.sendMessage("You may only use this pot every 30 seconds.");
 					return false;
 				}
@@ -492,7 +492,7 @@ public class Potions {
 		STRANGE_FRUIT(-1, 464, p -> p.restoreRunEnergy(30)),
 		GORAJIAN_MUSHROOM(-1, 22446, p -> {
 			p.heal((int) (p.getMaxHitpoints()*0.1));
-			p.setTempB("gorajMush", true);
+			p.getTempAttribs().setB("gorajMush", true);
 		}),
 		
 		KARAMJAN_RUM(-1, 431, p -> {

@@ -54,22 +54,22 @@ public class StealingCreationShop {
 	};
 
 	public static void select(Player player, int index) {
-		boolean[] selectedList = (boolean[]) player.getTempAttribs().get("sc_shop_selected");
+		boolean[] selectedList = player.getTempAttribs().getO("sc_shop_selected");
 		if (selectedList == null)
 			selectedList = new boolean[7];
 		if (selectedList[index])
 			selectedList[index] = false;
 		else
 			selectedList[index] = true;
-		player.getTempAttribs().put("sc_shop_selected", selectedList);
+		player.getTempAttribs().setO("sc_shop_selected", selectedList);
 	}
 
 	private static void resetSelection(Player player) {
-		player.getTempAttribs().remove("sc_shop_selected");
+		player.getTempAttribs().removeO("sc_shop_selected");
 	}
 
 	public static void purchase(Player player) {
-		boolean[] requestedList = (boolean[]) player.getTempAttribs().get("sc_shop_selected");
+		boolean[] requestedList = player.getTempAttribs().getO("sc_shop_selected");
 		if (requestedList == null) {
 			player.sendMessage("You have nothing selected to purchase / re-charge");
 			return;

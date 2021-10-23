@@ -21,7 +21,7 @@ public class GraveStoneSelection {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 31)
-				e.getPlayer().setTempI("graveSelection", e.getSlotId());
+				e.getPlayer().getTempAttribs().setI("graveSelection", e.getSlotId());
 			else if (e.getComponentId() == 34)
 				confirmSelection(e.getPlayer());
 		}
@@ -36,7 +36,7 @@ public class GraveStoneSelection {
 	}
 
 	public static void confirmSelection(Player player) {
-		int slot = player.getTempI("graveSelection", -1) / 6;
+		int slot = player.getTempAttribs().getI("graveSelection", -1) / 6;
 		int price = getStonePrice(slot);
 		String name = getStoneName(slot);
 		if (slot != -1) {
