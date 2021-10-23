@@ -33,8 +33,8 @@ public final class ClanCapeCustomizer {
 			player.sendMessage("Customize color: " + colorId);
 		}
 
-		Integer part = (Integer) player.getTempAttribs().get("ClanCapeCustomizeID");
-		if (part == null)
+		int part = player.getTempAttribs().getI("ClanCapeCustomizeID");
+		if (part == -1)
 			return;
 		int[] skillCape = player.getClanCapeCustomized();
 		skillCape[part] = colorId;
@@ -53,19 +53,19 @@ public final class ClanCapeCustomizer {
 			for (int i = 0; i < 4; i++)
 				player.getVars().setVarBit(9254 + i, skillCape[i]);
 		} else if (buttonId == 34) { // detail top
-			player.getTempAttribs().put("SkillcapeCustomize", 0);
+			player.getTempAttribs().setI("SkillcapeCustomize", 0);
 			player.getInterfaceManager().sendInterface(19);
 			player.getVars().setVar(2174, skillCape[0]);
 		} else if (buttonId == 71) { // background top
-			player.getTempAttribs().put("SkillcapeCustomize", 1);
+			player.getTempAttribs().setI("SkillcapeCustomize", 1);
 			player.getInterfaceManager().sendInterface(19);
 			player.getVars().setVar(2174, skillCape[1]);
 		} else if (buttonId == 83) { // detail button
-			player.getTempAttribs().put("SkillcapeCustomize", 2);
+			player.getTempAttribs().setI("SkillcapeCustomize", 2);
 			player.getInterfaceManager().sendInterface(19);
 			player.getVars().setVar(2174, skillCape[2]);
 		} else if (buttonId == 95) { // background button
-			player.getTempAttribs().put("SkillcapeCustomize", 3);
+			player.getTempAttribs().setI("SkillcapeCustomize", 3);
 			player.getInterfaceManager().sendInterface(19);
 			player.getVars().setVar(2174, skillCape[3]);
 		} else if (buttonId == 114 || buttonId == 142) { // done / close

@@ -381,7 +381,7 @@ public abstract class Dialogue {
 			if (animationId != -1)
 				player.getPackets().setIFAnimation(animationId, 1191, 15);
 		}
-		player.getTempAttribs().put("staticDialogue", true);
+		player.getTempAttribs().setB("staticDialogue", true);
 		return true;
 	}
 

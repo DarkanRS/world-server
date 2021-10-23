@@ -25,7 +25,7 @@ public final class BrimhavenAgilityController extends Controller {
 				cancelGame();
 		}
 		player.getHintIconsManager().removeUnsavedHintIcon();
-		if (player.getTempAttribs().remove("BrimhavenAgility") != null)
+		if (player.getTempAttribs().removeI("BrimhavenAgility") != -1)
 			player.getVars().setVarBit(4456, 0);
 		player.getInterfaceManager().removeWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 1 : 11);
 	}
@@ -75,14 +75,11 @@ public final class BrimhavenAgilityController extends Controller {
 		}
 
 		private static void addIcon(Player player) {
-			Integer stage = (Integer) player.getTempAttribs().get("BrimhavenAgility");
-			if (stage != null)
-				if (stage == -1) {
-					player.getTempAttribs().remove("BrimhavenAgility"); // didnt
-					// click
-					player.getVars().setVarBit(4456, 0);
-				} else
-					player.getTempAttribs().put("BrimhavenAgility", -1); // clicked
+			if (player.getTempAttribs().getI("BrimhavenAgility") == -1) {
+				player.getTempAttribs().removeI("BrimhavenAgility");
+				player.getVars().setVarBit(4456, 0);
+			} else
+				player.getTempAttribs().setI("BrimhavenAgility", -1);
 			if (taggedDispenser == null)
 				return;
 			player.getHintIconsManager().addHintIcon(taggedDispenser.getX(), taggedDispenser.getY(), taggedDispenser.getPlane(), 65, 2, 0, -1, false);
@@ -109,11 +106,10 @@ public final class BrimhavenAgilityController extends Controller {
 			if (PlayingGame.taggedDispenser == null || PlayingGame.taggedDispenser.getTileHash() != object.getTileHash()) {
 				return false;
 			}
-			Integer stage = (Integer) player.getTempAttribs().get("BrimhavenAgility");
-			if (stage == null) {
-				player.getTempAttribs().put("BrimhavenAgility", 0); // clicked
-				player.getVars().setVarBit(4456, 1); // ready to get
-				// tickets
+			int stage = player.getTempAttribs().getI("BrimhavenAgility");
+			if (stage == -1) {
+				player.getTempAttribs().setI("BrimhavenAgility", 0);
+				player.getVars().setVarBit(4456, 1);
 				player.sendMessage("You get tickets by tagging more than one pillar in a row. Tag the next pillar!");
 			} else if (stage == 0) {
 				player.sendMessage("You have already tagged this pillar, wait until the arrow moves again.");
@@ -122,7 +118,7 @@ public final class BrimhavenAgilityController extends Controller {
 					player.sendMessage("Not enough space in your inventory.");
 					return false;
 				}
-				player.getTempAttribs().put("BrimhavenAgility", 0); // clicked
+				player.getTempAttribs().setI("BrimhavenAgility", 0);
 				player.getInventory().addItem(2996, 1);
 			}
 			return false;

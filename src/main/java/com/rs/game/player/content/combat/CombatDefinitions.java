@@ -27,21 +27,22 @@ public final class CombatDefinitions {
 	private CombatSpell autoCast;
 
 	public CombatSpell getSpell() {
-		if (player.getTempAttribs().containsKey("manualCastSpell"))
-			return (CombatSpell) player.getTempAttribs().get("manualCastSpell");
+		CombatSpell spell = player.getTempAttribs().getO("manualCastSpell");
+		if (spell != null)
+			return spell;
 		return autoCast;
 	}
 	
 	public boolean hasManualCastQueued() {
-		return player.getTempAttribs().containsKey("manualCastSpell");
+		return player.getTempAttribs().getO("manualCastSpell") != null;
 	}
 	
 	public void setManualCastSpell(CombatSpell spell) {
-		player.getTempAttribs().put("manualCastSpell", spell);
+		player.getTempAttribs().setO("manualCastSpell", spell);
 	}
 	
 	public void clearManualCastSpell() {
-		player.getTempAttribs().remove("manualCastSpell");
+		player.getTempAttribs().removeO("manualCastSpell");
 	}
 
 	public CombatSpell getAutoCast() {
@@ -461,8 +462,7 @@ public final class CombatDefinitions {
 	public void drainSpec(int amount) {
 		usingSpecialAttack = false;
 		refreshUsingSpecialAttack();
-		boolean spec = player.getTempAttribs().get("infSpecialAttack") != null ? (boolean) player.getTempAttribs().get("infSpecialAttack") : false;
-		if (spec)
+		if (player.getTempAttribs().getB("infSpecialAttack"))
 			amount = 0;
 		if (amount > 0) {
 			specialAttackPercentage -= amount;

@@ -2558,6 +2558,8 @@ public final class ObjectHandler {
 					player.getInventory().deleteItem(954, 1);
 					player.setKalphiteLairEntrance();
 				} else {
+					if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, true)))
+						return;
 					switch (objectDef.getName().toLowerCase()) {
 					case "anvil":
 						ForgingBar bar = ForgingBar.forId(itemId);
@@ -2581,9 +2583,6 @@ public final class ObjectHandler {
 							return;
 						}
 						player.getDialogueManager().execute(new SimpleMessage(), "You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
-						break;
-					default:
-						PluginManager.handle(new ItemOnObjectEvent(player, item, object, true));
 						break;
 					}
 					if (Settings.getConfig().isDebug())

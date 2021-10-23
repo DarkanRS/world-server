@@ -83,11 +83,11 @@ public class DuelController extends Controller {
 		if (target.getTempAttribs().getO("DuelChallenged") == player) {
 			player.getControllerManager().removeControllerWithoutCheck();
 			target.getControllerManager().removeControllerWithoutCheck();
-			target.getTempAttribs().remove("DuelChallenged");
+			target.getTempAttribs().removeO("DuelChallenged");
 			player.setLastDuelRules(new DuelRules(player, target));
 			target.setLastDuelRules(new DuelRules(target, player));
 			player.getControllerManager().startController(new DuelArenaController(target, (boolean) target.getTempAttribs().getB("DuelFriendly")));
-			target.getControllerManager().startController(new DuelArenaController(player, (boolean) target.getTempAttribs().getB("DuelFriendly")));
+			target.getControllerManager().startController(new DuelArenaController(player, (boolean) target.getTempAttribs().removeB("DuelFriendly")));
 			return false;
 		}
 		player.getTempAttribs().setO("DuelTarget", target);

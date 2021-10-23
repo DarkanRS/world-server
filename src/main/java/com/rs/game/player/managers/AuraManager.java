@@ -364,15 +364,13 @@ public class AuraManager {
 	}
 
 	public void useInspiration() {
-		Integer atts = (Integer) player.getTempAttribs().get("InspirationAura");
-		if (atts == null)
-			atts = 0;
+		int atts = player.getTempAttribs().getI("InspirationAura", 0);
 		atts++;
 		if (atts == 5) {
 			atts = 0;
 			player.getCombatDefinitions().restoreSpecialAttack(1);
 		}
-		player.getTempAttribs().put("InspirationAura", atts);
+		player.getTempAttribs().setI("InspirationAura", atts);
 	}
 
 	public int getAuraModelId() {

@@ -361,14 +361,14 @@ public class Summoning {
 		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
 		player.getPackets().sendPouchInfusionOptionsScript(POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
 		player.getPackets().setIFTargetParams(new IFTargetParams(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
-		player.getTempAttribs().put("infusing_scroll", false);
+		player.getTempAttribs().setB("infusing_scroll", false);
 	}
 
 	public static void openScrollInfusionInterface(Player player) {
 		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
 		player.getPackets().sendScrollInfusionOptionsScript(SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
 		player.getPackets().setIFTargetParams(new IFTargetParams(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
-		player.getTempAttribs().put("infusing_scroll", true);
+		player.getTempAttribs().setB("infusing_scroll", true);
 	}
 	
 	public static int getPouchId(int grayId) {
@@ -468,7 +468,7 @@ public class Summoning {
 			}
 		}
 		if (!hasRequirements) {
-			player.getTempAttribs().put("infusing_scroll", infusingScroll);
+			player.getTempAttribs().setB("infusing_scroll", infusingScroll);
 			return;
 		}
 		player.closeInterfaces();
@@ -477,8 +477,7 @@ public class Summoning {
 	}
 
 	public static void switchInfusionOption(Player player) {
-		boolean infusingScroll = (boolean) player.getTempAttribs().get("infusing_scroll");
-		if (infusingScroll) {
+		if (player.getTempAttribs().getB("infusing_scroll")) {
 			openInfusionInterface(player);
 		} else {
 			openScrollInfusionInterface(player);

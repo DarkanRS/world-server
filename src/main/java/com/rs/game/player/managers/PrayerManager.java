@@ -378,10 +378,9 @@ public class PrayerManager {
 	private void processTurmoil(Entity target) {
 		if (target == null)
 			return;
-		Entity last = player.getTempAttribs().contains("lastTurmTarget") ? ((Entity) player.getTempAttribs().get("lastTurmTarget")) : null;
-		if (last != target) {
+		if (player.getTempAttribs().getO("lastTurmTarget") != target) {
 			setTurmoilBonus(target);
-			player.getTempAttribs().put("lastTurmTarget", target);
+			player.getTempAttribs().setO("lastTurmTarget", target);
 		}
 	}
 	
@@ -701,7 +700,7 @@ public class PrayerManager {
 	}
 
 	public void drainPrayer(double amount) {
-		if (player.getNSB("infPrayer"))
+		if (player.getNSV().getB("infPrayer"))
 			return;
 		this.points -= amount;
 		if (points <= 0) {
@@ -711,7 +710,7 @@ public class PrayerManager {
 	}
 	
 	public void drainPrayer() {
-		if (player.getNSB("infPrayer"))
+		if (player.getNSV().getB("infPrayer"))
 			return;
 		this.points = 0;
 		refreshPoints();

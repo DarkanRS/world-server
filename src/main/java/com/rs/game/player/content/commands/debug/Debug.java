@@ -35,7 +35,7 @@ public class Debug {
 			if (!Settings.getConfig().isDebug())
 				return;
 			if (e.getEntity() instanceof Player player) {
-				if (player.getTempB("visChunks") && player.hasStarted()) {
+				if (player.getNSV().getB("visChunks") && player.hasStarted()) {
 					player.devisualizeChunk(e.getEntity().getLastChunkId());
 					player.visualizeChunk(e.getChunkId());
 					player.sendMessage("Chunk: " + e.getChunkId());
@@ -88,8 +88,8 @@ public class Debug {
         });
 		
 		Commands.add(Rights.PLAYER, "showhitchance", "Toggles the display of your hit chance when attacking opponents.", (p, args) -> {
-			p.setTempB("hitChance", p.getTempB("hitChance"));
-			p.sendMessage("Hit chance display: " + p.getTempB("hitChance"));
+			p.getNSV().setB("hitChance", p.getNSV().getB("hitChance"));
+			p.sendMessage("Hit chance display: " + p.getNSV().getB("hitChance"));
 		});
 		
 		Commands.add(Rights.PLAYER, "item,spawn [itemId (amount)]", "Spawns an item with specified id and amount.", (p, args) -> {
@@ -232,8 +232,8 @@ public class Debug {
 		});
 		
 		Commands.add(Rights.PLAYER, "god", "Toggles god mode for the player.", (p, args) -> {
-			boolean god = p.getTempAttribs().get("godMode") != null ? (boolean) p.getTempAttribs().get("godMode") : false;
-			p.getTempAttribs().put("godMode", !god);
+			boolean god = p.getNSV().getB("godMode");
+			p.getNSV().setB("godMode", !god);
 			p.sendMessage("GODMODE: " + !god);
 		});
 		
@@ -242,14 +242,14 @@ public class Debug {
         });
 
 		Commands.add(Rights.PLAYER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			boolean spec = p.getTempAttribs().get("infSpecialAttack") != null ? (boolean) p.getTempAttribs().get("infSpecialAttack") : false;
-			p.getTempAttribs().put("infSpecialAttack", !spec);
+			boolean spec = p.getNSV().getB("infSpecialAttack");
+			p.getNSV().setB("infSpecialAttack", !spec);
 			p.sendMessage("INFINITE SPECIAL ATTACK: " + !spec);
 		});
 		
 		Commands.add(Rights.PLAYER, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
-			boolean spec = p.getTempAttribs().get("infPrayer") != null ? (boolean) p.getTempAttribs().get("infPrayer") : false;
-			p.getTempAttribs().put("infPrayer", !spec);
+			boolean spec = p.getNSV().getB("infPrayer");
+			p.getNSV().setB("infPrayer", !spec);
 			p.sendMessage("INFINITE PRAYER: " + !spec);
 		});
 
