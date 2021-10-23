@@ -669,8 +669,6 @@ public class MiscTest {
                         ShieldOfArrav.reset(p);
 				    else if (quest.name().equalsIgnoreCase("DEMON_SLAYER"))
                         DemonSlayer.reset(p);
-				    else if (quest.name().equalsIgnoreCase("PRINCE_ALI_RESCUE"))
-                        PrinceAliRescue.reset(p);
 				    else
 					    p.getQuestManager().setStage(quest, 0);
 					p.sendMessage("Resetted quest: " + quest.name());

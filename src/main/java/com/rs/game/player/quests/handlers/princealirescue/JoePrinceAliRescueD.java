@@ -5,6 +5,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -22,7 +23,7 @@ public class JoePrinceAliRescueD extends Conversation {
     public JoePrinceAliRescueD(Player p) {
         super(p);
         this.p = p;
-        if(PrinceAliRescue.isQuestInfoInPlayer(p, PrinceAliRescue.JOE_THE_GUARD_IS_DRUNK)) {
+        if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk")) {
             addNPC(JOE, HeadE.DRUNK, "Halt! Who goes there?");
             addPlayer(HeadE.HAPPY_TALKING, "Hello friend, I am just rescuing the prince, is that ok?");
             addNPC(JOE, HeadE.DRUNK, "Thatsh a funny joke. You are lucky I am shober. Go in peace, friend.");
@@ -48,7 +49,7 @@ public class JoePrinceAliRescueD extends Conversation {
                             .addSimple("The guard is drunk, and no longer a problem.",
                                     () -> {
                                 p.getInventory().deleteItem(BEER, 3);
-                                PrinceAliRescue.saveQuestInfoToPlayer(p, PrinceAliRescue.JOE_THE_GUARD_IS_DRUNK);
+                                p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Joe_guard_is_drunk", true);
                             }));
                     option("Tell me about the life of a guard.", new Dialogue()
                             .addPlayer(HeadE.TALKING_ALOT, "Tell me about the life of a guard.")

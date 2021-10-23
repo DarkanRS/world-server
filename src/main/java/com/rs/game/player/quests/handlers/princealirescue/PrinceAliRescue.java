@@ -9,6 +9,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
@@ -24,26 +25,11 @@ import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 @QuestHandler(Quest.PRINCE_ALI_RESCUE)
 @PluginEventHandler
 public class PrinceAliRescue extends QuestOutline {
-    final static String SAVE_MAP_ID = "PrinceAliRescueInfo";
-
-    //Quest info
-    public final static int LEELA_HAS_KEY = 10;
-    public final static int LEELA_GAVE_KEY = 11;
-    public final static int JOE_THE_GUARD_IS_DRUNK = 12;
-//    public final static int
-
 
     //Quest Stages
 	public final static int NOT_STARTED = 0;
     public final static int STARTED = 1;
     public final static int GEAR_CHECK = 2;
-//    public final static int
-//    public final static int
-//    public final static int
-//    public final static int
-//    public final static int
-//    public final static int
-//    public final static int
 
     //items
     public final static int BEER = 1917;
@@ -82,6 +68,8 @@ public class PrinceAliRescue extends QuestOutline {
     public final static int PRINCE_ALI1 = 920;
     public final static int PRINCE_ALI2 = 921;
 
+    //Places
+    public final static int JAIL_REGION_ID = 12338;
 	@Override
 	public int getCompletedStage() {
 		return 5;
@@ -158,36 +146,22 @@ public class PrinceAliRescue extends QuestOutline {
                 p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1));
     }
 
-    public static void saveQuestInfoToPlayer(Player p, int questInfo) {
-        if(p.get(SAVE_MAP_ID) instanceof ArrayList) {
-            ArrayList<Integer> questStages = (ArrayList<Integer>) p.get(SAVE_MAP_ID);
-            questStages.add(questInfo);
-            p.save(SAVE_MAP_ID, questStages);
-        } else {
-            ArrayList<Integer> questStages = new ArrayList<>();
-            questStages.add(questInfo);
-            p.delete(SAVE_MAP_ID);
-            p.save(SAVE_MAP_ID, questStages);
-        }
-    }
-
-    public static boolean isQuestInfoInPlayer(Player p, int questStage) {
-        if(p.get(SAVE_MAP_ID) instanceof ArrayList) {
-            return ((ArrayList<Integer>) p.get(SAVE_MAP_ID)).contains((double)questStage) ||
-                    ((ArrayList<Integer>) p.get(SAVE_MAP_ID)).contains(questStage);
-        } else {
-            return false;
-        }
-    }
-
-    public static void reset(Player p) {
-        p.getQuestManager().setStage(Quest.forId(64), 0, true);
-        p.delete(SAVE_MAP_ID);
-    }
-
     public static ObjectClickHandler handleJailCellDoor = new ObjectClickHandler(new Object[] { 3436 }) {
         @Override
         public void handle(ObjectClickEvent e) {
+            if(e.getObject().matches(new WorldTile(3128, 3243, 0))) {
+                if (e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1)) {
+                    handleDoor(e.getPlayer(), e.getObject());
+                } else
+                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            addPlayer(HeadE.CALM_TALK, "It appears to need a key...");
+                        }
+                    });
+                return;
+            }
+
+
             if(e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1)) {
                 for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
                     if(npc.getId() == LADY_KELI) {
@@ -222,7 +196,7 @@ public class PrinceAliRescue extends QuestOutline {
             if(e.getItem().getId() != ROPE || e.getPlayer().getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
                 return;
             Player p = e.getPlayer();
-            if(isQuestInfoInPlayer(p, JOE_THE_GUARD_IS_DRUNK) && p.getInventory().containsItem(BRONZE_KEY, 1) &&
+            if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk") && p.getInventory().containsItem(BRONZE_KEY, 1) &&
                     p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&
                     p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1)) {
                 e.getNPC().setRespawnTask(90);

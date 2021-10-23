@@ -29,8 +29,8 @@ public class LeelaPrinceAliRescueD extends Conversation {
         }
         if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.GEAR_CHECK) {
             //bronze key complete
-            if(PrinceAliRescue.isQuestInfoInPlayer(p, PrinceAliRescue.LEELA_HAS_KEY) && !p.getInventory().containsItem(PrinceAliRescue.BRONZE_KEY, 1)) {
-                if(PrinceAliRescue.isQuestInfoInPlayer(p, PrinceAliRescue.LEELA_GAVE_KEY)) {
+            if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_has_key") && !p.getInventory().containsItem(PrinceAliRescue.BRONZE_KEY, 1)) {
+                if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_gave_key")) {
                     addNPC(LEELA, HeadE.CALM_TALK, "You lost the key?");
                     addNPC(LEELA, HeadE.CALM_TALK, "I am going to need 15 coins from you to pay for the bronze.");
                     if(p.getInventory().containsItem(995, 15))
@@ -46,7 +46,7 @@ public class LeelaPrinceAliRescueD extends Conversation {
                     addNPC(LEELA, HeadE.CALM_TALK, "My father sent this key for you. Be careful not to lose it.");
                     addSimple("Leela gives you a copy of the key to the prince's door.", () -> {
                         p.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
-                        PrinceAliRescue.saveQuestInfoToPlayer(p, PrinceAliRescue.LEELA_GAVE_KEY);
+                        p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Leela_gave_key", true);
                     });
                     addNPC(LEELA, HeadE.CALM_TALK, "Don't forget to deal with the guard on the door. He is talkative, try to find a weakness in him.");
                 }

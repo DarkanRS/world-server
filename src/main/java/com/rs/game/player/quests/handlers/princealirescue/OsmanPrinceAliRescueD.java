@@ -44,13 +44,13 @@ public class OsmanPrinceAliRescueD extends Conversation {
                 addSimple("Osman takes the key imprint and the bronze bar.", () -> {
                     p.getInventory().deleteItem(PrinceAliRescue.KEY_PRINT, 1);
                     p.getInventory().deleteItem(PrinceAliRescue.BRONZE_BAR, 1);
-                    PrinceAliRescue.saveQuestInfoToPlayer(p, PrinceAliRescue.LEELA_HAS_KEY);
+                    p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Leela_has_key", true);
                 });
                 addNPC(OSMAN, HeadE.HAPPY_TALKING, "Pick the key up from Leela.");
                 addPlayer(HeadE.HAPPY_TALKING, "Thank you. I will try to find the other items.");
             } else {
                 addPlayer(HeadE.TALKING_ALOT, "Can you tell me what I still need to get?");
-                if (PrinceAliRescue.isQuestInfoInPlayer(p, PrinceAliRescue.LEELA_HAS_KEY))
+                if (p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_has_key"))
                     addNPC(OSMAN, HeadE.CALM_TALK, "Make sure to have the bronze key from Leela.");
                 else
                     addNPC(OSMAN, HeadE.CALM_TALK, "A print of the key in soft clay and a bronze bar. Then, collect the key from Leela.");
