@@ -64,10 +64,6 @@ public class CountDraynorBoss extends NPC {
         p = World.getPlayersInRegion(this.getRegionId()).get(0);
     }
 
-    private CountDraynorBoss getSelf() {
-        return this;
-    }
-
     @Override
     public void sendDeath(Entity source) {
         removeTarget();

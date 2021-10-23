@@ -234,15 +234,15 @@ public class WildernessAgility {
 	}
 
 	public static void removeWildernessStage(Player player) {
-		player.getTemporaryAttributes().remove("WildernessCourse");
+		player.getTempAttribs().remove("WildernessCourse");
 	}
 
 	public static void setWildernessStage(Player player, int stage) {
-		player.getTemporaryAttributes().put("WildernessCourse", stage);
+		player.getTempAttribs().put("WildernessCourse", stage);
 	}
 
 	public static int getWildernessStage(Player player) {
-		Integer stage = (Integer) player.getTemporaryAttributes().get("WildernessCourse");
+		Integer stage = (Integer) player.getTempAttribs().get("WildernessCourse");
 		if (stage == null)
 			return -1;
 		return stage;

@@ -539,7 +539,7 @@ public final class Equipment {
 						sendRemove(e.getPlayer(), e.getSlotId());
 						Equipment.refreshEquipBonuses(e.getPlayer());
 					}
-				} else if (e.getComponentId() == 46 && e.getPlayer().getTemporaryAttributes().remove("Banking") != null) {
+				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().remove("Banking") != null) {
 					e.getPlayer().getBank().open();
 				}
 			} else if (e.getInterfaceId() == 670) {
@@ -646,13 +646,17 @@ public final class Equipment {
 	}
 
 	public static boolean sendWear(Player player, int slotId, int itemId) {
+		return sendWear(player, slotId, itemId, false);
+	}
+
+	public static boolean sendWear(Player player, int slotId, int itemId, boolean overrideWear) {
 		if (player.hasFinished() || player.isDead())
 			return false;
 		player.stopAll(false, false);
 		Item item = player.getInventory().getItem(slotId);
 		if (item == null || item.getId() != itemId)
 			return false;
-		if (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield"))
+		if (!overrideWear && (!item.getDefinitions().containsOption("Wear") && !item.getDefinitions().containsOption("Wield")))
 			return false;
 		if (item.getDefinitions().isNoted() || !item.getDefinitions().isWearItem(player.getAppearance().isMale())) {
 			player.sendMessage("You can't wear that.");
@@ -758,11 +762,11 @@ public final class Equipment {
 			player.getPackets().sendRunScript(2319);
 		});
 		if (banking) {
-			player.getTemporaryAttributes().put("Banking", Boolean.TRUE);
+			player.getTempAttribs().put("Banking", Boolean.TRUE);
 			player.setCloseInterfacesEvent(new Runnable() {
 				@Override
 				public void run() {
-					player.getTemporaryAttributes().remove("Banking");
+					player.getTempAttribs().remove("Banking");
 				}
 
 			});

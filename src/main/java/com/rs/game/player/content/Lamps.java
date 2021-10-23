@@ -54,10 +54,10 @@ public class Lamps {
     }
 
     private static void sendSelectedSkill(Player player) {
-        if (player.getTemporaryAttributes().get("lampInstance") == null) {
+        if (player.getTempAttribs().get("lampInstance") == null) {
             return;
         }
-        Lamp lamp = (Lamp) player.getTemporaryAttributes().get("lampInstance");
+        Lamp lamp = (Lamp) player.getTempAttribs().get("lampInstance");
         EnumDefinitions map = EnumDefinitions.getEnum(681);
         if (lamp.getSelectedSkill() == map.getDefaultIntValue()) {
             player.getPackets().sendVarc(1796, map.getDefaultIntValue());
@@ -84,7 +84,7 @@ public class Lamps {
             public void start() {
                 if (id == 12628)
                     lamp.setXp(500);
-                player.getTemporaryAttributes().put("lampInstance", lamp);
+                player.getTempAttribs().put("lampInstance", lamp);
                 player.getVars().setVar(738, 1); //has house
                 player.getVars().setVarBit(2187, 1);
                 player.getInterfaceManager().sendInterface(1263);
@@ -109,7 +109,7 @@ public class Lamps {
             public void run(int interfaceId, int componentId) {
                 if (componentId == 39) {
                     if (!player.getInventory().containsItem(lamp.getId(), 1)) {
-                        player.getTemporaryAttributes().remove("lampInstance");
+                        player.getTempAttribs().remove("lampInstance");
                         player.closeInterfaces();
                         return;
                     }
@@ -135,9 +135,9 @@ public class Lamps {
                     double exp = player.getSkills().addXpLamp(lamp.getSelectedSkill(), xpAmt);
                     player.closeInterfaces();
                     player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");
-                    player.getTemporaryAttributes().remove("lampInstance");
+                    player.getTempAttribs().remove("lampInstance");
                 } else {
-                    player.getTemporaryAttributes().remove("lampInstance");
+                    player.getTempAttribs().remove("lampInstance");
                     player.closeInterfaces();
                 }
             }
@@ -151,7 +151,7 @@ public class Lamps {
         player.setCloseInterfacesEvent(new Runnable() {
             @Override
             public void run() {
-                player.getTemporaryAttributes().remove("lampInstance");
+                player.getTempAttribs().remove("lampInstance");
             }
         });
     }
@@ -159,11 +159,11 @@ public class Lamps {
     public static ButtonClickHandler handleButtons = new ButtonClickHandler(1263) {
         @Override
         public void handle(ButtonClickEvent e) {
-            if (e.getPlayer().getTemporaryAttributes().get("lampInstance") == null) {
+            if (e.getPlayer().getTempAttribs().get("lampInstance") == null) {
                 e.getPlayer().closeInterfaces();
                 return;
             }
-            Lamp lamp = (Lamp) e.getPlayer().getTemporaryAttributes().get("lampInstance");
+            Lamp lamp = (Lamp) e.getPlayer().getTempAttribs().get("lampInstance");
             if (e.getComponentId() >= 13 && e.getComponentId() <= 37) {
                 int skill = DIALOGUE_INTERFACE_C2S[e.getComponentId() - 13];
                 lamp.setSelectedSkill(skill);

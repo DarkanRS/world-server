@@ -198,7 +198,7 @@ public final class World {
 		NPCS.remove(npc);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, int direction, boolean permaDeath, boolean withFunction, String customName) {
+	public static final NPC spawnNPC(int id, WorldTile tile, Direction direction, boolean permaDeath, boolean withFunction, String customName) {
 		NPC n = null;
 		if (withFunction) {
 			Object fObj = PluginManager.getObj(new NPCInstanceEvent(id, tile, permaDeath));
@@ -214,7 +214,7 @@ public final class World {
 	}
 
     public static final NPC spawnNPC(int id, WorldTile tile, boolean permaDeath, boolean withFunction, String customName) {
-        return spawnNPC(id, tile, 4, permaDeath, withFunction, null);
+        return spawnNPC(id, tile, Direction.SOUTH, permaDeath, withFunction, null);
     }
 
 
@@ -1353,7 +1353,6 @@ public final class World {
 		return WildernessController.isAtWild(player);
 	}
 	
-
 	public static GameObject getClosestObject(int objectId, WorldTile tile) {
 		for (int dist = 0;dist < 16;dist++) {
 			for (int x = -dist;x < dist;x++) {
@@ -1365,6 +1364,52 @@ public final class World {
 			}
 		}
 		return null;
+	}
+	
+	public static GameObject getClosestObject(ObjectType type, WorldTile tile) {
+		for (int dist = 0;dist < 16;dist++) {
+			for (int x = -dist;x < dist;x++) {
+				for (int y = -dist; y < dist;y++) {
+					GameObject object = World.getObject(tile.transform(x, y));
+					if (object != null && object.getType() == type)
+						return object;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static GameObject getClosestObject(String name, WorldTile tile) {
+		for (int dist = 0;dist < 16;dist++) {
+			for (int x = -dist;x < dist;x++) {
+				for (int y = -dist; y < dist;y++) {
+					GameObject object = World.getObject(tile.transform(x, y));
+					if (object != null && object.getDefinitions().getName().equals(name))
+						return object;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static GameObject getClosestObject(String name, WorldTile tile, int range) {
+		GameObject closest = null;
+		double closestDist = 1000;
+		for (int dist = 0;dist < range;dist++) {
+			for (int x = -dist;x < dist;x++) {
+				for (int y = -dist; y < dist;y++) {
+					GameObject object = World.getObject(tile.transform(x, y));
+					if (object != null && object.getDefinitions().getName().equals(name)) {
+						double newDist = Utils.getDistance(object.getCoordFace(), tile);
+						if (newDist < closestDist) {
+							closest = object;
+							closestDist = newDist;
+						}
+					}
+				}
+			}
+		}
+		return closest;
 	}
 
 	public static final GameObject getStandartObject(WorldTile tile) {

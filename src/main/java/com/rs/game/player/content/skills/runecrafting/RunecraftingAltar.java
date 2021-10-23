@@ -119,7 +119,7 @@ public class RunecraftingAltar {
 		@Override
 		public void handle(ItemClickEvent e) {
 			if (e.getOption().equals("Activate")) {
-				e.getPlayer().getTemporaryAttributes().remove("whr");
+				e.getPlayer().getTempAttribs().remove("whr");
 				sendWickedHoodInter(e.getPlayer());
 			} else {
 				Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3106, 3162, 1));
@@ -144,10 +144,10 @@ public class RunecraftingAltar {
 					refreshHood(e.getPlayer());
 				}
 			} else if (e.getComponentId() == 111) {
-				if (e.getPlayer().getTemporaryAttributes().get("whr") == null) {
+				if (e.getPlayer().getTempAttribs().get("whr") == null) {
 					e.getPlayer().sendMessage("You need to select a rune first.");
 				} else {
-					WickedHoodRune selection = (WickedHoodRune) e.getPlayer().getTemporaryAttributes().get("whr");
+					WickedHoodRune selection = (WickedHoodRune) e.getPlayer().getTempAttribs().get("whr");
 					if (selection != null) {
 						if (selection.name().equals("OMNI") || selection.name().equals("ELEMENTAL")) {
 							e.getPlayer().sendMessage("Please choose a valid rune type.");
@@ -169,10 +169,10 @@ public class RunecraftingAltar {
 					}
 				}
 			} else if (e.getComponentId() == 127) {
-				if (e.getPlayer().getTemporaryAttributes().get("whr") == null) {
+				if (e.getPlayer().getTempAttribs().get("whr") == null) {
 					e.getPlayer().sendMessage("You need to select a rune first.");
 				} else {
-					WickedHoodRune selection = (WickedHoodRune) e.getPlayer().getTemporaryAttributes().get("whr");
+					WickedHoodRune selection = (WickedHoodRune) e.getPlayer().getTempAttribs().get("whr");
 					if (selection != null) {
 						if (selection.name().equals("OMNI") || selection.name().equals("ELEMENTAL")) {
 							e.getPlayer().sendMessage("Please choose a valid rune type.");
@@ -201,11 +201,11 @@ public class RunecraftingAltar {
 				}
 				if (rune != null) {
 					if (e.getPlayer().hasWickedHoodTalisman(rune)) {
-						if (e.getPlayer().getTemporaryAttributes().get("whr") == null) {
-							e.getPlayer().getTemporaryAttributes().put("whr", rune);
+						if (e.getPlayer().getTempAttribs().get("whr") == null) {
+							e.getPlayer().getTempAttribs().put("whr", rune);
 							e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, rune.getComponentId(), true);
 						} else {
-							WickedHoodRune old = (WickedHoodRune) e.getPlayer().getTemporaryAttributes().put("whr", rune);
+							WickedHoodRune old = (WickedHoodRune) e.getPlayer().getTempAttribs().put("whr", rune);
 							e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, old.getComponentId(), false);
 							e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, rune.getComponentId(), true);
 						}

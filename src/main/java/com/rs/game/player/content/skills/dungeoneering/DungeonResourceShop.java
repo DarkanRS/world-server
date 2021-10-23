@@ -17,7 +17,7 @@ public class DungeonResourceShop {
 			return;
 		}
 		player.getPackets().sendVarc(1320, complexity);
-		player.getTemporaryAttributes().put("DUNG_COMPLEXITY", complexity);
+		player.getTempAttribs().put("DUNG_COMPLEXITY", complexity);
 		player.getPackets().setIFRightClickOps(RESOURCE_SHOP, 24, 0, 429, 0, 1, 2, 3, 4);
 		player.getPackets().setIFRightClickOps(RESOURCE_SHOP_INV, 0, 0, 27, 0, 1, 2, 3, 4, 5);
 		player.getPackets().sendInterSetItemsOptionsScript(RESOURCE_SHOP_INV, 0, 93, 4, 7, "Value", "Sell 1", "Sell 5", "Sell 10", "Sell 50", "Examine");
@@ -26,13 +26,13 @@ public class DungeonResourceShop {
 		player.setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				player.getTemporaryAttributes().remove("DUNG_COMPLEXITY");
+				player.getTempAttribs().remove("DUNG_COMPLEXITY");
 			}
 		});
 	}
 
 	public static void handlePurchaseOptions(Player player, int slotId, int quantity) {
-		Integer complexity = (Integer) player.getTemporaryAttributes().get("DUNG_COMPLEXITY");
+		Integer complexity = (Integer) player.getTempAttribs().get("DUNG_COMPLEXITY");
 		if (complexity == null || complexity <= 1) // not error, just hacking
 			return;
 		int baseMap = CS2MAPS[complexity >= 5 ? 3 : complexity - 2];

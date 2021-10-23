@@ -63,7 +63,7 @@ public class LoyaltyShop {
 				confirmBuy(e.getPlayer());
 				break;
 			case 40:
-				e.getPlayer().getTemporaryAttributes().put("LoyaltyRewardColor", e.getSlotId());
+				e.getPlayer().getTempAttribs().put("LoyaltyRewardColor", e.getSlotId());
 				break;
 			case 59:
 			case 51:
@@ -85,13 +85,13 @@ public class LoyaltyShop {
 				EnumDefinitions map = EnumDefinitions.getEnum(tab.getCSMapId(e.getPlayer().getAppearance().isMale()));
 				Reward reward = tab.getReward(e.getSlotId());
 				if (reward != null) {
-					e.getPlayer().getTemporaryAttributes().put("LoyaltyReward", reward);
+					e.getPlayer().getTempAttribs().put("LoyaltyReward", reward);
 					e.getPlayer().getPackets().sendRunScriptReverse(5355, new Object[] { e.getPlayer().unlockedLoyaltyReward(reward) ? 1 : 0, map.getIntValue(e.getSlotId()) });
 					e.getPlayer().getPackets().setIFHidden(1143, 16, false);
 					e.getPlayer().getPackets().setIFHidden(1143, 56, false);
 					e.getPlayer().getPackets().setIFHidden(1143, 58, true);
 				} else {
-					e.getPlayer().getTemporaryAttributes().remove("LoyaltyReward");
+					e.getPlayer().getTempAttribs().remove("LoyaltyReward");
 				}
 			} else if (tab != null && tab.isFavoriteComponent(e.getComponentId())) {
 				Reward reward = tab.getReward(e.getSlotId());
@@ -110,7 +110,7 @@ public class LoyaltyShop {
 	};
 	
 	public static void confirmBuy(Player player) {
-		Reward reward = player.getTemporaryAttributes().get("LoyaltyReward") != null ? (Reward) player.getTemporaryAttributes().get("LoyaltyReward") : null;
+		Reward reward = player.getTempAttribs().get("LoyaltyReward") != null ? (Reward) player.getTempAttribs().get("LoyaltyReward") : null;
 		if (reward != null) {
 			if (reward.getPreReq() <= 0 || player.unlockedLoyaltyReward(Reward.forId(reward.getPreReq()))) {
 				if (player.unlockedLoyaltyReward(reward)) {
@@ -163,7 +163,7 @@ public class LoyaltyShop {
 			break;
 		case COSTUME:
 			int color = 0;
-			Object colObj = player.getTemporaryAttributes().remove("LoyaltyRewardColor");
+			Object colObj = player.getTempAttribs().remove("LoyaltyRewardColor");
 			if (colObj != null && colObj instanceof Integer) {
 				color = (int) colObj;
 			}

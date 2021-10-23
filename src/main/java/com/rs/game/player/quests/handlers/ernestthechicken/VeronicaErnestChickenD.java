@@ -13,16 +13,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class VeronicaErnestChickenD extends Conversation {
     private static final int VERONICA = 285;
-    private static final int convo1 = 0;
-    private static final int convo2 = 1;
-    private static final int convo3 = 2;
-
-    private Player p;
-
+    
     public VeronicaErnestChickenD(Player p) {
         super(p);
-        this.p = p;
-
         switch (p.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
             case ErnestTheChicken.NOT_STARTED:
                 addNPC(VERONICA, HeadE.NERVOUS, "Can you please help me? I'm in a terrible spot of trouble. My fiance, Ernest, and I came upon this house. ");
@@ -69,8 +62,6 @@ public class VeronicaErnestChickenD extends Conversation {
 
     public VeronicaErnestChickenD(Player p, int convoID) {
         super(p);
-        this.p = p;
-
         switch(convoID) {
             case 0:
                 convo1(p);

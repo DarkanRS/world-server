@@ -21,7 +21,7 @@ public class PartygoerD extends Conversation {
 	public PartygoerD(Player player, NPC npc) {
 		super(player);
 
-		switch(player.getChrist19Stage()) {
+		switch(player.getI(Christmas2019.STAGE_KEY)) {
 		case 10:
 			addPlayer(HeadE.HAPPY_TALKING, "Merry Christmas!");
 			addNPC(npc.getId(), HeadE.HAPPY_TALKING, "Merry Christmas! I'm so glad the feast was able to be saved!");

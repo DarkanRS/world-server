@@ -145,8 +145,8 @@ public class StealingCreationLobby {
 			// player.sendMessage("Deposite your money pouch's coins at the
 			// local deposite box near you.");
 			// return false;
-		} else if (player.getTemporaryAttributes().get("SC_PENALTY") != null && (Long) player.getTemporaryAttributes().get("SC_PENALTY") >= System.currentTimeMillis()) {
-			long time = (Long) player.getTemporaryAttributes().get("SC_PENALTY");
+		} else if (player.getTempAttribs().get("SC_PENALTY") != null && (Long) player.getTempAttribs().get("SC_PENALTY") >= System.currentTimeMillis()) {
+			long time = (Long) player.getTempAttribs().get("SC_PENALTY");
 			player.getDialogueManager().execute(new SimpleMessage(), "You have betrayed the mystics and must wait " + (int) (time / 60000) + "minutes.");
 			return false;
 		}

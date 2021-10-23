@@ -13,7 +13,7 @@ public class DialogueManager {
 	}
 
 	public void continueDialogue(int interfaceId, int componentId) {
-		if (player.getTemporaryAttributes().get("staticDialogue") != null)
+		if (player.getTempAttribs().get("staticDialogue") != null)
 			finishDialogue();
 		if (lastDialogue == null)
 			return;
@@ -21,7 +21,7 @@ public class DialogueManager {
 	}
 
 	public void finishDialogue() {
-		player.getTemporaryAttributes().remove("staticDialogue");
+		player.getTempAttribs().remove("staticDialogue");
 		if (player.getInterfaceManager().containsChatBoxInter())
 			player.getInterfaceManager().closeChatBoxInterface();
 		if (lastDialogue == null)

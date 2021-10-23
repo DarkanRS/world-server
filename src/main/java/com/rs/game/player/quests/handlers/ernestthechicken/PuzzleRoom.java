@@ -4,17 +4,15 @@ import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.world.doors.Doors.Door;
 import com.rs.lib.game.VarManager;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
-
-import static com.rs.game.player.content.world.doors.Doors.Door;
 
 @PluginEventHandler
 public class PuzzleRoom {

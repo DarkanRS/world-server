@@ -30,9 +30,14 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+import com.rs.utils.spawns.ObjectSpawn;
+import com.rs.utils.spawns.ObjectSpawns;
 
 @PluginEventHandler
 public class Halloween2007 {
+	
+	public static String STAGE_KEY = "hw2021";
+	public static boolean ENABLED = true;
 	
 	public static WorldTile START_LOCATION = new WorldTile(1697, 4814, 0);
 	
@@ -94,7 +99,8 @@ public class Halloween2007 {
 	
 	@ServerStartupEvent
 	public static void loadPortal() {
-		//ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, new WorldTile(3210, 3425, 0), "Portal to enter Death's House."));
+		if (ENABLED)
+			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, new WorldTile(3210, 3425, 0), "Portal to enter Death's House."));
 	}
 	
 	public static ItemClickHandler handleGrimDiaryRead = new ItemClickHandler(Halloween2007.GRIM_DIARY) {
@@ -107,7 +113,10 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleEnter = new ObjectClickHandler(new Object[] { 31845 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getHw07Stage() >= 10) {
+			if (!ENABLED)
+				return;
+			
+			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 10) {
 				e.getPlayer().sendMessage("You've no need to return to the Grim Reaper's house.");
 				return;
 			}
@@ -146,13 +155,13 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleDoorway1 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1705, 4817, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getHw07Stage() >= 1) {
+			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 1) {
 				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(6389, HeadE.CALM_TALK, "We're watching you..")
+						.addNPC(6389, HeadE.CAT_CALM_TALK2, "We're watching you..")
 						.addNext(() -> {
 							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-							if (e.getPlayer().getHw07Stage() == 1)
-								e.getPlayer().setHw07Stage(2);
+							if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 1)
+								e.getPlayer().save(Halloween2007.STAGE_KEY, 2);
 						}));
 			} else {
 				handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
@@ -206,8 +215,8 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleDoorway2 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1701, 4832, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getHw07Stage() >= 2) {
-				if (e.getPlayer().getHw07Stage() == 2) {
+			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 2) {
+				if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 2) {
 					e.getPlayer().startConversation(new Dialogue()
 							.addNPC(8867, HeadE.CALM_TALK, "You have found my garden I see.")
 							.addPlayer(HeadE.NERVOUS, "Woah. You made my jump. How does your voice carry so far?")
@@ -220,9 +229,9 @@ public class Halloween2007 {
 							.addNPC(8867, HeadE.CALM_TALK, "Yes, and do not try teleporting out of the garden with the skull. The skull will remain behind and you'll have to find it again.")
 							.addNext(() -> {
 								handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-								e.getPlayer().setHw07Stage(3);
+								e.getPlayer().save(Halloween2007.STAGE_KEY, 3);
 							}));
-				} else if (e.getPlayer().getHw07Stage() == 3 && e.getPlayer().getInventory().containsItem(11784)) {
+				} else if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 3 && e.getPlayer().getInventory().containsItem(11784)) {
 					e.getPlayer().startConversation(new Dialogue()
 							.addPlayer(HeadE.SAD_SNIFFLE, "Woah, what'd I do? Oh no. The skull's gone.")
 							.addNPC(8867, HeadE.CALM_TALK, "Do not concern yourself. I had instructed the gargoyles to take it from you.")
@@ -231,7 +240,7 @@ public class Halloween2007 {
 							.addPlayer(HeadE.CALM_TALK, "You don't waste time, do you? So, the room that looks a bit like your lounge? I'm on my way.")
 							.addNext(() -> {
 								e.getPlayer().getInventory().deleteItem(11784, 28);
-								e.getPlayer().setHw07Stage(4);
+								e.getPlayer().save(Halloween2007.STAGE_KEY, 4);
 								handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 							}));
 				} else {
@@ -458,8 +467,8 @@ public class Halloween2007 {
 			if (e.getPlayer().getControllerManager().getController() == null)
 				e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 			Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
-			if (e.getPlayer().getHw07Stage() >= 4) {
-				if (e.getPlayer().getHw07Stage() == 4) {
+			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 4) {
+				if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 4) {
 					e.getPlayer().startConversation(new Dialogue()
 							.addNPC(8867, HeadE.CALM_TALK, "You made it.")
 							.addPlayer(HeadE.CONFUSED, "You sound surprised.")
@@ -469,9 +478,9 @@ public class Halloween2007 {
 							.addPlayer(HeadE.NERVOUS, "*Gulp* I shall have a look.")
 							.addNext(() -> {
 								handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-								e.getPlayer().setHw07Stage(5);
+								e.getPlayer().save(Halloween2007.STAGE_KEY, 5);
 							}));
-				} else if (e.getPlayer().getHw07Stage() == 5) {
+				} else if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 5) {
 					if (ctrl.isItemsCorrect()) {
 						e.getPlayer().startConversation(new Dialogue()
 								.addNPC(8867, HeadE.CALM_TALK, "Looks like you've returned everything to its proper location.")
@@ -479,7 +488,7 @@ public class Halloween2007 {
 								.addNPC(8867, HeadE.CALM_TALK, "You've not finished yet, mortal. Please proceed upstairs and enter the room you find there.")
 								.addPlayer(HeadE.CALM_TALK, "Upstairs it is.")
 								.addNext(() -> {
-									e.getPlayer().setHw07Stage(6);
+									e.getPlayer().save(Halloween2007.STAGE_KEY, 6);
 									handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 								}));
 					} else {
@@ -509,8 +518,8 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleDoorway4 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1641, 4829, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getHw07Stage() >= 6) {
-				if (e.getPlayer().getHw07Stage() == 6) {
+			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 6) {
+				if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 6) {
 					e.getPlayer().startConversation(new Dialogue()
 							.addNPC(8867, HeadE.CALM_TALK, "The last room.")
 							.addPlayer(HeadE.DIZZY, "Good job. I'm not sure my heart can take much more.")
@@ -520,7 +529,7 @@ public class Halloween2007 {
 							.addPlayer(HeadE.NERVOUS, "You've got to be kidding me.")
 							.addNext(() -> {
 								handlePassGargoyleEntry(e.getPlayer(), e.getObject());
-								e.getPlayer().setHw07Stage(7);
+								e.getPlayer().save(Halloween2007.STAGE_KEY, 7);
 							}));
 				} else {
 					handlePassGargoyleEntry(e.getPlayer(), e.getObject());
@@ -629,15 +638,15 @@ public class Halloween2007 {
 			if (e.getPlayer().getControllerManager().getController() == null)
 				e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 			Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
-			if (e.getPlayer().getHw07Stage() >= 7) {
-				if (e.getPlayer().getHw07Stage() == 7) {
+			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 7) {
+				if (e.getPlayer().getI(Halloween2007.STAGE_KEY) == 7) {
 					if (!ctrl.isRodeSlide()) {
-						e.getPlayer().startConversation(new Dialogue().addNPC(6389, HeadE.CALM_TALK, "You didn't test the slide!"));
+						e.getPlayer().startConversation(new Dialogue().addNPC(6389, HeadE.CAT_CALM_TALK2, "You didn't test the slide!"));
 						handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
 					} else {
 						handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
 							e.getPlayer().setNextWorldTile(new WorldTile(1641, 4828, 0));
-							e.getPlayer().setHw07Stage(8);
+							e.getPlayer().save(Halloween2007.STAGE_KEY, 8);
 							e.getPlayer().startConversation(new Dialogue()
 									.addPlayer(HeadE.CONFUSED, "Huh? What happened there?")
 									.addNPC(8867, HeadE.CALM_TALK, "Again.")
@@ -647,12 +656,12 @@ public class Halloween2007 {
 					}
 				} else {
 					if (!ctrl.isRodeSlide()) {
-						e.getPlayer().startConversation(new Dialogue().addNPC(6389, HeadE.CALM_TALK, "You didn't test the slide!"));
+						e.getPlayer().startConversation(new Dialogue().addNPC(6389, HeadE.CAT_CALM_TALK2, "You didn't test the slide!"));
 						handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
 					} else {
 						handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
 							e.getPlayer().setNextWorldTile(new WorldTile(1641, 4840, 0));
-							e.getPlayer().setHw07Stage(9);
+							e.getPlayer().save(Halloween2007.STAGE_KEY, 9);
 							e.getPlayer().startConversation(new Dialogue()
 									.addNPC(8867, HeadE.CALM_TALK, "That is sufficient.")
 									.addPlayer(HeadE.SLEEPING, "Phew.")
@@ -707,7 +716,7 @@ public class Halloween2007 {
 		World.sendObjectAnimation(World.getObject(object.transform(xOff ? 1 : 0, xOff ? 0 : 1, 0), ObjectType.GROUND_DECORATION), GARGOYLE_ANIM);
 		if (postDeath == null)
 			player.startConversation(new Dialogue()
-					.addNPC(6389, HeadE.CALM_TALK, "Who said you could come in here? See the Grim Reaper if you don't know where to go.")
+					.addNPC(6389, HeadE.CAT_CALM_TALK2, "Who said you could come in here? See the Grim Reaper if you don't know where to go.")
 					.addPlayer(HeadE.NERVOUS, "Oops."));
 		player.lock();
 		WorldTasksManager.schedule(new WorldTask() {

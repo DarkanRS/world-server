@@ -15,7 +15,7 @@ public class IFContinueHandler implements PacketHandler<Player, IFContinue> {
 	public void handle(Player player, IFContinue packet) {
 		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || !player.isRunning() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
 			return;
-		if (player.getTemporaryAttributes().get("pluginOption") != null && player.getTemporaryAttributes().remove("pluginOption") instanceof DialogueOptionEvent doe) {
+		if (player.getTempAttribs().get("pluginOption") != null && player.getTempAttribs().remove("pluginOption") instanceof DialogueOptionEvent doe) {
 			doe.setOption(packet.getComponentId() == 11 ? 1 : packet.getComponentId()-11);
 			if (player.getInterfaceManager().containsChatBoxInter())
 				player.getInterfaceManager().closeChatBoxInterface();

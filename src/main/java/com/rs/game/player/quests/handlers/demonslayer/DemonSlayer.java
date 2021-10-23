@@ -1,6 +1,7 @@
 package com.rs.game.player.quests.handlers.demonslayer;
 
-import com.rs.game.object.GameObject;
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -19,8 +20,6 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Areas;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler
@@ -199,7 +198,6 @@ public class DemonSlayer extends QuestOutline {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             p.getInventory().addItem(PRYSIN_KEY);
             p.startConversation(new Conversation(p) {
                 {

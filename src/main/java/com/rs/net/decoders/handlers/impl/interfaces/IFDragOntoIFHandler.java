@@ -30,9 +30,9 @@ public class IFDragOntoIFHandler implements PacketHandler<Player, IFDragOntoIF> 
 			player.getInventory().switchItem(packet.getFromSlot(), packet.getToSlot());
 		} else if (packet.getFromInter() == 762 && packet.getToInter() == 762) {
 			player.getBank().switchItem(packet.getFromSlot(), packet.getToSlot(), packet.getFromComp(), packet.getToComp());
-		} else if (packet.getFromInter() == 1265 && packet.getToInter() == 1266 && player.getTemporaryAttributes().get("shop_buying") != null) {
-			if ((boolean) player.getTemporaryAttributes().get("shop_buying") == true) {
-				Shop shop = (Shop) player.getTemporaryAttributes().get("Shop");
+		} else if (packet.getFromInter() == 1265 && packet.getToInter() == 1266 && player.getTempAttribs().get("shop_buying") != null) {
+			if ((boolean) player.getTempAttribs().get("shop_buying") == true) {
+				Shop shop = (Shop) player.getTempAttribs().get("Shop");
 				if (shop == null)
 					return;
 				shop.buy(player, packet.getFromSlot(), 1);

@@ -27,9 +27,9 @@ public abstract class Book {
 	public static ButtonClickHandler handleInter = new ButtonClickHandler(INTERFACE) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getTemporaryAttributes().get("currBook") == null)
+			if (e.getPlayer().getTempAttribs().get("currBook") == null)
 				return;
-			Book book = (Book) e.getPlayer().getTemporaryAttributes().get("currBook");
+			Book book = (Book) e.getPlayer().getTempAttribs().get("currBook");
 			if (e.getComponentId() == 72)
 				book.prevPage();
 			if (e.getComponentId() == 73)
@@ -39,9 +39,9 @@ public abstract class Book {
 	
 	public void open(Player player) {
 		this.player = player;
-		this.player.getTemporaryAttributes().put("currBook", this);
+		this.player.getTempAttribs().put("currBook", this);
 		this.player.setCloseInterfacesEvent(() -> {
-			this.player.getTemporaryAttributes().remove("currBook");
+			this.player.getTempAttribs().remove("currBook");
 		});
 		player.getPackets().setIFText(INTERFACE, 69, title);
 		page = 0;

@@ -24,8 +24,8 @@ public class EasterBunnyD extends Conversation {
 	public EasterBunnyD(Player player) {
 		super(player);
 
-		switch(player.getEaster20Stage()) {
-		case 0:
+		switch(player.getI(Easter2021.STAGE_KEY)) {
+		case -1:
 			addPlayer(HeadE.CHEERFUL, "Hello!");
 			addNPC(EASTER_BUNNY, HeadE.CAT_SAD, "...");
 			addPlayer(HeadE.CONFUSED, "Hello?");
@@ -45,7 +45,7 @@ public class EasterBunnyD extends Conversation {
 			addPlayer(HeadE.CONFUSED, "How do I do that?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "You simply go down the rabbit hole. My magic will sort the transformation, though you may feel a little itchy for a couple of weeks afterwards. I'll meet you down there!");
 			addPlayer(HeadE.CHEERFUL, "Off I go then!", () -> {
-				player.setEaster20Stage(1);
+				player.save(Easter2021.STAGE_KEY, 1);
 			});
 			break;
 		case 1:
@@ -55,7 +55,7 @@ public class EasterBunnyD extends Conversation {
 				addPlayer(HeadE.CHEERFUL, "What should I be fixing up first?");
 				addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Well the first problem to deal with is the Easter Bird.. He hasn't been laying eggs due to being so hungry and thirsty. There's some food and water to the east of him. You'll have to figure out which food he likes.");
 				addPlayer(HeadE.CHEERFUL, "Alright, I'll get right on that!", () -> {
-					player.setEaster20Stage(2);
+					player.save(Easter2021.STAGE_KEY, 2);
 				});
 			} else {
 				addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Speak to me down in my hole. I'll meet you down there!");
@@ -71,7 +71,7 @@ public class EasterBunnyD extends Conversation {
 			addPlayer(HeadE.CHEERFUL, "Awesome. What should I work on next?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "The incubator seems to be broken. I am not sure where the peices even went. My son probably had something to do with it. You should head over to his room to the west ask him about where they are.");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks. I'll get going.", () -> {
-				player.setEaster20Stage(4);
+				player.save(Easter2021.STAGE_KEY, 4);
 			});
 			break;
 		case 4:
@@ -89,7 +89,7 @@ public class EasterBunnyD extends Conversation {
 			addPlayer(HeadE.CHEERFUL, "Where do you think I can find some workers?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Squirrels! One of my great old friends Charlie lives a little north of Falador and he certainly has some motivated and cheerful workers who'd love to help!");
 			addPlayer(HeadE.SKEPTICAL_THINKING, "Squirrels? If you say so. I'll head up to Falador and see if I can find Charlie then.", () -> {
-				player.setEaster20Stage(7);
+				player.save(Easter2021.STAGE_KEY, 7);
 			});
 			break;
 		case 7:
@@ -100,16 +100,18 @@ public class EasterBunnyD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "It looks like Charlie's workers made it here pretty quickly! The factory looks like it's up and running now. Is there anything else you need help with?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Oh how eggciting! I think that should be fine for this year. Thank you so much for your help.");
 			addPlayer(HeadE.HAPPY_TALKING, "No problem, is there any special chocolate you can give me now that everything is fixed?");
-			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Oh of course! I almost forgot. Here are some bunny ears and a basket of easter eggs for your trouble!");
+			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Oh of course! I almost forgot. Here's a magical ring for all the trouble you went through!");
 			addPlayer(HeadE.CHEERFUL, "Thank you!");
-			addItem(1037, "The Easter Bunny hands you a pair of bunny ears and a basket of colorful easter eggs! You also feel you have the ability to hop higher on demand.");
+			addItem(7927, "The Easter Bunny hands you a magical easter ring and unlocks the Around the World emote for you!");
 			addNext(() -> {
-				player.setEaster20Stage(9);
-				player.getInventory().addItemDrop(new Item(1037, 1));
-				player.getInventory().addItemDrop(new Item(4565, 1));
-				player.addDiangoReclaimItem(1037);
-				player.addDiangoReclaimItem(4565);
-				player.getEmotesManager().unlockEmote(Emote.BUNNY_HOP);
+				player.save(Easter2021.STAGE_KEY, 9);
+//				player.getInventory().addItemDrop(new Item(1037, 1));
+//				player.getInventory().addItemDrop(new Item(4565, 1));
+//				player.addDiangoReclaimItem(1037);
+//				player.addDiangoReclaimItem(4565);
+				player.getInventory().addItemDrop(new Item(7927, 1));
+				player.addDiangoReclaimItem(7927);
+				player.getEmotesManager().unlockEmote(Emote.AROUND_THE_WORLD);
 			});
 			break;
 		case 9:

@@ -51,18 +51,18 @@ public final class SoulSiphonAttack implements QueenAttack {
 				}
 				if (npc.getSouls().isEmpty()) {
 					stop();
-					npc.getTemporaryAttributes().put("_last_soul_summon", npc.getTicks() + Utils.random(120) + 125);
+					npc.getTempAttribs().put("_last_soul_summon", npc.getTicks() + Utils.random(120) + 125);
 				}
 			}
 		}, 0, 0);
-		npc.getTemporaryAttributes().put("_last_soul_summon", npc.getTicks() + 999);
-		npc.getTemporaryAttributes().put("_soul_siphon_atk", npc.getTicks() + 50 + Utils.random(40));
+		npc.getTempAttribs().put("_last_soul_summon", npc.getTicks() + 999);
+		npc.getTempAttribs().put("_soul_siphon_atk", npc.getTicks() + 50 + Utils.random(40));
 		return Utils.random(5, 10);
 	}
 
 	@Override
 	public boolean canAttack(QueenBlackDragon npc, Player victim) {
-		Integer tick = (Integer) npc.getTemporaryAttributes().get("_soul_siphon_atk");
+		Integer tick = (Integer) npc.getTempAttribs().get("_soul_siphon_atk");
 		return tick == null || tick < npc.getTicks();
 	}
 

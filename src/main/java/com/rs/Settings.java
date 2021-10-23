@@ -6,25 +6,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Date;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.player.controllers.Controller;
 import com.rs.lib.Globals;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldInfo;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.json.DateAdapter;
-import com.rs.lib.net.packets.Packet;
-import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.Logger;
-import com.rs.lib.util.PacketAdapter;
-import com.rs.lib.util.PacketEncoderAdapter;
-import com.rs.utils.json.ControllerAdapter;
-import com.rs.utils.json.FamiliarAdapter;
 
 public final class Settings {
 	
@@ -108,16 +97,6 @@ public final class Settings {
 	public static ArrayList<String> COMMIT_HISTORY = new ArrayList<>();
 
 	public static void loadConfig() {
-		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
-				.registerTypeAdapter(Controller.class, new ControllerAdapter())
-				.registerTypeAdapter(Date.class, new DateAdapter())
-				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
-				.registerTypeAdapter(Packet.class, new PacketAdapter())
-				.disableHtmlEscaping()
-				.setPrettyPrinting()
-				.create());
-		
 		try {
 			File configFile = new File("./serverConfig.json");
 			if (configFile.exists())

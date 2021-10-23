@@ -70,7 +70,7 @@ public class Bank {
 	public static ButtonClickHandler handleInvButtons = new ButtonClickHandler(762) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if ((Boolean) e.getPlayer().getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) e.getPlayer().getTemporaryAttributes().get("viewingOtherBank") == true)
+			if ((Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") != null && (Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") == true)
 				return;
 			if (e.getComponentId() == 15)
 				e.getPlayer().getBank().switchInsertItems();
@@ -135,7 +135,7 @@ public class Bank {
 	public static ButtonClickHandler handleBankButtons = new ButtonClickHandler(763) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if ((Boolean) e.getPlayer().getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) e.getPlayer().getTemporaryAttributes().get("viewingOtherBank") == true)
+			if ((Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") != null && (Boolean) e.getPlayer().getTempAttribs().get("viewingOtherBank") == true)
 				return;
 			if (e.getComponentId() == 0) {
 				if (e.getPacket() == ClientPacket.IF_OP1)
@@ -267,7 +267,7 @@ public class Bank {
 	}
 
 	public void depositAllInventory(boolean banking) {
-		if ((Boolean) player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) player.getTemporaryAttributes().get("viewingOtherBank") == true)
+		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
 			return;
 		if (Bank.MAX_BANK_SIZE - getBankSize() < player.getInventory().getItems().getSize()) {
 			player.sendMessage("Not enough space in your bank.");
@@ -281,7 +281,7 @@ public class Bank {
 	}
 
 	public void depositAllBob(boolean banking) {
-		if ((Boolean) player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) player.getTemporaryAttributes().get("viewingOtherBank") == true)
+		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
 			return;
 		Familiar familiar = player.getFamiliar();
 		if (familiar == null || familiar.getBob() == null)
@@ -299,7 +299,7 @@ public class Bank {
 	}
 
 	public void depositAllEquipment(boolean banking) {
-		if ((Boolean) player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) player.getTemporaryAttributes().get("viewingOtherBank") == true)
+		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
 			return;
 		int space = addItems(player.getEquipment().getItemsCopy(), banking);
 		if (space != 0) {
@@ -423,7 +423,7 @@ public class Bank {
 	}
 
 	public void openDepositBox() {
-		player.getTemporaryAttributes().put("viewingOtherBank", Boolean.FALSE);
+		player.getTempAttribs().put("viewingOtherBank", Boolean.FALSE);
 		player.getInterfaceManager().sendInterface(11);
 		player.getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.EQUIPMENT);
 		player.getInterfaceManager().openGameTab(Tab.FRIENDS);
@@ -589,7 +589,7 @@ public class Bank {
 	public void open() {
 		if (!checkPin())
 			return;
-		player.getTemporaryAttributes().remove("viewingOtherBank");
+		player.getTempAttribs().remove("viewingOtherBank");
 		player.getVars().setVar(638, 0);
 		player.getVars().setVarBit(8348, 0);
 		refreshTabs();
@@ -614,7 +614,7 @@ public class Bank {
 		refreshTabs(other);
 		sendItemsOther(other);
 		unlockButtons();
-		player.getTemporaryAttributes().put("viewingOtherBank", Boolean.TRUE);
+		player.getTempAttribs().put("viewingOtherBank", Boolean.TRUE);
 	}
 
 	public void refreshLastX() {
@@ -643,7 +643,7 @@ public class Bank {
 	}
 
 	public void withdrawItem(int bankSlot, int quantity) {
-		if ((Boolean) player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) player.getTemporaryAttributes().get("viewingOtherBank") == Boolean.TRUE)
+		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == Boolean.TRUE)
 			return;
 		if (quantity < 1)
 			return;
@@ -704,7 +704,7 @@ public class Bank {
 	}
 
 	public void depositItem(int invSlot, int quantity, boolean refresh) {
-		if ((Boolean) player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean) player.getTemporaryAttributes().get("viewingOtherBank") == true)
+		if ((Boolean) player.getTempAttribs().get("viewingOtherBank") != null && (Boolean) player.getTempAttribs().get("viewingOtherBank") == true)
 			return;
 		if (quantity < 1 || invSlot < 0 || invSlot > 27)
 			return;

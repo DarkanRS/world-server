@@ -112,7 +112,7 @@ public class DungeoneeringFarming {
 	}
 
 	public static void initHarvest(final Player player, final Harvest harvest, final GameObject object) {
-		Integer harvestCount = (Integer) player.getTemporaryAttributes().get("HARVEST_COUNT");
+		Integer harvestCount = (Integer) player.getTempAttribs().get("HARVEST_COUNT");
 		final boolean isTextile = harvest.isTextile();
 		final String productName = ItemDefinitions.getDefs(harvest.product).getName().toLowerCase();
 
@@ -131,7 +131,7 @@ public class DungeoneeringFarming {
 			harvestCount = Utils.random(3, 6);
 		harvestCount--;
 		if (harvestCount == 0) {
-			player.getTemporaryAttributes().remove("HARVEST_COUNT");
+			player.getTempAttribs().remove("HARVEST_COUNT");
 			if (isTextile)
 				player.sendMessage("You have depleted this resource.");
 			if (patch != null)
@@ -139,7 +139,7 @@ public class DungeoneeringFarming {
 			World.spawnObject(new GameObject(isTextile ? object.getId() + 1 : DungeonConstants.EMPTY_FARMING_PATCH, object.getType(), object.getRotation(), object));
 			return;
 		}
-		player.getTemporaryAttributes().put("HARVEST_COUNT", harvestCount);
+		player.getTempAttribs().put("HARVEST_COUNT", harvestCount);
 		player.setNextAnimation(new Animation(3659));
 		player.lock(2);
 		WorldTasksManager.schedule(new WorldTask() {

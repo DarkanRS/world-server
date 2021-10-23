@@ -23,7 +23,7 @@ public class YtMejKotCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
 		if (npc.getHitpoints() < npc.getMaxHitpoints() / 2) {
-			if (npc.getTemporaryAttributes().remove("Heal") != null) {
+			if (npc.getTempAttribs().remove("Heal") != null) {
 				npc.setNextSpotAnim(new SpotAnim(2980, 0, 100));
 				Set<Integer> npcIndexes = World.getRegion(npc.getRegionId()).getNPCsIndexes();
 				if (npcIndexes != null) {
@@ -35,7 +35,7 @@ public class YtMejKotCombat extends CombatScript {
 					}
 				}
 			} else
-				npc.getTemporaryAttributes().put("Heal", Boolean.TRUE);
+				npc.getTempAttribs().put("Heal", Boolean.TRUE);
 		}
 		return npc.getAttackSpeed();
 	}

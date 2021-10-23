@@ -66,7 +66,7 @@ public class AnimatedArmor extends NPC {
 			return;
 		super.finish();
 		if (player != null) {
-			player.getTemporaryAttributes().remove("animator_spawned");
+			player.getTempAttribs().remove("animator_spawned");
 			if (!isDead()) {
 				for (int item : getDroppedItems()) {
 					if (item == -1)

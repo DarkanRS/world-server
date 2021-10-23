@@ -22,13 +22,13 @@ public final class ChangeArmour implements QueenAttack {
 				npc.switchState(QueenState.DEFAULT);
 			}
 		}, 40);
-		npc.getTemporaryAttributes().put("_last_armour_change", npc.getTicks() + Utils.random(41, 100));
+		npc.getTempAttribs().put("_last_armour_change", npc.getTicks() + Utils.random(41, 100));
 		return Utils.random(4, 10);
 	}
 
 	@Override
 	public boolean canAttack(QueenBlackDragon npc, Player victim) {
-		Integer last = (Integer) npc.getTemporaryAttributes().get("_last_armour_change");
+		Integer last = (Integer) npc.getTempAttribs().get("_last_armour_change");
 		return last == null || last < npc.getTicks();
 	}
 

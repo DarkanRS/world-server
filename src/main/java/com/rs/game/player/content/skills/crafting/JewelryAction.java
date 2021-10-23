@@ -47,8 +47,8 @@ public class JewelryAction extends Action {
 	@Override
 	public boolean process(Player player) {
 		if (checkAll(player)) {
-			if (player.getTemporaryAttributes().get("jewelryObject") != null)
-				player.faceObject((GameObject) player.getTemporaryAttributes().get("jewelryObject"));
+			if (player.getTempAttribs().get("jewelryObject") != null)
+				player.faceObject((GameObject) player.getTempAttribs().get("jewelryObject"));
 			return true;
 		}
 		return false;

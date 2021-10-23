@@ -38,6 +38,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
@@ -57,8 +58,8 @@ public abstract class Entity extends WorldTile {
 	private transient int lastChunkId;
 	private transient boolean forceUpdateEntityRegion;
 	private transient Set<Integer> mapRegionIds;
-	protected transient ConcurrentHashMap<Object, Object> temporaryAttributes;
-	protected transient ConcurrentHashMap<Object, Object> nonsavingVars;
+	protected transient GenericAttribMap temporaryAttributes;
+	protected transient GenericAttribMap nonsavingVars;
 	private transient int faceAngle;
 	private transient WorldTile lastWorldTile;
 	private transient WorldTile tileBehind;
@@ -157,8 +158,8 @@ public abstract class Entity extends WorldTile {
 		walkSteps = new ConcurrentLinkedQueue<WalkStep>();
 		receivedHits = new ConcurrentLinkedQueue<Hit>();
 		receivedDamage = new ConcurrentHashMap<Entity, Integer>();
-		temporaryAttributes = new ConcurrentHashMap<Object, Object>();
-		nonsavingVars = new ConcurrentHashMap<Object, Object>();
+		temporaryAttributes = new GenericAttribMap();
+		nonsavingVars = new GenericAttribMap();
 		nextHits = new ArrayList<Hit>();
 		nextHitBars = new ArrayList<HitBar>();
 		nextWalkDirection = nextRunDirection = null;
@@ -302,8 +303,7 @@ public abstract class Entity extends WorldTile {
 		setHitpoints(hitpoints - hit.getDamage());
 
 		if (this instanceof Player p) {
-			boolean god = p.getTemporaryAttributes().get("godMode") != null ? (boolean) p.getTemporaryAttributes().get("godMode") : false;
-			if (god)
+			if (p.getNSB("godMode"))
 				setHitpoints(getMaxHitpoints());
 		}
 
@@ -1163,11 +1163,11 @@ public abstract class Entity extends WorldTile {
 		return lastAnimationEnd;
 	}
 
-	public ConcurrentHashMap<Object, Object> getTemporaryAttributes() {
+	public GenericAttribMap getTempAttribs() {
 		return temporaryAttributes;
 	}
 	
-	public ConcurrentHashMap<Object, Object> getNonSavingVars() {
+	public GenericAttribMap getNonSavingVars() {
 		return nonsavingVars;
 	}
 
@@ -1244,125 +1244,6 @@ public abstract class Entity extends WorldTile {
 
 	public long getTickCounter() {
 		return tickCounter;
-	}
-	
-	public void setTempO(String name, Object value) {
-		if (value == null) {
-			getTemporaryAttributes().remove(name);
-			return;
-		}
-		getTemporaryAttributes().put("tempO"+name, value);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T getTempO(String name) {
-		if (getTemporaryAttributes().get("tempO"+name) == null)
-			return null;
-		return (T) getTemporaryAttributes().get("tempO"+name);
-	}
-	
-	public void setTempI(String name, int value) {
-		getTemporaryAttributes().put("tempI"+name, value);
-	}
-	
-	public void setTempD(String name, double value) {
-		getTemporaryAttributes().put("tempD"+name, value);
-	}
-	
-	public void setTempB(String name, boolean value) {
-		getTemporaryAttributes().put("tempB"+name, value);
-	}
-	
-	public void setTempL(String name, long value) {
-		getTemporaryAttributes().put("tempL"+name, value);
-	}
-	
-	public boolean getTempB(String name) {
-		if (getTemporaryAttributes().get("tempB"+name) == null)
-			return false;
-		return (Boolean) getTemporaryAttributes().get("tempB"+name);
-	}
-	
-	public int getTempI(String name, int def) {
-		if (getTemporaryAttributes().get("tempI"+name) == null)
-			return def;
-		return (Integer) getTemporaryAttributes().get("tempI"+name);
-	}
-	
-	public int getTempI(String name) {
-		return getTempI(name, 0);
-	}
-	
-	public double getTempD(String name, double def) {
-		if (getTemporaryAttributes().get("tempD"+name) == null)
-			return def;
-		return (Double) getTemporaryAttributes().get("tempD"+name);
-	}
-	
-	public double getTempD(String name) {
-		return getTempD(name, 0.0);
-	}
-	
-	public long getTempL(String name) {
-		if (getTemporaryAttributes().get("tempL"+name) == null)
-			return 0;
-		return (Long) getTemporaryAttributes().get("tempL"+name);
-	}
-	
-	public void incTempI(String name) {
-		int newVal = getTempI(name) + 1;
-		setTempI(name, newVal);
-	}
-	
-	//
-	public void setNSO(String name, Object value) {
-		getNonSavingVars().put("NSO"+name, value);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T> T getNSO(String name, Class<T> clazz) {
-		if (getNonSavingVars().get("NSO"+name) == null || !getNonSavingVars().get("NSO"+name).getClass().isAssignableFrom(clazz))
-			return null;
-		return (T) getNonSavingVars().get("NSO"+name);
-	}
-	
-	public void setNSI(String name, int value) {
-		getNonSavingVars().put("NSI"+name, value);
-	}
-	
-	public void setNSB(String name, boolean value) {
-		getNonSavingVars().put("NSB"+name, value);
-	}
-	
-	public void setNSL(String name, long value) {
-		getNonSavingVars().put("NSL"+name, value);
-	}
-	
-	public boolean getNSB(String name) {
-		if (getNonSavingVars().get("NSB"+name) == null)
-			return false;
-		return (Boolean) getNonSavingVars().get("NSB"+name);
-	}
-	
-	public int getNSI(String name, int def) {
-		if (getNonSavingVars().get("NSI"+name) == null)
-			return def;
-		return (Integer) getNonSavingVars().get("NSI"+name);
-	}
-	
-	public int getNSI(String name) {
-		return getNSI(name, 0);
-	}
-	
-	public long getNSL(String name) {
-		if (getNonSavingVars().get("NSL"+name) == null)
-			return 0;
-		return (Long) getNonSavingVars().get("NSL"+name);
-	}
-	
-	public void incNSI(String name) {
-		int newVal = getNSI(name) + 1;
-		setNSI(name, newVal);
 	}
 
 	public Vec2 getMiddleWorldTileAsVector() {

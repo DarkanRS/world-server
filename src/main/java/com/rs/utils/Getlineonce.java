@@ -52,6 +52,5 @@ public class Getlineonce {
                 lines.put(fileName, tempLines);
             }
         }
-        int t = 0;
     }
 }

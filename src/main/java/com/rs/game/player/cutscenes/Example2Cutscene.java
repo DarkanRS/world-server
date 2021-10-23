@@ -1,9 +1,9 @@
 package com.rs.game.player.cutscenes;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.actions.CutsceneAction;
-
-import java.util.ArrayList;
 
 public class Example2Cutscene extends Cutscene {
     static final int WALLY = 4664;

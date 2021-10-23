@@ -17,7 +17,7 @@ public class ItemsKeptOnDeath {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 28)
-				sendItemsKeptOnDeath(e.getPlayer(), !(e.getPlayer().getTemporaryAttributes().get("wildy") == null ? false : (boolean) e.getPlayer().getTemporaryAttributes().get("wildy")));
+				sendItemsKeptOnDeath(e.getPlayer(), !(e.getPlayer().getTempAttribs().get("wildy") == null ? false : (boolean) e.getPlayer().getTempAttribs().get("wildy")));
 		}
 	};
 	
@@ -47,7 +47,7 @@ public class ItemsKeptOnDeath {
 			player.save("protectSlots", 1);
 		}
 		player.getVars().setVarBit(9226, wilderness ? 1 : 0);
-		player.getTemporaryAttributes().put("wildy", wilderness ? true : false);
+		player.getTempAttribs().put("wildy", wilderness ? true : false);
 		player.getVars().setVarBit(9229, skulled ? 1 : 0);
 		StringBuffer text = new StringBuffer();
 		text.append("The number of items kept on").append("<br>").append("death is normally 3.").append("<br>").append("<br>").append("<br>");

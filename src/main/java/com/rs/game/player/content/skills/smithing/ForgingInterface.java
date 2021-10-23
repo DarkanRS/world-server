@@ -182,7 +182,7 @@ public class ForgingInterface {
 
 	public static void sendSmithingInterface(Player player, ForgingBar bar) {
 		calculateComponentConfigurations();
-		player.getTemporaryAttributes().put("SmithingBar", bar);
+		player.getTempAttribs().put("SmithingBar", bar);
 		sendComponentConfigs(player, bar);
 		for (int i = 0; i < bar.getItems().length; i++) {
 			player.getPackets().setIFItem(SMITHING_INTERFACE, componentChilds[i], bar.getItems()[i].getId(), 1);

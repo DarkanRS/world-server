@@ -83,7 +83,7 @@ public class Lunars {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPacket() == ClientPacket.IF_OP1) {
-				if (e.getPlayer().getTemporaryAttributes().get("RemoteFarm") != null) {
+				if (e.getPlayer().getTempAttribs().get("RemoteFarm") != null) {
 //					int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182, 184, 186, 188 };
 //					for (int i = 0; i < names.length; i++) {
 //						if ((names[i]+1) == e.getComponentId()) {
@@ -110,7 +110,7 @@ public class Lunars {
 			return;
 		}
 		player.addSpellDelay(10);
-		player.getTemporaryAttributes().put("RemoteFarm", true);
+		player.getTempAttribs().put("RemoteFarm", true);
 		player.getInterfaceManager().sendInterface(1082);
 		refreshRemoteFarm(player);
 	}
@@ -185,7 +185,7 @@ public class Lunars {
 	}
 
 	public static void handleVengeance(Player player) {
-		Long lastVeng = (Long) player.getTemporaryAttributes().get("LAST_VENG");
+		Long lastVeng = (Long) player.getTempAttribs().get("LAST_VENG");
 		if (lastVeng != null && lastVeng + 30000 > System.currentTimeMillis()) {
 			player.sendMessage("You may only cast vengeance once every 30 seconds.");
 			return;
@@ -196,7 +196,7 @@ public class Lunars {
 		player.setNextAnimation(new Animation(4410));
 		player.setCastVeng(true);
 		player.getSkills().addXp(Constants.MAGIC, 112);
-		player.getTemporaryAttributes().put("LAST_VENG", System.currentTimeMillis());
+		player.getTempAttribs().put("LAST_VENG", System.currentTimeMillis());
 	}
 
 	public static void handleHumidify(Player player) {
@@ -415,7 +415,7 @@ public class Lunars {
 	}
 
 	public static void handleMagicImbue(Player player) {
-		Long lastImbue = (Long) player.getTemporaryAttributes().get("LAST_IMBUE");
+		Long lastImbue = (Long) player.getTempAttribs().get("LAST_IMBUE");
 		if (lastImbue != null && lastImbue + 12600 > System.currentTimeMillis()) {
 			player.sendMessage("You may only cast magic imbue spells once every 12.6 seconds.");
 			return;
@@ -425,7 +425,7 @@ public class Lunars {
 			player.setNextAnimation(new Animation(722));
 			player.setCastMagicImbue(true);
 			player.getSkills().addXp(Constants.MAGIC, 86);
-			player.getTemporaryAttributes().put("LAST_IMBUE", System.currentTimeMillis());
+			player.getTempAttribs().put("LAST_IMBUE", System.currentTimeMillis());
 		}
 	}
 
@@ -435,7 +435,7 @@ public class Lunars {
 	}
 
 	public static void handleGroupVengeance(Player player) {
-		Long lastVeng = (Long) player.getTemporaryAttributes().get("LAST_VENG");
+		Long lastVeng = (Long) player.getTempAttribs().get("LAST_VENG");
 		if (lastVeng != null && lastVeng + 30000 > System.currentTimeMillis()) {
 			player.sendMessage("You may only cast vengeance spells once every 30 seconds.");
 			return;
@@ -445,14 +445,14 @@ public class Lunars {
 			player.setNextAnimation(new Animation(4411));
 			player.setCastVeng(true);
 			player.getSkills().addXp(Constants.MAGIC, 112);
-			player.getTemporaryAttributes().put("LAST_VENG", System.currentTimeMillis());
+			player.getTempAttribs().put("LAST_VENG", System.currentTimeMillis());
 			for (Player other : getNearPlayers(player, 3, 10)) {
-				Long otherVeng = (Long) other.getTemporaryAttributes().get("LAST_VENG");
+				Long otherVeng = (Long) other.getTempAttribs().get("LAST_VENG");
 				if (otherVeng != null && otherVeng + 30000 > System.currentTimeMillis())
 					continue;
 				other.setNextSpotAnim(new SpotAnim(725, 0, 100));
 				other.setCastVeng(true);
-				other.getTemporaryAttributes().put("LAST_VENG", System.currentTimeMillis());
+				other.getTempAttribs().put("LAST_VENG", System.currentTimeMillis());
 			}
 		}
 	}

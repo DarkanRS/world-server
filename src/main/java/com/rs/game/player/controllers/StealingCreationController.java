@@ -153,7 +153,7 @@ public class StealingCreationController extends Controller {
 			if (other.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
 				player.sendMessage("You cannot attack player's on the same team!");
 				return false;
-			} else if (target.getTemporaryAttributes().get("in_kiln") != null && (Long) target.getTemporaryAttributes().get("in_kiln") >= System.currentTimeMillis()) {
+			} else if (target.getTempAttribs().get("in_kiln") != null && (Long) target.getTempAttribs().get("in_kiln") >= System.currentTimeMillis()) {
 				player.sendMessage("The power of the creation kiln is protecting the player.");
 				return false;
 			}
@@ -257,7 +257,7 @@ public class StealingCreationController extends Controller {
 	@Override
 	public boolean canPlayerOption3(final Player target) {
 		final int thievingLevel = player.getSkills().getLevel(Constants.THIEVING);
-		Long PICKPOCK_DELAY = (Long) player.getTemporaryAttributes().get("PICKPOCK_DELAY");
+		Long PICKPOCK_DELAY = (Long) player.getTempAttribs().get("PICKPOCK_DELAY");
 		if (PICKPOCK_DELAY != null && PICKPOCK_DELAY + 1500 > System.currentTimeMillis()) {
 			return false;
 		} else if (Helper.withinSafeArea(target, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam())) {
@@ -268,7 +268,7 @@ public class StealingCreationController extends Controller {
 		} else if (target.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
 			player.sendMessage("You cannot pickpocket player that is on the same team!");
 			return false;
-		} else if (target.getTemporaryAttributes().get("in_kiln") != null && (Long) target.getTemporaryAttributes().get("in_kiln") >= System.currentTimeMillis()) {
+		} else if (target.getTempAttribs().get("in_kiln") != null && (Long) target.getTempAttribs().get("in_kiln") >= System.currentTimeMillis()) {
 			player.sendMessage("The power of the creation kiln is protecting the player.");
 			return false;
 		} else if (target.getSkills().getLevel(Constants.THIEVING) - thievingLevel >= 20) {
@@ -291,7 +291,7 @@ public class StealingCreationController extends Controller {
 				player.setNextAnimation(new Animation(881));
 				player.sendMessage("You attempt to pickpocket from " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pockets.");
 				player.sendMessage("You pick " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pocket.");
-				player.getTemporaryAttributes().put("PICKPOCK_DELAY", System.currentTimeMillis());
+				player.getTempAttribs().put("PICKPOCK_DELAY", System.currentTimeMillis());
 				int level = Utils.getRandomInclusive(thievingLevel);
 				double ratio = level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
 				if (!(Math.round(ratio * thievingLevel) > target.getSkills().getLevel(Constants.THIEVING))) {
@@ -373,7 +373,7 @@ public class StealingCreationController extends Controller {
 			else if (componentId >= 99 && componentId <= 107) {
 				int index = (componentId - 99) / 2;
 				if (player.getInventory().containsItem(Helper.SACRED_CLAY[index], 1)) {
-					player.getTemporaryAttributes().put("sc_kiln_quality", index);
+					player.getTempAttribs().put("sc_kiln_quality", index);
 					Helper.refreshKiln(player);
 				}
 			}
@@ -501,7 +501,7 @@ public class StealingCreationController extends Controller {
 				player.setRunEnergy(100);
 			return !runEnergy;
 		} else if (object.getId() >= 39534 && object.getId() <= 39545) {
-			player.getTemporaryAttributes().put("sc_object", object);
+			player.getTempAttribs().put("sc_object", object);
 			if (object.getId() == 39541)
 				player.getDialogueManager().execute(new StealingCreationMagic());
 			else if (object.getId() == 39539)
@@ -888,7 +888,7 @@ public class StealingCreationController extends Controller {
 	}
 
 	public void processKilnExchange(int componentId, ClientPacket packet) {
-		int quality = player.getTemporaryAttributes().get("sc_kiln_quality") != null ? (int) player.getTemporaryAttributes().get("sc_kiln_quality") : 0;
+		int quality = player.getTempAttribs().get("sc_kiln_quality") != null ? (int) player.getTempAttribs().get("sc_kiln_quality") : 0;
 		int clayId = Helper.SACRED_CLAY[quality];
 		int amount = 0;
 		if (packet == ClientPacket.IF_OP1)
@@ -896,13 +896,13 @@ public class StealingCreationController extends Controller {
 		else if (packet == ClientPacket.IF_OP2)
 			amount = 5;
 		else if (packet == ClientPacket.IF_OP3) {
-			player.getTemporaryAttributes().put("sc_component", componentId);
-			player.getTemporaryAttributes().put("kilnX", true);
+			player.getTempAttribs().put("sc_component", componentId);
+			player.getTempAttribs().put("kilnX", true);
 			player.getPackets().sendRunScriptReverse(108, new Object[] { "Enter Amount:" });
 		} else if (packet == ClientPacket.IF_OP4)
 			amount = player.getInventory().getAmountOf(clayId);
 		else
-			amount = (int) player.getTemporaryAttributes().get("sc_amount_making");
+			amount = (int) player.getTempAttribs().get("sc_amount_making");
 		if (Helper.checkSkillRequriments(player, Helper.getRequestedKilnSkill(componentId - 37), quality)) {
 			if ((amount != 0 && Helper.proccessKilnItems(player, componentId, quality, clayId, amount))) {
 				Score score = game.getScore(player);

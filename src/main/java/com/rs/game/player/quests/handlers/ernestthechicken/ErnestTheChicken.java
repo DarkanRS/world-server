@@ -1,5 +1,11 @@
 package com.rs.game.player.quests.handlers.ernestthechicken;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -18,14 +24,16 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
+import com.rs.plugin.events.ItemAddedToInventoryEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @QuestHandler(Quest.ERNEST_CHICKEN)
 @PluginEventHandler
@@ -46,9 +54,7 @@ public class ErnestTheChicken extends QuestOutline {
     private final static int RUBBER_TUBE = 276;
     private final static int SPADE = 952;
 
-    private static final int ERNEST = 287;
-
-	@Override
+    @Override
 	public int getCompletedStage() {
 		return QUEST_COMPLETE;
 	}
@@ -285,7 +291,6 @@ public class ErnestTheChicken extends QuestOutline {
     };
 
     public static LoginHandler onLogin = new LoginHandler() {
-        int regionId = 12340;
         @Override
         public void handle(LoginEvent e) {
             if(e.getPlayer().getQuestManager().getStage(Quest.ERNEST_CHICKEN) >= ERNEST_NOT_CHICKEN) {

@@ -1,5 +1,8 @@
 package com.rs.game.player.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -14,9 +17,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DemonSlayer_PlayerVSDelrith extends Controller {
     static final int DELRITH = 879;

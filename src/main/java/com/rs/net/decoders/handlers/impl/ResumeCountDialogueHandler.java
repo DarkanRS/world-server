@@ -16,25 +16,25 @@ public class ResumeCountDialogueHandler implements PacketHandler<Player, ResumeC
 				return;
 			if (packet.getValue() < 0)
 				return;
-			Integer bob_item_X_Slot = (Integer) player.getTemporaryAttributes().remove("bob_item_X_Slot");
+			Integer bob_item_X_Slot = (Integer) player.getTempAttribs().remove("bob_item_X_Slot");
 			if (bob_item_X_Slot == null)
 				return;
-			if (player.getTemporaryAttributes().remove("bob_isRemove") != null)
+			if (player.getTempAttribs().remove("bob_isRemove") != null)
 				player.getFamiliar().getBob().removeItem(bob_item_X_Slot, packet.getValue());
 			else
 				player.getFamiliar().getBob().addItem(bob_item_X_Slot, packet.getValue());
 		} else if (player.getInterfaceManager().containsInterface(335) && player.getInterfaceManager().containsInterface(336)) {
 			if (packet.getValue() < 0)
 				return;
-			Integer trade_item_X_Slot = (Integer) player.getTemporaryAttributes().remove("trade_item_X_Slot");
+			Integer trade_item_X_Slot = (Integer) player.getTempAttribs().remove("trade_item_X_Slot");
 			if (trade_item_X_Slot == null)
 				return;
-			if (player.getTemporaryAttributes().remove("trade_isRemove") != null)
+			if (player.getTempAttribs().remove("trade_isRemove") != null)
 				player.getTrade().removeItem(trade_item_X_Slot, packet.getValue());
 			else
 				player.getTrade().addItem(trade_item_X_Slot, packet.getValue());
 		} else {
-			if (player.getTemporaryAttributes().get("pluginInteger") != null && player.getTemporaryAttributes().remove("pluginInteger") instanceof InputIntegerEvent iie)
+			if (player.getTempAttribs().get("pluginInteger") != null && player.getTempAttribs().remove("pluginInteger") instanceof InputIntegerEvent iie)
 				iie.run(packet.getValue());
 			return;
 		}

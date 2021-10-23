@@ -40,8 +40,6 @@ import com.rs.game.player.content.skills.runecrafting.Abyss;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting.RCRune;
 import com.rs.game.player.content.skills.runecrafting.RunecraftingAltar.Altar;
-import com.rs.game.player.content.skills.slayer.Master;
-import com.rs.game.player.content.skills.slayer.TaskMonster;
 import com.rs.game.player.content.skills.smithing.ForgingInterface;
 import com.rs.game.player.content.skills.smithing.Smithing.ForgingBar;
 import com.rs.game.player.content.skills.summoning.Summoning;
@@ -56,7 +54,6 @@ import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.controllers.FalconryController;
 import com.rs.game.player.controllers.FightCavesController;
 import com.rs.game.player.controllers.FightKilnController;
-import com.rs.game.player.controllers.KuradalDungeonController;
 import com.rs.game.player.controllers.PestControlLobbyController;
 import com.rs.game.player.controllers.PuroPuroController;
 import com.rs.game.player.controllers.StealingCreationLobbyController;
@@ -2510,12 +2507,12 @@ public final class ObjectHandler {
 				}
 				if (itemId == Jewelry.GOLD_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
 					Jewelry.openJewelryInterface(player);
-					player.getTemporaryAttributes().put("jewelryObject", object);
+					player.getTempAttribs().put("jewelryObject", object);
 					return;
 				}
 				if (itemId == Silver.SILVER_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
 					Silver.openSilverInterface(player);
-					player.getTemporaryAttributes().put("silverObject", object);
+					player.getTempAttribs().put("silverObject", object);
 					return;
 				}
 				if (object.getId() == 13715) {

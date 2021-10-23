@@ -22,7 +22,6 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
-import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;
@@ -524,20 +523,20 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.ADMIN, "god", "Toggles god mode for the player.", (p, args) -> {
-			boolean god = p.getTemporaryAttributes().get("godMode") != null ? (boolean) p.getTemporaryAttributes().get("godMode") : false;
-			p.getTemporaryAttributes().put("godMode", !god);
+			boolean god = p.getTempAttribs().get("godMode") != null ? (boolean) p.getTempAttribs().get("godMode") : false;
+			p.getTempAttribs().put("godMode", !god);
 			p.sendMessage("GODMODE: " + !god);
 		});
 		
 		Commands.add(Rights.ADMIN, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			boolean spec = p.getTemporaryAttributes().get("infSpecialAttack") != null ? (boolean) p.getTemporaryAttributes().get("infSpecialAttack") : false;
-			p.getTemporaryAttributes().put("infSpecialAttack", !spec);
+			boolean spec = p.getTempAttribs().get("infSpecialAttack") != null ? (boolean) p.getTempAttribs().get("infSpecialAttack") : false;
+			p.getTempAttribs().put("infSpecialAttack", !spec);
 			p.sendMessage("INFINITE SPECIAL ATTACK: " + !spec);
 		});
 		
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
-			boolean spec = p.getTemporaryAttributes().get("infPrayer") != null ? (boolean) p.getTemporaryAttributes().get("infPrayer") : false;
-			p.getTemporaryAttributes().put("infPrayer", !spec);
+			boolean spec = p.getTempAttribs().get("infPrayer") != null ? (boolean) p.getTempAttribs().get("infPrayer") : false;
+			p.getTempAttribs().put("infPrayer", !spec);
 			p.sendMessage("INFINITE PRAYER: " + !spec);
 		});
 		
@@ -794,7 +793,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "dropstobank,bankdrops", "Will send all drops recieved from monsters directly to the bank.", (p, args) -> {
-			p.getTemporaryAttributes().put("sendingDropsToBank", true);
+			p.getTempAttribs().put("sendingDropsToBank", true);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {

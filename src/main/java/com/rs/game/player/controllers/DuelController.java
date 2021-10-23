@@ -14,10 +14,10 @@ public class DuelController extends Controller {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 18 || e.getComponentId() == 22) {
-				e.getPlayer().getTemporaryAttributes().put("WillDuelFriendly", true);
+				e.getPlayer().getTempAttribs().setB("WillDuelFriendly", true);
 				e.getPlayer().getVars().setVar(283, 67108864);
 			} else if (e.getComponentId() == 19 || e.getComponentId() == 21) {
-				e.getPlayer().getTemporaryAttributes().put("WillDuelFriendly", false);
+				e.getPlayer().getTempAttribs().setB("WillDuelFriendly", false);
 				e.getPlayer().getVars().setVar(283, 134217728);
 			} else if (e.getComponentId() == 20) {
 				challenge(e.getPlayer());
@@ -80,37 +80,34 @@ public class DuelController extends Controller {
 			player.sendMessage("The other player is busy.");
 			return false;
 		}
-		if (target.getTemporaryAttributes().get("DuelChallenged") == player) {
+		if (target.getTempAttribs().getO("DuelChallenged") == player) {
 			player.getControllerManager().removeControllerWithoutCheck();
 			target.getControllerManager().removeControllerWithoutCheck();
-			target.getTemporaryAttributes().remove("DuelChallenged");
+			target.getTempAttribs().remove("DuelChallenged");
 			player.setLastDuelRules(new DuelRules(player, target));
 			target.setLastDuelRules(new DuelRules(target, player));
-			player.getControllerManager().startController(new DuelArenaController(target, (boolean) target.getTemporaryAttributes().get("DuelFriendly")));
-			target.getControllerManager().startController(new DuelArenaController(player, (boolean) target.getTemporaryAttributes().remove("DuelFriendly")));
+			player.getControllerManager().startController(new DuelArenaController(target, (boolean) target.getTempAttribs().getB("DuelFriendly")));
+			target.getControllerManager().startController(new DuelArenaController(player, (boolean) target.getTempAttribs().getB("DuelFriendly")));
 			return false;
 		}
-		player.getTemporaryAttributes().put("DuelTarget", target);
+		player.getTempAttribs().setO("DuelTarget", target);
 		player.getInterfaceManager().sendInterface(640);
-		player.getTemporaryAttributes().put("WillDuelFriendly", true);
+		player.getTempAttribs().setB("WillDuelFriendly", true);
 		player.getVars().setVar(283, 67108864);
 		return false;
 	}
 
 	public static void challenge(Player player) {
 		player.closeInterfaces();
-		Boolean friendly = (Boolean) player.getTemporaryAttributes().remove("WillDuelFriendly");
-		if (friendly == null)
-			return;
-		Player target = (Player) player.getTemporaryAttributes().remove("DuelTarget");
+		Player target = player.getTempAttribs().getO("DuelTarget");
 		if (target == null || target.hasFinished() || !target.withinDistance(player, 14) || !(target.getControllerManager().getController() instanceof DuelController)) {
 			player.sendMessage("Unable to find " + (target == null ? "your target" : target.getDisplayName()));
 			return;
 		}
-		player.getTemporaryAttributes().put("DuelChallenged", target);
-		player.getTemporaryAttributes().put("DuelFriendly", friendly);
+		player.getTempAttribs().setO("DuelChallenged", target);
+		player.getTempAttribs().setB("DuelFriendly", player.getTempAttribs().getB("WillDuelFriendly"));
 		player.sendMessage("Sending " + target.getDisplayName() + " a request...");
-		target.getPackets().sendDuelChallengeRequestMessage(player, friendly);
+		target.getPackets().sendDuelChallengeRequestMessage(player, player.getTempAttribs().getB("WillDuelFriendly"));
 	}
 
 	public void remove() {

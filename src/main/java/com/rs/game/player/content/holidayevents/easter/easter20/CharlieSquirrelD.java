@@ -22,7 +22,7 @@ public class CharlieSquirrelD extends Conversation {
 	public CharlieSquirrelD(Player player) {
 		super(player);
 
-		switch(player.getEaster20Stage()) {
+		switch(player.getI(Easter2021.STAGE_KEY)) {
 		case 7:
 			addPlayer(HeadE.CONFUSED, "Hey, are you Charlie?");
 			addNPC(CHARLIE, HeadE.CAT_CHEERFUL, "Yeah, that's me! Can I help you?");
@@ -32,7 +32,7 @@ public class CharlieSquirrelD extends Conversation {
 			addNPC(CHARLIE, HeadE.CAT_CHEERFUL, "It's fine, we've been picking up his slack for years. We'll head over as quick as we can.");
 			addPlayer(HeadE.CHEERFUL, "Thank you for your help!");
 			addNext(() -> {
-				player.setEaster20Stage(8);
+				player.save(Easter2021.STAGE_KEY, 8);
 				player.getVars().setVarBit(6014, 85);
 			});
 			break;

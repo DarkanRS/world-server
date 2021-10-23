@@ -84,13 +84,13 @@ public class TabletMaking {
 	public static void openTabInterface(Player player, int index) {
 		player.getPackets().sendVarc(943, index + 1);
 		player.getInterfaceManager().sendInterface(400);
-		player.getTemporaryAttributes().put("tablet_index", index);
+		player.getTempAttribs().put("tablet_index", index);
 		player.setNextAnimation(new Animation(3652));
 	}
 
 	public static void handleTabletCreation(final Player player, int componentId, int amount) {
 		player.closeInterfaces();
-		final int index = (int) player.getTemporaryAttributes().get("tablet_index");
+		final int index = (int) player.getTempAttribs().get("tablet_index");
 		for (int enabledSlot : ENABLED_SLOTS[index]) {
 			if (enabledSlot == componentId) {
 				Tablet t = Tablet.forId(componentId);
@@ -115,7 +115,7 @@ public class TabletMaking {
 				player.getSkills().addXp(Constants.MAGIC, t.experience * realAmount);
 				player.lock(2);
 				player.setNextAnimation(new Animation(3645));
-				player.getTemporaryAttributes().remove("tablet_index");
+				player.getTempAttribs().remove("tablet_index");
 				return;
 			}
 		}

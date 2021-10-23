@@ -27,21 +27,21 @@ public final class CombatDefinitions {
 	private CombatSpell autoCast;
 
 	public CombatSpell getSpell() {
-		if (player.getTemporaryAttributes().containsKey("manualCastSpell"))
-			return (CombatSpell) player.getTemporaryAttributes().get("manualCastSpell");
+		if (player.getTempAttribs().containsKey("manualCastSpell"))
+			return (CombatSpell) player.getTempAttribs().get("manualCastSpell");
 		return autoCast;
 	}
 	
 	public boolean hasManualCastQueued() {
-		return player.getTemporaryAttributes().containsKey("manualCastSpell");
+		return player.getTempAttribs().containsKey("manualCastSpell");
 	}
 	
 	public void setManualCastSpell(CombatSpell spell) {
-		player.getTemporaryAttributes().put("manualCastSpell", spell);
+		player.getTempAttribs().put("manualCastSpell", spell);
 	}
 	
 	public void clearManualCastSpell() {
-		player.getTemporaryAttributes().remove("manualCastSpell");
+		player.getTempAttribs().remove("manualCastSpell");
 	}
 
 	public CombatSpell getAutoCast() {
@@ -461,7 +461,7 @@ public final class CombatDefinitions {
 	public void drainSpec(int amount) {
 		usingSpecialAttack = false;
 		refreshUsingSpecialAttack();
-		boolean spec = player.getTemporaryAttributes().get("infSpecialAttack") != null ? (boolean) player.getTemporaryAttributes().get("infSpecialAttack") : false;
+		boolean spec = player.getTempAttribs().get("infSpecialAttack") != null ? (boolean) player.getTempAttribs().get("infSpecialAttack") : false;
 		if (spec)
 			amount = 0;
 		if (amount > 0) {

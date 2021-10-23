@@ -1,8 +1,12 @@
 package com.rs.game.player.content.dialogue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.impl.StageSelectDialogue;
 import com.rs.game.player.content.dialogue.statements.ItemStatement;
 import com.rs.game.player.content.dialogue.statements.NPCStatement;
 import com.rs.game.player.content.dialogue.statements.OptionStatement;
@@ -13,6 +17,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 
 public class Dialogue {
+	
     private Dialogue prev;
     private ArrayList<Dialogue> next = new ArrayList<>();
     private Runnable event;
@@ -37,7 +42,15 @@ public class Dialogue {
     	this.started = false;
     }
     
-    public void clearChildren() {
+    public Dialogue(Dialogue dialogue) {
+		this.prev = dialogue.prev;
+		this.next = dialogue.next;
+		this.event = dialogue.event;
+		this.statement = dialogue.statement;
+		this.started = dialogue.started;
+	}
+
+	public void clearChildren() {
     	this.started = false;
     	this.event = null;
     	this.statement = null;
@@ -47,6 +60,10 @@ public class Dialogue {
     public Dialogue setFunc(Runnable consumer) {
         this.event = consumer;
         return this;
+    }
+    
+    public Dialogue addGotoStage(String stageName, Conversation conversation) {
+    	return addNext(new StageSelectDialogue(stageName, conversation));
     }
     
     public Dialogue addNext(Statement statement, Dialogue... options) {
@@ -111,15 +128,29 @@ public class Dialogue {
 	
 	public Dialogue addOptions(String title, Options options) {
 		if (options.getOptions().size() <= 1) {
-			for (String opName : options.getOptions().keySet())
-				addNext(options.getOptions().get(opName));
+			for (String opName : options.getOptions().keySet()) {
+				Option op = options.getOptions().get(opName);
+				if (op.show())
+					addNext(op.getDialogue());
+			}
+			if (options.getConv() != null)
+				options.getConv().addStage(options.getStageName(), getNext(0));
 		} else if (options.getOptions().size() <= 5) {
-			String[] ops = new String[options.getOptions().keySet().size()];
-			options.getOptions().keySet().toArray(ops);
-			Dialogue op = new Dialogue(new OptionStatement(title, ops));
-			for (String opName : options.getOptions().keySet())
-				op.addNext(options.getOptions().get(opName));
+			List<String> ops = new ArrayList<>();
+			for (String opName : options.getOptions().keySet()) {
+				Option o = options.getOptions().get(opName);
+				if (o.show())
+					ops.add(opName);
+			}
+			Dialogue op = new Dialogue(new OptionStatement(title, ops.stream().toArray(String[] ::new)));
+			for (String opName : options.getOptions().keySet()) {
+				Option o = options.getOptions().get(opName);
+				if (o.show())
+					op.addNext(o.getDialogue());
+			}
 			addNext(op);
+			if (options.getConv() != null)
+				options.getConv().addStage(options.getStageName(), op);
 		} else {
 			String[] ops = new String[options.getOptions().keySet().size()];
 			options.getOptions().keySet().toArray(ops);
@@ -131,22 +162,27 @@ public class Dialogue {
 			Dialogue baseOption = new Dialogue(new OptionStatement(title, baseOptions));
 			Dialogue currPage = baseOption;
 			for (int i = 0;i < ops.length;i++) {
-				currPage.addNext(options.getOptions().get(ops[i]));
-				if (i >= 3 && ((i+1) % 4) == 0) {
-					String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
-					for (int j = 1;j < 5;j++) {
-						if (i+j >= ops.length)
-							continue;
-						nextOps[j-1] = ops[i+j];
+				Option op = options.getOptions().get(ops[i]);
+				if (op.show()) {
+					currPage.addNext(op.getDialogue());
+					if (i >= 3 && ((i+1) % 4) == 0) {
+						String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
+						for (int j = 1;j < 5;j++) {
+							if (i+j >= ops.length)
+								continue;
+							nextOps[j-1] = ops[i+j];
+						}
+						nextOps[nextOps.length-1] = "More options...";
+						Dialogue nextPage = new Dialogue(new OptionStatement(title, nextOps));
+						currPage.addNext(nextPage);
+						currPage = nextPage;
 					}
-					nextOps[nextOps.length-1] = "More options...";
-					Dialogue nextPage = new Dialogue(new OptionStatement(title, nextOps));
-					currPage.addNext(nextPage);
-					currPage = nextPage;
 				}
 			}
 			currPage.addNext(baseOption);
 			addNext(baseOption);
+			if (options.getConv() != null)
+				options.getConv().addStage(options.getStageName(), baseOption);
 		}
 		return this;
 	}
@@ -163,7 +199,7 @@ public class Dialogue {
         next.add(nextD);
         return nextD;
     }
-
+    
     public Dialogue addNext(Dialogue dialogue) {
     	if (!this.started) {
     		this.statement = dialogue.statement;
@@ -174,6 +210,10 @@ public class Dialogue {
     	}
         if (dialogue.getPrev() == null)
             dialogue.setPrev(this);
+        else {
+        	Dialogue copy = new Dialogue(this);
+        	dialogue.setPrev(copy);
+        }
         next.add(dialogue);
         return dialogue;
     }
@@ -192,7 +232,15 @@ public class Dialogue {
     public Dialogue getHead() {
         if (prev == null)
             return this;
-        return prev.getHead();
+        Set<Dialogue> visited = new HashSet<>();
+        Dialogue curr = this;
+        while(curr.getPrev() != null) {
+        	if (visited.contains(curr))
+        		break;
+        	visited.add(curr);
+        	curr = curr.getPrev();
+        }
+        return curr;
     }
 
     public Dialogue getNext(int choice) {
@@ -223,12 +271,11 @@ public class Dialogue {
     
     @Override
     public String toString() {
-    	String stmt = statement == null ? "none" : statement.getClass().getSimpleName();
-    	String str = "[Dialogue] { stmt: " + stmt + " next: [ ";
+    	String str = "[Dialogue] { stmt: " + statement + " next: [ ";
     	for (Dialogue d : next) {
     		if (d == null)
     			continue;
-    		str += d.getClass().getSimpleName() + ", ";
+    		str += d.getClass().getSimpleName() + "("+d.getStatement()+")\n\t";
     	}
     	str += " ] }";
     	return str;
@@ -239,5 +286,12 @@ public class Dialogue {
 		isolated.addNext(this);
 		isolated.prev = null;
 		return isolated;
+	}
+
+	public Dialogue setStage(String stageName, Conversation conversation) {
+		Dialogue copy = new Dialogue(this);
+		copy.prev = null;
+		conversation.addStage(stageName, copy);
+		return this;
 	}
 }

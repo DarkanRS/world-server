@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.ernestthechicken;
 
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -15,8 +17,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
 
-import java.util.List;
-
 @PluginEventHandler
 public class OddensteinErnestChickenD extends Conversation {
     private static final int ODDENSTEIN = 286;
@@ -26,13 +26,8 @@ public class OddensteinErnestChickenD extends Conversation {
     static int RUBBER_TUBE = 276;
     static int OIL_CAN = 277;
 
-    private Player p;
-
-
     public OddensteinErnestChickenD(Player p) {
         super(p);
-        this.p = p;
-
         switch (p.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
             case ErnestTheChicken.NOT_STARTED:
             case ErnestTheChicken.STARTED:

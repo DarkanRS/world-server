@@ -21,17 +21,17 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 		case RESUME_CLANFORUMQFCDIALOG:
 			break;
 		case RESUME_NAMEDIALOG:
-			if (player.getTemporaryAttributes().remove("setclan") != null)
+			if (player.getTempAttribs().remove("setclan") != null)
 				LobbyCommunicator.createClan(player, packet.getText());
-			else if (player.getTemporaryAttributes().remove("joinguestclan") != null)
+			else if (player.getTempAttribs().remove("joinguestclan") != null)
 				LobbyCommunicator.connectToClan(player, packet.getText(), true);
-			else if (player.getTemporaryAttributes().remove("banclanplayer") != null)
+			else if (player.getTempAttribs().remove("banclanplayer") != null)
 				LobbyCommunicator.banClanPlayer(player, packet.getText());
-			else if (player.getTemporaryAttributes().remove("unbanclanplayer") != null)
+			else if (player.getTempAttribs().remove("unbanclanplayer") != null)
 				LobbyCommunicator.unbanClanPlayer(player, packet.getText());
-			else if (player.getTemporaryAttributes().remove("DUNGEON_INVITE") != null)
+			else if (player.getTempAttribs().remove("DUNGEON_INVITE") != null)
 				player.getDungManager().invite(packet.getText());
-			else if (player.getTemporaryAttributes().get("yellcolor") == Boolean.TRUE) {
+			else if (player.getTempAttribs().get("yellcolor") == Boolean.TRUE) {
 				if (packet.getText().length() != 6) {
 					player.getDialogueManager().execute(new SimpleMessage(), "The HEX yell color you wanted to pick cannot be longer and shorter then 6.");
 				} else if (Utils.containsInvalidCharacter(packet.getText().toLowerCase()) || packet.getText().contains("_")) {
@@ -40,8 +40,8 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 					player.setYellColor(packet.getText());
 					player.getDialogueManager().execute(new SimpleMessage(), "Your yell color has been changed to <col=" + player.getYellColor() + ">" + player.getYellColor() + "</col>.");
 				}
-				player.getTemporaryAttributes().put("yellcolor", Boolean.FALSE);
-			} else if (player.getTemporaryAttributes().get("yelltitle") == Boolean.TRUE) {
+				player.getTempAttribs().put("yellcolor", Boolean.FALSE);
+			} else if (player.getTempAttribs().get("yelltitle") == Boolean.TRUE) {
 				if (packet.getText().length() > 20) {
 					player.getDialogueManager().execute(new SimpleMessage(), "Your yell title cannot be longer than 20 characters.");
 				} else if (Utils.containsBadCharacter(packet.getText())) {
@@ -51,10 +51,10 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 					player.getAppearance().generateAppearanceData();
 					player.getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + player.getYellTitle() + ".");
 				}
-				player.getTemporaryAttributes().put("yelltitle", Boolean.FALSE);
+				player.getTempAttribs().put("yelltitle", Boolean.FALSE);
 			} else
 			// START CUSTOM TITLES
-			if (player.getTemporaryAttributes().get("settitle") == Boolean.TRUE) {
+			if (player.getTempAttribs().get("settitle") == Boolean.TRUE) {
 				if (packet.getText().length() > 20) {
 					player.getDialogueManager().execute(new SimpleMessage(), "Your title cannot be longer than 20 characters.");
 				} else if (Utils.containsBadCharacter(packet.getText())) {
@@ -66,8 +66,8 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 					player.getAppearance().generateAppearanceData();
 					player.getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + player.getTitle() + ".");
 				}
-				player.getTemporaryAttributes().put("settitle", Boolean.FALSE);
-			} else if (player.getTemporaryAttributes().get("titlecolor") == Boolean.TRUE) {
+				player.getTempAttribs().put("settitle", Boolean.FALSE);
+			} else if (player.getTempAttribs().get("titlecolor") == Boolean.TRUE) {
 				if (packet.getText().length() != 6) {
 					player.getDialogueManager().execute(new SimpleMessage(), "HEX colors are 6 characters long bud.");
 				} else if (Utils.containsInvalidCharacter(packet.getText().toLowerCase()) || packet.getText().contains("_")) {
@@ -77,8 +77,8 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 					player.getAppearance().generateAppearanceData();
 					player.getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + player.getTitle() + ".");
 				}
-				player.getTemporaryAttributes().put("titlecolor", Boolean.FALSE);
-			} else if (player.getTemporaryAttributes().get("titleshade") == Boolean.TRUE) {
+				player.getTempAttribs().put("titlecolor", Boolean.FALSE);
+			} else if (player.getTempAttribs().get("titleshade") == Boolean.TRUE) {
 				if (packet.getText().length() != 6) {
 					player.getDialogueManager().execute(new SimpleMessage(), "HEX colors are 6 characters long bud.");
 				} else if (Utils.containsInvalidCharacter(packet.getText().toLowerCase()) || packet.getText().contains("_")) {
@@ -88,18 +88,18 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 					player.getAppearance().generateAppearanceData();
 					player.getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + player.getTitle() + ".");
 				}
-				player.getTemporaryAttributes().put("titleshade", Boolean.FALSE);
+				player.getTempAttribs().put("titleshade", Boolean.FALSE);
 			}
 			// END CUSTOM TITLES
 			else {
-				if (player.getTemporaryAttributes().get("pluginString") != null && player.getTemporaryAttributes().remove("pluginString") instanceof InputStringEvent ise)
+				if (player.getTempAttribs().get("pluginString") != null && player.getTempAttribs().remove("pluginString") instanceof InputStringEvent ise)
 					ise.run(packet.getText());
 				return;
 			}
 		case RESUME_TEXTDIALOG:
-			if (player.getTemporaryAttributes().remove("entering_note") == Boolean.TRUE)
+			if (player.getTempAttribs().remove("entering_note") == Boolean.TRUE)
 				player.getNotes().add(packet.getText());
-			else if (player.getTemporaryAttributes().remove("editing_note") == Boolean.TRUE)
+			else if (player.getTempAttribs().remove("editing_note") == Boolean.TRUE)
 				player.getNotes().edit(packet.getText());
 			if (player.getInterfaceManager().containsInterface(1103))
 				LobbyCommunicator.setClanMotto(player, packet.getText());

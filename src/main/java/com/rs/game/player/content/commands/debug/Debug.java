@@ -232,8 +232,8 @@ public class Debug {
 		});
 		
 		Commands.add(Rights.PLAYER, "god", "Toggles god mode for the player.", (p, args) -> {
-			boolean god = p.getTemporaryAttributes().get("godMode") != null ? (boolean) p.getTemporaryAttributes().get("godMode") : false;
-			p.getTemporaryAttributes().put("godMode", !god);
+			boolean god = p.getTempAttribs().get("godMode") != null ? (boolean) p.getTempAttribs().get("godMode") : false;
+			p.getTempAttribs().put("godMode", !god);
 			p.sendMessage("GODMODE: " + !god);
 		});
 		
@@ -242,14 +242,14 @@ public class Debug {
         });
 
 		Commands.add(Rights.PLAYER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			boolean spec = p.getTemporaryAttributes().get("infSpecialAttack") != null ? (boolean) p.getTemporaryAttributes().get("infSpecialAttack") : false;
-			p.getTemporaryAttributes().put("infSpecialAttack", !spec);
+			boolean spec = p.getTempAttribs().get("infSpecialAttack") != null ? (boolean) p.getTempAttribs().get("infSpecialAttack") : false;
+			p.getTempAttribs().put("infSpecialAttack", !spec);
 			p.sendMessage("INFINITE SPECIAL ATTACK: " + !spec);
 		});
 		
 		Commands.add(Rights.PLAYER, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
-			boolean spec = p.getTemporaryAttributes().get("infPrayer") != null ? (boolean) p.getTemporaryAttributes().get("infPrayer") : false;
-			p.getTemporaryAttributes().put("infPrayer", !spec);
+			boolean spec = p.getTempAttribs().get("infPrayer") != null ? (boolean) p.getTempAttribs().get("infPrayer") : false;
+			p.getTempAttribs().put("infPrayer", !spec);
 			p.sendMessage("INFINITE PRAYER: " + !spec);
 		});
 
