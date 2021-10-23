@@ -40,7 +40,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
-//status: done
+
 
 @PluginEventHandler
 public class Varrock {

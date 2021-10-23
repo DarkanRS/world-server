@@ -105,7 +105,7 @@ import com.rs.lib.net.packets.encoders.vars.VarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
 import com.rs.lib.util.Utils;
 
-//Status: done
+
 
 public class WorldEncoder extends Encoder {
 	

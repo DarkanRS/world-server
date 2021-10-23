@@ -19,7 +19,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-//status: done
+
 
 @PluginEventHandler
 public class Doors {

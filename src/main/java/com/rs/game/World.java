@@ -54,7 +54,7 @@ import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 
-//Status: Done
+
 
 @PluginEventHandler
 public final class World {

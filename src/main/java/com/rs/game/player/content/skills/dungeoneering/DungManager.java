@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-//Status: Done
+
 
 @PluginEventHandler
 public class DungManager {

@@ -23,7 +23,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
-//status: done
+
 
 public final class DivineSkinweaver extends DungeonBoss {
 
