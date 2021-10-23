@@ -33,6 +33,7 @@ import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
+import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.player.controllers.DemonSlayer_WallyVSDelrith;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
@@ -465,7 +466,7 @@ public class MiscTest {
 		});
 		
         Commands.add(Rights.DEVELOPER, "test1", "none", (p, args) -> {
-            p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
+            p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
         });
 
         Commands.add(Rights.DEVELOPER, "test2", "none", (p, args) -> {

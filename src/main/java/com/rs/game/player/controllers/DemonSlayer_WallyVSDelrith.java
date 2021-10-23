@@ -24,10 +24,9 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 	}
 
 	private void playCutscene() {
+        player.lock();
         instance = new DynamicRegionReference(64, 64);
         locationBeforeCutscene = new WorldTile(player.getX(), player.getY(), player.getPlane());
-        player.lock();
-
 
         instance.copyMap(0, 0, 401, 419, 6, ()-> {
             spawn = instance.getLocalTile(19, 17);
