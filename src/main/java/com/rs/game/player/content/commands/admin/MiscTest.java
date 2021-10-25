@@ -638,6 +638,16 @@ public class MiscTest {
 				}
 			}
 		});
+
+        Commands.add(Rights.DEVELOPER, "completequest [questName]", "Resets the specified quest.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.name().toLowerCase().contains(args[0])) {
+                    p.getQuestManager().completeQuest(quest);
+                    p.sendMessage("Completed quest: " + quest.name());
+                    return;
+                }
+            }
+        });
 		
 		Commands.add(Rights.DEVELOPER, "hinttrail [x y modelId]", "Sets a hint trail from the player to the specified location.", (p, args) -> {
 			int x = Integer.valueOf(args[0]);

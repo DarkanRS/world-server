@@ -1,5 +1,15 @@
 [
   {
+    "comment": "Black Knights Fortress: Witch by cauldron",
+    "npcId": 611,
+    "dir": "CACHE",
+    "tile": {
+      "x": 3030,
+      "y": 3508,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Prince Ali: Prince Ali To The Rescue",
     "npcId": 920,
     "dir": "CACHE",
