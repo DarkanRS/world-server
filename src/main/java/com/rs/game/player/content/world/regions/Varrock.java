@@ -19,6 +19,8 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.knightssword.KnightsSword;
+import com.rs.game.player.quests.handlers.knightssword.ReldoKnightsSwordD;
 import com.rs.game.player.quests.handlers.shieldofarrav.BaraekShieldOfArravD;
 import com.rs.game.player.quests.handlers.shieldofarrav.CharlieTheTrampArravD;
 import com.rs.game.player.quests.handlers.shieldofarrav.KatrineShieldOfArravD;
@@ -148,6 +150,9 @@ public class Varrock {
 						public void create() {
 							if(!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
 							    option("About Shield Of Arrav...", new ReldoShieldOfArravD(player).getStart());
+                            if(e.getPlayer().getQuestManager().getStage(Quest.KNIGHTS_SWORD) >= KnightsSword.TALK_TO_RELDO
+                                    && !e.getPlayer().getQuestManager().isComplete(Quest.KNIGHTS_SWORD))
+                                option("About Knight's Sword...", new ReldoKnightsSwordD(player).getStart());
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.VARROCK_ARMOR).getStart());
 						}
 					});

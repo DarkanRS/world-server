@@ -42,6 +42,13 @@ public class Mining extends Action {
 		}
 	};
 
+    public static ObjectClickHandler handleBlurite = new ObjectClickHandler(new Object[] { "Blurite ore rocks" }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            e.getPlayer().getActionManager().setAction(new Mining(RockType.BLURITE, e.getObject()));
+        }
+    };
+
 	public static ObjectClickHandler handleLimestone = new ObjectClickHandler(new Object[] { "Limestone rocks" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

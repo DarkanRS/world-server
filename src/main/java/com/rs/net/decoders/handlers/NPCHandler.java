@@ -201,8 +201,6 @@ public class NPCHandler {
 				player.startConversation(new GenericSkillcapeOwnerD(player, 4946, Skillcapes.Firemaking));
 			else if (npc.getId() == 805)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 805, Skillcapes.Crafting));
-			else if (npc.getId() == 604)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 604, Skillcapes.Smithing));
 			else if (npc.getId() == 3295)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 3295, Skillcapes.Mining));
 //			else if (npc.getId() == 455)
