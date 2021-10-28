@@ -377,7 +377,10 @@ public class DungeonConstants {
 		{ 861, 862, 866, 867, 868, 869, 871, 874, 875, 878, 879, 881, 883 }, //occult
 		{ 912, 915, 918, 919, 921, 923, 926, 928, 929, 931, 932, 933, 934 } //warped floor
 	};
-	
+
+    public static final int[] MISC_MUSICS =
+            { 803, 782, 786, 815, 863 };
+
 	public enum GuardianMonster {
 		//ALL FLOORS
 		FORGOTTEN_WARRIOR(new int[] { FROZEN_FLOORS, ABANDONED_FLOORS, FURNISHED_FLOORS, OCCULT_FLOORS, WARPED_FLOORS }, Utils.range(10397, 10459), Utils.range(10246, 10308), Utils.range(10843, 10905), Utils.range(10507, 10548)),
@@ -1172,6 +1175,25 @@ public class DungeonConstants {
 			}, 922, 48, 26, 688) }
 
 	};
+
+    public static boolean isDungeonSong(int musicId) {
+        for(int dung_MusicId : START_ROOM_MUSICS)
+            if(musicId == dung_MusicId)
+                return true;
+        for(int[] floor : DANGEROUS_MUSICS)
+            for(int dung_MusicId : floor)
+                if(musicId == dung_MusicId)
+                    return true;
+        for(int[] floor : SAFE_MUSICS)
+            for(int dung_MusicId : floor)
+                if(musicId == dung_MusicId)
+                    return true;
+        for(int dung_MusicId : MISC_MUSICS)
+            if(musicId == dung_MusicId)
+                return true;
+
+        return false;
+    }
 
 	public static final int[][] WALL_BASE_X_Y =
 	{
