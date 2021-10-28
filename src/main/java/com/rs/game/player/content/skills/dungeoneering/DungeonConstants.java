@@ -378,8 +378,8 @@ public class DungeonConstants {
 		{ 912, 915, 918, 919, 921, 923, 926, 928, 929, 931, 932, 933, 934 } //warped floor
 	};
 
-    public static final int[] BOSS_MUSICS =
-            { 738, 743, 746, 759, 767, 768, 782, 784, 785, 786, 787, 803, 815, 816, 817, 818, 819, 820, 863, 865, 876, 877, 890, 891, 892, 913, 916, 922, 924, 937, 940 };
+    public static final int[] OTHER_DUNGEONEERING_MUSIC =
+            { 0, 738, 743, 746, 759, 767, 768, 782, 784, 785, 786, 787, 803, 815, 816, 817, 818, 819, 820, 863, 865, 876, 877, 890, 891, 892, 913, 916, 922, 924, 937, 940 };
 
 	public enum GuardianMonster {
 		//ALL FLOORS
@@ -1188,7 +1188,7 @@ public class DungeonConstants {
             for(int dung_MusicId : floor)
                 if(musicId == dung_MusicId)
                     return true;
-        for(int dung_MusicId : BOSS_MUSICS)
+        for(int dung_MusicId : OTHER_DUNGEONEERING_MUSIC)
             if(musicId == dung_MusicId)
                 return true;
 
