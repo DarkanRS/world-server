@@ -510,7 +510,7 @@ public class DungManager {
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() >= 59 && e.getComponentId() <= 72) {
 				int playerIndex = (e.getComponentId() - 59) / 3;
-				if ((e.getComponentId() & 0x3) != 0)
+				if ((e.getComponentId() & 0x3) != 0 || e.getComponentId() == 68)
 					e.getPlayer().getDungManager().pressOption(playerIndex,
 							e.getPacket() == ClientPacket.IF_OP1 ? 0 : e.getPacket() == ClientPacket.IF_OP2 ? 1 : 2);
 				else

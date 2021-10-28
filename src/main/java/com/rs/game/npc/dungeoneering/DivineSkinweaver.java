@@ -87,21 +87,23 @@ public final class DivineSkinweaver extends DungeonBoss {
 	@Override
 	public void processNPC() {
 		List<Entity> targets = getPossibleTargets();
+		if(targets.size() == 0)
+		    removeAllSkeletons();
 		if (respawnDelay > 0) {
 			respawnDelay--;
-		} else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 8) { //blablala spawn skeletons
+		} else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 20) { //blablala spawn skeletons
 			int[] coords = getOpenHole();
 			if (coords != null) {
 				int skeleType = Utils.random(3);
                 int cbLevel = getManager().getCombatLevelMonster();
-                cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.35));
+                cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.20));
 				if (skeleType == 0)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), getManager().getCombatLevelMonster()), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 1)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), getManager().getCombatLevelMonster()), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 2)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), getManager().getCombatLevelMonster()), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
-				respawnDelay = 25;
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+				respawnDelay = 20;
 			}
 		}
 		if (healDelay > 0) {
@@ -130,6 +132,10 @@ public final class DivineSkinweaver extends DungeonBoss {
 		healDelay = 4;
 	}
 
+	private void removeAllSkeletons() {
+	    for(int i = 0; i < skeletons.size(); i++)
+	        skeletons.get(i).sendDeath(skeletons.get(i));
+    }
 	public void talkTo(Player player) {
 		if (count < holeClosed.length || skeletons.size() > 0) {
 			player.getDialogueManager().execute(new SimpleNPCMessage(), getId(), "Chat later and kill the skeletons now, brah.");

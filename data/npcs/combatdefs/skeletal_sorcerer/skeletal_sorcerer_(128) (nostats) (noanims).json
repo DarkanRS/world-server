@@ -5,7 +5,7 @@
     12016
   ],
   "hitpoints": 5000,
-  "attackAnim": -1,
+  "attackAnim": 2791,
   "defenceAnim": -1,
   "deathAnim": -1,
   "deathDelay": 2,
@@ -13,6 +13,6 @@
   "maxHit": 50,
   "attackStyle": "SPECIAL",
   "attackGfx": -1,
-  "attackProjectile": -1,
+  "attackProjectile": 2735,
   "agressivenessType": "AGGRESSIVE"
 }

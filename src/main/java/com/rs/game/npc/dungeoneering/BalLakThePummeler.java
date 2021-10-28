@@ -49,7 +49,7 @@ public class BalLakThePummeler extends DungeonBoss {
 					reduced = true;
 				}
 				for (Entity t : targets) {
-					if (!t.withinDistance(puddle.tile, 2))
+					if (!t.withinDistance(puddle.tile, 1))
 						continue;
 					t.applyHit(new Hit(this, (int) Utils.random((int) (t.getHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
 				}
@@ -110,9 +110,21 @@ public class BalLakThePummeler extends DungeonBoss {
 		}
 	}
 
-	public void addPoisionBubble(WorldTile tile) {
-		puddles.add(new PoisionPuddle(tile, barPercentage));
-		World.sendSpotAnim(this, new SpotAnim(2588), tile);
+	public void addPoisionBubble(WorldTile centerTile) {
+		puddles.add(new PoisionPuddle(centerTile, barPercentage));
+		addPoisonBubbleSpotAnimations(centerTile);
+	}
+
+	private void addPoisonBubbleSpotAnimations(WorldTile centerTile) {
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY(), centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()));
+        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()));
 	}
 
 	public List<PoisionPuddle> getPoisionPuddles() {
