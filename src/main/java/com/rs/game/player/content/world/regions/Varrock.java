@@ -2,6 +2,7 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
 import com.rs.game.World;
+import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
@@ -34,6 +35,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.net.decoders.handlers.ObjectHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -119,7 +121,20 @@ public class Varrock {
             }, false));
 		}
 	};
-	
+
+    public static ObjectClickHandler handleVariousStaircases = new ObjectClickHandler(new Object[] { 24356 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(obj.getRotation() == 0)
+                p.useStairs(-1, new WorldTile(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
+            else if (obj.getRotation() == 1)
+                p.useStairs(-1, new WorldTile(p.getX()+4, p.getY(), p.getPlane() + 1), 0, 1);
+            return;
+        }
+    };
+
 	public static ObjectClickHandler handleDummies = new ObjectClickHandler(new Object[] { 23921 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

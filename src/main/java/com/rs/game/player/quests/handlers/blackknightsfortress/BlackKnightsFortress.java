@@ -134,7 +134,7 @@ public class BlackKnightsFortress extends QuestOutline {
         getQuest().sendQuestCompleteInterface(player, 9591, "2,500 coins");
 	}
 
-    public static EnterChunkHandler handleFinalCutsceneChunk = new EnterChunkHandler() {
+    public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler() {
         @Override
         public void handle(EnterChunkEvent e) {
             Player p = e.getPlayer();

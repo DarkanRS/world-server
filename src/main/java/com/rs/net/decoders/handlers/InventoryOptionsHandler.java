@@ -57,6 +57,8 @@ import com.rs.game.player.dialogues.FlowerPickup;
 import com.rs.game.player.dialogues.ItemMessage;
 import com.rs.game.player.dialogues.LeatherCraftingD;
 import com.rs.game.player.dialogues.SimplePlayerMessage;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
@@ -126,6 +128,9 @@ public class InventoryOptionsHandler {
 					player.useStairs(-1, new WorldTile(2690, 10124, 0), 0, 1);
 					return;
 				}
+                //Pirate's Treasure
+                if(player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.GET_TREASURE)
+                    PiratesTreasure.findTreasure(player);
 				player.sendMessage("You find nothing.");
 			}
 

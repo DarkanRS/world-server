@@ -1,9 +1,7 @@
 package com.rs.game.player.quests.handlers.knightssword;
 
 import com.rs.game.World;
-import com.rs.game.item.ItemNames;
 import com.rs.game.npc.NPC;
-import com.rs.game.npc.NPCName;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;

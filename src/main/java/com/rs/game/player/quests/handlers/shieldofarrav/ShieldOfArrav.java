@@ -7,13 +7,17 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.achievements.AchievementSystemDialogue;
+import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
+import com.rs.game.player.quests.handlers.piratestreasure.RedbeardFrankPiratesTreasureD;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
@@ -342,29 +346,18 @@ public class ShieldOfArrav extends QuestOutline {
                     p.getInventory().addItem(757, 1);
                     p.getPackets().sendGameMessage("You found the book, \"Shield Of Arrav\".");
                     if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
-                        p.getDialogueManager().execute(new Dialogue() {
-                        @Override
-                        public void start() {
-                            sendPlayerDialogue(p, HeadE.HAPPY_TALKING.getEmoteId(), "Aha! 'The Shield Of Arrav'! Exactly what I was looking for.");
-                        }
-
-                        @Override
-                        public void run(int interfaceId, int componentId) {
-                        }
-
-                        @Override
-                        public void finish() {
-
-                        }
-                    });
+                        p.startConversation(new Conversation(e.getPlayer()) {
+                            {
+                                addPlayer(HeadE.HAPPY_TALKING, "Aha! 'The Shield Of Arrav'! Exactly what I was looking for.");
+                                create();
+                            }
+                        });
                 } else
                     p.getPackets().sendGameMessage("You already found the book, \"Shield Of Arrav\".");
             else {
                 p.getPackets().sendGameMessage("You search the books...");
                 p.getPackets().sendGameMessage("You find nothing of interest to you.");
             }
-
-
         }
     };
 
@@ -442,19 +435,10 @@ public class ShieldOfArrav extends QuestOutline {
                 if(p.getInventory().containsItem(SHIELD_RIGHT_HALF))
                     p.sendMessage("The chest is empty");
                 else if(p.getBank().containsItem(SHIELD_RIGHT_HALF, 1)) {
-                    p.getDialogueManager().execute(new Dialogue() {
-                        @Override
-                        public void start() {
-                            sendPlayerDialogue(p, HeadE.HAPPY_TALKING.getEmoteId(), "Oh that's right, the right shield half is in my bank.");
-                        }
-
-                        @Override
-                        public void run(int interfaceId, int componentId) {
-                        }
-
-                        @Override
-                        public void finish() {
-
+                    p.startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank.");
+                            create();
                         }
                     });
                     p.sendMessage("The chest is empty");
@@ -463,19 +447,10 @@ public class ShieldOfArrav extends QuestOutline {
                     p.getInventory().addItem(SHIELD_RIGHT_HALF, 1);
                     if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
                         setStage(p, HAS_SHIELD_STAGE);
-                        p.getDialogueManager().execute(new Dialogue() {
-                            @Override
-                            public void start() {
-                                sendPlayerDialogue(p, HeadE.HAPPY_TALKING.getEmoteId(), "I should take this to King Roald");
-                            }
-
-                            @Override
-                            public void run(int interfaceId, int componentId) {
-                            }
-
-                            @Override
-                            public void finish() {
-
+                        p.startConversation(new Conversation(e.getPlayer()) {
+                            {
+                                addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald");
+                                create();
                             }
                         });
                     }
@@ -567,19 +542,6 @@ public class ShieldOfArrav extends QuestOutline {
         }
     };
 
-    public static ObjectClickHandler handleBlackArmStaircases = new ObjectClickHandler(new Object[] { 24356 }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            Player p = e.getPlayer();
-            GameObject obj = e.getObject();
-            if(obj.matches(new WorldTile(3188, 3389, 0))) {
-                p.useStairs(-1, new WorldTile(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
-                return;
-            }
-
-            ObjectHandler.handleStaircases(p, obj, 1);
-        }
-    };
 
     public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[] {CERTIFICATE_LEFT}) {
         @Override

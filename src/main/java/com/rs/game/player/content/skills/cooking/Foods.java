@@ -313,6 +313,8 @@ public class Foods {
 		
 		PAPAYA(5972, 8, Effect.PAPAYA),
 
+        BANANA(1963, 2),
+
 		THIN_SNAIL_MEAT(3369, 5 + Utils.random(2)),
 
 		LEAN_SNAIL_MEAT(3371, 8),
@@ -391,7 +393,7 @@ public class Foods {
 		 * 
 		 * @param id
 		 *            The food id
-		 * @param health
+		 * @param heal
 		 *            The healing health received
 		 */
 		private Food(int id, int heal) {

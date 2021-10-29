@@ -1,8 +1,14 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.transportation.TravelMethods;
 import com.rs.game.player.content.transportation.TravelMethods.Carrier;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
+import com.rs.game.player.quests.handlers.piratestreasure.LuthasPiratesTreasureD;
+import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.lib.game.WorldTile;
 
 public class BoatingDialogue extends Dialogue {
@@ -14,7 +20,11 @@ public class BoatingDialogue extends Dialogue {
 	@Override
 	public void start() {
 		npcId = (Integer) parameters[0];
-		sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
+
+        if(npcId == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM)
+            player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
+        else
+		    sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
 	}
 
 	@Override
@@ -70,8 +80,12 @@ public class BoatingDialogue extends Dialogue {
 		case 377:
 		case 378:
 			return new Object[] { Carrier.KARAMJA_FARE, false };
-		case 381:
-			return new Object[] { Carrier.KARAMJA_FARE, true };
+        case 380:
+            return player.withinDistance(new WorldTile(2772, 3227, 0), 30) ?
+        new Object[] { Carrier.BRIMHAVEN_FARE, true } : new Object[] { Carrier.KARAMJA_FARE, true };
+
+        case 381:
+            return new Object[] { Carrier.BRIMHAVEN_FARE, true };
 		case 744:
 			return new Object[] { Carrier.CRANDOR_FARE, false };
 		case 2728:
@@ -86,8 +100,6 @@ public class BoatingDialogue extends Dialogue {
 			return new Object[] { Carrier.VOID_OUTPOST_FARE, true };
 		case 4962:
 			return new Object[] { Carrier.BRIMHAVEN_FARE, false };
-		case 380:
-			return new Object[] { Carrier.BRIMHAVEN_FARE, true };
 		case 5482:
 			return new Object[] { Carrier.JATIZO, true };
 		case 5481:

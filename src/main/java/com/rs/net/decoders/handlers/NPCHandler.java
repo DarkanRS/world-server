@@ -58,6 +58,9 @@ import com.rs.game.player.dialogues.TanningD;
 import com.rs.game.player.dialogues.TzHaarMejJal;
 import com.rs.game.player.dialogues.TzHaarMejKah;
 import com.rs.game.player.dialogues.UgiDialogue;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
+import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -376,6 +379,10 @@ public class NPCHandler {
 			
 			Object[] shipAttributes = BoatingDialogue.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
+                if(npc.getId() == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM) {
+                    player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
+                    return;
+                }
 				TravelMethods.sendCarrier(player, (Carrier) shipAttributes[0], (boolean) shipAttributes[1]);
 				return;
 			}

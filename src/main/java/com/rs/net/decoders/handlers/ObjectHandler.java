@@ -129,7 +129,11 @@ public final class ObjectHandler {
 				if (object.getId() == 29355) {
 					player.useStairs(828, new WorldTile(player.getX(), player.getY() - 6400, 0), 1, 2);
 					return;
-				} else if (object.getId() == 7434) {
+				} else if(object.getId() == 37117) {
+                    player.useStairs(-1, new WorldTile(object.getX()-2, player.getY(), 0), 1, 2);
+                    return;
+                }
+                else if (object.getId() == 7434) {
 					player.useStairs(828, new WorldTile(3682, 9961, 0), 1, 2);
 					return;
 				} else if (object.getId() == 7433) {

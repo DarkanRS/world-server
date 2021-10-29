@@ -1,5 +1,15 @@
 [
   {
+    "comment": "Pirate's Treasure: Zambo to get Rum from Karamja",
+    "npcId": 568,
+    "dir": "CACHE",
+    "tile": {
+      "x": 2924,
+      "y": 3143,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Black Knights Fortress: Witch by cauldron",
     "npcId": 611,
     "dir": "CACHE",
