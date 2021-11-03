@@ -1,4 +1,4 @@
-package com.rs.game.player.content.holidayevents.easter.easter20;
+package com.rs.game.player.content.holidayevents.easter.easter21;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
