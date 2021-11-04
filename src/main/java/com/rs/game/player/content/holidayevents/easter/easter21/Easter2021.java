@@ -1,23 +1,16 @@
-package com.rs.game.player.content.holidayevents.easter.easter20;
+package com.rs.game.player.content.holidayevents.easter.easter21;
 
-import java.util.List;
-
-import com.rs.cores.CoresManager;
-import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.region.Region;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
@@ -26,87 +19,39 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.Ticks;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawn;
 import com.rs.utils.spawns.ObjectSpawns;
 
 @PluginEventHandler
-public class Easter2020 {
-	static int eggsCount = 0;
-	static int eggsPerRegion = 50;
-	static int[] regionsToSpawn = new int[] { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
-
-	//@ServerStartupEvent
+public class Easter2021 {
+	
+	public static String STAGE_KEY = "easter2022";
+	
+	public static final boolean ENABLED = true;
+	
+	@ServerStartupEvent
 	public static void loadSpawns() {
+		if (!ENABLED)
+			return;
 		ObjectSpawns.add(new ObjectSpawn(23117, 10, 0, new WorldTile(3210, 3424, 0), "Rabbit hole"));
 		NPCSpawns.add(new NPCSpawn(9687, new WorldTile(3212, 3425, 0), "Easter Bunny"));
 		NPCSpawns.add(new NPCSpawn(9687, new WorldTile(2463, 5355, 0), "Easter Bunny"));
-		NPCSpawns.add(new NPCSpawn(7411, new WorldTile(2448, 5357, 0), "Easter Bunny Jr"));
+		NPCSpawns.add(new NPCSpawn(7411, new WorldTile(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2021 Event)"));
 		NPCSpawns.add(new NPCSpawn(9686, new WorldTile(2969, 3431, 0), "Charlie the Squirrel"));
 		NPCSpawns.add(new NPCSpawn(3283, new WorldTile(2968, 3429, 0), "Squirrel"));
 		NPCSpawns.add(new NPCSpawn(3284, new WorldTile(2970, 3429, 0), "Squirrel"));
 		NPCSpawns.add(new NPCSpawn(3285, new WorldTile(2969, 3428, 0), "Squirrel"));
 		NPCSpawns.add(new NPCSpawn(3285, new WorldTile(2968, 3432, 0), "Squirrel"));
-		
-		WorldTasksManager.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				for (int id : regionsToSpawn) {
-					World.getRegion(id, true);
-				}
-			}
-		}, 10);
-		
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					spawnEggs();
-					World.sendWorldMessage("<col=FF0000><shad=000000>Easter Eggs have spawned in various cities around the world!", false);
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			}
-		}, Ticks.fromSeconds(30), Ticks.fromHours(1));
-	}
-	
-	public static int countEggs(int regionId) {
-		eggsCount = 0;
-		List<GroundItem> itemSpawns = World.getRegion(regionId).getAllGroundItems();
-		if (itemSpawns != null && itemSpawns.size() > 0) {
-			itemSpawns.forEach( spawn -> {
-				if (spawn.getId() == 1961)
-					eggsCount += 1;
-			});
-		}
-		return eggsCount;
-	}
-	
-	public static void spawnEggs() {
-		for (int id : regionsToSpawn) {
-			Region r = World.getRegion(id);
-			int eggsNeeded = eggsPerRegion-countEggs(id);
-			for (int i = 0; i < eggsNeeded; i++) {
-				int x = r.getBaseX()+Utils.random(64);
-				int y = r.getBaseY()+Utils.random(64);
-				WorldTile tile = new WorldTile(x, y, 0);
-				while (!World.floorAndWallsFree(tile, 1)) {
-					x = r.getBaseX()+Utils.random(64);
-					y = r.getBaseY()+Utils.random(64);
-					tile = new WorldTile(x, y, 0);
-				}
-				World.addGroundItem(new Item(1961), new WorldTile(x, y, 0));
-			}
-		}
 	}
 	
 	public static ObjectClickHandler handleEnterExit = new ObjectClickHandler(new Object[] { 23117, 30074 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getEaster20Stage() <= 0) {
+			if (e.getPlayer().getI(Easter2021.STAGE_KEY) <= 0) {
 				e.getPlayer().sendMessage("You don't see a need to go down there yet!");
 				return;
 			}
@@ -163,18 +108,21 @@ public class Easter2020 {
 			new WorldTile(2449, 5343, 0)
 	};
 	
-	//@LoginHandler TODO
-	public static void handleLogin(LoginEvent e) {
-		e.getPlayer().setEaster20Stage(4);
-		e.getPlayer().getNSV().setI("easterBirdFood", Utils.random(4));
-		e.getPlayer().getNSV().setI("cogLocation", Utils.random(COG_LOCATIONS.length));
-		e.getPlayer().getNSV().setI("pistonLocation", Utils.random(PISTON_LOCATIONS.length));
-		e.getPlayer().getNSV().setI("chimneyLocation", Utils.random(CHIMNEY_LOCATIONS.length));
-		e.getPlayer().getVars().setVarBit(6014, e.getPlayer().getEaster20Stage() >= 3 ? 1 : 0);
-		e.getPlayer().getVars().setVarBit(6016, e.getPlayer().getEaster20Stage() >= 6 ? 3: 0);
-		if (e.getPlayer().getEaster20Stage() >= 8)
-			e.getPlayer().getVars().setVarBit(6014, 85);
-	}
+	public static LoginHandler loginEaster = new LoginHandler() {
+		@Override
+		public void handle(LoginEvent e) {
+			if (!ENABLED)
+				return;
+			e.getPlayer().getNSV().setI("easterBirdFood", Utils.random(4));
+			e.getPlayer().getNSV().setI("cogLocation", Utils.random(COG_LOCATIONS.length));
+			e.getPlayer().getNSV().setI("pistonLocation", Utils.random(PISTON_LOCATIONS.length));
+			e.getPlayer().getNSV().setI("chimneyLocation", Utils.random(CHIMNEY_LOCATIONS.length));
+			e.getPlayer().getVars().setVarBit(6014, e.getPlayer().getI(Easter2021.STAGE_KEY) >= 3 ? 1 : 0);
+			e.getPlayer().getVars().setVarBit(6016, e.getPlayer().getI(Easter2021.STAGE_KEY) >= 6 ? 3: 0);
+			if (e.getPlayer().getI(Easter2021.STAGE_KEY) >= 8)
+				e.getPlayer().getVars().setVarBit(6014, 85);
+		}
+	};
 	
 	public static ObjectClickHandler handleWaterGrab = new ObjectClickHandler(new Object[] { 30083 }) {
 		@Override
@@ -203,7 +151,7 @@ public class Easter2020 {
 				e.getPlayer().sendMessage("Nothing interesting happens.");
 				return;
 			}
-			if (e.getPlayer().getEaster20Stage() >= 3) {
+			if (e.getPlayer().getI(Easter2021.STAGE_KEY) >= 3) {
 				e.getPlayer().sendMessage("You've already woken the bird up! It doesn't need any more water.");
 				return;
 			}
@@ -213,7 +161,7 @@ public class Easter2020 {
 			e.getPlayer().sendMessage("You fill the bird's dish with water.");
 			if (e.getPlayer().getVars().getVarBit(6026) == e.getPlayer().getNSV().getI("easterBirdFood")) {
 				e.getPlayer().sendMessage("The bird wakes up and begins eating and drinking!");
-				e.getPlayer().setEaster20Stage(3);
+				e.getPlayer().save(Easter2021.STAGE_KEY, 3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
 				WorldTasksManager.delay(10, () -> {
 					e.getPlayer().getVars().setVarBit(6026, 0);
@@ -232,7 +180,7 @@ public class Easter2020 {
 				e.getPlayer().sendMessage("Nothing interesting happens.");
 				return;
 			}
-			if (e.getPlayer().getEaster20Stage() >= 3) {
+			if (e.getPlayer().getI(Easter2021.STAGE_KEY) >= 3) {
 				e.getPlayer().sendMessage("You've already woken the bird up! It doesn't need any more food.");
 				return;
 			}
@@ -245,7 +193,7 @@ public class Easter2020 {
 				return;
 			}
 			if (e.getPlayer().getVars().getVarBit(6026) == (e.getPlayer().getNSV().getI("easterBirdFood")+1)) {
-				e.getPlayer().setEaster20Stage(3);
+				e.getPlayer().save(Easter2021.STAGE_KEY, 3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
 				WorldTasksManager.delay(10, () -> {
 					e.getPlayer().getVars().setVarBit(6026, 0);
@@ -260,7 +208,7 @@ public class Easter2020 {
 	public static ObjectClickHandler handleCrates = new ObjectClickHandler(new Object[] { 30100, 30101, 30102, 30103, 30104 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getEaster20Stage() < 5) {
+			if (e.getPlayer().getI(Easter2021.STAGE_KEY) < 5) {
 				e.getPlayer().sendMessage("You don't find anything that looks useful to you right now.");
 				return;
 			}
@@ -286,7 +234,7 @@ public class Easter2020 {
 	public static ItemOnObjectHandler handleFixIncubator = new ItemOnObjectHandler(new Object[] { 42733 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
-			if (e.getPlayer().getEaster20Stage() < 5) {
+			if (e.getPlayer().getI(Easter2021.STAGE_KEY) < 5) {
 				e.getPlayer().sendMessage("It looks really broken.");
 				return;
 			}
@@ -315,7 +263,7 @@ public class Easter2020 {
 					e.getPlayer().getVars().setVarBit(6016, 4);
 					e.getPlayer().sendMessage("You attach the chimney back into place.");
 					e.getPlayer().sendMessage("You hear the machine whirr as it turns back on.");
-					e.getPlayer().setEaster20Stage(6);
+					e.getPlayer().save(Easter2021.STAGE_KEY, 6);
 				} else {
 					e.getPlayer().sendMessage("That part won't fit quite yet.");
 				}
