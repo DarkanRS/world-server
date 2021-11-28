@@ -4,10 +4,10 @@ import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.game.player.Player;
-import com.rs.game.player.social.ActiveFC;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
+import com.rs.lib.model.FriendsChat;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
@@ -49,8 +49,8 @@ public class LobbyCommunicator {
 		post(Account.class, player.getAccount(), "updatewholeaccount", cb);
 	}
 	
-	public static void updateFC(ActiveFC fc) {
-		post(new UpdateFC(fc.getOwner().getDisplayName(), fc.getSettings()), "updatefc");
+	public static void updateFC(Player player, Consumer<FriendsChat> cb) {
+		post(FriendsChat.class, new UpdateFC(player.getDisplayName(), player.getSocial().getFriendsChat()), "updatefc", cb);
 	}
 	
 	public static void forwardPackets(Player player, Packet... packets) {
