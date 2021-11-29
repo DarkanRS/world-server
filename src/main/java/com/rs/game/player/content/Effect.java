@@ -1,5 +1,6 @@
 package com.rs.game.player.content;
 
+import com.rs.game.Entity;
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.SpotAnim;
@@ -7,31 +8,36 @@ import com.rs.lib.game.SpotAnim;
 public enum Effect {
 	SKULL {
 		@Override
-		public void apply(Player player) {
-			player.getAppearance().generateAppearanceData();
+		public void apply(Entity entity) {
+			if (entity instanceof Player player)
+				player.getAppearance().generateAppearanceData();
 		}
 		
 		@Override
-		public void expire(Player player) {
-			player.getAppearance().generateAppearanceData();
+		public void expire(Entity entity) {
+			if (entity instanceof Player player)
+				player.getAppearance().generateAppearanceData();
 		}
 	},
 	ANTIPOISON("poison immunity") {
 		@Override
-		public void apply(Player player) {
+		public void apply(Entity player) {
 			player.getPoison().reset();
 		}
 	},
+	STUN(),
 	DOUBLE_XP("double xp"),
 	ANTIFIRE("antifire"),
 	SUPER_ANTIFIRE("super-antifire"),
 	PRAYER_RENEWAL("prayer renewal") {
 		@Override
-		public void tick(Player player, long tickNumber) {
-			if (!player.getPrayer().hasFullPoints()) {
-				player.getPrayer().restorePrayer((((double) (player.getSkills().getLevelForXp(Constants.PRAYER) * 4.3) / 600.0)) + 0.2);
-				if (tickNumber % 25 == 0)
-					player.setNextSpotAnim(new SpotAnim(1295));
+		public void tick(Entity entity, long tickNumber) {
+			if (entity instanceof Player player) {
+				if (!player.getPrayer().hasFullPoints()) {
+					player.getPrayer().restorePrayer((((double) (player.getSkills().getLevelForXp(Constants.PRAYER) * 4.3) / 600.0)) + 0.2);
+					if (tickNumber % 25 == 0)
+						player.setNextSpotAnim(new SpotAnim(1295));
+				}
 			}
 		}
 	},
@@ -49,54 +55,59 @@ public enum Effect {
 	
 	BONFIRE("bonfire boost") {
 		@Override
-		public void apply(Player player) {
-			player.getEquipment().refreshConfigs(false);
+		public void apply(Entity entity) {
+			if (entity instanceof Player player)
+				player.getEquipment().refreshConfigs(false);
 		}
 		
 		@Override
-		public void expire(Player player) {
-			player.getEquipment().refreshConfigs(false);
+		public void expire(Entity entity) {
+			if (entity instanceof Player player)
+				player.getEquipment().refreshConfigs(false);
 		}
 	},
 	
 	OVERLOAD("overload") {
 		@Override
-		public void apply(Player player) {
-			Potions.applyOverLoadEffect(player);
-		}
-		
-		@Override
-		public void tick(Player player, long tick) {
-			if (tick % 25 == 0)
+		public void apply(Entity entity) {
+			if (entity instanceof Player player)
 				Potions.applyOverLoadEffect(player);
 		}
 		
 		@Override
-		public void expire(Player player) {
-			if (!player.isDead()) {
-				int actualLevel = player.getSkills().getLevel(Constants.ATTACK);
-				int realLevel = player.getSkills().getLevelForXp(Constants.ATTACK);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.ATTACK, realLevel);
-				actualLevel = player.getSkills().getLevel(Constants.STRENGTH);
-				realLevel = player.getSkills().getLevelForXp(Constants.STRENGTH);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.STRENGTH, realLevel);
-				actualLevel = player.getSkills().getLevel(Constants.DEFENSE);
-				realLevel = player.getSkills().getLevelForXp(Constants.DEFENSE);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.DEFENSE, realLevel);
-				actualLevel = player.getSkills().getLevel(Constants.MAGIC);
-				realLevel = player.getSkills().getLevelForXp(Constants.MAGIC);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.MAGIC, realLevel);
-				actualLevel = player.getSkills().getLevel(Constants.RANGE);
-				realLevel = player.getSkills().getLevelForXp(Constants.RANGE);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.RANGE, realLevel);
-				player.heal(500);
+		public void tick(Entity entity, long tick) {
+			if (tick % 25 == 0 && entity instanceof Player player)
+				Potions.applyOverLoadEffect(player);
+		}
+		
+		@Override
+		public void expire(Entity entity) {
+			if (entity instanceof Player player) {
+				if (!player.isDead()) {
+					int actualLevel = player.getSkills().getLevel(Constants.ATTACK);
+					int realLevel = player.getSkills().getLevelForXp(Constants.ATTACK);
+					if (actualLevel > realLevel)
+						player.getSkills().set(Constants.ATTACK, realLevel);
+					actualLevel = player.getSkills().getLevel(Constants.STRENGTH);
+					realLevel = player.getSkills().getLevelForXp(Constants.STRENGTH);
+					if (actualLevel > realLevel)
+						player.getSkills().set(Constants.STRENGTH, realLevel);
+					actualLevel = player.getSkills().getLevel(Constants.DEFENSE);
+					realLevel = player.getSkills().getLevelForXp(Constants.DEFENSE);
+					if (actualLevel > realLevel)
+						player.getSkills().set(Constants.DEFENSE, realLevel);
+					actualLevel = player.getSkills().getLevel(Constants.MAGIC);
+					realLevel = player.getSkills().getLevelForXp(Constants.MAGIC);
+					if (actualLevel > realLevel)
+						player.getSkills().set(Constants.MAGIC, realLevel);
+					actualLevel = player.getSkills().getLevel(Constants.RANGE);
+					realLevel = player.getSkills().getLevelForXp(Constants.RANGE);
+					if (actualLevel > realLevel)
+						player.getSkills().set(Constants.RANGE, realLevel);
+					player.heal(500);
+				}
+				player.sendMessage("<col=480000>The effects of overload have worn off and you feel normal again.");
 			}
-			player.sendMessage("<col=480000>The effects of overload have worn off and you feel normal again.");
 		}
 	},
 	
@@ -112,15 +123,15 @@ public enum Effect {
 		name = null;
 	}
 	
-	public void apply(Player player) {
+	public void apply(Entity player) {
 		
 	}
 	
-	public void tick(Player player, long tickNumber) {
+	public void tick(Entity player, long tickNumber) {
 		
 	}
 	
-	public void expire(Player player) {
+	public void expire(Entity player) {
 		
 	}
 	
