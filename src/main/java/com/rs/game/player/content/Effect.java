@@ -25,7 +25,10 @@ public enum Effect {
 			player.getPoison().reset();
 		}
 	},
-	STUN(),
+	STUN,
+	FREEZE,
+	FREEZE_BLOCK,
+	TELEBLOCK("teleblock"),
 	DOUBLE_XP("double xp"),
 	ANTIFIRE("antifire"),
 	SUPER_ANTIFIRE("super-antifire"),

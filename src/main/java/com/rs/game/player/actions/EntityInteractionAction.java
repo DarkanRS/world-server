@@ -3,6 +3,7 @@ package com.rs.game.player.actions;
 import com.rs.game.Entity;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.utils.WorldUtil;
 
 public abstract class EntityInteractionAction extends Action {
@@ -66,7 +67,7 @@ public abstract class EntityInteractionAction extends Action {
 		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance) {
 			return false;
 		}
-		if (player.isFrozen())
+		if (player.hasEffect(Effect.FREEZE))
 			return !WorldUtil.collides(player, target);
 		if (WorldUtil.collides(player, target) && !target.hasWalkSteps()) {
 			player.resetWalkSteps();

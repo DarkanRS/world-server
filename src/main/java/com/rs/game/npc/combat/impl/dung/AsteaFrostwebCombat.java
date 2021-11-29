@@ -10,6 +10,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.AsteaFrostweb;
+import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
@@ -58,7 +59,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 					WorldTasksManager.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							if (target.isFrozen())
+							if (target.hasEffect(Effect.FREEZE))
 								target.setNextSpotAnim(new SpotAnim(1677, 0, 100));
 							else {
 								target.setNextSpotAnim(new SpotAnim(369));
@@ -74,7 +75,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 								WorldTasksManager.schedule(new WorldTask() {
 									@Override
 									public void run() {
-										if (t.isFrozen())
+										if (t.hasEffect(Effect.FREEZE))
 											t.setNextSpotAnim(new SpotAnim(1677, 0, 100));
 										else {
 											t.setNextSpotAnim(new SpotAnim(369));

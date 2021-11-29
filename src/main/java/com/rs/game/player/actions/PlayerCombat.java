@@ -324,7 +324,7 @@ public class PlayerCombat extends Action {
 			max_hit = CombatSpell.STORM_OF_ARMADYL.getBaseDamage(player) + minHit;
 		}
 		hit.setData("combatSpell", spell);
-		boolean sparkle = target.getSize() >= 2 || target.isFrozen() || target.isFreezeBlocked();
+		boolean sparkle = target.getSize() >= 2 || target.hasEffect(Effect.FREEZE) || target.hasEffect(Effect.FREEZE_BLOCK);
 		delayMagicHit(hitDelay, hit, () -> {
 			if (hit.getDamage() > 0) {
 				switch(spell) {
@@ -2204,7 +2204,7 @@ public class PlayerCombat extends Action {
 				}
 			}
 		}
-		if (player.isFrozen()) {
+		if (player.hasEffect(Effect.FREEZE)) {
 			if (isMeleeing(player) && target.getSize() == 1) {
 				Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
 				if (dir != null) {

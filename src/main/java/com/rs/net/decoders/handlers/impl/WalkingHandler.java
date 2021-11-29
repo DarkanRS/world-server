@@ -3,6 +3,7 @@ package com.rs.net.decoders.handlers.impl;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.Walk;
@@ -16,7 +17,7 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 		
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead() || player.isLocked())
 			return;
-		if (player.isFrozen()) {
+		if (player.hasEffect(Effect.FREEZE)) {
 			player.sendMessage("A magical force prevents you from moving.");
 			return;
 		}

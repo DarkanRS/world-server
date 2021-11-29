@@ -27,6 +27,7 @@ import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Bank;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.combat.PolyporeStaff;
 import com.rs.game.player.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.player.content.skills.hunter.BoxHunterType;
@@ -228,7 +229,7 @@ public class NPC extends Entity {
 		if (World.getPlayersInRegionRange(getRegionId()).isEmpty())
 			return;
 		if (!combat.process() && routeEvent == null) { // if not under combat
-			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !isFrozen()) {
+			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
 				if (!hasWalkSteps() && shouldRandomWalk()) {
 					boolean can = Math.random() > 0.9;
 					if (can) {
@@ -248,7 +249,7 @@ public class NPC extends Entity {
 			}
 		}
 		if (isForceWalking()) {
-			if (!isFrozen()) {
+			if (!hasEffect(Effect.FREEZE)) {
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
 						int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);

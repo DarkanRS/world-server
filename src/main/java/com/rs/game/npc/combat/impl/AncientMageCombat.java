@@ -7,6 +7,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
+import com.rs.game.player.content.Effect;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -39,7 +40,7 @@ public class AncientMageCombat extends CombatScript {
 		} else if (spellType == 3) {
 			World.sendProjectile(npc, target, 362, 18, 18, 50, 50, 0, 0); // ice
 			delayHit(npc, 2, target, hit);
-			if (hit.getDamage() > 0 && !target.isFrozen()) {
+			if (hit.getDamage() > 0 && !target.hasEffect(Effect.FREEZE)) {
 				target.setNextSpotAnim(new SpotAnim(369));
 				target.freeze(Ticks.fromSeconds(10));
 			}

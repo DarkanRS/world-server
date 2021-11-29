@@ -78,9 +78,7 @@ public abstract class Entity extends WorldTile {
 	private transient BodyGlow nextBodyGlow;
 	private transient ConcurrentLinkedQueue<Hit> receivedHits;
 	private transient Map<Entity, Integer> receivedDamage;
-	private transient boolean finished; // if removed
-	private transient long freezeTime;
-	private transient long freezeBlockTime;
+	private transient boolean finished;
 	private transient long tickCounter = 0;
 	// entity masks
 	private transient Animation nextAnimation;
@@ -139,6 +137,11 @@ public abstract class Entity extends WorldTile {
 			p.sendMessage(effect.getExpiryMessage());
 		effects.remove(effect);
 		effect.expire(this);
+	}
+	
+	public void removeEffects(Effect... effects) {
+		for (Effect e : effects)
+			removeEffect(e);
 	}
 	
 	private void processEffects() {
@@ -280,7 +283,7 @@ public abstract class Entity extends WorldTile {
 	public void resetCombat() {
 		attackedBy = null;
 		attackedByDelay = 0;
-		freezeTime = 0;
+		removeEffects(Effect.FREEZE, Effect.FREEZE_BLOCK);
 	}
 
 	public void processReceivedHits() {
@@ -1042,22 +1045,14 @@ public abstract class Entity extends WorldTile {
 	}
 	
 	public void freeze(int ticks, boolean freezeBlock) {
-		if (isFreezeBlocked() && freezeBlock)
+		if (hasEffect(Effect.FREEZE_BLOCK) && freezeBlock)
 			return;
 		if (this instanceof Player p)
 			p.sendMessage("You have been frozen!");
 		resetWalkSteps();
-		freezeTime = World.getServerTicks()+ticks;
+		addEffect(Effect.FREEZE, ticks);
 		if (freezeBlock)
-			freezeBlockTime =  World.getServerTicks()+ticks+15;
-	}
-	
-	public boolean isFrozen() {
-		return World.getServerTicks() < freezeTime;
-	}
-	
-	public boolean isFreezeBlocked() {
-		return World.getServerTicks() < freezeBlockTime;
+			addEffect(Effect.FREEZE_BLOCK, ticks + 15);
 	}
 
 	public abstract double getMagePrayerMultiplier();

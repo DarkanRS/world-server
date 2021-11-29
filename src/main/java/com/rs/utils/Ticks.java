@@ -10,6 +10,10 @@ public class Ticks {
 		return minutes * 100;
 	}
 	
+	public static int fromMinutes(double minutes) {
+		return (int) (minutes * 100);
+	}
+	
 	public static int fromSeconds(int seconds) {
 		return (int) ((double) seconds / 0.6);
 	}

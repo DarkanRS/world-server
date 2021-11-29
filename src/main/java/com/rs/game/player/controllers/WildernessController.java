@@ -7,6 +7,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
@@ -113,7 +114,7 @@ public class WildernessController extends Controller {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
-		if (player.getTeleBlockDelay() > System.currentTimeMillis()) {
+		if (player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
@@ -123,7 +124,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		if (player.getTeleBlockDelay() > System.currentTimeMillis()) {
+		if (player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
@@ -140,7 +141,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public boolean processObjectTeleport(WorldTile toTile) {
-		if (player.getTeleBlockDelay() > System.currentTimeMillis()) {
+		if (player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting."); //10
 			return false;
 		}

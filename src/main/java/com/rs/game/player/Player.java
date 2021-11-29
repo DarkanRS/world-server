@@ -2887,14 +2887,6 @@ public class Player extends Entity {
 	public Trade getTrade() {
 		return trade;
 	}
-
-	public void setTeleBlockDelay(long teleDelay) {
-		getTempAttribs().setO("TeleBlocked", teleDelay + System.currentTimeMillis());
-	}
-
-	public long getTeleBlockDelay() {
-		return getTempAttribs().getL("TeleBlocked");
-	}
 	
 	public void setProtectionPrayBlock(int ticks) {
 		getTempAttribs().setL("protPrayBlock", World.getServerTicks() + ticks);

@@ -4,6 +4,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.firemaking.Firemaking;
 import com.rs.game.player.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.player.content.skills.hunter.BoxAction;
@@ -25,7 +26,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 	public void handle(Player player, GroundItemOp packet) {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 			return;
-		if (player.isLocked() || player.isFrozen())
+		if (player.isLocked() || player.hasEffect(Effect.FREEZE))
 			return;
 		
 		final WorldTile tile = new WorldTile(packet.getX(), packet.getY(), player.getPlane());

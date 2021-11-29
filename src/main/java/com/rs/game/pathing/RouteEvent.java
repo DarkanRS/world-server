@@ -3,6 +3,7 @@ package com.rs.game.pathing;
 import com.rs.game.Entity;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
@@ -78,7 +79,7 @@ public class RouteEvent {
 				entity.resetWalkSteps();
 				if (player != null)
 					player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
-				if (entity.isFrozen())
+				if (entity.hasEffect(Effect.FREEZE))
 					return false;
 				if (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e))
 					return false;
