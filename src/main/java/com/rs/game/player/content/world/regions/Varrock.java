@@ -19,7 +19,10 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
+import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
 import com.rs.game.player.quests.handlers.knightssword.KnightsSword;
 import com.rs.game.player.quests.handlers.knightssword.ReldoKnightsSwordD;
 import com.rs.game.player.quests.handlers.shieldofarrav.BaraekShieldOfArravD;
@@ -494,4 +497,62 @@ public class Varrock {
                 e.getPlayer().ladder(new WorldTile(3243, 3383, 0));
         }
     };
+
+    public static NPCClickHandler handleGuildMaster = new NPCClickHandler(198) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if (e.getPlayer().getQuestManager().getQuestPoints() <= 31) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addNPC(e.getNPCId(), HeadE.FRUSTRATED, "You really shouldn't be in here, but I will let that slide...");
+                        create();
+                    }
+                });
+                return;
+            }
+            e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                {
+                    addNPC(e.getNPCId(), HeadE.CHEERFUL, "Greetings!");
+                    addOptions("What would you like to say?", new Options() {
+                        @Override
+                        public void create() {
+                            option("What is this place?", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "What is this place?")
+                                    .addNPC(198, HeadE.HAPPY_TALKING, "This is the Champions' Guild. Only adventurers who have proved themselves worthy " +
+                                            "by gaining influence from quests are allowed in here."));
+                            if(!e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+                                option("About Dragon Slayer", new Dialogue()
+                                        .addNext(()->{e.getPlayer().startConversation(new GuildMasterDragonSlayerD(e.getPlayer()).getStart());}));
+                        }
+                    });
+                    create();
+                }
+            });
+
+        }
+    };
+
+    public static ObjectClickHandler handleChampionsGuildFrontDoor = new ObjectClickHandler(new Object[] { 1805 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if (p.getY() >= obj.getY()) {
+                if (p.getQuestManager().getQuestPoints() <= 31) {
+                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            addSimple("You need 32 quest points to enter the champions guild.");
+                            create();
+                        }
+                    });
+                    return;
+                }
+                Doors.handleDoor(p, obj);
+                p.getDialogueManager().execute(new SimpleNPCMessage(), 198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
+            } else
+                Doors.handleDoor(p, obj);
+        }
+    };
+
+
 }

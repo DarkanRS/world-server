@@ -949,6 +949,10 @@ public abstract class Entity extends WorldTile {
 		return nextFaceWorldTile;
 	}
 
+    public Direction getDirection() {
+        return Direction.getByAngleValue(getFaceAngle());
+    }
+
 	public void setNextFaceWorldTile(WorldTile nextFaceWorldTile) {
 		if (nextFaceWorldTile != null && nextFaceWorldTile.getX() == getX() && nextFaceWorldTile.getY() == getY())
 			return;
@@ -960,6 +964,22 @@ public abstract class Entity extends WorldTile {
 		else
 			faceAngle = Utils.getAngleTo(nextFaceWorldTile.getX() - getX(), nextFaceWorldTile.getY() - getY());
 	}
+
+    public void faceNorth() {
+        setNextFaceWorldTile(new WorldTile(getX(), getY()+1, getPlane()));
+    }
+
+    public void faceEast() {
+        setNextFaceWorldTile(new WorldTile(getX()+1, getY(), getPlane()));
+    }
+
+    public void faceSouth() {
+        setNextFaceWorldTile(new WorldTile(getX(), getY()-1, getPlane()));
+    }
+
+    public void faceWest() {
+        setNextFaceWorldTile(new WorldTile(getX()-1, getY(), getPlane()));
+    }
 
 	public abstract int getSize();
 

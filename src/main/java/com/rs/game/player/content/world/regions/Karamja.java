@@ -2,6 +2,7 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
 import com.rs.game.World;
+import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
@@ -10,6 +11,8 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
@@ -191,7 +194,17 @@ public class Karamja  {
 	public static ObjectClickHandler handleCrandorVolcanoCrater = new ObjectClickHandler(new Object[] { 25154 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2834, 9657, 0));
+			Player p = e.getPlayer();
+            if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == DragonSlayer.PREPARE_FOR_CRANDOR)
+                if(p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.INTRODUCED_ELVARG_ATTR))
+                    ;
+                else {
+                    DragonSlayer.introduceElvarg(p);
+                    return;
+                }
+
+
+            e.getPlayer().setNextWorldTile(new WorldTile(2834, 9657, 0));
 		}
 	};
 	
@@ -219,7 +232,11 @@ public class Karamja  {
 	public static ObjectClickHandler handleElvargHiddenWall = new ObjectClickHandler(new Object[] { 2606 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			Doors.handleDoor(e.getPlayer(), e.getObject());
+            if(e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER) || e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.FINISHED_BOAT_SCENE_ATTR)) {
+                e.getPlayer().sendMessage("You know from your boat accident there is more behind this wall...");
+                Doors.handleDoor(e.getPlayer(), e.getObject());
+            } else
+                e.getPlayer().sendMessage("You see nothing but a wall...");
 		}
 	};
 	
@@ -290,4 +307,51 @@ public class Karamja  {
 			e.getPlayer().setNextWorldTile(new WorldTile(2778, 3210, 0));
 		}
 	};
+
+    public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+
+            if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == DragonSlayer.PREPARE_FOR_CRANDOR)
+                WorldTasksManager.schedule(new WorldTask() {
+                    int ticks = 0;
+                    boolean goingEast = true;
+
+                    @Override
+                    public void run() {
+                        if (ticks == 0) {
+                            if (p.getX() == 2845) {
+                                p.setFaceAngle(Direction.getAngleTo(Direction.EAST));
+                                p.setNextAnimation(new Animation(839));
+                                goingEast = true;
+                            } else if (p.getX() == 2847) {
+                                p.setFaceAngle(Direction.getAngleTo(Direction.WEST));
+                                p.setNextAnimation(new Animation(839));
+                                goingEast = false;
+                            } else
+                                return;
+                        } else if (ticks >= 1) {
+                            if (goingEast)
+                                p.setNextWorldTile(new WorldTile(2847, p.getY(), 0));
+                            if (!goingEast)
+                                p.setNextWorldTile(new WorldTile(2845, p.getY(), 0));
+                            stop();
+                        }
+                        ticks++;
+                    }
+                }, 0, 1);
+            else {
+                p.startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        if(p.getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+                            addPlayer(HeadE.HAPPY_TALKING, "Ah, defeating Elvarg was great!");
+                        else
+                            addPlayer(HeadE.HAPPY_TALKING, "I have no reason to enter!");
+                        create();
+                    }
+                });
+            }
+        }
+    };
 }

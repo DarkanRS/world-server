@@ -13,6 +13,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.HashMap;
 
+import com.rs.Settings;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -40,8 +41,8 @@ public class ItemExamines {
 			return "Swap this note at any bank for the equivalent item.";
 		String examine = itemExamines.get(item.getId());
 		if (examine != null)
-			return examine;
-		return "It's an " + item.getDefinitions().getName() + ".";
+			return examine + (Settings.getConfig().isDebug() ? " Tradable: " + item.getDefinitions().canExchange() : "");
+		return "It's an " + item.getDefinitions().getName() + "." + (Settings.getConfig().isDebug() ? " Tradable: " + item.getDefinitions().canExchange() : "");
 	}
 
 	private static void loadPackedItemExamines() {

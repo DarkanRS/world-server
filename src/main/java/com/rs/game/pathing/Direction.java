@@ -1,10 +1,13 @@
 package com.rs.game.pathing;
 
+import com.google.common.primitives.Ints;
 import com.rs.game.Entity;
 import com.rs.game.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.Vec2;
+
+import java.util.Arrays;
 
 public enum Direction {
 	NORTH(0, 0, 1),
@@ -72,6 +75,20 @@ public enum Direction {
 			return SOUTH;
 		}
 	}
+
+    public static Direction rotateClockwiseDirection(Direction dir, int rotation) {
+        int[] directions = {0, 1, 2, 3, 4, 5, 6, 7};
+        rotation = dir.getId() + rotation;
+        if(rotation > 7)
+            rotation = rotation - 8;
+        return getById(rotation);
+    }
+
+    public static Direction getByAngleValue(int angle) {
+        int[] angles = new int[] {8192, 10240, 12288, 14336, 0, 2048, 4096, 6144};//N, NE, Clockwise
+        angle = Utils.getClosestNumberFromArray(angles, angle);
+        return getById(Ints.indexOf(angles,angle));
+    }
 	
 	public static Direction forDelta(int dx, int dy) {
 		if (dy >= 1 && dx >= 1) {

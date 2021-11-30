@@ -163,6 +163,12 @@ public class PiratesTreasure extends QuestOutline {
     public static ItemClickHandler openCasket = new ItemClickHandler(CASKET) {
         @Override
         public void handle(ItemClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("drop")) {
+                e.getPlayer().getInventory().removeItems(e.getItem());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                e.getPlayer().getPackets().sendSound(2739, 0, 1);
+                return;
+            }
             e.getPlayer().getInventory().removeItems(new Item(CASKET, 1));
             e.getPlayer().getInventory().addItem(new Item(1605, 1), true);//gold ring
             e.getPlayer().getInventory().addItem(new Item(1635, 1), true);//cut emerald

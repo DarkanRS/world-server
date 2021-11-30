@@ -1,5 +1,65 @@
 [
   {
+    "comment": "Dragon Slayer: Cabin boy Jenkins at boat",
+    "npcId": 748,
+    "dir": "CACHE",
+    "tile": {
+      "x": 3046,
+      "y": 3207,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Dragon Slayer: Ned at boat",
+    "npcId": 6082,
+    "dir": "CACHE",
+    "tile": {
+      "x": 3048,
+      "y": 3207,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Dragon Slayer: Zombie with key for Blue door",
+    "npcId": 75,
+    "dir": "CACHE",
+    "tile": {
+      "x": 2932,
+      "y": 9643,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Dragon Slayer: Zombie2 for Blue door",
+    "npcId": 76,
+    "dir": "CACHE",
+    "tile": {
+      "x": 2932,
+      "y": 9640,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Dragon Slayer: Lesser demon for green door",
+    "npcId": 4694,
+    "dir": "CACHE",
+    "tile": {
+      "x": 2936,
+      "y": 9653,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Dragon Slayer: Melzar The Mad",
+    "npcId": 753,
+    "dir": "CACHE",
+    "tile": {
+      "x": 2929,
+      "y": 9649,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Pirate's Treasure: Zambo to get Rum from Karamja",
     "npcId": 568,
     "dir": "CACHE",

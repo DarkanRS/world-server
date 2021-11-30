@@ -2,16 +2,26 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.controllers.WildernessController;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
+import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Edgeville  {
@@ -106,4 +116,24 @@ public class Edgeville  {
 			}, 0, 0);
 		}
 	};
+
+    public static NPCClickHandler handleOziachDialogue = new NPCClickHandler(747) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if (e.getOption().equalsIgnoreCase("trade")) {
+                if(e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+                    ShopsHandler.openShop(e.getPlayer(), "oziach");
+                else {
+                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I don't have anything to sell...");
+                            create();
+                        }
+                    });
+                }
+            }
+            else
+                e.getPlayer().startConversation(new OziachDragonSlayerD(e.getPlayer()).getStart());
+        }
+    };
 }

@@ -29,12 +29,11 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.achievements.Achievement;
 import com.rs.game.player.content.commands.Commands;
+import com.rs.game.player.content.commands.JawasCommands.JawasCommands;
 import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
-import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.player.controllers.RunespanController;
-import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
@@ -632,8 +631,8 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "resetquest [questName]", "Resets the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values()) {
-				if (quest.name().toLowerCase().contains(args[0])) {
-                    p.getQuestManager().resetQuest(Quest.PIRATES_TREASURE);
+				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+                    p.getQuestManager().resetQuest(quest);
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}
@@ -646,6 +645,24 @@ public class MiscTest {
                     p.getQuestManager().completeQuest(quest);
                     p.sendMessage("Completed quest: " + quest.name());
                     return;
+                }
+            }
+        });
+
+        Commands.add(Rights.DEVELOPER, "completeallquests", "Completes all quests.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.isImplemented()) {
+                    p.getQuestManager().completeQuest(quest);
+                    p.sendMessage("Completed quest: " + quest.name());
+                }
+            }
+        });
+
+        Commands.add(Rights.DEVELOPER, "resetallquests", "Resets all quests.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.isImplemented()) {
+                    p.getQuestManager().resetQuest(quest);
+                    p.sendMessage("Reset quest: " + quest.name());
                 }
             }
         });
@@ -824,12 +841,6 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "empty", "Empties the player's inventory.", (p, args) -> {
 			p.stopAll();
 			p.getInventory().reset();
-		});
-		
-		Commands.add(Rights.ADMIN, "compquest", "Completes a quest of specified ID.", (p, args) -> {
-			Quest quest = Quest.forId(Integer.valueOf(args[0]));
-			if (quest != null && quest.isImplemented())
-				p.getQuestManager().completeQuest(quest);
 		});
 		
 		Commands.add(Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {

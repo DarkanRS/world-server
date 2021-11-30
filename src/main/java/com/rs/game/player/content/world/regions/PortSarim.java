@@ -1,5 +1,6 @@
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Skillcapes;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
@@ -100,4 +101,41 @@ public class PortSarim {
 			e.getPlayer().setNextWorldTile(new WorldTile(3056, 9562, 0));
 		}
 	};
+
+    public static ObjectClickHandler handleEnterLadyLumbridgeBoat = new ObjectClickHandler(new Object[] { 2594, 2593 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(p.getY() > obj.getY())
+                e.getPlayer().setNextWorldTile(new WorldTile(3047, 3204, 0));
+            if(p.getY() < obj.getY())
+                e.getPlayer().setNextWorldTile(new WorldTile(3047, 3207, 1));
+        }
+    };
+
+    public static ObjectClickHandler handleEnterLadyLumbridgeBoatUpperLadder = new ObjectClickHandler(new Object[] { 2590 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            p.useStairs(828, new WorldTile(obj.getX()-1, obj.getY(), obj.getPlane() - 1), 1, 2);
+        }
+    };
+
+    public static ObjectClickHandler handleLowerBoatLadder = new ObjectClickHandler(new Object[] { 272 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(obj.getRotation() == 0)
+                p.useStairs(828, new WorldTile(obj.getX(), obj.getY()-1, obj.getPlane() + 1), 1, 2);
+            if(obj.getRotation() == 1)
+                p.useStairs(828, new WorldTile(obj.getX()-1, obj.getY(), obj.getPlane() + 1), 1, 2);
+            if(obj.getRotation() == 2)
+                p.useStairs(828, new WorldTile(obj.getX(), obj.getY()+1, obj.getPlane() + 1), 1, 2);
+            if(obj.getRotation() == 3)
+                p.useStairs(828, new WorldTile(obj.getX()+1, obj.getY(), obj.getPlane() + 1), 1, 2);
+        }
+    };
 }

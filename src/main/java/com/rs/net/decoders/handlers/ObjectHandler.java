@@ -1200,11 +1200,6 @@ public final class ObjectHandler {
 					player.useStairs(-1, new WorldTile(3189, 3354, 1), 0, 1);
 				else if (id == 24359 && object.getX() == 3188 && object.getY() == 3355)
 					player.useStairs(-1, new WorldTile(3189, 3358, 0), 0, 1);
-				else if (id == 1805) {
-					Doors.handleDoor(player, object);
-					if (player.getY() >= object.getY())
-						player.getDialogueManager().execute(new SimpleNPCMessage(), 198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
-				}
 				// start of varrock dungeon
 				else if (id == 29355 && object.getX() == 3230 && object.getY() == 9904) // varrock
 					// dungeon

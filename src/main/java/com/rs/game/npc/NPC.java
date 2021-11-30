@@ -20,11 +20,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.pathing.ClipType;
-import com.rs.game.pathing.Direction;
-import com.rs.game.pathing.DumbRouteFinder;
-import com.rs.game.pathing.FixedTileStrategy;
-import com.rs.game.pathing.RouteFinder;
+import com.rs.game.pathing.*;
 import com.rs.game.player.Bank;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.combat.PolyporeStaff;
@@ -44,6 +40,7 @@ import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.NPCDeathEvent;
@@ -153,6 +150,26 @@ public class NPC extends Entity {
 	public boolean walksOnWater() {
 		return (getDefinitions().walkMask & 0x4) != 0;
 	}
+
+
+    public void walkToAndExecute(WorldTile startTile, Runnable event) {
+        int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
+        int[] bufferX = RouteFinder.getLastPathBufferX();
+        int[] bufferY = RouteFinder.getLastPathBufferY();
+        int last = -1;
+        if (steps == -1)
+            return;
+        for (int i = steps - 1; i >= 0; i--) {
+            if (!addWalkSteps(bufferX[i], bufferY[i], 25, true, true)) {
+                break;
+            }
+        }
+        if (last != -1) {
+            WorldTile tile = new WorldTile(bufferX[last], bufferY[last], getPlane());
+        } else {
+        }
+        setRouteEvent(new RouteEvent(startTile, event));
+    }
 
 	@Override
 	public boolean needMasksUpdate() {

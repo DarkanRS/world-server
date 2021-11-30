@@ -6,10 +6,14 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.transportation.TravelMethods;
 import com.rs.game.player.content.transportation.TravelMethods.Carrier;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
+import com.rs.game.player.quests.handlers.dragonslayer.KlarenseDragonSlayerD;
 import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.player.quests.handlers.piratestreasure.LuthasPiratesTreasureD;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.lib.game.WorldTile;
+
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KLARENSE;
 
 public class BoatingDialogue extends Dialogue {
 
@@ -23,8 +27,21 @@ public class BoatingDialogue extends Dialogue {
 
         if(npcId == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM)
             player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
-        else
-		    sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
+        else if(npcId == 744 && !player.getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+            player.startConversation(new KlarenseDragonSlayerD(player).getStart());
+        else {
+            if(npcId == 744 && !player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.IS_BOAT_FIXED_ATTR)) {
+                player.startConversation(new Conversation(player) {
+                    {
+                        addNPC(KLARENSE, HeadE.CALM_TALK, "Wow! You sure are lucky! Seems the Lady Lumbridge just washed right up into the dock by " +
+                                "herself! She's pretty badly damaged, though ...");
+                        create();
+                    }
+                });
+            } else {
+                sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
+            }
+        }
 	}
 
 	@Override
