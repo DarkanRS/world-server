@@ -4,6 +4,7 @@ import com.rs.game.World;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.firemaking.Firemaking;
 import com.rs.game.player.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.player.content.skills.magic.Magic;
@@ -74,7 +75,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						return false;
 					if (player.getPlane() != tile.getPlane())
 						return false;
-					if (player.isFrozen())
+					if (player.hasEffect(Effect.FREEZE))
 						return true;
 					if (!player.lineOfSightTo(tile, false) || Utils.getDistance(player, tile) > 8) {
 						if (player.hasWalkSteps())

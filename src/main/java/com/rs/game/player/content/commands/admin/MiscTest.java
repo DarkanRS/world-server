@@ -674,7 +674,7 @@ public class MiscTest {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
-			p.getSession().writeToQueue(new HintTrail(new WorldTile(p), new WorldTile(x, y, p.getPlane()), modelId, bufferX, bufferY, steps));
+			p.getSession().writeToQueue(new HintTrail(new WorldTile(p), modelId, bufferX, bufferY, steps));
 		});
 		
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {

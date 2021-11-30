@@ -23,7 +23,7 @@ public class FCManager {
 					switch (e.getPacket()) {
 						case IF_OP1 -> e.getPlayer().sendInputString("Enter chat prefix:", str -> {
 							e.getPlayer().getSocial().getFriendsChat().setName(str);
-							LobbyCommunicator.updateAccount(e.getPlayer(), res -> {
+							LobbyCommunicator.updateFC(e.getPlayer(), res -> {
 								if (res == null)
 									e.getPlayer().sendMessage("Error communicating with social service.");
 								else
@@ -42,7 +42,7 @@ public class FCManager {
 				case 4 -> e.getPlayer().getSocial().getFriendsChat().setRankToKick(getRankFromPacket(e.getPacket()));
 				case 5 -> e.getPlayer().getSocial().getFriendsChat().setRankToLS(getRankFromPacket(e.getPacket()));
 			}
-			LobbyCommunicator.updateAccount(e.getPlayer(), res -> {
+			LobbyCommunicator.updateFC(e.getPlayer(), res -> {
 				if (res == null)
 					e.getPlayer().sendMessage("Error communicating with social service.");
 				else

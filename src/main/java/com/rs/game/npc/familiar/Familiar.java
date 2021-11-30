@@ -8,6 +8,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.summoning.Summoning;
 import com.rs.game.player.content.skills.summoning.Summoning.Pouches;
 import com.rs.game.player.dialogues.DismissD;
@@ -151,7 +152,7 @@ public abstract class Familiar extends NPC {
 	private void sendFollow() {
 		if (getLastFaceEntity() != owner.getClientIndex())
 			setNextFaceEntity(owner);
-		if (isFrozen())
+		if (hasEffect(Effect.FREEZE))
 			return;
 		int size = getSize();
 		int targetSize = owner.getSize();

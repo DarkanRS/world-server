@@ -11,6 +11,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.glacors.Glacor;
 import com.rs.game.npc.glacors.Glacor.InheritedType;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
@@ -75,7 +76,7 @@ public class GlacorCombat extends CombatScript {
 						delayHit(npc, -1, target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, player)));
 					}
 				}, p.getTaskDelay());
-				if ((Utils.getRandomInclusive(100) > 80) && !player.isFrozen()) {
+				if ((Utils.getRandomInclusive(100) > 80) && !player.hasEffect(Effect.FREEZE)) {
 					player.setNextSpotAnim(new SpotAnim(369));
 					player.freeze(Ticks.fromSeconds(10));
 				}

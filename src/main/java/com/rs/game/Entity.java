@@ -1,6 +1,8 @@
 package com.rs.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +31,7 @@ import com.rs.game.pathing.WalkStep;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.prayer.Prayer;
 import com.rs.game.region.Region;
@@ -75,9 +78,7 @@ public abstract class Entity extends WorldTile {
 	private transient BodyGlow nextBodyGlow;
 	private transient ConcurrentLinkedQueue<Hit> receivedHits;
 	private transient Map<Entity, Integer> receivedDamage;
-	private transient boolean finished; // if removed
-	private transient long freezeTime;
-	private transient long freezeBlockTime;
+	private transient boolean finished;
 	private transient long tickCounter = 0;
 	// entity masks
 	private transient Animation nextAnimation;
@@ -107,11 +108,63 @@ public abstract class Entity extends WorldTile {
 	
 	private boolean run;
 	private Poison poison;
+	private Map<Effect, Long> effects = new HashMap<>();
 
 	// creates Entity and saved classes
 	public Entity(WorldTile tile) {
 		super(tile);
 		poison = new Poison();
+	}
+		
+	public void clearEffects() {
+		effects = new HashMap<>();
+	}
+	
+	public boolean hasEffect(Effect effect) {
+		return effects != null && effects.containsKey(effect);
+	}
+	
+	public void addEffect(Effect effect, long ticks) {
+		if (effects == null)
+			effects = new HashMap<>();
+		effects.put(effect, ticks);
+		effect.apply(this);
+		effect.tick(this, ticks);
+	}
+	
+	public void removeEffect(Effect effect) {
+		if (effect.sendWarnings() && this instanceof Player p)
+			p.sendMessage(effect.getExpiryMessage());
+		effects.remove(effect);
+		effect.expire(this);
+	}
+	
+	public void removeEffects(Effect... effects) {
+		for (Effect e : effects)
+			removeEffect(e);
+	}
+	
+	private void processEffects() {
+		if (effects == null)
+			return;
+		Set<Effect> expired = new HashSet<>();
+		for (Effect effect : effects.keySet()) {
+			long time = effects.get(effect);
+			time--;
+			effect.tick(this, time);
+			if (time == 50 && effect.sendWarnings() && this instanceof Player p)
+				p.sendMessage(effect.get30SecWarning());
+			if (time <= 0) {
+				if (effect.sendWarnings() && this instanceof Player p)
+					p.sendMessage(effect.getExpiryMessage());
+				expired.add(effect);
+			} else
+				effects.put(effect, time);
+		}
+		for (Effect e : expired) {
+			effects.remove(e);
+			e.expire(this);
+		}
 	}
 
 	public boolean isBehind(Entity other) {
@@ -230,7 +283,7 @@ public abstract class Entity extends WorldTile {
 	public void resetCombat() {
 		attackedBy = null;
 		attackedByDelay = 0;
-		freezeTime = 0;
+		removeEffects(Effect.FREEZE, Effect.FREEZE_BLOCK);
 	}
 
 	public void processReceivedHits() {
@@ -775,6 +828,7 @@ public abstract class Entity extends WorldTile {
 				restoreHitPoints();
 			}
 		}
+		processEffects();
 	}
 
 	public void loadMapRegions() {
@@ -1011,22 +1065,14 @@ public abstract class Entity extends WorldTile {
 	}
 	
 	public void freeze(int ticks, boolean freezeBlock) {
-		if (isFreezeBlocked() && freezeBlock)
+		if (hasEffect(Effect.FREEZE_BLOCK) && freezeBlock)
 			return;
 		if (this instanceof Player p)
 			p.sendMessage("You have been frozen!");
 		resetWalkSteps();
-		freezeTime = World.getServerTicks()+ticks;
+		addEffect(Effect.FREEZE, ticks);
 		if (freezeBlock)
-			freezeBlockTime =  World.getServerTicks()+ticks+15;
-	}
-	
-	public boolean isFrozen() {
-		return World.getServerTicks() < freezeTime;
-	}
-	
-	public boolean isFreezeBlocked() {
-		return World.getServerTicks() < freezeBlockTime;
+			addEffect(Effect.FREEZE_BLOCK, ticks + 15);
 	}
 
 	public abstract double getMagePrayerMultiplier();

@@ -4,6 +4,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.pet.PetDetails;
 import com.rs.game.player.content.pet.Pets;
 import com.rs.lib.game.WorldTile;
@@ -171,7 +172,7 @@ public final class Pet extends NPC {
 	private void sendFollow() {
 		if (getLastFaceEntity() != owner.getClientIndex())
 			setNextFaceEntity(owner);
-		if (isFrozen()) {
+		if (hasEffect(Effect.FREEZE)) {
 			return;
 		}
 		int size = getSize();

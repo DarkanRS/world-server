@@ -12,6 +12,7 @@ import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.combat.AttackStyle;
 import com.rs.game.player.content.minigames.creations.GameArea;
 import com.rs.game.player.content.minigames.creations.Helper;
@@ -800,7 +801,7 @@ public class StealingCreationController extends Controller {
 	}
 
 	public static void passWall(Player player, GameObject object, final boolean red) {
-		if (player.isFrozen()) {
+		if (player.hasEffect(Effect.FREEZE)) {
 			player.sendMessage("A mysterious force prevents you from moving.");
 			return;
 		}

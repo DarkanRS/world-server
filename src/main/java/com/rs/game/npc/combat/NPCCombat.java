@@ -7,6 +7,7 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.content.Effect;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -100,7 +101,7 @@ public final class NPCCombat {
 			return false;
 		if (npc.isDead() || npc.hasFinished() || npc.isForceWalking() || target.isDead() || target.hasFinished() || npc.getPlane() != target.getPlane())
 			return false;
-		if (npc.isFrozen())
+		if (npc.hasEffect(Effect.FREEZE))
 			return true; // if freeze cant move ofc
 		int distanceX = npc.getX() - npc.getRespawnTile().getX();
 		int distanceY = npc.getY() - npc.getRespawnTile().getY();

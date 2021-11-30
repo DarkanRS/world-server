@@ -8,6 +8,7 @@ import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.magic.Rune;
@@ -396,9 +397,9 @@ public enum CombatSpell {
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p2) {
 				if (p2.getPrayer().isProtectingMage())
-					p2.setTeleBlockDelay(150000);
+					p2.addEffect(Effect.TELEBLOCK, Ticks.fromMinutes(2.5));
 				else
-					p2.setTeleBlockDelay(300000);
+					p2.addEffect(Effect.TELEBLOCK, Ticks.fromMinutes(5));
 				p2.sendMessage("You have been teleport blocked!");
 			}
 		}
@@ -406,7 +407,7 @@ public enum CombatSpell {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof Player player) {
-				if (player.getTeleBlockDelay() > System.currentTimeMillis()) {
+				if (player.hasEffect(Effect.TELEBLOCK)) {
 					caster.sendMessage("That player is already affected by this spell.");
 					return false;
 				}

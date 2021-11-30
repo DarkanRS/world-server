@@ -3,6 +3,7 @@ package com.rs.game.player.actions;
 import com.rs.game.pathing.EntityStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -30,7 +31,7 @@ public class PlayerFollow extends Action {
 			return false;
 		if (player.getPlane() != target.getPlane())
 			return false;
-		if (player.isFrozen())
+		if (player.hasEffect(Effect.FREEZE))
 			return true;
 		int distanceX = player.getX() - target.getX();
 		int distanceY = player.getY() - target.getY();

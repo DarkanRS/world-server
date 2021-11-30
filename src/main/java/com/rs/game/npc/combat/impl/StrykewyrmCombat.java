@@ -10,6 +10,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
@@ -50,7 +51,7 @@ public class StrykewyrmCombat extends CombatScript {
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						if (Utils.getRandomInclusive(10) == 0 && !target.isFrozen()) {
+						if (Utils.getRandomInclusive(10) == 0 && !target.hasEffect(Effect.FREEZE)) {
 							target.freeze(Ticks.fromSeconds(3));
 							target.setNextSpotAnim(new SpotAnim(369));
 							if (target instanceof Player player)

@@ -217,10 +217,9 @@ public final class LocalPlayerUpdate {
 					int xOffset = p.getX() - p.getLastWorldTile().getX();
 					int yOffset = p.getY() - p.getLastWorldTile().getY();
 					int planeOffset = p.getPlane() - p.getLastWorldTile().getPlane();
-					if (Math.abs(p.getX() - p.getLastWorldTile().getX()) <= 14 
-							&& Math.abs(p.getY() - p.getLastWorldTile().getY()) <= 14) { 
+					if (Math.abs(p.getX() - p.getLastWorldTile().getX()) <= 14 && Math.abs(p.getY() - p.getLastWorldTile().getY()) <= 14) { 
 						stream.writeBits(1, 0);
-						if (xOffset < 0) // viewport used to be 15 now 16
+						if (xOffset < 0)
 							xOffset += 32;
 						if (yOffset < 0)
 							yOffset += 32;
