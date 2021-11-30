@@ -84,9 +84,7 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 
                                 if(World.isRegionLoaded(JAIL_REGION_ID)) {
                                     tick++;
-                                    System.out.println("tick: " + tick);
-                                } else
-                                    System.out.println("Not loaded");
+                                }
                             }
                         }, 0, 1);
                     }

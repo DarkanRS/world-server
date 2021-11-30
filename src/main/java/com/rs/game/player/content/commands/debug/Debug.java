@@ -24,7 +24,7 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 
-//Status: Done
+
 
 @PluginEventHandler
 public class Debug {

@@ -19,7 +19,7 @@ import com.rs.game.player.content.skills.dungeoneering.rooms.BossRoom;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 
-//Status: Done
+
 
 @SuppressWarnings("unused")
 public final class Dungeon {
@@ -256,8 +256,6 @@ public final class Dungeon {
 			}
 		}
 
-		if (Settings.getConfig().isDebug())
-			System.out.println("Dungeon roomCount: " + creationCount);
 	}
 
     public long getSeed() {

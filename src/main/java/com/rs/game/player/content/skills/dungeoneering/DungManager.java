@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-//Status: Done
+
 
 @PluginEventHandler
 public class DungManager {
@@ -694,7 +694,6 @@ public class DungManager {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			int comp = e.getComponentId();
-			System.out.println(comp);
 			if(e.getInterfaceId() == 936) {
 				if (comp == 146)//exit button
 					e.getPlayer().getDungManager().openPartyInterface();
@@ -1240,8 +1239,6 @@ public class DungManager {
 		for (Player selectedPlayer : party.getTeam()) {
 			index = 0;
 			for (Player memberPosition : party.getTeam()) {
-//			     if (Settings.getConfig().isDebug())
-//			         System.out.println(selectedPlayer.getUsername() + " " + index + " Ring change: " + memberPosition.getUsername());
 				selectedPlayer.getPackets().sendVarcString(292 + index++, memberPosition.getDisplayName());
 			}
 		}
@@ -1251,8 +1248,6 @@ public class DungManager {
 	public void refreshDungRingPlayerNames() {
 		for (Player player : party.getTeam()) {
 			for(int i = 0; i < 5; i++) {
-//			     if (Settings.getConfig().isDebug())
-//			         System.out.println(player.getUsername() + " size: " + party.getTeam().size() + " comp: " + i);
 				if(i >= party.getTeam().size())
 					hideICompRingPlayerText(player, i, true);
 				else

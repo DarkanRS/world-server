@@ -184,9 +184,6 @@ public class TravelMethods {
 	}
 
 	public static boolean sendCarrier(final Player player, final Carrier ship, int shipIndex, boolean returning) {
-        System.out.println("origin: " + ship.name() + " destination: " + ship.getFixedName(returning));
-        System.out.println(getComponentForMap(ship, returning));
-
 		if (player.getTempAttribs().getB("using_carrier"))
 			return false;
 		int cost = -1;
@@ -221,7 +218,6 @@ public class TravelMethods {
 			int configValue = 1 + (((ship.ordinal() - 10) * 2) + (ship.ordinal() >= 17 ? returning ? -1 : 0 : returning ? 1 : 0));
 			player.getVars().setVar(75, configValue);
 		}
-        System.out.println(ship.name() + " " + returning);
 		final WorldTile tile = returning ? ship.getOrigon() : ship.getDestination();
 		player.lock();
 		player.getMusicsManager().playMusic(550);

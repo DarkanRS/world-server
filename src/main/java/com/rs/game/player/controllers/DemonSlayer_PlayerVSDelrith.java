@@ -228,14 +228,12 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	@Override
 	public boolean login() {
 		player.setNextWorldTile(locationOnDeath);
-		System.out.println("Login");
 		forceClose();
 		return false;
 	}
 
 	@Override
 	public boolean logout() {
-		System.out.println("logout");
 		removeInstance();
 		player.unlock();
 		return false;
@@ -243,7 +241,6 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 
 	@Override
 	public void forceClose() {
-		System.out.println("Force close");
 		player.getPackets().setBlockMinimapState(0);
 		player.setForceMultiArea(false);
 		removeInstance();

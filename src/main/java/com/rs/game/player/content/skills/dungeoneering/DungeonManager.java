@@ -83,7 +83,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
-//Status: Done
+
 
 public class DungeonManager {
 
@@ -233,7 +233,6 @@ public class DungeonManager {
 
 	public boolean enterRoom(Player player, int x, int y) {
 		if (x < 0 || y < 0 || x >= visibleMap.length || y >= visibleMap[0].length) {
-			// System.out.println("ivalid room");
 			return false;
 		}
 		RoomReference roomReference = getCurrentRoomReference(player);

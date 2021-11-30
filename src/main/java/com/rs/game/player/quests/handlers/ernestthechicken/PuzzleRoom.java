@@ -145,7 +145,6 @@ public class PuzzleRoom {
         boolean open = object.getDefinitions(player).containsOption("Open");
         int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
         WorldTile adjusted = new WorldTile(object);
-        System.out.println(rotation);
         switch (rotation) {
             case 0:
                 adjusted = adjusted.transform(open ? 0 : 1, 0, 0);

@@ -291,7 +291,6 @@ public class ToxinMaze extends PuzzleRoom {
 							connector.left.door.visited = true;
 							connector.right.door.visited = true;
 							progress = true;
-							//System.out.println("unblocked: "+connector.x+" "+connector.y);
 						}
 					}
 				}
