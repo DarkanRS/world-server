@@ -22,7 +22,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.*;
 import com.rs.plugin.handlers.*;
-import jdk.swing.interop.SwingInterOpUtils;
+
 
 import java.util.*;
 
