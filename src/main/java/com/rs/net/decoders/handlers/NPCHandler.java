@@ -74,6 +74,9 @@ import com.rs.game.player.dialogues.TanningD;
 import com.rs.game.player.dialogues.TzHaarMejJal;
 import com.rs.game.player.dialogues.TzHaarMejKah;
 import com.rs.game.player.dialogues.UgiDialogue;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
+import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -217,8 +220,6 @@ public class NPCHandler {
 				player.startConversation(new GenericSkillcapeOwnerD(player, 4946, Skillcapes.Firemaking));
 			else if (npc.getId() == 805)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 805, Skillcapes.Crafting));
-			else if (npc.getId() == 604)
-				player.startConversation(new GenericSkillcapeOwnerD(player, 604, Skillcapes.Smithing));
 			else if (npc.getId() == 3295)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 3295, Skillcapes.Mining));
 //			else if (npc.getId() == 455)
@@ -249,8 +250,6 @@ public class NPCHandler {
 						.finish()));
 			} else if (npc.getId() == 9708 || npc.getId() == 14847)
 				player.getDialogueManager().execute(new FremennikShipmaster(), npc.getId(), false);
-			else if (npc.getId() == 2676 || npc.getId() == 599)
-				player.getDialogueManager().execute(new MakeOverMage(), npc.getId(), 0);
 			else if (npc.getId() == 579)
 				player.getDialogueManager().execute(new DrogoDwarf(), npc.getId());
 			else if (npc.getId() == 528 || npc.getId() == 529)
@@ -394,6 +393,10 @@ public class NPCHandler {
 			
 			Object[] shipAttributes = BoatingDialogue.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
+                if(npc.getId() == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM) {
+                    player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
+                    return;
+                }
 				TravelMethods.sendCarrier(player, (Carrier) shipAttributes[0], (boolean) shipAttributes[1]);
 				return;
 			}

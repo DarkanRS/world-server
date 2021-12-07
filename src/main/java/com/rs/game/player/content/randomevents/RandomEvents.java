@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.rs.game.World;
 import com.rs.game.player.Player;
+import com.rs.game.player.controllers.DamonheimController;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
@@ -46,7 +47,7 @@ public class RandomEvents {
 	public static void attemptSpawnRandom(Player player, boolean force) {
 		if (!force && (World.getServerTicks() - player.getNSV().getL("lastRandom") < 3000)) //15 minutes limit on random events
 			return;
-		if (player.getControllerManager().getController() != null)
+        if (player.getControllerManager().getController() != null && !(player.getControllerManager().getController() instanceof DamonheimController))
 			return;
 		player.getNSV().setL("lastRandom", World.getServerTicks());
 

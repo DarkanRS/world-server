@@ -183,6 +183,10 @@ public class QuestDefinitions {
 		//spirit of summer
 		quest = QUESTS.get(14);
 		quest.varbitValues[0][2] = 100;
+
+        //Black knights fortress, wrong qp, for some reason it was 0
+        quest = QUESTS.get(53);
+        quest.questpointReward = 3;
 	}
 	
 	public static QuestDefinitions getQuestDefinitions(int id) {

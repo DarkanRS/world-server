@@ -23,6 +23,7 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
+import com.rs.game.player.content.PlayerLook;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -36,7 +37,7 @@ public class Normal {
 	
 	@ServerStartupEvent
 	public static void loadCommands() {
-		
+
 		Commands.add(Rights.PLAYER, "commandlist,commands", "Displays all the commands the player has permission to use.", (p, args) -> {
 			p.getPackets().setIFText(275, 1, "Commands List");
 			int componentId = 10;

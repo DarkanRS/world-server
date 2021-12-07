@@ -99,7 +99,7 @@ public class Fletching extends Action {
 
 		IRON_CBOW(9457, 9438, new int[] { 9177 }, new int[] { 39 }, new double[] { 22 }, new Animation(6673)),
 
-		STEEL_CBOW(9459, 9438, new int[] { 9465 }, new int[] { 46 }, new double[] { 27 }, new Animation(6674)),
+		STEEL_CBOW(9459, 9438, new int[] { 9179 }, new int[] { 46 }, new double[] { 27 }, new Animation(6674)),
 
 		BLURITE_CBOW(9456, 9438, new int[] { 9176 }, new int[] { 24 }, new double[] { 16 }, new Animation(6672)),
 

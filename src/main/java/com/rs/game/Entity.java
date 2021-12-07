@@ -695,14 +695,16 @@ public abstract class Entity extends WorldTile {
             case 2859:
 				return true;
 			}
-			switch(npc.getName()) {
-			case "Xuan":
-			case "Fishing spot":
-			case "Fishing Spot":
-			case "Cavefish shoal":
-			case "Rocktail shoal":
-				return true;
-			}
+            switch(npc.getName()) {
+                case "Xuan":
+                case "Fremennik shipmaster":
+                case "Fishing spot":
+                case "Fishing Spot":
+                case "Cavefish shoal":
+                case "Rocktail shoal":
+                case "Musician":
+                    return true;
+            }
 		}
 		if (tile instanceof Stomp stomp)
 			return stomp.getManager().isAtBossRoom(this);
@@ -1019,6 +1021,10 @@ public abstract class Entity extends WorldTile {
 		return nextFaceWorldTile;
 	}
 
+    public Direction getDirection() {
+        return Direction.getByAngleValue(getFaceAngle());
+    }
+
 	public void setNextFaceWorldTile(WorldTile nextFaceWorldTile) {
 		if (nextFaceWorldTile != null && nextFaceWorldTile.getX() == getX() && nextFaceWorldTile.getY() == getY())
 			return;
@@ -1030,6 +1036,22 @@ public abstract class Entity extends WorldTile {
 		else
 			faceAngle = Utils.getAngleTo(nextFaceWorldTile.getX() - getX(), nextFaceWorldTile.getY() - getY());
 	}
+
+    public void faceNorth() {
+        setNextFaceWorldTile(new WorldTile(getX(), getY()+1, getPlane()));
+    }
+
+    public void faceEast() {
+        setNextFaceWorldTile(new WorldTile(getX()+1, getY(), getPlane()));
+    }
+
+    public void faceSouth() {
+        setNextFaceWorldTile(new WorldTile(getX(), getY()-1, getPlane()));
+    }
+
+    public void faceWest() {
+        setNextFaceWorldTile(new WorldTile(getX()-1, getY(), getPlane()));
+    }
 
 	public abstract int getSize();
 

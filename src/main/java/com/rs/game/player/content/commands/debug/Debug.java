@@ -117,17 +117,25 @@ public class Debug {
 			p.stopAll();
 		});
 
-        Commands.add(Rights.PLAYER, "setqstage [Quest_ID, Stage]", "Sets stage for a quest.", (p, args) -> {
-            int questID = Integer.parseInt(args[0]);
-            int stage = Integer.parseInt(args[1]);
-
-            p.getQuestManager().setStage(Quest.forId(questID), stage, true);
+        Commands.add(Rights.PLAYER, "setqstage [questName, stage]", "Resets the specified quest.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+                    int stage = Integer.parseInt(args[1]);
+                    p.getQuestManager().setStage(quest, stage, true);
+                    p.sendMessage("Set " + quest.name() + " to stage " + stage);
+                    return;
+                }
+            }
         });
 
-        Commands.add(Rights.PLAYER, "qstage [Quest_ID]", "Gets stage for a quest.", (p, args) -> {
-            int questID = Integer.parseInt(args[0]);
-            int stage = p.getQuestManager().getStage(Quest.forId(questID));
-            p.sendMessage(Quest.forId(questID).name() + " Stage: " + stage);
+        Commands.add(Rights.PLAYER, "getqstage [questName]", "Resets the specified quest.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+                    int stage = p.getQuestManager().getStage(quest);
+                    p.sendMessage(quest.name() + " is at stage " + stage);
+                    return;
+                }
+            }
         });
 
 		Commands.add(Rights.PLAYER, "master,max", "Maxes all stats out.", (p, args) -> {

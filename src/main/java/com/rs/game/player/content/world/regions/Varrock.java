@@ -18,6 +18,7 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
 import com.rs.game.World;
+import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
@@ -34,7 +35,12 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
+import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
+import com.rs.game.player.quests.handlers.knightssword.KnightsSword;
+import com.rs.game.player.quests.handlers.knightssword.ReldoKnightsSwordD;
 import com.rs.game.player.quests.handlers.shieldofarrav.BaraekShieldOfArravD;
 import com.rs.game.player.quests.handlers.shieldofarrav.CharlieTheTrampArravD;
 import com.rs.game.player.quests.handlers.shieldofarrav.KatrineShieldOfArravD;
@@ -48,6 +54,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.net.decoders.handlers.ObjectHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -133,7 +140,20 @@ public class Varrock {
             }, false));
 		}
 	};
-	
+
+    public static ObjectClickHandler handleVariousStaircases = new ObjectClickHandler(new Object[] { 24356 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(obj.getRotation() == 0)
+                p.useStairs(-1, new WorldTile(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
+            else if (obj.getRotation() == 1)
+                p.useStairs(-1, new WorldTile(p.getX()+4, p.getY(), p.getPlane() + 1), 0, 1);
+            return;
+        }
+    };
+
 	public static ObjectClickHandler handleDummies = new ObjectClickHandler(new Object[] { 23921 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -164,6 +184,9 @@ public class Varrock {
 						public void create() {
 							if(!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
 							    option("About Shield Of Arrav...", new ReldoShieldOfArravD(player).getStart());
+                            if(e.getPlayer().getQuestManager().getStage(Quest.KNIGHTS_SWORD) >= KnightsSword.TALK_TO_RELDO
+                                    && !e.getPlayer().getQuestManager().isComplete(Quest.KNIGHTS_SWORD))
+                                option("About Knight's Sword...", new ReldoKnightsSwordD(player).getStart());
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.VARROCK_ARMOR).getStart());
 						}
 					});
@@ -490,4 +513,62 @@ public class Varrock {
                 e.getPlayer().ladder(new WorldTile(3243, 3383, 0));
         }
     };
+
+    public static NPCClickHandler handleGuildMaster = new NPCClickHandler(198) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if (e.getPlayer().getQuestManager().getQuestPoints() <= 31) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addNPC(e.getNPCId(), HeadE.FRUSTRATED, "You really shouldn't be in here, but I will let that slide...");
+                        create();
+                    }
+                });
+                return;
+            }
+            e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                {
+                    addNPC(e.getNPCId(), HeadE.CHEERFUL, "Greetings!");
+                    addOptions("What would you like to say?", new Options() {
+                        @Override
+                        public void create() {
+                            option("What is this place?", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "What is this place?")
+                                    .addNPC(198, HeadE.HAPPY_TALKING, "This is the Champions' Guild. Only adventurers who have proved themselves worthy " +
+                                            "by gaining influence from quests are allowed in here."));
+                            if(!e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+                                option("About Dragon Slayer", new Dialogue()
+                                        .addNext(()->{e.getPlayer().startConversation(new GuildMasterDragonSlayerD(e.getPlayer()).getStart());}));
+                        }
+                    });
+                    create();
+                }
+            });
+
+        }
+    };
+
+    public static ObjectClickHandler handleChampionsGuildFrontDoor = new ObjectClickHandler(new Object[] { 1805 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if (p.getY() >= obj.getY()) {
+                if (p.getQuestManager().getQuestPoints() <= 31) {
+                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            addSimple("You need 32 quest points to enter the champions guild.");
+                            create();
+                        }
+                    });
+                    return;
+                }
+                Doors.handleDoor(p, obj);
+                p.getDialogueManager().execute(new SimpleNPCMessage(), 198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
+            } else
+                Doors.handleDoor(p, obj);
+        }
+    };
+
+
 }

@@ -243,6 +243,10 @@ public class WorldEncoder extends Encoder {
 	public void sendCameraLook(Player player, WorldTile tile, int viewZ) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ);
 	}
+
+    public void sendCameraLook(Player player, WorldTile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
+        sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ, speedToExactDestination, speedOnRoutePath);
+    }
 	
 	public void sendCameraLook(int viewLocalX, int viewLocalY, int viewZ) {
 		sendCameraLook(viewLocalX, viewLocalY, viewZ, -1, -1);
@@ -255,10 +259,14 @@ public class WorldEncoder extends Encoder {
 	public void sendResetCamera() {
 		session.writeToQueue(ServerPacket.CAM_SMOOTHRESET);
 	}
-	
+
 	public void sendCameraPos(Player player, WorldTile tile, int z) {
 		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z);
 	}
+
+    public void sendCameraPos(Player player, WorldTile tile, int z, int speedToWorldTile, int speedToExactDestination) {
+        sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z, speedToWorldTile, speedToExactDestination);
+    }
 
 	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ) {
 		sendCameraPos(moveLocalX, moveLocalY, moveZ, -1, -1);

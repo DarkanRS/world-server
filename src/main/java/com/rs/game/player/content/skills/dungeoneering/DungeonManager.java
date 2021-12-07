@@ -34,43 +34,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
-import com.rs.game.npc.dungeoneering.AsteaFrostweb;
-import com.rs.game.npc.dungeoneering.BalLakThePummeler;
-import com.rs.game.npc.dungeoneering.Blink;
-import com.rs.game.npc.dungeoneering.BulwarkBeast;
-import com.rs.game.npc.dungeoneering.DivineSkinweaver;
-import com.rs.game.npc.dungeoneering.Dreadnaut;
-import com.rs.game.npc.dungeoneering.DungeonBoss;
-import com.rs.game.npc.dungeoneering.DungeonFishSpot;
-import com.rs.game.npc.dungeoneering.DungeonHunterNPC;
-import com.rs.game.npc.dungeoneering.DungeonNPC;
-import com.rs.game.npc.dungeoneering.DungeonSkeletonBoss;
-import com.rs.game.npc.dungeoneering.DungeonSlayerNPC;
-import com.rs.game.npc.dungeoneering.FleshspoilerHaasghenahk;
-import com.rs.game.npc.dungeoneering.ForgottenWarrior;
-import com.rs.game.npc.dungeoneering.GluttonousBehemoth;
-import com.rs.game.npc.dungeoneering.Gravecreeper;
-import com.rs.game.npc.dungeoneering.Guardian;
-import com.rs.game.npc.dungeoneering.HobgoblinGeomancer;
-import com.rs.game.npc.dungeoneering.HopeDevourer;
-import com.rs.game.npc.dungeoneering.IcyBones;
-import com.rs.game.npc.dungeoneering.KalGerWarmonger;
-import com.rs.game.npc.dungeoneering.LakkTheRiftSplitter;
-import com.rs.game.npc.dungeoneering.LexicusRunewright;
-import com.rs.game.npc.dungeoneering.LuminscentIcefiend;
-import com.rs.game.npc.dungeoneering.MastyxTrap;
-import com.rs.game.npc.dungeoneering.NecroLord;
-import com.rs.game.npc.dungeoneering.NightGazerKhighorahk;
-import com.rs.game.npc.dungeoneering.Rammernaut;
-import com.rs.game.npc.dungeoneering.RuneboundBehemoth;
-import com.rs.game.npc.dungeoneering.Sagittare;
-import com.rs.game.npc.dungeoneering.ShadowForgerIhlakhizan;
-import com.rs.game.npc.dungeoneering.SkeletalAdventurer;
-import com.rs.game.npc.dungeoneering.Stomp;
-import com.rs.game.npc.dungeoneering.ToKashBloodChiller;
-import com.rs.game.npc.dungeoneering.WarpedGulega;
-import com.rs.game.npc.dungeoneering.WorldGorgerShukarhazh;
-import com.rs.game.npc.dungeoneering.YkLagorThunderous;
+import com.rs.game.npc.dungeoneering.*;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Equipment;
@@ -934,6 +898,8 @@ public class DungeonManager {
 				n = new Blink(tile, this, reference);
 			else if (id == 12752)
 				n = new KalGerWarmonger(tile, this, reference);
+			else if (id == 10111)
+                n = new UnholyCrossbearer(id, tile, this, reference);
 			else
 				n = new DungeonBoss(id, tile, this, reference);
 		} else if (type == DungeonConstants.GUARDIAN_NPC) {
@@ -1000,6 +966,7 @@ public class DungeonManager {
             player.getSkills().restoreSkills();
         }
         else {
+		    player.reset();
             player.getDungManager().setRejoinKey(null);
             player.useStairs(-1, new WorldTile(DungeonConstants.OUTSIDE, 2), 0, 3);
             player.getCombatDefinitions().removeDungeonneringBook();

@@ -145,7 +145,11 @@ public final class ObjectHandler {
 				if (object.getId() == 29355) {
 					player.useStairs(828, new WorldTile(player.getX(), player.getY() - 6400, 0), 1, 2);
 					return;
-				} else if (object.getId() == 7434) {
+				} else if(object.getId() == 37117) {
+                    player.useStairs(-1, new WorldTile(object.getX()-2, player.getY(), 0), 1, 2);
+                    return;
+                }
+                else if (object.getId() == 7434) {
 					player.useStairs(828, new WorldTile(3682, 9961, 0), 1, 2);
 					return;
 				} else if (object.getId() == 7433) {
@@ -1212,11 +1216,6 @@ public final class ObjectHandler {
 					player.useStairs(-1, new WorldTile(3189, 3354, 1), 0, 1);
 				else if (id == 24359 && object.getX() == 3188 && object.getY() == 3355)
 					player.useStairs(-1, new WorldTile(3189, 3358, 0), 0, 1);
-				else if (id == 1805) {
-					Doors.handleDoor(player, object);
-					if (player.getY() >= object.getY())
-						player.getDialogueManager().execute(new SimpleNPCMessage(), 198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
-				}
 				// start of varrock dungeon
 				else if (id == 29355 && object.getX() == 3230 && object.getY() == 9904) // varrock
 					// dungeon

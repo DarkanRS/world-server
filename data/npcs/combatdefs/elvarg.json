@@ -5,7 +5,7 @@
   "hitpoints": 800,
   "attackAnim": 12252,
   "defenceAnim": 12251,
-  "deathAnim": 12250,
+  "deathAnim": 14260,
   "deathDelay": 3,
   "respawnDelay": 60,
   "maxHit": 100,

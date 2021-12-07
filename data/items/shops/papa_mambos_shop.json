@@ -24,6 +24,46 @@
     },
     {
       "item": {
+        "id": 19897,
+        "amount": 2
+      },
+      "customPrice": 10000,
+      "restockTicks": 500
+    },
+    {
+      "item": {
+        "id": 19902,
+        "amount": 2
+      },
+      "customPrice": 10000,
+      "restockTicks": 500
+    },
+    {
+      "item": {
+        "id": 19907,
+        "amount": 2
+      },
+      "customPrice": 10000,
+      "restockTicks": 500
+    },
+    {
+      "item": {
+        "id": 19912,
+        "amount": 2
+      },
+      "customPrice": 10000,
+      "restockTicks": 500
+    },
+    {
+      "item": {
+        "id": 19917,
+        "amount": 2
+      },
+      "customPrice": 10000,
+      "restockTicks": 500
+    },
+    {
+      "item": {
         "id": 19967,
         "amount": 100
       }

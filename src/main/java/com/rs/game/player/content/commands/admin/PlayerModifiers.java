@@ -24,6 +24,7 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
+import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;

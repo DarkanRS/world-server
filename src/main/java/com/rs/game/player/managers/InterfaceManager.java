@@ -241,7 +241,10 @@ public class InterfaceManager {
     public void setDefaultTopInterface() {
     	setTopInterface(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, false);
     }
-    
+
+    /**
+     * On top of even inventory
+     */
     public void setTopInterface(int rootInterface, boolean gc) {
 		this.top = rootInterface;
 		player.getPackets().sendWindowsPane(rootInterface, gc ? 3 : 0);
@@ -396,6 +399,9 @@ public class InterfaceManager {
 		removeInterfaceByParent(parentUID);
 	}
 
+    /**
+     * Fading interface is a misnomer, just means under inventory/chat/map
+     */
 	public void setFadingInterface(int backgroundInterface) {
 		setWindowInterface(hasRezizableScreen() ? 13 : 15, backgroundInterface);
 	}

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
@@ -229,19 +230,25 @@ public final class MusicsManager {
 		return playingMusic != -2 && playingMusicDelay + (180000) < System.currentTimeMillis();
 	}
 
-	public void replayMusic() {
-		if (playListOn && playList.size() > 0) {
-			if (shuffleOn)
-				playingMusic = playList.get(Utils.getRandomInclusive(playList.size() - 1));
-			else {
-				if (nextPlayListMusic >= playList.size())
-					nextPlayListMusic = 0;
-				playingMusic = playList.get(nextPlayListMusic++);
-			}
-		} else if (unlockedMusics.size() > 0) // random music
-			playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
-		playMusic(playingMusic);
-	}
+    public void replayMusic() {
+        if (playListOn && playList.size() > 0) {
+            if (shuffleOn)
+                playingMusic = playList.get(Utils.getRandomInclusive(playList.size() - 1));
+            else {
+                if (nextPlayListMusic >= playList.size())
+                    nextPlayListMusic = 0;
+                playingMusic = playList.get(nextPlayListMusic++);
+            }
+        } else if (unlockedMusics.size() > 0) {// random music
+            if(player.getDungManager().isInsideDungeon())
+                playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+            else
+                do {
+                    playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+                } while (DungeonConstants.isDungeonSong(playingMusic));
+        }
+        playMusic(playingMusic);
+    }
 
 	public void checkMusic(int requestMusicId) {
 		if (playListOn || settedMusic && playingMusicDelay + (180000) >= System.currentTimeMillis())

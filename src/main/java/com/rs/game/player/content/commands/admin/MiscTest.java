@@ -45,12 +45,11 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.achievements.Achievement;
 import com.rs.game.player.content.commands.Commands;
+import com.rs.game.player.content.commands.JawasCommands.JawasCommands;
 import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
-import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.player.controllers.RunespanController;
-import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
@@ -84,6 +83,7 @@ public class MiscTest {
 	private static final int[] UNIDENTIFIED_ANIMS = { 2057, 12549, 15461, 3024, 2202, 2205, 2200, 2212, 2207, 2211, 2208, 2197, 2195, 15719, 3145, 4122, 3874, 587, 10707, 1107, 2938, 2435, 2438, 2434, 2552, 2449, 2447, 14165, 2976, 2932, 3320, 3911, 5964, 3777, 3727, 2825, 2826, 16254, 16355, 16366, 16363, 16382, 16393, 10371, 1599, 3853, 3452, 3471, 3423, 3348, 2048, 3982, 2149, 6083, 2148, 2788, 11620, 2614, 15138, 12033, 3071, 13691, 2764, 12919, 1409, 6703, 15624, 2450, 1354, 15622, 2378, 9104, 16445, 654, 3032, 3670, 15147, 14175, 9021, 12913, 4471, 1852, 11146, 3266, 1633, 15128, 2343, 15203, 2010,
 			4223, 9899, 2903, 2326, 1307, 2891, 15139, 1196, 1895, 1485, 2697, 1267, 4611, 1914, 1606, 2094, 2813, 2793, 3182, 12806, 11604, 1317, 2684, 3562, 3308, 1155, 2138, 1855, 1867, 1255, 3093, 9723, 1893, 786, 3458, 3454, 3456, 3455, 3453, 2008, 2007, 2002, 3166, 2767, 11224, 5767, 3092, 1356, 1361, 1006, 948, 3546, 9681, 1492, 646, 1136, 345, 6, 1898, 2159, 120, 1418, 9946, 166, 179, 14844, 3437, 232, 16322, 296, 9502, 1017, 3575, 3574, 3681, 3601, 3588, 3612, 3650, 14289, 3120, 3122, 2998, 3576, 10243, 1870, 3098, 1621, 1620, 3123, 1922, 3037, 1452, 1456, 3474, 3344, 1998, 2000,
 			2030, 1761, 1410, 2330, 1095, 3189, 2897, 1232, 1213, 1219, 1498, 1279, 1635, 2808, 3987, 3978, 1876, 2571, 1262, 2103, 455, 2711, 3220, 466, 443, 1247, 450, 730, 3229, 463, 458, 456, 2166, 1546, 1562, 3164, 1815, 5013, 4019, 4016, 4029, 4135, 4138, 15080, 4156, 4164, 15113, 15129, 4222, 6689, 4262, 4253, 4281, 4258, 4283, 4285, 4316, 4333, 9164, 4337, 4347, 4352, 4404, 4359, 4364, 4361, 4434, 4576, 4573, 4834, 4553, 7139, 4574, 4592, 7033, 12609, 4600, 4752, 4749, 4822, 4818, 4803, 4796, 4909, 4912, 4892, 14242, 4904, 4908, 4903, 4878, 4907, 4863, 8525, 5015, 5054, 15137, 5421,
+			5076, 5077, 5053, 5139, 5157, 5154, 5266, 5299, 5307, 14302, 5360, 5354, 5062, 8849, 5420, 2757, 9405, 5599, 5588, 6104, 10355, 9577, 5736, 5733, 6364, 5796, 5812, 5813, 6147, 5861, 5905, 5902, 5904, 5908, 6073, 4219, 6125, 11411, 6121, 6213, 6179, 6169, 4852, 6459, 11608, 6273, 15011, 452, 12217, 6482, 11739, 6427, 6452, 6409, 6530, 6554, 6611, 6599, 6665, 6700, 6636, 6644, 6641, 6640, 14723, 11540, 6851, 12446, 6860, 14174, 6899, 6921, 6920, 9387, 6941, 7024, 16420, 1016, 16421, 16419, 15238, 6981, 7113, 7130, 7136, 7137, 7141, 7135, 7119, 7138, 7114, 7116, 7145, 35, 7233, 7240,
 			5076, 5077, 5053, 5139, 5157, 5154, 5266, 5299, 5307, 14302, 5360, 5354, 5062, 8849, 5420, 2757, 9405, 5599, 5588, 6104, 10355, 9577, 5736, 5733, 6364, 5796, 5812, 5813, 6147, 5861, 5905, 5902, 5904, 5908, 6073, 4219, 6125, 11411, 6121, 6213, 6179, 6169, 4852, 6459, 11608, 6273, 15011, 452, 12217, 6482, 11739, 6427, 6452, 6409, 6530, 6554, 6611, 6599, 6665, 6700, 6636, 6644, 6641, 6640, 14723, 11540, 6851, 12446, 6860, 14174, 6899, 6921, 6920, 9387, 6941, 7024, 16420, 1016, 16421, 16419, 15238, 6981, 7113, 7130, 7136, 7137, 7141, 7135, 7119, 7138, 7114, 7116, 7145, 35, 7233, 7240,
 			7253, 7281, 7293, 7278, 7290, 7277, 7296, 7299, 7321, 7348, 7352, 7359, 8806, 8859, 7388, 7489, 9610, 9633, 7538, 8450, 7545, 7551, 8535, 7634, 7652, 8402, 8474, 8466, 8418, 8486, 8434, 8379, 8414, 8430, 8422, 10554, 8426, 8494, 8482, 8490, 8446, 8462, 8470, 8137, 8509, 8662, 8590, 8645, 8625, 486, 11451, 8699, 1221, 1220, 1228, 8711, 8748, 8746, 8747, 8744, 8768, 8803, 8826, 8895, 8884, 10475, 10992, 11568, 11552, 8991, 9018, 10449, 9861, 9056, 9043, 9034, 10121, 15135, 9148, 9147, 9142, 9149, 4294, 12397, 9224, 9319, 9245, 9232, 9238, 9251, 9257, 9269, 15142, 9327, 9328, 9351,
 			12187, 9384, 9427, 9391, 9389, 9397, 9513, 9574, 9543, 9582, 9982, 9909, 15416, 4856, 12373, 3329, 9854, 13656, 16301, 6830, 10024, 9971, 9972, 9966, 9990, 10079, 12319, 10052, 10047, 10094, 10095, 10220, 10191, 10128, 10127, 10221, 10229, 10331, 10334, 10316, 12191, 10350, 10353, 10373, 10414, 10489, 10445, 10443, 10448, 10430, 14223, 15726, 10559, 10746, 10649, 10702, 10880, 10893, 10827, 10821, 10754, 10894, 10712, 10786, 10790, 10788, 10805, 10809, 10807, 10780, 10784, 10782, 10792, 10811, 10803, 10778, 14633, 10989, 10935, 10932, 10930, 10995, 14713, 11011, 11032, 11056,
@@ -515,8 +515,8 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.ADMIN, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			p.getNSV().setB("infSpecialAttack", !p.getNSV().getB("infSpecialAttack"));
-			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getNSV().getB("infSpecialAttack"));
+            p.getTempAttribs().setB("infSpecialAttack", !p.getTempAttribs().getB("infSpecialAttack"));
+			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getTempAttribs().getB("infSpecialAttack"));
 		});
 		
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
@@ -647,13 +647,41 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "resetquest [questName]", "Resets the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values()) {
-				if (quest.name().toLowerCase().contains(args[0])) {
-                    p.getQuestManager().setStage(quest, 0);
+				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+                    p.getQuestManager().resetQuest(quest);
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}
 			}
 		});
+
+        Commands.add(Rights.DEVELOPER, "completequest [questName]", "Resets the specified quest.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.name().toLowerCase().contains(args[0])) {
+                    p.getQuestManager().completeQuest(quest);
+                    p.sendMessage("Completed quest: " + quest.name());
+                    return;
+                }
+            }
+        });
+
+        Commands.add(Rights.DEVELOPER, "completeallquests", "Completes all quests.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.isImplemented()) {
+                    p.getQuestManager().completeQuest(quest);
+                    p.sendMessage("Completed quest: " + quest.name());
+                }
+            }
+        });
+
+        Commands.add(Rights.DEVELOPER, "resetallquests", "Resets all quests.", (p, args) -> {
+            for (Quest quest : Quest.values()) {
+                if (quest.isImplemented()) {
+                    p.getQuestManager().resetQuest(quest);
+                    p.sendMessage("Reset quest: " + quest.name());
+                }
+            }
+        });
 		
 		Commands.add(Rights.DEVELOPER, "hinttrail [x y modelId]", "Sets a hint trail from the player to the specified location.", (p, args) -> {
 			int x = Integer.valueOf(args[0]);
@@ -829,12 +857,6 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "empty", "Empties the player's inventory.", (p, args) -> {
 			p.stopAll();
 			p.getInventory().reset();
-		});
-		
-		Commands.add(Rights.ADMIN, "compquest", "Completes a quest of specified ID.", (p, args) -> {
-			Quest quest = Quest.forId(Integer.valueOf(args[0]));
-			if (quest != null && quest.isImplemented())
-				p.getQuestManager().completeQuest(quest);
 		});
 		
 		Commands.add(Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {

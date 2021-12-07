@@ -93,6 +93,7 @@ import com.rs.game.player.content.skills.slayer.BossTask;
 import com.rs.game.player.content.skills.slayer.SlayerTaskManager;
 import com.rs.game.player.content.skills.slayer.TaskMonster;
 import com.rs.game.player.content.transportation.FadingScreen;
+import com.rs.game.player.content.world.Musician;
 import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.DeathOfficeController;
 import com.rs.game.player.controllers.GodwarsController;
@@ -1059,12 +1060,16 @@ public class Player extends Entity {
 				}
 			}
 		}
-		if (getNextRunDirection() == null) {
-			double energy = (8.0 + Math.floor((double) getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
-			if (isResting())
-				energy *= 4;
-			restoreRunEnergy(energy);
-		}
+        if (getNextRunDirection() == null) {
+            double energy = (8.0 + Math.floor((double) getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
+            if (isResting()) {
+                energy = 1.68;
+                if (Musician.isNearby(this)) {
+                    energy = 2.28;
+                }
+            }
+            restoreRunEnergy(energy);
+        }
 		
 		if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 			tickFarming();

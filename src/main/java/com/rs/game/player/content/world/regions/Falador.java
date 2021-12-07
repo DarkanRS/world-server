@@ -25,6 +25,9 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.knightssword.SquireKnightsSwordD;
+import com.rs.game.player.quests.handlers.piratestreasure.RedbeardFrankPiratesTreasureD;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -43,15 +46,22 @@ public class Falador {
         public void handle(NPCClickEvent e) {
             e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
                 {
-                    addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
+                    addNPC(e.getNPCId(), HeadE.CHEERFUL, "Arr, Matey!");
                     addOptions("What would you like to say?", new Options() {
                         @Override
                         public void create() {
+                            if(!player.getQuestManager().isComplete(Quest.PIRATES_TREASURE))
+                                option("About Pirate's Treasure", new Dialogue()
+                                    .addNext(()->{
+                                        e.getPlayer().startConversation(new RedbeardFrankPiratesTreasureD(e.getPlayer()).getStart());
+                                    }));
+
                             option("About the Achievement System...",
                                     new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FALADOR_SHIELD)
                                     .getStart());
                         }
                     });
+                    create();
                 }
             });
         }
@@ -85,11 +95,15 @@ public class Falador {
                     addOptions("What would you like to say?", new Options() {
                         @Override
                         public void create() {
+                            if(!player.getQuestManager().isComplete(Quest.KNIGHTS_SWORD))
+                                option("About Knight's Sword.", new Dialogue()
+                                    .addNext(()->{e.getPlayer().startConversation(new SquireKnightsSwordD(e.getPlayer()).getStart());}));
                             option("About the Achievement System...",
                                     new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FALADOR_SHIELD)
                                     .getStart());
                         }
                     });
+                    create();
                 }
             });
         }

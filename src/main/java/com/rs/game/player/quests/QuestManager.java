@@ -178,6 +178,13 @@ public class QuestManager {
         }
     }
 
+    public void resetQuest(Quest quest) {
+        if (!quest.isImplemented())
+            return;
+        clearQuestAttributes(quest);
+        setStage(quest, 0);
+    }
+
     private void clearQuestAttributes(Quest quest) {
         questAttribs.remove(quest.getId());
     }

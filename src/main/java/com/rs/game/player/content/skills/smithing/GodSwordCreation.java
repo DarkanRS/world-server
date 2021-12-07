@@ -18,11 +18,15 @@ package com.rs.game.player.content.skills.smithing;
 
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
 
 /**
  * 
  * @author Humid
  */
+@PluginEventHandler
 public class GodSwordCreation {
 
 	public static boolean handleGodSword(Player player, int usedWith, int itemUsed) {
@@ -207,4 +211,17 @@ public class GodSwordCreation {
 		}
 		return false;
 	}
+	public static ItemClickHandler handleAbyssalVineWhip = new ItemClickHandler(new Object[] { "Abyssal vine whip" }, new String[] { "Split" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if (e.getPlayer().getInventory().getFreeSlots() >= 1) {
+				e.getPlayer().getInventory().deleteItem(e.getItem());
+				e.getPlayer().getInventory().addItem(4151);
+				e.getPlayer().getInventory().addItem(21369);
+				e.getPlayer().sendMessage("You split the vine from the whip.");
+			} else {
+				e.getPlayer().sendMessage("Not enough space in your inventory.");
+			}
+		}
+	};
 }
