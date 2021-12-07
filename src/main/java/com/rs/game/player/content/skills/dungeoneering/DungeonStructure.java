@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import com.rs.Settings;
-
 public class DungeonStructure {
 
 	private RoomNode base;

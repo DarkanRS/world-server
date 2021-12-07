@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -12,14 +14,13 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.EnterChunkEvent;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.EnterChunkHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(Quest.PIRATES_TREASURE)
 @PluginEventHandler

@@ -1,25 +1,26 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
-import com.rs.game.World;
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.APRON;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.HAS_SMUGGLED_RUM_ATTR;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_KARAMJA_CRATE_ATTR;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_SARIM_CRATE_ATTR;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.WYDIN;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.WYDIN_EMPLOYMENT_ATTR;
+
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.princealirescue.HassanPrinceAliRescueD;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.Ticks;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class WydinPiratesTreasureD extends Conversation {

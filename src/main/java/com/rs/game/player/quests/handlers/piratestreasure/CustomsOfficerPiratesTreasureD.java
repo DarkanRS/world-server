@@ -1,19 +1,17 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
+import static com.rs.game.player.dialogues.BoatingDialogue.getBoatForShip;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.CUSTOMS_OFFICER;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.transportation.TravelMethods;
-import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.dialogues.BoatingDialogue.getBoatForShip;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class CustomsOfficerPiratesTreasureD extends Conversation {

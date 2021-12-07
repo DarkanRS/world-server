@@ -1,5 +1,15 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.JENKINS;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.NED_IS_CAPTAIN_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.OWNS_BOAT_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,8 +19,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class CabinBoyJenkinsDragonSlayerD extends Conversation {

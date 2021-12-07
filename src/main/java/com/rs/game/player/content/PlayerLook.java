@@ -21,7 +21,6 @@ import com.rs.cache.loaders.StructDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.dialogues.MakeOverMage;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.lib.game.Animation;

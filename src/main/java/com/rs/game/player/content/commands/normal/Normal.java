@@ -23,7 +23,6 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
-import com.rs.game.player.content.PlayerLook;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.content.dialogue.Dialogue;

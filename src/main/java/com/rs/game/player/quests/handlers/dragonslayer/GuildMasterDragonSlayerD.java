@@ -1,5 +1,22 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.FINISHED_DIALOGUE_GUILDMASTER_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.GUILD_MASTER;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_LOZAR_MAP_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_MELZAR_MAP_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_SHIP_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_THALZAR_MAP_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_MAP_EXISTS_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.MELZAR_MAZE_KEY;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.STARTED_DIALOGUE_GUILDMASTER_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,8 +26,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class GuildMasterDragonSlayerD extends Conversation {

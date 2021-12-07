@@ -1,5 +1,15 @@
 package com.rs.game.player.quests.handlers.knightssword;
 
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.BLURITE_SWORD;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.FIND_DWARF;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.GET_MATERIALS;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.GET_PICTURE;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.PICTURE_LOCATION_KNOWN_ATTR;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.PORTRAIT;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.SQUIRE;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.TALK_TO_RELDO;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -8,10 +18,6 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.*;
 
 @PluginEventHandler
 public class SquireKnightsSwordD extends Conversation {

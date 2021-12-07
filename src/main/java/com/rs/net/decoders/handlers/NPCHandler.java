@@ -64,7 +64,6 @@ import com.rs.game.player.dialogues.FatherAereck;
 import com.rs.game.player.dialogues.FremennikShipmaster;
 import com.rs.game.player.dialogues.GeneralStore;
 import com.rs.game.player.dialogues.Jossik;
-import com.rs.game.player.dialogues.MakeOverMage;
 import com.rs.game.player.dialogues.MamboJamboD;
 import com.rs.game.player.dialogues.Max;
 import com.rs.game.player.dialogues.MiningGuildDwarf;

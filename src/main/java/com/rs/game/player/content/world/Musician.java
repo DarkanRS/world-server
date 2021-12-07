@@ -1,5 +1,7 @@
 package com.rs.game.player.content.world;
 
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -11,8 +13,6 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.List;
 
 @PluginEventHandler
 public class Musician {

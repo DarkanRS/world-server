@@ -1,24 +1,20 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
-import com.rs.game.World;
-import com.rs.game.npc.NPC;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.CHEST_KEY;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.GET_TREASURE;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.REDBEARD;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.ernestthechicken.ErnestTheChicken;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.Ticks;
-import java.util.List;
-
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class RedbeardFrankPiratesTreasureD extends Conversation {

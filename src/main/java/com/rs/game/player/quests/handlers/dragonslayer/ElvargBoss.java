@@ -1,5 +1,9 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.ELVARG_HEAD;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
+
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.Entity;
 import com.rs.game.World;
@@ -15,8 +19,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class ElvargBoss extends NPC {

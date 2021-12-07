@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.dialogues;
 
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KLARENSE;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -25,11 +27,8 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.game.player.quests.handlers.dragonslayer.KlarenseDragonSlayerD;
 import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
-import com.rs.game.player.quests.handlers.piratestreasure.LuthasPiratesTreasureD;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.lib.game.WorldTile;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KLARENSE;
 
 public class BoatingDialogue extends Dialogue {
 

@@ -1,18 +1,19 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.CRANDOR_MAP;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.IS_BOAT_FIXED_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.NED;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.NED_BOAT_VISIBILITY_VAR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.NED_IS_CAPTAIN_ATTR;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.OWNS_BOAT_ATTR;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class NedDragonSlayerD extends Conversation {

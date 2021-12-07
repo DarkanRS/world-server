@@ -1,9 +1,15 @@
 package com.rs.game.player.quests.handlers.blackknightsfortress;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
-import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -20,14 +26,14 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
-
-
-import java.util.*;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
+import com.rs.plugin.events.EnterChunkEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.EnterChunkHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @QuestHandler(Quest.BLACK_KNIGHTS_FORTRESS)
 @PluginEventHandler

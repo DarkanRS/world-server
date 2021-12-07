@@ -42,7 +42,6 @@ import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.DoorPair;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
-import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
 import com.rs.game.player.quests.handlers.dragonslayer.NedDragonSlayerD;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;

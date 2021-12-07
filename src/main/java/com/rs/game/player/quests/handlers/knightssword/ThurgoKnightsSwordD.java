@@ -1,5 +1,18 @@
 package com.rs.game.player.quests.handlers.knightssword;
 
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.BLURITE_ORE;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.BLURITE_SWORD;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.FIND_DWARF;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.GAVE_THRUGO_PIE_ATTR;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.GET_MATERIALS;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.GET_PICTURE;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.IRON_BAR;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.MADE_SWORD_ATTR;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.PORTRAIT;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.REDBERRY_PIE;
+import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.THURGO;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -8,8 +21,6 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.knightssword.KnightsSword.*;
 
 @PluginEventHandler
 public class ThurgoKnightsSwordD extends Conversation {
