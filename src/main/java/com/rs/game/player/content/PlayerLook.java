@@ -3,6 +3,8 @@ package com.rs.game.player.content;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.dialogues.MakeOverMage;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
@@ -103,6 +105,10 @@ public final class PlayerLook {
 		player.getAppearance().setSkinColor(EnumDefinitions.getEnum(748).getIntValue(index));
 		player.getAppearance().generateAppearanceData();
 	}
+	public static void setSkinCustom(Player player, int index) {
+		player.getAppearance().setSkinColor(index);
+		player.getAppearance().generateAppearanceData();
+	}
 
 	public static void setDesign(Player player, int index1, int index2) {
 		int map1 = EnumDefinitions.getEnum(3278).getIntValue(index1);
@@ -168,9 +174,10 @@ public final class PlayerLook {
 				int skin = e.getPlayer().getTempAttribs().removeI("MageMakeOverSkin");
 				e.getPlayer().closeInterfaces();
 				if (male == e.getPlayer().getAppearance().isMale() && skin == e.getPlayer().getAppearance().getSkinColor())
-					e.getPlayer().getDialogueManager().execute(new MakeOverMage(), 2676, 1);
-				else {
-					e.getPlayer().getDialogueManager().execute(new MakeOverMage(), 2676, 2);
+                    if (male == e.getPlayer().getAppearance().isMale() && skin == e.getPlayer().getAppearance().getSkinColor()) {
+                        e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "Whew! That was lucky."));
+                    } else {
+                        e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "That is no different from what you already have. I guess I shouldn't charge you if I'm not changing anything."));
 					if (e.getPlayer().getAppearance().isMale() != male) {
 						if (e.getPlayer().getEquipment().wearingArmour()) {
 							e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You cannot have armor on while changing your gender.");

@@ -547,11 +547,13 @@ public class NPC extends Entity {
 		case 25314:
 		case 25316:
 		case 25318:
+        case 11286:
 		//Slayer Drops
 		case 11732:
 		case 15486:
 		case 11235:
 		case 4151:
+        case 21369:
 		//Dagganoth Drops
 		case 6731:
 		case 6733:

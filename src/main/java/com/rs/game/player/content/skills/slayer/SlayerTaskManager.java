@@ -124,6 +124,8 @@ public class SlayerTaskManager {
 				continue;
 			if (task.getMonster() == TaskMonster.AQUANITES && !player.aquanitesUnlocked())
 				continue;
+			if (task.getMonster() == TaskMonster.CYCLOPES && !((player.getSkills().getLevelForXp(Constants.ATTACK) + player.getSkills().getLevelForXp(Constants.STRENGTH)) >= 130))
+				continue;
 			for (int i = 0;i < task.getWeighting();i++)
 				possibleTasks.add(task);
 		}

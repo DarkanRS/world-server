@@ -278,7 +278,7 @@ public class Mining extends Action {
 	}
 
 	public static int getSpecialFamiliarBonus(int id) {
-		if (id == 7342 || id == 7342)
+		if (id == 7342 || id == 7341)
 			return 10;
 		else if (id == 6832 || id == 6831)
 			return 1;

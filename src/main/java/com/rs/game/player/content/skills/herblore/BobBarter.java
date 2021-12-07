@@ -39,9 +39,10 @@ public class BobBarter {
 	public static void decant(Player p, int dose) {
 		ArrayList<Integer> checkedPotions = new ArrayList<Integer>();
 		HashMap<String, ArrayList<Integer>> potionDoses = new HashMap<String, ArrayList<Integer>>();
-		Potion potion = null;
+		Potion potion;
 		
 		for (Item i : p.getInventory().getItems().getItems()) {
+			potion = null;
 			if (i == null)
 				continue;
 			ItemDefinitions itemdefs = ItemDefinitions.getDefs(i.getId());		

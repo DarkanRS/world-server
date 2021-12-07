@@ -679,14 +679,16 @@ public abstract class Entity extends WorldTile {
             case 2859:
 				return true;
 			}
-			switch(npc.getName()) {
-			case "Xuan":
-			case "Fishing spot":
-			case "Fishing Spot":
-			case "Cavefish shoal":
-			case "Rocktail shoal":
-				return true;
-			}
+            switch(npc.getName()) {
+                case "Xuan":
+                case "Fremennik shipmaster":
+                case "Fishing spot":
+                case "Fishing Spot":
+                case "Cavefish shoal":
+                case "Rocktail shoal":
+                case "Musician":
+                    return true;
+            }
 		}
 		if (tile instanceof Stomp stomp)
 			return stomp.getManager().isAtBossRoom(this);

@@ -1,12 +1,11 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.player.Player;
+import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -170,6 +169,76 @@ public class Desert  {
 				e.getPlayer().setNextWorldTile(new WorldTile(3233, 2887, 0));
 			} else {
 				e.getPlayer().sendMessage("You search the sarcophagus but find nothing.");
+			}
+		}
+	};
+
+	public static ItemClickHandler handleSplittingGranite = new ItemClickHandler(new Object[] { 6979, 6981, 6983 }, new String[] { "Craft" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if (!e.getPlayer().getInventory().containsItem(1755, 1, true)) {
+				e.getPlayer().sendMessage("You must have a chisel in order to craft granite.");
+				return;
+			}
+
+			if (e.getPlayer().getInventory().getFreeSlots() < 3) {
+				e.getPlayer().sendMessage("You do not have enough room in your inventory to split the granite.");
+				return;
+			}
+
+			e.getPlayer().lock(2);
+
+			switch(e.getItem().getId()) {
+			case 6983: //5kg - splits into 2x 2kg and 2x 500g
+				e.getPlayer().getInventory().deleteItem(6983, 1);
+				e.getPlayer().getInventory().addItem(6981, 2);
+				e.getPlayer().getInventory().addItem(6979, 2);
+				e.getPlayer().setNextAnimation(new Animation(11146));
+				break;
+			case 6981: //2kg - splits into 4x 500g
+				e.getPlayer().getInventory().deleteItem(6981, 1);
+				e.getPlayer().getInventory().addItem(6979, 4);
+				e.getPlayer().setNextAnimation(new Animation(11146));
+				break;
+			case 6979: //500g
+				e.getPlayer().sendMessage("This block of granite is too small to craft into anything.");
+				break;
+			}
+		}
+	};
+
+	public static ItemClickHandler handleSplittingSandstone = new ItemClickHandler(new Object[] { 6973, 6975, 6977 }, new String[] { "Craft" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if (!e.getPlayer().getInventory().containsItem(1755, 1, true)) {
+				e.getPlayer().sendMessage("You must have a chisel in order to craft sandstone.");
+				return;
+			}
+
+			if (e.getPlayer().getInventory().getFreeSlots() < (e.getItem().getId() == 6975 ? 2 : 1)) {
+				e.getPlayer().sendMessage("You do not have enough room in your inventory to split the sandstone.");
+				return;
+			}
+
+			e.getPlayer().lock(2);
+
+			switch(e.getItem().getId()) {
+			case 6977: //10kg - splits into 2x 5kg
+				e.getPlayer().getInventory().deleteItem(6977, 1);
+				e.getPlayer().getInventory().addItem(6975, 2);
+				e.getPlayer().setNextAnimation(new Animation(11146));
+				break;
+			case 6975: //5kg - splits into 2x 2kg and 1x 1kg
+				e.getPlayer().getInventory().deleteItem(6975, 1);
+				e.getPlayer().getInventory().addItem(6973, 2);
+				e.getPlayer().getInventory().addItem(6971, 1);
+				e.getPlayer().setNextAnimation(new Animation(11146));
+				break;
+			case 6973: //2kg - splits into 2x 1kg
+				e.getPlayer().getInventory().deleteItem(6973, 1);
+				e.getPlayer().getInventory().addItem(6971, 2);
+				e.getPlayer().setNextAnimation(new Animation(11146));
+				break;
 			}
 		}
 	};

@@ -1448,15 +1448,40 @@ public final class World {
 	}
 
 	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
-		for (int x = -dist; x <= dist; x++) {
-			if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY()))
-				return tile.transform(x, 0, 0);
-		}
-		for (int y = -dist; y <= dist; y++) {
-			if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY() + y))
-				return tile.transform(0, y, 0);
-		}
-		return tile;
+
+        //Checks outward - Northeast
+        for (int x = 0; x <= dist; x++) {
+            for (int y = 0; y <= dist; y++) {
+                if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
+                    return tile.transform(x, y, 0);
+            }
+        }
+
+        //Checks outward - Southeast
+        for (int x = 0; x <= dist; x++) {
+            for (int y = 0; y >= -dist; y--) {
+                if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
+                    return tile.transform(x, y, 0);
+            }
+        }
+
+        //Checks outward - Southwest
+        for (int x = 0; x >= -dist; x--) {
+            for (int y = 0; y >= -dist; y--) {
+                if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
+                    return tile.transform(x, y, 0);
+            }
+        }
+
+        //Checks outward - Northwest
+        for (int x = 0; x >= -dist; x--) {
+            for (int y = 0; y <= dist; y++) {
+                if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
+                    return tile.transform(x, y, 0);
+            }
+        }
+
+        return tile.transform(0, 0, 1);
 	}
 
 	public static long getServerTicks() {

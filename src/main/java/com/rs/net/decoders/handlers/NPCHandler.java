@@ -234,8 +234,6 @@ public class NPCHandler {
 						.finish()));
 			} else if (npc.getId() == 9708 || npc.getId() == 14847)
 				player.getDialogueManager().execute(new FremennikShipmaster(), npc.getId(), false);
-			else if (npc.getId() == 2676 || npc.getId() == 599)
-				player.getDialogueManager().execute(new MakeOverMage(), npc.getId(), 0);
 			else if (npc.getId() == 579)
 				player.getDialogueManager().execute(new DrogoDwarf(), npc.getId());
 			else if (npc.getId() == 528 || npc.getId() == 529)
