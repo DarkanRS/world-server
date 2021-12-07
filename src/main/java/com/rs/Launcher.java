@@ -41,6 +41,7 @@ import com.rs.lib.net.decoders.GameDecoder;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapXTEAs;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
@@ -75,6 +76,9 @@ public final class Launcher {
 		
 		Logger.log("Cache", "Loading cache...");
 		Cache.init(Settings.getConfig().getCachePath());
+		
+		Logger.log("XTEAs", "Loading map XTEAs...");
+		MapXTEAs.loadKeys();
 		
 		Logger.log("CoresManager", "Initializing world threads...");
 		CoresManager.startThreads();
