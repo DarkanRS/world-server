@@ -114,7 +114,7 @@ public class Appearance {
 		if (player.getTempAttribs().getB("showSkillTotal") && !World.isPvpArea(player))
 			flag |= 0x4;
 		if (title != 0 || player.getTitle() != null)
-			flag |= isTitleAfter(title) ? 0x80 : 0x40; // after/before
+			flag |= isTitleAfter(title) || player.isTitleAfter() ? 0x80 : 0x40; // after/before
 
 		// flag += sizeOffset << 3;
 		// flag |= 0x7;

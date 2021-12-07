@@ -17,10 +17,16 @@
 package com.rs.game.player.content;
 
 import com.rs.game.player.Player;
+import com.rs.lib.util.Utils;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.handlers.LoginHandler;
 
 public class AchievementTitles {
 	
+	public static String[] gamebreakerVariations = new String[] { " <col=DD0000>the Gamebreaker</col>", " <col=4682B4>the Gamebreaker</col>", " <col=FFFFFF>the Gam</col><col=DD0000>ebreaker</col>", " <str><col=DD0000>the Gamebreaker</col></str>", " <col=DD0000>the   Gamebreaker</col>", " <col=DD0000>thE gAmEbrEAkEr</col>", " <col=DD0000>the Gaembreaker</col>", " <col=DD0000>the Gamebreakr</col>"};
+	
 	public enum TitleReward {
+		GAMEBREAKER("DD0000", "the Gamebreaker", "Gamebreaking bugs found", 1, false),
 		WEEDER("00FF00", "Weeder", "Weeds raked", 1420, false),
 		DEDICATED("SFFCC00", "Dedicated", "Unique days logged in", 20, false),
 		PARTIER("S00FFCC", "Partier", "Party balloons popped", 500, false),
@@ -96,6 +102,12 @@ public class AchievementTitles {
 					player.setTitleColor(color.replace("S", ""));
 					player.setTitleShading("000000");
 				}
+				
+				if (isUsingGamebreakerTitle(player)) {
+					player.setTitle(gamebreakerVariations[Utils.random(gamebreakerVariations.length)]);
+					player.setTitleAfter(true);
+				}
+				
 				player.sendMessage("You have set your title to "+getShadeColor(color)+""+title+"</col></shad>.");
 				player.getAppearance().generateAppearanceData();
 			} else {
@@ -161,6 +173,28 @@ public class AchievementTitles {
 				}
 			}
 		}
+	}
+	
+	public static LoginHandler login = new LoginHandler() {
+		@Override
+		public void handle(LoginEvent e) {
+			if (isUsingGamebreakerTitle(e.getPlayer())) {
+				e.getPlayer().setTitle(gamebreakerVariations[Utils.random(gamebreakerVariations.length)]);
+				e.getPlayer().getAppearance().generateAppearanceData();
+				e.getPlayer().setTitleAfter(true);
+			}
+		}
+	};
+	
+	public static boolean isUsingGamebreakerTitle(Player p) {
+		if (p.getTitle() == null)
+			return false;
+		for (String variation : gamebreakerVariations) {
+			if (variation != null && variation.contains(p.getTitle())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

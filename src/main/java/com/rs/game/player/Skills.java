@@ -76,6 +76,9 @@ public final class Skills {
             "Thieving", "Slayer", "Farming", "Runecrafting", "Hunter", "Construction", "Summoning", "Dungeoneering" };
 
 	public static final int NONE = -1;
+	
+	public static final int[] SKILLING = { PRAYER, COOKING, WOODCUTTING, FLETCHING, FISHING, FIREMAKING, CRAFTING, SMITHING, MINING, HERBLORE, AGILITY, THIEVING, SLAYER, FARMING, HUNTER, CONSTRUCTION, DUNGEONEERING };
+	public static final int[] COMBAT = { ATTACK, DEFENSE, STRENGTH, RANGE, MAGIC };
 
 	private short level[];
 	private double xp[];

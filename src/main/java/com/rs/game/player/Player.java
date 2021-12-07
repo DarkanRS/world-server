@@ -19,6 +19,7 @@ package com.rs.game.player;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -582,6 +583,7 @@ public class Player extends Entity {
 	private String title = null;
 	private String titleColor = null;
 	private String titleShading = null;
+	private boolean titleAfter = false;
 
 	private House house;
 
@@ -1032,32 +1034,19 @@ public class Player extends Entity {
 		timePlayed = getTimePlayed() + 1;
 		timeLoggedOut = System.currentTimeMillis();
 		if (!isDead()) {
-			if (getTickCounter() % 50 == 0) {
+			if (getTickCounter() % 50 == 0)
 				getCombatDefinitions().restoreSpecialAttack();
-			}
+			
+			//Restore skilling stats
 			if (getTickCounter() % 100 == 0) {
-				int amountTimes = getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1;
-				if (isResting())
-					amountTimes += 1;
-				boolean berserker = getPrayer().active(Prayer.BERSERKER);
-				for (int skill = 0; skill < 25; skill++) {
-					if (skill == Constants.SUMMONING)
-						continue;
-					for (int i = 0; i < amountTimes; i++) {
-						int currentLevel = getSkills().getLevel(skill);
-						int normalLevel = getSkills().getLevelForXp(skill);
-						if (currentLevel > normalLevel) {
-							if (skill == Constants.ATTACK || skill == Constants.STRENGTH || skill == Constants.DEFENSE || skill == Constants.RANGE || skill == Constants.MAGIC) {
-								if (berserker && Utils.getRandomInclusive(100) <= 15)
-									continue;
-							}
-							getSkills().set(skill, currentLevel - 1);
-						} else if (currentLevel < normalLevel)
-							getSkills().set(skill, currentLevel + 1);
-						else
-							break;
-					}
-				}
+				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+				Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+			}
+			
+			//Restore combat stats
+			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
+				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
 			}
 		}
         if (getNextRunDirection() == null) {
@@ -1135,6 +1124,15 @@ public class Player extends Entity {
 		actionManager.process();
 		prayer.processPrayer();
 		controllerManager.process();
+	}
+	
+	public void restoreTick(int skill, int restore) {
+		int currentLevel = getSkills().getLevel(skill);
+		int normalLevel = getSkills().getLevelForXp(skill);
+		if (currentLevel > normalLevel)
+			getSkills().set(skill, currentLevel - 1);
+		else if (currentLevel < normalLevel)
+			getSkills().set(skill, Utils.clampI(currentLevel + restore, 0, normalLevel));
 	}
 
 	public void postSync() {
@@ -3293,6 +3291,7 @@ public class Player extends Entity {
 	}
 	
 	public void clearTitle() {
+		setTitleAfter(false);
 		setTitle(null);
 		setTitleColor(null);
 		setTitleShading(null);
@@ -3301,6 +3300,7 @@ public class Player extends Entity {
 	}
 	
 	public void clearCustomTitle() {
+		setTitleAfter(false);
 		setTitle(null);
 		setTitleColor(null);
 		setTitleShading(null);
@@ -3320,6 +3320,14 @@ public class Player extends Entity {
 
 	public void setTitleShading(String titleShading) {
 		this.titleShading = titleShading;
+	}
+	
+	public boolean isTitleAfter() {
+		return titleAfter;
+	}
+
+	public void setTitleAfter(boolean titleAfter) {
+		this.titleAfter = titleAfter;
 	}
 
 	public String getLastNpcInteractedName() {

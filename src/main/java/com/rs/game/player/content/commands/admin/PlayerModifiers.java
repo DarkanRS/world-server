@@ -253,6 +253,20 @@ public class PlayerModifiers {
 				}
 			});
 		});
+		
+		Commands.add(Rights.ADMIN, "givegamebreaker [player_name]", "Increments targets Gamebreaking bugs found.", (p, args) -> {
+			World.forceGetPlayer(args[0], target -> {
+				if (target == null)
+					p.sendMessage("Couldn't find player.");
+				else {
+					target.incrementCount("Gamebreaking bugs found");
+					p.sendMessage("Successfully incremented gamebreaking bugs found...");
+					if (target.getCounterValue("Gamebreaking bugs found") == 1)
+						World.sendWorldMessage("<img=4><shad=000000><col=00FF00>" + target.getDisplayName() + " has been awarded the Gamebreaker title!", false);
+					WorldDB.getPlayers().save(target, () -> p.sendMessage("Successfully gave player gamebreaker title.."));
+				}
+			});
+		});
 
         Commands.add(Rights.ADMIN, "playerquestreset [player_name questName]", "Resets the specified quest.", (p, args) -> {
             Player player = World.getPlayer(args[0]);
