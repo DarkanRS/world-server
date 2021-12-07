@@ -78,7 +78,7 @@ public class ElvargBoss extends NPC {
                         elvarg.setCantInteract(false);
                         elvarg.setRespawnTask(200);
 
-                        elvargObj = new GameObject(ELVARG_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwiseDirection(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
+                        elvargObj = new GameObject(ELVARG_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
                         World.spawnObject(elvargObj);
                     }
 
@@ -97,7 +97,7 @@ public class ElvargBoss extends NPC {
 
                     if(tick == 11) {
                         World.removeObject(elvargObj);
-                        elvargObj = new GameObject(ELVARG_HEADLESS_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwiseDirection(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
+                        elvargObj = new GameObject(ELVARG_HEADLESS_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
                         World.spawnObjectTemporary(elvargObj, 150);
                         if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR) {
                             p.getInventory().addItem(new Item(ELVARG_HEAD, 1), true);

@@ -16,55 +16,52 @@
 //
 package com.rs.game.pathing;
 
-import com.google.common.primitives.Ints;
 import com.rs.game.Entity;
 import com.rs.game.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.Vec2;
 
-import java.util.Arrays;
-
 public enum Direction {
-	NORTH(0, 0, 1),
-	NORTHEAST(1, 1, 1),
-	EAST(2, 1, 0),
-	SOUTHEAST(3, 1, -1),
-	SOUTH(4, 0, -1),
+	NORTH(0, 0, 1), 
+	NORTHEAST(1, 1, 1), 
+	EAST(2, 1, 0), 
+	SOUTHEAST(3, 1, -1), 
+	SOUTH(4, 0, -1), 
 	SOUTHWEST(5, -1, -1),
-	WEST(6, -1, 0),
+	WEST(6, -1, 0), 
 	NORTHWEST(7, -1, 1);
-	
+
 	private int id;
 	private int dx;
 	private int dy;
-	
+
 	private Direction(int id, int dx, int dy) {
 		this.id = id;
 		this.dx = dx;
 		this.dy = dy;
 	}
-	
+
 	public int getAngle() {
 		return Utils.getAngleTo(dx, dy);
 	}
-	
+
 	public static Direction random() {
 		return values()[Utils.random(values().length)];
 	}
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public boolean isDiagonal() {
 		return dx != 0 && dy != 0;
 	}
-	
+
 	public int getDx() {
 		return dx;
 	}
-	
+
 	public int getDy() {
 		return dy;
 	}
@@ -92,20 +89,20 @@ public enum Direction {
 		}
 	}
 
-    public static Direction rotateClockwiseDirection(Direction dir, int rotation) {
-        int[] directions = {0, 1, 2, 3, 4, 5, 6, 7};
-        rotation = dir.getId() + rotation;
-        if(rotation > 7)
-            rotation = rotation - 8;
-        return getById(rotation);
-    }
+	public static Direction rotateClockwise(Direction dir, int rotation) {
+		rotation = dir.getId() + rotation;
+		if (rotation > 7)
+			rotation = rotation - 8;
+		return getById(rotation);
+	}
 
-    public static Direction getByAngleValue(int angle) {
-        int[] angles = new int[] {8192, 10240, 12288, 14336, 0, 2048, 4096, 6144};//N, NE, Clockwise
-        angle = Utils.getClosestNumberFromArray(angles, angle);
-        return getById(Ints.indexOf(angles,angle));
-    }
-	
+	public static Direction fromAngle(int angle) {
+		byte[] delta = Utils.getDirection(angle);
+		if (delta == null)
+			return Direction.SOUTH;
+		return forDelta((int) delta[0], (int) delta[1]);
+	}
+
 	public static Direction forDelta(int dx, int dy) {
 		if (dy >= 1 && dx >= 1) {
 			return NORTHEAST;
@@ -127,11 +124,11 @@ public enum Direction {
 			return null;
 		}
 	}
-	
+
 	public static final int getAngleTo(Direction dir) {
 		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
 	}
-	
+
 	public static Direction getFaceDirection(WorldTile faceTile, Player player) {
 		if (player.getX() < faceTile.getX())
 			return Direction.EAST;
@@ -144,7 +141,7 @@ public enum Direction {
 		else
 			return Direction.NORTH;
 	}
-	
+
 	public static Direction getDirectionTo(Entity entity, WorldTile target) {
 		Vec2 from = entity.getMiddleWorldTileAsVector();
 		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2(target);

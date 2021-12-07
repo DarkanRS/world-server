@@ -1022,7 +1022,7 @@ public abstract class Entity extends WorldTile {
 	}
 
     public Direction getDirection() {
-        return Direction.getByAngleValue(getFaceAngle());
+        return Direction.fromAngle(getFaceAngle());
     }
 
 	public void setNextFaceWorldTile(WorldTile nextFaceWorldTile) {

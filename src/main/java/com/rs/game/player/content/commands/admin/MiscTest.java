@@ -45,7 +45,6 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.achievements.Achievement;
 import com.rs.game.player.content.commands.Commands;
-import com.rs.game.player.content.commands.JawasCommands.JawasCommands;
 import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
