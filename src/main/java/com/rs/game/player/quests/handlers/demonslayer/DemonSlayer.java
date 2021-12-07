@@ -228,19 +228,13 @@ public class DemonSlayer extends QuestOutline {
     public static EnterChunkHandler handleFinalCutsceneChunk = new EnterChunkHandler() {
         @Override
         public void handle(EnterChunkEvent e) {
-            if (!(e.getEntity() instanceof Player))
-                return;
-            Player p = e.getPlayer();
-
-            if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene"))
-                return;
-            if(!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight"))
-                return;
-            if (p != null && p.hasStarted()) {
-                if (Areas.withinArea("dark_wizard_altar", e.getChunkId())) {
-                    p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
-                    p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
-                }
+            if (e.getEntity() instanceof Player p && p.hasStarted() && Areas.withinArea("dark_wizard_altar", e.getChunkId())) {	
+	            if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene"))
+	                return;
+	            if(!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight"))
+	                return;
+	            p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
+                p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
             }
         }
     };
