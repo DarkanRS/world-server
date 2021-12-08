@@ -23,11 +23,11 @@ import com.rs.db.collection.PlayerManager;
 import com.rs.lib.db.DBConnection;
 
 public class WorldDB extends DBConnection {
-	
+
 	private static PlayerManager PLAYERS = new PlayerManager();
 	private static HighscoresManager HIGHSCORES = new HighscoresManager();
 	private static GEManager GE = new GEManager();
-	
+
 	public WorldDB() {
 		super(Settings.getConfig().getMongoDb());
 		addItemManager(PLAYERS);
@@ -42,7 +42,7 @@ public class WorldDB extends DBConnection {
 	public static HighscoresManager getHighscores() {
 		return HIGHSCORES;
 	}
-	
+
 	public static GEManager getGE() {
 		return GE;
 	}
