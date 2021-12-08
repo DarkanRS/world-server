@@ -178,18 +178,8 @@ public final class WorldLoginDecoder extends Decoder {
 			}
 		}
 
-		if (Utils.invalidAccountName(username)) {
-			session.sendClientPacket(3);
-			return -1;
-		}
-
 		if (World.getPlayers().size() >= Settings.PLAYERS_LIMIT - 10) {
 			session.sendClientPacket(7);
-			return -1;
-		}
-
-		if (World.containsPlayer(username)) {
-			session.sendClientPacket(5);
 			return -1;
 		}
 
@@ -204,8 +194,13 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(23);
 			return -1;
 		}
+		
+		if (World.containsPlayer(account.getUsername())) {
+			session.sendClientPacket(5);
+			return -1;
+		}
 
-		WorldDB.getPlayers().get(username, player -> {
+		WorldDB.getPlayers().get(account.getUsername(), player -> {
 			if (player == null)
 				player = new Player(account);
 
