@@ -188,7 +188,6 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 		
-		System.out.println("Logging in...");
 		Account account = LobbyCommunicator.getAccountSync(username, password);
 		if (account == null) {
 			session.sendClientPacket(23);
