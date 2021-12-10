@@ -154,7 +154,6 @@ public class NPCClueDrops {
 		HARD.put("wingman skree", new ClueDrop(128));
 		HARD.put("zakl'n gritch", new ClueDrop(128));
 		HARD.put("bandit", new ClueDrop(128));
-		HARD.put("chaos druid", new ClueDrop(128));
 		HARD.put("cyclops", new ClueDrop(512));
 		HARD.put("dark warrior", new ClueDrop(128));
 		HARD.put("ork", new ClueDrop(128));

@@ -75,7 +75,7 @@ public class Herblore extends Action {
 			player.sendMessage("Your scroll of cleansing saves " + Utils.addArticle(secondaries.remove(Utils.random(secondaries.size())).getName().toLowerCase()) + ".");
 		if (secondaries.size() > 0)
 			player.getInventory().removeItems(secondaries);
-		player.getInventory().addItemDrop(potion.getProduct());
+		player.getInventory().addItemDrop(potion.getProduct().clone());
 		player.incrementCount(potion.getProduct().getName() + " mixed");
 		String potName = potion.getProduct().getName().toLowerCase();
 		player.sendMessage("You mix " + Utils.addArticle(potName) + ".", true);
