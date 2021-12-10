@@ -3904,6 +3904,8 @@ public class Player extends Entity {
 	public void processPackets() {
 		Packet packet;
 		while ((packet = session.getPacketQueue().poll()) != null) {
+			if (hasStarted() && packet.getOpcode() != ClientPacket.IF_CONTINUE && packet.getOpcode() != ClientPacket.IF_OP1 && !isChosenAccountType())
+				continue;
 			PacketHandler<Player, Packet> handler = PacketHandlers.getHandler(packet.getOpcode());
 			if (handler != null)
 				handler.handle(this, packet);
