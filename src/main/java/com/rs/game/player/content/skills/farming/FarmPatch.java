@@ -39,7 +39,7 @@ import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class FarmPatch {
-	public static int FARMING_TICK = 500;
+	public static int FARMING_TICK = 1;
 	
 	public static final int[] COMPOST_ORGANIC = { 6055, 1942, 1957, 1965, 5986, 5504, 5982, 249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269, 1951, 753, 2126, 247, 239, 6018 };
 	public static final int[] SUPER_COMPOST_ORGANIC = { 2114, 5978, 5980, 5982, 6004, 247, 6469, 19974 };
@@ -390,7 +390,6 @@ public class FarmPatch {
 				seed = null;
 				return;
 			} else if (seed == null) {
-				weeds++;
 				return;
 			}
 		} else {

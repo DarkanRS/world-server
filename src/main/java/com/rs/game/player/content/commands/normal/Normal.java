@@ -23,6 +23,7 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
+import com.rs.game.player.Player;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -53,7 +54,17 @@ public class Normal {
 			p.getPackets().sendRunScript(1207, componentId - 10);
 			p.getInterfaceManager().sendInterface(275);
 		});
-		
+
+        Commands.add(Rights.PLAYER, "resett", "Displays all the commands the player has permission to use.", (p, args) -> {
+            p.getSlayer().removeTask();
+            p.updateSlayerTask();
+        });
+
+        Commands.add(Rights.PLAYER, "tokenator", "Gives the specified player dungeoneering tokens.", (p, args) -> {
+                p.getDungManager().addTokens(200000);
+                p.sendMessage("Successfully gave tokens..");
+        });
+
 		Commands.add(Rights.PLAYER, "drops [npcId numberKilled]", "Emulates a number of NPC kills and displays the collected loot.", (p, args) -> {
 			int npcId = Integer.valueOf(args[0]);
 			int npcAmount = Integer.valueOf(args[1].replace("k", "000"));

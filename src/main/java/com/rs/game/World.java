@@ -545,16 +545,18 @@ public final class World {
 		}
 		if (from.matches(to))
 			return true;
-		switch(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY())) {
-		case NORTHEAST:
-		case NORTHWEST:
-		case SOUTHEAST:
-		case SOUTHWEST:
-			return false;
-		default:
-			break;
-		
-		}
+//		switch(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY())) {
+//		case NORTHEAST:
+//		case NORTHWEST:
+//		case SOUTHEAST:
+//		case SOUTHWEST: {
+//            System.out.println(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY()));
+//            return false;
+//        }
+//		default:
+//			break;
+//
+//		}
 		return checkWalkStep(from, to, 1);
 	}
 	

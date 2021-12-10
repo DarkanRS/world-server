@@ -146,7 +146,7 @@ public class DungeonRewards {
 		}
 
 		public int getCost() {
-			return cost;
+			return cost/10;
 		}
 
 		public int getSlotId() {

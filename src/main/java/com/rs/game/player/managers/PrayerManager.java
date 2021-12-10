@@ -369,7 +369,7 @@ public class PrayerManager {
 	}
 
 	public void processPrayer() {
-		if (player.isDead() || !player.isRunning() || active.isEmpty())
+		if (player.isDead())
 			return;
 		double drain = 0;
 		for (Prayer p : active) {
@@ -718,7 +718,7 @@ public class PrayerManager {
 	public void drainPrayer(double amount) {
 		if (player.getNSV().getB("infPrayer"))
 			return;
-		this.points -= amount;
+		this.points -= amount/5.0;
 		if (points <= 0) {
 			this.points = 0;
 		}

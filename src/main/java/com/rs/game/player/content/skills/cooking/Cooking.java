@@ -243,8 +243,8 @@ public class Cooking extends Action {
 			player.getInventory().addItem(cook.getBurntId().getId(), cook.getBurntId().getAmount());
 			player.sendMessage("Oops! You accidently burnt the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
 		} else {
-			player.getInventory().deleteItem(item.getId(), 1);
-			player.getInventory().addItem(cook.getProduct().getId(), cook.getProduct().getAmount());
+			player.getInventory().deleteItem(item.getId(), 28);
+			player.getInventory().addItem(cook.getProduct().getId(), cook.getProduct().getAmount()*28);
 			player.getSkills().addXp(Constants.COOKING, cook.getXp());
 			player.sendMessage("You successfully cook the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
 		}

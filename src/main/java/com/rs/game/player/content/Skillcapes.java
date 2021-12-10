@@ -64,6 +64,7 @@ public enum Skillcapes {
 	
 	private Dialogue getGiveCapeDialogue(Player player, int npcId, boolean masterCape) {
 		if (player.getInventory().containsItem(995, masterCape ? 120000 : 99000)) {
+            System.out.println("tester");
 			return new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, this.ordinal() == Constants.FIREMAKING ? "I'm sure you'll look hot in that cape." : "Excellent! Wear that cape with pride my friend."), () -> {
 				player.getInventory().deleteItem(995, masterCape ? 120000 : 99000);
 				if (!masterCape)
@@ -85,7 +86,12 @@ public enum Skillcapes {
 				public void create() {
 					option("Yes, I'd like to buy one please.", new Dialogue()
 							.addNPC(npcId, HeadE.NO_EXPRESSION, "Most certainly; unfortunately being such a prestigious item, they are appropriately expensive. I'm afraid I must ask you for 99,000 gold.")
-							.addOption("Choose an option:", "99,000 coins? That's much too expensive.", "I think I have the money right here, actually."));
+							.addPlayer(HeadE.CALM_TALK,  "I think I have the money right here, actually.")
+                            .addNPC(npcId, HeadE.CALM_TALK, "Wear that cape with pride!", ()->{
+                                player.getInventory().deleteItem(995, 99000);
+                                    player.getInventory().addItem(hood, 1);
+                                player.getInventory().addItem(player.getSkills().checkMulti99s() ? trimmed : untrimmed, 1);
+                            }));
 					if (player.getSkills().is120(Skillcapes.this.ordinal())) {
 						option("I've mastered this skill. Is there anything else?", new Dialogue()
 								.addNPC(npcId, HeadE.AMAZED, "I've been saving this master cape for someone truly " + verb + ". Is that really you?")

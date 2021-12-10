@@ -61,6 +61,7 @@ public class DropList {
 			} 
 			drops.add(new DropEntry(table, curr, curr + rate));
 			curr += rate;
+
 			if (curr > 1.0000000000000009) {
 				overflowed = true;
 				overflow = curr - 1.0;
@@ -106,6 +107,7 @@ public class DropList {
 		modifier *= Settings.getConfig().getDropModifier();
 		
 		double roll = Utils.clampD(Utils.randomD() * modifier, -100, MAX_ROLL);
+        System.out.println(roll);
 		for (DropEntry drop : drops) {
 			if (!drop.isAlways() && roll < drop.getMin())
 				continue;

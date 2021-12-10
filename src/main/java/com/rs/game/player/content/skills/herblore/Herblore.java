@@ -68,13 +68,16 @@ public class Herblore extends Action {
 	public int processWithDelay(Player player) {
 		player.setNextAnimation(new Animation(363));
 		ticks--;
-		player.getInventory().deleteItem(potion.getPrimary());
+        int saveItem = Utils.random(0, 10);
+        if(saveItem == 5)
+		    player.getInventory().deleteItem(potion.getPrimary());
 		List<Item> secondaries = new LinkedList<Item>(Arrays.asList(potion.getSecondaries()));
 		boolean cleansingProc = player.hasScrollOfCleansing && Utils.random(10) == 0;
 		if (cleansingProc)
 			player.sendMessage("Your scroll of cleansing saves " + Utils.addArticle(secondaries.remove(Utils.random(secondaries.size())).getName().toLowerCase()) + ".");
 		if (secondaries.size() > 0)
-			player.getInventory().removeItems(secondaries);
+            if(saveItem == 6)
+			    player.getInventory().removeItems(secondaries);
 		player.getInventory().addItemDrop(potion.getProduct());
 		player.incrementCount(potion.getProduct().getName() + " mixed");
 		String potName = potion.getProduct().getName().toLowerCase();

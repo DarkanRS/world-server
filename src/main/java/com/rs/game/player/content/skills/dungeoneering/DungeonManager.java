@@ -292,7 +292,7 @@ public class DungeonManager {
 	}
 	
 	public int getBossLevel() {
-		return (int) (party.getAverageCombatLevel() * 1.5);
+		return (int) (party.getAverageCombatLevel() /2.0);
 	}
 
 	public void openRoom(final Room room, final RoomReference reference, final VisibleRoom visibleRoom) {
@@ -1280,7 +1280,7 @@ public class DungeonManager {
 				averageXP *= 1.5;
 			multiplier = Math.max(0.1, multiplier);
 			double totalXp = averageXP * multiplier;
-			int tokens = (int) (totalXp / 10.0);
+			int tokens = (int) (totalXp);
 			player.getPackets().sendVarc(1237, (int) (floorXP * 10));
 			player.getPackets().sendVarc(1238, (int) (prestigeXP * 10));
 			player.getPackets().sendVarc(1239, (int) (averageXP * 10));

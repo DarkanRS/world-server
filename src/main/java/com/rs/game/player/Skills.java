@@ -752,27 +752,35 @@ public final class Skills {
 		double exp = Math.floor(xp[skill]);
 		int points = 0;
 		int output = 0;
-		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : 99); lvl++) {
+		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : skill == Constants.HITPOINTS ? 120 : skill == Constants.DEFENSE ? 120 :
+                skill == Constants.ATTACK ? 120 : skill == Constants.STRENGTH ? 120 : skill == Constants.RANGE ? 120 :
+                        skill == Constants.PRAYER ? 120 : skill == Constants.MAGIC ? 120 : 99); lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
 			output = (int) Math.floor(points / 4);
 			if ((output - 1) >= exp) {
 				return lvl;
 			}
 		}
-		return skill == Constants.DUNGEONEERING ? 120 : 99;
+		return skill == Constants.DUNGEONEERING ? 120 : skill == Constants.HITPOINTS ? 120 : skill == Constants.DEFENSE ? 120 :
+                skill == Constants.ATTACK ? 120 : skill == Constants.STRENGTH ? 120 : skill == Constants.RANGE ? 120 :
+                        skill == Constants.PRAYER ? 120 : skill == Constants.MAGIC ? 120 : 99;
 	}
 	
 	public static int getLevelForXp(int skill, long xp) {
 		int points = 0;
 		int output = 0;
-		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : 99); lvl++) {
+		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : skill == Constants.HITPOINTS ? 120 : skill == Constants.DEFENSE ? 120 :
+                skill == Constants.ATTACK ? 120 : skill == Constants.STRENGTH ? 120 : skill == Constants.RANGE ? 120 :
+                        skill == Constants.PRAYER ? 120 : skill == Constants.MAGIC ? 120 : 99); lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
 			output = (int) Math.floor(points / 4);
 			if ((output - 1) >= Math.floor(xp)) {
 				return lvl;
 			}
 		}
-		return skill == Constants.DUNGEONEERING ? 120 : 99;
+		return skill == Constants.DUNGEONEERING ? 120 : skill == Constants.HITPOINTS ? 120 : skill == Constants.DEFENSE ? 120 :
+                skill == Constants.ATTACK ? 120 : skill == Constants.STRENGTH ? 120 : skill == Constants.RANGE ? 120 :
+                        skill == Constants.PRAYER ? 120 : skill == Constants.MAGIC ? 120 : 99;
 	}
 
 	public int getTotalLevel() {

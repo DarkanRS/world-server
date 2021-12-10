@@ -311,7 +311,7 @@ public class Player extends Entity {
 	public void addToAttackedBy(String name) {
 		attackedBy.add(name);
 	}
-	
+
 	// used for update
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
@@ -1025,7 +1025,9 @@ public class Player extends Entity {
 					if (!(combat.getTarget() instanceof Player))
 						idleLog();
 				} else
-					logout(true);
+                    ;
+					//logout(true);
+
 			}
 		}
 		if (disconnected && !finishing) {
@@ -1034,9 +1036,16 @@ public class Player extends Entity {
 		timePlayed = getTimePlayed() + 1;
 		timeLoggedOut = System.currentTimeMillis();
 		if (!isDead()) {
-			if (getTickCounter() % 50 == 0)
-				getCombatDefinitions().restoreSpecialAttack();
-			
+			if (getTickCounter() % 30 == 0) {
+                getCombatDefinitions().restoreSpecialAttack();
+                addEffect(Effect.PRAYER_RENEWAL, 500);
+                loyaltyPoints+=50;
+            }
+
+            if (getTickCounter() % 300 == 0) {
+                sendMessage("You have " + loyaltyPoints + " loyalty points!");
+            }
+
 			//Restore skilling stats
 			if (getTickCounter() % 100 == 0) {
 				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
@@ -1046,7 +1055,7 @@ public class Player extends Entity {
 			//Restore combat stats
 			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
 				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
+				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount*2));
 			}
 		}
         if (getNextRunDirection() == null) {
@@ -2314,7 +2323,7 @@ public class Player extends Entity {
 	}
 
 	public void sendItemsOnDeath(Player killer, WorldTile deathTile, WorldTile respawnTile, boolean noGravestone, Integer[][] slots) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
+		if (true)
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);

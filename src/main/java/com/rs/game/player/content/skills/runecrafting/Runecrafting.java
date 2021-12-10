@@ -240,7 +240,7 @@ public class Runecrafting {
 			player.lock(5);
 			player.sendMessage("You bind the temple's power into " + ItemDefinitions.getDefs(rune.runeId).getName().toLowerCase() + "s.");
 		}
-		player.getInventory().addItem(rune.runeId, runes);
+		player.getInventory().addItem(rune.runeId, runes*10);
 		player.incrementCount(ItemDefinitions.getDefs(rune.runeId).getName()+" runecrafted", runes);
 	}
 	

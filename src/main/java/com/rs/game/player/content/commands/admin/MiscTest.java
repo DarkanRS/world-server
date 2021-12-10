@@ -755,7 +755,7 @@ public class MiscTest {
 			p.getSkills().init();
 		});
 		
-		Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
 			if (args[0].contains(",")) {
 				args = args[0].split(",");
 				int plane = Integer.valueOf(args[0]);
@@ -779,7 +779,7 @@ public class MiscTest {
 			p.setNextWorldTile(new WorldTile(regionX, regionY, 0));
 		});
 		
-		Commands.add(Rights.ADMIN, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
 			int chunkX = Integer.valueOf(args[0]) * 8 + 4;
 			int chunkY = Integer.valueOf(args[1]) * 8 + 4;
 			p.resetWalkSteps();
@@ -849,7 +849,7 @@ public class MiscTest {
 			p.getCombatDefinitions().resetSpecialAttack();
 		});
 		
-		Commands.add(Rights.ADMIN, "bank", "Opens the bank.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "bank", "Opens the bank.", (p, args) -> {
 			p.getBank().open();
 		});
 		

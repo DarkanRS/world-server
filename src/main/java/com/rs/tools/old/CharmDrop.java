@@ -94,7 +94,7 @@ public class CharmDrop {
 		if (chances == null)
 			return null;
 		int charmIndex = getCharmType(chances);
-		int amount = getCharmAmount(npcName.toLowerCase());
+		int amount = getCharmAmount(npcName.toLowerCase())*5;
 
 		if (charmIndex == -1)
 			return null;

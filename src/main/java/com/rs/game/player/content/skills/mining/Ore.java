@@ -133,7 +133,7 @@ public enum Ore {
 	}
 	
 	public boolean rollSuccess(Player player, int level) {
-		return Utils.skillSuccess(level, player.getAuraManager().getMiningMul(), rate1, rate99);
+		return Utils.skillSuccess(level, player.getAuraManager().getMiningMul(), rate1, rate99*10);
 	}
 	
 	public void onGiveOre(Player player) { }

@@ -240,7 +240,7 @@ public class FlyingEntityHunter {
 			if (loot.length > 0) {
 				for (Item item : loot) {
 					if (item != null)
-						player.getInventory().addItem(item.getId(), item.getAmount(), true);
+						player.getInventory().addItem(item.getId(), item.getAmount()*5, true);
 				}
 			}
 		}
