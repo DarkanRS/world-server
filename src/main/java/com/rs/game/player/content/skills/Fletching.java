@@ -332,7 +332,7 @@ public class Fletching extends Action {
 			player.getInventory().deleteItem(fletch.getId(), fletch.getProduct()[option] == 52 || fletch.getProduct()[option] == 21581  ? 1 : amount);
 			if (fletch.getSelected() != KNIFE && fletch.getSelected() != CHISLE)
 				player.getInventory().deleteItem(fletch.getSelected(), amount);
-			player.getInventory().addItem(fletch.getProduct()[option], amount);
+			player.getInventory().addItem(fletch.getProduct()[option], amount*10);
 			player.sendMessage("You create a " + new Item(fletch.getProduct()[option]).getDefinitions().getName().toLowerCase().replace(" (u)", "") + ".", true);
 			player.getSkills().addXp(Constants.FLETCHING, fletch.getXp()[option] * amount);
 		} else {

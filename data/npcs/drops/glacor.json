@@ -76,14 +76,14 @@
       ]
     },
     {
-      "chance": 5.0,
+      "chance": 15.0,
       "outOf": 48.0,
       "dropOne": false,
       "drops": [
         {
           "id": 21776,
           "min": 2,
-          "max": 3
+          "max": 4
         }
       ]
     },

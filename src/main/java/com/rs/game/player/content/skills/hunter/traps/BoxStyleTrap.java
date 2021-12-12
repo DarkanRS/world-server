@@ -114,8 +114,10 @@ public class BoxStyleTrap extends OwnedObject {
 		destroy();
 		player.incrementCount(NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName()+" trapped");
 		player.setNextAnimation(getTrapType().getPickUpAnimation());
-		for (Item i : getNpcTrapped().getItems())
-			player.getInventory().addItemDrop(i);
+		for (Item i : getNpcTrapped().getItems()) {
+            i.setAmount(i.getAmount()*8);
+            player.getInventory().addItemDrop(i);
+        }
 		if (getTrapType() != BoxTrapType.MAGIC_BOX && getTrapType() != BoxTrapType.DEAD_FALL)
 			player.getInventory().addItemDrop(getTrapType().getId(), 1);
 		if (getTrapType() == BoxTrapType.TREE_NET)

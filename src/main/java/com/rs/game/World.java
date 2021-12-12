@@ -944,7 +944,7 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		Launcher.pullAndCompile();
+		//Launcher.pullAndCompile();
 		CoresManager.schedule(new Runnable() {
 			@Override
 			public void run() {

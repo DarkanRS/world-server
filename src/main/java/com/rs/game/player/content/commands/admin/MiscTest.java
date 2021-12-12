@@ -73,7 +73,7 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
-
+import jdk.swing.interop.SwingInterOpUtils;
 
 
 @PluginEventHandler
@@ -754,15 +754,23 @@ public class MiscTest {
 				p.getSkills().setXp(skill, 0);
 			p.getSkills().init();
 		});
-		
+
+        Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> {
+            p.playSound(Integer.valueOf(args[0]), 2);
+        });
+
+
 		Commands.add(Rights.PLAYER, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
-			if (args[0].contains(",")) {
+			if(!p.getUsername().equalsIgnoreCase("trenton"))
+                return;
+            if (args[0].contains(",")) {
 				args = args[0].split(",");
 				int plane = Integer.valueOf(args[0]);
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setNextWorldTile(new WorldTile(x, y, plane));
+                WorldTile tile = new WorldTile(x, y, plane);
+				p.setNextWorldTile(tile);
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
 				p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0])));

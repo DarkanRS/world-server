@@ -132,7 +132,7 @@ public class Runecrafting {
 
 	public static void craftZMIAltar(Player player) {
 		int level = player.getSkills().getLevel(Constants.RUNECRAFTING);
-		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
+		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS)*10;
 		int length = 0;
 		for (int i = 0; i < RCRune.values().length; i++) {
 			if (RCRune.values()[i].req > level) {

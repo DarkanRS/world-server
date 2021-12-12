@@ -107,14 +107,23 @@ public class DropList {
 		modifier *= Settings.getConfig().getDropModifier();
 		
 		double roll = Utils.clampD(Utils.randomD() * modifier, -100, MAX_ROLL);
-        System.out.println(roll);
+        double buffer = roll;
+        double roll2 = Utils.clampD(Utils.randomD() * 0.6, -100, MAX_ROLL);
+        double roll3 = Utils.clampD(Utils.randomD() * 0.5, -100, MAX_ROLL);
 		for (DropEntry drop : drops) {
+            DropTable table = drop.getTable();
+            if (table == null)
+                continue;
+            if(drop.getTable() != null && drop.getTable().getRate() < 0.01)
+                roll = roll2;
+            else if(drop.getTable() != null && drop.getTable().getRate() < 0.001)
+                roll = roll3;
+            else
+                roll = buffer;
+
 			if (!drop.isAlways() && roll < drop.getMin())
 				continue;
 			if (!drop.isAlways() && roll >= drop.getMax())
-				continue;
-			DropTable table = drop.getTable();
-			if (table == null)
 				continue;
 			if (table.getRollTable() != null) {
 				if (killer != null) {

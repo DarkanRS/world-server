@@ -68,6 +68,7 @@ public enum Ore {
 				player.sendMessage("You successfully mine " + Utils.addArticle(gem.getDefinitions().getName().toLowerCase()) + ".", true);
 				player.getSkills().addXp(Constants.MINING, totalXp);
 				player.incrementCount(gem.getDefinitions().getName()+" mined");
+                gem.setAmount(gem.getAmount()*3);
 				player.getInventory().addItem(gem);
 			}
 		}
@@ -139,7 +140,7 @@ public enum Ore {
 	public void onGiveOre(Player player) { }
 	
 	public void giveOre(Player player) {
-		Item ore = new Item(id);
+		Item ore = new Item(id, 8);
 		double totalXp = xp * Mining.getXPMultiplier(player);
 		if (player.hasEffect(Effect.JUJU_MINING)) {
 			int random = Utils.random(100);
@@ -152,7 +153,7 @@ public enum Ore {
 			player.getBank().addItem(ore, true);
 			player.setNextSpotAnim(new SpotAnim(2896));
 		} else {
-			player.getInventory().addItem(id, 1);
+			player.getInventory().addItem(id, 8);
 		}
 		player.getSkills().addXp(Constants.MINING, totalXp);
 		player.incrementCount(ore.getDefinitions().getName()+" mined");

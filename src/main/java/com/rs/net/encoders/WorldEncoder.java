@@ -130,6 +130,7 @@ public class WorldEncoder extends Encoder {
 	public WorldEncoder(Player player, Session session) {
 		super(session);
 		this.player = player;
+
 	}
 	
 	public void sendWindowsPane(int id, int type) {

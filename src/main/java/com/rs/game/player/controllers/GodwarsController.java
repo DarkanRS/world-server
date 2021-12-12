@@ -55,6 +55,8 @@ public class GodwarsController extends Controller {
 
 	@Override
 	public void start() {
+        for(int i = 0; i < 5; i++)
+            killcount[i] = 99;
 		sendInterfaces();
 	}
 

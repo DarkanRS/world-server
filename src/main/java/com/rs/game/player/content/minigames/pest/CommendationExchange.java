@@ -80,11 +80,14 @@ public class CommendationExchange {// 1875 TODO
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 68) {
-				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_ONE);
+                ;
+//				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_ONE);
 			} else if (e.getComponentId() == 86) {
-				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_TEN);
+				;
+//                addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_TEN);
 			} else if (e.getComponentId() == 88) {
-				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
+				;
+//                addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
 			} else if (e.getComponentId() == 29) {
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
 			} else if (e.getComponentId() == 75) {
@@ -183,9 +186,9 @@ public class CommendationExchange {// 1875 TODO
 				break;
 			}
 		}
-		double experience = calculateExperience(player, skill) * rate;
-		player.getSkills().addXp(skill, experience / 18);
-		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");
+//		double experience = calculateExperience(player, skill) * rate;
+//		player.getSkills().addXp(skill, experience / 18);
+//		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");
 	}
 
 	private static void addVoidItem(Player player, int index) {
@@ -202,12 +205,13 @@ public class CommendationExchange {// 1875 TODO
 	}
 
 	private static double calculateExperience(Player player, int skill) {
-		int level = player.getSkills().getLevelForXp(skill);
-		int constant = 35;
-		if (skill == Constants.MAGIC || skill == Constants.RANGE)
-			constant = 32;
-		else if (skill == Constants.PRAYER)
-			constant = 18;
-		return (Math.ceil(((level + 25) * (level - 24)) / 606) * constant) + constant;
+//		int level = player.getSkills().getLevelForXp(skill);
+//		int constant = 35;
+//		if (skill == Constants.MAGIC || skill == Constants.RANGE)
+//			constant = 32;
+//		else if (skill == Constants.PRAYER)
+//			constant = 18;
+//		return (Math.ceil(((level + 25) * (level - 24)) / 606) * constant) + constant;
+        return 0;
 	}
 }
