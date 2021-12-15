@@ -124,29 +124,6 @@ public class Falador {
     };
 
     public static NPCClickHandler handleWysonTheGardener = new NPCClickHandler(36) {
-        final int MOLECLAW = 7416;
-        final int MOLESKIN = 7418;
-        final int TREE_SEED_NEST = 5073;
-        final int RING_NEST = 5074;
-        final int EMPTY_BIRD_NEST = 5075;
-        final int ALLOTMENTS_SEED_NEST = 7413;
-
-        private int determineNestMoleParts() {// https://runescape.fandom.com/wiki/Mole_skin?oldid=5371847
-            int roll = Utils.random(0, 100);
-            if (roll < 20)// 1/5
-                return EMPTY_BIRD_NEST;
-            else {// 4/5
-                int roll2 = Utils.random(0, 3);
-                if (roll2 == 0)
-                    return RING_NEST;
-                if (roll2 == 1)
-                    return ALLOTMENTS_SEED_NEST;
-                if (roll2 == 2)
-                    return TREE_SEED_NEST;
-            }
-            return EMPTY_BIRD_NEST;
-        }
-
         @Override
         public void handle(NPCClickEvent e) {
             e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -159,14 +136,11 @@ public class Falador {
                         public void create() {
                             option("Ok, I will trade my mole parts.",
                                     new Dialogue().addPlayer(HeadE.CALM_TALK, "ok, I will trade my mole parts.", () -> {
-                                        while (player.getInventory().containsItem(MOLECLAW)) {
-                                            player.getInventory().deleteItem(MOLECLAW, 1);
-                                            player.getInventory().addItem(determineNestMoleParts(), 1);
-                                        }
-                                        while (player.getInventory().containsItem(MOLESKIN)) {
-                                            player.getInventory().deleteItem(MOLESKIN, 1);
-                                            player.getInventory().addItem(determineNestMoleParts(), 1);
-                                        }
+                                    	int numNests = player.getInventory().getNumberOf(7416) + player.getInventory().getNumberOf(7418);
+                                    	player.getInventory().deleteItem(7416, Integer.MAX_VALUE);
+                                    	player.getInventory().deleteItem(7418, Integer.MAX_VALUE);
+                                    	for (int i = 0;i < numNests;i++)
+                                    		player.getInventory().addItem(Utils.random(0, 100) <= 7 ? 5075 : 7413, 1);
                                     }));
                             option("Yes please, I need woad leaves.",
                                     new Dialogue()
