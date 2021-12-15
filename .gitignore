@@ -94,14 +94,7 @@ serverConfig.json
 /data/reports.txt
 /data/pkRanks.json
 /data/displayNames.json
-/data/drop.json
 /data/dtRanks.json
 /data/ServerData.json
-/data/store.json
 /data/positions.txt
-/data/keystore.p12
 /data/highscores.json
-/data/npcs/packedSpawns/
-/data/items/packedSpawns/
-/data/map/packedSpawns/
-/public/images/items/*.png

@@ -17,6 +17,7 @@
 package com.rs.game.player.content.holidayevents.christmas.christ20;
 
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -52,7 +53,6 @@ public class Christmas2020 {
 	};
 	
 	public static ItemClickHandler handleYoyo = new ItemClickHandler(new Object[] { 4079 }, new String[] { "Play", "Loop", "Walk", "Crazy" }) {
-
 		@Override
 		public void handle(ItemClickEvent e) {
 			switch(e.getOption()) {
@@ -70,7 +70,13 @@ public class Christmas2020 {
 				break;
 			}
 		}
-		
 	};
 	
+	public static ItemClickHandler handleReinhat = new ItemClickHandler(new Object[] { 10507 }, new String[] { "Emote" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			e.getPlayer().setNextAnimation(new Animation(5059));
+			e.getPlayer().setNextSpotAnim(new SpotAnim(859));
+		}
+	};
 }

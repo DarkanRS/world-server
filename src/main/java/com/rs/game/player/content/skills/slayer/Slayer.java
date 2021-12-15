@@ -124,8 +124,8 @@ public class Slayer {
 				}
 				if (e.getComponentId() == 36 || e.getComponentId() == 28) {
 					if (e.getPlayer().slayerPoints >= 35) {
-						e.getPlayer().getInventory().addItem(558, 250);
-						e.getPlayer().getInventory().addItem(560, 1000);
+						e.getPlayer().getInventory().addItem(558, 1000);
+						e.getPlayer().getInventory().addItem(560, 250);
 						e.getPlayer().slayerPoints -= 35;
 						refreshPoints(e.getPlayer(), e.getInterfaceId());
 					} else {

@@ -25,7 +25,7 @@ public class Highscore {
 	private int totalLevel;
 	private long totalXp;
 	private int[] xp;
-	
+
 	public Highscore(Player player) {
 		this.username = player.getUsername();
 		this.ironman = player.isIronMan();

@@ -70,8 +70,8 @@ public class PartyRoom {
 	@SuppressWarnings("unchecked")
 	@ServerStartupEvent
 	public static void loadStorage() throws ClassNotFoundException {
-		File storeFile = new File("data/store.json");
-		File dropFile = new File("data/drop.json");
+		File storeFile = new File("./data/partyroom/store.json");
+		File dropFile = new File("./data/partyroom/drop.json");
 		if (!storeFile.exists()) {
 			store = new ItemsContainer<Item>(216, false);
 		} else {
@@ -94,8 +94,8 @@ public class PartyRoom {
 
 	public static void save() {
 		try {
-			File storeFile = new File("data/store.json");
-			File dropFile = new File("data/drop.json");
+			File storeFile = new File("./data/partyroom/store.json");
+			File dropFile = new File("./data/partyroom/drop.json");
 			if (store == null)
 				store = new ItemsContainer<Item>(216, false);
 			if (drop == null)

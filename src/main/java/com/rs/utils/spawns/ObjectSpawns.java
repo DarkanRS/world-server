@@ -34,7 +34,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 @PluginEventHandler
 public final class ObjectSpawns {
 	
-	private final static String PATH = "data/map/spawns/";
+	private final static String PATH = "data/map/objectspawns/";
 	final static Charset ENCODING = StandardCharsets.UTF_8;
 	
 	private static final ArrayList<ObjectSpawn> ALL_SPAWNS = new ArrayList<>();

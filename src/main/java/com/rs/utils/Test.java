@@ -16,171 +16,78 @@
 //
 package com.rs.utils;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.lib.game.WorldTile;
+import com.rs.Settings;
+import com.rs.cache.Cache;
+import com.rs.game.item.ItemsContainer;
+import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.player.controllers.Controller;
+import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.game.Item;
+import com.rs.lib.json.DateAdapter;
+import com.rs.lib.net.packets.Packet;
+import com.rs.lib.net.packets.PacketEncoder;
+import com.rs.lib.util.PacketAdapter;
+import com.rs.lib.util.PacketEncoderAdapter;
+import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.utils.drop.DropList;
+import com.rs.utils.json.ControllerAdapter;
+import com.rs.utils.json.FamiliarAdapter;
 
 public class Test {
-	
+
 	public static int HOURS_TO_SAMPLE = 300;
 
-	@SuppressWarnings("unchecked")
-public static void main(String[] args) throws IOException, ParseException {
-		//Cache.init();
+	public static void main(String[] args) throws IOException {
+		int numKills = 1000000;
 		
-		final String CURRENT_SPAWNS = "C:\\Users\\Devin\\Desktop\\Games\\RSPS\\724\\darkan-game-server\\data\\npcs\\spawns\\_spawns.json";
-		final String SHAUNY_SPAWNS = "C:\\Users\\Devin\\Desktop\\Games\\RSPS\\724\\darkan-game-server\\data\\npcs\\spawns\\_shaunySpawns.json";
-		final String NEW_SPAWNS = "C:\\Users\\Devin\\Desktop\\Games\\RSPS\\724\\darkan-game-server\\data\\npcs\\spawns\\newSpawns.json";		
-
-		JSONParser jsonParser = new JSONParser();
-		JSONArray shaunySpawns = (JSONArray) jsonParser.parse(new FileReader(SHAUNY_SPAWNS));
-		JSONArray oldSpawns = (JSONArray) jsonParser.parse(new FileReader(CURRENT_SPAWNS));
-
-		JSONArray newSpawns = new JSONArray();
-
-		oldSpawns.forEach(spawn -> {
-			if (!isSurfaceRegion(getRegionId((JSONObject) spawn)) || (isSurfaceRegion(getRegionId((JSONObject) spawn)) && hasGraphicallyUpdated(getRegionId((JSONObject) spawn))) || isTransformableNPC((JSONObject) spawn)) {
-				newSpawns.add(spawn);
+		JsonFileManager.setGSON(new GsonBuilder()
+				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
+				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+				.registerTypeAdapter(Date.class, new DateAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
+				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+				.disableHtmlEscaping()
+				.setPrettyPrinting()
+				.create());
+		
+		Settings.getConfig();
+		Cache.init(Settings.getConfig().getCachePath());
+		DropSets.init();
+		
+		ItemsContainer<Item> items = new ItemsContainer<>(500, true);
+		
+		DropList table = DropSets.getDropSet(6260).createDropList();
+		for (int i = 0;i < numKills;i++) {
+			items.addAll(table.genDrop());
+		}
+		
+		List<Item> sorted = new ArrayList<>();
+		
+		for (Item item : items.getItems()) {
+			if (item == null)
+				continue;
+			sorted.add(item);
+		}
+		
+		sorted.sort(new Comparator<Item>() {
+			@Override
+			public int compare(Item o1, Item o2) {
+				return o1.getId() - o2.getId();
 			}
 		});
 		
-		shaunySpawns.forEach(spawn -> {
-			if (!hasGraphicallyUpdated(getRegionId((JSONObject) spawn))) {
-				newSpawns.add(spawn);
-			}
-		});
-		
-		System.out.println("shauny: " + shaunySpawns.size());
-		System.out.println("current: " + oldSpawns.size());
-		System.out.println("new: " + newSpawns.size());
-		
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String prettyPrintString = gson.toJson(newSpawns);
-		
-		FileWriter fw = new FileWriter(NEW_SPAWNS);
-		
-	    try {
-			fw.write(prettyPrintString);
-	    }catch (Exception E) {
-	        E.printStackTrace();
-	    } finally {
-	        fw.flush();
-	        fw.close();
-	    }
+		for (Item item : sorted)
+			System.out.println(item.getName() + " - " + item.getAmount() + " Rate: 1/" + (numKills / item.getAmount()));
 	}
 
-	public static int getRegionId(JSONObject o) {
-		JSONObject tile = (JSONObject) o.get("tile");
-		Object x = tile.get("x");
-		Object y = tile.get("y");
-		Object z = tile.get("plane");
-		if (x != null && y != null && z != null) {
-			WorldTile wt = new WorldTile(Integer.parseInt(x.toString()), Integer.parseInt(y.toString()), Integer.parseInt(z.toString()));
-			return wt.getRegionId();
-		}
-		return -1;
-	}
-
-	public static boolean isTransformableNPC(JSONObject o) {
-		Object id = o.get("npcId");
-		if (id != null) {
-			int n = Integer.parseInt(id.toString());
-			if (NPCDefinitions.getDefs(n).transformTo != null && NPCDefinitions.getDefs(n).transformTo.length > 0) {
-				System.out.println("NPC " + n + " transforms with vars... Keeping spawn.");
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean hasGraphicallyUpdated(int regionId) {
-		switch (regionId) {
-		case 12850:
-		case 12593:
-		case 12849:
-		case 13105:
-		case 12843:
-		case 13099:
-		case 13365:
-		case 13364:
-		case 13623:
-		case 12337:
-		case 12336:
-		case 12592:
-		case 11318:
-		case 11317:
-		case 11061:
-		case 10548:
-		case 11575:
-		case 11574:
-		case 11573:
-		case 11821:
-		case 13622:
-		case 12086:
-		case 12087:
-		case 13362:
-		case 13363:
-			System.out.println("Region Id " + regionId + " has been graphically updated, skipping.");
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean isSurfaceRegion(int regionId) {
-		if ((regionId >= 6961 && regionId <= 6963) ||
-		(regionId >= 7216 && regionId <= 7219) ||
-		(regionId >= 7472 && regionId <= 7475) ||
-		(regionId >= 7728 && regionId <= 7731) ||
-		(regionId >= 7984 && regionId <= 7987) ||
-		(regionId >= 8240 && regionId <= 8256) ||
-		(regionId >= 8496 && regionId <= 8512) ||
-		(regionId >= 8752 && regionId <= 8768) ||
-		(regionId >= 9008 && regionId <= 9024) ||
-		(regionId >= 9262 && regionId <= 9280) ||
-		(regionId >= 9516 && regionId <= 9536) ||
-		(regionId >= 9772 && regionId <= 9792) ||
-		(regionId >= 10023 && regionId <= 10048) ||
-		(regionId >= 10279 && regionId <= 10304) ||
-		(regionId >= 10535 && regionId <= 10560) ||
-		(regionId >= 10791 && regionId <= 10816) ||
-		(regionId >= 11047 && regionId <= 11072) ||
-		(regionId >= 11303 && regionId <= 11328) ||
-		(regionId >= 11559 && regionId <= 11584) ||
-		(regionId >= 11815 && regionId <= 11840) ||
-		(regionId >= 12071 && regionId <= 12096) ||
-		(regionId >= 12333 && regionId <= 12352) ||
-		(regionId >= 12589 && regionId <= 12608) ||
-		(regionId >= 12843 && regionId <= 12864) ||
-		(regionId >= 13099 && regionId <= 13120) ||
-		(regionId >= 13354 && regionId <= 13376) ||
-		(regionId >= 13610 && regionId <= 13632) ||
-		(regionId >= 13866 && regionId <= 13883) ||
-		(regionId >= 14127 && regionId <= 14138) ||
-		(regionId >= 14379 && regionId <= 14392) ||
-		(regionId >= 14635 && regionId <= 14648) ||
-		(regionId >= 14891 && regionId <= 14904) ||
-		(regionId >= 15147 && regionId <= 15160) ||
-		(regionId >= 15403 && regionId <= 15416)) {
-			return true;
-		}
-		
-		System.out.println("Region Id " + regionId + " is not a surface map, skipping.");
-		return false;
-	}
-
-
-	
-	
 //		for (int i = 0;i < 2000;i++) {
 //			int musicIndex = (int) EnumDefinitions.getEnum(1351).getKeyForValue(i);
 //			if (musicIndex != -1) {
@@ -189,7 +96,6 @@ public static void main(String[] args) throws IOException, ParseException {
 //			}
 //		}
 
-	
 //		for (NPCDirection dir : NPCDirection.values()) {
 //			System.out.println(dir.name() + " - " + dir.getFaceDirection());
 //			int d = ((int) (Math.atan2(dir.getDx(), dir.getDy()) * 2607.5945876176133));
@@ -200,7 +106,7 @@ public static void main(String[] args) throws IOException, ParseException {
 //		
 //		RockType rock = RockType.GEM;
 //		Pickaxe pick = Pickaxe.RUNE;
-		
+
 //		for (int pickIdx = Pickaxe.BRONZE.ordinal();pickIdx <= Pickaxe.DRAGON.ordinal();pickIdx += 2) {
 //			for (int i = 1;i <= 99;i += 1) {
 //				if (i % 5 == 0 || i == rock.getLevel() || i == 99) {
@@ -211,7 +117,7 @@ public static void main(String[] args) throws IOException, ParseException {
 //			}
 //			System.out.println();
 //		}
-		
+
 //		for (int i = 1; i <= 99; i += 1) {
 //			if (i % 5 == 0 || i == rock.getLevel() || i == 99) {
 //				String average = getMiningAverage(rock, i, pick);

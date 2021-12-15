@@ -138,7 +138,7 @@ public class BoxStyleTrap extends OwnedObject {
 	}
 	
 	public boolean tryBait(Player player, int bait) {
-		if (Arrays.binarySearch(VALID_BAITS, bait) <= 0) {
+		if (Arrays.binarySearch(VALID_BAITS, bait) < 0) {
 			player.sendMessage("That's not something you'd want to use to bait a trap with.");
 			return false;
 		}

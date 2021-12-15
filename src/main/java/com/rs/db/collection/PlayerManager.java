@@ -33,11 +33,11 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 
 public class PlayerManager extends DBItemManager {
-	
+
 	public PlayerManager() {
 		super("players");
 	}
-	
+
 	@Override
 	public void initCollection() {
 		getDocs().createIndex(Indexes.text("username"));
@@ -48,11 +48,11 @@ public class PlayerManager extends DBItemManager {
 			func.accept(getSync(username));
 		});
 	}
-	
+
 	public void save(Player player) {
 		save(player, null);
 	}
-	
+
 	public void save(Player account, Runnable done) {
 		execute(() -> {
 			saveSync(account);
@@ -60,7 +60,7 @@ public class PlayerManager extends DBItemManager {
 				done.run();
 		});
 	}
-	
+
 	public void saveSync(Player account) {
 		getDocs().findOneAndReplace(eq("username", account.getUsername()), Document.parse(JsonFileManager.toJson(account)), new FindOneAndReplaceOptions().upsert(true));
 	}
