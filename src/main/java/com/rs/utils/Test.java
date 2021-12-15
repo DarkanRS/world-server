@@ -22,8 +22,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.json.simple.parser.ParseException;
-
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
@@ -39,7 +37,6 @@ import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.utils.drop.DropList;
-import com.rs.utils.drop.DropSet;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.utils.json.FamiliarAdapter;
 
@@ -47,7 +44,7 @@ public class Test {
 
 	public static int HOURS_TO_SAMPLE = 300;
 
-	public static void main(String[] args) throws IOException, ParseException {
+	public static void main(String[] args) throws IOException {
 		int numKills = 1000000;
 		
 		JsonFileManager.setGSON(new GsonBuilder()

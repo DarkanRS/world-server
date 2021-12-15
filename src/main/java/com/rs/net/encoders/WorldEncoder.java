@@ -20,9 +20,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.ChannelFutureListener;
-
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.DynamicRegion;
 import com.rs.game.World;
@@ -121,7 +118,8 @@ import com.rs.lib.net.packets.encoders.vars.VarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
 import com.rs.lib.util.Utils;
 
-
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 
 public class WorldEncoder extends Encoder {
 	
