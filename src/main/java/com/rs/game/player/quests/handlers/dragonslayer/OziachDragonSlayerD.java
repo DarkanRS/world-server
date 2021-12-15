@@ -116,27 +116,7 @@ public class OziachDragonSlayerD extends Conversation {
             }
 
             case QUEST_COMPLETE ->  {
-                addPlayer(HeadE.HAPPY_TALKING, "Good day to you.");
-                addNPC(OZIACH, HeadE.CALM_TALK, "Aye, 'tis a fair day, mighty dragon-slaying friend");
-                addOptions("Choose an option:", new Options() {
-                    @Override
-                    public void create() {
-                        option("Can you sell me a rune platebody?", new Dialogue()
-                                .addPlayer(HeadE.HAPPY_TALKING, "Can I buy a rune platebody now please?")
-                                .addNext(()->{ShopsHandler.openShop(p, "oziach");}));
-                        option("I'm not your friend", new Dialogue()
-                                .addPlayer(HeadE.HAPPY_TALKING, "I'm not your friend.")
-                                .addNPC(OZIACH, HeadE.CALM_TALK, "I'm surprised if you're anyone's friend with those kind of manners."));
-                        option("Yes, it's a very nice day.", new Dialogue()
-                                .addPlayer(HeadE.HAPPY_TALKING, "Yes, it's a very nice day.")
-                                .addNPC(OZIACH, HeadE.CALM_TALK, "Aye, may the gods walk by yer side. Now leave me alone."));
-                        option("Can I have another key to Melzar's Maze?", new Dialogue()
-                                .addPlayer(HeadE.HAPPY_TALKING, "Can I have another key to Melzar's Maze?")
-                                .addNPC(OZIACH, HeadE.CALM_TALK, "It's the Guildmaster in the Champion's Guild who hands those keys out now. Go talk to him. " +
-                                        "No need to bother me if you don't need armour."));
-                    }
-                });
-
+                ;//Never reached
             }
         }
 
@@ -161,7 +141,7 @@ public class OziachDragonSlayerD extends Conversation {
                         .addNPC(OZIACH, HeadE.CALM_TALK, "Hah, yes, you are a typical reckless adventurer, aren't you? Now go kill the dragon and get out" +
                                 " of my face.")
                         .addPlayer(HeadE.HAPPY_TALKING, "But how can I defeat the dragon?")
-                        .addNPC(OZIACH, HeadE.CALM_TALK, "Go talk to the Guildmaster in the Champions' Guild. He'll help ye out if yet so keen on doing a quest. " +
+                        .addNPC(OZIACH, HeadE.CALM_TALK, "Go talk to the Guildmaster in the Champions' Guild. He'll help ye out if yer so keen on doing a quest. " +
                                 "I'm not going to be handholding any adventurers.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER, true);}));
                 option("I may be a champion, but I don't think I'm, up to dragon-killing yet.", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "I may be a champion, but I don't think I'm, up to dragon-killing yet.")

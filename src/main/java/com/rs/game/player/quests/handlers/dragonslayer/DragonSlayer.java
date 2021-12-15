@@ -19,9 +19,11 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.NPCDeathEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @QuestHandler(Quest.DRAGON_SLAYER)
@@ -125,6 +127,9 @@ public class DragonSlayer extends QuestOutline {
                 lines.add("dragon Elvarg of Crandor and earn the right to");
                 lines.add("buy and wear the Rune platebody.");
                 lines.add("");
+                lines.add("Talk to the Guildmaster in the Champions Guild in");
+                lines.add("South Varrock. You will need 32 quest points.");
+                lines.add("");
                 break;
             case TALK_TO_OZIACH:
                 lines.add("The Guildmaster from the Champion's guild has");
@@ -143,7 +148,9 @@ public class DragonSlayer extends QuestOutline {
                 lines.add("I should report to the Guildmaster and get more");
                 lines.add("information as to how I should prepare.");
                 lines.add("");
-                lines.add("You will need to complete all the dialogue");
+                lines.add("You will need to complete all the dialogue to unlock");
+                lines.add("the rest of the quest. Dialogue below describing where");
+                lines.add("the rest of the quest items will be, will be below:");
                 lines.add("");
                 break;
             case PREPARE_FOR_CRANDOR:
@@ -189,6 +196,19 @@ public class DragonSlayer extends QuestOutline {
         public void handle(ItemClickEvent e) {
             if(e.getOption().equalsIgnoreCase("study"))
                 e.getPlayer().sendMessage("The map shows a sea path to Crandor...");
+            if(e.getOption().equalsIgnoreCase("drop")) {
+                e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                e.getPlayer().getPackets().sendSound(2739, 0, 1);
+            }
+        }
+    };
+
+    public static ItemClickHandler handleClickOnMapPart = new ItemClickHandler(MAP_PART1, MAP_PART2, MAP_PART3) {
+        @Override
+        public void handle(ItemClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("study"))
+                e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
             if(e.getOption().equalsIgnoreCase("drop")) {
                 e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
                 World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
@@ -320,6 +340,8 @@ public class DragonSlayer extends QuestOutline {
         player.getSkills().addXpQuest(Constants.DEFENSE, 18650);
 		getQuest().sendQuestCompleteInterface(player, 11279, "18,650 Strength XP", "18,650 Defence XP");
 	}
+
+
 
 }
 

@@ -1,0 +1,121 @@
+package com.rs.game.player.quests.handlers.dragonslayer;
+
+import com.rs.game.World;
+import com.rs.game.npc.NPC;
+import com.rs.game.object.GameObject;
+import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.quests.Quest;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.NPCDeathEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
+import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
+
+@PluginEventHandler
+public class WormBrainDragonSlayerMob extends Conversation {
+    public WormBrainDragonSlayerMob(Player p) {
+        super(p);
+        addNPC(745, HeadE.FRUSTRATED, "Whut you want?");
+        switch(p.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {
+            case PREPARE_FOR_CRANDOR -> {
+                if(p.getInventory().containsItem(MAP_PART2, 1)) {
+                    addPlayer(HeadE.SKEPTICAL_THINKING, "Sorry I thought this was a zoo.");
+                    addNPC(745, HeadE.CALM, "...");
+                    return;
+                }
+                addPlayer(HeadE.CALM_TALK, "I believe you've got a piece of a map that I need.");
+                addNPC(745, HeadE.SKEPTICAL_THINKING,  "So? Why should I be giving it to you? What you do for Wormbrain?");
+                addOptions("Select an option:", new Options() {
+                    @Override
+                    public void create() {
+                        option("I'm not going to do anything for you. Forget it.", new Dialogue()
+                                .addPlayer(HeadE.CALM_TALK, "I'm not going to do anything for you. Forget it.")
+                                .addNPC(745, HeadE.ANGRY, "Be dat way then"));
+                        option("I'll let you live. I could just kill you.", new Dialogue()
+                                .addPlayer(HeadE.CALM_TALK, "I'll let you live. I could just kill you.")
+                                .addNPC(745, HeadE.LAUGH, "Ha! Me in here and you out dere. You not get map piece."));
+                        option("I suppose I could pay you for the map piece ... Say, 500 coins?", new Dialogue()
+                                .addPlayer(HeadE.CALM_TALK, "I suppose I could pay you for the map piece ... Say, 500 coins?")
+                                .addNPC(745, HeadE.FRUSTRATED, "Me not stooped, it worth at least 10,000 coins!")
+                                .addOptions("Choose an option:", new Options() {
+                                    @Override
+                                    public void create() {
+                                        if(p.getInventory().containsItem(995 , 10000))
+                                            option("Aright then, 10,000 it is.", new Dialogue()
+                                                    .addSimple("You buy the map piece from Wormbrain.", ()->{
+                                                        p.getInventory().removeItems(new Item(995, 10000));
+                                                        p.getInventory().addItem(MAP_PART2, 1, true);
+                                                    })
+                                                    .addNPC(745, HeadE.HAPPY_TALKING, "Tank you very much! Now me can bribe da guards, hehehe."));
+                                        else
+                                            option("Darn, I don't have that.", new Dialogue()
+                                                    .addPlayer(HeadE.SAD, "Darn, I don't have that.")
+                                                    .addNPC(745, HeadE.CALM_TALK, "No map for you!"));
+                                        option("You must be joking! Forget it", new Dialogue()
+                                            .addPlayer(HeadE.CALM_TALK, "You must be joking! Forget it")
+                                            .addNPC(745, HeadE.CALM_TALK, "Fine, you not get map piece"));
+                                    }
+                                }));
+                        option("Where did you get the map piece from?", new Dialogue()
+                                .addPlayer(HeadE.SKEPTICAL_THINKING, "Where did you get the map piece from?")
+                                .addNPC(745, HeadE.HAPPY_TALKING, "We rob house of stupid wizard. She very old, not put up much fight at all. Hahaha!")
+                                .addPlayer(HeadE.SECRETIVE, "Uh ... Hahaha.")
+                                .addNPC(745, HeadE.CALM_TALK, "Her house full of pictures of a city on island and old pictures of people. Me not recognise " +
+                                        "island. Me find map piece. Me not know what it is, but it in locked box so me figure it important.")
+                                .addNPC(745, HeadE.CALM_TALK, "But, by the time me get box open, other goblins gone. Then me not run fast enough and " +
+                                        "guards catch me. But now you want map piece so must be special! What do for me to get it?"));
+                    }
+                });
+                break;
+            }
+            default -> {
+                addPlayer(HeadE.SKEPTICAL_THINKING, "Sorry I thought this was a zoo.");
+                addNPC(745, HeadE.CALM, "...");
+            }
+        }
+    }
+
+    public static NPCClickHandler handleWormBrain = new NPCClickHandler(745) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            e.getPlayer().startConversation(new WormBrainDragonSlayerMob(e.getPlayer()).getStart());
+        }
+    };
+
+    public static NPCDeathHandler handleWormBrainDrop = new NPCDeathHandler(745) {
+        @Override
+        public void handle(NPCDeathEvent e) {
+            if(e.killedByPlayer()) {
+                Player p = (Player) e.getKiller();
+                if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR && !p.getInventory().containsItem(MAP_PART2, 1))
+                    World.addGroundItem(new Item(MAP_PART2, 1), new WorldTile(e.getNPC()), (Player) e.getKiller());
+            }
+        }
+    };
+
+    public static ObjectClickHandler handleWormBrainJailGate = new ObjectClickHandler(new Object[] { 40184 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            e.getPlayer().sendMessage("It is firmly shut...");
+        }
+    };
+
+    public static NPCInteractionDistanceHandler bankerDistance = new NPCInteractionDistanceHandler(745) {
+        @Override
+        public int getDistance(Player player, NPC npc) {
+            return 1;
+        }
+    };
+}
