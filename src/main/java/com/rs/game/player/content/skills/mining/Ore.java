@@ -141,7 +141,7 @@ public enum Ore {
 	
 	public void giveOre(Player player) {
 		Item ore = new Item(id, 8);
-		double totalXp = xp * Mining.getXPMultiplier(player);
+		double totalXp = xp * Mining.getXPMultiplier(player)*8;
 		if (player.hasEffect(Effect.JUJU_MINING)) {
 			int random = Utils.random(100);
 			if (random < 11) {

@@ -761,8 +761,6 @@ public class MiscTest {
 
 
 		Commands.add(Rights.PLAYER, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
-			if(!p.getUsername().equalsIgnoreCase("trenton"))
-                return;
             if (args[0].contains(",")) {
 				args = args[0].split(",");
 				int plane = Integer.valueOf(args[0]);
