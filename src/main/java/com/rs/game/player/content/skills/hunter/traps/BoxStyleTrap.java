@@ -144,7 +144,7 @@ public class BoxStyleTrap extends OwnedObject {
 		}
 		if (!player.getInventory().containsItem(bait))
 			return false;
-		if (bait != -1) {
+		if (this.bait != -1) {
 			player.sendMessage("This trap has already been baited.");
 			return false;
 		}
