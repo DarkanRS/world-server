@@ -87,7 +87,7 @@ public class PestleAndMortar  {
 				p = PestleMortar.forId(e.getItem2().getId());
 			if (p == null)
 				return;	
-			e.getPlayer().getDialogueManager().execute(new CreateActionD(new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 1));
+			e.getPlayer().getDialogueManager().execute(new CreateActionD(new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 0));
 		}
 	};
 
