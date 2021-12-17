@@ -27,7 +27,7 @@ import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 public class WormBrainDragonSlayerMob extends Conversation {
     public WormBrainDragonSlayerMob(Player p) {
         super(p);
-        addNPC(745, HeadE.FRUSTRATED, "Whut you want?");
+        addNPC(WORM_BRAIN, HeadE.FRUSTRATED, "Whut you want?");
         switch(p.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {
             case PREPARE_FOR_CRANDOR -> {
                 if(p.getInventory().containsItem(MAP_PART2, 1)) {
@@ -58,23 +58,23 @@ public class WormBrainDragonSlayerMob extends Conversation {
                                                         p.getInventory().removeItems(new Item(995, 10000));
                                                         p.getInventory().addItem(MAP_PART2, 1, true);
                                                     })
-                                                    .addNPC(745, HeadE.HAPPY_TALKING, "Tank you very much! Now me can bribe da guards, hehehe."));
+                                                    .addNPC(WORM_BRAIN, HeadE.HAPPY_TALKING, "Tank you very much! Now me can bribe da guards, hehehe."));
                                         else
                                             option("Darn, I don't have that.", new Dialogue()
                                                     .addPlayer(HeadE.SAD, "Darn, I don't have that.")
-                                                    .addNPC(745, HeadE.CALM_TALK, "No map for you!"));
+                                                    .addNPC(WORM_BRAIN, HeadE.CALM_TALK, "No map for you!"));
                                         option("You must be joking! Forget it", new Dialogue()
                                             .addPlayer(HeadE.CALM_TALK, "You must be joking! Forget it")
-                                            .addNPC(745, HeadE.CALM_TALK, "Fine, you not get map piece"));
+                                            .addNPC(WORM_BRAIN, HeadE.CALM_TALK, "Fine, you not get map piece"));
                                     }
                                 }));
                         option("Where did you get the map piece from?", new Dialogue()
                                 .addPlayer(HeadE.SKEPTICAL_THINKING, "Where did you get the map piece from?")
-                                .addNPC(745, HeadE.HAPPY_TALKING, "We rob house of stupid wizard. She very old, not put up much fight at all. Hahaha!")
+                                .addNPC(WORM_BRAIN, HeadE.HAPPY_TALKING, "We rob house of stupid wizard. She very old, not put up much fight at all. Hahaha!")
                                 .addPlayer(HeadE.SECRETIVE, "Uh ... Hahaha.")
-                                .addNPC(745, HeadE.CALM_TALK, "Her house full of pictures of a city on island and old pictures of people. Me not recognise " +
+                                .addNPC(WORM_BRAIN, HeadE.CALM_TALK, "Her house full of pictures of a city on island and old pictures of people. Me not recognise " +
                                         "island. Me find map piece. Me not know what it is, but it in locked box so me figure it important.")
-                                .addNPC(745, HeadE.CALM_TALK, "But, by the time me get box open, other goblins gone. Then me not run fast enough and " +
+                                .addNPC(WORM_BRAIN, HeadE.CALM_TALK, "But, by the time me get box open, other goblins gone. Then me not run fast enough and " +
                                         "guards catch me. But now you want map piece so must be special! What do for me to get it?"));
                     }
                 });
@@ -82,19 +82,19 @@ public class WormBrainDragonSlayerMob extends Conversation {
             }
             default -> {
                 addPlayer(HeadE.SKEPTICAL_THINKING, "Sorry I thought this was a zoo.");
-                addNPC(745, HeadE.CALM, "...");
+                addNPC(WORM_BRAIN, HeadE.CALM, "...");
             }
         }
     }
 
-    public static NPCClickHandler handleWormBrain = new NPCClickHandler(745) {
+    public static NPCClickHandler handleWormBrain = new NPCClickHandler(WORM_BRAIN) {
         @Override
         public void handle(NPCClickEvent e) {
             e.getPlayer().startConversation(new WormBrainDragonSlayerMob(e.getPlayer()).getStart());
         }
     };
 
-    public static NPCDeathHandler handleWormBrainDrop = new NPCDeathHandler(745) {
+    public static NPCDeathHandler handleWormBrainDrop = new NPCDeathHandler(WORM_BRAIN) {
         @Override
         public void handle(NPCDeathEvent e) {
             if(e.killedByPlayer()) {
@@ -112,7 +112,7 @@ public class WormBrainDragonSlayerMob extends Conversation {
         }
     };
 
-    public static NPCInteractionDistanceHandler bankerDistance = new NPCInteractionDistanceHandler(745) {
+    public static NPCInteractionDistanceHandler wormbrainDistance = new NPCInteractionDistanceHandler(WORM_BRAIN) {
         @Override
         public int getDistance(Player player, NPC npc) {
             return 1;

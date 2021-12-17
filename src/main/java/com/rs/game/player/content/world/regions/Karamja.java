@@ -329,45 +329,34 @@ public class Karamja  {
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
 
-            if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == DragonSlayer.PREPARE_FOR_CRANDOR)
-                WorldTasksManager.schedule(new WorldTask() {
-                    int ticks = 0;
-                    boolean goingEast = true;
+            WorldTasksManager.schedule(new WorldTask() {
+                int ticks = 0;
+                boolean goingEast = true;
 
-                    @Override
-                    public void run() {
-                        if (ticks == 0) {
-                            if (p.getX() == 2845) {
-                                p.setFaceAngle(Direction.getAngleTo(Direction.EAST));
-                                p.setNextAnimation(new Animation(839));
-                                goingEast = true;
-                            } else if (p.getX() == 2847) {
-                                p.setFaceAngle(Direction.getAngleTo(Direction.WEST));
-                                p.setNextAnimation(new Animation(839));
-                                goingEast = false;
-                            } else
-                                return;
-                        } else if (ticks >= 1) {
-                            if (goingEast)
-                                p.setNextWorldTile(new WorldTile(2847, p.getY(), 0));
-                            if (!goingEast)
-                                p.setNextWorldTile(new WorldTile(2845, p.getY(), 0));
-                            stop();
-                        }
-                        ticks++;
+                @Override
+                public void run() {
+                    if (ticks == 0) {
+                        if (p.getX() == 2845) {
+                            p.setFaceAngle(Direction.getAngleTo(Direction.EAST));
+                            p.setNextAnimation(new Animation(839));
+                            goingEast = true;
+                        } else if (p.getX() == 2847) {
+                            p.setFaceAngle(Direction.getAngleTo(Direction.WEST));
+                            p.setNextAnimation(new Animation(839));
+                            goingEast = false;
+                        } else
+                            return;
+                    } else if (ticks >= 1) {
+                        if (goingEast)
+                            p.setNextWorldTile(new WorldTile(2847, p.getY(), 0));
+                        if (!goingEast)
+                            p.setNextWorldTile(new WorldTile(2845, p.getY(), 0));
+                        stop();
                     }
-                }, 0, 1);
-            else {
-                p.startConversation(new Conversation(e.getPlayer()) {
-                    {
-                        if(p.getQuestManager().isComplete(Quest.DRAGON_SLAYER))
-                            addPlayer(HeadE.HAPPY_TALKING, "Ah, defeating Elvarg was great!");
-                        else
-                            addPlayer(HeadE.HAPPY_TALKING, "I have no reason to enter!");
-                        create();
-                    }
-                });
-            }
+                    ticks++;
+                }
+            }, 0, 1);
+
         }
     };
 }
