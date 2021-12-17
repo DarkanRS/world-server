@@ -63,7 +63,6 @@ public class ElvargBoss extends NPC {
 
                 @Override
                 public void run() {
-                    p.sendMessage("" + tick);
                     if(tick == 0) {
                         elvarg.walkToAndExecute(new WorldTile(2854, 9638, 0), ()->{
                             animTile = new WorldTile(elvarg.getX()-1, elvarg.getY()+1, elvarg.getPlane());
