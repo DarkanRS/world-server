@@ -1,5 +1,14 @@
 [
   {
+    "comment": "Witchs house: Boy, quest start",
+    "npcId": 895,
+    "tile": {
+      "x": 2926,
+      "y": 3354,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Lost City: Monk in Lumbridge Swamp",
     "npcId": 651,
     "tile": {

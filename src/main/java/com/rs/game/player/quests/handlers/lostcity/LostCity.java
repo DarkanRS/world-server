@@ -101,7 +101,7 @@ public class LostCity extends QuestOutline {
                 lines.add("");
                 break;
             case QUEST_COMPLETE:
-                lines.add("I have gotten the Pirate's Treasure!");
+                lines.add("I have found Zanaris!");
                 lines.add("");
                 lines.add("");
                 lines.add("QUEST COMPLETE!");

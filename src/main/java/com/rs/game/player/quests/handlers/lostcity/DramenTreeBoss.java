@@ -54,7 +54,7 @@ public class DramenTreeBoss {
         }
     };
 
-    public static NPCDeathHandler handleBlueKeyDrop = new NPCDeathHandler(TREE_SPIRIT) {
+    public static NPCDeathHandler handleTreeSpiritDeath = new NPCDeathHandler(TREE_SPIRIT) {
         @Override
         public void handle(NPCDeathEvent e) {
             if(e.killedByPlayer() && ((Player)e.getKiller()).getQuestManager().getStage(Quest.LOST_CITY) == LostCity.CHOP_DRAMEN_TREE) {
