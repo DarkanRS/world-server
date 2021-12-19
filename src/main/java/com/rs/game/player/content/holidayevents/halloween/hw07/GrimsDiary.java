@@ -22,10 +22,10 @@ import com.rs.game.player.content.books.BookPage;
 public class GrimsDiary extends Book {
 
 	public GrimsDiary() {
-		super("Diary of Death", 
+		super("WitchsDiary of Death",
 				new BookPage(
 						new String[] {
-								"My Diary",
+								"My WitchsDiary",
 								"    by Grim",
 								"",
 								"<col=FF0000>~~~~~~~~~~~~~~~~~~~~</col>",

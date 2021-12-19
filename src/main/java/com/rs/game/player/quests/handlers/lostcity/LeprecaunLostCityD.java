@@ -77,7 +77,7 @@ public class LeprecaunLostCityD extends Conversation {
                                             npc.faceEntity(p);
                                             npc.setNextAnimation(new Animation(5488));
                                             npc.forceTalk("Avach Sarimporto!");
-                                            Magic.sendNormalTeleportSpell(p, new WorldTile(3047, 3236, 0));
+                                            Magic.sendObjectTeleportSpell(p, false, new WorldTile(3047, 3236, 0));
                                             break;
                                         }
                                 })
@@ -156,7 +156,7 @@ public class LeprecaunLostCityD extends Conversation {
                                             npc.faceEntity(p);
                                             npc.setNextAnimation(new Animation(5488));
                                             npc.forceTalk("Avach Sarimporto!");
-                                            Magic.sendNormalTeleportSpell(p, new WorldTile(3047, 3236, 0));
+                                            Magic.sendObjectTeleportSpell(p, false, new WorldTile(3047, 3236, 0));
                                             break;
                                         }
                                 })
