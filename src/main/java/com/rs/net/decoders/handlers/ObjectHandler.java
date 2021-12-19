@@ -2013,20 +2013,6 @@ public final class ObjectHandler {
 						player.setNextWorldTile(player.transform(-128, -1918, 0));
 					if (x == 3291 && y == 5538)
 						player.setNextWorldTile(player.transform(-115, -1953, 0));
-				} else if (id == 2406) {
-					if (FairyRings.checkAll(player)) {
-						player.sendOptionDialogue("Would you like to enter Zanaris?", new String[] { "Yes", "No, take me through the door." }, new DialogueOptionEvent() {
-							@Override
-							public void run(Player player) {
-								if (option == 1)
-									FairyRings.sendTeleport(player, new WorldTile(2452, 4473, 0));
-								else
-									Doors.handleDoor(player, object);
-							}
-						});
-					} else {
-						Doors.handleDoor(player, object);
-					}
 				} else if (id == 26193) {
 					PartyRoom.openChest(player);
 				} else if (id == 67050 || id == 6282)

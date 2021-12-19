@@ -61,12 +61,6 @@ public class HassanPrinceAliRescueD extends Conversation {
 
     }
 
-    public HassanPrinceAliRescueD(Player p, int convoID) {
-        super(p);
-        this.p = p;
-    }
-
-
     public static NPCClickHandler handleHassan = new NPCClickHandler(HASSAN) {
         @Override
         public void handle(NPCClickEvent e) {
