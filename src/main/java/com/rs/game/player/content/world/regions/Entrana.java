@@ -17,15 +17,22 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.woodcutting.TreeType;
 import com.rs.game.player.content.skills.woodcutting.Woodcutting;
 import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Entrana {
@@ -35,17 +42,6 @@ public class Entrana {
 		public void handle(ObjectClickEvent e) {
 			Doors.handleDoor(e.getPlayer(), e.getObject());
 			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3093, 3222, 0));
-		}
-	};
-	
-	public static ObjectClickHandler handleDramenTree = new ObjectClickHandler(new Object[] { "Dramen tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.DRAMEN) {
-					@Override
-					public void fellTree() { }
-				});
 		}
 	};
 	
@@ -63,4 +59,17 @@ public class Entrana {
 					}));
 		}
 	};
+
+    public static NPCClickHandler handleCaveMonkDialogue = new NPCClickHandler(656) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                {
+                    addNPC(656, HeadE.CALM_TALK, "Hello, I don't recommend going down. But if you must, be careful, it is a one way path!");
+                    addPlayer(HeadE.CALM_TALK, "All right...");
+                    create();
+                }
+            });
+        }
+    };
 }

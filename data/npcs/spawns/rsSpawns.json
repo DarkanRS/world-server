@@ -1,5 +1,41 @@
 [
   {
+    "comment": "Lost City: Monk in Lumbridge Swamp",
+    "npcId": 651,
+    "tile": {
+      "x": 3146,
+      "y": 3202,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Wizard in Lumbridge Swamp",
+    "npcId": 652,
+    "tile": {
+      "x": 3153,
+      "y": 3206,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Archer in Lumbridge Swamp",
+    "npcId": 649,
+    "tile": {
+      "x": 3151,
+      "y": 3203,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Warrior in Lumbridge Swamp",
+    "npcId": 650,
+    "tile": {
+      "x": 3148,
+      "y": 3205,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Dragon Slayer: Cabin boy Jenkins at boat",
     "npcId": 748,
     "tile": {
