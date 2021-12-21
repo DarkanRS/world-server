@@ -3,9 +3,9 @@
     "Renegade Knight"
   ],
   "hitpoints": 490,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 6896,
+  "defenceAnim": 388,
+  "deathAnim": 6897,
   "deathDelay": 3,
   "respawnDelay": 60,
   "maxHit": 75,
@@ -14,10 +14,10 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "levels": [
-    0,
-    0,
-    0,
-    0,
-    0
+    25,
+    25,
+    25,
+    25,
+    25
   ]
 }

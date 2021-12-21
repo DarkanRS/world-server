@@ -19,10 +19,13 @@ package com.rs.game.player.content.world.regions;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.merlinscrystal.knightsroundtable.SirKayMerlinsCrystalD;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -77,6 +80,9 @@ public class SeersVillage {
 						@Override
 						public void create() {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                            if(!player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+                                option("About Merlin's Crystal", new Dialogue()
+                                    .addNext(()->{e.getPlayer().startConversation(new SirKayMerlinsCrystalD(e.getPlayer()).getStart());}));
 						}
 					});
 				}

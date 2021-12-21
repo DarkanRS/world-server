@@ -113,7 +113,7 @@ public class Doors {
 		}
 	};
 
-	public static ObjectClickHandler handleWasteMyTimeDoors = new ObjectClickHandler(new Object[] { 52, 53, 71, 72, 73, 74, 79, 80, 1589, 1590, 1591, 2154, 2155, 2184, 2685, 2686, 2687, 2688, 3442, 3626, 5730, 18168, 20341, 20665, 20666, 20695, 21065, 37470, 67747 }) {
+	public static ObjectClickHandler handleWasteMyTimeDoors = new ObjectClickHandler(new Object[] { 52, 53, 71, 73, 74, 79, 80, 1589, 1590, 1591, 2154, 2155, 2184, 2685, 2686, 2687, 2688, 3442, 3626, 5730, 18168, 20341, 20665, 20666, 20695, 21065, 37470, 67747 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("The door is securely locked.");

@@ -36,6 +36,7 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.dialogues.AncientAltar;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
@@ -150,6 +151,36 @@ public class Varrock {
             else if (obj.getRotation() == 1)
                 p.useStairs(-1, new WorldTile(p.getX()+4, p.getY(), p.getPlane() + 1), 0, 1);
             return;
+        }
+    };
+
+    public static ObjectClickHandler handleChaosAltar = new ObjectClickHandler(new Object[] { 61 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            if(e.getOption().equalsIgnoreCase("Pray-at")) {
+                final int maxPrayer = p.getSkills().getLevelForXp(Constants.PRAYER) * 10;
+                if (p.getPrayer().getPoints() < maxPrayer) {
+                    p.lock(5);
+                    p.sendMessage("You pray to the gods...", true);
+                    p.setNextAnimation(new Animation(645));
+                    WorldTasksManager.schedule(new WorldTask() {
+                        @Override
+                        public void run() {
+                            p.getPrayer().restorePrayer(maxPrayer);
+                            p.sendMessage("...and recharged your prayer.", true);
+                        }
+                    }, 2);
+                } else
+                    p.sendMessage("You already have full prayer.");
+            } else if(e.getOption().equalsIgnoreCase("Check")) {
+                p.startConversation(new Conversation(p) {
+                    {
+                        addSimple("You find a small inscription at the bottom of the altar. It reads: 'Snarthon Candtrick Termanto'.");
+                        create();
+                    }
+                });
+            }
         }
     };
 
