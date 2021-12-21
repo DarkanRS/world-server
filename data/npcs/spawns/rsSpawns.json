@@ -1,5 +1,86 @@
 [
   {
+    "comment": "Merlins Crystal: 3rd floor mordred",
+    "npcId": 247,
+    "tile": {
+      "x": 2770,
+      "y": 3402,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2770,
+      "y": 3402,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2771,
+      "y": 3396,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2767,
+      "y": 3398,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2767,
+      "y": 3406,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2772,
+      "y": 3407,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 1st floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2774,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 1st floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2766,
+      "y": 3399,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 1st floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2770,
+      "y": 3403,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Witchs house: Boy, quest start",
     "npcId": 895,
     "tile": {
