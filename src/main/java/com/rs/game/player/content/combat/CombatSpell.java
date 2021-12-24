@@ -802,6 +802,74 @@ public enum CombatSpell {
 			return false;
 		}
 	}
+
+    public boolean isWaterSpell() {
+        switch(this) {
+            case WATER_STRIKE:
+            case WATER_BOLT:
+            case WATER_BLAST:
+            case WATER_WAVE:
+            case WATER_SURGE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isEarthSpell() {
+        switch(this) {
+            case EARTH_STRIKE:
+            case EARTH_BOLT:
+            case EARTH_BLAST:
+            case EARTH_WAVE:
+            case EARTH_SURGE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isAirSpell() {
+        switch(this) {
+            case WIND_STRIKE:
+            case WIND_BOLT:
+            case WIND_BLAST:
+            case WIND_WAVE:
+            case WIND_SURGE:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public boolean isFireBlast() {
+        switch(this) {
+            case FIRE_BLAST -> {return true;}
+            default -> { return false; }
+        }
+    }
+
+    public boolean isWaterBlast() {
+        switch(this) {
+            case WATER_BLAST -> {return true;}
+            default -> { return false; }
+        }
+    }
+
+    public boolean isEarthBlast() {
+        switch(this) {
+            case EARTH_BLAST -> {return true;}
+            default -> { return false; }
+        }
+    }
+
+    public boolean isAirBlast() {
+        switch(this) {
+            case WIND_BLAST -> {return true;}
+            default -> { return false; }
+        }
+    }
+
 	
 	public SpotAnim getCastSpotAnim(Entity caster) {
 		switch(this) {

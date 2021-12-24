@@ -113,6 +113,22 @@ public class Ardougne  {
 			}
 		}
 	};
+
+    public static ObjectClickHandler handleWitchahavenDungeonEntrance = new ObjectClickHandler(new Object[] { 18266 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            p.setNextWorldTile(new WorldTile(2696, 9683, 0));
+        }
+    };
+
+    public static ObjectClickHandler handleWitchahavenDungeonExit = new ObjectClickHandler(new Object[] { 33246 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            p.setNextWorldTile(new WorldTile(2697, 3283, 0));
+        }
+    };
 	
 	public static ObjectClickHandler handleClocktowerDungeonLadders = new ObjectClickHandler(new Object[] { 1755, 1756 }) {
 		@Override

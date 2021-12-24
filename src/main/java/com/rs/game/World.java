@@ -549,10 +549,8 @@ public final class World {
 //		case NORTHEAST:
 //		case NORTHWEST:
 //		case SOUTHEAST:
-//		case SOUTHWEST: {
-//            System.out.println(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY()));
-//            return false;
-//        }
+//		case SOUTHWEST:
+//			return false;
 //		default:
 //			break;
 //
@@ -945,7 +943,7 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		//Launcher.pullAndCompile();
+		Launcher.pullAndCompile();
 		CoresManager.schedule(new Runnable() {
 			@Override
 			public void run() {

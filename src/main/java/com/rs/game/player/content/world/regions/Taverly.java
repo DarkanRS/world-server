@@ -20,10 +20,15 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.dialogues.TanningD;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
@@ -59,6 +64,13 @@ public class Taverly {
                 ShopsHandler.openShop(e.getPlayer(), "head_farmer_jones_shop");
             }
 
+        }
+    };
+
+    public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
         }
     };
 

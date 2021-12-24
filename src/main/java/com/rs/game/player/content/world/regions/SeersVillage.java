@@ -25,7 +25,11 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.lostcity.WarriorLostCityD;
 import com.rs.game.player.quests.handlers.merlinscrystal.knightsroundtable.SirKayMerlinsCrystalD;
+import com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher;
+import com.rs.game.player.quests.handlers.scorpioncatcher.SeerScorpionCatcherD;
+import com.rs.game.player.quests.handlers.scorpioncatcher.ThormacScorpionCatcherD;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -62,6 +66,12 @@ public class SeersVillage {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
+                            if(e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
+                                option("About Scorpion Catcher", new Dialogue()
+                                    .addNext(() -> {
+                                        e.getPlayer().startConversation(new SeerScorpionCatcherD(e.getPlayer()).getStart());
+                                    })
+                                );
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
 						}
 					});
@@ -69,6 +79,30 @@ public class SeersVillage {
 			});
 		}
 	};
+
+    public static NPCClickHandler handleThormacDialogue = new NPCClickHandler(389) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            int NPC= e.getNPCId();
+            if(!e.getPlayer().getQuestManager().isComplete(Quest.SCORPION_CATCHER))
+                e.getPlayer().startConversation(new ThormacScorpionCatcherD(e.getPlayer()).getStart());
+            else {
+                /**
+                 * Jawa doesn't want to code something no one will use...
+                 */
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addPlayer(HeadE.HAPPY_TALKING, "You said you would give me mystic battlestaffs for enchanted battlestaffs for 40k...");
+                        addNPC(NPC, HeadE.CALM_TALK, "I did didn't I?");
+                        addNPC(NPC, HeadE.CALM_TALK, "Well, if just one player asks for it then it will happen dealio?");
+                        addPlayer(HeadE.HAPPY_TALKING, "Deal!");
+                        addSimple("Some poor developer waits for you...");
+                        create();
+                    }
+                });
+            }
+        }
+    };
 	
 	public static NPCClickHandler handleSirKay = new NPCClickHandler(241) {
 		@Override
