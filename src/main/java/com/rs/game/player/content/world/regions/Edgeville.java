@@ -18,6 +18,7 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
+import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -27,6 +28,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -132,6 +134,25 @@ public class Edgeville  {
 		}
 	};
 
+    public static ObjectClickHandler handleMonastaryLadders = new ObjectClickHandler(new Object[] { 2641 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            if(p.getSkills().getLevel(Constants.PRAYER) >= 31)
+                p.useLadder(new WorldTile(p.getX(), p.getY(), p.getPlane()+1));
+            else
+                p.startConversation(new Conversation(p) {
+                    int NPC = 801;
+                    {
+                        addNPC(NPC, HeadE.FRUSTRATED, "Hey! You are not part of the monastary!");
+                        addPlayer(HeadE.HAPPY_TALKING, "Oh.");
+                        addSimple("You need 31 prayer to enter the inner monastary.");
+                        create();
+                    }
+                });
+        }
+    };
+
     public static NPCClickHandler handleOziachDialogue = new NPCClickHandler(747) {
         @Override
         public void handle(NPCClickEvent e) {
@@ -193,6 +214,54 @@ public class Edgeville  {
                 else
                     e.getPlayer().startConversation(new OziachDragonSlayerD(e.getPlayer()).getStart());
             }
+        }
+    };
+
+    public static NPCClickHandler handleAbbotLangleyDialogue = new NPCClickHandler(801) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            Player p = e.getPlayer();
+            int NPC = e.getNPCId();
+            p.startConversation(new Conversation(p) {
+                {
+                    addOptions("Choose an option:", new Options() {
+                        @Override
+                        public void create() {
+                            option("Can you heal me? I'm injured.", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "Can you heal me? I'm injured.")
+                                    .addNPC(NPC, HeadE.CALM_TALK, "Ok.")
+                                    .addSimple("Abbot Langley places his hands on your head. You feel a little better.", () ->{
+                                      p.heal(p.getMaxHitpoints());
+                                    })
+                            );
+                            option("Isn't this place built a bit out of the way?", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "Isn't this place built a bit out of the way?")
+                                    .addNPC(NPC, HeadE.CALM_TALK, "We like it that way actually! We get disturbed less. We still get rather a large amount " +
+                                            "of travellers looking for sanctuary and healing here as it is!")
+                            );
+                            if(p.getSkills().getLevel(Constants.PRAYER)<31)
+                                option("How do I get further into the monastery?", new Dialogue()
+                                        .addPlayer(HeadE.HAPPY_TALKING, "How do I get further into the monastery?")
+                                        .addNPC(NPC, HeadE.CALM_TALK, "I'm sorry but only members of our order are allowed in the second level of the monastery.")
+                                        .addOptions("Choose an option:", new Options() {
+                                            @Override
+                                            public void create() {
+                                                option("Well can I join your order?", new Dialogue()
+                                                        .addPlayer(HeadE.HAPPY_TALKING, "Well can I join your order?")
+                                                        .addNPC(NPC, HeadE.CALM_TALK, "No. I am sorry, but I feel you are not devout enough.")
+                                                        .addSimple("You need 31 prayer to enter the inner monastary.")
+                                                );
+                                                option("Oh, sorry.", new Dialogue()
+                                                        .addPlayer(HeadE.HAPPY_TALKING, "Oh, sorry.")
+                                                );
+                                            }
+                                        })
+                                );
+                        }
+                    });
+                    create();
+                }
+            });
         }
     };
 }

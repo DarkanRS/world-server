@@ -1,5 +1,122 @@
 [
   {
+    "comment": "Witchhaven dungeon: Hellhound 2",
+    "npcId": 49,
+    "tile": {
+      "x": 2733,
+      "y": 9687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hellhound 1",
+    "npcId": 49,
+    "tile": {
+      "x": 2733,
+      "y": 9693,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 5",
+    "npcId": 115,
+    "tile": {
+      "x": 2718,
+      "y": 9668,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 4",
+    "npcId": 8658,
+    "tile": {
+      "x": 2721,
+      "y": 9669,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 3",
+    "npcId": 3451,
+    "tile": {
+      "x": 2722,
+      "y": 9707,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 2",
+    "npcId": 3419,
+    "tile": {
+      "x": 2722,
+      "y": 9714,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 1",
+    "npcId": 115,
+    "tile": {
+      "x": 2719,
+      "y": 9715,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 5",
+    "npcId": 13100,
+    "tile": {
+      "x": 2707,
+      "y": 9700,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 4",
+    "npcId": 13100,
+    "tile": {
+      "x": 2702,
+      "y": 9697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 3",
+    "npcId": 13100,
+    "tile": {
+      "x": 2693,
+      "y": 9690,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 2",
+    "npcId": 13100,
+    "tile": {
+      "x": 2698,
+      "y": 9690,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 1",
+    "npcId": 13100,
+    "tile": {
+      "x": 2700,
+      "y": 9687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chronozon: Family Crest boss",
+    "npcId": 667,
+    "tile": {
+      "x": 3085,
+      "y": 9925,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Merlins Crystal: 3rd floor mordred",
     "npcId": 247,
     "tile": {
@@ -110553,15 +110670,6 @@
     },
     "comment": "Kent",
     "npcId": 701
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2552,
-      "y": 3570
-    },
-    "comment": "Kharid Scorpion",
-    "npcId": 386
   },
   {
     "tile": {
