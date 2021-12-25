@@ -56,7 +56,6 @@ import com.rs.game.player.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.player.content.transportation.TravelMethods;
 import com.rs.game.player.content.transportation.TravelMethods.Carrier;
 import com.rs.game.player.dialogues.BoatingDialogue;
-import com.rs.game.player.dialogues.BootDwarf;
 import com.rs.game.player.dialogues.ClanCloak;
 import com.rs.game.player.dialogues.ClanVex;
 import com.rs.game.player.dialogues.DrogoDwarf;
@@ -261,8 +260,6 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new Nurmof(), npc);
 			else if (npc.getId() == 3122)
 				player.getDialogueManager().execute(new MamboJamboD(), npc.getId());
-			else if (npc.getId() == 665)
-				player.getDialogueManager().execute(new BootDwarf(), npc.getId());
 			else if (npc.getId() == 382 || npc.getId() == 3294 || npc.getId() == 4316)
 				player.getDialogueManager().execute(new MiningGuildDwarf(), npc.getId(), false);
 			else if (npc.getId() == 2617)

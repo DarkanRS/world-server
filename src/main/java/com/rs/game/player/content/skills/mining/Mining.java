@@ -23,8 +23,10 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
+import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.LoginEvent;
@@ -89,7 +91,10 @@ public class Mining extends Action {
 	public static ObjectClickHandler handleGold = new ObjectClickHandler(new Object[] { "Gold ore rocks", "Gold ore vein" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().getActionManager().setAction(new Mining(RockType.GOLD, e.getObject()));
+            if(e.getObject().getRegionId() == 10903)//witchhaven mine
+                e.getPlayer().getActionManager().setAction(new Mining(RockType.PERFECT_GOLD, e.getObject()));
+            else
+			    e.getPlayer().getActionManager().setAction(new Mining(RockType.GOLD, e.getObject()));
 		}
 	};
 
