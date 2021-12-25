@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class FamilyCrest {
-	
+	/*
 	public static NPCClickHandler handleFamilyGauntlets = new NPCClickHandler(663, 666, 668) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -68,4 +68,6 @@ public class FamilyCrest {
 			}
 		}
 	};
+
+	 */
 }

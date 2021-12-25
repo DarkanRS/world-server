@@ -1,5 +1,14 @@
 [
   {
+    "comment": "Family Crest Quest: Dimitheis",
+    "npcId": 664,
+    "tile": {
+      "x": 3281,
+      "y": 3403,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Witchhaven dungeon: Hellhound 2",
     "npcId": 49,
     "tile": {
