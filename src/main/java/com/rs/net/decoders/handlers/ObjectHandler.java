@@ -1227,8 +1227,6 @@ public final class ObjectHandler {
 					player.useStairs(833, new WorldTile(3229, 9904, 0), 1, 2);
 				else if (id == 24366)
 					player.useStairs(828, new WorldTile(3237, 3459, 0), 1, 2);
-				else if (id == 882 && object.getX() == 3237 && object.getY() == 3458)
-					player.useStairs(833, new WorldTile(3237, 9858, 0), 1, 2);
 				else if (id == 29355 && object.getX() == 3097 && object.getY() == 9867) // edge
 					// dungeon
 					// climb
@@ -2042,16 +2040,6 @@ public final class ObjectHandler {
 						}
 						break;
 					case "trapdoor":
-					case "manhole":
-						if (objectDef.containsOption(0, "Open")) {
-							GameObject openedHole = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
-							// if (World.removeTemporaryObject(object, 60000,
-							// true)) {
-							player.faceObject(openedHole);
-							World.spawnObjectTemporary(openedHole, Ticks.fromMinutes(1));
-							// }
-						}
-						break;
 					case "closed chest":
 						if (objectDef.containsOption(0, "Open")) {
 							player.setNextAnimation(new Animation(536));
