@@ -101,7 +101,6 @@ public class Bonfire extends Action {
 	}
 
 	public static void addLogs(Player player, GameObject object) {
-
 		ArrayList<Log> possiblities = new ArrayList<Log>();
 		for (Log log : Log.values())
 			if (player.getInventory().containsItem(log.logId, 1))
