@@ -1,5 +1,14 @@
 [
   {
+    "comment": "Sinister Stranger added by jawarrior1",
+    "npcId": 3677,
+    "tile": {
+      "x": 2638,
+      "y": 3444,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Argdougne Sewer Dungeon: Zombie 3",
     "npcId": 75,
     "tile": {
