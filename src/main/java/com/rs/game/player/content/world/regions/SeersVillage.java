@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.ForceMovement;
+import com.rs.game.object.GameObject;
+import com.rs.game.pathing.Direction;
+import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -30,6 +34,10 @@ import com.rs.game.player.quests.handlers.merlinscrystal.knightsroundtable.SirKa
 import com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.player.quests.handlers.scorpioncatcher.SeerScorpionCatcherD;
 import com.rs.game.player.quests.handlers.scorpioncatcher.ThormacScorpionCatcherD;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasksManager;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -55,6 +63,51 @@ public class SeersVillage {
 			});
 		}
 	};
+
+    public static ObjectClickHandler grubersWoodFence = new ObjectClickHandler(new Object[] { 51 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(p.getX() < obj.getX()) { //West to east
+                WorldTasksManager.schedule(new WorldTask() {
+                   int tick = 0;
+
+                   @Override
+                   public void run() {
+                       if(tick == 0) {
+                           p.setNextForceMovement(new ForceMovement(new WorldTile(2662, 3500, 0), 1, Direction.EAST));
+                           p.setNextAnimation(new Animation(3844));
+                       }
+                       if (tick == 1) {
+                           p.setNextWorldTile(new WorldTile(2662, 3500, 0));
+                           stop();
+                       }
+                       tick++;
+                   }
+                }, 0, 1);
+
+            } else { //east to west.
+                WorldTasksManager.schedule(new WorldTask() {
+                    int tick = 0;
+
+                    @Override
+                    public void run() {
+                        if(tick == 0) {
+                            p.setNextForceMovement(new ForceMovement(new WorldTile(2661, 3500, 0), 1, Direction.WEST));
+                            p.setNextAnimation(new Animation(3844));
+                        }
+                        if (tick == 1) {
+                            p.setNextWorldTile(new WorldTile(2661, 3500, 0));
+                            stop();
+                        }
+                        tick++;
+                    }
+                }, 0, 1);
+
+            }
+        }
+    };
 	
 	public static NPCClickHandler handleSeer = new NPCClickHandler(388) {
 		@Override

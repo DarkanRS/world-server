@@ -2946,6 +2946,10 @@ public class Player extends Entity {
 		return auraManager;
 	}
 
+    public String getPronoun(String male, String female) {
+        return (getAppearance().isMale() ? male : female);
+    }
+
 	public int getMovementType() {
 		if (getTemporaryMoveType() != -1)
 			return getTemporaryMoveType();

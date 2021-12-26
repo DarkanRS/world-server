@@ -6,6 +6,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -33,26 +34,30 @@ public class KangaiMauTribalTotemD extends Conversation {
                                 .addPlayer(HeadE.HAPPY_TALKING, "Yep. I have heard there are many of that type here.")
                                 .addNPC(NPC, HeadE.CALM_TALK, "Let's hope I find them.")
                         );
-                        option("I'm in search of adventure!", new Dialogue()
-                                .addPlayer(HeadE.HAPPY_TALKING, "I'm in search of adventure!")
-                                .addNPC(NPC, HeadE.CALM_TALK, "Adventure is something I may be able to give. I need someone to go on a mission to the city of Ardougne. ")
-                                .addNPC(NPC, HeadE.CALM_TALK, "There you will find the house of Lord Handlemort. In his house he has our tribal totem. We need it back.")
-                                .addPlayer(HeadE.HAPPY_TALKING, "Why does he have it?")
-                                .addNPC(NPC, HeadE.CALM_TALK, "Lord Handlemort is an Ardougnese explorer which means he think he have the right to come to my " +
-                                        "tribal home, steal our stuff and put in his private museum.")
-                                .addOptions("Start Tribal Totem?", new Options() {
-                                    @Override
-                                    public void create() {
-                                        option("Yes", new Dialogue()
-                                                .addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get it back", ()-> {
-                                                    p.getQuestManager().setStage(Quest.TRIBAL_TOTEM, REDIRECT_TELE_STONE);;
-                                                })
-                                                .addNPC(NPC, HeadE.CALM_TALK, "Best of luck with that adventurer.")
-                                        );
-                                        option("No", new Dialogue());
-                                    }
-                                })
-                        );
+                        if(player.getSkills().getLevel(Constants.THIEVING) < 21) {
+                            option("I'm in search of adventure!", new Dialogue()
+                                    .addSimple("You need 21 thieving to start Tribal Totem.."));
+                        } else
+                            option("I'm in search of adventure!", new Dialogue()
+                                    .addPlayer(HeadE.HAPPY_TALKING, "I'm in search of adventure!")
+                                    .addNPC(NPC, HeadE.CALM_TALK, "Adventure is something I may be able to give. I need someone to go on a mission to the city of Ardougne. ")
+                                    .addNPC(NPC, HeadE.CALM_TALK, "There you will find the house of Lord Handlemort. In his house he has our tribal totem. We need it back.")
+                                    .addPlayer(HeadE.HAPPY_TALKING, "Why does he have it?")
+                                    .addNPC(NPC, HeadE.CALM_TALK, "Lord Handlemort is an Ardougnese explorer which means he think he have the right to come to my " +
+                                            "tribal home, steal our stuff and put in his private museum.")
+                                    .addOptions("Start Tribal Totem?", new Options() {
+                                        @Override
+                                        public void create() {
+                                            option("Yes", new Dialogue()
+                                                    .addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get it back", ()-> {
+                                                        p.getQuestManager().setStage(Quest.TRIBAL_TOTEM, REDIRECT_TELE_STONE);;
+                                                    })
+                                                    .addNPC(NPC, HeadE.CALM_TALK, "Best of luck with that adventurer.")
+                                            );
+                                            option("No", new Dialogue());
+                                        }
+                                    })
+                            );
                         option("Who are the Rantuki tribe?", new Dialogue()
                                 .addPlayer(HeadE.HAPPY_TALKING, "Who are the Rantuki tribe?")
                                 .addNPC(NPC, HeadE.CALM_TALK, "A proud and noble tribe of Karamja. But now we are few, as men come from across, steal our " +
