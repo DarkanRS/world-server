@@ -891,7 +891,7 @@ public class MiscTest {
 			int interId = Integer.valueOf(args[0]);
 			p.getInterfaceManager().sendInterface(interId);
 			for (int componentId = 0; componentId < Utils.getInterfaceDefinitionsComponentsSize(interId); componentId++)
-				p.getPackets().setIFText(interId, componentId, "comp" + componentId);
+				p.getPackets().setIFText(interId, componentId, ""+componentId);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "iftext [interfaceId componentId text]", "Sets the text of an interface.", (p, args) -> {

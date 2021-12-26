@@ -1,5 +1,104 @@
 [
   {
+    "comment": "Argdougne Sewer Dungeon: Zombie 3",
+    "npcId": 75,
+    "tile": {
+      "x": 2677,
+      "y": 9687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Zombie 2",
+    "npcId": 75,
+    "tile": {
+      "x": 2670,
+      "y": 9681,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Zombie 1",
+    "npcId": 75,
+    "tile": {
+      "x": 2676,
+      "y": 9680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 8",
+    "npcId": 87,
+    "tile": {
+      "x": 2646,
+      "y": 9717,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 7",
+    "npcId": 87,
+    "tile": {
+      "x": 2642,
+      "y": 9713,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 6",
+    "npcId": 87,
+    "tile": {
+      "x": 2645,
+      "y": 9710,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 5",
+    "npcId": 87,
+    "tile": {
+      "x": 2652,
+      "y": 9699,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 4",
+    "npcId": 87,
+    "tile": {
+      "x": 2647,
+      "y": 9700,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 3",
+    "npcId": 87,
+    "tile": {
+      "x": 2643,
+      "y": 9696,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 2",
+    "npcId": 87,
+    "tile": {
+      "x": 2637,
+      "y": 9697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 1",
+    "npcId": 87,
+    "tile": {
+      "x": 2633,
+      "y": 9697,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Family Crest Quest: Dimitheis",
     "npcId": 664,
     "tile": {

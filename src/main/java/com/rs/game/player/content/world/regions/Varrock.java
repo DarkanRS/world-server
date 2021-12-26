@@ -61,6 +61,7 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 
 
@@ -225,6 +226,17 @@ public class Varrock {
 			});
 		}
 	};
+
+    public static ObjectClickHandler handleVarrockSewerEntrance = new ObjectClickHandler(new Object[] { "Manhole" }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(e.getOption().equalsIgnoreCase("Climb-Down"))
+                if(obj.matches(new WorldTile(3237, 3458, 0)))
+                    p.useStairs(833, new WorldTile(3237, 9858, 0), 1, 2);
+        }
+    };
 
     public static NPCClickHandler handleBaraek = new NPCClickHandler(547) {
         @Override

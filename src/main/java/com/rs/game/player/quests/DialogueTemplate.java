@@ -2,6 +2,10 @@ package com.rs.game.player.quests;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
