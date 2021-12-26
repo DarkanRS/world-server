@@ -1,5 +1,25 @@
 [
   {
+    "comment": "Kid's ball, Witchs House quest",
+    "itemId": 2407,
+    "amount": 1,
+    "tile": {
+      "x": 2927,
+      "y": 3360,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchs Diary, Witchs House quest",
+    "itemId": 2408,
+    "amount": 1,
+    "tile": {
+      "x": 2895,
+      "y": 3371,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Rubber Tube Draynor Manor, Ernest The Chicken",
     "itemId": 276,
     "amount": 1,

@@ -32,8 +32,8 @@ public enum Fish {
 	ANCHOVIES(321, 15, 40, 30, 90),
 
 	SARDINES(327, 5, 20, 32, 180),
+    GIANT_CARP(338, 10, 50, 32, 192),
 	HERRING(345, 10, 30, 16, 96),
-
 	TROUT(335, 20, 50, 32, 192),
 	SALMON(331, 30, 70, 16, 96),
 

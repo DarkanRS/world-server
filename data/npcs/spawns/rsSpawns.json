@@ -1,5 +1,365 @@
 [
   {
+    "comment": "Sinister Stranger added by jawarrior1",
+    "npcId": 3677,
+    "tile": {
+      "x": 2638,
+      "y": 3444,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Zombie 3",
+    "npcId": 75,
+    "tile": {
+      "x": 2677,
+      "y": 9687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Zombie 2",
+    "npcId": 75,
+    "tile": {
+      "x": 2670,
+      "y": 9681,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Zombie 1",
+    "npcId": 75,
+    "tile": {
+      "x": 2676,
+      "y": 9680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 8",
+    "npcId": 87,
+    "tile": {
+      "x": 2646,
+      "y": 9717,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 7",
+    "npcId": 87,
+    "tile": {
+      "x": 2642,
+      "y": 9713,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 6",
+    "npcId": 87,
+    "tile": {
+      "x": 2645,
+      "y": 9710,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 5",
+    "npcId": 87,
+    "tile": {
+      "x": 2652,
+      "y": 9699,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 4",
+    "npcId": 87,
+    "tile": {
+      "x": 2647,
+      "y": 9700,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 3",
+    "npcId": 87,
+    "tile": {
+      "x": 2643,
+      "y": 9696,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 2",
+    "npcId": 87,
+    "tile": {
+      "x": 2637,
+      "y": 9697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Argdougne Sewer Dungeon: Giant Rat 1",
+    "npcId": 87,
+    "tile": {
+      "x": 2633,
+      "y": 9697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Family Crest Quest: Dimitheis",
+    "npcId": 664,
+    "tile": {
+      "x": 3281,
+      "y": 3403,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hellhound 2",
+    "npcId": 49,
+    "tile": {
+      "x": 2733,
+      "y": 9687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hellhound 1",
+    "npcId": 49,
+    "tile": {
+      "x": 2733,
+      "y": 9693,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 5",
+    "npcId": 115,
+    "tile": {
+      "x": 2718,
+      "y": 9668,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 4",
+    "npcId": 8658,
+    "tile": {
+      "x": 2721,
+      "y": 9669,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 3",
+    "npcId": 3451,
+    "tile": {
+      "x": 2722,
+      "y": 9707,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 2",
+    "npcId": 3419,
+    "tile": {
+      "x": 2722,
+      "y": 9714,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Ogre 1",
+    "npcId": 115,
+    "tile": {
+      "x": 2719,
+      "y": 9715,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 5",
+    "npcId": 13100,
+    "tile": {
+      "x": 2707,
+      "y": 9700,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 4",
+    "npcId": 13100,
+    "tile": {
+      "x": 2702,
+      "y": 9697,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 3",
+    "npcId": 13100,
+    "tile": {
+      "x": 2693,
+      "y": 9690,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 2",
+    "npcId": 13100,
+    "tile": {
+      "x": 2698,
+      "y": 9690,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchhaven dungeon: Hobgoblin 1",
+    "npcId": 13100,
+    "tile": {
+      "x": 2700,
+      "y": 9687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chronozon: Family Crest boss",
+    "npcId": 667,
+    "tile": {
+      "x": 3085,
+      "y": 9925,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 3rd floor mordred",
+    "npcId": 247,
+    "tile": {
+      "x": 2770,
+      "y": 3402,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2770,
+      "y": 3402,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2771,
+      "y": 3396,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2767,
+      "y": 3398,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2767,
+      "y": 3406,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 2nd floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2772,
+      "y": 3407,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 1st floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2774,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 1st floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2766,
+      "y": 3399,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Merlins Crystal: 1st floor Renegade knights",
+    "npcId": 237,
+    "tile": {
+      "x": 2770,
+      "y": 3403,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Witchs house: Boy, quest start",
+    "npcId": 895,
+    "tile": {
+      "x": 2926,
+      "y": 3354,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Monk in Lumbridge Swamp",
+    "npcId": 651,
+    "tile": {
+      "x": 3146,
+      "y": 3202,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Wizard in Lumbridge Swamp",
+    "npcId": 652,
+    "tile": {
+      "x": 3153,
+      "y": 3206,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Archer in Lumbridge Swamp",
+    "npcId": 649,
+    "tile": {
+      "x": 3151,
+      "y": 3203,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lost City: Warrior in Lumbridge Swamp",
+    "npcId": 650,
+    "tile": {
+      "x": 3148,
+      "y": 3205,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Dragon Slayer: Cabin boy Jenkins at boat",
     "npcId": 748,
     "tile": {
@@ -110427,15 +110787,6 @@
     },
     "comment": "Kent",
     "npcId": 701
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2552,
-      "y": 3570
-    },
-    "comment": "Kharid Scorpion",
-    "npcId": 386
   },
   {
     "tile": {

@@ -302,6 +302,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
                             p.setNextWorldTile(playerTile);
                             dummy.finish();
                             npc.transformIntoNPC(SIR_PRYSIN);
+                            stop();
                         }
                         tick++;
                     }

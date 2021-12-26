@@ -113,6 +113,48 @@ public class Ardougne  {
 			}
 		}
 	};
+
+    public static ObjectClickHandler handleWitchahavenDungeonEntrance = new ObjectClickHandler(new Object[] { 18266 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            p.setNextWorldTile(new WorldTile(2696, 9683, 0));
+        }
+    };
+
+    public static ObjectClickHandler handleArdougneSewerEntrance = new ObjectClickHandler(new Object[] { "Manhole" }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(e.getOption().equalsIgnoreCase("Open")) {
+                GameObject openedHole = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+                p.faceObject(openedHole);
+                World.spawnObjectTemporary(openedHole, Ticks.fromMinutes(1));
+            }
+            if(e.getOption().equalsIgnoreCase("Climb-Down"))
+                if(obj.matches(new WorldTile(2632, 3294, 0)))
+                    p.useStairs(833, new WorldTile(2631, 9694, 0), 1, 2);
+        }
+    };
+
+    public static ObjectClickHandler handleArdougneSewerExit = new ObjectClickHandler(new Object[] { 32015 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(obj.matches(new WorldTile(2632, 9694, 0)))
+                p.ladder(new WorldTile(2633, 3294, 0));
+        }
+    };
+
+    public static ObjectClickHandler handleWitchahavenDungeonExit = new ObjectClickHandler(new Object[] { 33246 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            p.setNextWorldTile(new WorldTile(2697, 3283, 0));
+        }
+    };
 	
 	public static ObjectClickHandler handleClocktowerDungeonLadders = new ObjectClickHandler(new Object[] { 1755, 1756 }) {
 		@Override

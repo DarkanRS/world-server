@@ -36,6 +36,7 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.dialogues.AncientAltar;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
@@ -60,6 +61,7 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 
 
@@ -153,6 +155,36 @@ public class Varrock {
         }
     };
 
+    public static ObjectClickHandler handleChaosAltar = new ObjectClickHandler(new Object[] { 61 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            if(e.getOption().equalsIgnoreCase("Pray-at")) {
+                final int maxPrayer = p.getSkills().getLevelForXp(Constants.PRAYER) * 10;
+                if (p.getPrayer().getPoints() < maxPrayer) {
+                    p.lock(5);
+                    p.sendMessage("You pray to the gods...", true);
+                    p.setNextAnimation(new Animation(645));
+                    WorldTasksManager.schedule(new WorldTask() {
+                        @Override
+                        public void run() {
+                            p.getPrayer().restorePrayer(maxPrayer);
+                            p.sendMessage("...and recharged your prayer.", true);
+                        }
+                    }, 2);
+                } else
+                    p.sendMessage("You already have full prayer.");
+            } else if(e.getOption().equalsIgnoreCase("Check")) {
+                p.startConversation(new Conversation(p) {
+                    {
+                        addSimple("You find a small inscription at the bottom of the altar. It reads: 'Snarthon Candtrick Termanto'.");
+                        create();
+                    }
+                });
+            }
+        }
+    };
+
 	public static ObjectClickHandler handleDummies = new ObjectClickHandler(new Object[] { 23921 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -194,6 +226,17 @@ public class Varrock {
 			});
 		}
 	};
+
+    public static ObjectClickHandler handleVarrockSewerEntrance = new ObjectClickHandler(new Object[] { "Manhole" }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(e.getOption().equalsIgnoreCase("Climb-Down"))
+                if(obj.matches(new WorldTile(3237, 3458, 0)))
+                    p.useStairs(833, new WorldTile(3237, 9858, 0), 1, 2);
+        }
+    };
 
     public static NPCClickHandler handleBaraek = new NPCClickHandler(547) {
         @Override

@@ -10,19 +10,18 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
+import com.rs.game.player.quests.handlers.demonslayer.DemonSlayer;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
+import com.rs.utils.Ticks;
 
 @QuestHandler(Quest.DRAGON_SLAYER)
 @PluginEventHandler
@@ -37,14 +36,10 @@ public class DragonSlayer extends QuestOutline {
 
     //Items
     public final static int COINS = 995;
-    public final static int UNFIRED_BOWL = 1791;
-    public final static int WIZARD_MIND_BOMB = 1907;
     public final static int MAP_PART1 = 1535;
     public final static int MAP_PART2 = 1536;
     public final static int MAP_PART3 = 1537;
     public final static int CRANDOR_MAP = 1538;
-    public final static int LOBSTER_POT = 301;
-    public final static int SILK = 950;
     public final static int LAW_RUNE = 563;
     public final static int AIR_RUNE = 556;
     public final static int HAMMER = 2347;
@@ -61,7 +56,6 @@ public class DragonSlayer extends QuestOutline {
     public final static int MELZAR_MAZE_KEY = 1542;
 
     //Game Objects
-    public final static int MAP_CHEST1 = 2603;
     public final static int MAP_CHEST2 = 2587;
 
     //NPCs
@@ -100,9 +94,16 @@ public class DragonSlayer extends QuestOutline {
     public final static String KNOWS_ABOUT_MELZAR_MAP_ATTR = "KNOWS_ABOUT_MELZAR_MAP";
     public final static String KNOWS_ABOUT_SHIP_ATTR = "KNOWS_ABOUT_SHIP";
     public final static String KNOWS_ABOUT_DRAGON_BREATH_ATTR = "KNOWS_ABOUT_DRAGON_BREATH";
+
+    //Other attributes
     public final static String OWNS_BOAT_ATTR = "PLAYER_OWNS_BOAT";
     public final static String IS_BOAT_FIXED_ATTR = "IS_BOAT_FIXED";
     public final static String BOAT_FIX_NUM_ATTR = "BOAT_FIX_STAGE";
+    public final static String ORACLE_DOOR_KNOWLEDGE_ATTR = "ORACLE_DOOR";
+    public final static String DOOR_BOWL_ATTR = "DOOR_BOWL";
+    public final static String DOOR_BOMB_ATTR = "DOOR_BOMB";
+    public final static String DOOR_SILK_ATTR = "DOOR_SILK";
+    public final static String DOOR_CAGE_ATTR = "DOOR_CAGE";
     public final static String FINISHED_BOAT_SCENE_ATTR = "FINISHED_BOAT_SCENE";
     public final static String INTRODUCED_ELVARG_ATTR = "INTRODUCED_ELVARG";
 
@@ -125,6 +126,9 @@ public class DragonSlayer extends QuestOutline {
                 lines.add("dragon Elvarg of Crandor and earn the right to");
                 lines.add("buy and wear the Rune platebody.");
                 lines.add("");
+                lines.add("Talk to the Guildmaster in the Champions Guild in");
+                lines.add("South Varrock. You will need 32 quest points.");
+                lines.add("");
                 break;
             case TALK_TO_OZIACH:
                 lines.add("The Guildmaster from the Champion's guild has");
@@ -143,7 +147,9 @@ public class DragonSlayer extends QuestOutline {
                 lines.add("I should report to the Guildmaster and get more");
                 lines.add("information as to how I should prepare.");
                 lines.add("");
-                lines.add("You will need to complete all the dialogue");
+                lines.add("You will need to complete all the dialogue to unlock");
+                lines.add("the rest of the quest. Dialogue below describing where");
+                lines.add("the rest of the quest items will be, will be below:");
                 lines.add("");
                 break;
             case PREPARE_FOR_CRANDOR:
@@ -159,8 +165,16 @@ public class DragonSlayer extends QuestOutline {
                 lines.add("There are 3 pieces I need to gather.");
                 lines.add("1. I need to search Melzars Maze, I better ask the");
                 lines.add("Guildmaster for a key");
-                lines.add("2. I should talk to the Oracle at White Wolf Mountain.");
-                lines.add("The map piece is somewhere in the dwarven mine.");
+                if(player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(ORACLE_DOOR_KNOWLEDGE_ATTR)) {
+                    lines.add("2. I need to use a crayfish cage, an unfired bowl,");
+                    lines.add("Silk, and a Wizard Mind Bomb on a door in the dwarven");
+                    lines.add("mine. Inside the door I should find a map piece.");
+                    lines.add("I can get a Wizard Mind Bomb at the Lighthouse store,");
+                    lines.add("owned by a guy named Jossik.");
+                } else {
+                    lines.add("2. I should talk to the Oracle at White Wolf Mountain.");
+                    lines.add("The map piece is somewhere in the dwarven mine.");
+                }
                 lines.add("3. I hear one of the prisoners in Port Sarim prison has");
                 lines.add("a map piece");
                 lines.add("");
@@ -194,6 +208,32 @@ public class DragonSlayer extends QuestOutline {
                 World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
                 e.getPlayer().getPackets().sendSound(2739, 0, 1);
             }
+        }
+    };
+
+    public static ItemClickHandler handleClickOnMapPart = new ItemClickHandler(MAP_PART1, MAP_PART2, MAP_PART3) {
+        @Override
+        public void handle(ItemClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("study"))
+                e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
+            if(e.getOption().equalsIgnoreCase("drop")) {
+                e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                e.getPlayer().getPackets().sendSound(2739, 0, 1);
+            }
+        }
+    };
+
+    public static ItemOnItemHandler createMapFromParts = new ItemOnItemHandler(new int[]{MAP_PART1, MAP_PART2, MAP_PART3}, new int[]{MAP_PART1, MAP_PART2, MAP_PART3}) {
+        @Override
+        public void handle(ItemOnItemEvent e) {
+            if (e.getPlayer().getInventory().containsItem(MAP_PART1, 1))
+                if (e.getPlayer().getInventory().containsItem(MAP_PART2, 1))
+                    if (e.getPlayer().getInventory().containsItem(MAP_PART3, 1)) {
+                        e.getPlayer().getInventory().removeItems(new Item(MAP_PART1, 1), new Item(MAP_PART2, 1), new Item(MAP_PART3, 1));
+                        e.getPlayer().getInventory().addItem(new Item(CRANDOR_MAP, 1), true);
+                    }
+
         }
     };
 
@@ -264,7 +304,159 @@ public class DragonSlayer extends QuestOutline {
             }
         }
     };
-    
+
+    public static ObjectClickHandler handleMagicDoor = new ObjectClickHandler(new Object[] { 25115 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
+
+            if(p.getX() > obj.getX()) {
+                p.startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addPlayer(HeadE.SCARED, "It appears to be locked from the outside, I am trapped!");
+                        create();
+                    }
+                });
+                return;
+            }
+
+            if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
+                return;
+
+            if(attr.getB(DOOR_BOMB_ATTR) && attr.getB(DOOR_BOWL_ATTR) && attr.getB(DOOR_SILK_ATTR) && attr.getB(DOOR_CAGE_ATTR)) {
+                obj.animate(new Animation(6636));
+                WorldTasksManager.schedule(new WorldTask() {
+                    int tick;
+                    WorldTile playerTile;
+                    @Override
+                    public void run() {
+                        if(tick == 0) {
+                            p.lock();
+                        }
+                        if(tick == 1)
+                            p.walkToAndExecute(new WorldTile(3050, 9840, 0), ()-> {
+                                p.faceEast();
+                                tick++;
+                            });
+                        if(tick==2) {
+                            p.sendMessage("The magic door opens...");
+                            obj.animate(new Animation(6636));
+                        }
+                        if(tick==3)
+                            p.addWalkSteps(new WorldTile(3051, 9840, 0), 3, false);
+                        if(tick==5)
+                            obj.animate(new Animation(6637));
+                        if(tick==7) {
+                            p.unlock();
+                            stop();
+                        }
+
+                        if(tick != 1)
+                            tick++;
+                    }
+                }, 0, 1);
+            } else {
+                p.startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addPlayer(HeadE.SKEPTICAL_THINKING, "It appears to be magically locked...");
+                        create();
+                    }
+                });
+            }
+
+
+        }
+    };
+
+    public static ObjectClickHandler handleMagicChest = new ObjectClickHandler(new Object[] { MAP_CHEST2 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
+                return;
+            if(p.getInventory().containsItem(MAP_PART3, 1)) {
+                p.startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addPlayer(HeadE.SKEPTICAL_THINKING, "The chest is empty...");
+                        create();
+                    }
+                });
+                return;
+            }
+            p.startConversation(new Conversation(e.getPlayer()) {
+                {
+                    addSimple("As you open the chest you notice an inscription on the lid.");
+                    addSimple("Here, I rest the map of my beloved home. To whoever finds it, I beg of you, let it be. I was honour-bound not to destroy the " +
+                            "map piece, but I have used all of my magical skill to keep it from being recovered.");
+                    addSimple("But revenge would not benefit me now, and to disturb this beast is to risk bringing its wrath down upon another land. " +
+                            "This map leads to the lair of the beast that destroyed my home, devoured my family, and burned to a cinder all that I love.");
+                    addSimple("I cannot stop you from taking this map piece now, but think on this: if you can slay the Dragon of Crandor, you are a " +
+                            "greater hero than my land ever produced. There is no shame in backing out now.");
+                    addNext(()-> {
+                        p.setNextAnimation(new Animation(536));
+                        p.lock(2);
+                        GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+                        p.faceObject(openedChest);
+                        World.spawnObjectTemporary(openedChest, Ticks.fromSeconds(4));
+                        p.getInventory().addItem(new Item(MAP_PART3, 1), true);
+                    });
+                    create();
+                }
+            });
+        }
+    };
+
+    public static ItemOnObjectHandler itemOnMagicDoor = new ItemOnObjectHandler(true, new Object[] { 25115 }) {
+        final int SILK = 950;
+        final int BOMB = 1907;
+        final int BOWL = 1791;
+        final int CAGE = 13431;
+        @Override
+        public void handle(ItemOnObjectEvent e) {
+            Player p = e.getPlayer();
+            GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
+            if (e.getItem().getId() == SILK) {
+                if(attr.getB(DOOR_SILK_ATTR))
+                    p.sendMessage("Silk seems to have been used on the door...");
+                else {
+                    attr.setB(DOOR_SILK_ATTR, true);
+                    p.getInventory().removeItems(new Item(SILK, 1));
+                    p.sendMessage("The door consumes the silk...");
+                }
+            }
+            if (e.getItem().getId() == BOMB) {
+                if(attr.getB(DOOR_BOMB_ATTR))
+                    p.sendMessage("A wizard mind bomb seems to have been used on the door...");
+                else {
+                    attr.setB(DOOR_BOMB_ATTR, true);
+                    p.getInventory().removeItems(new Item(BOMB, 1));
+                    p.sendMessage("You pour the wizard mind bomb on the door...");
+                }
+            }
+            if (e.getItem().getId() == BOWL) {
+                if(attr.getB(DOOR_BOWL_ATTR))
+                    p.sendMessage("A bowl seems to have been used on the door...");
+                else {
+                    attr.setB(DOOR_BOWL_ATTR, true);
+                    p.getInventory().removeItems(new Item(BOWL, 1));
+                    p.sendMessage("You place the unfired bowl on the door...");
+                }
+            }
+            if (e.getItem().getId() == CAGE) {
+                if(attr.getB(DOOR_CAGE_ATTR))
+                    p.sendMessage("The cage seems to have been used on the door...");
+                else {
+                    attr.setB(DOOR_CAGE_ATTR, true);
+                    p.getInventory().removeItems(new Item(CAGE, 1));
+                    p.sendMessage("The door consumes the crayfish cage...");
+                }
+            }
+        }
+    };
+
     public static void introduceElvarg(Player p) {
         WorldTasksManager.schedule(new WorldTask() {
             int tick;
@@ -320,6 +512,8 @@ public class DragonSlayer extends QuestOutline {
         player.getSkills().addXpQuest(Constants.DEFENSE, 18650);
 		getQuest().sendQuestCompleteInterface(player, 11279, "18,650 Strength XP", "18,650 Defence XP");
 	}
+
+
 
 }
 
