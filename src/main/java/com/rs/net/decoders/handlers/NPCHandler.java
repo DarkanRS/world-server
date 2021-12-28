@@ -419,21 +419,7 @@ public class NPCHandler {
 				}
 				return;
 			}
-			if (npc.getDefinitions().getOption(2).equalsIgnoreCase("listen-to")) {
-				if (player.getEmotesManager().isAnimating()) {
-					player.sendMessage("You can't rest while perfoming an emote.");
-					return;
-				}
-				if (player.isLocked()) {
-					player.sendMessage("You can't rest while perfoming an action.");
-					return;
-				}
-				player.stopAll();
-				npc.resetDirection();
-				player.getActionManager().setAction(new Rest());
-				return;
-			}
-			
+
 			if (npc.getDefinitions().getName(player.getVars()).toLowerCase().equals("void knight")) {
 				CommendationExchange.openExchangeShop(player);
 				return;

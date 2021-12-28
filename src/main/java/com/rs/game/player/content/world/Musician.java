@@ -6,6 +6,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Rest;
+import com.rs.game.player.actions.RestMusician;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -17,7 +18,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Musician {
 
-	static Object[] musiciansList = new Object[] { 29, 30, 3463, 3509, 3611, 5442, 8698,8699, 8700, 8701, 8702, 8703, 8704, 8705, 8706, 8707, 8708, 8712, 8713, 8715, 8716, 8717, 8718, 8719, 8720, 8721, 8722, 8723, 14628, 14629, 14640 };
+	static Object[] musiciansList = new Object[] { 29, 30, 3463, 3509, 3611, 5442, 5439, 8698,8699, 8700, 8701, 8702, 8703, 8704, 8705, 8706, 8707, 8708, 8709, 8712, 8713, 8715, 8716, 8717, 8718, 8719, 8720, 8721, 8722, 8723, 14628, 14629, 14640 };
 	
 //	public static NPCClickHandler handleMusicians = new NPCClickHandler("29", "30", "3463", "3509", "3611", "5442", "8698","8699", "8700", "8701", "8702", "8703", "8704", "8705", "8706", "8707", "8708", "8712", "8713", "8715", "8716", "8717", "8718", "8719", "8720", "8721", "8722", "8723", "14628", "14629", "14640") {
 	
@@ -81,12 +82,24 @@ public class Musician {
 	public static NPCClickHandler handleMusicians = new NPCClickHandler(musiciansList) {
 		@Override
 		public void handle(NPCClickEvent e) {
+            Player p = e.getPlayer();
 			switch (e.getOption().toLowerCase()) {
 			case "talk-to":
-					e.getPlayer().startConversation(new MusicianD(e.getPlayer(), e.getNPCId()));
+                e.getNPC().resetDirection();
+                p.startConversation(new MusicianD(p, e.getNPCId()));
 				break;
 			case "listen-to":
-				e.getPlayer().getActionManager().setAction(new Rest());
+                if (p.getEmotesManager().isAnimating()) {
+                    p.sendMessage("You can't rest while perfoming an emote.");
+                    return;
+                }
+                if (p.isLocked()) {
+                    p.sendMessage("You can't rest while perfoming an action.");
+                    return;
+                }
+                p.stopAll();
+                e.getNPC().resetDirection();
+				p.getActionManager().setAction(new RestMusician(e.getNPCId()));
 				break;
 			}
 		}

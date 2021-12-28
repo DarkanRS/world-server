@@ -693,6 +693,10 @@ public abstract class Entity extends WorldTile {
             case 14858:
             case 14883:
             case 2859:
+            case 8709://Desert musician
+            case 8715://Drunken musician
+            case 8723://Elf musician
+            case 8712://Goblin musician
 				return true;
 			}
             switch(npc.getName()) {
@@ -703,6 +707,7 @@ public abstract class Entity extends WorldTile {
                 case "Cavefish shoal":
                 case "Rocktail shoal":
                 case "Musician":
+                case "Ghostly piper":
                     return true;
             }
 		}

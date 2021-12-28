@@ -24,7 +24,7 @@ public class DragonSlayer_BoatScene extends Controller {
     //constants
     int TRAVEL_INTERFACE = 299;
     int BOAT_TO_CRANDOR = 544;
-    int HAPPY_TRAVEL_JINGLE = 172;
+    int HAPPY_TRAVEL_JINGLE = 406; //Custom for this cutscene
     int CAPTAIN_NED = 6084;
     int CABIN_BOY_JENKINS = 6085;
     int ANIM_JENKINS_SHAKE = 2105;
@@ -63,12 +63,13 @@ public class DragonSlayer_BoatScene extends Controller {
 
                 @Override
                 public void run() {
-                    if (tick == 0)  //setup p1
+                    if (tick == 0) {  //setup p1
                         player.getInterfaceManager().setFadingInterface(115);
+                        player.getPackets().sendMusic(HAPPY_TRAVEL_JINGLE);
+                    }
                     if (tick == 3) {
                         player.getInterfaceManager().setFadingInterface(516);
                         player.getPackets().setBlockMinimapState(2);
-                        player.getPackets().sendMusicEffect(HAPPY_TRAVEL_JINGLE);
                         player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
                         player.getPackets().setIFHidden(TRAVEL_INTERFACE, 44, false);
                     }
@@ -131,7 +132,7 @@ public class DragonSlayer_BoatScene extends Controller {
                         });
 
                     if(tick == 17) {
-                        player.getPackets().sendMusic(-1, 100, 255);
+                        player.getPackets().sendMusic(360, 100, 255); //Elvarg's theme
                         player.startConversation(new Conversation(player) {
                             {
                                 addSimple("Clouds surround the ship.");
