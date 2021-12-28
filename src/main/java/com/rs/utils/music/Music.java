@@ -18,7 +18,9 @@ package com.rs.utils.music;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.JsonIOException;
@@ -29,9 +31,11 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 @PluginEventHandler
 public class Music {
 	
-	private static Map<Integer, Song> MUSICS = new HashMap<>();
-	private static Map<Integer, int[]> MUSICS_REGION = new HashMap<>();
-	
+	private static Map<Integer, Song> MUSICS = new HashMap<>();//Full music listing
+	private static Map<Integer, int[]> MUSICS_REGION = new HashMap<>();//hints & unlocks
+
+    private static Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region, object is a string and int[] songIds pair
+
 	@ServerStartupEvent
 	public static void init() {
 		try {
@@ -51,6 +55,11 @@ public class Music {
 					}
 				}
 			}
+
+            Genre[] genres = (Genre[]) JsonFileManager.loadJsonFile(new File("./data/musicGenre.json"), Genre[].class);
+            for(Genre g : genres)
+                for(int regionId : g.getRegionIds())
+                    GENRE_REGION.put(regionId, g);//none of the values can be empty
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
@@ -64,4 +73,15 @@ public class Music {
 		return MUSICS.get(musicId);
 	}
 
+    public static Genre getGenre(int regionId) {
+        if(GENRE_REGION.containsKey(regionId)) {
+            Genre g = GENRE_REGION.get(regionId);
+            if(g.getComment().equalsIgnoreCase("isdone"))
+                return g;
+            else
+                return null;
+        }
+        else
+            return null;
+    }
 }

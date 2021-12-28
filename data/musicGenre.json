@@ -1,0 +1,356 @@
+[
+  {
+    "genre": "Desert",
+    "comment": "isdone",
+    "regionIds": [
+      13107,
+      13106,
+      13105,
+      13104,
+      12848,
+      13360,
+      13616,
+      13872,
+      12591,
+      12847,
+      13103,
+      13359,
+      13615,
+      13871,
+      12590,
+      12846,
+      13102,
+      13358,
+      13614,
+      13870,
+      12589,
+      12845,
+      13101,
+      13357,
+      13613,
+      13869,
+      14126,
+      14125,
+      12588,
+      12844,
+      13100,
+      13356,
+      13612,
+      12587,
+      12843,
+      13099,
+      13355
+    ],
+    "songs": [
+      36,
+      50,
+      69,
+      79,
+      123,
+      124,
+      168,
+      174,
+      263,
+      267,
+      383,
+      351,
+      352,
+      359,
+      377,
+      383,
+      387,
+      447,
+      451,
+      452,
+      455,
+      464,
+      465,
+      505,
+      539,
+      540,
+      666
+    ]
+  },
+  {
+    "genre": "Swamp",
+    "comment": "13611 is Just southern desert",
+    "regionIds": [
+      13611
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Pirate",
+    "comment": "https://runescape.fandom.com/wiki/Music?oldid=5927398",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Morytania",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Dungeons",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Gnome",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Varrock",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Ardougne",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Wilderness",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Isafdar",
+    "comment": "Elven, Isafdar, Tirannwn",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Ogre",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Lumbridge Draynor",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "God Wars Dungeon",
+    "comment": "",
+    "regionIds": [
+
+    ],
+    "songs": [
+      0
+    ]
+  },
+  {
+    "genre": "Daemonheim, Dungeoneering",
+    "comment": "isdone",
+    "regionIds": [
+      13627,
+      13883,
+      13626,
+      13882,
+      13625,
+      13624,
+      13881
+    ],
+    "songs": [
+      803,
+      1089,
+      1090
+    ]
+  },
+  {
+    "genre": "Ambient music, Dungeoneering",
+    "comment": "Appended to dugeoneering genres",
+    "regionIds": [],
+    "songs": [
+      740,
+      744,
+      745,
+      749,
+      750,
+      751,
+      752,
+      754,
+      755,
+      758,
+      760,
+      762,
+      763,
+      764,
+      765,
+      766,
+      772,
+      773,
+      774,
+      788,
+      789,
+      791,
+      792,
+      793,
+      795,
+      796,
+      797,
+      798,
+      800,
+      804,
+      805,
+      806,
+      807,
+      809,
+      812,
+      813,
+      823,
+      825,
+      826,
+      828,
+      829,
+      830,
+      835,
+      836
+    ]
+  },
+  {
+    "genre": "Safe Room, Dungeoneering",
+    "comment": "Called when in dynamic safe room, appended to ambient",
+    "regionIds": [],
+    "songs": [
+      822
+    ]
+  },
+  {
+    "genre": "Frozen floors, Dungeoneering",
+    "comment": "called in frozen rooms, appended to ambient",
+    "regionIds": [],
+    "songs": [
+      808,
+      810,
+      811,
+      824,
+      827,
+      831,
+      832,
+      833,
+      834,
+      837
+    ]
+  },
+  {
+    "genre": "Abandoned floors, Dungeoneering",
+    "comment": "called in abandoned rooms, appended to ambient",
+    "regionIds": [],
+    "songs": [
+      771,
+      775,
+      779,
+      780,
+      781,
+      790,
+      794,
+      799,
+      801,
+      802
+    ]
+  },
+  {
+    "genre": "Furnished floors, Dungeoneering",
+    "comment": "called in furnished rooms, appended to ambient",
+    "regionIds": [],
+    "songs": [
+      739,
+      741,
+      742,
+      747,
+      748,
+      753,
+      756,
+      757,
+      761,
+      769
+    ]
+  },
+  {
+    "genre": "Occult floors, Dungeoneering",
+    "comment": "called in occult rooms, appended to ambient",
+    "regionIds": [],
+    "songs": [
+      860,
+      864,
+      870,
+      872,
+      873,
+      880,
+      882,
+      885,
+      886,
+      889
+    ]
+  },
+  {
+    "genre": "Warped floors, Dungeoneering",
+    "comment": "called in warped rooms, appended to ambient",
+    "regionIds": [],
+    "songs": [
+      911,
+      914,
+      917,
+      920,
+      925,
+      927,
+      930,
+      936,
+      938,
+      939
+    ]
+  }
+]
