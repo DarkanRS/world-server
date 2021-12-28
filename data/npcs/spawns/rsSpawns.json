@@ -118326,8 +118326,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3291,
-      "y": 3214
+      "x": 3292,
+      "y": 3212
     },
     "comment": "Musician",
     "npcId": 8707
@@ -118375,7 +118375,7 @@
       "y": 3524
     },
     "comment": "Musician",
-    "npcId": 8721
+    "npcId": 8713
   },
   {
     "tile": {

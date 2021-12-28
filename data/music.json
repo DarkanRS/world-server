@@ -1551,13 +1551,13 @@
     ]
   },
   {
-    "name": "",
+    "name": "Wally vs Delrith",
     "hint": "somewhere.",
     "id": 195,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Player vs Delrith",
     "hint": "somewhere.",
     "id": 196,
     "regionIds": []
@@ -2778,7 +2778,7 @@
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Elvarg's Theme",
     "hint": "somewhere.",
     "id": 360,
     "regionIds": []
@@ -3117,7 +3117,7 @@
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "To Crandor/Keldagrim! Theme, Dragon Slayer, Giant Dwarf",
     "hint": "somewhere.",
     "id": 406,
     "regionIds": []
@@ -4772,61 +4772,61 @@
     ]
   },
   {
-    "name": "",
+    "name": "Ghostly piper",
     "hint": "somewhere.",
     "id": 656,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Violin Musician",
     "hint": "somewhere.",
     "id": 657,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Accordian musician",
     "hint": "somewhere.",
     "id": 658,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Elven Flute",
     "hint": "somewhere.",
     "id": 659,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Double Flute Musician Arabian",
     "hint": "somewhere.",
     "id": 660,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Lute Musician Harmony, Regular",
     "hint": "somewhere.",
     "id": 661,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Lyre Musician Relleka",
     "hint": "somewhere.",
     "id": 662,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Flute Musician Arabian",
     "hint": "somewhere.",
     "id": 663,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Drunken Musician lyre",
     "hint": "somewhere.",
     "id": 664,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Drum musician",
     "hint": "somewhere.",
     "id": 665,
     "regionIds": []
