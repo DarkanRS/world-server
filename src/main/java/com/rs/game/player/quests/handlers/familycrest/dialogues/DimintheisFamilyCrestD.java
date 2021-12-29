@@ -1,23 +1,32 @@
 package com.rs.game.player.quests.handlers.familycrest.dialogues;
 
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.FAMILY_CREST;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.FAMILY_GAUNTLETS;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.KILL_CHRONOZON;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_AVAN;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_BOOT;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_CALEB;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_JOHNATHAN;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.meetsRequirements;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.lostcity.WarriorLostCityD;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
-import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.*;
-
 @PluginEventHandler
 public class DimintheisFamilyCrestD extends Conversation {
     private final int QUEST_INQUIRY = 0;
-    private final int SECOND = 1;
     private static final int NPC = 664;
     public DimintheisFamilyCrestD(Player p) {
         super(p);

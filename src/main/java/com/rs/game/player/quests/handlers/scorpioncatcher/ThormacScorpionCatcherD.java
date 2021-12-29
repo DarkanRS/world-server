@@ -1,5 +1,13 @@
 package com.rs.game.player.quests.handlers.scorpioncatcher;
 
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.EMPTY_CAGE;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.LOOK_FOR_SCORPIONS;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.ONE_SCORP_CAGE;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.SCORP_COUNT_ATTR;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.TWO_SCORP_CAGE;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.removeCages;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -10,8 +18,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.*;
 
 @PluginEventHandler
 public class ThormacScorpionCatcherD extends Conversation {

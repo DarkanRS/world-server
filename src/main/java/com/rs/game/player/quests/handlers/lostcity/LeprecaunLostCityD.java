@@ -1,9 +1,16 @@
 package com.rs.game.player.quests.handlers.lostcity;
 
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.CHOP_DRAMEN_TREE;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.FIND_ZANARIS;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.LEPRACAUN;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.LEPRACAUN_TREE;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.TALK_TO_LEPRAUCAN;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
-import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -20,11 +27,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.Ticks;
-import com.rs.utils.WorldUtil;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.*;
 
 @PluginEventHandler
 public class LeprecaunLostCityD extends Conversation {

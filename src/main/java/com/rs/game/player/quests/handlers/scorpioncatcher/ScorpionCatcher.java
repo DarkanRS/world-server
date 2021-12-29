@@ -16,6 +16,11 @@
 //
 package com.rs.game.player.quests.handlers.scorpioncatcher;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Inventory;
@@ -32,11 +37,6 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * How this is written:

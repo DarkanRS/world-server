@@ -29,7 +29,6 @@ import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
-import com.rs.game.player.actions.Rest;
 import com.rs.game.player.actions.interactions.StandardEntityInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.PlayerLook;
