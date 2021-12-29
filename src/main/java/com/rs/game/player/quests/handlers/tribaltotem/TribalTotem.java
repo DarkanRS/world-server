@@ -16,16 +16,16 @@
 //
 package com.rs.game.player.quests.handlers.tribaltotem;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
+import java.util.ArrayList;
+
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
-import com.rs.game.player.content.Skillcapes;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
@@ -33,22 +33,14 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.net.ClientPacket;
-import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.TRIBAL_TOTEM)
 @PluginEventHandler
@@ -279,7 +271,6 @@ public class TribalTotem extends QuestOutline {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             if(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM) == REDIRECT_TELE_STONE)
                 p.startConversation(new Conversation(e.getPlayer()) {
                     {

@@ -29,7 +29,6 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.lostcity.WarriorLostCityD;
 import com.rs.game.player.quests.handlers.merlinscrystal.knightsroundtable.SirKayMerlinsCrystalD;
 import com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.player.quests.handlers.scorpioncatcher.SeerScorpionCatcherD;

@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.merlinscrystal;
 
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.THE_BLACK_CANDLE;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -8,16 +11,9 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.lostcity.LeprecaunLostCityD;
-import com.rs.game.player.quests.handlers.lostcity.WarriorLostCityD;
-import com.rs.lib.Constants;
-import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.*;
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.*;
 
 @PluginEventHandler
 public class MorganMerlinsCrystalD extends Conversation {

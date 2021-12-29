@@ -1,24 +1,16 @@
 package com.rs.game.player.quests.handlers.merlinscrystal;
 
-import com.rs.game.World;
-import com.rs.game.npc.NPC;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.LADY_LAKE_TEST_ATTR;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
-
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.*;
 
 @PluginEventHandler
 public class LadyOfLakeMerlinsCrystalD extends Conversation {

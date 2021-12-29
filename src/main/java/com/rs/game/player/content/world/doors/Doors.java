@@ -35,8 +35,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-
-
 @PluginEventHandler
 public class Doors {
 
@@ -323,35 +321,6 @@ public class Doors {
 			player.addWalkSteps(toTile, 3, false);
 		}
 	}
-
-    private static void handleOneWayDoor(Player player, GameObject object) {
-        int offset = 0;
-        boolean open = object.getDefinitions(player).containsOption("Open");
-        int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-        WorldTile adjusted = new WorldTile(object);
-        switch (rotation) {
-            case 0:
-                adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
-                break;
-            case 1:
-                adjusted = adjusted.transform(0, open ? 1 : -1, 0);
-                break;
-            case 2:
-                adjusted = adjusted.transform(open ? 1 : -1, 0, 0);
-                break;
-            case 3:
-                adjusted = adjusted.transform(0, open ? -1 : 1, 0);
-                break;
-        }
-        Doors.Door opp = new Doors.Door(DoorPair.getOpposingDoor(player, object), object.getType(), object.getRotation(open ? 1 : -1), adjusted, object);
-        if (object instanceof Doors.Door door) {
-            World.removeObject(object);
-            World.spawnObject(door.original, true);
-        } else {
-            World.removeObject(object);
-            World.spawnObject(opp, true);
-        }
-    }
 
     public static void handleLeftHandedDoor(Player player, GameObject object) {
         handleLeftHandedDoor(player, object, 0);

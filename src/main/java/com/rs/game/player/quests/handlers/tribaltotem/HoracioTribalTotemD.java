@@ -5,17 +5,12 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
-import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
-import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.*;
-
 @PluginEventHandler
 public class HoracioTribalTotemD extends Conversation {
-    private final int FIRST = 0;
-    private final int SECOND = 1;
     private static final int NPC = 845;
     public HoracioTribalTotemD(Player p) {
         super(p);

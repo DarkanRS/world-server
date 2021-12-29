@@ -16,13 +16,11 @@
 //
 package com.rs.game.player.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 public class RestMusician extends Action {
 
