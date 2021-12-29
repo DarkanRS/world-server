@@ -68,7 +68,6 @@ import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
-import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
 

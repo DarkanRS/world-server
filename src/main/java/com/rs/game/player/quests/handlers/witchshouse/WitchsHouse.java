@@ -1,5 +1,10 @@
 package com.rs.game.player.quests.handlers.witchshouse;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
+
+import java.util.ArrayList;
+
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -10,23 +15,26 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
-import com.rs.game.player.quests.handlers.lostcity.LostCity;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.ItemAddedToInventoryEvent;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.NPCDeathEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.rs.game.player.content.world.doors.Doors.*;
 
 @QuestHandler(Quest.WITCHS_HOUSE)
 @PluginEventHandler
@@ -56,8 +64,6 @@ public class WitchsHouse extends QuestOutline {
     protected final static int EXPERIMENT4 = 900;
 
     //Objects
-
-
 
 
     @Override
@@ -109,7 +115,6 @@ public class WitchsHouse extends QuestOutline {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             if(p.getQuestManager().getStage(Quest.WITCHS_HOUSE) != FIND_BALL) {
                 p.startConversation(new Conversation(e.getPlayer()) {
                     {
@@ -268,7 +273,6 @@ public class WitchsHouse extends QuestOutline {
     };
 
     public static ItemOnObjectHandler handleMouseHole = new ItemOnObjectHandler(new Object[] { 2870 }) {
-        int CHEESE = 1985;
         @Override
         public void handle(ItemOnObjectEvent e) {
             GameObject obj = e.getObject();

@@ -1,5 +1,12 @@
 package com.rs.game.player.quests.handlers.fishingcontest;
 
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.DO_ROUNDS;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.ENTER_COMPETITION;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.GIVE_TROPHY;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.PIPE_HAS_GARLIC;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.QUEST_COMPLETE;
+
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -9,12 +16,9 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.fishing.Fishing;
 import com.rs.game.player.content.skills.fishing.FishingSpot;
 import com.rs.game.player.quests.Quest;
-import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.*;
 
 @PluginEventHandler
 public class StrangerFishingContestD extends Conversation {

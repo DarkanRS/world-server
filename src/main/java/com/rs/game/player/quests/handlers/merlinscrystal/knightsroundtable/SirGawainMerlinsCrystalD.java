@@ -1,5 +1,15 @@
 package com.rs.game.player.quests.handlers.merlinscrystal.knightsroundtable;
 
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.BREAK_MERLIN_CRYSTAL;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.OBTAINING_EXCALIBUR;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.PERFORM_RITUAL;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.TALK_TO_ARTHUR;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.TALK_TO_KNIGHTS;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.THE_BLACK_CANDLE;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,8 +19,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.*;
 
 @PluginEventHandler
 public class SirGawainMerlinsCrystalD extends Conversation {

@@ -172,22 +172,15 @@ public class NPC extends Entity {
 		return (getDefinitions().walkMask & 0x4) != 0;
 	}
 
-
     public void walkToAndExecute(WorldTile startTile, Runnable event) {
         int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
         int[] bufferX = RouteFinder.getLastPathBufferX();
-        int[] bufferY = RouteFinder.getLastPathBufferY();
-        int last = -1;
+        int[] bufferY = RouteFinder.getLastPathBufferY(); //TODO expensive call for cutscenes
         if (steps == -1)
             return;
         for (int i = steps - 1; i >= 0; i--) {
-            if (!addWalkSteps(bufferX[i], bufferY[i], 25, true, true)) {
+            if (!addWalkSteps(bufferX[i], bufferY[i], 25, true, true))
                 break;
-            }
-        }
-        if (last != -1) {
-            WorldTile tile = new WorldTile(bufferX[last], bufferY[last], getPlane());
-        } else {
         }
         setRouteEvent(new RouteEvent(startTile, event));
     }

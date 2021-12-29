@@ -9,7 +9,6 @@ import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure
 import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_SARIM_CRATE_ATTR;
 import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
 
-import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -28,9 +27,6 @@ public class LuthasPiratesTreasureD extends Conversation {
     private static final int UNEMPLOYED = 0;
     private static final int EMPLOYED = 1;
     private static final int JOB_FINISHED = 2;
-    private static final int PAYMENT_FINISHED = 3;
-
-
 
     public LuthasPiratesTreasureD(Player p) {
         super(p);
@@ -111,7 +107,6 @@ public class LuthasPiratesTreasureD extends Conversation {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == UNEMPLOYED)
                 return;
             int bananaCount = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR);

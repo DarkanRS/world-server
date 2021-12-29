@@ -10,7 +10,6 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
-import com.rs.game.player.quests.handlers.demonslayer.DemonSlayer;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
@@ -19,8 +18,16 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
 @QuestHandler(Quest.DRAGON_SLAYER)
@@ -257,7 +264,6 @@ public class DragonSlayer extends QuestOutline {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR) || p.getQuestManager().isComplete(Quest.DRAGON_SLAYER)) {
                 if(p.getInventory().containsItem(new Item(HAMMER, 1)) || p.containsTool(HAMMER)) {
                     if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) <= 2) {
@@ -329,7 +335,6 @@ public class DragonSlayer extends QuestOutline {
                 obj.animate(new Animation(6636));
                 WorldTasksManager.schedule(new WorldTask() {
                     int tick;
-                    WorldTile playerTile;
                     @Override
                     public void run() {
                         if(tick == 0) {

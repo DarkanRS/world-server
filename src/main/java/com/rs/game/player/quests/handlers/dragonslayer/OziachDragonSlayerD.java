@@ -16,7 +16,6 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class OziachDragonSlayerD extends Conversation {

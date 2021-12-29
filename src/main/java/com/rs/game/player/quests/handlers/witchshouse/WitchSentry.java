@@ -16,34 +16,22 @@
 //
 package com.rs.game.player.quests.handlers.witchshouse;
 
-import com.rs.cache.loaders.ItemDefinitions;
+import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.WITCH;
+
+import java.util.Set;
+
 import com.rs.game.Entity;
-import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
-import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
-import com.rs.game.player.content.transportation.FairyRings;
-import com.rs.game.player.controllers.WildernessController;
-import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.demonslayer.EncantationOptionsD;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-import com.rs.utils.Ticks;
-import com.rs.utils.WorldUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.WITCH;
 
 @PluginEventHandler
 public class WitchSentry extends NPC {
@@ -122,11 +110,6 @@ public class WitchSentry extends NPC {
         if(yDifference <= xDifference)//one for one cone. Multiply difference by 2 for one for two cone.
             return true;
         return false;
-    }
-
-
-    private WitchSentry getSelf() {
-        return this;
     }
 
     public static NPCInstanceHandler toFunc = new NPCInstanceHandler(WITCH) {

@@ -1,34 +1,14 @@
 package com.rs.game.player.quests.handlers.familycrest;
 
-import com.rs.game.World;
-import com.rs.game.npc.NPC;
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
-import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.player.controllers.MerlinsCrystalCrateScene;
-import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
-import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
-import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
 
 /**
  * Puzzle remake from this picture: https://gyazo.com/305b717ded771ca352b7cb50d51a91b8

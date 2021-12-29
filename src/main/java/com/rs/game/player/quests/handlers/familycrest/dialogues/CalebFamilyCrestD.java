@@ -1,6 +1,19 @@
 package com.rs.game.player.quests.handlers.familycrest.dialogues;
 
-import com.rs.game.player.Inventory;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.CALEB_ASKED_ATTR;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.CALEB_CREST;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.COOKING_GAUNTLETS;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.FAMILY_GAUNTLETS;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.KILL_CHRONOZON;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_AVAN;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_BOOT;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_CALEB;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_JOHNATHAN;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -11,8 +24,6 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.*;
 
 @PluginEventHandler
 public class CalebFamilyCrestD extends Conversation {
