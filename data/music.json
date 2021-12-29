@@ -1551,13 +1551,13 @@
     ]
   },
   {
-    "name": "",
+    "name": "Wally vs Delrith",
     "hint": "somewhere.",
     "id": 195,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Player vs Delrith",
     "hint": "somewhere.",
     "id": 196,
     "regionIds": []
@@ -2778,7 +2778,7 @@
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Elvarg's Theme",
     "hint": "somewhere.",
     "id": 360,
     "regionIds": []
@@ -3117,7 +3117,7 @@
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "To Crandor/Keldagrim! Theme, Dragon Slayer, Giant Dwarf",
     "hint": "somewhere.",
     "id": 406,
     "regionIds": []
@@ -3392,7 +3392,9 @@
     "name": "Venomous",
     "hint": "at the Scorpion Pit in the Wilderness.",
     "id": 450,
-    "regionIds": []
+    "regionIds": [
+      12867
+    ]
   },
   {
     "name": "Tune from the Dune",
@@ -3408,7 +3410,9 @@
     "name": "Copris Lunaris",
     "hint": "during Dealing with Scabaras.",
     "id": 452,
-    "regionIds": []
+    "regionIds": [
+      13099
+    ]
   },
   {
     "name": "Jungle Hunt",
@@ -3431,19 +3435,25 @@
     "name": "Scarabaeoidea",
     "hint": "during Dealing with Scabaras.",
     "id": 455,
-    "regionIds": []
+    "regionIds": [
+      13099
+    ]
   },
   {
     "name": "Animal Apogee",
     "hint": "during Wolf Whistle.",
     "id": 456,
-    "regionIds": []
+    "regionIds": [
+      11573
+    ]
   },
   {
     "name": "Scape Summon",
-    "hint": "automatically.",
+    "hint": "automatically. Taverly",
     "id": 457,
-    "regionIds": []
+    "regionIds": [
+      11573
+    ]
   },
   {
     "name": "",
@@ -3496,7 +3506,10 @@
     "name": "The Genie",
     "hint": "at the genie's cave west of Nardah.",
     "id": 464,
-    "regionIds": []
+    "regionIds": [
+      13101,
+      13357
+    ]
   },
   {
     "name": "Desert Heat",
@@ -3996,7 +4009,9 @@
     "name": "Under the Sand",
     "hint": "during Smoking Kills.",
     "id": 539,
-    "regionIds": []
+    "regionIds": [
+      13358
+    ]
   },
   {
     "name": "Desert Smoke",
@@ -4772,61 +4787,61 @@
     ]
   },
   {
-    "name": "",
+    "name": "Ghostly piper",
     "hint": "somewhere.",
     "id": 656,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Violin Musician",
     "hint": "somewhere.",
     "id": 657,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Accordian musician",
     "hint": "somewhere.",
     "id": 658,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Elven Flute",
     "hint": "somewhere.",
     "id": 659,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Double Flute Musician Arabian",
     "hint": "somewhere.",
     "id": 660,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Lute Musician Harmony, Regular",
     "hint": "somewhere.",
     "id": 661,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Lyre Musician Relleka",
     "hint": "somewhere.",
     "id": 662,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Flute Musician Arabian",
     "hint": "somewhere.",
     "id": 663,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Drunken Musician lyre",
     "hint": "somewhere.",
     "id": 664,
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "Drum musician",
     "hint": "somewhere.",
     "id": 665,
     "regionIds": []
@@ -5100,7 +5115,9 @@
     "name": "Final Destination",
     "hint": "in Kuradal's Slayer Dungeon.",
     "id": 710,
-    "regionIds": []
+    "regionIds": [
+      6482
+    ]
   },
   {
     "name": "",
@@ -5278,7 +5295,7 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 740,
     "regionIds": []
   },
@@ -5302,13 +5319,13 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 744,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 745,
     "regionIds": []
   },
@@ -5332,25 +5349,25 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 749,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 750,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 751,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 752,
     "regionIds": []
   },
@@ -5362,13 +5379,13 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 754,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 755,
     "regionIds": []
   },
@@ -5386,7 +5403,7 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 758,
     "regionIds": []
   },
@@ -5398,7 +5415,7 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 760,
     "regionIds": []
   },
@@ -5410,31 +5427,31 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 762,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 763,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 764,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 765,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 766,
     "regionIds": []
   },
@@ -5458,7 +5475,7 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Floor Complete, Dungeoneering",
     "id": 770,
     "regionIds": []
   },
@@ -5470,19 +5487,19 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 772,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 773,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 774,
     "regionIds": []
   },
@@ -5566,13 +5583,13 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 788,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 789,
     "regionIds": []
   },
@@ -5584,19 +5601,19 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 791,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 792,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 793,
     "regionIds": []
   },
@@ -5608,25 +5625,25 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 795,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 796,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 797,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 798,
     "regionIds": []
   },
@@ -5638,7 +5655,7 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 800,
     "regionIds": []
   },
@@ -5656,7 +5673,7 @@
   },
   {
     "name": "Born to Do This",
-    "hint": "during Dungeoneering.",
+    "hint": "Daemonheim.",
     "id": 803,
     "regionIds": [
       13624,
@@ -5671,25 +5688,25 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 804,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 805,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 806,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 807,
     "regionIds": []
   },
@@ -5701,7 +5718,7 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 809,
     "regionIds": []
   },
@@ -5719,13 +5736,13 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 812,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 813,
     "regionIds": []
   },
@@ -5767,13 +5784,24 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Safe room, Ambient dungeoneering",
     "id": 822,
-    "regionIds": []
+    "regionIds": [
+      343,
+      342,
+      341,
+      340,
+      339,
+      338,
+      337,
+      336,
+      335,
+      334
+    ]
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 823,
     "regionIds": []
   },
@@ -5785,13 +5813,13 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 825,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 826,
     "regionIds": []
   },
@@ -5803,19 +5831,19 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 828,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 829,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 830,
     "regionIds": []
   },
@@ -5845,13 +5873,13 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 835,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient dungeoneering",
     "id": 836,
     "regionIds": []
   },
@@ -5865,25 +5893,45 @@
     "name": "Thieves' Guild III",
     "hint": "in the Thieves' Guild.",
     "id": 838,
-    "regionIds": []
+    "regionIds": [
+      19036,
+      19034,
+      18522,
+      18524
+    ]
   },
   {
     "name": "Thieves' Guild II",
     "hint": "in the Thieves' Guild.",
     "id": 839,
-    "regionIds": []
+    "regionIds": [
+      19036,
+      19034,
+      18522,
+      18524
+    ]
   },
   {
     "name": "Thieves' Guild IV",
     "hint": "in the Thieves' Guild.",
     "id": 840,
-    "regionIds": []
+    "regionIds": [
+      19036,
+      19034,
+      18522,
+      18524
+    ]
   },
   {
     "name": "Thieves' Guild I",
     "hint": "in the Thieves' Guild.",
     "id": 842,
-    "regionIds": []
+    "regionIds": [
+      19036,
+      19034,
+      18522,
+      18524
+    ]
   },
   {
     "name": "Root Canal",
@@ -7186,13 +7234,21 @@
     "name": "Daemonheim Entrance",
     "hint": "at the entrance to Daemonheim.",
     "id": 1089,
-    "regionIds": []
+    "regionIds": [
+      13624,
+      13625,
+      13881
+    ]
   },
   {
     "name": "Daemonheim Fremenniks",
     "hint": "at the entrance to Daemonheim.",
     "id": 1090,
-    "regionIds": []
+    "regionIds": [
+      13624,
+      13625,
+      13881
+    ]
   },
   {
     "name": "Runeward",

@@ -1062,9 +1062,8 @@ public class Player extends Entity {
 		
 		if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 			tickFarming();
-		
-		if (musicsManager.musicEnded())
-			musicsManager.replayMusic();
+
+        processMusic();
 		
 		if (inCombat() || isAttacking()) {
 			for (int i = 0;i < Equipment.SIZE;i++) {
@@ -1125,6 +1124,19 @@ public class Player extends Entity {
 		prayer.processPrayer();
 		controllerManager.process();
 	}
+
+    private void processMusic() {
+        if (musicsManager.musicEnded() && !getTempAttribs().getB("MUSIC_BREAK")) {
+            getTempAttribs().setB("MUSIC_BREAK", true);
+            WorldTasksManager.schedule(new WorldTask() {
+                @Override
+                public void run() {
+                    musicsManager.replayMusic();
+                    getTempAttribs().setB("MUSIC_BREAK", false);
+                }
+            }, Utils.randomInclusive(10, 30));
+        }
+    }
 	
 	public void restoreTick(int skill, int restore) {
 		int currentLevel = getSkills().getLevel(skill);
