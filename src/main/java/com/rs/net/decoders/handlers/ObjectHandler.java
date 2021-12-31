@@ -748,7 +748,7 @@ public final class ObjectHandler {
 						player.useStairs(827, player.transform(0, -2, -1), 1, 1);
 						break;
 					}
-				} else if (id == 6435 || id == 1759 || id == 4780) {
+				} else if (id == 1759 || id == 4780) {
 					player.useStairs(827, player.transform(0, 6400, 0), 1, 1);
 				} else if (id == 4781) {
 					player.useStairs(828, player.transform(0, -6400, 0), 1, 1);

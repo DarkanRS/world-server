@@ -376,7 +376,31 @@ public class Draynor {
 			}
 		}
 	};
-	
+
+    public static ObjectClickHandler handleEnterDraynorSewers = new ObjectClickHandler(new Object[] { 6435 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(obj.matches(new WorldTile(3118, 3244, 0)))//south entrance
+                p.useStairs(827, new WorldTile(3118, 9643, 0), 1, 1);
+            if(obj.matches(new WorldTile(3084, 3272, 0)))//north entrance
+                p.useStairs(827, new WorldTile(3085, 9672, 0), 1, 1);
+        }
+    };
+
+    public static ObjectClickHandler handleExitsDraynorSewers = new ObjectClickHandler(new Object[] { 26518, 32015 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            GameObject obj = e.getObject();
+            if(obj.matches(new WorldTile(3118, 9643, 0)))//north
+                p.ladder(new WorldTile(3118, 3245, 0));
+            if(obj.matches(new WorldTile(3084, 9672, 0)))//south
+                p.ladder(new WorldTile(3084, 3273, 0));
+        }
+    };
+
 	public static ObjectClickHandler handleEnterDraynorAvaSecret = new ObjectClickHandler(new Object[] { 160, 47404 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
