@@ -34,12 +34,14 @@ public class Music {
 	private static Map<Integer, Song> MUSICS = new HashMap<>();//Full music listing
 	private static Map<Integer, int[]> MUSICS_REGION = new HashMap<>();//hints & unlocks
 
-    private static Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region, object is a string and int[] songIds pair
+    private static Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region
+    private static Genre[] genres;
+    private static Genre[] parentGenres;
 
 	@ServerStartupEvent
 	public static void init() {
 		try {
-			Song[] songs = (Song[]) JsonFileManager.loadJsonFile(new File("./data/music.json"), Song[].class);
+			Song[] songs = (Song[]) JsonFileManager.loadJsonFile(new File("./data/music/songs.json"), Song[].class);
 			for (Song s : songs) {
 				MUSICS.put(s.getId(), s);
 				for (int regionId : s.getRegionIds()) {
@@ -55,11 +57,22 @@ public class Music {
 					}
 				}
 			}
-
-            Genre[] genres = (Genre[]) JsonFileManager.loadJsonFile(new File("./data/musicGenre.json"), Genre[].class);
+            parentGenres = (Genre[]) JsonFileManager.loadJsonFile(new File("./data/music/parent-genres.json"), Genre[].class);
+            genres = (Genre[]) JsonFileManager.loadJsonFile(new File("./data/music/genres.json"), Genre[].class);
             for(Genre g : genres)
-                for(int regionId : g.getRegionIds())
+                for(int regionId : g.getRegionIds()) {
+                    if(GENRE_REGION.containsKey(regionId))
+                        throw new java.lang.Error("Error, duplicate key at: " + regionId);
                     GENRE_REGION.put(regionId, g);//none of the values can be empty
+                }
+            //error check
+            for(Genre g : parentGenres)
+                if(g.getSongs().length < 10 && g.isActive())
+                    throw new java.lang.Error("ERROR: " + g.getGenreName() + " Genre is too small! Must be more than 10");
+                else
+                    for(int s : g.getSongs())
+                        s++;
+
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
@@ -76,12 +89,30 @@ public class Music {
     public static Genre getGenre(int regionId) {
         if(GENRE_REGION.containsKey(regionId)) {
             Genre g = GENRE_REGION.get(regionId);
-            if(g.getComment().equalsIgnoreCase("isdone"))
+            if(g.getSongs().length < 10)
+                return null;
+            if(g.isActive())
                 return g;
             else
                 return null;
         }
         else
             return null;
+    }
+
+    public static Genre getParent(String name) {
+        for(Genre g : parentGenres)
+            if(g.getGenreName().equalsIgnoreCase(name))
+                return g;
+        return null;
+    }
+
+    public static String[] getSongGenres(int musicId) {
+        List<String> genreNames = new ArrayList<>();
+        for(Genre g : genres)
+            for(int songId : g.getSongs())
+                if(songId == musicId)
+                    genreNames.add(g.getGenreName());
+        return genreNames.stream().toArray(String[]::new);
     }
 }

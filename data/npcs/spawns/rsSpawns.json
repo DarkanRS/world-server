@@ -6724,9 +6724,9 @@
   },
   {
     "tile": {
-      "plane": 3,
-      "x": 1880,
-      "y": 4368
+      "plane": 2,
+      "x": 1968,
+      "y": 4428
     },
     "comment": "Guardian mummy",
     "npcId": 4476
