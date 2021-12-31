@@ -1131,7 +1131,7 @@ public class Player extends Entity {
             WorldTasksManager.schedule(new WorldTask() {
                 @Override
                 public void run() {
-                    musicsManager.replayMusic();
+                    musicsManager.playAmbientMusic();
                     getTempAttribs().setB("MUSIC_BREAK", false);
                 }
             }, Utils.randomInclusive(10, 30));
