@@ -210,14 +210,6 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new IFSetNPCHead(interfaceId, componentId, npcId));
 	}
 
-	public void receiveClanChatMessage(String displayName, int rights, String message, boolean guest) {
-		session.writeToQueue(new MessageClan(displayName, rights, message, guest));
-	}
-
-	public void receiveClanChatQuickMessage(String display, int rights, QuickChatMessage message, boolean guest) {
-		session.writeToQueue(new QuickChatClan(display, rights, message, guest));
-	}
-
 	public void updateGESlot(int slot, int progress, int item, int price, int amount, int currAmount, int totalPrice) {
 		session.writeToQueue(new UpdateGESlot(slot, progress, item, price, amount, currAmount, totalPrice));
 	}
@@ -408,6 +400,14 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new QuickChatFriendsChat(name, rights, chatName, message));
 	}
 
+	public void receiveClanChatMessage(String displayName, int rights, String message, boolean guest) {
+		session.writeToQueue(new MessageClan(displayName, rights, message, guest));
+	}
+
+	public void receiveClanChatQuickMessage(String display, int rights, QuickChatMessage message, boolean guest) {
+		session.writeToQueue(new QuickChatClan(display, rights, message, guest));
+	}
+	
 	public void sendChatFilterSettings() {
 		session.writeToQueue(new ChatFilterSettings(player.getTradeStatus(), player.getPublicStatus()));
 	}
