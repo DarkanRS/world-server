@@ -3,6 +3,7 @@
     "name": "No music",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 0,
     "regionIds": [
       9040,
@@ -23,6 +24,7 @@
     "name": "Iban",
     "hint": "at Iban's lair in the Underground Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1,
     "regionIds": [
       8521,
@@ -35,6 +37,7 @@
     "name": "Autumn Voyage",
     "hint": "at Lumbridge farm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 2,
     "regionIds": [
       12851
@@ -44,6 +47,7 @@
     "name": "Unknown Land",
     "hint": "at Draynor Market.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 3,
     "regionIds": [
       12338
@@ -53,6 +57,7 @@
     "name": "Hell's Bells",
     "hint": "during the Troll Romance quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 4,
     "regionIds": [
       11066,
@@ -64,6 +69,7 @@
     "name": "Sad Meadow",
     "hint": "at West Ardougne.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 5,
     "regionIds": [
       10035
@@ -73,6 +79,7 @@
     "name": "Jolly-R",
     "hint": "at the north dock of Brimhaven.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 6,
     "regionIds": [
       11058
@@ -82,6 +89,7 @@
     "name": "Overture",
     "hint": "at Seers' Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 7,
     "regionIds": [
       10806
@@ -91,6 +99,7 @@
     "name": "Wildwood",
     "hint": "to the west of Stealing Creation in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 8,
     "regionIds": [
       12344
@@ -100,6 +109,7 @@
     "name": "Kingdom",
     "hint": "on the way to Death Plateau.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 9,
     "regionIds": [
       11319
@@ -109,6 +119,7 @@
     "name": "Moody",
     "hint": "at the entrance to the Underground Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 10,
     "regionIds": [
       9779,
@@ -120,6 +131,7 @@
     "name": "Spooky2",
     "hint": "at the entrance to the Haunted Mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 11,
     "regionIds": [
       13718
@@ -129,6 +141,7 @@
     "name": "Long Way Home",
     "hint": "at Rimmington.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 12,
     "regionIds": [
       11826
@@ -138,6 +151,7 @@
     "name": "Mage Arena",
     "hint": "at the Mage Arena.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 13,
     "regionIds": [
       12349
@@ -147,6 +161,7 @@
     "name": "Witching",
     "hint": "on the east side of the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 14,
     "regionIds": [
       13114,
@@ -157,6 +172,7 @@
     "name": "Workshop",
     "hint": "at the Mining Guild in Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 15,
     "regionIds": [
       12084
@@ -166,6 +182,7 @@
     "name": "Scape Main",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 16,
     "regionIds": []
   },
@@ -173,6 +190,7 @@
     "name": "Escape",
     "hint": "at the perfect gold mine under Ardougne.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 17,
     "regionIds": [
       10903
@@ -182,6 +200,7 @@
     "name": "Horizon",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 18,
     "regionIds": [
       11573,
@@ -192,6 +211,7 @@
     "name": "Arabique",
     "hint": "at the hellhounds in Taverley Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 19,
     "regionIds": [
       11416
@@ -201,6 +221,7 @@
     "name": "Lullaby",
     "hint": "at the area south-west of Rellekka.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 20,
     "regionIds": [
       10551
@@ -210,6 +231,7 @@
     "name": "Monarch Waltz",
     "hint": "at the Sinclair Mansion.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 21,
     "regionIds": [
       10807
@@ -219,6 +241,7 @@
     "name": "Gnome King",
     "hint": "at the Tree Gnome Stronghold.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 22,
     "regionIds": [
       9783,
@@ -229,6 +252,7 @@
     "name": "Fe Fi Fo Fum",
     "hint": "during Grim Tales.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 23,
     "regionIds": [
       8534
@@ -238,6 +262,7 @@
     "name": "Attack1",
     "hint": "at the Battlefield north of Tree Gnome Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 24,
     "regionIds": [
       10034
@@ -247,6 +272,7 @@
     "name": "Attack2",
     "hint": "at Elvarg's lair or during Grand Tree Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 25,
     "regionIds": [
       11414
@@ -255,7 +281,8 @@
   {
     "name": "Attack3",
     "hint": "to the north of the Lava Maze.",
-    "comment": "",
+    "comment": "wild",
+    "isAutoUnlock": false,
     "id": 26,
     "regionIds": [
       12192
@@ -264,7 +291,8 @@
   {
     "name": "Attack4",
     "hint": "at the Fight Arena.",
-    "comment": "",
+    "comment": "in region only",
+    "isAutoUnlock": false,
     "id": 27,
     "regionIds": [
       10289
@@ -273,7 +301,8 @@
   {
     "name": "Attack5",
     "hint": "at the King Black Dragon.",
-    "comment": "",
+    "comment": "region only",
+    "isAutoUnlock": false,
     "id": 28,
     "regionIds": [
       10905,
@@ -284,6 +313,7 @@
     "name": "Attack6",
     "hint": "at Gu'Tanoth Ogre Enclave.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 29,
     "regionIds": [
       10387
@@ -293,6 +323,7 @@
     "name": "Voodoo Cult",
     "hint": "at the cave under the Kharazi Jungle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 30,
     "regionIds": [
       9545,
@@ -303,6 +334,7 @@
     "name": "Voyage",
     "hint": "at the top of Baxtorian Falls.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 32,
     "regionIds": [
       10038
@@ -312,6 +344,7 @@
     "name": "Gnome Village",
     "hint": "at the Tree Gnome Stronghold's Agility Training Area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 33,
     "regionIds": [
       9781
@@ -321,6 +354,7 @@
     "name": "Wonder",
     "hint": "to the north-west of the Black Knights' Fortress.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 34,
     "regionIds": [
       11831
@@ -330,6 +364,7 @@
     "name": "Sea Shanty2",
     "hint": "at Port Sarim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 35,
     "regionIds": [
       12082
@@ -339,6 +374,7 @@
     "name": "Arabian",
     "hint": "in the Kharidian Desert.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 36,
     "regionIds": [
       13106
@@ -348,6 +384,7 @@
     "name": "Deep Wildy",
     "hint": "in the north-west of the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 37,
     "regionIds": [
       11835,
@@ -358,6 +395,7 @@
     "name": "Trawler",
     "hint": "during Fishing Trawler.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 38,
     "regionIds": []
   },
@@ -365,24 +403,23 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Spooky",
+    "isAutoUnlock": true,
     "id": 39,
-    "regionIds": [
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
     "comment": "Spooky",
+    "isAutoUnlock": true,
     "id": 40,
-    "regionIds": [
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Expecting",
     "hint": "at the unholy altar north of the Observatory.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 41,
     "regionIds": [
       9778
@@ -392,6 +429,7 @@
     "name": "Wilderness2",
     "hint": "to the south of the Lava Maze in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 42,
     "regionIds": [
       12091,
@@ -402,6 +440,7 @@
     "name": "Wilderness3",
     "hint": "at the Forgotten Cemetery in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 43,
     "regionIds": [
       11834
@@ -411,6 +450,7 @@
     "name": "Right on Track",
     "hint": "during Forgettable Tale...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 44,
     "regionIds": []
   },
@@ -418,6 +458,7 @@
     "name": "Venture2",
     "hint": "during Dig Site.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 45,
     "regionIds": [
       13365
@@ -427,6 +468,7 @@
     "name": "Harmony2",
     "hint": "in Lumbridge Castle's basement.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 46,
     "regionIds": [
       12950
@@ -436,6 +478,7 @@
     "name": "Duel Arena",
     "hint": "at the Duel Arena.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 47,
     "regionIds": [
       13362
@@ -445,6 +488,7 @@
     "name": "Morytania",
     "hint": "to the east of Paterdomus.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 48,
     "regionIds": [
       13622
@@ -454,6 +498,7 @@
     "name": "Wander",
     "hint": "at the farm area south of Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 49,
     "regionIds": [
       12083
@@ -463,6 +508,7 @@
     "name": "Al Kharid",
     "hint": "at Al Kharid.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 50,
     "regionIds": [
       13106
@@ -472,6 +518,7 @@
     "name": "Trawler Minor",
     "hint": "during Fishing Trawler.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 51,
     "regionIds": []
   },
@@ -479,6 +526,7 @@
     "name": "Serene",
     "hint": "at the Air Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 52,
     "regionIds": [
       11838,
@@ -489,6 +537,7 @@
     "name": "Royale",
     "hint": "at the Black Knight base in Taverley Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 53,
     "regionIds": [
       11671
@@ -498,6 +547,7 @@
     "name": "Scape Soft",
     "hint": "to the north of Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 54,
     "regionIds": [
       11829
@@ -507,6 +557,7 @@
     "name": "High Seas",
     "hint": "at Brimhaven.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 55,
     "regionIds": [
       11057
@@ -516,6 +567,7 @@
     "name": "Doorways",
     "hint": "to the north of the Grand Exchange.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 56,
     "regionIds": [
       12599
@@ -525,6 +577,7 @@
     "name": "Rune Essence",
     "hint": "at the rune essence mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 57,
     "regionIds": [
       11595
@@ -534,6 +587,7 @@
     "name": "Nomad",
     "hint": "to the east of the Bedabin Camp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 58,
     "regionIds": [
       11056
@@ -543,6 +597,7 @@
     "name": "Cursed",
     "hint": "during Underground Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 59,
     "regionIds": [
       9879,
@@ -553,6 +608,7 @@
     "name": "Lasting",
     "hint": "at Hemenster.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 60,
     "regionIds": [
       10549
@@ -562,6 +618,7 @@
     "name": "Village",
     "hint": "at Canifis in Morytania.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 61,
     "regionIds": [
       13878
@@ -571,6 +628,7 @@
     "name": "Newbie Melody",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 62,
     "regionIds": [
       12080,
@@ -584,6 +642,7 @@
     "name": "Chain of Command",
     "hint": "during Temple of Ikov.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 63,
     "regionIds": [
       10649,
@@ -594,6 +653,7 @@
     "name": "Book of Spells",
     "hint": "at Lumbridge Swamp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 64,
     "regionIds": [
       12593
@@ -603,6 +663,7 @@
     "name": "Miracle Dance",
     "hint": "at the Mind Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 65,
     "regionIds": [
       11083
@@ -612,6 +673,7 @@
     "name": "Legion",
     "hint": "at the Barbarian Outpost.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 66,
     "regionIds": [
       10039,
@@ -622,6 +684,7 @@
     "name": "Close Quarters",
     "hint": "to the west of the Dark Warriors' Fortress in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 67,
     "regionIds": [
       12858
@@ -631,6 +694,7 @@
     "name": "Cavern",
     "hint": "at Yanille Agility Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 68,
     "regionIds": [
       12193,
@@ -642,6 +706,7 @@
     "name": "Egypt",
     "hint": "at Shantay Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 69,
     "regionIds": [
       13104,
@@ -652,6 +717,7 @@
     "name": "Upcoming",
     "hint": "at the tower of the Necromancer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 70,
     "regionIds": [
       10546
@@ -661,6 +727,7 @@
     "name": "Chompy Hunt",
     "hint": "at the chompy hunt area near Rantz the ogre.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 71,
     "regionIds": [
       10542
@@ -670,6 +737,7 @@
     "name": "Fanfare",
     "hint": "at Falador Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 72,
     "regionIds": [
       11828
@@ -678,7 +746,8 @@
   {
     "name": "All's Fairy in Love and War",
     "hint": "at the fairy resistance hideout in Fairy Tale Part II.",
-    "comment": "",
+    "comment": "Zanaris",
+    "isAutoUnlock": true,
     "id": 73,
     "regionIds": []
   },
@@ -686,6 +755,7 @@
     "name": "Lightwalk",
     "hint": "at Keep Le Faye.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 74,
     "regionIds": [
       11061
@@ -695,6 +765,7 @@
     "name": "Venture",
     "hint": "at the Dig Site.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 75,
     "regionIds": [
       13364
@@ -704,6 +775,7 @@
     "name": "Harmony",
     "hint": "at Lumbridge Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 76,
     "regionIds": [
       12850
@@ -713,6 +785,7 @@
     "name": "Splendour",
     "hint": "at the Heroes' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 77,
     "regionIds": []
   },
@@ -720,6 +793,7 @@
     "name": "Reggae",
     "hint": "to the south-east of the Kharazi Jungle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 78,
     "regionIds": [
       11565,
@@ -730,6 +804,7 @@
     "name": "The Desert",
     "hint": "to the west of the Kharidian Desert.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 79,
     "regionIds": [
       12591,
@@ -740,6 +815,7 @@
     "name": "Soundscape",
     "hint": "at the Feldip Hills glider area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 80,
     "regionIds": [
       10030,
@@ -750,6 +826,7 @@
     "name": "Wonderous",
     "hint": "near the Legends' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 81,
     "regionIds": [
       10292
@@ -759,6 +836,7 @@
     "name": "Waterfall",
     "hint": "at Baxtorian Falls.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 82,
     "regionIds": [
       10037
@@ -768,6 +846,7 @@
     "name": "Big Chords",
     "hint": "to the west of Yanille.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 83,
     "regionIds": [
       10032
@@ -777,6 +856,7 @@
     "name": "Dead Quiet",
     "hint": "to the north of the Mort Myre area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 84,
     "regionIds": [
       13621
@@ -786,6 +866,7 @@
     "name": "Vision",
     "hint": "at the Wizards' Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 85,
     "regionIds": [
       12337,
@@ -796,13 +877,15 @@
     "name": "Dimension X",
     "hint": "on the gorak plane in Fairy Tale Part II.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 86,
     "regionIds": []
   },
   {
     "name": "Ice Melody",
     "hint": "at White Wolf Mountain.",
-    "comment": "",
+    "comment": "Only plays at mountain",
+    "isAutoUnlock": false,
     "id": 87,
     "regionIds": [
       11318,
@@ -813,6 +896,7 @@
     "name": "Twilight",
     "hint": "during Elemental Workshop.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 88,
     "regionIds": []
   },
@@ -820,6 +904,7 @@
     "name": "Reggae2",
     "hint": "to the east of Karamja Jungle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 89,
     "regionIds": [
       11567
@@ -829,6 +914,7 @@
     "name": "Ambient Jungle",
     "hint": "at Shilo Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 90,
     "regionIds": [
       11310
@@ -838,6 +924,7 @@
     "name": "Riverside",
     "hint": "to the west of Tyras Camp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 91,
     "regionIds": [
       8496
@@ -847,6 +934,7 @@
     "name": "Sea Shanty",
     "hint": "at Karamja port.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 92,
     "regionIds": [
       11569
@@ -856,6 +944,7 @@
     "name": "Parade",
     "hint": "at the Jolly Boar Inn.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 93,
     "regionIds": [
       13110
@@ -865,6 +954,7 @@
     "name": "Tribal2",
     "hint": "at the gnome glider on Karamja.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 94,
     "regionIds": [
       11822,
@@ -875,7 +965,8 @@
   {
     "name": "Intrepid",
     "hint": "in the Underground Pass caverns.",
-    "comment": "",
+    "comment": "Dungeon",
+    "isAutoUnlock": false,
     "id": 95,
     "regionIds": [
       9370,
@@ -885,7 +976,8 @@
   {
     "name": "Inspiration",
     "hint": "at the area north of the Black Knights' Fortress.",
-    "comment": "",
+    "comment": "Wild",
+    "isAutoUnlock": false,
     "id": 96,
     "regionIds": [
       12087
@@ -894,14 +986,18 @@
   {
     "name": "Hermit",
     "hint": "at the hermit's cave north-west of Burthorpe.",
-    "comment": "",
+    "comment": "trollheim",
+    "isAutoUnlock": false,
     "id": 97,
-    "regionIds": []
+    "regionIds": [
+      11677
+    ]
   },
   {
     "name": "Forever",
     "hint": "at Edgeville.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 98,
     "regionIds": [
       12342
@@ -911,6 +1007,7 @@
     "name": "Baroque",
     "hint": "in Ardougne.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 99,
     "regionIds": [
       10547
@@ -919,7 +1016,8 @@
   {
     "name": "Beyond",
     "hint": "in the Dwarven tunnel under Wolf Mountain.",
-    "comment": "",
+    "comment": "Catherby",
+    "isAutoUnlock": false,
     "id": 100,
     "regionIds": [
       11418
@@ -929,6 +1027,7 @@
     "name": "Gnome Village2",
     "hint": "to the south-west of the Tree Gnome Stronghold.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 101,
     "regionIds": [
       9525
@@ -938,6 +1037,7 @@
     "name": "Alone",
     "hint": "at the Ice Mountain and Monastery north of Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 102,
     "regionIds": [
       12086,
@@ -948,6 +1048,7 @@
     "name": "Oriental",
     "hint": "in the Waterfall Dungeon, East of Shilo Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 103,
     "regionIds": [
       11666
@@ -957,6 +1058,7 @@
     "name": "Camelot",
     "hint": "at Camelot Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 104,
     "regionIds": [
       11063,
@@ -967,6 +1069,7 @@
     "name": "Tomorrow",
     "hint": "at the coastline south of Port Sarim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 105,
     "regionIds": [
       12081
@@ -976,6 +1079,7 @@
     "name": "Expanse",
     "hint": "at the stone circle in Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 106,
     "regionIds": [
       12852
@@ -985,6 +1089,7 @@
     "name": "Miles Away",
     "hint": "at the Crafting Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 107,
     "regionIds": [
       11571
@@ -994,6 +1099,7 @@
     "name": "Starlight",
     "hint": "at the Asgarnian Ice Dungeon north of Mudskipper Point.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 108,
     "regionIds": [
       11925,
@@ -1004,6 +1110,7 @@
     "name": "Theme",
     "hint": "at the Coal Trucks.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 109,
     "regionIds": [
       10294,
@@ -1014,6 +1121,7 @@
     "name": "Serenade",
     "hint": "at the Observatory.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 110,
     "regionIds": [
       9521,
@@ -1024,6 +1132,7 @@
     "name": "Still Night",
     "hint": "at the Mining area south-east of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 111,
     "regionIds": [
       13108
@@ -1033,6 +1142,7 @@
     "name": "Gnomeball",
     "hint": "at the Gnome Ball Field.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 112,
     "regionIds": [
       9526
@@ -1042,6 +1152,7 @@
     "name": "Lightness",
     "hint": "to the north of Edgeville.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 113,
     "regionIds": [
       12343
@@ -1051,6 +1162,7 @@
     "name": "Jungly1",
     "hint": "at Cairn Isle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 114,
     "regionIds": [
       11054
@@ -1060,6 +1172,7 @@
     "name": "Jungly2",
     "hint": "to the north-west of Brimhaven.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 115,
     "regionIds": [
       10802
@@ -1069,6 +1182,7 @@
     "name": "Greatness",
     "hint": "at the Champions' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 116,
     "regionIds": [
       12596
@@ -1078,6 +1192,7 @@
     "name": "Jungly3",
     "hint": "at Tai Bwo Wannai Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 117,
     "regionIds": [
       11055
@@ -1087,6 +1202,7 @@
     "name": "Faerie",
     "hint": "at Zanaris.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 118,
     "regionIds": [
       9797
@@ -1096,6 +1212,7 @@
     "name": "Fishing",
     "hint": "at Catherby beach.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 119,
     "regionIds": [
       11317
@@ -1105,6 +1222,7 @@
     "name": "Shining",
     "hint": "in the Wilderness north of the Graveyard.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 120,
     "regionIds": [
       12602
@@ -1114,6 +1232,7 @@
     "name": "Forbidden",
     "hint": "to the north of the Lumber Yard.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 121,
     "regionIds": [
       13110,
@@ -1124,6 +1243,7 @@
     "name": "Shine",
     "hint": "at the Duel Arena hospital.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 122,
     "regionIds": [
       13363
@@ -1133,6 +1253,7 @@
     "name": "Arabian2",
     "hint": "at Al Kharid mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 123,
     "regionIds": [
       13107
@@ -1142,6 +1263,7 @@
     "name": "Arabian3",
     "hint": "at the desert entrance to the Kalphite Lair.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 124,
     "regionIds": [
       12848
@@ -1151,6 +1273,7 @@
     "name": "Garden",
     "hint": "at Varrock city centre.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 125,
     "regionIds": [
       12853
@@ -1160,6 +1283,7 @@
     "name": "We Are the Fairies",
     "hint": "on the cosmic entity plane during Fairy Tale Part II.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 126,
     "regionIds": [
       8267
@@ -1169,6 +1293,7 @@
     "name": "Nightfall",
     "hint": "at the north of Rimmington.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 127,
     "regionIds": [
       11827,
@@ -1179,6 +1304,7 @@
     "name": "Grumpy",
     "hint": "at the swamp toad pond in the Feldip Hills.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 128,
     "regionIds": [
       10286,
@@ -1189,6 +1315,7 @@
     "name": "Spooky Jungle",
     "hint": "to the south-west of Karamja.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 129,
     "regionIds": [
       11053
@@ -1198,6 +1325,7 @@
     "name": "Tree Spirits",
     "hint": "to the west of the Tree Gnome Stronghold.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 130,
     "regionIds": [
       9524,
@@ -1208,6 +1336,7 @@
     "name": "Understanding",
     "hint": "at the Nature Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 131,
     "regionIds": [
       9547
@@ -1217,6 +1346,7 @@
     "name": "Breeze",
     "hint": "at Isafdar near the Underground Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 132,
     "regionIds": [
       9010
@@ -1226,6 +1356,7 @@
     "name": "The Tower",
     "hint": "to the north-west of Ardougne.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 133,
     "regionIds": [
       10292
@@ -1234,7 +1365,8 @@
   {
     "name": "La Mort",
     "hint": "at the Death Altar.",
-    "comment": "",
+    "comment": "Spooky",
+    "isAutoUnlock": false,
     "id": 134,
     "regionIds": [
       8779
@@ -1244,6 +1376,7 @@
     "name": "Emperor",
     "hint": "in Melzar's Maze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 138,
     "regionIds": [
       11570
@@ -1253,6 +1386,7 @@
     "name": "Talking Forest",
     "hint": "at McGrubor's Wood.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 140,
     "regionIds": [
       10550
@@ -1262,6 +1396,7 @@
     "name": "Barbarianism",
     "hint": "at Barbarian Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 141,
     "regionIds": [
       12341
@@ -1271,6 +1406,7 @@
     "name": "Complication",
     "hint": "at the Chaos Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 142,
     "regionIds": [
       9035
@@ -1280,6 +1416,7 @@
     "name": "Down to Earth",
     "hint": "at the Earth Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 143,
     "regionIds": [
       10571
@@ -1289,6 +1426,7 @@
     "name": "Scape Cave",
     "hint": "in Varrock Sewers.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 144,
     "regionIds": [
       12698,
@@ -1306,6 +1444,7 @@
     "name": "Yesteryear",
     "hint": "to the east of Lumbridge Swamp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 145,
     "regionIds": [
       12849
@@ -1314,7 +1453,8 @@
   {
     "name": "Zealot",
     "hint": "at the Water Altar.",
-    "comment": "",
+    "comment": "Lumbridge swamp",
+    "isAutoUnlock": false,
     "id": 146,
     "regionIds": [
       9804
@@ -1323,7 +1463,8 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Empty?",
+    "isAutoUnlock": false,
     "id": 147,
     "regionIds": []
   },
@@ -1331,6 +1472,7 @@
     "name": "Emotion",
     "hint": "in the Tree Gnome Village maze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 148,
     "regionIds": [
       10033
@@ -1340,13 +1482,17 @@
     "name": "Principality",
     "hint": "at Burthorpe's training ground.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 149,
-    "regionIds": []
+    "regionIds": [
+      11575
+    ]
   },
   {
     "name": "Mouse Trap",
     "hint": "during Grim Tales.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 150,
     "regionIds": []
   },
@@ -1354,6 +1500,7 @@
     "name": "Start",
     "hint": "at Draynor Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 151,
     "regionIds": [
       12339
@@ -1363,6 +1510,7 @@
     "name": "Ballad of Enchantment",
     "hint": "at the Monastery.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 152,
     "regionIds": [
       10290
@@ -1372,6 +1520,7 @@
     "name": "Expedition",
     "hint": "in the caverns below the Observatory.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 153,
     "regionIds": [
       9362
@@ -1381,6 +1530,7 @@
     "name": "Bone Dance",
     "hint": "to the west of Mort'ton.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 154,
     "regionIds": [
       13619
@@ -1390,6 +1540,7 @@
     "name": "Neverland",
     "hint": "to the south of Tree Gnome Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 155,
     "regionIds": [
       9780
@@ -1398,7 +1549,8 @@
   {
     "name": "Mausoleum",
     "hint": "under Paterdomus.",
-    "comment": "",
+    "comment": "Spooky",
+    "isAutoUnlock": false,
     "id": 156,
     "regionIds": [
       13722
@@ -1408,6 +1560,7 @@
     "name": "Medieval",
     "hint": "to the west of the Dig Site.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 157,
     "regionIds": [
       13109
@@ -1417,6 +1570,7 @@
     "name": "Quest",
     "hint": "at the Fire Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 158,
     "regionIds": [
       10315
@@ -1426,6 +1580,7 @@
     "name": "Gaol",
     "hint": "at Gu'Tanoth.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 159,
     "regionIds": [
       10031,
@@ -1437,6 +1592,7 @@
     "name": "Army of Darkness",
     "hint": "at the Dark Warrior's Fortress.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 160,
     "regionIds": [
       12088
@@ -1446,6 +1602,7 @@
     "name": "Long Ago",
     "hint": "at Hazelmere's island East of Yanille ",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 161,
     "regionIds": [
       10544
@@ -1455,6 +1612,7 @@
     "name": "Tribal Background",
     "hint": "in the south-east Kharazi Jungle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 162,
     "regionIds": [
       11312
@@ -1464,6 +1622,7 @@
     "name": "Flute Salad",
     "hint": "at the Lumbridge windmill area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 163,
     "regionIds": [
       12595
@@ -1473,6 +1632,7 @@
     "name": "Landlubber",
     "hint": "to the west of Brimhaven.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 164,
     "regionIds": [
       10801
@@ -1482,6 +1642,7 @@
     "name": "Tribal",
     "hint": "to the east of Tai Bwo Wannai Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 165,
     "regionIds": [
       11311
@@ -1491,6 +1652,7 @@
     "name": "Fanfare2",
     "hint": "at the Shipyard on Karamja.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 166,
     "regionIds": [
       11823
@@ -1500,6 +1662,7 @@
     "name": "Fanfare3",
     "hint": "at Port Khazard.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 167,
     "regionIds": [
       10545
@@ -1509,6 +1672,7 @@
     "name": "Lonesome",
     "hint": "at the Desert Mining Camp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 168,
     "regionIds": [
       13203
@@ -1518,6 +1682,7 @@
     "name": "Crystal Sword",
     "hint": "at the Wilderness, north of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 169,
     "regionIds": [
       12855
@@ -1527,6 +1692,7 @@
     "name": "The Shadow",
     "hint": "on Crandor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 170,
     "regionIds": [
       11315,
@@ -1537,6 +1703,7 @@
     "name": "Jungle Island",
     "hint": "on Karamja.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 172,
     "regionIds": [
       11313,
@@ -1547,6 +1714,7 @@
     "name": "Dunjun",
     "hint": "in Taverley Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 173,
     "regionIds": [
       11672
@@ -1556,6 +1724,7 @@
     "name": "Desert Voyage",
     "hint": "around the Desert Mining Camp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 174,
     "regionIds": [
       13103,
@@ -1567,6 +1736,7 @@
     "name": "Spirit",
     "hint": "at the Cooks' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 175,
     "regionIds": [
       12597
@@ -1576,6 +1746,7 @@
     "name": "Undercurrent",
     "hint": "in the Wilderness south-west of Daemonheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 176,
     "regionIds": [
       12345
@@ -1585,6 +1756,7 @@
     "name": "Adventure",
     "hint": "at Varrock Palace.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 177,
     "regionIds": [
       12854
@@ -1593,7 +1765,8 @@
   {
     "name": "Courage",
     "hint": "at Taverley Dungeon.",
-    "comment": "",
+    "comment": "Dungeon",
+    "isAutoUnlock": false,
     "id": 178,
     "regionIds": [
       11417
@@ -1603,6 +1776,7 @@
     "name": "Underground",
     "hint": "at the dramen tree in Entrana Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 179,
     "regionIds": [
       13368,
@@ -1613,6 +1787,7 @@
     "name": "Attention",
     "hint": "at the coastline below Rimmington.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 180,
     "regionIds": [
       11825
@@ -1622,6 +1797,7 @@
     "name": "Crystal Cave",
     "hint": "at Zanaris market.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 181,
     "regionIds": [
       9541,
@@ -1632,6 +1808,7 @@
     "name": "Dangerous",
     "hint": "to the north of Edgeville.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 182,
     "regionIds": [
       11579,
@@ -1643,6 +1820,7 @@
     "name": "Troubled",
     "hint": "to the west of the Bandit Camp in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 183,
     "regionIds": [
       11833
@@ -1652,6 +1830,7 @@
     "name": "Magical Journey",
     "hint": "at the Sorcerer's Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 184,
     "regionIds": [
       10805
@@ -1661,6 +1840,7 @@
     "name": "Magic Dance",
     "hint": "in the east of Yanille.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 185,
     "regionIds": [
       10288
@@ -1670,6 +1850,7 @@
     "name": "Arrival",
     "hint": "at the gem trader in Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 186,
     "regionIds": [
       11572
@@ -1679,6 +1860,7 @@
     "name": "Tremble",
     "hint": "during Death Plateau.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 187,
     "regionIds": [
       11320
@@ -1688,6 +1870,7 @@
     "name": "In the Manor",
     "hint": "at the ogre island, west of Yanille.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 188,
     "regionIds": [
       10287
@@ -1697,6 +1880,7 @@
     "name": "Land of Snow",
     "hint": "in a Christmas holiday event (2007 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 189,
     "regionIds": []
   },
@@ -1704,6 +1888,7 @@
     "name": "Heart and Mind",
     "hint": "at the Body Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 190,
     "regionIds": [
       10059
@@ -1713,6 +1898,7 @@
     "name": "Knightly",
     "hint": "at Ardougne Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 191,
     "regionIds": [
       10291
@@ -1722,6 +1908,7 @@
     "name": "Trinity",
     "hint": "at the Legends' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 192,
     "regionIds": [
       10804
@@ -1731,6 +1918,7 @@
     "name": "Mellow",
     "hint": "at the Fishing Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 193,
     "regionIds": [
       10293
@@ -1740,6 +1928,7 @@
     "name": "Brimstail's Scales",
     "hint": "at Brimstail's cave.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 194,
     "regionIds": [
       9625
@@ -1749,6 +1938,7 @@
     "name": "Wally vs Delrith",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 195,
     "regionIds": []
   },
@@ -1756,6 +1946,7 @@
     "name": "Player vs Delrith",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 196,
     "regionIds": []
   },
@@ -1763,6 +1954,7 @@
     "name": "Lament of Meiyerditch",
     "hint": "during the Darkness of Hallowvale.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 197,
     "regionIds": [
       14387,
@@ -1774,6 +1966,7 @@
     "name": "Dagannoth Dawn",
     "hint": "in Waterbirth Island Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 198,
     "regionIds": [
       11589
@@ -1783,6 +1976,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 199,
     "regionIds": []
   },
@@ -1790,6 +1984,7 @@
     "name": "The Mollusc Menace",
     "hint": "during Slug Menace.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 200,
     "regionIds": [
       10803
@@ -1799,6 +1994,7 @@
     "name": "Slug a Bug Ball",
     "hint": "during the Slug Menace Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 201,
     "regionIds": []
   },
@@ -1806,6 +2002,7 @@
     "name": "Prime Time",
     "hint": "during Elemental Workshop II.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 202,
     "regionIds": []
   },
@@ -1813,6 +2010,7 @@
     "name": "My Arm's Journey",
     "hint": "during My Arm's Big Adventure.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 203,
     "regionIds": []
   },
@@ -1820,6 +2018,7 @@
     "name": "Roc and Roll",
     "hint": "during My Arm's Big Adventure.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 204,
     "regionIds": []
   },
@@ -1827,15 +2026,15 @@
     "name": "High Spirits",
     "hint": "in a Halloween holiday event (2006 onwards).",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 205,
-    "regionIds": [
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Floating Free",
     "hint": "during An Enlightened Journey.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 206,
     "regionIds": []
   },
@@ -1843,6 +2042,7 @@
     "name": "Scape Hunter",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 207,
     "regionIds": []
   },
@@ -1850,6 +2050,7 @@
     "name": "Jungle Island XMAS",
     "hint": "in a Christmas holiday event (2006 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 208,
     "regionIds": []
   },
@@ -1857,6 +2058,7 @@
     "name": "Jungle Bells",
     "hint": "in a Christmas holiday event (2006 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 209,
     "regionIds": []
   },
@@ -1864,6 +2066,7 @@
     "name": "Sea Shanty XMAS",
     "hint": "in a Christmas holiday event (2006 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 210,
     "regionIds": []
   },
@@ -1871,6 +2074,7 @@
     "name": "Pirates of Penance",
     "hint": "during Barbarian Assault.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 211,
     "regionIds": []
   },
@@ -1878,6 +2082,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 212,
     "regionIds": []
   },
@@ -1885,6 +2090,7 @@
     "name": "Labyrinth",
     "hint": "during Contact!",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 213,
     "regionIds": [
       12945,
@@ -1895,6 +2101,7 @@
     "name": "Undead Dungeon",
     "hint": "in Tarn's Lair.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 214,
     "regionIds": [
       12615
@@ -1904,6 +2111,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 215,
     "regionIds": []
   },
@@ -1911,13 +2119,15 @@
     "name": "Espionage",
     "hint": "during Cold War.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 216,
     "regionIds": []
   },
   {
     "name": "Have an Ice Day",
     "hint": "during Cold War.",
-    "comment": "",
+    "comment": "Ice christmas",
+    "isAutoUnlock": true,
     "id": 217,
     "regionIds": [
       10558,
@@ -1928,14 +2138,16 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 218,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Wild Spooky",
+    "isAutoUnlock": true,
     "id": 219,
     "regionIds": []
   },
@@ -1943,6 +2155,7 @@
     "name": "Island of the Trolls",
     "hint": "during Fremennik Isles.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 220,
     "regionIds": [
       9532,
@@ -1953,6 +2166,7 @@
     "name": "Jester Minute",
     "hint": "during Fremennik Isles.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 221,
     "regionIds": []
   },
@@ -1960,6 +2174,7 @@
     "name": "Major Miner",
     "hint": "during Fremennik Isles.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 222,
     "regionIds": [
       9631
@@ -1969,6 +2184,7 @@
     "name": "Norse Code",
     "hint": "during Fremennik Isles.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 223,
     "regionIds": [
       9531
@@ -1978,6 +2194,7 @@
     "name": "Ogre the Top",
     "hint": "during Fremennik Isles.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 224,
     "regionIds": [
       9377
@@ -1987,6 +2204,7 @@
     "name": "Volcanic Vikings",
     "hint": "during Fremennik Isles.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 225,
     "regionIds": [
       9275
@@ -1996,6 +2214,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 226,
     "regionIds": []
   },
@@ -2003,6 +2222,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 227,
     "regionIds": []
   },
@@ -2010,6 +2230,7 @@
     "name": "Garden of Autumn",
     "hint": "during Sorceress's Garden.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 228,
     "regionIds": []
   },
@@ -2017,6 +2238,7 @@
     "name": "Garden of Spring",
     "hint": "during Sorceress's Garden.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 229,
     "regionIds": []
   },
@@ -2024,6 +2246,7 @@
     "name": "Garden of Summer",
     "hint": "during Sorceress's Garden.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 230,
     "regionIds": []
   },
@@ -2031,6 +2254,7 @@
     "name": "Garden of Winter",
     "hint": "during Sorceress's Garden.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 231,
     "regionIds": []
   },
@@ -2038,6 +2262,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 232,
     "regionIds": []
   },
@@ -2045,6 +2270,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 233,
     "regionIds": []
   },
@@ -2052,6 +2278,7 @@
     "name": "Creature Cruelty",
     "hint": "during Tower of Life.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 234,
     "regionIds": []
   },
@@ -2059,6 +2286,7 @@
     "name": "Magic Magic Magic",
     "hint": "during Tower of Life.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 235,
     "regionIds": []
   },
@@ -2066,6 +2294,7 @@
     "name": "Mutant Medley",
     "hint": "during Tower of Life.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 236,
     "regionIds": []
   },
@@ -2073,6 +2302,7 @@
     "name": "Work Work Work",
     "hint": "during Tower of Life.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 237,
     "regionIds": []
   },
@@ -2080,6 +2310,7 @@
     "name": "Zombiism",
     "hint": "during The Great Brain Robbery.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 238,
     "regionIds": [
       15248,
@@ -2090,6 +2321,7 @@
     "name": "Brain Battle",
     "hint": "on completion of The Great Brain Robbery.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 239,
     "regionIds": []
   },
@@ -2097,6 +2329,7 @@
     "name": "Dorgeshuun City",
     "hint": "at Dorgesh-Kaan.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 240,
     "regionIds": []
   },
@@ -2104,6 +2337,7 @@
     "name": "Stagnant",
     "hint": "at the Hollows in the Mort Myre Swamp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 241,
     "regionIds": [
       13876
@@ -2113,6 +2347,7 @@
     "name": "Time Out",
     "hint": "during the Maze random event.",
     "comment": "Random event controller",
+    "isAutoUnlock": false,
     "id": 242,
     "regionIds": []
   },
@@ -2120,6 +2355,7 @@
     "name": "Stratosphere",
     "hint": "at the Cosmic Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 243,
     "regionIds": [
       8523
@@ -2129,6 +2365,7 @@
     "name": "Waterlogged",
     "hint": "to the south of Canifis.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 244,
     "regionIds": [
       13877,
@@ -2141,6 +2378,7 @@
     "name": "Natural",
     "hint": "at the nature spirit's island in Mort Myre Swamp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 245,
     "regionIds": [
       13620
@@ -2150,6 +2388,7 @@
     "name": "Grotto",
     "hint": "at the nature spirit's grotto in Mort Myre Swamp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 246,
     "regionIds": [
       13620
@@ -2159,6 +2398,7 @@
     "name": "Artistry",
     "hint": "during the Mime random event.",
     "comment": "random event controller",
+    "isAutoUnlock": false,
     "id": 247,
     "regionIds": []
   },
@@ -2166,6 +2406,7 @@
     "name": "Aztec",
     "hint": "at the Brimhaven Agility Arena.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 248,
     "regionIds": []
   },
@@ -2173,6 +2414,7 @@
     "name": "Dorgeshuun Deep",
     "hint": "at the Dorgesh-Kaan caves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 249,
     "regionIds": [
       10833
@@ -2182,6 +2424,7 @@
     "name": "Surok's Theme",
     "hint": "on completion of What Lies Below.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 250,
     "regionIds": []
   },
@@ -2189,6 +2432,7 @@
     "name": "Forest",
     "hint": "to the south-east of Isafdar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 251,
     "regionIds": [
       9009
@@ -2198,6 +2442,7 @@
     "name": "Elven Mist",
     "hint": "at the exit of the Underground Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 252,
     "regionIds": [
       9266
@@ -2207,6 +2452,7 @@
     "name": "Lost Soul",
     "hint": "at the Poison Waste in south Isafdar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 253,
     "regionIds": [
       9008,
@@ -2217,6 +2463,7 @@
     "name": "Meridian",
     "hint": "at the area around Tyras Camp in Isafdar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 254,
     "regionIds": [
       8497,
@@ -2227,6 +2474,7 @@
     "name": "Woodland",
     "hint": "at the Elf Camp in Tirannwn.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 255,
     "regionIds": [
       8498,
@@ -2237,6 +2485,7 @@
     "name": "Overpass",
     "hint": "at Arandar, east of Tirannwn.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 256,
     "regionIds": [
       9767
@@ -2246,6 +2495,7 @@
     "name": "Sojourn",
     "hint": "at the troll champion arena.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 257,
     "regionIds": [
       11321,
@@ -2256,6 +2506,7 @@
     "name": "Contest",
     "hint": "in Trollheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 258,
     "regionIds": [
       11576
@@ -2265,6 +2516,7 @@
     "name": "Crystal Castle",
     "hint": "to the south-east of Prifddinas.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 259,
     "regionIds": [
       9012,
@@ -2275,6 +2527,7 @@
     "name": "Insect Queen",
     "hint": "at the Kalphite Queen.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 260,
     "regionIds": [
       13972,
@@ -2291,6 +2544,7 @@
     "name": "Marzipan",
     "hint": "at the Trollheim cave.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 261,
     "regionIds": [
       11421
@@ -2300,6 +2554,7 @@
     "name": "Righteousness",
     "hint": "at the Law Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 262,
     "regionIds": [
       9803
@@ -2309,6 +2564,7 @@
     "name": "Bandit Camp",
     "hint": "at the Bandit Camp in the Kharidian Desert.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 263,
     "regionIds": [
       12591
@@ -2318,6 +2574,7 @@
     "name": "Mad Eadgar",
     "hint": "at Eadgar's cave atop Trollheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 264,
     "regionIds": []
   },
@@ -2325,6 +2582,7 @@
     "name": "Superstition",
     "hint": "at the cave below the Kharazi Jungle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 265,
     "regionIds": [
       11153
@@ -2334,6 +2592,7 @@
     "name": "Bone Dry",
     "hint": "in the smoky well near Pollnivneach.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 266,
     "regionIds": [
       12946,
@@ -2344,6 +2603,7 @@
     "name": "Sunburn",
     "hint": "in the desert north of Jaldraocht Pyramid.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 267,
     "regionIds": [
       12846,
@@ -2354,6 +2614,7 @@
     "name": "Everywhere",
     "hint": "to the south-west of Prifddinas.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 268,
     "regionIds": [
       8499,
@@ -2364,6 +2625,7 @@
     "name": "Competition",
     "hint": "at Burthorpe Games Room.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 269,
     "regionIds": []
   },
@@ -2371,6 +2633,7 @@
     "name": "Exposed",
     "hint": "to the south of Tyras Camp in Isafdar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 270,
     "regionIds": [
       8752
@@ -2380,6 +2643,7 @@
     "name": "Well of Voyage",
     "hint": "in the passage between Iban's Temple and Isafdar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 271,
     "regionIds": [
       9366
@@ -2389,6 +2653,7 @@
     "name": "Alternative Root",
     "hint": "during What Lies Below.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 272,
     "regionIds": []
   },
@@ -2396,6 +2661,7 @@
     "name": "Easter Jig",
     "hint": "in an Easter holiday event (2007 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 273,
     "regionIds": []
   },
@@ -2403,6 +2669,7 @@
     "name": "Rising Damp",
     "hint": "during Olaf's Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 274,
     "regionIds": [
       10910
@@ -2412,6 +2679,7 @@
     "name": "Slice of Station",
     "hint": "during Another Slice of H.A.M..",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 275,
     "regionIds": []
   },
@@ -2419,6 +2687,7 @@
     "name": "Ham and Seek",
     "hint": "during Another Slice of H.A.M..",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 276,
     "regionIds": []
   },
@@ -2426,6 +2695,7 @@
     "name": "Haunted Mine",
     "hint": "at the boss area of the Haunted Mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 277,
     "regionIds": [
       11077
@@ -2435,6 +2705,7 @@
     "name": "Deep Down",
     "hint": "on the bottom floor of the Haunted Mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 278,
     "regionIds": [
       13618
@@ -2444,6 +2715,7 @@
     "name": "Ham Attack",
     "hint": "during Another Slice of H.A.M..",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 279,
     "regionIds": []
   },
@@ -2451,6 +2723,7 @@
     "name": "Slice of Silent Movie",
     "hint": "during Another Slice of H.A.M..",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 281,
     "regionIds": []
   },
@@ -2458,6 +2731,7 @@
     "name": "Chamber",
     "hint": "on the middle floor of the Haunted Mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 282,
     "regionIds": [
       11078,
@@ -2468,6 +2742,7 @@
     "name": "Everlasting",
     "hint": "during Dream Mentor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 283,
     "regionIds": []
   },
@@ -2475,6 +2750,7 @@
     "name": "Miscellania",
     "hint": "on Miscellania.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 284,
     "regionIds": [
       10044
@@ -2484,6 +2760,7 @@
     "name": "Etcetera",
     "hint": "on Etceteria.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 285,
     "regionIds": [
       10300
@@ -2493,6 +2770,7 @@
     "name": "Shadowland",
     "hint": "to the east of Mort'ton.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 286,
     "regionIds": [
       13875
@@ -2502,6 +2780,7 @@
     "name": "Lair",
     "hint": "at the shade catacombs below Mort'ton.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 287,
     "regionIds": [
       13975
@@ -2511,6 +2790,7 @@
     "name": "Deadlands",
     "hint": "at the Haunted Woods of Morytania.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 288,
     "regionIds": [
       14134,
@@ -2521,6 +2801,7 @@
     "name": "Rellekka",
     "hint": "at Rellekka.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 289,
     "regionIds": [
       10553,
@@ -2532,6 +2813,7 @@
     "name": "Saga",
     "hint": "to the south of Rellekka.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 290,
     "regionIds": [
       10296,
@@ -2542,6 +2824,7 @@
     "name": "Borderland",
     "hint": "to the east of Rellekka.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 291,
     "regionIds": [
       10809,
@@ -2552,6 +2835,7 @@
     "name": "Stranded",
     "hint": "at the gate to the Ice Path, north of Trollheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 292,
     "regionIds": [
       11322,
@@ -2562,6 +2846,7 @@
     "name": "Legend",
     "hint": "to the south-east of Rellekka.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 293,
     "regionIds": [
       11064,
@@ -2572,6 +2857,7 @@
     "name": "Frostbite",
     "hint": "at the Ice Path north of Trollheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 294,
     "regionIds": [
       11323
@@ -2581,6 +2867,7 @@
     "name": "Warrior",
     "hint": "during Fremennik Trials.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 295,
     "regionIds": []
   },
@@ -2588,6 +2875,7 @@
     "name": "Technology",
     "hint": "at the gnome glider hangar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 296,
     "regionIds": [
       10566
@@ -2597,6 +2885,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Don't use",
+    "isAutoUnlock": false,
     "id": 297,
     "regionIds": []
   },
@@ -2604,6 +2893,7 @@
     "name": "Illusive",
     "hint": "during Dream Mentor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 298,
     "regionIds": []
   },
@@ -2611,13 +2901,15 @@
     "name": "Inadequacy",
     "hint": "during Dream Mentor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 299,
     "regionIds": []
   },
   {
     "name": "Untouchable",
     "hint": "during Dream Mentor.",
-    "comment": "",
+    "comment": "wild",
+    "isAutoUnlock": true,
     "id": 300,
     "regionIds": []
   },
@@ -2625,6 +2917,7 @@
     "name": "Down and Out",
     "hint": "during Dream Mentor.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 301,
     "regionIds": []
   },
@@ -2632,6 +2925,7 @@
     "name": "On the Up",
     "hint": "during Dream Mentor.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 302,
     "regionIds": []
   },
@@ -2639,6 +2933,7 @@
     "name": "Monkey Madness",
     "hint": "on Ape Atoll.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 303,
     "regionIds": [
       11051
@@ -2648,6 +2943,7 @@
     "name": "Marooned",
     "hint": "on Crash Island during Monkey Madness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 304,
     "regionIds": [
       11562
@@ -2656,7 +2952,8 @@
   {
     "name": "Anywhere",
     "hint": "at Marim's main gate.",
-    "comment": "",
+    "comment": "Jungle, karamja",
+    "isAutoUnlock": false,
     "id": 305,
     "regionIds": [
       10795
@@ -2666,6 +2963,7 @@
     "name": "Island Life",
     "hint": "at the southern part of Ape Atoll.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 306,
     "regionIds": [
       10794,
@@ -2676,6 +2974,7 @@
     "name": "Temple",
     "hint": "on Ape Atoll.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 307,
     "regionIds": [
       11151
@@ -2685,6 +2984,7 @@
     "name": "Suspicious",
     "hint": "during Monkey Madness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 308,
     "regionIds": []
   },
@@ -2692,6 +2992,7 @@
     "name": "Looking Back",
     "hint": "at Varrock Museum.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 309,
     "regionIds": [
       6989
@@ -2701,6 +3002,7 @@
     "name": "Dwarf Theme",
     "hint": "at the Dwarven Mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 310,
     "regionIds": [
       12085
@@ -2710,6 +3012,7 @@
     "name": "Showdown",
     "hint": "during the boss fight in Monkey Madness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 311,
     "regionIds": []
   },
@@ -2717,6 +3020,7 @@
     "name": "Find My Way",
     "hint": "at the gnome tunnel in Monkey Madness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 312,
     "regionIds": [
       10894,
@@ -2727,6 +3031,7 @@
     "name": "Goblin Village",
     "hint": "at Goblin Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 313,
     "regionIds": [
       11830
@@ -2736,6 +3041,7 @@
     "name": "Castle Wars",
     "hint": "during Castle Wars, fighting for Saradomin.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 314,
     "regionIds": [
       9520
@@ -2745,6 +3051,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 315,
     "regionIds": []
   },
@@ -2752,6 +3059,7 @@
     "name": "The Navigator",
     "hint": "during Fremennik Trials.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 316,
     "regionIds": []
   },
@@ -2759,6 +3067,7 @@
     "name": "Melodrama",
     "hint": "during Castle Wars.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 317,
     "regionIds": [
       9776
@@ -2768,6 +3077,7 @@
     "name": "Ready for Battle",
     "hint": "during Castle Wars.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 318,
     "regionIds": []
   },
@@ -2775,6 +3085,7 @@
     "name": "Stillness",
     "hint": "at the Myreque area under Mort Myre.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 319,
     "regionIds": [
       9032
@@ -2784,6 +3095,7 @@
     "name": "Lighthouse",
     "hint": "at the Lighthouse.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 320,
     "regionIds": [
       10040,
@@ -2794,6 +3106,7 @@
     "name": "Scape Scared",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 321,
     "regionIds": []
   },
@@ -2801,6 +3114,7 @@
     "name": "Out of the Deep",
     "hint": "at the dagannoth cave under the Lighthouse.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 322,
     "regionIds": [
       10140
@@ -2810,6 +3124,7 @@
     "name": "Underground Pass",
     "hint": "during Underground Pass.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 323,
     "regionIds": [
       9366,
@@ -2820,6 +3135,7 @@
     "name": "Background",
     "hint": "on Entrana.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 324,
     "regionIds": [
       11060,
@@ -2830,6 +3146,7 @@
     "name": "Cave Background",
     "hint": "at the Dwarven Mine or the Gamers' Grotto.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 325,
     "regionIds": [
       11927
@@ -2839,6 +3156,7 @@
     "name": "Dark",
     "hint": "in the south-east of the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 326,
     "regionIds": [
       13113,
@@ -2849,6 +3167,7 @@
     "name": "Dream",
     "hint": "on the path between Lumbridge and Draynor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 327,
     "regionIds": [
       12594
@@ -2858,6 +3177,7 @@
     "name": "March",
     "hint": "at King Lathas's Combat Training Camp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 328,
     "regionIds": [
       10036
@@ -2867,6 +3187,7 @@
     "name": "Regal",
     "hint": "at the Rogues' Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 329,
     "regionIds": [
       13117
@@ -2876,6 +3197,7 @@
     "name": "Cellar Song",
     "hint": "at the bank vault west of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 330,
     "regionIds": [
       12697
@@ -2885,6 +3207,7 @@
     "name": "Scape Sad",
     "hint": "at the Demonic Ruins in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 331,
     "regionIds": [
       13116,
@@ -2895,6 +3218,7 @@
     "name": "Scape Wild",
     "hint": "in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 332,
     "regionIds": [
       12601,
@@ -2906,6 +3230,7 @@
     "name": "Spooky",
     "hint": "at Draynor Manor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 333,
     "regionIds": [
       12340,
@@ -2918,6 +3243,7 @@
     "name": "Pirates of Peril",
     "hint": "at the Pirates' Hideout in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 334,
     "regionIds": [
       12093
@@ -2927,6 +3253,7 @@
     "name": "Romancing the Crone",
     "hint": "during the Troll Romance quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 335,
     "regionIds": [
       11068
@@ -2936,6 +3263,7 @@
     "name": "Dangerous Road",
     "hint": "at the caves below Crandor.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 336,
     "regionIds": [
       11413
@@ -2945,6 +3273,7 @@
     "name": "Faithless",
     "hint": "at the Chaos Temple in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 337,
     "regionIds": [
       13112,
@@ -2955,6 +3284,7 @@
     "name": "Tiptoe",
     "hint": "at Draynor Manor's cellar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 338,
     "regionIds": [
       12340
@@ -2964,6 +3294,7 @@
     "name": "The Terrible Tower",
     "hint": "at the Slayer Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 339,
     "regionIds": [
       13623
@@ -2973,6 +3304,7 @@
     "name": "Masquerade",
     "hint": "on the west side of the Fremennik Slayer Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 340,
     "regionIds": [
       10908
@@ -2982,6 +3314,7 @@
     "name": "The Slayer",
     "hint": "on the east side of the Fremennik Slayer Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 341,
     "regionIds": [
       11164
@@ -2991,6 +3324,7 @@
     "name": "Body Parts",
     "hint": "at the dungeon south-east of Fenkenstrain's Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 342,
     "regionIds": [
       13979,
@@ -3001,6 +3335,7 @@
     "name": "Monster Melee",
     "hint": "at the H.A.M. cave.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 343,
     "regionIds": [
       12694
@@ -3010,6 +3345,7 @@
     "name": "Fenkenstrain's Refrain",
     "hint": "at Fenkenstrain's Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 344,
     "regionIds": [
       14135,
@@ -3020,6 +3356,7 @@
     "name": "Barking Mad",
     "hint": "at the Werewolf Agility Course.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 345,
     "regionIds": [
       14234
@@ -3028,7 +3365,8 @@
   {
     "name": "Goblin Game",
     "hint": "at the goblin cave near the Fishing Guild.",
-    "comment": "",
+    "comment": "region only",
+    "isAutoUnlock": false,
     "id": 346,
     "regionIds": [
       10393
@@ -3038,6 +3376,7 @@
     "name": "Fruits de Mer",
     "hint": "at the Fishing Platform.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 347,
     "regionIds": [
       11059
@@ -3047,6 +3386,7 @@
     "name": "Narnode's Theme",
     "hint": "beneath the Grand Tree.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 348,
     "regionIds": [
       9882
@@ -3056,13 +3396,15 @@
     "name": "Impetuous",
     "hint": "during Impetuous Impulses.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 349,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Boat theme remix, keep this locked.",
+    "isAutoUnlock": false,
     "id": 350,
     "regionIds": []
   },
@@ -3070,6 +3412,7 @@
     "name": "Dynasty",
     "hint": "at the town of Pollnivneach.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 351,
     "regionIds": [
       13358
@@ -3079,6 +3422,7 @@
     "name": "Scarab",
     "hint": "at Jaldraocht, the pyramid visited in Desert Treasure.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 352,
     "regionIds": [
       12589,
@@ -3090,6 +3434,7 @@
     "name": "Shipwrecked",
     "hint": "at the shipwreck on the north coast of Morytania.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 353,
     "regionIds": [
       14391
@@ -3099,6 +3444,7 @@
     "name": "Phasmatys",
     "hint": "at the pool of ectoplasm underneath the Ectofuntus.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 354,
     "regionIds": []
   },
@@ -3106,6 +3452,7 @@
     "name": "The Other Side",
     "hint": "at Port Phasmatys.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 355,
     "regionIds": [
       14646,
@@ -3115,7 +3462,8 @@
   {
     "name": "Settlement",
     "hint": "at the Mountain Camp.",
-    "comment": "",
+    "comment": "Region only",
+    "isAutoUnlock": false,
     "id": 356,
     "regionIds": [
       11065
@@ -3125,6 +3473,7 @@
     "name": "Cave of Beasts",
     "hint": "during Mountain Daughter.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 357,
     "regionIds": []
   },
@@ -3132,6 +3481,7 @@
     "name": "Dragontooth Island",
     "hint": "on Dragontooth Island.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 358,
     "regionIds": [
       15159
@@ -3141,6 +3491,7 @@
     "name": "Sarcophagus",
     "hint": "inside Jaldraocht, the pyramid visited in Desert Treasure.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 359,
     "regionIds": []
   },
@@ -3148,6 +3499,7 @@
     "name": "Elvarg's Theme",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 360,
     "regionIds": []
   },
@@ -3155,6 +3507,7 @@
     "name": "Down Below",
     "hint": "at the dungeon below Draynor Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 361,
     "regionIds": [
       12439
@@ -3164,6 +3517,7 @@
     "name": "Karamja Jam",
     "hint": "at the dragon area of Brimhaven Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 362,
     "regionIds": [
       10899
@@ -3173,6 +3527,7 @@
     "name": "7th Realm",
     "hint": "at Brimhaven Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 363,
     "regionIds": [
       10644,
@@ -3183,6 +3538,7 @@
     "name": "Pathways",
     "hint": "at Brimhaven Dungeon's entrance.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 364,
     "regionIds": [
       10901,
@@ -3192,7 +3548,8 @@
   {
     "name": "Melzar's Maze",
     "hint": "during Dragon Slayer.",
-    "comment": "",
+    "comment": "Dungeon, wild",
+    "isAutoUnlock": false,
     "id": 365,
     "regionIds": [
       11570
@@ -3201,7 +3558,8 @@
   {
     "name": "Eagle Peak",
     "hint": "during Eagles' Peak.",
-    "comment": "",
+    "comment": "Ice, winter hunter christmas",
+    "isAutoUnlock": false,
     "id": 366,
     "regionIds": [
       9270
@@ -3211,6 +3569,7 @@
     "name": "Barb Wire",
     "hint": "while learning barbarian skills.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 367,
     "regionIds": []
   },
@@ -3218,6 +3577,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "ambient calm, lumbridge draynor + more?",
+    "isAutoUnlock": false,
     "id": 368,
     "regionIds": [
       11826
@@ -3227,6 +3587,7 @@
     "name": "Time to Mine",
     "hint": "during Between a Rock...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 369,
     "regionIds": [
       11422
@@ -3236,6 +3597,7 @@
     "name": "In Between",
     "hint": "during Between a Rock...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 370,
     "regionIds": []
   },
@@ -3243,6 +3605,7 @@
     "name": "School's Out",
     "hint": "during the Pattern Recognition random event.",
     "comment": "Random event controller",
+    "isAutoUnlock": false,
     "id": 371,
     "regionIds": []
   },
@@ -3250,6 +3613,7 @@
     "name": "Far Away",
     "hint": "at Lletya.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 372,
     "regionIds": [
       9265
@@ -3259,13 +3623,15 @@
     "name": "Claustrophobia",
     "hint": "during Between a Rock...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 373,
     "regionIds": []
   },
   {
     "name": "Knightmare",
     "hint": "at the Black Knights' Fortress.",
-    "comment": "",
+    "comment": "Wild, dungeon",
+    "isAutoUnlock": false,
     "id": 374,
     "regionIds": [
       12086
@@ -3275,6 +3641,7 @@
     "name": "Fight or Flight",
     "hint": "at the slave mine under West Ardougne.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 375,
     "regionIds": [
       7752,
@@ -3285,6 +3652,7 @@
     "name": "Temple of Light",
     "hint": "during Mourning's Ends Part II.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 376,
     "regionIds": [
       7496
@@ -3294,6 +3662,7 @@
     "name": "The Golem",
     "hint": "at the Ruins of Uzer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 377,
     "regionIds": [
       13616,
@@ -3304,6 +3673,7 @@
     "name": "Forgotten",
     "hint": "during the Golem.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 378,
     "regionIds": []
   },
@@ -3311,6 +3681,7 @@
     "name": "Throne of the Demon",
     "hint": "during Shadow of the Storm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 379,
     "regionIds": []
   },
@@ -3318,6 +3689,7 @@
     "name": "Dance of the Undead",
     "hint": "at the Barrows.",
     "comment": "swamp",
+    "isAutoUnlock": false,
     "id": 380,
     "regionIds": [
       14131
@@ -3327,6 +3699,7 @@
     "name": "Dangerous Way",
     "hint": "beneath the Barrows.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 381,
     "regionIds": [
       14231,
@@ -3337,6 +3710,7 @@
     "name": "Lore and Order",
     "hint": "during King's Ransom.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 382,
     "regionIds": []
   },
@@ -3344,6 +3718,7 @@
     "name": "City of the Dead",
     "hint": "to the north of (and at) Menaphos.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 383,
     "regionIds": [
       12844,
@@ -3355,6 +3730,7 @@
     "name": "Hypnotized",
     "hint": "during Icthlarin's Little Helper.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 384,
     "regionIds": [
       13099
@@ -3364,15 +3740,15 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 385,
-    "regionIds": [
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Bandos Battalion",
     "hint": "in the God Wars Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 386,
     "regionIds": [
       11347
@@ -3382,6 +3758,7 @@
     "name": "Sphinx",
     "hint": "to the north of Sophanem.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 387,
     "regionIds": [
       13100
@@ -3391,6 +3768,7 @@
     "name": "Mirage",
     "hint": "during Icthlarin's Little Helper.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 388,
     "regionIds": [
       13099
@@ -3400,6 +3778,7 @@
     "name": "Cave of the Goblins",
     "hint": "at the caves beneath Lumbridge Swamp.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 389,
     "regionIds": [
       12693,
@@ -3409,7 +3788,8 @@
   {
     "name": "Romper Chomper",
     "hint": "at the ogre area south of Castle Wars.",
-    "comment": "",
+    "comment": "Ogre, oog'log, hunter",
+    "isAutoUnlock": false,
     "id": 390,
     "regionIds": [
       9263,
@@ -3422,6 +3802,7 @@
     "name": "Zamorak Zoo",
     "hint": "in the God Wars Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 391,
     "regionIds": [
       11604
@@ -3431,6 +3812,7 @@
     "name": "Zogre Dance",
     "hint": "at the zogre area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 392,
     "regionIds": [
       9775
@@ -3440,6 +3822,7 @@
     "name": "Path of Peril",
     "hint": "in Damis's Shadow Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 393,
     "regionIds": [
       10575,
@@ -3450,6 +3833,7 @@
     "name": "Wayward",
     "hint": "at the zogre Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 394,
     "regionIds": [
       9875,
@@ -3460,6 +3844,7 @@
     "name": "Tale of Keldagrim",
     "hint": "on the east side of Keldagrim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 395,
     "regionIds": [
       11679
@@ -3469,6 +3854,7 @@
     "name": "Land of the Dwarves",
     "hint": "on the west side of Keldagrim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 396,
     "regionIds": [
       11423
@@ -3478,6 +3864,7 @@
     "name": "Tears of Guthix",
     "hint": "during Tears of Guthix.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 397,
     "regionIds": [
       13974
@@ -3487,6 +3874,7 @@
     "name": "The Power of Tears",
     "hint": "during the Tears of Guthix quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 398,
     "regionIds": [
       13974
@@ -3496,6 +3884,7 @@
     "name": "Armageddon",
     "hint": "in the God Wars Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 399,
     "regionIds": [
       11603
@@ -3505,6 +3894,7 @@
     "name": "Scape Original",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 400,
     "regionIds": []
   },
@@ -3512,6 +3902,7 @@
     "name": "The Adventurer",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 401,
     "regionIds": []
   },
@@ -3519,6 +3910,7 @@
     "name": "The Rogues' Den",
     "hint": "at the Rogues' Den.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 402,
     "regionIds": [
       12109
@@ -3528,6 +3920,7 @@
     "name": "The Far Side",
     "hint": "at the Rogues' Den training area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 403,
     "regionIds": [
       12109
@@ -3537,6 +3930,7 @@
     "name": "Armadyl Alliance",
     "hint": "in the God Wars Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 404,
     "regionIds": [
       11346
@@ -3546,6 +3940,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "karamja, ape atoll",
+    "isAutoUnlock": false,
     "id": 405,
     "regionIds": [
       11569
@@ -3555,6 +3950,7 @@
     "name": "To Crandor/Keldagrim! Theme, Dragon Slayer, Giant Dwarf",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 406,
     "regionIds": []
   },
@@ -3562,6 +3958,7 @@
     "name": "The Lost Melody",
     "hint": "at the Dorgesh-Kaan mine.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 407,
     "regionIds": [
       13206
@@ -3571,6 +3968,7 @@
     "name": "Strength of Saradomin",
     "hint": "in the God Wars Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 408,
     "regionIds": [
       11859
@@ -3580,6 +3978,7 @@
     "name": "Frogland",
     "hint": "during the Frog random event.",
     "comment": "random event controller",
+    "isAutoUnlock": false,
     "id": 409,
     "regionIds": []
   },
@@ -3587,6 +3986,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 410,
     "regionIds": []
   },
@@ -3594,6 +3994,7 @@
     "name": "Evil Bob's Island",
     "hint": "during the Evil Bob random event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 411,
     "regionIds": []
   },
@@ -3601,6 +4002,7 @@
     "name": "Into the Abyss",
     "hint": "in abyssal space.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 412,
     "regionIds": []
   },
@@ -3608,6 +4010,7 @@
     "name": "The Quiz Master",
     "hint": "during the Quiz Master random event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 413,
     "regionIds": []
   },
@@ -3615,13 +4018,23 @@
     "name": "The Longramble Scramble",
     "hint": "during Path of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 414,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "Somewhere.",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
+    "id": 415,
     "regionIds": []
   },
   {
     "name": "Healin' Feelin'",
     "hint": "during Path of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 416,
     "regionIds": []
   },
@@ -3629,6 +4042,7 @@
     "name": "Terrorbird Tussle",
     "hint": "during Path of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 417,
     "regionIds": []
   },
@@ -3636,6 +4050,7 @@
     "name": "Corporal Punishment",
     "hint": "during the Drill Demon random event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 418,
     "regionIds": []
   },
@@ -3643,6 +4058,7 @@
     "name": "Pheasant Peasant",
     "hint": "during the Freaky Forester random event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 419,
     "regionIds": []
   },
@@ -3650,6 +4066,7 @@
     "name": "The Lost Tribe",
     "hint": "at the goblin mines under Lumbridge.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 420,
     "regionIds": [
       13206
@@ -3659,20 +4076,23 @@
     "name": "Storeroom Shuffle",
     "hint": "during Path of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 421,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 422,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 423,
     "regionIds": []
   },
@@ -3680,6 +4100,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "don't use this",
+    "isAutoUnlock": false,
     "id": 424,
     "regionIds": []
   },
@@ -3687,6 +4108,7 @@
     "name": "The Chosen",
     "hint": "during Recruitment Drive.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 425,
     "regionIds": []
   },
@@ -3694,6 +4116,7 @@
     "name": "Waste Defaced",
     "hint": "during Path of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 426,
     "regionIds": [
       8001,
@@ -3704,6 +4127,7 @@
     "name": "Bolrie's Diary",
     "hint": "during Path of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 427,
     "regionIds": []
   },
@@ -3711,6 +4135,7 @@
     "name": "Altar Ego",
     "hint": "at Ourania Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 428,
     "regionIds": [
       13131
@@ -3720,6 +4145,7 @@
     "name": "Roots and Flutes",
     "hint": "during Back to my Roots.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 429,
     "regionIds": []
   },
@@ -3727,6 +4153,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 430,
     "regionIds": []
   },
@@ -3734,6 +4161,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 431,
     "regionIds": []
   },
@@ -3741,6 +4169,7 @@
     "name": "Grimly Fiendish",
     "hint": "in a Halloween holiday event (2007 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 432,
     "regionIds": []
   },
@@ -3748,6 +4177,7 @@
     "name": "Dusk in Yu'biusk",
     "hint": "during Land of the Goblins.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 433,
     "regionIds": []
   },
@@ -3755,6 +4185,7 @@
     "name": "Have a Blast",
     "hint": "during Blast Furnace.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 434,
     "regionIds": []
   },
@@ -3762,6 +4193,7 @@
     "name": "Wilderness",
     "hint": "in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 435,
     "regionIds": [
       11832,
@@ -3773,6 +4205,7 @@
     "name": "Forgettable Melody",
     "hint": "during Forgettable Tale...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 436,
     "regionIds": []
   },
@@ -3780,6 +4213,7 @@
     "name": "Zanik's Theme",
     "hint": "during Land of the Goblins.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 437,
     "regionIds": []
   },
@@ -3787,6 +4221,7 @@
     "name": "Catacombs and Tombs",
     "hint": "during Land of the Goblins.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 439,
     "regionIds": []
   },
@@ -3794,6 +4229,7 @@
     "name": "Temple of Tribes",
     "hint": "during Land of the Goblins.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 440,
     "regionIds": []
   },
@@ -3801,6 +4237,7 @@
     "name": "Tournament!",
     "hint": "automatically.",
     "comment": "duel arena",
+    "isAutoUnlock": false,
     "id": 441,
     "regionIds": [
       13362,
@@ -3811,6 +4248,7 @@
     "name": "Clan Wars",
     "hint": "during Clan Wars.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 442,
     "regionIds": []
   },
@@ -3818,6 +4256,7 @@
     "name": "Bounty Hunter Level 2",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 443,
     "regionIds": []
   },
@@ -3825,6 +4264,7 @@
     "name": "Bounty Hunter Level 1",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 444,
     "regionIds": []
   },
@@ -3832,6 +4272,7 @@
     "name": "Bounty Hunter Level 3",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 445,
     "regionIds": []
   },
@@ -3839,6 +4280,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 446,
     "regionIds": []
   },
@@ -3846,6 +4288,7 @@
     "name": "Over To Nardah",
     "hint": "at Nardah.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 447,
     "regionIds": [
       13613
@@ -3855,6 +4298,7 @@
     "name": "The Monsters Below",
     "hint": "in Waterbirth Island Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 448,
     "regionIds": [
       9886
@@ -3864,6 +4308,7 @@
     "name": "Wild Isle",
     "hint": "to the south of Red Dragon Isle in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 449,
     "regionIds": [
       12603,
@@ -3874,6 +4319,7 @@
     "name": "Venomous",
     "hint": "at the Scorpion Pit in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 450,
     "regionIds": [
       12867
@@ -3883,6 +4329,7 @@
     "name": "Tune from the Dune",
     "hint": "during Dealing with Scabaras.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 451,
     "regionIds": [
       13612,
@@ -3894,6 +4341,7 @@
     "name": "Copris Lunaris",
     "hint": "during Dealing with Scabaras.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 452,
     "regionIds": [
       13099
@@ -3903,6 +4351,7 @@
     "name": "Jungle Hunt",
     "hint": "at the Feldip Hunter area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 453,
     "regionIds": [
       100285
@@ -3912,6 +4361,7 @@
     "name": "Home Sweet Home",
     "hint": "at your player-owned house.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 454,
     "regionIds": [
       7503,
@@ -3922,6 +4372,7 @@
     "name": "Scarabaeoidea",
     "hint": "during Dealing with Scabaras.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 455,
     "regionIds": [
       13099
@@ -3931,6 +4382,7 @@
     "name": "Animal Apogee",
     "hint": "during Wolf Whistle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 456,
     "regionIds": [
       11573
@@ -3940,6 +4392,7 @@
     "name": "Scape Summon",
     "hint": "automatically.",
     "comment": "Taverly...",
+    "isAutoUnlock": true,
     "id": 457,
     "regionIds": [
       11573
@@ -3949,6 +4402,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 458,
     "regionIds": []
   },
@@ -3956,6 +4410,7 @@
     "name": "The Route of All Evil",
     "hint": "in the Chaos Tunnels.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 459,
     "regionIds": [
       12886,
@@ -3968,6 +4423,7 @@
     "name": "Joy of the Hunt",
     "hint": "at the Feldip Hunter area cave.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 460,
     "regionIds": [
       9271,
@@ -3979,6 +4435,7 @@
     "name": "The Desolate Isle",
     "hint": "on Waterbirth Island.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 461,
     "regionIds": [
       10042
@@ -3988,6 +4445,7 @@
     "name": "Spirits of Elid",
     "hint": "during the Spirits of Elid.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 462,
     "regionIds": []
   },
@@ -3995,6 +4453,7 @@
     "name": "Fire and Brimstone",
     "hint": "in the TzHaar Fight Pits.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 463,
     "regionIds": [
       12867,
@@ -4005,6 +4464,7 @@
     "name": "The Genie",
     "hint": "at the genie's cave west of Nardah.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 464,
     "regionIds": [
       13101,
@@ -4015,6 +4475,7 @@
     "name": "Desert Heat",
     "hint": "in the desert north of Nardah.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 465,
     "regionIds": [
       13615,
@@ -4025,6 +4486,7 @@
     "name": "Ground Scape",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 466,
     "regionIds": []
   },
@@ -4032,6 +4494,7 @@
     "name": "The Route of the Problem",
     "hint": "in the Chaos Tunnels.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 467,
     "regionIds": [
       12630,
@@ -4042,6 +4505,7 @@
     "name": "Shaping Up",
     "hint": "during As a First Resort...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 468,
     "regionIds": []
   },
@@ -4049,6 +4513,7 @@
     "name": "In the Pits",
     "hint": "in TzHaar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 469,
     "regionIds": []
   },
@@ -4056,6 +4521,7 @@
     "name": "Strange Place",
     "hint": "during A Tail of Two Cats.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 470,
     "regionIds": []
   },
@@ -4063,6 +4529,7 @@
     "name": "Brew Hoo Hoo",
     "hint": "at Port Phasmatys brewery.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 471,
     "regionIds": []
   },
@@ -4070,6 +4537,7 @@
     "name": "Spa Bizarre",
     "hint": "during As a First Resort...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 472,
     "regionIds": []
   },
@@ -4077,6 +4545,7 @@
     "name": "TzHaar!",
     "hint": "in the TzHaar Fight Caves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 473,
     "regionIds": []
   },
@@ -4084,6 +4553,7 @@
     "name": "Bish Bash Bosh",
     "hint": "during As a First Resort...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 474,
     "regionIds": []
   },
@@ -4091,6 +4561,7 @@
     "name": "Wild Side",
     "hint": "to the north of the Lava Maze in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 475,
     "regionIds": [
       12092,
@@ -4101,6 +4572,7 @@
     "name": "Dead Can Dance",
     "hint": "in the Graveyard of Shadows in the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 476,
     "regionIds": [
       12857
@@ -4110,6 +4582,7 @@
     "name": "Hot 'n' Bothered",
     "hint": "during As a First Resort...",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 477,
     "regionIds": [
       10028,
@@ -4119,7 +4592,8 @@
   {
     "name": "The Cellar Dwellers",
     "hint": "during the Hazeel Cult.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 478,
     "regionIds": [
       10135,
@@ -4131,6 +4605,7 @@
     "name": "Jungle Troubles",
     "hint": "in the jungle of north-east Karamja.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 479,
     "regionIds": [
       11568
@@ -4140,6 +4615,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 480,
     "regionIds": []
   },
@@ -4147,6 +4623,7 @@
     "name": "Catch Me If You Can",
     "hint": "at the Ardougne Rat Pits.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 481,
     "regionIds": []
   },
@@ -4154,6 +4631,7 @@
     "name": "Rat a Tat Tat",
     "hint": "at the Varrock Rat Pits.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 482,
     "regionIds": []
   },
@@ -4161,6 +4639,7 @@
     "name": "Jungle Community",
     "hint": "to the north of Tai Bwo Wannai Village.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 483,
     "regionIds": []
   },
@@ -4168,6 +4647,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 484,
     "regionIds": []
   },
@@ -4175,6 +4655,7 @@
     "name": "The Noble Rodent",
     "hint": "during Rat Catchers.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 485,
     "regionIds": []
   },
@@ -4182,6 +4663,7 @@
     "name": "Charmin' Farmin'",
     "hint": "during Vinesweeper.",
     "comment": "dont use",
+    "isAutoUnlock": false,
     "id": 487,
     "regionIds": []
   },
@@ -4189,6 +4671,7 @@
     "name": "The Wrong Path",
     "hint": "in the Chaos Tunnels.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 488,
     "regionIds": []
   },
@@ -4196,6 +4679,7 @@
     "name": "Bubble and Squeak",
     "hint": "at the Keldagrim Rat Pits.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 489,
     "regionIds": []
   },
@@ -4203,6 +4687,7 @@
     "name": "Sarim's Vermin",
     "hint": "at Port Sarim Rat Pits.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 490,
     "regionIds": []
   },
@@ -4210,6 +4695,7 @@
     "name": "Rat Hunt",
     "hint": "during Rat Catchers.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 491,
     "regionIds": []
   },
@@ -4217,6 +4703,7 @@
     "name": "Exam Conditions",
     "hint": "at the Stronghold of Player Safety.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 492,
     "regionIds": []
   },
@@ -4224,6 +4711,7 @@
     "name": "Safety in Numbers",
     "hint": "at the Stronghold of Player Safety.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 493,
     "regionIds": [
       12610
@@ -4233,6 +4721,7 @@
     "name": "Incarceration",
     "hint": "at the Stronghold of Player Safety.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 494,
     "regionIds": [
       12354
@@ -4242,6 +4731,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 495,
     "regionIds": []
   },
@@ -4249,6 +4739,7 @@
     "name": "The Trade Parade",
     "hint": "at the Grand Exchange.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 496,
     "regionIds": [
       12598
@@ -4258,6 +4749,7 @@
     "name": "Aye Car Rum Ba",
     "hint": "on Braindeath Island.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 497,
     "regionIds": [
       8527
@@ -4266,7 +4758,8 @@
   {
     "name": "Blistering Barnacles",
     "hint": "on Braindeath Island's mountain.",
-    "comment": "",
+    "comment": "Port dock",
+    "isAutoUnlock": false,
     "id": 498,
     "regionIds": [
       8528
@@ -4276,6 +4769,7 @@
     "name": "Creepy",
     "hint": "during Kennith's Concerns.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 499,
     "regionIds": []
   },
@@ -4283,6 +4777,7 @@
     "name": "A New Menace",
     "hint": "during Kennith's Concerns.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 500,
     "regionIds": []
   },
@@ -4290,6 +4785,7 @@
     "name": "Distant Land",
     "hint": "at Burgh de Rott.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 501,
     "regionIds": [
       13874,
@@ -4300,6 +4796,7 @@
     "name": "Bittersweet Bunny",
     "hint": "in an Easter holiday event (2008 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 502,
     "regionIds": []
   },
@@ -4307,6 +4804,7 @@
     "name": "Waiting for the Hunt",
     "hint": "in the Fist of Guthix waiting room.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 503,
     "regionIds": []
   },
@@ -4314,6 +4812,7 @@
     "name": "Fangs for the Memory",
     "hint": "during In Aid of the Myreque.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 504,
     "regionIds": []
   },
@@ -4321,6 +4820,7 @@
     "name": "Pharaoh's Tomb",
     "hint": "at the Agility Pyramid.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 505,
     "regionIds": [
       13356
@@ -4330,6 +4830,7 @@
     "name": "Land Down Under",
     "hint": "during Royal Trouble.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 506,
     "regionIds": []
   },
@@ -4337,6 +4838,7 @@
     "name": "Guthix's Hunter",
     "hint": "during Fist of Guthix.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 507,
     "regionIds": []
   },
@@ -4344,6 +4846,7 @@
     "name": "Meddling Kids",
     "hint": "during Royal Trouble.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 508,
     "regionIds": [
       10144
@@ -4353,6 +4856,7 @@
     "name": "Corridors of Power",
     "hint": "during Royal Trouble.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 509,
     "regionIds": []
   },
@@ -4360,6 +4864,7 @@
     "name": "Slither and Thither",
     "hint": "at the sea snake cave in Royal Trouble.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 510,
     "regionIds": [
       10400
@@ -4369,6 +4874,7 @@
     "name": "In the Clink",
     "hint": "during the Prison Pete random event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 511,
     "regionIds": []
   },
@@ -4376,6 +4882,7 @@
     "name": "Bloodbath",
     "hint": "at the Blood Altar.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 512,
     "regionIds": [
       9804
@@ -4385,6 +4892,7 @@
     "name": "Conspiracy: Part 1",
     "hint": "during Legacy of Seergaze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 513,
     "regionIds": []
   },
@@ -4392,6 +4900,7 @@
     "name": "The Columbarium",
     "hint": "during Legacy of Seergaze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 514,
     "regionIds": [
       13723
@@ -4401,6 +4910,7 @@
     "name": "Mudskipper Melody",
     "hint": "at Mudskipper Point.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 515,
     "regionIds": [
       11824
@@ -4410,6 +4920,7 @@
     "name": "Conspiracy: Part 2",
     "hint": "during Legacy of Seergaze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 516,
     "regionIds": []
   },
@@ -4417,6 +4928,7 @@
     "name": "Subterranea",
     "hint": "in Waterbirth Island Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 517,
     "regionIds": [
       10142
@@ -4426,6 +4938,7 @@
     "name": "The Terrible Tunnels",
     "hint": "during Legacy of Seergaze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 518,
     "regionIds": [
       14487
@@ -4435,6 +4948,7 @@
     "name": "Incantation",
     "hint": "during Shadow of the Storm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 519,
     "regionIds": []
   },
@@ -4442,6 +4956,7 @@
     "name": "Grip of the Talon",
     "hint": "during Shadow of the Storm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 520,
     "regionIds": []
   },
@@ -4449,6 +4964,7 @@
     "name": "The Terrible Caverns",
     "hint": "during Legacy of Seergaze.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 521,
     "regionIds": [
       14488,
@@ -4459,14 +4975,16 @@
   {
     "name": "Icy a Worried Gnome",
     "hint": "during the Perils of Ice Mountain.",
-    "comment": "",
+    "comment": "don't use",
+    "isAutoUnlock": false,
     "id": 522,
     "regionIds": []
   },
   {
     "name": "Icy Trouble Ahead",
     "hint": "during the Perils of Ice Mountain.",
-    "comment": "",
+    "comment": "don't use",
+    "isAutoUnlock": false,
     "id": 523,
     "regionIds": []
   },
@@ -4474,6 +4992,7 @@
     "name": "Xenophobe",
     "hint": "in Waterbirth Island Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 524,
     "regionIds": [
       7236,
@@ -4485,6 +5004,7 @@
     "name": "Title Fight",
     "hint": "at the Champion's Challenge underground area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 525,
     "regionIds": []
   },
@@ -4492,6 +5012,7 @@
     "name": "Arma Gonna Get You",
     "hint": "during TokTz-Ket-Dill.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 526,
     "regionIds": [
       19024
@@ -4501,6 +5022,7 @@
     "name": "Dillo-gence is Key",
     "hint": "during TokTz-Ket-Dill.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 527,
     "regionIds": [
       19204
@@ -4510,6 +5032,7 @@
     "name": "Victory is Mine",
     "hint": "at the Champion's Challenge arena.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 528,
     "regionIds": []
   },
@@ -4517,6 +5040,7 @@
     "name": "Woe of the Wyvern",
     "hint": "at the Asgarnian Ice Dungeon's wyvern area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 529,
     "regionIds": [
       5193
@@ -4526,6 +5050,7 @@
     "name": "In the Brine",
     "hint": "at The Other Inn on Mos Le'Harmless.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 530,
     "regionIds": [
       14638,
@@ -4538,6 +5063,7 @@
     "name": "TokTz-Ket-Ek-Mack",
     "hint": "during TokTz-Ket-Dill.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 531,
     "regionIds": [
       19024
@@ -4547,20 +5073,23 @@
     "name": "Diango's Little Helpers",
     "hint": "at Diango's Christmas workshop.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 532,
     "regionIds": []
   },
   {
     "name": "Roll the Bones",
     "hint": "at the Mage Training Arena's Creature Graveyard.",
-    "comment": "",
+    "comment": "wild",
+    "isAutoUnlock": true,
     "id": 533,
     "regionIds": []
   },
   {
     "name": "Mind Over Matter",
     "hint": "at the Mage Training Arena's Telekinetic Theatre.",
-    "comment": "",
+    "comment": "don't use",
+    "isAutoUnlock": false,
     "id": 534,
     "regionIds": []
   },
@@ -4568,6 +5097,7 @@
     "name": "Golden Touch",
     "hint": "at the Mage Training Arena's Alchemists' Playground.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 535,
     "regionIds": []
   },
@@ -4575,6 +5105,7 @@
     "name": "Cool for Ali Cats",
     "hint": "during Smoking Kills.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 536,
     "regionIds": []
   },
@@ -4582,6 +5113,7 @@
     "name": "Dogs of War",
     "hint": "at the Vault of War in the Stronghold of Security.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 537,
     "regionIds": [
       7505
@@ -4591,6 +5123,7 @@
     "name": "Under the Sand",
     "hint": "during Smoking Kills.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 539,
     "regionIds": [
       13358
@@ -4600,6 +5133,7 @@
     "name": "Desert Smoke",
     "hint": "during Smoking Kills.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 540,
     "regionIds": [
       13459,
@@ -4614,6 +5148,7 @@
     "name": "The Enchanter",
     "hint": "at the Mage Training Arena's Enchanting Chamber.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 541,
     "regionIds": []
   },
@@ -4621,6 +5156,7 @@
     "name": "Lament",
     "hint": "during Enakhra's Lament.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 542,
     "regionIds": []
   },
@@ -4628,16 +5164,17 @@
     "name": "Slain to Waste",
     "hint": "during Smoking Kills.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 543,
     "regionIds": []
   },
   {
     "name": "Making Waves",
     "hint": "during Swan Song.",
-    "comment": "",
+    "comment": "Hunter",
+    "isAutoUnlock": false,
     "id": 544,
     "regionIds": [
-      9273,
       9273
     ]
   },
@@ -4645,6 +5182,7 @@
     "name": "Cabin Fever",
     "hint": "during Cabin Fever.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 545,
     "regionIds": []
   },
@@ -4652,6 +5190,7 @@
     "name": "Last Stand",
     "hint": "during Swan Song.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 546,
     "regionIds": []
   },
@@ -4659,6 +5198,7 @@
     "name": "Scape Santa",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 547,
     "regionIds": []
   },
@@ -4666,6 +5206,7 @@
     "name": "Poles Apart",
     "hint": "at the Trollweiss and Rellekka Hunter area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 548,
     "regionIds": []
   },
@@ -4673,6 +5214,7 @@
     "name": "Jailbird",
     "hint": "during Rocking Out.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 549,
     "regionIds": []
   },
@@ -4680,6 +5222,7 @@
     "name": "Something Fishy",
     "hint": "during Rocking Out.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 550,
     "regionIds": []
   },
@@ -4687,6 +5230,7 @@
     "name": "A Pirate's Life for Me",
     "hint": "during Rocking Out.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 551,
     "regionIds": []
   },
@@ -4694,6 +5238,7 @@
     "name": "The Mentor",
     "hint": "automatically.",
     "comment": "lumbrdge draynor",
+    "isAutoUnlock": true,
     "id": 552,
     "regionIds": []
   },
@@ -4701,6 +5246,7 @@
     "name": "Shining Spirit",
     "hint": "during Spirit of Summer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 553,
     "regionIds": []
   },
@@ -4708,6 +5254,7 @@
     "name": "Troubled Spirit",
     "hint": "during Spirit of Summer.",
     "comment": "put in wild",
+    "isAutoUnlock": true,
     "id": 554,
     "regionIds": []
   },
@@ -4715,20 +5262,23 @@
     "name": "Ardougne Ago",
     "hint": "during Meeting History.",
     "comment": "put in wild",
+    "isAutoUnlock": true,
     "id": 555,
     "regionIds": []
   },
   {
     "name": "Sarah's Lullaby",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Don't use",
+    "isAutoUnlock": false,
     "id": 556,
     "regionIds": []
   },
   {
     "name": "Historic Memories",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Don't use.",
+    "isAutoUnlock": false,
     "id": 557,
     "regionIds": []
   },
@@ -4736,6 +5286,7 @@
     "name": "Food for Thought",
     "hint": "at the Catacomb of Famine in the Stronghold of Security.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 558,
     "regionIds": [
       8017
@@ -4745,6 +5296,7 @@
     "name": "Malady",
     "hint": "at the Pit of Pestilence in the Stronghold of Security.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 559,
     "regionIds": [
       8530
@@ -4754,6 +5306,7 @@
     "name": "Dance of Death",
     "hint": "at the Sepulchre of Death in the Stronghold of Security.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 560,
     "regionIds": [
       9297
@@ -4763,6 +5316,7 @@
     "name": "Second Vision",
     "hint": "at the Runecrafting Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 561,
     "regionIds": [
       6741
@@ -4772,6 +5326,7 @@
     "name": "Circus",
     "hint": "during the Circus.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 562,
     "regionIds": []
   },
@@ -4779,6 +5334,7 @@
     "name": "The Vacant Abyss",
     "hint": "during Summer's End.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 563,
     "regionIds": []
   },
@@ -4786,6 +5342,7 @@
     "name": "Bane of Summer",
     "hint": "during Summer's End.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 564,
     "regionIds": []
   },
@@ -4793,16 +5350,15 @@
     "name": "Wrath and Ruin",
     "hint": "at the anger room of Tolna's rift.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 565,
-    "regionIds": [
-      13209,
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Zombie Invasion",
     "hint": "during Defender of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 566,
     "regionIds": []
   },
@@ -4810,6 +5366,7 @@
     "name": "Dream Theatre",
     "hint": "during Defender of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 567,
     "regionIds": []
   },
@@ -4817,6 +5374,7 @@
     "name": "Storm Brew",
     "hint": "at the killerwatt plane.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 568,
     "regionIds": []
   },
@@ -4824,6 +5382,7 @@
     "name": "Undead Army",
     "hint": "during Defender of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 569,
     "regionIds": [
       12956
@@ -4833,6 +5392,7 @@
     "name": "The Ruins of Camdozaal",
     "hint": "during Defender of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 570,
     "regionIds": []
   },
@@ -4840,6 +5400,7 @@
     "name": "The Art of Hocus-Pocus",
     "hint": "in a Halloween holiday event (2008 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 571,
     "regionIds": []
   },
@@ -4847,6 +5408,7 @@
     "name": "Magic and Mystery",
     "hint": "during the Swept Away Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 572,
     "regionIds": [
       13126,
@@ -4858,6 +5420,7 @@
     "name": "The Mad Mole",
     "hint": "at Falador Mole Lair.",
     "comment": "Perfect as region activated",
+    "isAutoUnlock": false,
     "id": 573,
     "regionIds": [
       6993,
@@ -4868,6 +5431,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 574,
     "regionIds": []
   },
@@ -4875,6 +5439,7 @@
     "name": "Chickened Out",
     "hint": "at the Evil Chicken's lair.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 575,
     "regionIds": [
       6212
@@ -4884,6 +5449,7 @@
     "name": "Davy Jones's Locker",
     "hint": "during Recipe for Disaster.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 576,
     "regionIds": []
   },
@@ -4891,6 +5457,7 @@
     "name": "Mastermindless",
     "hint": "during Recipe for Disaster.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 577,
     "regionIds": []
   },
@@ -4898,6 +5465,7 @@
     "name": "Stealing Creation",
     "hint": "during Stealing Creation.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 578,
     "regionIds": []
   },
@@ -4905,6 +5473,7 @@
     "name": "Dangerous Logic",
     "hint": "during the While Guthix Sleeps Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 579,
     "regionIds": [
       8004,
@@ -4915,6 +5484,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 580,
     "regionIds": []
   },
@@ -4922,6 +5492,7 @@
     "name": "The Evil Within",
     "hint": "during the While Guthix Sleeps Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 581,
     "regionIds": []
   },
@@ -4929,6 +5500,7 @@
     "name": "Metalwork",
     "hint": "in the Artisan Workshop in Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 582,
     "regionIds": [
       12084
@@ -4938,6 +5510,7 @@
     "name": "Chef Surprize",
     "hint": "during Recipe for Disaster.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 583,
     "regionIds": []
   },
@@ -4945,6 +5518,7 @@
     "name": "Temple Desecrated",
     "hint": "during the While Guthix Sleeps Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 584,
     "regionIds": []
   },
@@ -4952,6 +5526,7 @@
     "name": "Black of Knight",
     "hint": "during the While Guthix Sleeps Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 585,
     "regionIds": [
       12189,
@@ -4962,6 +5537,7 @@
     "name": "Everlasting Fire",
     "hint": "in the north-east corner of the Wilderness.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 586,
     "regionIds": [
       13373
@@ -4971,6 +5547,7 @@
     "name": "Null and Void",
     "hint": "at the Pest Control landing area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 587,
     "regionIds": [
       10537
@@ -4980,6 +5557,7 @@
     "name": "Pest Control",
     "hint": "during Pest Control.",
     "comment": "Minigame controller",
+    "isAutoUnlock": false,
     "id": 588,
     "regionIds": [
       10536
@@ -4989,6 +5567,7 @@
     "name": "The Sound of Guthix",
     "hint": "during the While Guthix Sleeps Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 589,
     "regionIds": [
       10074,
@@ -5001,6 +5580,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 590,
     "regionIds": []
   },
@@ -5008,6 +5588,7 @@
     "name": "Tomb Raider",
     "hint": "during Pyramid Plunder.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 591,
     "regionIds": [
       7749
@@ -5017,6 +5598,7 @@
     "name": "Winter Funfare",
     "hint": "during Myths of the White Lands.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 592,
     "regionIds": []
   },
@@ -5024,6 +5606,7 @@
     "name": "The Dance of the Snow Queen",
     "hint": "in a Christmas holiday event (2008 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 593,
     "regionIds": []
   },
@@ -5031,16 +5614,15 @@
     "name": "No Way Out",
     "hint": "at the hopelessness room of Tolna's rift area.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 594,
-    "regionIds": [
-      13209,
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Cavernous Mythology",
     "hint": "during Myths of the White Lands.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 595,
     "regionIds": []
   },
@@ -5048,6 +5630,7 @@
     "name": "The Phoenix",
     "hint": "during the In Pyre Need quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 596,
     "regionIds": []
   },
@@ -5055,6 +5638,7 @@
     "name": "The Waiting Game",
     "hint": "during Soul Wars.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 597,
     "regionIds": [
       7473
@@ -5064,6 +5648,7 @@
     "name": "Soul Wars",
     "hint": "during Soul Wars.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 598,
     "regionIds": [
       7218,
@@ -5075,6 +5660,7 @@
     "name": "Snack Attack",
     "hint": "during the Sandwich Lady Random Event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 599,
     "regionIds": []
   },
@@ -5082,16 +5668,15 @@
     "name": "Method of Madness",
     "hint": "at the confusion room of Tolna's rift area.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 600,
-    "regionIds": [
-      13209,
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Trees Aren't Your Friends",
     "hint": "during Evil Tree.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 601,
     "regionIds": []
   },
@@ -5099,16 +5684,15 @@
     "name": "Fear and Loathing",
     "hint": "at the fear room of Tolna's rift area.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 602,
-    "regionIds": [
-      13209,
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Funny Bunnies",
     "hint": "in an Easter holiday event (2006 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 603,
     "regionIds": []
   },
@@ -5116,6 +5700,7 @@
     "name": "Assault and Battery",
     "hint": "during Barbarian Assault.",
     "comment": "minigame controller",
+    "isAutoUnlock": false,
     "id": 604,
     "regionIds": [
       10039
@@ -5125,13 +5710,15 @@
     "name": "Demise of the Dorgeshuun",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 605,
     "regionIds": []
   },
   {
     "name": "The Depths",
     "hint": "during Contact!",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 606,
     "regionIds": [
       12944
@@ -5140,7 +5727,8 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Don't use",
+    "isAutoUnlock": false,
     "id": 607,
     "regionIds": []
   },
@@ -5148,6 +5736,7 @@
     "name": "But We Can Fight",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 608,
     "regionIds": []
   },
@@ -5155,13 +5744,15 @@
     "name": "Godslayer",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 609,
     "regionIds": []
   },
   {
     "name": "Distillery Hilarity",
     "hint": "at Trouble Brewing's distillery.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 610,
     "regionIds": [
       15150
@@ -5171,13 +5762,15 @@
     "name": "Trouble Brewing",
     "hint": "during Trouble Brewing.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 611,
     "regionIds": []
   },
   {
     "name": "Head to Head",
     "hint": "during the Evil Twin random event.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 612,
     "regionIds": []
   },
@@ -5185,6 +5778,7 @@
     "name": "Face Off",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 613,
     "regionIds": [
       9283
@@ -5193,21 +5787,24 @@
   {
     "name": "Pinball Wizard",
     "hint": "during the Pinball random event.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 614,
     "regionIds": []
   },
   {
     "name": "Beetle Juice",
     "hint": "during Contact!",
-    "comment": "",
+    "comment": "Desert",
+    "isAutoUnlock": true,
     "id": 615,
     "regionIds": []
   },
   {
     "name": "Back to Life",
     "hint": "during Contact!",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 616,
     "regionIds": []
   },
@@ -5215,6 +5812,7 @@
     "name": "The Chosen Commander",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 617,
     "regionIds": []
   },
@@ -5222,6 +5820,15 @@
     "name": "The Throne of Bandos",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": false,
+    "id": 618,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "Somewhere.",
+    "comment": "Wild",
+    "isAutoUnlock": true,
     "id": 618,
     "regionIds": []
   },
@@ -5229,6 +5836,7 @@
     "name": "Where Eagles Lair",
     "hint": "during Eagles' Peak.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 620,
     "regionIds": []
   },
@@ -5236,6 +5844,7 @@
     "name": "Homescape",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 621,
     "regionIds": []
   },
@@ -5243,6 +5852,7 @@
     "name": "Waking Dream",
     "hint": "during your dream in Lunar Diplomacy.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 622,
     "regionIds": []
   },
@@ -5250,6 +5860,7 @@
     "name": "Dreamstate",
     "hint": "during your dream in Lunar Diplomacy.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 623,
     "regionIds": []
   },
@@ -5257,6 +5868,7 @@
     "name": "Don't Panic Zanik",
     "hint": "during The Chosen Commander.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 624,
     "regionIds": []
   },
@@ -5264,13 +5876,18 @@
     "name": "The Lunar Isle",
     "hint": "at Lunar Isle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 625,
-    "regionIds": []
+    "regionIds": [
+      8509,
+      8508
+    ]
   },
   {
     "name": "Way of the Enchanter",
     "hint": "in the dungeon beneath Lunar Isle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 626,
     "regionIds": [
       9377
@@ -5280,6 +5897,7 @@
     "name": "Isle of Everywhere",
     "hint": "on the east coast of Lunar Isle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 627,
     "regionIds": [
       8253,
@@ -5292,6 +5910,7 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 628,
     "regionIds": []
   },
@@ -5299,6 +5918,7 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 629,
     "regionIds": []
   },
@@ -5306,6 +5926,7 @@
     "name": "The Galleon",
     "hint": "during Lunar Diplomacy.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 630,
     "regionIds": [
       8763
@@ -5315,6 +5936,7 @@
     "name": "Life's a Beach!",
     "hint": "at the coastal area of Mos Le'Harmless.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 631,
     "regionIds": [
       14894
@@ -5324,6 +5946,7 @@
     "name": "Little Cave of Horrors",
     "hint": "in the cave horror dungeon beneath Mos Le'Harmless.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 632,
     "regionIds": [
       14994,
@@ -5334,7 +5957,8 @@
   {
     "name": "On the Wing",
     "hint": "at the Falconer Area, north-east of Eagles' Peak.",
-    "comment": "",
+    "comment": "Puro puro + hunter",
+    "isAutoUnlock": false,
     "id": 633,
     "regionIds": [
       9016,
@@ -5345,6 +5969,7 @@
     "name": "Warriors' Guild",
     "hint": "at the Warriors' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 634,
     "regionIds": [
       11319
@@ -5354,6 +5979,7 @@
     "name": "The Adventurers Re-United!",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 635,
     "regionIds": []
   },
@@ -5361,6 +5987,7 @@
     "name": "Nial's Widow",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 636,
     "regionIds": []
   },
@@ -5368,6 +5995,7 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 637,
     "regionIds": []
   },
@@ -5375,6 +6003,7 @@
     "name": "H.A.M. Fisted",
     "hint": "during Death to the Dorgeshuun.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 638,
     "regionIds": []
   },
@@ -5382,6 +6011,7 @@
     "name": "Frost Fight",
     "hint": "during Glorious Memories.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 639,
     "regionIds": []
   },
@@ -5389,6 +6019,7 @@
     "name": "Sigmund's Showdown",
     "hint": "during Death to the Dorgeshuun.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 640,
     "regionIds": [
       12951
@@ -5398,6 +6029,7 @@
     "name": "Lair of Kang Admi",
     "hint": "during Glorious Memories.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 641,
     "regionIds": []
   },
@@ -5405,6 +6037,7 @@
     "name": "Lazy Wabbit",
     "hint": "in an Easter holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 642,
     "regionIds": []
   },
@@ -5412,6 +6045,7 @@
     "name": "The Last Shanty",
     "hint": "during the Darkness of Hallowvale.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 643,
     "regionIds": []
   },
@@ -5419,6 +6053,7 @@
     "name": "Hare-brained Machines",
     "hint": "in an Easter holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 644,
     "regionIds": []
   },
@@ -5426,6 +6061,7 @@
     "name": "The Muspah's Tomb",
     "hint": "during The Tale of the Muspah.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 645,
     "regionIds": []
   },
@@ -5433,6 +6069,7 @@
     "name": "Night of the Vampyre",
     "hint": "during the Darkness of Hallowvale.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 646,
     "regionIds": []
   },
@@ -5440,6 +6077,7 @@
     "name": "Rest for the Weary",
     "hint": "during The Tale of the Muspah.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 647,
     "regionIds": [
       11425,
@@ -5450,6 +6088,7 @@
     "name": "The Plundered Tomb",
     "hint": "during Missing My Mummy.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 648,
     "regionIds": [
       13871
@@ -5459,6 +6098,7 @@
     "name": "Ancestral Wisdom",
     "hint": "during Missing My Mummy.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 649,
     "regionIds": [
       13871
@@ -5468,6 +6108,7 @@
     "name": "Ice Day for Penguins",
     "hint": "at the Iceberg Hunter area.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 650,
     "regionIds": [
       10812
@@ -5477,6 +6118,7 @@
     "name": "The Pengmersible",
     "hint": "during Hunt for Red Raktuber.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 651,
     "regionIds": []
   },
@@ -5484,6 +6126,7 @@
     "name": "Penguin Possible",
     "hint": "during Hunt for Red Raktuber.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 652,
     "regionIds": []
   },
@@ -5491,6 +6134,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 653,
     "regionIds": []
   },
@@ -5498,6 +6142,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 654,
     "regionIds": []
   },
@@ -5505,6 +6150,7 @@
     "name": "Desert Island Bear",
     "hint": "during Hunt for Red Raktuber.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 655,
     "regionIds": [
       11304
@@ -5514,6 +6160,7 @@
     "name": "Ghostly piper",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 656,
     "regionIds": []
   },
@@ -5521,6 +6168,7 @@
     "name": "Violin Musician",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 657,
     "regionIds": []
   },
@@ -5528,6 +6176,7 @@
     "name": "Accordian musician",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 658,
     "regionIds": []
   },
@@ -5535,6 +6184,7 @@
     "name": "Elven Flute",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 659,
     "regionIds": []
   },
@@ -5542,6 +6192,7 @@
     "name": "Double Flute Musician Arabian",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 660,
     "regionIds": []
   },
@@ -5549,6 +6200,7 @@
     "name": "Lute Musician Harmony, Regular",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 661,
     "regionIds": []
   },
@@ -5556,6 +6208,7 @@
     "name": "Lyre Musician Relleka",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 662,
     "regionIds": []
   },
@@ -5563,6 +6216,7 @@
     "name": "Flute Musician Arabian",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 663,
     "regionIds": []
   },
@@ -5570,6 +6224,7 @@
     "name": "Drunken Musician lyre",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 664,
     "regionIds": []
   },
@@ -5577,6 +6232,7 @@
     "name": "Drum musician",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 665,
     "regionIds": []
   },
@@ -5584,6 +6240,7 @@
     "name": "Kharidian Nights",
     "hint": "at the pyramid south of the Ruins of Uzer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 666,
     "regionIds": []
   },
@@ -5591,6 +6248,7 @@
     "name": "Eruption",
     "hint": "at the Wilderness volcano.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 667,
     "regionIds": [
       12345,
@@ -5603,6 +6261,7 @@
     "name": "Mobilising Armies",
     "hint": "during Mobilising Armies.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 668,
     "regionIds": []
   },
@@ -5610,6 +6269,7 @@
     "name": "Command Centre",
     "hint": "at the Command Centre of Mobilising Armies.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 669,
     "regionIds": [
       9516
@@ -5619,6 +6279,7 @@
     "name": "Waiting for Battle",
     "hint": "during Mobilising Armies.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 670,
     "regionIds": []
   },
@@ -5626,6 +6287,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 671,
     "regionIds": []
   },
@@ -5633,6 +6295,7 @@
     "name": "The Heist",
     "hint": "during The Curse of Arrav.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 672,
     "regionIds": [
       13212,
@@ -5643,6 +6306,7 @@
     "name": "Lamistard's Labyrinth",
     "hint": "during The Curse of Arrav.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 673,
     "regionIds": [
       11168
@@ -5652,20 +6316,23 @@
     "name": "Exhibit 'A'",
     "hint": "when confronting the Odd Old Man's 'Exhibit'.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 674,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Gnome",
+    "isAutoUnlock": true,
     "id": 675,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Tzhaar, not inserted",
+    "isAutoUnlock": false,
     "id": 676,
     "regionIds": []
   },
@@ -5673,6 +6340,7 @@
     "name": "Fight of the Dwarves",
     "hint": "during Forgiveness of a Chaos Dwarf.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 677,
     "regionIds": []
   },
@@ -5680,13 +6348,20 @@
     "name": "Living Rock",
     "hint": "in the Living Rock Caverns.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 678,
-    "regionIds": []
+    "regionIds": [
+      14416,
+      14415,
+      14672,
+      14671
+    ]
   },
   {
     "name": "Scape Theme",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 679,
     "regionIds": []
   },
@@ -5694,6 +6369,7 @@
     "name": "Elven Seed",
     "hint": "during Within the Light.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 680,
     "regionIds": [
       7751,
@@ -5704,6 +6380,7 @@
     "name": "Trick or Treat?",
     "hint": "in a Halloween holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 681,
     "regionIds": []
   },
@@ -5711,6 +6388,7 @@
     "name": "Poison Dreams",
     "hint": "in a Halloween holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 682,
     "regionIds": []
   },
@@ -5718,6 +6396,7 @@
     "name": "Itsy Bitsy...",
     "hint": "in a Halloween holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 683,
     "regionIds": []
   },
@@ -5725,6 +6404,7 @@
     "name": "The Duke",
     "hint": "on the upper floors of Lumbridge Castle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 684,
     "regionIds": [
       12850
@@ -5734,6 +6414,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 685,
     "regionIds": []
   },
@@ -5741,6 +6422,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 686,
     "regionIds": []
   },
@@ -5748,6 +6430,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 687,
     "regionIds": []
   },
@@ -5755,6 +6438,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 688,
     "regionIds": []
   },
@@ -5762,6 +6446,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 689,
     "regionIds": []
   },
@@ -5769,6 +6454,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 690,
     "regionIds": []
   },
@@ -5776,6 +6462,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 691,
     "regionIds": []
   },
@@ -5783,6 +6470,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 692,
     "regionIds": []
   },
@@ -5790,6 +6478,7 @@
     "name": "The Horn of Chill",
     "hint": "during The Temple at Senntisten Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 693,
     "regionIds": [
       11682,
@@ -5800,6 +6489,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 694,
     "regionIds": []
   },
@@ -5807,6 +6497,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 695,
     "regionIds": []
   },
@@ -5814,6 +6505,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 696,
     "regionIds": []
   },
@@ -5821,6 +6513,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 697,
     "regionIds": []
   },
@@ -5828,6 +6521,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 698,
     "regionIds": []
   },
@@ -5835,6 +6529,7 @@
     "name": "Zaros Stirs",
     "hint": "during The Temple at Senntisten Quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 699,
     "regionIds": []
   },
@@ -5842,6 +6537,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 700,
     "regionIds": []
   },
@@ -5849,6 +6545,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 702,
     "regionIds": []
   },
@@ -5856,6 +6553,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 703,
     "regionIds": []
   },
@@ -5863,6 +6561,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 704,
     "regionIds": []
   },
@@ -5870,6 +6569,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 705,
     "regionIds": []
   },
@@ -5877,6 +6577,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 706,
     "regionIds": []
   },
@@ -5884,6 +6585,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 708,
     "regionIds": []
   },
@@ -5891,6 +6593,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 709,
     "regionIds": []
   },
@@ -5898,6 +6601,7 @@
     "name": "Final Destination",
     "hint": "in Kuradal's Slayer Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 710,
     "regionIds": [
       6482
@@ -5906,14 +6610,16 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Trollheim",
+    "isAutoUnlock": true,
     "id": 711,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Trollheim",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 712,
     "regionIds": []
   },
@@ -5921,6 +6627,7 @@
     "name": "The Fallen Hero",
     "hint": "during Blood Runs Deep.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 713,
     "regionIds": []
   },
@@ -5928,6 +6635,7 @@
     "name": "Jaws of the Dagannoth",
     "hint": "during Blood Runs Deep.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 714,
     "regionIds": []
   },
@@ -5935,6 +6643,7 @@
     "name": "Maiasaura",
     "hint": "during Blood Runs Deep.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 715,
     "regionIds": []
   },
@@ -5942,6 +6651,7 @@
     "name": "Honkytonky Newbie Melody",
     "hint": "in The Blue Moon Inn, Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 716,
     "regionIds": [
       12853
@@ -5951,6 +6661,7 @@
     "name": "I'm Counting on You",
     "hint": "during Vampyre Slayer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 717,
     "regionIds": []
   },
@@ -5958,6 +6669,7 @@
     "name": "Honkytonky Harmony",
     "hint": "in The Rising Sun Inn, Falador.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 718,
     "regionIds": [
       11828
@@ -5967,6 +6679,7 @@
     "name": "Honkytonky Sea Shanty",
     "hint": "in The Rusty Anchor Inn, Port Sarim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 719,
     "regionIds": [
       12082
@@ -5976,6 +6689,7 @@
     "name": "Honkytonky Parade",
     "hint": "in The Boar's Head Tavern, northeast of Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 720,
     "regionIds": [
       13110
@@ -5985,6 +6699,7 @@
     "name": "Honkytonky Medieval",
     "hint": "in The Dancing Donkey Inn, Varrock.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 721,
     "regionIds": [
       13108,
@@ -5995,6 +6710,7 @@
     "name": "Ghost of Christmas Presents",
     "hint": "during a Christmas holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 722,
     "regionIds": []
   },
@@ -6002,6 +6718,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "swamp",
+    "isAutoUnlock": false,
     "id": 723,
     "regionIds": []
   },
@@ -6009,6 +6726,7 @@
     "name": "Smorgasbord",
     "hint": "during a Christmas holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 724,
     "regionIds": []
   },
@@ -6016,6 +6734,7 @@
     "name": "Silent Knight",
     "hint": "during a Christmas holiday event (2009 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 725,
     "regionIds": []
   },
@@ -6023,6 +6742,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "wilderness",
+    "isAutoUnlock": false,
     "id": 726,
     "regionIds": [
       12605
@@ -6032,6 +6752,7 @@
     "name": "Battle of Souls",
     "hint": "during Nomad's Requiem.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 727,
     "regionIds": []
   },
@@ -6039,6 +6760,7 @@
     "name": "Desolate Ruins",
     "hint": "during Nomad's Requiem.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 728,
     "regionIds": []
   },
@@ -6046,6 +6768,7 @@
     "name": "These Stones",
     "hint": "in the basement of the Mage Training Arena.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 729,
     "regionIds": [
       12349
@@ -6055,6 +6778,7 @@
     "name": "A Familiar Feeling",
     "hint": "during the Familiarisation event.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 730,
     "regionIds": []
   },
@@ -6062,6 +6786,7 @@
     "name": "Dead and Buried",
     "hint": "in the Lumbridge Catacombs.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 731,
     "regionIds": [
       13910,
@@ -6072,6 +6797,7 @@
     "name": "The Pact",
     "hint": "during The Blood Pact.",
     "comment": "lumbridge catacombs",
+    "isAutoUnlock": false,
     "id": 732,
     "regionIds": [
       15446
@@ -6081,6 +6807,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "lumbridge catacombs",
+    "isAutoUnlock": false,
     "id": 733,
     "regionIds": [
       15446
@@ -6090,6 +6817,7 @@
     "name": "Freshwater",
     "hint": "during a Fish Flingers competition.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 734,
     "regionIds": []
   },
@@ -6097,6 +6825,7 @@
     "name": "Saltwater",
     "hint": "during a Fish Flingers competition.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 735,
     "regionIds": []
   },
@@ -6104,6 +6833,7 @@
     "name": "Stillwater",
     "hint": "during a Fish Flingers competition.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 736,
     "regionIds": []
   },
@@ -6111,6 +6841,7 @@
     "name": "An Easter United",
     "hint": "in an Easter holiday event (2010 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 737,
     "regionIds": []
   },
@@ -6118,6 +6849,7 @@
     "name": "Lexicus Runewright",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 738,
     "regionIds": []
   },
@@ -6125,6 +6857,7 @@
     "name": "Adorno IV",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 739,
     "regionIds": []
   },
@@ -6132,6 +6865,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "Ambient",
+    "isAutoUnlock": false,
     "id": 740,
     "regionIds": []
   },
@@ -6139,6 +6873,7 @@
     "name": "Adorno III",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 741,
     "regionIds": []
   },
@@ -6146,6 +6881,7 @@
     "name": "Adorno V",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 742,
     "regionIds": []
   },
@@ -6153,6 +6889,7 @@
     "name": "Stomp",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 743,
     "regionIds": []
   },
@@ -6160,6 +6897,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "Ambient",
+    "isAutoUnlock": false,
     "id": 744,
     "regionIds": []
   },
@@ -6167,6 +6905,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "Ambient",
+    "isAutoUnlock": false,
     "id": 745,
     "regionIds": []
   },
@@ -6174,6 +6913,7 @@
     "name": "Rammernaut",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 746,
     "regionIds": []
   },
@@ -6181,6 +6921,7 @@
     "name": "Adorno IX",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 747,
     "regionIds": []
   },
@@ -6188,6 +6929,7 @@
     "name": "Adorno I",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 748,
     "regionIds": []
   },
@@ -6195,6 +6937,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 749,
     "regionIds": []
   },
@@ -6202,6 +6945,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "Ambient",
+    "isAutoUnlock": false,
     "id": 750,
     "regionIds": []
   },
@@ -6209,6 +6953,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "Ambient",
+    "isAutoUnlock": false,
     "id": 751,
     "regionIds": []
   },
@@ -6216,6 +6961,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 752,
     "regionIds": []
   },
@@ -6223,6 +6969,7 @@
     "name": "Adorno VI",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 753,
     "regionIds": []
   },
@@ -6230,6 +6977,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 754,
     "regionIds": []
   },
@@ -6237,6 +6985,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 755,
     "regionIds": []
   },
@@ -6244,6 +6993,7 @@
     "name": "Adorno X",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 756,
     "regionIds": []
   },
@@ -6251,6 +7001,7 @@
     "name": "Adorno VIII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 757,
     "regionIds": []
   },
@@ -6258,6 +7009,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 758,
     "regionIds": []
   },
@@ -6265,6 +7017,7 @@
     "name": "Night-gazer Khighorahk",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 759,
     "regionIds": []
   },
@@ -6272,6 +7025,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 760,
     "regionIds": []
   },
@@ -6279,6 +7033,7 @@
     "name": "Adorno VII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 761,
     "regionIds": []
   },
@@ -6286,6 +7041,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 762,
     "regionIds": []
   },
@@ -6293,6 +7049,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 763,
     "regionIds": []
   },
@@ -6300,6 +7057,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 764,
     "regionIds": []
   },
@@ -6307,6 +7065,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 765,
     "regionIds": []
   },
@@ -6314,6 +7073,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 766,
     "regionIds": []
   },
@@ -6321,6 +7081,7 @@
     "name": "Har'Lakk the Riftsplitter",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 767,
     "regionIds": []
   },
@@ -6328,6 +7089,7 @@
     "name": "Sagittare",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 768,
     "regionIds": []
   },
@@ -6335,6 +7097,7 @@
     "name": "Adorno II",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 769,
     "regionIds": []
   },
@@ -6342,6 +7105,7 @@
     "name": "",
     "hint": "Floor Complete, Dungeoneering",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 770,
     "regionIds": []
   },
@@ -6349,6 +7113,7 @@
     "name": "Desolo VII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 771,
     "regionIds": []
   },
@@ -6356,6 +7121,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 772,
     "regionIds": []
   },
@@ -6363,6 +7129,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 773,
     "regionIds": []
   },
@@ -6370,6 +7137,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 774,
     "regionIds": []
   },
@@ -6377,6 +7145,7 @@
     "name": "Desolo IX",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 775,
     "regionIds": []
   },
@@ -6384,6 +7153,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 776,
     "regionIds": []
   },
@@ -6391,6 +7161,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 777,
     "regionIds": []
   },
@@ -6398,6 +7169,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 778,
     "regionIds": []
   },
@@ -6405,6 +7177,7 @@
     "name": "Desolo I",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 779,
     "regionIds": []
   },
@@ -6412,6 +7185,7 @@
     "name": "Desolo VI",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 780,
     "regionIds": []
   },
@@ -6419,6 +7193,7 @@
     "name": "Desolo II",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 781,
     "regionIds": []
   },
@@ -6426,6 +7201,7 @@
     "name": "Divine Skinweaver",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 782,
     "regionIds": []
   },
@@ -6433,6 +7209,7 @@
     "name": "Shadow-forger Ihlakhizan",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 783,
     "regionIds": []
   },
@@ -6440,6 +7217,7 @@
     "name": "Unholy Cursebearer",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 784,
     "regionIds": []
   },
@@ -6447,6 +7225,7 @@
     "name": "Bulwark Beast",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 785,
     "regionIds": []
   },
@@ -6454,6 +7233,7 @@
     "name": "Bal'lak the Pummeller",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 786,
     "regionIds": []
   },
@@ -6461,6 +7241,7 @@
     "name": "Hobgoblin Geomancer",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 787,
     "regionIds": []
   },
@@ -6468,6 +7249,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 788,
     "regionIds": []
   },
@@ -6475,6 +7257,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 789,
     "regionIds": []
   },
@@ -6482,6 +7265,7 @@
     "name": "Desolo VIII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 790,
     "regionIds": []
   },
@@ -6489,6 +7273,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 791,
     "regionIds": []
   },
@@ -6496,6 +7281,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 792,
     "regionIds": []
   },
@@ -6503,6 +7289,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 793,
     "regionIds": []
   },
@@ -6510,6 +7297,7 @@
     "name": "Desolo V",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 794,
     "regionIds": []
   },
@@ -6517,6 +7305,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 795,
     "regionIds": []
   },
@@ -6524,6 +7313,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 796,
     "regionIds": []
   },
@@ -6531,6 +7321,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 797,
     "regionIds": []
   },
@@ -6538,6 +7329,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 798,
     "regionIds": []
   },
@@ -6545,6 +7337,7 @@
     "name": "Desolo III",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 799,
     "regionIds": []
   },
@@ -6552,6 +7345,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 800,
     "regionIds": []
   },
@@ -6559,6 +7353,7 @@
     "name": "Desolo X",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 801,
     "regionIds": []
   },
@@ -6566,6 +7361,7 @@
     "name": "Desolo IV",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 802,
     "regionIds": []
   },
@@ -6573,22 +7369,15 @@
     "name": "Born to Do This",
     "hint": "during Dungeoneering",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 803,
-    "regionIds": [
-      13624,
-      13880,
-      13625,
-      13881,
-      13626,
-      13882,
-      13627,
-      13883
-    ]
+    "regionIds": []
   },
   {
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 804,
     "regionIds": []
   },
@@ -6596,6 +7385,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 805,
     "regionIds": []
   },
@@ -6603,6 +7393,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 806,
     "regionIds": []
   },
@@ -6610,6 +7401,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 807,
     "regionIds": []
   },
@@ -6617,6 +7409,7 @@
     "name": "Glacialis VI",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 808,
     "regionIds": []
   },
@@ -6624,6 +7417,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 809,
     "regionIds": []
   },
@@ -6631,6 +7425,7 @@
     "name": "Glacialis VIII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 810,
     "regionIds": []
   },
@@ -6638,6 +7433,7 @@
     "name": "Glacialis IV",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 811,
     "regionIds": []
   },
@@ -6645,6 +7441,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 812,
     "regionIds": []
   },
@@ -6652,6 +7449,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 813,
     "regionIds": []
   },
@@ -6659,6 +7457,7 @@
     "name": "Icy Bones",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 815,
     "regionIds": []
   },
@@ -6666,6 +7465,7 @@
     "name": "Astea Frostweb",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 816,
     "regionIds": []
   },
@@ -6673,6 +7473,7 @@
     "name": "Gluttonous Behemoth",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 817,
     "regionIds": []
   },
@@ -6680,6 +7481,7 @@
     "name": "Luminescent Icefiend",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 818,
     "regionIds": []
   },
@@ -6687,6 +7489,7 @@
     "name": "Plane-freezer Lakhrahnaz",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 819,
     "regionIds": []
   },
@@ -6694,6 +7497,7 @@
     "name": "To'Kash the Bloodchiller",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 820,
     "regionIds": []
   },
@@ -6701,6 +7505,7 @@
     "name": "",
     "hint": "During Dungeoneering",
     "comment": "Safe room, Ambient dungeoneering",
+    "isAutoUnlock": false,
     "id": 822,
     "regionIds": [
       343,
@@ -6719,6 +7524,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 823,
     "regionIds": []
   },
@@ -6726,6 +7532,7 @@
     "name": "Glacialis V",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 824,
     "regionIds": []
   },
@@ -6733,6 +7540,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 825,
     "regionIds": []
   },
@@ -6740,6 +7548,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 826,
     "regionIds": []
   },
@@ -6747,6 +7556,7 @@
     "name": "Glacialis III",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 827,
     "regionIds": []
   },
@@ -6754,6 +7564,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 828,
     "regionIds": []
   },
@@ -6761,6 +7572,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 829,
     "regionIds": []
   },
@@ -6768,6 +7580,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 830,
     "regionIds": []
   },
@@ -6775,6 +7588,7 @@
     "name": "Glacialis VII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 831,
     "regionIds": []
   },
@@ -6782,6 +7596,7 @@
     "name": "Glacialis I",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 832,
     "regionIds": []
   },
@@ -6789,6 +7604,7 @@
     "name": "Glacialis IX",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 833,
     "regionIds": []
   },
@@ -6796,6 +7612,7 @@
     "name": "Glacialis II",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 834,
     "regionIds": []
   },
@@ -6803,6 +7620,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 835,
     "regionIds": []
   },
@@ -6810,6 +7628,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 836,
     "regionIds": []
   },
@@ -6817,6 +7636,7 @@
     "name": "Glacialis X",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 837,
     "regionIds": []
   },
@@ -6824,6 +7644,7 @@
     "name": "Thieves' Guild III",
     "hint": "in the Thieves' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 838,
     "regionIds": [
       19036,
@@ -6836,6 +7657,7 @@
     "name": "Thieves' Guild II",
     "hint": "in the Thieves' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 839,
     "regionIds": [
       19036,
@@ -6848,6 +7670,7 @@
     "name": "Thieves' Guild IV",
     "hint": "in the Thieves' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 840,
     "regionIds": [
       19036,
@@ -6860,6 +7683,7 @@
     "name": "Thieves' Guild I",
     "hint": "in the Thieves' Guild.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 842,
     "regionIds": [
       19036,
@@ -6872,6 +7696,7 @@
     "name": "Root Canal",
     "hint": "during Fairy Tale Part III.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 843,
     "regionIds": []
   },
@@ -6879,6 +7704,7 @@
     "name": "Body Talk",
     "hint": "during Elemental Workshop III",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 844,
     "regionIds": []
   },
@@ -6886,6 +7712,7 @@
     "name": "Castle Warz",
     "hint": "during Castle Wars, fighting for Zamorak.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 845,
     "regionIds": [
       9520
@@ -6895,6 +7722,7 @@
     "name": "Judge and Jury",
     "hint": "during a court case.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 846,
     "regionIds": []
   },
@@ -6902,6 +7730,7 @@
     "name": "Mindful",
     "hint": "during Quiet Before the Swarm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 847,
     "regionIds": []
   },
@@ -6909,6 +7738,7 @@
     "name": "Void Knights' Theme",
     "hint": "during Quiet Before the Swarm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 848,
     "regionIds": []
   },
@@ -6916,6 +7746,7 @@
     "name": "Lortnoc Tsep",
     "hint": "during Quiet Before the Swarm.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 849,
     "regionIds": []
   },
@@ -6923,41 +7754,47 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 850,
     "regionIds": []
   },
   {
     "name": "Love Lost",
     "hint": "during Love Story.",
-    "comment": "",
+    "comment": "added",
+    "isAutoUnlock": true,
     "id": 851,
     "regionIds": []
   },
   {
     "name": "Love Story",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "added",
+    "isAutoUnlock": true,
     "id": 852,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "added",
+    "isAutoUnlock": true,
     "id": 853,
     "regionIds": []
   },
   {
     "name": "Love Bites",
     "hint": "during Love Story.",
-    "comment": "",
+    "comment": "added",
+    "isAutoUnlock": true,
     "id": 854,
     "regionIds": []
   },
   {
     "name": "Love and Hate",
     "hint": "during Love Story.",
-    "comment": "",
+    "comment": "added",
+    "isAutoUnlock": true,
     "id": 855,
     "regionIds": []
   },
@@ -6965,6 +7802,7 @@
     "name": "Chain Reaction",
     "hint": "during A Void Dance.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 856,
     "regionIds": []
   },
@@ -6972,6 +7810,7 @@
     "name": "All for the Pest",
     "hint": "during A Void Dance.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 857,
     "regionIds": []
   },
@@ -6979,6 +7818,7 @@
     "name": "Out of Control",
     "hint": "during A Void Dance.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 858,
     "regionIds": []
   },
@@ -6986,6 +7826,7 @@
     "name": "Destiny",
     "hint": "automatically.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 859,
     "regionIds": []
   },
@@ -6993,6 +7834,7 @@
     "name": "Occulo IV",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 860,
     "regionIds": []
   },
@@ -7000,6 +7842,7 @@
     "name": "",
     "hint": "During dungeoneering",
     "comment": "ambient",
+    "isAutoUnlock": false,
     "id": 861,
     "regionIds": []
   },
@@ -7007,6 +7850,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 862,
     "regionIds": []
   },
@@ -7014,6 +7858,7 @@
     "name": "Yk'Lagor the Thunderous",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 863,
     "regionIds": []
   },
@@ -7021,6 +7866,7 @@
     "name": "Occulo X",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 864,
     "regionIds": []
   },
@@ -7028,6 +7874,7 @@
     "name": "Skeletal Trio",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 865,
     "regionIds": []
   },
@@ -7035,6 +7882,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 866,
     "regionIds": []
   },
@@ -7042,6 +7890,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 867,
     "regionIds": []
   },
@@ -7049,6 +7898,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 868,
     "regionIds": []
   },
@@ -7056,6 +7906,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 869,
     "regionIds": []
   },
@@ -7063,6 +7914,7 @@
     "name": "Occulo IX",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 870,
     "regionIds": []
   },
@@ -7070,6 +7922,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 871,
     "regionIds": []
   },
@@ -7077,6 +7930,7 @@
     "name": "Occulo VI",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 872,
     "regionIds": []
   },
@@ -7084,6 +7938,7 @@
     "name": "Occulo I",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 873,
     "regionIds": []
   },
@@ -7091,6 +7946,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 874,
     "regionIds": []
   },
@@ -7098,6 +7954,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 875,
     "regionIds": []
   },
@@ -7105,6 +7962,7 @@
     "name": "Necrolord",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 876,
     "regionIds": []
   },
@@ -7112,6 +7970,7 @@
     "name": "Runed Behemoth",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 877,
     "regionIds": []
   },
@@ -7119,6 +7978,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 878,
     "regionIds": []
   },
@@ -7126,6 +7986,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 879,
     "regionIds": []
   },
@@ -7133,6 +7994,7 @@
     "name": "Occulo III",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 880,
     "regionIds": []
   },
@@ -7140,6 +8002,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 881,
     "regionIds": []
   },
@@ -7147,6 +8010,7 @@
     "name": "Occulo II",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 882,
     "regionIds": []
   },
@@ -7154,6 +8018,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 883,
     "regionIds": []
   },
@@ -7161,6 +8026,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 884,
     "regionIds": []
   },
@@ -7168,6 +8034,7 @@
     "name": "Occulo VII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 885,
     "regionIds": []
   },
@@ -7175,6 +8042,7 @@
     "name": "Occulo V",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 886,
     "regionIds": []
   },
@@ -7182,6 +8050,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 887,
     "regionIds": []
   },
@@ -7189,6 +8058,7 @@
     "name": "",
     "hint": "Ambient Dungeoneering.",
     "comment": "During Dungeoneering",
+    "isAutoUnlock": false,
     "id": 888,
     "regionIds": []
   },
@@ -7196,6 +8066,7 @@
     "name": "Occulo VIII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 889,
     "regionIds": []
   },
@@ -7203,6 +8074,7 @@
     "name": "Yk'Lagor the Thunderous",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 890,
     "regionIds": []
   },
@@ -7210,6 +8082,7 @@
     "name": "Gravecreeper",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 891,
     "regionIds": []
   },
@@ -7217,6 +8090,7 @@
     "name": "Flesh-spoiler Haasghenahk",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 892,
     "regionIds": []
   },
@@ -7224,6 +8098,7 @@
     "name": "Unavoidable Conflict",
     "hint": "during a Conquest battle.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 893,
     "regionIds": []
   },
@@ -7231,6 +8106,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 894,
     "regionIds": []
   },
@@ -7238,6 +8114,7 @@
     "name": "Right of Conquest",
     "hint": "in the Conquest lobby.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 895,
     "regionIds": []
   },
@@ -7245,20 +8122,25 @@
     "name": "Gunnarsgrunn",
     "hint": "during Gunnar's Ground.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 896,
-    "regionIds": []
+    "regionIds": [
+      12341
+    ]
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Sounds great!",
+    "isAutoUnlock": true,
     "id": 897,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Barbarian",
+    "isAutoUnlock": true,
     "id": 898,
     "regionIds": []
   },
@@ -7266,6 +8148,7 @@
     "name": "Mystery Revealed",
     "hint": "during The Void Stares Back.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 899,
     "regionIds": []
   },
@@ -7273,6 +8156,7 @@
     "name": "In Security",
     "hint": "during The Void Stares Back.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 900,
     "regionIds": []
   },
@@ -7280,6 +8164,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 901,
     "regionIds": []
   },
@@ -7287,6 +8172,7 @@
     "name": "Precarious Void",
     "hint": "during The Void Stares Back.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 902,
     "regionIds": []
   },
@@ -7294,6 +8180,7 @@
     "name": "Black Zabeth",
     "hint": "in a Halloween holiday event (2010 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 903,
     "regionIds": []
   },
@@ -7301,6 +8188,7 @@
     "name": "The Void Stares Back",
     "hint": "during The Void Stares Back.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 904,
     "regionIds": []
   },
@@ -7308,6 +8196,7 @@
     "name": "Give it Your Pest Shot",
     "hint": "during The Void Stares Back.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 905,
     "regionIds": []
   },
@@ -7315,6 +8204,7 @@
     "name": "Who Are We to Judge?",
     "hint": "during The Void Stares Back.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 906,
     "regionIds": []
   },
@@ -7322,27 +8212,31 @@
     "name": "Halloween Party",
     "hint": "in a Halloween holiday event (2010 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 907,
     "regionIds": []
   },
   {
     "name": "Black Zabeth: LIVE!",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Halloween event",
+    "isAutoUnlock": false,
     "id": 908,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Daemonheim",
+    "isAutoUnlock": true,
     "id": 909,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Daemonheim",
+    "isAutoUnlock": true,
     "id": 910,
     "regionIds": []
   },
@@ -7350,6 +8244,7 @@
     "name": "Torqueo IV",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 911,
     "regionIds": []
   },
@@ -7357,6 +8252,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 912,
     "regionIds": []
   },
@@ -7364,6 +8260,7 @@
     "name": "Dreadnaught",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 913,
     "regionIds": []
   },
@@ -7371,6 +8268,7 @@
     "name": "Torqueo II",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 914,
     "regionIds": []
   },
@@ -7378,6 +8276,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 915,
     "regionIds": []
   },
@@ -7385,6 +8284,7 @@
     "name": "Hope Devourer",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 916,
     "regionIds": []
   },
@@ -7392,6 +8292,7 @@
     "name": "Torqueo III",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 917,
     "regionIds": []
   },
@@ -7399,6 +8300,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 918,
     "regionIds": []
   },
@@ -7406,6 +8308,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 919,
     "regionIds": []
   },
@@ -7413,6 +8316,7 @@
     "name": "Torqueo VIII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 920,
     "regionIds": []
   },
@@ -7420,6 +8324,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 921,
     "regionIds": []
   },
@@ -7427,6 +8332,7 @@
     "name": "Warped Gulega",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 922,
     "regionIds": []
   },
@@ -7434,6 +8340,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 923,
     "regionIds": []
   },
@@ -7441,6 +8348,7 @@
     "name": "Kal'Ger the Warmonger",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 924,
     "regionIds": []
   },
@@ -7448,6 +8356,7 @@
     "name": "Torqueo IX",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 925,
     "regionIds": []
   },
@@ -7455,6 +8364,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 926,
     "regionIds": []
   },
@@ -7462,6 +8372,7 @@
     "name": "Torqueo V",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 927,
     "regionIds": []
   },
@@ -7469,6 +8380,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 928,
     "regionIds": []
   },
@@ -7476,6 +8388,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 929,
     "regionIds": []
   },
@@ -7483,6 +8396,7 @@
     "name": "Torqueo I",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 930,
     "regionIds": []
   },
@@ -7490,6 +8404,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 931,
     "regionIds": []
   },
@@ -7497,6 +8412,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 932,
     "regionIds": []
   },
@@ -7504,6 +8420,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 933,
     "regionIds": []
   },
@@ -7511,6 +8428,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 934,
     "regionIds": []
   },
@@ -7518,6 +8436,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 935,
     "regionIds": []
   },
@@ -7525,6 +8444,7 @@
     "name": "Torqueo X",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 936,
     "regionIds": []
   },
@@ -7532,6 +8452,7 @@
     "name": "World-gorger Shukarhazh",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 937,
     "regionIds": []
   },
@@ -7539,6 +8460,7 @@
     "name": "Torqueo VII",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 938,
     "regionIds": []
   },
@@ -7546,6 +8468,7 @@
     "name": "Torqueo VI",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 939,
     "regionIds": []
   },
@@ -7553,6 +8476,7 @@
     "name": "Blink",
     "hint": "during Dungeoneering.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 940,
     "regionIds": []
   },
@@ -7560,69 +8484,79 @@
     "name": "The Task at Hand",
     "hint": "by completing 350 Tasks.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 941,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle, not implemented",
+    "isAutoUnlock": false,
     "id": 942,
     "regionIds": []
   },
   {
     "name": "Monkey See, Monkey Do",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 943,
     "regionIds": []
   },
   {
     "name": "Simian Scuffle",
     "hint": "during Do No Evil.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 944,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 945,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 946,
     "regionIds": []
   },
   {
     "name": "Monkey See, Monkey Do",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 947,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 948,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 949,
     "regionIds": []
   },
   {
     "name": "Monkey See, Monkey Do",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Jungle",
+    "isAutoUnlock": false,
     "id": 950,
     "regionIds": []
   },
@@ -7630,6 +8564,7 @@
     "name": "Seasonal Sports",
     "hint": "in a Christmas holiday event (2010 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 951,
     "regionIds": []
   },
@@ -7637,6 +8572,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 952,
     "regionIds": []
   },
@@ -7644,6 +8580,7 @@
     "name": "Christmas Caverns",
     "hint": "in a Christmas holiday event (2010 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 953,
     "regionIds": []
   },
@@ -7651,6 +8588,7 @@
     "name": "Go with the Flow",
     "hint": "during King of the Dwarves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 954,
     "regionIds": []
   },
@@ -7658,6 +8596,7 @@
     "name": "The Records Chamber",
     "hint": "during King of the Dwarves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 955,
     "regionIds": []
   },
@@ -7665,6 +8604,7 @@
     "name": "Only a King",
     "hint": "during King of the Dwarves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 956,
     "regionIds": []
   },
@@ -7672,6 +8612,7 @@
     "name": "Colonel Grimsson",
     "hint": "during King of the Dwarves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 957,
     "regionIds": []
   },
@@ -7679,6 +8620,7 @@
     "name": "Rocky Rescue",
     "hint": "during King of the Dwarves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 958,
     "regionIds": []
   },
@@ -7686,6 +8628,7 @@
     "name": "Corporate Callousness",
     "hint": "during King of the Dwarves.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 959,
     "regionIds": []
   },
@@ -7693,6 +8636,7 @@
     "name": "Zaros Zeitgeist",
     "hint": "in the God Wars Dungeon.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 960,
     "regionIds": [
       11345,
@@ -7703,6 +8647,7 @@
     "name": "Reunion",
     "hint": "during Prisoner of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 961,
     "regionIds": []
   },
@@ -7710,6 +8655,7 @@
     "name": "Cage Against the Machine",
     "hint": "during Prisoner of Glouphrie.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 962,
     "regionIds": []
   },
@@ -7717,6 +8663,7 @@
     "name": "Logical Progression",
     "hint": "during Elemental Workshop 4",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 963,
     "regionIds": []
   },
@@ -7724,6 +8671,7 @@
     "name": "Too Many Cooks...",
     "hint": "during Recipe for Disaster.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 964,
     "regionIds": []
   },
@@ -7731,6 +8679,7 @@
     "name": "The Factory Floor",
     "hint": "during A Clockwork Syringe.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 965,
     "regionIds": []
   },
@@ -7738,6 +8687,7 @@
     "name": "Spring Song",
     "hint": "during an Easter holiday event (2011 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 966,
     "regionIds": []
   },
@@ -7745,6 +8695,7 @@
     "name": "Lament of the Snow Queen",
     "hint": "during an Easter holiday event (2011 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 967,
     "regionIds": []
   },
@@ -7752,6 +8703,7 @@
     "name": "Three of a Kind",
     "hint": "during Deadliest Catch.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 968,
     "regionIds": []
   },
@@ -7759,6 +8711,7 @@
     "name": "Deadliest Catch",
     "hint": "during Deadliest Catch.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 969,
     "regionIds": []
   },
@@ -7766,6 +8719,7 @@
     "name": "Deadliest Catch",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 970,
     "regionIds": []
   },
@@ -7773,6 +8727,7 @@
     "name": "Troll Invasion",
     "hint": "during a Troll Invasion.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 971,
     "regionIds": []
   },
@@ -7780,6 +8735,7 @@
     "name": "Kethsi",
     "hint": "on entering Kethsi.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 972,
     "regionIds": []
   },
@@ -7787,6 +8743,7 @@
     "name": "Slug Poison",
     "hint": "during Salt in the Wound.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 973,
     "regionIds": []
   },
@@ -7794,6 +8751,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 974,
     "regionIds": []
   },
@@ -7801,6 +8759,7 @@
     "name": "Natural Selection",
     "hint": "in the Jadinko Lair.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 975,
     "regionIds": []
   },
@@ -7808,6 +8767,7 @@
     "name": "Citadel VII",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 976,
     "regionIds": []
   },
@@ -7815,6 +8775,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 977,
     "regionIds": []
   },
@@ -7822,6 +8783,7 @@
     "name": "Citadel XI",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 978,
     "regionIds": []
   },
@@ -7829,6 +8791,7 @@
     "name": "Citadel XV",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 979,
     "regionIds": []
   },
@@ -7836,6 +8799,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 980,
     "regionIds": []
   },
@@ -7843,6 +8807,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 981,
     "regionIds": []
   },
@@ -7850,6 +8815,7 @@
     "name": "Citadel VI",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 982,
     "regionIds": []
   },
@@ -7857,6 +8823,7 @@
     "name": "Architect of War",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 983,
     "regionIds": []
   },
@@ -7864,6 +8831,7 @@
     "name": "Citadel VIII",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 984,
     "regionIds": []
   },
@@ -7871,6 +8839,7 @@
     "name": "",
     "hint": "on entering a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 985,
     "regionIds": []
   },
@@ -7878,6 +8847,7 @@
     "name": "Citadel XIII",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 987,
     "regionIds": []
   },
@@ -7885,6 +8855,7 @@
     "name": "Citadel III",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 988,
     "regionIds": []
   },
@@ -7892,6 +8863,7 @@
     "name": "Citadel XIV",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 989,
     "regionIds": []
   },
@@ -7899,6 +8871,7 @@
     "name": "Citadel XII",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 990,
     "regionIds": []
   },
@@ -7906,6 +8879,7 @@
     "name": "Citadel IX",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 992,
     "regionIds": []
   },
@@ -7913,6 +8887,7 @@
     "name": "Citadel IV",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 993,
     "regionIds": []
   },
@@ -7920,6 +8895,7 @@
     "name": "Citadel I",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 994,
     "regionIds": []
   },
@@ -7927,6 +8903,7 @@
     "name": "Citadel V",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 995,
     "regionIds": []
   },
@@ -7934,6 +8911,7 @@
     "name": "Citadel XVI",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 996,
     "regionIds": []
   },
@@ -7941,6 +8919,7 @@
     "name": "Citadel II",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 997,
     "regionIds": []
   },
@@ -7948,6 +8927,7 @@
     "name": "Citadel X",
     "hint": "in a Clan Citadel.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 998,
     "regionIds": []
   },
@@ -7955,6 +8935,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 999,
     "regionIds": []
   },
@@ -7962,6 +8943,7 @@
     "name": "Darkmeyer",
     "hint": "during Branches of Darkmeyer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1000,
     "regionIds": [
       14388,
@@ -7973,6 +8955,7 @@
     "name": "Vanescula Fight",
     "hint": "during Branches of Darkmeyer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1001,
     "regionIds": [
       14388
@@ -7982,6 +8965,7 @@
     "name": "Upir Likhyi",
     "hint": "during Branches of Darkmeyer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1003,
     "regionIds": [
       14388
@@ -7991,6 +8975,7 @@
     "name": "Arboretum",
     "hint": "during Branches of Darkmeyer.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1004,
     "regionIds": [
       14388
@@ -8000,15 +8985,15 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Spooky",
+    "isAutoUnlock": true,
     "id": 1005,
-    "regionIds": [
-      12340
-    ]
+    "regionIds": []
   },
   {
     "name": "Return of Lucien",
     "hint": "during Ritual of the Mahjarrat.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1008,
     "regionIds": []
   },
@@ -8016,6 +9001,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1009,
     "regionIds": []
   },
@@ -8023,6 +9009,7 @@
     "name": "DCII Mash-up (Infinity Mix)",
     "hint": "during a Hallowe'en holiday event (2011 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1013,
     "regionIds": []
   },
@@ -8030,6 +9017,7 @@
     "name": "Dominion Lobby III",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1014,
     "regionIds": []
   },
@@ -8037,6 +9025,7 @@
     "name": "Dominion Tower I",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1015,
     "regionIds": []
   },
@@ -8044,6 +9033,7 @@
     "name": "Dominion Tower IV",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1016,
     "regionIds": []
   },
@@ -8051,6 +9041,7 @@
     "name": "Dominion Lobby I",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1017,
     "regionIds": []
   },
@@ -8058,6 +9049,7 @@
     "name": "Dominion Tower III",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1018,
     "regionIds": []
   },
@@ -8065,6 +9057,7 @@
     "name": "Dominion Tower V",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1021,
     "regionIds": []
   },
@@ -8072,6 +9065,7 @@
     "name": "Dominion Tower II",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1022,
     "regionIds": []
   },
@@ -8079,6 +9073,7 @@
     "name": "Dominion Lobby II",
     "hint": "in the Dominion Tower.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1023,
     "regionIds": []
   },
@@ -8086,6 +9081,7 @@
     "name": "Traveller's Tale",
     "hint": "during the One Piercing Note quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1026,
     "regionIds": []
   },
@@ -8093,6 +9089,7 @@
     "name": "Troubadour Dance",
     "hint": "during the One Piercing Note quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1032,
     "regionIds": []
   },
@@ -8100,6 +9097,7 @@
     "name": "Citharede Requiem",
     "hint": "during the One Piercing Note quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1034,
     "regionIds": [
       13617
@@ -8109,6 +9107,7 @@
     "name": "Valerio's Song",
     "hint": "during the One Piercing Note quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1046,
     "regionIds": []
   },
@@ -8116,6 +9115,7 @@
     "name": "Flash Factory",
     "hint": "in the Flash Factory.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1047,
     "regionIds": []
   },
@@ -8123,6 +9123,7 @@
     "name": "Chaotic Cookery",
     "hint": "in a Christmas holiday event (2011 onwards).",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1051,
     "regionIds": []
   },
@@ -8130,6 +9131,7 @@
     "name": "Charred Remains",
     "hint": "during The Firemakers' Curse quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1053,
     "regionIds": []
   },
@@ -8137,6 +9139,7 @@
     "name": "The Firemakers' Theme",
     "hint": "during The Firemakers' Curse quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1054,
     "regionIds": []
   },
@@ -8144,6 +9147,7 @@
     "name": "Taverley Adventure",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1058,
     "regionIds": [
       11574,
@@ -8154,6 +9158,7 @@
     "name": "Taverley Lament",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1059,
     "regionIds": [
       11574,
@@ -8165,6 +9170,7 @@
     "name": "Taverley Dreams",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1060,
     "regionIds": [
       11574,
@@ -8175,6 +9181,7 @@
     "name": "Spiritual",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1061,
     "regionIds": [
       11573,
@@ -8185,6 +9192,7 @@
     "name": "Taverley Frolics",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1062,
     "regionIds": [
       11574,
@@ -8195,6 +9203,7 @@
     "name": "Taverley Folk",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1064,
     "regionIds": [
       11574,
@@ -8202,9 +9211,18 @@
     ]
   },
   {
+    "name": "Ambient Boss",
+    "hint": "During a boss.",
+    "comment": "",
+    "isAutoUnlock": true,
+    "id": 1065,
+    "regionIds": []
+  },
+  {
     "name": "Taverley Ambience",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1066,
     "regionIds": [
       11574,
@@ -8215,6 +9233,7 @@
     "name": "Taverley Enchantment",
     "hint": "in Taverley.",
     "comment": "",
+    "isAutoUnlock": true,
     "id": 1067,
     "regionIds": [
       11574,
@@ -8222,9 +9241,50 @@
     ]
   },
   {
+    "name": "Ambient Boss",
+    "hint": "During a boss",
+    "comment": "",
+    "isAutoUnlock": false,
+    "id": 1068,
+    "regionIds": []
+  },
+  {
+    "name": "Ambient Burthrope",
+    "hint": "Ambient",
+    "comment": "",
+    "isAutoUnlock": true,
+    "id": 1069,
+    "regionIds": []
+  },
+  {
+    "name": "Ambient Boss",
+    "hint": "Ambient",
+    "comment": "",
+    "isAutoUnlock": true,
+    "id": 1070,
+    "regionIds": []
+  },
+  {
+    "name": "Ambient Boss",
+    "hint": "Ambient",
+    "comment": "",
+    "isAutoUnlock": true,
+    "id": 1071,
+    "regionIds": []
+  },
+  {
+    "name": "Ambient Burthrope",
+    "hint": "Ambient",
+    "comment": "",
+    "isAutoUnlock": true,
+    "id": 1073,
+    "regionIds": []
+  },
+  {
     "name": "Burthorpe Drummer",
     "hint": "in Burthorpe.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1074,
     "regionIds": [
       11575
@@ -8234,6 +9294,7 @@
     "name": "Ga'al",
     "hint": "during The Elder Kiln quest.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1075,
     "regionIds": [
       19024
@@ -8243,6 +9304,7 @@
     "name": "Burthorpe Danger",
     "hint": "in Burthorpe.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1076,
     "regionIds": [
       11575
@@ -8252,6 +9314,7 @@
     "name": "Burthorpe Dreams",
     "hint": "in Burthorpe.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1078,
     "regionIds": [
       11575
@@ -8261,6 +9324,7 @@
     "name": "Burthorpe Dilemma",
     "hint": "in Burthorpe.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1079,
     "regionIds": [
       11575
@@ -8270,6 +9334,7 @@
     "name": "Burthorpe Duty",
     "hint": "in Burthorpe.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1080,
     "regionIds": [
       11575
@@ -8279,6 +9344,7 @@
     "name": "Tzhaar City I",
     "hint": "in the TzHaar City.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1081,
     "regionIds": [
       18512,
@@ -8294,6 +9360,7 @@
     "name": "Tzhaar Supremacy II",
     "hint": "in the Tzhaar Fight Cave, Fight Pit or Fight Kiln.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1082,
     "regionIds": []
   },
@@ -8301,6 +9368,7 @@
     "name": "Tzhaar City V",
     "hint": "in the TzHaar City.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1083,
     "regionIds": [
       18512,
@@ -8316,6 +9384,7 @@
     "name": "Tzhaar City II",
     "hint": "in the TzHaar City.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1084,
     "regionIds": [
       18512,
@@ -8331,6 +9400,7 @@
     "name": "Tzhaar City IV",
     "hint": "in the TzHaar City.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1085,
     "regionIds": [
       18512,
@@ -8346,6 +9416,7 @@
     "name": "Tzhaar Supremacy III",
     "hint": "in the Tzhaar Fight Cave, Fight Pit or Fight Kiln.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1086,
     "regionIds": []
   },
@@ -8353,6 +9424,7 @@
     "name": "Tzhaar City III",
     "hint": "in the TzHaar City.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1087,
     "regionIds": [
       18512,
@@ -8368,6 +9440,7 @@
     "name": "Tzhaar Supremacy I",
     "hint": "in the Tzhaar Fight Cave, Fight Pit or Fight Kiln.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1088,
     "regionIds": [
       18512,
@@ -8383,6 +9456,7 @@
     "name": "Daemonheim Entrance",
     "hint": "at the entrance to Daemonheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1089,
     "regionIds": [
       13624,
@@ -8394,6 +9468,7 @@
     "name": "Daemonheim Fremenniks",
     "hint": "at the entrance to Daemonheim.",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1090,
     "regionIds": [
       13624,
@@ -8405,6 +9480,7 @@
     "name": "Runeward",
     "hint": "on the first level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1091,
     "regionIds": [
       15967
@@ -8414,6 +9490,7 @@
     "name": "Runefear",
     "hint": "on the third level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1092,
     "regionIds": [
       17246
@@ -8423,6 +9500,7 @@
     "name": "Runetine",
     "hint": "on the second level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1093,
     "regionIds": [
       16479
@@ -8432,6 +9510,7 @@
     "name": "Runewaste",
     "hint": "on the third level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1094,
     "regionIds": [
       17246
@@ -8441,6 +9520,7 @@
     "name": "Runesphere",
     "hint": "on the second level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1095,
     "regionIds": [
       16479
@@ -8450,6 +9530,7 @@
     "name": "Runespan",
     "hint": "on the second level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1096,
     "regionIds": [
       16479
@@ -8459,6 +9540,7 @@
     "name": "Runeiverse",
     "hint": "on the second level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1097,
     "regionIds": [
       16479
@@ -8468,6 +9550,7 @@
     "name": "Runebreath",
     "hint": "on the first level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1098,
     "regionIds": [
       15967
@@ -8477,6 +9560,7 @@
     "name": "Runearia",
     "hint": "on the first level of the Runecraft Siphoning Area",
     "comment": "",
+    "isAutoUnlock": false,
     "id": 1099,
     "regionIds": [
       15967
