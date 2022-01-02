@@ -16,21 +16,22 @@
 //
 package com.rs.game.player.managers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.LoginHandler;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
@@ -48,7 +49,7 @@ public final class MusicsManager {
     private transient boolean settedMusic;
     private ArrayList<Integer> unlockedMusics;
     private ArrayList<Integer> playList;
-    private ArrayList<Integer> lastTenSongs = new ArrayList<>();
+    private Deque<Integer> lastTenSongs = new ArrayDeque<>();
 
     private transient boolean playListOn;
     private transient int nextPlayListMusic;
@@ -57,23 +58,19 @@ public final class MusicsManager {
     public MusicsManager() {
         unlockedMusics = new ArrayList<Integer>();
         playList = new ArrayList<Integer>(12);
-        // auto unlocked musics
-        unlockedMusics.add(62);
-        unlockedMusics.add(400);
-        unlockedMusics.add(16);
-        unlockedMusics.add(466);
-        unlockedMusics.add(321);
-        unlockedMusics.add(547);
-        unlockedMusics.add(621);
-        unlockedMusics.add(207);
-        unlockedMusics.add(401);
-        unlockedMusics.add(147);
-        unlockedMusics.add(457);
-        unlockedMusics.add(552);
-        unlockedMusics.add(858);
-        unlockedMusics.add(859);
-        unlockedMusics.add(679);
     }
+
+    //Is this cool? Adds new music as you put them in
+    public static LoginHandler onLogin = new LoginHandler() {
+        @Override
+        public void handle(LoginEvent e) {
+            List<Integer> autoUnlocked = Music.getAutoUnlockedMusic();
+            List<Integer> unlocked = e.getPlayer().getMusicsManager().unlockedMusics;
+            autoUnlocked.removeAll(unlocked);
+            for(int id : autoUnlocked)
+                e.getPlayer().getMusicsManager().unlockedMusics.add(id);
+        }
+    };
 
     public static ButtonClickHandler handlePlaylistButtons = new ButtonClickHandler(187) {
         @Override
@@ -246,14 +243,14 @@ public final class MusicsManager {
         if (playListOn && playList.size() > 0)//playlist
             pickPlaylistSong();
         else if (unlockedMusics.size() > 0) {//ambient music at random
-            lastTenSongs.add(0, playingMusic);
+            lastTenSongs.addFirst(playingMusic);
             if (player.getDungManager().isInsideDungeon())
                 pickAmbientDungeoneering();
             else
                 pickAmbientSong();
         }
-        if(lastTenSongs.size() > 10)
-            lastTenSongs.remove(lastTenSongs.size() - 1);
+        while(lastTenSongs.size() > 10)
+            lastTenSongs.removeLast();
         player.sendMessage(playingMusic +"");
         playMusic(playingMusic);
     }
@@ -286,17 +283,17 @@ public final class MusicsManager {
      */
     private void pickAmbientSong() {
         playingGenre =  Music.getGenre(player.getRegionId());
-        if(playingGenre == null)
-            while(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic))
-                playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
-        else {
+        if(playingGenre == null) {
+//            while(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic))
+            playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+        } else {
             List<Integer> songIds = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
             songIds.retainAll(unlockedMusics);
-            while(lastTenSongs.contains(playingMusic))
-                if (songIds.size() > 0)
-                    playingMusic = songIds.get(Utils.getRandomInclusive(songIds.size() - 1));
-                else
-                    playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+//            while(lastTenSongs.contains(playingMusic))
+            if (songIds.size() > 0)
+                playingMusic = songIds.get(Utils.getRandomInclusive(songIds.size() - 1));
+            else
+                playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
         }
     }
 
