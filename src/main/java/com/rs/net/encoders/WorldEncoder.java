@@ -384,8 +384,8 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new MessagePrivateEcho(account, message));
 	}
 
-	public void receivePrivateChatQuickMessage(String name, int rights, QuickChatMessage message) {
-		session.writeToQueue(new QuickChatPrivateEcho(name, rights, message));
+	public void receivePrivateChatQuickMessage(Account account, QuickChatMessage message) {
+		session.writeToQueue(new QuickChatPrivateEcho(account, message));
 	}
 
 	public void sendPrivateQuickMessage(String username, QuickChatMessage message) {
