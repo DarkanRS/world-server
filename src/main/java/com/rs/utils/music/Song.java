@@ -20,7 +20,7 @@ public class Song {
 	private String name;
 	private String hint;
     private String comment;
-    private boolean isAutoUnlock;
+    private boolean allowAmbient;
 	private int id;
 	private int[] regionIds;
 
@@ -36,8 +36,8 @@ public class Song {
         return comment;
     }
 
-    public boolean isAutoUnlock() {
-        return isAutoUnlock;
+    public boolean isAllowAmbient() {
+        return allowAmbient;
     }
 
 	public int getId() {

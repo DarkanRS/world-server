@@ -311,7 +311,7 @@ public class Player extends Entity {
 	public void addToAttackedBy(String name) {
 		attackedBy.add(name);
 	}
-
+	
 	// used for update
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
@@ -1140,9 +1140,7 @@ public class Player extends Entity {
             WorldTasksManager.schedule(new WorldTask() {
                 @Override
                 public void run() {
-                    if(musicsManager.musicEnded())
-                        ;
-//                        musicsManager.playAmbientMusic();
+                    musicsManager.nextAmbientSong();
                     getTempAttribs().setB("MUSIC_BREAK", false);
                 }
             }, Utils.randomInclusive(10, 30));
@@ -2337,7 +2335,7 @@ public class Player extends Entity {
 	}
 
 	public void sendItemsOnDeath(Player killer, WorldTile deathTile, WorldTile respawnTile, boolean noGravestone, Integer[][] slots) {
-		if (true)
+		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);

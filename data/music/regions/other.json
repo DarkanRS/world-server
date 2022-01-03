@@ -95,13 +95,44 @@
     ]
   },
   {
-    "genre": "Lumbridge Swamp",
+    "genre": "Other Swamp",
     "parent": "Swamp",
     "comment": "",
-    "regionIds": [],
-    "songs": [
-      0
-    ]
+    "regionIds": [
+      14231,
+      8752,
+      9008,
+      12593,
+      12849,
+      13623,
+      13622,
+      13621,
+      13620,
+      13619,
+      13618,
+      13611,
+      13879,
+      13878,
+      13877,
+      13876,
+      13875,
+      13874,
+      13873,
+      14135,
+      14134,
+      14133,
+      14131,
+      14130,
+      14129,
+      14391,
+      14390,
+      14389,
+      14647,
+      14646,
+      14645,
+      14643
+    ],
+    "songs": []
   },
   {
     "genre": "God Wars Dungeon",
@@ -247,40 +278,8 @@
     "songs": []
   },
   {
-    "genre": "Morytania",
-    "parent": "Swamp",
-    "comment": "Includes port phas, burg de rott, child of swamp, barrows",
-    "regionIds": [
-      13621,
-      13620,
-      13619,
-      13618,
-      13879,
-      13878,
-      13877,
-      13876,
-      13875,
-      13874,
-      13873,
-      14135,
-      14134,
-      14133,
-      14391,
-      14390,
-      14647,
-      14646,
-      14130,
-      14129,
-      14131
-    ],
-    "songs": [
-      10,
-      30,
-      321
-    ]
-  },
-  {
     "genre": "Runespan",
+    "parent": "Misthalin",
     "comment": "regions done",
     "regionIds": [
       17246,

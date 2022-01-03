@@ -28,11 +28,17 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 @PluginEventHandler
 public class Music {
     /** Summary of Music System
-     * -When initially entering a region the songs associated with that region play
+     * -When initially entering a region the songs associated with that region play first
      * from songs.json.
+     * -After all the region songs are done ambient songs play within the same genre as
+     * the area.
      * -When entering other regions the only time it switches songs is when the region
      * has a different genre in the genre map or the region has no genre. This means
      * less song changes as the player moves around.
+     * -allowPlayMusic allows players to play the music without necessarily having them
+     * unlocked. This works to increase variety but never adds to unlocked music. This is
+     * mostly used just to increase ambient song variety and does not affect region or
+     * playlist music.
      */
 	private static Map<Integer, Song> MUSICS = new HashMap<>();//Full music listing
 	private static Map<Integer, int[]> MUSICS_REGION = new HashMap<>();//hints & unlocks
@@ -40,7 +46,7 @@ public class Music {
     private static Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region
     private static List<Genre> genres = new ArrayList<>();
     private static Genre[] parentGenres;
-    private static ArrayList<Integer> autoUnlockedMusic = new ArrayList<>();
+    private static ArrayList<Integer> allowAmbientMusic = new ArrayList<>();
 
 	@ServerStartupEvent
 	public static void init() {
@@ -76,8 +82,8 @@ public class Music {
 
             //Auto-unlock songs list.
             for(Song s : songs) {
-                if(s.isAutoUnlock())
-                    autoUnlockedMusic.add(s.getId());
+                if(s.isAllowAmbient())
+                    allowAmbientMusic.add(s.getId());
             }
 
 		} catch (JsonIOException | IOException e) {
@@ -88,12 +94,8 @@ public class Music {
     private static void addGenresToRegionMap() {
         for(Genre g : genres) {
             if(g.isActive()) {
-                int activeSongCount = 0;
-                for (int s : g.getSongs())
-                    if (MUSICS.get(s).isAutoUnlock())
-                        activeSongCount++;
-                if (g.getSongs().length < 10 || activeSongCount < 5)
-                    throw new java.lang.Error("ERROR: " + g.getGenreName() + " Genre is too small! Must be more than 10 total and 5 unlocked " + activeSongCount + " is auto unlocked...");
+                if (g.getSongs().length < 10)
+                    throw new java.lang.Error("ERROR: " + g.getGenreName() + " Genre is too small! Must be more than 10 total");
                 else
                     for (int regionId : g.getRegionIds()) {
                         if (GENRE_REGION.containsKey(regionId))
@@ -142,7 +144,7 @@ public class Music {
         return genreNames.stream().toArray(String[]::new);
     }
 
-    public static ArrayList<Integer> getAutoUnlockedMusic() {
-        return autoUnlockedMusic;
+    public static ArrayList<Integer> getAllowAmbientMusic() {
+        return allowAmbientMusic;
     }
 }

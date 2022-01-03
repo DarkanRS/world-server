@@ -107,6 +107,16 @@
     ]
   },
   {
+    "genre": "Lumbridge Swamp",
+    "parent": "Swamp",
+    "comment": "",
+    "regionIds": [],
+    "songs": [
+      64,
+      145
+    ]
+  },
+  {
     "genre": "Other Misthalin",
     "parent": "Misthalin",
     "comment": "Regions done and solid, Not specific cities, add quest songs as you get them",
