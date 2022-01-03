@@ -1132,7 +1132,8 @@ public class Player extends Entity {
                 @Override
                 public void run() {
                     if(musicsManager.musicEnded())
-                        musicsManager.playAmbientMusic();
+                        ;
+//                        musicsManager.playAmbientMusic();
                     getTempAttribs().setB("MUSIC_BREAK", false);
                 }
             }, Utils.randomInclusive(10, 30));

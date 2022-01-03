@@ -87,14 +87,20 @@ public class Music {
 
     private static void addGenresToRegionMap() {
         for(Genre g : genres) {
-            if (g.getSongs().length < 10 && g.isActive())
-                throw new java.lang.Error("ERROR: " + g.getGenreName() + " Genre is too small! Must be more than 10");
-            else
-                for (int regionId : g.getRegionIds()) {
-                    if (GENRE_REGION.containsKey(regionId))
-                        throw new java.lang.Error("Error, duplicate key at: " + regionId);
-                    GENRE_REGION.put(regionId, g);//none of the values can be empty
-                }
+            if(g.isActive()) {
+                int activeSongCount = 0;
+                for (int s : g.getSongs())
+                    if (MUSICS.get(s).isAutoUnlock())
+                        activeSongCount++;
+                if (g.getSongs().length < 10 || activeSongCount < 5)
+                    throw new java.lang.Error("ERROR: " + g.getGenreName() + " Genre is too small! Must be more than 10 total and 5 unlocked " + activeSongCount + " is auto unlocked...");
+                else
+                    for (int regionId : g.getRegionIds()) {
+                        if (GENRE_REGION.containsKey(regionId))
+                            throw new java.lang.Error("Error, duplicate key at: " + regionId);
+                        GENRE_REGION.put(regionId, g);//none of the values can be empty
+                    }
+            }
         }
     }
 

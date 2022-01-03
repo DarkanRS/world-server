@@ -3,6 +3,7 @@
     "genre": "Ardougne",
     "parent": "Kandarin",
     "comment": "Specfic for city + parent",
+    "isActive": true,
     "regionIds": [
       10291,
       10547
@@ -19,6 +20,7 @@
     "genre": "Hunter in Kandarin",
     "parent": "Kandarin",
     "comment": "Feldip hills, south of piscatoris",
+    "isActive": true,
     "regionIds": [
       9016,
       9272,
@@ -47,6 +49,7 @@
     "genre": "Gnome",
     "parent": "Kandarin",
     "comment": "Tree Gnome Village, battlefield, stronghold",
+    "isActive": true,
     "regionIds": [
       10034,
       10033,
@@ -76,6 +79,7 @@
     "genre": "Other Kandarin",
     "parent": "Kandarin",
     "comment": "",
+    "isActive": true,
     "regionIds": [
       9017,
       9273,
@@ -124,6 +128,7 @@
     "genre": "Barbarian Outpost",
     "parent": "Kandarin",
     "comment": "",
+    "isActive": true,
     "regionIds": [
       10039
     ],
@@ -131,7 +136,9 @@
       66,
       141,
       367,
-      898
+      519,
+      898,
+      949
     ]
   }
 ]

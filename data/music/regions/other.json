@@ -76,26 +76,6 @@
     "songs": []
   },
   {
-    "genre": "Mos Le'Harmless",
-    "parent": "Jungle",
-    "comment": "Jungle + region specific? Ask a rs3 buff, Zemo",
-    "regionIds": [
-      14639,
-      14638,
-      14637,
-      14895,
-      14894,
-      14893,
-      15151,
-      15150,
-      15149,
-      15407,
-      15406,
-      15405
-    ],
-    "songs": []
-  },
-  {
     "genre": "Slayer tower",
     "comment": "Swamp + slayer tower, Zemo",
     "regionIds": [
@@ -204,6 +184,7 @@
     "songs": [
       36,
       50,
+      58,
       69,
       79,
       123,
@@ -242,47 +223,6 @@
     "genre": "Christmas",
     "comment": "For hoiliday areas, add regions/music",
     "regionIds": [],
-    "songs": []
-  },
-  {
-    "genre": "Karamja",
-    "parent": "Jungle",
-    "comment": "Includes Brimhaven",
-    "regionIds": [
-      11569,
-      11313,
-      11058,
-      11057,
-      10802,
-      10801,
-      11056,
-      11055,
-      11054,
-      11053,
-      11312,
-      11311,
-      11310,
-      11309,
-      11568,
-      11567,
-      11566,
-      11565,
-      11823,
-      11822,
-      11821
-    ],
-    "songs": []
-  },
-  {
-    "genre": "Ape Atoll",
-    "comment": "Region specific + jungle, includes crash island",
-    "regionIds": [
-      10795,
-      10794,
-      11051,
-      11050,
-      11562
-    ],
     "songs": []
   },
   {
@@ -463,7 +403,9 @@
       182,
       183,
       219,
+      298,
       300,
+      308,
       321,
       326,
       329,
@@ -479,8 +421,11 @@
       435,
       449,
       450,
+      471,
       475,
       476,
+      504,
+      520,
       533,
       554,
       555,
@@ -489,12 +434,17 @@
       594,
       600,
       618,
+      640,
+      643,
+      647,
+      653,
       667,
       682,
       683,
       717,
       726,
       729,
+      962,
       1004,
       1005,
       1092
@@ -514,6 +464,7 @@
       13881
     ],
     "songs": [
+      430,
       859,
       909,
       910,

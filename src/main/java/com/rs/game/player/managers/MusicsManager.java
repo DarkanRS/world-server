@@ -284,17 +284,21 @@ public final class MusicsManager {
     private void pickAmbientSong() {
         playingGenre =  Music.getGenre(player.getRegionId());
         if(playingGenre == null) {
-//            while(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic))
-            playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+            playRandom();
         } else {
             List<Integer> songIds = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
             songIds.retainAll(unlockedMusics);
-//            while(lastTenSongs.contains(playingMusic))
-            if (songIds.size() > 0)
-                playingMusic = songIds.get(Utils.getRandomInclusive(songIds.size() - 1));
-            else
-                playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+            while(lastTenSongs.contains(playingMusic))
+                if (songIds.size() > 0)
+                    playingMusic = songIds.remove(Utils.getRandomInclusive(songIds.size() - 1));
+                else
+                    playRandom();
         }
+    }
+
+    private void playRandom() {
+        while(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic))//Not tzaar, gwd, karamja, dungeoneering
+            playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
     }
 
     /**

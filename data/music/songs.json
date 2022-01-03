@@ -78,7 +78,7 @@
   {
     "name": "Jolly-R",
     "hint": "at the north dock of Brimhaven.",
-    "comment": "",
+    "comment": "Docks pirate",
     "isAutoUnlock": false,
     "id": 6,
     "regionIds": [
@@ -211,7 +211,7 @@
     "name": "Arabique",
     "hint": "at the hellhounds in Taverley Dungeon.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 19,
     "regionIds": [
       11416
@@ -374,7 +374,7 @@
     "name": "Arabian",
     "hint": "in the Kharidian Desert.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 36,
     "regionIds": [
       13106
@@ -498,7 +498,7 @@
     "name": "Wander",
     "hint": "at the farm area south of Falador.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 49,
     "regionIds": [
       12083
@@ -508,7 +508,7 @@
     "name": "Al Kharid",
     "hint": "at Al Kharid.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 50,
     "regionIds": [
       13106
@@ -537,7 +537,7 @@
     "name": "Royale",
     "hint": "at the Black Knight base in Taverley Dungeon.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 53,
     "regionIds": [
       11671
@@ -547,7 +547,7 @@
     "name": "Scape Soft",
     "hint": "to the north of Falador.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 54,
     "regionIds": [
       11829
@@ -556,7 +556,7 @@
   {
     "name": "High Seas",
     "hint": "at Brimhaven.",
-    "comment": "",
+    "comment": "Docks pirate",
     "isAutoUnlock": false,
     "id": 55,
     "regionIds": [
@@ -586,11 +586,11 @@
   {
     "name": "Nomad",
     "hint": "to the east of the Bedabin Camp.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Desert",
+    "isAutoUnlock": true,
     "id": 58,
     "regionIds": [
-      11056
+      12591
     ]
   },
   {
@@ -706,7 +706,7 @@
     "name": "Egypt",
     "hint": "at Shantay Pass.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 69,
     "regionIds": [
       13104,
@@ -785,7 +785,7 @@
     "name": "Splendour",
     "hint": "at the Heroes' Guild.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 77,
     "regionIds": []
   },
@@ -895,7 +895,7 @@
   {
     "name": "Twilight",
     "hint": "during Elemental Workshop.",
-    "comment": "",
+    "comment": "asgarnia",
     "isAutoUnlock": true,
     "id": 88,
     "regionIds": []
@@ -1048,7 +1048,7 @@
     "name": "Oriental",
     "hint": "in the Waterfall Dungeon, East of Shilo Village.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 103,
     "regionIds": [
       11666
@@ -1211,7 +1211,7 @@
   {
     "name": "Fishing",
     "hint": "at Catherby beach.",
-    "comment": "",
+    "comment": "At region only",
     "isAutoUnlock": false,
     "id": 119,
     "regionIds": [
@@ -1584,8 +1584,7 @@
     "id": 159,
     "regionIds": [
       10031,
-      12090,
-      1031
+      12090
     ]
   },
   {
@@ -1651,7 +1650,7 @@
   {
     "name": "Fanfare2",
     "hint": "at the Shipyard on Karamja.",
-    "comment": "",
+    "comment": "at region only",
     "isAutoUnlock": false,
     "id": 166,
     "regionIds": [
@@ -1661,7 +1660,7 @@
   {
     "name": "Fanfare3",
     "hint": "at Port Khazard.",
-    "comment": "",
+    "comment": "At region only",
     "isAutoUnlock": false,
     "id": 167,
     "regionIds": [
@@ -1928,7 +1927,7 @@
     "name": "Brimstail's Scales",
     "hint": "at Brimstail's cave.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 194,
     "regionIds": [
       9625
@@ -2581,8 +2580,8 @@
   {
     "name": "Superstition",
     "hint": "at the cave below the Kharazi Jungle.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle dungeon",
+    "isAutoUnlock": true,
     "id": 265,
     "regionIds": [
       11153
@@ -2892,7 +2891,7 @@
   {
     "name": "Illusive",
     "hint": "during Dream Mentor.",
-    "comment": "",
+    "comment": "wild",
     "isAutoUnlock": false,
     "id": 298,
     "regionIds": []
@@ -2900,7 +2899,7 @@
   {
     "name": "Inadequacy",
     "hint": "during Dream Mentor.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 299,
     "regionIds": []
@@ -2916,7 +2915,7 @@
   {
     "name": "Down and Out",
     "hint": "during Dream Mentor.",
-    "comment": "",
+    "comment": "Lunar isle, zanaris",
     "isAutoUnlock": true,
     "id": 301,
     "regionIds": []
@@ -2924,7 +2923,7 @@
   {
     "name": "On the Up",
     "hint": "during Dream Mentor.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": true,
     "id": 302,
     "regionIds": []
@@ -2952,7 +2951,7 @@
   {
     "name": "Anywhere",
     "hint": "at Marim's main gate.",
-    "comment": "Jungle, karamja",
+    "comment": "Jungle",
     "isAutoUnlock": false,
     "id": 305,
     "regionIds": [
@@ -2962,7 +2961,7 @@
   {
     "name": "Island Life",
     "hint": "at the southern part of Ape Atoll.",
-    "comment": "",
+    "comment": "region only",
     "isAutoUnlock": false,
     "id": 306,
     "regionIds": [
@@ -2983,7 +2982,7 @@
   {
     "name": "Suspicious",
     "hint": "during Monkey Madness.",
-    "comment": "",
+    "comment": "Wild",
     "isAutoUnlock": false,
     "id": 308,
     "regionIds": []
@@ -3011,7 +3010,7 @@
   {
     "name": "Showdown",
     "hint": "during the boss fight in Monkey Madness.",
-    "comment": "",
+    "comment": "Jungle boss, not ambient",
     "isAutoUnlock": false,
     "id": 311,
     "regionIds": []
@@ -3019,7 +3018,7 @@
   {
     "name": "Find My Way",
     "hint": "at the gnome tunnel in Monkey Madness.",
-    "comment": "",
+    "comment": "Gnome, ape atoll",
     "isAutoUnlock": false,
     "id": 312,
     "regionIds": [
@@ -3050,7 +3049,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Introduction to RS Theme",
     "isAutoUnlock": false,
     "id": 315,
     "regionIds": []
@@ -3940,11 +3939,9 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "karamja, ape atoll",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 405,
-    "regionIds": [
-      11569
-    ]
+    "regionIds": []
   },
   {
     "name": "To Crandor/Keldagrim! Theme, Dragon Slayer, Giant Dwarf",
@@ -4144,23 +4141,23 @@
   {
     "name": "Roots and Flutes",
     "hint": "during Back to my Roots.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 429,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Lunar isle(not added), Daemonheim",
+    "isAutoUnlock": true,
     "id": 430,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Duplicate of 429",
     "isAutoUnlock": false,
     "id": 431,
     "regionIds": []
@@ -4184,8 +4181,8 @@
   {
     "name": "Have a Blast",
     "hint": "during Blast Furnace.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 434,
     "regionIds": []
   },
@@ -4205,14 +4202,14 @@
     "name": "Forgettable Melody",
     "hint": "during Forgettable Tale...",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 436,
     "regionIds": []
   },
   {
     "name": "Zanik's Theme",
     "hint": "during Land of the Goblins.",
-    "comment": "",
+    "comment": "Victory theme, doesn't fit well.",
     "isAutoUnlock": false,
     "id": 437,
     "regionIds": []
@@ -4220,15 +4217,15 @@
   {
     "name": "Catacombs and Tombs",
     "hint": "during Land of the Goblins.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 439,
     "regionIds": []
   },
   {
     "name": "Temple of Tribes",
     "hint": "during Land of the Goblins.",
-    "comment": "",
+    "comment": "Dorgesh-Kaan",
     "isAutoUnlock": false,
     "id": 440,
     "regionIds": []
@@ -4504,8 +4501,8 @@
   {
     "name": "Shaping Up",
     "hint": "during As a First Resort...",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Ogre jungle",
+    "isAutoUnlock": true,
     "id": 468,
     "regionIds": []
   },
@@ -4520,24 +4517,24 @@
   {
     "name": "Strange Place",
     "hint": "during A Tail of Two Cats.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 470,
     "regionIds": []
   },
   {
     "name": "Brew Hoo Hoo",
     "hint": "at Port Phasmatys brewery.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle wild and from hint",
+    "isAutoUnlock": true,
     "id": 471,
     "regionIds": []
   },
   {
     "name": "Spa Bizarre",
     "hint": "during As a First Resort...",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle ogre",
+    "isAutoUnlock": true,
     "id": 472,
     "regionIds": []
   },
@@ -4552,8 +4549,8 @@
   {
     "name": "Bish Bash Bosh",
     "hint": "during As a First Resort...",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle ogre",
+    "isAutoUnlock": true,
     "id": 474,
     "regionIds": []
   },
@@ -4581,7 +4578,7 @@
   {
     "name": "Hot 'n' Bothered",
     "hint": "during As a First Resort...",
-    "comment": "",
+    "comment": "Oog'log",
     "isAutoUnlock": false,
     "id": 477,
     "regionIds": [
@@ -4614,7 +4611,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Don't use, too short",
     "isAutoUnlock": false,
     "id": 480,
     "regionIds": []
@@ -4639,14 +4636,14 @@
     "name": "Jungle Community",
     "hint": "to the north of Tai Bwo Wannai Village.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 483,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 484,
     "regionIds": []
@@ -4654,9 +4651,17 @@
   {
     "name": "The Noble Rodent",
     "hint": "during Rat Catchers.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 485,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "Somwhere.",
+    "comment": "Played a lot",
+    "isAutoUnlock": true,
+    "id": 486,
     "regionIds": []
   },
   {
@@ -4670,7 +4675,7 @@
   {
     "name": "The Wrong Path",
     "hint": "in the Chaos Tunnels.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 488,
     "regionIds": []
@@ -4686,16 +4691,16 @@
   {
     "name": "Sarim's Vermin",
     "hint": "at Port Sarim Rat Pits.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Port pirate",
+    "isAutoUnlock": true,
     "id": 490,
     "regionIds": []
   },
   {
     "name": "Rat Hunt",
     "hint": "during Rat Catchers.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 491,
     "regionIds": []
   },
@@ -4730,7 +4735,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "God wars",
     "isAutoUnlock": false,
     "id": 495,
     "regionIds": []
@@ -4768,15 +4773,15 @@
   {
     "name": "Creepy",
     "hint": "during Kennith's Concerns.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Jungle",
+    "isAutoUnlock": true,
     "id": 499,
     "regionIds": []
   },
   {
     "name": "A New Menace",
     "hint": "during Kennith's Concerns.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 500,
     "regionIds": []
@@ -4804,15 +4809,15 @@
     "name": "Waiting for the Hunt",
     "hint": "in the Fist of Guthix waiting room.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 503,
     "regionIds": []
   },
   {
     "name": "Fangs for the Memory",
     "hint": "during In Aid of the Myreque.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Wild dungeon",
+    "isAutoUnlock": true,
     "id": 504,
     "regionIds": []
   },
@@ -4829,7 +4834,7 @@
   {
     "name": "Land Down Under",
     "hint": "during Royal Trouble.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 506,
     "regionIds": []
@@ -4845,7 +4850,7 @@
   {
     "name": "Meddling Kids",
     "hint": "during Royal Trouble.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 508,
     "regionIds": [
@@ -4855,15 +4860,15 @@
   {
     "name": "Corridors of Power",
     "hint": "during Royal Trouble.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Lunar isle neitzot and other isles",
+    "isAutoUnlock": true,
     "id": 509,
     "regionIds": []
   },
   {
     "name": "Slither and Thither",
     "hint": "at the sea snake cave in Royal Trouble.",
-    "comment": "",
+    "comment": "Lunar isle and neitzot+",
     "isAutoUnlock": false,
     "id": 510,
     "regionIds": [
@@ -4874,7 +4879,7 @@
     "name": "In the Clink",
     "hint": "during the Prison Pete random event.",
     "comment": "",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 511,
     "regionIds": []
   },
@@ -4891,7 +4896,7 @@
   {
     "name": "Conspiracy: Part 1",
     "hint": "during Legacy of Seergaze.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 513,
     "regionIds": []
@@ -4899,7 +4904,7 @@
   {
     "name": "The Columbarium",
     "hint": "during Legacy of Seergaze.",
-    "comment": "",
+    "comment": "Darkmeyer+",
     "isAutoUnlock": false,
     "id": 514,
     "regionIds": [
@@ -4919,7 +4924,7 @@
   {
     "name": "Conspiracy: Part 2",
     "hint": "during Legacy of Seergaze.",
-    "comment": "",
+    "comment": "Very scary, dunno if usable",
     "isAutoUnlock": false,
     "id": 516,
     "regionIds": []
@@ -4927,7 +4932,7 @@
   {
     "name": "Subterranea",
     "hint": "in Waterbirth Island Dungeon.",
-    "comment": "",
+    "comment": "Spooky",
     "isAutoUnlock": false,
     "id": 517,
     "regionIds": [
@@ -4937,7 +4942,7 @@
   {
     "name": "The Terrible Tunnels",
     "hint": "during Legacy of Seergaze.",
-    "comment": "",
+    "comment": "Morytania swamp",
     "isAutoUnlock": false,
     "id": 518,
     "regionIds": [
@@ -4947,23 +4952,23 @@
   {
     "name": "Incantation",
     "hint": "during Shadow of the Storm.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Barbarian",
+    "isAutoUnlock": true,
     "id": 519,
     "regionIds": []
   },
   {
     "name": "Grip of the Talon",
     "hint": "during Shadow of the Storm.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "wild",
+    "isAutoUnlock": true,
     "id": 520,
     "regionIds": []
   },
   {
     "name": "The Terrible Caverns",
     "hint": "during Legacy of Seergaze.",
-    "comment": "",
+    "comment": "Morytania swamp",
     "isAutoUnlock": false,
     "id": 521,
     "regionIds": [
@@ -4991,7 +4996,7 @@
   {
     "name": "Xenophobe",
     "hint": "in Waterbirth Island Dungeon.",
-    "comment": "",
+    "comment": "dungeon",
     "isAutoUnlock": false,
     "id": 524,
     "regionIds": [
@@ -5049,7 +5054,7 @@
   {
     "name": "In the Brine",
     "hint": "at The Other Inn on Mos Le'Harmless.",
-    "comment": "",
+    "comment": "Region only",
     "isAutoUnlock": false,
     "id": 530,
     "regionIds": [
@@ -5181,7 +5186,7 @@
   {
     "name": "Cabin Fever",
     "hint": "during Cabin Fever.",
-    "comment": "",
+    "comment": "Too exciting",
     "isAutoUnlock": false,
     "id": 545,
     "regionIds": []
@@ -5189,7 +5194,7 @@
   {
     "name": "Last Stand",
     "hint": "during Swan Song.",
-    "comment": "",
+    "comment": "Too exciting",
     "isAutoUnlock": false,
     "id": 546,
     "regionIds": []
@@ -5448,7 +5453,7 @@
   {
     "name": "Davy Jones's Locker",
     "hint": "during Recipe for Disaster.",
-    "comment": "",
+    "comment": "Too weird",
     "isAutoUnlock": false,
     "id": 576,
     "regionIds": []
@@ -5709,7 +5714,7 @@
   {
     "name": "Demise of the Dorgeshuun",
     "hint": "during The Chosen Commander.",
-    "comment": "",
+    "comment": "Goblin cave",
     "isAutoUnlock": true,
     "id": 605,
     "regionIds": []
@@ -5718,7 +5723,7 @@
     "name": "The Depths",
     "hint": "during Contact!",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 606,
     "regionIds": [
       12944
@@ -5735,7 +5740,7 @@
   {
     "name": "But We Can Fight",
     "hint": "during The Chosen Commander.",
-    "comment": "",
+    "comment": "Victory theme? Sounds cool but doesn't fit well.",
     "isAutoUnlock": true,
     "id": 608,
     "regionIds": []
@@ -5743,7 +5748,7 @@
   {
     "name": "Godslayer",
     "hint": "during The Chosen Commander.",
-    "comment": "",
+    "comment": "Victory theme? Sounds cool! But doesn't fit well.",
     "isAutoUnlock": true,
     "id": 609,
     "regionIds": []
@@ -5761,7 +5766,7 @@
   {
     "name": "Trouble Brewing",
     "hint": "during Trouble Brewing.",
-    "comment": "",
+    "comment": "Victory theme",
     "isAutoUnlock": false,
     "id": 611,
     "regionIds": []
@@ -5770,14 +5775,14 @@
     "name": "Head to Head",
     "hint": "during the Evil Twin random event.",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 612,
     "regionIds": []
   },
   {
     "name": "Face Off",
     "hint": "during The Chosen Commander.",
-    "comment": "",
+    "comment": "Doesn't fit, odd theme",
     "isAutoUnlock": false,
     "id": 613,
     "regionIds": [
@@ -5788,7 +5793,7 @@
     "name": "Pinball Wizard",
     "hint": "during the Pinball random event.",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 614,
     "regionIds": []
   },
@@ -5804,14 +5809,14 @@
     "name": "Back to Life",
     "hint": "during Contact!",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 616,
     "regionIds": []
   },
   {
     "name": "The Chosen Commander",
     "hint": "during The Chosen Commander.",
-    "comment": "",
+    "comment": "Maybe God Wars",
     "isAutoUnlock": false,
     "id": 617,
     "regionIds": []
@@ -5886,7 +5891,7 @@
   {
     "name": "Way of the Enchanter",
     "hint": "in the dungeon beneath Lunar Isle.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 626,
     "regionIds": [
@@ -5909,7 +5914,7 @@
   {
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 628,
     "regionIds": []
@@ -5917,7 +5922,7 @@
   {
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle, Neitzot & that other isle",
     "isAutoUnlock": false,
     "id": 629,
     "regionIds": []
@@ -5925,7 +5930,7 @@
   {
     "name": "The Galleon",
     "hint": "during Lunar Diplomacy.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 630,
     "regionIds": [
@@ -5978,7 +5983,7 @@
   {
     "name": "The Adventurers Re-United!",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 635,
     "regionIds": []
@@ -5986,7 +5991,7 @@
   {
     "name": "Nial's Widow",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 636,
     "regionIds": []
@@ -5994,7 +5999,7 @@
   {
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 637,
     "regionIds": []
@@ -6002,7 +6007,7 @@
   {
     "name": "H.A.M. Fisted",
     "hint": "during Death to the Dorgeshuun.",
-    "comment": "",
+    "comment": "Quiz or minigame",
     "isAutoUnlock": false,
     "id": 638,
     "regionIds": []
@@ -6018,8 +6023,8 @@
   {
     "name": "Sigmund's Showdown",
     "hint": "during Death to the Dorgeshuun.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Wild",
+    "isAutoUnlock": true,
     "id": 640,
     "regionIds": [
       12951
@@ -6028,8 +6033,8 @@
   {
     "name": "Lair of Kang Admi",
     "hint": "during Glorious Memories.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Dungeon",
+    "isAutoUnlock": true,
     "id": 641,
     "regionIds": []
   },
@@ -6044,8 +6049,8 @@
   {
     "name": "The Last Shanty",
     "hint": "during the Darkness of Hallowvale.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Wild",
+    "isAutoUnlock": true,
     "id": 643,
     "regionIds": []
   },
@@ -6068,7 +6073,7 @@
   {
     "name": "Night of the Vampyre",
     "hint": "during the Darkness of Hallowvale.",
-    "comment": "",
+    "comment": "Morytania, swamp",
     "isAutoUnlock": false,
     "id": 646,
     "regionIds": []
@@ -6076,8 +6081,8 @@
   {
     "name": "Rest for the Weary",
     "hint": "during The Tale of the Muspah.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Lunar isle, wild",
+    "isAutoUnlock": true,
     "id": 647,
     "regionIds": [
       11425,
@@ -6133,16 +6138,16 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "wild",
+    "isAutoUnlock": true,
     "id": 653,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Dock pirates",
+    "isAutoUnlock": true,
     "id": 654,
     "regionIds": []
   },
@@ -8507,7 +8512,7 @@
   {
     "name": "Simian Scuffle",
     "hint": "during Do No Evil.",
-    "comment": "Jungle",
+    "comment": "Doesn't really fit atm",
     "isAutoUnlock": false,
     "id": 944,
     "regionIds": []
@@ -8515,7 +8520,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Jungle",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 945,
     "regionIds": []
@@ -8524,7 +8529,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 946,
     "regionIds": []
   },
@@ -8540,15 +8545,15 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 948,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Jungle",
-    "isAutoUnlock": false,
+    "comment": "Barbarian",
+    "isAutoUnlock": true,
     "id": 949,
     "regionIds": []
   },
@@ -8556,7 +8561,7 @@
     "name": "Monkey See, Monkey Do",
     "hint": "somewhere.",
     "comment": "Jungle",
-    "isAutoUnlock": false,
+    "isAutoUnlock": true,
     "id": 950,
     "regionIds": []
   },
@@ -8571,7 +8576,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Too exciting",
     "isAutoUnlock": false,
     "id": 952,
     "regionIds": []
@@ -8603,7 +8608,7 @@
   {
     "name": "Only a King",
     "hint": "during King of the Dwarves.",
-    "comment": "",
+    "comment": "Lunar isle, neitzot+",
     "isAutoUnlock": false,
     "id": 956,
     "regionIds": []
@@ -8611,7 +8616,7 @@
   {
     "name": "Colonel Grimsson",
     "hint": "during King of the Dwarves.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 957,
     "regionIds": []
@@ -8619,7 +8624,7 @@
   {
     "name": "Rocky Rescue",
     "hint": "during King of the Dwarves.",
-    "comment": "",
+    "comment": "Too exciting",
     "isAutoUnlock": false,
     "id": 958,
     "regionIds": []
@@ -8627,7 +8632,7 @@
   {
     "name": "Corporate Callousness",
     "hint": "during King of the Dwarves.",
-    "comment": "",
+    "comment": "God wars",
     "isAutoUnlock": false,
     "id": 959,
     "regionIds": []
@@ -8646,7 +8651,7 @@
   {
     "name": "Reunion",
     "hint": "during Prisoner of Glouphrie.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": true,
     "id": 961,
     "regionIds": []
@@ -8654,8 +8659,8 @@
   {
     "name": "Cage Against the Machine",
     "hint": "during Prisoner of Glouphrie.",
-    "comment": "",
-    "isAutoUnlock": false,
+    "comment": "Wild",
+    "isAutoUnlock": true,
     "id": 962,
     "regionIds": []
   },
@@ -8702,7 +8707,7 @@
   {
     "name": "Three of a Kind",
     "hint": "during Deadliest Catch.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 968,
     "regionIds": []
@@ -8710,7 +8715,7 @@
   {
     "name": "Deadliest Catch",
     "hint": "during Deadliest Catch.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 969,
     "regionIds": []
@@ -8718,7 +8723,7 @@
   {
     "name": "Deadliest Catch",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "duplicate 969",
     "isAutoUnlock": false,
     "id": 970,
     "regionIds": []
@@ -8734,7 +8739,7 @@
   {
     "name": "Kethsi",
     "hint": "on entering Kethsi.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 972,
     "regionIds": []
@@ -8742,7 +8747,7 @@
   {
     "name": "Slug Poison",
     "hint": "during Salt in the Wound.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 973,
     "regionIds": []
@@ -8750,7 +8755,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle Zanaris",
     "isAutoUnlock": false,
     "id": 974,
     "regionIds": []
@@ -8758,7 +8763,7 @@
   {
     "name": "Natural Selection",
     "hint": "in the Jadinko Lair.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 975,
     "regionIds": []
@@ -8766,7 +8771,7 @@
   {
     "name": "Citadel VII",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 976,
     "regionIds": []
@@ -8774,7 +8779,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 977,
     "regionIds": []
@@ -8782,7 +8787,7 @@
   {
     "name": "Citadel XI",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "duplicate 977",
     "isAutoUnlock": false,
     "id": 978,
     "regionIds": []
@@ -8790,7 +8795,7 @@
   {
     "name": "Citadel XV",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle Zanris",
     "isAutoUnlock": false,
     "id": 979,
     "regionIds": []
@@ -8798,7 +8803,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "empty",
     "isAutoUnlock": false,
     "id": 980,
     "regionIds": []
@@ -8806,7 +8811,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 981,
     "regionIds": []
@@ -8814,7 +8819,7 @@
   {
     "name": "Citadel VI",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "player owned home controller",
     "isAutoUnlock": false,
     "id": 982,
     "regionIds": []
@@ -8822,7 +8827,7 @@
   {
     "name": "Architect of War",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Zanaris",
     "isAutoUnlock": false,
     "id": 983,
     "regionIds": []
@@ -8830,7 +8835,7 @@
   {
     "name": "Citadel VIII",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Zanaris palyer owned home controller",
     "isAutoUnlock": false,
     "id": 984,
     "regionIds": []
@@ -8838,7 +8843,7 @@
   {
     "name": "",
     "hint": "on entering a Clan Citadel.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 985,
     "regionIds": []
@@ -8846,7 +8851,7 @@
   {
     "name": "Citadel XIII",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Zanaris player owned home controller",
     "isAutoUnlock": false,
     "id": 987,
     "regionIds": []
@@ -8854,7 +8859,7 @@
   {
     "name": "Citadel III",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle Zanaris player owned home controller",
     "isAutoUnlock": false,
     "id": 988,
     "regionIds": []
@@ -8862,7 +8867,7 @@
   {
     "name": "Citadel XIV",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 989,
     "regionIds": []
@@ -8870,7 +8875,15 @@
   {
     "name": "Citadel XII",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle zanaris",
+    "isAutoUnlock": false,
+    "id": 990,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "",
+    "comment": "empty",
     "isAutoUnlock": false,
     "id": 990,
     "regionIds": []
@@ -8878,7 +8891,7 @@
   {
     "name": "Citadel IX",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Too weird",
     "isAutoUnlock": false,
     "id": 992,
     "regionIds": []
@@ -8886,7 +8899,7 @@
   {
     "name": "Citadel IV",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle, zanaris player owned home controller",
     "isAutoUnlock": false,
     "id": 993,
     "regionIds": []
@@ -8894,7 +8907,7 @@
   {
     "name": "Citadel I",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle",
     "isAutoUnlock": false,
     "id": 994,
     "regionIds": []
@@ -8902,7 +8915,7 @@
   {
     "name": "Citadel V",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Dungeon",
     "isAutoUnlock": false,
     "id": 995,
     "regionIds": []
@@ -8910,7 +8923,7 @@
   {
     "name": "Citadel XVI",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Lunar isle Zanaris",
     "isAutoUnlock": false,
     "id": 996,
     "regionIds": []
@@ -8918,7 +8931,7 @@
   {
     "name": "Citadel II",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Doesn't really belong maybe player owned home controller",
     "isAutoUnlock": false,
     "id": 997,
     "regionIds": []
@@ -8926,7 +8939,7 @@
   {
     "name": "Citadel X",
     "hint": "in a Clan Citadel.",
-    "comment": "",
+    "comment": "Player owned home controller",
     "isAutoUnlock": false,
     "id": 998,
     "regionIds": []
@@ -8934,7 +8947,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "empty",
     "isAutoUnlock": false,
     "id": 999,
     "regionIds": []
@@ -8990,6 +9003,22 @@
     "regionIds": []
   },
   {
+    "name": "",
+    "hint": "somewhere.",
+    "comment": "too short",
+    "isAutoUnlock": false,
+    "id": 1006,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "somewhere.",
+    "comment": "",
+    "isAutoUnlock": false,
+    "id": 1007,
+    "regionIds": []
+  },
+  {
     "name": "Return of Lucien",
     "hint": "during Ritual of the Mahjarrat.",
     "comment": "",
@@ -9000,9 +9029,33 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Too exciting",
     "isAutoUnlock": false,
     "id": 1009,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "somewhere.",
+    "comment": "too creepy",
+    "isAutoUnlock": false,
+    "id": 1010,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "somewhere.",
+    "comment": "too creepy",
+    "isAutoUnlock": false,
+    "id": 1011,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "somewhere.",
+    "comment": "Halloween mix",
+    "isAutoUnlock": false,
+    "id": 1007,
     "regionIds": []
   },
   {
@@ -9130,7 +9183,7 @@
   {
     "name": "Charred Remains",
     "hint": "during The Firemakers' Curse quest.",
-    "comment": "",
+    "comment": "too exciting",
     "isAutoUnlock": false,
     "id": 1053,
     "regionIds": []
