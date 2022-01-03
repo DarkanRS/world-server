@@ -477,13 +477,13 @@ public class MiscTest {
         });
 
         Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
-            p.getMusicsManager().playAmbientMusic();
+            p.getMusicsManager().nextAmbientSong();
         });
 
-        Commands.add(Rights.DEVELOPER, "test", "Plays a music track.", (p, args) -> {
-            p.getMusicsManager().playAmbientMusic();
+        Commands.add(Rights.DEVELOPER, "genre", "Shows genre", (p, args) -> {
+            p.sendMessage(p.getMusicsManager().getPlayingGenre().getGenreName());
         });
-		
+
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));
 		});

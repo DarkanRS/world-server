@@ -1126,12 +1126,12 @@ public class Player extends Entity {
 	}
 
     private void processMusic() {
-        if (musicsManager.musicEnded() && !getTempAttribs().getB("MUSIC_BREAK")) {
+        if (!getTempAttribs().getB("MUSIC_BREAK") && musicsManager.musicEnded()) {
             getTempAttribs().setB("MUSIC_BREAK", true);
             WorldTasksManager.schedule(new WorldTask() {
                 @Override
                 public void run() {
-                    musicsManager.playAmbientMusic();
+                    musicsManager.nextAmbientSong();
                     getTempAttribs().setB("MUSIC_BREAK", false);
                 }
             }, Utils.randomInclusive(10, 30));

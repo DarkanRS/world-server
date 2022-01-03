@@ -20,6 +20,7 @@ public class Song {
 	private String name;
 	private String hint;
     private String comment;
+    private boolean allowAmbient;
 	private int id;
 	private int[] regionIds;
 
@@ -33,6 +34,10 @@ public class Song {
 
     public String getComment() {
         return comment;
+    }
+
+    public boolean isAllowAmbient() {
+        return allowAmbient;
     }
 
 	public int getId() {
