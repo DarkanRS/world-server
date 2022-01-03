@@ -461,19 +461,20 @@ public class MiscTest {
 		});
 
         Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
-            int count = 0;
-            for(int i = 0; i < 1099; i++) {
+            int TOTAL_SONGS = 1099;
+            int unusedSong = 0;
+            for(int i = 0; i < TOTAL_SONGS; i++) {
                 if(Music.getSongGenres(i).length == 0) {
                     Song song = Music.getSong(i);
-                    count++;
-                    if(song == null) {
+                    unusedSong++;
+                    if(song == null)
                         System.out.println("Error @" + i);
-                    } else
+                    else
                         System.out.println(i + " " + song.getName() + ": " + song.getHint());
                 }
             }
-            System.out.println("Total unused: " + count);
-            System.out.println("Unused is " + Math.ceil(count/1099.0*100) + "%");
+            System.out.println("Total used: " + (TOTAL_SONGS-unusedSong) + "/1099");
+            System.out.println("Used is " + (100-Math.ceil(unusedSong/1099.0*100)) + "%");
         });
 
         Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
