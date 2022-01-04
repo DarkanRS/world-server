@@ -110,11 +110,11 @@
     "genre": "Lumbridge Swamp",
     "parent": "Swamp",
     "comment": "",
-    "regionIds": [],
-    "songs": [
-      64,
-      145
-    ]
+    "regionIds": [
+      12593,
+      12849
+    ],
+    "songs": []
   },
   {
     "genre": "Other Misthalin",
