@@ -246,15 +246,17 @@ public final class World {
 	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, false, true);
 	}
-
-	public static void clipNPC(NPC npc) {
+	
+	public static void clipNPC(NPC npc, WorldTile tile) {
+		if (!npc.isBlocksOtherNPCs() || npc.hasFinished())
+			return;
+		fillNPCClip(tile, npc.getSize(), true);
+	}
+	
+	public static void unclipNPC(NPC npc, WorldTile tile) {
 		if (!npc.isBlocksOtherNPCs())
 			return;
-		WorldTile lastTile = npc.getLastWorldTile() == null ? npc : npc.getLastWorldTile();
-		fillNPCClip(lastTile, npc.getSize(), false);
-		if (!npc.hasFinished()) {
-			fillNPCClip(npc, npc.getSize(), true);
-		}
+		fillNPCClip(tile, npc.getSize(), false);
 	}
 	
 	public static void fillNPCClip(WorldTile tile, int size, boolean blocks) {
@@ -290,9 +292,6 @@ public final class World {
 	}
 	
 	public static final void updateEntityRegion(Entity entity) {
-		if (entity instanceof NPC n)
-			clipNPC(n);
-		
 		if (entity.hasFinished()) {
 			if (entity instanceof Player)
 				getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());

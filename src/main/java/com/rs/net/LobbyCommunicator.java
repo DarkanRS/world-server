@@ -20,7 +20,6 @@ import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.game.player.Player;
-import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.model.FriendsChat;
@@ -81,51 +80,6 @@ public class LobbyCommunicator {
 	}
 	
 	public static void clanChatKick(Player player, boolean guest, String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendFCMessage(Player player, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendCCMessage(Player player, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendGCCMessage(Player player, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendFCQuickChat(Player player, QuickChatMessage quickChatMessage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendCCQuickChat(Player player, QuickChatMessage quickChatMessage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendGCCQuickChat(Player player, QuickChatMessage quickChatMessage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void sendPMQuickChat(Player player, String toUsername, QuickChatMessage quickChatMessage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void leaveFC(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void joinFC(Player player, String name) {
 		// TODO Auto-generated method stub
 		
 	}
