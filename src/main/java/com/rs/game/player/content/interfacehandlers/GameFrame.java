@@ -141,13 +141,13 @@ public class GameFrame {
 			} else if (e.getComponentId() == 0) {
 				if (e.getPacket() == ClientPacket.IF_OP2) {
 					e.getPlayer().getSocial().setFcStatus(0);
-					LobbyCommunicator.updateAccount(e.getPlayer());
+					LobbyCommunicator.updateSocial(e.getPlayer());
 				} else if (e.getPacket() == ClientPacket.IF_OP3) {
 					e.getPlayer().getSocial().setFcStatus(1);
-					LobbyCommunicator.updateAccount(e.getPlayer());
+					LobbyCommunicator.updateSocial(e.getPlayer());
 				} else if (e.getPacket() == ClientPacket.IF_OP4) {
 					e.getPlayer().getSocial().setFcStatus(2);
-					LobbyCommunicator.updateAccount(e.getPlayer());
+					LobbyCommunicator.updateSocial(e.getPlayer());
 				}
 			} else if (e.getComponentId() == 23) {
 				if (e.getPacket() == ClientPacket.IF_OP2)

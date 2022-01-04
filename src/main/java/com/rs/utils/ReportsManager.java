@@ -64,7 +64,7 @@ public class ReportsManager {
 		if (mute) {
 			reported.getAccount().muteDays(2);
 			reported.sendMessage("You've been muted for 2 days by " + player.getDisplayName() + ".");
-			LobbyCommunicator.updateAccount(reported);
+			LobbyCommunicator.updatePunishments(reported);
 		}
 		player.sendMessage("Thank-you, your abuse report has been received.");
 		try {
