@@ -453,38 +453,13 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
             int musicId = Integer.valueOf(args[0]);
-			p.getPackets().sendMusic(musicId, 100, args.length > 1 ? Integer.valueOf(args[1]) : 255);
+            p.getMusicsManager().playAmbientSong(musicId);
 //            p.getPackets().sendDevConsoleMessage("~~"+Music.getSong(musicId).getName() + "~~");
 //            p.getPackets().sendDevConsoleMessage("Hint: " + Music.getSong(musicId).getHint());
 //            for(String genre : Music.getSongGenres(musicId))
 //                p.getPackets().sendDevConsoleMessage(genre);
 		});
 
-        Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
-            int TOTAL_SONGS = 1099;
-            int unusedSong = 0;
-            for(int i = 0; i < TOTAL_SONGS; i++) {
-                if(Music.getSongGenres(i).length == 0) {
-                    Song song = Music.getSong(i);
-                    unusedSong++;
-                    if(song == null)
-                        System.out.println("Error @" + i);
-                    else
-                        System.out.println(i + " " + song.getName() + ": " + song.getHint());
-                }
-            }
-            System.out.println("Total used: " + (TOTAL_SONGS-unusedSong) + "/1099");
-            System.out.println("Used is " + (100-Math.ceil(unusedSong/1099.0*100)) + "%");
-        });
-
-        Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
-            p.getMusicsManager().playAmbientMusic();
-        });
-
-        Commands.add(Rights.DEVELOPER, "test", "Plays a music track.", (p, args) -> {
-            p.getMusicsManager().playAmbientMusic();
-        });
-		
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));
 		});

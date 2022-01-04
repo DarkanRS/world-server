@@ -105,7 +105,7 @@ public class RestMusician extends Action {
 		player.getEmotesManager().setNextEmoteEnd();
 		player.getAppearance().setBAS(-1);
         if(musicId != -1)
-            player.getMusicsManager().playAmbientMusic();
+            player.getMusicsManager().nextAmbientSong();
 	}
 
 }

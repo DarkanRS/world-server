@@ -19,19 +19,17 @@ package com.rs.game.player.managers;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.plugin.handlers.LoginHandler;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
@@ -58,19 +56,19 @@ public final class MusicsManager {
     public MusicsManager() {
         unlockedMusics = new ArrayList<Integer>();
         playList = new ArrayList<Integer>(12);
+		// auto unlocked musics
+        unlockedMusics.add(62);
+        unlockedMusics.add(400);
+        unlockedMusics.add(16);
+        unlockedMusics.add(466);
+        unlockedMusics.add(321);
+        unlockedMusics.add(547);
+        unlockedMusics.add(621);
+        unlockedMusics.add(207);
+        unlockedMusics.add(401);
+        unlockedMusics.add(457);
+        unlockedMusics.add(552);
     }
-
-    //Is this cool? Adds new music as you put them in
-    public static LoginHandler onLogin = new LoginHandler() {
-        @Override
-        public void handle(LoginEvent e) {
-            List<Integer> autoUnlocked = Music.getAutoUnlockedMusic();
-            List<Integer> unlocked = e.getPlayer().getMusicsManager().unlockedMusics;
-            autoUnlocked.removeAll(unlocked);
-            for(int id : autoUnlocked)
-                e.getPlayer().getMusicsManager().unlockedMusics.add(id);
-        }
-    };
 
     public static ButtonClickHandler handlePlaylistButtons = new ButtonClickHandler(187) {
         @Override
@@ -127,7 +125,7 @@ public final class MusicsManager {
         } else {
             playListOn = true;
             nextPlayListMusic = 0;
-            playAmbientMusic();
+            nextAmbientSong();
         }
     }
 
@@ -239,7 +237,7 @@ public final class MusicsManager {
         return playingMusic != -2 && playingMusicDelay + (180000) < System.currentTimeMillis();
     }
 
-    public void playAmbientMusic() {
+    public void nextAmbientSong() {
         if (playListOn && playList.size() > 0)//playlist
             pickPlaylistSong();
         else if (unlockedMusics.size() > 0) {//ambient music at random
@@ -252,11 +250,11 @@ public final class MusicsManager {
         while(lastTenSongs.size() > 10)
             lastTenSongs.removeLast();
         player.sendMessage(playingMusic +"");
-        playMusic(playingMusic);
+        playAmbientSong(playingMusic);
     }
 
     /**
-     * Only for use in pickAmbientMusic
+     * Only for use in nextAmbientSong
      */
     private void pickPlaylistSong() {
         if (shuffleOn)
@@ -269,7 +267,7 @@ public final class MusicsManager {
     }
 
     /**
-     * Only for use in pickAmbientMusic
+     * Only for use in nextAmbientSong
      */
     private void pickAmbientDungeoneering() {
         do {
@@ -279,26 +277,52 @@ public final class MusicsManager {
     }
 
     /**
-     * Only for use in playAmbientMusic.
+     * Only for use in nextAmbientSong.
      */
     private void pickAmbientSong() {
         playingGenre =  Music.getGenre(player.getRegionId());
         if(playingGenre == null) {
             playRandom();
         } else {
-            List<Integer> songIds = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
-            songIds.retainAll(unlockedMusics);
+            //genre song ids int[] -> list<>
+            List<Integer> genreSongs = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
+
+            genreSongs.retainAll(new ArrayList<Integer>() {{ //Unlocked music or allowed ambient music inside the genre & region music
+                addAll(unlockedMusics);
+                addAll(Music.getAllowAmbientMusic());
+            }});
+            //Tack on region music to local genre.
+            try {
+                genreSongs.addAll((Arrays.stream(Music.getRegionMusics(player.getRegionId())).boxed().toList()));
+            } catch(NullPointerException e) {
+                ;//empty song region
+            }
+
             while(lastTenSongs.contains(playingMusic))
-                if (songIds.size() > 0)
-                    playingMusic = songIds.remove(Utils.getRandomInclusive(songIds.size() - 1));
+                if (genreSongs.size() > 0)
+                    playingMusic = genreSongs.remove(Utils.getRandomInclusive(genreSongs.size() - 1));
                 else
                     playRandom();
         }
     }
 
     private void playRandom() {
-        while(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic))//Not tzaar, gwd, karamja, dungeoneering
+        while(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic))//In future make Not tzaar, gwd, dungeoneering
             playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+    }
+
+    public void playAmbientSong(int musicId) {
+        if (!player.hasStarted())
+            return;
+        playingMusicDelay = System.currentTimeMillis();
+        if (musicId == -2) {
+            playingMusic = musicId;
+            player.getPackets().sendMusic(-1);
+            player.getPackets().setIFText(187, 4, "");
+            return;
+        }
+        player.getPackets().sendMusic(musicId, playingMusic == -1 ? 0 : 100, 255);
+        playingMusic = musicId;
     }
 
     /**
