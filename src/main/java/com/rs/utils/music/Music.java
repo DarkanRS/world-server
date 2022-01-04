@@ -30,13 +30,12 @@ public class Music {
     /** Summary of Music System
      * -When initially entering a region the songs associated with that region play first
      * from songs.json.
-     * -After all the region songs are done ambient songs play within the same genre as
-     * the area.
+     * -Afterward genre ambient songs play. Region specific songs are added to that genre.
      * -When entering other regions the only time it switches songs is when the region
      * has a different genre in the genre map or the region has no genre. This means
      * less song changes as the player moves around.
-     * -allowPlayMusic allows players to play the music without necessarily having them
-     * unlocked. This works to increase variety but never adds to unlocked music. This is
+     * -allowAmbient allows players to play the music as ambient music, though it is still
+     * locked. This works to increase variety but never adds to unlocked music. This is
      * mostly used just to increase ambient song variety and does not affect region or
      * playlist music.
      */
@@ -72,6 +71,7 @@ public class Music {
             genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/asgarnia.json"), Genre[].class)));
             genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/kandarin.json"), Genre[].class)));
             genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/misthalin.json"), Genre[].class)));
+            genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/morytania.json"), Genre[].class)));
             genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/other.json"), Genre[].class)));
             addGenresToRegionMap();
 

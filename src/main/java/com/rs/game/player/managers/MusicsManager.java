@@ -19,6 +19,7 @@ package com.rs.game.player.managers;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
@@ -291,7 +292,11 @@ public final class MusicsManager {
                 addAll(Music.getAllowAmbientMusic());
             }});
             //Tack on region music to local genre.
-            genreSongs.addAll((Arrays.stream(Music.getRegionMusics(player.getRegionId())).boxed().toList()));
+            try {
+                genreSongs.addAll((Arrays.stream(Music.getRegionMusics(player.getRegionId())).boxed().toList()));
+            } catch(NullPointerException e) {
+                ;//empty song region
+            }
 
             while(lastTenSongs.contains(playingMusic))
                 if (genreSongs.size() > 0)
