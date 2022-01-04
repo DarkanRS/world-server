@@ -21,8 +21,6 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.magic.Magic;
-import com.rs.game.player.content.skills.woodcutting.TreeType;
-import com.rs.game.player.content.skills.woodcutting.Woodcutting;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;

@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.familycrest.dialogues;
 
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_AVAN;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -11,12 +14,8 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
-import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.*;
-
 @PluginEventHandler
 public class GemTraderFamilyCrestD extends Conversation {
-    private final int FIRST = 0;
-    private final int SECOND = 1;
     private static final int NPC = 540;
     public GemTraderFamilyCrestD(Player p) {
         super(p);

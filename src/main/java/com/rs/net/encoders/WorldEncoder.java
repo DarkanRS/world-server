@@ -211,14 +211,6 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new IFSetNPCHead(interfaceId, componentId, npcId));
 	}
 
-	public void receiveClanChatMessage(String displayName, int rights, String message, boolean guest) {
-		session.writeToQueue(new MessageClan(displayName, rights, message, guest));
-	}
-
-	public void receiveClanChatQuickMessage(String display, int rights, QuickChatMessage message, boolean guest) {
-		session.writeToQueue(new QuickChatClan(display, rights, message, guest));
-	}
-
 	public void updateGESlot(int slot, int progress, int item, int price, int amount, int currAmount, int totalPrice) {
 		session.writeToQueue(new UpdateGESlot(slot, progress, item, price, amount, currAmount, totalPrice));
 	}
@@ -393,22 +385,30 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new MessagePrivateEcho(account, message));
 	}
 
-	public void receivePrivateChatQuickMessage(String name, int rights, QuickChatMessage message) {
-		session.writeToQueue(new QuickChatPrivateEcho(name, rights, message));
+	public void receivePrivateChatQuickMessage(Account account, QuickChatMessage message) {
+		session.writeToQueue(new QuickChatPrivateEcho(account, message));
 	}
 
 	public void sendPrivateQuickMessage(String username, QuickChatMessage message) {
 		session.writeToQueue(new QuickChatPrivate(username, message));
 	}
 
-	public void sendFriendsChatMessage(String name, int rights, String chatName, String message) {
-		session.writeToQueue(new MessageFriendsChat(name, rights, chatName, message));
+	public void sendFriendsChatMessage(Account account, String chatName, String message) {
+		session.writeToQueue(new MessageFriendsChat(account, chatName, message));
 	}
 
-	public void receiveFriendChatQuickMessage(String name, int rights, String chatName, QuickChatMessage message) {
-		session.writeToQueue(new QuickChatFriendsChat(name, rights, chatName, message));
+	public void receiveFriendChatQuickMessage(Account account, String chatName, QuickChatMessage message) {
+		session.writeToQueue(new QuickChatFriendsChat(account, chatName, message));
 	}
 
+	public void receiveClanChatMessage(Account account, String message, boolean guest) {
+		session.writeToQueue(new MessageClan(account, message, guest));
+	}
+
+	public void receiveClanChatQuickMessage(Account account, QuickChatMessage message, boolean guest) {
+		session.writeToQueue(new QuickChatClan(account, message, guest));
+	}
+	
 	public void sendChatFilterSettings() {
 		session.writeToQueue(new ChatFilterSettings(player.getTradeStatus(), player.getPublicStatus()));
 	}

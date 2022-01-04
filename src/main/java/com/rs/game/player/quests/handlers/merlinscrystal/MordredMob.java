@@ -3,29 +3,12 @@ package com.rs.game.player.quests.handlers.merlinscrystal;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
-import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
-import com.rs.game.player.controllers.MerlinsCrystalCrateScene;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.lostcity.ArcherLostCityD;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
-import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.NPCDeathEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.*;
 
 @PluginEventHandler
 public class MordredMob extends NPC {

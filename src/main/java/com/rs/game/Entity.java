@@ -613,7 +613,11 @@ public abstract class Entity extends WorldTile {
 			else
 				nextRunDirection = nextStep.getDir();
 			tileBehind = new WorldTile(this);
+			if (npc != null)
+				World.unclipNPC(npc, tileBehind);
 			moveLocation(nextStep.getDir().getDx(), nextStep.getDir().getDy(), 0);
+			if (npc != null)
+				World.clipNPC(npc, npc);
 			if (run && stepCount == 0) { // fixes impossible steps TODO is this even necessary?
 				WalkStep previewStep = previewNextWalkStep();
 				if (previewStep == null)

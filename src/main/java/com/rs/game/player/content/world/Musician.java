@@ -5,7 +5,6 @@ import java.util.List;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Rest;
 import com.rs.game.player.actions.RestMusician;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;

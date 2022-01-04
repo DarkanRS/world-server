@@ -331,7 +331,6 @@ public class Player extends Entity {
 	private transient long potionDelay;
 	private transient long boneDelay;
 	private transient Runnable closeInterfacesEvent;
-	private transient long lastPublicMessage;
 	private transient boolean disableEquip;
 	private transient MachineInformation machineInformation;
 	private transient boolean castedVeng;
@@ -547,8 +546,6 @@ public class Player extends Entity {
 	// Recovery ques. & ans.
 	private String recovQuestion;
 	private String recovAnswer;
-
-	private String lastMsg;
 
 	// Used for storing recent ips
 	private ArrayList<String> ipList = new ArrayList<String>();
@@ -1025,9 +1022,7 @@ public class Player extends Entity {
 					if (!(combat.getTarget() instanceof Player))
 						idleLog();
 				} else
-                    ;
-					//logout(true);
-
+					logout(true);
 			}
 		}
 		if (disconnected && !finishing) {
@@ -1135,7 +1130,7 @@ public class Player extends Entity {
 	}
 
     private void processMusic() {
-        if (musicsManager.musicEnded() && !getTempAttribs().getB("MUSIC_BREAK")) {
+        if (!getTempAttribs().getB("MUSIC_BREAK") && musicsManager.musicEnded()) {
             getTempAttribs().setB("MUSIC_BREAK", true);
             WorldTasksManager.schedule(new WorldTask() {
                 @Override
@@ -1146,7 +1141,7 @@ public class Player extends Entity {
             }, Utils.randomInclusive(10, 30));
         }
     }
-	
+
 	public void restoreTick(int skill, int restore) {
 		int currentLevel = getSkills().getLevel(skill);
 		int normalLevel = getSkills().getLevelForXp(skill);
@@ -2814,14 +2809,6 @@ public class Player extends Entity {
 		this.recovAnswer = recovAnswer;
 	}
 
-	public String getLastMsg() {
-		return lastMsg;
-	}
-
-	public void setLastMsg(String lastMsg) {
-		this.lastMsg = lastMsg;
-	}
-
 	public boolean[] getPouchesType() {
 		return pouchesType;
 	}
@@ -2860,14 +2847,6 @@ public class Player extends Entity {
 
 	public boolean isUpdateMovementType() {
 		return updateMovementType;
-	}
-
-	public long getLastPublicMessage() {
-		return lastPublicMessage;
-	}
-
-	public void setLastPublicMessage(long lastPublicMessage) {
-		this.lastPublicMessage = lastPublicMessage;
 	}
 
 	public CutscenesManager getCutscenesManager() {

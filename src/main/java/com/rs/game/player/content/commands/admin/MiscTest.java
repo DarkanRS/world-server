@@ -453,7 +453,7 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
             int musicId = Integer.valueOf(args[0]);
-			p.getPackets().sendMusic(musicId, 100, args.length > 1 ? Integer.valueOf(args[1]) : 255);
+            p.getMusicsManager().playAmbientSong(musicId);
 //            p.getPackets().sendDevConsoleMessage("~~"+Music.getSong(musicId).getName() + "~~");
 //            p.getPackets().sendDevConsoleMessage("Hint: " + Music.getSong(musicId).getHint());
 //            for(String genre : Music.getSongGenres(musicId))
@@ -483,6 +483,7 @@ public class MiscTest {
         Commands.add(Rights.DEVELOPER, "genre", "Shows genre", (p, args) -> {
             p.sendMessage(p.getMusicsManager().getPlayingGenre().getGenreName());
         });
+
 
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));

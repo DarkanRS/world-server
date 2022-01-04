@@ -249,6 +249,7 @@ public final class MusicsManager {
         }
         while(lastTenSongs.size() > 10)
             lastTenSongs.removeLast();
+        player.sendMessage(playingMusic +"");
         playAmbientSong(playingMusic);
     }
 

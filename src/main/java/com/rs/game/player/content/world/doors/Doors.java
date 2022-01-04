@@ -35,8 +35,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-
-
 @PluginEventHandler
 public class Doors {
 
