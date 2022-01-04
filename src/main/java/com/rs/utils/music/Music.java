@@ -94,14 +94,11 @@ public class Music {
     private static void addGenresToRegionMap() {
         for(Genre g : genres) {
             if(g.isActive()) {
-                if (g.getSongs().length < 10)
-                    throw new java.lang.Error("ERROR: " + g.getGenreName() + " Genre is too small! Must be more than 10 total");
-                else
-                    for (int regionId : g.getRegionIds()) {
-                        if (GENRE_REGION.containsKey(regionId))
-                            throw new java.lang.Error("Error, duplicate key at: " + regionId);
-                        GENRE_REGION.put(regionId, g);//none of the values can be empty
-                    }
+                for (int regionId : g.getRegionIds()) {
+                    if (GENRE_REGION.containsKey(regionId))
+                        throw new java.lang.Error("Error, duplicate key at: " + regionId);
+                    GENRE_REGION.put(regionId, g);//none of the values can be empty
+                }
             }
         }
     }

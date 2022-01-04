@@ -2,6 +2,7 @@
   {
     "genre": "Tzhaar City",
     "comment": "Use for fight kiln controller & fight caves controller.",
+    "isActive": true,
     "regionIds": [
       18255,
       18511,
@@ -17,13 +18,103 @@
       18258
     ],
     "songs": [
-      0
+      463,
+      526,
+      1075,
+      1081,
+      1083,
+      1084,
+      1085,
+      1087
     ]
   },
   {
-    "genre": "Trollheim",
-    "comment": "Specific to troll music?",
+    "genre": "Zanaris",
+    "comment": "",
+    "isActive": true,
     "regionIds": [
+      9541,
+      9797,
+      9796,
+      9540
+    ],
+    "songs": [
+      118,
+      181,
+      301,
+      974,
+      984,
+      987,
+      988,
+      990,
+      993,
+      996
+    ]
+  },
+  {
+    "genre": "God Wars Dungeon",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      11092,
+      11091,
+      11090,
+      11089,
+      11348,
+      11347,
+      11346,
+      11345,
+      11604,
+      11603,
+      11602,
+      11601,
+      11860,
+      11859,
+      11858,
+      11857
+    ],
+    "songs": [
+      399,
+      495,
+      617,
+      618,
+      952,
+      959
+    ]
+  },
+  {
+    "genre": "Darkmeyer",
+    "parent": "Spooky",
+    "comment": "Spooky + meyer stuff? Ask a rs3 buff, zemo",
+    "isActive": true,
+    "regionIds": [
+      14132,
+      14388,
+      14644,
+      14645,
+      14387,
+      14386,
+      14385,
+      14642,
+      14641,
+      14643
+    ],
+    "songs": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004
+    ]
+  },
+  {
+    "genre": "Trolls",
+    "comment": "Trollheim + ice trolls north of netizot",
+    "isActive": true,
+    "regionIds": [
+      9276,
+      9532,
+      11677,
       11065,
       11064,
       11063,
@@ -34,7 +125,17 @@
       11577,
       11576
     ],
-    "songs": []
+    "songs": [
+      9,
+      97,
+      187,
+      220,
+      257,
+      258,
+      261,
+      264,
+      294
+    ]
   },
   {
     "genre": "Isafdar",
@@ -57,33 +158,6 @@
     "songs": []
   },
   {
-    "genre": "Darkmeyer",
-    "parent": "Spooky",
-    "comment": "Spooky + meyer stuff? Ask a rs3 buff, zemo",
-    "regionIds": [
-      14132,
-      14388,
-      14644,
-      14389,
-      14645,
-      14387,
-      14386,
-      14385,
-      14642,
-      14641,
-      14643
-    ],
-    "songs": []
-  },
-  {
-    "genre": "Slayer tower",
-    "comment": "Swamp + slayer tower, Zemo",
-    "regionIds": [
-      13623
-    ],
-    "songs": []
-  },
-  {
     "genre": "Oog'log",
     "parent": "Kandarin",
     "comment": "Ogres south of Yanille",
@@ -93,80 +167,6 @@
     "songs": [
       390
     ]
-  },
-  {
-    "genre": "Other Swamp",
-    "parent": "Swamp",
-    "comment": "",
-    "regionIds": [
-      14231,
-      8752,
-      9008,
-      12593,
-      12849,
-      13623,
-      13622,
-      13621,
-      13620,
-      13619,
-      13618,
-      13611,
-      13879,
-      13878,
-      13877,
-      13876,
-      13875,
-      13874,
-      13873,
-      14135,
-      14134,
-      14133,
-      14131,
-      14130,
-      14129,
-      14391,
-      14390,
-      14389,
-      14647,
-      14646,
-      14645,
-      14643
-    ],
-    "songs": []
-  },
-  {
-    "genre": "God Wars Dungeon",
-    "comment": "",
-    "regionIds": [
-      11092,
-      11091,
-      11090,
-      11089,
-      11348,
-      11347,
-      11346,
-      11345,
-      11604,
-      11603,
-      11602,
-      11601,
-      11860,
-      11859,
-      11858,
-      11857
-    ],
-    "songs": []
-  },
-  {
-    "genre": "Zanaris",
-    "comment": "",
-    "regionIds": [
-      9541,
-      9797,
-      9796,
-      9540
-    ],
-    "songs": []
   },
   {
     "genre": "Desert",
@@ -281,6 +281,7 @@
     "genre": "Runespan",
     "parent": "Misthalin",
     "comment": "regions done",
+    "isActive": true,
     "regionIds": [
       17246,
       17502,
@@ -311,7 +312,17 @@
     "genre": "Dungeons",
     "comment": "",
     "regionIds": [
-
+      11925,
+      12181,
+      11417,
+      11416,
+      11673,
+      11672,
+      11671,
+      11929,
+      11928,
+      12185,
+      12184
     ],
     "songs": [
       144,
