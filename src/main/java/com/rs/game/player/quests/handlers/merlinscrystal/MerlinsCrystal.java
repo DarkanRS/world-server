@@ -1,31 +1,35 @@
 package com.rs.game.player.quests.handlers.merlinscrystal;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.transportation.FairyRings;
-import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.player.controllers.MerlinsCrystalCrateScene;
 import com.rs.game.player.controllers.MerlinsCrystalRitualScene;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
-import com.rs.game.player.quests.handlers.shieldofarrav.BookShieldOfArrav;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
-
-import java.util.ArrayList;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PlayerStepEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PlayerStepHandler;
 
 @QuestHandler(Quest.MERLINS_CRYSTAL)
 @PluginEventHandler

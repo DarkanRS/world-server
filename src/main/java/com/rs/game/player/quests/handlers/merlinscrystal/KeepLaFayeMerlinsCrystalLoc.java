@@ -1,5 +1,11 @@
 package com.rs.game.player.quests.handlers.merlinscrystal;
 
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -8,11 +14,8 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
-import com.rs.game.player.content.skills.magic.Magic;
-import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.player.controllers.MerlinsCrystalCrateScene;
 import com.rs.game.player.quests.Quest;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -22,15 +25,6 @@ import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
-import com.rs.utils.Areas;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.*;
 
 @PluginEventHandler
 public class KeepLaFayeMerlinsCrystalLoc {
@@ -55,7 +49,6 @@ public class KeepLaFayeMerlinsCrystalLoc {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == CONFRONT_KEEP_LA_FAYE)
                 e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
                     {

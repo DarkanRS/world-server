@@ -1,13 +1,15 @@
 package com.rs.game.player.quests.handlers.scorpioncatcher;
 
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.HAS_SEER1_PROHPECY_ATTR;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.HAS_SEER2_PROHPECY_ATTR;
+import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.SCORP_COUNT_ATTR;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher.*;
 
 @PluginEventHandler
 public class SeerScorpionCatcherD extends Conversation {

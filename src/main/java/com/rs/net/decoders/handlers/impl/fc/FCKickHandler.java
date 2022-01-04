@@ -27,8 +27,7 @@ public class FCKickHandler implements PacketHandler<Player, FCKick> {
 	public void handle(Player player, FCKick packet) {
 		if (!player.hasStarted())
 			return;
-		player.setLastPublicMessage(System.currentTimeMillis() + 1000);
-		LobbyCommunicator.kickFCPlayer(player, packet.getName());
+		LobbyCommunicator.forwardPackets(player, packet);
 	}
 
 }

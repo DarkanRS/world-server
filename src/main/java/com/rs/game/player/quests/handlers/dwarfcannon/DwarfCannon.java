@@ -30,7 +30,6 @@ import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.PublicChatMessage;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -288,7 +287,7 @@ public class DwarfCannon extends QuestOutline {
 		String[] chatMessages = { "You cut your hand on the rusty old railing.", "You strain your back trying to handle the railings.", "You accidentally crush your hand in the railing." };
 		String[] playerMessages = { "Ow!", "Urrrgh!", "Gah!", "Oooch!" };
 		p.sendMessage(chatMessages[Utils.getRandomInclusive(2)]);
-		p.sendPublicChatMessage(new PublicChatMessage(playerMessages[Utils.getRandomInclusive(3)], 0));
+		p.forceTalk(playerMessages[Utils.getRandomInclusive(3)]);
 		p.applyHit(new Hit(2, HitLook.TRUE_DAMAGE));
 
 	}

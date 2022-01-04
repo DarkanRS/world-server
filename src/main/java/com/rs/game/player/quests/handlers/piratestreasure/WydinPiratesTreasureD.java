@@ -25,8 +25,6 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class WydinPiratesTreasureD extends Conversation {
 
-
-
     public WydinPiratesTreasureD(Player p) {
         super(p);
         switch (p.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
@@ -87,7 +85,6 @@ public class WydinPiratesTreasureD extends Conversation {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            GameObject obj = e.getObject();
             if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM) {
                 if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_SARIM_CRATE_ATTR)) {
                     p.getInventory().addItem(new Item(RUM, 1), true);

@@ -17,11 +17,13 @@
 package com.rs.net.decoders.handlers.impl.chat;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.controllers.DungeonController;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.chat.QCPublic;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
+import com.rs.utils.WorldUtil;
 
 public class QCPublicHandler implements PacketHandler<Player, QCPublic> {
 
@@ -29,20 +31,19 @@ public class QCPublicHandler implements PacketHandler<Player, QCPublic> {
 	public void handle(Player player, QCPublic packet) {
 		if (!player.hasStarted())
 			return;
-		if (player.getLastPublicMessage() > System.currentTimeMillis())
-			return;
-		player.setLastPublicMessage(System.currentTimeMillis() + 300);
 		if (!Utils.isQCValid(packet.getQcId()))
 			return;
-		byte[] data = QCPrivateHandler.completeQuickMessage(player, packet.getQcId(), packet.getMessageData());
-		if (packet.getChatType() == 0)
-			player.sendPublicChatMessage(new QuickChatMessage(packet.getQcId(), data));
-		else if (packet.getChatType() == 1)
-			LobbyCommunicator.sendFCQuickChat(player, new QuickChatMessage(packet.getQcId(), data));
-		else if (packet.getChatType() == 2)
-			LobbyCommunicator.sendCCQuickChat(player, new QuickChatMessage(packet.getQcId(), data));
-		else if (packet.getChatType() == 3)
-			LobbyCommunicator.sendGCCQuickChat(player, new QuickChatMessage(packet.getQcId(), data));
+		packet.setCompletedData(WorldUtil.completeQuickMessage(player, packet.getQcId(), packet.getMessageData()));
+		switch(packet.getChatType()) {
+			case 1, 2, 3 -> LobbyCommunicator.forwardPackets(player, packet);
+			case 0 -> {
+				if (player.getControllerManager().getController() instanceof DungeonController)
+					for (Player party : player.getDungManager().getParty().getTeam())
+						party.getPackets().sendPublicMessage(player, new QuickChatMessage(packet.getQcId(), packet.getCompletedData()));
+				else
+					player.sendPublicChatMessage(new QuickChatMessage(packet.getQcId(), packet.getCompletedData()));
+			}
+		}
 	}
 
 }

@@ -1,10 +1,13 @@
 package com.rs.game.player.quests.handlers.tribaltotem;
 
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.GET_TOTEM;
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.TALK_TO_WIZARD;
+
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -17,12 +20,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
-import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.*;
-
 @PluginEventHandler
 public class WizardCrompertyTribalTotemD extends Conversation {
-    private final int FIRST = 0;
-    private final int SECOND = 1;
     private static final int NPC = 844;
     public WizardCrompertyTribalTotemD(Player p) {
         super(p);
