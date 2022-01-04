@@ -711,7 +711,7 @@ public final class Skills {
 	}
 
 	public void set(int skill, int newLevel) {
-		level[skill] = (short) newLevel;
+		level[skill] = (short) (newLevel + player.getI(Skills.SKILL_NAME[skill]));
 		markForRefresh(skill);
 	}
 
@@ -1090,6 +1090,10 @@ public final class Skills {
 		}
 		markForRefresh(skill);
 	}
+
+    public void setXpTo99(int skill) {
+        xp[skill] = getXPForLevel(99);
+    }
 
 	public void addXp(int skill, double exp) {
 		player.getControllerManager().trackXP(skill, (int) exp);

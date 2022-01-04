@@ -1037,7 +1037,6 @@ public class Player extends Entity {
 		timeLoggedOut = System.currentTimeMillis();
 		if (!isDead()) {
 			if (getTickCounter() % 30 == 0) {
-                getCombatDefinitions().restoreSpecialAttack();
                 addEffect(Effect.PRAYER_RENEWAL, 500);
                 loyaltyPoints+=50;
             }
