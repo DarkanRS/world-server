@@ -75,7 +75,7 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
-import jdk.swing.interop.SwingInterOpUtils;
+
 
 
 @PluginEventHandler
@@ -461,20 +461,19 @@ public class MiscTest {
 		});
 
         Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
-            int TOTAL_SONGS = 1099;
-            int unusedSong = 0;
-            for(int i = 0; i < TOTAL_SONGS; i++) {
+            int count = 0;
+            for(int i = 0; i < 1099; i++) {
                 if(Music.getSongGenres(i).length == 0) {
                     Song song = Music.getSong(i);
-                    unusedSong++;
-                    if(song == null)
+                    count++;
+                    if(song == null) {
                         System.out.println("Error @" + i);
-                    else
+                    } else
                         System.out.println(i + " " + song.getName() + ": " + song.getHint());
                 }
             }
-            System.out.println("Total used: " + (TOTAL_SONGS-unusedSong) + "/1099");
-            System.out.println("Used is " + (100-Math.ceil(unusedSong/1099.0*100)) + "%");
+            System.out.println("Total unused: " + count);
+            System.out.println("Unused is " + Math.ceil(count/1099.0*100) + "%");
         });
 
         Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
@@ -816,7 +815,7 @@ public class MiscTest {
 			p.setNextWorldTile(new WorldTile(regionX, regionY, 0));
 		});
 		
-		Commands.add(Rights.PLAYER, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
 			int chunkX = Integer.valueOf(args[0]) * 8 + 4;
 			int chunkY = Integer.valueOf(args[1]) * 8 + 4;
 			p.resetWalkSteps();

@@ -1939,7 +1939,7 @@
   {
     "name": "Lament of Meiyerditch",
     "hint": "during the Darkness of Hallowvale.",
-    "comment": "",
+    "comment": "region only",
     "allowAmbient": false,
     "id": 197,
     "regionIds": [
@@ -2151,7 +2151,7 @@
   {
     "name": "Jester Minute",
     "hint": "during Fremennik Isles.",
-    "comment": "",
+    "comment": "Fremnik for neitznot?",
     "allowAmbient": false,
     "id": 221,
     "regionIds": []
@@ -2558,7 +2558,7 @@
     "name": "Mad Eadgar",
     "hint": "at Eadgar's cave atop Trollheim.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 264,
     "regionIds": []
   },
@@ -3727,7 +3727,7 @@
   {
     "name": "Bandos Battalion",
     "hint": "in the God Wars Dungeon.",
-    "comment": "",
+    "comment": "Only activates in bandos but doesnt deactiate within GWD",
     "allowAmbient": false,
     "id": 386,
     "regionIds": [
@@ -3781,7 +3781,7 @@
   {
     "name": "Zamorak Zoo",
     "hint": "in the God Wars Dungeon.",
-    "comment": "",
+    "comment": "Active in region but doesnt deactivate in gwd",
     "allowAmbient": false,
     "id": 391,
     "regionIds": [
@@ -3909,7 +3909,7 @@
   {
     "name": "Armadyl Alliance",
     "hint": "in the God Wars Dungeon.",
-    "comment": "",
+    "comment": "Active in region but doesnt deactivate in gwd",
     "allowAmbient": false,
     "id": 404,
     "regionIds": [
@@ -3945,7 +3945,7 @@
   {
     "name": "Strength of Saradomin",
     "hint": "in the God Wars Dungeon.",
-    "comment": "",
+    "comment": "Active in region but doesnt deactivate in gwd",
     "allowAmbient": false,
     "id": 408,
     "regionIds": [
@@ -4717,7 +4717,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "God wars",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 495,
     "regionIds": []
   },
@@ -5798,7 +5798,7 @@
     "name": "The Chosen Commander",
     "hint": "during The Chosen Commander.",
     "comment": "Maybe God Wars",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 617,
     "regionIds": []
   },
@@ -5806,7 +5806,7 @@
     "name": "The Throne of Bandos",
     "hint": "during The Chosen Commander.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 618,
     "regionIds": []
   },
@@ -6317,7 +6317,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Tzhaar, not inserted",
+    "comment": "Too weird",
     "allowAmbient": false,
     "id": 676,
     "regionIds": []
@@ -6366,7 +6366,7 @@
     "name": "Trick or Treat?",
     "hint": "in a Halloween holiday event (2009 onwards).",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 681,
     "regionIds": []
   },
@@ -6374,7 +6374,7 @@
     "name": "Poison Dreams",
     "hint": "in a Halloween holiday event (2009 onwards).",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 682,
     "regionIds": []
   },
@@ -6382,7 +6382,7 @@
     "name": "Itsy Bitsy...",
     "hint": "in a Halloween holiday event (2009 onwards).",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 683,
     "regionIds": []
   },
@@ -6596,16 +6596,16 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Trollheim",
-    "allowAmbient": true,
+    "comment": "Goblin cave",
+    "allowAmbient": false,
     "id": 711,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "Trollheim",
+    "hint": "Goblin cave",
     "comment": "",
-    "allowAmbient": true,
+    "allowAmbient": false,
     "id": 712,
     "regionIds": []
   },
@@ -6646,7 +6646,7 @@
   {
     "name": "I'm Counting on You",
     "hint": "during Vampyre Slayer.",
-    "comment": "",
+    "comment": "Unlocked during quest(implemented)",
     "allowAmbient": false,
     "id": 717,
     "regionIds": []
@@ -8555,8 +8555,8 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Too exciting",
-    "allowAmbient": false,
+    "comment": "God wars",
+    "allowAmbient": true,
     "id": 952,
     "regionIds": []
   },
@@ -8612,7 +8612,7 @@
     "name": "Corporate Callousness",
     "hint": "during King of the Dwarves.",
     "comment": "God wars",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 959,
     "regionIds": []
   },
@@ -8735,7 +8735,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Lunar isle Zanaris",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 974,
     "regionIds": []
   },
@@ -8806,7 +8806,7 @@
   {
     "name": "Architect of War",
     "hint": "in a Clan Citadel.",
-    "comment": "Zanaris",
+    "comment": "A little weird",
     "allowAmbient": false,
     "id": 983,
     "regionIds": []
@@ -8814,7 +8814,7 @@
   {
     "name": "Citadel VIII",
     "hint": "in a Clan Citadel.",
-    "comment": "Zanaris palyer owned home controller",
+    "comment": "Too short",
     "allowAmbient": false,
     "id": 984,
     "regionIds": []
@@ -8831,7 +8831,7 @@
     "name": "Citadel XIII",
     "hint": "in a Clan Citadel.",
     "comment": "Zanaris player owned home controller",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 987,
     "regionIds": []
   },
@@ -8839,7 +8839,7 @@
     "name": "Citadel III",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle Zanaris player owned home controller",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 988,
     "regionIds": []
   },
@@ -8855,7 +8855,7 @@
     "name": "Citadel XII",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle zanaris",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 990,
     "regionIds": []
   },
@@ -8864,7 +8864,7 @@
     "hint": "",
     "comment": "empty",
     "allowAmbient": false,
-    "id": 990,
+    "id": 991,
     "regionIds": []
   },
   {
@@ -8879,7 +8879,7 @@
     "name": "Citadel IV",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle, zanaris player owned home controller",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 993,
     "regionIds": []
   },
@@ -8903,7 +8903,7 @@
     "name": "Citadel XVI",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle Zanaris",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 996,
     "regionIds": []
   },
@@ -8954,6 +8954,14 @@
     ]
   },
   {
+    "name": "",
+    "hint": "Darkmeyer.",
+    "comment": "",
+    "allowAmbient": true,
+    "id": 1001,
+    "regionIds": []
+  },
+  {
     "name": "Upir Likhyi",
     "hint": "during Branches of Darkmeyer.",
     "comment": "",
@@ -8992,7 +9000,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Too short",
     "allowAmbient": false,
     "id": 1007,
     "regionIds": []
@@ -9391,7 +9399,7 @@
   {
     "name": "Tzhaar Supremacy II",
     "hint": "in the Tzhaar Fight Cave, Fight Pit or Fight Kiln.",
-    "comment": "",
+    "comment": "Controller",
     "allowAmbient": false,
     "id": 1082,
     "regionIds": []
@@ -9447,7 +9455,7 @@
   {
     "name": "Tzhaar Supremacy III",
     "hint": "in the Tzhaar Fight Cave, Fight Pit or Fight Kiln.",
-    "comment": "",
+    "comment": "Controller",
     "allowAmbient": false,
     "id": 1086,
     "regionIds": []
