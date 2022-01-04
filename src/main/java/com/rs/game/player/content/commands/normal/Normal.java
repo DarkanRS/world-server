@@ -206,14 +206,7 @@ public class Normal {
 			p.setYellOff(!p.isYellOff());
 			p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
 		});
-		
-		Commands.add(Rights.PLAYER, "owner", "Gives you owner rank if you're Trent :)", (p, args) -> {
-			if (Settings.isOwner(p.getUsername())) {
-				p.setRights(Rights.OWNER);
-				p.getAppearance().generateAppearanceData();
-			}
-		});
-		
+
 		Commands.add(Rights.PLAYER, "title", "Sets your title to display your XP rate.", (p, args) -> {
 			Dialogue switchTitle = new Dialogue();
 				switchTitle.addOption("Would you like to change your title to display your XP rate and mode?", "Yes.", "No.");

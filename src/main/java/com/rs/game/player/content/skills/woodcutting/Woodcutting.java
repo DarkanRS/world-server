@@ -307,7 +307,7 @@ public class Woodcutting extends Action {
 				player.addEffect(Effect.JUJU_WC_BANK, 75);
 			}
 		}
-		if (Utils.random(256) == 0) {
+		if (Utils.random(25) == 0) {
 			for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
 				World.addGroundItem(rew, new WorldTile(player), player, true, 30);
 			player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
@@ -331,7 +331,7 @@ public class Woodcutting extends Action {
 					player.setNextSpotAnim(new SpotAnim(2897));
 				} else {
 					for (int item : type.getLogsId()) {
-						player.getInventory().addItemDrop(item, 1);
+						player.getInventory().addItemDrop(item, 6);
 					}
 				}
 			}
