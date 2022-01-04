@@ -46,7 +46,7 @@ public class PlayerModifiers {
 				if (target != null) {
 					target.getAccount().banDays(2);
 					p.sendMessage("You have banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 					if (target.hasStarted())
 						target.getSession().getChannel().close();
 				} else {
@@ -94,7 +94,7 @@ public class PlayerModifiers {
 				if (target != null) {
 					target.getAccount().muteDays(2);
 					p.sendMessage("You have muted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 				} else {
 					p.sendMessage("Unable to find player.");
 				}

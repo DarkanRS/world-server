@@ -30,6 +30,12 @@ public class WorldAPI extends WebAPI {
 
 	public WorldAPI() {
 		super("api", Settings.getConfig().getWorldInfo().getPort()+1);
+		
+		this.routes.post("/players", ex -> {
+			ex.dispatch(() -> {
+				APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size());
+			});
+		});
 	
 		this.routes.post("/sendpacket", ex -> {
 			ex.dispatch(() -> {
@@ -48,7 +54,6 @@ public class WorldAPI extends WebAPI {
 		});
 		
 		addRoute(new Telemetry());
-		addRoute(new SocialOperations());
 	}
 
 }

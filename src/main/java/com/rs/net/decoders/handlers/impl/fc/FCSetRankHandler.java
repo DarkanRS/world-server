@@ -35,8 +35,7 @@ public class FCSetRankHandler implements PacketHandler<Player, FCSetRank> {
 		}
 		player.getTempAttribs().setB("fcLock", true);
 		player.getAccount().getSocial().getFriendsChat().setRank(packet.getName(), Rank.forId(packet.getRank()));
-		LobbyCommunicator.updateAccount(player, res -> {});
-		LobbyCommunicator.updateFC(player, res -> player.getTempAttribs().setB("fcLock", false));
+		LobbyCommunicator.updateFC(player, fc -> LobbyCommunicator.updateSocial(player, acc -> player.getTempAttribs().setB("fcLock", false)));
 	}
 
 }

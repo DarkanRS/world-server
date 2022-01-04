@@ -16,6 +16,7 @@
 //
 package com.rs.net;
 
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import com.rs.Settings;
@@ -40,7 +41,7 @@ public class LobbyCommunicator {
 		post(new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
 	}
 	
-	public static Account getAccountSync(String username, String password) {
+	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException {
 		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
 	}
 
@@ -56,12 +57,28 @@ public class LobbyCommunicator {
 		post(Account.class, new LoginRequest(username, "cock"), "getaccount", cb);
 	}
 	
-	public static void updateAccount(Player player) {
-		post(player.getAccount(), "updatewholeaccount");
+	public static void updatePunishments(Player player) {
+		post(player.getAccount(), "updatepunishments");
 	}
 	
-	public static void updateAccount(Player player, Consumer<Account> cb) {
-		post(Account.class, player.getAccount(), "updatewholeaccount", cb);
+	public static void updatePunishments(Player player, Consumer<Boolean> cb) {
+		post(Boolean.class, player.getAccount(), "updatepunishments", cb);
+	}
+	
+	public static void updateRights(Player player) {
+		post(player.getAccount(), "updaterights");
+	}
+
+	public static void updateRights(Player player, Consumer<Boolean> cb) {
+		post(Boolean.class, player.getAccount(), "updaterights", cb);
+	}
+	
+	public static void updateSocial(Player player) {
+		post(player.getAccount(), "updatesocial");
+	}
+
+	public static void updateSocial(Player player, Consumer<Boolean> cb) {
+		post(Boolean.class, player.getAccount(), "updatesocial", cb);
 	}
 	
 	public static void updateFC(Player player, Consumer<FriendsChat> cb) {
@@ -142,7 +159,7 @@ public class LobbyCommunicator {
 		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 	
-	public static <T> T postSync(Class<T> type, Object body, String endpoint) {
+	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException {
 		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 }
