@@ -452,12 +452,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
-            int musicId = Integer.valueOf(args[0]);
-            p.getMusicsManager().playAmbientSong(musicId);
-//            p.getPackets().sendDevConsoleMessage("~~"+Music.getSong(musicId).getName() + "~~");
-//            p.getPackets().sendDevConsoleMessage("Hint: " + Music.getSong(musicId).getHint());
-//            for(String genre : Music.getSongGenres(musicId))
-//                p.getPackets().sendDevConsoleMessage(genre);
+            p.getMusicsManager().playAmbientSong(Integer.valueOf(args[0]));
 		});
 
         Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {

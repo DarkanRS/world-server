@@ -4,6 +4,7 @@ The world server for Darkan that integrates with the lobby server.
 ## Setup steps
 
 ### Pre-requisites
+- [Git](https://git-scm.com/download/win) (if on Windows, otherwise just use a package-manager like `pacman -S git` on Unix)
 - [JDK-16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.html)
 - [Git-LFS](https://git-lfs.github.com/ "Git-LFS")
 - [MongoDB](https://docs.mongodb.com/manual/installation/ "MongoDB")
