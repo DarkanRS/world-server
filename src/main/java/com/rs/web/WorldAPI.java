@@ -19,6 +19,7 @@ package com.rs.web;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.player.Player;
+import com.rs.lib.model.Account;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.ErrorResponse;
 import com.rs.lib.web.WebAPI;
@@ -34,6 +35,22 @@ public class WorldAPI extends WebAPI {
 		this.routes.post("/players", ex -> {
 			ex.dispatch(() -> {
 				APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size());
+			});
+		});
+		
+		this.routes.post("/updatesocial", ex -> {
+			ex.dispatch(() -> {
+				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+					return;
+				}
+				APIUtil.readJSON(ex, Account.class, account -> {
+					Player player = World.getPlayer(account.getUsername());
+					if (player == null || player.getSession() == null)
+						return;
+					player.getAccount().setSocial(account.getSocial());
+					APIUtil.sendResponse(ex, StatusCodes.OK, true);
+				});
 			});
 		});
 	
