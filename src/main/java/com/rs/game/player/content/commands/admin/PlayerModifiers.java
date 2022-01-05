@@ -107,7 +107,7 @@ public class PlayerModifiers {
 				if (target != null) {
 					target.getAccount().banDays(Integer.valueOf(args[1]));
 					p.sendMessage("You have banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for "+Integer.valueOf(args[1])+" days.");
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 					if (target.hasStarted())
 						target.getSession().getChannel().close();
 				} else {
@@ -123,7 +123,7 @@ public class PlayerModifiers {
 					p.sendMessage("You have permanently banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + ".");
 					if (target.hasStarted())
 						target.forceLogout();
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 				} else {
 					p.sendMessage("Unable to find player.");
 				}
@@ -135,7 +135,7 @@ public class PlayerModifiers {
 				if (target != null) {
 					target.getAccount().muteDays(Integer.valueOf(args[1]));
 					p.sendMessage("You have muted " + Utils.formatPlayerNameForDisplay(args[0]) + " for "+Integer.valueOf(args[1])+" days.");
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 				} else {
 					p.sendMessage("Unable to find player.");
 				}
@@ -147,7 +147,7 @@ public class PlayerModifiers {
 				if (target != null) {
 					target.getAccount().mutePerm();
 					p.sendMessage("You have permanently muted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + ".");
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 				} else {
 					p.sendMessage("Unable to find player.");
 				}
@@ -169,7 +169,7 @@ public class PlayerModifiers {
 				if (target != null) {
 					target.getAccount().unmute();
 					p.sendMessage("You have unmuted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + ".");
-					LobbyCommunicator.updateAccount(target);
+					LobbyCommunicator.updatePunishments(target);
 				} else {
 					p.sendMessage("Unable to find player.");
 				}

@@ -16,6 +16,8 @@
 //
 package com.rs.net.decoders;
 
+import java.util.concurrent.ExecutionException;
+
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.db.WorldDB;
@@ -188,9 +190,17 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 		
-		Account account = LobbyCommunicator.getAccountSync(username, password);
-		if (account == null) {
+		Account a = null;
+		try {
+			a = LobbyCommunicator.getAccountSync(username, password);
+		} catch (InterruptedException | ExecutionException e) {
+			System.err.println("Error connecting to login server!");
 			session.sendClientPacket(23);
+			return -1;
+		}
+		final Account account = a;
+		if (account == null) {
+			session.sendClientPacket(3);
 			return -1;
 		}
 		

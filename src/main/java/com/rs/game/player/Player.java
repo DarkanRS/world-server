@@ -4149,7 +4149,7 @@ public class Player extends Entity {
 
 	public void setRights(Rights staffRights) {
 		getAccount().setRights(staffRights);
-		LobbyCommunicator.updateAccount(this);
+		LobbyCommunicator.updateRights(this);
 	}
 
 	public Map<PatchLocation, FarmPatch> getPatches() {
