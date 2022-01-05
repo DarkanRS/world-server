@@ -43,53 +43,39 @@ public final class Notes {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			switch (e.getComponentId()) {
-			case 35:
-			case 37:
-			case 39:
-			case 41:
-				e.getPlayer().getNotes().colour((e.getComponentId() - 35) / 2);
-				e.getPlayer().getPackets().setIFHidden(34, 16, true);
-				break;
-			case 3:
-				e.getPlayer().getPackets().sendInputLongTextScript("Add note:");
-				e.getPlayer().getTempAttribs().setB("entering_note", true);
-				break;
-			case 9:
-				switch (e.getPacket()) {
-				case IF_OP1:
-					if (e.getPlayer().getNotes().getCurrentNote() == e.getSlotId())
-						e.getPlayer().getNotes().removeCurrentNote();
-					else
-						e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					break;
-				case IF_OP2:
-					e.getPlayer().getPackets().sendInputLongTextScript("Edit note:");
-					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					e.getPlayer().getTempAttribs().setB("editing_note", true);
-					break;
-				case IF_OP3:
-					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					e.getPlayer().getPackets().setIFHidden(34, 16, false);
-					break;
-				case IF_OP4:
-					e.getPlayer().getNotes().delete(e.getSlotId());
-					break;
-				default:
+				case 35, 37, 39, 41 -> {
+					e.getPlayer().getNotes().colour((e.getComponentId() - 35) / 2);
+					e.getPlayer().getPackets().setIFHidden(34, 16, true);
+				}
+				case 3 -> e.getPlayer().sendInputLongText("Add note:", text -> e.getPlayer().getNotes().add(text));
+				case 9 -> {
+					switch (e.getPacket()) {
+						case IF_OP1 -> {
+							if (e.getPlayer().getNotes().getCurrentNote() == e.getSlotId())
+								e.getPlayer().getNotes().removeCurrentNote();
+							else
+								e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
+						}
+						case IF_OP2 -> e.getPlayer().sendInputLongText("Edit note:", text -> {
+							e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
+							e.getPlayer().getNotes().edit(text);
+						});
+						case IF_OP3 -> {
+							e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
+							e.getPlayer().getPackets().setIFHidden(34, 16, false);
+						}
+						case IF_OP4 -> e.getPlayer().getNotes().delete(e.getSlotId());
+						default -> {}
+					}
+				}
+				case 11 -> {
+					switch (e.getPacket()) {
+						case IF_OP1 -> e.getPlayer().getNotes().delete();
+						case IF_OP2 -> e.getPlayer().getNotes().deleteAll();
+						default -> {}
+					}
 					break;
 				}
-				break;
-			case 11:
-				switch (e.getPacket()) {
-				case IF_OP1:
-					e.getPlayer().getNotes().delete();
-					break;
-				case IF_OP2:
-					e.getPlayer().getNotes().deleteAll();
-					break;
-				default:
-					break;
-				}
-				break;
 			}
 		}
 	};

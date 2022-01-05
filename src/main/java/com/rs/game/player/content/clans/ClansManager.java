@@ -17,6 +17,8 @@
 package com.rs.game.player.content.clans;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.statements.Statement;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.ClanMember;
@@ -29,6 +31,21 @@ import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
 public class ClansManager {
+	
+	public static void clanMotto(Player player) {
+		player.startConversation(new Dialogue(new Statement() {
+			@Override
+			public void send(Player player) {
+				player.getInterfaceManager().sendChatBoxInterface(1103);
+				player.sendInputLongText("Enter clan motto:", motto -> player.getClan().setMotto(motto));
+			}
+
+			@Override
+			public int getOptionId(int componentId) {
+				return 0;
+			}
+		}));
+	}
 	
 	public static ItemClickHandler handleClanVex = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport" }) {
 		@Override

@@ -14,24 +14,8 @@
 //  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.dialogues;
+package com.rs.plugin.events;
 
-public class ClanMotto extends Dialogue {
-
-	@Override
-	public void start() {
-		player.getInterfaceManager().sendChatBoxInterface(1103);
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		end();
-
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
+public interface InputHSLEvent {
+	void run(int color);
 }

@@ -60,7 +60,6 @@ import com.rs.game.pathing.RouteEvent;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.actions.LodestoneAction.Lodestone;
 import com.rs.game.player.actions.PlayerCombat;
-import com.rs.game.player.content.ClanCapeCustomizer;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.ItemConstants.ItemDegrade;
@@ -101,6 +100,7 @@ import com.rs.game.player.controllers.GodwarsController;
 import com.rs.game.player.controllers.TutorialIslandController;
 import com.rs.game.player.controllers.WarriorsGuild;
 import com.rs.game.player.dialogues.Dialogue;
+import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StartDialogue;
 import com.rs.game.player.managers.ActionManager;
 import com.rs.game.player.managers.AuraManager;
@@ -562,9 +562,6 @@ public class Player extends Entity {
 	private int[] maxedCapeCustomized;
 	private int[] completionistCapeCustomized;
 
-	private int[] clanCapeCustomized;
-	private int[] clanCapeSymbols;
-
 	private int summoningLeftClickOption;
 
 	// objects
@@ -628,7 +625,6 @@ public class Player extends Entity {
 		setWickedHoodTalismans(new boolean[WickedHoodRune.values().length]);
 		resetBarrows();
 		SkillCapeCustomizer.resetSkillCapes(this);
-		ClanCapeCustomizer.resetClanCapes(this);
 		prayerBook = new boolean[PrayerBooks.BOOKS.length];
 		herbicideSettings = new HashSet<HerbicideSetting>();
 		ipList = new ArrayList<String>();
@@ -1854,13 +1850,24 @@ public class Player extends Entity {
 		});
 	}
 
-	public void sendInputString(String question, InputStringEvent e) {
-		getTempAttribs().setO("pluginString", e);
+	public void sendInputName(String question, InputStringEvent e) {
+		getTempAttribs().setO("pluginEnterName", e);
 		getPackets().sendInputNameScript(question);
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
-				getTempAttribs().removeO("pluginString");
+				getTempAttribs().removeO("pluginEnterName");
+			}
+		});
+	}
+	
+	public void sendInputLongText(String question, InputStringEvent e) {
+		getTempAttribs().setO("pluginEnterLongText", e);
+		getPackets().sendInputLongTextScript(question);
+		setCloseInterfacesEvent(new Runnable() {
+			@Override
+			public void run() {
+				getTempAttribs().removeO("pluginEnterLongText");
 			}
 		});
 	}
@@ -1872,6 +1879,26 @@ public class Player extends Entity {
 			@Override
 			public void run() {
 				getTempAttribs().removeO("pluginInteger");
+			}
+		});
+	}
+	
+	public void sendInputHSL(InputIntegerEvent e) {
+		getTempAttribs().setO("pluginHSL", e);
+		setCloseInterfacesEvent(new Runnable() {
+			@Override
+			public void run() {
+				getTempAttribs().removeO("pluginHSL");
+			}
+		});
+	}
+	
+	public void sendInputForumQFC(InputStringEvent e) {
+		getTempAttribs().setO("pluginQFCD", e);
+		setCloseInterfacesEvent(new Runnable() {
+			@Override
+			public void run() {
+				getTempAttribs().removeO("pluginQFCD");
 			}
 		});
 	}
@@ -3335,22 +3362,6 @@ public class Player extends Entity {
 		this.lastNpcInteractedName = lastNpcInteractedName;
 	}
 
-	public int[] getClanCapeCustomized() {
-		return clanCapeCustomized;
-	}
-
-	public void setClanCapeCustomized(int[] clanCapeCustomized) {
-		this.clanCapeCustomized = clanCapeCustomized;
-	}
-
-	public int[] getClanCapeSymbols() {
-		return clanCapeSymbols;
-	}
-
-	public void setClanCapeSymbols(int[] clanCapeSymbols) {
-		this.clanCapeSymbols = clanCapeSymbols;
-	}
-
 	public boolean checkCompRequirements(boolean trimmed) {
 		if (!getSkills().isMaxed(true)) {
 			return false;
@@ -4265,5 +4276,76 @@ public class Player extends Entity {
 
 	public void setLsp(int lsp) {
 		this.lsp = lsp;
+	}
+	
+	public void promptSetYellColor() {
+		sendInputName("Enter yell color in HEX: (ex: 00FF00 for green)", color -> {
+			if (color.length() != 6) {
+				getDialogueManager().execute(new SimpleMessage(), "The HEX yell color you wanted to pick cannot be longer and shorter then 6.");
+			} else if (Utils.containsInvalidCharacter(color.toLowerCase()) || color.contains("_")) {
+				getDialogueManager().execute(new SimpleMessage(), "The requested yell color can only contain numeric and regular characters.");
+			} else {
+				setYellColor(color);
+				getDialogueManager().execute(new SimpleMessage(), "Your yell color has been changed to <col=" + getYellColor() + ">" + getYellColor() + "</col>.");
+			}
+		});
+	}
+	
+	public void promptSetYellTitle() {
+		sendInputName("Enter yell title:", title -> {
+			if (title.length() > 20) {
+				getDialogueManager().execute(new SimpleMessage(), "Your yell title cannot be longer than 20 characters.");
+			} else if (Utils.containsBadCharacter(title)) {
+				getDialogueManager().execute(new SimpleMessage(), "Keep your title as only letters and numbers..");
+			} else {
+				setYellTitle(title);
+				getAppearance().generateAppearanceData();
+				getDialogueManager().execute(new SimpleMessage(), "Your yell title has been changed to " + getYellTitle() + ".");
+			}
+		});
+	}
+	
+	public void promptSetTitle() {
+		sendInputName("Enter title:", title -> {
+			if (title.length() > 20) {
+				getDialogueManager().execute(new SimpleMessage(), "Your title cannot be longer than 20 characters.");
+			} else if (Utils.containsBadCharacter(title)) {
+				getDialogueManager().execute(new SimpleMessage(), "Keep your title as only letters and numbers..");
+			} else if (title.toLowerCase().contains("ironman") || title.toLowerCase().contains("hard")) {
+				getDialogueManager().execute(new SimpleMessage(), "That title is reserved for special account types.");
+			} else {
+				setTitle(title);
+				getAppearance().generateAppearanceData();
+				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
+			}
+		});
+	}
+	
+	public void promptSetTitleColor() {
+		sendInputName("Enter title color in HEX: (ex: 00FF00 for green)", color -> {
+			if (color.length() != 6) {
+				getDialogueManager().execute(new SimpleMessage(), "HEX colors are 6 characters long bud.");
+			} else if (Utils.containsInvalidCharacter(color.toLowerCase()) || color.contains("_")) {
+				getDialogueManager().execute(new SimpleMessage(), "HEX colors just contain letters and numbers bud.");
+			} else {
+				setTitleColor(color);
+				getAppearance().generateAppearanceData();
+				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
+			}
+		});
+	}
+	
+	public void promptSetTitleShade() {
+		sendInputName("Enter title shade color in HEX: (ex: 00FF00 for green)", color -> {
+			if (color.length() != 6) {
+				getDialogueManager().execute(new SimpleMessage(), "HEX colors are 6 characters long bud.");
+			} else if (Utils.containsInvalidCharacter(color.toLowerCase()) || color.contains("_")) {
+				getDialogueManager().execute(new SimpleMessage(), "HEX colors just contain letters and numbers bud.");
+			} else {
+				setTitleShading(color);
+				getAppearance().generateAppearanceData();
+				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
+			}
+		});
 	}
 }

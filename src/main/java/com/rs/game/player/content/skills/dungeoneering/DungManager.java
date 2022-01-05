@@ -33,8 +33,6 @@ import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.managers.InterfaceManager.Tab;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -48,8 +46,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-
 
 @PluginEventHandler
 public class DungManager {
@@ -788,6 +784,7 @@ public class DungManager {
 		this.player.getPackets().setIFText(936, 108, String.valueOf(p.getSkills().getLevelForXp(Constants.FARMING)));
 		this.player.getPackets().setIFText(936, 123, String.valueOf(p.getSkills().getLevelForXp(Constants.SUMMONING)));
 	}
+	
 	public void invite() {
 		if (party == null || !party.isLeader(player))
 			return;
@@ -796,13 +793,7 @@ public class DungManager {
 			player.sendMessage("You can't do that right now.");
 			return;
 		}
-		WorldTasksManager.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.getPackets().sendInputNameScript("Enter name:");
-				player.getTempAttribs().setB("DUNGEON_INVITE", true);
-			}
-		});
+		player.sendInputName("Enter name:", name -> player.getDungManager().invite(name));
 	}
 
 	public void acceptInvite() {

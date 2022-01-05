@@ -37,7 +37,7 @@ public class FCManager {
 			switch (e.getComponentId()) {
 				case 1 -> {
 					switch (e.getPacket()) {
-						case IF_OP1 -> e.getPlayer().sendInputString("Enter chat prefix:", str -> {
+						case IF_OP1 -> e.getPlayer().sendInputName("Enter chat prefix:", str -> {
 							e.getPlayer().getSocial().getFriendsChat().setName(str);
 							LobbyCommunicator.updateFC(e.getPlayer(), res -> {
 								if (res == null)

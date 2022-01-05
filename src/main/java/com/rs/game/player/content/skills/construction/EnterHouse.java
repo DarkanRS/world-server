@@ -52,7 +52,7 @@ public class EnterHouse extends Dialogue {
 					end();
 					break;
 				}
-				player.sendInputString("Enter name of the person who's house you'd like to join:", (name) -> House.enterHouse(player, name));
+				player.sendInputName("Enter name of the person who's house you'd like to join:", (name) -> House.enterHouse(player, name));
 				end();
 				break;
 			case OPTION_4:

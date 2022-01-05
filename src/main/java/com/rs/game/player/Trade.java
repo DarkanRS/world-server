@@ -72,11 +72,9 @@ public class Trade {
 						e.getPlayer().getTrade().removeItem(e.getSlotId(), 10);
 					else if (e.getPacket() == ClientPacket.IF_OP4)
 						e.getPlayer().getTrade().removeItem(e.getSlotId(), Integer.MAX_VALUE);
-					else if (e.getPacket() == ClientPacket.IF_OP5) {
-						e.getPlayer().getTempAttribs().setI("trade_item_X_Slot", e.getSlotId());
-						e.getPlayer().getTempAttribs().setB("trade_isRemove", true);
-						e.getPlayer().getPackets().sendRunScriptReverse(108, new Object[] { "Enter Amount:" });
-					} else if (e.getPacket() == ClientPacket.IF_OP6)
+					else if (e.getPacket() == ClientPacket.IF_OP5)
+						e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().removeItem(e.getSlotId(), num));
+					else if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getTrade().sendValue(e.getSlotId(), false);
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getTrade().sendExamine(e.getSlotId(), false);
@@ -96,11 +94,9 @@ public class Trade {
 						e.getPlayer().getTrade().addItem(e.getSlotId(), 10);
 					else if (e.getPacket() == ClientPacket.IF_OP4)
 						e.getPlayer().getTrade().addItem(e.getSlotId(), Integer.MAX_VALUE);
-					else if (e.getPacket() == ClientPacket.IF_OP5) {
-						e.getPlayer().getTempAttribs().setI("trade_item_X_Slot", e.getSlotId());
-						e.getPlayer().getTempAttribs().removeB("trade_isRemove");
-						e.getPlayer().getPackets().sendRunScriptReverse(108, new Object[] { "Enter Amount:" });
-					} else if (e.getPacket() == ClientPacket.IF_OP6)
+					else if (e.getPacket() == ClientPacket.IF_OP5)
+						e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().addItem(e.getSlotId(), num));
+					else if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getTrade().sendValue(e.getSlotId());
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
