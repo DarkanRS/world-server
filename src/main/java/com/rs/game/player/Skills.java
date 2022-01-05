@@ -1091,8 +1091,8 @@ public final class Skills {
 		markForRefresh(skill);
 	}
 
-    public void setXpTo99(int skill) {
-        xp[skill] = getXPForLevel(99);
+    public void setXpTo120(int skill) {
+        xp[skill] = getXPForLevel(120);
     }
 
 	public void addXp(int skill, double exp) {
