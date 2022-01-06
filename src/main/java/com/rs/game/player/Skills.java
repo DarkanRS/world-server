@@ -711,7 +711,14 @@ public final class Skills {
 	}
 
 	public void set(int skill, int newLevel) {
-		level[skill] = (short) (newLevel + player.getI(Skills.SKILL_NAME[skill]));
+        if(skill == Constants.HITPOINTS || skill == Constants.PRAYER)
+            level[skill] = (short) newLevel;
+        else {
+            short nextlevel = (short)(newLevel + player.getI(Skills.SKILL_NAME[skill]));
+            if(nextlevel > 250)
+                nextlevel = 250;
+            level[skill] = nextlevel;
+        }
 		markForRefresh(skill);
 	}
 

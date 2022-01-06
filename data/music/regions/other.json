@@ -332,9 +332,13 @@
   },
   {
     "genre": "Wilderness",
-    "comment": "Covers the entire overworld wild, maybe call on wildy controller?",
+    "comment": "Covers the entire overworld wild, maybe call on wildy controller?, covers edgevill dungeon wilderness",
     "isActive": true,
     "regionIds": [
+      12443,
+      12190,
+      12446,
+      12445,
       11837,
       11836,
       11835,

@@ -307,42 +307,6 @@ public class Debug {
                 p.getPackets().sendGameMessage("You need to be in a party");
             }
         });
-		
-		Commands.add(Rights.PLAYER, "droptest", "Drops worn equipment and inventory items to the ground if not null, bound, or a ring of kinship.", (p, args) -> {
-			for (Item item : p.getEquipment().getItemsCopy()) {
-				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
-					continue;
-				World.addGroundItem(item, new WorldTile(p));
-			}
-			for (Item item : p.getInventory().getItems().getItems()) {
-				if(item != null)
-					System.out.println(item.getName() + ": " + item.getAmount());
-				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
-					continue;
-				World.addGroundItem(item, new WorldTile(p));
-			}
-		});
-		// case "load":
-					// if (!player.getInterfaceManager().containsInterface(762) || (Boolean)
-					// player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean)
-					// player.getTemporaryAttributes().get("viewingOtherBank") == true) {
-					// player.sendMessage("You must be in your bank screen to do
-					// this.");
-					// return true;
-					// }
-					// player.loadLoadout(cmd[1]);
-					// return true;
-					//
-					// case "saveload":
-					// player.saveLoadout(cmd[1]);
-					// return true;
-					//
-					// case "delload":
-					// player.deleteLoadout(cmd[1]);
-					// return true;
-					//
-					// case "loadouts":
-					// player.sendLoadoutText();
-					// return true;
+
 	}
 }

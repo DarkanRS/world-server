@@ -25,6 +25,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
+import com.rs.game.player.dialogues.SmeltingD;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.knightssword.SquireKnightsSwordD;
 import com.rs.game.player.quests.handlers.piratestreasure.RedbeardFrankPiratesTreasureD;
@@ -64,6 +65,13 @@ public class Falador {
                     create();
                 }
             });
+        }
+    };
+
+    public static ObjectClickHandler handleArtisansFurnace = new ObjectClickHandler(new Object[] { 24720 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            e.getPlayer().getDialogueManager().execute(new SmeltingD(), e.getObject());
         }
     };
 

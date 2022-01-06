@@ -23,6 +23,7 @@ import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.skills.prayer.Leech;
 import com.rs.game.player.content.skills.prayer.Prayer;
@@ -712,7 +713,7 @@ public class PrayerManager {
 	}
 
 	public boolean hasFullPoints() {
-		return getPoints() >= player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
+		return getPoints() >= player.getSkills().getLevelForXp(Constants.PRAYER) * 10 + player.getI(Skills.SKILL_NAME[Constants.PRAYER]);
 	}
 
 	public void drainPrayer(double amount) {
@@ -733,7 +734,7 @@ public class PrayerManager {
 	}
 
 	public void restorePrayer(double amount) {
-		int maxPrayer = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
+		int maxPrayer = player.getSkills().getLevelForXp(Constants.PRAYER) * 10  + player.getI(Skills.SKILL_NAME[Constants.PRAYER]);
 		amount *= player.getAuraManager().getPrayerResMul();
 		if ((points + amount) <= maxPrayer)
 			points += amount;
