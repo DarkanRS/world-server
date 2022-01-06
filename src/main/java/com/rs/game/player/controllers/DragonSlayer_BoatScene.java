@@ -24,7 +24,7 @@ public class DragonSlayer_BoatScene extends Controller {
     //constants
     int TRAVEL_INTERFACE = 299;
     int BOAT_TO_CRANDOR = 544;
-    int HAPPY_TRAVEL_JINGLE = 406; //Custom for this cutscene
+    int HAPPY_TRAVEL_JINGLE = 350; //Custom for this cutscene
     int CAPTAIN_NED = 6084;
     int CABIN_BOY_JENKINS = 6085;
     int ANIM_JENKINS_SHAKE = 2105;
@@ -38,6 +38,7 @@ public class DragonSlayer_BoatScene extends Controller {
 		startingTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
         player.getPackets().setBlockMinimapState(2);
         player.lock();
+        player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
         playCutscene();
 	}
 
@@ -64,25 +65,25 @@ public class DragonSlayer_BoatScene extends Controller {
                 @Override
                 public void run() {
                     if (tick == 0) {  //setup p1
-                        player.getInterfaceManager().setFadingInterface(115);
-                        player.getPackets().sendMusic(HAPPY_TRAVEL_JINGLE);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(115); //for interfaces over interfaces do this
+                        player.getPackets().sendMusic(HAPPY_TRAVEL_JINGLE, 5, 255);
                     }
                     if (tick == 3) {
-                        player.getInterfaceManager().setFadingInterface(516);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(516);
                         player.getPackets().setBlockMinimapState(2);
-                        player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+                        player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(TRAVEL_INTERFACE);
                         player.getPackets().setIFHidden(TRAVEL_INTERFACE, 44, false);
                     }
                     if (tick == 9) {
-                        player.getInterfaceManager().sendInterface(BOAT_TO_CRANDOR);
+                        player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(BOAT_TO_CRANDOR);
                         player.setNextWorldTile(instance.getLocalTile(18, 12, 1));
                     }
 
                     if (tick == 11) {
                         player.faceEntity(captainNed);
                         captainNed.setNextFaceWorldTile(new WorldTile(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
-                        player.getInterfaceManager().setFadingInterface(170);
-                        player.closeInterfaces();
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(170);
+                        player.getInterfaceManager().closeInterfacesOverGameWindow();
 
                         player.getPackets().sendCameraShake(1, 0, 8, 5, 8);
                         player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 0);
@@ -132,20 +133,20 @@ public class DragonSlayer_BoatScene extends Controller {
                         });
 
                     if(tick == 17) {
-                        player.getPackets().sendMusic(360, 100, 255); //Elvarg's theme
+                        player.getPackets().sendMusic(360, 10, 255); //Elvarg's theme
                         player.startConversation(new Conversation(player) {
                             {
                                 addSimple("Clouds surround the ship.");
                             }
                         });
-                        player.getInterfaceManager().setFadingInterface(543);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(543);
                     }
 
                     if(tick == 18)
                         player.getPackets().sendStopCameraShake();
 
                     if(tick == 19) {
-                        player.getInterfaceManager().closeFadingInterface();
+                        player.getInterfaceManager().closeInterfacesOverGameWindow();
                         player.setNextFaceWorldTile(new WorldTile(cabinboyJenkins.getX(), cabinboyJenkins.getY(), cabinboyJenkins.getPlane()));
                         cabinboyJenkins.setForceWalk(new WorldTile(captainNed.getX(), captainNed.getY()+1, cabinboyJenkins.getPlane()));
                         player.startConversation(new Conversation(player) {
@@ -174,9 +175,9 @@ public class DragonSlayer_BoatScene extends Controller {
                     }
 
                     if(tick == 23)
-                        player.getInterfaceManager().setFadingInterface(545);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(545);
                     if(tick == 24)
-                        player.getInterfaceManager().closeFadingInterface();
+                        player.getInterfaceManager().closeInterfacesOverGameWindow();
                     if(tick == PAUSE_FOR_PLAYER2) {
                         player.startConversation(new Conversation(player) {
                             {
@@ -291,7 +292,7 @@ public class DragonSlayer_BoatScene extends Controller {
                         });
                     }
                     if(tick == 32) {
-                        player.getInterfaceManager().setFadingInterface(546);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(546);
                         WorldTile tile = new WorldTile(instance.getLocalX(13), instance.getLocalY(12), 1);
                         int fireHeight = 500;
                         World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
@@ -319,7 +320,7 @@ public class DragonSlayer_BoatScene extends Controller {
                         player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(19), instance.getLocalY(14), 0), 1200);
                         player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
                         player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(26), instance.getLocalY(14), 0), 1200, 0, 3);
-                        player.getInterfaceManager().closeFadingInterface();
+                        player.getInterfaceManager().closeInterfacesOverGameWindow();
                         WorldTile tile = new WorldTile(instance.getLocalX(13), instance.getLocalY(14), 1);
                         captainNed.faceTile(tile);
                         cabinboyJenkins.faceTile(tile);
@@ -537,10 +538,10 @@ public class DragonSlayer_BoatScene extends Controller {
                         });
                     }
                     if(tick == 48) {
-                        player.getInterfaceManager().setFadingInterface(115);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(115);
                     }
                     if(tick == 51) {
-                        player.getInterfaceManager().setFadingInterface(516);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(516);
                         player.setNextWorldTile(crandor);//crandor
                     }
 
@@ -560,7 +561,7 @@ public class DragonSlayer_BoatScene extends Controller {
                     }
                     if(tick == 53) {
                         player.setNextAnimation(new Animation(ANIM_PLAYER_GET_UP));
-                        player.getInterfaceManager().setFadingInterface(170);
+                        player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(170);
                     }
 
                     if(tick== 54) {
@@ -568,6 +569,7 @@ public class DragonSlayer_BoatScene extends Controller {
                     }
 
                     if (tick == 60) {
+                        player.getInterfaceManager().closeInterfacesOverGameWindow();
                         player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(DragonSlayer.FINISHED_BOAT_SCENE_ATTR, true);
                         player.getControllerManager().forceStop();
                         stop();
@@ -591,6 +593,7 @@ public class DragonSlayer_BoatScene extends Controller {
 
 	@Override
 	public boolean login() {
+        player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
 		player.setNextWorldTile(startingTile);
 		forceClose();
 		return false;
@@ -605,6 +608,7 @@ public class DragonSlayer_BoatScene extends Controller {
 
 	@Override
 	public void forceClose() {
+        player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
 		player.getPackets().setBlockMinimapState(0);
 		removeInstance();
 		player.unlock();
