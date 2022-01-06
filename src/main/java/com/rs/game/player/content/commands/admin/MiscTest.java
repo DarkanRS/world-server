@@ -69,6 +69,8 @@ import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.tools.MapSearcher;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
+import com.rs.utils.music.Music;
+import com.rs.utils.music.Song;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
@@ -450,9 +452,9 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
-			p.getPackets().sendMusic(Integer.valueOf(args[0]), 100, args.length > 1 ? Integer.valueOf(args[1]) : 255);
+            p.getMusicsManager().playAmbientSong(Integer.valueOf(args[0]));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));
 		});

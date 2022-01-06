@@ -16,11 +16,11 @@
 //
 package com.rs.game.player.actions;
 
-import java.util.Map;
-
 import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+
+import java.util.Map;
 
 public class RestMusician extends Action {
 
@@ -105,7 +105,7 @@ public class RestMusician extends Action {
 		player.getEmotesManager().setNextEmoteEnd();
 		player.getAppearance().setBAS(-1);
         if(musicId != -1)
-            player.getMusicsManager().replayMusic();
+            player.getMusicsManager().nextAmbientSong();
 	}
 
 }

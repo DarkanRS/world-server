@@ -1,0 +1,143 @@
+[
+  {
+    "genre": "Varrock",
+    "parent": "Misthalin",
+    "comment": "Its done, but we need to add more overall songs",
+    "isActive": true,
+    "regionIds": [
+      12597,
+      12598,
+      12853,
+      12854
+    ],
+    "songs": [
+      106,
+      116,
+      125,
+      157,
+      175,
+      177,
+      330,
+      496,
+      716
+    ]
+  },
+  {
+    "genre": "Draynor Manor",
+    "parent": "Spooky",
+    "comment": "is generic spooky, includes rag and bone man area",
+    "isActive": true,
+    "regionIds": [
+      12340,
+      13366,
+      13622,
+      12440
+    ],
+    "songs": []
+  },
+  {
+    "genre": "Sorcerer's Garden",
+    "parent": "Misthalin",
+    "comment": "Call during sorcerers garden controller",
+    "regionIds": [],
+    "songs": []
+  },
+  {
+    "genre": "Digsite",
+    "parent": "Misthalin",
+    "comment": "Digsite music + parent",
+    "isActive": true,
+    "regionIds": [
+      13365,
+      13364
+    ],
+    "songs": [
+      30,
+      45,
+      75,
+      321
+    ]
+  },
+  {
+    "genre": "Edgeville",
+    "parent": "Misthalin",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      12342
+    ],
+    "songs": [
+      98,
+      113,
+      182
+    ]
+  },
+  {
+    "genre": "Barbarian Village",
+    "parent": "Misthalin",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      12341
+    ],
+    "songs": [
+      66,
+      141,
+      367,
+      519,
+      896,
+      898,
+      949
+    ]
+  },
+  {
+    "genre": "Draynor",
+    "parent": "Misthalin",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      12338
+    ],
+    "songs": [
+      851,
+      852,
+      853,
+      854,
+      855
+    ]
+  },
+  {
+    "genre": "Lumbridge Swamp",
+    "parent": "Swamp",
+    "comment": "",
+    "regionIds": [
+      12593,
+      12849
+    ],
+    "songs": []
+  },
+  {
+    "genre": "Other Misthalin",
+    "parent": "Misthalin",
+    "comment": "Regions done and solid, Not specific cities, add quest songs as you get them",
+    "isActive": true,
+    "regionIds": [
+      12081,
+      12082,
+      12339,
+      12596,
+      13110,
+      13109,
+      13108,
+      12852,
+      12851,
+      12594,
+      12595,
+      12337,
+      12950,
+      12850,
+      12437
+    ],
+    "songs": []
+  }
+]

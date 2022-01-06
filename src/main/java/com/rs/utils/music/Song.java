@@ -19,9 +19,11 @@ package com.rs.utils.music;
 public class Song {
 	private String name;
 	private String hint;
+    private String comment;
+    private boolean allowAmbient;
 	private int id;
 	private int[] regionIds;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -29,7 +31,15 @@ public class Song {
 	public String getHint() {
 		return hint;
 	}
-	
+
+    public String getComment() {
+        return comment;
+    }
+
+    public boolean isAllowAmbient() {
+        return allowAmbient;
+    }
+
 	public int getId() {
 		return id;
 	}
