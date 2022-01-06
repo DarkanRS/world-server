@@ -1,0 +1,93 @@
+[
+  {
+    "genre": "Falador",
+    "parent": "Asgarnia",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      11828,
+      12084
+    ],
+    "songs": [
+      15,
+      72,
+      582,
+      718
+    ]
+  },
+  {
+    "genre": "White Wolf Mountain",
+    "parent": "Asgarnia",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      11318,
+      11419,
+      11418
+    ],
+    "songs": [
+      9,
+      87,
+      100,
+      108,
+      217,
+      366
+    ]
+  },
+  {
+    "genre": "Taverly & Burthrope",
+    "parent": "Asgarnia",
+    "comment": "City specific of both ",
+    "isActive": true,
+    "regionIds": [
+      11575,
+      11574,
+      11573
+    ],
+    "songs": [
+      77,
+      149,
+      269,
+      1058,
+      1059,
+      1060,
+      1061,
+      1062,
+      1064,
+      1066,
+      1067,
+      1069,
+      1073,
+      1074,
+      1076,
+      1078,
+      1079,
+      1080
+    ]
+  },
+  {
+    "genre": "Other Asgarnia",
+    "parent": "Asgarnia",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      6993,
+      6992,
+      11674,
+      11319,
+      11572,
+      11571,
+      11570,
+      11830,
+      11829,
+      11827,
+      11826,
+      11825,
+      11824,
+      12086,
+      12085,
+      12083
+    ],
+    "songs": []
+  }
+]

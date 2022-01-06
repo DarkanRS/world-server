@@ -42,6 +42,10 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
+/**
+ * T70+
+ * Copy this: https://www.youtube.com/watch?v=gY0CwX27Css&t=1340s&ab_channel=Smokey9112Films
+ */
 public class FightKilnController extends Controller {
 
 	public static final WorldTile OUTSIDE = new WorldTile(4744, 5172, 0);
