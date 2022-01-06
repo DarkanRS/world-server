@@ -17,12 +17,17 @@
 package com.rs.game.player.content.clans;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.statements.SimpleStatement;
 import com.rs.game.player.content.dialogue.statements.Statement;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.ClanMember;
+import com.rs.lib.net.packets.decoders.lobby.CCCreate;
+import com.rs.lib.net.packets.decoders.lobby.CCJoin;
 import com.rs.lib.util.Utils;
+import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemClickEvent;
@@ -70,12 +75,45 @@ public class ClansManager {
 				case 78 -> openSettings(e.getPlayer());
 				case 75 -> openDetails(e.getPlayer());
 				case 109 -> leaveClan(e.getPlayer());
+				case 11 -> unban(e.getPlayer(), e.getSlotId());
+				case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
 			}
+		}
+		
+		private void joinChannel(Player player, String guestClanName) {
+			if (guestClanName == null && player.getSocial().getClanName() == null) {
+				createClan(player);
+				return;
+			}
+			if (player.getTempAttribs().getB("ccJoinLock")) {
+				player.sendMessage("Please wait...");
+				return;
+			}
+			player.getTempAttribs().setB("ccJoinLock", true);
+			LobbyCommunicator.forwardPacket(player, new CCJoin(guestClanName), cb -> {
+				player.getTempAttribs().removeB("ccJoinLock");
+			});
+		}
+		
+		private void createClan(Player player) {
+			player.startConversation(new Conversation(new Dialogue(new SimpleStatement("You are not currently in a clan. Would you like to create one?"))
+					.addOption("Create a clan?", "Yes", "Not right now.")
+					.addNext(() -> {
+						player.sendInputName("Which name would you like for your clan?", name -> {
+							if (player.getTempAttribs().getB("ccCreateLock")) {
+								player.simpleDialogue("Your previous request to create a clan is still in progress... Please wait.");
+								return;
+							}
+							player.getTempAttribs().setB("ccCreateLock", true);
+							LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> {
+								player.getTempAttribs().removeB("ccCreateLock");
+							});
+						});
+					})));
+		}
 
-//			else if (e.getComponentId() == 99)
-//				ClansManager.unbanPlayer(e.getPlayer());
-//			else if (e.getComponentId() == 11)
-//				ClansManager.unbanPlayer(e.getPlayer(), e.getSlotId());
+		private void leaveChannel(Player player, String guestClanName) {
+			// TODO Auto-generated method stub
 		}
 
 		private void leaveClan(Player player) {
@@ -86,11 +124,11 @@ public class ClansManager {
 			// TODO Auto-generated method stub
 		}
 
-		private void joinChannel(Player player, String guestClanName) {
+		private void unban(Player player, String displayName) {
 			// TODO Auto-generated method stub
 		}
-		
-		private void leaveChannel(Player player, String guestClanName) {
+
+		private void unban(Player player, int slotId) {
 			// TODO Auto-generated method stub
 		}
 		

@@ -72,6 +72,7 @@ import com.rs.game.player.content.achievements.AchievementInterface;
 import com.rs.game.player.content.books.Book;
 import com.rs.game.player.content.combat.CombatDefinitions;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.statements.SimpleStatement;
 import com.rs.game.player.content.holidayevents.christmas.christ19.Christmas2019.Location;
 import com.rs.game.player.content.interfacehandlers.TransformationRing;
 import com.rs.game.player.content.minigames.duel.DuelRules;
@@ -4357,5 +4358,9 @@ public class Player extends Entity {
 				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
 			}
 		});
+	}
+
+	public void simpleDialogue(String message) {
+		startConversation(new com.rs.game.player.content.dialogue.Dialogue(new SimpleStatement(message)));
 	}
 }
