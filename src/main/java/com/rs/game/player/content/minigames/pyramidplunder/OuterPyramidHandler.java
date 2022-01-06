@@ -24,6 +24,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * In future make toFunc version with override within distance.
+ */
 @PluginEventHandler
 public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one region.
     static WorldTile[] MUMMY_LOCATIONS = new WorldTile[]{new WorldTile(1934, 4458, 2), new WorldTile(1968, 4428, 2),
