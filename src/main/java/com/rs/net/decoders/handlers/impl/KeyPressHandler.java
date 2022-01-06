@@ -26,7 +26,8 @@ public class KeyPressHandler implements PacketHandler<Player, KeyPress> {
 	public void handle(Player player, KeyPress packet) {
 		player.refreshIdleTime();
 		if (packet.getKeyCode() == 13) {
-            player.closeInterfaces();
+            if(!player.getTempAttribs().getB("CUTSCENE_INTERFACE_CLOSE_DISABLED"))
+                player.closeInterfaces();
             if (player.getInterfaceManager().containsInterface(755)) {//World map
                 //Send window pane
                 player.getPackets().sendWindowsPane(player.getInterfaceManager().hasRezizableScreen() ? 746 : 548, 2);

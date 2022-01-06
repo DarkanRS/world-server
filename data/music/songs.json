@@ -3367,9 +3367,9 @@
     "regionIds": []
   },
   {
-    "name": "",
+    "name": "To Crandor/Keldagrim! Theme, Dragon Slayer, Giant Dwarf",
     "hint": "somewhere.",
-    "comment": "Boat theme remix, keep this locked.",
+    "comment": "Boat theme remix, keep this locked. Has no delay",
     "allowAmbient": false,
     "id": 350,
     "regionIds": []
@@ -3914,7 +3914,7 @@
   {
     "name": "To Crandor/Keldagrim! Theme, Dragon Slayer, Giant Dwarf",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": " Has delay",
     "allowAmbient": false,
     "id": 406,
     "regionIds": []
