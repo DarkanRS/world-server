@@ -18,11 +18,14 @@ package com.rs.utils;
 
 import com.rs.cache.loaders.QCMesDefinitions;
 import com.rs.game.Entity;
+import com.rs.game.World;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.social.FCManager;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Vec2;
+import com.rs.lib.web.dto.FCData;
 
 public class WorldUtil {
 	
@@ -35,39 +38,49 @@ public class WorldUtil {
 		
 		for (int i = 0;i < defs.types.length;i++) {
 			switch(defs.types[i]) {
-			case STAT_BASE:
-				stream.writeByte(player.getSkills().getLevelForXp(defs.configs[i][0]));
-				break;
-			case TOSTRING_VARP:
-				stream.writeInt(player.getVars().getVar(defs.configs[i][0]));
-				break;
-			case TOSTRING_VARBIT:
-				stream.writeInt(player.getVars().getVarBit(defs.configs[i][0]));
-				break;
-			case ENUM_STRING:
-				stream.writeInt(player.getVars().getVar(defs.configs[i][1]-1));
-				break;
-			case ENUM_STRING_STATBASE:
-				stream.writeByte(player.getSkills().getLevelForXp(defs.configs[i][1]));
-				break;
-			case OBJTRADEDIALOG:
-			case OBJDIALOG:
-			case LISTDIALOG:
-				if (data != null && data.length >= 2)
-					return data;
-				break;
-			case ACTIVECOMBATLEVEL:
-				stream.writeByte(player.getSkills().getCombatLevelWithSummoning());
-				break;
-			case ACC_GETMEANCOMBATLEVEL:
-				stream.writeByte(0); //TODO Avg combat level in FC
-				break;
-			case ACC_GETCOUNT_WORLD:
-				stream.writeByte(0); //TODO Count players in FC
-				break;
-			default:
-				System.out.println("Unhandled quickchat type: " + defs);
-				break;
+				case STAT_BASE -> stream.writeByte(player.getSkills().getLevelForXp(defs.configs[i][0]));
+				case TOSTRING_VARP -> stream.writeInt(player.getVars().getVar(defs.configs[i][0]));
+				case TOSTRING_VARBIT -> stream.writeInt(player.getVars().getVarBit(defs.configs[i][0]));
+				case ENUM_STRING -> stream.writeInt(player.getVars().getVar(defs.configs[i][1]-1));
+				case ENUM_STRING_STATBASE -> stream.writeByte(player.getSkills().getLevelForXp(defs.configs[i][1]));
+				case OBJTRADEDIALOG, OBJDIALOG, LISTDIALOG -> {
+					if (data != null && data.length >= 2)
+						return data;
+				}
+				case ACTIVECOMBATLEVEL -> stream.writeByte(player.getSkills().getCombatLevelWithSummoning());
+				case ACC_GETMEANCOMBATLEVEL -> {
+					FCData fc = FCManager.getFCData(player.getSocial().getCurrentFriendsChat());
+					if (fc == null) {
+						stream.writeByte(0);
+					} else {
+						int total = 0;
+						int count = 0;
+						for (String username : fc.getUsernames()) {
+							Player p = World.getPlayer(username);
+							if (p != null) {
+								count++;
+								total += p.getSkills().getCombatLevelWithSummoning();
+							}
+						}
+						stream.writeByte(count > 0 ? total / count : 0);
+					}
+				}
+				case ACC_GETCOUNT_WORLD -> {
+					FCData fc = FCManager.getFCData(player.getSocial().getCurrentFriendsChat());
+					if (fc == null) {
+						stream.writeByte(0);
+					} else {
+						int count = 0;
+						for (String username : fc.getUsernames()) {
+							Player p = World.getPlayer(username);
+							if (p != null)
+								count++;
+						}
+						stream.writeByte(count);
+					}
+				}
+				case COUNTDIALOG, ENUM_STRING_CLAN, TOSTRING_SHARED -> { /*TODO*/ }
+				default -> {}
 			}
 		}
 		

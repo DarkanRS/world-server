@@ -36,8 +36,8 @@ public class ClansManager {
 		player.startConversation(new Dialogue(new Statement() {
 			@Override
 			public void send(Player player) {
-				player.getInterfaceManager().sendChatBoxInterface(1103);
 				player.sendInputLongText("Enter clan motto:", motto -> player.getClan().setMotto(motto));
+				player.getInterfaceManager().sendChatBoxInterface(1103);
 			}
 
 			@Override
@@ -47,16 +47,66 @@ public class ClansManager {
 		}));
 	}
 	
-	public static ItemClickHandler handleClanVex = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport" }) {
+	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
 		@Override
-		public void handle(ItemClickEvent e) {
-			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, new WorldTile(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT);
+		public void handle(ButtonClickEvent e) {
+			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+			switch(e.getComponentId()) {
+				case 82 -> {
+					if (e.getPlayer().getSocial().isConnectedToClan())
+						leaveChannel(e.getPlayer(), null);
+					else
+						joinChannel(e.getPlayer(), null);
+				}
+				case 91 -> {
+					if (e.getPlayer().getSocial().getGuestedClanChat() != null)
+						leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
+					else
+						e.getPlayer().sendInputName("Which clan chat would you like to join?", 
+								"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///", 
+								name -> joinChannel(e.getPlayer(), name));
+				}
+				case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
+				case 78 -> openSettings(e.getPlayer());
+				case 75 -> openDetails(e.getPlayer());
+				case 109 -> leaveClan(e.getPlayer());
+			}
+
+//			else if (e.getComponentId() == 99)
+//				ClansManager.unbanPlayer(e.getPlayer());
+//			else if (e.getComponentId() == 11)
+//				ClansManager.unbanPlayer(e.getPlayer(), e.getSlotId());
+		}
+
+		private void leaveClan(Player player) {
+			// TODO Auto-generated method stub
+		}
+
+		private void banPlayer(Player player, String name) {
+			// TODO Auto-generated method stub
+		}
+
+		private void joinChannel(Player player, String guestClanName) {
+			// TODO Auto-generated method stub
+		}
+		
+		private void leaveChannel(Player player, String guestClanName) {
+			// TODO Auto-generated method stub
+		}
+		
+		private void openDetails(Player player) {
+			// TODO Auto-generated method stub
+		}
+
+		private void openSettings(Player player) {
+			// TODO Auto-generated method stub
 		}
 	};
 	
 	public static ButtonClickHandler handleClanFlagButtons = new ButtonClickHandler(1089) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			e.getPlayer().sendMessage("handleClanFlagButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 //			if (e.getComponentId() == 30)
 //				e.getPlayer().getTemporaryAttributes().put("clanflagselection", e.getSlotId());
 //			else if (e.getComponentId() == 26) {
@@ -71,6 +121,7 @@ public class ClansManager {
 	public static ButtonClickHandler handleClanSettingsButtonsMain = new ButtonClickHandler(1096) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 //			if (e.getComponentId() == 41)
 //				ClansManager.viewClammateDetails(e.getPlayer(), e.getSlotId());
 //			else if (e.getComponentId() == 94)
@@ -130,6 +181,7 @@ public class ClansManager {
 	public static ButtonClickHandler handleMottifButtons = new ButtonClickHandler(1105) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			e.getPlayer().sendMessage("handleMottifButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 //			if (e.getComponentId() == 63 || e.getComponentId() == 66)
 //				ClansManager.setClanMottifTextureInterface(e.getPlayer(), e.getComponentId() == 66, e.getSlotId());
 //			else if (e.getComponentId() == 35)
@@ -145,32 +197,17 @@ public class ClansManager {
 		}
 	};
 
-	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-//			if (e.getComponentId() == 82)
-//				ClansManager.joinClanChatChannel(e.getPlayer());
-//			else if (e.getComponentId() == 75)
-//				ClansManager.openClanDetails(e.getPlayer());
-//			else if (e.getComponentId() == 78)
-//				ClansManager.openClanSettings(e.getPlayer());
-//			else if (e.getComponentId() == 91)
-//				ClansManager.joinGuestClanChat(e.getPlayer());
-//			else if (e.getComponentId() == 95)
-//				ClansManager.banPlayer(e.getPlayer());
-//			else if (e.getComponentId() == 99)
-//				ClansManager.unbanPlayer(e.getPlayer());
-//			else if (e.getComponentId() == 11)
-//				ClansManager.unbanPlayer(e.getPlayer(), e.getSlotId());
-//			else if (e.getComponentId() == 109)
-//				ClansManager.leaveClan(e.getPlayer());
-		}
-	};
-
 	public static ButtonClickHandler handleCloseButton = new ButtonClickHandler(1079) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			e.getPlayer().closeInterfaces();
+		}
+	};
+	
+	public static ItemClickHandler handleClanVex = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, new WorldTile(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT);
 		}
 	};
 

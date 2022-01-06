@@ -17,10 +17,8 @@
 package com.rs.net.decoders.handlers.impl.fc;
 
 import com.rs.game.player.Player;
-import com.rs.lib.model.FriendsChat.Rank;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.fc.FCSetRank;
-import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.net.LobbyCommunicator;
 
 public class FCSetRankHandler implements PacketHandler<Player, FCSetRank> {
@@ -29,13 +27,7 @@ public class FCSetRankHandler implements PacketHandler<Player, FCSetRank> {
 	public void handle(Player player, FCSetRank packet) {
 		if (!player.hasStarted())
 			return;
-		if (player.getTempAttribs().getB("fcLock")) {
-			player.sendMessage(MessageType.FC_NOTIFICATION, "Please wait before updating rank.");
-			return;
-		}
-		player.getTempAttribs().setB("fcLock", true);
-		player.getAccount().getSocial().getFriendsChat().setRank(packet.getName(), Rank.forId(packet.getRank()));
-		LobbyCommunicator.updateFC(player, fc -> LobbyCommunicator.updateSocial(player, acc -> player.getTempAttribs().setB("fcLock", false)));
+		LobbyCommunicator.forwardPackets(player, packet);
 	}
 
 }

@@ -901,7 +901,7 @@ public final class World {
 	}
 
 	public static Player getPlayer(String username) {
-		return PLAYER_MAP.get(Utils.formatPlayerNameForProtocol(username));
+		return PLAYER_MAP.get(username);
 	}
 
 	public static void forceGetPlayer(String username, Consumer<Player> result) {

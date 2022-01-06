@@ -19,10 +19,12 @@ package com.rs.web;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.player.Player;
+import com.rs.game.player.social.FCManager;
 import com.rs.lib.model.Account;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.ErrorResponse;
 import com.rs.lib.web.WebAPI;
+import com.rs.lib.web.dto.FCData;
 import com.rs.lib.web.dto.PacketEncoderDto;
 
 import io.undertow.util.StatusCodes;
@@ -49,6 +51,19 @@ public class WorldAPI extends WebAPI {
 					if (player == null || player.getSession() == null)
 						return;
 					player.getAccount().setSocial(account.getSocial());
+					APIUtil.sendResponse(ex, StatusCodes.OK, true);
+				});
+			});
+		});
+		
+		this.routes.post("/updatefc", ex -> {
+			ex.dispatch(() -> {
+				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+					return;
+				}
+				APIUtil.readJSON(ex, FCData.class, fc -> {
+					FCManager.updateFCData(fc);
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
 				});
 			});

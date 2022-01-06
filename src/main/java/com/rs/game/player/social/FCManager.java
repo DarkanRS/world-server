@@ -16,10 +16,14 @@
 //
 package com.rs.game.player.social;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.rs.game.player.Player;
 import com.rs.lib.model.FriendsChat.Rank;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.decoders.fc.FCJoin;
+import com.rs.lib.web.dto.FCData;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -30,6 +34,8 @@ public class FCManager {
 	
 	private static final int FC_SETUP_INTER = 1108;
 	private static final int FC_TAB = 1109;
+	
+	private static Map<String, FCData> FRIEND_CHATS = new ConcurrentHashMap<>();
 
 	public static ButtonClickHandler handleInterface = new ButtonClickHandler(FC_SETUP_INTER) {
 		@Override
@@ -133,5 +139,15 @@ public class FCManager {
 			case IF_OP9 -> Rank.OWNER;
 			default -> Rank.UNRANKED;
 		};
+	}
+	
+	public static FCData getFCData(String username) {
+		if (username == null)
+			return null;
+		return FRIEND_CHATS.get(username);
+	}
+	
+	public static void updateFCData(FCData fc) {
+		FRIEND_CHATS.put(fc.getOwnerDisplayName(), fc);
 	}
 }

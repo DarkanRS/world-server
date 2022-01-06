@@ -116,6 +116,7 @@ import com.rs.game.player.managers.PrayerManager;
 import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestManager;
+import com.rs.game.player.social.FCManager;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
@@ -141,6 +142,7 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import com.rs.lib.web.dto.FCData;
 import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
@@ -1849,10 +1851,16 @@ public class Player extends Entity {
 			}
 		});
 	}
-
+	
 	public void sendInputName(String question, InputStringEvent e) {
+		sendInputName(question, null, e);
+	}
+
+	public void sendInputName(String question, String description, InputStringEvent e) {
 		getTempAttribs().setO("pluginEnterName", e);
 		getPackets().sendInputNameScript(question);
+		if (description != null)
+			getPackets().setIFText(1110, 70, description);
 		setCloseInterfacesEvent(new Runnable() {
 			@Override
 			public void run() {
@@ -3694,23 +3702,24 @@ public class Player extends Entity {
 
 	public ArrayList<Player> getNearbyFCMembers(NPC npc) {
 		ArrayList<Player> eligible = new ArrayList<Player>();
+		FCData fc = FCManager.getFCData(getSocial().getCurrentFriendsChat());
+		if (fc == null) {
+			sendMessage("Error loading active friend's chat. Could not lootshare.");
+			eligible.add(this);
+			return eligible;
+		}
 		for (Integer pId : World.getRegion(npc.getRegionId()).getPlayerIndexes()) {
 			Player player = World.getPlayers().get(pId);
-			if (player == null || !player.isRunning() || !player.withinDistance(npc))
+			if (player == null || !player.isRunning() || !player.isLootSharing() || !fc.getUsernames().contains(player.getUsername()))
 				continue;
-			if (player.eligibleForDrop(this))
+			if (fc.getRank(player.getAccount()).ordinal() >= fc.getSettings().getRankToLS().ordinal()) //TODO friend rank may need to be coded differently?
 				eligible.add(player);
 		}
 		return eligible;
 	}
 
-	public boolean eligibleForDrop(Player killer) {
-		//TODO recode this
-		return true;
-	}
-
 	public boolean isLootSharing() {
-		return getTempAttribs().getB("lootShare");
+		return getNSV().getB("lootShare");
 	}
 
 	public void refreshLootShare() {
@@ -3725,9 +3734,9 @@ public class Player extends Entity {
 	public void toggleLootShare() {
 		if (getAccount().getSocial().getCurrentFriendsChat() != null) {
 			if (isLootSharing()) {
-				getTempAttribs().removeB("lootShare");
+				getNSV().removeB("lootShare");
 			} else {
-				getTempAttribs().setB("lootShare", true);
+				getNSV().setB("lootShare", true);
 			}
 			if (isLootSharing())
 				sendMessage("You are now lootsharing.");
@@ -3736,6 +3745,7 @@ public class Player extends Entity {
 			refreshLootShare();
 		} else {
 			sendMessage("You aren't currently in a friends chat.");
+			getVars().setVarBit(4072, 0);
 		}
 	}
 	
