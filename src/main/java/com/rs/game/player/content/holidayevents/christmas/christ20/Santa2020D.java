@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,9 +29,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Santa2020D extends Conversation {
-	
+
 	private static final int SNOW_QUEEN = 9398, SANTA = 9400;
-	
+
 	public static NPCClickHandler handleSantaTalk = new NPCClickHandler(SNOW_QUEEN, SANTA) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -90,21 +90,21 @@ public class Santa2020D extends Conversation {
 		}
 		create();
 	}
-	
+
 	private static void guessNumber(Player player) {
 		if (player.getTempAttribs().getI("santaRandNum", -1) == -1)
 			player.getTempAttribs().setI("santaRandNum", Utils.random(1, 1000));
 		player.sendInputInteger("Guess Santa's number between 1-1000!", result -> {
 			int answer = player.getTempAttribs().getI("santaRandNum");
-			if (result > answer) {
+			if (result > answer)
 				player.startConversation(new Dialogue()
 						.addNPC(SANTA, player.getDisplayName().equalsIgnoreCase("jiren") ? HeadE.DRUNK : HeadE.CHEERFUL, player.getDisplayName().equalsIgnoreCase("jiren") ? "Dat shit's higha dan Snoop Dogg hoe." : "That's too high! Try again.")
 						.addNext(() -> guessNumber(player)));
-			} else if (result < answer) {
+			else if (result < answer)
 				player.startConversation(new Dialogue()
 						.addNPC(SANTA, player.getDisplayName().equalsIgnoreCase("jiren") ? HeadE.DRUNK : HeadE.CHEERFUL, player.getDisplayName().equalsIgnoreCase("jiren") ? "Shawty too low low low low low low low low low low low low low." : "That's too low! Try again.")
 						.addNext(() -> guessNumber(player)));
-			} else {
+			else {
 				player.save(Christmas2020.STAGE_KEY, 2);
 				player.startConversation(new Santa2020D(player));
 			}

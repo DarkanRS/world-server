@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -48,15 +48,15 @@ public final class CombatDefinitions {
 			return spell;
 		return autoCast;
 	}
-	
+
 	public boolean hasManualCastQueued() {
 		return player.getTempAttribs().getO("manualCastSpell") != null;
 	}
-	
+
 	public void setManualCastSpell(CombatSpell spell) {
 		player.getTempAttribs().setO("manualCastSpell", spell);
 	}
-	
+
 	public void clearManualCastSpell() {
 		player.getTempAttribs().removeO("manualCastSpell");
 	}
@@ -86,7 +86,7 @@ public final class CombatDefinitions {
 	public int getSpellAutoCastConfigValue() {
 		if (autoCast == null)
 			return 0;
-		if (dungSpellBook) {
+		if (dungSpellBook)
 			switch (autoCast) {
 			case WIND_STRIKE:
 				return 103;
@@ -131,8 +131,7 @@ public final class CombatDefinitions {
 			default:
 				return 0;
 			}
-		}
-		if (spellBook == 0) {
+		if (spellBook == 0)
 			switch (autoCast) {
 			case WIND_STRIKE:
 				return 3;
@@ -193,7 +192,7 @@ public final class CombatDefinitions {
 			default:
 				return 0;
 			}
-		} else if (spellBook == 1) {
+		else if (spellBook == 1)
 			switch (autoCast) {
 			case SMOKE_RUSH:
 				return 63;
@@ -238,9 +237,8 @@ public final class CombatDefinitions {
 			default:
 				return 0;
 			}
-		} else {
+		else
 			return 0;
-		}
 	}
 
 	public CombatDefinitions() {
@@ -260,7 +258,7 @@ public final class CombatDefinitions {
 		refreshSpellbook();
 		player.getInterfaceManager().sendTab(Tab.MAGIC);
 	}
-	
+
 	public int getSpellbookId() {
 		if (dungSpellBook)
 			return 3;
@@ -270,14 +268,12 @@ public final class CombatDefinitions {
 	public int getSpellBook() {
 		if (dungSpellBook)
 			return 950; // dung book
-		else {
-			if (spellBook == 0)
-				return 192; // normal
-			else if (spellBook == 1)
-				return 193; // ancients
-			else
-				return 430; // lunar
-		}
+		if (spellBook == 0)
+			return 192; // normal
+		else if (spellBook == 1)
+			return 193; // ancients
+		else
+			return 430; // lunar
 
 	}
 
@@ -307,7 +303,7 @@ public final class CombatDefinitions {
 	}
 
 	public void setSortSpellBook(int sortId) {
-		this.sortSpellBook = (byte) sortId;
+		sortSpellBook = (byte) sortId;
 		refreshSpellbookSettings();
 	}
 
@@ -321,24 +317,24 @@ public final class CombatDefinitions {
 		player.getVars().setVarBit(5823, sortSpellBook);
 		player.getVars().setVarBit(5824, sortSpellBook);
 		player.getVars().setVarBit(7347, sortSpellBook);
-		
+
 		player.getVars().setVarBit(6459, showCombatSpells ? 0 : 1);
 		player.getVars().setVarBit(6466, showCombatSpells ? 0 : 1);
 		player.getVars().setVarBit(6463, showCombatSpells ? 0 : 1);
 		player.getVars().setVarBit(7348, showCombatSpells ? 0 : 1);
-		
+
 		player.getVars().setVarBit(6460, showSkillSpells ? 0 : 1);
 		player.getVars().setVarBit(7349, showSkillSpells ? 0 : 1);
-		
+
 		player.getVars().setVarBit(6461, showMiscallaneousSpells ? 0 : 1);
 		player.getVars().setVarBit(6464, showMiscallaneousSpells ? 0 : 1);
 		player.getVars().setVarBit(7350, showMiscallaneousSpells ? 0 : 1);
-		
+
 		player.getVars().setVarBit(6462, showTeleportSpells ? 0 : 1);
 		player.getVars().setVarBit(6467, showTeleportSpells ? 0 : 1);
 		player.getVars().setVarBit(6465, showTeleportSpells ? 0 : 1);
 		player.getVars().setVarBit(7351, showTeleportSpells ? 0 : 1);
-		
+
 		player.getVars().setVarBit(2668, defensiveCasting ? 1 : 0);
 	}
 
@@ -361,7 +357,7 @@ public final class CombatDefinitions {
 	public int getBonus(Bonus bonus) {
 		return bonuses[bonus.ordinal()];
 	}
-	
+
 	public void setBonus(Bonus bonus, int val) {
 		bonuses[bonus.ordinal()] = val;
 	}
@@ -432,7 +428,7 @@ public final class CombatDefinitions {
 		refreshAttackStyle();
 		refreshSpellbook();
 	}
-	
+
 	public void refreshSpellbook() {
 		refreshSpellbookSettings();
 		refreshAutoCastSpell();
@@ -522,11 +518,11 @@ public final class CombatDefinitions {
 			style = styles.length-1;
 		return styles[style];
 	}
-	
+
 	public int getAttackBonusForStyle() {
 		return getAttackStyle().getAttackType().getAttackBonus(player);
 	}
-	
+
 	public int getDefenseBonusForStyle(AttackStyle style) {
 		return style.getAttackType().getDefenseBonus(player);
 	}
@@ -536,7 +532,7 @@ public final class CombatDefinitions {
 	}
 
 	public void setAutoRelatie(boolean autoRelatie) {
-		this.autoRetaliate = autoRelatie;
+		autoRetaliate = autoRelatie;
 	}
 
 	public boolean isDungeonneringSpellBook() {

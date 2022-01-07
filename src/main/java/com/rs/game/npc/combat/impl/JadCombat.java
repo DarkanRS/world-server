@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,14 +41,13 @@ public class JadCombat extends CombatScript {
 	public int attack(final NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int attackStyle = Utils.random(3);
-		if (attackStyle == 2) { // melee
-			if (!npc.inMeleeRange(target))
-				attackStyle = Utils.random(2); // set mage
-			else {
+		if (attackStyle == 2) {
+			if (npc.inMeleeRange(target)) {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 				delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
+			attackStyle = Utils.random(2);
 		}
 		if (attackStyle == 1) { // range
 			npc.setNextAnimation(new Animation(16202));

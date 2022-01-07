@@ -21,37 +21,36 @@ public class AngryGardenerNPC extends NPC {
 		super(id, tile, spawned);
 	}
 
-    @Override
-    public void sendDeath(Entity source) {
-        if(source instanceof Player) {
-            Player p = (Player) source;
-            p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(PiratesTreasure.KILLED_GARDENER_ATTR, true);
-        }
-        final NPCCombatDefinitions defs = getCombatDefinitions();
-        resetWalkSteps();
-        removeTarget();
-        setNextAnimation(null);
-        PluginManager.handle(new NPCDeathEvent(this, source));
-        WorldTasksManager.schedule(new WorldTask() {
-            int loop;
-            @Override
-            public void run() {
-                if (loop == 0) {
-                    setNextAnimation(new Animation(defs.getDeathEmote()));
-                } else if (loop >= defs.getDeathDelay()) {
-                    if (source instanceof Player player)
-                        player.getControllerManager().processNPCDeath(AngryGardenerNPC.this);
-                    drop();
-                    reset();
-                    finish();
-                    if (!isSpawned())
-                        setRespawnTask();
-                    stop();
-                }
-                loop++;
-            }
-        }, 0, 1);
-    }
+	@Override
+	public void sendDeath(Entity source) {
+		if(source instanceof Player p) {
+			p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(PiratesTreasure.KILLED_GARDENER_ATTR, true);
+		}
+		final NPCCombatDefinitions defs = getCombatDefinitions();
+		resetWalkSteps();
+		removeTarget();
+		setNextAnimation(null);
+		PluginManager.handle(new NPCDeathEvent(this, source));
+		WorldTasksManager.schedule(new WorldTask() {
+			int loop;
+			@Override
+			public void run() {
+				if (loop == 0)
+					setNextAnimation(new Animation(defs.getDeathEmote()));
+				else if (loop >= defs.getDeathDelay()) {
+					if (source instanceof Player player)
+						player.getControllerManager().processNPCDeath(AngryGardenerNPC.this);
+					drop();
+					reset();
+					finish();
+					if (!isSpawned())
+						setRespawnTask();
+					stop();
+				}
+				loop++;
+			}
+		}, 0, 1);
+	}
 
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1217) {

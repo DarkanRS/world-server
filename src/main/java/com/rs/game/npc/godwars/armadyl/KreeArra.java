@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,21 +39,20 @@ public class KreeArra extends NPC {
 		minions[1] = new GodWarMinion(6225, tile.transform(-4, -2), spawned);
 		minions[2] = new GodWarMinion(6227, tile.transform(-2, -4), spawned);
 	}
-	
+
 	@Override
 	public void onRespawn() {
 		respawnMinions();
 	}
-	
+
 	public void respawnMinions() {
 		CoresManager.schedule(() -> {
-			for (GodWarMinion minion : minions) {
+			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();
-			}
 		}, 2);
 	}
-	
+
 	@Override
 	public boolean canBeAttackedBy(Player player) {
 		if (!PlayerCombat.isRanging(player)) {
@@ -62,7 +61,7 @@ public class KreeArra extends NPC {
 		}
 		return true;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6222) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

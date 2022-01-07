@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -71,31 +71,31 @@ public enum PatchLocation {
 	Canifis_mushrooms(8337, PatchType.MUSHROOM),
 
 	Draynor_belladonna(7572, PatchType.BELLADONNA),
-	
-	Herblore_Habitat_west_herbs(56682, PatchType.VINE_HERB), 
-	Herblore_Habitat_east_herbs(56683, PatchType.VINE_HERB), 
+
+	Herblore_Habitat_west_herbs(56682, PatchType.VINE_HERB),
+	Herblore_Habitat_east_herbs(56683, PatchType.VINE_HERB),
 	Herblore_Habitat_bush(56562, PatchType.VINE_BUSH),
 	Herblore_Habitat_flower(56685, PatchType.VINE_FLOWER),
-	
+
 	Al_Kharid_cactus(7771, PatchType.CACTUS),
-	
+
 	Karamja_calquat(7807, PatchType.CALQUAT),
-	
+
 	Etceteria_spirit_tree(8382, PatchType.SPIRIT),
 	Brimhaven_spirit_tree(8383, PatchType.SPIRIT),
 	Port_Sarim_spirit_tree(8338, PatchType.SPIRIT),
-	
+
 	Falador_compost(7836, PatchType.COMPOST),
 	Canifis_compost(7838, PatchType.COMPOST),
 	Ardougne_compost(7839, PatchType.COMPOST),
 	Catherby_compost(7837, PatchType.COMPOST),
 	Taverly_compost(66577, PatchType.COMPOST),
 	Herblore_habitat_compost(56684, PatchType.COMPOST);
-	
+
 	//TODO
 	//Jade vine
 
-	public static Map<Integer, PatchLocation> MAP = new HashMap<Integer, PatchLocation>();
+	public static Map<Integer, PatchLocation> MAP = new HashMap<>();
 
 	public static PatchLocation forObject(int objectId) {
 		return MAP.get(objectId);
@@ -112,7 +112,7 @@ public enum PatchLocation {
 
 	private PatchLocation(int objectId, PatchType type) {
 		this.objectId = objectId;
-		this.varBit = ObjectDefinitions.getDefs(objectId).varpBit;
+		varBit = ObjectDefinitions.getDefs(objectId).varpBit;
 		this.type = type;
 	}
 }

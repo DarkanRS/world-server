@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -51,14 +51,14 @@ public class Region {
 	public static final int OBJECT_SLOT_WALL_DECORATION = 1;
 	public static final int OBJECT_SLOT_FLOOR = 2;
 	public static final int OBJECT_SLOT_FLOOR_DECORATION = 3;
-	
+
 	public static final int WIDTH = 64;
 	public static final int HEIGHT = 64;
 
 	protected int regionId;
 	protected ClipMap clipMap;
 	protected ClipMap clipMapProj;
-	
+
 	private boolean[][][] npcClipping;
 	private int[][][] overlayIds;
 	private int[][][] underlayIds;
@@ -84,20 +84,20 @@ public class Region {
 
 	public Region(int regionId) {
 		this.regionId = regionId;
-		this.spawnedObjects = new CopyOnWriteArrayList<>();
-		this.removedObjects = new ConcurrentHashMap<>();;
-		this.projectiles = new CopyOnWriteArrayList<>();
+		spawnedObjects = new CopyOnWriteArrayList<>();
+		removedObjects = new ConcurrentHashMap<>();
+		projectiles = new CopyOnWriteArrayList<>();
 		loadMusicIds();
 	}
-	
+
 	public int getBaseX() {
 		return (regionId >> 8 & 0xFF) << 6;
 	}
-	
+
 	public int getBaseY() {
 		return (regionId & 0xFF) << 6;
 	}
-	
+
 	public boolean addProjectile(WorldProjectile projectile) {
 		return projectiles.add(projectile);
 	}
@@ -148,10 +148,10 @@ public class Region {
 		if (x < 0 || y < 0 || x >= clipMap.getMasks()[plane].length || y >= clipMap.getMasks()[plane][x].length)
 			return;
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
-		
+
 		if (defs.getClipType() == 0)
 			return;
-		
+
 		switch(type) {
 		case WALL_STRAIGHT:
 		case WALL_DIAGONAL_CORNER:
@@ -198,9 +198,9 @@ public class Region {
 
 	public void unclip(int plane, int x, int y) {
 		if (clipMap == null)
-		    clipMap = new ClipMap(regionId, false);
+			clipMap = new ClipMap(regionId, false);
 		if (clipMapProj == null)
-		    clipMapProj = new ClipMap(regionId, true);
+			clipMapProj = new ClipMap(regionId, true);
 		clipMap.setFlag(plane, x, y, 0);
 	}
 
@@ -216,11 +216,11 @@ public class Region {
 		int rotation = object.getRotation();
 		if (x < 0 || y < 0 || x >= clipMap.getMasks()[plane].length || y >= clipMap.getMasks()[plane][x].length)
 			return;
-		ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId()); 
-		
+		ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
+
 		if (defs.getClipType() == 0)
 			return;
-		
+
 		switch(type) {
 		case WALL_STRAIGHT:
 		case WALL_DIAGONAL_CORNER:
@@ -264,49 +264,49 @@ public class Region {
 			break;
 		}
 	}
-	
+
 	public void spawnObject(GameObject obj, int plane, int localX, int localY) {
 		if (objects == null)
-            objects = new GameObject[4][64][64][4];
-        objects[plane][localX][localY][obj.getSlot()] = obj;
-        clip(obj, localX, localY);
+			objects = new GameObject[4][64][64][4];
+		objects[plane][localX][localY][obj.getSlot()] = obj;
+		clip(obj, localX, localY);
 	}
 
-    public void spawnObject(GameObject object, int plane, int localX, int localY, boolean clip) {
-        if (objects == null)
-            objects = new GameObject[4][64][64][4];
-        GameObject mapObject = objects[plane][localX][localY][object.getSlot()];
-        GameObject spawned = getSpawnedObjectWithSlot(plane, localX, localY, object.getSlot());
-        
-        if (spawned != null) {
-        	spawnedObjects.remove(spawned);
-        	if (clip)
-        		unclip(spawned, localX, localY);
-        }
-        
-        if (object.equals(mapObject)) {
-        	object = mapObject;
-        	deleteRemovedObject(mapObject);
-        } else if (mapObject != object) {
-        	if (!object.equals(mapObject))
-        		addRemovedObject(mapObject);
-        	spawnedObjects.add(object);
-        	if (clip && mapObject != null)
-        		unclip(mapObject, localX, localY);
-        } else if (spawned == null) {
-        	if (Settings.getConfig().isDebug())
-        		Logger.log(this, "Requested object to spawn is already spawned.(Shouldnt happen)");
-        	return;
-        }
-        
-        if (clip)
-        	clip(object, localX, localY);
-        for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+	public void spawnObject(GameObject object, int plane, int localX, int localY, boolean clip) {
+		if (objects == null)
+			objects = new GameObject[4][64][64][4];
+		GameObject mapObject = objects[plane][localX][localY][object.getSlot()];
+		GameObject spawned = getSpawnedObjectWithSlot(plane, localX, localY, object.getSlot());
+
+		if (spawned != null) {
+			spawnedObjects.remove(spawned);
+			if (clip)
+				unclip(spawned, localX, localY);
+		}
+
+		if (object.equals(mapObject)) {
+			object = mapObject;
+			deleteRemovedObject(mapObject);
+		} else if (mapObject != object) {
+			if (!object.equals(mapObject))
+				addRemovedObject(mapObject);
+			spawnedObjects.add(object);
+			if (clip && mapObject != null)
+				unclip(mapObject, localX, localY);
+		} else if (spawned == null) {
+			if (Settings.getConfig().isDebug())
+				Logger.log(this, "Requested object to spawn is already spawned.(Shouldnt happen)");
+			return;
+		}
+
+		if (clip)
+			clip(object, localX, localY);
+		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
 			if (player == null || !player.hasStarted() || player.hasFinished())
 				return;
 			player.getPackets().sendAddObject(object);
-        }
-    }
+		}
+	}
 
 	public void removeObject(GameObject object, int plane, int localX, int localY) {
 		if (objects == null)
@@ -343,7 +343,7 @@ public class Region {
 				player.getPackets().sendRemoveObject(object);
 		}
 	}
-	
+
 	public void addRemovedObject(GameObject object) {
 		if (object == null)
 			return;
@@ -351,13 +351,13 @@ public class Region {
 			removedObjects = new ConcurrentHashMap<>();
 		removedObjects.put(object.hashCode(), object);
 	}
-	
+
 	public void deleteRemovedObject(GameObject object) {
 		if (removedObjects == null || object == null)
 			return;
 		removedObjects.remove(object.hashCode());
 	}
-	
+
 	public GameObject getRemovedObject(GameObject object) {
 		if (removedObjects == null || object == null)
 			return null;
@@ -368,27 +368,24 @@ public class Region {
 	public void checkLoadMap() {
 		if (getLoadMapStage() == 0) {
 			setLoadMapStage(1);
-			CoresManager.execute(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						loadRegionMap();
-						setLoadMapStage(2);
-						if (!isLoadedObjectSpawns()) {
-							loadObjectSpawns();
-							setLoadedObjectSpawns(true);
-						}
-						if (!isLoadedNPCSpawns()) {
-							loadNPCSpawns();
-							setLoadedNPCSpawns(true);
-						}
-						if (!isLoadedItemSpawns()) {
-							loadItemSpawns();
-							setLoadedItemSpawns(true);
-						}
-					} catch (Throwable e) {
-						Logger.handle(e);
+			CoresManager.execute(() -> {
+				try {
+					loadRegionMap();
+					setLoadMapStage(2);
+					if (!isLoadedObjectSpawns()) {
+						loadObjectSpawns();
+						setLoadedObjectSpawns(true);
 					}
+					if (!isLoadedNPCSpawns()) {
+						loadNPCSpawns();
+						setLoadedNPCSpawns(true);
+					}
+					if (!isLoadedItemSpawns()) {
+						loadItemSpawns();
+						setLoadedItemSpawns(true);
+					}
+				} catch (Throwable e) {
+					Logger.handle(e);
 				}
 			});
 		}
@@ -419,24 +416,24 @@ public class Region {
 		//byte[] uLandContainerData = uLandArchiveId == -1 ? null : Cache.STORE.getIndexes()[5].getFile(uLandArchiveId);
 		int mapArchiveId = Cache.STORE.getIndex(IndexType.MAPS).getArchiveId("m" + ((regionX >> 3) / 8) + "_" + ((regionY >> 3) / 8));
 		byte[] mapContainerData = mapArchiveId == -1 ? null : Cache.STORE.getIndex(IndexType.MAPS).getFile(mapArchiveId, 0);
-		
+
 		overlayIds = mapContainerData == null ? null : new int[4][64][64];
 		underlayIds = mapContainerData == null ? null : new int[4][64][64];
 		overlayPathShapes = mapContainerData == null ? null : new byte[4][64][64];
 		overlayRotations = mapContainerData == null ? null : new byte[4][64][64];
 		tileFlags = mapContainerData == null ? null : new byte[4][64][64];
-		
+
 		if (mapContainerData != null) {
 			hasData = true;
 			InputStream mapStream = new InputStream(mapContainerData);
-			for (int plane = 0; plane < 4; plane++) {
-				for (int x = 0; x < 64; x++) {
-					for (int y = 0; y < 64; y++) {
+			for (int plane = 0; plane < 4; plane++)
+				for (int x = 0; x < 64; x++)
+					for (int y = 0; y < 64; y++)
 						while (true) {
 							int value = mapStream.readUnsignedByte();
-							if (value == 0) {
+							if (value == 0)
 								break;
-							} else if (value == 1) {
+							if (value == 1) {
 								//heights[plane][x][y] = mapStream.readByte();
 								mapStream.readByte();
 								break;
@@ -445,40 +442,27 @@ public class Region {
 								overlayIds[plane][x][y] = v;
 								overlayPathShapes[plane][x][y] = (byte) ((value - 2) / 4);
 								overlayRotations[plane][x][y] = (byte) ((value - 2) & 0x3);
-							} else if (value <= 81) {
+							} else if (value <= 81)
 								tileFlags[plane][x][y] = (byte) (value - 49);
-							} else {
+							else
 								underlayIds[plane][x][y] = (value - 81);
-							}
 						}
-					}
-				}
-			}
-			if (regionId != 11844) {
-				for (int plane = 0; plane < 4; plane++) {
-					for (int x = 0; x < 64; x++) {
-						for (int y = 0; y < 64; y++) {
+			if (regionId != 11844)
+				for (int plane = 0; plane < 4; plane++)
+					for (int x = 0; x < 64; x++)
+						for (int y = 0; y < 64; y++)
 							if (RenderFlag.flagged(tileFlags[plane][x][y], RenderFlag.CLIPPED)) {
 								int finalPlane = plane;
 								if (RenderFlag.flagged(tileFlags[1][x][y], RenderFlag.LOWER_OBJECTS_TO_OVERRIDE_CLIPPING))
 									finalPlane--;
-								if (finalPlane >= 0) {
+								if (finalPlane >= 0)
 									forceGetClipMap().addBlockedTile(finalPlane, x, y);
-								}
 							}
-						}
-					}
-				}
-			}
-		} else {
-			for (int plane = 0; plane < 4; plane++) {
-				for (int x = 0; x < 64; x++) {
-					for (int y = 0; y < 64; y++) {
+		} else
+			for (int plane = 0; plane < 4; plane++)
+				for (int x = 0; x < 64; x++)
+					for (int y = 0; y < 64; y++)
 						forceGetClipMap().addBlockedTile(plane, x, y);
-					}
-				}
-			}
-		}
 		if (landContainerData != null) {
 			xtea = true;
 			InputStream landStream = new InputStream(landContainerData);
@@ -493,47 +477,47 @@ public class Region {
 					int localX = (location >> 6 & 0x3f);
 					int localY = (location & 0x3f);
 					int plane = location >> 12;
-					int objectData = landStream.readUnsignedByte();
-					int type = objectData >> 2;
-					int rotation = objectData & 0x3;
-					if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
-						continue;
-					int objectPlane = plane;
-					if (tileFlags != null && (tileFlags[1][localX][localY] & 0x2) != 0)
-						objectPlane--;
-					if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
-						continue;
-					spawnObject(new GameObject(objectId, ObjectType.forId(type), rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY);
+			int objectData = landStream.readUnsignedByte();
+			int type = objectData >> 2;
+				int rotation = objectData & 0x3;
+				if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
+					continue;
+				int objectPlane = plane;
+				if (tileFlags != null && (tileFlags[1][localX][localY] & 0x2) != 0)
+					objectPlane--;
+				if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
+					continue;
+				spawnObject(new GameObject(objectId, ObjectType.forId(type), rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY);
 				}
 			}
 		}
-//		if (uLandContainerData != null) {
-//			InputStream landStream = new InputStream(uLandContainerData);
-//			int objectId = -1;
-//			int incr;
-//			while ((incr = landStream.readSmart2()) != 0) {
-//				objectId += incr;
-//				int location = 0;
-//				int incr2;
-//				while ((incr2 = landStream.readUnsignedSmart()) != 0) {
-//					location += incr2 - 1;
-//					int localX = (location >> 6 & 0x3f);
-//					int localY = (location & 0x3f);
-//					int plane = location >> 12;
-//					int objectData = landStream.readUnsignedByte();
-//					int type = objectData >> 2;
-//					int rotation = objectData & 0x3;
-//					if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
-//						continue;
-//					int objectPlane = plane;
-//					if (mapSettings != null && (mapSettings[1][localX][localY] & 0x2) != 0)
-//						objectPlane--;
-//					if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
-//						continue;
-//					spawnObject(new WorldObject(objectId, type, rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY, true);
-//				}
-//			}
-//		}
+		//		if (uLandContainerData != null) {
+		//			InputStream landStream = new InputStream(uLandContainerData);
+		//			int objectId = -1;
+		//			int incr;
+		//			while ((incr = landStream.readSmart2()) != 0) {
+		//				objectId += incr;
+		//				int location = 0;
+		//				int incr2;
+		//				while ((incr2 = landStream.readUnsignedSmart()) != 0) {
+		//					location += incr2 - 1;
+		//					int localX = (location >> 6 & 0x3f);
+		//					int localY = (location & 0x3f);
+		//					int plane = location >> 12;
+		//					int objectData = landStream.readUnsignedByte();
+		//					int type = objectData >> 2;
+		//					int rotation = objectData & 0x3;
+		//					if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
+		//						continue;
+		//					int objectPlane = plane;
+		//					if (mapSettings != null && (mapSettings[1][localX][localY] & 0x2) != 0)
+		//						objectPlane--;
+		//					if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
+		//						continue;
+		//					spawnObject(new WorldObject(objectId, type, rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY, true);
+		//				}
+		//			}
+		//		}
 		if (Settings.getConfig().isDebug() && landContainerData == null && landArchiveId != -1 && MapXTEAs.getMapKeys(regionId) != null)
 			Logger.log(this, "Missing xteas for region " + regionId + ".");
 	}
@@ -613,31 +597,25 @@ public class Region {
 
 	/**
 	 * Gets the list of world objects in this region.
-	 * 
+	 *
 	 * @return The list of world objects.
 	 */
 	public List<GameObject> getObjects() {
-		if (objects == null) {
+		if (objects == null)
 			return null;
-		}
-		List<GameObject> list = new ArrayList<GameObject>();
-		for (int z = 0; z < objects.length; z++) {
-			if (objects[z] == null) {
+		List<GameObject> list = new ArrayList<>();
+		for (GameObject[][][] object : objects) {
+			if (object == null)
 				continue;
-			}
-			for (int x = 0; x < objects[z].length; x++) {
-				if (objects[z][x] == null) {
+			for (int x = 0; x < object.length; x++) {
+				if (object[x] == null)
 					continue;
-				}
-				for (int y = 0; y < objects[z][x].length; y++) {
-					if (objects[z][x][y] == null) {
+				for (int y = 0; y < object[x].length; y++) {
+					if (object[x][y] == null)
 						continue;
-					}
-					for (GameObject o : objects[z][x][y]) {
-						if (o != null) {
+					for (GameObject o : object[x][y])
+						if (o != null)
 							list.add(o);
-						}
-					}
 				}
 			}
 		}
@@ -652,20 +630,19 @@ public class Region {
 				return object;
 		return null;
 	}
-	
+
 	public GameObject getSpawnedObject(WorldTile tile, ObjectType type) {
 		if (spawnedObjects == null)
 			return null;
-		for (GameObject object : spawnedObjects) {
+		for (GameObject object : spawnedObjects)
 			if (object.getType() == type && object.getX() == tile.getX() && object.getY() == tile.getY() && object.getPlane() == tile.getPlane())
 				return object;
-		}
 		return null;
 	}
 
 	public void addObject(GameObject object) {
 		if (spawnedObjects == null)
-			spawnedObjects = new CopyOnWriteArrayList<GameObject>();
+			spawnedObjects = new CopyOnWriteArrayList<>();
 		spawnedObjects.add(object);
 	}
 
@@ -692,7 +669,7 @@ public class Region {
 	public List<GameObject> getAllObjects() {
 		if (objects == null)
 			return null;
-		List<GameObject> list = new ArrayList<GameObject>();
+		List<GameObject> list = new ArrayList<>();
 		for (int z = 0; z < 4; z++)
 			for (int x = 0; x < 64; x++)
 				for (int y = 0; y < 64; y++) {
@@ -731,10 +708,9 @@ public class Region {
 	}
 
 	public GameObject getSpawnedObjectWithSlot(int plane, int x, int y, int slot) {
-		for (GameObject object : spawnedObjects) {
+		for (GameObject object : spawnedObjects)
 			if (object.getXInRegion() == x && object.getYInRegion() == y && object.getPlane() == plane && object.getSlot() == slot)
 				return object;
-		}
 		return null;
 	}
 
@@ -750,14 +726,12 @@ public class Region {
 				return spawned == null ? object : spawned;
 			}
 		}
-		for (GameObject object : spawnedObjects) {
-			if (object.getXInRegion() == x && object.getYInRegion() == y && object.getPlane() == plane && object.getId() == id) {
+		for (GameObject object : spawnedObjects)
+			if (object.getXInRegion() == x && object.getYInRegion() == y && object.getPlane() == plane && object.getId() == id)
 				return object;
-			}
-		}
 		return null;
 	}
-	
+
 	public boolean objectExists(GameObject object) {
 		return containsObjectWithId(object.getPlane(), object.getXInRegion(), object.getYInRegion(), object.getId());
 	}
@@ -765,19 +739,16 @@ public class Region {
 	public GameObject getObjectWithId(int id, int plane) {
 		if (objects == null)
 			return null;
-		for (GameObject object : spawnedObjects) {
+		for (GameObject object : spawnedObjects)
 			if (object.getId() == id && object.getPlane() == plane)
 				return object;
-		}
-		for (int x = 0; x < 64; x++) {
-			for (int y = 0; y < 64; y++) {
+		for (int x = 0; x < 64; x++)
+			for (int y = 0; y < 64; y++)
 				for (int slot = 0; slot < objects[plane][x][y].length; slot++) {
 					GameObject object = objects[plane][x][y][slot];
 					if (object != null && object.getId() == id && getRemovedObject(object) == null)
 						return object;
 				}
-			}
-		}
 		return null;
 	}
 
@@ -832,10 +803,10 @@ public class Region {
 
 	public List<GroundItem> getAllGroundItems() {
 		if (groundItemList == null)
-			groundItemList = new CopyOnWriteArrayList<GroundItem>();
+			groundItemList = new CopyOnWriteArrayList<>();
 		return groundItemList;
 	}
-	
+
 	public GroundItem getGroundItem(int itemId, WorldTile tile, int playerId) {
 		if (groundItems == null)
 			return null;
@@ -845,24 +816,23 @@ public class Region {
 		List<GroundItem> items = tileMap.get(tile.getTileHash());
 		if (items == null)
 			return null;
-		for (GroundItem item : items) {
+		for (GroundItem item : items)
 			if (item.getId() == itemId)
 				return item;
-		}
 		return null;
 	}
-	
+
 	public boolean itemExists(GroundItem item) {
 		return getGroundItem(item.getId(), item.getTile(), item.getVisibleToId()) != null;
 	}
-	
+
 	public GroundItem getGroundItem(int itemId, WorldTile tile, Player player) {
 		GroundItem item = getGroundItem(itemId, tile, player == null ? 0 : player.getUuid());
 		if (item == null)
 			item = getGroundItem(itemId, tile, 0);
 		return item;
 	}
-	
+
 	public void processGroundItems() {
 		if (groundItems == null || groundItemList == null)
 			return;
@@ -875,11 +845,9 @@ public class Region {
 				if (!item.isInvisible() || !ItemConstants.isTradeable(item))
 					continue;
 				removeItemFromOwnerMapping(item);
-				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {
-					if (player.hasStarted() && !player.hasFinished() && player.getUuid() != item.getVisibleToId()) {
+				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
+					if (player.hasStarted() && !player.hasFinished() && player.getUuid() != item.getVisibleToId())
 						player.getPackets().sendGroundItem(item);
-					}
-				}
 				item.removeOwner();
 				addItemToOwnerMapping(item);
 			}
@@ -887,7 +855,7 @@ public class Region {
 		for (GroundItem item : toRemove)
 			deleteGroundItem(item);
 	}
-	
+
 	public boolean removeItemFromOwnerMapping(GroundItem item) {
 		if (groundItems == null)
 			return false;
@@ -907,7 +875,7 @@ public class Region {
 		}
 		return false;
 	}
-	
+
 	public boolean addItemToOwnerMapping(GroundItem item) {
 		if (groundItems == null)
 			groundItems = new ConcurrentHashMap<>();
@@ -924,7 +892,7 @@ public class Region {
 		items.add(item);
 		return true;
 	}
-	
+
 	public boolean addGroundItem(GroundItem item) {
 		if (groundItemList == null)
 			groundItemList = new CopyOnWriteArrayList<>();
@@ -946,34 +914,25 @@ public class Region {
 			existing.setAmount(existing.getAmount() + item.getAmount());
 			if (World.getPlayer(existing.getCreatorUsername()) != null)
 				World.getPlayer(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
-			else {
-				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {
-					if (player.hasStarted() && !player.hasFinished()) {
+			else
+				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
+					if (player.hasStarted() && !player.hasFinished())
 						player.getPackets().sendSetGroundItemAmount(existing, oldAmount);
-					}
-				}
-			}
 			return false;
-		} else {
-			groundItemList.add(item);
-			items.add(item);
-			if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
-				World.getPlayer(item.getCreatorUsername()).getPackets().sendGroundItem(item);
-			else {
-				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {
-					if (player.hasStarted() && !player.hasFinished()) {
-						player.getPackets().sendGroundItem(item);
-					}
-				}
-			}
 		}
+		groundItemList.add(item);
+		items.add(item);
+		if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
+			World.getPlayer(item.getCreatorUsername()).getPackets().sendGroundItem(item);
+		else
+			for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
+				if (player.hasStarted() && !player.hasFinished())
+					player.getPackets().sendGroundItem(item);
 		return true;
 	}
-	
+
 	public boolean deleteGroundItem(GroundItem item) {
-		if (groundItems == null)
-			return false;
-		if (groundItemList == null)
+		if ((groundItems == null) || (groundItemList == null))
 			return false;
 		int tileHash = item.getTile().getTileHash();
 		Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
@@ -990,18 +949,15 @@ public class Region {
 				groundItems.remove(item.getVisibleToId());
 			if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
 				World.getPlayer(item.getCreatorUsername()).getPackets().removeGroundItem(item);
-			else {
-				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId())) {
-					if (player.hasStarted() && !player.hasFinished()) {
+			else
+				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
+					if (player.hasStarted() && !player.hasFinished())
 						player.getPackets().removeGroundItem(item);
-					}
-				}
-			}
 			return true;
 		}
 		return false;
 	}
-	
+
 	public Map<Integer, Map<Integer, List<GroundItem>>> getGroundItems() {
 		return groundItems;
 	}
@@ -1045,7 +1001,7 @@ public class Region {
 	public void setLoadedItemSpawns(boolean loadedItemSpawns) {
 		this.loadedItemSpawns = loadedItemSpawns;
 	}
-	
+
 	public final boolean isLinkedBelow(final int z, final int x, final int y) {
 		return RenderFlag.flagged(getRenderFlags(z, x, y), RenderFlag.LOWER_OBJECTS_TO_OVERRIDE_CLIPPING);
 	}
@@ -1053,7 +1009,7 @@ public class Region {
 	public final boolean isVisibleBelow(final int z, final int x, final int y) {
 		return RenderFlag.flagged(getRenderFlags(z, x, y), RenderFlag.FORCE_TO_BOTTOM);
 	}
-	
+
 	public int getRenderFlags(int z, int x, int y) {
 		return tileFlags != null ? tileFlags[z][x][y] : 0;
 	}
@@ -1061,15 +1017,15 @@ public class Region {
 	public int getUnderlayId(int z, int x, int y) {
 		return underlayIds != null ? underlayIds[z][x][y] & 0x7fff : -1;
 	}
-	
+
 	public int getOverlayId(int z, int x, int y) {
 		return overlayIds != null ? overlayIds[z][x][y] & 0x7fff : -1;
 	}
-	
+
 	public int getOverlayPathShape(int z, int x, int y) {
 		return overlayPathShapes != null ? overlayPathShapes[z][x][y] & 0x7fff : -1;
 	}
-	
+
 	public int getOverlayRotation(int z, int x, int y) {
 		return overlayRotations != null ? overlayRotations[z][x][y] : -1;
 	}
@@ -1077,28 +1033,27 @@ public class Region {
 	public boolean hasData() {
 		return hasData;
 	}
-	
+
 	public boolean hasXtea() {
 		return xtea;
 	}
-	
+
 	public boolean isMissingXtea() {
 		return hasData && !xtea;
 	}
-	
+
 	public boolean checkXtea(int[] xteas) {
 		int regionX = (regionId >> 8) * 64;
 		int regionY = (regionId & 0xff) * 64;
 		int landArchiveId = Cache.STORE.getIndex(IndexType.MAPS).getArchiveId("l" + ((regionX >> 3) / 8) + "_" + ((regionY >> 3) / 8));
-		if (landArchiveId == -1) {
+		if (landArchiveId == -1)
 			return false;
-		}
 		byte[] data = Cache.STORE.getIndex(IndexType.MAPS).getFile(landArchiveId, 0, xteas);
 		if (data == null)
 			return false;
 		return true;
 	}
-	
+
 	public boolean getClipNPC(int plane, int x, int y) {
 		if (npcClipping == null)
 			return false;

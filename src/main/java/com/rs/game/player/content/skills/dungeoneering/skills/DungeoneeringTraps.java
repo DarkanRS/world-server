@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,18 +30,19 @@ import com.rs.lib.util.Utils;
 public class DungeoneeringTraps {
 
 	public static final int[] ITEM_TRAPS =
-	{ 17756, 17758, 17760, 17762, 17764, 17766, 17768, 17770, 17772, 17774 };
+		{ 17756, 17758, 17760, 17762, 17764, 17766, 17768, 17770, 17772, 17774 };
 	private static final int[] MASTRYX_HIDES =
-	{ 17424, 17426, 17428, 17430, 17432, 17434, 17436, 17438, 17440, 17442 };
+		{ 17424, 17426, 17428, 17430, 17432, 17434, 17436, 17438, 17440, 17442 };
 	private static final int[] HUNTER_LEVELS =
-	{ 1, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+		{ 1, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
 	public static void placeTrap(final Player player, final DungeonManager manager, final int index) {
 		int levelRequired = HUNTER_LEVELS[index];
 		if (manager.getMastyxTraps().size() > 5) {
 			player.sendMessage("Your party has already placed the maximum amount of traps allowed.");
 			return;
-		} else if (player.getSkills().getLevel(Constants.HUNTER) < levelRequired) {
+		}
+		if (player.getSkills().getLevel(Constants.HUNTER) < levelRequired) {
 			player.sendMessage("You need a Hunter level of " + levelRequired + " in order to place this trap.");
 			return;
 		}

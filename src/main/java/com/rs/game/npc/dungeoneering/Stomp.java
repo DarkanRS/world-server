@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -58,14 +58,14 @@ public final class Stomp extends DungeonBoss {
 		setCantFollowUnderCombat(true); // force cant walk
 		freeze(5000000);
 		lodestones = new boolean[2];
-		shadows = new ArrayList<int[]>();
+		shadows = new ArrayList<>();
 	}
-	
+
 	@Override
 	public boolean ignoreWallsWhenMeleeing() {
 		return true;
 	}
-	
+
 	@Override
 	public WorldTile getMiddleWorldTile() {
 		return this;
@@ -88,17 +88,16 @@ public final class Stomp extends DungeonBoss {
 				}
 				if (count == 1) {
 					setCantInteract(false);
-					if (lodestones[0] == true && lodestones[1] == true) {
+					if (lodestones[0] && lodestones[1]) {
 						stage++;
 						if (stage == 3) {
 							setHitpoints(0);
 							sendDeath(this);
 							destroyExistingDebris();
 						}
-						for (Entity target : getPossibleTargets()) {
+						for (Entity target : getPossibleTargets())
 							if (target instanceof Player player)
 								player.sendMessage("The portal weakens, harming Stomp!");
-						}
 					} else
 						heal((int) (getMaxHitpoints() * 0.25));
 					lodestones[0] = lodestones[1] = false;
@@ -153,12 +152,10 @@ public final class Stomp extends DungeonBoss {
 			player.getInventory().deleteItem(CRYSTAL[lodeStoneType], 1);
 			player.sendMessage("You place the crystal into the device and it powers up.");
 			refreshLodestone(index);
-			if (lodestones[0] == true && lodestones[1] == true) {
-				for (Entity target : getPossibleTargets()) {
+			if (lodestones[0] && lodestones[1])
+				for (Entity target : getPossibleTargets())
 					if (target instanceof Player p2)
 						p2.sendMessage("The lodestone has been fully activated.");
-				}
-			}
 		} else
 			player.sendMessage("You need a " + ItemDefinitions.getDefs(CRYSTAL[lodeStoneType]).getName().toLowerCase() + " to activate this lodestone.");
 
@@ -171,12 +168,11 @@ public final class Stomp extends DungeonBoss {
 		setNextAnimation(new Animation(13451));
 		setNextSpotAnim(new SpotAnim(2407));
 		setCantInteract(true);
-		for (Entity target : getPossibleTargets()) {
+		for (Entity target : getPossibleTargets())
 			if (target instanceof Player player)
 				player.sendMessage("Stomp enters a defensive stance. It is currently invulnerable, but no longer protecting the portal's lodestones!");
-		}
 		destroyExistingDebris();
-		for (int count = 0; count < 11; count++) {
+		for (int count = 0; count < 11; count++)
 			l: for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
 				int x = 3 + Utils.random(12);
 				int y = 3 + Utils.random(9);
@@ -186,9 +182,8 @@ public final class Stomp extends DungeonBoss {
 				getManager().spawnObject(getReference(), 49269, ObjectType.SCENERY_INTERACT, 0, x, y);
 				break l;
 			}
-		}
 
-		for (int count = 0; count < 2; count++) {
+		for (int count = 0; count < 2; count++)
 			l: for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
 				int x = 3 + Utils.random(12);
 				int y = 3 + Utils.random(9);
@@ -197,7 +192,6 @@ public final class Stomp extends DungeonBoss {
 				getManager().spawnItem(getReference(), new Item(CRYSTAL[lodeStoneType]), x, y);
 				break l;
 			}
-		}
 	}
 
 	/*
@@ -211,11 +205,10 @@ public final class Stomp extends DungeonBoss {
 
 	public void removeCrystals() {
 		Region region = World.getRegion(getRegionId());
-		if (region.getGroundItems() != null) {
+		if (region.getGroundItems() != null)
 			for (GroundItem item : region.getAllGroundItems())
 				if (item.getId() == CRYSTAL[lodeStoneType])
 					World.removeGroundItem(item);
-		}
 	}
 
 	public boolean containsShadow(int x, int y) {
@@ -240,9 +233,9 @@ public final class Stomp extends DungeonBoss {
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					if (source instanceof Player player)
 						player.getControllerManager().processNPCDeath(Stomp.this);
 					drop();

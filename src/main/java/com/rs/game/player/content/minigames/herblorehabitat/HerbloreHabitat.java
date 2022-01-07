@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -26,7 +26,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 @PluginEventHandler
 public class HerbloreHabitat {
 	//inter 72 jadinko methods
-	
+
 	public static final int REGION_ID = 11821;
 
 	@ServerStartupEvent
@@ -34,7 +34,7 @@ public class HerbloreHabitat {
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				for (Player player : World.getPlayersInRegion(REGION_ID)) {
+				for (Player player : World.getPlayersInRegion(REGION_ID))
 					if (player.hasStarted() && !player.hasFinished()) {
 						JadinkoType.updateGroup(player, JadinkoType.COMMON);
 						JadinkoType.updateGroup(player, JadinkoType.IGNEOUS, JadinkoType.AQUATIC);
@@ -42,9 +42,8 @@ public class HerbloreHabitat {
 						JadinkoType.updateGroup(player, JadinkoType.AMPHIBIOUS, JadinkoType.DRACONIC);
 						JadinkoType.updateGroup(player, JadinkoType.SARADOMIN, JadinkoType.GUTHIX, JadinkoType.ZAMORAK);
 					}
-				}
 			}
 		}, 25, 25);
 	}
-	
+
 }

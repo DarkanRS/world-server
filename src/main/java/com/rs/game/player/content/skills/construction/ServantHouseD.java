@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.dialogues.Dialogue;
-import com.rs.plugin.events.InputIntegerEvent;
 
 public class ServantHouseD extends Dialogue {
 
@@ -30,26 +29,23 @@ public class ServantHouseD extends Dialogue {
 
 	@Override
 	public void start() {
-		this.servant = (ServantNPC) parameters[0];
+		servant = (ServantNPC) parameters[0];
 		servant.setFollowing(true);
 		int paymentStage = player.getHouse().getPaymentStage();
 		if (paymentStage == 10) {
 			stage = 13;
 			sendNPCDialogue(servant.getId(), NORMAL, "Excuse me, but before I can continue working you must pay my fee.");
-		} else {
-			if ((boolean) parameters[1])
-				sendBeginningOption();
-			else
-				sendNPCDialogue(servant.getId(), NORMAL, "I am at thy command, my master");
-		}
+		} else if ((boolean) parameters[1])
+			sendBeginningOption();
+		else
+			sendNPCDialogue(servant.getId(), NORMAL, "I am at thy command, my master");
 	}
 
 	private void sendBeginningOption() {
-		if (servant.getServantData().isSawmill()) {
+		if (servant.getServantData().isSawmill())
 			sendOptionsDialogue("Select an Option", "Take something to the bank", "Bring something from the bank", "Take something to the sawmill");
-		} else {
+		else
 			sendOptionsDialogue("Select an Option", "Take something to the bank", "Bring something from the bank");
-		}
 		stage = 9;
 	}
 
@@ -59,14 +55,14 @@ public class ServantHouseD extends Dialogue {
 			sendOptionsDialogue("Select an Option", "Go to the bank/sawmill...", "Misc...", "Stop following me", "You're fired");
 			stage = 2;
 		} else if (stage == 2) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				sendBeginningOption();
-			} else if (componentId == OPTION_2) {
+			else if (componentId == OPTION_2) {
 				sendOptionsDialogue("Select an Option", "Make tea", "Serve dinner", "Serve drinks", "Greet guests");
 				stage = 4;
-			} else if (componentId == OPTION_3) {
+			} else if (componentId == OPTION_3)
 				sendBeginningOption();
-			} else if (componentId == OPTION_4) {
+			else if (componentId == OPTION_4) {
 				sendOptionsDialogue("Do you really want to fire your servant?", "Yes.", "No.");
 				stage = 3;
 			}
@@ -74,9 +70,8 @@ public class ServantHouseD extends Dialogue {
 			if (componentId == OPTION_1) {
 				sendPlayerDialogue(NORMAL, "You are dismissed.");
 				servant.fire();
-			} else {
+			} else
 				end();
-			}
 			stage = 99;
 		} else if (stage == 4) {
 			if (componentId == OPTION_1) {
@@ -109,23 +104,20 @@ public class ServantHouseD extends Dialogue {
 			if (componentId == OPTION_1) {
 				sendNPCDialogue(servant.getId(), NORMAL, "Give any item to me and I shall take it swiftly to the bank where it will be safe from thieves and harm.");
 				stage = 99;
-			} else if (componentId == OPTION_2) {
+			} else if (componentId == OPTION_2)
 				sendOptionsDialogue("What would you like from the bank?", getPageOptions());
-			} else {
+			else {
 				sendNPCDialogue(servant.getId(), NORMAL, "Give me some logs and I will return as fast as possible.");
 				stage = 99;
 			}
 		} else if (stage == 10 || stage == 11 || stage == 12) {
-			if (componentId == (stage == 10 ? OPTION_4 : OPTION_5)) {
+			if (componentId == (stage == 10 ? OPTION_4 : OPTION_5))
 				sendOptionsDialogue("What would you like from the bank?", getPageOptions());
-			} else {
-				player.sendInputInteger("How many would you like?", new InputIntegerEvent() {
-					@Override
-					public void run(int amount) {
-						if (!player.getHouse().isLoaded() || !player.getHouse().getPlayers().contains(player))
-							return;
-						player.getHouse().getServantInstance().requestType(HouseConstants.BANKABLE_ITEMS[page][componentId == 11 ? 0 : componentId - 12], amount, (byte) 0);
-					}
+			else {
+				player.sendInputInteger("How many would you like?", amount -> {
+					if (!player.getHouse().isLoaded() || !player.getHouse().getPlayers().contains(player))
+						return;
+					player.getHouse().getServantInstance().requestType(HouseConstants.BANKABLE_ITEMS[page][componentId == 11 ? 0 : componentId - 12], amount, (byte) 0);
 				});
 				end();
 			}
@@ -144,24 +136,22 @@ public class ServantHouseD extends Dialogue {
 				player.getHouse().resetPaymentStage();
 				sendNPCDialogue(servant.getId(), NORMAL, "Thank you!");
 				stage = -1;
-			} else if (componentId == OPTION_2) {
+			} else if (componentId == OPTION_2)
 				end();
-			} else if (componentId == OPTION_3) {
+			else if (componentId == OPTION_3) {
 				sendOptionsDialogue("Do you really want to fire your servant?", "Yes.", "No.");
 				stage = 3;
 			}
-		} else if (stage == 99) {
+		} else if (stage == 99)
 			end();
-		}
 	}
 
 	private String[] getPageOptions() {
-		List<String> options = new LinkedList<String>();
+		List<String> options = new LinkedList<>();
 		page = (byte) (stage == 12 ? 0 : page + 1);
 		int[] items = HouseConstants.BANKABLE_ITEMS[page];
-		for (int index = 0; index < items.length; index++) {
-			options.add(ItemDefinitions.getDefs(items[index]).getName());
-		}
+		for (int item : items)
+			options.add(ItemDefinitions.getDefs(item).getName());
 		options.add("More...");
 		stage = (byte) (page + 10);
 		return options.toArray(new String[options.size()]);

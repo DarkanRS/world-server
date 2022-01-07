@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,17 +32,17 @@ public class FremennikCampRoom extends PuzzleRoom {
 
 	public static final int FREMENNIK_SCOUT = 11001;
 	private static final int[] RAW_FISH =
-	{ 49522, 49523, 49524, 49524, 49524 };
+		{ 49522, 49523, 49524, 49524, 49524 };
 	private static final int[] COOKED_FISH =
-	{ 49525, 49526, 49527, 49527, 49527 };
+		{ 49525, 49526, 49527, 49527, 49527 };
 	private static final int[] BARS =
-	{ 49528, 49529, 49530, 49530, 49530 };
+		{ 49528, 49529, 49530, 49530, 49530 };
 	private static final int[] BATTLE_AXES =
-	{ 49531, 49532, 49533, 49533, 49533 };
+		{ 49531, 49532, 49533, 49533, 49533 };
 	private static final int[] LOGS =
-	{ 49534, 49535, 49536, 49536, 49536 };
+		{ 49534, 49535, 49536, 49536, 49536 };
 	private static final int[] BOWS =
-	{ 49537, 49538, 49539, 49539, 49539 };
+		{ 49537, 49538, 49539, 49539, 49539 };
 
 	private int stage = 0;
 
@@ -63,7 +63,8 @@ public class FremennikCampRoom extends PuzzleRoom {
 			advance(player);
 			player.setNextAnimation(new Animation(897));
 			return false;
-		} else if (object.getId() == BARS[type]) {
+		}
+		if (object.getId() == BARS[type]) {
 			if (!hasRequirement(player, Constants.SMITHING)) {
 				player.sendMessage("You need a smithing level of " + getRequirement(Constants.SMITHING) + " to smith these battle axes.");
 				return false;

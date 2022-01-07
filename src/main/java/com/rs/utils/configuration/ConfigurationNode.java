@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -22,20 +22,20 @@ import java.util.Map.Entry;
 
 /**
  * Represents a configuration sub-node
- * 
+ *
  * @author Nikki
- * 
+ *
  */
 public class ConfigurationNode {
 
 	/**
 	 * A map of the children of this node
 	 */
-	private Map<String, Object> children = new HashMap<String, Object>();
+	private Map<String, Object> children = new HashMap<>();
 
 	/**
 	 * Set a value
-	 * 
+	 *
 	 * @param key
 	 *            The key
 	 * @param value
@@ -47,7 +47,7 @@ public class ConfigurationNode {
 
 	/**
 	 * Check if the map contains a key
-	 * 
+	 *
 	 * @param key
 	 *            The key to check
 	 * @return true, if found
@@ -58,7 +58,7 @@ public class ConfigurationNode {
 
 	/**
 	 * Get a sub-node for the specified name
-	 * 
+	 *
 	 * @param name
 	 *            The name
 	 * @return The node
@@ -66,9 +66,8 @@ public class ConfigurationNode {
 	public ConfigurationNode nodeFor(String name) {
 		if (children.containsKey(name)) {
 			Object value = children.get(name);
-			if (value.getClass() != this.getClass()) {
+			if (value.getClass() != this.getClass())
 				throw new ConfigurationException("Invalid node " + name + "!");
-			}
 			return (ConfigurationNode) value;
 		}
 		return null;
@@ -76,7 +75,7 @@ public class ConfigurationNode {
 
 	/**
 	 * List the sub values
-	 * 
+	 *
 	 * @return A list of all sub values
 	 */
 	public String listChildren() {
@@ -84,11 +83,10 @@ public class ConfigurationNode {
 		builder.append("[");
 		for (Entry<String, Object> entry : children.entrySet()) {
 			builder.append(entry.getKey()).append(" => ");
-			if (entry.getValue() instanceof ConfigurationNode cn) {
+			if (entry.getValue() instanceof ConfigurationNode cn)
 				builder.append(cn.listChildren());
-			} else {
+			else
 				builder.append(entry.getValue());
-			}
 			builder.append(", ");
 		}
 		if (builder.length() > 2) {
@@ -101,7 +99,7 @@ public class ConfigurationNode {
 
 	/**
 	 * Get an Object value from the map
-	 * 
+	 *
 	 * @param key
 	 *            The key
 	 * @return The value
@@ -112,22 +110,21 @@ public class ConfigurationNode {
 
 	/**
 	 * Get a string value from this node
-	 * 
+	 *
 	 * @param string
 	 *            The key of the value
 	 * @return The string, or null
 	 */
 	public String getString(String string) {
 		Object value = get(string);
-		if (value instanceof String) {
+		if (value instanceof String)
 			return (String) value;
-		}
 		return "null";
 	}
 
 	/**
 	 * Get an integer value from this node
-	 * 
+	 *
 	 * @param key
 	 *            The key of the value
 	 * @return The value, parsed as an integer
@@ -138,7 +135,7 @@ public class ConfigurationNode {
 
 	/**
 	 * Get a boolean value from this node
-	 * 
+	 *
 	 * @param key
 	 *            The key of the value
 	 * @return The value, parsed as a boolean
@@ -149,7 +146,7 @@ public class ConfigurationNode {
 
 	/**
 	 * Get a list of the children
-	 * 
+	 *
 	 * @return The map
 	 */
 	public Map<String, Object> getChildren() {

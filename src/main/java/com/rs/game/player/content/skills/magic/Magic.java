@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -44,7 +44,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class Magic {
-	
+
 	//342 343 teleother spotanims
 
 	public static final int MAGIC_TELEPORT = 0, ITEM_TELEPORT = 1, OBJECT_TELEPORT = 2;
@@ -62,7 +62,7 @@ public class Magic {
 		}
 		return false;
 	}
-	
+
 	public static boolean hasStaffOfLight(int weaponId) {
 		switch(weaponId) {
 		case 15486:
@@ -77,26 +77,24 @@ public class Magic {
 	}
 
 	public static final boolean checkCombatSpell(Player player, CombatSpell spell, int set, boolean delete) {
-		if (set >= 0) {
+		if (set >= 0)
 			if (set == 0)
 				player.getCombatDefinitions().setAutoCastSpell(spell);
 			else
 				player.getCombatDefinitions().setManualCastSpell(spell);
-		}
 		return true;
 	}
-	
+
 	public static final void manualCast(Player player, Entity target, CombatSpell spell) {
 		if (checkCombatSpell(player, spell, 1, false)) {
 			player.setNextFaceWorldTile(new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
 			if (!player.getControllerManager().canAttack(target))
 				return;
-			if (target instanceof Player p2) {
+			if (target instanceof Player p2)
 				if (!player.isCanPvp() || !p2.isCanPvp()) {
 					player.sendMessage("You can only attack players in a player-vs-player area.");
 					return;
 				}
-			}
 			if (target instanceof Familiar familiar) {
 				if (familiar == player.getFamiliar()) {
 					player.sendMessage("You can't attack your own familiar.");
@@ -106,26 +104,24 @@ public class Magic {
 					player.sendMessage("You can't attack them.");
 					return;
 				}
-			} else if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
+			} else if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked())
 				if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
 					if (player.getAttackedBy() != target && player.inCombat()) {
 						player.sendMessage("You are already in combat.");
 						return;
 					}
 					if (target.getAttackedBy() != player && target.inCombat()) {
-						if (target.getAttackedBy() instanceof NPC) {
-							target.setAttackedBy(player);
-						} else {
+						if (!(target.getAttackedBy() instanceof NPC)) {
 							player.sendMessage("They are already in combat.");
 							return;
 						}
+						target.setAttackedBy(player);
 					}
 				}
-			}
 			player.getActionManager().setAction(new PlayerCombat(target));
 		}
 	}
-	
+
 	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -145,7 +141,7 @@ public class Magic {
 				Magic.processNormalSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
 		}
 	};
-	
+
 	public static ButtonClickHandler handleAncientSpellbookButtons = new ButtonClickHandler(193) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -161,7 +157,7 @@ public class Magic {
 				Magic.processAncientSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
 		}
 	};
-	
+
 	public static ButtonClickHandler handleLunarSpellbookButtons = new ButtonClickHandler(430) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -396,13 +392,11 @@ public class Magic {
 			break;
 		case 48:
 			if (player.getSkills().getLevel(Constants.MAGIC) >= 40) {
-				if (!player.isLocked() && checkRunes(player, true, new RuneSet(Rune.AIR, 1, Rune.EARTH, 1, Rune.LAW, 1))) {
+				if (!player.isLocked() && checkRunes(player, true, new RuneSet(Rune.AIR, 1, Rune.EARTH, 1, Rune.LAW, 1)))
 					if (useHouseTeleport(player))
 						player.getSkills().addXp(Constants.MAGIC, 48);
-				}
-			} else {
+			} else
 				player.sendMessage("You need a magic level of 40 to use this spell.");
-			}
 			break;
 		case 51: // camelot
 			sendNormalTeleportSpell(player, 45, 55.5, new WorldTile(2757, 3478, 0), new RuneSet(Rune.AIR, 5, Rune.LAW, 1));
@@ -421,7 +415,7 @@ public class Magic {
 			break;
 		}
 	}
-	
+
 	public static void processDungSpell(Player player, int componentId, ClientPacket packetId) {
 		if (player.hasRights(Rights.DEVELOPER))
 			player.sendMessage("Dungeoneering spell: " + componentId + ", " + packetId);
@@ -464,11 +458,11 @@ public class Magic {
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes) {
 		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, runes);
 	}
-	
+
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile) {
 		return sendNormalTeleportSpell(player, level, xp, tile, null);
 	}
-	
+
 	public static final boolean sendNormalTeleportSpell(Player player, WorldTile tile) {
 		return sendNormalTeleportSpell(player, 0, 0, tile);
 	}
@@ -499,7 +493,7 @@ public class Magic {
 	public static final void sendDelayedObjectTeleportSpell(Player player, int delay, boolean randomize, WorldTile tile) {
 		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, delay, randomize, OBJECT_TELEPORT, null);
 	}
-	
+
 	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final WorldTile tile, int delay, final boolean randomize, final int teleType) {
 		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, null);
 	}
@@ -521,10 +515,9 @@ public class Magic {
 				player.getTempAttribs().setB("glory", false);
 				return false;
 			}
-		} else if (teleType == OBJECT_TELEPORT) {
+		} else if (teleType == OBJECT_TELEPORT)
 			if (!player.getControllerManager().processObjectTeleport(tile))
 				return false;
-		}
 		if (runes != null) {
 			List<Item> runeList = runes.getRunesToDelete(player);
 			for (Item rune : runeList)
@@ -547,7 +540,7 @@ public class Magic {
 			public void run() {
 				if (!removeDamage) {
 					WorldTile teleTile = tile;
-					if (randomize) {
+					if (randomize)
 						// attemps to randomize tile by 4x4 area
 						for (int trycount = 0; trycount < 10; trycount++) {
 							teleTile = new WorldTile(tile, 2);
@@ -555,7 +548,6 @@ public class Magic {
 								break;
 							teleTile = tile;
 						}
-					}
 					player.setNextWorldTile(teleTile);
 					if (teleType != -1) {
 						player.getControllerManager().magicTeleported(teleType);
@@ -585,13 +577,12 @@ public class Magic {
 	}
 
 	public static boolean useHouseTeleport(final Player player) {
-		if (!player.getControllerManager().processMagicTeleport(new WorldTile(3217, 3426, 0)))
-			return false;
-//		if (player.getControllerManager().getController() instanceof HouseController)
-//			return false;
-		if (player.isLocked())
-			return false;
 		
+		//		if (player.getControllerManager().getController() instanceof HouseController)
+		//			return false;
+		if (!player.getControllerManager().processMagicTeleport(new WorldTile(3217, 3426, 0)) || player.isLocked())
+			return false;
+
 		player.lock();
 		player.setNextAnimation(new Animation(8939));
 		player.setNextSpotAnim(new SpotAnim(1576));
@@ -610,9 +601,8 @@ public class Magic {
 						player.getHouse().setBuildMode(false);
 						player.getHouse().enterMyHouse();
 						player.setFaceAngle(6);
-					} else {
+					} else
 						player.setNextWorldTile(new WorldTile(player.getHouse().getLocation().getTile()));
-					}
 					player.setNextAnimation(new Animation(-1));
 					stage = 2;
 				} else if (stage == 2) {
@@ -628,9 +618,7 @@ public class Magic {
 	}
 
 	public static boolean useHouseTab(final Player player) {
-		if (!player.getControllerManager().processItemTeleport(new WorldTile(3217, 3426, 0)))
-			return false;
-		if (player.getControllerManager().getController() instanceof HouseController)
+		if (!player.getControllerManager().processItemTeleport(new WorldTile(3217, 3426, 0)) || (player.getControllerManager().getController() instanceof HouseController))
 			return false;
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
@@ -649,9 +637,8 @@ public class Magic {
 						player.getHouse().setBuildMode(false);
 						player.getHouse().enterMyHouse();
 						player.setFaceAngle(6);
-					} else {
+					} else
 						player.setNextWorldTile(new WorldTile(player.getHouse().getLocation().getTile()));
-					}
 					player.setNextAnimation(new Animation(-1));
 					stage = 2;
 				} else if (stage == 2) {
@@ -727,10 +714,9 @@ public class Magic {
 			return false;
 		if (runes != null && deleteRunes) {
 			List<Item> toDelete = runes.getRunesToDelete(player);
-			for (Item i : toDelete) {
+			for (Item i : toDelete)
 				if (i != null)
 					player.getInventory().deleteItem(i);
-			}
 		}
 		return true;
 	}
@@ -742,10 +728,9 @@ public class Magic {
 			return false;
 		if (delete) {
 			List<Item> toDelete = runes.getRunesToDelete(player);
-			for (Item i : toDelete) {
+			for (Item i : toDelete)
 				if (i != null)
 					player.getInventory().deleteItem(i);
-			}
 		}
 		return true;
 	}

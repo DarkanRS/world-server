@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,14 +39,14 @@ public final class QueenBlackDragonController extends Controller {
 
 	private static final int[][][] PLATFORM_STEPS = {
 			{ { 88, 86 }, { 88, 87 }, { 88, 88 }, { 88, 89 }, { 88, 90 }, { 88, 91 }, { 89, 91 }, { 89, 90 }, { 89, 89 }, { 89, 88 }, { 89, 87 }, { 89, 86 }, { 90, 86 }, { 90, 87 }, { 90, 88 }, { 90, 89 }, { 90, 90 }, { 90, 91 }, { 91, 91 },
-					{ 91, 90 }, { 91, 89 }, { 91, 88 }, { 91, 87 }, { 92, 87 }, { 92, 88 }, { 92, 89 }, { 92, 90 }, { 92, 91 }, { 93, 91 }, { 93, 90 }, { 93, 89 }, { 93, 88 }, { 94, 88 }, { 94, 89 }, { 94, 90 }, { 94, 91 }, { 95, 91 }, { 95, 90 },
-					{ 95, 89 }, { 96, 89 }, { 96, 90 }, { 96, 91 }, { 97, 91 }, { 97, 90 }, { 98, 90 }, { 98, 91 }, { 99, 91 } },
+				{ 91, 90 }, { 91, 89 }, { 91, 88 }, { 91, 87 }, { 92, 87 }, { 92, 88 }, { 92, 89 }, { 92, 90 }, { 92, 91 }, { 93, 91 }, { 93, 90 }, { 93, 89 }, { 93, 88 }, { 94, 88 }, { 94, 89 }, { 94, 90 }, { 94, 91 }, { 95, 91 }, { 95, 90 },
+				{ 95, 89 }, { 96, 89 }, { 96, 90 }, { 96, 91 }, { 97, 91 }, { 97, 90 }, { 98, 90 }, { 98, 91 }, { 99, 91 } },
 			{ { 106, 91 }, { 106, 90 }, { 106, 89 }, { 106, 88 }, { 106, 87 }, { 106, 86 }, { 105, 86 }, { 105, 87 }, { 105, 88 }, { 105, 89 }, { 105, 90 }, { 105, 91 }, { 104, 91 }, { 104, 90 }, { 104, 89 }, { 104, 88 }, { 104, 87 }, { 104, 86 },
 					{ 103, 87 }, { 103, 88 }, { 103, 89 }, { 103, 90 }, { 103, 91 }, { 102, 91 }, { 102, 90 }, { 102, 89 }, { 102, 88 }, { 102, 87 }, { 101, 88 }, { 101, 89 }, { 101, 90 }, { 101, 91 }, { 100, 91 }, { 100, 90 }, { 100, 89 },
 					{ 100, 88 }, { 99, 88 }, { 99, 89 }, { 99, 90 }, { 98, 89 } },
 			{ { 99, 90 }, { 100, 90 }, { 100, 89 }, { 99, 89 }, { 98, 89 }, { 97, 89 }, { 95, 88 }, { 96, 88 }, { 97, 88 }, { 98, 88 }, { 99, 88 }, { 99, 87 }, { 98, 87 }, { 97, 87 }, { 96, 87 }, { 96, 86 }, { 97, 86 }, { 98, 86 } } };
 
-	
+
 	private int platformStand;
 	private transient QueenBlackDragon npc;
 	private DynamicRegionReference region;
@@ -75,13 +75,11 @@ public final class QueenBlackDragonController extends Controller {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
-		if (npc == null) {
+		if (npc == null)
 			return true;
-		}
 		if (object.getId() == 70790) {
-			if (npc.getPhase() < 5) {
+			if (npc.getPhase() < 5)
 				return true;
-			}
 			player.lock();
 			player.getPackets().sendAddObject(new GameObject(70849, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
 			player.getPackets().sendAddObject(new GameObject(70837, ObjectType.SCENERY_INTERACT, 0, base.transform(22, 24, -1)));
@@ -95,7 +93,7 @@ public final class QueenBlackDragonController extends Controller {
 				DynamicRegionReference old = region;
 				region = new DynamicRegionReference(8, 8);
 				region.copyMapAllPlanes(160, 760, () -> {
-					base = region.getBase().transform(0, 0, 1);;
+					base = region.getBase().transform(0, 0, 1);
 					player.setNextWorldTile(base.transform(31, 36, -1));
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
@@ -159,41 +157,32 @@ public final class QueenBlackDragonController extends Controller {
 		if (npc == null)
 			return;
 		if (player.getY() < base.getY() + 28) {
-			if (npc.hasFinished()) {
+			if (npc.hasFinished())
 				return;
-			}
 			if (platformStand++ == 6) {
 				player.sendMessage("You are damaged for standing too long on the raw magical platforms.");
 				player.applyHit(new Hit(npc, 200, HitLook.TRUE_DAMAGE));
 				platformStand = 0;
 			}
-		} else {
+		} else
 			platformStand = 0;
-		}
 	}
 
 	@Override
 	public boolean checkWalkStep(int lastX, int lastY, int nextX, int nextY) {
 		if (npc != null && nextY < base.getY() + 28) {
 			if (npc.getPhase() > 1) {
-				for (int[] step : PLATFORM_STEPS[0]) {
-					if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY) {
+				for (int[] step : PLATFORM_STEPS[0])
+					if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY)
 						return true;
-					}
-				}
 				if (npc.getPhase() > 2) {
-					for (int[] step : PLATFORM_STEPS[1]) {
-						if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY) {
+					for (int[] step : PLATFORM_STEPS[1])
+						if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY)
 							return true;
-						}
-					}
-					if (npc.getPhase() > 3) {
-						for (int[] step : PLATFORM_STEPS[2]) {
-							if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY) {
+					if (npc.getPhase() > 3)
+						for (int[] step : PLATFORM_STEPS[2])
+							if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY)
 								return true;
-							}
-						}
-					}
 				}
 			}
 			return false;
@@ -203,9 +192,8 @@ public final class QueenBlackDragonController extends Controller {
 
 	@Override
 	public boolean processButtonClick(int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
-		if (npc == null) {
+		if (npc == null)
 			return true;
-		}
 		switch (interfaceId) {
 		case 1284:
 			switch (componentId) {
@@ -221,16 +209,14 @@ public final class QueenBlackDragonController extends Controller {
 			case 10:
 				for (int slot = 0; slot < npc.getRewards().toArray().length; slot++) {
 					Item item = npc.getRewards().get(slot);
-					if (item == null) {
+					if (item == null)
 						continue;
-					}
 					boolean added = true;
 					if (item.getDefinitions().isStackable() || item.getAmount() < 2) {
 						added = player.getInventory().addItem(item);
-						if (added) {
+						if (added)
 							npc.getRewards().toArray()[slot] = null;
-						}
-					} else {
+					} else
 						for (int i = 0; i < item.getAmount(); i++) {
 							Item single = new Item(item.getId());
 							if (!player.getInventory().addItem(single)) {
@@ -239,7 +225,6 @@ public final class QueenBlackDragonController extends Controller {
 							}
 							npc.getRewards().remove(single);
 						}
-					}
 					if (!added) {
 						player.sendMessage("You only had enough space in your inventory to accept some of the items.");
 						break;
@@ -274,11 +259,11 @@ public final class QueenBlackDragonController extends Controller {
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					end(0);
 					player.getControllerManager().startController(new DeathOfficeController(OUTSIDE, player.hasSkull()));
 				} else if (loop == 4) {
@@ -308,9 +293,8 @@ public final class QueenBlackDragonController extends Controller {
 		if (type == 0) {
 			player.getInterfaceManager().removeWindowInterface(1, 3);
 			player.getPackets().sendVarc(184, -1);
-		} else {
+		} else
 			player.setLocation(OUTSIDE);
-		}
 		removeController();
 		if (npc != null)
 			player.getBank().addItems(npc.getRewards().toArray(), false);

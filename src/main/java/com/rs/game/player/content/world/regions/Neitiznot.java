@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,14 +31,14 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Neitiznot  {
-	
+
 	static class MawnisBurowgarD extends Conversation {
-		
+
 		private static final int MAWNIS = 5503;
-		
+
 		public MawnisBurowgarD(Player player) {
 			super(player);
-			
+
 			addNPC(MAWNIS, HeadE.HAPPY_TALKING, "It makes me proud to know that the helm of my ancestors will be worn in battle.");
 			addNPC(MAWNIS, HeadE.HAPPY_TALKING, "I thank you on behalf of all my kinsmen Dallim Far-strider.");
 			addPlayer(HeadE.WORRIED, "Ah yes, about that beautiful helmet.");
@@ -47,40 +47,38 @@ public class Neitiznot  {
 			addNPC(MAWNIS, HeadE.CONFUSED, "It's a good job I have alert and loyal men who notice when something like this is left lying around and picks it up.");
 			addNPC(MAWNIS, HeadE.CONFUSED, "I'm afraid I'm going to have to charge you a 50,000GP handling cost.");
 			Dialogue op = addOption("Pay 50,000GP to recover your helmet?", "Yes, that would be fine.", "No, that's too much.");
-			if (player.getInventory().containsItem(995, 50000)) {
+			if (player.getInventory().containsItem(995, 50000))
 				op.addNPC(MAWNIS, HeadE.HAPPY_TALKING, "Please be more careful with it in the future.", () -> {
 					if (player.getInventory().containsItem(995, 50000)) {
 						player.getInventory().deleteItem(995, 50000);
 						player.getInventory().addItem(10828, 1, true);
 					}
 				});
-			} else {
+			else
 				op.addNPC(MAWNIS, HeadE.HAPPY_TALKING, "You don't have enough gold right now.");
-			}
 			op.addNPC(MAWNIS, HeadE.HAPPY_TALKING, "Okay. Come back later if you change your mind.");
-			
+
 			create();
 		}
 	}
-	
+
 	public static ObjectClickHandler handleLadders = new ObjectClickHandler(new Object[] { 21512, 21513, 21514, 21515 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getObjectId() == 21512 || e.getObjectId() == 21513) {
+			if (e.getObjectId() == 21512 || e.getObjectId() == 21513)
 				e.getPlayer().useLadder(e.getObjectId() == 21512 ? e.getPlayer().transform(2, 0, 2) : e.getPlayer().transform(-2, 0, -2));
-			} else if (e.getObjectId() == 21514 || e.getObjectId() == 21515) {
+			else if (e.getObjectId() == 21514 || e.getObjectId() == 21515)
 				e.getPlayer().useLadder(e.getObjectId() == 21514 ? e.getPlayer().transform(-2, 0, 1) : e.getPlayer().transform(2, 0, -1));
-			}
 		}
 	};
-	
+
 	public static NPCClickHandler handleMawnis = new NPCClickHandler(5503) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new MawnisBurowgarD(e.getPlayer()));
 		}
 	};
-	
+
 	public static NPCClickHandler handleShops = new NPCClickHandler(5509, 5487, 5484, 5486, 5485, 5483, 5495) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -109,39 +107,38 @@ public class Neitiznot  {
 			}
 		}
 	};
-	
+
 	public static NPCClickHandler handleCureHide = new NPCClickHandler(5506) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().sendOptionDialogue("What can I help you with?", new String[] {"Cure my yak-hide, please.", "Nothing, thanks."}, new DialogueOptionEvent() {
 				@Override
 				public void run(Player player) {
-					if (getOption() == 1) {
+					if (getOption() == 1)
 						if (e.getPlayer().getInventory().containsItem(10818, 1)) {
 							int number = e.getPlayer().getInventory().getAmountOf(10818);
 							e.getPlayer().getInventory().deleteItem(10818, number);
 							e.getPlayer().getInventory().addItem(10820, number);
 						}
-					}
 				}
 			});
 		}
 	};
-	
+
 	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(5507, 5508) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? new WorldTile(2644, 3709, 0) : new WorldTile(2310, 3781, 0));
 		}
 	};
-	
+
 	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(5482, 5481) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? new WorldTile(2644, 3709, 0) : new WorldTile(2420, 3781, 0));
 		}
 	};
-	
+
 	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(5488) {
 		@Override
 		public void handle(NPCClickEvent e) {

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,34 +47,33 @@ public class NexCombat extends CombatScript {
 
 	@Override
 	public int attack(NPC npc, final Entity target) {
-		if (!(npc instanceof Nex))
+		if (!(npc instanceof Nex nex))
 			return notNexAttack(npc, target);
-		Nex nex = (Nex) npc;
 		if (nex.getTempAttribs().getB("siphoning"))
 			return 0;
 		switch(nex.getPhase()) {
 		case SMOKE:
 			if (nex.getAttackCount() % 12 == 0)
 				return nex.performAttack(target, Utils.random(4) == 0 ? new Drag() : new NoEscape());
-			else if (nex.getAttackCount() % 6 == 0)
+			if (nex.getAttackCount() % 6 == 0)
 				return nex.performAttack(target, new Virus());
 			break;
 		case SHADOW:
 			if (nex.getAttackCount() == 0)
 				return nex.performAttack(target, new EmbraceDarkness());
-			else if (nex.getAttackCount() % 5 == 0)
+			if (nex.getAttackCount() % 5 == 0)
 				return nex.performAttack(target, new ShadowTraps());
 			break;
 		case BLOOD:
 			if (nex.getAttackCount() % 8 == 0)
 				return nex.performAttack(target, new Siphon());
-			else if (nex.getAttackCount() % 4 == 0)
+			if (nex.getAttackCount() % 4 == 0)
 				return nex.performAttack(target, new BloodSacrifice());
 			break;
 		case ICE:
 			if (nex.getAttackCount() % 8 == 0)
 				return nex.performAttack(target, new ContainThis());
-			else if (nex.getAttackCount() % 4 == 0)
+			if (nex.getAttackCount() % 4 == 0)
 				return nex.performAttack(target, new IcePrison());
 			break;
 		default:
@@ -82,7 +81,7 @@ public class NexCombat extends CombatScript {
 		}
 		return autoAttack(nex, target);
 	}
-	
+
 	public int autoAttack(Nex nex, Entity target) {
 		if (nex.isFollowTarget()) {
 			if (!nex.inMeleeRange(target)) {
@@ -148,7 +147,7 @@ public class NexCombat extends CombatScript {
 		nex.incrementAttack();
 		return nex.getAttackSpeed();
 	}
-	
+
 	public int notNexAttack(NPC npc, Entity target) {
 		npc.setNextAnimation(new Animation(6987));
 		npc.setNextSpotAnim(new SpotAnim(1214));

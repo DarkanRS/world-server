@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,7 +32,7 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
 public class PolyporeStaff {
-	
+
 	public static ItemClickHandler handleOptions = new ItemClickHandler(new Object[] { 22494, 22496, 22497 }, new String[] { "Check", "Clean" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -68,7 +68,7 @@ public class PolyporeStaff {
 			}
 		}
 	};
-	
+
 	public static ItemOnItemHandler handleCreate = new ItemOnItemHandler(22448, new int[] { 22496, 22497, 22498 }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
@@ -125,12 +125,12 @@ public class PolyporeStaff {
 			}
 		}
 	};
-	
+
 	public static boolean isWielding(Player player) {
 		int weaponId = player.getEquipment().getWeaponId();
 		return weaponId == 22494 || weaponId == 22496 || weaponId == 22497;
 	}
-	
+
 	public static void drainCharge(Player player) {
 		Item staff = player.getEquipment().getItem(Equipment.WEAPON);
 		if (staff == null)

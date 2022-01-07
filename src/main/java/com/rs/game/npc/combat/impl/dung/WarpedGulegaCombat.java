@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -52,7 +52,7 @@ public class WarpedGulegaCombat extends CombatScript {
 		case 3:// reg aeo melee
 			npc.setNextAnimation(new Animation(15004));
 
-			final List<WorldTile> attackTiles = new LinkedList<WorldTile>();
+			final List<WorldTile> attackTiles = new LinkedList<>();
 			for (Entity t : boss.getPossibleTargets(true))
 				attackTiles.add(new WorldTile(t));
 			WorldTasksManager.schedule(new WorldTask() {
@@ -61,14 +61,12 @@ public class WarpedGulegaCombat extends CombatScript {
 				public void run() {
 					for (WorldTile tile : attackTiles)
 						World.sendSpotAnim(npc, MELEE, tile);
-					for (Entity t : boss.getPossibleTargets(true)) {
-						tileLoop: for (WorldTile tile : attackTiles) {
+					for (Entity t : boss.getPossibleTargets(true))
+						tileLoop: for (WorldTile tile : attackTiles)
 							if (t.getX() == tile.getX() && t.getY() == tile.getY()) {
 								delayHit(npc, 0, t, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * 0.75), AttackStyle.MELEE, t)));
 								break tileLoop;
 							}
-						}
-					}
 				}
 			});
 			break;
@@ -108,10 +106,9 @@ public class WarpedGulegaCombat extends CombatScript {
 					else if (cycles == 5)
 						sendTenticals(boss, center, 0);
 					else if (cycles == 6) {
-						for (Entity t : npc.getPossibleTargets(true)) {
+						for (Entity t : npc.getPossibleTargets(true))
 							if (t.getX() == center.getX() && t.getY() == center.getY())
 								t.applyHit(new Hit(npc, t.getHitpoints() - 1, HitLook.TRUE_DAMAGE));
-						}
 						stop();
 						return;
 					}
@@ -123,9 +120,9 @@ public class WarpedGulegaCombat extends CombatScript {
 	}
 
 	private void sendTenticals(NPC npc, WorldTile center, int stage) {
-		if (stage == 0) {
+		if (stage == 0)
 			World.sendSpotAnim(npc, MELEE, center);
-		} else if (stage == 2 || stage == 1) {
+		else if (stage == 2 || stage == 1) {
 			World.sendSpotAnim(npc, MELEE, center.transform(-stage, stage, 0));
 			World.sendSpotAnim(npc, MELEE, center.transform(stage, stage, 0));
 			World.sendSpotAnim(npc, MELEE, center.transform(-stage, -stage, 0));

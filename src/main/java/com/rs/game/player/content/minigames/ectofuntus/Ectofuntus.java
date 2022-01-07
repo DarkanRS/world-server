@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -43,24 +43,24 @@ public class Ectofuntus {
 	public static final int ECTOPHIAL = 4251;
 
 	public static enum BoneMeal {
-		BONES(526, 4255), 
-		BAT_BONES(530, 4256), 
-		BIG_BONES(532, 4257), 
-		BABY_DRAGON_BONES(534, 4260), 
-		DRAGON_BONES(536, 4261), 
-		DAGANNOTH_BONES(6729, 6728), 
-		WYVERN_BONES(6812, 6810), 
-		OURG_BONES(4834, 4855), 
-		FROST_BONES(18832, 18834), 
-		IMPIOUS_ASHES(20264, 20264), 
-		ACCURSED_ASHES(20266, 20266), 
+		BONES(526, 4255),
+		BAT_BONES(530, 4256),
+		BIG_BONES(532, 4257),
+		BABY_DRAGON_BONES(534, 4260),
+		DRAGON_BONES(536, 4261),
+		DAGANNOTH_BONES(6729, 6728),
+		WYVERN_BONES(6812, 6810),
+		OURG_BONES(4834, 4855),
+		FROST_BONES(18832, 18834),
+		IMPIOUS_ASHES(20264, 20264),
+		ACCURSED_ASHES(20266, 20266),
 		INFERNAL_ASHES(20268, 20268);
 
 		private int boneId;
 		private int boneMealId;
 
-		private static Map<Integer, BoneMeal> bonemeals = new HashMap<Integer, BoneMeal>();
-		private static Map<Integer, BoneMeal> bones = new HashMap<Integer, BoneMeal>();
+		private static Map<Integer, BoneMeal> bonemeals = new HashMap<>();
+		private static Map<Integer, BoneMeal> bones = new HashMap<>();
 
 		public static BoneMeal forBoneId(int itemId) {
 			return bonemeals.get(itemId);
@@ -71,12 +71,10 @@ public class Ectofuntus {
 		}
 
 		static {
-			for (final BoneMeal bonemeal : BoneMeal.values()) {
+			for (final BoneMeal bonemeal : BoneMeal.values())
 				bonemeals.put(bonemeal.boneId, bonemeal);
-			}
-			for (final BoneMeal bonemeal : BoneMeal.values()) {
+			for (final BoneMeal bonemeal : BoneMeal.values())
 				bones.put(bonemeal.boneMealId, bonemeal);
-			}
 		}
 
 		private BoneMeal(int boneId, int boneMealId) {
@@ -92,25 +90,25 @@ public class Ectofuntus {
 			return boneMealId;
 		}
 	}
-	
+
 	public static final void sendEctophialTeleport(Player player, WorldTile tile) {
 		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT);
 	}
-	
+
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useLadder(new WorldTile(3669, 9888, 3));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 5264 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useLadder(new WorldTile(3654, 3519, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleShortcuts = new ObjectClickHandler(new Object[] { 9307, 9308 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -120,7 +118,7 @@ public class Ectofuntus {
 					return;
 				e.getPlayer().useLadder(new WorldTile(3670, 9888, 3));
 				return;
-				
+
 			case 9308:
 				if (!Agility.hasLevel(e.getPlayer(), 53))
 					return;
@@ -129,7 +127,7 @@ public class Ectofuntus {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleStairs = new ObjectClickHandler(new Object[] { 5262, 5263 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -142,7 +140,7 @@ public class Ectofuntus {
 				if (e.getPlayer().getPlane() == 0)
 					e.getPlayer().setNextWorldTile(new WorldTile(3687, 9888, 1));
 				return;
-				
+
 			case 5263:
 				if (e.getPlayer().getPlane() == 3)
 					e.getPlayer().setNextWorldTile(new WorldTile(3688, 9888, 2));
@@ -154,7 +152,7 @@ public class Ectofuntus {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWorship = new ObjectClickHandler(new Object[] { 5282 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -186,14 +184,14 @@ public class Ectofuntus {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleGrinder = new ObjectClickHandler(new Object[] { 11163 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			grinder(e.getPlayer());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleBin = new ObjectClickHandler(new Object[] { 11164 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -231,9 +229,8 @@ public class Ectofuntus {
 			player.setNextAnimation(new Animation(1649));
 			player.getInventory().deleteItem(meal.getBoneId(), 1);
 			return true;
-		} else {
-			player.boneType = -1;
 		}
+		player.boneType = -1;
 		return false;
 	}
 
@@ -243,10 +240,9 @@ public class Ectofuntus {
 			player.setNextAnimation(new Animation(1648));
 			player.bonesGrinded = true;
 			return true;
-		} else {
-			player.setNextAnimation(new Animation(1648));
-			return false;
 		}
+		player.setNextAnimation(new Animation(1648));
+		return false;
 	}
 
 	public static boolean bin(Player player) {
@@ -268,9 +264,8 @@ public class Ectofuntus {
 				player.boneType = -1;
 				player.bonesGrinded = false;
 				return true;
-			} else {
-				player.boneType = -1;
 			}
+			player.boneType = -1;
 		}
 		return false;
 	}

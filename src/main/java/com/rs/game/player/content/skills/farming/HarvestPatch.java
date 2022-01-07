@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -26,11 +26,11 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
 public class HarvestPatch extends Action {
-	
+
 	private FarmPatch patch;
 	private int tool = -1;
 	private Animation animation;
-	
+
 	public HarvestPatch(FarmPatch patch) {
 		this.patch = patch;
 		switch(patch.seed.type) {
@@ -107,10 +107,9 @@ public class HarvestPatch extends Action {
 				amount += Math.random() < 0.07 ? 1 : 0;
 			if (player.getAuraManager().isActivated(Aura.SUPREME_GREENFINGERS))
 				amount += Math.random() < 0.1 ? 1 : 0;
-			if (player.hasEffect(Effect.JUJU_FARMING) && (patch.seed.type == PatchType.HERB || patch.seed.type == PatchType.VINE_HERB)) {
+			if (player.hasEffect(Effect.JUJU_FARMING) && (patch.seed.type == PatchType.HERB || patch.seed.type == PatchType.VINE_HERB))
 				if (Utils.random(3) == 0)
 					amount++;
-			}
 			player.incrementCount(patch.seed.productId.getName() + " harvested", amount);
 			player.getInventory().addItemDrop(patch.seed.productId.getId(), amount);
 		}

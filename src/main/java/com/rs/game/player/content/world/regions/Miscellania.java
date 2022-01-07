@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class Miscellania {
-	
+
 	public static NPCClickHandler handleAdvisorGhrim = new NPCClickHandler(1375) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -47,28 +47,28 @@ public class Miscellania {
 			});
 		}
 	};
-	
+
 	public static ObjectClickHandler handleUndergroundEntrance = new ObjectClickHandler(new Object[] { 15115, 15116 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().ladder(e.getObjectId() == 15115 ? new WorldTile(2509, 3847, 0) : new WorldTile(2509, 10245, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleUndergroundCrevices = new ObjectClickHandler(new Object[] { 15186, 15187 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getObjectId() == 15186 ? new WorldTile(2505, 10283, 0) : new WorldTile(2505, 10280, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { 46274, 46275, 46277 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("You'd better leave that to the serfs.");
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMiscTeak = new ObjectClickHandler(new Object[] { 15062 }, new WorldTile(2594, 3890, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {

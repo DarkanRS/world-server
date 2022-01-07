@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -59,15 +59,14 @@ public class CorporealBeast extends NPC {
 		core.finish();
 		core = null;
 	}
-	
+
 	@Override
 	public List<Entity> getPossibleTargets() {
 		List<Entity> targets = super.getPossibleTargets();
 		List<Entity> hittableTargets = new ArrayList<>();
-		for (Entity t : targets) {
+		for (Entity t : targets)
 			if (t.getX() > 2972)
 				hittableTargets.add(t);
-		}
 		return hittableTargets;
 	}
 
@@ -75,14 +74,11 @@ public class CorporealBeast extends NPC {
 	public void handlePreHit(Hit hit) {
 		if (hit.getLook() == HitLook.CANNON_DAMAGE && hit.getDamage() > 80)
 			hit.setDamage(80);
-		if (hit.getSource() instanceof Player player) {
-			if (player.getEquipment().getWeaponId() != -1) {
-				if (!ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).getName().contains(" spear")) {
+		if (hit.getSource() instanceof Player player)
+			if (player.getEquipment().getWeaponId() != -1)
+				if (!ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).getName().contains(" spear"))
 					if (hit.getLook() == HitLook.MELEE_DAMAGE || hit.getLook() == HitLook.RANGE_DAMAGE)
 						hit.setDamage(hit.getDamage() / 2);
-				}
-			}
-		}
 		super.handlePreHit(hit);
 	}
 
@@ -94,20 +90,18 @@ public class CorporealBeast extends NPC {
 		if (getTickCounter() % 3 == 0) {
 			final List<Entity> possibleTargets = getPossibleTargets();
 			boolean stomp = false;
-			for (Entity t : possibleTargets) {
+			for (Entity t : possibleTargets)
 				if (WorldUtil.isInRange(this, t, -1)) {
 					stomp = true;
 					t.applyHit(new Hit(this, Utils.random(150, 513), HitLook.TRUE_DAMAGE), 0);
 				}
-			}
 			if (stomp) {
 				setNextAnimation(new Animation(10496));
 				setNextSpotAnim(new SpotAnim(1834));
 			}
 		}
-		if (getAttackedBy() != null && this.lineOfSightTo(getAttackedBy(), false)) {
+		if (getAttackedBy() != null && lineOfSightTo(getAttackedBy(), false))
 			setAttackedBy(null);
-		}
 		int maxhp = getMaxHitpoints();
 		if (maxhp > getHitpoints() && getPossibleTargets().isEmpty() && getAttackedBy() == null) {
 			resetLevels();
@@ -126,7 +120,7 @@ public class CorporealBeast extends NPC {
 	public double getMagePrayerMultiplier() {
 		return 0.6;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8133) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

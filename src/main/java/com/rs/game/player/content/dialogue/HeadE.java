@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -65,7 +65,7 @@ public enum HeadE {
 	DRUNK_ANGRY(12648),
 	LOSING_IT_LAUGHING(12649),
 	SAD_VERY_SNIFFLE(12650),
-	
+
 	T_CALM_TALK(12936),
 	T_ANGRY(12940),
 	T_VERY_SAD(12944),
@@ -77,7 +77,7 @@ public enum HeadE {
 	T_SCARED(12968),
 	T_ANGRY_NO(12973),
 	T_SURPRISED(12977),
-	
+
 	CAT_CALM_TALK(9178),
 	CAT_CHEERFUL(9179),
 	CAT_EXPLAIN(9180),
@@ -94,7 +94,7 @@ public enum HeadE {
 	CAT_LAUGH(1518),
 	CAT_SAD(6552),
 	CAT_INTELLIGENT_CALM(6553),
-	
+
 	CHILD_FRUSTRATED(7168),
 	CHILD_DOWN(7169),
 	CHILD_RECALLING(7170),
@@ -113,30 +113,30 @@ public enum HeadE {
 	CHILD_CRYING(9683),
 	CHILD_GRETA_THUNBERG(9684),
 	CHILD_TANTRUM(7181),
-	
+
 	PENG_TALK(5661),
 	PENG_EXPLAIN(5662),
 	PENG_HAPPY(5663),
 	PENG_SAD(5665),
-	
+
 	SPIDER_NONE(11605),
 	SPIDER_EXCLAIM(11606),
 	SPIDER_CALM(11607),
 	SPIDER_SAD(11607),
-	
+
 	//Kalphites 6243-6246 possibly
 	//More bug faces 7630-7639
 	//8380-8387
 	//8475-8478
-	
+
 	;
-	
+
 	private int emoteId;
-	
+
 	private HeadE(int emoteId) {
 		this.emoteId = emoteId;
 	}
-	
+
 	public int getEmoteId() {
 		return emoteId;
 	}

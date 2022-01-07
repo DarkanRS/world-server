@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -34,9 +34,9 @@ public final class ControllerManager {
 
 	private transient Player player;
 	private transient boolean inited;
-	
+
 	private Controller controller;
-	
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
@@ -110,7 +110,7 @@ public final class ControllerManager {
 			return;
 		controller.trackXP(skillId, addedXp);
 	}
-	
+
 	public boolean gainXP(int skillId, double exp) {
 		if (controller == null || !inited)
 			return true;
@@ -140,25 +140,22 @@ public final class ControllerManager {
 			return true;
 		return controller.canPlayerOption1(target);
 	}
-	
+
 	public boolean canPlayerOption2(Player target) {
-		if (controller == null || !inited) {
+		if (controller == null || !inited)
 			return true;
-		}
 		return controller.canPlayerOption2(target);
 	}
 
 	public boolean canPlayerOption3(Player target) {
-		if (controller == null || !inited) {
+		if (controller == null || !inited)
 			return true;
-		}
 		return controller.canPlayerOption3(target);
 	}
 
 	public boolean canPlayerOption4(Player target) {
-		if (controller == null || !inited) {
+		if (controller == null || !inited)
 			return true;
-		}
 		return controller.canPlayerOption4(target);
 	}
 
@@ -173,19 +170,19 @@ public final class ControllerManager {
 			return;
 		controller.moved();
 	}
-	
+
 	public boolean canTakeItem(GroundItem item) {
 		if (controller == null || !inited)
 			return true;
 		return controller.canTakeItem(item);
 	}
-	
+
 	public void processNPCDeath(int id) {
 		if (controller == null || !inited)
 			return;
 		controller.processNPCDeath(id);
 	}
-	
+
 	public void processOutgoingHit(Hit hit, Entity target) {
 		if (controller == null || !inited)
 			return;
@@ -197,7 +194,7 @@ public final class ControllerManager {
 			return;
 		controller.processIncomingHit(hit);
 	}
-	
+
 	public void processNPCDeath(NPC id) {
 		if (controller == null || !inited)
 			return;
@@ -337,7 +334,7 @@ public final class ControllerManager {
 		controller = null;
 		inited = false;
 	}
-	
+
 	public boolean processObjectClick4(GameObject object) {
 		if (controller == null || !inited)
 			return true;
@@ -362,19 +359,19 @@ public final class ControllerManager {
 		return controller.processItemOnObject(object, item);
 	}
 
-    public boolean canTrade() {
+	public boolean canTrade() {
 		if (controller == null || !inited)
 			return true;
 		return controller.canTrade();
-    }
-    
-    public boolean isIn(Class<?> type) {
-    	if (controller == null)
-    		return false;
-    	return controller.getClass().isAssignableFrom(type);
-    }
-    
-    @SuppressWarnings("unchecked")
+	}
+
+	public boolean isIn(Class<?> type) {
+		if (controller == null)
+			return false;
+		return controller.getClass().isAssignableFrom(type);
+	}
+
+	@SuppressWarnings("unchecked")
 	public <T extends Controller> T getController(Class<T> clazz) {
 		if (controller == null || !controller.getClass().isAssignableFrom(clazz))
 			return null;

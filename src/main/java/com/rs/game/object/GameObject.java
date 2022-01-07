@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,17 +27,17 @@ import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 
 public class GameObject extends WorldObject {
-	
+
 	public enum RouteType {
 		NORMAL, WALK_ONTO
 	}
 
 	protected RouteType routeType = RouteType.NORMAL;
-	
+
 	public GameObject(int id, ObjectType type, int rotation, WorldTile tile) {
 		super(id, type, rotation, tile);
 	}
-	
+
 	public GameObject(int id, int rotation, int x, int y, int plane) {
 		super(id, rotation, x, y, plane);
 	}
@@ -48,19 +48,16 @@ public class GameObject extends WorldObject {
 
 	public GameObject(GameObject object) {
 		super(object);
-		this.routeType = object.getRouteType();
+		routeType = object.getRouteType();
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
-		if (other == null)
+		if ((other == null) || !(other instanceof GameObject obj))
 			return false;
-		if (!(other instanceof GameObject))
-			return false;
-		GameObject obj = (GameObject) other;
-		return obj.hashCode() == this.hashCode();
+		return obj.hashCode() == hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		int hash = getTileHash();
@@ -69,12 +66,12 @@ public class GameObject extends WorldObject {
 		hash = ((hash << 5) - hash) + type.id;
 		return hash;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "[id:"+id+" loc:("+getX()+","+getY()+","+getPlane()+") type:"+type+" rot:"+rotation+" name:"+getDefinitions().getName()+"]";
 	}
-	
+
 	public GameObject setId(int id) {
 		int lastId = this.id;
 		this.id = id;
@@ -82,7 +79,7 @@ public class GameObject extends WorldObject {
 			World.refreshObject(this);
 		return this;
 	}
-	
+
 	public void setIdTemporary(int id, int ticks) {
 		if (this.id == id)
 			return;
@@ -95,12 +92,12 @@ public class GameObject extends WorldObject {
 			}
 		}, ticks);
 	}
-	
+
 	public GameObject setIdNoRefresh(int id) {
 		this.id = id;
 		return this;
 	}
-	
+
 	public GameObject setRouteType(RouteType routeType) {
 		this.routeType = routeType;
 		return this;
@@ -109,7 +106,7 @@ public class GameObject extends WorldObject {
 	public ObjectDefinitions getDefinitions(Player player) {
 		return ObjectDefinitions.getDefs(id, player.getVars());
 	}
-	
+
 	public void animate(Animation animation) {
 		World.sendObjectAnimation(this, animation);
 	}

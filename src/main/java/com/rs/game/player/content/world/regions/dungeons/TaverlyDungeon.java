@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,14 +31,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class TaverlyDungeon {
-	
+
 	public static ObjectClickHandler handleVSBSecretLocation = new ObjectClickHandler(new Object[] { 11901, 11902 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getObjectId() == 11901 ? new WorldTile(4498, 5680, 0) : new WorldTile(2915, 9673, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handlePipeSqueeze = new ObjectClickHandler(new Object[] { 9293 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -57,7 +57,7 @@ public class TaverlyDungeon {
 			e.getPlayer().useStairs(-1, new WorldTile(x, 9799, 0), 3, 4);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleStrangeFloor = new ObjectClickHandler(new Object[] { 9294 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -91,12 +91,12 @@ public class TaverlyDungeon {
 			}, 0, 0);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getObjectId() == 66991 ? new WorldTile(2885, 9795, 0) : new WorldTile(2885, 3395, 0));
 		}
 	};
-	
+
 }

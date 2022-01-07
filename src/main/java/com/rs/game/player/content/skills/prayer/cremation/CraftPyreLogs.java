@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -24,9 +24,9 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 
 public class CraftPyreLogs extends Action {
-	
+
 	private static final int DOSE_4 = 3430, DOSE_3 = 3432, DOSE_2 = 3434, DOSE_1 = 3436;
-	
+
 	private PyreLog log;
 	private int makeX;
 
@@ -36,7 +36,7 @@ public class CraftPyreLogs extends Action {
 
 	@Override
 	public boolean start(Player player) {
-		this.makeX = SkillsDialogue.getQuantity(player);
+		makeX = SkillsDialogue.getQuantity(player);
 		return true;
 	}
 
@@ -50,9 +50,7 @@ public class CraftPyreLogs extends Action {
 		if (!player.getInventory().containsItem(log.baseLog, 1))
 			return -1;
 		int doses = getDosesInInv(player);
-		if (doses < log.oilDoses)
-			return -1;
-		if (makeX-- <= 0)
+		if ((doses < log.oilDoses) || (makeX-- <= 0))
 			return -1;
 		player.getInventory().deleteItem(log.baseLog, 1);
 		deleteDoses(player, log.oilDoses);
@@ -63,9 +61,9 @@ public class CraftPyreLogs extends Action {
 
 	@Override
 	public void stop(Player player) {
-		
+
 	}
-	
+
 	private static void deleteDoses(Player player, int doses) {
 		for (Item item : player.getInventory().getItems().getItems()) {
 			if (item == null)
@@ -121,7 +119,7 @@ public class CraftPyreLogs extends Action {
 		}
 		player.getInventory().refresh();
 	}
-	
+
 	private static int getDosesInInv(Player player) {
 		int doses = 0;
 		for (Item item : player.getInventory().getItems().getItems()) {

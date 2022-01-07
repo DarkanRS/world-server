@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,12 +47,11 @@ public class HoleInTheWall extends NPC {
 	public void processNPC() {
 		super.processNPC();
 		if (getId() == 2058) {
-			if (!hasGrabbed) {
+			if (!hasGrabbed)
 				for (Entity entity : getPossibleTargets()) {
 					if (entity == null || entity.isDead() || !withinDistance(entity, 1))
 						continue;
-					if (entity instanceof Player) {
-						final Player player = (Player) entity;
+					if (entity instanceof Player player) {
 						player.resetWalkSteps();
 						hasGrabbed = true;
 						if (Slayer.hasSpinyHelmet(player)) {
@@ -83,12 +82,9 @@ public class HoleInTheWall extends NPC {
 						}, 5);
 					}
 				}
-			}
-		} else {
-			if (!getCombat().process()) {
-				setCantInteract(true);
-				setNextNPCTransformation(2058);
-			}
+		} else if (!getCombat().process()) {
+			setCantInteract(true);
+			setNextNPCTransformation(2058);
 		}
 	}
 
@@ -103,9 +99,9 @@ public class HoleInTheWall extends NPC {
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					setNPC(2058);
 					drop();
 					reset();
@@ -125,7 +121,7 @@ public class HoleInTheWall extends NPC {
 			}
 		}, 0, 1);
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(2058) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -42,7 +42,7 @@ public class HopeDevourer extends DungeonBoss {
 		setHitpoints(getMaxHitpoints());
 		setLureDelay(10000);
 		setForceFollowClose(true);
-		this.auraDamage = (int) Utils.random(getMaxHit() * .1, getMaxHit() * .15);
+		auraDamage = (int) Utils.random(getMaxHit() * .1, getMaxHit() * .15);
 	}
 
 	@Override
@@ -60,10 +60,9 @@ public class HopeDevourer extends DungeonBoss {
 		int nextX = dir.getDx() + getX();
 		int nextY = dir.getDy() + getY();
 		int size = getSize(); //i always do this instead of calling at loop cuz it grabs npcdef from hashmap every call
-		for (Player player : getManager().getParty().getTeam()) {
+		for (Player player : getManager().getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), nextX, nextY, size))
 				return false;
-		}
 		return true;
 	}
 
@@ -85,13 +84,10 @@ public class HopeDevourer extends DungeonBoss {
 		List<Entity> targets = super.getPossibleTargets();
 		if (getAttackedBy() == null)
 			return targets;
-		else {
-			ArrayList<Entity> possibleTargets = new ArrayList<Entity>();
-			for (Entity t : targets) {
-				if (t.inCombat())
-					possibleTargets.add(t);
-			}
-			return possibleTargets;
-		}
+		ArrayList<Entity> possibleTargets = new ArrayList<>();
+		for (Entity t : targets)
+			if (t.inCombat())
+				possibleTargets.add(t);
+		return possibleTargets;
 	}
 }

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class GrimReaper2009D extends Conversation {
-		
+
 	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(8977) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -38,7 +38,7 @@ public class GrimReaper2009D extends Conversation {
 
 	public GrimReaper2009D(Player player) {
 		super(player);
-		
+
 		switch(player.getI(Halloween2009.STAGE_KEY)) {
 		case -1:
 			addNPC(8867, HeadE.CALM_TALK, "Welcome to the house of Death, mortal.");
@@ -46,7 +46,7 @@ public class GrimReaper2009D extends Conversation {
 				@Override
 				public void create() {
 					Dialogue mainline = new Dialogue();
-					
+
 					option("Hello sir, um, Your Highness, um...", new Dialogue()
 							.addPlayer(HeadE.SCARED, "Hello sir, um, Your Highness, um...")
 							.addNPC(8867, HeadE.CALM_TALK, "I need no title.")
@@ -55,7 +55,7 @@ public class GrimReaper2009D extends Conversation {
 							.addPlayer(HeadE.CHEERFUL, "Hey Death, how's it hanging?")
 							.addNPC(8867, HeadE.CALM_TALK, "I have not seen a good hanging for some time...but there are other ways for people to meet me.")
 							.addNext(mainline));
-				
+
 					mainline.addNPC(8867, HeadE.CALM_TALK, "I have summoned you here because I deem it necessary.")
 					.addNPC(8867, HeadE.CALM_TALK, "I have a task for you. A task of grave importance. A task that will shake you to your very core.")
 					.addOptions(new Options() {
@@ -180,7 +180,7 @@ public class GrimReaper2009D extends Conversation {
 			});
 			break;
 		}
-		
+
 		create();
 	}
 

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,19 +33,19 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class CrystalChest {
 
-	private final static Item REWARDS[][] = { 
-			{ new Item(1631), new Item(1969), new Item(995, 2000) }, 
-			{ new Item(1631) }, { new Item(1631), new Item(554, 50), new Item(556, 50), new Item(555, 50), new Item(557, 50), new Item(559, 50), new Item(558, 50), new Item(560, 10), new Item(561, 10), new Item(562, 10), new Item(563, 10), new Item(564, 10) }, { new Item(1631), new Item(2363, 10) }, 
-			{ new Item(1631), new Item(454, 100) }, 
+	private final static Item REWARDS[][] = {
+			{ new Item(1631), new Item(1969), new Item(995, 2000) },
+			{ new Item(1631) }, { new Item(1631), new Item(554, 50), new Item(556, 50), new Item(555, 50), new Item(557, 50), new Item(559, 50), new Item(558, 50), new Item(560, 10), new Item(561, 10), new Item(562, 10), new Item(563, 10), new Item(564, 10) }, { new Item(1631), new Item(2363, 10) },
+			{ new Item(1631), new Item(454, 100) },
 			{ new Item(1631), new Item(441, 150) },
-			{ new Item(1631), new Item(1603, 2), new Item(1601, 2) }, 
-			{ new Item(1631), new Item(371, 5), new Item(995, 1000) }, 
-			{ new Item(1631), new Item(987), new Item(995, 750) }, 
-			{ new Item(1631), new Item(985), new Item(995, 750) }, 
-			{ new Item(1631), new Item(1183) }, 
+			{ new Item(1631), new Item(1603, 2), new Item(1601, 2) },
+			{ new Item(1631), new Item(371, 5), new Item(995, 1000) },
+			{ new Item(1631), new Item(987), new Item(995, 750) },
+			{ new Item(1631), new Item(985), new Item(995, 750) },
+			{ new Item(1631), new Item(1183) },
 			{ new Item(1631), new Item(1079), new Item(1093) } };
-	
-	
+
+
 	public static ItemOnObjectHandler handleKeyUse = new ItemOnObjectHandler(new Object[] { 172 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -53,7 +53,7 @@ public class CrystalChest {
 				openChest(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleChest = new ObjectClickHandler(new Object[] { 172 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -80,8 +80,7 @@ public class CrystalChest {
 						player.getInventory().addItem(item.getId(), item.getAmount(), true);
 				}
 			}, 0);
-		} else {
+		} else
 			player.sendMessage("You need a crystal key to unlock this chest.");
-		}
 	}
 }

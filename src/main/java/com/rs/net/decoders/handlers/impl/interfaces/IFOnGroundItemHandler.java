@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,15 +41,11 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 
 	@Override
 	public void handle(Player player, IFOnGroundItem packet) {
-		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) {
-			return;
-		}
-		if (player.isDead() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
+		if ((Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) || player.isDead() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
 			return;
 
-		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId()) {
+		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())
 			return;
-		}
 		final WorldTile tile = new WorldTile(packet.getX(), packet.getY(), player.getPlane());
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
@@ -64,25 +60,21 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 			Item item = player.getInventory().getItem(packet.getSlotId());
 			if (item == null)
 				return;
-			
-			player.setRouteEvent(new RouteEvent(groundItem, new Runnable() {
-				@Override
-				public void run() {
-					if (item.getId() == 590) {
-						Fire fire = Fire.forId(groundItem.getId());
-						if (fire != null) {
-							player.getActionManager().setAction(new Firemaking(fire, groundItem));
-						}
-					}
+
+			player.setRouteEvent(new RouteEvent(groundItem, () -> {
+				if (item.getId() == 590) {
+					Fire fire = Fire.forId(groundItem.getId());
+					if (fire != null)
+						player.getActionManager().setAction(new Firemaking(fire, groundItem));
 				}
 			}));
-		} else if (packet.getInterfaceId() == 192 && packet.getComponentId() == 44) {
+		} else if (packet.getInterfaceId() == 192 && packet.getComponentId() == 44)
 			player.getActionManager().setAction(new Action() {
 				@Override
 				public boolean start(Player player) {
 					return true;
 				}
-				
+
 				public boolean process() {
 					if (player.isDead() || player.hasFinished())
 						return false;
@@ -99,12 +91,11 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						player.calcFollow(tile, 25, true, true);
 						return true;
 					}
-					if (TreasureTrailsManager.isScroll(item.getId())) {
+					if (TreasureTrailsManager.isScroll(item.getId()))
 						if (player.getTreasureTrailsManager().hasClueScrollItem()) {
 							player.sendMessage("You should finish the clue you are currently doing first.");
 							return false;
 						}
-					}
 					if (Magic.checkMagicAndRunes(player, 33, true, new RuneSet(Rune.AIR, 1, Rune.LAW, 1))) {
 						player.getActionManager().setActionDelay(3);
 						player.resetWalkSteps();
@@ -137,9 +128,8 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 
 				@Override
 				public void stop(Player player) {
-					
+
 				}
 			});
-		}
 	}
 }

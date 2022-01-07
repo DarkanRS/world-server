@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -134,10 +134,10 @@ public class DungeonManager {
 		this.party = party;
 		tutorialMode = party.getMaxComplexity() < 6;
 		load();
-		keyList = new CopyOnWriteArrayList<KeyDoors>();
-		farmingPatches = new CopyOnWriteArrayList<OwnedObject>();
-		mastyxTraps = new CopyOnWriteArrayList<MastyxTrap>();
-		partyDeaths = new ConcurrentHashMap<String, Integer>();
+		keyList = new CopyOnWriteArrayList<>();
+		farmingPatches = new CopyOnWriteArrayList<>();
+		mastyxTraps = new CopyOnWriteArrayList<>();
+		partyDeaths = new ConcurrentHashMap<>();
 	}
 
 	public void clearKeyList() {
@@ -181,15 +181,14 @@ public class DungeonManager {
 	}
 
 	public boolean isBossOpen() {
-		for (int x = 0; x < visibleMap.length; x++) {
-			for (int y = 0; y < visibleMap[x].length; y++) {
-				VisibleRoom room = visibleMap[x][y];
+		for (VisibleRoom[] element : visibleMap)
+			for (int y = 0; y < element.length; y++) {
+				VisibleRoom room = element[y];
 				if (room == null || !room.isLoaded())
 					continue;
 				if (isAtBossRoom(getRoomCenterTile(room.reference)))
 					return true;
 			}
-		}
 		return false;
 	}
 
@@ -205,22 +204,22 @@ public class DungeonManager {
 	public boolean hasKey(KeyDoors key) {
 		return keyList.contains(key);
 	}
-	
+
 	/*
 	 * when dung ends to make sure no1 dies lo, well they can die but still..
 	 */
 	public void clearGuardians() {
-		for (int x = 0; x < visibleMap.length; x++)
-			for (int y = 0; y < visibleMap[x].length; y++)
-				if (visibleMap[x][y] != null)
-					visibleMap[x][y].forceRemoveGuardians();
+		for (VisibleRoom[] element : visibleMap)
+			for (int y = 0; y < element.length; y++)
+				if (element[y] != null)
+					element[y].forceRemoveGuardians();
 	}
 
 	public int getVisibleRoomsCount() {
 		int count = 0;
-		for (int x = 0; x < visibleMap.length; x++)
-			for (int y = 0; y < visibleMap[x].length; y++)
-				if (visibleMap[x][y] != null)
+		for (VisibleRoom[] element : visibleMap)
+			for (int y = 0; y < element.length; y++)
+				if (element[y] != null)
 					count++;
 		return count;
 	}
@@ -237,35 +236,33 @@ public class DungeonManager {
 	public int getLevelModPerc() {
 		int totalGuardians = 0;
 		int killedGuardians = 0;
-		
-		for (int x = 0; x < visibleMap.length; x++)
-			for (int y = 0; y < visibleMap[x].length; y++)
-				if (visibleMap[x][y] != null) {
-					totalGuardians += visibleMap[x][y].getGuardiansCount();
-					killedGuardians += visibleMap[x][y].getKilledGuardiansCount();
+
+		for (VisibleRoom[] element : visibleMap)
+			for (int y = 0; y < element.length; y++)
+				if (element[y] != null) {
+					totalGuardians += element[y].getGuardiansCount();
+					killedGuardians += element[y].getKilledGuardiansCount();
 				}
 
 		return totalGuardians == 0 ? 100 : killedGuardians * 100 / totalGuardians;
 	}
 
 	public boolean enterRoom(Player player, int x, int y) {
-		if (x < 0 || y < 0 || x >= visibleMap.length || y >= visibleMap[0].length) {
+		if (x < 0 || y < 0 || x >= visibleMap.length || y >= visibleMap[0].length)
 			return false;
-		}
 		RoomReference roomReference = getCurrentRoomReference(player);
 		player.lock(0);
-		if (visibleMap[x][y] != null) {
-			if (!visibleMap[x][y].isLoaded())
-				return false;
-			int xOffset = x - roomReference.getRoomX();
-			int yOffset = y - roomReference.getRoomY();
-			player.setNextWorldTile(new WorldTile(player.getX() + xOffset * 3, player.getY() + yOffset * 3, 0));
-			playMusic(player, new RoomReference(x, y));
-			return true;
-		} else {
+		if (visibleMap[x][y] == null) {
 			loadRoom(x, y);
 			return false;
 		}
+		if (!visibleMap[x][y].isLoaded())
+			return false;
+		int xOffset = x - roomReference.getRoomX();
+		int yOffset = y - roomReference.getRoomY();
+		player.setNextWorldTile(new WorldTile(player.getX() + xOffset * 3, player.getY() + yOffset * 3, 0));
+		playMusic(player, new RoomReference(x, y));
+		return true;
 	}
 
 	public void loadRoom(int x, int y) {
@@ -277,11 +274,10 @@ public class DungeonManager {
 		if (room == null)
 			return;
 		VisibleRoom vr;
-		if (room.getRoom() instanceof HandledPuzzleRoom pr) {
+		if (room.getRoom() instanceof HandledPuzzleRoom pr)
 			vr = pr.createVisibleRoom();
-		} else {
+		else
 			vr = new VisibleRoom();
-		}
 		visibleMap[reference.getRoomX()][reference.getRoomY()] = vr;
 		vr.init(this, reference, party.getFloorType(), room.getRoom());
 		openRoom(room, reference, visibleMap[reference.getRoomX()][reference.getRoomY()]);
@@ -290,7 +286,7 @@ public class DungeonManager {
 	public boolean isDestroyed() {
 		return dungeon == null;
 	}
-	
+
 	public int getBossLevel() {
 		return (int) (party.getAverageCombatLevel() * 1.5);
 	}
@@ -304,41 +300,37 @@ public class DungeonManager {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 			}
-			World.executeAfterLoadRegion(regionId, new Runnable() {
-				@Override
-				public void run() {
-					if (isDestroyed())
-						return;
-					room.openRoom(DungeonManager.this, reference);
-					visibleRoom.openRoom();
-					for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
-						Door door = room.getDoor(i);
-						if (door == null)
-							continue;
-						int rotation = (room.getRoom().getDoorDirections()[i] + room.getRotation()) & 0x3;
-						if (door.getType() == DungeonConstants.KEY_DOOR) {
-							KeyDoors keyDoor = KeyDoors.values()[door.getId()];
-							setDoor(reference, keyDoor.getObjectId(), keyDoor.getDoorId(party.getFloorType()), rotation);
-						} else if (door.getType() == DungeonConstants.GUARDIAN_DOOR) {
-							setDoor(reference, -1, DungeonConstants.DUNGEON_GUARDIAN_DOORS[party.getFloorType()], rotation);
-							if (visibleRoom.roomCleared())  //remove referene since done
-								room.setDoor(i, null);
-						} else if (door.getType() == DungeonConstants.SKILL_DOOR) {
-							SkillDoors skillDoor = SkillDoors.values()[door.getId()];
-							int type = party.getFloorType();
-							int closedId = skillDoor.getClosedObject(type);
-							int openId = skillDoor.getOpenObject(type);
-							setDoor(reference, openId == -1 ? closedId : -1, openId != -1 ? closedId : -1, rotation);
-						}
+			World.executeAfterLoadRegion(regionId, () -> {
+				if (isDestroyed())
+					return;
+				room.openRoom(DungeonManager.this, reference);
+				visibleRoom.openRoom();
+				for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
+					Door door = room.getDoor(i);
+					if (door == null)
+						continue;
+					int rotation = (room.getRoom().getDoorDirections()[i] + room.getRotation()) & 0x3;
+					if (door.getType() == DungeonConstants.KEY_DOOR) {
+						KeyDoors keyDoor = KeyDoors.values()[door.getId()];
+						setDoor(reference, keyDoor.getObjectId(), keyDoor.getDoorId(party.getFloorType()), rotation);
+					} else if (door.getType() == DungeonConstants.GUARDIAN_DOOR) {
+						setDoor(reference, -1, DungeonConstants.DUNGEON_GUARDIAN_DOORS[party.getFloorType()], rotation);
+						if (visibleRoom.roomCleared())  //remove referene since done
+							room.setDoor(i, null);
+					} else if (door.getType() == DungeonConstants.SKILL_DOOR) {
+						SkillDoors skillDoor = SkillDoors.values()[door.getId()];
+						int type = party.getFloorType();
+						int closedId = skillDoor.getClosedObject(type);
+						int openId = skillDoor.getOpenObject(type);
+						setDoor(reference, openId == -1 ? closedId : -1, openId != -1 ? closedId : -1, rotation);
 					}
-					if (room.getRoom().allowResources())
-						setResources(room, reference, chunkOffX, chunkOffY);
-
-					if (room.getDropId() != -1)
-						setKey(room, reference);
-					visibleRoom.setLoaded();
 				}
+				if (room.getRoom().allowResources())
+					setResources(room, reference, chunkOffX, chunkOffY);
 
+				if (room.getDropId() != -1)
+					setKey(room, reference);
+				visibleRoom.setLoaded();
 			});
 		});
 	}
@@ -365,7 +357,8 @@ public class DungeonManager {
 	}
 
 	public void setResources(Room room, RoomReference reference, int chunkOffX, int chunkOffY) {
-		if (party.getComplexity() >= 5 && Utils.random(3) == 0) { //sets thief chest
+		if (party.getComplexity() >= 5 && Utils.random(3) == 0)
+			//sets thief chest
 			for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
 				int rotation = Utils.random(DungeonConstants.WALL_BASE_X_Y.length);
 				int[] b = DungeonConstants.WALL_BASE_X_Y[rotation];
@@ -381,8 +374,8 @@ public class DungeonManager {
 					System.out.println("Added chest spot.");
 				break;
 			}
-		}
-		if (party.getComplexity() >= 4 && Utils.random(3) == 0) { //sets flower
+		if (party.getComplexity() >= 4 && Utils.random(3) == 0)
+			//sets flower
 			for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
 				int rotation = Utils.random(DungeonConstants.WALL_BASE_X_Y.length);
 				int[] b = DungeonConstants.WALL_BASE_X_Y[rotation];
@@ -397,8 +390,8 @@ public class DungeonManager {
 					System.out.println("Added flower spot.");
 				break;
 			}
-		}
-		if (party.getComplexity() >= 3 && Utils.random(3) == 0) { //sets rock
+		if (party.getComplexity() >= 3 && Utils.random(3) == 0)
+			//sets rock
 			for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
 				int rotation = Utils.random(DungeonConstants.WALL_BASE_X_Y.length);
 				int[] b = DungeonConstants.WALL_BASE_X_Y[rotation];
@@ -413,8 +406,8 @@ public class DungeonManager {
 					System.out.println("Added rock spot.");
 				break;
 			}
-		}
-		if (party.getComplexity() >= 2 && Utils.random(3) == 0) { //sets tree
+		if (party.getComplexity() >= 2 && Utils.random(3) == 0)
+			//sets tree
 			for (int i = 0; i < DungeonConstants.SET_RESOURCES_MAX_TRY; i++) {
 				int rotation = Utils.random(DungeonConstants.WALL_BASE_X_Y.length);
 				int[] b = DungeonConstants.WALL_BASE_X_Y[rotation];
@@ -431,18 +424,16 @@ public class DungeonManager {
 				World.spawnObject(new GameObject(DungeonUtils.getWoodcuttingResource(Utils.random(10), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0));
 				break;
 			}
-		}
 		if (party.getComplexity() >= 2) { //sets fish spot
-			List<int[]> fishSpots = new ArrayList<int[]>();
-			for (int x = 0; x < 16; x++) {
+			List<int[]> fishSpots = new ArrayList<>();
+			for (int x = 0; x < 16; x++)
 				for (int y = 0; y < 16; y++) {
 					GameObject o = World.getObjectWithType(new WorldTile(region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0), ObjectType.SCENERY_INTERACT);
 					if (o == null || o.getId() != DungeonConstants.FISH_SPOT_OBJECT_ID)
 						continue;
 					fishSpots.add(new int[]
-					{ x, y });
+							{ x, y });
 				}
-			}
 			if (!fishSpots.isEmpty()) {
 				int[] spot = fishSpots.get(Utils.random(fishSpots.size()));
 				spawnNPC(DungeonConstants.FISH_SPOT_NPC_ID, room.getRotation(), new WorldTile(region.getLocalX(chunkOffX, spot[0]), region.getLocalY(chunkOffY, spot[1]), 0), reference, DungeonConstants.FISH_SPOT_NPC);
@@ -498,7 +489,7 @@ public class DungeonManager {
 			public void run() {
 				for (Player player : party.getTeam()) {
 					resetItems(player, false, false);
-                    player.reset();
+					player.reset();
 					sendSettings(player);
 					if (party.getComplexity() >= 5 && party.isLeader(player))
 						player.getInventory().addItem(new Item(DungeonConstants.GROUP_GATESTONE));
@@ -507,8 +498,7 @@ public class DungeonManager {
 					player.sendMessage("");
 					player.sendMessage("-Welcome to Daemonheim-");
 					player.sendMessage("Floor <col=641d9e>" + party.getFloor() + "    <col=ffffff>Complexity <col=641d9e>" + party.getComplexity());
-					String[] sizeNames = new String[]
-					{ "Small", "Medium", "Large", "Test" };
+					String[] sizeNames = { "Small", "Medium", "Large", "Test" };
 					player.sendMessage("Dungeon Size: " + "<col=641d9e>" + sizeNames[party.getSize()]);
 					player.sendMessage("Party Size:Difficulty <col=641d9e>" + party.getTeam().size() + ":" + party.getDificulty());
 					if (party.isGuideMode())
@@ -546,11 +536,11 @@ public class DungeonManager {
 			for (int i = 0; i < 7 + Utils.random(4); i++)
 				//9 food
 				addItemToTable(room, new Item(DungeonUtils.getFood(1 + Utils.random(8))));
-			if (party.getComplexity() >= 3) { //set weap/gear in table
+			if (party.getComplexity() >= 3)
+				//set weap/gear in table
 				for (int i = 0; i < 1 + Utils.random(3); i++)
 					//1 up to 3 pieces of gear or weap
 					addItemToTable(room, new Item(DungeonUtils.getRandomGear(1 + Utils.random(8)))); //arround 100 essence
-			}
 		}
 	}
 
@@ -565,17 +555,16 @@ public class DungeonManager {
 	}
 
 	public void sendStartItems(Player player) {
-		if (party.getComplexity() == 1) {
+		if (party.getComplexity() == 1)
 			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 1", "Combat only", "Armour and weapons allocated", "No shop stock");
-		} else if (party.getComplexity() == 2) {
+		else if (party.getComplexity() == 2)
 			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 2", "+ Fishing, Woodcutting, Firemaking, Cooking", "Armour and weapons allocated", "Minimal shop stock");
-		} else if (party.getComplexity() == 3) {
+		else if (party.getComplexity() == 3)
 			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 3", "+ Mining, Smithing weapons, Fletching, Runecrafting", "Armour allocated", "Increased shop stock");
-		} else if (party.getComplexity() == 4) {
+		else if (party.getComplexity() == 4)
 			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 4", "+ Smithing armour, Hunter, Farming textiles, Crafting", "Increased shop stock");
-		} else if (party.getComplexity() == 5) {
+		else if (party.getComplexity() == 5)
 			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 5", "All skills included", "+ Farming seeds, Herblore, Thieving, Summoning", "Complete shop stock", "Challenge rooms + skill doors");
-		}
 		if (party.getComplexity() <= 3) {
 			int defenceTier = DungeonUtils.getTier(player.getSkills().getLevelForXp(Constants.DEFENSE));
 			if (defenceTier > 8)
@@ -621,9 +610,9 @@ public class DungeonManager {
 			player.getPackets().sendVarc(1725, 11);
 			setWorldMap(player, true);
 		}
-        player.getPackets().sendVarc(234, 3);
-        player.getInterfaceManager().sendTab(InterfaceManager.Tab.QUEST, 939);
-        player.getDungManager().refresh();
+		player.getPackets().sendVarc(234, 3);
+		player.getInterfaceManager().sendTab(InterfaceManager.Tab.QUEST, 939);
+		player.getDungManager().refresh();
 		sendRing(player);
 		sendBindItems(player);
 		wearInventory(player);
@@ -650,26 +639,26 @@ public class DungeonManager {
 		}
 	}
 
-    public void resetItems(Player player, boolean drop, boolean logout) {
-        if (drop) {
-            for (Item item : player.getEquipment().getItemsCopy()) {
-                if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
-                    continue;
-                World.addGroundItem(item, new WorldTile(player));
-            }
-            for (Item item : player.getInventory().getItems().getItems()) {
-                if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
-                    continue;
-                World.addGroundItem(item, new WorldTile(player));
-                if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
-                    setGroupGatestone(new WorldTile(player));
-            }
-        }
-        player.getEquipment().reset();
-        player.getInventory().reset();
-        if (!logout)
-            player.getAppearance().generateAppearanceData();
-    }
+	public void resetItems(Player player, boolean drop, boolean logout) {
+		if (drop) {
+			for (Item item : player.getEquipment().getItemsCopy()) {
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+					continue;
+				World.addGroundItem(item, new WorldTile(player));
+			}
+			for (Item item : player.getInventory().getItems().getItems()) {
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+					continue;
+				World.addGroundItem(item, new WorldTile(player));
+				if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
+					setGroupGatestone(new WorldTile(player));
+			}
+		}
+		player.getEquipment().reset();
+		player.getInventory().reset();
+		if (!logout)
+			player.getAppearance().generateAppearanceData();
+	}
 
 	public void sendRing(Player player) {
 		if (player.getInventory().containsItem(15707, 1))
@@ -692,11 +681,11 @@ public class DungeonManager {
 		}
 
 	}
-	
+
 	public int getCombatLevelMonster() {
 		return (int) (party.getAverageCombatLevel() * DungeonConstants.NPC_COMBAT_LEVEL_COMPLEXITY_MUL[party.getComplexity()-1]);
 	}
-	
+
 	public int getMaxCombatLevelMonster() {
 		return (int) (party.getAverageCombatLevel() * 1.4 * DungeonConstants.NPC_COMBAT_LEVEL_COMPLEXITY_MUL[party.getComplexity()-1]);
 	}
@@ -706,9 +695,9 @@ public class DungeonManager {
 		int combatTotal = (int) (party.getCombatLevel() * 1.2 * DungeonConstants.NPC_COMBAT_LEVEL_COMPLEXITY_MUL[party.getComplexity()-1]);
 		int maxLevel = getMaxCombatLevelMonster();
 		int numMonsters = Utils.random(1, 3+party.getTeam().size());
-		
+
 		List<Integer> npcs = DungeonUtils.generateRandomMonsters(floorType, maxLevel, combatTotal, numMonsters);
-		
+
 		for (int i : npcs) {
 			GuardianMonster m = GuardianMonster.forId(i);
 			NPCDefinitions defs = NPCDefinitions.getDefs(i);
@@ -771,9 +760,8 @@ public class DungeonManager {
 			for (WorldTile t : tiles) {
 				coords = translate(t.getX(), t.getY(), rotation, size, size, 0);
 				tile = region.getLocalTile((reference.getBaseX()) + coords[0], (reference.getBaseY()) + coords[1]);
-				if (World.floorAndWallsFree(tile, size)) {
+				if (World.floorAndWallsFree(tile, size))
 					return spawnNPC(id, rotation, tile, reference, type);
-				}
 			}
 		}
 		return spawnNPC(id, rotation, tile, reference, type);
@@ -936,7 +924,7 @@ public class DungeonManager {
 			else if (id == 12752)
 				n = new KalGerWarmonger(tile, this, reference);
 			else if (id == 10111)
-                n = new UnholyCrossbearer(id, tile, this, reference);
+				n = new UnholyCrossbearer(id, tile, this, reference);
 			else
 				n = new DungeonBoss(id, tile, this, reference);
 		} else if (type == DungeonConstants.GUARDIAN_NPC) {
@@ -967,7 +955,7 @@ public class DungeonManager {
 		lvl += Utils.random(randomize * 2);
 		lvl *= party.getDifficultyRatio();
 		lvl *= multiplier;
-		lvl *= 1D - ((double) (6D - party.getComplexity()) * 0.07D);
+		lvl *= 1D - ((6D - party.getComplexity()) * 0.07D);
 		if (party.getTeam().size() > 2 && id != 12752 && id != 11872 && id != 11708 && id != 12865) //blink
 			lvl *= 0.7;
 		return (int) (lvl < 1 ? 1 : lvl);
@@ -988,36 +976,36 @@ public class DungeonManager {
 		}
 	}
 
-    public void exitDungeon(final Player player, final boolean logout) {
-        resetItems(player, true, logout);
-        party.remove(player, logout);
-        player.stopAll();
-        player.getControllerManager().removeControllerWithoutCheck();
-        player.getControllerManager().startController(new DamonheimController());
-        resetTraps(player);
-        player.getInventory().addItem(15707, 1);
-        if (player.getFamiliar() != null)
-            player.getFamiliar().sendDeath(player);
-        if (logout) {
-            player.save("isLoggedOutInDungeon", true);
-            player.getSkills().restoreSkills();
-        }
-        else {
-		    player.reset();
-            player.getDungManager().setRejoinKey(null);
-            player.useStairs(-1, new WorldTile(DungeonConstants.OUTSIDE, 2), 0, 3);
-            player.getCombatDefinitions().removeDungeonneringBook();
-            player.getPackets().sendVarc(1725, 1);
-            setWorldMap(player, false);
-            removeMark(player);
-            player.setLargeSceneView(false);
-            player.setForceMultiArea(false);
-            player.getInterfaceManager().removeOverlay(true);
-            player.getMusicsManager().reset();
-            player.getAppearance().setBAS(-1);
-        }
+	public void exitDungeon(final Player player, final boolean logout) {
+		resetItems(player, true, logout);
+		party.remove(player, logout);
+		player.stopAll();
+		player.getControllerManager().removeControllerWithoutCheck();
+		player.getControllerManager().startController(new DamonheimController());
+		resetTraps(player);
+		player.getInventory().addItem(15707, 1);
+		if (player.getFamiliar() != null)
+			player.getFamiliar().sendDeath(player);
+		if (logout) {
+			player.save("isLoggedOutInDungeon", true);
+			player.getSkills().restoreSkills();
+		}
+		else {
+			player.reset();
+			player.getDungManager().setRejoinKey(null);
+			player.useStairs(-1, new WorldTile(DungeonConstants.OUTSIDE, 2), 0, 3);
+			player.getCombatDefinitions().removeDungeonneringBook();
+			player.getPackets().sendVarc(1725, 1);
+			setWorldMap(player, false);
+			removeMark(player);
+			player.setLargeSceneView(false);
+			player.setForceMultiArea(false);
+			player.getInterfaceManager().removeOverlay(true);
+			player.getMusicsManager().reset();
+			player.getAppearance().setBAS(-1);
+		}
 
-    }
+	}
 
 	public void setWorldMap(Player player, boolean dungIcon) {
 		player.getVars().setVarBit(11297, dungIcon ? 1 : 0);
@@ -1038,9 +1026,8 @@ public class DungeonManager {
 	}
 
 	public void endMastyxTraps() {
-		for (MastyxTrap trap : mastyxTraps) {
+		for (MastyxTrap trap : mastyxTraps)
 			trap.finish();
-		}
 		mastyxTraps.clear();
 	}
 
@@ -1057,13 +1044,10 @@ public class DungeonManager {
 		endMastyxTraps();
 		removeDungeon();
 		partyDeaths.clear();
-		for (int x = 0; x < visibleMap.length; x++) {
-			for (int y = 0; y < visibleMap[x].length; y++) {
-				if (visibleMap[x][y] != null) {
-					visibleMap[x][y].destroy();
-				}
-			}
-		}
+		for (VisibleRoom[] element : visibleMap)
+			for (int y = 0; y < element.length; y++)
+				if (element[y] != null)
+					element[y].destroy();
 		dungeon = null;
 		region.destroy();
 	}
@@ -1080,7 +1064,7 @@ public class DungeonManager {
 		destroy();
 		load();
 	}
-	
+
 	/*
 		1 = M.V.P.
 		2 = Leecher
@@ -1135,7 +1119,7 @@ public class DungeonManager {
 	 */
 
 	public Integer[] getAchievements(Player player) { //TODO
-		List<Integer> achievements = new ArrayList<Integer>();
+		List<Integer> achievements = new ArrayList<>();
 
 		DungeonController controller = (DungeonController) player.getControllerManager().getController();
 
@@ -1209,11 +1193,10 @@ public class DungeonManager {
 			player.getAppearance().generateAppearanceData();
 			player.stopAll();
 			double multiplier = 1;
-			if (!player.getInterfaceManager().hasRezizableScreen()) {
+			if (!player.getInterfaceManager().hasRezizableScreen())
 				player.getInterfaceManager().sendInterface(933);
-			} else {
+			else
 				player.getInterfaceManager().setOverlay(933, true);
-			}
 			player.getPackets().sendRunScriptReverse(2275); //clears interface data from last run
 			for (int i = 0; i < 5; i++) {
 				Player partyPlayer = i >= party.getTeam().size() ? null : party.getTeam().get(i);
@@ -1232,9 +1215,9 @@ public class DungeonManager {
 			player.getPackets().sendVarc(1191, party.getTeam().size() * 10 + party.getDificulty()); //teamsize:dificulty
 			multiplier += DungeonConstants.DUNGEON_DIFFICULTY_RATIO_BONUS[party.getTeam().size() - 1][party.getDificulty() - 1];
 			int levelMod = 0;
-			if (getVisibleBonusRoomsCount() != 0) { //no bonus rooms in c1, would be divide by 0
+			if (getVisibleBonusRoomsCount() != 0)
+				//no bonus rooms in c1, would be divide by 0
 				levelMod = getVisibleBonusRoomsCount() * 10000 / (dungeon.getRoomsCount() - dungeon.getCritCount());
-			}
 			player.getPackets().sendVarc(1195, levelMod); //dungeons rooms opened, sets bonus aswell
 			multiplier += DungeonConstants.MAX_BONUS_ROOM * levelMod / 10000;
 			levelMod = (getLevelModPerc() * 20) - 1000;
@@ -1246,7 +1229,7 @@ public class DungeonManager {
 			player.getPackets().sendVarc(1319, DungeonUtils.getMaxFloor(player.getSkills().getLevelForXp(Constants.DUNGEONEERING)));
 			player.getPackets().sendVarc(1320, party.getComplexity());
 			if (party.getComplexity() != 6)
-				multiplier -= (DungeonConstants.COMPLEXITY_PENALTY_BASE[party.getSize()] + ((double) (5 - party.getComplexity())) * 0.06);
+				multiplier -= (DungeonConstants.COMPLEXITY_PENALTY_BASE[party.getSize()] + (5 - party.getComplexity()) * 0.06);
 			double levelDiffPenalty = party.getLevelDiferencePenalty(player);//party.getMaxLevelDiference() > 70 ? DungeonConstants.UNBALANCED_PARTY_PENALTY : 0;
 			player.getPackets().sendVarc(1321, (int) (levelDiffPenalty * 10000));
 			multiplier -= levelDiffPenalty;
@@ -1312,9 +1295,9 @@ public class DungeonManager {
 		int points = 0;
 		for (int i = 1; i <= floor; i++)
 			points += Math.floor(i + 100.0 * Math.pow(1.3, i / 10));
-		if (type == DungeonConstants.MEDIUM_DUNGEON) 
+		if (type == DungeonConstants.MEDIUM_DUNGEON)
 			points *= 4;
-		 else if (type == DungeonConstants.LARGE_DUNGEON) 
+		else if (type == DungeonConstants.LARGE_DUNGEON)
 			points *= 10;
 		return points;
 	}
@@ -1347,10 +1330,10 @@ public class DungeonManager {
 	}
 
 	public void setMark(Entity target, boolean mark) {
-		if (mark) {
+		if (mark)
 			for (Player player : party.getTeam())
 				player.getHintIconsManager().addHintIcon(6, target, 0, -1, true); //6th slot
-		} else
+		else
 			removeMark();
 		if (target instanceof DungeonNPC npc)
 			npc.setMarked(mark);
@@ -1439,14 +1422,12 @@ public class DungeonManager {
 					for (Player player : party.getTeam())
 						player.sendMessage(gaveRewards ? ("Time until next dungeon: " + timeLeft) : (timeLeft + " seconds until dungeon ends."));
 					timeLeft -= 5;
-				} else {
-					if (!gaveRewards) {
-						gaveRewards = true;
-						timeLeft = 45;
-						loadRewards();
-					} else
-						nextFloor();
-				}
+				} else if (!gaveRewards) {
+					gaveRewards = true;
+					timeLeft = 45;
+					loadRewards();
+				} else
+					nextFloor();
 			} catch (Throwable e) {
 				Logger.handle(e);
 			}
@@ -1481,22 +1462,19 @@ public class DungeonManager {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
 		// slow executor loads dungeon as it may take up to few secs
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					clearKeyList();
-                    dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
-					time = World.getServerTicks();
-					region = new DynamicRegionReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
-					region.clearMap(new int[1], () -> {
-						setDungeon();
-						loadRoom(dungeon.getStartRoomReference());
-						stage = 1;
-					});
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				clearKeyList();
+				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
+				time = World.getServerTicks();
+				region = new DynamicRegionReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
+				region.clearMap(new int[1], () -> {
+					setDungeon();
+					loadRoom(dungeon.getStartRoomReference());
+					stage = 1;
+				});
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
@@ -1517,8 +1495,8 @@ public class DungeonManager {
 		player.getInterfaceManager().sendInterface(942);
 		player.getPackets().sendRunScriptReverse(3277); //clear the map if theres any setted
 		int protocol = party.getSize() == DungeonConstants.LARGE_DUNGEON ? 0 : party.getSize() == DungeonConstants.MEDIUM_DUNGEON ? 2 : 1;
-		for (int x = 0; x < visibleMap.length; x++) {
-			for (int y = 0; y < visibleMap[x].length; y++) {
+		for (int x = 0; x < visibleMap.length; x++)
+			for (int y = 0; y < visibleMap[x].length; y++)
 				if (visibleMap[x][y] != null) { //means exists
 					Room room = getRoom(new RoomReference(x, y));
 					boolean highLight = party.isGuideMode() && room.isCritPath();
@@ -1548,8 +1526,6 @@ public class DungeonManager {
 						player.getPackets().sendRunScriptReverse(3278, protocol, getMapIconSprite(DungeonConstants.EAST_DOOR, highLight), y, x - 1);
 					}
 				}
-			}
-		}
 		int index = 1;
 		for (Player p2 : party.getTeam()) {
 			RoomReference reference = getCurrentRoomReference(p2);
@@ -1581,7 +1557,7 @@ public class DungeonManager {
 		Room room = getRoom(reference);
 		int type = 0;
 
-		if (room.getRoom().getChunkX() == 26 && room.getRoom().getChunkY() == 640) //unholy cursed 
+		if (room.getRoom().getChunkX() == 26 && room.getRoom().getChunkY() == 640) //unholy cursed
 			type = 1;
 		else if (room.getRoom().getChunkX() == 30 && room.getRoom().getChunkY() == 656) //stomp
 			type = 2;
@@ -1619,11 +1595,9 @@ public class DungeonManager {
 	}
 
 	public void message(RoomReference reference, String message) {
-		for (Player player : party.getTeam()) {
-			if (reference.equals(getCurrentRoomReference(player))) {
+		for (Player player : party.getTeam())
+			if (reference.equals(getCurrentRoomReference(player)))
 				player.sendMessage(message);
-			}
-		}
 	}
 
 	public void showBar(RoomReference reference, String name, int percentage) {
@@ -1639,9 +1613,8 @@ public class DungeonManager {
 	public void hideBar(RoomReference reference) {
 		for (Player player : party.getTeam()) {
 			RoomReference current = getCurrentRoomReference(player);
-			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController ctrl) {
+			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController ctrl)
 				ctrl.showBar(false, null);
-			}
 		}
 	}
 

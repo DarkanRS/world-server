@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -25,24 +25,22 @@ public class ResumeTextDialoguesHandler implements PacketHandler<Player, ResumeT
 
 	@Override
 	public void handle(Player player, ResumeTextDialogue packet) {
-		if (!player.isRunning() || player.isDead())
-			return;
-		if (packet.getText().equals(""))
+		if (!player.isRunning() || player.isDead() || packet.getText().equals(""))
 			return;
 		switch (packet.getOpcode()) {
-			case RESUME_CLANFORUMQFCDIALOG -> {
-				if (player.getTempAttribs().getO("pluginQFCD") != null && player.getTempAttribs().removeO("pluginQFCD") instanceof InputStringEvent ise)
-					ise.run(packet.getText());
-			}
-			case RESUME_NAMEDIALOG -> {
-				if (player.getTempAttribs().getO("pluginEnterName") != null && player.getTempAttribs().removeO("pluginEnterName") instanceof InputStringEvent ise)
-					ise.run(packet.getText());
-			}
-			case RESUME_TEXTDIALOG -> {
-				if (player.getTempAttribs().getO("pluginEnterLongText") != null && player.getTempAttribs().removeO("pluginEnterLongText") instanceof InputStringEvent ise)
-					ise.run(packet.getText());
-			}
-			default -> {}
+		case RESUME_CLANFORUMQFCDIALOG -> {
+			if (player.getTempAttribs().getO("pluginQFCD") != null && player.getTempAttribs().removeO("pluginQFCD") instanceof InputStringEvent ise)
+				ise.run(packet.getText());
+		}
+		case RESUME_NAMEDIALOG -> {
+			if (player.getTempAttribs().getO("pluginEnterName") != null && player.getTempAttribs().removeO("pluginEnterName") instanceof InputStringEvent ise)
+				ise.run(packet.getText());
+		}
+		case RESUME_TEXTDIALOG -> {
+			if (player.getTempAttribs().getO("pluginEnterLongText") != null && player.getTempAttribs().removeO("pluginEnterLongText") instanceof InputStringEvent ise)
+				ise.run(packet.getText());
+		}
+		default -> {}
 		}
 	}
 

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,11 +29,11 @@ public class FamishedEye extends DungeonNPC {
 	private int weakness, type, sleepCycles;
 	private boolean firstHit;
 	private WorldGorgerShukarhazh boss;
-	
+
 	public FamishedEye(final WorldGorgerShukarhazh boss, int id, WorldTile tile, final DungeonManager manager) {
 		super(id, tile, manager);
 		this.boss = boss;
-		this.sleepCycles = -1;
+		sleepCycles = -1;
 		int rotationType = (id - 12436) / 15;
 		weakness = findWeakness(rotationType);
 		type = findType(rotationType);
@@ -64,9 +64,9 @@ public class FamishedEye extends DungeonNPC {
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		if (sleepCycles == 45) {
+		if (sleepCycles == 45)
 			resetSleepCycles();
-		} else if (sleepCycles >= 0)
+		else if (sleepCycles >= 0)
 			sleepCycles++;
 	}
 
@@ -104,7 +104,7 @@ public class FamishedEye extends DungeonNPC {
 	public WorldGorgerShukarhazh getBoss() {
 		return boss;
 	}
-	
+
 	public int getType() {
 		return type;
 	}
@@ -123,7 +123,7 @@ public class FamishedEye extends DungeonNPC {
 			return 1;
 		}
 	}
-	
+
 	private int findWeakness(int type) {
 		switch (type) {
 		case 0: //mage

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,20 +38,20 @@ public class BeastOfBurden {
 	private ItemsContainer<Item> beastItems;
 
 	public BeastOfBurden(int size) {
-		beastItems = new ItemsContainer<Item>(size, false);
+		beastItems = new ItemsContainer<>(size, false);
 	}
 
 	public void setEntitys(Player player, Familiar familiar) {
 		this.player = player;
 		this.familiar = familiar;
 	}
-	
+
 	public static ButtonClickHandler handleInvInter = new ButtonClickHandler(665) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().getBob() == null)
 				return;
-			if (e.getComponentId() == 0) {
+			if (e.getComponentId() == 0)
 				if (e.getPacket() == ClientPacket.IF_OP1)
 					e.getPlayer().getFamiliar().getBob().addItem(e.getSlotId(), 1);
 				else if (e.getPacket() == ClientPacket.IF_OP2)
@@ -64,10 +64,9 @@ public class BeastOfBurden {
 					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().getBob().addItem(e.getSlotId(), num));
 				else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getInventory().sendExamine(e.getSlotId());
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleInter = new ButtonClickHandler(671) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -143,11 +142,9 @@ public class BeastOfBurden {
 				item.setAmount(freeSpace);
 				player.sendMessage("Not enough space in your inventory.");
 			}
-		} else {
-			if (freeSpace == 0 && !player.getInventory().containsItem(item.getId(), 1)) {
-				player.sendMessage("Not enough space in your inventory.");
-				return;
-			}
+		} else if (freeSpace == 0 && !player.getInventory().containsItem(item.getId(), 1)) {
+			player.sendMessage("Not enough space in your inventory.");
+			return;
 		}
 		beastItems.remove(slot, item);
 		beastItems.shift();
@@ -180,11 +177,9 @@ public class BeastOfBurden {
 				item.setAmount(freeSpace);
 				player.sendMessage("Not enough space in your Familiar Inventory.");
 			}
-		} else {
-			if (freeSpace == 0 && !beastItems.containsOne(item)) {
-				player.sendMessage("Not enough space in your Familiar Inventory.");
-				return;
-			}
+		} else if (freeSpace == 0 && !beastItems.containsOne(item)) {
+			player.sendMessage("Not enough space in your Familiar Inventory.");
+			return;
 		}
 		beastItems.add(item);
 		beastItems.shift();
@@ -197,9 +192,8 @@ public class BeastOfBurden {
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
 			Item item = beastItems.getItems()[index];
-			if (itemsBefore[index] != item) {
+			if (itemsBefore[index] != item)
 				changedSlots[count++] = index;
-			}
 
 		}
 		int[] finalChangedSlots = new int[count];
@@ -219,10 +213,9 @@ public class BeastOfBurden {
 	}
 
 	public boolean containsOneItem(int... itemIds) {
-		for (int itemId : itemIds) {
+		for (int itemId : itemIds)
 			if (beastItems.containsOne(new Item(itemId, 1)))
 				return true;
-		}
 		return false;
 	}
 

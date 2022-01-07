@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,7 +30,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 
 public class Pyre extends OwnedObject {
-	
+
 	private PyreLog log;
 	private Corpse corpse;
 	private int life;
@@ -39,29 +39,27 @@ public class Pyre extends OwnedObject {
 
 	public Pyre(Player player, GameObject object, PyreLog log, boolean shadePyre) {
 		super(player, object);
-		this.id = shadePyre ? log.shadeNoCorpse : log.vyreNoCorpse;
-		this.life = 50;
+		id = shadePyre ? log.shadeNoCorpse : log.vyreNoCorpse;
+		life = 50;
 		this.log = log;
 		this.shadePyre = shadePyre;
 	}
-	
+
 	@Override
 	public void tick(Player owner) {
 		if (life-- <= 0)
 			destroy();
 	}
-	
+
 	public boolean setCorpse(Corpse corpse) {
-		if (!log.validCorpse(corpse))
-			return false;
-		if (corpse == Corpse.VYRE && shadePyre)
+		if (!log.validCorpse(corpse) || (corpse == Corpse.VYRE && shadePyre))
 			return false;
 		this.corpse = corpse;
 		setId(shadePyre ? log.shadeCorpse : log.vyreCorpse);
 		life = 50;
 		return true;
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		if (lit)
@@ -95,30 +93,30 @@ public class Pyre extends OwnedObject {
 					World.addGroundItem(item, stand);
 		});
 	}
-	
+
 	public PyreLog getLog() {
 		return log;
 	}
-	
+
 	public boolean isShadePyre() {
 		return shadePyre;
 	}
 
 	private static class ReleasedSpirit extends OwnedNPC {
-		
+
 		private int life;
 
 		public ReleasedSpirit(Player owner, WorldTile tile, boolean shade) {
 			super(owner, shade ? 1242 : 7687, tile, false);
 			life = shade ? 6 : 12;
 		}
-		
+
 		@Override
 		public void processNPC() {
 			if (life-- <= 0)
 				finish();
 		}
-		
+
 	}
 
 }

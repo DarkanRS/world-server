@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,7 +39,7 @@ import com.rs.lib.util.Utils;
 public final class SkeletalAdventurer extends DungeonBoss {
 
 	public static final int MELEE = 0, RANGE = 1, MAGE = 2;
-	
+
 	private int npcId;
 
 	public SkeletalAdventurer(int type, WorldTile tile, DungeonManager manager, RoomReference reference) {
@@ -64,7 +64,7 @@ public final class SkeletalAdventurer extends DungeonBoss {
 		setNextAnimation(null);
 		boolean last = true;
 		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null) {
+		if (npcsIndexes != null)
 			for (int npcIndex : npcsIndexes) {
 				NPC npc = World.getNPCs().get(npcIndex);
 				if (npc == this || npc.isDead() || npc.hasFinished() || !npc.getName().startsWith("Skeletal "))
@@ -72,16 +72,15 @@ public final class SkeletalAdventurer extends DungeonBoss {
 				last = false;
 				break;
 			}
-		}
 		final boolean l = last;
 		WorldTasksManager.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					if (source instanceof Player player)
 						player.getControllerManager().processNPCDeath(SkeletalAdventurer.this);
 					if (l)
@@ -103,7 +102,7 @@ public final class SkeletalAdventurer extends DungeonBoss {
 	}
 
 	public int getPrayer() {
-		return this.getId() - npcId;
+		return getId() - npcId;
 	}
 
 	@Override

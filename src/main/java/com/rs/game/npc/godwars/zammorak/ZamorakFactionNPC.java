@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,10 +33,11 @@ public class ZamorakFactionNPC extends NPC {
 		setCanAggroNPCs(true);
 	}
 
+	@Override
 	public boolean canAggroNPC(NPC npc) {
 		return !(npc instanceof ZamorakFactionNPC);
 	}
-	
+
 	@Override
 	public boolean canAggroPlayer(Player player) {
 		return !hasGodItem(player);
@@ -52,7 +53,7 @@ public class ZamorakFactionNPC extends NPC {
 		}
 		return false;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6210, 6211, 6212, 6213, 6214, 6215, 6216, 6217, 6218, 6219, 6220, 6221) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

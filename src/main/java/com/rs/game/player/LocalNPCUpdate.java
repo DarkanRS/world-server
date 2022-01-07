@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,7 +39,7 @@ public final class LocalNPCUpdate {
 
 	public LocalNPCUpdate(Player player) {
 		this.player = player;
-		localNPCs = new LinkedList<NPC>();
+		localNPCs = new LinkedList<>();
 	}
 
 	public void write(OutputStream stream, boolean largeSceneView) {
@@ -268,17 +268,15 @@ public final class LocalNPCUpdate {
 			if (hit.missed() && !interactingWith) {
 				data.writeSmart(32766);
 				data.writeByte(hit.getDamage());
+			} else if (hit.getSoaking() != null) {
+				data.writeSmart(32767);
+				data.writeSmart(hit.getMark(player, n));
+				data.writeSmart(hit.getDamage());
+				data.writeSmart(hit.getSoaking().getMark(player, n));
+				data.writeSmart(hit.getSoaking().getDamage());
 			} else {
-				if (hit.getSoaking() != null) {
-					data.writeSmart(32767);
-					data.writeSmart(hit.getMark(player, n));
-					data.writeSmart(hit.getDamage());
-					data.writeSmart(hit.getSoaking().getMark(player, n));
-					data.writeSmart(hit.getSoaking().getDamage());
-				} else {
-					data.writeSmart(hit.getMark(player, n));
-					data.writeSmart(hit.getDamage());
-				}
+				data.writeSmart(hit.getMark(player, n));
+				data.writeSmart(hit.getDamage());
 			}
 			data.writeSmart(hit.getDelay());
 		}

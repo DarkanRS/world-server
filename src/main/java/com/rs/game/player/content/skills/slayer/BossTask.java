@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,15 +27,15 @@ import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 
 public class BossTask {
-	
+
 	private int amount;
 	private BossTasks task;
-	
+
 	public BossTask(BossTasks task, int amount) {
 		this.task = task;
 		this.amount = amount;
 	}
-	
+
 	public static enum BossTasks {
 		GENERAL_GRAARDOR	(6260, 5, 12, 10000),
 		COMMANDER_ZILYANA	(6247, 5, 12, 10000),
@@ -52,16 +52,15 @@ public class BossTask {
 		TORMENTED_DEMON		(8349, 8, 12, 10000);
 
 
-		private static Map<Integer, BossTasks> monsters = new HashMap<Integer, BossTasks>();
+		private static Map<Integer, BossTasks> monsters = new HashMap<>();
 
 		public static BossTasks forId(int id) {
 			return monsters.get(id);
 		}
 
 		static {
-			for (BossTasks monster : BossTasks.values()) {
+			for (BossTasks monster : BossTasks.values())
 				monsters.put(monster.id, monster);
-			}
 		}
 
 		private int id;
@@ -87,7 +86,7 @@ public class BossTask {
 		public int getMaxAmount() {
 			return maxAmount;
 		}
-		
+
 		public int getXp() {
 			return xp;
 		}
@@ -96,11 +95,11 @@ public class BossTask {
 			return (BossTasks) monsters.values().toArray()[Utils.random(monsters.values().size()-1)];
 		}
 	}
-	
+
 	public String getName() {
 		return NPCDefinitions.getDefs(task.getId()).getName();
 	}
-	
+
 	public void finishTask(Player player) {
 		player.incrementCount("Reaper assignments completed");
 		player.sendMessage("You have completed your reaper assignment. You are rewarded with "+task.getXp()+" Slayer experience and 15 Reaper points.");
@@ -109,18 +108,17 @@ public class BossTask {
 		player.setDailyB("bossTaskCompleted", true);
 		player.setBossTask(null);
 	}
-	
+
 	public void sendKill(Player player, NPC npc) {
 		World.sendProjectile(npc, player, 3060, 18, 18, 15, 0, 20, 0);
 		if (amount >= 1)
 			amount--;
-		if (amount <= 0) {
+		if (amount <= 0)
 			finishTask(player);
-		} else {
+		else
 			player.sendMessage("<col=ff0000>As "+npc.getName()+" dies, you absorb the soul. You now need "+amount+" more souls.");
-		}
 	}
-	
+
 	public static BossTask create() {
 		BossTasks info = BossTasks.getRandomTask();
 		BossTask task = new BossTask(info, Utils.random(info.getMinAmount(), info.getMaxAmount()));

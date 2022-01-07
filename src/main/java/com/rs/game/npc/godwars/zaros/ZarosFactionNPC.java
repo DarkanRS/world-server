@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -42,7 +42,7 @@ public class ZarosFactionNPC extends NPC {
 	@Override
 	public List<Entity> getPossibleTargets() {
 		List<Entity> targets = getPossibleTargets(true);
-		ArrayList<Entity> targetsCleaned = new ArrayList<Entity>();
+		ArrayList<Entity> targetsCleaned = new ArrayList<>();
 		for (Entity t : targets) {
 			if (t instanceof ZarosFactionNPC || t instanceof Familiar || hasSuperiourBonuses(t))
 				continue;
@@ -52,20 +52,18 @@ public class ZarosFactionNPC extends NPC {
 	}
 
 	private boolean hasSuperiourBonuses(Entity t) {
-		if (!(t instanceof Player))
+		if (!(t instanceof Player player))
 			return false;
-		Player player = (Player) t;
-		for (Bonus bonus : BONUSES[getId() - 13456]) {
+		for (Bonus bonus : BONUSES[getId() - 13456])
 			if (player.getCombatDefinitions().getBonus(bonus) >= (bonus == Bonus.RANGE_DEF ? 100 : CAP_BONUS))
 				return true;
-		}
 		return false;
 	}
 
 	public static boolean isNexArmour(String name) {
 		return name.contains("pernix") || name.contains("torva") || name.contains("virtus") || name.contains("zaryte");
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(13456, 13457, 13458, 13459) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

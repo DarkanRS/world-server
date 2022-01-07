@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -69,7 +69,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 							for (Player player : boss.getManager().getParty().getTeam()) {
 								if (player.isDead() || !boss.getManager().isAtBossRoom(player))
 									continue;
-								if (targets.contains((Entity) player)) {
+								if (targets.contains(player)) {
 									sendPullAttack(boss.transform(2, 2, 0), player, true);
 									player.sendMessage("Yk'Lagor sees you and pulls you closer, energising him.");
 									boss.heal((int) (boss.getMaxHitpoints() * 0.15));
@@ -132,20 +132,17 @@ public class YkLagorThunderousCombat extends CombatScript {
 		boolean useMagic = false;
 		if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0))
 			useMelee = true;
-		for (Entity t : npc.getPossibleTargets()) {
+		for (Entity t : npc.getPossibleTargets())
 			if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 0))
 				useMagic = true;
-
-		}
 		int style = !useMelee ? 1 : !useMagic ? 0 : Utils.random(2);
 		switch (style) {
 		case 0:
 			npc.setNextAnimation(new Animation(14392));
 			int damage = 0;
-			if (target instanceof Player player) {
+			if (target instanceof Player player)
 				if (player.getPrayer().getPoints() > 0 && damage > 0)
 					player.getPrayer().drainPrayer((int) (damage * .5));
-			}
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
 			break;
 		case 1:
@@ -179,14 +176,13 @@ public class YkLagorThunderousCombat extends CombatScript {
 	public static void sendMagicalAttack(YkLagorThunderous npc, boolean specialAttack) {
 		npc.setNextAnimation(new Animation(14525));
 		npc.setNextSpotAnim(new SpotAnim(2754));
-		if (specialAttack) {
+		if (specialAttack)
 			npc.setNextForceTalk(new ForceTalk("You dare steal my power?!"));
-			// npc.playSoundEffect(1926);
-		} else if (Utils.random(5) == 0) {
+		// npc.playSoundEffect(1926);
+		else if (Utils.random(5) == 0)
 			npc.setNextForceTalk(new ForceTalk("Fear my wrath!"));
-			///////// npc.playSoundEffect(1927);
-		}
-		if (npc.getPossibleTargets().size() > 0) {
+		///////// npc.playSoundEffect(1927);
+		if (npc.getPossibleTargets().size() > 0)
 			for (Player player : npc.getManager().getParty().getTeam()) {
 				if (player.isDead() || !npc.getManager().isAtBossRoom(player))
 					continue;
@@ -194,8 +190,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 				delayHit(npc, 1, player, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, player)));
 				player.setNextSpotAnim(new SpotAnim(2755, 85, 0));
 			}
-		}
-		if (specialAttack) {
+		if (specialAttack)
 			for (YkLagorMage mage : npc.getMages()) {
 				if (mage.isDead() || mage.hasFinished())
 					continue;
@@ -203,8 +198,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 				// delayHit(mage, 1, mage, getMagicHit(npc, mage.getMaxHitpoints()));
 				mage.setNextSpotAnim(new SpotAnim(2755, 85, 0));
 			}
-			// for mages kill blablalb,we dont want to kill familiars lol
-		}
+		// for mages kill blablalb,we dont want to kill familiars lol
 
 	}
 }

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,13 +35,13 @@ public enum TreeType {
 	MAGIC(75, 250, 1513, -10, 24, 121, true),
 	BLISTERWOOD(76, 200, 21600, -10, 24, 8, true),
 	BLOODWOOD(85, 100, 24121, -10, 24, 121, true),
-	
+
 	MUTATED_VINE(83, 140, 21358, 6, 35, 72, false),
 	CURLY_VINE(83, 140, null, 6, 35, 72, false),
 	CURLY_VINE_COLLECTABLE(83, 140, new int[] { 21350, 21350, 21350, 21350 }, 6, 35, 72, false),
 	STRAIGHT_VINE(83, 140, null, 6, 35, 72, false),
 	STRAIGHT_VINE_COLLECTABLE(83, 140, new int[] { 21349, 21349, 21349, 21349 }, 6, 35, 72, false);
-	
+
 	private int level;
 	private double xp;
 	private int[] logsId;
@@ -83,7 +83,7 @@ public enum TreeType {
 	public boolean isPersistent() {
 		return persistent;
 	}
-	
+
 	public boolean rollSuccess(Player player, int level, Hatchet hatchet) {
 		return Utils.skillSuccess((int) (level * player.getAuraManager().getWoodcuttingMul()), hatchet.getToolMod(), rate1, rate99);
 	}

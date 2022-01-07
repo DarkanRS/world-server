@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -60,24 +60,20 @@ public class MamboJamboD extends Dialogue {
 				if (player.getInventory().containsItem(19983, 60)) {
 					player.getInventory().deleteItem(19983, 60);
 					player.getInventory().addItem(new Item(20044, 1));
-				} else {
+				} else
 					player.sendMessage("You don't have enough Zamorak vines.");
-				}
 			} else if (componentId == OPTION_2) {
 				if (player.getInventory().containsItem(19981, 60)) {
 					player.getInventory().deleteItem(19981, 60);
 					player.getInventory().addItem(new Item(20045, 1));
-				} else {
+				} else
 					player.sendMessage("You don't have enough Saradomin vines.");
-				}
-			} else if (componentId == OPTION_3) {
+			} else if (componentId == OPTION_3)
 				if (player.getInventory().containsItem(19982, 60)) {
 					player.getInventory().deleteItem(19982, 60);
 					player.getInventory().addItem(new Item(20046, 1));
-				} else {
+				} else
 					player.sendMessage("You don't have enough Guthix vines.");
-				}
-			}
 			end();
 			break;
 		case 1:

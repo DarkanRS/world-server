@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,26 +47,26 @@ public enum Rune {
 	SMOKE(4697),
 	MUD(4698),
 	LAVA(4699);
-	
+
 	private static Map<Integer, Rune> MAP = new HashMap<>();
-	
+
 	static {
 		for (Rune r : Rune.values())
 			MAP.put(r.id, r);
 	}
-	
+
 	public static Rune forId(int itemId) {
 		return MAP.get(itemId);
 	}
-	
+
 	private int[] runeIds;
 	private int id;
-	
+
 	private Rune(int... runeIds) {
 		this.runeIds = runeIds;
-		this.id = runeIds[0];
+		id = runeIds[0];
 	}
-	
+
 	public boolean hasInfinite(Player player) {
 		switch(this) {
 		case AIR:
@@ -166,26 +166,25 @@ public enum Rune {
 		}
 		return false;
 	}
-	
+
 	public int id() {
 		return id;
 	}
-	
+
 	public List<Item> getRunesToDelete(Player player, int num) {
 		List<Item> runes = new ArrayList<>();
 		if (hasInfinite(player))
 			return runes;
 		int total = 0;
-		for (int runeId : this.runeIds) {
+		for (int runeId : runeIds) {
 			int numHeld = player.getInventory().getNumberOf(runeId);
 			int numNeeded = num-total;
 			if (numHeld > 0) {
 				if (numHeld >= numNeeded) {
 					runes.add(new Item(runeId, numNeeded));
 					return runes;
-				} else {
-					runes.add(new Item(runeId, numHeld));
 				}
+				runes.add(new Item(runeId, numHeld));
 			}
 		}
 		return null;

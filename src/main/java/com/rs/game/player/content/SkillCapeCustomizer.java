@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -65,21 +65,21 @@ public class SkillCapeCustomizer {
 				return;
 			}
 			switch(e.getComponentId()) {
-				case 58 -> {
-					int[] orig = Arrays.copyOf(ItemDefinitions.getDefs(20767).originalModelColors, 4);
-					for (int i = 0;i < orig.length;i++)
-						colors[i] = orig[i];
-					for (int i = 0; i < 4; i++)
-						e.getPlayer().getVars().setVarBit(9254 + i, colors[i]);
-				}
-				case 34 -> customizeSlot(e.getPlayer(), 0);
-				case 71 -> customizeSlot(e.getPlayer(), 1);
-				case 83 -> customizeSlot(e.getPlayer(), 2);
-				case 95 -> customizeSlot(e.getPlayer(), 3);
-				case 114, 142 -> {
-					e.getPlayer().getAppearance().generateAppearanceData();
-					e.getPlayer().closeInterfaces();
-				}
+			case 58 -> {
+				int[] orig = Arrays.copyOf(ItemDefinitions.getDefs(20767).originalModelColors, 4);
+				for (int i = 0;i < orig.length;i++)
+					colors[i] = orig[i];
+				for (int i = 0; i < 4; i++)
+					e.getPlayer().getVars().setVarBit(9254 + i, colors[i]);
+			}
+			case 34 -> customizeSlot(e.getPlayer(), 0);
+			case 71 -> customizeSlot(e.getPlayer(), 1);
+			case 83 -> customizeSlot(e.getPlayer(), 2);
+			case 95 -> customizeSlot(e.getPlayer(), 3);
+			case 114, 142 -> {
+				e.getPlayer().getAppearance().generateAppearanceData();
+				e.getPlayer().closeInterfaces();
+			}
 			}
 		}
 	};

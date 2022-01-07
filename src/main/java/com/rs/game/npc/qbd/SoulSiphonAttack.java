@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,9 +28,9 @@ import com.rs.lib.util.Utils;
 
 /**
  * The Queen Black Dragon's soul siphon attack.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class SoulSiphonAttack implements QueenAttack {
 
@@ -43,13 +43,11 @@ public final class SoulSiphonAttack implements QueenAttack {
 	public int attack(final QueenBlackDragon npc, Player victim) {
 		for (Iterator<TorturedSoul> it = npc.getSouls().iterator(); it.hasNext();) {
 			TorturedSoul soul = it.next();
-			if (soul.isDead()) {
+			if (soul.isDead())
 				it.remove();
-			}
 		}
-		if (npc.getSouls().isEmpty()) {
+		if (npc.getSouls().isEmpty())
 			return 1;
-		}
 		victim.sendMessage("<col=9900CC>The Queen Black Dragon starts to siphon the energy of her mages.</col>");
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -51,9 +51,8 @@ public class FatherAereck extends Dialogue {
 			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 0) {
 				sendNPCDialogue(npcId, 9827, "Well that's convenient. I seem to be having a bit of a<br>ghost problem. Could you go speak to speak to<br>Father Urhney down in the swamp about how to<br>exorcise the spirit?");
 				player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1, true);
-			} else {
+			} else
 				sendNPCDialogue(npcId, 9827, "I don't have anything else for you to do right now.");
-			}
 		} else if (stage == 1) {
 			stage = 4;
 			sendNPCDialogue(npcId, 9827, "Of course you can. Have a look at this selection of gravestones.");
@@ -63,9 +62,8 @@ public class FatherAereck extends Dialogue {
 		} else if (stage == 4) {
 			end();
 			GraveStoneSelection.openSelectionInterface(player);
-		} else if (stage == 3) {
+		} else if (stage == 3)
 			end();
-		}
 	}
 
 	@Override

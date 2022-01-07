@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -26,10 +26,10 @@ import java.util.regex.Pattern;
 /**
  * A class to parse a configuration file, based on the perl configuration system
  * Azusa::Configuration s
- * 
+ *
  * @author Nikki
  * @author solar
- * 
+ *
  */
 public class ConfigurationParser {
 
@@ -64,12 +64,12 @@ public class ConfigurationParser {
 	private BufferedReader reader;
 
 	public ConfigurationParser(InputStream input) {
-		this.reader = new BufferedReader(new InputStreamReader(input));
+		reader = new BufferedReader(new InputStreamReader(input));
 	}
 
 	/**
 	 * Parse the configuration from the specified file
-	 * 
+	 *
 	 * @return The configuration
 	 * @throws IOException
 	 */
@@ -88,9 +88,8 @@ public class ConfigurationParser {
 	 */
 	public void parse(ConfigurationNode node) throws IOException {
 		String line = reader.readLine();
-		if (line == null) {
+		if (line == null)
 			return;
-		}
 		line = line.trim();
 
 		if (!line.startsWith("#") && line.length() != 0) {
@@ -99,26 +98,23 @@ public class ConfigurationParser {
 			Matcher array = arrayPattern.matcher(line);
 			Matcher nestedArrayBlock = nestedArrayPattern.matcher(line);
 			Matcher nestedHashBlock = nestedHashPattern.matcher(line);
-			if (scalar.find()) {
+			if (scalar.find())
 				node.set(scalar.group(1), scalar.group(2));
-			} else if (nestedArrayBlock.find()) {
+			else if (nestedArrayBlock.find()) {
 				String name = nestedArrayBlock.group(1);
 				String key = nestedArrayBlock.group(2);
 				key = key.replaceAll("\\\"", "\"");
-				if (!node.has(name)) {
+				if (!node.has(name))
 					node.set(name, new ConfigurationNode());
-				}
 				parse(node.nodeFor(name));
 			} else if (nestedHashBlock.find()) {
 				String name = nestedHashBlock.group(1);
 				String key = nestedHashBlock.group(2);
 				ConfigurationNode sub = node.has(name) ? node.nodeFor(name) : new ConfigurationNode();
-				if (!node.has(name)) {
+				if (!node.has(name))
 					node.set(name, sub);
-				}
-				if (!sub.has(key)) {
+				if (!sub.has(key))
 					sub.set(key, new ConfigurationNode());
-				}
 				parse(sub.nodeFor(key));
 			} else if (array.find()) {
 				ConfigurationNode newNode = new ConfigurationNode();
@@ -126,9 +122,8 @@ public class ConfigurationParser {
 				parse(newNode);
 			}
 			Matcher nestedEnd = nestedEndPattern.matcher(line);
-			if (nestedEnd.find()) {
+			if (nestedEnd.find())
 				return;
-			}
 		}
 		parse(node);
 	}

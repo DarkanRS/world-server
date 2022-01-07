@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -45,7 +45,7 @@ public class AuraManager {
 	private long currActivated;
 	private Aura currAura;
 	private int jotFlags;
-	
+
 	public enum Aura {
 		ODDBALL						(20957, Millis.fromHours(1), 0),
 		POISON_PURGE				(20958, Millis.fromMinutes(10), Millis.fromHours(1)),
@@ -121,29 +121,29 @@ public class AuraManager {
 		SUPREME_REVERENCE			(23870, Millis.fromHours(1), Millis.fromHours(3)),
 		SUPREME_TRACKER				(23872, Millis.fromHours(1), Millis.fromHours(3)),
 		SUPREME_GREENFINGERS		(23878, Millis.fromMinutes(20), Millis.fromHours(1));
-		
+
 		private static Map<Integer, Aura> ITEMID_MAP = new HashMap<>();
-		
+
 		static {
 			for (Aura a : Aura.values())
 				ITEMID_MAP.put(a.itemId, a);
 		}
-		
+
 		public static Aura forId(int itemId) {
 			return ITEMID_MAP.get(itemId);
 		}
-		
+
 		public int itemId;
 		private long duration;
 		private long cooldown;
-		
+
 		private Aura(int itemId, long duration, long cooldown) {
 			this.itemId = itemId;
 			this.duration = duration;
 			this.cooldown = cooldown;
 		}
 	}
-	
+
 	public static ItemClickHandler handleAuraOptions = new ItemClickHandler(Aura.ITEMID_MAP.keySet().toArray(), new String[] { "Activate aura", "Activate Aura", "Aura time remaining", "Time-Remaining" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -162,7 +162,7 @@ public class AuraManager {
 			}
 		}
 	};
-	
+
 	public static ItemEquipHandler handleDequipAura = new ItemEquipHandler(Aura.ITEMID_MAP.keySet().toArray()) {
 		@Override
 		public void handle(ItemEquipEvent e) {
@@ -170,7 +170,7 @@ public class AuraManager {
 				e.getPlayer().getAuraManager().removeAura();
 		}
 	};
-	
+
 	public static XPGainHandler handleXpGain = new XPGainHandler() {
 		@Override
 		public void handle(XPGainEvent e) {
@@ -182,32 +182,31 @@ public class AuraManager {
 				e.getPlayer().sendMessage("You have now gained XP in " + e.getPlayer().getAuraManager().getJotSkills() + " of the 10 required skills.");
 		}
 	};
-	
+
 	public void clearJotFlags() {
 		jotFlags = 0;
 	}
-	
+
 	public void setJotFlag(int skillId) {
 		int flag = 1 << skillId;
 		jotFlags |= flag;
 	}
-	
+
 	public int getJotSkills() {
 		int skills = 0;
-		for (int i = 0;i < Constants.SKILL_NAME.length;i++) {
+		for (int i = 0;i < Constants.SKILL_NAME.length;i++)
 			if ((jotFlags & (1 << i)) != 0)
 				skills++;
-		}
 		return skills;
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public long getTimeLeft() {
 		long timeLeft = currActivated - System.currentTimeMillis();
-		if (timeLeft <= 0) 
+		if (timeLeft <= 0)
 			return 0;
 		return timeLeft;
 	}
@@ -245,19 +244,18 @@ public class AuraManager {
 		warned = false;
 		player.sendMessage("Your aura has depleted.");
 	}
-	
+
 	public void subtractCooldownTime(Aura aura, long time) {
-		if (onCooldown(aura)) {
+		if (onCooldown(aura))
 			auraCds.put(aura, auraCds.get(aura) - time);
-		}
 	}
-	
+
 	public void putOnCooldown(Aura aura) {
 		if (auraCds == null)
 			auraCds = new HashMap<>();
 		auraCds.put(aura, System.currentTimeMillis() + aura.cooldown + aura.duration);
 	}
-	
+
 	public boolean onCooldown(Aura aura) {
 		return getCooldownTime(aura) > 0;
 	}
@@ -301,7 +299,7 @@ public class AuraManager {
 		player.getAppearance().generateAppearanceData();
 		putOnCooldown(aura);
 	}
-	
+
 	public int getActivateSpotAnim(Aura aura) {
 		if (ItemDefinitions.getDefs(aura.itemId).getName().startsWith("Master "))
 			return 1764;
@@ -309,7 +307,7 @@ public class AuraManager {
 			return 1763;
 		return 370;
 	}
-	
+
 	public void sendAuraRemainingTime() {
 		sendAuraRemainingTime(Aura.forId(player.getEquipment().getAuraId()));
 	}
@@ -350,7 +348,7 @@ public class AuraManager {
 		}
 		player.sendMessage("Currently recharging. <col=ff0000>" + formatTime((cooldown - System.currentTimeMillis()) / 1000) + " remaining.");
 	}
-	
+
 	public boolean isActivated(Aura... auras) {
 		for (Aura aura : auras)
 			if (isActivated(aura))
@@ -362,16 +360,16 @@ public class AuraManager {
 		Aura worn = Aura.forId(player.getEquipment().getAuraId());
 		return worn == aura && currActivated != 0;
 	}
-	
+
 	public boolean isActive() {
 		return currActivated != 0;
 	}
-	
+
 	public void onIncomingHit(Hit hit) {
 		if (isActivated(Aura.PENANCE))
 			player.getPrayer().restorePrayer(hit.getDamage() * 0.2);
 	}
-	
+
 	public void onOutgoingHit(Hit hit) {
 		if (isActivated(Aura.INSPIRATION) && hit.getDamage() > 0)
 			useInspiration();
@@ -404,7 +402,7 @@ public class AuraManager {
 			return 8722;
 		return 8719;
 	}
-	
+
 	public int getAuraModelId2() {
 		Aura aura = Aura.forId(player.getEquipment().getAuraId());
 		if (aura == null)
@@ -458,7 +456,7 @@ public class AuraManager {
 			return false;
 		}
 	}
-	
+
 	public double getThievingMul() {
 		if (currAura == null)
 			return 1.0;
@@ -475,7 +473,7 @@ public class AuraManager {
 			return 1.0;
 		}
 	}
-	
+
 	public double getFishingMul() {
 		if (currAura == null)
 			return 1.0;
@@ -492,7 +490,7 @@ public class AuraManager {
 			return 1.0;
 		}
 	}
-	
+
 	public double getWoodcuttingMul() {
 		if (currAura == null)
 			return 1.0;
@@ -509,7 +507,7 @@ public class AuraManager {
 			return 1.0;
 		}
 	}
-	
+
 	public double getMiningMul() {
 		if (currAura == null)
 			return 1.0;
@@ -526,7 +524,7 @@ public class AuraManager {
 			return 1.0;
 		}
 	}
-	
+
 	public double getRangeAcc() {
 		if (currAura == null)
 			return 1.0;
@@ -543,7 +541,7 @@ public class AuraManager {
 			return 1.0;
 		}
 	}
-	
+
 	public double getMagicAcc() {
 		if (currAura == null)
 			return 1.0;

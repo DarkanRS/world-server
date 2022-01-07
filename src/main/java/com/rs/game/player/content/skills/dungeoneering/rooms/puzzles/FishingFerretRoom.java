@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,9 +47,9 @@ public class FishingFerretRoom extends PuzzleRoom {
 
 	private static final int FERRET_ID = 11007, VILE_FISH = 17375;
 	private static final int[] PRESSURE_PLATE =
-	{ 49555, 49557, 49559, 54296, 54297 };
+		{ 49555, 49557, 49559, 54296, 54297 };
 	private static final int[] EMPTY_PLATE =
-	{ 49546, 49547, 49548, 54293, 35293 };
+		{ 49546, 49547, 49548, 54293, 35293 };
 
 	private WorldTile pressurePlate;
 	private List<GroundItem> vileFishes;
@@ -74,7 +74,8 @@ public class FishingFerretRoom extends PuzzleRoom {
 					psuedoFishingSpot = null;
 					removeAllVileFish();
 					return;
-				} else if (vileFishes.size() > 0) {
+				}
+				if (vileFishes.size() > 0) {
 					GroundItem item = vileFishes.get(0);//Goes in chronological order
 					WorldTile tile = item.getTile();
 					if (matches(tile)) {
@@ -116,20 +117,19 @@ public class FishingFerretRoom extends PuzzleRoom {
 	@Override
 	public void openRoom() {
 		int[][] possibleCorners = null;
-		outer: for (int x = 0; x < 15; x++) {
+		outer: for (int x = 0; x < 15; x++)
 			for (int y = 0; y < 15; y++) {
 				GameObject object = manager.getObjectWithType(reference, ObjectType.GROUND_DECORATION, x, y);
 				if (object != null && (object.getDefinitions().getName().equals("Tile") || object.getDefinitions().getName().equals("Hole"))) {
 					possibleCorners = new int[][]
-					{
-					{ x + 6, y, x, y + 6 },
-					{ x, y, x + 6, y + 6 } };
-					break outer;
+							{
+						{ x + 6, y, x, y + 6 },
+						{ x, y, x + 6, y + 6 } };
+						break outer;
 				}
 			}
-		}
 
-		vileFishes = new LinkedList<GroundItem>();
+		vileFishes = new LinkedList<>();
 		boolean invertChunks = Utils.random(2) == 0;
 		int[] cornerChunks = possibleCorners[Utils.random(possibleCorners.length)];
 		pressurePlate = manager.getRotatedTile(reference, cornerChunks[invertChunks ? 2 : 0], cornerChunks[invertChunks ? 3 : 1]);
@@ -146,7 +146,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 			int requiredFishing = getRequirement(Constants.FISHING);
 			if (psuedoFishingSpot == null)
 				return true;
-			else if (requiredFishing > player.getSkills().getLevel(Constants.FISHING)) {
+			if (requiredFishing > player.getSkills().getLevel(Constants.FISHING)) {
 				player.sendMessage("You need a Fishing level of " + requiredFishing + " to catch a raw vile fish.");
 				return false;
 			}
@@ -157,20 +157,14 @@ public class FishingFerretRoom extends PuzzleRoom {
 		}
 		return true;
 	}
-	
+
 	public static boolean handleFerretThrow(final Player player, final GameObject object, final Item item) {
-		if ((!object.getDefinitions().getName().equals("Tile") && !object.getDefinitions().getName().equals("Pressure plate")) || item.getId() != VILE_FISH || player.getControllerManager().getController() == null || !(player.getControllerManager().getController() instanceof DungeonController)) {
+		if ((!object.getDefinitions().getName().equals("Tile") && !object.getDefinitions().getName().equals("Pressure plate")) || item.getId() != VILE_FISH || player.getControllerManager().getController() == null || !(player.getControllerManager().getController() instanceof DungeonController))
 			return false;
-		}
 		DungeonManager manager = player.getDungManager().getParty().getDungeon();
 		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player));
-		if (room == null) {
+		if ((room == null) || !(room instanceof FishingFerretRoom puzzle))
 			return false;
-		}
-		if (!(room instanceof FishingFerretRoom)) {
-			return false;
-		}
-		final FishingFerretRoom puzzle = (FishingFerretRoom) room;
 		if (puzzle.isComplete()) {
 			player.sendMessage("I know it smells, but littering is wrong!");
 			return false;
@@ -197,7 +191,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		}, p.getTaskDelay());
 		return true;
 	}
-	
+
 	@Override
 	public boolean handleItemOnObject(Player player, GameObject object, Item item) {
 		if (object.getDefinitions().getName().equals("Fire") && item.getId() == 17374) {
@@ -223,5 +217,5 @@ public class FishingFerretRoom extends PuzzleRoom {
 	public String getCompleteMessage() {
 		return "You hear a click as the ferret steps on the pressure plate. All the doors in the room are now unlocked.";
 	}
-	
+
 }

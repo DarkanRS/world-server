@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,9 +39,9 @@ public class Trade {
 
 	public Trade(Player player) {
 		this.player = player; // player reference
-		items = new ItemsContainer<Item>(28, false);
+		items = new ItemsContainer<>(28, false);
 	}
-	
+
 	public static ButtonClickHandler handleTradeWindow = new ButtonClickHandler(334, 335, 336) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -78,14 +78,13 @@ public class Trade {
 						e.getPlayer().getTrade().sendValue(e.getSlotId(), false);
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getTrade().sendExamine(e.getSlotId(), false);
-				} else if (e.getComponentId() == 35) {
+				} else if (e.getComponentId() == 35)
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						e.getPlayer().getTrade().sendValue(e.getSlotId(), true);
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getTrade().sendExamine(e.getSlotId(), true);
-				}
-			} else if (e.getInterfaceId() == 336) {
-				if (e.getComponentId() == 0) {
+			} else if (e.getInterfaceId() == 336)
+				if (e.getComponentId() == 0)
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						e.getPlayer().getTrade().addItem(e.getSlotId(), 1);
 					else if (e.getPacket() == ClientPacket.IF_OP2)
@@ -100,11 +99,9 @@ public class Trade {
 						e.getPlayer().getTrade().sendValue(e.getSlotId());
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
-				}
-			}
 		}
 	};
-	
+
 	/*
 	 * called to both players
 	 */
@@ -132,12 +129,7 @@ public class Trade {
 				refreshStageMessage(true);
 				player.getInterfaceManager().sendInterface(335);
 				player.getInterfaceManager().sendInventoryInterface(336);
-				player.setCloseInterfacesEvent(new Runnable() {
-					@Override
-					public void run() {
-						closeTrade(CloseTradeStage.CANCEL);
-					}
-				});
+				player.setCloseInterfacesEvent(() -> closeTrade(CloseTradeStage.CANCEL));
 			}
 		}
 	}
@@ -395,15 +387,13 @@ public class Trade {
 				} else {
 					player.sendMessage("Accepted trade.");
 					String recieved = "";
-					for (Item i : oldTarget.getTrade().items.toArray()) {
+					for (Item i : oldTarget.getTrade().items.toArray())
 						if (i != null)
 							recieved += i.getAmount() + " " + i.getDefinitions().name + "("+i.getId()+")\r\n";
-					}
 					String given = "";
-					for (Item i : items.toArray()) {
+					for (Item i : items.toArray())
 						if (i != null)
 							given += i.getAmount() + " " + i.getDefinitions().name + "("+i.getId()+")\r\n";
-					}
 					FileManager.writeToFile("/trade/"+player.getUsername()+".txt", "Trade with "+oldTarget.getUsername()+":\r\nRecieved:\r\n"+recieved + "Given:\r\n" + given+"\r\n");
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);
 					player.getInventory().init();

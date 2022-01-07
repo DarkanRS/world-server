@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,12 +27,12 @@ import com.rs.lib.util.Logger;
 
 public class StealingCreationManager {
 
-	private static final List<StealingCreationGameController> running = new CopyOnWriteArrayList<StealingCreationGameController>();
+	private static final List<StealingCreationGameController> running = new CopyOnWriteArrayList<>();
 	private static WorldTask watcher;
 
 	public synchronized static void createGame(int size, List<Player> blueTeam, List<Player> redTeam) {
 		running.add(new StealingCreationGameController(size, blueTeam, redTeam));
-		if (watcher == null) {
+		if (watcher == null)
 			WorldTasksManager.schedule(watcher = new WorldTask() {
 				@Override
 				public void run() {
@@ -43,7 +43,6 @@ public class StealingCreationManager {
 					}
 				}
 			}, 0, 1);
-		}
 	}
 
 	/**

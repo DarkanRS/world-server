@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class EasterBunnyD extends Conversation {
-	
+
 	private static final int EASTER_BUNNY = 9687;
 
 	public static NPCClickHandler handleEasterBunnyTalk = new NPCClickHandler(EASTER_BUNNY) {
@@ -73,9 +73,8 @@ public class EasterBunnyD extends Conversation {
 				addPlayer(HeadE.CHEERFUL, "Alright, I'll get right on that!", () -> {
 					player.save(Easter2021.STAGE_KEY, 2);
 				});
-			} else {
+			} else
 				addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Speak to me down in my hole. I'll meet you down there!");
-			}
 			break;
 		case 2:
 			addPlayer(HeadE.CHEERFUL, "What am I supposed to be doing again?");
@@ -121,10 +120,10 @@ public class EasterBunnyD extends Conversation {
 			addItem(7927, "The Easter Bunny hands you a magical easter ring and unlocks the Around the World emote for you!");
 			addNext(() -> {
 				player.save(Easter2021.STAGE_KEY, 9);
-//				player.getInventory().addItemDrop(new Item(1037, 1));
-//				player.getInventory().addItemDrop(new Item(4565, 1));
-//				player.addDiangoReclaimItem(1037);
-//				player.addDiangoReclaimItem(4565);
+				//				player.getInventory().addItemDrop(new Item(1037, 1));
+				//				player.getInventory().addItemDrop(new Item(4565, 1));
+				//				player.addDiangoReclaimItem(1037);
+				//				player.addDiangoReclaimItem(4565);
 				player.getInventory().addItemDrop(new Item(7927, 1));
 				player.addDiangoReclaimItem(7927);
 				player.getEmotesManager().unlockEmote(Emote.AROUND_THE_WORLD);
@@ -136,7 +135,7 @@ public class EasterBunnyD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "It was nothing. He is risen, indeed!");
 			break;
 		}
-		
+
 		create();
 	}
 

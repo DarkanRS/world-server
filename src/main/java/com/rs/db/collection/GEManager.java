@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -76,18 +76,17 @@ public class GEManager extends DBItemManager {
 		FindIterable<Document> offerDocs = getDocs().find(Filters.eq("owner", username));
 		if (offerDocs == null)
 			return null;
-		else
-			try {
-				List<Offer> offers = new ArrayList<>(6);
-				for (Document d : offerDocs) {
-					Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(d), Offer.class);
-					offers.add(offer);
-				}
-				return offers;
-			} catch (JsonIOException | IOException e) {
-				Logger.handle(e);
-				return null;
+		try {
+			List<Offer> offers = new ArrayList<>(6);
+			for (Document d : offerDocs) {
+				Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(d), Offer.class);
+				offers.add(offer);
 			}
+			return offers;
+		} catch (JsonIOException | IOException e) {
+			Logger.handle(e);
+			return null;
+		}
 	}
 
 	public void remove(String username, int box, Runnable done) {
@@ -105,16 +104,15 @@ public class GEManager extends DBItemManager {
 	public List<Offer> getBestOffersSync(Offer other) {
 		if (other.getState() == State.FINISHED)
 			return null;
-		List<Offer> result = new ArrayList<Offer>();
+		List<Offer> result = new ArrayList<>();
 		FindIterable<Document> docs = getDocs().find(Filters.and(Filters.eq("state", State.STABLE.toString()), Filters.eq("itemId", other.getItemId()), Filters.eq("selling", !other.isSelling()), other.isSelling() ? Filters.gte("price", other.getPrice()) : Filters.lte("price", other.getPrice()))).sort(Sorts.ascending("price"));
-		for (Document doc : docs) {
+		for (Document doc : docs)
 			try {
 				Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);
 				result.add(offer);
 			} catch (JsonIOException | IOException e) {
 				System.out.println("Error converting document: " + result);
 			}
-		}
 		return result;
 	}
 
@@ -131,16 +129,15 @@ public class GEManager extends DBItemManager {
 
 	public void getAllOffersOfType(boolean selling, Consumer<List<Offer>> func) {
 		execute(() -> {
-			List<Offer> result = new ArrayList<Offer>();
+			List<Offer> result = new ArrayList<>();
 			FindIterable<Document> docs = getDocs().find(Filters.and(Filters.eq("state", State.STABLE.toString()), Filters.eq("selling", selling)));
-			for (Document doc : docs) {
+			for (Document doc : docs)
 				try {
 					Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);
 					result.add(offer);
 				} catch (JsonIOException | IOException e) {
 					System.out.println("Error converting document: " + result);
 				}
-			}
 			func.accept(result);
 		});
 	}

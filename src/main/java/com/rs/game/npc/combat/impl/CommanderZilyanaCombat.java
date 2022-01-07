@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,7 +36,7 @@ public class CommanderZilyanaCombat extends CombatScript {
 	@Override
 	public int attack(final NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
-		if (Utils.getRandomInclusive(4) == 0) {
+		if (Utils.getRandomInclusive(4) == 0)
 			switch (Utils.getRandomInclusive(9)) {
 			case 0:
 				npc.setNextForceTalk(new ForceTalk("Death to the enemies of the light!"));
@@ -79,7 +79,6 @@ public class CommanderZilyanaCombat extends CombatScript {
 				npc.playSound(3258, 2);
 				break;
 			}
-		}
 		if (Utils.getRandomInclusive(1) == 0) { // mage magical attack
 			npc.setNextAnimation(new Animation(6967));
 			for (Entity t : npc.getPossibleTargets()) {

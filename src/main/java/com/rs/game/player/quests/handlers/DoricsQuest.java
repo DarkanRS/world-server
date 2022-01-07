@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,7 +38,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @QuestHandler(Quest.DORICS_QUEST)
 @PluginEventHandler
 public class DoricsQuest extends QuestOutline {
-	
+
 	private final static int DORIC = 284;
 	private final static int CLAY = 434;
 	private final static int COPPER_ORE = 436;
@@ -52,7 +52,7 @@ public class DoricsQuest extends QuestOutline {
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:
 			lines.add("I can start this quest by speaking to Doric who is");
@@ -80,7 +80,7 @@ public class DoricsQuest extends QuestOutline {
 		}
 		return lines;
 	}
-	
+
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.MINING, 1300);
@@ -94,17 +94,17 @@ public class DoricsQuest extends QuestOutline {
 
 			switch(player.getQuestManager().getStage(Quest.DORICS_QUEST)) {
 			case 0:
-				
-				Dialogue notSkilled = new Dialogue() 
+
+				Dialogue notSkilled = new Dialogue()
 				.addPlayer(HeadE.CALM_TALK, "But I'm not good enough miner to get iron ore.")
 				.addNPC(DORIC, HeadE.CALM_TALK, "Oh well, you could practice mining until you can. Can't beat a bit of mining - it's a useful skill Failing that, you might be able to find a more experienced adventurer to buy the iron ore off.").getHead();
-				
+
 				Dialogue startQuestOptions = new Dialogue().addOptions(new Options() {
 					@Override
 					public void create() {
 						option("Yes, I will get you the materials.", new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "Yes, I will get you the materials.")
-								.addNPC(DORIC, HeadE.CALM_TALK, "Clay is what I use more than anything, to make casts. Could you get me 6 clay, 4 copper ore, and 2 iron ore, please? I could pay a little, and let you use my anvils. Take this pickaxe with you just in case you need it.", () -> { 
+								.addNPC(DORIC, HeadE.CALM_TALK, "Clay is what I use more than anything, to make casts. Could you get me 6 clay, 4 copper ore, and 2 iron ore, please? I could pay a little, and let you use my anvils. Take this pickaxe with you just in case you need it.", () -> {
 									player.getInventory().addItemDrop(BRONZE_PICKAXE, 1);
 									player.getQuestManager().setStage(Quest.DORICS_QUEST,  1);
 								})
@@ -112,13 +112,13 @@ public class DoricsQuest extends QuestOutline {
 								.addPlayer(HeadE.CALM_TALK, "Where can I find those?")
 								.addNPC(DORIC, HeadE.CALM_TALK, "You'll be able to find all those ores in the rocks just inside the Dwarven Mine. Head east from here and you'll find the entrance in the side of Ice Mountain.")
 								.addNext((player.getSkills().getLevel(Constants.MINING) < 15 ? notSkilled.cutPrev()
-										: new Dialogue().addNPC(DORIC, HeadE.CALM_TALK, "Off you go then."))));		
+										: new Dialogue().addNPC(DORIC, HeadE.CALM_TALK, "Off you go then."))));
 						option("No, hitting rocks is for the boring people, sorry.", new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "No, hitting rocks is for the boring people, sorry.")
 								.addNPC(DORIC, HeadE.CALM_TALK, "That is your choice. Nice to meet you anyway."));
 					}
 				}).getHead();
-				
+
 				addNPC(DORIC, HeadE.SAD, "Hello traveller, what brings you to my humble smithy?");
 				addOptions(new Options() {
 					@Override
@@ -179,30 +179,27 @@ public class DoricsQuest extends QuestOutline {
 			create();
 		}
 	}
-	
+
 	public static NPCClickHandler doricHandler = new NPCClickHandler(DORIC) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.isAtNPC()) {
+			if (e.isAtNPC())
 				if (e.getOption().equalsIgnoreCase("talk-to"))
 					e.getPlayer().startConversation(new DoricD(e.getPlayer()));
-			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleDoricsAnvil = new ObjectClickHandler(new Object[] { 2782, 10641 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!e.getPlayer().getQuestManager().isComplete(Quest.DORICS_QUEST)) {
+			if (!e.getPlayer().getQuestManager().isComplete(Quest.DORICS_QUEST))
 				e.getPlayer().startConversation(new DoricD(e.getPlayer()));
-			} else {
-				if (e.getObject().getDefinitions().containsOption(0, "Smith")) {
-					ForgingBar bar = ForgingBar.getBar(e.getPlayer());
-					if (bar != null)
-						ForgingInterface.sendSmithingInterface(e.getPlayer(), bar);
-					else
-						e.getPlayer().sendMessage("You have no bars which you have smithing level to use.");
-				}
+			else if (e.getObject().getDefinitions().containsOption(0, "Smith")) {
+				ForgingBar bar = ForgingBar.getBar(e.getPlayer());
+				if (bar != null)
+					ForgingInterface.sendSmithingInterface(e.getPlayer(), bar);
+				else
+					e.getPlayer().sendMessage("You have no bars which you have smithing level to use.");
 			}
 		}
 	};

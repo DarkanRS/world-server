@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,7 +29,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class EstateAgentDialogue extends Dialogue {
-	
+
 	public static NPCClickHandler handleEstateAgent = new NPCClickHandler("Estate agent") {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -51,8 +51,8 @@ public class EstateAgentDialogue extends Dialogue {
 				end();
 			} else if (componentId == OPTION_2) {
 				stage = 1;
-				sendOptionsDialogue(player, "Which kind of house style would you like?", 
-						"(Level 1) Basic wood - 2,500 coins", 
+				sendOptionsDialogue(player, "Which kind of house style would you like?",
+						"(Level 1) Basic wood - 2,500 coins",
 						"(Level 10) Basic stone - 10,000 coins",
 						"(Level 20) Whitewashed stone - 15,000 coins",
 						"(Level 30) Fremennik-style wood - 25,000 coins",
@@ -62,46 +62,45 @@ public class EstateAgentDialogue extends Dialogue {
 				player.startConversation(new Conversation(player, Skillcapes.Construction.getOffer99CapeDialogue(player, 6715)));
 			}
 		} else if (stage == 1) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				promptHouseChange("basic wood", 0, 1, 2500);
-			} else if (componentId == OPTION_2) {
+			else if (componentId == OPTION_2)
 				promptHouseChange("basic stone", 1, 10, 10000);
-			} else if (componentId == OPTION_3) {
+			else if (componentId == OPTION_3)
 				promptHouseChange("whitewashed stone", 2, 20, 15000);
-			} else if (componentId == OPTION_4) {
+			else if (componentId == OPTION_4)
 				promptHouseChange("fremennik-style wood", 3, 30, 20000);
-			} else if (componentId == OPTION_5) {
+			else if (componentId == OPTION_5) {
 				stage = 2;
-				sendOptionsDialogue(player, "Which kind of house style would you like?", 
-						"(Level 40) Tropical wood - 50,000 coins", 
+				sendOptionsDialogue(player, "Which kind of house style would you like?",
+						"(Level 40) Tropical wood - 50,000 coins",
 						"(Level 50) Fancy stone - 100,000 coins",
 						"(Level 80) Dark stone - 500,000 coins",
 						"Back...");
 			}
 		} else if (stage == 2) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				promptHouseChange("tropical wood", 4, 40, 50000);
-			} else if (componentId == OPTION_2) {
+			else if (componentId == OPTION_2)
 				promptHouseChange("fancy stone", 5, 50, 100000);
-			} else if (componentId == OPTION_3) {
+			else if (componentId == OPTION_3)
 				promptHouseChange("dark stone", 6, 80, 500000);
-			} else if (componentId == OPTION_4) {
+			else if (componentId == OPTION_4) {
 				stage = 1;
-				sendOptionsDialogue(player, "Which kind of house style would you like?", 
-						"(Level 1) Basic wood - 2,500 coins", 
+				sendOptionsDialogue(player, "Which kind of house style would you like?",
+						"(Level 1) Basic wood - 2,500 coins",
 						"(Level 10) Basic stone - 10,000 coins",
 						"(Level 20) Whitewashed stone - 15,000 coins",
 						"(Level 30) Fremennik-style wood - 25,000 coins",
 						"More...");
 			}
-		} else {
+		} else
 			end();
-		}
 	}
-	
+
 	public void promptHouseChange(final String name, final int look, int level, final int cost) {
 		if (player.getSkills().getLevelForXp(Constants.CONSTRUCTION) >= level) {
-			if (player.getInventory().containsItem(995, cost)) {
+			if (player.getInventory().containsItem(995, cost))
 				player.sendOptionDialogue("Are you sure?", new String[] {"Yes", "No, that's too much money."}, new DialogueOptionEvent() {
 					@Override
 					public void run(Player player) {
@@ -112,7 +111,7 @@ public class EstateAgentDialogue extends Dialogue {
 						}
 					}
 				});
-			} else {
+			else {
 				end();
 				player.sendMessage("You don't have enough money.");
 			}
@@ -124,7 +123,7 @@ public class EstateAgentDialogue extends Dialogue {
 
 	@Override
 	public void finish() {
-		
+
 	}
 
 }

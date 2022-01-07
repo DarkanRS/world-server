@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -95,7 +95,7 @@ public class WarriorsGuild extends Controller {
 
 	private static final WorldTile CATAPULT_TARGET = new WorldTile(2842, 3541, 1);
 	private static final NPC CATAPULT_PROJECTILE_BASE = new NPC(1957, new WorldTile(2842, 3550, 1));
-	private static final Animation[] DEFENSIVE_ANIMATIONS = new Animation[] { new Animation(4169), new Animation(4168), new Animation(4171), new Animation(4170) };
+	private static final Animation[] DEFENSIVE_ANIMATIONS = { new Animation(4169), new Animation(4168), new Animation(4171), new Animation(4170) };
 	private static final GameObject CATAPULT = new GameObject(15616, ObjectType.SCENERY_INTERACT, 0, 2840, 3548, 1);
 
 	private static final WorldTile SHOTPUT_FACE_18LB = new WorldTile(2876, 3549, 1), SHOTPUT_FACE_22LB = new WorldTile(2876, 3543, 1);
@@ -132,10 +132,9 @@ public class WarriorsGuild extends Controller {
 
 	@Override
 	public boolean canAttack(Entity target) {
-		if (target instanceof AnimatedArmor npc) {
+		if (target instanceof AnimatedArmor npc)
 			if (player != npc.getCombat().getTarget())
 				return false;
-		}
 		return true;
 	}
 
@@ -151,7 +150,7 @@ public class WarriorsGuild extends Controller {
 	@Override
 	public void process() {
 		if (player.withinDistance(CATAPULT_TARGET, 0)) {
-			if (timer.ticks % 14 == 0) {
+			if (timer.ticks % 14 == 0)
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
@@ -168,38 +167,34 @@ public class WarriorsGuild extends Controller {
 						}
 					}
 				}, 12);
-			}
 		} else if (kegCount >= 1) {
 			if (kegCount == 5)
 				kegTicks++;
 			if (timer.ticks % 15 == 0)
 				player.setRunEnergy(player.getRunEnergy() - 9);
 			player.drainRunEnergy(1);
-			if (((double) player.getRunEnergy() / 2.0) <= Math.random() || player.hasWalkSteps() && player.getRun()) {
+			if ((player.getRunEnergy() / 2.0) <= Math.random() || player.hasWalkSteps() && player.getRun()) {
 				loseBalance();
 				return;
 			}
-		} else if (cyclopseOption != -1 && inCyclopse) {
-			if (timer.ticks % 96 == 0) {
-				if (cyclopseOption == ALL) {
+		} else if (cyclopseOption != -1 && inCyclopse)
+			if (timer.ticks % 96 == 0)
+				if (cyclopseOption == ALL)
 					for (int index = 0; index < player.getWarriorPoints().length; index++)
 						player.setWarriorPoints(index, -3);
-				} else
+				else
 					player.setWarriorPoints(cyclopseOption, -10);
-			}
-		}
 	}
 
 	@Override
 	public boolean processNPCClick1(NPC npc) {
-		if (npc.getId() == 4290) {
+		if (npc.getId() == 4290)
 			player.startConversation(new Shanomi(player));
-		} else if (npc.getId() == 4287) {
+		else if (npc.getId() == 4287)
 			player.startConversation(new Conversation(new Dialogue(new NPCStatement(4287, HeadE.HAPPY_TALKING, player.getInventory().containsItem(8856, 1) ? "You already have a shield. Good luck!" : "Good luck in there!"), () -> {
 				if (!player.getInventory().containsItem(8856, 1))
 					player.getInventory().addItem(8856, 1);
 			})));
-		}
 		return true;
 	}
 
@@ -212,7 +207,8 @@ public class WarriorsGuild extends Controller {
 			}
 			submitDummyHit(object);
 			return false;
-		} else if (object.getId() == 15656) {
+		}
+		if (object.getId() == 15656) {
 			player.getInterfaceManager().sendInterface(412);
 			return false;
 		} else if (object.getId() == 66604) {
@@ -232,14 +228,12 @@ public class WarriorsGuild extends Controller {
 		} else if (object.getId() == 15647 || object.getId() == 15641 || object.getId() == 15644) {
 			player.lock(2);
 			boolean inLobby = player.getY() == object.getY();
-			if (object.getId() == 15647) {
-				if (!inLobby) {
+			if (object.getId() == 15647)
+				if (!inLobby)
 					if (player.getEquipment().getShieldId() == 8856) {
 						Equipment.sendRemove(player, Equipment.SHIELD);
 						closeShieldInterfaces();
 					}
-				}
-			}
 			player.addWalkSteps(object.getX(), inLobby ? object.getY() + (object.getId() == 15647 ? 1 : -1) : object.getY(), 1, false);
 			return false;
 		} else if (object.getId() == 15658 || object.getId() == 15660 || object.getId() == 15653 || object.getId() == 66758 && object.getX() == 2861 && object.getY() == 3538 && object.getPlane() == 1) {
@@ -327,19 +321,16 @@ public class WarriorsGuild extends Controller {
 	}
 
 	private int getIndex(int checkedId) {
-		for (int i = 0; i < ARMOUR_SETS.length; i++) {
-			for (int j = 0; j < ARMOUR_SETS[i].length; j++) {
+		for (int i = 0; i < ARMOUR_SETS.length; i++)
+			for (int j = 0; j < ARMOUR_SETS[i].length; j++)
 				if (ARMOUR_SETS[i][j] == checkedId) {
-					for (int k = 0; k < 3; k++) {
+					for (int k = 0; k < 3; k++)
 						if (!player.getInventory().containsItem(ARMOUR_SETS[i][k], 1)) {
 							player.sendMessage("You need a full set of " + ARMOUR_TYPE[i] + " to use the animator.");
 							return -1;
 						}
-					}
 					return i;
 				}
-			}
-		}
 		return -1;
 	}
 
@@ -370,7 +361,7 @@ public class WarriorsGuild extends Controller {
 		AttackStyle style = player.getCombatDefinitions().getAttackStyle();
 		if (object.getId() == 15624)
 			return style.getXpType() == XPType.ACCURATE;
-		else if (object.getId() == 15625)
+		if (object.getId() == 15625)
 			return style.getAttackType() == AttackType.SLASH;
 		else if (object.getId() == 15626)
 			return style.getXpType() == XPType.AGGRESSIVE;
@@ -412,9 +403,9 @@ public class WarriorsGuild extends Controller {
 			} else if (componentId == 25) {
 				cyclopseOption = ATTACK;
 				player.getVars().setVarBit(8668, 1);
-			} else if (componentId == 3) {
+			} else if (componentId == 3)
 				cyclopseOption = ALL;
-			} else if (componentId == 22) {
+			else if (componentId == 22) {
 				player.getVars().setVarBit(8668, 0);
 				cyclopseOption = -1;
 			}
@@ -423,17 +414,15 @@ public class WarriorsGuild extends Controller {
 				if (cyclopseOption == -1) {
 					player.sendMessage("You must select an option before proceeding to the cyclopes room.");
 					return false;
-				} else if (cyclopseOption == ALL) {
-					for (int i = 0; i < player.getWarriorPoints().length; i++) {
+				}
+				if (cyclopseOption == ALL) {
+					for (int i = 0; i < player.getWarriorPoints().length; i++)
 						if (player.getWarriorPoints()[i] < 30) {
 							failure = true;
 							break;
 						}
-					}
-				} else {
-					if (player.getWarriorPoints()[cyclopseOption] < 200)
-						failure = true;
-				}
+				} else if (player.getWarriorPoints()[cyclopseOption] < 200)
+					failure = true;
 				if (failure) {
 					player.sendMessage("You don't have enough points to complete this option.");
 					return false;
@@ -454,12 +443,11 @@ public class WarriorsGuild extends Controller {
 				player.sendMessage("You cannot do this action while balancing the kegs on your head.");
 				return false;
 			}
-		} else if (interfaceId == 271 || interfaceId == 749 && componentId == 4) {
+		} else if (interfaceId == 271 || interfaceId == 749 && componentId == 4)
 			if (player.getPrayer().isCurses()) {
 				player.sendMessage("Harllaak frowns upon using curses in the Warrior's Guild.");
 				return false;
 			}
-		}
 		return true;
 	}
 
@@ -469,14 +457,13 @@ public class WarriorsGuild extends Controller {
 			if (!inCatapultArea(player)) {
 				player.sendMessage("You need to be near the target before you can equip this.");
 				return false;
-			} else {
-				sendShieldInterfaces();
 			}
+			sendShieldInterfaces();
 		} else if (slot == Equipment.HEAD && kegCount >= 1)
 			return false;
 		return true;
 	}
-	
+
 	private void closeShieldInterfaces() {
 		player.getInterfaceManager().sendTabs(Tab.values());
 	}
@@ -543,7 +530,7 @@ public class WarriorsGuild extends Controller {
 			public void run() {
 				ticks++;
 				int distance = Utils.random(1, (player.getSkills().getLevel(Constants.STRENGTH) / 10) + (is18LB ? 5 : 3));
-				
+
 				if (ticks == 3) {
 					WorldTile tile = new WorldTile(player.getX() + distance, player.getY(), 1);
 					World.sendProjectile(player, tile, 690, 50, 0, 30, 1, 15, 0);
@@ -614,10 +601,9 @@ public class WarriorsGuild extends Controller {
 	}
 
 	public static int getBestDefender(Player player) {
-		for (int index = 0; index < DEFENDERS.length; index++) {
+		for (int index = 0; index < DEFENDERS.length; index++)
 			if (player.getEquipment().getShieldId() == DEFENDERS[index] || player.getInventory().containsItem(DEFENDERS[index], 1))
 				return DEFENDERS[index - 1 < 0 ? 0 : index - 1];
-		}
 		return DEFENDERS[7];
 	}
 }

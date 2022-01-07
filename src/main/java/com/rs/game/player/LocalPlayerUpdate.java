@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -233,7 +233,7 @@ public final class LocalPlayerUpdate {
 					int xOffset = p.getX() - p.getLastWorldTile().getX();
 					int yOffset = p.getY() - p.getLastWorldTile().getY();
 					int planeOffset = p.getPlane() - p.getLastWorldTile().getPlane();
-					if (Math.abs(p.getX() - p.getLastWorldTile().getX()) <= 14 && Math.abs(p.getY() - p.getLastWorldTile().getY()) <= 14) { 
+					if (Math.abs(p.getX() - p.getLastWorldTile().getX()) <= 14 && Math.abs(p.getY() - p.getLastWorldTile().getY()) <= 14) {
 						stream.writeBits(1, 0);
 						if (xOffset < 0)
 							xOffset += 32;
@@ -306,106 +306,106 @@ public final class LocalPlayerUpdate {
 	private void appendUpdateBlock(Player p, OutputStream data, boolean needAppearenceUpdate, boolean added) {
 		OutputStream block = new OutputStream();
 		int maskData = 0;
-		
+
 		if (p.getNextBodyGlow() != null) {
 			maskData |= 0x20000;
 			applyBodyGlowMask(p, block);
 		}
-		
+
 		//maskData |= 0x400000; //who knows
-//		block.writeByte(4);
-//		for (int i = 0;i < 4;i++) {
-//			block.writeShortLE(3);
-//			block.writeInt(523562);
-//		}
-		
+		//		block.writeByte(4);
+		//		for (int i = 0;i < 4;i++) {
+		//			block.writeShortLE(3);
+		//			block.writeInt(523562);
+		//		}
+
 		if (p.getNextSpotAnim2() != null) {
 			maskData |= 0x200;
 			applyGraphicsMask2(p, block);
 		}
-		
+
 		if (added || (p.getNextFaceWorldTile() != null && p.getNextRunDirection() == null && p.getNextWalkDirection() == null)) {
 			maskData |= 0x20;
 			applyFaceDirectionMask(p, block);
 		}
-		
+
 		//maskData |= 0x800000; //same as 0x400000 but resets data
-//		block.writeByte(4);
-//		for (int i = 0;i < 4;i++) {
-//			block.writeShortLE(3);
-//			block.writeInt(523562);
-//		}
-		
+		//		block.writeByte(4);
+		//		for (int i = 0;i < 4;i++) {
+		//			block.writeShortLE(3);
+		//			block.writeInt(523562);
+		//		}
+
 		//maskData |= 0x10000; //map dot edit
-		
+
 		//maskData |= 0x100000; //no clue
-//		block.write128Byte(7);
-//		for (int i = 0;i < 7;i++) {
-//			block.writeShort128(4151);
-//			block.writeShort(0x1);
-//		}
-		
+		//		block.write128Byte(7);
+		//		for (int i = 0;i < 7;i++) {
+		//			block.writeShort128(4151);
+		//			block.writeShort(0x1);
+		//		}
+
 		if (p.getNextForceTalk() != null) {
 			maskData |= 0x4000;
 			applyForceTalkMask(p, block);
 		}
-		
+
 		//maskData |= 0x80000; //chat related
-		
+
 		if (p.getNextSpotAnim3() != null) {
 			maskData |= 0x40000;
 			applyGraphicsMask3(p, block);
 		}
-		
+
 		//maskData |= 0x8000; //map dot edit
-		
+
 		if (!p.getNextHits().isEmpty() || !p.getNextHitBars().isEmpty()) {
 			maskData |= 0x40;
 			applyHitsMask(p, block);
 		}
-		
+
 		if (needAppearenceUpdate) {
 			maskData |= 0x1;
 			applyAppearanceMask(p, block);
 		}
-		
+
 		if (p.getNextAnimation() != null) {
 			maskData |= 0x10;
 			applyAnimationMask(p, block);
 		}
-		
+
 		if (p.getNextFaceEntity() != -2 || (added && p.getLastFaceEntity() != -1)) {
 			maskData |= 0x2;
 			applyFaceEntityMask(p, block);
 		}
-		
+
 		if (p.getTemporaryMoveType() != -1) {
 			maskData |= 0x1000;
 			applyTemporaryMoveTypeMask(p, block);
 		}
-		
+
 		//maskData |= 0x2000; //animation related?
-		
+
 		if (added || p.isUpdateMovementType()) {
 			maskData |= 0x4;
 			applyMoveTypeMask(p, block);
 		}
-		
+
 		if (p.getNextSpotAnim4() != null) {
 			maskData |= 0x200000;
 			applyGraphicsMask4(p, block);
 		}
-		
+
 		if (p.getNextForceMovement() != null) {
 			maskData |= 0x800;
 			applyForceMovementMask(p, block);
 		}
-		
+
 		if (p.getNextSpotAnim1() != null) {
 			maskData |= 0x80;
 			applyGraphicsMask1(p, block);
 		}
-		
+
 		if (maskData >= 256)
 			maskData |= 0x8;
 		if (maskData >= 65536)
@@ -430,7 +430,7 @@ public final class LocalPlayerUpdate {
 	private void applyForceTalkMask(Player p, OutputStream data) {
 		data.writeString(p.getNextForceTalk().getText());
 	}
-	
+
 	private void applyHitsMask(Player p, OutputStream data) {
 		data.write128Byte(p.getNextHits().size());
 		for (Hit hit : p.getNextHits()) {
@@ -438,17 +438,15 @@ public final class LocalPlayerUpdate {
 			if (hit.missed() && !interactingWith) {
 				data.writeSmart(32766);
 				data.writeByteC(hit.getDamage());
+			} else if (hit.getSoaking() != null) {
+				data.writeSmart(32767);
+				data.writeSmart(hit.getMark(player, p));
+				data.writeSmart(hit.getDamage());
+				data.writeSmart(hit.getSoaking().getMark(player, p));
+				data.writeSmart(hit.getSoaking().getDamage());
 			} else {
-				if (hit.getSoaking() != null) {
-					data.writeSmart(32767);
-					data.writeSmart(hit.getMark(player, p));
-					data.writeSmart(hit.getDamage());
-					data.writeSmart(hit.getSoaking().getMark(player, p));
-					data.writeSmart(hit.getSoaking().getDamage());
-				} else {
-					data.writeSmart(hit.getMark(player, p));
-					data.writeSmart(hit.getDamage());
-				}
+				data.writeSmart(hit.getMark(player, p));
+				data.writeSmart(hit.getDamage());
 			}
 			data.writeSmart(hit.getDelay());
 		}
@@ -474,7 +472,7 @@ public final class LocalPlayerUpdate {
 
 	private void applyFaceDirectionMask(Player p, OutputStream data) {
 		data.writeShort128(p.getFaceAngle()); // also works as face tile as dir
-											// calced on setnextfacetile
+		// calced on setnextfacetile
 	}
 
 	private void applyMoveTypeMask(Player p, OutputStream data) {
@@ -546,11 +544,11 @@ public final class LocalPlayerUpdate {
 		outPlayersIndexesCount = 0;
 		for (int playerIndex = 1; playerIndex < 2048; playerIndex++) {
 			slotFlags[playerIndex] >>= 1;
-			Player player = localPlayers[playerIndex];
-			if (player == null)
-				outPlayersIndexes[outPlayersIndexesCount++] = playerIndex;
-			else
-				localPlayersIndexes[localPlayersIndexesCount++] = playerIndex;
+		Player player = localPlayers[playerIndex];
+		if (player == null)
+			outPlayersIndexes[outPlayersIndexesCount++] = playerIndex;
+		else
+			localPlayersIndexes[localPlayersIndexesCount++] = playerIndex;
 		}
 	}
 
