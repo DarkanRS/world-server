@@ -431,8 +431,8 @@ public class FarmPatch {
 				}
 			}
 			watered = false;
-		}
-	}
+    }
+
 
 	public boolean isDiseaseProtected(Player player) {
 		if (seed == null|| watered || diseaseProtected || fullyGrown())

@@ -334,8 +334,8 @@ public class Woodcutting extends Action {
 						player.setNextSpotAnim(new SpotAnim(1776));
 					}
 			}
-		}
-	}
+    }
+
 
 	public boolean checkTree() {
 		return World.getRegion(treeObj.getRegionId()).objectExists(treeObj);

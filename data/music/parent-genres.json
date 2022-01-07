@@ -264,6 +264,11 @@
     ]
   },
   {
+    "genre": "Dungeon",
+    "comment": "",
+    "songs": []
+  },
+  {
   "genre": "Dungeoneering",
   "comment": "Ambient music, called during Dungoneering controller.",
   "songs": [

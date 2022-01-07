@@ -89,8 +89,8 @@ public class CommendationExchange {// 1875 TODO
 				;
 //                addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
 			} else if (e.getComponentId() == 29) {
-				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
-			else if (e.getComponentId() == 75) {
+                e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
+            } else if (e.getComponentId() == 75) {
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, true);
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
 			} else if (e.getComponentId() == 20 || e.getComponentId() == 73)
@@ -183,7 +183,7 @@ public class CommendationExchange {// 1875 TODO
 				rate = i;
 				break;
 			}
-		}
+
 //		double experience = calculateExperience(player, skill) * rate;
 //		player.getSkills().addXp(skill, experience / 18);
 //		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");

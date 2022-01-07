@@ -712,7 +712,7 @@ public class PrayerManager {
 	public void drainPrayer(double amount) {
 		if (player.getNSV().getB("infPrayer"))
 			return;
-		this.points -= amount/5.0;
+		this.points -= amount;
 		if (points <= 0) {
 			this.points = 0;
 		}
