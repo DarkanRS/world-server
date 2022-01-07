@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class ItemClickEvent implements PluginEvent {
-	
+
 	private static Map<Object, ItemClickHandler> HANDLERS = new HashMap<>();
 
 	private Player player;
@@ -33,7 +33,7 @@ public class ItemClickEvent implements PluginEvent {
 	private String option;
 	private boolean isEquipped;
 	private int slotId;
-	
+
 	public ItemClickEvent(Player player, Item item, int slotId, String option) {
 		this(player, item, slotId, option, false);
 	}
@@ -45,11 +45,11 @@ public class ItemClickEvent implements PluginEvent {
 		this.isEquipped = isEquipped;
 		this.slotId = slotId;
 	}
-	
+
 	public boolean isEquipped() {
 		return isEquipped;
 	}
-	
+
 	public String getOption() {
 		return option;
 	}
@@ -81,9 +81,8 @@ public class ItemClickEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (ItemClickHandler) method);
-			if (old != null) {
+			if (old != null)
 				System.err.println("ERROR: Duplicate ItemClick methods for key: " + key);
-			}
 		}
 	}
 }

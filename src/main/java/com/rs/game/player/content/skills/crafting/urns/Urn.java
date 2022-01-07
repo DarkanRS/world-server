@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -50,11 +50,11 @@ public enum Urn {
 	IMPIOUS(20409, new Animation(4567), new Animation(4292), Constants.PRAYER, 2, 100, 12, 18),
 	ACCURSED(20415, new Animation(4569), new Animation(4541), Constants.PRAYER, 26, 312.5, 25, 37.5),
 	INFERNAL(20421, new Animation(4578), new Animation(4542), Constants.PRAYER, 62, 1562.5, 40, 60);
-	
+
 	public static Map<Integer, Urn> NR_IDS = new HashMap<>();
 	public static Map<Integer, Urn> FILL_IDS = new HashMap<>();
 	public static Map<Integer, Urn> FULL_IDS = new HashMap<>();
-	
+
 	static {
 		for (Urn urn : Urn.values()) {
 			NR_IDS.put(urn.nrId(), urn);
@@ -62,23 +62,23 @@ public enum Urn {
 			FULL_IDS.put(urn.fullId(), urn);
 		}
 	}
-	
+
 	public static Urn forNRId(int id) {
 		return NR_IDS.get(id);
 	}
-	
+
 	public static Urn forFillId(int id) {
 		return FILL_IDS.get(id);
 	}
-	
+
 	public static Urn forFullId(int id) {
 		return FULL_IDS.get(id);
 	}
-	
+
 	private Animation readyAnim, teleAnim;
 	private int unfId, skillId, level;
 	private double xpToFill, spinXp, fireXp;
-	
+
 	private Urn(int unfId, Animation readyAnim, Animation teleAnim, int skillId, int level, double xpToFill, double spinXp, double fireXp) {
 		this.unfId = unfId;
 		this.readyAnim = readyAnim;
@@ -89,39 +89,39 @@ public enum Urn {
 		this.spinXp = spinXp;
 		this.fireXp = fireXp;
 	}
-	
+
 	public Animation getReadyAnim() {
 		return readyAnim;
 	}
-	
+
 	public Animation getTeleAnim() {
 		return teleAnim;
 	}
-	
+
 	public int getLevel() {
 		return level;
 	}
-	
+
 	public int unfId() {
 		return unfId;
 	}
-	
+
 	public int nrId() {
 		return unfId+1;
 	}
-	
+
 	public int rId() {
 		return unfId+3;
 	}
-	
+
 	public int fillId() {
 		return unfId+4;
 	}
-	
+
 	public int fullId() {
 		return unfId+5;
 	}
-	
+
 	public Rune getRune() {
 		switch(skillId) {
 		case Constants.COOKING:
@@ -137,15 +137,15 @@ public enum Urn {
 		}
 		return Rune.AIR;
 	}
-	
+
 	public int getSkill() {
 		return skillId;
 	}
-	
+
 	public double getFillXp() {
 		return xpToFill;
 	}
-	
+
 	public double getTeleXp() {
 		switch(this) {
 		case IMPIOUS:
@@ -156,11 +156,11 @@ public enum Urn {
 			return xpToFill * 0.20;
 		}
 	}
-	
+
 	public double getUnfXp() {
 		return spinXp;
 	}
-	
+
 	public double getFireXp() {
 		return fireXp;
 	}

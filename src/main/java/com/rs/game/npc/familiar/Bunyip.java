@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -48,7 +48,7 @@ public class Bunyip extends Familiar {
 	public int getBOBSize() {
 		return 0;
 	}
-	
+
 	@Override
 	public void processNPC() {
 		super.processNPC();
@@ -75,20 +75,19 @@ public class Bunyip extends Familiar {
 		if (item == null)
 			return false;
 		for (Fish fish : Fish.values()) {
-			if (fish.getId() == item.getId()) {
-				if (getOwner().getSkills().getLevel(Constants.COOKING) < fish.getLevel()) {
-					getOwner().sendMessage("Your cooking level is not high enough for the bunyip to eat this fish.");
-					return false;
-				} else {
-					getOwner().setNextSpotAnim(new SpotAnim(1316));
-					getOwner().setNextAnimation(new Animation(7660));
-					getOwner().heal(Food.forId(item.getId()).getHeal());
-					getOwner().getInventory().deleteItem(item.getId(), item.getAmount());
-					return true;// stop here
-				}
-			} else {
+			if (fish.getId() != item.getId()) {
 				getOwner().sendMessage("Your bunyip cannot eat this.");
 				return false;
+			}
+			if (getOwner().getSkills().getLevel(Constants.COOKING) < fish.getLevel()) {
+				getOwner().sendMessage("Your cooking level is not high enough for the bunyip to eat this fish.");
+				return false;
+			} else {
+				getOwner().setNextSpotAnim(new SpotAnim(1316));
+				getOwner().setNextAnimation(new Animation(7660));
+				getOwner().heal(Food.forId(item.getId()).getHeal());
+				getOwner().getInventory().deleteItem(item.getId(), item.getAmount());
+				return true;// stop here
 			}
 		}
 		return true;

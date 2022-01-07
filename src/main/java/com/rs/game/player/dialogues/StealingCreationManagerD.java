@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ public class StealingCreationManagerD extends Dialogue {
 
 	@Override
 	public void start() {
-		game = (StealingCreationGameController) this.parameters[1];
+		game = (StealingCreationGameController) parameters[1];
 		player.heal(player.getMaxHitpoints());
 		player.getPoison().reset();
 		sendNPCDialogue(getNPC().getId(), MAD, Utils.random(3) == 0 ? "It's close. It could be anyone's game." : "Get a move on! Gather some clay before the other team takes it all!");
@@ -45,16 +45,14 @@ public class StealingCreationManagerD extends Dialogue {
 			} else if (componentId == OPTION_2) {
 				sendNPCDialogue(getNPC().getId(), NORMAL, "Are you sure you want to quit? You will not score any points if you leave.");
 				stage = 1;
-			} else if (componentId == OPTION_3) {
+			} else if (componentId == OPTION_3)
 				end();
-			}
 		} else if (stage == 1) {
 			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "Yes, I want to quit.", "No, I want to stay.");
 			stage = 2;
 		} else if (stage == 2) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				player.getControllerManager().forceStop();
-			}
 			end();
 		}
 	}

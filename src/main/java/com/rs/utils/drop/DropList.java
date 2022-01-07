@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -18,7 +18,6 @@ package com.rs.utils.drop;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 import com.rs.Settings;
@@ -29,27 +28,23 @@ import com.rs.lib.util.Rational;
 import com.rs.lib.util.Utils;
 
 public class DropList {
-	
+
 	private static double MAX_ROLL = Math.nextDown(1.0);
-	
+
 	private List<DropEntry> drops = new ArrayList<>();
 	private double nothingRate = 0.0;
 	private boolean overflowed;
 	private double overflow;
-	
+
 	public DropList(DropTable... tables) {
 		this(new ArrayList<>(Arrays.asList(tables)));
 	}
-	
+
 	public DropList(List<DropTable> tables) {
 		double curr = 0.0;
-		tables.sort(new Comparator<DropTable>() {
-			@Override
-			public int compare(DropTable o1, DropTable o2) {
-				if (o1 == null) return Integer.MAX_VALUE;
-				if (o2 == null) return Integer.MAX_VALUE;
-				return Double.compare(o1.chance / o1.outOf, o2.chance / o2.outOf);
-			}
+		tables.sort((o1, o2) -> {
+			if ((o1 == null) || (o2 == null)) return Integer.MAX_VALUE;
+			return Double.compare(o1.chance / o1.outOf, o2.chance / o2.outOf);
 		});
 		for (DropTable table : tables) {
 			if (table == null)
@@ -58,7 +53,7 @@ public class DropList {
 			if (rate == 0.0) {
 				drops.add(new DropEntry(table));
 				continue;
-			} 
+			}
 			drops.add(new DropEntry(table, curr, curr + rate));
 			curr += rate;
 
@@ -72,11 +67,11 @@ public class DropList {
 		this.nothingRate = emptySlots;
 		drops.add(new DropEntry(null, curr, curr+emptySlots));
 	}
-	
+
 	public boolean isOverflowed() {
 		return overflowed;
 	}
-	
+
 	public double getOverflow() {
 		return overflow;
 	}

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,7 +36,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Yanille {
-	
+
 	public static ObjectClickHandler handleUnderwallTunnelShortcut = new ObjectClickHandler(new Object[] { 9301, 9302 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -45,42 +45,40 @@ public class Yanille {
 			AgilityShortcuts.crawlUnder(e.getPlayer(), e.getPlayer().transform(0, e.getObjectId() == 9302 ? -5 : 5, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMagicGuildStairs = new ObjectClickHandler(new Object[] { 1722, 1723 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getObjectId() == 1722 ? 4 : -4, e.getObjectId() == 1722 ? 1 : -1));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTreeGnomeVillageGateSqueeze = new ObjectClickHandler(new Object[] { 2186 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			AgilityShortcuts.sidestep(e.getPlayer(), e.getPlayer().getY() < e.getObject().getY() ? e.getPlayer().transform(0, 1, 0) : e.getPlayer().transform(0, -1, 0));
 		}
 	};
-	
+
 	public static NPCClickHandler handleMagicGuildArmorShop = new NPCClickHandler(1658) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 3) {
+			if (e.getOpNum() == 3)
 				ShopsHandler.openShop(e.getPlayer(), "magic_guild_store_robes");
-			}
 		}
 	};
-	
+
 	public static NPCClickHandler handleElkoy = new NPCClickHandler(473, 474) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 3) {
+			if (e.getOpNum() == 3)
 				e.getPlayer().fadeScreen(() -> {
 					e.getPlayer().sendMessage("Elkoy leads you through the maze...");
 					e.getPlayer().setNextWorldTile(e.getNPC().getId() == 473 ? new WorldTile(2515, 3160, 0) : new WorldTile(2502, 3193, 0));
 				});
-			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMagicGuildPortals = new ObjectClickHandler(new Object[] { 2518, 2156, 2157 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -115,7 +113,7 @@ public class Yanille {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMagicGuildEnter = new ObjectClickHandler(new Object[] { "Magic guild door" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -126,7 +124,7 @@ public class Yanille {
 			Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleGrottoBridge = new ObjectClickHandler(new Object[] { 2830, 2831 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -150,20 +148,20 @@ public class Yanille {
 		}
 	};
 
-    public static ObjectClickHandler handleTrellis = new ObjectClickHandler(new Object[] { 20056 }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            if (!Agility.hasLevel(e.getPlayer(), 18)) {
-                e.getPlayer().sendMessage("You need 18 agility");
-                return;
-            }
+	public static ObjectClickHandler handleTrellis = new ObjectClickHandler(new Object[] { 20056 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (!Agility.hasLevel(e.getPlayer(), 18)) {
+				e.getPlayer().sendMessage("You need 18 agility");
+				return;
+			}
 
-            Player p = e.getPlayer();
-            WorldObject obj = e.getObject();
+			Player p = e.getPlayer();
+			WorldObject obj = e.getObject();
 
-            if(obj.getId() == 20056)
-                p.useLadder(new WorldTile(2548, 3118, 1));
+			if(obj.getId() == 20056)
+				p.useLadder(new WorldTile(2548, 3118, 1));
 
-        }
-    };
+		}
+	};
 }

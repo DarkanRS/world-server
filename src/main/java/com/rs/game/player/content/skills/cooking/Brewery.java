@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class Brewery {
-	
+
 	private static final int BUCKET_OF_WATER = 1929;
 	private static final int BARLEY_MALT = 6008;
 	private static final int ALE_YEAST = 5767;
@@ -38,14 +38,14 @@ public class Brewery {
 	private static final int THE_STUFF = 8988;
 	private static final int BEER_GLASS = 1919;
 	private static final int CALQUAT_KEG = 5769;
-	
+
 	private static final Animation ADD_INGREDIENT = new Animation(2292);
 	private static final Animation POUR_WATER = new Animation(2283);
 	private static final Animation CALQUAT_LEVEL = new Animation(2284);
 	private static final Animation BEER_GLASS_LEVEL = new Animation(2285);
-	
+
 	private static final long BREWING_CONSTANT = 12 * 60 * 60 * 1000; //12 hours
-	
+
 	private Brewable brew;
 	private int prep;
 	private int fermentStage;
@@ -56,15 +56,15 @@ public class Brewery {
 	private boolean mature;
 	private boolean keldagrim;
 	private transient Player player;
-	
+
 	public Brewery(boolean keldagrim) {
 		this.keldagrim = keldagrim;
 	}
-	
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public static LoginHandler onLogin = new LoginHandler() {
 		@Override
 		public void handle(LoginEvent e) {
@@ -72,7 +72,7 @@ public class Brewery {
 			e.getPlayer().getPhasmatysBrewery().updateVars();
 		}
 	};
-	
+
 	public static ObjectClickHandler handleValve = new ObjectClickHandler(new Object[] { 7442, 7443 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -80,7 +80,7 @@ public class Brewery {
 			brewery.turnValve();
 		}
 	};
-	
+
 	public static ObjectClickHandler handleBarrels = new ObjectClickHandler(new Object[] { 7431, 7432 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -96,7 +96,7 @@ public class Brewery {
 			}
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleVats = new ItemOnObjectHandler(new Object[] { 7494, 7495 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -121,7 +121,7 @@ public class Brewery {
 			brewery.updateVars();
 		}
 	};
-	
+
 	public void ferment() {
 		if (isFinished())
 			return;
@@ -132,7 +132,7 @@ public class Brewery {
 		if (Utils.random(200) == 0)
 			fermentStage = 4;
 	}
-	
+
 	public void process() {
 		if (lastTime <= 0)
 			return;
@@ -146,7 +146,7 @@ public class Brewery {
 		}
 		updateVars();
 	}
-	
+
 	public void addWater() {
 		if (prep != 0)
 			return;
@@ -155,11 +155,10 @@ public class Brewery {
 			player.getInventory().deleteItem(BUCKET_OF_WATER, 2);
 			player.getInventory().addItem(EMPTY_BUCKET, 2);
 			prep = 1;
-		} else {
+		} else
 			player.sendMessage("You need 2 buckets of water to add to the brew.");
-		}
 	}
-	
+
 	public void addMalt() {
 		if (prep != 1) {
 			player.sendMessage("Add water first, then malt, then ale yeast.");
@@ -169,11 +168,10 @@ public class Brewery {
 			player.setNextAnimation(ADD_INGREDIENT);
 			player.getInventory().deleteItem(BARLEY_MALT, 2);
 			prep = 2;
-		} else {
+		} else
 			player.sendMessage("You need two barley malts to add to the brew.");
-		}
 	}
-	
+
 	public void addSecondary(int itemId) {
 		Brewable brew = Brewable.forId(itemId);
 		if (brew != null) {
@@ -186,17 +184,14 @@ public class Brewery {
 					player.getInventory().deleteItem(brew.getIngredient(), brew.getIngredientAmount());
 					player.setNextAnimation(ADD_INGREDIENT);
 					this.brew = brew;
-				} else {
+				} else
 					player.sendMessage("You need " + brew.getIngredientAmount() + " to create that brew.");
-				}
-			} else {
+			} else
 				player.sendMessage("You need to have added water and barley malt before adding the ale's ingredients.");
-			}
-		} else {
+		} else
 			player.sendMessage("Nothing interesting happens.");
-		}
 	}
-	
+
 	public void addYeast() {
 		if (prep != 2 || brew == null || !player.getInventory().containsItem(ALE_YEAST, 1)) {
 			player.sendMessage("The brew isn't ready for the yeast yet.");
@@ -211,7 +206,7 @@ public class Brewery {
 		lastTime = System.currentTimeMillis();
 		player.sendMessage("The brew begins to ferment.");
 	}
-	
+
 	public void addTheStuff() {
 		if (prep != 2 || !player.getInventory().containsItem(THE_STUFF, 1)) {
 			player.sendMessage("Add water first, then malt, and the ale's ingredients before adding \"the stuff\".");
@@ -225,18 +220,17 @@ public class Brewery {
 		player.getInventory().deleteItem(THE_STUFF, 1);
 		theStuff = true;
 	}
-	
+
 	public void turnValve() {
 		if (isFinished() && !barrelled) {
 			barrelled = true;
 			if (Utils.random(100) <= (theStuff ? 75 : 10))
 				mature = true;
 			updateVars();
-		} else {
+		} else
 			player.sendMessage("The brew isn't done fermenting yet.");
-		}
 	}
-	
+
 	public void level() {
 		if (brew == Brewable.KELDA_STOUT) {
 			if (player.getInventory().containsItem(BEER_GLASS, 1)) {
@@ -244,9 +238,8 @@ public class Brewery {
 				player.getInventory().addItem(brew.getBeerGlassId(mature), 1);
 				player.setNextAnimation(BEER_GLASS_LEVEL);
 				reset();
-			} else {
+			} else
 				player.sendMessage("You need a beer glass to empty the stout into.");
-			}
 			return;
 		}
 		int container = -1;
@@ -267,23 +260,23 @@ public class Brewery {
 		player.setNextAnimation(container == BEER_GLASS ? BEER_GLASS_LEVEL : CALQUAT_LEVEL);
 		reset();
 	}
-	
+
 	public void reset() {
-		this.brew = null;
-		this.prep = 0;
-		this.theStuff = false;
-		this.spoiled = false;
-		this.mature = false;
-		this.barrelled = false;
-		this.fermentStage = 0;
-		this.lastTime = -1;
+		brew = null;
+		prep = 0;
+		theStuff = false;
+		spoiled = false;
+		mature = false;
+		barrelled = false;
+		fermentStage = 0;
+		lastTime = -1;
 		updateVars();
 	}
-	
+
 	public boolean isFinished() {
 		return brew != null && (spoiled || fermentStage >= 4 || (brew == Brewable.KELDA_STOUT && fermentStage >= 3));
 	}
-	
+
 	public void updateVars() {
 		if (brew == null) {
 			setBarrel(0);
@@ -298,15 +291,14 @@ public class Brewery {
 				setVat(barrelled ? 0 : brew.getVatVal(fermentStage));
 				setBarrel(barrelled ? brew.getBarrelVal(mature) : 0);
 			}
-		} else {
+		} else
 			setVat(brew.getVatVal(fermentStage));
-		}
 	}
-	
+
 	private void setVat(int value) {
 		player.getVars().setVarBit(keldagrim ? 736 : 737, value);
 	}
-	
+
 	private void setBarrel(int value) {
 		player.getVars().setVarBit(keldagrim ? 738 : 739, value);
 	}

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,26 +39,21 @@ public class EmbraceDarkness implements NexAttack {
 			@Override
 			public void run() {
 				if (nex.getPhase() != Phase.SHADOW || nex.hasFinished()) {
-					for (Entity entity : nex.getPossibleTargets()) {
-						if (entity instanceof Player) {
-							Player player = (Player) entity;
+					for (Entity entity : nex.getPossibleTargets())
+						if (entity instanceof Player player) {
 							player.getPackets().sendVarc(1435, 255);
 						}
-					}
 					stop();
 					return;
 				}
-				if (Utils.getRandomInclusive(2) == 0) {
-					for (Entity entity : nex.getPossibleTargets()) {
-						if (entity instanceof Player) {
-							Player player = (Player) entity;
+				if (Utils.getRandomInclusive(2) == 0)
+					for (Entity entity : nex.getPossibleTargets())
+						if (entity instanceof Player player) {
 							int distance = (int) Utils.getDistance(player.getX(), player.getY(), nex.getX(), nex.getY());
 							if (distance > 30)
 								distance = 30;
 							player.getPackets().sendVarc(1435, (distance * 255 / 30));
 						}
-					}
-				}
 			}
 		}, 0, 0);
 		return nex.getAttackSpeed();

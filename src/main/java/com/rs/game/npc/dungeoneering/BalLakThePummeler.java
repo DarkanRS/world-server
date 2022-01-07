@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,7 +36,7 @@ public class BalLakThePummeler extends DungeonBoss {
 	private boolean skip;
 	private int barPercentage;
 
-	private List<PoisionPuddle> puddles = new CopyOnWriteArrayList<PoisionPuddle>();
+	private List<PoisionPuddle> puddles = new CopyOnWriteArrayList<>();
 
 	public BalLakThePummeler(WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10128, 10141), manager.getBossLevel()), tile, manager, reference);
@@ -67,22 +67,19 @@ public class BalLakThePummeler extends DungeonBoss {
 				for (Entity t : targets) {
 					if (!t.withinDistance(puddle.tile, 1))
 						continue;
-					t.applyHit(new Hit(this, (int) Utils.random((int) (t.getHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
+					t.applyHit(new Hit(this, Utils.random((int) (t.getHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
 				}
 			}
-			if (!reduced) {
+			if (!reduced)
 				if (!isUnderCombat()) {
 					if (barPercentage > 0) {
 						barPercentage--;
 						sendDefenceBar();
 					}
-				} else {
-					if (barPercentage < 100) {
-						barPercentage++;
-						sendDefenceBar();
-					}
+				} else if (barPercentage < 100) {
+					barPercentage++;
+					sendDefenceBar();
 				}
-			}
 		}
 	}
 
@@ -90,12 +87,11 @@ public class BalLakThePummeler extends DungeonBoss {
 	public void processHit(Hit hit) {
 		int damage = hit.getDamage();
 		HitLook look = hit.getLook();
-		if (damage > 0) {
+		if (damage > 0)
 			if (look == HitLook.MELEE_DAMAGE || look == HitLook.RANGE_DAMAGE || look == HitLook.MAGIC_DAMAGE) {
-				double multiplier = (100D - ((double) barPercentage)) / 100D;
+				double multiplier = (100D - (barPercentage)) / 100D;
 				hit.setDamage((int) (damage * multiplier));
 			}
-		}
 		super.processHit(hit);
 	}
 
@@ -132,15 +128,15 @@ public class BalLakThePummeler extends DungeonBoss {
 	}
 
 	private void addPoisonBubbleSpotAnimations(WorldTile centerTile) {
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY(), centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()));
-        World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY(), centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()));
+		World.sendSpotAnim(this, new SpotAnim(2588), new WorldTile(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()));
 	}
 
 	public List<PoisionPuddle> getPoisionPuddles() {

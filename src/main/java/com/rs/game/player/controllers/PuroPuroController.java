@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -117,14 +117,14 @@ public class PuroPuroController extends Controller {
 			}
 		}, 6);
 	}
-	
+
 	public static NPCClickHandler handleElnock = new NPCClickHandler(6070) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			PuroPuroController.openPuroInterface(e.getPlayer());
 		}
 	};
-	
+
 	public static ButtonClickHandler handlePuroPuroShopButtons = new ButtonClickHandler(540) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -136,49 +136,38 @@ public class PuroPuroController extends Controller {
 				handlePuroInterface(e.getPlayer(), e.getComponentId());
 		}
 	};
-	
+
 	public static WorldTile getRandomTile() {
 		return new WorldTile(Utils.random(2558 + 3, 2626 - 3), Utils.random(4285 + 3, 4354 - 3), 0);
 	}
-	
+
 	public static int getRandomImplingId() {
 		FlyingEntities[] implings = FlyingEntities.values();
 		int random = Utils.getRandomInclusive(1000);
-		if (random < 3) {
+		if (random < 3)
 			return implings[Utils.random(10, 14)].getNpcId();
-		}
-		if (random < 80) {
+		if (random < 80)
 			return implings[Utils.random(4, 10)].getNpcId();
-		}
-		if (random < 300) {
+		if (random < 300)
 			return implings[Utils.random(7)].getNpcId();
-		}
 		return implings[Utils.getRandomInclusive(5)].getNpcId();
 	}
 
 	public static void initPuroImplings() {
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++)
 			for (int index = 0; index < 11; index++) {
-				if (i > 2) {
+				if (i > 2)
 					if (Utils.getRandomInclusive(1) == 0)
 						continue;
-				}
 				World.spawnNPC(PuroPuroController.getRandomImplingId(), PuroPuroController.getRandomTile(), -1, false);
 			}
-		}
 	}
 
 	public static void openPuroInterface(final Player player) {
 		player.getInterfaceManager().sendInterface(540); // puro puro
 		for (int component = 60; component < 64; component++)
 			player.getPackets().setIFHidden(540, component, false);
-		player.setCloseInterfacesEvent(new Runnable() {
-
-			@Override
-			public void run() {
-				player.getTempAttribs().removeI("puro_slot");
-			}
-		});
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeI("puro_slot"));
 	}
 
 	public static void handlePuroInterface(Player player, int componentId) {

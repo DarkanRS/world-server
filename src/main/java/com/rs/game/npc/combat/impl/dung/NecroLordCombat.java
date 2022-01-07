@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -48,7 +48,7 @@ public class NecroLordCombat extends CombatScript {
 
 		if (Utils.random(10) == 0) {
 			final int skeletonCount = boss.getManager().getParty().getTeam().size();
-			final List<WorldTile> projectileTile = new LinkedList<WorldTile>();
+			final List<WorldTile> projectileTile = new LinkedList<>();
 			WorldTasksManager.schedule(new WorldTask() {
 				int cycles;
 
@@ -56,13 +56,13 @@ public class NecroLordCombat extends CombatScript {
 				public void run() {
 					cycles++;
 
-					if (cycles == 2) {
+					if (cycles == 2)
 						for (int i = 0; i < skeletonCount; i++) {
 							WorldTile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
 							projectileTile.add(tile);
 							World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16, 0);
 						}
-					} else if (cycles == 4) {
+					else if (cycles == 4) {
 						for (WorldTile tile : projectileTile)
 							boss.addSkeleton(tile);
 						stop();

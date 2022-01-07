@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -18,9 +18,9 @@ package com.rs.game.player.content.pet;
 
 /**
  * A class containing pet details for a certain pet.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class PetDetails {
 
@@ -41,7 +41,7 @@ public final class PetDetails {
 
 	/**
 	 * Constructs a new {@code PetDetails} {@code Object}.
-	 * 
+	 *
 	 * @param growth
 	 *            The growth value.
 	 */
@@ -51,37 +51,35 @@ public final class PetDetails {
 
 	/**
 	 * Increases the hunger value by the given amount.
-	 * 
+	 *
 	 * @param amount
 	 *            The amount.
 	 */
 	public void updateHunger(double amount) {
 		hunger += amount;
-		if (hunger < 0.0) {
+		if (hunger < 0.0)
 			hunger = 0.0;
-		} else if (hunger > 100.0) {
+		else if (hunger > 100.0)
 			hunger = 100.0;
-		}
 	}
 
 	/**
 	 * Increases the growth value by the given amount.
-	 * 
+	 *
 	 * @param amount
 	 *            The amount.
 	 */
 	public void updateGrowth(double amount) {
 		growth += amount;
-		if (growth < 0.0) {
+		if (growth < 0.0)
 			growth = 0.0;
-		} else if (growth > 100.0) {
+		else if (growth > 100.0)
 			growth = 100.0;
-		}
 	}
 
 	/**
 	 * Gets the hunger.
-	 * 
+	 *
 	 * @return The hunger.
 	 */
 	public double getHunger() {
@@ -90,7 +88,7 @@ public final class PetDetails {
 
 	/**
 	 * Gets the growth.
-	 * 
+	 *
 	 * @return The growth.
 	 */
 	public double getGrowth() {
@@ -99,7 +97,7 @@ public final class PetDetails {
 
 	/**
 	 * Gets the stage.
-	 * 
+	 *
 	 * @return The stage.
 	 */
 	public int getStage() {
@@ -108,7 +106,7 @@ public final class PetDetails {
 
 	/**
 	 * Sets the stage.
-	 * 
+	 *
 	 * @param stage
 	 *            The stage to set.
 	 */

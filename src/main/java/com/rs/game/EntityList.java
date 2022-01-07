@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -25,7 +25,7 @@ import com.rs.Settings;
 
 public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	public Object[] entities;
-	public Set<Integer> indicies = new HashSet<Integer>();
+	public Set<Integer> indicies = new HashSet<>();
 	public int capacity;
 	private final Object lock = new Object();
 
@@ -38,9 +38,8 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 		for (int i = 1; i < entities.length; i++) {
 			if (i >= Settings.NPCS_LIMIT)
 				return -1;
-			if (entities[i] == null) {
+			if (entities[i] == null)
 				return i;
-			}
 		}
 		return -1;
 	}
@@ -49,9 +48,8 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	public boolean add(T entity) {
 		synchronized (lock) {
 			int slot = getEmptySlot();
-			if (slot == -1) {
+			if (slot == -1)
 				return false;
-			}
 			add(entity, slot);
 			return true;
 		}
@@ -84,9 +82,8 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	}
 
 	public void add(T entity, int index) {
-		if (entities[index] != null) {
+		if (entities[index] != null)
 			return;
-		}
 		entities[index] = entity;
 		entity.setIndex(index);
 		indicies.add(index);
@@ -95,7 +92,7 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	@Override
 	public Iterator<T> iterator() {
 		synchronized (lock) {
-			return new EntityListIterator<T>(entities, indicies, this);
+			return new EntityListIterator<>(entities, indicies, this);
 		}
 	}
 
@@ -105,11 +102,9 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 
 	public int indexOf(T entity) {
 		synchronized (lock) {
-			for (int index : indicies) {
-				if (entities[index].equals(entity)) {
+			for (int index : indicies)
+				if (entities[index].equals(entity))
 					return index;
-				}
-			}
 		}
 		return -1;
 	}

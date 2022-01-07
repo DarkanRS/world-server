@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,15 +32,15 @@ import com.rs.lib.web.dto.UpdateFC;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
-	
+
 	public static void addWorldPlayer(Player player, Consumer<Boolean> cb) {
 		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "addworldplayer", cb);
 	}
-	
+
 	public static void removeWorldPlayer(Player player) {
 		post(new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
 	}
-	
+
 	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException {
 		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
 	}
@@ -48,23 +48,23 @@ public class LobbyCommunicator {
 	public static void getAccountByDisplay(String displayName, Consumer<Account> cb) {
 		post(Account.class, new LoginRequest(displayName, "cock"), "getaccountbydisplay", cb);
 	}
-	
+
 	public static void getAccount(String username, String password, Consumer<Account> cb) {
 		post(Account.class, new LoginRequest(username, password), "getaccountauth", cb);
 	}
-	
+
 	public static void getAccount(String username, Consumer<Account> cb) {
 		post(Account.class, new LoginRequest(username, "cock"), "getaccount", cb);
 	}
-	
+
 	public static void updatePunishments(Player player) {
 		post(player.getAccount(), "updatepunishments");
 	}
-	
+
 	public static void updatePunishments(Player player, Consumer<Boolean> cb) {
 		post(Boolean.class, player.getAccount(), "updatepunishments", cb);
 	}
-	
+
 	public static void updateRights(Player player) {
 		post(player.getAccount(), "updaterights");
 	}
@@ -72,7 +72,7 @@ public class LobbyCommunicator {
 	public static void updateRights(Player player, Consumer<Boolean> cb) {
 		post(Boolean.class, player.getAccount(), "updaterights", cb);
 	}
-	
+
 	public static void updateSocial(Player player) {
 		post(player.getAccount(), "updatesocial");
 	}
@@ -80,30 +80,30 @@ public class LobbyCommunicator {
 	public static void updateSocial(Player player, Consumer<Boolean> cb) {
 		post(Boolean.class, player.getAccount(), "updatesocial", cb);
 	}
-	
+
 	public static void updateFC(Player player, Consumer<FriendsChat> cb) {
 		post(FriendsChat.class, new UpdateFC(player.getDisplayName(), player.getSocial().getFriendsChat()), "updatefc", cb);
 	}
-	
+
 	public static void forwardPackets(Player player, Packet... packets) {
 		post(Boolean.class, new PacketDto(player.getUsername(), packets), "forwardpackets", res -> {
 			if (res != null && !res)
 				player.sendMessage("Error forwarding packet to lobby.");
 		});
 	}
-	
+
 	public static void forwardPacket(Player player, Packet packet, Consumer<Boolean> cb) {
-		post(Boolean.class, new PacketDto(player.getUsername(), new Packet[] { packet }), "forwardpackets", cb);
+		post(Boolean.class, new PacketDto(player.getUsername(), packet), "forwardpackets", cb);
 	}
-	
+
 	public static void clanChatKick(Player player, boolean guest, String name) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void kickFCPlayer(Player player, String name) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static Clan getClan(String clan) {
@@ -113,52 +113,52 @@ public class LobbyCommunicator {
 
 	public static void createClan(Player player, String text) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public static void updateClan(Clan clan) {
 		// TODO Auto-generated method stub
-		
-	}	
+
+	}
 
 	public static void connectToClan(Player player, String text, boolean b) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void banClanPlayer(Player player, String text) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void unbanClanPlayer(Player player, String text) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void setClanMotto(Player player, String text) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void addClanMember(Clan clan, Player player) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void leaveClanCompletely(Player player) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public static void post(Object body, String endpoint) {
 		post(null, body, endpoint, null);
 	}
-	
+
 	public static <T> void post(Class<T> type, Object body, String endpoint, Consumer<T> cb) {
 		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
-	
+
 	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException {
 		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}

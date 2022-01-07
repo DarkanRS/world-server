@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -37,19 +37,19 @@ import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 public class Firemaking extends Action {
 
 	public static enum Fire {
-		NORMAL(1511, 1, 300, 70755, 40, 20), 
-		ACHEY(2862, 1, 300, 70756, 40, 1), 
-		OAK(1521, 15, 450, 70757, 60, 1), 
-		WILLOW(1519, 30, 450, 70758, 90, 1), 
-		TEAK(6333, 35, 450, 70759, 105, 1), 
-		ARCTIC_PINE(10810, 42, 500, 70760, 125, 1), 
-		MAPLE(1517, 45, 500, 70761, 135, 1), 
-		MAHOGANY(6332, 50, 700, 70762, 157.5, 1), 
-		EUCALYPTUS(12581, 58, 700, 70763, 193.5, 1), 
-		YEW(1515, 60, 800, 70764, 202.5, 1), 
-		MAGIC(1513, 75, 900, 70765, 303.8, 1), 
+		NORMAL(1511, 1, 300, 70755, 40, 20),
+		ACHEY(2862, 1, 300, 70756, 40, 1),
+		OAK(1521, 15, 450, 70757, 60, 1),
+		WILLOW(1519, 30, 450, 70758, 90, 1),
+		TEAK(6333, 35, 450, 70759, 105, 1),
+		ARCTIC_PINE(10810, 42, 500, 70760, 125, 1),
+		MAPLE(1517, 45, 500, 70761, 135, 1),
+		MAHOGANY(6332, 50, 700, 70762, 157.5, 1),
+		EUCALYPTUS(12581, 58, 700, 70763, 193.5, 1),
+		YEW(1515, 60, 800, 70764, 202.5, 1),
+		MAGIC(1513, 75, 900, 70765, 303.8, 1),
 		CURSED_MAGIC(13567, 82, 1000, 70766, 303.8, 1),
-		
+
 		TANGLE_GUM_BRANCHES(17682, 1, 300, 49940, 25, 1),
 		SEEPING_ELM_BRANCHES(17684, 10, 375, 49941, 44.5, 1),
 		BLOOD_SPINDLE_BRANCHES(17686, 20, 410, 49942, 65.6, 1),
@@ -76,13 +76,11 @@ public class Firemaking extends Action {
 			this.xp = xp;
 			this.time = time;
 		}
-		
+
 		public static Fire forId(int logId) {
-			for (Fire fire : Fire.values()) {
-				if (fire.getLogId() == logId) {
+			for (Fire fire : Fire.values())
+				if (fire.getLogId() == logId)
 					return fire;
-				}
-			}
 			return null;
 		}
 
@@ -113,7 +111,7 @@ public class Firemaking extends Action {
 
 	private Fire fire;
 	private GroundItem groundItem;
-	
+
 	public Firemaking(Fire fire) {
 		this(fire, null);
 	}
@@ -148,12 +146,11 @@ public class Firemaking extends Action {
 	}
 
 	public static boolean isFiremaking(Player player, int logId) {
-		for (Fire fire : Fire.values()) {
+		for (Fire fire : Fire.values())
 			if (fire.getLogId() == logId) {
 				player.getActionManager().setAction(new Firemaking(fire));
 				return true;
 			}
-		}
 		return false;
 
 	}
@@ -204,9 +201,7 @@ public class Firemaking extends Action {
 			@Override
 			public void run() {
 				final GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(fire.getLogId(), tile, player);
-				if (item == null)
-					return;
-				if (!World.removeGroundItem(player, item, false))
+				if ((item == null) || !World.removeGroundItem(player, item, false))
 					return;
 				World.spawnTempGroundObject(new GameObject(fire.getFireId(), ObjectType.SCENERY_INTERACT, 0, tile.getX(), tile.getY(), tile.getPlane()), 592, fire.getLife());
 				player.getSkills().addXp(Constants.FIREMAKING, increasedExperience(player, fire.getExperience()));

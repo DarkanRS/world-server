@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,9 +30,7 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 
 	@Override
 	public void handle(Player player, IFOnPlayer packet) {
-		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
-			return;
-		if (player.isLocked())
+		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead() || player.isLocked())
 			return;
 		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId())
 			return;
@@ -61,10 +59,9 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 				return;
 			player.resetWalkSteps();
 			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || packet.getInterfaceId() == 747 && packet.getComponentId() == 18) {
-				if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 24 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18)) {
+				if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 24 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
 					if (player.getFamiliar().getSpecialAttack() != SpecialAttack.ENTITY)
 						return;
-				}
 				if (!player.isCanPvp() || !p2.isCanPvp()) {
 					player.sendMessage("You can only attack players in a player-vs-player area.");
 					return;
@@ -72,10 +69,9 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 				if (!player.getFamiliar().canAttack(p2)) {
 					player.sendMessage("You can only use your familiar in a multi-zone area.");
 					return;
-				} else {
-					player.getFamiliar().setSpecial(packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18);
-					player.getFamiliar().setTarget(p2);
 				}
+				player.getFamiliar().setSpecial(packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18);
+				player.getFamiliar().setTarget(p2);
 			}
 			break;
 		case 193:

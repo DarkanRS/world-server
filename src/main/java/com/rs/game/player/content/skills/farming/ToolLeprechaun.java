@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,7 +32,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class ToolLeprechaun {
-	
+
 	//inventory inter 74 = jadinko related storage
 
 	public static void openToolStorage(Player player) {
@@ -41,21 +41,21 @@ public class ToolLeprechaun {
 		player.getInterfaceManager().sendInterface(125);
 		player.getInterfaceManager().sendInventoryInterface(126);
 	}
-	
+
 	public static void storeTool(Player player, int itemId, int amount) {
 		StorableItem item = StorableItem.forId(itemId);
 		if (item == null)
 			return;
 		player.storeLeprechaunItem(item, itemId, amount);
 	}
-	
+
 	public static void takeTool(Player player, int itemId, int amount) {
 		StorableItem item = StorableItem.forId(itemId);
 		if (item == null)
 			return;
 		player.takeLeprechaunItem(item, amount);
 	}
-	
+
 	public static NPCClickHandler handleToolLeprechaun = new NPCClickHandler("Tool leprechaun", "Tool Leprechaun") {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -79,7 +79,7 @@ public class ToolLeprechaun {
 										.addNPC(e.getNPCId(), HeadE.CONFUSED, "So, do ye want to be using the store?")
 										.addOption("What would you like to say?", "Yes, please.", "Nevermind.")
 										.addNext(() -> openToolStorage(e.getPlayer())));
-								
+
 								option("Winkin's farm.", new Dialogue().addNPC(e.getNPCId(), HeadE.UPSET, "I'm sorry mate, I've been instructed that I'm not allowed to do that yet!"));
 							}
 						});
@@ -92,7 +92,7 @@ public class ToolLeprechaun {
 			}
 		}
 	};
-	
+
 	public static ItemOnNPCHandler handleItemOnLeprechaun = new ItemOnNPCHandler("Tool leprechaun", "Tool Leprechaun") {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
@@ -101,12 +101,11 @@ public class ToolLeprechaun {
 				e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num);
 				e.getPlayer().getInventory().addItem(new Item(e.getItem().getDefinitions().getCertId(), num));
 				return;
-			} else {
-				e.getPlayer().sendMessage("The leprechaun cannot note that item for you.");
 			}
+			e.getPlayer().sendMessage("The leprechaun cannot note that item for you.");
 		}
 	};
-	
+
 	public static ButtonClickHandler handleWithdrawInter = new ButtonClickHandler(125) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -128,7 +127,7 @@ public class ToolLeprechaun {
 			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleInventoryInter = new ButtonClickHandler(126) {
 		@Override
 		public void handle(ButtonClickEvent e) {

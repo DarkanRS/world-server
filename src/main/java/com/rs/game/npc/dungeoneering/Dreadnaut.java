@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -53,14 +53,12 @@ public class Dreadnaut extends DungeonBoss {
 			return;
 		super.processNPC();
 		if (!reduceMagicLevel) {
-			if (isUnderCombat()) {
-				for (Entity t : getPossibleTargets()) {
+			if (isUnderCombat())
+				for (Entity t : getPossibleTargets())
 					if (!t.withinDistance(this, 1)) {
 						ticks++;
 						break;
 					}
-				}
-			}
 			if (ticks == 25) {
 				reduceMagicLevel = true;
 				setNextForceTalk(new ForceTalk("You cannot run from me forever!"));
@@ -72,7 +70,8 @@ public class Dreadnaut extends DungeonBoss {
 			if (puddle.canDestroyPuddle()) {
 				puddles.remove(puddle);
 				continue;
-			} else if (puddle.cycles % 2 != 0)
+			}
+			if (puddle.cycles % 2 != 0)
 				continue;
 			if (puddle.cycles % 2 == 0)
 				puddle.refreshGraphics();
@@ -80,7 +79,7 @@ public class Dreadnaut extends DungeonBoss {
 			for (Entity t : targets) {
 				if (!t.matches(puddle.tile))
 					continue;
-				t.applyHit(new Hit(this, (int) Utils.random((int) (t.getHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
+				t.applyHit(new Hit(this, Utils.random((int) (t.getHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
 			}
 		}
 	}

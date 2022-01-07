@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,7 +33,7 @@ public class ArmadylFactionNPC extends NPC {
 		setIgnoreDocile(true);
 		setCanAggroNPCs(true);
 	}
-	
+
 	@Override
 	public boolean canBeAttackedBy(Player player) {
 		if (!PlayerCombat.isRanging(player)) {
@@ -42,11 +42,12 @@ public class ArmadylFactionNPC extends NPC {
 		}
 		return true;
 	}
-	
+
+	@Override
 	public boolean canAggroNPC(NPC npc) {
 		return !(npc instanceof ArmadylFactionNPC);
 	}
-	
+
 	@Override
 	public boolean canAggroPlayer(Player player) {
 		return !hasGodItem(player);
@@ -62,7 +63,7 @@ public class ArmadylFactionNPC extends NPC {
 		}
 		return false;
 	}
-	
+
 	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(6228, 6229, 6230, 6231, 6232, 6233, 6234, 6235, 6236, 6237, 6238, 6239, 6240, 6241, 6242, 6243, 6244, 6245, 6246) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -22,7 +22,7 @@ import java.util.Map;
 import com.rs.lib.game.Item;
 
 public enum CraftablePotion {
-	
+
 	GUAM_POTION_UNF(new Item(91, 1), 1, 1.0, new Item[] { new Item(227, 1), new Item(249, 1) }),
 	MARRENTILL_POTION_UNF(new Item(93, 1), 5, 1.0, new Item[] { new Item(227, 1), new Item(251, 1) }),
 	TARROMIN_POTION_UNF(new Item(95, 1), 12, 1.0, new Item[] { new Item(227, 1), new Item(253, 1) }),
@@ -41,7 +41,7 @@ public enum CraftablePotion {
 	SPIRIT_WEED_POTION_UNF(new Item(12181, 1), 40, 1.0, new Item[] { new Item(227, 1), new Item(12172, 1) }),
 	WERGALI_POTION_UNF(new Item(14856, 1), 42, 1.0, new Item[] { new Item(227, 1), new Item(14854, 1) }),
 	FELLSTALK_POTION_UNF(new Item(21628, 1), 94, 1.0, new Item[] { new Item(227, 1), new Item(21624, 1) }),
-	
+
 	SAGEWORT_POTION_UNF(new Item(17538, 1), 3, 0.0, new Item[] { new Item(17492, 1), new Item(17512, 1) }),
 	VALERIAN_POTION_UNF(new Item(17540, 1), 4, 0.0, new Item[] { new Item(17492, 1), new Item(17514, 1) }),
 	ALOE_POTION_UNF(new Item(17542, 1), 8, 0.0, new Item[] { new Item(17492, 1), new Item(17516, 1) }),
@@ -51,7 +51,7 @@ public enum CraftablePotion {
 	WINTERS_GRIP_POTION_UNF(new Item(17550, 1), 67, 0.0, new Item[] { new Item(17492, 1), new Item(17524, 1) }),
 	LYCOPUS_POTION_UNF(new Item(17552, 1), 70, 0.0, new Item[] { new Item(17492, 1), new Item(17526, 1) }),
 	BUCKTHORN_POTION_UNF(new Item(17554, 1), 74, 0.0, new Item[] { new Item(17492, 1), new Item(17528, 1) }),
-	
+
 	ERZILLE_POTION_UNF(new Item(19998, 1), 54, 1.0, new Item[] { new Item(19994, 1), new Item(19989, 1) }),
 	UGUNE_POTION_UNF(new Item(19999, 1), 56, 1.0, new Item[] { new Item(19994, 1), new Item(19991, 1) }),
 	ARGWAY_POTION_UNF(new Item(20000, 1), 57, 1.0, new Item[] { new Item(19994, 1), new Item(19990, 1) }),
@@ -102,7 +102,7 @@ public enum CraftablePotion {
 	SUPER_PRAYER(new Item(15329, 1), 94, 270.0, new Item[] { new Item(139, 1), new Item(6810, 1) }),
 	OVERLOAD(new Item(15333, 1), 96, 1000.0, new Item[] { new Item(269, 1), new Item(15309, 1), new Item(15313, 1), new Item(15317, 1), new Item(15321, 1), new Item(15325, 1)}),
 	PRAYER_RENEWAL(new Item(21632, 1), 94, 190.0, new Item[] { new Item(21628, 1), new Item(21622, 1) }),
-	
+
 	COCONUT_MILK(new Item(5935, 1), 1, 1.0, new Item[] { new Item(229, 1), new Item(5976, 1) }),
 	WEAPON_POISON_P_UNF(new Item(5936, 1), 73, 1.0, new Item[] { new Item(5935, 1), new Item(6016, 1) }),
 	WEAPON_POISON_P(new Item(5937, 1), 73, 165.0, new Item[] { new Item(5936, 1), new Item(223, 1) }),
@@ -112,7 +112,7 @@ public enum CraftablePotion {
 	ANTIPOISON_P(new Item(5943, 1), 68, 155.0, new Item[] { new Item(5942, 1), new Item(6049, 1) }),
 	ANTIPOISON_PP_UNF(new Item(5951, 1), 79, 1.0, new Item[] { new Item(5935, 1), new Item(259, 1) }),
 	ANTIPOISON_PP(new Item(5952, 1), 79, 177.0, new Item[] { new Item(5951, 1), new Item(6051, 1) }),
-	
+
 	GUTHIX_BALANCE_UNF(new Item(7652, 1), 22, 25.0, new Item[] { new Item(2430, 1), new Item(1550, 1) }),
 	GUTHIX_BALANCE_UNF2(new Item(7654, 1), 22, 25.0, new Item[] { new Item(127, 1), new Item(1550, 1) }),
 	GUTHIX_BALANCE_UNF3(new Item(7656, 1), 22, 25.0, new Item[] { new Item(129, 1), new Item(1550, 1) }),
@@ -121,17 +121,17 @@ public enum CraftablePotion {
 	GUTHIX_BALANCE_3(new Item(7662, 1), 22, 25.0, new Item[] { new Item(7654, 1), new Item(7650, 1) }),
 	GUTHIX_BALANCE_2(new Item(7664, 1), 22, 25.0, new Item[] { new Item(7656, 1), new Item(7650, 1) }),
 	GUTHIX_BALANCE_1(new Item(7666, 1), 22, 25.0, new Item[] { new Item(7658, 1), new Item(7650, 1) }),
-	
+
 	GUAM_TAR(new Item(10142, 15), 19, 30.0, new Item[] { new Item(1939, 15), new Item(249, 1) }),
 	MARRENTILL_TAR(new Item(10143, 15), 31, 42.0, new Item[] { new Item(1939, 15), new Item(251, 1) }),
 	TARROMIN_TAR(new Item(10144, 15), 39, 55.0, new Item[] { new Item(1939, 15), new Item(253, 1) }),
 	HARRALANDER_TAR(new Item(10145, 15), 44, 72.0, new Item[] { new Item(1939, 15), new Item(255, 1) }),
-	
+
 	SNAKEWEED_MIXTURE(new Item(737, 1), 3, 1.0, new Item[] { new Item(1526, 1) }),
 	ARDRIGAL_MIXTURE(new Item(738, 1), 3, 1.0, new Item[] { new Item(1528, 1) }),
 	BRAVERY_POTION(new Item(739, 1), 1, 0.0, new Item[] { new Item(738, 1), new Item(1526, 1) }),
 	BLAMISH_OIL(new Item(1582, 1), 25, 80.0, new Item[] { new Item(97, 1), new Item(1581, 1) }),
-	
+
 	JUJU_MINING_POTION(new Item(20004, 1), 74, 168.0, new Item[] { new Item(20002, 1), new Item(19973, 1) }),
 	JUJU_COOKING_POTION(new Item(20008, 1), 67, 152.0, new Item[] { new Item(20001, 1), new Item(19975, 1) }),
 	JUJU_FARMING_POTION(new Item(20012, 1), 64, 146.0, new Item[] { new Item(19999, 1), new Item(19980, 1) }),
@@ -142,7 +142,7 @@ public enum CraftablePotion {
 	SARADOMINS_BLESSING(new Item(20032, 1), 75, 179.0, new Item[] { new Item(20002, 1), new Item(19981, 1) }),
 	GUTHIXS_GIFT(new Item(20036, 1), 75, 179.0, new Item[] { new Item(20002, 1), new Item(19982, 1) }),
 	ZAMORAKS_FAVOUR(new Item(20040, 1), 75, 179.0, new Item[] { new Item(20002, 1), new Item(19983, 1) }),
-	
+
 	ATTACK_MIX_2(new Item(11429, 1), 4, 8.0, new Item[] { new Item(123, 1), new Item(11326, 1) }),
 	ANTIPOISON_MIX_2(new Item(11433, 1), 6, 1.0, new Item[] { new Item(177, 1), new Item(11326, 1) }),
 	RELICYMS_MIX_2(new Item(11437, 1), 9, 14.0, new Item[] { new Item(4846, 1), new Item(11326, 1) }),
@@ -168,7 +168,7 @@ public enum CraftablePotion {
 	HUNTING_MIX_2(new Item(11517, 1), 58, 40.0, new Item[] { new Item(10002, 1), new Item(11326, 1) }),
 	ZAMORAK_MIX_2(new Item(11521, 1), 85, 58.0, new Item[] { new Item(191, 1), new Item(11326, 1) }),
 	GOBLIN_POTION(new Item(11810, 1), 37, 85.0, new Item[] { new Item(3002, 1), new Item(11807, 1) }),
-	
+
 	WEAK_MAGIC_POTION(new Item(17556, 1), 3, 21.0, new Item[] { new Item(17538, 1), new Item(17530, 1) }),
 	WEAK_RANGED_POTION(new Item(17558, 1), 5, 34.0, new Item[] { new Item(17540, 1), new Item(17530, 1) }),
 	WEAK_MELEE_POTION(new Item(17560, 1), 7, 37.0, new Item[] { new Item(17540, 1), new Item(17532, 1) }),
@@ -211,32 +211,31 @@ public enum CraftablePotion {
 	private double xp;
 	private Item primary;
 	private Item[] secondaries;
-	
+
 	public static Map<Integer, CraftablePotion> MAP = new HashMap<>();
-	
+
 	static {
-		for (CraftablePotion p : CraftablePotion.values()) {
+		for (CraftablePotion p : CraftablePotion.values())
 			for (Item item : p.getSecondaries()) {
 				MAP.put((p.getPrimary().getId() << 16) + item.getId(), p);
 				MAP.put((item.getId() << 16) + p.getPrimary().getId(), p);
 			}
-		}
 	}
-	
+
 	public static CraftablePotion forCombo(int itemId, int itemId2) {
 		return MAP.get((itemId << 16) + itemId2);
 	}
-	
+
 	private CraftablePotion(Item product, int req, double xp, Item[] materials) {
 		this.product = product;
 		this.req = req;
 		this.xp = xp;
-		this.primary = materials[0];
-		this.secondaries = new Item[materials.length-1];
+		primary = materials[0];
+		secondaries = new Item[materials.length-1];
 		for (int i = 1;i < materials.length;i++)
-			this.secondaries[i-1] = materials[i];
+			secondaries[i-1] = materials[i];
 	}
-	
+
 	public Item getProduct() {
 		return product;
 	}

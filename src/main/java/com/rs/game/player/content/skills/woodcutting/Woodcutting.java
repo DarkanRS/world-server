@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -59,7 +59,7 @@ public class Woodcutting extends Action {
 			e.getPlayer().getVars().setVarBit(9776, 1);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTree = new ObjectClickHandler(new Object[] { "Tree", "Swamp tree", "Dead tree", "Evergreen", "Dying tree", "Jungle tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -67,7 +67,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.NORMAL));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleOak = new ObjectClickHandler(new Object[] { "Oak", "Oak tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -75,7 +75,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.OAK));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWillow = new ObjectClickHandler(new Object[] { "Willow", "Willow tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -83,7 +83,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.WILLOW));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMaple = new ObjectClickHandler(new Object[] { "Maple", "Maple tree", "Maple Tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -91,7 +91,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAPLE));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTeak = new ObjectClickHandler(new Object[] { "Teak", "Teak tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -99,7 +99,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.TEAK));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMahogany = new ObjectClickHandler(new Object[] { "Mahogany", "Mahogany tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -107,7 +107,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAHOGANY));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleArcticPine = new ObjectClickHandler(new Object[] { "Arctic Pine" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -115,7 +115,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.ARCTIC_PINE));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleIvy = new ObjectClickHandler(new Object[] { "Ivy" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -131,7 +131,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.YEW));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleMagic = new ObjectClickHandler(new Object[] { "Magic tree", "Cursed magic tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -139,7 +139,7 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAGIC));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleSwayingTree = new ObjectClickHandler(new Object[] { "Swaying tree" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -147,32 +147,27 @@ public class Woodcutting extends Action {
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.SWAYING) {
 					@Override
 					public void fellTree() {
-						
+
 					}
 				});
 		}
 	};
-	
+
 	public static ObjectClickHandler handleBlisterwood = new ObjectClickHandler(new Object[] { 61321 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Chop")) {
+			if (e.getOption().equals("Chop"))
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.BLISTERWOOD) {
 					@Override
 					public void fellTree() {
 						e.getPlayer().getVars().setVarBit(9776, 2);
-						CoresManager.schedule(new Runnable() {
-							@Override
-							public void run() {
-								try {
-									if (e.getPlayer() != null && !e.getPlayer().hasFinished()) {
-										e.getPlayer().getVars().setVarBit(9776, 1);
-									}
-								} catch (Throwable e) {
-									Logger.handle(e);
-								}
+						CoresManager.schedule(() -> {
+							try {
+								if (e.getPlayer() != null && !e.getPlayer().hasFinished())
+									e.getPlayer().getVars().setVarBit(9776, 1);
+							} catch (Throwable e1) {
+								Logger.handle(e1);
 							}
-
 						}, Ticks.fromMinutes(2));
 					}
 
@@ -181,7 +176,6 @@ public class Woodcutting extends Action {
 						return e.getPlayer().getVars().getVarBit(9776) == 1;
 					}
 				});
-			}
 		}
 	};
 
@@ -233,13 +227,7 @@ public class Woodcutting extends Action {
 			level += getSpecialFamiliarBonus(player.getFamiliar().getId());
 		if (type.rollSuccess(player, level, hatchet)) {
 			giveLog(player, type, usingBeaver);
-			if (type.isPersistent()) {
-				if (Utils.random(8) == 0) {
-					fellTree();
-					player.setNextAnimation(new Animation(-1));
-					return -1;
-				}
-			} else {
+			if (!type.isPersistent() || (Utils.random(8) == 0)) {
 				fellTree();
 				player.setNextAnimation(new Animation(-1));
 				return -1;
@@ -257,9 +245,8 @@ public class Woodcutting extends Action {
 					object = World.getObject(new WorldTile(treeObj.getX(), treeObj.getY() - 1, treeObj.getPlane() + 1), ObjectType.SCENERY_INTERACT);
 					if (object == null) {
 						object = World.getObject(new WorldTile(treeObj.getX() - 1, treeObj.getY(), treeObj.getPlane() + 1), ObjectType.SCENERY_INTERACT);
-						if (object == null) {
+						if (object == null)
 							object = World.getObject(new WorldTile(treeObj.getX(), treeObj.getY(), treeObj.getPlane() + 1), ObjectType.SCENERY_INTERACT);
-						}
 					}
 				}
 			}
@@ -290,37 +277,34 @@ public class Woodcutting extends Action {
 		if (type != TreeType.IVY) {
 			if (type.getLogsId() != null)
 				player.incrementCount(ItemDefinitions.getDefs(type.getLogsId()[0]).getName() + " chopped");
-		} else {
+		} else
 			player.incrementCount("Choking ivy chopped");
-		}
 		if (Utils.random(256) == 0) {
 			for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
 				World.addGroundItem(rew, new WorldTile(player), player, true, 30);
 			player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 		}
-		if (!usingBeaver) {
+		if (!usingBeaver)
 			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
-		}
 		if (player.hasEffect(Effect.JUJU_WOODCUTTING)) {
 			int random = Utils.random(100);
-			if (random < 11) {
+			if (random < 11)
 				player.addEffect(Effect.JUJU_WC_BANK, 75);
-			}
 		}
 		if (Utils.random(25) == 0) {
 			for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
 				World.addGroundItem(rew, new WorldTile(player), player, true, 30);
 			player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 		}
-//		if (type != TreeType.IVY) {
-//			if (type.getLogsId() != null)
-//				player.incrementCount(ItemDefinitions.getDefs(type.getLogsId()[0]).getName() + " chopped");
-//		} else {
-//			player.incrementCount("Choking ivy chopped");
-//		}
+		//		if (type != TreeType.IVY) {
+		//			if (type.getLogsId() != null)
+		//				player.incrementCount(ItemDefinitions.getDefs(type.getLogsId()[0]).getName() + " chopped");
+		//		} else {
+		//			player.incrementCount("Choking ivy chopped");
+		//		}
 		if (type.getLogsId() != null) {
 			if (usingBeaver) {
-				if (player.getFamiliar() != null) {
+				if (player.getFamiliar() != null)
 					for (int item : type.getLogsId())
 						player.getInventory().addItemDrop(item, 1);
 				}
@@ -337,19 +321,18 @@ public class Woodcutting extends Action {
 			}
 			if (type == TreeType.FRUIT_TREE)
 				return;
-			if (type == TreeType.IVY) {
+			if (type == TreeType.IVY)
 				player.sendMessage("You succesfully cut an ivy vine.", true);
-			} else {
+			else {
 				String logName = ItemDefinitions.getDefs(type.getLogsId()[0]).getName().toLowerCase();
 				player.sendMessage("You get some " + logName + ".", true);
-				if (player.getEquipment().getWeaponId() == 13661 && !(type == TreeType.IVY)) {
+				if (player.getEquipment().getWeaponId() == 13661 && !(type == TreeType.IVY))
 					if (Utils.getRandomInclusive(3) == 0) {
 						player.getSkills().addXp(Constants.FIREMAKING, type.getXp() * 1);
 						player.getInventory().deleteItem(type.getLogsId()[0], 1);
 						player.sendMessage("The adze's heat instantly incinerates the " + logName + ".");
 						player.setNextSpotAnim(new SpotAnim(1776));
 					}
-				}
 			}
 		}
 	}

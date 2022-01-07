@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -25,9 +25,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class EasterBunnyJrD extends Conversation {
-	
+
 	private static final int EASTER_BUNNY_JR = 7411;
-	
+
 	public static NPCClickHandler handleEasterBunnyJrTalk = new NPCClickHandler(EASTER_BUNNY_JR) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -61,7 +61,7 @@ public class EasterBunnyJrD extends Conversation {
 			addNPC(EASTER_BUNNY_JR, HeadE.CAT_PURRING, "Zzzz...");
 			break;
 		}
-		
+
 		create();
 	}
 

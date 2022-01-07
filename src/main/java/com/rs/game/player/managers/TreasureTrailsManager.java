@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,16 +47,16 @@ import com.rs.utils.drop.DropTable;
 
 @PluginEventHandler
 public class TreasureTrailsManager {
-	
+
 	//VARC 1323 = bitpacked location for arrow pointy clue interface 996
 
 	private static final int EASY = 0, MEDIUM = 1, HARD = 2, ELITE = 3;
 	public static final int SOURCE_DIG = 0, SOURCE_EMOTE = 1, SOURCE_NPC = 2, SOURCE_PUZZLENPC = 3, SOURCE_OBJECT = 4;
 
-	public static final int[] SCROLL_BOXES = new int[] { 19005, 19065, 18937, 19041 };
-	public static final int[] CLUE_SCROLLS = new int[] { 2677, 2801, 2722, 19043 };
-	public static final int[] CASKETS = new int[] { 2714, 2802, 2724, 19039 };
-	public static final int[] PUZZLES = new int[] { 2798, 3565, 3576, 19042 };
+	public static final int[] SCROLL_BOXES = { 19005, 19065, 18937, 19041 };
+	public static final int[] CLUE_SCROLLS = { 2677, 2801, 2722, 19043 };
+	public static final int[] CASKETS = { 2714, 2802, 2724, 19039 };
+	public static final int[] PUZZLES = { 2798, 3565, 3576, 19042 };
 	public static final int[] BASE_PIECES = { 2749, 3619, 3643, 18841 };
 	public static final String[] LEVEL = { "Easy", "Medium", "Hard", "Elite" };
 
@@ -67,7 +67,7 @@ public class TreasureTrailsManager {
 	private transient int cluePhase;
 	private transient Player player;
 	private transient List<Item> pieces;
-	
+
 	public static ButtonClickHandler handlePuzzleButtons = new ButtonClickHandler(363) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -75,7 +75,7 @@ public class TreasureTrailsManager {
 				e.getPlayer().getTreasureTrailsManager().movePuzzlePeice(e.getSlotId());
 		}
 	};
-	
+
 	public static ButtonClickHandler handleSextantButtons = new ButtonClickHandler(365) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -127,26 +127,23 @@ public class TreasureTrailsManager {
 	}
 
 	public static int getScrollLevel(int id) {
-		for (int i = 0; i < CLUE_SCROLLS.length; i++) {
+		for (int i = 0; i < CLUE_SCROLLS.length; i++)
 			if (CLUE_SCROLLS[i] == id)
 				return i;
-		}
 		return -1;
 	}
 
 	private int getScrollboxLevel(int id) {
-		for (int i = 0; i < SCROLL_BOXES.length; i++) {
+		for (int i = 0; i < SCROLL_BOXES.length; i++)
 			if (SCROLL_BOXES[i] == id)
 				return i;
-		}
 		return -1;
 	}
-	
+
 	private int getCasketLevel(int id) {
-		for (int i = 0; i < CASKETS.length; i++) {
+		for (int i = 0; i < CASKETS.length; i++)
 			if (CASKETS[i] == id)
 				return i;
-		}
 		return -1;
 	}
 
@@ -188,7 +185,7 @@ public class TreasureTrailsManager {
 				if (!currentClue.isLast()) {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
-                    player.sendMessage("You've been given another clue!");
+					player.sendMessage("You've been given another clue!");
 					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've been given another clue!");
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
@@ -200,7 +197,7 @@ public class TreasureTrailsManager {
 				if (!currentClue.isLast()) {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
-                    player.sendMessage("You've found another clue!");
+					player.sendMessage("You've found another clue!");
 					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!");
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
@@ -208,38 +205,34 @@ public class TreasureTrailsManager {
 					player.sendMessage("Well done! You've completed the Treasure Trail.");
 					currentClue = null;
 				}
-			} else {
+			} else
 				throw new RuntimeException("UNKNOWN_SOURCE:" + source);
-			}
-		} else {
-			if (cluePhase == 0 && (currentClue.details.type == COORDINATE || currentClue.details.type == EMOTE) && currentClue.dificulty >= HARD) {
-				// spawn combat npc
-				boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
-				boolean isCoordinateClue = currentClue.details.type == COORDINATE;
-				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, World.getFreeTile(player, 1));
-				npc.setNextSpotAnim(new SpotAnim(74));
-				WorldTasksManager.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						npc.setTarget(player);
-						npc.setNextForceTalk(new ForceTalk(npc.getId() == 1007 ? "For Zamorak!" : npc.getId() == 1264 ? "For Saradomin!" : "I expect you to die!"));
-					}
-				});
-				cluePhase = 1;
-			} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
-				final NPC npc = new Ugi(player, 5141, World.getFreeTile(player, 1));
-				npc.setNextSpotAnim(new SpotAnim(74));
-				WorldTasksManager.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						npc.faceEntity(player);
-					}
-				});
-				cluePhase = ((Emote[]) currentClue.details.parameters[0]).length == 1 ? 4 : 3;
-			} else if (cluePhase == 3) {
-				cluePhase = 4; // for emotes
-			}
-		}
+		} else if (cluePhase == 0 && (currentClue.details.type == COORDINATE || currentClue.details.type == EMOTE) && currentClue.dificulty >= HARD) {
+			// spawn combat npc
+			boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
+			boolean isCoordinateClue = currentClue.details.type == COORDINATE;
+			final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, World.getFreeTile(player, 1));
+			npc.setNextSpotAnim(new SpotAnim(74));
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					npc.setTarget(player);
+					npc.setNextForceTalk(new ForceTalk(npc.getId() == 1007 ? "For Zamorak!" : npc.getId() == 1264 ? "For Saradomin!" : "I expect you to die!"));
+				}
+			});
+			cluePhase = 1;
+		} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
+			final NPC npc = new Ugi(player, 5141, World.getFreeTile(player, 1));
+			npc.setNextSpotAnim(new SpotAnim(74));
+			WorldTasksManager.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					npc.faceEntity(player);
+				}
+			});
+			cluePhase = ((Emote[]) currentClue.details.parameters[0]).length == 1 ? 4 : 3;
+		} else if (cluePhase == 3)
+			cluePhase = 4; // for emotes
 	}
 
 	public static boolean isScroll(int id) {
@@ -261,10 +254,10 @@ public class TreasureTrailsManager {
 		currentClue = new Clue(generateClueDetails(level), generateClueSize(level), level);
 	}
 
-    public void SelectAClue(int level, int index) {
-	    ClueDetails detail = ClueDetails.values()[index];
-        currentClue = new Clue(detail, generateClueSize(level), level);
-    }
+	public void SelectAClue(int level, int index) {
+		ClueDetails detail = ClueDetails.values()[index];
+		currentClue = new Clue(detail, generateClueSize(level), level);
+	}
 	public boolean useItem(Item item, int slot) {
 		int level = getScrollboxLevel(item.getId());
         player.getInventory().deleteItem(item.getId(), 1);
@@ -304,9 +297,9 @@ public class TreasureTrailsManager {
 					player.getPackets().setIFText(345, i + 1, "");
 				for (int i = 2; i < currentClue.details.parameters.length; i++)
 					player.getPackets().setIFText(345, i, "<shad=000000>" + (String) currentClue.details.parameters[i] + "</shad>");
-			} else if (currentClue.details.type == MAP) {
+			} else if (currentClue.details.type == MAP)
 				player.getInterfaceManager().sendInterface((int) currentClue.details.parameters[0]);
-			} else if (currentClue.details.type == COORDINATE) {
+			else if (currentClue.details.type == COORDINATE) {
 				player.getInterfaceManager().sendInterface(345);
 				for (int i = 0; i < 8; i++)
 					player.getPackets().setIFText(345, i + 1, "");
@@ -321,16 +314,15 @@ public class TreasureTrailsManager {
 	}
 
 	private boolean hasCurrentClue() {
-		if (!player.getInventory().containsOneItem(CLUE_SCROLLS[currentClue.dificulty])) {
+		if (!player.getInventory().containsOneItem(CLUE_SCROLLS[currentClue.dificulty]))
 			return false;
-		}
 		return true;
 	}
 
 	public void useEmote(Emote emote) {
 		if (currentClue == null)
 			return;
-		else if (currentClue.details.type != EMOTE)
+		if (currentClue.details.type != EMOTE)
 			return;
 		else if (!hasCurrentClue())
 			return;
@@ -340,21 +332,18 @@ public class TreasureTrailsManager {
 		} else if (emote != ((Emote[]) currentClue.details.parameters[0])[cluePhase == 3 ? 1 : 0])
 			return;
 		Item[] requiredItems = (Item[]) currentClue.details.parameters[1];
-		if (requiredItems.length > 0) {
+		if (requiredItems.length > 0)
 			for (Item item : requiredItems) {
 				int slot = item.getId() == 20922 ? Equipment.RING : item.getDefinitions().getEquipSlot();
 				Item requestedItem = player.getEquipment().getItem(slot);
 				if (requestedItem == null)
 					return;
 				if (slot == Equipment.RING && item.getId() == 20922) {
-					if (!player.getEquipment().containsOneItem(new int[] { 2552, 2554, 2556, 2558, 2560, 2562, 2564, 2566 })) {
+					if (!player.getEquipment().containsOneItem(2552, 2554, 2556, 2558, 2560, 2562, 2564, 2566))
 						return;
-					}
-				} else if (requestedItem.getId() != item.getId()) {
+				} else if (requestedItem.getId() != item.getId())
 					return;
-				}
 			}
-		}
 		setNextClue(SOURCE_EMOTE);
 	}
 
@@ -369,7 +358,8 @@ public class TreasureTrailsManager {
 				return false;
 			setNextClue(SOURCE_DIG);
 			return true;
-		} else if (currentClue.details.type == COORDINATE /*&& hasSextantItems()*/) {
+		}
+		if (currentClue.details.type == COORDINATE /*&& hasSextantItems()*/) {
 			if (!hasCurrentClue())
 				return false;
 			WorldTile t = getTile((Integer) currentClue.details.parameters[0], (Integer) currentClue.details.parameters[1], (Integer) currentClue.details.parameters[2], (Integer) currentClue.details.parameters[3],
@@ -384,11 +374,9 @@ public class TreasureTrailsManager {
 	}
 
 	public boolean useObject(GameObject object) {
-		if (currentClue == null)
+		if ((currentClue == null) || currentClue.details.idType != OBJECT || !currentClue.details.isId(object.getId()))
 			return false;
-		if (currentClue.details.idType != OBJECT || !currentClue.details.isId(object.getId()))
-			return false;
-		else if (currentClue.details.type != SIMPLE && currentClue.details.type != MAP)
+		if (currentClue.details.type != SIMPLE && currentClue.details.type != MAP)
 			return false;
 		else if (!hasCurrentClue())
 			return false;
@@ -397,13 +385,11 @@ public class TreasureTrailsManager {
 	}
 
 	public boolean useNPC(final NPC npc) {
-		if (currentClue == null)
-			return false;
-		if (currentClue.details.idType != NPC || !currentClue.details.isId(npc.getId()))
+		if ((currentClue == null) || currentClue.details.idType != NPC || !currentClue.details.isId(npc.getId()))
 			return false;
 		if (currentClue.details.type != SIMPLE && currentClue.details.type != ANAGRAM)
 			return false;
-		else if (!hasCurrentClue())
+		if (!hasCurrentClue())
 			return false;
 		if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD && !player.containsOneItem(PUZZLES)) {
 			player.getDialogueManager().execute(new Dialogue() {
@@ -420,9 +406,8 @@ public class TreasureTrailsManager {
 						sendEntityDialogue(IS_ITEM, puzzle_id, -1, "", npc.getName() + " has given you a puzzle box!");
 						player.getInventory().addItem(puzzle_id, 1);
 						stage = 1;
-					} else {
+					} else
 						end();
-					}
 				}
 
 				@Override
@@ -432,7 +417,8 @@ public class TreasureTrailsManager {
 			});
 
 			return true;
-		} else if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD && !hasCompletedPuzzle()) {
+		}
+		if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD && !hasCompletedPuzzle()) {
 			player.getDialogueManager().execute(new Dialogue() {
 				@Override
 				public void start() {
@@ -452,28 +438,7 @@ public class TreasureTrailsManager {
 
 			return true;
 		}
-		if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD) {
-			player.getDialogueManager().execute(new Dialogue() {
-				@Override
-				public void start() {
-					sendNPCDialogue(currentClue.details.getId(), Dialogue.NORMAL, "Good job!");
-				}
-
-				@Override
-				public void run(int interfaceId, int componentId) {
-					end();
-					for (int id : PUZZLES)
-						player.getInventory().deleteItem(id, 1);
-					setNextClue(SOURCE_PUZZLENPC);
-				}
-
-				@Override
-				public void finish() {
-				}
-
-			});
-			return true;
-		} else {
+		if ((currentClue.details.type != ANAGRAM) || (currentClue.dificulty < HARD)) {
 			player.getDialogueManager().execute(new Dialogue() {
 				@Override
 				public void start() {
@@ -493,18 +458,37 @@ public class TreasureTrailsManager {
 			});
 			return true;
 		}
+		player.getDialogueManager().execute(new Dialogue() {
+			@Override
+			public void start() {
+				sendNPCDialogue(currentClue.details.getId(), Dialogue.NORMAL, "Good job!");
+			}
+
+			@Override
+			public void run(int interfaceId, int componentId) {
+				end();
+				for (int id : PUZZLES)
+					player.getInventory().deleteItem(id, 1);
+				setNextClue(SOURCE_PUZZLENPC);
+			}
+
+			@Override
+			public void finish() {
+			}
+
+		});
+		return true;
 	}
 
 	public void openPuzzle(int itemId) {
 		if (currentClue == null)
 			return;
-		else if (currentClue.details.type == ANAGRAM) {
+		if (currentClue.details.type == ANAGRAM)
 			if (currentClue.dificulty != HARD && currentClue.dificulty != ELITE)
 				return;
-		}
 		int base = BASE_PIECES[getBasePiece(itemId)];
 		if (pieces == null) {
-			pieces = new ArrayList<Item>(PUZZLE_SIZE);
+			pieces = new ArrayList<>(PUZZLE_SIZE);
 			for (int index = 0; index < PUZZLE_SIZE - 1; index++)
 				pieces.add(new Item(base + index, 1));
 			pieces.add(new Item(-1, 1));
@@ -512,12 +496,11 @@ public class TreasureTrailsManager {
 
 			pieces.clear();
 			int[] mix = createMix();
-			for (int i = 0; i < mix.length; i++) {
-				if (mix[i] != -1)
-					pieces.add(new Item(base + mix[i], 1));
+			for (int element : mix)
+				if (element != -1)
+					pieces.add(new Item(base + element, 1));
 				else
 					pieces.add(new Item(-1, 1));
-			}
 		}
 		player.getPackets().setIFRightClickOps(363, 4, 0, 25, 0);
 		player.getPackets().sendItems(140, pieces.toArray(new Item[pieces.size()]));
@@ -539,11 +522,9 @@ public class TreasureTrailsManager {
 	}
 
 	private int getBasePiece(int requestedId) {
-		for (int index = 0; index < PUZZLES.length; index++) {
-			if (PUZZLES[index] == requestedId) {
+		for (int index = 0; index < PUZZLES.length; index++)
+			if (PUZZLES[index] == requestedId)
 				return index;
-			}
-		}
 		return -1;
 	}
 
@@ -552,34 +533,31 @@ public class TreasureTrailsManager {
 			return false;
 		main: for (int id : PUZZLES) {
 			int base = BASE_PIECES[getBasePiece(id)];
-			for (int index = 0; index < PUZZLE_SIZE - 1; index++) {
+			for (int index = 0; index < PUZZLE_SIZE - 1; index++)
 				if (index + base != pieces.get(index).getId())
 					continue main;
-			}
 			return true;
 		}
 		return false;
 	}
-	
+
 	public static Item[] generateRewards(Player player, int level) {
-		ArrayList<Item> rewards = new ArrayList<Item>();
-		if (level == EASY) {
+		ArrayList<Item> rewards = new ArrayList<>();
+		if (level == EASY)
 			for (int i = 0;i < Utils.randomInclusive(2, 4);i++)
 				Utils.add(rewards, DropTable.calculateDrops(player, DropSets.getDropSet("easy_casket")));
-		} else if (level == MEDIUM) {
+		else if (level == MEDIUM)
 			for (int i = 0;i < Utils.randomInclusive(3, 5);i++)
 				Utils.add(rewards, DropTable.calculateDrops(player, DropSets.getDropSet("medium_casket")));
-		} else if (level == HARD) {
-			for (int i = 0;i < Utils.randomInclusive(4, 6);i++) 
+		else if (level == HARD)
+			for (int i = 0;i < Utils.randomInclusive(4, 6);i++)
 				Utils.add(rewards, DropTable.calculateDrops(player, DropSets.getDropSet("hard_casket")));
-		} else if (level == ELITE) {
+		else if (level == ELITE)
 			for (int i = 0;i < Utils.randomInclusive(4, 6);i++)
 				Utils.add(rewards, DropTable.calculateDrops(player, DropSets.getDropSet("elite_casket")));
-		}
 		Item[] rewArr = new Item[rewards.size()];
-		for (int i = 0;i < rewArr.length;i++) {
+		for (int i = 0;i < rewArr.length;i++)
 			rewArr[i] = rewards.get(i);
-		}
 		return rewArr;
 	}
 
@@ -587,14 +565,14 @@ public class TreasureTrailsManager {
 		player.getInterfaceManager().sendInterface(364);
 		player.getPackets().sendInterSetItemsOptionsScript(364, 4, 141, 3, 4, "Examine");
 		final Item[] rewards = generateRewards(player, level);
-        player.getPackets().sendMusicEffect(193);
+		player.getPackets().sendMusicEffect(193);
 		player.getPackets().setIFRightClickOps(364, 4, 0, rewards.length, 0);
 		player.incrementCount(LEVEL[level] + " clues completed");
 		boolean banked = false;
 		for (Item item : rewards) {
-			if (player.getInventory().hasRoomFor(item)) {
+			if (player.getInventory().hasRoomFor(item))
 				player.getInventory().addItemDrop(item);
-			} else {
+			else {
 				if (item.getDefinitions().isNoted())
 					item.setId(item.getDefinitions().certId);
 				player.getBank().addItem(item, true);
@@ -657,26 +635,23 @@ public class TreasureTrailsManager {
 
 	private static int[] createMix() {
 		int[] mix = new int[25];
-		for (int i = 0; i < mix.length; i++) {
+		for (int i = 0; i < mix.length; i++)
 			mix[i] = i - 1;
-		}
 		shuffle(mix);
 		// http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html
 		int inversions = 0;
 		for (int i = 0; i < mix.length - 1; i++) {
 			if (mix[i] == -1)
 				continue;
-			for (int j = i; j < mix.length; j++) {
+			for (int j = i; j < mix.length; j++)
 				if (mix[j] > mix[i])
 					inversions++;
-			}
 		}
 		// If the grid width is odd, then the number of inversions in a solvable
 		// situation is even.
-		if ((inversions & 1) != 0) {
+		if ((inversions & 1) != 0)
 			return createMix(); // could just simply swap last 2 pieces but need
-			// to make sure they arn't blank
-		}
+		// to make sure they arn't blank
 		return mix;
 	}
 
@@ -693,7 +668,7 @@ public class TreasureTrailsManager {
 	private static final int TILE = 0, OBJECT = 1, NPC = 2;
 	private static final int NORTH = 0, SOUTH = 1, WEST = 2, EAST = 3;
 
-	public static final String[] UGIS_QUOTES = new String[] { "Always bring a banana to a party.", "Once, I was a poor man, but then I found a party hat.", "There were three goblins in a bar, which one left first?",
+	public static final String[] UGIS_QUOTES = { "Always bring a banana to a party.", "Once, I was a poor man, but then I found a party hat.", "There were three goblins in a bar, which one left first?",
 			"Would you like to buy a pewter spoon?", "In the end, only the three-legged survive.", "I heard that the tall man fears only strong winds.", "In Canifis the men are known for eating much spam.",
 			"I am the egg man, are you one of the egg men?", "The sudden appearance of a deaf squirrel is most puzzling, Comrade.", "I believe that it is very rainy in Varrock.", "The slowest of fishermen catch the swiftest of fish.",
 			"It is quite easy being green.", "Don't forget to find the jade monkey.", };
@@ -1383,7 +1358,7 @@ public class TreasureTrailsManager {
 		public int level, type, idType;
 		public int[] ids;
 		public Object[] parameters;
-		
+
 		private ClueDetails(int level, int type, int idType, int[] ids, Object... parameters) {
 			this.level = level;
 			this.type = type;
@@ -1396,18 +1371,17 @@ public class TreasureTrailsManager {
 			this.level = level;
 			this.type = type;
 			this.idType = idType;
-			this.ids = new int[] { id };
+			ids = new int[] { id };
 			this.parameters = parameters;
 		}
-		
+
 		public boolean isId(int id) {
-			for (int i : ids) {
+			for (int i : ids)
 				if (id == i)
 					return true;
-			}
 			return false;
 		}
-		
+
 		public int getId() {
 			return ids[0];
 		}

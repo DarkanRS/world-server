@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -57,8 +57,8 @@ public abstract class Familiar extends NPC {
 		super(Summoning.getNPCId(pouch.getRealPouchId()), tile, false);
 		this.owner = owner;
 		this.pouch = pouch;
-		this.setIgnoreNPCClipping(true);
-		this.setBlocksOtherNPCs(false);
+		setIgnoreNPCClipping(true);
+		setBlocksOtherNPCs(false);
 		resetTickets();
 		specialEnergy = 60;
 		if (getBOBSize() > 0)
@@ -88,7 +88,7 @@ public abstract class Familiar extends NPC {
 		ticks = (int) (pouch.getPouchTime() / 1000 / 30);
 		trackTimer = 0;
 	}
-	
+
 	public static ButtonClickHandler handleFamiliarOptionSettings = new ButtonClickHandler(880) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -100,21 +100,20 @@ public abstract class Familiar extends NPC {
 				setLeftclickOption(e.getPlayer(), 7);
 		}
 	};
-	
+
 	public static ButtonClickHandler handleFamiliarOption = new ButtonClickHandler(747) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 8) {
+			if (e.getComponentId() == 8)
 				selectLeftOption(e.getPlayer());
-			} else if (e.getPlayer().getPet() != null) {
-				if (e.getComponentId() == 11 || e.getComponentId() == 20) {
+			else if (e.getPlayer().getPet() != null) {
+				if (e.getComponentId() == 11 || e.getComponentId() == 20)
 					e.getPlayer().getPet().call();
-				} else if (e.getComponentId() == 12 || e.getComponentId() == 21) {
+				else if (e.getComponentId() == 12 || e.getComponentId() == 21)
 					e.getPlayer().getDialogueManager().execute(new DismissD());
-				} else if (e.getComponentId() == 10 || e.getComponentId() == 19) {
+				else if (e.getComponentId() == 10 || e.getComponentId() == 19)
 					e.getPlayer().getPet().sendFollowerDetails();
-				}
-			} else if (e.getPlayer().getFamiliar() != null) {
+			} else if (e.getPlayer().getFamiliar() != null)
 				if (e.getComponentId() == 11 || e.getComponentId() == 20)
 					e.getPlayer().getFamiliar().call();
 				else if (e.getComponentId() == 12 || e.getComponentId() == 21)
@@ -131,17 +130,15 @@ public abstract class Familiar extends NPC {
 					if (e.getPlayer().getFamiliar().hasSpecialOn())
 						e.getPlayer().getFamiliar().submitSpecial(e.getPlayer());
 				}
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleFamiliarOrbOption = new ButtonClickHandler(662) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().getFamiliar() == null) {
-				if (e.getPlayer().getPet() == null) {
+				if (e.getPlayer().getPet() == null)
 					return;
-				}
 				if (e.getComponentId() == 49)
 					e.getPlayer().getPet().call();
 				else if (e.getComponentId() == 51)
@@ -164,7 +161,7 @@ public abstract class Familiar extends NPC {
 			}
 		}
 	};
-	
+
 	private void sendFollow() {
 		if (getLastFaceEntity() != owner.getClientIndex())
 			setNextFaceEntity(owner);
@@ -180,9 +177,8 @@ public abstract class Familiar extends NPC {
 					resetWalkSteps();
 					if (!addWalkSteps(getX(), owner.getY() + targetSize)) {
 						resetWalkSteps();
-						if (!addWalkSteps(getX(), owner.getY() - size)) {
+						if (!addWalkSteps(getX(), owner.getY() - size))
 							return;
-						}
 					}
 				}
 			}
@@ -221,7 +217,8 @@ public abstract class Familiar extends NPC {
 			transformIntoNPC(originalId);
 			call(false);
 			return;
-		} else if (!owner.isCanPvp() && getId() == originalId && pouch != Pouches.MAGPIE && pouch != Pouches.IBIS && pouch != Pouches.BEAVER && pouch != Pouches.MACAW && pouch != Pouches.FRUIT_BAT) {
+		}
+		if (!owner.isCanPvp() && getId() == originalId && pouch != Pouches.MAGPIE && pouch != Pouches.IBIS && pouch != Pouches.BEAVER && pouch != Pouches.MACAW && pouch != Pouches.FRUIT_BAT) {
 			transformIntoNPC(originalId - 1);
 			call(false);
 			return;
@@ -229,18 +226,15 @@ public abstract class Familiar extends NPC {
 			call(false);
 			return;
 		}
-		if (!getCombat().process()) {
-			if (isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(25) == 0) {
+		if (!getCombat().process())
+			if (isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(25) == 0)
 				getCombat().setTarget(owner.getAttackedBy());
-			} else {
+			else
 				sendFollow();
-			}
-		}
 	}
 
 	public boolean canAttack(Entity target) {
-		if (target instanceof Player) {
-			Player player = (Player) target;
+		if (target instanceof Player player) {
 			if (!owner.isCanPvp() || !player.isCanPvp() || (owner == target))
 				return false;
 		}
@@ -251,7 +245,8 @@ public abstract class Familiar extends NPC {
 		if (ticks > 5) {
 			owner.sendMessage("You need to have at least two minutes and fifty seconds remaining before you can renew your familiar.", true);
 			return false;
-		} else if (!owner.getInventory().getItems().contains(new Item(pouch.getRealPouchId(), 1))) {
+		}
+		if (!owner.getInventory().getItems().contains(new Item(pouch.getRealPouchId(), 1))) {
 			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getRealPouchId()).getName().toLowerCase() + " to renew your familiar's timer.");
 			return false;
 		}
@@ -446,9 +441,8 @@ public abstract class Familiar extends NPC {
 					setNextAnimation(new Animation(defs.getDeathEmote()));
 					owner.sendMessage("Your familiar slowly begins to fade away..");
 					dissmissFamiliar(false);
-				} else if (loop >= defs.getDeathDelay()) {
+				} else if (loop >= defs.getDeathDelay())
 					stop();
-				}
 				loop++;
 			}
 		}, 0, 1);
@@ -510,9 +504,8 @@ public abstract class Familiar extends NPC {
 
 	public void drainSpecial(int specialReduction) {
 		specialEnergy -= specialReduction;
-		if (specialEnergy < 0) {
+		if (specialEnergy < 0)
 			specialEnergy = 0;
-		}
 		refreshSpecialEnergy();
 	}
 

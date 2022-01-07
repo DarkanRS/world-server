@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,23 +39,23 @@ public class PoltergeistRoom extends PuzzleRoom {
 
 	public static final int CONSECRATED_HERB = 19659;
 	public static final int[] HERBS =
-	{ 19653, 19654, 19655, 19656, 19657, 19658 };
+		{ 19653, 19654, 19655, 19656, 19657, 19658 };
 
 	private static final int[][] CENSERS =
-	{
-	{ -1, -1, -1 },
-	{ 54095, 54099, 54103 },
-	{ 54096, 54100, 54104 },
-	{ 54097, 54101, 54105 },
-	{ 39847, 39850, 39851 }, };
+		{
+				{ -1, -1, -1 },
+				{ 54095, 54099, 54103 },
+				{ 54096, 54100, 54104 },
+				{ 54097, 54101, 54105 },
+				{ 39847, 39850, 39851 }, };
 
 	private static final int[][] SARCOPHAGUS =
-	{
-	{ -1, -1, -1 },
-	{ 54079, 54083 },
-	{ 54080, 54084 },
-	{ 54081, 54085 },
-	{ 39526, 39840 }, };
+		{
+				{ -1, -1, -1 },
+				{ 54079, 54083 },
+				{ 54080, 54084 },
+				{ 54081, 54085 },
+				{ 39526, 39840 }, };
 
 	private NPC poltergeist;
 	private Item requiredHerb;
@@ -86,9 +86,8 @@ public class PoltergeistRoom extends PuzzleRoom {
 					World.spawnObject(o);
 				}
 			}
-		} else {
+		} else
 			player.applyHit(new Hit(player, (int) (player.getMaxHitpoints() * .3), HitLook.TRUE_DAMAGE));
-		}
 	}
 
 	@Override
@@ -97,7 +96,8 @@ public class PoltergeistRoom extends PuzzleRoom {
 		if (name.equals("Sarcophagus")) {
 			player.getDialogueManager().execute(new SimpleMessage(), "The inscription reads: 'Here lies Leif, posthumously honoured with the discovery of " + requiredHerb.getName() + ".");
 			return false;
-		} else if (name.equals("Censer") && object.getDefinitions().containsOption("Light")) {
+		}
+		if (name.equals("Censer") && object.getDefinitions().containsOption("Light")) {
 			int requiredFiremaking = getRequirement(Constants.FIREMAKING);
 			if (!player.getInventory().containsOneItem(DungeonConstants.TINDERBOX)) {
 				player.sendMessage("You need a tinderbox in order to light a censer.");
@@ -109,9 +109,8 @@ public class PoltergeistRoom extends PuzzleRoom {
 			giveXP(player, Constants.FIREMAKING);
 			player.lock(1);
 			censersLit++;
-			if (censersLit == 4) {
+			if (censersLit == 4)
 				poltergeist.finish();
-			}
 			World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType()][2], object.getType(), object.getRotation(), object));
 			return false;
 		} else if (name.equals("Censer") && object.getDefinitions().containsOption("Inspect")) {
@@ -131,7 +130,7 @@ public class PoltergeistRoom extends PuzzleRoom {
 
 	@Override
 	public boolean handleItemOnObject(Player player, GameObject object, Item item) {
-		if (object.getDefinitions().getName().equals("Censer") && object.getDefinitions().containsOption("Inspect")) {
+		if (object.getDefinitions().getName().equals("Censer") && object.getDefinitions().containsOption("Inspect"))
 			if (item.getId() == CONSECRATED_HERB) {
 				player.lock(1);
 				player.sendMessage("You pile the herbs into the censer.");
@@ -139,28 +138,26 @@ public class PoltergeistRoom extends PuzzleRoom {
 				World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType()][1], object.getType(), object.getRotation(), object));
 				return false;
 			}
-		}
 		return true;
 	}
 
 	@Override
 	public boolean processObjectClick2(Player player, GameObject object) {
 		if (object.getDefinitions().getName().equals("Sarcophagus")) {
-			if (censersLit == 4) {
-				int requiredThieving = getRequirement(Constants.THIEVING);
-				if (requiredThieving > player.getSkills().getLevel(Constants.THIEVING)) {
-					player.sendMessage("You need a thieving level of " + requiredThieving + " to open the sarcophagus.");
-					return false;
-				}
-				giveXP(player, Constants.THIEVING);
-				player.sendMessage("You successfully open the sarcophagus.");
-				World.spawnObject(new GameObject(SARCOPHAGUS[manager.getParty().getFloorType()][1], object.getType(), object.getRotation(), object));
-				setComplete();
-				return false;
-			} else {
+			if (censersLit != 4) {
 				player.sendMessage("lit: " + censersLit + "/4");
 				return false;
 			}
+			int requiredThieving = getRequirement(Constants.THIEVING);
+			if (requiredThieving > player.getSkills().getLevel(Constants.THIEVING)) {
+				player.sendMessage("You need a thieving level of " + requiredThieving + " to open the sarcophagus.");
+				return false;
+			}
+			giveXP(player, Constants.THIEVING);
+			player.sendMessage("You successfully open the sarcophagus.");
+			World.spawnObject(new GameObject(SARCOPHAGUS[manager.getParty().getFloorType()][1], object.getType(), object.getRotation(), object));
+			setComplete();
+			return false;
 		}
 		return true;
 	}
@@ -183,9 +180,8 @@ public class PoltergeistRoom extends PuzzleRoom {
 		public void processNPC() {
 			if (getWalkSteps().isEmpty()) {
 				addWalkSteps(corners[ptr].getX(), corners[ptr].getY());
-				if (++ptr == corners.length) {
+				if (++ptr == corners.length)
 					ptr = 0;
-				}
 			}
 			super.processNPC();
 		}

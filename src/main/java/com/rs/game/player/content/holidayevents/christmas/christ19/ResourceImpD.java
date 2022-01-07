@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,9 +27,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class ResourceImpD extends Conversation {
-	
+
 	private static final int IMP_HEAD = 9364;
-	
+
 	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(9372, 9373, 9374, 9375) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -80,7 +80,7 @@ public class ResourceImpD extends Conversation {
 			addSimple("You've harassed the imp enough. Talk to Rasmus for the next location.");
 			break;
 		}
-		
+
 		create();
 	}
 

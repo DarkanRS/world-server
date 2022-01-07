@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -34,24 +34,23 @@ public class Silver {
 
 	public enum SilverItems {
 
-		HOLY_SYMBOL(16, 50, 1599, new Item(1714, 1), 16), 
-		UNHOLY_SYMBOL(17, 50, 1594, new Item(1720, 1), 23), 
-		SILVER_SICKLE(18, 50, 2976, new Item(2961, 1), 30), 
-		LIGHTNING_ROD(20, 50, 4200, new Item(4201, 1), 37), 
-		DEMONIC_SIGIL(20, 50, 6747, new Item(6748, 1), 59), 
-		SILVER_BOLTS(21, 50, 9434, new Item(9382, 10), 66), 
+		HOLY_SYMBOL(16, 50, 1599, new Item(1714, 1), 16),
+		UNHOLY_SYMBOL(17, 50, 1594, new Item(1720, 1), 23),
+		SILVER_SICKLE(18, 50, 2976, new Item(2961, 1), 30),
+		LIGHTNING_ROD(20, 50, 4200, new Item(4201, 1), 37),
+		DEMONIC_SIGIL(20, 50, 6747, new Item(6748, 1), 59),
+		SILVER_BOLTS(21, 50, 9434, new Item(9382, 10), 66),
 		TIARA(23, 52.5, 5523, new Item(5525), 44);
 
-		private static Map<Integer, SilverItems> rings = new HashMap<Integer, SilverItems>();
+		private static Map<Integer, SilverItems> rings = new HashMap<>();
 
 		public static SilverItems forId(int buttonId) {
 			return rings.get(buttonId);
 		}
 
 		static {
-			for (SilverItems ring : SilverItems.values()) {
+			for (SilverItems ring : SilverItems.values())
 				rings.put(ring.getButtonId(), ring);
-			}
 		}
 
 		private int levelRequired;
@@ -63,8 +62,8 @@ public class Silver {
 		private SilverItems(int levelRequired, double experience, int itemsRequired, Item producedBar, int buttonId) {
 			this.levelRequired = levelRequired;
 			this.experience = experience;
-			this.mould = itemsRequired;
-			this.product = producedBar;
+			mould = itemsRequired;
+			product = producedBar;
 			this.buttonId = buttonId;
 		}
 
@@ -87,13 +86,12 @@ public class Silver {
 		public int getButtonId() {
 			return buttonId;
 		}
-	};
+	}
 
 	public static void openSilverInterface(Player player) {
 		player.getInterfaceManager().sendInterface(438);
-		for (SilverItems item : SilverItems.values()) {
+		for (SilverItems item : SilverItems.values())
 			player.getPackets().setIFItem(438, item.getButtonId()+1, item.getProduct().getId(), item.getProduct().getAmount());
-		}
 	}
 
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(438) {
@@ -102,27 +100,21 @@ public class Silver {
 			e.getPlayer().closeInterfaces();
 			SilverItems silver = SilverItems.forId(e.getComponentId());
 			int numberToMake = getNumberToMake(e.getPacket());
-			if (numberToMake == -5) {
+			if (numberToMake == -5)
 				e.getPlayer().sendInputInteger("How many would you like to make?", number -> {
 					if (silver != null)
 						e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, number));
-					else {
-						if (e.getPlayer().hasRights(Rights.DEVELOPER))
-							e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-						else
-							e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
-					}
-				});
-			} else {
-				if (silver != null)
-					e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, numberToMake));
-				else {
-					if (e.getPlayer().hasRights(Rights.DEVELOPER))
+					else if (e.getPlayer().hasRights(Rights.DEVELOPER))
 						e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
 					else
 						e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
-				}
-			}
+				});
+			else if (silver != null)
+				e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, numberToMake));
+			else if (e.getPlayer().hasRights(Rights.DEVELOPER))
+				e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
+			else
+				e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
 		}
 	};
 

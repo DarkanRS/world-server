@@ -39,7 +39,7 @@ import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class FarmPatch {
-	public static int FARMING_TICK = 1;
+	public static int FARMING_TICK = 500;
 	
 	public static final int[] COMPOST_ORGANIC = { 6055, 1942, 1957, 1965, 5986, 5504, 5982, 249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269, 1951, 753, 2126, 247, 239, 6018 };
 	public static final int[] SUPER_COMPOST_ORGANIC = { 2114, 5978, 5980, 5982, 6004, 247, 6469, 19974 };
@@ -87,18 +87,15 @@ public class FarmPatch {
 					lives = 0;
 					updateVars(player);
 				}
-			} else {
-				if (lives > 0) {
-					if (!checkedHealth) {
-						checkedHealth = true;
-						updateVars(player);
-						return;
-					}
-					player.getActionManager().setAction(new HarvestPatch(this));
-				} else {
-					player.sendMessage("The compost doesn't smell ready to be collected yet.");
+			} else if (lives > 0) {
+				if (!checkedHealth) {
+					checkedHealth = true;
+					updateVars(player);
+					return;
 				}
-			}
+				player.getActionManager().setAction(new HarvestPatch(this));
+			} else
+				player.sendMessage("The compost doesn't smell ready to be collected yet.");
 			return;
 		}
 		switch(option) {
@@ -142,30 +139,18 @@ public class FarmPatch {
 		}
 		switch(opNum) {
 		case OBJECT_OP1:
-			if (option.contains("Pick") || option.contains("Harvest")) {
+			if (option.contains("Pick") || option.contains("Harvest"))
 				player.getActionManager().setAction(new HarvestPatch(this));
-			} else if (option.contains("Chop")) {
+			else if (option.contains("Chop")) {
 				TreeType type = TreeType.FRUIT_TREE;
-				switch (seed) {
-				case Oak:
-					type = TreeType.OAK;
-					break;
-				case Willow:
-					type = TreeType.WILLOW;
-					break;
-				case Maple:
-					type = TreeType.MAPLE;
-					break;
-				case Yew:
-					type = TreeType.YEW;
-					break;
-				case Magic:
-					type = TreeType.MAGIC;
-					break;
-				default:
-					type = TreeType.FRUIT_TREE;
-					break;
-				}
+				type = switch (seed) {
+				case Oak -> TreeType.OAK;
+				case Willow -> TreeType.WILLOW;
+				case Maple -> TreeType.MAPLE;
+				case Yew -> TreeType.YEW;
+				case Magic -> TreeType.MAGIC;
+				default -> TreeType.FRUIT_TREE;
+				};
 				player.getActionManager().setAction(new Woodcutting(object, type) {
 					@Override
 					public void fellTree() {
@@ -184,7 +169,7 @@ public class FarmPatch {
 			return;
 		}
 	}
-	
+
 	private void useItem(Player player, GameObject object, Item item) {
 		if (location.type == PatchType.COMPOST) {
 			if (seed == null)
@@ -327,11 +312,11 @@ public class FarmPatch {
 			break;
 		}
 	}
-	
+
 	public void updateVars(Player player) {
 		player.getVars().setVarBit(location.varBit, location.type.getValue(this));
 	}
-	
+
 	public void promptClear(Player player) {
 		player.sendOptionDialogue("Do you really want to clear the patch?", new String[] { "Yes, I'd like to clear it.", "No thanks." }, new DialogueOptionEvent() {
 			@Override
@@ -346,7 +331,7 @@ public class FarmPatch {
 			}
 		});
 	}
-	
+
 	public void setInitialLives() {
 		if (seed == null)
 			return;
@@ -383,13 +368,14 @@ public class FarmPatch {
 			break;
 		}
 	}
-	
+
 	public void tick(Player player) {
 		if (location.type != PatchType.COMPOST) {
 			if (weeds >= 3) {
 				seed = null;
 				return;
 			} else if (seed == null) {
+				weeds++;
 				return;
 			}
 		} else {
@@ -438,7 +424,7 @@ public class FarmPatch {
 			boolean hasFullyGrown = !fullGrownBefore && fullyGrown();
 			if (hasFullyGrown)
 				setInitialLives();
-			if (!fullyGrown() && Utils.random(128) < (6 - compostLevel)) {
+			if (!fullyGrown() && Utils.random(128) < (6 - compostLevel))
 				if (!hasFullyGrown && !isDiseaseProtected(player)) {
 					diseased = true;
 					return;
@@ -447,13 +433,11 @@ public class FarmPatch {
 			watered = false;
 		}
 	}
-	
+
 	public boolean isDiseaseProtected(Player player) {
 		if (seed == null|| watered || diseaseProtected || fullyGrown())
 			return true;
-		if (seed == ProduceType.Poison_ivy)
-			return true;
-		if (location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
+		if ((seed == ProduceType.Poison_ivy) || location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
 			return true;
 		if (seed.type == PatchType.ALLOTMENT) {
 			ProduceType flower = seed.getFlowerProtection();
@@ -494,7 +478,7 @@ public class FarmPatch {
 		}
 		return false;
 	}
-	
+
 	public void empty() {
 		seed = null;
 		weeds = 0;
@@ -508,24 +492,24 @@ public class FarmPatch {
 		growthStage = 0;
 		diseaseProtected = location == PatchLocation.Trollheim_herbs;
 	}
-	
+
 	public boolean needsRemove() {
 		return seed == null && weeds >= 3 && compostLevel == 0;
 	}
-	
+
 	public boolean fullyGrown() {
 		if (seed == null)
 			return false;
 		return growthStage == seed.stages;
 	}
-	
+
 	public static ObjectClickHandler handlePatches = new ObjectClickHandler(PatchLocation.MAP.keySet().toArray()) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			PatchLocation loc = PatchLocation.forObject(e.getObjectId());
 			if (loc == null)
 				return;
-			
+
 			FarmPatch patch = e.getPlayer().getPatch(loc);
 			if (patch == null)
 				patch = new FarmPatch(loc);
@@ -533,14 +517,14 @@ public class FarmPatch {
 			e.getPlayer().putPatch(patch);
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleItemOnPatch = new ItemOnObjectHandler(PatchLocation.MAP.keySet().toArray()) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			PatchLocation loc = PatchLocation.forObject(e.getObjectId());
 			if (loc == null)
 				return;
-			
+
 			FarmPatch patch = e.getPlayer().getPatch(loc);
 			if (patch == null)
 				patch = new FarmPatch(loc);

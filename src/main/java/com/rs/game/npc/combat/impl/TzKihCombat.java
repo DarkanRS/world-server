@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,14 +38,13 @@ public class TzKihCombat extends CombatScript {
 		int damage = 0;
 		if (npc instanceof Familiar familiar) {// TODO get anim and gfx
 			boolean usingSpecial = familiar.hasSpecialOn();
-			if (usingSpecial) {
+			if (usingSpecial)
 				for (Entity entity : npc.getPossibleTargets()) {
 					damage = getMaxHit(npc, 70, AttackStyle.MELEE, target);
 					if (target instanceof Player player)
 						player.getPrayer().drainPrayer(damage);
 					delayHit(npc, 0, entity, getMeleeHit(npc, damage));
 				}
-			}
 			return npc.getAttackSpeed();
 		}
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));

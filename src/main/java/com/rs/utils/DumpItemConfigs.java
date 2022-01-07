@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,9 +41,8 @@ public class DumpItemConfigs {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.flush();
 			for (int id = 0; id < 7956; id++) {
-				if (Equipment.isTwoHandedWeapon(new Item(id, 1))) {
+				if (Equipment.isTwoHandedWeapon(new Item(id, 1)))
 					writer.append(id + ", ");
-				}
 				writer.flush();
 			}
 			writer.close();
@@ -63,10 +62,9 @@ public class DumpItemConfigs {
 			writer.flush();
 			for (int id = 0; id < 7956; id++) {
 				ItemDefinitions def = ItemDefinitions.getDefs(id);
-				if (def.isWearItem()) {
+				if (def.isWearItem())
 					//writer.append(id + " " + def.getEquipType() + " " + def.getEquipSlot());
 					writer.newLine();
-				}
 				writer.flush();
 			}
 			writer.close();
@@ -76,9 +74,7 @@ public class DumpItemConfigs {
 	}
 
 	public static boolean hasCombatRequirements(ItemDefinitions def) {
-		if (def.getWearingSkillRequiriments() == null)
-			return false;
-		if (def.getWearingSkillRequiriments().isEmpty())
+		if ((def.getWearingSkillRequiriments() == null) || def.getWearingSkillRequiriments().isEmpty())
 			return false;
 		for (int skillId : def.getWearingSkillRequiriments().keySet()) {
 			if (skillId < 0 && skillId > 6)
@@ -101,7 +97,7 @@ public class DumpItemConfigs {
 			writer.flush();
 			for (int id = 0; id < 7956; id++) {
 				ItemDefinitions def = ItemDefinitions.getDefs(id);
-				if (def.isWearItem()) {
+				if (def.isWearItem())
 					if (hasCombatRequirements(def)) {
 						writer.append(id + " ");
 						for (int skillId : def.getWearingSkillRequiriments().keySet()) {
@@ -114,7 +110,6 @@ public class DumpItemConfigs {
 						}
 						writer.newLine();
 					}
-				}
 				writer.flush();
 			}
 			writer.close();

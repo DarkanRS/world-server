@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -70,17 +70,17 @@ public class FlyingEntityHunter {
 		ZOMBIE_IMPLING(7902, 15515, 412, 585, 87),
 		KINGLY_IMPLING(7903, 15517, 434, 617, 91),
 
-//		BUTTERFLYTEST(1, 1, 434, 617, 91, null, null, null, null) {
-//
-//			@Override
-//			public void effect(Player player) {
-//				// stat boost
-//			}
-//		}
-		
+		//		BUTTERFLYTEST(1, 1, 434, 617, 91, null, null, null, null) {
+		//
+		//			@Override
+		//			public void effect(Player player) {
+		//				// stat boost
+		//			}
+		//		}
+
 		;
 
-		static final Map<Short, FlyingEntities> flyingEntities = new HashMap<Short, FlyingEntities>();
+		static final Map<Short, FlyingEntities> flyingEntities = new HashMap<>();
 
 		static {
 			for (FlyingEntities impling : FlyingEntities.values())
@@ -141,18 +141,16 @@ public class FlyingEntityHunter {
 		}
 
 		public static FlyingEntities forId(int itemId) {
-			for (FlyingEntities entity : FlyingEntities.values()) {
+			for (FlyingEntities entity : FlyingEntities.values())
 				if (itemId == entity.getReward())
 					return entity;
-			}
 			return null;
 		}
 
 		public static FlyingEntities forNPCId(int npcId) {
-			for (FlyingEntities entity : FlyingEntities.values()) {
+			for (FlyingEntities entity : FlyingEntities.values())
 				if (npcId == entity.getNpcId())
 					return entity;
-			}
 			return null;
 		}
 	}
@@ -188,16 +186,12 @@ public class FlyingEntityHunter {
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				if (isSuccessful(player, instance.getLevel(), new DynamicFormula() {
-
-					@Override
-					public int getExtraProbablity(Player player) {
-						if (player.getEquipment().getItem(3).getId() == 11259)
-							return 3;// magic net
-						else if (player.getEquipment().getItem(3).getId() == 10010)
-							return 2;// regular net
-						return 1;// hands
-					}
+				if (isSuccessful(player, instance.getLevel(), player1 -> {
+					if (player1.getEquipment().getItem(3).getId() == 11259)
+						return 3;// magic net
+					else if (player1.getEquipment().getItem(3).getId() == 10010)
+						return 2;// regular net
+					return 1;// hands
 				})) {
 					player.incrementCount(npc.getDefinitions().getName() + " trapped");
 					player.getInventory().deleteItem(new Item(11260, 1));
@@ -208,25 +202,24 @@ public class FlyingEntityHunter {
 					if (isImpling)
 						npc.transformIntoNPC(PuroPuroController.getRandomImplingId());
 					return;
-				} else {
-					if (isImpling) {
-						npc.setNextForceTalk(new ForceTalk("Tehee, you missed me!"));
-						WorldTasksManager.schedule(new WorldTask() {
-							@Override
-							public void run() {
-								WorldTile teleTile = npc;
-								for (int trycount = 0; trycount < 10; trycount++) {
-									teleTile = new WorldTile(npc, 3);
-									if (World.floorAndWallsFree(teleTile, player.getSize()))
-										break;
-									teleTile = npc;
-								}
-								npc.setNextWorldTile(teleTile);
-							}
-						}, 2);
-					}
-					player.sendMessage("...you stumble and miss the " + name.toLowerCase());
 				}
+				if (isImpling) {
+					npc.setNextForceTalk(new ForceTalk("Tehee, you missed me!"));
+					WorldTasksManager.schedule(new WorldTask() {
+						@Override
+						public void run() {
+							WorldTile teleTile = npc;
+							for (int trycount = 0; trycount < 10; trycount++) {
+								teleTile = new WorldTile(npc, 3);
+								if (World.floorAndWallsFree(teleTile, player.getSize()))
+									break;
+								teleTile = npc;
+							}
+							npc.setNextWorldTile(teleTile);
+						}
+					}, 2);
+				}
+				player.sendMessage("...you stumble and miss the " + name.toLowerCase());
 			}
 		});
 	}
@@ -259,7 +252,7 @@ public class FlyingEntityHunter {
 		 * increasedProbability = formula == null ? 1 :
 		 * formula.getExtraProbablity(player); int level =
 		 * Utils.random(hunterlevel + increasedProbability) + 1;
-		 * 
+		 *
 		 * int chance = level * 100 / (dataLevel * 2);
 		 * 
 		 * if (Utils.random(100) > chance) return false;

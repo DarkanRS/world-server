@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,8 +47,8 @@ public final class FightPits {
 
 	private static final int THHAAR_MEJ_KAH = 2618;
 
-	private static final List<Player> lobby = new ArrayList<Player>();
-	public static final List<Player> arena = new ArrayList<Player>();
+	private static final List<Player> lobby = new ArrayList<>();
+	public static final List<Player> arena = new ArrayList<>();
 	public static final Object lock = new Object();
 	private static GameTask gameTask;
 
@@ -66,7 +66,7 @@ public final class FightPits {
 				e.getPlayer().stopAll();
 		}
 	};
-	
+
 	private static class GameTask extends WorldTask {
 
 		private int minutes;
@@ -80,21 +80,21 @@ public final class FightPits {
 						startedGame = true;
 						passPlayersToArena();
 					} else {
-						if (minutes == 0) {
+						if (minutes == 0)
 							for (Player player : arena)
 								player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_KAH, "FIGHT!");
-						} else if (minutes == 5) { // spawn tz-kih
+						else if (minutes == 5) { // spawn tz-kih
 							// spawns
-							spawns = new ArrayList<NPC>();
+							spawns = new ArrayList<>();
 							for (int i = 0; i < 10; i++)
 								spawns.add(new FightPitsNPC(2734, new WorldTile(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3)));
-						} else if (minutes == 6) { // spawn tz-kek
+						} else if (minutes == 6)
 							for (int i = 0; i < 10; i++)
 								spawns.add(new TzKekPits(2736, new WorldTile(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3)));
-						} else if (minutes == 7) { // spawn tok-xil
+						else if (minutes == 7)
 							for (int i = 0; i < 10; i++)
 								spawns.add(new FightPitsNPC(2739, new WorldTile(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3)));
-						} else if (minutes == 10) { // spawn tz-kek
+						else if (minutes == 10)
 							// alot hits appears on players
 							WorldTasksManager.schedule(new WorldTask() {
 
@@ -109,7 +109,6 @@ public final class FightPits {
 								}
 
 							}, 0, 0);
-						}
 						minutes++;
 					}
 				}
@@ -184,17 +183,17 @@ public final class FightPits {
 			player.getControllerManager().removeControllerWithoutCheck();
 			if (type != 3)
 				player.getControllerManager().startController(new FightPitsLobbyController());
-			if (type == 0) {
+			if (type == 0)
 				player.setLocation(4592, 5073, 0);
-			} else {
+			else {
 				if (type != 3)
 					lobby.add(player);
 				player.setCanPvp(false);
 				player.setCantTrade(false);
 				player.getInterfaceManager().removeOverlay();
 				if (player.hasSkull() && player.getSkullId() == 1) {// if has
-																	// champion
-																	// skull
+					// champion
+					// skull
 					player.removeSkull();
 					player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_KAH, "Well done in the pit, here take TokKul as reward.");
 					int tokkul = (lobby.size() + arena.size()) * 100;
@@ -247,10 +246,8 @@ public final class FightPits {
 		if (gameTask == null) {
 			if (lobby.size() + arena.size() >= 2) // 2players in
 				startGame(false);
-		} else {
-			if (lobby.size() + arena.size() < 2)
-				cancelGame();
-		}
+		} else if (lobby.size() + arena.size() < 2)
+			cancelGame();
 	}
 
 	public static void startGame(boolean end) {

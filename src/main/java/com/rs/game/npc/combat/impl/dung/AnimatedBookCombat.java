@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,22 +33,21 @@ public class AnimatedBookCombat extends CombatScript {
 	@Override
 	public Object[] getKeys() {
 		return new Object[]
-		{ "Animated book" };
+				{ "Animated book" };
 	}
 
 	@Override
 	public int attack(NPC npc, Entity target) {
 		boolean meleeAttack = Utils.random(2) == 0;
-		if (meleeAttack) { // melee
-			if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
-				magicAttack(npc, target);
-				return npc.getAttackSpeed();
-			} else {
-				meleeAttack(npc, target);
-				return npc.getAttackSpeed();
-			}
-		} else {
+		if (!meleeAttack) {
 			magicAttack(npc, target);
+			return npc.getAttackSpeed();
+		}
+		if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
+			magicAttack(npc, target);
+			return npc.getAttackSpeed();
+		} else {
+			meleeAttack(npc, target);
 			return npc.getAttackSpeed();
 		}
 	}

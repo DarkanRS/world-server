@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,7 +35,7 @@ public enum JadinkoType {
 	SARADOMIN(13156, 8452, 1, true, HabitatFeature.Pond, ProduceType.Blue_blossom, ProduceType.Lergberry, ProduceType.Torstol),
 	GUTHIX(13156, 8452, 2, true, HabitatFeature.Tall_grass, ProduceType.Green_blossom, ProduceType.Lergberry, ProduceType.Torstol),
 	ZAMORAK(13156, 8452, 3, true, HabitatFeature.Dark_pit, ProduceType.Red_blossom, ProduceType.Kalferberry, ProduceType.Torstol);
-	
+
 	private int npcId;
 	private int varbit;
 	private int varbitValue;
@@ -44,7 +44,7 @@ public enum JadinkoType {
 	private ProduceType blossom;
 	private ProduceType bush;
 	private ProduceType tree;
-	
+
 	private JadinkoType(int npcId, int varbit, int varbitValue, boolean juju, HabitatFeature feature, ProduceType blossom, ProduceType bush, ProduceType tree) {
 		this.npcId = npcId;
 		this.varbit = varbit;
@@ -55,11 +55,11 @@ public enum JadinkoType {
 		this.bush = bush;
 		this.tree = tree;
 	}
-	
+
 	public int getNpcId() {
 		return npcId;
 	}
-	
+
 	public int getVarbit() {
 		return varbit;
 	}
@@ -67,48 +67,39 @@ public enum JadinkoType {
 	public int getVarbitValue() {
 		return varbitValue;
 	}
-	
+
 	public boolean shouldSend(Player player) {
 		if (juju && !player.hasEffect(Effect.JUJU_HUNTER))
 			return false;
-		
+
 		if (feature == null) {
 			if (player.getHabitatFeature() == null)
 				return false;
-		} else {
-			if (player.getHabitatFeature() != feature)
-				return false;
-		}
-		
-		if (!checkProduce(player, blossom, PatchLocation.Herblore_Habitat_flower))
+		} else if (player.getHabitatFeature() != feature)
 			return false;
-		if (!checkProduce(player, bush, PatchLocation.Herblore_Habitat_bush))
+
+		if (!checkProduce(player, blossom, PatchLocation.Herblore_Habitat_flower) || !checkProduce(player, bush, PatchLocation.Herblore_Habitat_bush) || !checkProduce(player, tree, PatchLocation.Herblore_Habitat_fruit_tree))
 			return false;
-		if (!checkProduce(player, tree, PatchLocation.Herblore_Habitat_fruit_tree))
-			return false;
-		
+
 		return true;
 	}
-	
+
 	private static boolean checkProduce(Player player, ProduceType type, PatchLocation location) {
 		if (type == ProduceType.Torstol) {
 			if (player.isGrowing(location, null))
 				return false;
-		} else {
-			if (!player.isGrowing(location, type))
-				return false;
-		}
+		} else if (!player.isGrowing(location, type))
+			return false;
 		return true;
 	}
-	
+
 	public static void updateGroup(Player player, JadinkoType... types) {
 		boolean rendered = false;
-		for (JadinkoType type : types) {
+		for (JadinkoType type : types)
 			if (type.shouldSend(player)) {
 				player.getVars().setVarBit(type.varbit, type.varbitValue);
 				rendered = true;
 			}
-		}
 		if (!rendered)
 			player.getVars().setVarBit(types[0].varbit, 0);
 	}

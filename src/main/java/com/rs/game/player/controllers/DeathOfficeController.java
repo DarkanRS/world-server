@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -98,7 +98,7 @@ public class DeathOfficeController extends Controller {
 	private int currentHub;
 	private WorldTile deathTile;
 	private boolean hadSkull;
-	
+
 	public DeathOfficeController(WorldTile deathTile, boolean hadSkull) {
 		this.deathTile = new WorldTile(deathTile);
 		this.hadSkull = hadSkull;
@@ -109,37 +109,45 @@ public class DeathOfficeController extends Controller {
 		loadRoom();
 	}
 
+	@Override
 	public boolean login() {
 		loadRoom();
 		return false;
 	}
 
+	@Override
 	public boolean logout() {
 		player.setLocation(new WorldTile(1978, 5302, 0));
 		destroyRoom();
 		return false;
 	}
 
+	@Override
 	public boolean canTakeItem(GroundItem item) {
 		return false;
 	}
 
+	@Override
 	public boolean canEquip(int slotId, int itemId) {
 		return false;
 	}
 
+	@Override
 	public boolean canPlayerOption1(Player target) {
 		return false;
 	}
 
+	@Override
 	public boolean canPlayerOption2(Player target) {
 		return false;
 	}
 
+	@Override
 	public boolean canPlayerOption3(Player target) {
 		return false;
 	}
 
+	@Override
 	public boolean canPlayerOption4(Player target) {
 		return false;
 	}
@@ -159,7 +167,7 @@ public class DeathOfficeController extends Controller {
 
 		if (region == null)
 			region = new DynamicRegionReference(2, 2);
-		
+
 		region.copyMapSinglePlane(246, 662, () -> {
 			player.reset();
 			player.setNextWorldTile(region.getLocalTile(10, 6));
@@ -193,6 +201,7 @@ public class DeathOfficeController extends Controller {
 		return true;
 	}
 
+	@Override
 	public boolean processButtonClick(int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
 		if (interfaceId == 18) {
 			if (componentId == 9) {
@@ -225,26 +234,22 @@ public class DeathOfficeController extends Controller {
 			player.save("protectSlots", 1);
 		}
 		player.getVars().setVarBit(668, 1); // unlocks camelot respawn
-														// spot
+		// spot
 		player.getVars().setVar(105, -1);
 		player.getVars().setVarBit(9231, currentHub = getCurrentHub(getDeathTile()));
 		player.getPackets().setIFRightClickOps(18, 9, 0, slots[0].length, 0);
 		player.getPackets().setIFRightClickOps(18, 17, 0, 100, 0);
 		player.getPackets().setIFRightClickOps(18, 45, 0, RESPAWN_LOCATIONS.length, 0);
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				WorldTile respawnTile = currentHub >= 256 ? RESPAWN_LOCATIONS[currentHub - 256] : HUBS[currentHub];
-				synchronized (slots) {
-					if (!player.hasRights(Rights.ADMIN))
-						player.sendItemsOnDeath(null, getDeathTile(), respawnTile, false, slots);
-					else {
-						player.sendMessage("Slots saved: " + Arrays.deepToString(GraveStone.getItemsKeptOnDeath(player, slots)));
-					}
-				}
-				player.setCloseInterfacesEvent(null);
-				Magic.sendObjectTeleportSpell(player, true, respawnTile);
+		player.setCloseInterfacesEvent(() -> {
+			WorldTile respawnTile = currentHub >= 256 ? RESPAWN_LOCATIONS[currentHub - 256] : HUBS[currentHub];
+			synchronized (slots) {
+				if (!player.hasRights(Rights.ADMIN))
+					player.sendItemsOnDeath(null, getDeathTile(), respawnTile, false, slots);
+				else
+					player.sendMessage("Slots saved: " + Arrays.deepToString(GraveStone.getItemsKeptOnDeath(player, slots)));
 			}
+			player.setCloseInterfacesEvent(null);
+			Magic.sendObjectTeleportSpell(player, true, respawnTile);
 		});
 	}
 

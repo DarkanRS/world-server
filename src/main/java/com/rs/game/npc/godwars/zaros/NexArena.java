@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,9 +35,9 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
 public class NexArena {
-	
+
 	private static final NexArena GLOBAL_INSTANCE = new NexArena();
-	
+
 	public static NexArena getGlobalInstance() {
 		return GLOBAL_INSTANCE;
 	}
@@ -78,9 +78,8 @@ public class NexArena {
 	}
 
 	public void addPlayer(Player player) {
-		if (players.contains(player)) {
+		if (players.contains(player))
 			return;
-		}
 		players.add(player);
 		startWar();
 	}
@@ -120,7 +119,7 @@ public class NexArena {
 	}
 
 	public List<Entity> getPossibleTargets() {
-		ArrayList<Entity> possibleTarget = new ArrayList<Entity>(players.size());
+		ArrayList<Entity> possibleTarget = new ArrayList<>(players.size());
 		for (Player player : players) {
 			if (player == null || player.isDead() || player.hasFinished() || !player.isRunning())
 				continue;
@@ -137,20 +136,17 @@ public class NexArena {
 
 	public void endWar() {
 		deleteNPCS();
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					startWar();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				startWar();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, Ticks.fromMinutes(1));
 	}
 
 	private void startWar() {
-		if (getPlayersCount() >= 1) {
+		if (getPlayersCount() >= 1)
 			if (nex == null) {
 				nex = new Nex(this, new WorldTile(2924, 5202, 0));
 				WorldTasksManager.schedule(new WorldTask() {
@@ -214,7 +210,6 @@ public class NexArena {
 					}
 				}, 0, 1);
 			}
-		}
 	}
 
 	public List<Player> getPlayers() {

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -104,13 +104,12 @@ public final class NightGazerKhighorahk extends DungeonBoss {
 				try {
 					lightCount--;
 					World.removeObject(light);
-					for (Entity target : getPossibleTargets()) {
+					for (Entity target : getPossibleTargets())
 						if (target.withinDistance(light, 2)) {
 							target.applyHit(new Hit(NightGazerKhighorahk.this, Utils.random((int) (target.getMaxHitpoints() * 0.25)) + 1, HitLook.TRUE_DAMAGE));
 							if (target instanceof Player player)
 								player.sendMessage("You are damaged by the shadows engulfing the pillar of light.");
 						}
-					}
 				} catch (Throwable e) {
 					Logger.handle(e);
 				}

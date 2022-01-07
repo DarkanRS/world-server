@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -96,9 +96,9 @@ public final class CastleWars {
 			}
 		}
 		int powerfullestTeam = getPowerfullestTeam();
-		if (team == GUTHIX) {
+		if (team == GUTHIX)
 			team = powerfullestTeam == ZAMORAK ? SARADOMIN : ZAMORAK;
-		} else if (team == powerfullestTeam) {
+		else if (team == powerfullestTeam) {
 			if (team == ZAMORAK)
 				player.sendMessage("The Zamorak team is powerful enough already! Guthix demands balance - join the Saradomin team instead!");
 			else if (team == SARADOMIN)
@@ -155,19 +155,18 @@ public final class CastleWars {
 	}
 
 	public static void leavePlayersSafely(final int winner) {
-		for (int i = 0; i < playing.length; i++) {
-			for (final Player player : playing[i]) {
+		for (List<Player> element : playing)
+			for (final Player player : element) {
 				player.lock(7);
 				player.stopAll();
 			}
-		}
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (int i = 0; i < playing.length; i++)
 					for (Player player : playing[i].toArray(new Player[playing[i].size()])) {
 						forceRemovePlayingPlayer(player);
-						if (winner != -1) {
+						if (winner != -1)
 							if (winner == -2) {
 								player.sendMessage("You draw.");
 								player.getInventory().addItem(CW_TICKET, 1);
@@ -176,7 +175,6 @@ public final class CastleWars {
 								player.getInventory().addItem(CW_TICKET, 2);
 							} else
 								player.sendMessage("You lost.");
-						}
 					}
 			}
 		}, 6);
@@ -202,11 +200,9 @@ public final class CastleWars {
 	}
 
 	public static void startGame() {
-		for (int i = 0; i < waiting.length; i++) {
-			for (Player player : waiting[i].toArray(new Player[waiting[i].size()])) {
+		for (int i = 0; i < waiting.length; i++)
+			for (Player player : waiting[i].toArray(new Player[waiting[i].size()]))
 				joinPlayingGame(player, i);
-			}
-		}
 	}
 
 	public static void forceRemovePlayingPlayer(Player player) {
@@ -255,8 +251,8 @@ public final class CastleWars {
 	}
 
 	public static void refreshAllPlayersTime() {
-		for (int i = 0; i < waiting.length; i++)
-			for (Player player : waiting[i])
+		for (List<Player> element : waiting)
+			for (Player player : element)
 				refreshTimeLeft(player);
 		for (int i = 0; i < playing.length; i++)
 			for (Player player : playing[i]) {
@@ -266,21 +262,19 @@ public final class CastleWars {
 	}
 
 	public static void refreshAllPlayersPlaying() {
-		for (int i = 0; i < playing.length; i++)
-			for (Player player : playing[i])
+		for (List<Player> element : playing)
+			for (Player player : element)
 				playingGame.refresh(player);
 	}
 
 	public static void addHintIcon(int team, Player target) {
-		for (Player player : playing[team]) {
+		for (Player player : playing[team])
 			player.getHintIconsManager().addHintIcon(target, 0, -1, false);
-		}
 	}
 
 	public static void removeHintIcon(int team) {
-		for (Player player : playing[team]) {
+		for (Player player : playing[team])
 			player.getHintIconsManager().removeUnsavedHintIcon();
-		}
 	}
 
 	public static void addScore(Player player, int team, int flagTeam) {
@@ -326,8 +320,8 @@ public final class CastleWars {
 		private int[] score;
 		private int[] flagStatus;
 		private int[] barricadesCount;
-		private final LinkedList<GameObject> spawnedObjects = new LinkedList<GameObject>();
-		private final LinkedList<CastleWarBarricade> barricades = new LinkedList<CastleWarBarricade>();
+		private final LinkedList<GameObject> spawnedObjects = new LinkedList<>();
+		private final LinkedList<CastleWarBarricade> barricades = new LinkedList<>();
 
 		public PlayingGame() {
 			reset();
@@ -375,11 +369,9 @@ public final class CastleWars {
 		}
 
 		public void takeFlag(Player player, int team, int flagTeam, GameObject object, boolean droped) {
-			if (!droped && team == flagTeam)
+			if ((!droped && team == flagTeam) || (droped && flagStatus[flagTeam] != DROPPED))
 				return;
-			if (droped && flagStatus[flagTeam] != DROPPED)
-				return;
-			else if (!droped && flagStatus[flagTeam] != SAFE)
+			if (!droped && flagStatus[flagTeam] != SAFE)
 				return;
 
 			if (flagTeam != team && (player.getEquipment().getWeaponId() != -1 || player.getEquipment().getShieldId() != -1)) {
@@ -413,12 +405,11 @@ public final class CastleWars {
 
 		private void makeSafe(int flagTeam) {
 			GameObject flagStand = null;
-			for (GameObject object : spawnedObjects) {
+			for (GameObject object : spawnedObjects)
 				if (object.getId() == (flagTeam == SARADOMIN ? 4377 : 4378)) {
 					flagStand = object;
 					break;
 				}
-			}
 			if (flagStand == null)
 				return;
 			World.removeObject(flagStand);
@@ -458,33 +449,32 @@ public final class CastleWars {
 	}
 
 	public static void handleInterfaces(Player player, int interfaceId, int componentId) {
-		if (interfaceId == 55) {
+		if (interfaceId == 55)
 			if (componentId == 9)
 				player.closeInterfaces();
-		}
 	}
-	
+
 	public static ObjectClickHandler handleScoreboard = new ObjectClickHandler(new Object[] { 4484 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().getDialogueManager().execute(new CastleWarsScoreboard());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleJoinZamorak = new ObjectClickHandler(new Object[] { 4388 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			joinPortal(e.getPlayer(), ZAMORAK);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleJoinGuthix = new ObjectClickHandler(new Object[] { 4408 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			joinPortal(e.getPlayer(), GUTHIX);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleJoinSaradomin = new ObjectClickHandler(new Object[] { 4387 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

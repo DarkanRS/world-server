@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -53,7 +53,7 @@ public class InterfaceName {
 		 * .getTable().getArchives()[884].getNameHash(); for(char l1 :
 		 * VALID_CHARS) { System.out.println(l1); for(char l2 : VALID_CHARS) {
 		 * for(char l3 : VALID_CHARS) {
-		 * 
+		 *
 		 * for(char l4 : VALID_CHARS) { for(char l5 : VALID_CHARS) { for(char l6
 		 * : VALID_CHARS) { String name = new String(new char[] {l1, l2, l3,
 		 * l4,l5, l6}); if(Utils.getNameHash(name) == hash)

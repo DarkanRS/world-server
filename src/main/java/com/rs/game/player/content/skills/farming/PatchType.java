@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -20,7 +20,7 @@ public enum PatchType {
 	ALLOTMENT(2) {
 		@Override
 		int getVarBitValue(FarmPatch patch) {
-			if (patch.location == PatchLocation.Burthorpe_potato_patch) {
+			if (patch.location == PatchLocation.Burthorpe_potato_patch)
 				switch(patch.growthStage) {
 				case 0:
 					return 6;
@@ -31,7 +31,6 @@ public enum PatchType {
 				default:
 					return 7;
 				}
-			}
 			int value = patch.seed.varBitPlanted + patch.growthStage;
 			if (patch.dead)
 				value |= 192;
@@ -86,8 +85,7 @@ public enum PatchType {
 			if (patch.checkedHealth) {
 				if (patch.lives == -1)
 					return baseValue + 2;
-				else
-					return baseValue + 1;
+				return baseValue + 1;
 			}
 			if (patch.dead)
 				return baseValue + 128;
@@ -100,12 +98,12 @@ public enum PatchType {
 		@Override
 		int getVarBitValue(FarmPatch patch) {
 			int baseValue = patch.growthStage + patch.seed.varBitPlanted;
-			
+
 			if (!patch.checkedHealth && patch.fullyGrown())
 				return patch.seed.varBitPlanted + 26;
 			if (patch.lives == -1)
 				return patch.seed.varBitPlanted + 25;
-			
+
 			if (patch.dead)
 				baseValue += 18;
 			else if (patch.diseased)
@@ -335,26 +333,25 @@ public enum PatchType {
 					return 15;
 				else
 					return 5;
-			} else {
-				switch(patch.seed) {
-				case Compost:
-				case Supercompost:
-					if (patch.lives == 0 || !patch.checkedHealth)
-						return 31;
-					else if (patch.lives >= 7)
-						return patch.seed == ProduceType.Compost ? 30 : 62;
-					else
-						return patch.seed == ProduceType.Compost ? 29 : 61;
-				default:
-					return 0;
-				}
+			}
+			switch(patch.seed) {
+			case Compost:
+			case Supercompost:
+				if (patch.lives == 0 || !patch.checkedHealth)
+					return 31;
+				else if (patch.lives >= 7)
+					return patch.seed == ProduceType.Compost ? 30 : 62;
+				else
+					return patch.seed == ProduceType.Compost ? 29 : 61;
+			default:
+				return 0;
 			}
 		}
 	};
-	
+
 	private int growthTicksPerStage;
 	abstract int getVarBitValue(FarmPatch patch);
-	
+
 	private PatchType(int growthTicksPerStage) {
 		this.growthTicksPerStage = growthTicksPerStage;
 	}

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -211,9 +211,9 @@ public enum Quest {
 	FIREMAKERS_CURSE(199, 191),
 	SONG_FROM_DEPTHS(202, 192);
 
-	private static HashMap<Integer, Quest> QUESTS_BY_ID = new HashMap<Integer, Quest>();
-	private static HashMap<Integer, Quest> QUESTS_BY_SLOTID = new HashMap<Integer, Quest>();
-	
+	private static HashMap<Integer, Quest> QUESTS_BY_ID = new HashMap<>();
+	private static HashMap<Integer, Quest> QUESTS_BY_SLOTID = new HashMap<>();
+
 	static {
 		for (Quest quest : Quest.values()) {
 			QUESTS_BY_ID.put(quest.id, quest);
@@ -221,7 +221,7 @@ public enum Quest {
 		}
 		initializeHandlers();
 	}
-	
+
 	public static void initializeHandlers() {
 		try {
 			ArrayList<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs.game.player.quests.handlers", QuestHandler.class);
@@ -235,22 +235,22 @@ public enum Quest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Quest forId(int id) {
 		return QUESTS_BY_ID.get(id);
 	}
-	
+
 	public static Quest forSlot(int id) {
 		return QUESTS_BY_SLOTID.get(id);
 	}
-	
+
 	private int id, slotId;
 	private QuestOutline handler;
-	
+
 	private Quest(int id, int slotId) {
 		this(id, slotId, null);
 	}
-	
+
 	private Quest(int id, int slotId, QuestOutline handler) {
 		this.id = id;
 		this.slotId = slotId;
@@ -260,58 +260,56 @@ public enum Quest {
 	public int getId() {
 		return id;
 	}
-	
+
 	public boolean isImplemented() {
 		return handler != null;
 	}
-	
+
 	public QuestOutline getHandler() {
 		return handler;
 	}
-	
+
 	public boolean meetsRequirements(Player player) {
 		return meetsRequirements(player, null);
 	}
-	
+
 	public boolean meetsRequirements(Player player, String actionStr) {
 		boolean meetsRequirements = true;
-		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet()) {
+		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet())
 			if (player.getSkills().getLevelForXp(skillId) < getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)) {
 				if (actionStr != null)
 					player.sendMessage("You need a " + Skills.SKILL_NAME[skillId] + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
 				meetsRequirements = false;
 			}
-		}
 		if (!meetsRequirements && actionStr != null)
 			player.sendMessage("You must meet the requirements for " + getDefs().name + " " + actionStr);
 		return meetsRequirements;
 	}
-	
+
 	public String getQuestPointRewardLine() {
 		int qp = getDefs().questpointReward;
 		return "<br>"+qp+" Quest point"+(qp > 1 ? "s" : "")+"<br>";
 	}
-	
+
 	public void sendQuestCompleteInterface(Player player, int itemId, String... lines) {
 		String line = "" + getQuestPointRewardLine();
-		for (String l : lines) {
+		for (String l : lines)
 			line += l + "<br>";
-		}
 
-        //random quest jingle
-        int jingleNum = Utils.random(0, 4);
-        if(jingleNum == 3)
-            jingleNum = 318;
-        else
-            jingleNum+=152;
-        player.getPackets().sendMusicEffect(jingleNum);
+		//random quest jingle
+		int jingleNum = Utils.random(0, 4);
+		if(jingleNum == 3)
+			jingleNum = 318;
+		else
+			jingleNum+=152;
+		player.getPackets().sendMusicEffect(jingleNum);
 
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getDefs().name+"!");
 		player.getPackets().setIFText(1244, 26, line);
 	}
-	
+
 	public QuestDefinitions getDefs() {
 		return QuestDefinitions.getQuestDefinitions(id);
 	}

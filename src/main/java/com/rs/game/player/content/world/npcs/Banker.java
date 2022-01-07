@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,7 +35,7 @@ public class Banker extends Conversation {
 
 	public Banker(Player player, NPC npc) {
 		super(player);
-		
+
 		addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "Good day. How may I help you?");
 		addOptions(new Options() {
 			@Override
@@ -44,22 +44,22 @@ public class Banker extends Conversation {
 				option("I'd like to check my PIN settings.", () -> player.getBank().openPinSettings());
 				option("I'd like to see my collection box.", () -> GE.openCollection(player));
 				option("What is this place?", new Dialogue()
-					.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "This is a branch of the Bank of Gielinor. We have branches in many towns.")
-					.addOptions(new Options() {
-						@Override
-						public void create() {
-							option("And what do you do?", new Dialogue()
-								.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "We will look after your items and money for you. Leave your valuables with us if you want to keep them safe."));
-							option("Didn't you used to be called the Bank of Varrock?", new Dialogue()
-								.addNPC(npc.getId(), HeadE.CALM_TALK, "Yes we did, but people kept on coming into our branches outside of Varrock and telling us that our signs were wrong. They acted as if we didn't know what town we were in or something."));
-						}
-					}));
+						.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "This is a branch of the Bank of Gielinor. We have branches in many towns.")
+						.addOptions(new Options() {
+							@Override
+							public void create() {
+								option("And what do you do?", new Dialogue()
+										.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "We will look after your items and money for you. Leave your valuables with us if you want to keep them safe."));
+								option("Didn't you used to be called the Bank of Varrock?", new Dialogue()
+										.addNPC(npc.getId(), HeadE.CALM_TALK, "Yes we did, but people kept on coming into our branches outside of Varrock and telling us that our signs were wrong. They acted as if we didn't know what town we were in or something."));
+							}
+						}));
 			}
 		});
-		
+
 		create();
 	}
-	
+
 	public static NPCInteractionDistanceHandler bankerDistance = new NPCInteractionDistanceHandler("Banker") {
 		@Override
 		public int getDistance(Player player, NPC npc) {
@@ -83,7 +83,7 @@ public class Banker extends Conversation {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler bankObjHandler = new ObjectClickHandler(new Object[] { "Bank booth", "Bank", "Bank chest", "Bank table", "Counter", "Shantay chest", "Darkmeyer Treasury" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -108,7 +108,7 @@ public class Banker extends Conversation {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler depositBoxHandler = new ObjectClickHandler(new Object[] { "Bank deposit box", "Deposit box", "Deposit Box", "Deposit chest", "Pulley lift" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

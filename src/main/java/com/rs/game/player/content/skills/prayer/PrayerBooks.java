@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -45,13 +45,12 @@ public class PrayerBooks {
 			{ "As ye vow to be at peace with each other, And to uphold high values of morality and friendship, I now pronounce you united in the law of Armadyl.", "Thou didst fight true, but the foe was too great. May thy return be as swift as the flight of Armadyl.", "For thy task is lawful, May the blessing of Armadyl be upon thee.", "Do not let thy vision be clouded by evil, Look up, for the truth cometh from the skies. This is the law of Armadyl.", "It is honourable to resist, And fight for what thou believe is just. This is the law of Armadyl.", "Peace shall bring thee wisdom; Wisdom shall bring thee peace. This is the law of Armadyl.", "Thou shalt avoid war; but, if thou must fight, Believe, and thou shalt strike true. This is the law of Armadyl.", "Thou shalt fly like the bird, Not like the rock. This is the law of Armadyl.", "To those cursed by war and pest, Come into the light of Armadyl and rest. This is the law of Armadyl.", }, { "Ye faithful and loyal to the Great Lord, May ye together succeed in your deeds, Ye are now joined by the greatest power.", "Thy faith faltered, no power could save thee. Like the Great Lord, one day you shall rise again.", "By day or night, in defeat or victory, The power of the Great Lord be with thee.", "Though your enemies wish to silence thee, Do not falter, defy them to the end. Power to the Great Lord!", "The followers of the Great Lord are few, But they are powerful and mighty. Power to the Great Lord!", "Follower of the Great Lord be relieved: One day your loyalty will be rewarded. Power to the Great Lord!", "Pray for the day that the Great Lord rises; It is that day thou shalt be rewarded. Power to the Great Lord!", "Oppressed thou art, but fear not: The day will come when the Great Lord rises. Power to the Great Lord!", "Fighting oppression is the wisest way, To prove your worth to the Great Lord. Power to the Great Lord!", } };
 
 	public static boolean isGodBook(int bookId, boolean complete) {
-		for (int book : BOOKS) {
+		for (int book : BOOKS)
 			if (book + (complete ? 1 : 0) == bookId)
 				return true;
-		}
 		return false;
 	}
-	
+
 	public static ItemClickHandler handleGodBooks = new ItemClickHandler(BOOKS, new String[] { "Preach" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -63,12 +62,11 @@ public class PrayerBooks {
 		int god = (bookId - (bookId > 5000 ? BOOKS[3] - 6 : BOOKS[0])) / 2;
 		boolean containsGodPages = true;
 
-		for (int pageIndex = 0; pageIndex < 4; pageIndex++) {
+		for (int pageIndex = 0; pageIndex < 4; pageIndex++)
 			if (!player.getInventory().containsItem(PAGE_BASE[god] + pageIndex, 1)) {
 				containsGodPages = false;
 				break;
 			}
-		}
 
 		if (containsGodPages) {
 			for (int pageIndex = 0; pageIndex < 4; pageIndex++)
@@ -77,9 +75,8 @@ public class PrayerBooks {
 			player.getInventory().addItem(BOOKS[god] + 1, 1);
 			player.sendMessage("You bind all four pages into the book.");
 			player.getPrayerBook()[god] = true;
-		} else {
+		} else
 			player.sendMessage("You need all four pages to create this book.");
-		}
 
 	}
 
@@ -94,10 +91,9 @@ public class PrayerBooks {
 				String[] passages = CHANTS[god];
 				String message = passages[option];
 
-				if (option == 3) {
+				if (option == 3)
 					if (passages.length > 3)
 						message = passages[3 + Utils.random(passages.length - 3)];
-				}
 				int animation = ANIMATIONS[god];
 				if (animation != -1)
 					player.setNextAnimation(new Animation(animation));

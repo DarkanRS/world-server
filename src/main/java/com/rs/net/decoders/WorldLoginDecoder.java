@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -63,10 +63,8 @@ public final class WorldLoginDecoder extends Decoder {
 		}
 		if (packetId == 16 || packetId == 18) // 16 world login
 			return decodeWorldLogin(stream);
-		else {
-			session.getChannel().close();
-			return -1;
-		}
+		session.getChannel().close();
+		return -1;
 	}
 
 	@SuppressWarnings("unused")
@@ -113,19 +111,17 @@ public final class WorldLoginDecoder extends Decoder {
 		stream.skip(24); // 24bytes directly from a file, no idea whats there
 		String settings = stream.readString();
 		int affid = stream.readInt();
-		
+
 		int prefSize = stream.readUnsignedByte();
 		int[] prefs = new int[prefSize];
-		for (int i = 0;i < prefs.length;i++) {
+		for (int i = 0;i < prefs.length;i++)
 			prefs[i] = stream.readUnsignedByte();
-			//System.out.println(i+": " + prefs[i]);
-		}
-		
+		//System.out.println(i+": " + prefs[i]);
+
 		MachineInformation mInformation = null;
 		int success = stream.readUnsignedByte();
-		if (success != 6) {
+		if (success != 6)
 			System.out.println("Failed to parse machine info");
-		}
 		int os = stream.readUnsignedByte();
 		boolean x64OS = stream.readUnsignedByte() == 1;
 		stream.readUnsignedByte();
@@ -149,9 +145,8 @@ public final class WorldLoginDecoder extends Decoder {
 		int cpuCores = stream.readUnsignedByte();
 		int rawCPUInformation = stream.readUnsignedByte();
 		int[] rawCPUInformationData = new int[3];
-		for (int i = 0;i < rawCPUInformationData.length;i++) {
+		for (int i = 0;i < rawCPUInformationData.length;i++)
 			rawCPUInformationData[i] = stream.readInt();
-		}
 		int rawCPUInformation2 = stream.readInt();
 		stream.readInt();
 		stream.readLong();
@@ -189,7 +184,7 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(9);
 			return -1;
 		}
-		
+
 		Account a = null;
 		try {
 			a = LobbyCommunicator.getAccountSync(username, password);
@@ -203,7 +198,7 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(3);
 			return -1;
 		}
-		
+
 		if (World.containsPlayer(account.getUsername())) {
 			session.sendClientPacket(5);
 			return -1;

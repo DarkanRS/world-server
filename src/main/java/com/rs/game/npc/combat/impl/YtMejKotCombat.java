@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,21 +38,19 @@ public class YtMejKotCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), defs.getAttackStyle(), target)));
-		if (npc.getHitpoints() < npc.getMaxHitpoints() / 2) {
+		if (npc.getHitpoints() < npc.getMaxHitpoints() / 2)
 			if (npc.getTempAttribs().removeB("Heal")) {
 				npc.setNextSpotAnim(new SpotAnim(2980, 0, 100));
 				Set<Integer> npcIndexes = World.getRegion(npc.getRegionId()).getNPCsIndexes();
-				if (npcIndexes != null) {
+				if (npcIndexes != null)
 					for (int npcIndex : npcIndexes) {
 						NPC n = World.getNPCs().get(npcIndex);
 						if (n == null || n.isDead() || n.hasFinished())
 							continue;
 						n.heal(100);
 					}
-				}
 			} else
 				npc.getTempAttribs().setB("Heal", Boolean.TRUE);
-		}
 		return npc.getAttackSpeed();
 	}
 }

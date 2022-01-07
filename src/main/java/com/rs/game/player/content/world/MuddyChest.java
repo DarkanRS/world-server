@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,12 +32,12 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class MuddyChest {
 
-	private final static DropSet REWARDS = new DropSet( 
+	private final static DropSet REWARDS = new DropSet(
 			new DropTable(995, 5000),
 			new DropTable(75, 100, new Drop(995, 10000), new Drop(1392, 2), new Drop(565, 20), new Drop(5300, 1)),
 			new DropTable(20, 100, 1305, 1),
 			new DropTable(5, 100, 989, 1));
-	
+
 	public static ObjectClickHandler openChest = new ObjectClickHandler(new Object[] { 170 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -58,9 +58,8 @@ public class MuddyChest {
 							e.getPlayer().getInventory().addItem(item.getId(), item.getAmount(), true);
 					}
 				}, 0);
-			} else {
+			} else
 				e.getPlayer().sendMessage("The chest is locked.");
-			}
 		}
 	};
 }

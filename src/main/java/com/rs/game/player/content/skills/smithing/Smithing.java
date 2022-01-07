@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 
 public class Smithing extends Action {
-	
+
 	public enum ForgingBar {
 
 		ADAMANT(2361, 70, new Item[] { new Item(1211, 1), new Item(1357, 1), new Item(1430, 1), new Item(1145, 1), new Item(9380, 1), new Item(1287, 1), new Item(823, 1), new Item(4823, 1), new Item(-1, 1), new Item(-1, 1), new Item(-1, 1),
@@ -54,12 +54,11 @@ public class Smithing extends Action {
 				new Item(41, 1), new Item(1325, 1), new Item(9425, 1), new Item(1295, 1), new Item(865, 1), new Item(1157, 1), new Item(1177, 1), new Item(4544, 1), new Item(-1, 1), new Item(1339, 1), new Item(1365, 1), new Item(1105, 1),
 				new Item(1193, 1), new Item(3097, 1), new Item(1311, 1), new Item(1083, 1), new Item(1069, 1), new Item(1119, 1), new Item(1269, 1) }, new double[] { 37.5, 75, 112.5, 187.5 }, new int[] { 66, 98, 162, 210, 267 });
 
-		private static Map<Integer, ForgingBar> bars = new HashMap<Integer, ForgingBar>();
+		private static Map<Integer, ForgingBar> bars = new HashMap<>();
 
 		static {
-			for (ForgingBar bar : ForgingBar.values()) {
+			for (ForgingBar bar : ForgingBar.values())
 				bars.put(bar.getBarId(), bar);
-			}
 		}
 
 		public static ForgingBar forId(int id) {
@@ -148,17 +147,15 @@ public class Smithing extends Action {
 		player.setNextAnimation(new Animation(898));
 		int amount = ForgingInterface.getActualAmount(bar.getLevel() + ForgingInterface.getFixedAmount(bar, bar.getItems()[index]), bar, bar.getItems()[index].getId());
 
-		if (player.hasScrollOfEfficiency && amount > 3) {
+		if (player.hasScrollOfEfficiency && amount > 3)
 			if (Utils.getRandomInclusive(15) == 5)
 				amount--;
-		}
 
 		player.getInventory().deleteItem(bar.getBarId(), amount);
 		player.getInventory().addItem(bar.getItems()[index].getId(), ForgingInterface.getForgedAmount(bar.getItems()[index].getId())*10);
 		player.getSkills().addXp(Constants.SMITHING, getExperience(player));
-		if (ticks > 0) {
+		if (ticks > 0)
 			return 3;
-		}
 		return -1;
 	}
 
@@ -170,9 +167,8 @@ public class Smithing extends Action {
 
 	@Override
 	public boolean start(Player player) {
-		if ((bar = player.getTempAttribs().getO("SmithingBar")) == null) {
+		if ((bar = player.getTempAttribs().getO("SmithingBar")) == null)
 			return false;
-		}
 		if (!player.getInventory().containsOneItem(HAMMER, bar.getBarId())) {
 			player.sendMessage("You need a hammer in order to work with a bar of " + new Item(bar.getBarId(), 1).getDefinitions().getName().replace("Bar ", "") + ".");
 			return false;
@@ -186,6 +182,6 @@ public class Smithing extends Action {
 
 	@Override
 	public void stop(Player player) {
-		this.setActionDelay(player, 3);
+		setActionDelay(player, 3);
 	}
 }

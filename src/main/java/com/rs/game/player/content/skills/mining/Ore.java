@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -37,7 +37,7 @@ public enum Ore {
 	SILVER(442, 20, 40, 30, 130, 1),
 	COAL(453, 30, 50, 30, 130, 1),
 	GOLD(444, 40, 65, 30, 100, 1),
-    PERFECT_GOLD(446, 40, 65, 30, 100, 1),
+	PERFECT_GOLD(446, 40, 65, 30, 100, 1),
 	LUNAR(9076, 60, 25, 50, 130, 0),
 	MITHRIL(447, 55, 80, 10, 40, 1),
 	GRANITE_500G(6979, 45, 50, 16, 100, 0),
@@ -92,14 +92,14 @@ public enum Ore {
 		public boolean checkRequirements(Player player) {
 			return player.getSkills().getLevel(Constants.MINING) >= getLevel() && player.getDailyI("redSandstoneMined") < 50;
 		}
-		
+
 		@Override
 		public void onGiveOre(Player player) {
 			player.incDailyI("redSandstoneMined");
 			player.getVars().setVarBit(10133, player.getDailyI("redSandstoneMined"));
 		}
 	};
-	
+
 	private int id, level;
 	private int rate1, rate99;
 	private double xp;
@@ -113,7 +113,7 @@ public enum Ore {
 		this.rate99 = rate99;
 		this.rollGem = rollGem;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -125,29 +125,28 @@ public enum Ore {
 	public double getXp() {
 		return xp;
 	}
-	
+
 	public int getRollGem() {
 		return rollGem;
 	}
-	
+
 	public boolean checkRequirements(Player player) {
 		return player.getSkills().getLevel(Constants.MINING) >= level;
 	}
-	
+
 	public boolean rollSuccess(Player player, int level) {
 		return Utils.skillSuccess(level, player.getAuraManager().getMiningMul(), rate1, rate99*10);
 	}
-	
+
 	public void onGiveOre(Player player) { }
-	
+
 	public void giveOre(Player player) {
 		Item ore = new Item(id, 8);
 		double totalXp = xp * Mining.getXPMultiplier(player)*8;
 		if (player.hasEffect(Effect.JUJU_MINING)) {
 			int random = Utils.random(100);
-			if (random < 11) {
+			if (random < 11)
 				player.addEffect(Effect.JUJU_MINE_BANK, 75);
-			}
 		}
 		player.sendMessage("You successfully mine " + Utils.addArticle(ore.getDefinitions().getName().toLowerCase()) + ".", true);
 		if (player.hasEffect(Effect.JUJU_MINE_BANK)) {

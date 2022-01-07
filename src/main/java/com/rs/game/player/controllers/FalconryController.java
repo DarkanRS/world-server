@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -20,7 +20,6 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.player.content.skills.hunter.FlyingEntityHunter.DynamicFormula;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasksManager;
@@ -45,7 +44,8 @@ public class FalconryController extends Controller {
 		if ((player.getEquipment().getItem(3) != null && player.getEquipment().getItem(3).getId() == -1) || (player.getEquipment().getItem(5) != null && player.getEquipment().getItem(5).getId() == -1)) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You need both hands free to use a falcon.");
 			return;
-		} else if (player.getSkills().getLevel(Constants.HUNTER) < 43) {
+		}
+		if (player.getSkills().getLevel(Constants.HUNTER) < 43) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You need a Hunter level of at least 43 to use a falcon, come back later.");
 			return;
 		}
@@ -96,17 +96,14 @@ public class FalconryController extends Controller {
 				return false;
 			}
 			int level = levels[(npc.getId() - 5098)];
-			if (proccessFalconAttack(npc)) {
+			if (proccessFalconAttack(npc))
 				if (player.getSkills().getLevel(Constants.HUNTER) < level) {
 					player.getDialogueManager().execute(new SimpleMessage(), "You need a Hunter level of " + level + " to capture this kebbit.");
 					return true;
-				} else if (FlyingEntityHunter.isSuccessful(player, level, new DynamicFormula() {
-					@Override
-					public int getExtraProbablity(Player player) {
-						if (player.getEquipment().getGlovesId() == 10075)
-							return 3;
-						return 1;
-					}
+				} else if (FlyingEntityHunter.isSuccessful(player, level, player -> {
+					if (player.getEquipment().getGlovesId() == 10075)
+						return 3;
+					return 1;
 				})) {
 					player.getEquipment().set(3, new Item(10023, 1));
 					player.getEquipment().refresh(3);
@@ -155,9 +152,9 @@ public class FalconryController extends Controller {
 						}
 					});
 				}
-			}
 			return false;
-		} else if (npc.getDefinitions().getName().toLowerCase().contains("gyr falcon")) {
+		}
+		if (npc.getDefinitions().getName().toLowerCase().contains("gyr falcon")) {
 			NPC kill = player.getTempAttribs().getO("ownedFalcon");
 			if (kill == null)
 				return false;
@@ -190,10 +187,9 @@ public class FalconryController extends Controller {
 		int size = player.getSize();
 		int maxDistance = 16;
 		player.resetWalkSteps();
-		if ((!player.lineOfSightTo(target, maxDistance == 0)) || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance) {
+		if ((!player.lineOfSightTo(target, maxDistance == 0)) || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 			if (!player.calcFollow(target, 2, true, true))
 				return true;
-		}
 		return true;
 	}
 }

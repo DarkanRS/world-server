@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ public class Wolverine extends NPC {
 	public Wolverine(Player target, int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(id, tile);
 		setCombatLevel(target.getSkills().getCombatLevel() + new Random().nextInt(100) + 100);
-		int hitpoints = 1000 + this.getCombatLevel() + target.getSkills().getCombatLevel() / 2 + new Random().nextInt(10);
+		int hitpoints = 1000 + getCombatLevel() + target.getSkills().getCombatLevel() / 2 + new Random().nextInt(10);
 		super.getCombatDefinitions().setHitpoints(hitpoints);
 		setHitpoints(hitpoints);
 		setRandomWalk(true);

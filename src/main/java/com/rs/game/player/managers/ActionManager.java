@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,13 +32,11 @@ public final class ActionManager {
 	}
 
 	public void process() {
-		if (action != null) {
-			if (player.isDead()) {
+		if (action != null)
+			if (player.isDead())
 				forceStop();
-			} else if (!action.process(player)) {
+			else if (!action.process(player))
 				forceStop();
-			}
-		}
 		if (actionDelay > 0) {
 			actionDelay--;
 			return;
@@ -59,7 +57,7 @@ public final class ActionManager {
 		forceStop();
 		if (!skill.start(player))
 			return false;
-		this.action = skill;
+		action = skill;
 		return true;
 	}
 
@@ -75,11 +73,11 @@ public final class ActionManager {
 	}
 
 	public void addActionDelay(int skillDelay) {
-		this.actionDelay += skillDelay;
+		actionDelay += skillDelay;
 	}
 
 	public void setActionDelay(int skillDelay) {
-		this.actionDelay = skillDelay;
+		actionDelay = skillDelay;
 	}
 
 	public boolean hasSkillWorking() {

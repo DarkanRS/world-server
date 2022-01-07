@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,7 +30,7 @@ import com.rs.utils.Ticks;
 
 public final class BrimhavenAgilityController extends Controller {
 
-	private static final List<Player> players = new ArrayList<Player>();
+	private static final List<Player> players = new ArrayList<>();
 	private static PlayingGame currentGame;
 	private static BladesManager bladesManager;
 
@@ -119,17 +119,16 @@ public final class BrimhavenAgilityController extends Controller {
 	@Override
 	public boolean processObjectClick1(final GameObject object) {
 		if (object.getId() == 3581 || object.getId() == 3608) {
-			if (PlayingGame.taggedDispenser == null || PlayingGame.taggedDispenser.getTileHash() != object.getTileHash()) {
+			if (PlayingGame.taggedDispenser == null || PlayingGame.taggedDispenser.getTileHash() != object.getTileHash())
 				return false;
-			}
 			int stage = player.getTempAttribs().getI("BrimhavenAgility");
 			if (stage == -1) {
 				player.getTempAttribs().setI("BrimhavenAgility", 0);
 				player.getVars().setVarBit(4456, 1);
 				player.sendMessage("You get tickets by tagging more than one pillar in a row. Tag the next pillar!");
-			} else if (stage == 0) {
+			} else if (stage == 0)
 				player.sendMessage("You have already tagged this pillar, wait until the arrow moves again.");
-			} else {
+			else {
 				if (!player.getInventory().hasFreeSlots() && !player.getInventory().containsOneItem(2996)) {
 					player.sendMessage("Not enough space in your inventory.");
 					return false;

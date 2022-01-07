@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -48,11 +48,10 @@ public class BrutalDragonCombat extends CombatScript {
 			} else {
 				damage = Utils.getRandomInclusive(500);
 				int protection = PlayerCombat.getAntifireLevel(target, true);
-				if (protection == 1) {
+				if (protection == 1)
 					damage = Utils.getRandomInclusive(50);
-				} else if (protection == 2) {
+				else if (protection == 2)
 					damage = 0;
-				}
 				npc.setNextAnimation(new Animation(12259));
 				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));
@@ -62,22 +61,20 @@ public class BrutalDragonCombat extends CombatScript {
 			if (npc.withinDistance(target, 3)) {
 				damage = Utils.getRandomInclusive(650);
 				int protection = PlayerCombat.getAntifireLevel(target, true);
-				if (protection == 1) {
+				if (protection == 1)
 					damage = Utils.getRandomInclusive(300);
-				} else if (protection == 2) {
+				else if (protection == 2)
 					damage = 0;
-				}
 				npc.setNextAnimation(new Animation(14245));
 				npc.setNextSpotAnim(new SpotAnim(2465));
 				delayHit(npc, 1, target, getRegularHit(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(650);
 				int protection = PlayerCombat.getAntifireLevel(target, true);
-				if (protection == 1) {
+				if (protection == 1)
 					damage = Utils.getRandomInclusive(40);
-				} else if (protection == 2) {
+				else if (protection == 2)
 					damage = 0;
-				}
 				npc.setNextAnimation(new Animation(12259));
 				WorldProjectile p = World.sendProjectile(npc, target, 393, 28, 32, 50, 2, 16, 0);
 				delayHit(npc, p.getTaskDelay(), target, getRegularHit(npc, damage));

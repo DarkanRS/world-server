@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -43,22 +43,21 @@ public class Sagittare extends DungeonBoss {
 	@Override
 	public void processNPC() {
 		super.processNPC();
-//		int max_hp = getMaxHitpoints();
-//		int current_hp = getHitpoints();
+		//		int max_hp = getMaxHitpoints();
+		//		int current_hp = getHitpoints();
 
-//		if ((current_hp == 1 || current_hp < max_hp * (.25 * stage)) && !special) {
-//			special = true;
-//			stage--;
-//		}
+		//		if ((current_hp == 1 || current_hp < max_hp * (.25 * stage)) && !special) {
+		//			special = true;
+		//			stage--;
+		//		}
 	}
 
 	@Override
 	public void processHit(Hit hit) {
 		int damage = hit.getDamage();
-		if (damage > 0) {
+		if (damage > 0)
 			if (hit.getLook() == HitLook.RANGE_DAMAGE)
 				hit.setDamage((int) (damage * .4));
-		}
 		super.processHit(hit);
 	}
 

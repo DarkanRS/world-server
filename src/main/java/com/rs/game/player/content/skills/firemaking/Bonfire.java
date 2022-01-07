@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,20 +39,20 @@ import com.rs.lib.util.Utils;
 public class Bonfire extends Action {
 
 	public static enum Log {
-		LOG(1511, 3098, 1, 50, 6), 
-		ACHEY(2862, 3098, 1, 50, 6), 
-		OAK(1521, 3099, 15, 75, 12), 
-		WILLOW(1519, 3101, 30, 112.5, 18), 
-		TEAK(6333, 3098, 35, 120, 18), 
-		ARCTIC_PINE(10810, 3098, 42, 135, 18), 
-		MAPLE(1517, 3100, 45, 157, 36), 
-		MAHOGANY(6332, 3098, 50, 180, 36), 
-		EUCALYPTUS(12581, 3112, 58, 241, 48), 
-		YEWS(1515, 3111, 60, 252, 54), 
-		MAGIC(1513, 3135, 75, 378, 60), 
-		BLISTERWOOD(21600, 3113, 76, 378, 60), 
+		LOG(1511, 3098, 1, 50, 6),
+		ACHEY(2862, 3098, 1, 50, 6),
+		OAK(1521, 3099, 15, 75, 12),
+		WILLOW(1519, 3101, 30, 112.5, 18),
+		TEAK(6333, 3098, 35, 120, 18),
+		ARCTIC_PINE(10810, 3098, 42, 135, 18),
+		MAPLE(1517, 3100, 45, 157, 36),
+		MAHOGANY(6332, 3098, 50, 180, 36),
+		EUCALYPTUS(12581, 3112, 58, 241, 48),
+		YEWS(1515, 3111, 60, 252, 54),
+		MAGIC(1513, 3135, 75, 378, 60),
+		BLISTERWOOD(21600, 3113, 76, 378, 60),
 		CURSED_MAGIC(13567, 3116, 82, 378, 60);
-		
+
 		private int logId, gfxId, level, boostTime;
 		private double xp;
 
@@ -80,9 +80,7 @@ public class Bonfire extends Action {
 	}
 
 	private boolean checkAll(Player player) {
-		if (!World.getRegion(object.getRegionId()).objectExists(object))
-			return false;
-		if (!player.getInventory().containsItem(log.logId, 1))
+		if (!World.getRegion(object.getRegionId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FIREMAKING) < log.level) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You need level " + log.level + " Firemaking to add these logs to a bonfire.");
@@ -101,7 +99,7 @@ public class Bonfire extends Action {
 	}
 
 	public static void addLogs(Player player, GameObject object) {
-		ArrayList<Log> possiblities = new ArrayList<Log>();
+		ArrayList<Log> possiblities = new ArrayList<>();
 		for (Log log : Log.values())
 			if (player.getInventory().containsItem(log.logId, 1))
 				possiblities.add(log);

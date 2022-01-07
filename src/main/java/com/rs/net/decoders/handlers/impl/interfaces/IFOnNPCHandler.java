@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -34,9 +34,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 
 	@Override
 	public void handle(Player player, IFOnNPC packet) {
-		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
-			return;
-		if (player.isLocked())
+		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead() || player.isLocked())
 			return;
 		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId())
 			return;
@@ -48,12 +46,11 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapRegionsIds().contains(npc.getRegionId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
 			return;
 		player.stopAll(false);
-		if (packet.getInterfaceId() != Inventory.INVENTORY_INTERFACE) {
+		if (packet.getInterfaceId() != Inventory.INVENTORY_INTERFACE)
 			if (!npc.getDefinitions().hasAttackOption()) {
 				player.sendMessage("You can't attack this npc.");
 				return;
 			}
-		}
 		switch (packet.getInterfaceId()) {
 		case Inventory.INVENTORY_INTERFACE:
 			Item item = player.getInventory().getItem(packet.getSlotId());
@@ -67,10 +64,9 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 				return;
 			player.resetWalkSteps();
 			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || packet.getInterfaceId() == 747 && packet.getComponentId() == 18 || packet.getInterfaceId() == 747 && packet.getComponentId() == 24) {
-				if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18)) {
+				if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
 					if (player.getFamiliar().getSpecialAttack() != SpecialAttack.ENTITY)
 						return;
-				}
 				if (npc instanceof Familiar familiar) {
 					if (familiar == player.getFamiliar()) {
 						player.sendMessage("You can't attack your own familiar.");
@@ -84,10 +80,9 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 				if (!player.getFamiliar().canAttack(npc)) {
 					player.sendMessage("You can only use your familiar in a multi-zone area.");
 					return;
-				} else {
-					player.getFamiliar().setSpecial(packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18);
-					player.getFamiliar().setTarget(npc);
 				}
+				player.getFamiliar().setSpecial(packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18);
+				player.getFamiliar().setTarget(npc);
 			}
 			break;
 		case 950:

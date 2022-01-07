@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,19 +30,18 @@ public class WorldProjectile extends Projectile {
 	public WorldProjectile(WorldTile from, WorldTile to, int spotAnimId, int startHeight, int endHeight, int startTime, int endTime, int slope, int angle, Runnable task) {
 		super(from, to, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
 		Entity fromE = from instanceof Entity e ? e : null;
-		this.sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
+		sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
 		Entity toE = to instanceof Entity e ? e : null;
-		this.lockOnId = toE == null ? 0 : (toE instanceof Player ? -(toE.getIndex() + 1) : toE.getIndex() + 1);
-		
-		if (task != null) {
+		lockOnId = toE == null ? 0 : (toE instanceof Player ? -(toE.getIndex() + 1) : toE.getIndex() + 1);
+
+		if (task != null)
 			WorldTasksManager.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					task.run();
 				}
 			}, getTaskDelay());
-		}
-		
+
 		if (from instanceof Entity e)
 			fromSizeX = fromSizeY = e.getSize();
 		else if (from instanceof GameObject go) {

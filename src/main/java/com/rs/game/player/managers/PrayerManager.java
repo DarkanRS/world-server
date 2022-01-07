@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -49,12 +49,12 @@ public class PrayerManager {
 	private transient int[] statMods;
 	private transient boolean settingQuickPrayers;
 	private transient boolean quickPrayersOn;
-	
+
 	private double points;
 	private boolean curses;
 	private CopyOnWriteArraySet<Prayer> quickPrays = new CopyOnWriteArraySet<>();
 	private CopyOnWriteArraySet<Prayer> quickCurses = new CopyOnWriteArraySet<>();
-	
+
 	public static ButtonClickHandler handlePrayerInterface = new ButtonClickHandler(271) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -64,18 +64,17 @@ public class PrayerManager {
 				e.getPlayer().getPrayer().switchSettingQuickPrayer();
 		}
 	};
-	
+
 	public void switchPrayer(int prayerId) {
 		Prayer prayer = Prayer.forSlot(prayerId, curses);
 		if (prayer == null)
 			return;
-		if (active.contains(prayer) || (settingQuickPrayers && (quickPrays.contains(prayer) || quickCurses.contains(prayer)))) {
+		if (active.contains(prayer) || (settingQuickPrayers && (quickPrays.contains(prayer) || quickCurses.contains(prayer))))
 			closePrayer(prayer);
-		} else {
+		else
 			activatePrayer(prayer);
-		}
 	}
-	
+
 	private boolean canUsePrayer(Prayer prayer) {
 		if (player.getSkills().getLevelForXp(Constants.PRAYER) < prayer.getReq()) {
 			player.sendMessage("You need a prayer level of at least " + prayer.getReq() + " to use this prayer.");
@@ -121,7 +120,7 @@ public class PrayerManager {
 		case DEFLECT_MELEE:
 			if (player.isProtectionPrayBlocked()) {
 				player.sendMessage("You are currently injured and cannot use protection prayers!");
-					return false;
+				return false;
 			}
 			break;
 		default:
@@ -319,10 +318,10 @@ public class PrayerManager {
 	}
 
 	public void closePrayers(Prayer... prayers) {
-		 for (Prayer p : prayers)
-			 closePrayer(p);
+		for (Prayer p : prayers)
+			closePrayer(p);
 	}
-	
+
 	public int getPrayerHeadIcon() {
 		if (active.isEmpty())
 			return -1;
@@ -346,7 +345,7 @@ public class PrayerManager {
 		}
 		if (active.contains(Prayer.PROTECT_MELEE))
 			return 0;
-		else if (active.contains(Prayer.PROTECT_RANGE))
+		if (active.contains(Prayer.PROTECT_RANGE))
 			return 1;
 		else if (active.contains(Prayer.PROTECT_MAGIC))
 			return 2;
@@ -373,25 +372,22 @@ public class PrayerManager {
 		if (player.isDead())
 			return;
 		double drain = 0;
-		for (Prayer p : active) {
+		for (Prayer p : active)
 			drain += p.getDrain();
-		}
 		drain /= 1.0 + ((1.0/30.0) * player.getCombatDefinitions().getBonus(Bonus.PRAYER));
 		if (drain > 0) {
 			drainPrayer(drain);
 			if (!checkPrayer())
 				closeAllPrayers();
 		}
-		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY)) {
-			if (player.getActionManager().getAction() instanceof PlayerCombat combat) {
+		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
+			if (player.getActionManager().getAction() instanceof PlayerCombat combat)
 				if (active(Prayer.TURMOIL))
 					processTurmoil(combat.getTarget());
 				else
 					processLeeches(combat.getTarget());
-			}
-		}
 	}
-	
+
 	private void processTurmoil(Entity target) {
 		if (target == null)
 			return;
@@ -400,11 +396,11 @@ public class PrayerManager {
 			player.getTempAttribs().setO("lastTurmTarget", target);
 		}
 	}
-	
+
 	private void processLeeches(Entity target) {
 		if (target == null)
 			return;
-		for (Sap sap : Sap.values()) {
+		for (Sap sap : Sap.values())
 			if (active(sap.getPrayer()) && Utils.random(4) == 0) {
 				sap.activate(player, target);
 				player.setNextAnimation(new Animation(12569));
@@ -414,8 +410,7 @@ public class PrayerManager {
 						target.setNextSpotAnim(new SpotAnim(sap.getSpotAnimHit()));
 				});
 			}
-		}
-		for (Leech leech : Leech.values()) {
+		for (Leech leech : Leech.values())
 			if (active(leech.getPrayer()) && Utils.random(7) == 0) {
 				leech.activate(player, target);
 				player.setNextAnimation(new Animation(12575));
@@ -424,9 +419,8 @@ public class PrayerManager {
 						target.setNextSpotAnim(new SpotAnim(leech.getSpotAnimHit()));
 				});
 			}
-		}
 	}
-	
+
 	private void setTurmoilBonus(Entity e) {
 		if (e instanceof Player p2) {
 			setStatMod(StatMod.ATTACK, (int) Math.floor(((100 * Math.floor(0.15 * p2.getSkills().getLevelForXp(Constants.ATTACK))) / player.getSkills().getLevelForXp(Constants.ATTACK))));
@@ -448,7 +442,7 @@ public class PrayerManager {
 		player.getAppearance().generateAppearanceData();
 		resetStatMods();
 	}
-	
+
 	public void switchSettingQuickPrayer() {
 		settingQuickPrayers = !settingQuickPrayers;
 		refreshSettingQuickPrayers();
@@ -468,15 +462,14 @@ public class PrayerManager {
 				for (Prayer curse : quickCurses)
 					if (activatePrayer(curse))
 						turnedOn = true;
-			} else {
+			} else
 				for (Prayer prayer : quickPrays)
 					if (activatePrayer(prayer))
 						turnedOn = true;
-			}
 			setQuickPrayersOn(turnedOn);
 		}
 	}
-	
+
 	public void setQuickPrayersOn(boolean on) {
 		quickPrayersOn = on;
 		player.getPackets().sendVarc(182, quickPrayersOn ? 1 : 0);
@@ -490,7 +483,7 @@ public class PrayerManager {
 		}
 		return true;
 	}
-	
+
 	public void refresh() {
 		for (Prayer p : Prayer.values()) {
 			player.getVars().setVarBit(p.getVarBit(), active.contains(p) ? 1 : 0);
@@ -498,7 +491,7 @@ public class PrayerManager {
 		}
 		player.getVars().setVar(1584, curses ? 1 : 0);
 	}
-	
+
 	public void refreshSettingQuickPrayers() {
 		player.getPackets().sendVarc(181, settingQuickPrayers ? 1 : 0);
 	}
@@ -538,21 +531,21 @@ public class PrayerManager {
 		if (quickCurses == null)
 			quickCurses = new CopyOnWriteArraySet<>();
 	}
-	
+
 	private void resetStatMods() {
 		for (StatMod mod : StatMod.values())
 			setStatMod(mod, 0);
 	}
-	
+
 	private int getStatMod(StatMod mod) {
 		return statMods[mod.ordinal()];
 	}
-	
+
 	private void setStatMod(StatMod mod, int bonus) {
 		statMods[mod.ordinal()] = bonus;
 		updateStatMod(mod);
 	}
-	
+
 	public boolean decreaseStatModifier(StatMod mod, int bonus, int max) {
 		if (statMods[mod.ordinal()] > max) {
 			statMods[mod.ordinal()]--;
@@ -561,7 +554,7 @@ public class PrayerManager {
 		}
 		return false;
 	}
-	
+
 	public boolean increaseStatModifier(StatMod mod, int bonus, int max) {
 		if (statMods[mod.ordinal()] < max) {
 			statMods[mod.ordinal()]++;
@@ -570,7 +563,7 @@ public class PrayerManager {
 		}
 		return false;
 	}
-	
+
 	private void updateStatMod(StatMod mod) {
 		player.getVars().setVarBit(6857 + mod.ordinal(), 30 + statMods[mod.ordinal()]);
 	}
@@ -579,7 +572,7 @@ public class PrayerManager {
 		for (StatMod m : StatMod.values())
 			player.getVars().setVarBit(6857 + m.ordinal(), 30 + statMods[m.ordinal()]);
 	}
-	
+
 	public double getMageMultiplier() {
 		if (active.isEmpty())
 			return 1.0;
@@ -649,7 +642,7 @@ public class PrayerManager {
 		if (active.isEmpty())
 			return 1.0;
 		double value = 1.0;
-		
+
 		if (active(Prayer.STR_T1))
 			value += 0.05;
 		else if (active(Prayer.STR_T2))
@@ -674,7 +667,7 @@ public class PrayerManager {
 		if (active.isEmpty())
 			return 1.0;
 		double value = 1.0;
-		
+
 		if (active(Prayer.DEF_T1))
 			value += 0.05;
 		else if (active(Prayer.DEF_T2))
@@ -725,11 +718,11 @@ public class PrayerManager {
 		}
 		refreshPoints();
 	}
-	
+
 	public void drainPrayer() {
 		if (player.getNSV().getB("infPrayer"))
 			return;
-		this.points = 0;
+		points = 0;
 		refreshPoints();
 	}
 
@@ -742,14 +735,14 @@ public class PrayerManager {
 			points = maxPrayer;
 		refreshPoints();
 	}
-	
+
 	public boolean active(Prayer... prayers) {
 		for (Prayer prayer : prayers)
 			if (active.contains(prayer))
 				return true;
 		return false;
 	}
-	
+
 	public static boolean isOverhead(Prayer p) {
 		switch(p) {
 		case PROTECT_MAGIC:
@@ -786,7 +779,7 @@ public class PrayerManager {
 	public boolean isProtectingMelee() {
 		return active(Prayer.PROTECT_MELEE, Prayer.DEFLECT_MELEE);
 	}
-	
+
 	public boolean hasProtectionPrayersOn() {
 		return active(Prayer.PROTECT_MAGIC, Prayer.PROTECT_MELEE, Prayer.PROTECT_RANGE, Prayer.PROTECT_SUMMONING, Prayer.DEFLECT_MAGIC, Prayer.DEFLECT_MELEE, Prayer.DEFLECT_RANGE, Prayer.DEFLECT_SUMMONING);
 	}

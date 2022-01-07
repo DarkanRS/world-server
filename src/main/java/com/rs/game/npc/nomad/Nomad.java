@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -100,14 +100,9 @@ public class Nomad extends NPC {
 				@Override
 				public void run() {
 					Dialogue.closeNoContinueDialogue(target);
-					FadingScreen.fade(target, new Runnable() {
-
-						@Override
-						public void run() {
-							target.getControllerManager().forceStop();
-							target.unlock();
-						}
-
+					FadingScreen.fade(target, () -> {
+						target.getControllerManager().forceStop();
+						target.unlock();
 					});
 				}
 			}, getAttackSpeed() + 1);
@@ -196,7 +191,7 @@ public class Nomad extends NPC {
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				copies = new ArrayList<NPC>();
+				copies = new ArrayList<>();
 				transformIntoNPC(8529);
 				for (int i = 0; i < 4; i++) {
 					NPC n;
@@ -267,7 +262,7 @@ public class Nomad extends NPC {
 	public void setHealed(boolean healed) {
 		this.healed = healed;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8528, 8529, 8530, 8531, 8532) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

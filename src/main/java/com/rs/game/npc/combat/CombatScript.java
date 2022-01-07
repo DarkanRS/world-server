@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -58,7 +58,7 @@ public abstract class CombatScript {
 			});
 		}
 	}
-	
+
 	public static void delayHit(NPC npc, int delay, Entity target, Hit hit) {
 		delayHit(npc, delay, target, hit, null);
 	}
@@ -102,7 +102,7 @@ public abstract class CombatScript {
 	public static int getMaxHit(NPC npc, AttackStyle attackType, Entity target) {
 		return getMaxHit(npc, npc.getMaxHit(attackType), attackType, target);
 	}
-	
+
 	public static int getMaxHit(NPC npc, int maxHit, AttackStyle attackStyle, Entity target) {
 		return getMaxHit(npc, maxHit, attackStyle, target, 1.0D);
 	}
@@ -110,7 +110,7 @@ public abstract class CombatScript {
 	public static int getMaxHit(NPC npc, int maxHit, AttackStyle attackStyle, Entity target, double accuracyModifier) {
 		return getMaxHit(npc, maxHit, null, attackStyle, target, accuracyModifier);
 	}
-	
+
 	public static int getMaxHit(NPC npc, int maxHit, Bonus attackBonus, AttackStyle attackStyle, Entity target) {
 		return getMaxHit(npc, maxHit, attackBonus, attackStyle, target, 1.0D);
 	}
@@ -119,125 +119,114 @@ public abstract class CombatScript {
 		double atkLvl;
 		double atkBonus;
 		Bonus attType;
-		if (attackStyle == AttackStyle.RANGE) {
+		if (attackStyle == AttackStyle.RANGE)
 			atkLvl = npc.getRangeLevel() + 8;
-		} else if (attackStyle == AttackStyle.MAGE) {
+		else if (attackStyle == AttackStyle.MAGE)
 			atkLvl = npc.getMagicLevel() + 8;
-		} else {
+		else
 			atkLvl = npc.getAttackLevel() + 8;
-		}
 		if (attackStyle == AttackStyle.RANGE) {
 			atkBonus = npc.getBonus(Bonus.RANGE_ATT);
 			attType = Bonus.RANGE_ATT;
 		} else if (attackStyle == AttackStyle.MAGE) {
 			atkBonus = npc.getBonus(Bonus.MAGIC_ATT);
 			attType = Bonus.MAGIC_ATT;
-		} else {
-			if (attackBonus == null) {
-				if (npc.getCombatDefinitions().getAttackBonus() == null) {
-					int highest = npc.getBonus(Bonus.STAB_ATT);
-					attType = Bonus.STAB_ATT;
-					if (npc.getBonus(Bonus.SLASH_ATT) > highest) {
-						highest = npc.getBonus(Bonus.SLASH_ATT);
-						attType = Bonus.SLASH_ATT;
-					}
-					if (npc.getBonus(Bonus.CRUSH_ATT) > highest) {
-						highest = npc.getBonus(Bonus.CRUSH_ATT);
-						attType = Bonus.CRUSH_ATT;
-					}
-					atkBonus = highest;
-				} else {
-					attType = npc.getCombatDefinitions().getAttackBonus();
-					atkBonus = npc.getBonus(npc.getCombatDefinitions().getAttackBonus());
+		} else if (attackBonus == null) {
+			if (npc.getCombatDefinitions().getAttackBonus() == null) {
+				int highest = npc.getBonus(Bonus.STAB_ATT);
+				attType = Bonus.STAB_ATT;
+				if (npc.getBonus(Bonus.SLASH_ATT) > highest) {
+					highest = npc.getBonus(Bonus.SLASH_ATT);
+					attType = Bonus.SLASH_ATT;
 				}
+				if (npc.getBonus(Bonus.CRUSH_ATT) > highest) {
+					highest = npc.getBonus(Bonus.CRUSH_ATT);
+					attType = Bonus.CRUSH_ATT;
+				}
+				atkBonus = highest;
 			} else {
-				attType = attackBonus;
-				atkBonus = npc.getBonus(attackBonus);
+				attType = npc.getCombatDefinitions().getAttackBonus();
+				atkBonus = npc.getBonus(npc.getCombatDefinitions().getAttackBonus());
 			}
+		} else {
+			attType = attackBonus;
+			atkBonus = npc.getBonus(attackBonus);
 		}
-		
+
 		double atk = Math.floor(atkLvl * (atkBonus + 64));
 		atk *= accuracyModifier;
-		
+
 		double def;
 		if (target instanceof Player player) {
-			switch (attType) {
-			case RANGE_ATT:
+			def = switch (attType) {
+			case RANGE_ATT -> {
 				double defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
 				double defBonus = player.getCombatDefinitions().getBonus(Bonus.RANGE_DEF);
 				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			case MAGIC_ATT:
-				defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			case MAGIC_ATT -> {
+				double defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
 				defLvl += player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || player.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : player.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
 				defLvl *= 0.3;
 				double magLvl = Math.floor(player.getSkills().getLevel(Constants.MAGIC) * player.getPrayer().getMageMultiplier());
 				magLvl *= 0.7;
-				
 				double totalDefLvl = defLvl+magLvl;
-				
-				defBonus = player.getCombatDefinitions().getBonus(Bonus.MAGIC_DEF);
-				
-				def = Math.floor(totalDefLvl * (defBonus + 64));
-				break;
-			case STAB_ATT:
-			case SLASH_ATT:
-			case CRUSH_ATT:
-				defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
-				defBonus = player.getCombatDefinitions().getBonus(attType == Bonus.CRUSH_ATT ? Bonus.CRUSH_DEF : attType == Bonus.STAB_ATT ? Bonus.STAB_DEF : Bonus.SLASH_DEF);
-				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			default:
-				def = player.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
-				break;
+				double defBonus = player.getCombatDefinitions().getBonus(Bonus.MAGIC_DEF);
+				yield Math.floor(totalDefLvl * (defBonus + 64));
 			}
-			if (attackStyle == AttackStyle.MELEE) {
+			case STAB_ATT, SLASH_ATT, CRUSH_ATT -> {
+				double defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
+				double defBonus = player.getCombatDefinitions().getBonus(attType == Bonus.CRUSH_ATT ? Bonus.CRUSH_DEF : attType == Bonus.STAB_ATT ? Bonus.STAB_DEF : Bonus.SLASH_DEF);
+				defLvl += 8;
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			default -> player.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
+			};
+			if (attackStyle == AttackStyle.MELEE)
 				if (player.getFamiliar() instanceof Steeltitan)
 					def *= 1.15;
-			}
 		} else {
 			NPC n = (NPC) target;
-			switch (attType) {
-			case RANGE_ATT:
+			def = switch (attType) {
+			case RANGE_ATT -> {
 				int defLvl = n.getDefenseLevel();
 				int defBonus = n.getDefinitions().getRangeDef();
 				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			case MAGIC_ATT:
-				defLvl = n.getMagicLevel();
-				defBonus = n.getDefinitions().getMagicDef();
-				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			case STAB_ATT:
-				defLvl = n.getDefenseLevel();
-				defBonus = n.getDefinitions().getStabDef();
-				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			case SLASH_ATT:
-				defLvl = n.getDefenseLevel();
-				defBonus = n.getDefinitions().getSlashDef();
-				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			case CRUSH_ATT:
-				defLvl = n.getDefenseLevel();
-				defBonus = n.getDefinitions().getCrushDef();
-				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
-			default:
-				defLvl = n.getDefenseLevel();
-				defBonus = n.getDefinitions().getStabDef();
-				defLvl += 8;
-				def = Math.floor(defLvl * (defBonus + 64));
-				break;
+				yield Math.floor(defLvl * (defBonus + 64));
 			}
+			case MAGIC_ATT -> {
+				double defLvl = n.getMagicLevel();
+				double defBonus = n.getDefinitions().getMagicDef();
+				defLvl += 8;
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			case STAB_ATT -> {
+				double defLvl = n.getDefenseLevel();
+				double defBonus = n.getDefinitions().getStabDef();
+				defLvl += 8;
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			case SLASH_ATT -> {
+				double defLvl = n.getDefenseLevel();
+				double defBonus = n.getDefinitions().getSlashDef();
+				defLvl += 8;
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			case CRUSH_ATT -> {
+				double defLvl = n.getDefenseLevel();
+				double defBonus = n.getDefinitions().getCrushDef();
+				defLvl += 8;
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			default -> {
+				double defLvl = n.getDefenseLevel();
+				double defBonus = n.getDefinitions().getStabDef();
+				defLvl += 8;
+				yield Math.floor(defLvl * (defBonus + 64));
+			}
+			};
 		}
 		double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
 		if (Settings.getConfig().isDebug() && target instanceof Player player)

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,10 +33,10 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 
 @PluginEventHandler
 public final class ObjectSpawns {
-	
+
 	private final static String PATH = "data/map/objectspawns/";
 	final static Charset ENCODING = StandardCharsets.UTF_8;
-	
+
 	private static final ArrayList<ObjectSpawn> ALL_SPAWNS = new ArrayList<>();
 	private static final Map<Integer, List<ObjectSpawn>> OBJECT_SPAWNS = new HashMap<>();
 
@@ -46,25 +46,21 @@ public final class ObjectSpawns {
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {
 			ObjectSpawn[] spawns = (ObjectSpawn[]) JsonFileManager.loadJsonFile(f, ObjectSpawn[].class);
-			if (spawns != null) {
-				for(ObjectSpawn spawn : spawns) {
-					if (spawn != null) 
+			if (spawns != null)
+				for(ObjectSpawn spawn : spawns)
+					if (spawn != null)
 						add(spawn);
-				}
-			}
 		}
 		Logger.log("ObjectSpawns", "Loaded " + ALL_SPAWNS.size() + " map object spawns...");
 	}
 
 	public static void loadObjectSpawns(int regionId) {
 		List<ObjectSpawn> spawns = OBJECT_SPAWNS.get(regionId);
-		if (spawns != null) {
-			for (ObjectSpawn spawn : spawns) {
+		if (spawns != null)
+			for (ObjectSpawn spawn : spawns)
 				spawn.spawn();
-			}
-		}
 	}
-	
+
 	public static void add(ObjectSpawn spawn) {
 		ALL_SPAWNS.add(spawn);
 		List<ObjectSpawn> regionSpawns = OBJECT_SPAWNS.get(spawn.getTile().getRegionId());

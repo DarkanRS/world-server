@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,9 +29,9 @@ import com.rs.utils.WorldUtil;
 
 /**
  * Represents a pet.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class Pet extends NPC {
 
@@ -67,7 +67,7 @@ public final class Pet extends NPC {
 
 	/**
 	 * Constructs a new {@code Pet} {@code Object}.
-	 * 
+	 *
 	 * @param id
 	 *            The NPC id.
 	 * @param itemId
@@ -81,14 +81,13 @@ public final class Pet extends NPC {
 		super(id, tile);
 		this.owner = owner;
 		this.itemId = itemId;
-		this.checkNearDirs = Utils.getCoordOffsetsNear(super.getSize());
+		checkNearDirs = Utils.getCoordOffsetsNear(super.getSize());
 		this.details = details;
-		this.pet = Pets.forId(itemId);
-		this.setIgnoreNPCClipping(true);
-		this.setBlocksOtherNPCs(false);
-		if (pet == Pets.TROLL_BABY && owner.getPetManager().getTrollBabyName() != null) {
+		pet = Pets.forId(itemId);
+		setIgnoreNPCClipping(true);
+		setBlocksOtherNPCs(false);
+		if (pet == Pets.TROLL_BABY && owner.getPetManager().getTrollBabyName() != null)
 			setName(owner.getPetManager().getTrollBabyName());
-		}
 		if (details != null) {
 			sendMainConfigurations();
 			sendFollowerDetails();
@@ -105,9 +104,8 @@ public final class Pet extends NPC {
 		if (growthRate > 0.000) {
 			details.updateGrowth(growthRate);
 			owner.getVars().setVarBit(4285, (int) details.getGrowth());
-			if (details.getGrowth() == 100.0) {
+			if (details.getGrowth() == 100.0)
 				growNextStage();
-			}
 		}
 		if (!withinDistance(owner, 12)) {
 			call();
@@ -120,21 +118,15 @@ public final class Pet extends NPC {
 	 * Grows into the next stage of this pet (if any).
 	 */
 	public void growNextStage() {
-		if (details.getStage() == 3) {
+		if ((details.getStage() == 3) || (pet == null))
 			return;
-		}
-		if (pet == null) {
-			return;
-		}
 		int npcId = pet.getNpcId(details.getStage() + 1);
-		if (npcId < 1) {
+		if (npcId < 1)
 			return;
-		}
 		details.setStage(details.getStage() + 1);
 		int itemId = pet.getItemId(details.getStage());
-		if (pet.getNpcId(details.getStage() + 1) > 0) {
+		if (pet.getNpcId(details.getStage() + 1) > 0)
 			details.updateGrowth(-100.0);
-		}
 		owner.getPetManager().setItemId(itemId);
 		owner.getPetManager().setNpcId(npcId);
 		finish();
@@ -158,9 +150,8 @@ public final class Pet extends NPC {
 			owner.getInterfaceManager().removeWindowInterface(98, 212);
 			owner.getPackets().setIFTargetParamsDefault(747, 17, 0, 0);
 			finish();
-		} else {
+		} else
 			owner.sendMessage("You need more inventory slots to pick up your pet.");
-		}
 	}
 
 	/**
@@ -176,9 +167,8 @@ public final class Pet extends NPC {
 				break;
 			}
 		}
-		if (teleTile == null) {
+		if (teleTile == null)
 			return;
-		}
 		setNextWorldTile(teleTile);
 	}
 
@@ -188,9 +178,8 @@ public final class Pet extends NPC {
 	private void sendFollow() {
 		if (getLastFaceEntity() != owner.getClientIndex())
 			setNextFaceEntity(owner);
-		if (hasEffect(Effect.FREEZE)) {
+		if (hasEffect(Effect.FREEZE))
 			return;
-		}
 		int size = getSize();
 		int targetSize = owner.getSize();
 		if (WorldUtil.collides(getX(), getY(), size, owner.getX(), owner.getY(), targetSize) && !owner.hasWalkSteps()) {
@@ -201,9 +190,8 @@ public final class Pet extends NPC {
 					resetWalkSteps();
 					if (!addWalkSteps(getX(), owner.getY() + targetSize)) {
 						resetWalkSteps();
-						if (!addWalkSteps(getX(), owner.getY() - size)) {
+						if (!addWalkSteps(getX(), owner.getY() - size))
 							return;
-						}
 					}
 				}
 			}
@@ -241,7 +229,7 @@ public final class Pet extends NPC {
 
 	/**
 	 * Switch the Summoning orb state.
-	 * 
+	 *
 	 * @param enable
 	 *            If the orb should be enabled.
 	 */
@@ -278,7 +266,7 @@ public final class Pet extends NPC {
 
 	/**
 	 * Gets the details.
-	 * 
+	 *
 	 * @return The details.
 	 */
 	public PetDetails getDetails() {
@@ -287,7 +275,7 @@ public final class Pet extends NPC {
 
 	/**
 	 * Gets the growthRate.
-	 * 
+	 *
 	 * @return The growthRate.
 	 */
 	public double getGrowthRate() {
@@ -296,7 +284,7 @@ public final class Pet extends NPC {
 
 	/**
 	 * Sets the growthRate.
-	 * 
+	 *
 	 * @param growthRate
 	 *            The growthRate to set.
 	 */
@@ -306,7 +294,7 @@ public final class Pet extends NPC {
 
 	/**
 	 * Gets the item id of the pet.
-	 * 
+	 *
 	 * @return The item id.
 	 */
 	public int getItemId() {

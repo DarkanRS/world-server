@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,7 +35,7 @@ public enum RockType {
 	GEM(60, Ore.GEM),
 	COAL(50, Ore.COAL),
 	GOLD(100, Ore.GOLD),
-    PERFECT_GOLD(100, Ore.PERFECT_GOLD),
+	PERFECT_GOLD(100, Ore.PERFECT_GOLD),
 	LUNAR(100, Ore.LUNAR),
 	MITHRIL(200, Ore.MITHRIL),
 	GRANITE(20, Ore.GRANITE_500G, Ore.GRANITE_2KG, Ore.GRANITE_5KG),
@@ -46,7 +46,7 @@ public enum RockType {
 	CONC_GOLD(-1, Ore.CONCENTRATED_GOLD),
 	LIVING_MINERALS(0, Ore.LIVING_MINERALS),
 	RED_SANDSTONE(-1, Ore.RED_SANDSTONE),
-	
+
 	;
 
 	private int respawnTime;
@@ -54,7 +54,7 @@ public enum RockType {
 
 	private RockType(int respawnTime, Ore... ores) {
 		this.respawnTime = respawnTime;
-		this.ores = new ArrayList<Ore>(Arrays.asList(ores));
+		this.ores = new ArrayList<>(Arrays.asList(ores));
 		this.ores.sort((f1, f2) -> {
 			return f2.getLevel() == f1.getLevel() ? Double.compare(f2.getXp(), f1.getXp()) : f2.getLevel()-f1.getLevel();
 		});
@@ -65,7 +65,7 @@ public enum RockType {
 	}
 
 	public int getLevel() {
-		return this.ores.get(this.ores.size()-1).getLevel();
+		return ores.get(ores.size()-1).getLevel();
 	}
 
 	public int getRespawnTime() {

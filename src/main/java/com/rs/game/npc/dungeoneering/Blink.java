@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -37,40 +37,40 @@ import com.rs.utils.WorldUtil;
 public class Blink extends DungeonBoss {
 
 	private static final int[][] RUSH_COORDINATES =
-	{
-	{ 2, 3, 13, 3 },
-	{ 2, 6, 13, 6 },
-	{ 2, 9, 13, 9 },
-	{ 2, 12, 13, 12 },
-	{ 3, 2, 3, 13 },
-	{ 6, 2, 6, 13 },
-	{ 9, 2, 9, 13 },
-	{ 12, 2, 12, 13 }, };
-//	private static final int[] FAILURE_SOUNDS = new int[]
-//	{ 3005, 3006, 3010, 3014, 3048, 2978 };
-//	private static final int[] RUSH_SOUNDS =
-//	{ 2982, 2987, 2988, 2989, 2990, 2992, 2998, 3002, 3004, 3009, 3015, 3017, 3018, 3021, 3026, 3027, 3031, 3042, 3043, 3047, 3049 };
+		{
+				{ 2, 3, 13, 3 },
+				{ 2, 6, 13, 6 },
+				{ 2, 9, 13, 9 },
+				{ 2, 12, 13, 12 },
+				{ 3, 2, 3, 13 },
+				{ 6, 2, 6, 13 },
+				{ 9, 2, 9, 13 },
+				{ 12, 2, 12, 13 }, };
+	//	private static final int[] FAILURE_SOUNDS = new int[]
+	//	{ 3005, 3006, 3010, 3014, 3048, 2978 };
+	//	private static final int[] RUSH_SOUNDS =
+	//	{ 2982, 2987, 2988, 2989, 2990, 2992, 2998, 3002, 3004, 3009, 3015, 3017, 3018, 3021, 3026, 3027, 3031, 3042, 3043, 3047, 3049 };
 	private static final String[] RUSH_MESSAGES =
-	{
-		"Grrrr...",
-		"More t...tea Alice?",
-		"Where...who?",
-		"H..here it comes!",
-		"See you all next year!",
-		"",
-		"",
-		"",
-		"Coo-coo-ca-choo!",
-		"Ah! Grrrr...",
-		"Aha! Huh? Ahaha!",
-		"",
-		"",
-		"A face! A huuuge face!",
-		"Aaahaahaha!",
-		"C...can't catch me!",
-		"A whole new world!",
-		"Over here!",
-		"There's no place like home.",
+		{
+				"Grrrr...",
+				"More t...tea Alice?",
+				"Where...who?",
+				"H..here it comes!",
+				"See you all next year!",
+				"",
+				"",
+				"",
+				"Coo-coo-ca-choo!",
+				"Ah! Grrrr...",
+				"Aha! Huh? Ahaha!",
+				"",
+				"",
+				"A face! A huuuge face!",
+				"Aaahaahaha!",
+				"C...can't catch me!",
+				"A whole new world!",
+				"Over here!",
+				"There's no place like home.",
 		"The...spire...doors...everywhere..." };
 
 	private int rushCount, rushStage;
@@ -152,19 +152,19 @@ public class Blink extends DungeonBoss {
 				setNextFaceEntity(null);
 				resetCombat();
 				setCantInteract(true);
-			} else if (rushCount == 3) {
+			} else if (rushCount == 3)
 				setNextForceTalk(new ForceTalk("He saw me!"));
-				//playSoundEffect(3017);
-			} else if (rushCount == 4) {
+			//playSoundEffect(3017);
+			else if (rushCount == 4) {
 				setNextAnimation(new Animation(14994));
 				setNextSpotAnim(new SpotAnim(2868));
 			} else if (rushCount == 15 || rushCount == 5) {
 				if (rushCount == 15)
 					rushCount = 5;
 				setNextNPCTransformation(1957);
-			} else if (rushCount == 8) {
+			} else if (rushCount == 8)
 				setNextWorldTile(getNextPath());
-			} else if (rushCount == 9) {
+			else if (rushCount == 9) {
 				setNextNPCTransformation(12865);
 				toPath = getManager().getTile(getReference(), selectedPath[inversedPath ? 2 : 0], selectedPath[inversedPath ? 3 : 1]);
 				addWalkSteps(toPath.getX(), toPath.getY(), 1, false);
@@ -176,10 +176,7 @@ public class Blink extends DungeonBoss {
 			} else if (rushCount == 11) {
 				setNextSpotAnim(new SpotAnim(2869));
 				for (Player player : getManager().getParty().getTeam()) {
-					if(!getManager().getCurrentRoomReference(this).equals(getManager().getCurrentRoomReference(player))) {
-						continue;
-					}
-					if (!WorldUtil.isInRange(player.getX(), player.getY(), 1, getX(), getY(), 1, 4))
+					if (!getManager().getCurrentRoomReference(this).equals(getManager().getCurrentRoomReference(player)) || !WorldUtil.isInRange(player.getX(), player.getY(), 1, getX(), getY(), 1, 4))
 						continue;
 					int damage = Utils.random(200, 600);
 					if (player.getPrayer().isProtectingMage() || player.getPrayer().isProtectingRange())

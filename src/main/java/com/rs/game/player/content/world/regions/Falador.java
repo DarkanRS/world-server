@@ -25,7 +25,6 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
-import com.rs.game.player.dialogues.SmeltingD;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.knightssword.SquireKnightsSwordD;
 import com.rs.game.player.quests.handlers.piratestreasure.RedbeardFrankPiratesTreasureD;

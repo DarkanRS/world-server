@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -65,14 +65,14 @@ public class SiphonNodeAction extends Action {
 		BLOODY_SKULLS(70469, 16596, Utils.random(144, 175.5), 83, 24219, 24225),
 		LIVING_SOUL(70470, 16596, 213, 90, 24226),
 		UNDEAD_SOUL(70471, 16596, Utils.random(144, 255.5), 95, 24219, 24226);
-		
+
 		private static Map<Integer, Node> MAP = new HashMap<>();
-		
+
 		static {
 			for (Node n : Node.values())
 				MAP.put(n.objectId, n);
 		}
-		
+
 		public static Node forId(int objectId) {
 			return MAP.get(objectId);
 		}
@@ -127,14 +127,14 @@ public class SiphonNodeAction extends Action {
 			this.levelRequired = levelRequired;
 		}
 	}
-	
+
 	public static ObjectClickHandler handleNodes = new ObjectClickHandler(false, Node.MAP.keySet().toArray()) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-//			Nodes node = getNode(e.getObjectId());
-//			if (node == null)
-//				return;
-//			e.getPlayer().getActionManager().setAction(new SiphonNodeAction(node, e.getObject()));
+			//			Nodes node = getNode(e.getObjectId());
+			//			if (node == null)
+			//				return;
+			//			e.getPlayer().getActionManager().setAction(new SiphonNodeAction(node, e.getObject()));
 		}
 	};
 
@@ -152,9 +152,8 @@ public class SiphonNodeAction extends Action {
 
 	@Override
 	public boolean start(Player player) {
-		if (checkAll(player)) {
+		if (checkAll(player))
 			return true;
-		}
 		return false;
 	}
 
@@ -169,10 +168,10 @@ public class SiphonNodeAction extends Action {
 			stop(player);
 			return false;
 		}
-//		if ((!creatures.rune.isPureEss() && !player.getInventory().containsOneItem(Runecrafting.PURE_ESS, Runecrafting.RUNE_ESS)) || (creatures.rune.isPureEss() && !player.getInventory().containsItem(Runecrafting.PURE_ESS))) {
-//			player.sendMessage("You don't have any rune essence to siphon from that creature.");
-//			return false;
-//		}
+		//		if ((!creatures.rune.isPureEss() && !player.getInventory().containsOneItem(Runecrafting.PURE_ESS, Runecrafting.RUNE_ESS)) || (creatures.rune.isPureEss() && !player.getInventory().containsItem(Runecrafting.PURE_ESS))) {
+		//			player.sendMessage("You don't have any rune essence to siphon from that creature.");
+		//			return false;
+		//		}
 		if (!started) {
 			player.resetWalkSteps();
 			player.setNextAnimation(new Animation(16596));

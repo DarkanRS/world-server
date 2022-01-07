@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,13 +28,13 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class SpinningWheel {
-	
+
 	private static Item[][] materials = { { new Item(1779) }, { new Item(10814) }, { new Item(1737) }, { new Item(9436) }, { new Item(3693) } };
 	private static Item[][] products = { { new Item(1777) }, { new Item(954) }, { new Item(1759) }, { new Item(9438) }, { new Item(3694) } };
 	private static int[] reqs = { 1, 1, 1, 1, 1 };
 	private static double[] xp = { 15, 15, 15, 1, 1 };
 	private static int[] anims = { 883, 883, 883, 883, 883 };
-	
+
 	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Spinning wheel" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -42,15 +42,13 @@ public class SpinningWheel {
 				e.getPlayer().getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleItemOn = new ItemOnObjectHandler(new Object[] { "Spinning wheel" }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
-			for (int i = 0; i < materials.length; i++) {
-				if (materials[i][0].getId() == e.getItem().getId()) {
+			for (int i = 0; i < materials.length; i++)
+				if (materials[i][0].getId() == e.getItem().getId())
 					e.getPlayer().getDialogueManager().execute(new CreateActionD(new Item[][] { { materials[i][0] } }, new Item[][] { { products[i][0] } }, new double[] { xp[i] }, new int[] { anims[i] }, Constants.CRAFTING, 2));
-				}
-			}
 		}
 	};
 }

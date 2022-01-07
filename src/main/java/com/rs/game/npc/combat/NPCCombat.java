@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -53,9 +53,8 @@ public final class NPCCombat {
 				removeTarget();
 				return false;
 			}
-			if (combatDelay <= 0) {
+			if (combatDelay <= 0)
 				combatDelay = combatAttack();
-			}
 			return true;
 		}
 		return false;
@@ -79,11 +78,7 @@ public final class NPCCombat {
 		int maxDistance = npc.getCombatDefinitions().getAttackRange();
 		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
 			return npc.getAttackSpeed();
-		if (!npc.lineOfSightTo(target, maxDistance == 0))
-			return 0;
-		if (!WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0)))
-			return 0;
-		if ((!npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target)))
+		if (!npc.lineOfSightTo(target, maxDistance == 0) || !WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0)) || (!npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target)))
 			return 0;
 		addAttackedByDelay(target);
 		return CombatScriptsHandler.attack(npc, target);
@@ -125,12 +120,11 @@ public final class NPCCombat {
 		int maxDistance;
 		if (!npc.isNoDistanceCheck() && !npc.isCantFollowUnderCombat()) {
 			maxDistance = npc.getCombatDefinitions().getMaxDistFromSpawn();
-			if (!(npc instanceof Familiar)) {
+			if (!(npc instanceof Familiar))
 				if (distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance) {
 					npc.forceWalkRespawnTile();
 					return false;
 				}
-			}
 			maxDistance = npc.getCombatDefinitions().getDeAggroDistance();
 			distanceX = target.getX() - npc.getX();
 			distanceY = target.getY() - npc.getY();
@@ -141,18 +135,13 @@ public final class NPCCombat {
 			distanceY = target.getY() - npc.getY();
 		}
 		// checks for no multi area :)
-		if (npc instanceof Familiar familiar && !familiar.canAttack(target)) {
+		if (npc instanceof Familiar familiar && !familiar.canAttack(target))
 			return false;
-		} else {
-			if (!npc.isForceMultiAttacked()) {
-				if (!target.isAtMultiArea() || !npc.isAtMultiArea()) {
-					if (npc.getAttackedBy() != target && npc.inCombat())
-						return false;
-					if (target.getAttackedBy() != npc && target.inCombat())
-						return false;
-				}
+		if (!npc.isForceMultiAttacked())
+			if (!target.isAtMultiArea() || !npc.isAtMultiArea()) {
+				if ((npc.getAttackedBy() != target && npc.inCombat()) || (target.getAttackedBy() != npc && target.inCombat()))
+					return false;
 			}
-		}
 		if (!npc.isCantFollowUnderCombat()) {
 			int targetSize = target.getSize();
 			if (!target.hasWalkSteps() && WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize)) {
@@ -163,9 +152,8 @@ public final class NPCCombat {
 						npc.resetWalkSteps();
 						if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) {
 							npc.resetWalkSteps();
-							if (!npc.addWalkSteps(npc.getX(), target.getY() - size)) {
+							if (!npc.addWalkSteps(npc.getX(), target.getY() - size))
 								return true;
-							}
 						}
 					}
 				}
@@ -200,7 +188,7 @@ public final class NPCCombat {
 	}
 
 	public void removeTarget() {
-		this.target = null;
+		target = null;
 		npc.setNextFaceEntity(null);
 	}
 

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -45,15 +45,14 @@ public class TormentedDemonCombat extends CombatScript {
 			return 0;
 		switch (attackStyle) {
 		case 0:
-			if (npc.inMeleeRange(target) && npc.lineOfSightTo(target, true)) {
-				hit = getMaxHit(npc, 189, AttackStyle.MELEE, target);
-				npc.setNextAnimation(new Animation(10922));
-				npc.setNextSpotAnim(new SpotAnim(1886));
-				delayHit(npc, 1, target, getMeleeHit(npc, hit));
-			} else {
+			if (!npc.inMeleeRange(target) || !npc.lineOfSightTo(target, true)) {
 				npc.calcFollow(target, false);
 				return 0;
 			}
+			hit = getMaxHit(npc, 189, AttackStyle.MELEE, target);
+			npc.setNextAnimation(new Animation(10922));
+			npc.setNextSpotAnim(new SpotAnim(1886));
+			delayHit(npc, 1, target, getMeleeHit(npc, hit));
 			return 7;
 		case 1:
 			hit = getMaxHit(npc, 270, AttackStyle.MAGE, target);

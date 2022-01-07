@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -50,7 +50,7 @@ public enum Prayer {
 	PIETY				(false, 27, 5968, 5997, 70, 4),
 	RIGOUR				(false, 28, 7381, 7382, 74, 3),
 	AUGURY				(false, 29, 7769, 7771, 77, 10d/3),
-	
+
 	PROTECT_ITEM_C		(true, 0, 6820, 6862, 50, 1d/3),
 	SAP_WARRIOR			(true, 1, 6821, 6863, 50, 5d/2),
 	SAP_RANGE			(true, 2, 6822, 6864, 52, 5d/2),
@@ -71,29 +71,28 @@ public enum Prayer {
 	WRATH				(true, 17, 6837, 6879, 89, 1d/2),
 	SOUL_SPLIT			(true, 18, 6838, 6880, 92, 3),
 	TURMOIL				(true, 19, 6839, 6881, 95, 3);
-	
+
 	private static Map<Integer, Prayer> NORMALS = new HashMap<>();
 	private static Map<Integer, Prayer> CURSES = new HashMap<>();
-	
+
 	static {
-		for (Prayer p : Prayer.values()) {
+		for (Prayer p : Prayer.values())
 			if (p.curse)
 				CURSES.put(p.slotId, p);
 			else
 				NORMALS.put(p.slotId, p);
-		}
 	}
-	
+
 	public static Prayer forSlot(int slotId, boolean curse) {
 		if (curse)
 			return CURSES.get(slotId);
 		return NORMALS.get(slotId);
 	}
-	
+
 	private boolean curse;
 	private int slotId, req, varBit, qpVarBit;
 	private double drain;
-	
+
 	private Prayer(boolean curse, int slotId, int varBit, int qpVarBit, int req, double drain) {
 		this.curse = curse;
 		this.slotId = slotId;
@@ -102,27 +101,27 @@ public enum Prayer {
 		this.req = req;
 		this.drain = drain;
 	}
-	
+
 	public int getSlotId() {
 		return slotId;
 	}
-	
+
 	public int getReq() {
 		return req;
 	}
-	
+
 	public int getVarBit() {
 		return varBit;
 	}
-	
+
 	public int getQPVarBit() {
 		return qpVarBit;
 	}
-	
+
 	public double getDrain() {
 		return drain;
 	}
-	
+
 	public boolean isCurse() {
 		return curse;
 	}

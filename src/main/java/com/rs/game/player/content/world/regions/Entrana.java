@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -34,7 +34,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Entrana {
-	
+
 	public static ObjectClickHandler handleMagicDoor = new ObjectClickHandler(new Object[] { 2407 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -42,7 +42,7 @@ public class Entrana {
 			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3093, 3222, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleEntranaDungeonLadders = new ObjectClickHandler(new Object[] { 2408 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -58,16 +58,16 @@ public class Entrana {
 		}
 	};
 
-    public static NPCClickHandler handleCaveMonkDialogue = new NPCClickHandler(656) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                {
-                    addNPC(656, HeadE.CALM_TALK, "Hello, I don't recommend going down. But if you must, be careful, it is a one way path!");
-                    addPlayer(HeadE.CALM_TALK, "All right...");
-                    create();
-                }
-            });
-        }
-    };
+	public static NPCClickHandler handleCaveMonkDialogue = new NPCClickHandler(656) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+				{
+					addNPC(656, HeadE.CALM_TALK, "Hello, I don't recommend going down. But if you must, be careful, it is a one way path!");
+					addPlayer(HeadE.CALM_TALK, "All right...");
+					create();
+				}
+			});
+		}
+	};
 }

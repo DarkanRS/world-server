@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ public enum FishingSpot {
 	CRAYFISH(new int[] { 13431 }, null, new Animation(619), Fish.CRAYFISH),
 	SHRIMP(new int[] { 303 }, null, new Animation(621), Fish.SHRIMP, Fish.ANCHOVIES),
 	SEA_BAIT(new int[] { 307 }, new int[] { 313 }, new Animation(622), Fish.SARDINES, Fish.HERRING),
-    GIANT_CARP(new int[] { 307 }, new int[] { 313, 25 }, new Animation(622), Fish.GIANT_CARP),
+	GIANT_CARP(new int[] { 307 }, new int[] { 313, 25 }, new Animation(622), Fish.GIANT_CARP),
 	BIG_NET(new int[] { 305 }, null, new Animation(620), Fish.MACKEREL, Fish.COD, Fish.BASS, Fish.SEAWEED, Fish.OYSTER, Fish.CASKET, Fish.LEATHER_BOOTS, Fish.LEATHER_GLOVES),
 	TUNA_SWORDFISH(new int[] { 311, 10129 }, null, new Animation(618), Fish.TUNA, Fish.SWORDFISH),
 	LOBSTER(new int[] { 301 }, null, new Animation(619), Fish.LOBSTER),
@@ -44,12 +44,12 @@ public enum FishingSpot {
 	private final int[] tool;
 	private final int[] bait;
 	private final Animation animation;
-	
+
 	private FishingSpot(int[] tool, int[] bait, Animation animation, Fish... fish) {
 		this.tool = tool;
 		this.bait = bait;
 		this.animation = animation;
-		this.fish = new ArrayList<Fish>(Arrays.asList(fish));
+		this.fish = new ArrayList<>(Arrays.asList(fish));
 		this.fish.sort((f1, f2) -> {
 			return f2.getLevel()-f1.getLevel();
 		});
@@ -68,7 +68,7 @@ public enum FishingSpot {
 	}
 
 	public int getLevel() {
-		return this.fish.get(this.fish.size()-1).getLevel();
+		return fish.get(fish.size()-1).getLevel();
 	}
 
 	public Animation getAnimation() {

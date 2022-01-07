@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,9 +31,9 @@ public class CreationActionD extends Dialogue {
 	private CreationAction customAction;
 	private ReqItem[] options;
 	private Category category;
-	
+
 	public CreationActionD(Category category, int material, int animation, int delay) {
-		this.product = -1;
+		product = -1;
 		this.animation = animation;
 		this.delay = delay;
 		this.material = material;
@@ -41,7 +41,7 @@ public class CreationActionD extends Dialogue {
 	}
 
 	public CreationActionD(Category category, int material, int animation, int delay, boolean skip) {
-		this.product = -1;
+		product = -1;
 		this.animation = animation;
 		this.delay = delay;
 		this.material = material;
@@ -52,25 +52,25 @@ public class CreationActionD extends Dialogue {
 		this.product = product;
 		this.animation = animation;
 		this.delay = delay;
-		this.material = -1;
+		material = -1;
 	}
-	
+
 	public CreationActionD(Category category, ReqItem[] options, int animation, int delay) {
 		this.category = category;
 		this.animation = animation;
 		this.options = options;
 		this.delay = delay;
-		this.material = -1;
-		this.product = -1;
+		material = -1;
+		product = -1;
 	}
 
 	public CreationActionD attachCustomAction(CreationAction action) {
-		this.customAction = action;
+		customAction = action;
 		return this;
 	}
-	
+
 	public CreationActionD setConsistentAnimation() {
-		this.consistentAnim = true;
+		consistentAnim = true;
 		return this;
 	}
 
@@ -81,11 +81,11 @@ public class CreationActionD extends Dialogue {
 
 	@Override
 	public void start() {
-		if (product != -1) {
+		if (product != -1)
 			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What would you like to make?", 28, new ReqItem[] { ReqItem.getRequirements(product) }, null);
-		} else if (options != null) {
+		else if (options != null)
 			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What would you like to make?", 28, options, null);
-		} else {
+		else {
 			options = ReqItem.getProducts(category, material);
 			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What would you like to make?", 28, options, null);
 		}

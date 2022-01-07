@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -45,12 +45,12 @@ public class Doors {
 		}
 	};
 
-    public static ObjectClickHandler handleLeftHandedDoors = new ObjectClickHandler(new Object[] { 22921 }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            handleLeftHandedDoor(e.getPlayer(), e.getObject());
-        }
-    };
+	public static ObjectClickHandler handleLeftHandedDoors = new ObjectClickHandler(new Object[] { 22921 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			handleLeftHandedDoor(e.getPlayer(), e.getObject());
+		}
+	};
 
 	public static ObjectClickHandler handleInvertedDoors = new ObjectClickHandler(new Object[] { 1531 }, ObjectType.WALL_INTERACT) {
 		@Override
@@ -58,7 +58,7 @@ public class Doors {
 			handleDoor(e.getPlayer(), e.getObject(), 1);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleDoubleDoors = new ObjectClickHandler(new Object[] { 89, 90, 94, 95, 704, 707, 708, 709, 1516, 1517, 1519, 1520, 1542, 1543, 1544, 1545, 1560, 1561, 1596, 1597, 2039, 2041, 2058, 2060, 2115, 2116, 2199, 2200, 2255, 2256, 2259, 2260, 2546, 2547, 2548, 2549, 2552, 2553, 2865, 2896, 2897, 2391, 2392, 2912, 2913, 2922, 2923, 3020, 3021, 3022, 3023, 2624, 2625, 2673, 2674, 2786, 2787, 2788, 2789, 3506, 3507, 4423, 4424, 4425, 4426, 4427, 4428, 4429, 4430, 4487, 4491, 4490, 4492, 4629, 4630, 4631, 4632, 4633, 4634, 4963, 4964, 5183, 5186, 5187, 5188,
 			2416, 2417, 26207, 5667, 6238, 6240, 6451, 6452, 6871, 6872, 10262, 10263, 10264, 10265, 10423, 10425, 10427, 10429, 10527, 10528, 10529, 10530, 11620, 11621, 11624, 11625, 11716, 11717, 11718, 11719, 11720, 11721, 11722, 11723, 12045, 12047, 12172, 14443, 14444, 14445, 12349, 12350, 12446, 12447, 12448, 12449, 12467, 12468, 13094, 13095, 13096, 13097, 14233, 14234, 14235, 14236, 15604, 15605, 15641, 15644, 15658, 15660, 17091, 17092, 17093, 17094, 18698, 18699, 18700, 18701, 18971, 18973, 20195, 20196, 20197, 20198, 20391, 21403, 21404, 21405, 21406, 21505, 21506, 21507, 21508, 22435, 22437, 24369, 24370,
 			24373, 24374, 25638, 25639, 25640, 25641, 25788, 25789, 25790, 25791, 25813, 25814, 25815, 25816, 25825, 25826, 25827, 25828, 26081, 26082, 26083, 26084, 26114, 26115, 27851, 27852, 27853, 27854, 28690, 28691, 28692, 28693, 29315, 29316, 29317, 29318, 30707, 30708, 31814, 31815, 31816, 31817, 31820, 31821, 31822, 31823, 31824, 31825, 31826, 31827, 31829, 31830, 31831, 31832, 31833, 31834, 31841, 31844, 34819, 34820, 34822, 34823, 34825, 34826, 34827, 34828, 36315, 36316, 36317, 36318, 36999, 37002, 39975, 39976, 39978, 39979, 41131, 41132, 41133, 41134, 41174, 41175, 41178, 41179, 45964, 45965,
@@ -68,42 +68,42 @@ public class Doors {
 			handleDoubleDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleInvertedDoubles = new ObjectClickHandler(new Object[] { 37000, 37003 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleDoubleDoor(e.getPlayer(), e.getObject(), true);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleInvertedDoublesYanille = new ObjectClickHandler(new Object[] { 1517, 1520 }, new WorldTile(2561, 3099, 0), new WorldTile(2561, 3098, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleDoubleDoor(e.getPlayer(), e.getObject(), true);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 166, 167, 1551, 1552, 1553, 1556, 2050, 2051, 2306, 2313, 2320, 2344, 2261, 2262, 2438, 2439, 3015, 3016, 3725, 3726, 4311, 4312, 7049, 7050, 7051, 7052, 15510, 15511, 15512, 15513, 15514, 15515, 15516, 15517, 24560, 24561, 34777, 34778, 34779, 34780, 36912, 36913, 36914, 36915, 37351, 37352, 37353, 37354, 45206, 45207, 45208, 45209, 45210, 45211, 45212, 45213 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleGate(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleClosedDoors = new ObjectClickHandler(new Object[] { 1240 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleClosedDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleInPlaceSingleDoors = new ObjectClickHandler(new Object[] { 4250, 4251, 5887, 5888, 5889, 5890, 5891, 5893, 64833, 64834, 65365, 65367, 65386, 65387, 65573, 65574, 68977, 68978, 68983 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleInPlaceSingleDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleInPlaceDoubleDoors = new ObjectClickHandler(new Object[] { 6553, 6555, 9330, 9738, 69197, 69198 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -117,16 +117,11 @@ public class Doors {
 			e.getPlayer().sendMessage("The door is securely locked.");
 		}
 	};
-	
+
 	public static ObjectClickHandler handleKeyDoors = new ObjectClickHandler(new Object[] { 1804, 2623 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getObjectId() == 1804 && e.getPlayer().getInventory().containsItem("brass key")) {
-				handleDoor(e.getPlayer(), e.getObject());
-				return;
-			}
-
-			if (e.getObjectId() == 2623 && e.getPlayer().getInventory().containsItem("dusty key")) {
+			if ((e.getObjectId() == 1804 && e.getPlayer().getInventory().containsItem("brass key")) || (e.getObjectId() == 2623 && e.getPlayer().getInventory().containsItem("dusty key"))) {
 				handleDoor(e.getPlayer(), e.getObject());
 				return;
 			}
@@ -140,7 +135,7 @@ public class Doors {
 			handleDoor(e.getPlayer(), e.getObject());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWasteMyTimeDoor2 = new ObjectClickHandler(new Object[] { 21401 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -151,17 +146,17 @@ public class Doors {
 	public static boolean isTempMove(ObjectDefinitions defs) {
 		switch(defs.id) {
 		case 2267:
-        case 3437:
+		case 3437:
 		case 45856:
 		case 45857:
 		case 45858:
 		case 45859:
-        case 24815:
+		case 24815:
 			return true;
 		}
 		return !((defs.containsOption("Open") || defs.containsOption("Close")) && defs.interactable != 0);
 	}
-	
+
 	public static void handleClosedDoor(Player player, GameObject object) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 : -1);
@@ -237,11 +232,10 @@ public class Doors {
 		GameObject[] doors = getNearby(player, object, (t1, t2) -> {
 			return t1.getY() > t2.getY();
 		}, object.transform(0, 1, 0), object.transform(0, -1, 0));
-		if (doors == null) {
+		if (doors == null)
 			doors = getNearby(player, object, (t1, t2) -> {
 				return t1.getX() > t2.getX();
 			}, object.transform(1, 0, 0), object.transform(-1, 0, 0));
-		}
 		if (doors == null) {
 			handleDoor(player, object);
 			return;
@@ -268,7 +262,7 @@ public class Doors {
 			World.spawnObject(new GameObject(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(), doors[1]));
 		}
 	}
-	
+
 	public static void handleDoor(Player player, GameObject object) {
 		handleDoor(player, object, 0);
 	}
@@ -322,88 +316,59 @@ public class Doors {
 		}
 	}
 
-    private static void handleOneWayDoor(Player player, GameObject object) {
-        int offset = 0;
-        boolean open = object.getDefinitions(player).containsOption("Open");
-        int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-        WorldTile adjusted = new WorldTile(object);
-        switch (rotation) {
-            case 0:
-                adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
-                break;
-            case 1:
-                adjusted = adjusted.transform(0, open ? 1 : -1, 0);
-                break;
-            case 2:
-                adjusted = adjusted.transform(open ? 1 : -1, 0, 0);
-                break;
-            case 3:
-                adjusted = adjusted.transform(0, open ? -1 : 1, 0);
-                break;
-        }
-        Doors.Door opp = new Doors.Door(DoorPair.getOpposingDoor(player, object), object.getType(), object.getRotation(open ? 1 : -1), adjusted, object);
-        if (object instanceof Doors.Door door) {
-            World.removeObject(object);
-            World.spawnObject(door.original, true);
-        } else {
-            World.removeObject(object);
-            World.spawnObject(opp, true);
-        }
-    }
+	public static void handleLeftHandedDoor(Player player, GameObject object) {
+		handleLeftHandedDoor(player, object, 0);
+	}
 
-    public static void handleLeftHandedDoor(Player player, GameObject object) {
-        handleLeftHandedDoor(player, object, 0);
-    }
+	public static void handleLeftHandedDoor(Player player, GameObject object, int offset) {
+		boolean open = object.getDefinitions(player).containsOption("Open");
+		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
+		WorldTile adjusted = new WorldTile(object);
+		switch (rotation) {
+		case 0:
+			adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
+			break;
+		case 1:
+			adjusted = adjusted.transform(0, open ? 1 : -1, 0);
+			break;
+		case 2:
+			adjusted = adjusted.transform(open ? 1 : -1, 0, 0);
+			break;
+		case 3:
+			adjusted = adjusted.transform(0, open ? -1 : 1, 0);
+			break;
+		}
+		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
+		if (!isTempMove(opp.getDefinitions(player))) {
+			if (object instanceof Door door) {
+				World.removeObject(object);
+				World.spawnObject(door.original, true);
+			} else {
+				World.removeObject(object);
+				World.spawnObject(opp, true);
+			}
+		} else {
+			WorldTile toTile = object.transform(0, 0, 0);
+			switch (object.getRotation()) {
+			case 0:
+				toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
+				break;
+			case 1:
+				toTile = toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
+				break;
+			case 2:
+				toTile = toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
+				break;
+			case 3:
+				toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
+				break;
+			}
+			World.spawnObjectTemporary(new GameObject(object).setIdNoRefresh(83), 2, true);
+			World.spawnObjectTemporary(opp, 2, true);
+			player.addWalkSteps(toTile, 3, false);
+		}
+	}
 
-    public static void handleLeftHandedDoor(Player player, GameObject object, int offset) {
-        boolean open = object.getDefinitions(player).containsOption("Open");
-        int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-        WorldTile adjusted = new WorldTile(object);
-        switch (rotation) {
-            case 0:
-                adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
-                break;
-            case 1:
-                adjusted = adjusted.transform(0, open ? 1 : -1, 0);
-                break;
-            case 2:
-                adjusted = adjusted.transform(open ? 1 : -1, 0, 0);
-                break;
-            case 3:
-                adjusted = adjusted.transform(0, open ? -1 : 1, 0);
-                break;
-        }
-        Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
-        if (!isTempMove(opp.getDefinitions(player))) {
-            if (object instanceof Door door) {
-                World.removeObject(object);
-                World.spawnObject(door.original, true);
-            } else {
-                World.removeObject(object);
-                World.spawnObject(opp, true);
-            }
-        } else {
-            WorldTile toTile = object.transform(0, 0, 0);
-            switch (object.getRotation()) {
-                case 0:
-                    toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
-                    break;
-                case 1:
-                    toTile = toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
-                    break;
-                case 2:
-                    toTile = toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
-                    break;
-                case 3:
-                    toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
-                    break;
-            }
-            World.spawnObjectTemporary(new GameObject(object).setIdNoRefresh(83), 2, true);
-            World.spawnObjectTemporary(opp, 2, true);
-            player.addWalkSteps(toTile, 3, false);
-        }
-    }
-	
 	public static void handleOneWayDoor(Player player, GameObject object, int rotation) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		WorldTile adjusted = new WorldTile(object);
@@ -449,7 +414,7 @@ public class Doors {
 			player.addWalkSteps(toTile, 3, false);
 		}
 	}
-	
+
 	public static void handleDoubleDoor(Player player, GameObject object) {
 		handleDoubleDoor(player, object, false);
 	}
@@ -461,11 +426,10 @@ public class Doors {
 		GameObject[] doors = getNearby(player, object, (t1, t2) -> {
 			return t1.getY() > t2.getY();
 		}, object.transform(0, 1, 0), object.transform(0, -1, 0));
-		if (doors == null) {
+		if (doors == null)
 			doors = getNearby(player, object, (t1, t2) -> {
 				return t1.getX() > t2.getX();
 			}, object.transform(1, 0, 0), object.transform(-1, 0, 0));
-		}
 		if (doors == null) {
 			handleDoor(player, object);
 			return;
@@ -559,15 +523,14 @@ public class Doors {
 		GameObject[] gates;
 		switch (rotation) {
 		case 0:
-			if (open) {
+			if (open)
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getY() > t2.getY();
 				}, object.transform(0, -1, 0), object.transform(0, 1, 0));
-			} else {
+			else
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getX() < t2.getX();
 				}, object.transform(-1, 0, 0), object.transform(1, 0, 0));
-			}
 			if (gates == null) {
 				handleDoor(player, object);
 				return;
@@ -586,15 +549,14 @@ public class Doors {
 			}
 			break;
 		case 1:
-			if (open) {
+			if (open)
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getX() > t2.getX();
 				}, object.transform(1, 0, 0), object.transform(-1, 0, 0));
-			} else {
+			else
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getY() > t2.getY();
 				}, object.transform(0, 1, 0), object.transform(0, -1, 0));
-			}
 			if (gates == null) {
 				handleDoor(player, object);
 				return;
@@ -613,15 +575,14 @@ public class Doors {
 			}
 			break;
 		case 2:
-			if (open) {
+			if (open)
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getY() < t2.getY();
 				}, object.transform(0, 1, 0), object.transform(0, -1, 0));
-			} else {
+			else
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getX() > t2.getX();
 				}, object.transform(1, 0, 0), object.transform(-1, 0, 0));
-			}
 			if (gates == null) {
 				handleDoor(player, object);
 				return;
@@ -640,15 +601,14 @@ public class Doors {
 			}
 			break;
 		case 3:
-			if (open) {
+			if (open)
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getX() < t2.getX();
 				}, object.transform(1, 0, 0), object.transform(-1, 0, 0));
-			} else {
+			else
 				gates = getNearby(player, object, (t1, t2) -> {
 					return t1.getY() < t2.getY();
 				}, object.transform(0, 1, 0), object.transform(0, -1, 0));
-			}
 			if (gates == null) {
 				handleDoor(player, object);
 				return;
@@ -671,20 +631,16 @@ public class Doors {
 
 	private static GameObject[] getNearby(Player player, GameObject object, BiFunction<WorldTile, WorldTile, Boolean> sort, WorldTile... toCheck) {
 		GameObject[] g = new GameObject[2];
-		for (WorldTile t : toCheck) {
-			if (g[0] == null || g[0].getDefinitions().interactable == 0 || !g[0].getDefinitions().getName().equals(object.getDefinitions().getName())) {
+		for (WorldTile t : toCheck)
+			if (g[0] == null || g[0].getDefinitions().interactable == 0 || !g[0].getDefinitions().getName().equals(object.getDefinitions().getName()))
 				g[0] = World.getObject(t, object.getType());
-			}
-		}
-		if (g[0] == null || g[0].getDefinitions().interactable == 0 || !g[0].getDefinitions().getName().equals(object.getDefinitions().getName())) {
+		if (g[0] == null || g[0].getDefinitions().interactable == 0 || !g[0].getDefinitions().getName().equals(object.getDefinitions().getName()))
 			return null;
-		}
 		if (sort.apply(g[0], object)) {
 			g[1] = g[0];
 			g[0] = object;
-		} else {
+		} else
 			g[1] = object;
-		}
 		return g;
 	}
 
@@ -700,22 +656,19 @@ public class Doors {
 
 			if (defs.varp != -1 || defs.varpBit != -1)
 				continue;
-			if (defs.getName().toLowerCase().contains("door") || defs.getName().toLowerCase().contains("gate") || defs.getName().toLowerCase().contains("fence") || defs.getName().toLowerCase().contains("wall")) {
-
+			if (defs.getName().toLowerCase().contains("door") || defs.getName().toLowerCase().contains("gate") || defs.getName().toLowerCase().contains("fence") || defs.getName().toLowerCase().contains("wall"))
 				if (defs.containsOptionIgnoreCase("open")) {
-					List<Integer> opened = new ArrayList<Integer>();
+					List<Integer> opened = new ArrayList<>();
 					for (int op = 0; op < Utils.getObjectDefinitionsSize(); op++) {
 						if (op == i || op < 0 || op > Utils.getObjectDefinitionsSize())
 							continue;
 						ObjectDefinitions openedDef = ObjectDefinitions.getDefs(op);
-						if (!openedDef.containsOptionIgnoreCase("open") && openedDef.modelIds != null && defs.modelIds[0][0] == openedDef.modelIds[0][0]) {
+						if (!openedDef.containsOptionIgnoreCase("open") && openedDef.modelIds != null && defs.modelIds[0][0] == openedDef.modelIds[0][0])
 							if (Arrays.equals(defs.modifiedColors, openedDef.modifiedColors) && Arrays.equals(defs.originalColors, openedDef.originalColors))
 								opened.add(op);
-						}
 					}
 					doors.put(i, opened);
 				}
-			}
 		}
 
 		List<Integer> closedList = new ArrayList<>(doors.keySet());
@@ -743,7 +696,7 @@ public class Doors {
 			super(id, type, rotation, location);
 			this.original = new GameObject(original);
 		}
-		
+
 		public GameObject getOriginal() {
 			return original;
 		}

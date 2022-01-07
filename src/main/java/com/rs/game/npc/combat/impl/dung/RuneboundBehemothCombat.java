@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -43,7 +43,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 	@Override
 	public Object[] getKeys() {
 		return new Object[]
-		{ "Runebound behemoth" };
+				{ "Runebound behemoth" };
 	}
 
 	@Override
@@ -52,21 +52,20 @@ public class RuneboundBehemothCombat extends CombatScript {
 		final DungeonManager manager = boss.getManager();
 
 		boolean trample = false;
-		for (Entity t : npc.getPossibleTargets()) {
+		for (Entity t : npc.getPossibleTargets())
 			if (WorldUtil.collides(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				trample = true;
 				delayHit(npc, 0, t, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, t)));
 				if (t instanceof Player player)
 					player.sendMessage("The beast tramples you.");
 			}
-		}
 		if (trample) {
 			npc.setNextAnimation(new Animation(14426));
 			return 5;
 		}
 
 		if (Utils.random(15) == 0) {// Special attack
-			final List<WorldTile> explosions = new LinkedList<WorldTile>();
+			final List<WorldTile> explosions = new LinkedList<>();
 			boss.setNextForceTalk(new ForceTalk("Raaaaaaaaaaaaaaaaaaaaaaaaaawr!"));
 			WorldTasksManager.schedule(new WorldTask() {
 
@@ -75,13 +74,13 @@ public class RuneboundBehemothCombat extends CombatScript {
 				@Override
 				public void run() {
 					cycles++;
-					if (cycles == 1) {
+					if (cycles == 1)
 						boss.setNextSpotAnim(new SpotAnim(2769));
-					} else if (cycles == 4) {
+					else if (cycles == 4)
 						boss.setNextSpotAnim(new SpotAnim(2770));
-					} else if (cycles == 5) {
+					else if (cycles == 5) {
 						boss.setNextSpotAnim(new SpotAnim(2771));
-						for (Entity t : boss.getPossibleTargets()) {
+						for (Entity t : boss.getPossibleTargets())
 							tileLoop: for (int i = 0; i < 4; i++) {
 								WorldTile tile = World.getFreeTile(t, 2);
 								if (!manager.isAtBossRoom(tile))
@@ -89,17 +88,15 @@ public class RuneboundBehemothCombat extends CombatScript {
 								explosions.add(tile);
 								World.sendProjectile(boss, tile, 2414, 120, 0, 20, 0, 20, 0);
 							}
-						}
 					} else if (cycles == 8) {
 						for (WorldTile tile : explosions)
 							World.sendSpotAnim(boss, new SpotAnim(2399), tile);
-						for (Entity t : boss.getPossibleTargets()) {
+						for (Entity t : boss.getPossibleTargets())
 							tileLoop: for (WorldTile tile : explosions) {
 								if (t.getX() != tile.getX() || t.getY() != tile.getY())
 									continue tileLoop;
 								t.applyHit(new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6, boss.getMaxHit()), HitLook.TRUE_DAMAGE));
 							}
-						}
 						boss.resetTransformation();
 						stop();
 						return;
@@ -108,19 +105,17 @@ public class RuneboundBehemothCombat extends CombatScript {
 			}, 0, 0);
 			return 8;
 		}
-		int[] possibleAttacks = new int[]
-		{ 0, 1, 2 };
-		if (target instanceof Player) {
-			Player player = (Player) target;
+		int[] possibleAttacks = { 0, 1, 2 };
+		if (target instanceof Player player) {
 			if (player.getPrayer().isProtectingMelee())
 				possibleAttacks = new int[]
-				{ 1, 2 };
+						{ 1, 2 };
 			else if (player.getPrayer().isProtectingRange())
 				possibleAttacks = new int[]
-				{ 0, 1 };
+						{ 0, 1 };
 			else if (player.getPrayer().isProtectingMage())
 				possibleAttacks = new int[]
-				{ 0, 2 };
+						{ 0, 2 };
 		}
 		boolean distanced = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 		int attack = possibleAttacks[Utils.random(possibleAttacks.length)];

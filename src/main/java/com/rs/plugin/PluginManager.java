@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -40,16 +40,15 @@ import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class PluginManager {
-	
+
 	private static Map<String, HashSet<PluginHandler<PluginEvent>>> UNMAPPED_HANDLERS = new HashMap<>();
 	private static List<Method> STARTUP_HOOKS = new ArrayList<>();
 	private static PluginMethodRepository REPOSITORY = new PluginMethodRepository();
-	
+
 	private static void addUnmappedHandler(String type, PluginHandler<PluginEvent> method) {
 		HashSet<PluginHandler<PluginEvent>> methods = UNMAPPED_HANDLERS.get(type);
-		if (methods == null) {
+		if (methods == null)
 			methods = new HashSet<>();
-		}
 		methods.add(method);
 		UNMAPPED_HANDLERS.put(type, methods);
 	}
@@ -67,9 +66,7 @@ public class PluginManager {
 			int handlers = 0;
 			for (Class<?> clazz : classes) {
 				for (Method method : clazz.getMethods()) {
-					if (!Modifier.isStatic(method.getModifiers()))
-						continue;
-					if (visitedMethods.contains(method))
+					if (!Modifier.isStatic(method.getModifiers()) || visitedMethods.contains(method))
 						continue;
 					visitedMethods.add(method);
 					switch(method.getParameterCount()) {
@@ -82,12 +79,10 @@ public class PluginManager {
 					}
 				}
 				for (Field field : clazz.getFields()) {
-					if (!Modifier.isStatic(field.getModifiers()))
-						continue;
-					if (visitedFields.contains(field))
+					if (!Modifier.isStatic(field.getModifiers()) || visitedFields.contains(field))
 						continue;
 					visitedFields.add(field);
-					
+
 					for (Class<?> eventType : eventTypes) {
 						if (field.getType() == PluginHandler.class) {
 							Class<?> type = ((Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]);
@@ -116,7 +111,7 @@ public class PluginManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	public static void executeStartupHooks() {
 		for (Method m : STARTUP_HOOKS) {
@@ -132,7 +127,7 @@ public class PluginManager {
 				Logger.log(m.getDeclaringClass().getSimpleName(), "Executed " + m.getName() + " in " + time + "ms...");
 		}
 	}
-	
+
 	public static boolean handle(PluginEvent event) {
 		if (REPOSITORY.handle(event))
 			return true;
@@ -140,13 +135,12 @@ public class PluginManager {
 		if (methods == null)
 			return false;
 		boolean usedPlugins = false;
-		for (PluginHandler<PluginEvent> method : methods) {
+		for (PluginHandler<PluginEvent> method : methods)
 			if (method.handleGlobal(event))
 				usedPlugins = true;
-		}
 		return usedPlugins;
 	}
-	
+
 	public static Object getObj(PluginEvent event) {
 		Object obj = REPOSITORY.getObj(event);
 		if (obj != null)
@@ -161,7 +155,7 @@ public class PluginManager {
 		}
 		return null;
 	}
-	
+
 	public static boolean handle(Method method, Object event) {
 		try {
 			return (boolean) method.invoke(null, event);
@@ -170,11 +164,10 @@ public class PluginManager {
 		}
 		return false;
 	}
-	
+
 	public static int getAmountPlayerHas(Player player, int itemId) {
-		if (itemId >= 25629 && itemId <= 25633) {
+		if (itemId >= 25629 && itemId <= 25633)
 			return ArtisansWorkshop.numStoredOres(player, itemId);
-		}
 		return -1;
 	}
 }
