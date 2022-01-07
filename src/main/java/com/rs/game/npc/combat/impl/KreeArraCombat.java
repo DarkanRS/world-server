@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -44,7 +44,7 @@ public class KreeArraCombat extends CombatScript {
 			return npc.getAttackSpeed();
 		}
 		npc.setNextAnimation(new Animation(6976));
-		for (Entity t : npc.getPossibleTargets()) {
+		for (Entity t : npc.getPossibleTargets())
 			if (Utils.getRandomInclusive(2) == 0) {
 				WorldProjectile p = World.sendProjectile(npc, t, 1198, 60, 32, 50, 1, 0, 0);
 				npc.setNextAnimation(new Animation(6976));
@@ -55,15 +55,13 @@ public class KreeArraCombat extends CombatScript {
 				delayHit(npc, p.getTaskDelay(), t, getRangeHit(npc, getMaxHit(npc, 720, AttackStyle.RANGE, t)));
 				CoresManager.schedule(() -> {
 					Direction dir = WorldUtil.getDirectionTo(npc, target);
-					if (dir != null) {
+					if (dir != null)
 						if (World.checkWalkStep(target, dir, target.getSize())) {
 							target.resetWalkSteps();
 							target.setNextWorldTile(target.transform(dir.getDx(), dir.getDy()));
 						}
-					}
 				}, p.getTaskDelay());
 			}
-		}
 		return npc.getAttackSpeed();
 	}
 }

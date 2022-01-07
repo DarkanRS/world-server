@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,7 +47,7 @@ public class MachineInformation {
 		this.javaVersionBuild2 = javaVersionBuild2;
 		this.hasApplet = hasApplet;
 		this.heap = heap;
-		this.availableProcessors = availableProcessor;
+		availableProcessors = availableProcessor;
 		this.ram = ram;
 		this.cpuClockFrequency = cpuClockFrequency;
 		this.cpuInfo3 = cpuInfo3;
@@ -71,12 +71,12 @@ public class MachineInformation {
 		 * "Your java seems outdated: "+getVersion
 		 * ()+".<br>You should update your to 6.0.31.";
 		 *//*
-			 * }else if (hasApplet && ((availableProcessors <= (x64Arch ? 2 :
-			 * 1)) || ram <= (x64Arch ? 1024 : 512) || cpuClockFrequency <=
-			 * 1500)) { title = "Weak Specs"; suggestion =
-			 * "Your computer seems to have weak specs. You'd better download desktop client for better perfomance."
-			 * ; }
-			 */
+		 * }else if (hasApplet && ((availableProcessors <= (x64Arch ? 2 :
+		 * 1)) || ram <= (x64Arch ? 1024 : 512) || cpuClockFrequency <=
+		 * 1500)) { title = "Weak Specs"; suggestion =
+		 * "Your computer seems to have weak specs. You'd better download desktop client for better perfomance."
+		 * ; }
+		 */
 		if (title != null) {
 			player.getInterfaceManager().sendInterface(405);
 			player.getPackets().setIFText(405, 16, title);

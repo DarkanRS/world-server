@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,17 +27,17 @@ public enum Leech {
 	MAGIC(Prayer.LEECH_MAGIC, 2240, 2242),
 	SPECIAL(Prayer.LEECH_SPECIAL, 2256, 2258),
 	ENERGY(Prayer.LEECH_ENERGY, 2252, 2254);
-	
+
 	private Prayer prayer;
 
 	private int projAnim, spotAnimHit;
-	
+
 	private Leech(Prayer prayer, int projAnim, int spotAnimHit) {
 		this.prayer = prayer;
 		this.projAnim = projAnim;
 		this.spotAnimHit = spotAnimHit;
 	}
-	
+
 	public Prayer getPrayer() {
 		return prayer;
 	}
@@ -49,7 +49,7 @@ public enum Leech {
 	public int getSpotAnimHit() {
 		return spotAnimHit;
 	}
-	
+
 	public void activate(Player player, Entity target) {
 		//	if (target.getPrayer().reachedMax(0)) {
 		//		target.sendMessage("Your opponent has been weakened so much that your sap curse has no effect.", true);

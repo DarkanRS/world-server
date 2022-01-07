@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,10 +28,10 @@ public class BodyGlow {
 
 	public BodyGlow(int time, int color1, int color2, int color3, int color4) {
 		this.time = time;
-		this.redAdd = color1;
-		this.greenAdd = color2;
-		this.blueAdd = color3;
-		this.scalar = color4;
+		redAdd = color1;
+		greenAdd = color2;
+		blueAdd = color3;
+		scalar = color4;
 	}
 
 	public static BodyGlow generateRandomBodyGlow(int time) {

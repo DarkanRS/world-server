@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,10 +27,10 @@ import com.rs.lib.util.Utils;
 public class WorldGorgerShukarhazh extends DungeonBoss {
 
 	private static final int[][] EYE_COORDINATES =
-	{
-	{ 0, 7 },
-	{ 7, 15 },
-	{ 15, 8 } };
+		{
+				{ 0, 7 },
+				{ 7, 15 },
+				{ 15, 8 } };
 
 	private FamishedEye[] eyes;
 
@@ -44,20 +44,18 @@ public class WorldGorgerShukarhazh extends DungeonBoss {
 
 	@Override
 	public void processHit(Hit hit) {
-		for (FamishedEye eye : eyes) {
+		for (FamishedEye eye : eyes)
 			if (eye.getType() == hit.getLook().getMark()) {
 				if (eye.isInactive())
 					hit.setDamage((int) (hit.getDamage() * 0.1));
 				break;
 			}
-		}
 		super.processHit(hit);
 	}
 
 	public void refreshCapDamage() {
 		int inactiveCounter = 0;
-		for (int index = 0; index < eyes.length; index++) {
-			FamishedEye eye = eyes[index];
+		for (FamishedEye eye : eyes) {
 			boolean inactive = eye.isInactive();
 			if (inactive)
 				inactiveCounter++;

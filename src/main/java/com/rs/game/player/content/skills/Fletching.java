@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,7 +36,7 @@ public class Fletching extends Action {
 	public static final int DUNGEONEERING_KNIFE = 17754;
 
 	public static enum Fletch {
-		
+
 		LOG(1511, 946, new int[] { 52, 50, 48, 9440 }, new int[] { 1, 1, 10, 9 }, new double[] { 0.33, 5, 10, 6 }, new Animation(6702)),
 
 		STRUNG_SHORT_BOW(50, 1777, new int[] { 841 }, new int[] { 1 }, new double[] { 5 }, new Animation(6678)),
@@ -113,7 +113,7 @@ public class Fletching extends Action {
 		 * Arrows
 		 */
 		HEADLESS_ARROWS(52, 314, new int[] { 53 }, new int[] { 1 }, new double[] { 1 }, new Animation(-1)),
-		
+
 		BRONZE_ARROWS(39, 53, new int[] { 882 }, new int[] { 1 }, new double[] { 1.3 }, new Animation(-1)),
 
 		IRON_ARROWS(40, 53, new int[] { 884 }, new int[] { 15 }, new double[] { 3.8 }, new Animation(-1)),
@@ -127,9 +127,9 @@ public class Fletching extends Action {
 		RUNITE_ARROWS(44, 53, new int[] { 892 }, new int[] { 75 }, new double[] { 13.8 }, new Animation(-1)),
 
 		DRAGON_ARROWS(11237, 53, new int[] { 11212 }, new int[] { 90 }, new double[] { 16.3 }, new Animation(-1)),
-		
+
 		BROAD_BOLTS(13279, 314, new int[] { 13280 }, new int[] { 55 }, new double[] { 3 }, new Animation(-1)),
-		
+
 		BROAD_ARROW(13278, 53, new int[] { 4160 }, new int[] { 52 }, new double[] { 15 }, new Animation(-1)),
 
 		/**
@@ -192,7 +192,7 @@ public class Fletching extends Action {
 
 		BLISTERWOODS(21600, 946, new int[] { 21580, 21581, 21582 }, new int[] { 70, 70, 70 }, new double[] { 100, 10, 100 }, new Animation(-1));
 
-		private static Map<Integer, Fletch> fletching = new HashMap<Integer, Fletch>();
+		private static Map<Integer, Fletch> fletching = new HashMap<>();
 
 		public static Fletch forId(int id) {
 			return fletching.get(id);
@@ -268,9 +268,7 @@ public class Fletching extends Action {
 
 	@Override
 	public boolean process(Player player) {
-		if (ticks <= 0)
-			return false;
-		if (!player.getInventory().containsItem(fletch.getId(), 1) || !player.getInventory().containsItem(fletch.getSelected(), 1))
+		if ((ticks <= 0) || !player.getInventory().containsItem(fletch.getId(), 1) || !player.getInventory().containsItem(fletch.getSelected(), 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FLETCHING) < fletch.getLevel()[option]) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You need a level of " + fletch.getLevel()[option] + " to fletch this.");
@@ -298,50 +296,35 @@ public class Fletching extends Action {
 			amount = player.getInventory().getNumberOf(fletch.getId());
 		if (amount > player.getInventory().getNumberOf(fletch.getSelected()))
 			amount = player.getInventory().getNumberOf(fletch.getSelected());
-		
-		if (fletch.getProduct()[option] == 52) {
-			switch (fletch.getId()) {
-				case 1511:
-					amount = 15;
-					break;
-				case 1521:
-					amount = 20;
-					break;
-				case 1519:
-					amount = 25;
-					break;
-				case 1517:
-					amount = 30;
-					break;
-				case 1515:
-					amount = 35;
-					break;
-				case 1513:
-					amount = 40;
-					break;
-				default:
-					amount = 15;
-			}
-		}
-		
+
+		if (fletch.getProduct()[option] == 52)
+			amount = switch (fletch.getId()) {
+			case 1511 -> 15;
+			case 1521 -> 20;
+			case 1519 -> 25;
+			case 1517 -> 30;
+			case 1515 -> 35;
+			case 1513 -> 40;
+			default -> 15;
+			};
+
 		if (fletch.getProduct()[option] == 21581)
 			amount = 10;
-		
-		if (player.getInventory().containsItem(fletch.getId(), amount) || (fletch.getProduct()[option] == 52) || (fletch.getProduct()[option] == 21581)) {
-			player.setNextAnimation(fletch.getAnim());
-			player.getInventory().deleteItem(fletch.getId(), fletch.getProduct()[option] == 52 || fletch.getProduct()[option] == 21581  ? 1 : amount);
-			if (fletch.getSelected() != KNIFE && fletch.getSelected() != CHISLE)
-				player.getInventory().deleteItem(fletch.getSelected(), amount);
-			player.getInventory().addItem(fletch.getProduct()[option], amount);
-			player.sendMessage("You create a " + new Item(fletch.getProduct()[option]).getDefinitions().getName().toLowerCase().replace(" (u)", "") + ".", true);
-			player.getSkills().addXp(Constants.FLETCHING, fletch.getXp()[option] * amount);
-		} else {
+
+		if (!player.getInventory().containsItem(fletch.getId(), amount) && (fletch.getProduct()[option] != 52) && (fletch.getProduct()[option] != 21581)) {
 			player.sendMessage("You don't have enough of the supplies to make that many.");
 			return -1;
 		}
+		player.setNextAnimation(fletch.getAnim());
+		player.getInventory().deleteItem(fletch.getId(), fletch.getProduct()[option] == 52 || fletch.getProduct()[option] == 21581  ? 1 : amount);
+		if (fletch.getSelected() != KNIFE && fletch.getSelected() != CHISLE)
+			player.getInventory().deleteItem(fletch.getSelected(), amount);
+		player.getInventory().addItem(fletch.getProduct()[option], amount);
+		player.sendMessage("You create a " + new Item(fletch.getProduct()[option]).getDefinitions().getName().toLowerCase().replace(" (u)", "") + ".", true);
+		player.getSkills().addXp(Constants.FLETCHING, fletch.getXp()[option] * amount);
 		if (fletch.getSelected() == KNIFE)
 			return 2;
-		else if (amount > 5)
+		if (amount > 5)
 			return 0;
 		else
 			return 1;

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
 public class CoalBag {
-	
+
 	public static ItemClickHandler handleClickOnCoalBag = new ItemClickHandler(18339) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -41,12 +41,12 @@ public class CoalBag {
 				e.getPlayer().sendMessage("You do not have any coal in your coal bag.");
 				return;
 			}
-			
+
 			switch(e.getOption()) {
 			case "Inspect":
 				e.getPlayer().sendMessage("You have " + current + " coal in your bag.");
 				break;
-			case "Withdraw-one":	
+			case "Withdraw-one":
 				if (!e.getPlayer().getInventory().hasFreeSlots()) {
 					e.getPlayer().sendMessage("You do not have enough inventory spaces to do that.");
 					return;
@@ -70,42 +70,42 @@ public class CoalBag {
 			}
 		}
 	};
-	
+
 	public static ItemOnItemHandler handleItemOnCoalBag = new ItemOnItemHandler(18339, 453) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
 			int current = e.getPlayer().getI("coalBag");
-			
+
 			if (current == -1)
 				e.getPlayer().save("coalBag", 0);
-			
+
 			int room = 0;
-			
+
 			if (current < 27)
 				room = 27 - current;
-			
+
 			if (room == 0) {
 				e.getPlayer().sendMessage("Your coal bag is already full.");
 				return;
 			}
-				
+
 			int coalToStore = e.getPlayer().getInventory().getNumberOf(453);
 			if (coalToStore > room)
 				coalToStore = room;
-			
+
 			e.getPlayer().getInventory().deleteItem(453, coalToStore);
 			e.getPlayer().save("coalBag", current+coalToStore);
 			e.getPlayer().sendMessage("You store " + coalToStore + " in your coal bag.");
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleCoalBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if (e.getItem().getId() != 18339)
 				return;
-			if (e.isAtObject()) {
-				if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank")) {
+			if (e.isAtObject())
+				if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank"))
 					e.getPlayer().startConversation(new Dialogue().addOptions("How much would you like to deposit?", new Options() {
 						@Override
 						public void create() {
@@ -115,7 +115,7 @@ public class CoalBag {
 								e.getPlayer().save("coalBag", 0);
 								e.getPlayer().sendMessage("You store all of your coal in the bank.");
 							});
-							option("Deposit X", () -> { 
+							option("Deposit X", () -> {
 								e.getPlayer().sendInputInteger("How much coal would you like to deposit?", amount -> {
 									int coalBagAmount = e.getPlayer().getI("coalBag");
 									int coalToStore = (amount > coalBagAmount ? coalBagAmount : amount);
@@ -126,8 +126,6 @@ public class CoalBag {
 							});
 						}
 					}));
-				}
-			}
 		}
 	};
 }

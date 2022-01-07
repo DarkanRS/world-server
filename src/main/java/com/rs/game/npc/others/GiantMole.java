@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,14 +32,14 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class GiantMole extends NPC {
-	
+
 	private static final WorldTile[] COORDS = { new WorldTile(1737, 5228, 0), new WorldTile(1751, 5233, 0), new WorldTile(1778, 5237, 0), new WorldTile(1736, 5227, 0), new WorldTile(1780, 5152, 0), new WorldTile(1758, 5162, 0),
 			new WorldTile(1745, 5169, 0), new WorldTile(1760, 5183, 0) };
 
 	public GiantMole(int id, WorldTile tile, boolean spawned) {
 		super(id, tile, spawned);
 	}
-	
+
 	@Override
 	public void handlePostHit(Hit hit) {
 		if (getHPPerc() > 5.0 && getHPPerc() < 50.0 && Utils.random(4) == 0)
@@ -84,7 +84,7 @@ public class GiantMole extends NPC {
 		}, 2);
 
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3340) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

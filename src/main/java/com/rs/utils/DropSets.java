@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -50,34 +50,31 @@ public class DropSets {
 		DROPS.clear();
 		loadPackedNPCDrops();
 	}
-	
+
 	public static DropSet getDropSet(String string) {
-		if (NPC_DROPS.get(string) != null) {
+		if (NPC_DROPS.get(string) != null)
 			return NPC_DROPS.get(string);
-		}
 		return null;
 	}
 
 	public static DropSet getDropSet(int npcId) {
-		if (NPC_DROPS.get(npcId) != null) {
+		if (NPC_DROPS.get(npcId) != null)
 			return NPC_DROPS.get(npcId);
-		} else if (NPC_DROPS.get(NPCDefinitions.getDefs(npcId).getName()) != null) {
+		if (NPC_DROPS.get(NPCDefinitions.getDefs(npcId).getName()) != null)
 			return NPC_DROPS.get(NPCDefinitions.getDefs(npcId).getName());
-		}
 		return DEFAULT_DROPSET;
 	}
 
 	private static void loadPackedNPCDrops() {
 		try {
 			File[] dropFiles = new File(PATH).listFiles();
-			for (File f : dropFiles) {
+			for (File f : dropFiles)
 				loadFile(f);
-			}
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}
 	}
-	
+
 	private static void loadFile(File f) throws JsonIOException, IOException {
 		if (f.isDirectory()) {
 			for (File dir : f.listFiles())
@@ -87,18 +84,15 @@ public class DropSets {
 		DropSet table = (DropSet) JsonFileManager.loadJsonFile(f, DropSet.class);
 		if (table != null) {
 			table.getDropList();
-			if (table.isOverflowed()) {
+			if (table.isOverflowed())
 				System.err.println(f.getName() + " is overflowed by " + table.getDropList().getOverflow());
-			}
 			DROPS.put(f.getName(), table);
-			if (table.getIds() != null) {
+			if (table.getIds() != null)
 				for (int id : table.getIds())
 					NPC_DROPS.put(id, table);
-			}
-			if (table.getNames() != null) {
+			if (table.getNames() != null)
 				for (String name : table.getNames())
 					NPC_DROPS.put(name, table);
-			}
 		}
 	}
 

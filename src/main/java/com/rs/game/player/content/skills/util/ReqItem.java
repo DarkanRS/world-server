@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -145,7 +145,7 @@ public enum ReqItem {
 	MITHRIL_INGOT_IV(Category.ARTISANS, new Item(20650, 1), Skills.NONE, 1, 0.0, -1, new Item[] { new Item(25631, 30), new Item(25630, 120) }),
 	ADAMANT_INGOT_IV(Category.ARTISANS, new Item(20651, 1), Skills.NONE, 1, 0.0, -1, new Item[] { new Item(25632, 25), new Item(25630, 150) }),
 	RUNE_INGOT_IV(Category.ARTISANS, new Item(20652, 1), Skills.NONE, 1, 0.0, -1, new Item[] { new Item(25633, 18), new Item(25630, 144) }),
-	
+
 	SALVE_CLOTH(Category.DUNG_SPINNING, new Item(17468, 1), Constants.CRAFTING, 1, 2.0, -1, new Item[] { new Item(17448, 1) }),
 	WILDERCRESS_CLOTH(Category.DUNG_SPINNING, new Item(17470, 1), Constants.CRAFTING, 10, 3.0, -1, new Item[] { new Item(17450, 1) }),
 	BLIGHTLEAF_CLOTH(Category.DUNG_SPINNING, new Item(17472, 1), Constants.CRAFTING, 20, 3.0, -1, new Item[] { new Item(17452, 1) }),
@@ -156,7 +156,7 @@ public enum ReqItem {
 	ECTOCLOTH(Category.DUNG_SPINNING, new Item(17482, 1), Constants.CRAFTING, 70, 9.0, -1, new Item[] { new Item(17462, 1) }),
 	RUNIC_CLOTH(Category.DUNG_SPINNING, new Item(17484, 1), Constants.CRAFTING, 80, 10.0, -1, new Item[] { new Item(17464, 1) }),
 	SPIRITBLOOM_CLOTH(Category.DUNG_SPINNING, new Item(17486, 1), Constants.CRAFTING, 90, 12.0, -1, new Item[] { new Item(17466, 1) }),
-	
+
 	SALVE_HOOD(Category.DUNG_NEEDLE_CRAFTING, new Item(16735, 1), Constants.CRAFTING, 4, 31.0, 17446, new Item[] { new Item(17468, 2) }),
 	WILDERCRESS_HOOD(Category.DUNG_NEEDLE_CRAFTING, new Item(16737, 1), Constants.CRAFTING, 14, 48.0, 17446, new Item[] { new Item(17470, 2) }),
 	BLIGHTLEAF_HOOD(Category.DUNG_NEEDLE_CRAFTING, new Item(16739, 1), Constants.CRAFTING, 24, 65.0, 17446, new Item[] { new Item(17472, 2) }),
@@ -257,7 +257,7 @@ public enum ReqItem {
 	STEGOLEATHER_CHAPS(Category.DUNG_NEEDLE_CRAFTING, new Item(17333, 1), Constants.CRAFTING, 77, 233.0, 17446, new Item[] { new Item(17438, 3) }),
 	MEGALEATHER_CHAPS(Category.DUNG_NEEDLE_CRAFTING, new Item(17335, 1), Constants.CRAFTING, 87, 258.0, 17446, new Item[] { new Item(17440, 3) }),
 	TYRANNOLEATHER_CHAPS(Category.DUNG_NEEDLE_CRAFTING, new Item(17337, 1), Constants.CRAFTING, 97, 284.0, 17446, new Item[] { new Item(17442, 3) }),
-	
+
 	HEADLESS_ARROW2(Category.DUNG_ARROW_COMBINING, new Item(17747, 15), Constants.FLETCHING, 1, 0.0, -1, new Item[] { new Item(17742, 15), new Item(17796, 15) }),
 	NOVITE_ARROWS(Category.DUNG_ARROW_COMBINING, new Item(16427, 15), Constants.FLETCHING, 1, 1.0, -1, new Item[] { new Item(17747, 15), new Item(17885, 15) }),
 	BATHUS_ARROWS(Category.DUNG_ARROW_COMBINING, new Item(16432, 15), Constants.FLETCHING, 11, 2.0, -1, new Item[] { new Item(17747, 15), new Item(17890, 15) }),
@@ -269,7 +269,7 @@ public enum ReqItem {
 	KATAGON_ARROWS(Category.DUNG_ARROW_COMBINING, new Item(16462, 15), Constants.FLETCHING, 77, 17.0, -1, new Item[] { new Item(17747, 15), new Item(17920, 15) }),
 	GORGONITE_ARROWS(Category.DUNG_ARROW_COMBINING, new Item(16467, 15), Constants.FLETCHING, 88, 20.0, -1, new Item[] { new Item(17747, 15), new Item(17925, 15) }),
 	PROMETHIUM_ARROWS(Category.DUNG_ARROW_COMBINING, new Item(16472, 15), Constants.FLETCHING, 99, 22.0, -1, new Item[] { new Item(17747, 15), new Item(17930, 15) }),
-	
+
 	TANGLE_GUM_LONGBOW(Category.DUNG_BOWSTRINGING, new Item(16317, 1), Constants.FLETCHING, 6, 5.0, -1, new Item[] { new Item(17722, 1), new Item(17752, 1) }),
 	SEEPING_ELM_LONGBOW(Category.DUNG_BOWSTRINGING, new Item(16319, 1), Constants.FLETCHING, 16, 10.0, -1, new Item[] { new Item(17724, 1), new Item(17752, 1) }),
 	BLOOD_SPINDLE_LONGBOW(Category.DUNG_BOWSTRINGING, new Item(16321, 1), Constants.FLETCHING, 26, 17.0, -1, new Item[] { new Item(17726, 1), new Item(17752, 1) }),
@@ -290,7 +290,7 @@ public enum ReqItem {
 	CORPSETHORN_SHORTBOW(Category.DUNG_BOWSTRINGING, new Item(16881, 1), Constants.FLETCHING, 71, 75.0, -1, new Item[] { new Item(17716, 1), new Item(17752, 1) }),
 	ENTGALLOW_SHORTBOW(Category.DUNG_BOWSTRINGING, new Item(16883, 1), Constants.FLETCHING, 81, 93.0, -1, new Item[] { new Item(17718, 1), new Item(17752, 1) }),
 	GRAVE_CREEPER_SHORTBOW(Category.DUNG_BOWSTRINGING, new Item(16885, 1), Constants.FLETCHING, 91, 113.0, -1, new Item[] { new Item(17720, 1), new Item(17752, 1) }),
-	
+
 	TANGLE_GUM_STAFF(Category.DUNG_KNIFE_FLETCHING, new Item(16977, 1), Constants.FLETCHING, 8, 9.0, 17754, new Item[] { new Item(17682, 1) }),
 	SEEPING_ELM_STAFF(Category.DUNG_KNIFE_FLETCHING, new Item(16979, 1), Constants.FLETCHING, 18, 16.0, 17754, new Item[] { new Item(17684, 1) }),
 	BLOOD_SPINDLE_STAFF(Category.DUNG_KNIFE_FLETCHING, new Item(16981, 1), Constants.FLETCHING, 28, 27.0, 17754, new Item[] { new Item(17686, 1) }),
@@ -332,7 +332,7 @@ public enum ReqItem {
 	CORPSETHORN_TRAP(Category.DUNG_KNIFE_FLETCHING, new Item(17770, 1), Constants.FLETCHING, 73, 180.0, 17754, new Item[] { new Item(17696, 1) }),
 	ENTGALLOW_TRAP(Category.DUNG_KNIFE_FLETCHING, new Item(17772, 1), Constants.FLETCHING, 83, 223.0, 17754, new Item[] { new Item(17698, 1) }),
 	GRAVE_CREEPER_TRAP(Category.DUNG_KNIFE_FLETCHING, new Item(17774, 1), Constants.FLETCHING, 93, 271.0, 17754, new Item[] { new Item(17700, 1) }),
-	
+
 	;
 
 	private Item product;
@@ -342,7 +342,7 @@ public enum ReqItem {
 	private int tool;
 	private Item[] materials;
 	private Category category;
-	
+
 	private ReqItem(Category category, Item product, int skill, int req, double xp, int tool, Item[] materials) {
 		this.product = product;
 		this.skill = skill;
@@ -352,11 +352,11 @@ public enum ReqItem {
 		this.materials = materials;
 		this.category = category;
 	}
-	
+
 	private ReqItem(Item product, int skill, int req, double xp, int tool, Item[] materials) {
 		this(null, product, skill, req, xp, tool, materials);
 	}
-	
+
 	public Item getProduct() {
 		return product;
 	}
@@ -380,20 +380,18 @@ public enum ReqItem {
 	public Item[] getMaterials() {
 		return materials;
 	}
-	
-	private static Map<Integer, ReqItem> items = new HashMap<Integer, ReqItem>();
+
+	private static Map<Integer, ReqItem> items = new HashMap<>();
 
 	static {
-		for (ReqItem item : ReqItem.values()) {
+		for (ReqItem item : ReqItem.values())
 			items.put(item.getProduct().getId(), item);
-		}
 	}
-	
+
 	public Item[] getMaterialsFor(int amount) {
 		Item[] mats = new Item[materials.length];
-		for (int i = 0;i < mats.length;i++) {
+		for (int i = 0;i < mats.length;i++)
 			mats[i] = new Item(materials[i].getId(), materials[i].getAmount()*amount);
-		}
 		return mats;
 	}
 
@@ -402,20 +400,19 @@ public enum ReqItem {
 	}
 
 	public static ReqItem[] getProducts(Category category, int material) {
-		ArrayList<ReqItem> products = new ArrayList<ReqItem>();
+		ArrayList<ReqItem> products = new ArrayList<>();
 		for (ReqItem req : ReqItem.values()) {
 			if (req.category != category)
 				continue;
-			for (Item mat : req.materials) {
+			for (Item mat : req.materials)
 				if (mat.getId() == material)
 					products.add(req);
-			}
 		}
 		return products.toArray(new ReqItem[products.size()]);
 	}
-	
+
 	public static ReqItem[] getProducts(Category category) {
-		ArrayList<ReqItem> products = new ArrayList<ReqItem>();
+		ArrayList<ReqItem> products = new ArrayList<>();
 		for (ReqItem req : ReqItem.values()) {
 			if (req.category != category)
 				continue;

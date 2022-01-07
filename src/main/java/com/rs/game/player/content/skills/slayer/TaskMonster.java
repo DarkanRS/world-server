@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -132,29 +132,29 @@ public enum TaskMonster {
 	MUTATED_JADINKOS(109, 80, "mutated jadinko"),
 	VYREWATCH(110, 1, Quest.BRANCHES_OF_DARKMEYER, "vyrewatch", "vyrelord", "vyrelady"),
 	GROTWORMS(112, 1, "grotworm");
-	
+
 	private static HashMap<Integer, TaskMonster> MAP = new HashMap<>();
-	
+
 	static {
 		for (TaskMonster creature : TaskMonster.values())
 			MAP.put(creature.enumId, creature);
 	}
-	
+
 	public static TaskMonster forEnum(int enumId) {
 		return MAP.get(enumId);
 	}
-	
+
 	private int enumId, level;
 	private String[] monsterNames;
 	private Quest questReq;
-	
+
 	private TaskMonster(int enumId, int level, Quest questReq, String... monsterNames) {
 		this.enumId = enumId;
 		this.level = level;
 		this.questReq = questReq;
 		this.monsterNames = monsterNames;
 	}
-	
+
 	private TaskMonster(int enumId, int level, String... monsterNames) {
 		this.enumId = enumId;
 		this.level = level;
@@ -168,7 +168,7 @@ public enum TaskMonster {
 	public int getLevel() {
 		return level;
 	}
-	
+
 	public Quest getQuestReq() {
 		return questReq;
 	}

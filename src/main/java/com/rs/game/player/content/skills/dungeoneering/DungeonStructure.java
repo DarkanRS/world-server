@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,7 +38,7 @@ public class DungeonStructure {
 	private Random random;
 	private int complexity;
 	private int size;
-	
+
 	public DungeonStructure(int size, Random random, int complexity) {
 		this.complexity = complexity;
 		this.size = size;
@@ -53,10 +53,10 @@ public class DungeonStructure {
 		int y = random.nextInt(rooms[0].length);
 
 		base = new RoomNode(null, x, y);
-		roomList = new LinkedList<RoomNode>();
+		roomList = new LinkedList<>();
 		addRoom(base);
 
-		List<Point> queue = new ArrayList<Point>();
+		List<Point> queue = new ArrayList<>();
 
 		queue.add(new Point(getBase().x - 1, getBase().y));
 		queue.add(new Point(getBase().x + 1, getBase().y));
@@ -67,9 +67,8 @@ public class DungeonStructure {
 		while (!queue.isEmpty()) {
 			Point next = random(queue);
 			//Ensure the edge is within the dungeon boundary and it doesn't already exist
-			if (next.x < 0 || next.y < 0 || next.x >= rooms.length || next.y >= rooms[0].length || getRoom(next.x, next.y) != null) {
+			if (next.x < 0 || next.y < 0 || next.x >= rooms.length || next.y >= rooms[0].length || getRoom(next.x, next.y) != null)
 				continue;
-			}
 
 			//Connect this edge to a random neighboring room
 			RoomNode parent = randomParent(next.x, next.y);
@@ -85,28 +84,26 @@ public class DungeonStructure {
 
 		int maxSize = rooms.length * rooms[0].length;
 		int minSize = (int) (maxSize * 0.8);
-		double multiplier = 1D - ((double) (6D - complexity) * 0.06D);
+		double multiplier = 1D - ((6D - complexity) * 0.06D);
 		maxSize *= multiplier;
 		minSize *= multiplier;
 		//Create gaps by removing random DE's
 		int remove = rooms.length * rooms[0].length - maxSize +  random.nextInt(maxSize - minSize);
-		for (int i = 0; i < remove; i++) {
+		for (int i = 0; i < remove; i++)
 			removeRoom(shuffledRooms().filter(r -> r.children.isEmpty()).findFirst().get());
-		}
 
 		RoomNode boss;
 		//Choose crit
 		while (true) {
 			//Sets only have distinct elements so no need to worry about overlapping paths
-			Set<RoomNode> critPath = new HashSet<RoomNode>();
+			Set<RoomNode> critPath = new HashSet<>();
 			boss = shuffledRooms().filter(r -> r.children.isEmpty()).findFirst().get();
 			critPath.addAll(boss.pathToBase());
 			critPath.addAll(shuffledRooms().findAny().get().pathToBase());
 			critPath.addAll(shuffledRooms().findAny().get().pathToBase());
 			critPath.addAll(shuffledRooms().findAny().get().pathToBase());
-			if (random.nextBoolean()) {
+			if (random.nextBoolean())
 				critPath.addAll(shuffledRooms().findAny().get().pathToBase());
-			}
 
 			if (critPath.size() >= DungeonConstants.MIN_CRIT_PATH[size] && critPath.size() <= DungeonConstants.MAX_CRIT_PATH[size]) {
 				critPath.forEach(r -> r.isCritPath = true);
@@ -116,7 +113,7 @@ public class DungeonStructure {
 		}
 
 		//Move the base somewhere randomly on crit, base can't be a straight 2 way though
-		setBase(shuffledRooms().filter(r -> !r.isBoss && r.isCritPath && !(r.west() == true && r.east() == true && r.north() == false && r.south() == false)  && !(r.west() == false && r.east() == false && r.north() == true && r.south() == true)).findFirst().get());
+		setBase(shuffledRooms().filter(r -> !r.isBoss && r.isCritPath && !(r.west() && r.east() && !r.north() && !r.south())  && !(!r.west() && !r.east() && r.north() && r.south())).findFirst().get());
 
 		//Crit DE locks, if we do these first these can't 'fail', and this mathematically ensures crit is actually crit because each branch will lock out another branch
 		rooms().filter(r -> !r.isBoss && r.children.stream().noneMatch(c -> c.isCritPath) && r.isCritPath).forEach(r -> assignKey(r, true));
@@ -136,7 +133,7 @@ public class DungeonStructure {
 	}
 
 	RoomNode randomParent(int x, int y) {
-		List<RoomNode> neighbors = new LinkedList<RoomNode>();
+		List<RoomNode> neighbors = new LinkedList<>();
 		neighbors.add(getRoom(x - 1, y));
 		neighbors.add(getRoom(x + 1, y));
 		neighbors.add(getRoom(x, y - 1));
@@ -150,17 +147,15 @@ public class DungeonStructure {
 	}
 
 	public void setBase(RoomNode newBase) {
-		if (base == newBase) {
+		if (base == newBase)
 			return;
-		}
 		base = newBase;
 		swapTree(newBase);
 	}
 
 	private void swapTree(RoomNode child) {
-		if (child.parent.parent != null) {
+		if (child.parent.parent != null)
 			swapTree(child.parent);
-		}
 		child.parent.parent = child;
 		child.parent.children.remove(child);
 		child.children.add(child.parent);
@@ -168,9 +163,8 @@ public class DungeonStructure {
 	}
 
 	public RoomNode getRoom(int x, int y) {
-		if (x < 0 || y < 0 || x >= rooms.length || y >= rooms[x].length) {
+		if (x < 0 || y < 0 || x >= rooms.length || y >= rooms[x].length)
 			return null;
-		}
 		return rooms[x][y];
 	}
 
@@ -210,11 +204,11 @@ public class DungeonStructure {
 			lockRoom.lock = keyRoom.key;
 
 		}
-	};
+	}
 
 	public List<RoomNode> getUnrelatedRooms(RoomNode room) {
 		List<RoomNode> reachable = rooms().collect(Collectors.toList());
-		Queue<RoomNode> encounteredLocks = new LinkedList<RoomNode>();
+		Queue<RoomNode> encounteredLocks = new LinkedList<>();
 		encounteredLocks.add(room);
 		while ((room = encounteredLocks.poll()) != null) {
 			reachable.remove(room);
@@ -222,9 +216,8 @@ public class DungeonStructure {
 				int nextLock = room.lock;
 				encounteredLocks.add(rooms().filter(r -> r.key == nextLock).findFirst().get());
 			}
-			if (room.parent != null) {
+			if (room.parent != null)
 				encounteredLocks.add(room.parent);
-			}
 		}
 		return reachable;
 	}

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -42,9 +42,8 @@ public class SeerDialogue extends Dialogue {
 				stage = -2;
 				sendNPCDialogue(388, 9827, "Oh, you can get frozen key peices from godwars to get<br>" + "to Nex. Any extra peices of that frozen key you find,<br>" + "you can use to skip the killcount of the respective<br>"
 						+ "godwars boss and go straight to the room and fight.<br>");
-			} else {
+			} else
 				end();
-			}
 			break;
 		case 1:
 			stage = -2;

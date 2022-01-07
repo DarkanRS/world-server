@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -23,23 +23,23 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public abstract class Book {
-	
+
 	private static final int INTERFACE = 960;
-	
+
 	private static final int[] LEFT_COMPONENTS = { 49, 56, 61, 62, 54, 63, 55, 51, 60, 58, 53, 50, 57, 59, 52 };
 	private static final int[] RIGHT_COMPONENTS = { 33, 39, 36, 44, 37, 46, 40, 42, 34, 35, 38, 43, 47, 45, 41 };
-	
+
 	private Player player;
 	private int page;
-	
+
 	private String title;
 	private BookPage[] pages;
-	
+
 	public Book(String title, BookPage... pages) {
 		this.title = title;
 		this.pages = pages;
 	}
-	
+
 	public static ButtonClickHandler handleInter = new ButtonClickHandler(INTERFACE) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -52,7 +52,7 @@ public abstract class Book {
 				book.nextPage();
 		}
 	};
-	
+
 	public void open(Player player) {
 		this.player = player;
 		this.player.getTempAttribs().setO("currBook", this);
@@ -63,7 +63,7 @@ public abstract class Book {
 		page = 0;
 		update();
 	}
-	
+
 	public void update() {
 		player.getInterfaceManager().sendInterface(INTERFACE);
 		if (page == 0) {
@@ -85,19 +85,19 @@ public abstract class Book {
 			player.getPackets().setIFText(INTERFACE, RIGHT_COMPONENTS[line], pages[page].getRightLine(line));
 		}
 	}
-	
+
 	public void nextPage() {
 		if (page >= pages.length-1)
 			return;
 		page++;
 		update();
 	}
-	
+
 	public void prevPage() {
 		if (page <= 0)
 			return;
 		page--;
 		update();
 	}
-	
+
 }

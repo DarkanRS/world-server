@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -40,14 +40,13 @@ public class Jossik extends Dialogue {
 				stage = 1;
 				sendPlayerDialogue(9827, "Can I see your wares?");
 			} else {
-				for (int i = 0; i < player.getPrayerBook().length; i++) {
+				for (int i = 0; i < player.getPrayerBook().length; i++)
 					if (player.getPrayerBook()[i] && !player.containsOneItem(PrayerBooks.BOOKS[i] + 1)) {
 						sendNPCDialogue(npcId, 9827, "As a matter of fact I did! I found a " + ItemDefinitions.getDefs(PrayerBooks.BOOKS[i] + 1).getName() + ", and I recognised it as yours immediately! Here you go!");
 						player.getInventory().addItem(PrayerBooks.BOOKS[i] + 1, 1);
 						stage = -2;
 						return;
 					}
-				}
 				ShopsHandler.openShop(player, "book_shop");
 				end();
 			}

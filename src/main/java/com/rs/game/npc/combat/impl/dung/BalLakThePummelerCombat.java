@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,7 +39,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 	@Override
 	public Object[] getKeys() {
 		return new Object[]
-		{ "Bal'lak the Pummeller" };
+				{ "Bal'lak the Pummeller" };
 	}
 
 	@Override
@@ -50,12 +50,11 @@ public class BalLakThePummelerCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 
 		boolean smash = Utils.random(5) == 0 && boss.getPoisionPuddles().size() == 0;
-		for (Player player : manager.getParty().getTeam()) {
+		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
 				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, player)));
 			}
-		}
 		if (smash) {
 			npc.setNextAnimation(new Animation(14384));
 			npc.setNextForceTalk(new ForceTalk("Rrrraargh!"));
@@ -79,12 +78,11 @@ public class BalLakThePummelerCombat extends CombatScript {
 					continue;
 				int damage = getMaxHit(npc, AttackStyle.MELEE, t);
 				int damage2 = getMaxHit(npc, AttackStyle.MELEE, t);
-				if (t instanceof Player player) {
+				if (t instanceof Player player)
 					if ((damage > 0 || damage2 > 0)) {
 						player.setProtectionPrayBlock(2);
 						player.sendMessage("You are injured and currently cannot use protection prayers.");
 					}
-				}
 				delayHit(npc, 0, t, getRegularHit(npc, damage));
 				delayHit(npc, 0, t, getRegularHit(npc, damage2));
 			}

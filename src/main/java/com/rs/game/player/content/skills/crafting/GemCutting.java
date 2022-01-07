@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -46,7 +46,7 @@ public class GemCutting extends Action {
 		DRAGONSTONE(1631, 1615, 137.5, 55, 885),
 
 		ONYX(6571, 6573, 167.5, 67, 2717),
-		
+
 		GRAY_SHELL_ROUND(3345, 3327, 35.5, 15, -1),
 
 		RED_AND_BLACK_SHELL_ROUND(3347, 3329, 35.5, 15, -1),
@@ -64,7 +64,7 @@ public class GemCutting extends Action {
 		OCHRE_SHELL_POINTY(3359, 3341, 35.5, 15, -1),
 
 		BLUE_SHELL_POINTY(3361, 3343, 35.5, 15, -1),
-		
+
 		DRAMEN_STAFF(771, 772, 2.0, 31, -1);
 
 		private double experience;
@@ -111,12 +111,11 @@ public class GemCutting extends Action {
 	}
 
 	private static boolean isCutting(Player player, int gemId) {
-		for (Gem gem : Gem.values()) {
+		for (Gem gem : Gem.values())
 			if (gem.uncut == gemId) {
 				cut(player, gem);
 				return true;
 			}
-		}
 		return false;
 	}
 

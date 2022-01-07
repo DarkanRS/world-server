@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,7 +41,7 @@ import com.rs.lib.util.Utils;
 
 /**
  * Instance of a single stealing creation game.
- * 
+ *
  * @author mgi125, the almighty
  */
 public class StealingCreationGameController {
@@ -87,7 +87,7 @@ public class StealingCreationGameController {
 		blueTeam = blue;
 		redTeam = red;
 		lockPeople(-1);
-		scores = new HashMap<Player, Score>();
+		scores = new HashMap<>();
 		for (Player player : blueTeam)
 			scores.put(player, new Score(player.getDisplayName(), false));
 		for (Player player : redTeam)
@@ -124,12 +124,10 @@ public class StealingCreationGameController {
 	}
 
 	public void playMusic() {
-		for (Player player : blueTeam) {
+		for (Player player : blueTeam)
 			player.getMusicsManager().playMusic(578);
-		}
-		for (Player player : redTeam) {
+		for (Player player : redTeam)
 			player.getMusicsManager().playMusic(578);
-		}
 	}
 
 	/**
@@ -181,7 +179,7 @@ public class StealingCreationGameController {
 			int newHealth = health + 4;
 			if (newHealth >= (tier * 4))
 				newHealth = tier * 4;
-			int newDamage = (int) (4D - (4D * ((double) newHealth / ((double) tier * 4D))));
+			int newDamage = (int) (4D - (4D * (newHealth / (tier * 4D))));
 			area.setWallStatus(x, y, newHealth);
 			displayWall(area.getWallTeam(x, y) == 2 ? true : false, tier, x, y, newDamage);
 			return true;
@@ -200,10 +198,10 @@ public class StealingCreationGameController {
 			if (health <= 0)
 				return false;
 			int tier = area.getWallTier(x, y);
-			int oldDamage = (int) (4D - (4D * ((double) health / ((double) tier * 4D))));
+			int oldDamage = (int) (4D - (4D * (health / (tier * 4D))));
 			int newHealth = health - 1;
 			if (newHealth > 1) {
-				int newDamage = (int) (4D - (4D * ((double) newHealth / ((double) tier * 4D))));
+				int newDamage = (int) (4D - (4D * (newHealth / (tier * 4D))));
 				area.setWallStatus(x, y, newHealth);
 				if (oldDamage != newDamage)
 					displayWall(area.getWallTeam(x, y) == 2 ? true : false, tier, x, y, newDamage);
@@ -250,8 +248,8 @@ public class StealingCreationGameController {
 			int[] objects = (type == 9 ? Helper.ROCK_SPOTS : (type == 10 ? Helper.TREE_SPOTS : (type == 11 ? Helper.POOL_SPOTS : Helper.SWARM_SPOTS)))[tier - 1];
 			int startX = minX + Helper.PLOT_OBJECT_BASE[0];
 			int startY = minY + Helper.PLOT_OBJECT_BASE[1];
-			for (int testX = startX - 1; testX < (startX + 2); testX++) {
-				for (int testY = startY - 1; testY < (startY + 2); testY++) {
+			for (int testX = startX - 1; testX < (startX + 2); testX++)
+				for (int testY = startY - 1; testY < (startY + 2); testY++)
 					for (int a = 0; a < objects.length; a++) {
 						GameObject obj = World.getObjectWithId(new WorldTile(testX, testY, 0), objects[a]);
 						if (obj != null) {
@@ -260,8 +258,6 @@ public class StealingCreationGameController {
 							return;
 						}
 					}
-				}
-			}
 		}
 	}
 
@@ -424,7 +420,7 @@ public class StealingCreationGameController {
 	 */
 	public void gameShutdown() {
 		synchronized (logicLock) {
-			final ArrayList<Score> allScores = new ArrayList<Score>(scores.values());
+			final ArrayList<Score> allScores = new ArrayList<>(scores.values());
 			int totalBlue = Score.totalXP(allScores, false, false);
 			int totalRed = Score.totalXP(allScores, true, false);
 			final int winner = totalBlue > totalRed ? 1 : (totalBlue == totalRed ? 0 : 2);
@@ -446,14 +442,11 @@ public class StealingCreationGameController {
 						Helper.awardPoints(player, personal, winner);
 
 					}
-					CoresManager.schedule(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								area.destroy();
-							} catch (Throwable e) {
-								Logger.handle(e);
-							}
+					CoresManager.schedule(() -> {
+						try {
+							area.destroy();
+						} catch (Throwable e) {
+							Logger.handle(e);
 						}
 					}, 2);
 				}
@@ -502,9 +495,8 @@ public class StealingCreationGameController {
 		while (it$.hasNext()) {
 			Entry<Player, Score> entry = it$.next();
 			Player entryPlayer = entry.getKey();
-			if (entryPlayer.getIndex() == player.getIndex()) {
+			if (entryPlayer.getIndex() == player.getIndex())
 				return entry.getValue();
-			}
 		}
 		return null;
 	}

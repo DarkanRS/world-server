@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -60,28 +60,26 @@ public class GlacorCombat extends CombatScript {
 			WorldTasksManager.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					if ((target.getX() == targetPosition.getX()) && (target.getY() == targetPosition.getY())) {
+					if ((target.getX() == targetPosition.getX()) && (target.getY() == targetPosition.getY()))
 						target.applyHit(new Hit(target, 500, HitLook.TRUE_DAMAGE));
-					}
 					World.sendSpotAnim(null, new SpotAnim(2315), targetPosition);
 				}
 			}, p.getTaskDelay());
 			return 0;
-		} else if (target instanceof Player player) {
+		}
+		if (target instanceof Player player) {
 			final Glacor glacor = (Glacor) npc;
-	
+
 			glacor.lastAttacked = player;
-	
+
 			attackType = Utils.random(1, 3);
-	
-			if (glacor.getMinionType() != null && glacor.getMinionType() == InheritedType.SAPPING) {
+
+			if (glacor.getMinionType() != null && glacor.getMinionType() == InheritedType.SAPPING)
 				player.getPrayer().drainPrayer(50);
-			}
-	
-			if (Utils.random(100) < 10) {
+
+			if (Utils.random(100) < 10)
 				attackType = 3;
-			}
-	
+
 			if (attackType == 1) {
 				npc.setNextAnimation(new Animation(9967));
 				npc.setNextSpotAnim(new SpotAnim(902));
@@ -114,9 +112,8 @@ public class GlacorCombat extends CombatScript {
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						if ((player.getX() == targetPosition.getX()) && (player.getY() == targetPosition.getY())) {
+						if ((player.getX() == targetPosition.getX()) && (player.getY() == targetPosition.getY()))
 							player.applyHit(new Hit(player, player.getHitpoints() / 2, HitLook.TRUE_DAMAGE));
-						}
 						World.sendSpotAnim(null, new SpotAnim(2315), targetPosition);
 					}
 				}, p.getTaskDelay());

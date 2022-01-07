@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -43,7 +43,7 @@ public final class EmotesManager {
 	private ArrayList<Emote> unlocked;
 	private transient Player player;
 	private transient long nextEmoteEnd;
-	
+
 	public enum Emote {
 		YES(0, 1796, "Yes", new Animation(855)),
 		NO(1, 1797, "No", new Animation(856)),
@@ -162,19 +162,18 @@ public final class EmotesManager {
 		FROG_TRANS(114, 11192, "Frog Transformation", new Animation(17080), new SpotAnim(3220)),
 		MEXICAN_WAVE(115, 11387, "Mexican Wave", new Animation(17163)),
 		SPORTSMAN(116, 11388, "Sportsman", new Animation(17166));
-		
+
 		private static HashMap<Integer, Emote> MAP = new HashMap<>();
-		
+
 		static {
-			for (Emote emote : Emote.values()) {
+			for (Emote emote : Emote.values())
 				MAP.put(emote.slotId, emote);
-			}
 		}
-		
+
 		public static Emote forSlot(int slotId) {
 			return MAP.get(slotId);
 		}
-		
+
 		private int slotId;
 		private int mapId;
 		private String name;
@@ -182,39 +181,39 @@ public final class EmotesManager {
 		private int value;
 		private Animation animation;
 		private SpotAnim spotAnim;
-		
+
 		private Emote(int slotId, int mapId, String name) {
 			this(slotId, mapId, name, -1, -1, null, null);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, Animation animation) {
 			this(slotId, mapId, name, -1, -1, animation, null);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, Animation animation, SpotAnim spotAnim) {
 			this(slotId, mapId, name, -1, -1, animation, spotAnim);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, int varpbit) {
 			this(slotId, mapId, name, varpbit, 1, null, null);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, int varpbit, Animation animation) {
 			this(slotId, mapId, name, varpbit, 1, animation, null);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, int varpbit, Animation animation, SpotAnim spotAnim) {
 			this(slotId, mapId, name, varpbit, 1, animation, spotAnim);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, int varpbit, int value) {
 			this(slotId, mapId, name, varpbit, value, null, null);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, int varpbit, int value, Animation animation) {
 			this(slotId, mapId, name, varpbit, value, animation, null);
 		}
-		
+
 		private Emote(int slotId, int mapId, String name, int varpbit, int value, Animation animation, SpotAnim spotAnim) {
 			this.slotId = slotId;
 			this.mapId = mapId;
@@ -224,18 +223,18 @@ public final class EmotesManager {
 			this.animation = animation;
 			this.spotAnim = spotAnim;
 		}
-		
+
 		public int getMapId() {
 			return mapId;
 		}
-		
+
 		public Animation getAnim() {
 			return animation;
 		}
 	}
 
 	public EmotesManager() {
-		unlocked = new ArrayList<Emote>();
+		unlocked = new ArrayList<>();
 	}
 
 	public void setPlayer(Player player) {
@@ -248,15 +247,13 @@ public final class EmotesManager {
 		if (unlocked.add(emote))
 			refreshListConfigs();
 	}
-	
+
 	public boolean unlockedEmote(Emote emote) {
-		if (player.hasRights(Rights.ADMIN))
-			return true;
-		if (emote.ordinal() <= Emote.SALUTE.ordinal() || emote == Emote.CELEBRATE || emote == Emote.CAPE)
+		if (player.hasRights(Rights.ADMIN) || emote.ordinal() <= Emote.SALUTE.ordinal() || emote == Emote.CELEBRATE || emote == Emote.CAPE)
 			return true;
 		return unlocked.contains(emote);
 	}
-	
+
 	public static ButtonClickHandler handleEmoteBook = new ButtonClickHandler(590, 464) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -289,462 +286,456 @@ public final class EmotesManager {
 				player.setNextAnimation(emote.animation);
 				if (emote.spotAnim != null)
 					player.setNextSpotAnim(emote.spotAnim);
-			} else {
-				if (emote == Emote.TASKMASTER) {
-					player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15033 : 15034));
-					player.setNextSpotAnim(new SpotAnim(2930));
-				} else if (emote == Emote.LOLCANO) {
-					player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15532 : 15533));
-					player.setNextSpotAnim(new SpotAnim(2191));
-				} else if (emote == Emote.SCREAM) {
-					player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15526 : 15527));
-				} else if (emote == Emote.ROFLCOPTER) {
-					player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 16373 : 16374));
-					player.setNextSpotAnim(new SpotAnim(3010));
-				} else if (emote == Emote.WEREWOLF_TRANSFORMATION) {
-					player.setNextAnimation(new Animation(16380));
-					player.setNextSpotAnim(new SpotAnim(3013));
-					player.setNextSpotAnim(new SpotAnim(3016));
-				} else if (emote == Emote.EVIL_LAUGH) {
-					player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15535 : 15536));
-					player.setNextSpotAnim(new SpotAnim(2191));
-				} else if (emote == Emote.LIVING_BORROWED_TIME) {
-					final NPC grim = new NPC(14388, new WorldTile(player.getX(), player.getY() + 1, player.getPlane()));
-					World.addNPC(grim);
-					player.lock();
-					grim.setNextFaceEntity(player);
-					player.setNextFaceEntity(grim);
-					WorldTasksManager.schedule(new WorldTask() {
-						int emote = 10;
-						@Override
-						public void run() {
-							if (emote <= 0 || player.hasFinished()) {
-								this.stop();
-							}
-							if (emote == 10) {
-								grim.setNextAnimation(new Animation(13964));
-								player.setNextSpotAnim(new SpotAnim(1766));
-								player.setNextAnimation(new Animation(13965));
-							}
-							if (emote == 1) {
-								grim.setFinished(true);
-								World.removeNPC(grim);
-								grim.setNextFaceEntity(null);
-							}
-							if (emote == 0) {
-								player.setNextForceTalk(new ForceTalk("Phew! Close call."));
-								player.setNextFaceEntity(null);
-								emote = 0;
-								player.unlock();
-							}
-							if (emote > 0) {
-								emote--;
-							}
+			} else if (emote == Emote.TASKMASTER) {
+				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15033 : 15034));
+				player.setNextSpotAnim(new SpotAnim(2930));
+			} else if (emote == Emote.LOLCANO) {
+				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15532 : 15533));
+				player.setNextSpotAnim(new SpotAnim(2191));
+			} else if (emote == Emote.SCREAM)
+				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15526 : 15527));
+			else if (emote == Emote.ROFLCOPTER) {
+				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 16373 : 16374));
+				player.setNextSpotAnim(new SpotAnim(3010));
+			} else if (emote == Emote.WEREWOLF_TRANSFORMATION) {
+				player.setNextAnimation(new Animation(16380));
+				player.setNextSpotAnim(new SpotAnim(3013));
+				player.setNextSpotAnim(new SpotAnim(3016));
+			} else if (emote == Emote.EVIL_LAUGH) {
+				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15535 : 15536));
+				player.setNextSpotAnim(new SpotAnim(2191));
+			} else if (emote == Emote.LIVING_BORROWED_TIME) {
+				final NPC grim = new NPC(14388, new WorldTile(player.getX(), player.getY() + 1, player.getPlane()));
+				World.addNPC(grim);
+				player.lock();
+				grim.setNextFaceEntity(player);
+				player.setNextFaceEntity(grim);
+				WorldTasksManager.schedule(new WorldTask() {
+					int emote = 10;
+					@Override
+					public void run() {
+						if (emote <= 0 || player.hasFinished())
+							stop();
+						if (emote == 10) {
+							grim.setNextAnimation(new Animation(13964));
+							player.setNextSpotAnim(new SpotAnim(1766));
+							player.setNextAnimation(new Animation(13965));
 						}
-					}, 1, 1);
-				} else if (emote == Emote.CAPE) {
-					final int capeId = player.getEquipment().getCapeId();
-					switch (capeId) {
-					case 9747:
-					case 9748:
-					case 25324:
-						player.setNextAnimation(new Animation(4959));
-						player.setNextSpotAnim(new SpotAnim(823));
-						
-						break;
-					case 9753:
-					case 9754:
-					case 25326:
-						player.setNextAnimation(new Animation(4961));
-						player.setNextSpotAnim(new SpotAnim(824));
-						break;
-					case 9750:
-					case 9751:
-					case 25325:
-						player.setNextAnimation(new Animation(4981));
-						player.setNextSpotAnim(new SpotAnim(828));
-						break;
-					case 9768:
-					case 9769:
-					case 25332:
-						player.setNextAnimation(new Animation(14242));
-						player.setNextSpotAnim(new SpotAnim(2745));
-						break;
-					case 9756:
-					case 9757:
-					case 25327:
-						player.setNextAnimation(new Animation(4973));
-						player.setNextSpotAnim(new SpotAnim(832));
-						break;
-					case 9762:
-					case 9763:
-					case 25329:
-						player.setNextAnimation(new Animation(4939));
-						player.setNextSpotAnim(new SpotAnim(813));
-						break;
-					case 9759:
-					case 9760:
-					case 25328:
-						player.setNextAnimation(new Animation(4979));
-						player.setNextSpotAnim(new SpotAnim(829));
-						break;
-					case 9801:
-					case 9802:
-					case 25344:
-						player.setNextAnimation(new Animation(4955));
-						player.setNextSpotAnim(new SpotAnim(821));
-						break;
-					case 9807:
-					case 9808:
-					case 25346:
-						player.setNextAnimation(new Animation(4957));
-						player.setNextSpotAnim(new SpotAnim(822));
-						break;
-					case 9783:
-					case 9784:
-					case 25337:
-						player.setNextAnimation(new Animation(4937));
-						player.setNextSpotAnim(new SpotAnim(812));
-						break;
-					case 9798:
-					case 9799:
-					case 25343:
-						player.setNextAnimation(new Animation(4951));
-						player.setNextSpotAnim(new SpotAnim(819));
-						break;
-					case 9804:
-					case 9805:
-					case 25345:
-						player.setNextAnimation(new Animation(4975));
-						player.setNextSpotAnim(new SpotAnim(831));
-						break;
-					case 9780:
-					case 9781:
-					case 25336:
-						player.setNextAnimation(new Animation(4949));
-						player.setNextSpotAnim(new SpotAnim(818));
-						break;
-					case 9795:
-					case 9796:
-					case 25342:
-						player.setNextAnimation(new Animation(4943));
-						player.setNextSpotAnim(new SpotAnim(815));
-						break;
-					case 9792:
-					case 9793:
-					case 25341:
-						player.setNextAnimation(new Animation(4941));
-						player.setNextSpotAnim(new SpotAnim(814));
-						break;
-					case 9774:
-					case 9775:
-					case 25334:
-						player.setNextAnimation(new Animation(4969));
-						player.setNextSpotAnim(new SpotAnim(835));
-						break;
-					case 9771:
-					case 9772:
-					case 25333:
-						player.setNextAnimation(new Animation(4977));
-						player.setNextSpotAnim(new SpotAnim(830));
-						break;
-					case 9777:
-					case 9778:
-					case 25335:
-						player.setNextAnimation(new Animation(4965));
-						player.setNextSpotAnim(new SpotAnim(826));
-						break;
-					case 9786:
-					case 9787:
-					case 25338:
-						player.setNextAnimation(new Animation(4967));
-						player.setNextSpotAnim(new SpotAnim(1656));
-						break;
-					case 9810:
-					case 9811:
-					case 25347:
-						player.setNextAnimation(new Animation(4963));
-						player.setNextSpotAnim(new SpotAnim(825));
-						break;
-					case 9765:
-					case 9766:
-					case 25330:
-						player.setNextAnimation(new Animation(4947));
-						player.setNextSpotAnim(new SpotAnim(817));
-						break;
-					case 9789:
-					case 9790:
-					case 25331:
-						player.setNextAnimation(new Animation(4953));
-						player.setNextSpotAnim(new SpotAnim(820));
-						break;
-					case 12169:
-					case 12170:
-					case 25348:
-						player.setNextAnimation(new Animation(8525));
-						player.setNextSpotAnim(new SpotAnim(1515));
-						break;
-					case 9948:
-					case 9949:
-					case 25339:
-						player.setNextAnimation(new Animation(5158));
-						player.setNextSpotAnim(new SpotAnim(907));
-						break;
-					case 9813:
-						player.setNextAnimation(new Animation(4945));
-						player.setNextSpotAnim(new SpotAnim(816));
-						break;
-					case 18508:
-					case 18509: // Dungeoneering cape
-						if (player.isLocked())
-							break;
-						final int rand = Utils.random(0, 3);
-						player.setNextAnimation(new Animation(13190));
-						player.setNextSpotAnim(new SpotAnim(2442));
-						player.lock();
-						WorldTasksManager.schedule(new WorldTask() {
-							int step;
-
-							@Override
-							public void run() {
-								if (step == 1) {
-									if (rand == 0)
-										player.getAppearance().transformIntoNPC(11227);
-									else if (rand == 1)
-										player.getAppearance().transformIntoNPC(11228);
-									else if (rand == 2)
-										player.getAppearance().transformIntoNPC(11229);
-
-									if (rand == 0)
-										player.setNextAnimation(new Animation(13192));
-									else if (rand == 1)
-										player.setNextAnimation(new Animation(13193));
-									else if (rand == 2)
-										player.setNextAnimation(new Animation(13194));
-								}
-								if (step == 6) {
-									player.getAppearance().transformIntoNPC(-1);
-								}
-								if (step == 8) {
-									player.unlock();
-									stop();
-								}
-								step++;
-							}
-						}, 0, 0);
-						break;
-					case 19709:
-					case 19710: // Master dungeoneering cape
-						if (player.isLocked())
-							break;
-						player.setNextFaceWorldTile(new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
-						player.lock();
-						WorldTasksManager.schedule(new WorldTask() {
-							int step;
-
-							@Override
-							public void run() {
-								if (step == 1) {
-									player.getAppearance().transformIntoNPC(11229);
-									player.setNextAnimation(new Animation(14608));
-									World.sendProjectile(player, new WorldTile(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1, 0);
-									World.sendSpotAnim(player, new SpotAnim(2777), new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
-								}
-								if (step == 3) {
-									player.getAppearance().transformIntoNPC(11228);
-									player.setNextAnimation(new Animation(14609));
-									player.setNextSpotAnim(new SpotAnim(2782));
-									World.sendSpotAnim(player, new SpotAnim(2778), new WorldTile(player.getX() + 1, player.getY() - 1, player.getPlane()));
-								}
-								if (step == 5) {
-									player.getAppearance().transformIntoNPC(11227);
-									player.setNextAnimation(new Animation(14610, 15));
-									World.sendSpotAnim(player, new SpotAnim(2779), new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
-									World.sendSpotAnim(player, new SpotAnim(2780), new WorldTile(player.getX(), player.getY() + 1, player.getPlane()));
-								}
-								if (step == 9) {
-									player.setNextSpotAnim(new SpotAnim(2442));
-								}
-								if (step == 10) {
-									player.setNextSpotAnim(new SpotAnim(-1));
-									player.getAppearance().transformIntoNPC(-1);
-									player.unlock();
-									stop();
-								}
-								step++;
-							}
-						}, 0, 0);
-						break;
-					case 20763: // Veteran cape
-						if (player.getControllerManager().getController() != null) {
-							player.sendMessage("You cannot do this here!");
-							return;
+						if (emote == 1) {
+							grim.setFinished(true);
+							World.removeNPC(grim);
+							grim.setNextFaceEntity(null);
 						}
-						player.setNextAnimation(new Animation(352));
-						player.setNextSpotAnim(new SpotAnim(1446));
-						break;
-					case 20765: // Classic cape
-						if (player.getControllerManager().getController() != null) {
-							player.sendMessage("You cannot do this here!");
-							return;
+						if (emote == 0) {
+							player.setNextForceTalk(new ForceTalk("Phew! Close call."));
+							player.setNextFaceEntity(null);
+							emote = 0;
+							player.unlock();
 						}
-						int random = Utils.getRandomInclusive(2);
-						player.setNextAnimation(new Animation(122));
-						player.setNextSpotAnim(new SpotAnim(random == 0 ? 1471 : 1466));
-						break;
-					case 20767: // Max cape
-						if (player.getControllerManager().getController() != null) {
-							player.sendMessage("Dont annoy other players!");
-							return;
-						}
-						int size = NPCDefinitions.getDefs(1224).size;
-						WorldTile spawnTile = new WorldTile(new WorldTile(player.getX() + 1, player.getY(), player.getPlane()));
-						if (!World.floorAndWallsFree(spawnTile, size)) {
-							spawnTile = null;
-							int[][] dirs = Utils.getCoordOffsetsNear(size);
-							for (int dir = 0; dir < dirs[0].length; dir++) {
-								final WorldTile tile = new WorldTile(new WorldTile(player.getX() + dirs[0][dir], player.getY() + dirs[1][dir], player.getPlane()));
-								if (World.floorAndWallsFree(tile, size)) {
-									spawnTile = tile;
-									break;
-								}
-							}
-						}
-						if (spawnTile == null) {
-							player.sendMessage("Need more space to perform this skillcape emote.");
-							return;
-						}
-						nextEmoteEnd = World.getServerTicks() + 25;
-						final WorldTile npcTile = spawnTile;
-						WorldTasksManager.schedule(new WorldTask() {
-							private int step;
-							private NPC npc;
-
-							@Override
-							public void run() {
-								if (step == 0) {
-									npc = new NPC(1224, npcTile);
-									npc.setNextAnimation(new Animation(1434));
-									npc.setNextSpotAnim(new SpotAnim(1482));
-									player.setNextAnimation(new Animation(1179));
-									npc.setNextFaceEntity(player);
-									player.setNextFaceEntity(npc);
-								} else if (step == 2) {
-									npc.setNextAnimation(new Animation(1436));
-									npc.setNextSpotAnim(new SpotAnim(1486));
-									player.setNextAnimation(new Animation(1180));
-								} else if (step == 3) {
-									npc.setNextSpotAnim(new SpotAnim(1498));
-									player.setNextAnimation(new Animation(1181));
-								} else if (step == 4) {
-									player.setNextAnimation(new Animation(1182));
-								} else if (step == 5) {
-									npc.setNextAnimation(new Animation(1448));
-									player.setNextAnimation(new Animation(1250));
-								} else if (step == 6) {
-									player.setNextAnimation(new Animation(1251));
-									player.setNextSpotAnim(new SpotAnim(1499));
-									npc.setNextAnimation(new Animation(1454));
-									npc.setNextSpotAnim(new SpotAnim(1504));
-								} else if (step == 11) {
-									player.setNextAnimation(new Animation(1291));
-									player.setNextSpotAnim(new SpotAnim(1686));
-									player.setNextSpotAnim(new SpotAnim(1598));
-									npc.setNextAnimation(new Animation(1440));
-								} else if (step == 16) {
-									player.setNextFaceEntity(null);
-									npc.finish();
-									stop();
-								}
-								step++;
-							}
-
-						}, 0, 1);
-						break;
-					case 20769:
-					case 20771: // Compl cape
-						if (!World.floorAndWallsFree(player, 3)) {
-							player.sendMessage("Need more space to perform this skillcape emote.");
-							return;
-						} else if (player.getControllerManager().getController() != null) {
-							player.sendMessage("Dont annoy other players!");
-							return;
-						}
-						nextEmoteEnd = World.getServerTicks() + 20;
-						WorldTasksManager.schedule(new WorldTask() {
-							private int step;
-							@Override
-							public void run() {
-								if (step == 0) {
-									player.setNextAnimation(new Animation(356));
-									player.setNextSpotAnim(new SpotAnim(307));
-								} else if (step == 2) {
-									player.getAppearance().transformIntoNPC(capeId == 20769 ? 1830 : 3372);
-									player.setNextAnimation(new Animation(1174));
-									player.setNextSpotAnim(new SpotAnim(1443));
-								} else if (step == 4) {
-									player.getPackets().sendCameraShake(3, 25, 50, 25, 50);
-								} else if (step == 5) {
-									player.getPackets().sendStopCameraShake();
-								} else if (step == 8) {
-									player.getAppearance().transformIntoNPC(-1);
-									player.setNextAnimation(new Animation(1175));
-									stop();
-								}
-								step++;
-							}
-						}, 0, 1);
-						break;
-					default:
-						player.sendMessage("You need to be wearing a skillcape in order to perform this emote.");
-						break;
+						if (emote > 0)
+							emote--;
 					}
-					return;
-				} else if (emote == Emote.GIVE_THANKS) {
+				}, 1, 1);
+			} else if (emote == Emote.CAPE) {
+				final int capeId = player.getEquipment().getCapeId();
+				switch (capeId) {
+				case 9747:
+				case 9748:
+				case 25324:
+					player.setNextAnimation(new Animation(4959));
+					player.setNextSpotAnim(new SpotAnim(823));
+
+					break;
+				case 9753:
+				case 9754:
+				case 25326:
+					player.setNextAnimation(new Animation(4961));
+					player.setNextSpotAnim(new SpotAnim(824));
+					break;
+				case 9750:
+				case 9751:
+				case 25325:
+					player.setNextAnimation(new Animation(4981));
+					player.setNextSpotAnim(new SpotAnim(828));
+					break;
+				case 9768:
+				case 9769:
+				case 25332:
+					player.setNextAnimation(new Animation(14242));
+					player.setNextSpotAnim(new SpotAnim(2745));
+					break;
+				case 9756:
+				case 9757:
+				case 25327:
+					player.setNextAnimation(new Animation(4973));
+					player.setNextSpotAnim(new SpotAnim(832));
+					break;
+				case 9762:
+				case 9763:
+				case 25329:
+					player.setNextAnimation(new Animation(4939));
+					player.setNextSpotAnim(new SpotAnim(813));
+					break;
+				case 9759:
+				case 9760:
+				case 25328:
+					player.setNextAnimation(new Animation(4979));
+					player.setNextSpotAnim(new SpotAnim(829));
+					break;
+				case 9801:
+				case 9802:
+				case 25344:
+					player.setNextAnimation(new Animation(4955));
+					player.setNextSpotAnim(new SpotAnim(821));
+					break;
+				case 9807:
+				case 9808:
+				case 25346:
+					player.setNextAnimation(new Animation(4957));
+					player.setNextSpotAnim(new SpotAnim(822));
+					break;
+				case 9783:
+				case 9784:
+				case 25337:
+					player.setNextAnimation(new Animation(4937));
+					player.setNextSpotAnim(new SpotAnim(812));
+					break;
+				case 9798:
+				case 9799:
+				case 25343:
+					player.setNextAnimation(new Animation(4951));
+					player.setNextSpotAnim(new SpotAnim(819));
+					break;
+				case 9804:
+				case 9805:
+				case 25345:
+					player.setNextAnimation(new Animation(4975));
+					player.setNextSpotAnim(new SpotAnim(831));
+					break;
+				case 9780:
+				case 9781:
+				case 25336:
+					player.setNextAnimation(new Animation(4949));
+					player.setNextSpotAnim(new SpotAnim(818));
+					break;
+				case 9795:
+				case 9796:
+				case 25342:
+					player.setNextAnimation(new Animation(4943));
+					player.setNextSpotAnim(new SpotAnim(815));
+					break;
+				case 9792:
+				case 9793:
+				case 25341:
+					player.setNextAnimation(new Animation(4941));
+					player.setNextSpotAnim(new SpotAnim(814));
+					break;
+				case 9774:
+				case 9775:
+				case 25334:
+					player.setNextAnimation(new Animation(4969));
+					player.setNextSpotAnim(new SpotAnim(835));
+					break;
+				case 9771:
+				case 9772:
+				case 25333:
+					player.setNextAnimation(new Animation(4977));
+					player.setNextSpotAnim(new SpotAnim(830));
+					break;
+				case 9777:
+				case 9778:
+				case 25335:
+					player.setNextAnimation(new Animation(4965));
+					player.setNextSpotAnim(new SpotAnim(826));
+					break;
+				case 9786:
+				case 9787:
+				case 25338:
+					player.setNextAnimation(new Animation(4967));
+					player.setNextSpotAnim(new SpotAnim(1656));
+					break;
+				case 9810:
+				case 9811:
+				case 25347:
+					player.setNextAnimation(new Animation(4963));
+					player.setNextSpotAnim(new SpotAnim(825));
+					break;
+				case 9765:
+				case 9766:
+				case 25330:
+					player.setNextAnimation(new Animation(4947));
+					player.setNextSpotAnim(new SpotAnim(817));
+					break;
+				case 9789:
+				case 9790:
+				case 25331:
+					player.setNextAnimation(new Animation(4953));
+					player.setNextSpotAnim(new SpotAnim(820));
+					break;
+				case 12169:
+				case 12170:
+				case 25348:
+					player.setNextAnimation(new Animation(8525));
+					player.setNextSpotAnim(new SpotAnim(1515));
+					break;
+				case 9948:
+				case 9949:
+				case 25339:
+					player.setNextAnimation(new Animation(5158));
+					player.setNextSpotAnim(new SpotAnim(907));
+					break;
+				case 9813:
+					player.setNextAnimation(new Animation(4945));
+					player.setNextSpotAnim(new SpotAnim(816));
+					break;
+				case 18508:
+				case 18509: // Dungeoneering cape
+					if (player.isLocked())
+						break;
+					final int rand = Utils.random(0, 3);
+					player.setNextAnimation(new Animation(13190));
+					player.setNextSpotAnim(new SpotAnim(2442));
+					player.lock();
 					WorldTasksManager.schedule(new WorldTask() {
+						int step;
+
 						@Override
 						public void run() {
-							if (step == 0) {
-								player.setNextAnimation(new Animation(10994));
-								player.setNextSpotAnim(new SpotAnim(86));
-							} else if (step == 1) {
-								player.setNextAnimation(new Animation(10996));
-								player.getAppearance().transformIntoNPC(8499);
-							} else if (step == 6) {
-								player.setNextAnimation(new Animation(10995));
-								player.setNextSpotAnim(new SpotAnim(86));
+							if (step == 1) {
+								if (rand == 0)
+									player.getAppearance().transformIntoNPC(11227);
+								else if (rand == 1)
+									player.getAppearance().transformIntoNPC(11228);
+								else if (rand == 2)
+									player.getAppearance().transformIntoNPC(11229);
+
+								if (rand == 0)
+									player.setNextAnimation(new Animation(13192));
+								else if (rand == 1)
+									player.setNextAnimation(new Animation(13193));
+								else if (rand == 2)
+									player.setNextAnimation(new Animation(13194));
+							}
+							if (step == 6)
 								player.getAppearance().transformIntoNPC(-1);
+							if (step == 8) {
+								player.unlock();
 								stop();
 							}
 							step++;
 						}
-						private int step;
-					}, 0, 1);
-				} else if (emote == Emote.SEAL_OF_APPROVAL) {
+					}, 0, 0);
+					break;
+				case 19709:
+				case 19710: // Master dungeoneering cape
+					if (player.isLocked())
+						break;
+					player.setNextFaceWorldTile(new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
+					player.lock();
 					WorldTasksManager.schedule(new WorldTask() {
-						int random = (int) (Math.random() * (2 + 1));
+						int step;
+
+						@Override
+						public void run() {
+							if (step == 1) {
+								player.getAppearance().transformIntoNPC(11229);
+								player.setNextAnimation(new Animation(14608));
+								World.sendProjectile(player, new WorldTile(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1, 0);
+								World.sendSpotAnim(player, new SpotAnim(2777), new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
+							}
+							if (step == 3) {
+								player.getAppearance().transformIntoNPC(11228);
+								player.setNextAnimation(new Animation(14609));
+								player.setNextSpotAnim(new SpotAnim(2782));
+								World.sendSpotAnim(player, new SpotAnim(2778), new WorldTile(player.getX() + 1, player.getY() - 1, player.getPlane()));
+							}
+							if (step == 5) {
+								player.getAppearance().transformIntoNPC(11227);
+								player.setNextAnimation(new Animation(14610, 15));
+								World.sendSpotAnim(player, new SpotAnim(2779), new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
+								World.sendSpotAnim(player, new SpotAnim(2780), new WorldTile(player.getX(), player.getY() + 1, player.getPlane()));
+							}
+							if (step == 9)
+								player.setNextSpotAnim(new SpotAnim(2442));
+							if (step == 10) {
+								player.setNextSpotAnim(new SpotAnim(-1));
+								player.getAppearance().transformIntoNPC(-1);
+								player.unlock();
+								stop();
+							}
+							step++;
+						}
+					}, 0, 0);
+					break;
+				case 20763: // Veteran cape
+					if (player.getControllerManager().getController() != null) {
+						player.sendMessage("You cannot do this here!");
+						return;
+					}
+					player.setNextAnimation(new Animation(352));
+					player.setNextSpotAnim(new SpotAnim(1446));
+					break;
+				case 20765: // Classic cape
+					if (player.getControllerManager().getController() != null) {
+						player.sendMessage("You cannot do this here!");
+						return;
+					}
+					int random = Utils.getRandomInclusive(2);
+					player.setNextAnimation(new Animation(122));
+					player.setNextSpotAnim(new SpotAnim(random == 0 ? 1471 : 1466));
+					break;
+				case 20767: // Max cape
+					if (player.getControllerManager().getController() != null) {
+						player.sendMessage("Dont annoy other players!");
+						return;
+					}
+					int size = NPCDefinitions.getDefs(1224).size;
+					WorldTile spawnTile = new WorldTile(new WorldTile(player.getX() + 1, player.getY(), player.getPlane()));
+					if (!World.floorAndWallsFree(spawnTile, size)) {
+						spawnTile = null;
+						int[][] dirs = Utils.getCoordOffsetsNear(size);
+						for (int dir = 0; dir < dirs[0].length; dir++) {
+							final WorldTile tile = new WorldTile(new WorldTile(player.getX() + dirs[0][dir], player.getY() + dirs[1][dir], player.getPlane()));
+							if (World.floorAndWallsFree(tile, size)) {
+								spawnTile = tile;
+								break;
+							}
+						}
+					}
+					if (spawnTile == null) {
+						player.sendMessage("Need more space to perform this skillcape emote.");
+						return;
+					}
+					nextEmoteEnd = World.getServerTicks() + 25;
+					final WorldTile npcTile = spawnTile;
+					WorldTasksManager.schedule(new WorldTask() {
+						private int step;
+						private NPC npc;
+
 						@Override
 						public void run() {
 							if (step == 0) {
-								player.setNextAnimation(new Animation(15104));
-								player.setNextSpotAnim(new SpotAnim(1287));
-							} else if (step == 1) {
-								player.setNextAnimation(new Animation(15106));
-								player.getAppearance().transformIntoNPC(random == 0 ? 13255 : (random == 1 ? 13256 : 13257));
+								npc = new NPC(1224, npcTile);
+								npc.setNextAnimation(new Animation(1434));
+								npc.setNextSpotAnim(new SpotAnim(1482));
+								player.setNextAnimation(new Animation(1179));
+								npc.setNextFaceEntity(player);
+								player.setNextFaceEntity(npc);
 							} else if (step == 2) {
-								player.setNextAnimation(new Animation(15108));
+								npc.setNextAnimation(new Animation(1436));
+								npc.setNextSpotAnim(new SpotAnim(1486));
+								player.setNextAnimation(new Animation(1180));
 							} else if (step == 3) {
-								player.setNextAnimation(new Animation(15105));
-								player.setNextSpotAnim(new SpotAnim(1287));
-								player.getAppearance().transformIntoNPC(-1);
+								npc.setNextSpotAnim(new SpotAnim(1498));
+								player.setNextAnimation(new Animation(1181));
+							} else if (step == 4)
+								player.setNextAnimation(new Animation(1182));
+							else if (step == 5) {
+								npc.setNextAnimation(new Animation(1448));
+								player.setNextAnimation(new Animation(1250));
+							} else if (step == 6) {
+								player.setNextAnimation(new Animation(1251));
+								player.setNextSpotAnim(new SpotAnim(1499));
+								npc.setNextAnimation(new Animation(1454));
+								npc.setNextSpotAnim(new SpotAnim(1504));
+							} else if (step == 11) {
+								player.setNextAnimation(new Animation(1291));
+								player.setNextSpotAnim(new SpotAnim(1686));
+								player.setNextSpotAnim(new SpotAnim(1598));
+								npc.setNextAnimation(new Animation(1440));
+							} else if (step == 16) {
+								player.setNextFaceEntity(null);
+								npc.finish();
 								stop();
 							}
 							step++;
 						}
-						private int step;
+
 					}, 0, 1);
+					break;
+				case 20769:
+				case 20771: // Compl cape
+					if (!World.floorAndWallsFree(player, 3)) {
+						player.sendMessage("Need more space to perform this skillcape emote.");
+						return;
+					}
+					if (player.getControllerManager().getController() != null) {
+						player.sendMessage("Dont annoy other players!");
+						return;
+					}
+					nextEmoteEnd = World.getServerTicks() + 20;
+					WorldTasksManager.schedule(new WorldTask() {
+						private int step;
+						@Override
+						public void run() {
+							if (step == 0) {
+								player.setNextAnimation(new Animation(356));
+								player.setNextSpotAnim(new SpotAnim(307));
+							} else if (step == 2) {
+								player.getAppearance().transformIntoNPC(capeId == 20769 ? 1830 : 3372);
+								player.setNextAnimation(new Animation(1174));
+								player.setNextSpotAnim(new SpotAnim(1443));
+							} else if (step == 4)
+								player.getPackets().sendCameraShake(3, 25, 50, 25, 50);
+							else if (step == 5)
+								player.getPackets().sendStopCameraShake();
+							else if (step == 8) {
+								player.getAppearance().transformIntoNPC(-1);
+								player.setNextAnimation(new Animation(1175));
+								stop();
+							}
+							step++;
+						}
+					}, 0, 1);
+					break;
+				default:
+					player.sendMessage("You need to be wearing a skillcape in order to perform this emote.");
+					break;
 				}
-			}
+				return;
+			} else if (emote == Emote.GIVE_THANKS)
+				WorldTasksManager.schedule(new WorldTask() {
+					@Override
+					public void run() {
+						if (step == 0) {
+							player.setNextAnimation(new Animation(10994));
+							player.setNextSpotAnim(new SpotAnim(86));
+						} else if (step == 1) {
+							player.setNextAnimation(new Animation(10996));
+							player.getAppearance().transformIntoNPC(8499);
+						} else if (step == 6) {
+							player.setNextAnimation(new Animation(10995));
+							player.setNextSpotAnim(new SpotAnim(86));
+							player.getAppearance().transformIntoNPC(-1);
+							stop();
+						}
+						step++;
+					}
+					private int step;
+				}, 0, 1);
+			else if (emote == Emote.SEAL_OF_APPROVAL)
+				WorldTasksManager.schedule(new WorldTask() {
+					int random = (int) (Math.random() * (2 + 1));
+					@Override
+					public void run() {
+						if (step == 0) {
+							player.setNextAnimation(new Animation(15104));
+							player.setNextSpotAnim(new SpotAnim(1287));
+						} else if (step == 1) {
+							player.setNextAnimation(new Animation(15106));
+							player.getAppearance().transformIntoNPC(random == 0 ? 13255 : (random == 1 ? 13256 : 13257));
+						} else if (step == 2)
+							player.setNextAnimation(new Animation(15108));
+						else if (step == 3) {
+							player.setNextAnimation(new Animation(15105));
+							player.setNextSpotAnim(new SpotAnim(1287));
+							player.getAppearance().transformIntoNPC(-1);
+							stop();
+						}
+						step++;
+					}
+					private int step;
+				}, 0, 1);
 			setNextEmoteEnd();
 		}
 	}
@@ -758,12 +749,11 @@ public final class EmotesManager {
 	}
 
 	public void refreshListConfigs() {
-		for (Emote emote : unlocked) {
+		for (Emote emote : unlocked)
 			if (emote.varpbit != -1)
 				player.getVars().setVarBit(emote.varpbit, emote.value);
-		}
 	}
-	
+
 	public boolean isAnimating() {
 		return World.getServerTicks() < nextEmoteEnd;
 	}

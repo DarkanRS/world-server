@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -25,7 +25,7 @@ public class GrotwormLairD extends Dialogue {
 
 	@Override
 	public void start() {
-		if ((boolean) this.parameters[0]) {
+		if ((boolean) parameters[0]) {
 			stage = -1;
 			sendDialogue("The shortcut leads to the deepest level of the dungeon. The worms in that area are significantly more dangerous.");
 		} else {
@@ -37,9 +37,9 @@ public class GrotwormLairD extends Dialogue {
 	@Override
 	public void run(int interfaceId, int componentId) {
 		stage++;
-		if (stage == 0) {
+		if (stage == 0)
 			sendOptionsDialogue("Slide down the worm burrow?", "Yes.", "No.");
-		} else if (stage == 1) {
+		else if (stage == 1) {
 			if (componentId == OPTION_1)
 				player.useStairs(-1, new WorldTile(1206, 6506, 0), 1, 2);
 			end();

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,13 +31,13 @@ import com.rs.utils.Ticks;
 public class RuneboundBehemoth extends DungeonBoss {
 
 	private static final String[] ARTIFACT_TYPE =
-	{ "Melee", "Range", "Magic" };
+		{ "Melee", "Range", "Magic" };
 	private BehemothArtifact[] artifacts;
 	private int baseId;
 
 	public RuneboundBehemoth(WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11812, 11826), manager.getBossLevel()), tile, manager, reference);
-		this.baseId = getId();
+		baseId = getId();
 		artifacts = new BehemothArtifact[3];
 		for (int idx = 0; idx < artifacts.length; idx++)
 			artifacts[idx] = new BehemothArtifact(idx);
@@ -93,7 +93,7 @@ public class RuneboundBehemoth extends DungeonBoss {
 		boolean magic = artifacts[2].isPrayerEnabled();
 		if (melee && magic && range)
 			return baseId - 45;
-		else if (melee && range)
+		if (melee && range)
 			return baseId + 30;
 		else if (melee && magic)
 			return baseId + 15;
@@ -140,13 +140,12 @@ public class RuneboundBehemoth extends DungeonBoss {
 			this.active = active;
 			if (!active)
 				cycle = 0;
-			if (message) {
+			if (message)
 				for (Player p2 : getManager().getParty().getTeam()) {
 					if (getManager().isAtBossRoom(p2))
 						continue;
 					p2.sendMessage("The " + ARTIFACT_TYPE[type] + " artifact has been " + (active ? "desactivated" : "re-charged") + "!");
 				}
-			}
 		}
 	}
 }

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,11 +36,11 @@ import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class PumpkinSpawning {
-	
-	static int[] regionsToSpawn = new int[] { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
+
+	static int[] regionsToSpawn = { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
 	static int pumpkinCount = 0;
 	static int pumpkinsPerRegion = 50;
-	
+
 	@ServerStartupEvent
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
@@ -48,20 +48,16 @@ public class PumpkinSpawning {
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				for (int id : regionsToSpawn) {
+				for (int id : regionsToSpawn)
 					World.getRegion(id, true);
-				}
 			}
 		}, 10);
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					spawnPumpkins();
-					World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				spawnPumpkins();
+				World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, Ticks.fromSeconds(30), Ticks.fromHours(1));
 	}
@@ -69,15 +65,14 @@ public class PumpkinSpawning {
 	public static int countPumpkins(int regionId) {
 		pumpkinCount = 0;
 		List<GroundItem> itemSpawns = World.getRegion(regionId).getAllGroundItems();
-		if (itemSpawns != null && itemSpawns.size() > 0) {
+		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1959)
 					pumpkinCount += 1;
 			});
-		}
 		return pumpkinCount;
 	}
-	
+
 	public static void spawnPumpkins() {
 		for (int id : regionsToSpawn) {
 			Region r = World.getRegion(id);

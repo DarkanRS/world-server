@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,14 +47,14 @@ public class Shop {
 	private ShopItem[] generalStock;
 	private boolean buyOnly;
 	private int currency;
-	
+
 	private transient CopyOnWriteArrayList<Player> viewingPlayers;
 
 	public Shop(String name, int money, ShopItem[] shopItems, boolean isGeneralStore, boolean buyOnly) {
-		viewingPlayers = new CopyOnWriteArrayList<Player>();
+		viewingPlayers = new CopyOnWriteArrayList<>();
 		this.name = name;
-		this.currency = money;
-		this.mainStock = shopItems;
+		currency = money;
+		mainStock = shopItems;
 		defaultQuantity = new int[shopItems.length];
 		for (int i = 0; i < defaultQuantity.length; i++)
 			defaultQuantity[i] = shopItems[i].getItem().getAmount();
@@ -67,7 +67,7 @@ public class Shop {
 			item.init();
 		}
 	}
-	
+
 	public static ButtonClickHandler handleInterfaces = new ButtonClickHandler(449, 1265, 1266, 621) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -142,13 +142,7 @@ public class Shop {
 					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
 					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 211) {
-					if (slot == -1)
-						return;
-					if (shop.getMainStock() == null)
-						return;
-					if (slot > shop.getMainStock().length - 1)
-						return;
-					if (shop.getMainStock()[slot] == null)
+					if ((slot == -1) || (shop.getMainStock() == null) || (slot > shop.getMainStock().length - 1) || (shop.getMainStock()[slot] == null))
 						return;
 					if (e.getPlayer().getInventory().getItems().getItems()[slot] == null)
 						return;
@@ -165,7 +159,7 @@ public class Shop {
 				}
 				shop.sendCustomPrices(e.getPlayer());
 			} else if (e.getInterfaceId() == 1266) {
-				if (e.getComponentId() == 0) {
+				if (e.getComponentId() == 0)
 					if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 					else {
@@ -184,10 +178,8 @@ public class Shop {
 						else if (e.getPacket() == ClientPacket.IF_OP5)
 							shop.sell(e.getPlayer(), e.getSlotId(), 50);
 					}
-				}
-			} else if (e.getInterfaceId() == 621) {
-				if (e.getComponentId() == 0) {
-		
+			} else if (e.getInterfaceId() == 621)
+				if (e.getComponentId() == 0)
 					if (e.getPacket() == ClientPacket.IF_OP6)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 					else {
@@ -205,8 +197,6 @@ public class Shop {
 						else if (e.getPacket() == ClientPacket.IF_OP5)
 							shop.sell(e.getPlayer(), e.getSlotId(), 50);
 					}
-				}
-			}
 		}
 	};
 
@@ -217,17 +207,14 @@ public class Shop {
 	public void addPlayer(final Player player) {
 		viewingPlayers.add(player);
 		player.getTempAttribs().setO("Shop", this);
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				viewingPlayers.remove(player);
-				player.getTempAttribs().removeO("Shop");
-			}
-		});		
+		player.setCloseInterfacesEvent(() -> {
+			viewingPlayers.remove(player);
+			player.getTempAttribs().removeO("Shop");
+		});
 		player.getVars().setVar(118, MAIN_STOCK_ITEMS_KEY);
 		player.getVars().setVar(1496, -1);
 		player.getVars().setVar(532, currency);
-		
+
 		player.getVars().setVar(2561, -1);
 		player.getVars().setVar(2562, -1);
 		player.getVars().setVar(2563, -1);
@@ -263,7 +250,7 @@ public class Shop {
 				player.getPackets().setIFText(1265, 23, i, Utils.kmify(mainStock[i].getCustomPrice()));
 		}
 	}
-	
+
 	public void sendInventory(Player player) {
 		player.getInterfaceManager().sendInventoryInterface(1266);
 		player.getPackets().sendItems(93, player.getInventory().getItems());
@@ -325,13 +312,13 @@ public class Shop {
 
 	public void restoreItems() {
 		boolean needRefresh = false;
-		for (int i = 0; i < mainStock.length; i++) {
-			if (mainStock[i] == null)
+		for (ShopItem element : mainStock) {
+			if (element == null)
 				continue;
-			if (mainStock[i].tickRestock())
+			if (element.tickRestock())
 				needRefresh = true;
 		}
-		if (generalStock != null) {
+		if (generalStock != null)
 			for (int i = 0; i < generalStock.length; i++) {
 				if (generalStock[i] == null)
 					continue;
@@ -340,23 +327,20 @@ public class Shop {
 				if (generalStock[i].getItem().getAmount() <= 0)
 					generalStock[i] = null;
 			}
-		}
 		if (needRefresh) {
 			refreshShop();
-			for (Player player : viewingPlayers) {
+			for (Player player : viewingPlayers)
 				WorldTasksManager.delay(0, () -> sendCustomPrices(player));
-			}
 		}
 	}
 
 	private boolean addItem(int itemId, int quantity) {
-		for (ShopItem item : mainStock) {
+		for (ShopItem item : mainStock)
 			if (item.getItem().getId() == itemId) {
 				item.getItem().setAmount(item.getItem().getAmount() + quantity);
 				refreshShop();
 				return true;
 			}
-		}
 		if (generalStock != null) {
 			for (ShopItem item : generalStock) {
 				if (item == null)
@@ -367,14 +351,13 @@ public class Shop {
 					return true;
 				}
 			}
-			for (int i = 0; i < generalStock.length; i++) {
+			for (int i = 0; i < generalStock.length; i++)
 				if (generalStock[i] == null) {
 					generalStock[i] = new ShopItem(itemId, quantity);
 					generalStock[i].setCap(-1);
 					refreshShop();
 					return true;
 				}
-			}
 		}
 		return false;
 	}
@@ -408,9 +391,9 @@ public class Shop {
 			player.sendMessage("Shop is currently full.");
 			return;
 		}
-		if ((player.getInventory().getNumberOf(currency) + (getSellPrice(item)*quantity)) < 0 || (player.getInventory().getNumberOf(currency)+(getSellPrice(item)*quantity)) > Integer.MAX_VALUE) {
+		if ((player.getInventory().getNumberOf(currency) + (getSellPrice(item)*quantity)) < 0 || (player.getInventory().getNumberOf(currency)+(getSellPrice(item)*quantity)) > Integer.MAX_VALUE)
 			player.sendMessage("Looks like we need an eco reset..");
-		} else {
+		else {
 			player.getInventory().deleteItem(originalId, quantity);
 			player.getInventory().addItem(currency, getSellPrice(item) * quantity);
 		}
@@ -463,7 +446,7 @@ public class Shop {
 			player.sendMessage(item.getDefinitions().getName() + ": shop will " + (isBuying ? "sell" : "buy") + " for " + price + " " + ItemDefinitions.getDefs(currency).getName().toLowerCase() + ".");
 		}
 	}
-	
+
 	public int getSellPrice(Item item) {
 		int price = item.getDefinitions().getSellPrice();
 		if (price == 0)
@@ -491,7 +474,8 @@ public class Shop {
 			if (defs.getIntValue(item.getItem().getId()) != -1)
 				return defs.getIntValue(item.getItem().getId());
 			return (int) (price * 3.0 / 2.0);
-		} else if (currency == 995) {
+		}
+		if (currency == 995) {
 			EnumDefinitions defs = EnumDefinitions.getEnum(733);
 			if (defs.getIntValue(item.getItem().getId()) != -1)
 				return defs.getIntValue(item.getItem().getId());
@@ -522,7 +506,7 @@ public class Shop {
 
 	public void sendStore(Player player) {
 		Item[] stock = new Item[mainStock.length + (generalStock != null ? generalStock.length : 0)];
-		for (int i = 0;i < stock.length;i++) {
+		for (int i = 0;i < stock.length;i++)
 			if (i >= mainStock.length) {
 				ShopItem item = generalStock[i - mainStock.length];
 				if (item == null)
@@ -534,21 +518,20 @@ public class Shop {
 					continue;
 				stock[i] = item.getItem();
 			}
-		}
 		player.getPackets().sendItems(MAIN_STOCK_ITEMS_KEY, stock);
 	}
 
-//	public void sendSellStore(Player player, Item[] inventory) {
-//		Item[] stock = new Item[inventory.length + (generalStock != null ? generalStock.length : 0)];
-//		System.arraycopy(inventory, 0, stock, 0, inventory.length);
-//		if (generalStock != null)
-//			System.arraycopy(generalStock, 0, stock, inventory.length, generalStock.length);
-//		player.getPackets().sendItems(MAIN_STOCK_ITEMS_KEY, stock);
-//	}
+	//	public void sendSellStore(Player player, Item[] inventory) {
+	//		Item[] stock = new Item[inventory.length + (generalStock != null ? generalStock.length : 0)];
+	//		System.arraycopy(inventory, 0, stock, 0, inventory.length);
+	//		if (generalStock != null)
+	//			System.arraycopy(generalStock, 0, stock, inventory.length, generalStock.length);
+	//		player.getPackets().sendItems(MAIN_STOCK_ITEMS_KEY, stock);
+	//	}
 
 	/**
 	 * Checks if the player is buying an item or selling it.
-	 * 
+	 *
 	 * @param player
 	 *            The player
 	 * @param slotId
@@ -564,7 +547,7 @@ public class Shop {
 	}
 
 	public ShopItem[] getMainStock() {
-		return this.mainStock;
+		return mainStock;
 	}
 
 	public boolean isBuyOnly() {

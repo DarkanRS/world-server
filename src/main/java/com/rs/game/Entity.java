@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -110,7 +110,7 @@ public abstract class Entity extends WorldTile {
 	private transient int lastFaceEntity;
 	private transient Entity attackedBy; // whos attacking you, used for single
 	protected transient long attackedByDelay; // delay till someone else can
-												// attack you
+	// attack you
 	private transient boolean multiArea;
 	private transient boolean isAtDynamicRegion;
 	private transient long lastAnimationEnd;
@@ -121,7 +121,7 @@ public abstract class Entity extends WorldTile {
 	// saving stuff
 	private int hitpoints;
 	private RegionSize regionSize;
-	
+
 	private boolean run;
 	private Poison poison;
 	private Map<Effect, Long> effects = new HashMap<>();
@@ -131,15 +131,15 @@ public abstract class Entity extends WorldTile {
 		super(tile);
 		poison = new Poison();
 	}
-		
+
 	public void clearEffects() {
 		effects = new HashMap<>();
 	}
-	
+
 	public boolean hasEffect(Effect effect) {
 		return effects != null && effects.containsKey(effect);
 	}
-	
+
 	public void addEffect(Effect effect, long ticks) {
 		if (effects == null)
 			effects = new HashMap<>();
@@ -147,19 +147,19 @@ public abstract class Entity extends WorldTile {
 		effect.apply(this);
 		effect.tick(this, ticks);
 	}
-	
+
 	public void removeEffect(Effect effect) {
 		if (effect.sendWarnings() && this instanceof Player p)
 			p.sendMessage(effect.getExpiryMessage());
 		effects.remove(effect);
 		effect.expire(this);
 	}
-	
+
 	public void removeEffects(Effect... effects) {
 		for (Effect e : effects)
 			removeEffect(e);
 	}
-	
+
 	private void processEffects() {
 		if (effects == null)
 			return;
@@ -184,26 +184,18 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public boolean isBehind(Entity other) {
-		if (other.getFaceAngle() <= 2048 || other.getFaceAngle() >= 14336) {
-			if (getY() > other.getY()) {
+		if (other.getFaceAngle() <= 2048 || other.getFaceAngle() >= 14336)
+			if (getY() > other.getY())
 				return true;
-			}
-		}
-		if (other.getFaceAngle() <= 10240 && other.getFaceAngle() >= 6144) {
-			if (getY() < other.getY()) {
+		if (other.getFaceAngle() <= 10240 && other.getFaceAngle() >= 6144)
+			if (getY() < other.getY())
 				return true;
-			}
-		}
-		if (other.getFaceAngle() <= 6144 && other.getFaceAngle() >= 2048) {
-			if (getX() > other.getX()) {
+		if (other.getFaceAngle() <= 6144 && other.getFaceAngle() >= 2048)
+			if (getX() > other.getX())
 				return true;
-			}
-		}
-		if (other.getFaceAngle() <= 14336 && other.getFaceAngle() >= 10240) {
-			if (getX() < other.getX()) {
+		if (other.getFaceAngle() <= 14336 && other.getFaceAngle() >= 10240)
+			if (getX() < other.getX())
 				return true;
-			}
-		}
 		return false;
 	}
 
@@ -224,13 +216,13 @@ public abstract class Entity extends WorldTile {
 	public final void initEntity() {
 		hashCode = HASH_CODE_GENERATOR.getAndIncrement();
 		mapRegionIds = ConcurrentHashMap.newKeySet();
-		walkSteps = new ConcurrentLinkedQueue<WalkStep>();
-		receivedHits = new ConcurrentLinkedQueue<Hit>();
-		receivedDamage = new ConcurrentHashMap<Entity, Integer>();
+		walkSteps = new ConcurrentLinkedQueue<>();
+		receivedHits = new ConcurrentLinkedQueue<>();
+		receivedDamage = new ConcurrentHashMap<>();
 		temporaryAttributes = new GenericAttribMap();
 		nonsavingVars = new GenericAttribMap();
-		nextHits = new ArrayList<Hit>();
-		nextHitBars = new ArrayList<HitBar>();
+		nextHits = new ArrayList<>();
+		nextHitBars = new ArrayList<>();
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
 		nextFaceEntity = -2;
@@ -242,11 +234,11 @@ public abstract class Entity extends WorldTile {
 	public int getClientIndex() {
 		return index + (this instanceof Player ? 32768 : 0);
 	}
-	
+
 	public void applyHit(Hit hit) {
 		applyHit(hit, -1);
 	}
-	
+
 	public void applyHit(Hit hit, int delay) {
 		applyHit(hit, delay, null);
 	}
@@ -259,9 +251,9 @@ public abstract class Entity extends WorldTile {
 		handlePreHit(hit);
 		if (hit.getSource() != null)
 			hit.getSource().handlePreHitOut(this, hit);
-		if (delay < 0) {
+		if (delay < 0)
 			receivedHits.add(hit);
-		} else {
+		else
 			WorldTasksManager.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -275,7 +267,6 @@ public abstract class Entity extends WorldTile {
 					receivedHits.add(hit);
 				}
 			}, delay);
-		}
 	}
 
 	public abstract void handlePreHit(Hit hit);
@@ -303,10 +294,9 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public void processReceivedHits() {
-		if (this instanceof Player p) {
+		if (this instanceof Player p)
 			if (p.getEmotesManager().isAnimating())
 				return;
-		}
 		Hit hit;
 		int count = 0;
 		while ((hit = receivedHits.poll()) != null && count++ < 10)
@@ -316,13 +306,13 @@ public abstract class Entity extends WorldTile {
 	public boolean hasPendingHits() {
 		return !receivedHits.isEmpty();
 	}
-	
+
 	public void sendSoulSplit(Hit hit, Entity user) {
 		if (hit.getDamage() > 0)
 			World.sendProjectile(user, this, 2263, 11, 11, 0, -1, 0, 0);
 		user.heal(hit.getDamage() / 5);
 		if (user instanceof Player p)
-			p.incrementCount("Health soulsplitted back", (int) (hit.getDamage() / 5));
+			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
 		if (this instanceof Player p)
 			p.getPrayer().drainPrayer(hit.getDamage() / 5);
 		WorldTasksManager.schedule(new WorldTask() {
@@ -371,38 +361,34 @@ public abstract class Entity extends WorldTile {
 		addReceivedDamage(hit.getSource(), hit.getDamage());
 		setHitpoints(hitpoints - hit.getDamage());
 
-		if (this instanceof Player p) {
+		if (this instanceof Player p)
 			if (p.getNSV().getB("godMode"))
 				setHitpoints(getMaxHitpoints());
-		}
 
 		if (hitpoints <= 0)
 			sendDeath(hit.getSource());
 		else if (this instanceof Player player) {
-			if (player.getEquipment().getRingId() == 2550) {
+			if (player.getEquipment().getRingId() == 2550)
 				if (hit.getSource() != null && hit.getSource() != player && (hit.getLook() == HitLook.MELEE_DAMAGE || hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MAGIC_DAMAGE))
 					hit.getSource().applyHit(new Hit(player, (int) (hit.getDamage() * 0.1), HitLook.REFLECTED_DAMAGE));
-			}
-			if (player.getPrayer().hasPrayersOn()) {
+			if (player.getPrayer().hasPrayersOn())
 				if ((hitpoints < player.getMaxHitpoints() * 0.1) && player.getPrayer().active(Prayer.REDEMPTION)) {
 					setNextSpotAnim(new SpotAnim(436));
 					setHitpoints((int) (hitpoints + player.getSkills().getLevelForXp(Constants.PRAYER) * 2.5));
 					player.getPrayer().setPoints(0);
 				}
-			}
 			if (player.getEquipment().getAmuletId() == 11090 && player.getHitpoints() <= player.getMaxHitpoints() * 0.2) {
 				player.heal((int) (player.getMaxHitpoints() * 0.3));
 				player.getEquipment().deleteItem(11090, 1);
 				player.getAppearance().generateAppearanceData();
 				player.sendMessage("Your pheonix necklace heals you, but is destroyed in the process.");
 			}
-			if (player.getHitpoints() <= (player.getMaxHitpoints() * 0.1) && player.getEquipment().getRingId() == 2570) {
+			if (player.getHitpoints() <= (player.getMaxHitpoints() * 0.1) && player.getEquipment().getRingId() == 2570)
 				if (Magic.sendItemTeleportSpell(player, true, 9603, 1684, 4, Settings.getConfig().getPlayerRespawnTile())) {
 					player.getEquipment().set(Equipment.RING, null);
 					player.getEquipment().refresh(Equipment.RING);
 					player.sendMessage("Your ring of life saves you and is destroyed in the process.");
 				}
-			}
 		}
 	}
 
@@ -413,7 +399,7 @@ public abstract class Entity extends WorldTile {
 	public void removeDamage(Entity entity) {
 		receivedDamage.remove(entity);
 	}
-	
+
 	public void entityFollow(Entity target, boolean intelligent, int distance) {
 		if (!target.hasWalkSteps() && WorldUtil.collides(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize())) {
 			resetWalkSteps();
@@ -423,9 +409,8 @@ public abstract class Entity extends WorldTile {
 					resetWalkSteps();
 					if (!addWalkSteps(getX(), target.getY() + target.getSize())) {
 						resetWalkSteps();
-						if (!addWalkSteps(getX(), target.getY() - getSize())) {
+						if (!addWalkSteps(getX(), target.getY() - getSize()))
 							return;
-						}
 					}
 				}
 			}
@@ -452,7 +437,7 @@ public abstract class Entity extends WorldTile {
 	public abstract boolean canMove(Direction dir);
 
 	public void handlePostHit(Hit hit) {
-		
+
 	}
 
 	public boolean calcFollow(WorldTile target, int maxStepsCount, boolean calculate, boolean intelligent) {
@@ -464,10 +449,9 @@ public abstract class Entity extends WorldTile {
 				return true;
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
-			for (int step = steps - 1; step >= 0; step--) {
+			for (int step = steps - 1; step >= 0; step--)
 				if (!addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
 					break;
-			}
 			return true;
 		}
 		return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
@@ -520,12 +504,10 @@ public abstract class Entity extends WorldTile {
 				receivedDamage.remove(fs.getOwner());
 			else
 				receivedDamage.put(fs.getOwner(), damage);
-		} else {
-			if (damage < 0)
-				receivedDamage.remove(source);
-			else
-				receivedDamage.put(source, damage);
-		}
+		} else if (damage < 0)
+			receivedDamage.remove(source);
+		else
+			receivedDamage.put(source, damage);
 	}
 
 	public void heal(int ammount) {
@@ -556,7 +538,7 @@ public abstract class Entity extends WorldTile {
 	public void processMovement() {
 		NPC npc = this instanceof NPC ? (NPC) this : null;
 		Player player = this instanceof Player ? (Player) this : null;
-		
+
 		lastWorldTile = new WorldTile(this);
 		if (lastFaceEntity >= 0) {
 			Entity target = lastFaceEntity >= 32768 ? World.getPlayers().get(lastFaceEntity - 32768) : World.getNPCs().get(lastFaceEntity);
@@ -582,7 +564,7 @@ public abstract class Entity extends WorldTile {
 		teleported = false;
 		if (walkSteps.isEmpty())
 			return;
-		
+
 		if (player != null) {
 			if (player.getEmotesManager().isAnimating())
 				return;
@@ -591,12 +573,11 @@ public abstract class Entity extends WorldTile {
 			if (walkSteps.size() <= 1)
 				player.setTemporaryMoveType(Player.WALK_MOVE_TYPE);
 		}
-		
-		if (npc != null) {
+
+		if (npc != null)
 			if (npc.getDefinitions().movementType == MovementType.HALF_WALK)
 				if (npc.switchWalkStep())
 					return;
-		}
 
 		for (int stepCount = 0; stepCount < (run ? 2 : 1); stepCount++) {
 			WalkStep nextStep = getNextWalkStep();
@@ -613,11 +594,7 @@ public abstract class Entity extends WorldTile {
 			else
 				nextRunDirection = nextStep.getDir();
 			tileBehind = new WorldTile(this);
-			if (npc != null)
-				World.unclipNPC(npc, tileBehind);
 			moveLocation(nextStep.getDir().getDx(), nextStep.getDir().getDy(), 0);
-			if (npc != null)
-				World.clipNPC(npc, npc);
 			if (run && stepCount == 0) { // fixes impossible steps TODO is this even necessary?
 				WalkStep previewStep = previewNextWalkStep();
 				if (previewStep == null)
@@ -627,13 +604,12 @@ public abstract class Entity extends WorldTile {
 				if (Utils.getPlayerRunningDirection(dx, dy) == -1 && Utils.getPlayerWalkingDirection(dx, dy) == -1)
 					break;
 			}
-			if (player != null) {
+			if (player != null)
 				if (nextRunDirection != null) {
 					player.drainRunEnergy((Math.min(player.getWeight(), 64) / 100.0) + 0.64);
 					if (player.getRunEnergy() == 0.0)
 						player.setRun(false);
 				}
-			}
 		}
 		World.updateEntityRegion(this);
 		if (needMapUpdate())
@@ -676,7 +652,7 @@ public abstract class Entity extends WorldTile {
 		int size = getSize();
 		return size == 1 ? this : new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane());
 	}
-	
+
 	public boolean ignoreWallsWhenMeleeing() {
 		return false;
 	}
@@ -692,28 +668,28 @@ public abstract class Entity extends WorldTile {
 			case 9712:
 			case 9710:
 			case 706:
-            case 14860:
-            case 14864:
-            case 14858:
-            case 14883:
-            case 2859:
-            case 8709://Desert musician
-            case 8715://Drunken musician
-            case 8723://Elf musician
-            case 8712://Goblin musician
+			case 14860:
+			case 14864:
+			case 14858:
+			case 14883:
+			case 2859:
+			case 8709://Desert musician
+			case 8715://Drunken musician
+			case 8723://Elf musician
+			case 8712://Goblin musician
 				return true;
 			}
-            switch(npc.getName()) {
-                case "Xuan":
-                case "Fremennik shipmaster":
-                case "Fishing spot":
-                case "Fishing Spot":
-                case "Cavefish shoal":
-                case "Rocktail shoal":
-                case "Musician":
-                case "Ghostly piper":
-                    return true;
-            }
+			switch(npc.getName()) {
+			case "Xuan":
+			case "Fremennik shipmaster":
+			case "Fishing spot":
+			case "Fishing Spot":
+			case "Cavefish shoal":
+			case "Rocktail shoal":
+			case "Musician":
+			case "Ghostly piper":
+				return true;
+			}
 		}
 		if (tile instanceof Stomp stomp)
 			return stomp.getManager().isAtBossRoom(this);
@@ -721,7 +697,7 @@ public abstract class Entity extends WorldTile {
 			return World.checkMeleeStep(this, tile) && World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
 		return World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
 	}
-	
+
 	public boolean addWalkSteps(final int destX, final int destY, int maxStepsCount) {
 		return addWalkSteps(destX, destY, maxStepsCount, true, false);
 	}
@@ -757,7 +733,7 @@ public abstract class Entity extends WorldTile {
 	}
 
 	private int[] getLastWalkTile() {
-		Object[] steps = (Object[]) walkSteps.toArray();
+		Object[] steps = walkSteps.toArray();
 		if (steps.length == 0)
 			return new int[] { getX(), getY() };
 		WalkStep step = (WalkStep) steps[steps.length - 1];
@@ -765,9 +741,9 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public boolean walkOneStep(int x, int y, boolean clipped) {
-		return addWalkStep(this.getX() + x, this.getY() + y, this.getX(), this.getY(), clipped, false);
+		return addWalkStep(getX() + x, getY() + y, getX(), getY(), clipped, false);
 	}
-	
+
 	public boolean addWalkStep(int nextX, int nextY, int lastX, int lastY, boolean check) {
 		return addWalkStep(nextX, nextY, lastX, lastY, check, true);
 	}
@@ -778,10 +754,9 @@ public abstract class Entity extends WorldTile {
 			return false;
 		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (this instanceof NPC n && !n.checkNPCCollision(dir)))// double
 			return false;
-		if (this instanceof Player player) {
+		if (this instanceof Player player)
 			if (!player.getControllerManager().checkWalkStep(lastX, lastY, nextX, nextY))
 				return false;
-		}
 		walkSteps.add(new WalkStep(dir, nextX, nextY, check));
 		return true;
 	}
@@ -807,7 +782,8 @@ public abstract class Entity extends WorldTile {
 		if (hitpoints > maxHp) {
 			setHitpoints(hitpoints - 1);
 			return true;
-		} else if (hitpoints < maxHp) {
+		}
+		if (hitpoints < maxHp) {
 			setHitpoints(hitpoints + 1);
 			return true;
 		}
@@ -850,11 +826,9 @@ public abstract class Entity extends WorldTile {
 		processMovement();
 		processReceivedHits();
 		processReceivedDamage();
-		if (!isDead()) {
-			if (tickCounter % 10 == 0) {
+		if (!isDead())
+			if (tickCounter % 10 == 0)
 				restoreHitPoints();
-			}
-		}
 		processEffects();
 	}
 
@@ -875,7 +849,7 @@ public abstract class Entity extends WorldTile {
 		int toRegionX = (chunkX + sceneChunksRadio) / 8;
 		int toRegionY = (chunkY + sceneChunksRadio) / 8;
 
-		for (int regionX = fromRegionX; regionX <= toRegionX; regionX++) {
+		for (int regionX = fromRegionX; regionX <= toRegionX; regionX++)
 			for (int regionY = fromRegionY; regionY <= toRegionY; regionY++) {
 				int regionId = MapUtils.encode(Structure.REGION, regionX, regionY);
 				Region region = World.getRegion(regionId, this instanceof Player);
@@ -883,7 +857,6 @@ public abstract class Entity extends WorldTile {
 					isAtDynamicRegion = true;
 				mapRegionIds.add(regionId);
 			}
-		}
 		sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY);
 	}
 
@@ -918,7 +891,7 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public void setMapSize(RegionSize size) {
-		this.regionSize = size;
+		regionSize = size;
 		loadMapRegions();
 	}
 
@@ -983,7 +956,7 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public void setFaceAngle(int direction) {
-		this.faceAngle = direction;
+		faceAngle = direction;
 	}
 
 	public int getFaceAngle() {
@@ -1030,9 +1003,9 @@ public abstract class Entity extends WorldTile {
 		return nextFaceWorldTile;
 	}
 
-    public Direction getDirection() {
-        return Direction.fromAngle(getFaceAngle());
-    }
+	public Direction getDirection() {
+		return Direction.fromAngle(getFaceAngle());
+	}
 
 	public void setNextFaceWorldTile(WorldTile nextFaceWorldTile) {
 		if (nextFaceWorldTile != null && nextFaceWorldTile.getX() == getX() && nextFaceWorldTile.getY() == getY())
@@ -1046,21 +1019,21 @@ public abstract class Entity extends WorldTile {
 			faceAngle = Utils.getAngleTo(nextFaceWorldTile.getX() - getX(), nextFaceWorldTile.getY() - getY());
 	}
 
-    public void faceNorth() {
-        setNextFaceWorldTile(new WorldTile(getX(), getY()+1, getPlane()));
-    }
+	public void faceNorth() {
+		setNextFaceWorldTile(new WorldTile(getX(), getY()+1, getPlane()));
+	}
 
-    public void faceEast() {
-        setNextFaceWorldTile(new WorldTile(getX()+1, getY(), getPlane()));
-    }
+	public void faceEast() {
+		setNextFaceWorldTile(new WorldTile(getX()+1, getY(), getPlane()));
+	}
 
-    public void faceSouth() {
-        setNextFaceWorldTile(new WorldTile(getX(), getY()-1, getPlane()));
-    }
+	public void faceSouth() {
+		setNextFaceWorldTile(new WorldTile(getX(), getY()-1, getPlane()));
+	}
 
-    public void faceWest() {
-        setNextFaceWorldTile(new WorldTile(getX()-1, getY(), getPlane()));
-    }
+	public void faceWest() {
+		setNextFaceWorldTile(new WorldTile(getX()-1, getY(), getPlane()));
+	}
 
 	public abstract int getSize();
 
@@ -1086,11 +1059,11 @@ public abstract class Entity extends WorldTile {
 	public int getLastFaceEntity() {
 		return lastFaceEntity;
 	}
-	
+
 	public void freeze(int ticks) {
 		freeze(ticks, false);
 	}
-	
+
 	public void freeze(int ticks, boolean freezeBlock) {
 		if (hasEffect(Effect.FREEZE_BLOCK) && freezeBlock)
 			return;
@@ -1123,7 +1096,7 @@ public abstract class Entity extends WorldTile {
 	public boolean inCombat() {
 		return attackedByDelay > System.currentTimeMillis();
 	}
-	
+
 	public boolean isAttacking() {
 		if (this instanceof Player p)
 			return p.getActionManager().doingAction(PlayerCombat.class);
@@ -1184,68 +1157,68 @@ public abstract class Entity extends WorldTile {
 
 	public void faceObject(GameObject object) {
 		int x = -1, y = -1;
-        if (object.getType() == ObjectType.WALL_STRAIGHT) { // wall
-            if (object.getRotation() == 0) { // west
-                x = object.getX() - 1;
-                y = object.getY();
-            } else if (object.getRotation() == 1) { // north
-                x = object.getX();
-                y = object.getY() + 1;
-            } else if (object.getRotation() == 2) { // east
-                x = object.getX() + 1;
-                y = object.getY();
-            } else if (object.getRotation() == 3) { // south
-                x = object.getX();
-                y = object.getY() - 1;
-            }
-        } else if (object.getType() == ObjectType.WALL_DIAGONAL_CORNER || object.getType() == ObjectType.WALL_WHOLE_CORNER) { // corner and cornerwall
-            if (object.getRotation() == 0) { // nw
-                x = object.getX() - 1;
-                y = object.getY() + 1;
-            } else if (object.getRotation() == 1) { // ne
-                x = object.getX() + 1;
-                y = object.getY() + 1;
-            } else if (object.getRotation() == 2) { // se
-                x = object.getX() + 1;
-                y = object.getY() - 1;
-            } else if (object.getRotation() == 3) { // sw
-                x = object.getX() - 1;
-                y = object.getY() - 1;
-            }
-        } else if (object.getType() == ObjectType.WALL_STRAIGHT_CORNER) { // inverted corner
-            if (object.getRotation() == 0) { // se
-                x = object.getX() + 1;
-                y = object.getY() - 1;
-            } else if (object.getRotation() == 1) { // sw
-                x = object.getX() - 1;
-                y = object.getY() - 1;
-            } else if (object.getRotation() == 2) { // nw
-                x = object.getX() - 1;
-                y = object.getY() + 1;
-            } else if (object.getRotation() == 3) { // ne
-                x = object.getX() + 1;
-                y = object.getY() + 1;
-            }
-        } else if (object.getType().id < ObjectType.SCENERY_INTERACT.id) { // walldeco's
-            if (object.getRotation() == 0) { // west
-                x = object.getX() - 1;
-                y = object.getY();
-            } else if (object.getRotation() == 1) { // north
-                x = object.getX();
-                y = object.getY() + 1;
-            } else if (object.getRotation() == 2) { // east
-                x = object.getX() + 1;
-                y = object.getY();
-            } else if (object.getRotation() == 3) { // south
-                x = object.getX();
-                y = object.getY() - 1;
-            }
-        } else {
-            // rest
-            x = object.getCoordFaceX();
-            y = object.getCoordFaceY();
-        }
-        setNextFaceWorldTile(new WorldTile(x, y, object.getPlane()));
+		if (object.getType() == ObjectType.WALL_STRAIGHT) { // wall
+			if (object.getRotation() == 0) { // west
+				x = object.getX() - 1;
+				y = object.getY();
+			} else if (object.getRotation() == 1) { // north
+				x = object.getX();
+				y = object.getY() + 1;
+			} else if (object.getRotation() == 2) { // east
+				x = object.getX() + 1;
+				y = object.getY();
+			} else if (object.getRotation() == 3) { // south
+				x = object.getX();
+				y = object.getY() - 1;
+			}
+		} else if (object.getType() == ObjectType.WALL_DIAGONAL_CORNER || object.getType() == ObjectType.WALL_WHOLE_CORNER) { // corner and cornerwall
+			if (object.getRotation() == 0) { // nw
+				x = object.getX() - 1;
+				y = object.getY() + 1;
+			} else if (object.getRotation() == 1) { // ne
+				x = object.getX() + 1;
+				y = object.getY() + 1;
+			} else if (object.getRotation() == 2) { // se
+				x = object.getX() + 1;
+				y = object.getY() - 1;
+			} else if (object.getRotation() == 3) { // sw
+				x = object.getX() - 1;
+				y = object.getY() - 1;
+			}
+		} else if (object.getType() == ObjectType.WALL_STRAIGHT_CORNER) { // inverted corner
+			if (object.getRotation() == 0) { // se
+				x = object.getX() + 1;
+				y = object.getY() - 1;
+			} else if (object.getRotation() == 1) { // sw
+				x = object.getX() - 1;
+				y = object.getY() - 1;
+			} else if (object.getRotation() == 2) { // nw
+				x = object.getX() - 1;
+				y = object.getY() + 1;
+			} else if (object.getRotation() == 3) { // ne
+				x = object.getX() + 1;
+				y = object.getY() + 1;
+			}
+		} else if (object.getType().id < ObjectType.SCENERY_INTERACT.id) { // walldeco's
+			if (object.getRotation() == 0) { // west
+				x = object.getX() - 1;
+				y = object.getY();
+			} else if (object.getRotation() == 1) { // north
+				x = object.getX();
+				y = object.getY() + 1;
+			} else if (object.getRotation() == 2) { // east
+				x = object.getX() + 1;
+				y = object.getY();
+			} else if (object.getRotation() == 3) { // south
+				x = object.getX();
+				y = object.getY() - 1;
+			}
+		} else {
+			// rest
+			x = object.getCoordFaceX();
+			y = object.getCoordFaceY();
+		}
+		setNextFaceWorldTile(new WorldTile(x, y, object.getPlane()));
 	}
 
 	public void faceTile(WorldTile tile) {
@@ -1259,7 +1232,7 @@ public abstract class Entity extends WorldTile {
 	public GenericAttribMap getTempAttribs() {
 		return temporaryAttributes;
 	}
-	
+
 	public GenericAttribMap getNSV() {
 		return nonsavingVars;
 	}
@@ -1288,14 +1261,13 @@ public abstract class Entity extends WorldTile {
 	public void playSound(int soundId, int type) {
 		for (int regionId : getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null) {
+			if (playerIndexes != null)
 				for (int playerIndex : playerIndexes) {
 					Player player = World.getPlayers().get(playerIndex);
 					if (player == null || !player.isRunning() || !withinDistance(player))
 						continue;
 					player.getPackets().sendSound(soundId, 0, type);
 				}
-			}
 		}
 	}
 
@@ -1345,7 +1317,7 @@ public abstract class Entity extends WorldTile {
 			return new Vec2(this);
 		return new Vec2(getX() + (size-1)/ 2.0f, getY() + (size-1)/ 2.0f);
 	}
-	
+
 	public boolean inMeleeRange(Entity target) {
 		return WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), 0);
 	}

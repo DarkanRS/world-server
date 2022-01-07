@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,8 +33,8 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
 public class NoEscape implements NexAttack {
-	
-	public static WorldTile[] NO_ESCAPE_TELEPORTS = { 
+
+	public static WorldTile[] NO_ESCAPE_TELEPORTS = {
 			new WorldTile(2924, 5213, 0), //north
 			new WorldTile(2934, 5202, 0), //east,
 			new WorldTile(2924, 5192, 0), //south
@@ -62,18 +62,16 @@ public class NoEscape implements NexAttack {
 					nex.setNextForceTalk(new ForceTalk("NO ESCAPE!"));
 					nex.playSound(3292, 2);
 					nex.setNextForceMovement(new ForceMovement(dir, 1, center, 3, idx == 3 ? 1 : idx == 2 ? 0 : idx == 1 ? 3 : 2));
-					for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2)) {
-						if (entity instanceof Player) {
-							Player player = (Player) entity;
+					for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2))
+						if (entity instanceof Player player) {
 							player.getCutscenesManager().play(new NexCutScene(dir, idx));
 							player.applyHit(new Hit(nex, Utils.getRandomInclusive(650), HitLook.TRUE_DAMAGE));
 							player.setNextAnimation(new Animation(10070));
 							player.setNextForceMovement(new ForceMovement(player, 1, idx == 3 ? Direction.WEST : idx == 2 ? Direction.SOUTH : idx == 1 ? Direction.EAST : Direction.NORTH));
 						}
-					}
-				} else if (count == 3) {
+				} else if (count == 3)
 					nex.setNextWorldTile(center);
-				} else if (count == 4) {
+				else if (count == 4) {
 					nex.setTarget(target);
 					nex.setCantInteract(false);
 					stop();

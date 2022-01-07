@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -54,7 +54,7 @@ import com.rs.utils.json.FamiliarAdapter;
 import com.rs.web.WorldAPI;
 
 public final class Launcher {
-	
+
 	private static WorldDB DB;
 
 	public static void main(String[] args) throws Exception {
@@ -69,31 +69,31 @@ public final class Launcher {
 				.disableHtmlEscaping()
 				.setPrettyPrinting()
 				.create());
-		
+
 		Settings.loadConfig();
-		
+
 		long currentTime = System.currentTimeMillis();
-		
+
 		Logger.log("Cache", "Loading cache...");
 		Cache.init(Settings.getConfig().getCachePath());
-		
+
 		Logger.log("XTEAs", "Loading map XTEAs...");
 		MapXTEAs.loadKeys();
-		
+
 		Logger.log("CoresManager", "Initializing world threads...");
 		CoresManager.startThreads();
-		
+
 		Logger.log("GameDecoder", "Initializing packet decoders...");
 		GameDecoder.loadPacketDecoders();
-		
+
 		Logger.log("PluginManager", "Initializing plugins...");
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
-		
+
 		Logger.log("MongoDB", "Connecting to MongoDB and initializing databases...");
 		DB = new WorldDB();
 		DB.init();
-		
+
 		Logger.log("ServerChannelHandler", "Putting server online...");
 		try {
 			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().getPort(), BaseWorldDecoder.class);
@@ -113,29 +113,23 @@ public final class Launcher {
 	}
 
 	private static void addCleanMemoryTask() {
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, 0, Ticks.fromMinutes(10));
 	}
 
 	private static void addAccountsSavingTask() {
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					saveFiles();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-
+		CoresManager.schedule(() -> {
+			try {
+				saveFiles();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
+
 		}, Ticks.fromMinutes(15));
 	}
 
@@ -176,31 +170,28 @@ public final class Launcher {
 	private Launcher() {
 
 	}
-	
+
 	public static void executeCommand(String cmd) {
 		executeCommand(null, cmd);
 	}
-	
+
 	public static void executeCommand(Player player, String cmd) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					String line;
-					Process proc = Runtime.getRuntime().exec(cmd);
-					BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-					while ((line = in.readLine()) != null) {
-						if (player != null)
-							player.getPackets().sendDevConsoleMessage(line);
-						System.out.println(line);
-					}
-					proc.waitFor();
-					in.close();
-				} catch (IOException | InterruptedException e) {
+		CoresManager.execute(() -> {
+			try {
+				String line;
+				Process proc = Runtime.getRuntime().exec(cmd);
+				BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+				while ((line = in.readLine()) != null) {
 					if (player != null)
-						player.getPackets().sendDevConsoleMessage("Error: " + e.getMessage());
-					Logger.handle(e);
+						player.getPackets().sendDevConsoleMessage(line);
+					System.out.println(line);
 				}
+				proc.waitFor();
+				in.close();
+			} catch (IOException | InterruptedException e) {
+				if (player != null)
+					player.getPackets().sendDevConsoleMessage("Error: " + e.getMessage());
+				Logger.handle(e);
 			}
 		});
 	}

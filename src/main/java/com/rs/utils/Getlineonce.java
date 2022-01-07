@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,46 +27,41 @@ import java.util.List;
  * Author: Jawarrior1
  */
 public class Getlineonce {
-    static Dictionary<String, List<Integer>> lines = new Hashtable<String, List<Integer>>();
+	static Dictionary<String, List<Integer>> lines = new Hashtable<>();
 
-    public Getlineonce(boolean repeat) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+	public Getlineonce(boolean repeat) {
+		StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
-        //Check if this line as been taking, so as not to repeat with loops or recursion
-        int line = stackTrace[2].getLineNumber();
-        String fileName = stackTrace[2].getFileName();
-        List<Integer> tempLines = new ArrayList<Integer>();//only used if key doesn't exist
-        if (lines.isEmpty()) {
-            tempLines.add(line);
-            lines.put(fileName, tempLines);
-//            lines.put("tester", oneline);
-        } else {
-            boolean keyExists = false;
-            for (Enumeration<String> k = lines.keys(); k.hasMoreElements(); ) {
-                String key = k.nextElement();
+		//Check if this line as been taking, so as not to repeat with loops or recursion
+		int line = stackTrace[2].getLineNumber();
+		String fileName = stackTrace[2].getFileName();
+		List<Integer> tempLines = new ArrayList<>();//only used if key doesn't exist
+		if (lines.isEmpty()) {
+			tempLines.add(line);
+			lines.put(fileName, tempLines);
+			//            lines.put("tester", oneline);
+		} else {
+			boolean keyExists = false;
+			for (Enumeration<String> k = lines.keys(); k.hasMoreElements(); ) {
+				String key = k.nextElement();
 
-                //Check if there is a kay
-                if (key.equalsIgnoreCase(fileName)) {
-                    keyExists = true;
-                    if (!lines.get(key).contains(line)) {
-                        tempLines = lines.get(key);
-                        tempLines.add(line);
-                        lines.put(fileName, tempLines);
-                        System.out.println(fileName + ": " + line);// should run once
-                    } else { //The line was already run
-                        if (repeat) {
-                            System.out.println(fileName + ": " + line);
-                        }
-                    }
-                } else {//If there is not key in this index, go to the next
-                    continue;
-                }
-            }
-            //If after searching all of those you found nothing
-            if (!keyExists) {
-                tempLines.add(line);
-                lines.put(fileName, tempLines);
-            }
-        }
-    }
+				//Check if there is a kay
+				if (!key.equalsIgnoreCase(fileName))
+					continue;
+				keyExists = true;
+				if (!lines.get(key).contains(line)) {
+					tempLines = lines.get(key);
+					tempLines.add(line);
+					lines.put(fileName, tempLines);
+					System.out.println(fileName + ": " + line);// should run once
+				} else if (repeat)
+					System.out.println(fileName + ": " + line);
+			}
+			//If after searching all of those you found nothing
+			if (!keyExists) {
+				tempLines.add(line);
+				lines.put(fileName, tempLines);
+			}
+		}
+	}
 }

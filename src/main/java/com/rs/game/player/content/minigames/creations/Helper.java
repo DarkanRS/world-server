@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,10 +39,10 @@ public class Helper {
 	public static final long DURATION = 20 * 60 * 1000;
 	public static final long PENALTY_DURATION = 10 * 60 * 1000;
 	public static final WorldTile EXIT = new WorldTile(2968, 9710, 0);
-	public static final int[] BASE_ENTRANCE_BLUE = new int[] { 4, 5 };
-	public static final int[] BASE_ENTRANCE_RED = new int[] { 4, 2 };
-	public static final int[][] PLOT_ENTRANCES = new int[][] { { 2, 2 }, { 2, 3 }, { 2, 4 }, { 3, 2 }, { 3, 4 }, { 4, 2 }, { 4, 4 }, { 5, 2 }, { 5, 3 }, { 5, 4 } };
-	public static final int[] PLOT_OBJECT_BASE = new int[] { 3, 3 };
+	public static final int[] BASE_ENTRANCE_BLUE = { 4, 5 };
+	public static final int[] BASE_ENTRANCE_RED = { 4, 2 };
+	public static final int[][] PLOT_ENTRANCES = { { 2, 2 }, { 2, 3 }, { 2, 4 }, { 3, 2 }, { 3, 4 }, { 4, 2 }, { 4, 4 }, { 5, 2 }, { 5, 3 }, { 5, 4 } };
+	public static final int[] PLOT_OBJECT_BASE = { 3, 3 };
 	public static final int KILN = 39546;
 	public static final int KILN_CONFIG_BASE = 583;
 	public static final int KILN_SCRIPT_BASE = 1910;
@@ -51,33 +51,33 @@ public class Helper {
 	public static final int BLUE_DOOR_2 = 39768;
 	public static final int RED_DOOR_1 = 39767;
 	public static final int RED_DOOR_2 = 39769;
-	public static final int[] BLUE_DOOR_P1 = new int[] { 3, 7 };
-	public static final int[] BLUE_DOOR_P2 = new int[] { 4, 7 };
-	public static final int[] BLUE_DOOR_P3 = new int[] { 7, 4 };
-	public static final int[] BLUE_DOOR_P4 = new int[] { 7, 3 };
-	public static final int[] RED_DOOR_P1 = new int[] { 4, 0 };
-	public static final int[] RED_DOOR_P2 = new int[] { 3, 0 };
-	public static final int[] RED_DOOR_P3 = new int[] { 0, 3 };
-	public static final int[] RED_DOOR_P4 = new int[] { 0, 4 };
-	public static final int[] MANAGER_NPCS = new int[] { 8234, 8235, 8236, 8238 };
-	public static final int[] BLUE_MANAGER_P = new int[] { 4, 2 };
-	public static final int[] RED_MANAGER_P = new int[] { 3, 5 };
-	public static final int[] BARRIER_MIN = new int[] { 1, 1 };
-	public static final int[] BARRIER_MAX = new int[] { 6, 6 };
-	public static final int[] BARRIER_ITEMS = new int[] { 14172, 14174, 14176, 14178, 14180 };
+	public static final int[] BLUE_DOOR_P1 = { 3, 7 };
+	public static final int[] BLUE_DOOR_P2 = { 4, 7 };
+	public static final int[] BLUE_DOOR_P3 = { 7, 4 };
+	public static final int[] BLUE_DOOR_P4 = { 7, 3 };
+	public static final int[] RED_DOOR_P1 = { 4, 0 };
+	public static final int[] RED_DOOR_P2 = { 3, 0 };
+	public static final int[] RED_DOOR_P3 = { 0, 3 };
+	public static final int[] RED_DOOR_P4 = { 0, 4 };
+	public static final int[] MANAGER_NPCS = { 8234, 8235, 8236, 8238 };
+	public static final int[] BLUE_MANAGER_P = { 4, 2 };
+	public static final int[] RED_MANAGER_P = { 3, 5 };
+	public static final int[] BARRIER_MIN = { 1, 1 };
+	public static final int[] BARRIER_MAX = { 6, 6 };
+	public static final int[] BARRIER_ITEMS = { 14172, 14174, 14176, 14178, 14180 };
 	public static final int EMPTY_BARRIER1 = 39615;
 	public static final int EMPTY_BARRIER2 = 39616;
 	public static final int EMPTY_BARRIER3 = 39617;
-	public static final int[][] BLUE_BARRIER_WALLS = new int[][] { { 39770, 39772, 39774, 39776 }, { 39782, 39784, 39786, 39788 }, { 39794, 39796, 39798, 39800 }, { 39806, 39808, 39810, 39812 }, { 39818, 39820, 39822, 39824 } };
-	public static final int[][] RED_BARRIER_WALLS = new int[][] { { 39771, 39773, 39775, 39777 }, { 39783, 39785, 39787, 39789 }, { 39795, 39797, 39799, 39801 }, { 39807, 39809, 39811, 39813 }, { 39819, 39821, 39823, 39825 } };
-	public static final int[][] BLUE_BARRIER_GATES = new int[][] { { 39778, 39780 }, { 3990, 39792 }, { 39802, 39804 }, { 39814, 39816 }, { 39826, 39828 } };
-	public static final int[][] RED_BARRIER_GATES = new int[][] { { 39779, 39781 }, { 3991, 39793 }, { 39803, 39805 }, { 39815, 39817 }, { 39827, 39829 } };
-	public static final int[][] ROCK_SPOTS = new int[][] { { 39548, 39548, 39549 }, { 39550, 39554, 39558 }, { 39551, 39555, 39559 }, { 39552, 39556, 39560 }, { 39553, 39557, 39561 } };
-	public static final int[][] POOL_SPOTS = new int[][] { { 39548, 39548, 39549 }, { 39565, 39569, 39573 }, { 39564, 39568, 39572 }, { 39563, 39567, 39571 }, { 39562, 39566, 39570 } };
-	public static final int[][] SWARM_SPOTS = new int[][] { { 39548, 39548, 39549 }, { 39577, 39581, 39585 }, { 39576, 39580, 39584 }, { 39575, 39579, 39583 }, { 39574, 39578, 39582 } };
-	public static final int[][] TREE_SPOTS = new int[][] { { 39548, 39548, 39549 }, { 39589, 39593, 39597 }, { 39588, 39592, 39596 }, { 39587, 39591, 39595 }, { 39586, 39590, 39594 } };
-	public static final int[] TOOL_TIERS = new int[] { 20, 51, 65, 101, 151 };
-	public static final int[] OBJECT_TIERS = new int[] { 10, 90, 125, 175, 241 };
+	public static final int[][] BLUE_BARRIER_WALLS = { { 39770, 39772, 39774, 39776 }, { 39782, 39784, 39786, 39788 }, { 39794, 39796, 39798, 39800 }, { 39806, 39808, 39810, 39812 }, { 39818, 39820, 39822, 39824 } };
+	public static final int[][] RED_BARRIER_WALLS = { { 39771, 39773, 39775, 39777 }, { 39783, 39785, 39787, 39789 }, { 39795, 39797, 39799, 39801 }, { 39807, 39809, 39811, 39813 }, { 39819, 39821, 39823, 39825 } };
+	public static final int[][] BLUE_BARRIER_GATES = { { 39778, 39780 }, { 3990, 39792 }, { 39802, 39804 }, { 39814, 39816 }, { 39826, 39828 } };
+	public static final int[][] RED_BARRIER_GATES = { { 39779, 39781 }, { 3991, 39793 }, { 39803, 39805 }, { 39815, 39817 }, { 39827, 39829 } };
+	public static final int[][] ROCK_SPOTS = { { 39548, 39548, 39549 }, { 39550, 39554, 39558 }, { 39551, 39555, 39559 }, { 39552, 39556, 39560 }, { 39553, 39557, 39561 } };
+	public static final int[][] POOL_SPOTS = { { 39548, 39548, 39549 }, { 39565, 39569, 39573 }, { 39564, 39568, 39572 }, { 39563, 39567, 39571 }, { 39562, 39566, 39570 } };
+	public static final int[][] SWARM_SPOTS = { { 39548, 39548, 39549 }, { 39577, 39581, 39585 }, { 39576, 39580, 39584 }, { 39575, 39579, 39583 }, { 39574, 39578, 39582 } };
+	public static final int[][] TREE_SPOTS = { { 39548, 39548, 39549 }, { 39589, 39593, 39597 }, { 39588, 39592, 39596 }, { 39587, 39591, 39595 }, { 39586, 39590, 39594 } };
+	public static final int[] TOOL_TIERS = { 20, 51, 65, 101, 151 };
+	public static final int[] OBJECT_TIERS = { 10, 90, 125, 175, 241 };
 	public static final int BLUE_CAPE = 14387;
 	public static final int RED_CAPE = 14389;
 	public static final int PRAYER_ALTAR = 39547;
@@ -133,8 +133,8 @@ public class Helper {
 		double dist = Double.MAX_VALUE;
 		int pX = player.getChunkX() - (area.getMinX() >> 3);
 		int pY = player.getChunkY() - (area.getMinY() >> 3);
-		for (int size = area.getSize(), x = 0; x < size; x++) {
-			for (int y = 0; y < size; y++) {
+		for (int size = area.getSize(), x = 0; x < size; x++)
+			for (int y = 0; y < size; y++)
 				if (area.getWallTeam(x, y) == (team ? 2 : 1)) {
 					int xDelta = pX - x;
 					int yDelta = pY - y;
@@ -145,8 +145,6 @@ public class Helper {
 						base[1] = y;
 					}
 				}
-			}
-		}
 		return base;
 	}
 
@@ -167,17 +165,14 @@ public class Helper {
 
 	public static WorldTile getNearestRespawnPoint(Player player, GameArea area, boolean team) {
 		List<GameObject> o = World.getRegion(player.getRegionId()).getAllObjects();
-		if (o != null) {
-			for (int[] gateIDS : (team ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES)) {
-				for (int id : gateIDS) {
+		if (o != null)
+			for (int[] gateIDS : (team ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES))
+				for (int id : gateIDS)
 					for (GameObject object : o) {
 						if (object == null || object.getId() != id)
 							continue;
 						return object;
 					}
-				}
-			}
-		}
 		int size = area.getSize();
 		int[] base = findNearestBase(area, player, team);
 		int[] entrance;
@@ -192,7 +187,7 @@ public class Helper {
 	public static int getItemIndex(String name) {
 		if (name.contains("rune") || name.contains("staff"))
 			return 7;
-		else if (name.contains("potion"))
+		if (name.contains("potion"))
 			return 9;
 		else if (name.contains("food"))
 			return 10;
@@ -220,7 +215,7 @@ public class Helper {
 	public static int getRequestedKilnSkill(int indexedId) {
 		if (indexedId >= 0 && indexedId <= 1 || indexedId >= 6 && indexedId <= 8 || indexedId >= 15 && indexedId <= 17)
 			return Constants.SMITHING;
-		else if (indexedId >= 2 && indexedId <= 3 || indexedId >= 9 && indexedId <= 14 || indexedId >= 18 && indexedId <= 19 || indexedId == 23)
+		if (indexedId >= 2 && indexedId <= 3 || indexedId >= 9 && indexedId <= 14 || indexedId >= 18 && indexedId <= 19 || indexedId == 23)
 			return Constants.CRAFTING;
 		else if (indexedId == 4)
 			return Constants.CONSTRUCTION;
@@ -262,10 +257,9 @@ public class Helper {
 			player.getInventory().deleteItem(itemId, amount);
 			player.getInventory().addItem(new Item(CLASS_ITEMS_BASE[componentId - 37] + ((componentId == 57 || componentId == 58 || componentId == 61) ? 0 : componentId == 56 ? index : componentId >= 64 ? (-index * 2) : (index * 2)), (componentId >= 56 && componentId <= 58 ? 15 * (index + 1) : componentId == 61 ? index + 1 : 1) * amount));
 			return true;
-		} else {
-			player.sendMessage("You have no clay to proccess.");
-			return false;
 		}
+		player.sendMessage("You have no clay to proccess.");
+		return false;
 	}
 
 	public static void giveCape(Player player, boolean team) {
@@ -291,7 +285,7 @@ public class Helper {
 		int maxY = area.getMinY() + (flagY << 3) + range[3];
 		if (player.withinDistance(new WorldTile(minX, minY, player.getPlane()), 3))
 			return player.inArea(minX, minY, maxX, maxY) || player.getX() >= minX && player.getX() <= maxX && player.getY() >= minY && player.getY() <= maxY;
-		return false;
+			return false;
 	}
 
 	public static boolean setWalkToGate(GameObject gate, Player player) {
@@ -303,7 +297,7 @@ public class Helper {
 				return true;
 			else
 				return player.addWalkSteps(gate.getX(), gate.getY()) || player.addWalkSteps(gate.getX() - 1, gate.getY());
-		else if (gate.getRotation() == 1)
+		if (gate.getRotation() == 1)
 			if (player.getX() == gate.getX() && player.getY() == (gate.getY() + 1))
 				return true;
 			else
@@ -327,7 +321,7 @@ public class Helper {
 			return true;
 		if (gate.getRotation() == 0)
 			return player.getX() == (gate.getX() - 1) && player.getY() == gate.getY();
-		else if (gate.getRotation() == 1)
+		if (gate.getRotation() == 1)
 			return player.getX() == gate.getX() && player.getY() == (gate.getY() + 1);
 		else if (gate.getRotation() == 2)
 			return player.getX() == (gate.getX() + 1) && player.getY() == gate.getY();
@@ -343,7 +337,7 @@ public class Helper {
 
 		if (gate.getRotation() == 0)
 			return new WorldTile(gate.getX() - 1, gate.getY(), gate.getPlane());
-		else if (gate.getRotation() == 1)
+		if (gate.getRotation() == 1)
 			return new WorldTile(gate.getX(), gate.getY() + 1, gate.getPlane());
 		else if (gate.getRotation() == 2)
 			return new WorldTile(gate.getX() + 1, gate.getY(), gate.getPlane());
@@ -356,7 +350,7 @@ public class Helper {
 	public static Direction getFaceDirection(WorldTile faceTile, Player player) {
 		if (player.getX() < faceTile.getX())
 			return Direction.EAST;
-		else if (player.getX() > faceTile.getX())
+		if (player.getX() > faceTile.getX())
 			return Direction.WEST;
 		else if (player.getY() < faceTile.getY())
 			return Direction.NORTH;
@@ -374,26 +368,23 @@ public class Helper {
 		int[] woodcuting = new int[4];
 		int[] hunter = new int[4];
 		int size = area.getSize();
-		for (int x = 0; x < size; x++) {
+		for (int x = 0; x < size; x++)
 			for (int y = 0; y < size; y++) {
 				int type = area.getType(x, y);
 				int tier = area.getTier(x, y);
 				int degradation = area.getDegradation(x, y);
-				if (degradation > 0 && type >= 9 && type <= 12 && tier > 0 && tier < 6) {
+				if (degradation > 0 && type >= 9 && type <= 12 && tier > 0 && tier < 6)
 					if (tier == 1)
 						basic++;
-					else if (type == 9) {
+					else if (type == 9)
 						mining[tier - 2]++;
-					} else if (type == 10) {
+					else if (type == 10)
 						woodcuting[tier - 2]++;
-					} else if (type == 11) {
+					else if (type == 11)
 						fishing[tier - 2]++;
-					} else if (type == 12) {
+					else if (type == 12)
 						hunter[tier - 2]++;
-					}
-				}
 			}
-		}
 		player.getPackets().sendVarc(564, basic);
 		for (int i = 0; i < fishing.length; i++)
 			player.getPackets().sendVarc(565 + i, fishing[i]);
@@ -408,23 +399,22 @@ public class Helper {
 	public static int calculateReward(Score personal, int winner) {
 		int total = personal.total((personal.getTeam() ? 2 : 1) == winner);
 		int reward = 0;
-		if (total < 20000) {
+		if (total < 20000)
 			reward = total / 1000;
-		} else if (total < 22000) {
+		else if (total < 22000)
 			reward = 20;
-		} else if (total < 26000) {
+		else if (total < 26000)
 			reward = 21;
-		} else if (total < 34000) {
+		else if (total < 34000)
 			reward = 22;
-		} else if (total < 50000) {
+		else if (total < 50000)
 			reward = 23;
-		} else if (total < 82000) {
+		else if (total < 82000)
 			reward = 24;
-		} else if (total < 146000) {
+		else if (total < 146000)
 			reward = 25;
-		} else {
+		else
 			reward = 26;
-		}
 		return reward;
 	}
 
@@ -438,9 +428,8 @@ public class Helper {
 
 	public static void displayScores(Player player, boolean redTeam, Score personal, List<Score> total, int winner) {
 		player.getInterfaceManager().sendInterface(810);
-		if (personal == null) {
+		if (personal == null)
 			return;
-		}
 		int blueTotal = Score.totalXP(total, false, winner == 1);
 		int redTotal = Score.totalXP(total, true, winner == 2);
 		player.getPackets().sendVarc(588, personal.getTeam() ? 2 : 1);
@@ -504,19 +493,18 @@ public class Helper {
 		// --------
 
 		player.sendMessage("Team 1's score(blue team): " + blueTotal + " - Team 2's score(red team): " + redTotal);
-		if (winner != 0 && winner == (personal.getTeam() ? 2 : 1)) {
+		if (winner != 0 && winner == (personal.getTeam() ? 2 : 1))
 			player.sendMessage("Your team, Team " + (personal.getTeam() ? 2 : 1) + ", is victorious! You gain a 10% bonus to your score!");
-		} else if (winner != 0 && winner != (personal.getTeam() ? 2 : 1)) {
+		else if (winner != 0 && winner != (personal.getTeam() ? 2 : 1))
 			player.sendMessage("Your team, Team " + (personal.getTeam() ? 2 : 1) + ", is defeated! Team " + (personal.getTeam() ? 1 : 2) + " is victorious!");
-		} else if (winner == 0) {
+		else if (winner == 0)
 			player.sendMessage("Your team, Team " + (personal.getTeam() ? 2 : 1) + ", ties with Team " + (personal.getTeam() ? 1 : 2) + "!"); // TODO
-			// get
-			// original
-			// rs
-			// message
-			// for
-			// tie
-		}
+		// get
+		// original
+		// rs
+		// message
+		// for
+		// tie
 		player.sendMessage("YOUR TOTAL SCORE: " + personal.total((personal.getTeam() ? 2 : 1) == winner) + " points.");
 
 	}
@@ -529,21 +517,14 @@ public class Helper {
 		player.getInterfaceManager().sendInterface(813);
 		player.getPackets().sendRunScriptReverse(KILN_SCRIPT_BASE + 0); // + tabID
 		int quality = 0;
-		qualityLoop: for (int i = 4; i >= 0; i--) {
+		qualityLoop: for (int i = 4; i >= 0; i--)
 			if (player.getInventory().containsOneItem(SACRED_CLAY[i])) {
 				quality = i;
 				break qualityLoop;
 			}
-		}
 		player.getTempAttribs().setI("sc_kiln_quality", quality);
 		player.getTempAttribs().setL("in_kiln", System.currentTimeMillis() + 10000);
-		player.setCloseInterfacesEvent(new Runnable() {
-
-			@Override
-			public void run() {
-				player.getTempAttribs().removeL("in_kiln");
-			}
-		});
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeL("in_kiln"));
 		refreshKiln(player);
 	}
 

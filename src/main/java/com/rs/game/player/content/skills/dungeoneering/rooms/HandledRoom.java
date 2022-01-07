@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,15 +27,15 @@ public class HandledRoom {
 	private int[] doorsDirections;
 	private RoomEvent event;
 	private int[] keySpot;
-	
+
 	public HandledRoom(int chunkX, int chunkY, RoomEvent event, int[] keySpot, int... doorDirections) {
 		this.chunkX = chunkX;
 		this.chunkY = chunkY;
 		this.event = event;
-		this.doorsDirections = doorDirections;
+		doorsDirections = doorDirections;
 		this.keySpot = keySpot;
 	}
-	
+
 	public HandledRoom(int chunkX, int chunkY, RoomEvent event, int... doorsDirections) {
 		this(chunkX, chunkY, event, null, doorsDirections);
 	}
@@ -92,9 +92,9 @@ public class HandledRoom {
 		event.openRoom(dungeon, reference);
 	}
 
-//	public boolean allowSpecialDoors() {
-//		return true;
-//	}
+	//	public boolean allowSpecialDoors() {
+	//		return true;
+	//	}
 
 	public boolean allowResources() {
 		return true;
@@ -103,11 +103,11 @@ public class HandledRoom {
 	public boolean isAvailableOnFloorType(int floorType) {
 		return true;
 	}
-	
-	
+
+
 	public int[] getKeySpot() {
 		return keySpot;
 	}
-	
+
 
 }

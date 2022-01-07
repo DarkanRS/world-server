@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -58,7 +58,7 @@ public class ChaosElementalCombat extends CombatScript {
 			}, Utils.getDistanceI(npc, target)/3);
 		} else if (atk <= 18) {
 			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15, 0);
-			if (target instanceof Player player) {
+			if (target instanceof Player player)
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
@@ -88,7 +88,6 @@ public class ChaosElementalCombat extends CombatScript {
 						}
 					}
 				}, Utils.getDistanceI(npc, target)/3);
-			}
 		} else {
 			int damage = getMaxHit(npc, 300, AttackStyle.MAGE, target);
 			Hit hit = getMagicHit(npc, damage);

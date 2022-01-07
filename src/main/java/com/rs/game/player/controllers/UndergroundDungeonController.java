@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,7 +29,7 @@ public class UndergroundDungeonController extends Controller {
 
 	private transient int ticks;
 	private transient boolean initial;
-	
+
 	private boolean hasStench, requiresLightSource;
 
 	public UndergroundDungeonController(boolean hasStench, boolean requiresLightSource) {
@@ -62,22 +62,20 @@ public class UndergroundDungeonController extends Controller {
 
 	private void checkRequriments() {
 		boolean lastInitial = initial;
-		if (hasStench) {
+		if (hasStench)
 			if (!Slayer.hasNosepeg(player) && !Slayer.hasMask(player)) {
 				if (initial)
 					player.sendMessage("The stench of the monsters begins to reach your nose..");
 				initial = false;
 			} else
 				initial = true;
-		}
-		if (requiresLightSource) {
+		if (requiresLightSource)
 			if (!LightSource.hasLightSource(player)) {
 				if (initial)
 					player.sendMessage("You hear tiny insects skittering over the ground...");
 				initial = false;
 			} else
 				initial = true;
-		}
 		if (lastInitial != initial)
 			sendInterfaces();
 	}
@@ -88,20 +86,16 @@ public class UndergroundDungeonController extends Controller {
 		if (initial)
 			return;
 		ticks++;
-		if (hasStench) {
+		if (hasStench)
 			if (ticks % 12 == 0) {
 				player.sendMessage("The strench of the monsters burns your innards.");
 				player.applyHit(new Hit(player, 200, HitLook.TRUE_DAMAGE));
 			}
-		}
-		if (requiresLightSource) {
-			if (ticks % 2 == 0) {
-				if (!LightSource.hasLightSource(player)) {
+		if (requiresLightSource)
+			if (ticks % 2 == 0)
+				if (!LightSource.hasLightSource(player))
 					if (!player.isLocked())
 						player.applyHit(new Hit(player, Utils.random(10, 100), HitLook.TRUE_DAMAGE));
-				}
-			}
-		}
 	}
 
 	@Override
@@ -110,19 +104,20 @@ public class UndergroundDungeonController extends Controller {
 			player.useStairs(-1, new WorldTile(3360, 2971, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
-		} else if (object.getId() == 5946) {
+		}
+		if (object.getId() == 5946) {
 			player.useStairs(828, new WorldTile(3168, 3171, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
-		} else if (object.getId() == 15811) {
+		} else if (object.getId() == 15811)
 			player.getControllerManager().forceStop();
-		} else if (object.getId() == 32944) {
+		else if (object.getId() == 32944) {
 			player.useStairs(-1, new WorldTile(3219, 9532, 2), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
-		} else if (object.getId() == 31435) {
+		} else if (object.getId() == 31435)
 			return false;
-		} else if (object.getId() == 15811) {
+		else if (object.getId() == 15811) {
 			player.useStairs(-1, new WorldTile(3749, 2973, 0), 1, 2);
 			return false;
 		} else if (object.getId() == 15790) {

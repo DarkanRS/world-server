@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -45,7 +45,7 @@ public class FlipTilesRoom extends PuzzleRoom {
 	public void openRoom() {
 		manager.spawnRandomNPCS(reference);
 		tiles = new GameObject[5][5];
-		outer: for (int x = 0; x < 15; x++) {
+		outer: for (int x = 0; x < 15; x++)
 			for (int y = 0; y < 15; y++) {
 				GameObject object = manager.getObjectWithType(reference, ObjectType.GROUND_DECORATION, x, y);
 				if (object != null && object.getId() == BASE_TILE) {
@@ -54,14 +54,12 @@ public class FlipTilesRoom extends PuzzleRoom {
 					break outer;
 				}
 			}
-		}
-		for (int x = 0; x < 5; x++) {
+		for (int x = 0; x < 5; x++)
 			for (int y = 0; y < 5; y++) {
 				//Apparently not every configuration is solveable but eh, thats what the force option is for!
 				tiles[x][y] = new GameObject(Math.random() > 0.5 ? GREEN : YELLOW, ObjectType.GROUND_DECORATION, 0, manager.getTile(reference, x + xOffset, y + yOffset));
 				World.spawnObject(tiles[x][y]);
 			}
-		}
 	}
 
 	@Override
@@ -72,9 +70,8 @@ public class FlipTilesRoom extends PuzzleRoom {
 			p.setNextAnimation(new Animation(7660));
 			int[] pos = manager.getRoomPos(object);
 			Set<GameObject> objects = getAdjacent(pos[0] - xOffset, pos[1] - yOffset);
-			for (GameObject tile : objects) {
+			for (GameObject tile : objects)
 				flipTile(tile);
-			}
 			checkComplete();
 			return false;
 		}
@@ -101,9 +98,8 @@ public class FlipTilesRoom extends PuzzleRoom {
 	public void flipTile(final GameObject tile) {
 		final int id = tile.getId();
 		tile.setId(id == GREEN ? YELLOW : GREEN); //instantly update so 2 players pressing the same tiles at once will not bug it out, although visual may be weird, rs might lock the whole puzzle up for 1 sec, not sure tho
-		for (Player team : manager.getParty().getTeam()) {
+		for (Player team : manager.getParty().getTeam())
 			team.getPackets().sendObjectAnimation(tile, new Animation(id == GREEN ? GREEN_TO_YELLOW : YELLOW_TO_GREEN));
-		}
 		WorldTasksManager.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -121,18 +117,15 @@ public class FlipTilesRoom extends PuzzleRoom {
 		if (isComplete())
 			return; //You can still flip tiles after puzzle is complete, but don't do any checks
 		int first = tiles[0][0].getId();
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 5; y++) {
-				if (first != tiles[x][y].getId()) {
+		for (int x = 0; x < 5; x++)
+			for (int y = 0; y < 5; y++)
+				if (first != tiles[x][y].getId())
 					return;
-				}
-			}
-		}
 		setComplete();
 	}
 
 	private Set<GameObject> getAdjacent(int x, int y) {
-		Set<GameObject> set = new HashSet<GameObject>();
+		Set<GameObject> set = new HashSet<>();
 
 		set.add(tiles[x][y]);
 		if (x > 0)

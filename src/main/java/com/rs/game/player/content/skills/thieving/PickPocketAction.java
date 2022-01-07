@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,14 +36,14 @@ public class PickPocketAction extends Action {
 	private NPC npc;
 	private PickPocketableNPC npcData;
 	private static final Animation STUN_ANIMATION = new Animation(422),
-	PICKPOCKETING_ANIMATION = new Animation(881),
-	DOUBLE_LOOT_ANIMATION = new Animation(5074),
-	TRIPLE_LOOT_ANIMATION = new Animation(5075),
-	QUADRUPLE_LOOT_ANIMATION = new Animation(5078);
+			PICKPOCKETING_ANIMATION = new Animation(881),
+			DOUBLE_LOOT_ANIMATION = new Animation(5074),
+			TRIPLE_LOOT_ANIMATION = new Animation(5075),
+			QUADRUPLE_LOOT_ANIMATION = new Animation(5078);
 
 	private static final SpotAnim DOUBLE_LOOT_GFX = new SpotAnim(873),
-	TRIPLE_LOOT_GFX = new SpotAnim(874),
-	QUADRUPLE_LOOT_GFX = new SpotAnim(875);
+			TRIPLE_LOOT_GFX = new SpotAnim(874),
+			QUADRUPLE_LOOT_GFX = new SpotAnim(875);
 
 	private int index;
 	private boolean success = false;
@@ -109,8 +109,8 @@ public class PickPocketAction extends Action {
 			player.getSkills().addXp(Constants.THIEVING, totalXp);
 			for (int i = 0; i <= index; i++) {
 				Item[] items = DropTable.calculateDrops(player, npcData.getLoot());
-				for (int d = 0;d < items.length;d++)
-					player.getInventory().addItem(items[d].getId(), items[d].getAmount());
+				for (Item item : items)
+					player.getInventory().addItem(item.getId(), item.getAmount());
 			}
 			stop(player);
 		}
@@ -123,9 +123,8 @@ public class PickPocketAction extends Action {
 		npc.setNextFaceEntity(null);
 		player.setNextFaceEntity(null);
 		setActionDelay(player, 1);
-		if (!success) {
+		if (!success)
 			player.lock(npcData.getStunTime());
-		}
 	}
 
 	private boolean hasTheivingSuit(Player player) {
@@ -138,33 +137,29 @@ public class PickPocketAction extends Action {
 		if (!npcData.rollSuccess(player))
 			return false;
 		if (Utils.getRandomInclusive(50) < 5) {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++)
 				if (npcData.getThievingLevels()[i] <= player.getSkills().getLevel(Constants.THIEVING) && npcData.getAgilityLevels()[i] <= player.getSkills().getLevel(Constants.AGILITY))
 					index = i;
-			}
-		} else {
+		} else
 			index = 0;
-		}
 		return true;
 	}
 
 	private String getMessage(Player player) {
 		if (npcData.equals(PickPocketableNPC.DESERT_PHOENIX))
 			return "You grab a tail-feather.";
-		else {
-			switch (index) {
-			case 0:
-				return "You succesfully pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.";
-			case 1:
-				return "Your lighting-fast reactions allow you to steal double loot.";
-			case 2:
-				return "Your lighting-fast reactions allow you to steal triple loot.";
-			case 3:
-				return "Your lighting-fast reactions allow you to steal quadruple loot.";
-			}
+		switch (index) {
+		case 0:
+			return "You succesfully pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.";
+		case 1:
+			return "Your lighting-fast reactions allow you to steal double loot.";
+		case 2:
+			return "Your lighting-fast reactions allow you to steal triple loot.";
+		case 3:
+			return "Your lighting-fast reactions allow you to steal quadruple loot.";
 		}
 		return null;
-		
+
 	}
 
 	private boolean checkAll(Player player) {

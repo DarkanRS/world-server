@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,7 +39,7 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
 public class FightCavesController extends Controller {
-	
+
 	public static final WorldTile OUTSIDE = new WorldTile(4610, 5130, 0);
 
 	private static final int THHAAR_MEJ_JAL = 2617;
@@ -59,11 +59,11 @@ public class FightCavesController extends Controller {
 	private transient Stages stage;
 	public transient boolean spawned;
 	private transient boolean logoutAtEnd;
-	
+
 	private int wave;
 	private boolean login;
 	public int selectedMusic;
-	
+
 	public FightCavesController(int wave) {
 		this.wave = wave;
 	}
@@ -144,7 +144,7 @@ public class FightCavesController extends Controller {
 				playMusic();
 				player.unlock(); // unlocks player
 			});
-			if (!login) {
+			if (!login)
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
@@ -157,7 +157,6 @@ public class FightCavesController extends Controller {
 						}
 					}
 				}, Ticks.fromSeconds(30));
-			}
 		});
 	}
 
@@ -195,14 +194,13 @@ public class FightCavesController extends Controller {
 		player.getVars().setVar(639, currentWave);
 		if (stage != Stages.RUNNING)
 			return;
-		for (int id : WAVES[currentWave - 1]) {
+		for (int id : WAVES[currentWave - 1])
 			if (id == 2736)
 				new TzKekCaves(id, getSpawnTile());
 			else if (id == 2745)
 				new TzTok_Jad(id, getSpawnTile(), this);
 			else
 				new FightCavesNPC(id, getSpawnTile());
-		}
 		spawned = true;
 	}
 
@@ -266,11 +264,11 @@ public class FightCavesController extends Controller {
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("You have been defeated!");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					player.reset();
 					exitCave(1);
 					player.setNextAnimation(new Animation(-1));
@@ -288,19 +286,19 @@ public class FightCavesController extends Controller {
 	public void magicTeleported(int type) {
 		exitCave(2);
 	}
-	
+
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	@Override
 	public boolean processObjectTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,7 +38,7 @@ public class StrangeFace extends Dialogue {
 			stage = 2;
 			sendDialogue(
 
-			"It is intrigring that you took so before comming to me. Fearful,", "traveller?");
+					"It is intrigring that you took so before comming to me. Fearful,", "traveller?");
 			player.getPackets().sendVoice(7895);
 		} else if (stage == 2) {
 			stage = 3;
@@ -47,7 +47,7 @@ public class StrangeFace extends Dialogue {
 			stage = 4;
 			sendDialogue(
 
-			"It is my duty inform you that many warriors fight here, and they", "all succumb to defeat eventually. If that instills terror in you, walk", "away now.");
+					"It is my duty inform you that many warriors fight here, and they", "all succumb to defeat eventually. If that instills terror in you, walk", "away now.");
 			player.getPackets().sendVoice(7881);
 		} else if (stage == 4) {
 			stage = 5;
@@ -56,7 +56,7 @@ public class StrangeFace extends Dialogue {
 			stage = 6;
 			sendDialogue(
 
-			"If that is the terminolgy you would use, yes. Through the powers", "bestowed upon me by my creator, I can generate opponents for you", "based on your memories of them. Men and women have fought here", "for generations.");
+					"If that is the terminolgy you would use, yes. Through the powers", "bestowed upon me by my creator, I can generate opponents for you", "based on your memories of them. Men and women have fought here", "for generations.");
 			player.getPackets().sendVoice(7908);
 		} else if (stage == 6) {
 			stage = 7;
@@ -66,7 +66,7 @@ public class StrangeFace extends Dialogue {
 			stage = 8;
 			sendDialogue(
 
-			"The Tower is I, and I have control of the tower. I see what happens,", "in any corner of any floor. I am always watching.");
+					"The Tower is I, and I have control of the tower. I see what happens,", "in any corner of any floor. I am always watching.");
 			player.getPackets().sendVoice(7909);
 		} else if (stage == 8) {
 			stage = 9;
@@ -92,7 +92,7 @@ public class StrangeFace extends Dialogue {
 			stage = 14;
 			sendDialogue(
 
-			"Your confidence may have a foundation, but judgment will come in", "battle.");
+					"Your confidence may have a foundation, but judgment will come in", "battle.");
 			player.getPackets().sendVoice(7896);
 		} else if (stage == 14) {
 			stage = 15;
@@ -108,7 +108,7 @@ public class StrangeFace extends Dialogue {
 			stage = 18;
 			sendDialogue(
 
-			"You must fight in the tower, warrior. Demonstrate your ability to", "others and learn.");
+					"You must fight in the tower, warrior. Demonstrate your ability to", "others and learn.");
 			player.getPackets().sendVoice(7879);
 		} else if (stage == 18) {
 			stage = 19;
@@ -121,7 +121,7 @@ public class StrangeFace extends Dialogue {
 			stage = 21;
 			sendDialogue(
 
-			"Now, I can offer you more guidance; or, if you overflow with", "confidence, you can figure out yourself. I am the tower, I am", "ever-present, so come to me if you change your mind.");
+					"Now, I can offer you more guidance; or, if you overflow with", "confidence, you can figure out yourself. I am the tower, I am", "ever-present, so come to me if you change your mind.");
 			player.getPackets().sendVoice(7872);
 		} else if (stage == 21) {
 			stage = 22;
@@ -136,9 +136,8 @@ public class StrangeFace extends Dialogue {
 				player.getDominionTower().talkToFace(true);
 				end();
 			}
-		} else {
+		} else
 			end();
-		}
 
 	}
 

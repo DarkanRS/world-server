@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -23,32 +23,32 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 
 public class MerlinsCrystalRitualScene extends Controller {
-    NPC spirit;
-    final int THRANTAX_SPIRIT = 238;
+	NPC spirit;
+	final int THRANTAX_SPIRIT = 238;
 
 	@Override
 	public void start() {
-        player.lock();
+		player.lock();
 		playCutscene();
 	}
 
 	private void playCutscene() {
-        boolean hasSpirit = false;
-        for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
-            if(npc.getId() == THRANTAX_SPIRIT)
-                hasSpirit = true;
-        if(hasSpirit)
-            ;
-        else {
-            spirit = World.spawnNPC(THRANTAX_SPIRIT, new WorldTile(2780, 3516, 0), -1, false, true);
-            player.getPackets().sendMusic(449, 100, 255);
-            spirit.setNextSpotAnim(new SpotAnim(1605, 0, 0));
-            spirit.setCantInteract(true);
-            spirit.faceSouth();
-            spirit.setRandomWalk(false);
-            spirit.lingerForPlayer(player);
-        }
-        player.startConversation(new ThrantaxMerlinsCrystalD(player).getStart());
+		boolean hasSpirit = false;
+		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+			if(npc.getId() == THRANTAX_SPIRIT)
+				hasSpirit = true;
+		if(hasSpirit)
+			;
+		else {
+			spirit = World.spawnNPC(THRANTAX_SPIRIT, new WorldTile(2780, 3516, 0), -1, false, true);
+			player.getPackets().sendMusic(449, 100, 255);
+			spirit.setNextSpotAnim(new SpotAnim(1605, 0, 0));
+			spirit.setCantInteract(true);
+			spirit.faceSouth();
+			spirit.setRandomWalk(false);
+			spirit.lingerForPlayer(player);
+		}
+		player.startConversation(new ThrantaxMerlinsCrystalD(player).getStart());
 	}
 
 	@Override

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,7 +28,7 @@ public class ShotputD extends Dialogue {
 
 	@Override
 	public void start() {
-		is18LB = (boolean) this.parameters[0];
+		is18LB = (boolean) parameters[0];
 		player.setNextAnimation(new Animation(827));
 		WorldTasksManager.schedule(new WorldTask() {
 
@@ -42,11 +42,10 @@ public class ShotputD extends Dialogue {
 	@Override
 	public void run(int interfaceId, int componentId) {
 		Controller controller = player.getControllerManager().getController();
-		if (controller == null || !(controller instanceof WarriorsGuild)) {
+		if (controller == null || !(controller instanceof WarriorsGuild currentGuild)) {
 			end();
 			return;
 		}
-		WarriorsGuild currentGuild = (WarriorsGuild) controller;
 		if (componentId == OPTION_1) {
 			currentGuild.prepareShotput((byte) 0, is18LB);
 			player.setNextAnimation(new Animation(15079));

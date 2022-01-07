@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -44,15 +44,15 @@ import com.rs.lib.util.Utils;
 public final class DivineSkinweaver extends DungeonBoss {
 
 	private static final int[][] HOLES =
-	{
-	{ 0, 10 },
-	{ 5, 15 },
-	{ 11, 15 },
-	{ 15, 10 },
-	{ 15, 5 } };
+		{
+				{ 0, 10 },
+				{ 5, 15 },
+				{ 11, 15 },
+				{ 15, 10 },
+				{ 15, 5 } };
 
 	private static final String[] CLOSE_HOLE_MESSAGES =
-	{ "Ride the wind and smite the tunnel.", "We have little time, tear down the tunnel.", "Churra! Bring down the tunnel while you can." };
+		{ "Ride the wind and smite the tunnel.", "We have little time, tear down the tunnel.", "Churra! Bring down the tunnel while you can." };
 
 	private final boolean[] holeClosed;
 	private int count;
@@ -77,7 +77,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 			if (killedCount == 3) {
 				requestedClose = true;
 				killedCount = 0;
-				this.setNextForceTalk(new ForceTalk(CLOSE_HOLE_MESSAGES[Utils.random(CLOSE_HOLE_MESSAGES.length)]));
+				setNextForceTalk(new ForceTalk(CLOSE_HOLE_MESSAGES[Utils.random(CLOSE_HOLE_MESSAGES.length)]));
 				for (Player p2 : getManager().getParty().getTeam()) {
 					if (!getManager().isAtBossRoom(p2))
 						continue;
@@ -88,12 +88,12 @@ public final class DivineSkinweaver extends DungeonBoss {
 	}
 
 	private int[] getOpenHole() {
-		List<int[]> holes = new ArrayList<int[]>();
+		List<int[]> holes = new ArrayList<>();
 		for (int[] hole : HOLES) {
 			GameObject object = getManager().getObjectWithType(getReference(), 49289, ObjectType.WALL_STRAIGHT, hole[0], hole[1]);
 			if (object != null && object.getId() != 49289)
 				holes.add(new int[]
-				{ object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()] });
+						{ object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()] });
 		}
 		if (holes.size() == 0)
 			return null;
@@ -104,15 +104,15 @@ public final class DivineSkinweaver extends DungeonBoss {
 	public void processNPC() {
 		List<Entity> targets = getPossibleTargets();
 		if(targets.size() == 0)
-		    removeAllSkeletons();
-		if (respawnDelay > 0) {
+			removeAllSkeletons();
+		if (respawnDelay > 0)
 			respawnDelay--;
-		} else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 20) { //blablala spawn skeletons
+		else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 20) { //blablala spawn skeletons
 			int[] coords = getOpenHole();
 			if (coords != null) {
 				int skeleType = Utils.random(3);
-                int cbLevel = getManager().getCombatLevelMonster();
-                cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.20));
+				int cbLevel = getManager().getCombatLevelMonster();
+				cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.20));
 				if (skeleType == 0)
 					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 1)
@@ -139,7 +139,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 		if (distance == 4 || distance < 0)
 			return;
 		int maxHeal = (int) (healTarget.getMaxHitpoints() * 0.35);
-		
+
 		healTarget.heal((distance + 1) * maxHeal / 4, 60);
 		setNextAnimation(new Animation(13678));
 		setNextSpotAnim(new SpotAnim(2445));
@@ -149,9 +149,9 @@ public final class DivineSkinweaver extends DungeonBoss {
 	}
 
 	private void removeAllSkeletons() {
-	    for(int i = 0; i < skeletons.size(); i++)
-	        skeletons.get(i).sendDeath(skeletons.get(i));
-    }
+		for (DungeonSkeletonBoss skeleton : skeletons)
+			skeleton.sendDeath(skeleton);
+	}
 	public void talkTo(Player player) {
 		if (count < holeClosed.length || skeletons.size() > 0) {
 			player.getDialogueManager().execute(new SimpleNPCMessage(), getId(), "Chat later and kill the skeletons now, brah.");
@@ -186,7 +186,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 		World.spawnObject(closedHole);
 
 	}
-	
+
 	@Override
 	public List<Entity> getPossibleTargets() {
 		ArrayList<Entity> targets = new ArrayList<>();

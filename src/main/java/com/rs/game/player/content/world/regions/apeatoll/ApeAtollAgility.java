@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -45,6 +45,7 @@ public class ApeAtollAgility {
 		player.setNextForceMovement(new ForceMovement(player, 1, toTile, 7, Direction.NORTH));
 		player.getAppearance().setBAS(760);
 		WorldTasksManager.schedule(new WorldTask() {
+			@Override
 			public void run() {
 				player.setNextWorldTile(toTile);
 				player.getSkills().addXp(Constants.AGILITY, 55);
@@ -65,6 +66,7 @@ public class ApeAtollAgility {
 		player.lock(3);
 		final WorldTile toTile = new WorldTile(player.getX(), player.getY(), 0);
 		WorldTasksManager.schedule(new WorldTask() {
+			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(1381));
 				player.setNextWorldTile(toTile);
@@ -86,6 +88,7 @@ public class ApeAtollAgility {
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 3, Direction.WEST));
 		player.getAppearance().setBAS(739);
 		WorldTasksManager.schedule(new WorldTask() {
+			@Override
 			public void run() {
 				player.setNextWorldTile(toTile);
 				player.getSkills().addXp(Constants.AGILITY, 45);
@@ -105,6 +108,7 @@ public class ApeAtollAgility {
 		player.lock(3);
 		final WorldTile toTile = new WorldTile(2752, 2742, 2);
 		WorldTasksManager.schedule(new WorldTask() {
+			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(1382));
 				player.setNextWorldTile(toTile);
@@ -127,6 +131,7 @@ public class ApeAtollAgility {
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile2, 4, Direction.WEST));
 		player.getAppearance().setBAS(744);
 		WorldTasksManager.schedule(new WorldTask() {
+			@Override
 			public void run() {
 				player.getAppearance().setBAS(-1);
 				player.setNextWorldTile(toTile);
@@ -150,11 +155,13 @@ public class ApeAtollAgility {
 		final WorldTile Land = new WorldTile(2757, 2746, object.getPlane());
 		WorldTasksManager.schedule(new WorldTask() {
 
+			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(1381));
 				player.setNextWorldTile(toTile);
 				WorldTasksManager.schedule(new WorldTask() {
 
+					@Override
 					public void run() {
 						if (Utils.random(5) == 0) {
 							player.setNextAnimation(new Animation(1381));
@@ -163,6 +170,7 @@ public class ApeAtollAgility {
 							player.getAppearance().setBAS(741);
 							WorldTasksManager.schedule(new WorldTask() {
 
+								@Override
 								public void run() {
 									player.getAppearance().setBAS(-1);
 									player.setNextWorldTile(Land);
@@ -184,9 +192,7 @@ public class ApeAtollAgility {
 	}
 
 	public static void swingRope(final Player player, GameObject object) {
-		if (!Agility.hasLevel(player, 48))
-			return;
-		if (player.getX() == 2756)
+		if (!Agility.hasLevel(player, 48) || (player.getX() == 2756))
 			return;
 		if (player.getEquipment().getWeaponId() != 4024) {
 			player.getPackets().sendGameMessage("You need to be a ninja monkey to be able to do this agility.");
@@ -201,6 +207,7 @@ public class ApeAtollAgility {
 		player.getPackets().sendGameMessage("You skilfully swing across.", true);
 		WorldTasksManager.schedule(new WorldTask() {
 
+			@Override
 			public void run() {
 				player.setNextWorldTile(toTile);
 				stop();

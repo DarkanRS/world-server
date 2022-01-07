@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -75,7 +75,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 		public int getNpcEmoteId() {
 			return npcEmoteId;
 		}
-		
+
 		public int getLevelRequired() {
 			return levelRequired;
 		}
@@ -118,9 +118,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 
 	@Override
 	public boolean checkAll(final Player player) {
-		if (player.isLocked())
-			return false;
-		if (creature.hasFinished())
+		if (player.isLocked() || creature.hasFinished())
 			return false;
 		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < creatures.getLevelRequired()) {
 			player.getDialogueManager().execute(new SimpleMessage(), "This creature requires level " + creatures.getLevelRequired() + " to siphon.");
@@ -139,7 +137,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public int loopWithDelay(Player player) {
 		if (started) {
@@ -151,9 +149,8 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 				Controller controller = player.getControllerManager().getController();
 				if (controller instanceof RunespanController ctrl)
 					ctrl.addRunespanPoints(creatures.pointValue);
-			} else {
+			} else
 				player.getSkills().addXp(Constants.RUNECRAFTING, 0.5);
-			}
 			if (npcLife == 0) {
 				processEsslingDeath(player);
 				return -1;
@@ -194,7 +191,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 		player.setNextAnimation(new Animation(16599));
 		setActionDelay(player, 3);
 	}
-	
+
 	public static int getWickedWornCount(Player player) {
 		int count = 0;
 		if (player.getEquipment().getHatId() == 22332)

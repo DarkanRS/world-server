@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -50,12 +50,11 @@ public class KalGerWarmongerCombat extends CombatScript {
 		if (boss.isUsingMelee()) {
 			boolean smash = false;
 
-			for (Player player : manager.getParty().getTeam()) {
+			for (Player player : manager.getParty().getTeam())
 				if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), boss.getX(), boss.getY(), 5)) {
 					smash = true;
 					break;
 				}
-			}
 			if (smash) {
 				boss.setNextAnimation(new Animation(14968));
 				boss.setNextSpotAnim(new SpotAnim(2867));
@@ -79,13 +78,12 @@ public class KalGerWarmongerCombat extends CombatScript {
 				return 0;
 		}
 		boss.setPullTicks(0);
-		if (boss.getAnnoyanceMeter() == 8) {// This part is essentially done
+		if (boss.getAnnoyanceMeter() == 8)
 			// boss.playSoundEffect(2986);
 			boss.setNextForceTalk(new ForceTalk("GRRRR!"));
-		} else if (boss.getAnnoyanceMeter() == 10) {
+		else if (boss.getAnnoyanceMeter() == 10)
 			// boss.playSoundEffect(3012);
 			boss.setNextForceTalk(new ForceTalk("ENOUGH!"));
-		}
 		if (boss.getType() == 1) {// NO WEAPONS HUR
 			npc.setNextAnimation(new Animation(14392));
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, boss.getMaxHit(), AttackStyle.MELEE, target)));

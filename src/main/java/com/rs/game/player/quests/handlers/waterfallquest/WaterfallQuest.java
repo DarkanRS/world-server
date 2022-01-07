@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -49,7 +49,7 @@ public class WaterfallQuest extends QuestOutline {
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:
 			lines.add("I can start this quest by speaking with Almera");
@@ -103,19 +103,18 @@ public class WaterfallQuest extends QuestOutline {
 
 		getQuest().sendQuestCompleteInterface(player, 1601, "13,750 Attack XP", "13,750 Strength XP", "2 diamonds", "2 gold bars", "40 Mithril seeds");
 	}
-	
+
 	public static ItemClickHandler handleBonesackTele = new ItemClickHandler(new Object[] { 292 }, new String[] { "Read" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) == 2) {
 				e.getPlayer().sendMessage("You read the book and find that a gnome named Golrie may be able to help find a way into the falls.");
 				e.getPlayer().getQuestManager().setStage(Quest.WATERFALL_QUEST, 3);
-			} else {
+			} else
 				e.getPlayer().sendMessage("You have already read this book. Golrie should be able to help.");
-			}
 		}
 	};
-	
+
 	public static NPCClickHandler handleHudon = new NPCClickHandler(false, new Object[] { "Hudon" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -128,21 +127,21 @@ public class WaterfallQuest extends QuestOutline {
 			}
 		}
 	};
-	
+
 	public static NPCClickHandler handleAlmera = new NPCClickHandler(304) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getDialogueManager().execute(new AlmeraD(), e.getNPC());
 		}
 	};
-	
+
 	public static NPCClickHandler handleGolrie = new NPCClickHandler(306) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getDialogueManager().execute(new GolrieD(), e.getNPC());
 		}
 	};
-	
+
 	public static ObjectClickHandler onObjectClick = new ObjectClickHandler(new Object[] { 1987, 1990, 1757, 5251, 5250, 10283, 2020, 33047, 33066, 2022, 2014, 37247, 31139, 2002, 1991, 1989 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -153,16 +152,15 @@ public class WaterfallQuest extends QuestOutline {
 				if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) >= 3 && !e.getPlayer().getInventory().containsItem(298, 1)) {
 					e.getPlayer().sendMessage("You find a large old key.");
 					e.getPlayer().getInventory().addItem(298, 1);
-				} else {
+				} else
 					e.getPlayer().sendMessage("You find nothing interesting.");
-				}
-			} else if (e.getObjectId() == 1757) {
+			} else if (e.getObjectId() == 1757)
 				e.getPlayer().useStairs(828, new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0), 1, 2);
-			} else if (e.getObjectId() == 5251) {
+			else if (e.getObjectId() == 5251)
 				e.getPlayer().useStairs(828, new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0), 1, 2);
-			} else if (e.getObjectId() == 5250) {
+			else if (e.getObjectId() == 5250)
 				e.getPlayer().useStairs(828, new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0), 1, 2);
-			} else if (e.getObjectId() == 10283) {
+			else if (e.getObjectId() == 10283) {
 				e.getPlayer().sendMessage("You try to swim down the river but you get swept away and over the waterfall.");
 				e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
 				e.getPlayer().applyHit(new Hit(e.getPlayer(), Utils.random(20, 56), HitLook.TRUE_DAMAGE));
@@ -171,16 +169,16 @@ public class WaterfallQuest extends QuestOutline {
 				e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
 				e.getPlayer().applyHit(new Hit(e.getPlayer(), Utils.random(20, 56), HitLook.TRUE_DAMAGE));
 			} else if (e.getObjectId() == 33047) {
-				if (e.getPlayer().getInventory().containsItem(295, 1)) {
+				if (e.getPlayer().getInventory().containsItem(295, 1))
 					e.getPlayer().sendMessage("The chest is empty.");
-				} else {
+				else {
 					e.getPlayer().sendMessage("You find Glarial's amulet.");
 					e.getPlayer().getInventory().addItem(295, 1);
 				}
 			} else if (e.getObjectId() == 33066) {
-				if (e.getPlayer().getInventory().containsItem(296, 1)) {
+				if (e.getPlayer().getInventory().containsItem(296, 1))
 					e.getPlayer().sendMessage("The tomb is empty.");
-				} else {
+				else {
 					e.getPlayer().sendMessage("You find Glarial's urn.");
 					e.getPlayer().getInventory().addItem(296, 1);
 				}
@@ -192,34 +190,32 @@ public class WaterfallQuest extends QuestOutline {
 				e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
 				e.getPlayer().applyHit(new Hit(e.getPlayer(), Utils.random(20, 56), HitLook.TRUE_DAMAGE));
 			} else if (e.getObjectId() == 37247) {
-				if (e.getPlayer().getEquipment().getAmuletId() == 295 || e.getPlayer().getInventory().containsItem(295, 1)) {
+				if (e.getPlayer().getEquipment().getAmuletId() == 295 || e.getPlayer().getInventory().containsItem(295, 1))
 					e.getPlayer().setNextWorldTile(new WorldTile(2575, 9862, 0));
-				} else {
+				else {
 					e.getPlayer().sendMessage("A powerful rush of water floods out of the cave and sweeps you down river.");
 					e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
 					e.getPlayer().applyHit(new Hit(e.getPlayer(), Utils.random(20, 56), HitLook.TRUE_DAMAGE));
 				}
 			} else if (e.getObjectId() == 31139) {
 				e.getPlayer().sendMessage("You search the crate.");
-				if (e.getPlayer().getInventory().containsItem(293, 1)) {
+				if (e.getPlayer().getInventory().containsItem(293, 1))
 					e.getPlayer().sendMessage("You find nothing of interest.");
-				} else {
+				else {
 					e.getPlayer().getInventory().addItem(293, 1);
 					e.getPlayer().sendMessage("You find an old key.");
 				}
-			} else if (e.getObjectId() == 2002 || e.getObjectId() == 1991) {
+			} else if (e.getObjectId() == 2002 || e.getObjectId() == 1991)
 				e.getPlayer().sendMessage("The door is locked.");
-			} else if (e.getObjectId() == 1989) {
+			else if (e.getObjectId() == 1989)
 				if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) >= 2 && !e.getPlayer().getInventory().containsItem(292, 1)) {
 					e.getPlayer().getInventory().addItem(292, 1);
 					e.getPlayer().sendMessage("You find an old book on the subject of Baxtorian!");
-				} else {
+				} else
 					e.getPlayer().sendMessage("You find nothing of interest.");
-				}
-			}
 		}
 	};
-	
+
 	public static ItemOnObjectHandler itemOnObjectClose = new ItemOnObjectHandler(new Object[] { 1991, 1992, 2002, 2004, 2006, 2014, 2020 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -230,9 +226,8 @@ public class WaterfallQuest extends QuestOutline {
 				if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) == 5) {
 					e.getPlayer().getQuestManager().completeQuest(Quest.WATERFALL_QUEST);
 					e.getPlayer().setNextWorldTile(new WorldTile(e.getPlayer().getX() - 38, e.getPlayer().getY() + 1, 0));
-				} else {
+				} else
 					e.getPlayer().sendMessage("I don't know how you got in here, but you shouldn't be.");
-				}
 			} else if (e.getItem().getId() == 295 && e.getObject().getId() == 2006 && !e.getPlayer().getQuestManager().isComplete(Quest.WATERFALL_QUEST)) {
 				if (e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfWaterRunes") >= 6 && e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfAirRunes") >= 6 && e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfEarthRunes") >= 6) {
 					e.getPlayer().setNextWorldTile(new WorldTile(e.getPlayer().getX() + 38, e.getPlayer().getY() - 1, 0));
@@ -265,9 +260,8 @@ public class WaterfallQuest extends QuestOutline {
 					e.getPlayer().sendMessage("You hear a loud creak.");
 					e.getPlayer().sendMessage("The gravestone slides back to reveal a ladder going down.");
 					e.getPlayer().setNextWorldTile(new WorldTile(2556, 3444 + 6400, 0));
-				} else {
+				} else
 					e.getPlayer().sendMessage("Nothing interesting happens.");
-				}
 			} else if (e.getItem().getId() == 298 && e.getObject().getId() == 1991) {
 				if (e.getPlayer().getX() == 2515 && e.getPlayer().getY() == 9575) {
 					e.getPlayer().sendMessage("You unlock the door and go inside.");
@@ -282,18 +276,16 @@ public class WaterfallQuest extends QuestOutline {
 			}
 		}
 	};
-	
+
 	public static ItemOnObjectHandler itemOnObjectFar = new ItemOnObjectHandler(false, new Object[] { 1996 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
-			if (e.getItem().getId() == 954) {
+			if (e.getItem().getId() == 954)
 				if (e.getPlayer().getX() == 2512 && e.getPlayer().getY() == 3476) {
 					e.getPlayer().sendMessage("You throw the rope over the rock and carefully pull yourself safely to land.");
 					e.getPlayer().setNextWorldTile(new WorldTile(2511, 3467, 0));
-				} else {
+				} else
 					e.getPlayer().sendMessage("You are too far away to do this.");
-				}
-			}
 		}
 	};
 }

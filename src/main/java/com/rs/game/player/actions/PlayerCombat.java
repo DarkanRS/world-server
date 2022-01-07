@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -64,35 +64,32 @@ import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
 public class PlayerCombat extends Action {
-	
+
 	private Entity target;
 	private int max_hit;
 	private CombatSpell spellcasterGloveSpell;
-	
+
 	public static ItemClickHandler handleDFS = new ItemClickHandler(new Object[] { "Dragonfire shield" }, new String[] { "Inspect", "Activate", "Empty" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			if (e.getOption().equals("Inspect")) {
-				if (e.getItem().getId() == 11284) {
+				if (e.getItem().getId() == 11284)
 					e.getPlayer().sendMessage("The shield is empty and unresponsive.");
-				} else {
+				else
 					e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
-				}
 			} else if (e.getOption().equals("Activate")) {
 				if (e.getItem().getMetaDataI("dfsCharges") > 0) {
 					if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
 						e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
 						e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
-					} else {
+					} else
 						e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
-					}
-				} else {
+				} else
 					e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
-				}
-			} else if (e.getOption().equals("Empty")) {
-				if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0) {
+			} else if (e.getOption().equals("Empty"))
+				if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
 					e.getPlayer().sendMessage("The shield is already empty.");
-				} else {
+				else
 					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", new String[] {"Yes, I understand the shield will lose all it's stats.", "No, I want to keep them."}, new DialogueOptionEvent() {
 						@Override
 						public void run(Player player) {
@@ -103,8 +100,6 @@ public class PlayerCombat extends Action {
 							}
 						}
 					});
-				}
-			}
 		}
 	};
 
@@ -116,10 +111,9 @@ public class PlayerCombat extends Action {
 	public boolean start(Player player) {
 		player.setNextFaceEntity(target);
 		if (checkAll(player)) {
-			if (target instanceof Player opp) {
+			if (target instanceof Player opp)
 				if ((!opp.attackedBy(player.getUsername())) && (!player.attackedBy(opp.getUsername())))
 					opp.addToAttackedBy(player.getUsername());
-			}
 			return true;
 		}
 		player.setNextFaceEntity(null);
@@ -149,7 +143,7 @@ public class PlayerCombat extends Action {
 			return -1;
 		addAttackedByDelay(player);
 		player.getTempAttribs().setO("combatTarget", target);
-		
+
 		CombatSpell spell = player.getCombatDefinitions().getSpell();
 		if (player.getTempAttribs().getB("dfsActive")) {
 			Item shield = player.getEquipment().get(Equipment.SHIELD);
@@ -170,7 +164,8 @@ public class PlayerCombat extends Action {
 			shield.addMetaData("dfsCharges", shield.getMetaDataI("dfsCharges")-1);
 			player.getCombatDefinitions().refreshBonuses();
 			return 3;
-		} else if (spell == null && PolyporeStaff.isWielding(player)) {
+		}
+		if (spell == null && PolyporeStaff.isWielding(player)) {
 			player.setNextFaceEntity(target);
 			player.setNextSpotAnim(new SpotAnim(2034));
 			player.setNextAnimation(new Animation(15448));
@@ -182,7 +177,7 @@ public class PlayerCombat extends Action {
 					target.setNextSpotAnim(new SpotAnim(2036, 0, 96));
 				else {
 					target.setNextSpotAnim(new SpotAnim(85, 0, 96));
-					playSound(227, player, target);	
+					playSound(227, player, target);
 				}
 			}, null, null);
 			return 3;
@@ -196,16 +191,14 @@ public class PlayerCombat extends Action {
 				spellcasterGloveSpell = null;
 			}
 			return delay;
-		} else {
-			if (isRanging(player)) {
-				RangedWeapon weapon = RangedWeapon.forId(player.getEquipment().getWeaponId());
-				if (weapon.properAmmo(player, true))
-					return (int) (rangeAttack(player) * multiplier);
-				player.faceTile(target);
-				return -1;
-			} else
-				return (int) (meleeAttack(player) * multiplier);
-		}
+		} else if (isRanging(player)) {
+			RangedWeapon weapon = RangedWeapon.forId(player.getEquipment().getWeaponId());
+			if (weapon.properAmmo(player, true))
+				return (int) (rangeAttack(player) * multiplier);
+			player.faceTile(target);
+			return -1;
+		} else
+			return (int) (meleeAttack(player) * multiplier);
 	}
 
 	private void addAttackedByDelay(Entity player) {
@@ -227,9 +220,9 @@ public class PlayerCombat extends Action {
 	}
 
 	public Entity[] getMultiAttackTargets(Player player, int maxDistance, int maxAmtTargets) {
-		List<Entity> possibleTargets = new ArrayList<Entity>();
+		List<Entity> possibleTargets = new ArrayList<>();
 		possibleTargets.add(target);
-		if (target.isAtMultiArea()) {
+		if (target.isAtMultiArea())
 			y: for (int regionId : target.getMapRegionsIds()) {
 				Region region = World.getRegion(regionId);
 				if (target instanceof Player) {
@@ -260,7 +253,6 @@ public class PlayerCombat extends Action {
 					}
 				}
 			}
-		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
 
@@ -313,25 +305,23 @@ public class PlayerCombat extends Action {
 			}, delay);
 		} else {
 			boolean hit = castSpellAtTarget(player, target, spell, delay);
-			if (spell.isAOE() && hit) {
+			if (spell.isAOE() && hit)
 				attackTarget(getMultiAttackTargets(player), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override
 					public boolean attack() {
-						if (!nextTarget) {
+						if (!nextTarget)
 							nextTarget = true;
-						} else {
+						else
 							castSpellAtTarget(player, target, spell, delay);
-						}
 						return nextTarget;
 					}
 				});
-			}
 		}
 		return spell.getCombatDelay(player);
 	}
-	
+
 	public boolean castSpellAtTarget(Player player, Entity target, CombatSpell spell, int hitDelay) {
 		Hit hit = getMagicHit(player, getRandomMagicMaxHit(player, spell.getBaseDamage(player)));
 		if (spell == CombatSpell.STORM_OF_ARMADYL && hit.getDamage() > 0) {
@@ -342,7 +332,7 @@ public class PlayerCombat extends Action {
 		hit.setData("combatSpell", spell);
 		boolean sparkle = target.getSize() >= 2 || target.hasEffect(Effect.FREEZE) || target.hasEffect(Effect.FREEZE_BLOCK);
 		delayMagicHit(hitDelay, hit, () -> {
-			if (hit.getDamage() > 0) {
+			if (hit.getDamage() > 0)
 				switch(spell) {
 				case ICE_RUSH:
 				case ICE_BURST:
@@ -358,7 +348,7 @@ public class PlayerCombat extends Action {
 						target.setNextSpotAnim(spell.getHitSpotAnim());
 					break;
 				}
-			} else {
+			else {
 				target.setNextSpotAnim(new SpotAnim(85, 0, 96));
 				playSound(227, player, target);
 			}
@@ -371,7 +361,7 @@ public class PlayerCombat extends Action {
 	public interface MultiAttack {
 		public boolean attack();
 	}
-	
+
 	public void attackTarget(Entity[] targets, MultiAttack perform) {
 		Entity realTarget = target;
 		for (Entity t : targets) {
@@ -722,10 +712,9 @@ public class PlayerCombat extends Action {
 					player.applyHit(new Hit(player, Utils.getRandomInclusive(150) + 10, HitLook.TRUE_DAMAGE));
 					player.setNextAnimation(new Animation(12175));
 					return combatDelay;
-				} else {
-					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
-					dropAmmo(player, Equipment.AMMO, 1);
 				}
+				delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
+				dropAmmo(player, Equipment.AMMO, 1);
 				break;
 			case BOLAS:
 				int delay = Ticks.fromSeconds(15);
@@ -733,22 +722,18 @@ public class PlayerCombat extends Action {
 					boolean slashBased = t.getEquipment().getItem(3) != null;
 					if (weapon != null) {
 						int slash = t.getCombatDefinitions().getBonus(Bonus.SLASH_ATT);
-						for (int i = Bonus.STAB_ATT.ordinal(); i <= Bonus.RANGE_ATT.ordinal(); i++) {
+						for (int i = Bonus.STAB_ATT.ordinal(); i <= Bonus.RANGE_ATT.ordinal(); i++)
 							if (t.getCombatDefinitions().getBonus(Bonus.values()[i]) > slash) {
 								slashBased = false;
 								break;
 							}
-						}
 					}
-					if (t.getInventory().containsItem(946, 1) || slashBased) {
+					if (t.getInventory().containsItem(946, 1) || slashBased)
 						delay /= 2;
-					}
-					if (t.getPrayer().isProtectingRange()) {
+					if (t.getPrayer().isProtectingRange())
 						delay /= 2;
-					}
-					if (delay < Ticks.fromSeconds(5)) {
+					if (delay < Ticks.fromSeconds(5))
 						delay = Ticks.fromSeconds(5);
-					}
 				}
 				if (getRandomMaxHit(player, weaponId, attackStyle, true) > 0) {
 					target.freeze(delay, true);
@@ -796,12 +781,10 @@ public class PlayerCombat extends Action {
 
 	private void checkSwiftGlovesEffect(Player player, int hitDelay, AttackStyle attackStyle, int weaponId, int hit, WorldProjectile p) {
 		Item gloves = player.getEquipment().getItem(Equipment.HANDS);
-		if (gloves == null || !gloves.getDefinitions().getName().contains("Swift glove")) {
+		if (gloves == null || !gloves.getDefinitions().getName().contains("Swift glove"))
 			return;
-		}
-		if (hit != 0 && hit < ((max_hit / 3) * 2) || new Random().nextInt(3) != 0) {
+		if (hit != 0 && hit < ((max_hit / 3) * 2) || new Random().nextInt(3) != 0)
 			return;
-		}
 		player.sendMessage("You fired an extra shot.");
 		World.sendProjectile(player, target, p.getSpotAnimId(), p.getStartHeight() - 5, p.getEndHeight() - 5, p.getStartTime(), 2, p.getAngle() - 5 < 0 ? 0 : p.getAngle() - 5, p.getSlope());
 		delayHit(hitDelay, weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
@@ -832,11 +815,11 @@ public class PlayerCombat extends Action {
 			return;
 		}
 		/*
-		 * Ava's Attractor 
+		 * Ava's Attractor
 		 * Drop onto floor: 1/3
 		 * Recovered automatically: 2/3
-		 * 
-		 * Ava's Accumulator 
+		 *
+		 * Ava's Accumulator
 		 * Drop onto floor: 1/9
 		 * Recovered automatically: 8/9
 		 */
@@ -877,9 +860,8 @@ public class PlayerCombat extends Action {
 		int soundId = getSoundId(weaponId, attackStyle);
 		if (weaponId == -1) {
 			Item gloves = player.getEquipment().getItem(Equipment.HANDS);
-			if (gloves != null && gloves.getDefinitions().getName().contains("Goliath gloves")) {
+			if (gloves != null && gloves.getDefinitions().getName().contains("Goliath gloves"))
 				weaponId = -2;
-			}
 		}
 		if (player.getCombatDefinitions().isUsingSpecialAttack()) {
 			if (!specialExecute(player))
@@ -894,21 +876,19 @@ public class PlayerCombat extends Action {
 				if (damage <= 200)
 					damDamage = 40;
 				final int specHits = damDamage;
-				for (int i = 0; i < 11; ++i) {
+				for (int i = 0; i < 11; ++i)
 					WorldTasksManager.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							if (target == null || target.hasFinished() || player == null || player.hasFinished())
 								stop();
 							World.sendSpotAnim(player, new SpotAnim(478), tile);
-							if (Utils.getDistance(target, tile) <= 1) {
+							if (Utils.getDistance(target, tile) <= 1)
 								target.applyHit(new Hit(player, Utils.getRandomInclusive(specHits), HitLook.MELEE_DAMAGE));
-							}
 						}
 					}, i * 5);
-				}
 			}
-				break;
+			break;
 			case 15442:// whip start
 			case 15443:
 			case 15444:
@@ -986,23 +966,16 @@ public class PlayerCombat extends Action {
 
 				if (target instanceof Player other) {
 					int amountLeft;
-					if ((amountLeft = other.getSkills().drainLevel(Constants.DEFENSE, hit2.getDamage()/10)) > 0) {
-						if ((amountLeft = other.getSkills().drainLevel(Constants.STRENGTH, amountLeft)) > 0) {
-							if ((amountLeft = other.getSkills().drainLevel(Constants.PRAYER, amountLeft)) > 0) {
-								if ((amountLeft = other.getSkills().drainLevel(Constants.ATTACK, amountLeft)) > 0) {
-									if ((amountLeft = other.getSkills().drainLevel(Constants.MAGIC, amountLeft)) > 0) {
-										if (other.getSkills().drainLevel(Constants.RANGE, amountLeft) > 0) {
+					if ((amountLeft = other.getSkills().drainLevel(Constants.DEFENSE, hit2.getDamage()/10)) > 0)
+						if ((amountLeft = other.getSkills().drainLevel(Constants.STRENGTH, amountLeft)) > 0)
+							if ((amountLeft = other.getSkills().drainLevel(Constants.PRAYER, amountLeft)) > 0)
+								if ((amountLeft = other.getSkills().drainLevel(Constants.ATTACK, amountLeft)) > 0)
+									if ((amountLeft = other.getSkills().drainLevel(Constants.MAGIC, amountLeft)) > 0)
+										if (other.getSkills().drainLevel(Constants.RANGE, amountLeft) > 0)
 											break;
-										}
-									}
-								}
-							}
-						}
-					}
-				} else if (target instanceof NPC n) {
+				} else if (target instanceof NPC n)
 					if (hit2.getDamage() != 0)
 						n.lowerDefense(hit2.getDamage()/10);
-				}
 				break;
 			case 11061: // ancient mace
 				player.setNextAnimation(new Animation(6147));
@@ -1030,13 +1003,11 @@ public class PlayerCombat extends Action {
 				player.setNextSpotAnim(new SpotAnim(1840));
 				delayNormalHit(weaponId, attackStyle, hit1);
 
-				if (hit1.getDamage() != 0) {
-					if (target instanceof NPC n) {
+				if (hit1.getDamage() != 0)
+					if (target instanceof NPC n)
 						n.lowerDefense(0.30f);
-					} else if (target instanceof Player p) {
+					else if (target instanceof Player p)
 						p.getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
-					}
-				}
 
 				break;
 			case 13905: // vesta spear
@@ -1048,13 +1019,10 @@ public class PlayerCombat extends Action {
 			case 7158: //d 2h
 				player.setNextAnimation(new Animation(7078));
 				player.setNextSpotAnim(new SpotAnim(1225));
-				attackTarget(getMultiAttackTargets(player, 1, 20), new MultiAttack() {
-					@Override
-					public boolean attack() {
-						int damage = getRandomMaxHit(player, 7158, attackStyle, true, true, 1.0, 1.2);
-						delayHit(1, 7158, attackStyle, getMeleeHit(player, damage));
-						return true;
-					}
+				attackTarget(getMultiAttackTargets(player, 1, 20), () -> {
+					int damage = getRandomMaxHit(player, 7158, attackStyle, true, true, 1.0, 1.2);
+					delayHit(1, 7158, attackStyle, getMeleeHit(player, damage));
+					return true;
 				});
 				break;
 			case 19784: // korasi sword
@@ -1087,35 +1055,32 @@ public class PlayerCombat extends Action {
 			case 23695:
 				player.setNextAnimation(new Animation(10961));
 				player.setNextSpotAnim(new SpotAnim(1950));
-				int[] hits = new int[] { 0, 1 };
+				int[] hits = { 0, 1 };
 				int hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
-				if (hit > 0) {
+				if (hit > 0)
 					hits = new int[] { hit, hit / 2, (hit / 2) / 2, (hit / 2) - ((hit / 2) / 2) };
-				} else {
+				else {
 					hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
-					if (hit > 0) {
+					if (hit > 0)
 						hits = new int[] { 0, hit, hit / 2, hit - (hit / 2) };
-					} else {
+					else {
 						hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
-						if (hit > 0) {
+						if (hit > 0)
 							hits = new int[] { 0, 0, hit / 2, (hit / 2) + 10 };
-						} else {
+						else {
 							hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
-							if (hit > 0) {
+							if (hit > 0)
 								hits = new int[] { 0, 0, 0, (int) (hit * 1.5) };
-							} else {
+							else
 								hits = new int[] { 0, 0, 0, Utils.getRandomInclusive(7) };
-							}
 						}
 					}
 				}
-				for (int i = 0; i < hits.length; i++) {
-					if (i > 1) {
+				for (int i = 0; i < hits.length; i++)
+					if (i > 1)
 						delayHit(1, weaponId, attackStyle, getMeleeHit(player, hits[i]));
-					} else {
+					else
 						delayNormalHit(weaponId, attackStyle, getMeleeHit(player, hits[i]));
-					}
-				}
 				break;
 			case 10887: // anchor
 				player.setNextAnimation(new Animation(5870));
@@ -1145,15 +1110,14 @@ public class PlayerCombat extends Action {
 				player.setNextAnimation(new Animation(12031));
 				player.setNextSpotAnim(new SpotAnim(2118));
 				Hit hit3 = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.25, 1.0));
-				if (target instanceof Player p2) {
+				if (target instanceof Player p2)
 					if (hit3.getDamage() > 0)
 						p2.setProtectionPrayBlock(10);
-				}
 				delayNormalHit(weaponId, attackStyle, hit3);
 				soundId = 2540;
 				break;
 			case 1215: // dragon dagger
-		    case 1231:
+			case 1231:
 			case 5680: //dds p+
 			case 5698: // dds p++
 				player.setNextAnimation(new Animation(1062));
@@ -1201,11 +1165,9 @@ public class PlayerCombat extends Action {
 								}
 							}, 1);
 							if (target instanceof Player p) {
-								for (int i = 0; i < 7; i++) {
-									if (i != 3 && i != 5) {
+								for (int i = 0; i < 7; i++)
+									if (i != 3 && i != 5)
 										p.getSkills().drainLevel(i, 7);
-									}
-								}
 								p.sendMessage("Your stats have been drained!");
 							} else if (target instanceof NPC n)
 								n.lowerDefense(0.05f);
@@ -1334,40 +1296,35 @@ public class PlayerCombat extends Action {
 			return 0;
 		}
 	}
-	
+
 	public int getRandomMagicMaxHit(Player player, int baseDamage) {
 		int current = calculateMagicHit(player, baseDamage);
 		if (current <= 0) // Splash.
 			return 0;
 
 		int hit = Utils.random(current + 1);
-		if (hit > 0) {
-			if (target instanceof NPC n) {
+		if (hit > 0)
+			if (target instanceof NPC n)
 				if (n.getId() == 9463 && hasFireCape(player))
 					hit += 40;
-			}
-		}
 		return hit;
 	}
 
 	private int calculateMagicHit(Player player, int maxHit) {
 		double lvl = Math.floor(player.getSkills().getLevel(Constants.MAGIC) * player.getPrayer().getMageMultiplier());
 		lvl += 8;
-		if (fullVoidEquipped(player, new int[] { 11663, 11674 }))
+		if (fullVoidEquipped(player, 11663, 11674))
 			lvl *= 1.3;
 		lvl *= player.getAuraManager().getMagicAcc();
 		double atkBonus = player.getCombatDefinitions().getBonus(Bonus.MAGIC_ATT);
-		
+
 		double atk = Math.floor(lvl * (atkBonus + 64));
 
-		if (player.hasSlayerTask()) {
-			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n)) {
-				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
+		if (player.hasSlayerTask())
+			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n))
+				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet())
 					atk *= 1.15;
-				}
-			}
-		}
-		
+
 		double def;
 		if (target instanceof Player p2) {
 			double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
@@ -1376,45 +1333,41 @@ public class PlayerCombat extends Action {
 			defLvl *= 0.3;
 			double magLvl = Math.floor(p2.getSkills().getLevel(Constants.MAGIC) * p2.getPrayer().getMageMultiplier());
 			magLvl *= 0.7;
-			
+
 			double totalDefLvl = defLvl+magLvl;
-			
+
 			double defBonus = p2.getCombatDefinitions().getBonus(Bonus.MAGIC_DEF);
-			
+
 			def = Math.floor(totalDefLvl * (defBonus + 64));
 		} else {
 			NPC n = (NPC) target;
-			if (n.getName().startsWith("Vyre")) {
+			if (n.getName().startsWith("Vyre"))
 				if (player.getEquipment().getWeaponId() == 21580) {
 					lvl *= 1.5;
 					max_hit *= 1.5;
-				} else {
+				} else
 					max_hit = 0;
-				}
-			}
-			if (n.getName().equals("Turoth") || n.getName().equals("Kurask")) {
-				if (player.getEquipment().getWeaponId() != 4170) {
+			if (n.getName().equals("Turoth") || n.getName().equals("Kurask"))
+				if (player.getEquipment().getWeaponId() != 4170)
 					max_hit = 0;
-				}
-			}
 			double defLvl = n.getMagicLevel();
 			double defBonus = n.getDefinitions().getMagicDef();
 			defLvl += 8;
 			def = Math.floor(defLvl * (defBonus + 64));
 		}
-		
+
 		double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
 		if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 			player.sendMessage("Your hit chance: " + Utils.formatDouble(prob*100.0) + "%");
 		if (prob <= Math.random())
 			return 0;
-		
+
 		max_hit = maxHit;
 		double boost = 1 + ((player.getSkills().getLevel(Constants.MAGIC) - player.getSkills().getLevelForXp(Constants.MAGIC)) * 0.03);
 		if (boost > 1)
 			max_hit *= boost;
 		double magicPerc = player.getCombatDefinitions().getBonus(Bonus.MAGIC_STR);
-		if (spellcasterGloveSpell != null) {
+		if (spellcasterGloveSpell != null)
 			if (maxHit > 60) {
 				magicPerc += 17;
 				if (target instanceof Player p) {
@@ -1426,25 +1379,21 @@ public class PlayerCombat extends Action {
 				}
 				player.sendMessage("Your magic surged with extra power.");
 			}
-		}
 		boost = magicPerc / 100 + 1;
 		max_hit *= boost;
-		
-		if (player.hasSlayerTask()) {
-			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n)) {
-				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet()) {
+
+		if (player.hasSlayerTask())
+			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n))
+				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet())
 					max_hit *= 1.15;
-				}
-			}
-		}
-		
+
 		return (int) Math.floor(max_hit);
 	}
 
 	public int getRandomMaxHit(Player player, int weaponId, AttackStyle attackStyle, boolean ranging) {
 		return getRandomMaxHit(player, weaponId, attackStyle, ranging, true, 1.0D, 1.0D);
 	}
-	
+
 	public int getRandomMaxHit(Player player, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
 		max_hit = getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier);
 		return getRandomMaxHit(player, target, max_hit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
@@ -1461,19 +1410,19 @@ public class PlayerCombat extends Action {
 			if (ranging)
 				atkLvl *= player.getAuraManager().getRangeAcc();
 			double atkBonus = player.getCombatDefinitions().getAttackBonusForStyle();
-			if (weaponId == -2) { //goliath gloves
+			if (weaponId == -2)
+				//goliath gloves
 				atkBonus += 82;
-			}
-			
+
 			double atk = Math.floor(atkLvl * (atkBonus + 64));
 			atk *= accuracyModifier;
-			
+
 			if (!ranging && attackStyle.getXpType() == XPType.ACCURATE && player.getDungManager().getActivePerk() == KinshipPerk.TACTICIAN && player.getControllerManager().isIn(DungeonController.class))
 				atk = Math.floor(atk * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.TACTICIAN) * 0.01));
 
-			if (player.hasSlayerTask()) {
-				if (target instanceof NPC n) {
-					if (player.getSlayer().isOnTaskAgainst(n)) {
+			if (player.hasSlayerTask())
+				if (target instanceof NPC n)
+					if (player.getSlayer().isOnTaskAgainst(n))
 						if (ranging) {
 							if (player.getEquipment().wearingFocusSight() || player.getEquipment().wearingSlayerHelmet()) {
 								atk *= (7.0/6.0);
@@ -1484,7 +1433,7 @@ public class PlayerCombat extends Action {
 								atk *= (7.0/6.0);
 								maxHit *= (7.0/6.0);
 							}
-							if (player.getEquipment().getSalveAmulet() != -1 && n.getDefinitions().isUndead()) {
+							if (player.getEquipment().getSalveAmulet() != -1 && n.getDefinitions().isUndead())
 								switch(player.getEquipment().getSalveAmulet()) {
 								case 0:
 									atk *= 1.15;
@@ -1495,11 +1444,7 @@ public class PlayerCombat extends Action {
 									maxHit *= 1.20;
 									break;
 								}
-							}
 						}
-					}
-				}
-			}
 
 			double def;
 			if (target instanceof Player p2) {
@@ -1507,13 +1452,12 @@ public class PlayerCombat extends Action {
 				defLvl += p2.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
 				double defBonus = p2.getCombatDefinitions().getDefenseBonusForStyle(player.getCombatDefinitions().getAttackStyle());
-				
+
 				def = Math.floor(defLvl * (defBonus + 64));
-				
-				if (!ranging) {
+
+				if (!ranging)
 					if (p2.getFamiliar() instanceof Steeltitan)
 						def *= 1.15;
-				}
 			} else {
 				NPC n = (NPC) target;
 				if (n.getName().startsWith("Vyre")) {
@@ -1521,24 +1465,21 @@ public class PlayerCombat extends Action {
 					if (wId == 21581 || wId == 21582) {
 						atk *= 2;
 						maxHit *= 2;
-					} else if (!(wId == 6746 || wId == 2961 || wId == 2963 || wId == 2952 || wId == 2402 || (wId >= 7639 && wId <= 7648) || (wId >= 13117 && wId <= 13146))) {
+					} else if (!(wId == 6746 || wId == 2961 || wId == 2963 || wId == 2952 || wId == 2402 || (wId >= 7639 && wId <= 7648) || (wId >= 13117 && wId <= 13146)))
 						maxHit = 0;
-					}
 				}
 				if (n.getName().equals("Turoth") || n.getName().equals("Kurask")) {
 					int wId = player.getEquipment().getWeaponId();
-					if (!(wId == 4158 || wId == 13290) && !(player.getEquipment().getWeaponName().indexOf("bow") > -1 && ItemDefinitions.getDefs(player.getEquipment().getAmmoId()).name.toLowerCase().indexOf("broad") > -1)) {
+					if (!(wId == 4158 || wId == 13290) && !(player.getEquipment().getWeaponName().indexOf("bow") > -1 && ItemDefinitions.getDefs(player.getEquipment().getAmmoId()).name.toLowerCase().indexOf("broad") > -1))
 						maxHit = 0;
-					}
 				}
 				double defLvl = n.getDefenseLevel();
 				double defBonus = player.getCombatDefinitions().getAttackStyle().getAttackType().getDefenseBonus(n);
 				defLvl += 8;
 				def = Math.floor(defLvl * (defBonus + 64));
 			}
-			if (maxHit != 0 && fullVeracsEquipped(player) && Utils.random(4) == 0) {
+			if (maxHit != 0 && fullVeracsEquipped(player) && Utils.random(4) == 0)
 				veracsProc = true;
-			}
 			double prob = atk > def ? (1 - (def+2) / (2*(atk+1))) : (atk / (2*(def+1)));
 			if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 				player.sendMessage("Your hit chance: " + Utils.formatDouble(prob*100.0) + "%");
@@ -1548,10 +1489,9 @@ public class PlayerCombat extends Action {
 		int hit = Utils.random(maxHit + 1);
 		if (veracsProc)
 			hit += 1.0;
-		if (target instanceof NPC n) {
+		if (target instanceof NPC n)
 			if (n.getId() == 9463 && hasFireCape(player))
 				hit += 40;
-		}
 		if (player.getAuraManager().isActivated(Aura.EQUILIBRIUM)) {
 			int perc25MaxHit = (int) (maxHit * 0.25);
 			hit -= perc25MaxHit;
@@ -1565,77 +1505,7 @@ public class PlayerCombat extends Action {
 	}
 
 	public static final int getMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, double damageMultiplier) {
-		if (!ranging) {
-			double lvl = Math.floor(player.getSkills().getLevel(Constants.STRENGTH) * player.getPrayer().getStrengthMultiplier());
-			lvl += attackStyle.getXpType() == XPType.AGGRESSIVE ? 3 : attackStyle.getXpType() == XPType.CONTROLLED ? 1 : 0;
-			lvl += 8;
-			if (fullVoidEquipped(player, 11665, 11676))
-				lvl = Math.floor(lvl * 1.1);
-			if (attackStyle.getXpType() == XPType.AGGRESSIVE && player.getDungManager().getActivePerk() == KinshipPerk.BERSERKER && player.getControllerManager().isIn(DungeonController.class))
-				lvl = Math.floor(lvl * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.BERSERKER) * 0.01));
-			double str = player.getCombatDefinitions().getBonus(Bonus.MELEE_STR);
-			if (weaponId == -2) {
-				str += 82;
-			}
-			double baseDamage = 5 + lvl * (str + 64) / 64;
-			switch(weaponId) {
-			case 11694:
-			case 23679:
-			case 11696:
-			case 23680:
-			case 11698:
-			case 23681:
-			case 11700:
-			case 23682:
-				baseDamage *= 1.1;
-			case 6523:
-			case 6525:
-			case 6527:
-			case 6528:
-				if (player.getEquipment().getAmuletId() == 11128)
-					baseDamage *= 1.2;
-				break;
-			case 4718:
-			case 4886:
-			case 4887:
-			case 4888:
-			case 4889:
-				if (fullDharokEquipped(player)) {
-					double mul = 1.0 + (player.getMaxHitpoints()-player.getHitpoints()) / 1000.0 * (player.getMaxHitpoints() / 1000.0);
-					baseDamage *= mul;
-				}
-				break;
-			case 10581:
-			case 10582:
-			case 10583:
-			case 10584:
-				if (target != null && target instanceof NPC n) {
-					if (n.getName().startsWith("Kalphite")) {
-						if (Utils.random(51) == 0)
-							baseDamage *= 3.0;
-						else
-							baseDamage *= (4.0/3.0);
-					}
-				}
-				break;
-			case 15403:
-			case 22405:
-				if (target != null && target instanceof NPC n) {
-					if (n.getName().equals("Dagannoth") || n.getName().equals("Wallasalki") || n.getName().equals("Dagannoth Supreme"))
-						baseDamage *= 2.75;
-				}
-				break;
-			case 6746:
-				if (target != null && target instanceof NPC n) {
-					if (n.getName().toLowerCase().contains("demon"))
-						baseDamage *= 1.6;
-				}
-				break;
-			default:
-				break;
-			}
-			return (int) Math.floor(baseDamage * damageMultiplier);
-		} else {
+		if (ranging) {
 			if (target != null && weaponId == 24338 && target instanceof Player) {
 				player.sendMessage("The royal crossbow feels weak and unresponsive against other players.");
 				return 60;
@@ -1651,6 +1521,70 @@ public class PlayerCombat extends Action {
 			double baseDamage = 5 + lvl * (str + 64) / 64;
 			return (int) Math.floor(baseDamage * damageMultiplier);
 		}
+		double lvl = Math.floor(player.getSkills().getLevel(Constants.STRENGTH) * player.getPrayer().getStrengthMultiplier());
+		lvl += attackStyle.getXpType() == XPType.AGGRESSIVE ? 3 : attackStyle.getXpType() == XPType.CONTROLLED ? 1 : 0;
+		lvl += 8;
+		if (fullVoidEquipped(player, 11665, 11676))
+			lvl = Math.floor(lvl * 1.1);
+		if (attackStyle.getXpType() == XPType.AGGRESSIVE && player.getDungManager().getActivePerk() == KinshipPerk.BERSERKER && player.getControllerManager().isIn(DungeonController.class))
+			lvl = Math.floor(lvl * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.BERSERKER) * 0.01));
+		double str = player.getCombatDefinitions().getBonus(Bonus.MELEE_STR);
+		if (weaponId == -2)
+			str += 82;
+		double baseDamage = 5 + lvl * (str + 64) / 64;
+		switch(weaponId) {
+		case 11694:
+		case 23679:
+		case 11696:
+		case 23680:
+		case 11698:
+		case 23681:
+		case 11700:
+		case 23682:
+			baseDamage *= 1.1;
+		case 6523:
+		case 6525:
+		case 6527:
+		case 6528:
+			if (player.getEquipment().getAmuletId() == 11128)
+				baseDamage *= 1.2;
+			break;
+		case 4718:
+		case 4886:
+		case 4887:
+		case 4888:
+		case 4889:
+			if (fullDharokEquipped(player)) {
+				double mul = 1.0 + (player.getMaxHitpoints()-player.getHitpoints()) / 1000.0 * (player.getMaxHitpoints() / 1000.0);
+				baseDamage *= mul;
+			}
+			break;
+		case 10581:
+		case 10582:
+		case 10583:
+		case 10584:
+			if (target != null && target instanceof NPC n)
+				if (n.getName().startsWith("Kalphite"))
+					if (Utils.random(51) == 0)
+						baseDamage *= 3.0;
+					else
+						baseDamage *= (4.0/3.0);
+			break;
+		case 15403:
+		case 22405:
+			if (target != null && target instanceof NPC n)
+				if (n.getName().equals("Dagannoth") || n.getName().equals("Wallasalki") || n.getName().equals("Dagannoth Supreme"))
+					baseDamage *= 2.75;
+			break;
+		case 6746:
+			if (target != null && target instanceof NPC n)
+				if (n.getName().toLowerCase().contains("demon"))
+					baseDamage *= 1.6;
+			break;
+		default:
+			break;
+		}
+		return (int) Math.floor(baseDamage * damageMultiplier);
 	}
 
 	public static boolean hasFireCape(Player player) {
@@ -1674,13 +1608,12 @@ public class PlayerCombat extends Action {
 
 	public static final boolean usingGoliathGloves(Player player) {
 		String name = player.getEquipment().getItem(Equipment.SHIELD) != null ? player.getEquipment().getItem(Equipment.SHIELD).getDefinitions().getName().toLowerCase() : "";
-		if (player.getEquipment().getItem((Equipment.HANDS)) != null) {
+		if (player.getEquipment().getItem((Equipment.HANDS)) != null)
 			if (player.getEquipment().getItem(Equipment.HANDS).getDefinitions().getName().toLowerCase().contains("goliath") && player.getEquipment().getWeaponId() == -1) {
 				if (name.contains("defender") && name.contains("dragonfire shield"))
 					return true;
 				return true;
 			}
-		}
 		return false;
 	}
 
@@ -1709,42 +1642,38 @@ public class PlayerCombat extends Action {
 	public static final boolean fullVoidEquipped(Player player, int... helmid) {
 		boolean hasDeflector = player.getEquipment().getShieldId() == 19712;
 		if (player.getEquipment().getGlovesId() != 8842) {
-			if (hasDeflector)
-				hasDeflector = false;
-			else
+			if (!hasDeflector)
 				return false;
+			hasDeflector = false;
 		}
 		int legsId = player.getEquipment().getLegsId();
 		boolean hasLegs = legsId != -1 && (legsId == 8840 || legsId == 19786 || legsId == 19788 || legsId == 19790);
 		if (!hasLegs) {
-			if (hasDeflector)
-				hasDeflector = false;
-			else
+			if (!hasDeflector)
 				return false;
+			hasDeflector = false;
 		}
 		int torsoId = player.getEquipment().getChestId();
 		boolean hasTorso = torsoId != -1 && (torsoId == 8839 || torsoId == 10611 || torsoId == 19785 || torsoId == 19787 || torsoId == 19789);
 		if (!hasTorso) {
-			if (hasDeflector)
-				hasDeflector = false;
-			else
+			if (!hasDeflector)
 				return false;
+			hasDeflector = false;
 		}
 		int helmId = player.getEquipment().getHatId();
 		if (helmId == -1)
 			return false;
 		boolean hasHelm = false;
-		for (int id : helmid) {
+		for (int id : helmid)
 			if (helmId == id) {
 				hasHelm = true;
 				break;
 			}
-		}
 		if (!hasHelm)
 			return false;
 		return true;
 	}
-	
+
 	public void delayNormalHit(int weaponId, AttackStyle attackStyle, Hit hit) {
 		delayNormalHit(weaponId, attackStyle, hit, null, null, null);
 	}
@@ -1764,11 +1693,11 @@ public class PlayerCombat extends Action {
 	public Hit getMagicHit(Player player, int damage) {
 		return new Hit(player, damage, HitLook.MAGIC_DAMAGE);
 	}
-	
+
 	private void delayMagicHit(int delay, Hit hit, Runnable afterDelay, Runnable hitSucc, Runnable hitFail) {
 		delayHit(delay, -1, null, hit, afterDelay, hitSucc, hitFail);
 	}
-	
+
 	private void delayHit(int delay, int weaponId, AttackStyle attackStyle, Hit hit) {
 		delayHit(delay, weaponId, attackStyle, hit, null, null, null);
 	}
@@ -1799,10 +1728,8 @@ public class PlayerCombat extends Action {
 		if (damage > 0) {
 			if (hitSucc != null)
 				hitSucc.run();
-		} else {
-			if (hitFail != null)
-				hitFail.run();
-		}
+		} else if (hitFail != null)
+			hitFail.run();
 		addXp(player, target, attackStyle, hit);
 		checkPoison(player, target, weaponId, hit);
 	}
@@ -1815,10 +1742,10 @@ public class PlayerCombat extends Action {
 		}
 		return -1;
 	}
-	
+
 	public static void checkPoison(Player player, Entity target, int weaponId, Hit hit) {
-		if (hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MELEE_DAMAGE) {
-			if (hit.getDamage() > 0) {
+		if (hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MELEE_DAMAGE)
+			if (hit.getDamage() > 0)
 				if (hit.getLook() == HitLook.RANGE_DAMAGE) {
 					if (weaponId != -1) {
 						String name = ItemDefinitions.getDefs(weaponId).getName();
@@ -1828,30 +1755,24 @@ public class PlayerCombat extends Action {
 						} else if (name.contains("(p+)")) {
 							if (Utils.getRandomInclusive(8) == 0)
 								target.getPoison().makePoisoned(38);
-						} else if (name.contains("(p)")) {
+						} else if (name.contains("(p)"))
 							if (Utils.getRandomInclusive(8) == 0)
 								target.getPoison().makePoisoned(28);
-						}
 					}
-				} else {
-					if (weaponId != -1) {
-						String name = ItemDefinitions.getDefs(weaponId).getName();
-						if (name.contains("(p++)")) {
-							if (Utils.getRandomInclusive(8) == 0)
-								target.getPoison().makePoisoned(68);
-						} else if (name.contains("(p+)")) {
-							if (Utils.getRandomInclusive(8) == 0)
-								target.getPoison().makePoisoned(58);
-						} else if (name.contains("(p)")) {
-							if (Utils.getRandomInclusive(8) == 0)
-								target.getPoison().makePoisoned(48);
-						}
-					}
+				} else if (weaponId != -1) {
+					String name = ItemDefinitions.getDefs(weaponId).getName();
+					if (name.contains("(p++)")) {
+						if (Utils.getRandomInclusive(8) == 0)
+							target.getPoison().makePoisoned(68);
+					} else if (name.contains("(p+)")) {
+						if (Utils.getRandomInclusive(8) == 0)
+							target.getPoison().makePoisoned(58);
+					} else if (name.contains("(p)"))
+						if (Utils.getRandomInclusive(8) == 0)
+							target.getPoison().makePoisoned(48);
 				}
-			}
-		}
 	}
-	
+
 	public static void addXp(Player player, Entity target, AttackStyle attackStyle, Hit hit) {
 		double combatXp;
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
@@ -1867,9 +1788,9 @@ public class PlayerCombat extends Action {
 					}
 				}
 				player.getSkills().addXp(Constants.MAGIC, combatXp);
-//				double hpXp = (hit.getDamage() / 7.5);
-//				if (hpXp > 0)
-//					player.getSkills().addXp(Constants.HITPOINTS, hpXp);
+				//				double hpXp = (hit.getDamage() / 7.5);
+				//				if (hpXp > 0)
+				//					player.getSkills().addXp(Constants.HITPOINTS, hpXp);
 			}
 			break;
 		case MELEE_DAMAGE:
@@ -1911,7 +1832,7 @@ public class PlayerCombat extends Action {
 
 	public static int getWeaponAttackEmote(int weaponId, AttackStyle attackStyle) {
 		if (weaponId != -1) {
-			if (weaponId == -2) {
+			if (weaponId == -2)
 				// punch/block:14393 kick:14307 spec:14417
 				switch (attackStyle.getIndex()) {
 				case 1:
@@ -1919,12 +1840,11 @@ public class PlayerCombat extends Action {
 				default:
 					return 14393;
 				}
-			}
 			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
 			if (weaponName != null && !weaponName.equals("null")) {
 				if (weaponName.contains("boxing gloves"))
 					return 3678;
-				if (weaponName.contains("staff of light")) {
+				if (weaponName.contains("staff of light"))
 					switch (attackStyle.getIndex()) {
 					case 0:
 						return 15072;
@@ -1933,53 +1853,46 @@ public class PlayerCombat extends Action {
 					case 2:
 						return 414;
 					}
-				}
-				if (weaponName.contains("battleaxe")) {
+				if (weaponName.contains("battleaxe"))
 					return 395;
-				}
 				if (weaponName.contains("staff") || weaponName.contains("wand"))
 					return 419;
-				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword") || weaponName.contains("brine sabre")) {
+				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword") || weaponName.contains("brine sabre"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 15072;
 					default:
 						return 15071;
 					}
-				}
 				if (weaponName.contains("granite mace"))
 					return 400;
-				if (weaponName.contains("mace")) {
+				if (weaponName.contains("mace"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 400;
 					default:
 						return 401;
 					}
-				}
-				if (weaponName.contains("hatchet")) {
+				if (weaponName.contains("hatchet"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 401;
 					default:
 						return 395;
 					}
-				}
-				if (weaponName.contains("warhammer")) {
+				if (weaponName.contains("warhammer"))
 					switch (attackStyle.getIndex()) {
 					default:
 						return 401;
 					}
-				}
-				if (weaponName.contains("claws")) {
+				if (weaponName.contains("claws"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 1067;
 					default:
 						return 393;
 					}
-				}
-				if (weaponName.contains("whip")) {
+				if (weaponName.contains("whip"))
 					switch (attackStyle.getIndex()) {
 					case 1:
 						return 11969;
@@ -1988,34 +1901,29 @@ public class PlayerCombat extends Action {
 					default:
 						return 11968;
 					}
-				}
-				if (weaponName.contains("anchor")) {
+				if (weaponName.contains("anchor"))
 					switch (attackStyle.getIndex()) {
 					default:
 						return 5865;
 					}
-				}
-				if (weaponName.contains("tzhaar-ket-em")) {
+				if (weaponName.contains("tzhaar-ket-em"))
 					switch (attackStyle.getIndex()) {
 					default:
 						return 401;
 					}
-				}
-				if (weaponName.contains("tzhaar-ket-om")) {
+				if (weaponName.contains("tzhaar-ket-om"))
 					switch (attackStyle.getIndex()) {
 					default:
 						return 13691;
 					}
-				}
-				if (weaponName.contains("halberd") || weaponName.contains("blisterwood polearm")) {
+				if (weaponName.contains("halberd") || weaponName.contains("blisterwood polearm"))
 					switch (attackStyle.getIndex()) {
 					case 1:
 						return 440;
 					default:
 						return 428;
 					}
-				}
-				if (weaponName.contains("zamorakian spear")) {
+				if (weaponName.contains("zamorakian spear"))
 					switch (attackStyle.getIndex()) {
 					case 1:
 						return 12005;
@@ -2024,8 +1932,7 @@ public class PlayerCombat extends Action {
 					default:
 						return 12006;
 					}
-				}
-				if (weaponName.contains("spear")) {
+				if (weaponName.contains("spear"))
 					switch (attackStyle.getIndex()) {
 					case 1:
 						return 440;
@@ -2034,35 +1941,30 @@ public class PlayerCombat extends Action {
 					default:
 						return 428;
 					}
-				}
-				if (weaponName.contains("flail")) {
+				if (weaponName.contains("flail"))
 					return 2062;
-				}
-				if (weaponName.contains("pickaxe")) {
+				if (weaponName.contains("pickaxe"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 400;
 					default:
 						return 401;
 					}
-				}
-				if (weaponName.contains("dragon dagger")) {
+				if (weaponName.contains("dragon dagger"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 377;
-					default: 
+					default:
 						return 376;
 					}
-				}
-				if (weaponName.contains("dagger") || weaponName.contains("wolfbane")) {
+				if (weaponName.contains("dagger") || weaponName.contains("wolfbane"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 390;
 					default:
 						return 400;
 					}
-				}
-				if (weaponName.contains("2h sword") || weaponName.equals("dominion sword") || weaponName.equals("thok's sword") || weaponName.contains("saradomin sword")) {
+				if (weaponName.contains("2h sword") || weaponName.equals("dominion sword") || weaponName.equals("thok's sword") || weaponName.contains("saradomin sword"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 7048;
@@ -2071,40 +1973,35 @@ public class PlayerCombat extends Action {
 					default:
 						return 7041;
 					}
-				}
-				if (weaponName.contains(" sword")) {
+				if (weaponName.contains(" sword"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 12311;
 					default:
 						return 12310;
 					}
-				}
-				if (weaponName.contains("saber") || weaponName.contains("longsword") || weaponName.contains("light") || weaponName.contains("excalibur")) {
+				if (weaponName.contains("saber") || weaponName.contains("longsword") || weaponName.contains("light") || weaponName.contains("excalibur"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 12310;
 					default:
 						return 12311;
 					}
-				}
-				if (weaponName.contains("rapier") || weaponName.contains("brackish")) {
+				if (weaponName.contains("rapier") || weaponName.contains("brackish"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 13048;
 					default:
 						return 13049;
 					}
-				}
-				if (weaponName.contains("katana")) {
+				if (weaponName.contains("katana"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 1882;
 					default:
 						return 1884;
 					}
-				}
-				if (weaponName.contains("godsword")) {
+				if (weaponName.contains("godsword"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 11980;
@@ -2113,25 +2010,21 @@ public class PlayerCombat extends Action {
 					default:
 						return 11979;
 					}
-				}
-				if (weaponName.contains("greataxe")) {
+				if (weaponName.contains("greataxe"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 12003;
 					default:
 						return 12002;
 					}
-				}
-				if (weaponName.contains("granite maul")) {
+				if (weaponName.contains("granite maul"))
 					switch (attackStyle.getIndex()) {
 					default:
 						return 1665;
 					}
-				}
 
-				if (weaponName.contains(" maul")) {
+				if (weaponName.contains(" maul"))
 					return 2661;
-				}
 
 			}
 		}
@@ -2145,7 +2038,7 @@ public class PlayerCombat extends Action {
 			}
 		}
 	}
-	
+
 	public static int getMeleeCombatDelay(Player player, int weaponId) {
 		if (weaponId != -1) {
 			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
@@ -2184,46 +2077,36 @@ public class PlayerCombat extends Action {
 	}
 
 	public boolean checkAll(Player player) {
-		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished()) {
+		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
 			return false;
-		}
 		int distanceX = player.getX() - target.getX();
 		int distanceY = player.getY() - target.getY();
 		int size = target.getSize();
 		int maxDistance = 16;
-		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance) {
+		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 			return false;
-		}
 		if (target instanceof Player p2) {
 			if (!player.isCanPvp() || !p2.isCanPvp())
 				return false;
 		} else {
 			NPC n = (NPC) target;
-			if (n.isCantInteract()) {
+			if (n.isCantInteract())
 				return false;
-			}
 			if (n instanceof Familiar familiar) {
 				if (!familiar.canAttack(target))
 					return false;
-			} else {
-				if (isAttackExeption(player, n))
-					return false;
-			}
+			} else if (isAttackExeption(player, n))
+				return false;
 		}
-		if (!(target instanceof NPC n && n.isForceMultiAttacked())) {
+		if (!(target instanceof NPC n && n.isForceMultiAttacked()))
 			if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
-				if (player.getAttackedBy() != target && player.inCombat()) {
+				if ((player.getAttackedBy() != target && player.inCombat()) || (target.getAttackedBy() != player && target.inCombat()))
 					return false;
-				}
-				if (target.getAttackedBy() != player && target.inCombat()) {
-					return false;
-				}
 			}
-		}
 		if (player.hasEffect(Effect.FREEZE)) {
 			if (isMeleeing(player) && target.getSize() == 1) {
 				Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
-				if (dir != null) {
+				if (dir != null)
 					switch(dir) {
 					case NORTH:
 					case SOUTH:
@@ -2234,7 +2117,6 @@ public class PlayerCombat extends Action {
 						player.faceEntity(target);
 						return false;
 					}
-				}
 			}
 			return !WorldUtil.collides(player, target);
 		}
@@ -2252,7 +2134,7 @@ public class PlayerCombat extends Action {
 			player.resetWalkSteps();
 		if (isMeleeing(player) && target.getSize() == 1) {
 			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
-			if (dir != null) {
+			if (dir != null)
 				switch(dir) {
 				case NORTH:
 				case SOUTH:
@@ -2264,7 +2146,6 @@ public class PlayerCombat extends Action {
 					player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
 					return true;
 				}
-			}
 		}
 		if (player.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
 			player.getTempAttribs().setL("SOL_SPEC", 0);
@@ -2273,22 +2154,20 @@ public class PlayerCombat extends Action {
 			target.getTempAttribs().setO("last_attacker", player);
 		return true;
 	}
-	
+
 	public static boolean isRanging(Player player) {
 		int weaponId = player.getEquipment().getWeaponId();
-		if (player.getTempAttribs().getB("dfsActive"))
-			return true;
-		if (player.getCombatDefinitions().getSpell() == null && PolyporeStaff.isWielding(player))
+		if (player.getTempAttribs().getB("dfsActive") || (player.getCombatDefinitions().getSpell() == null && PolyporeStaff.isWielding(player)))
 			return true;
 		if (weaponId == -1 && player.getCombatDefinitions().getSpell() == null)
 			return false;
 		return RangedWeapon.forId(weaponId) != null;
 	}
-	
+
 	public static boolean isMeleeing(Player player) {
 		return !isRanging(player) && player.getCombatDefinitions().getSpell() == null;
 	}
-	
+
 	public static int getAttackRange(Player player) {
 		if (player.getCombatDefinitions().getSpell() != null)
 			return 10;
@@ -2297,7 +2176,7 @@ public class PlayerCombat extends Action {
 			String weaponName = player.getEquipment().getWeaponName().toLowerCase();
 			if (weaponName.contains("salamander"))
 				return 1;
-			else if (weaponName.contains(" dart") || weaponName.contains("blisterwood stake"))
+			if (weaponName.contains(" dart") || weaponName.contains("blisterwood stake"))
 				atkRange = 3;
 			else if (weaponName.contains(" knife"))
 				atkRange = 4;
@@ -2327,7 +2206,7 @@ public class PlayerCombat extends Action {
 				atkRange = 10;
 			else if (weaponName.contains("dark bow"))
 				atkRange = 10;
-			
+
 			if (player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE)
 				atkRange += 2;
 			return Utils.clampI(atkRange, 0, 10);
@@ -2366,8 +2245,7 @@ public class PlayerCombat extends Action {
 	}
 
 	private static void chargeDragonfireShield(Entity target) {
-		if (target instanceof Player) {
-			Player p = (Player) target;
+		if (target instanceof Player p) {
 			int shield = p.getEquipment().getShieldId();
 			if (shield == 11283 || shield == 11284) {
 				if (shield == 11284) {
@@ -2391,72 +2269,70 @@ public class PlayerCombat extends Action {
 	}
 
 	public static int getDefenceEmote(Entity target) {
-		if (target instanceof NPC n) {
+		if (target instanceof NPC n)
 			return n.getCombatDefinitions().getDefenceEmote();
-		} else {
-			Player p = (Player) target;
-			int shieldId = p.getEquipment().getShieldId();
-			String shieldName = shieldId == -1 ? null : ItemDefinitions.getDefs(shieldId).getName().toLowerCase();
-			if (shieldId == -1 || (shieldName.contains("book") && shieldId != 18346)) {
-				int weaponId = p.getEquipment().getWeaponId();
-				if (weaponId == -1)
-					return 424;
-				String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
-				if (weaponName != null && !weaponName.equals("null")) {
-					if (weaponName.contains("boxing gloves"))
-						return 3679;
-					if (weaponName.contains("scimitar") || weaponName.contains("korasi sword"))
-						return 15074;
-					if (weaponName.contains("whip"))
-						return 11974;
-					if (weaponName.contains("staff of light"))
-						return 12806;
-					if (weaponName.contains("longsword") || weaponName.contains("darklight") || weaponName.contains("silverlight") || weaponName.contains("excalibur"))
-						return 388;
-					if (weaponName.contains("dagger"))
-						return 378;
-					if (weaponName.contains("rapier"))
-						return 13038;
-					if (weaponName.contains("pickaxe"))
-						return 397;
-					if (weaponName.contains("mace"))
-						return 403;
-					if (weaponName.contains("claws"))
-						return 404;
-					if (weaponName.contains("hatchet"))
-						return 397;
-					if (weaponName.contains("greataxe"))
-						return 12004;
-					if (weaponName.contains("wand"))
-						return 415;
-					if (weaponName.contains("chaotic staff"))
-						return 13046;
-					if (weaponName.contains("staff"))
-						return 420;
-					if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
-						return 403;
-					if (weaponName.contains("maul") || weaponName.contains("tzhaar-ket-om"))
-						return 1666;
-					if (weaponName.contains("zamorakian spear"))
-						return 12008;
-					if (weaponName.contains("spear") || weaponName.contains("halberd") || weaponName.contains("hasta"))
-						return 430;
-					if (weaponName.contains("2h sword") || weaponName.contains("godsword") || weaponName.equals("saradomin sword"))
-						return 7050;
-				}
+		Player p = (Player) target;
+		int shieldId = p.getEquipment().getShieldId();
+		String shieldName = shieldId == -1 ? null : ItemDefinitions.getDefs(shieldId).getName().toLowerCase();
+		if (shieldId == -1 || (shieldName.contains("book") && shieldId != 18346)) {
+			int weaponId = p.getEquipment().getWeaponId();
+			if (weaponId == -1)
 				return 424;
+			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
+			if (weaponName != null && !weaponName.equals("null")) {
+				if (weaponName.contains("boxing gloves"))
+					return 3679;
+				if (weaponName.contains("scimitar") || weaponName.contains("korasi sword"))
+					return 15074;
+				if (weaponName.contains("whip"))
+					return 11974;
+				if (weaponName.contains("staff of light"))
+					return 12806;
+				if (weaponName.contains("longsword") || weaponName.contains("darklight") || weaponName.contains("silverlight") || weaponName.contains("excalibur"))
+					return 388;
+				if (weaponName.contains("dagger"))
+					return 378;
+				if (weaponName.contains("rapier"))
+					return 13038;
+				if (weaponName.contains("pickaxe"))
+					return 397;
+				if (weaponName.contains("mace"))
+					return 403;
+				if (weaponName.contains("claws"))
+					return 404;
+				if (weaponName.contains("hatchet"))
+					return 397;
+				if (weaponName.contains("greataxe"))
+					return 12004;
+				if (weaponName.contains("wand"))
+					return 415;
+				if (weaponName.contains("chaotic staff"))
+					return 13046;
+				if (weaponName.contains("staff"))
+					return 420;
+				if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
+					return 403;
+				if (weaponName.contains("maul") || weaponName.contains("tzhaar-ket-om"))
+					return 1666;
+				if (weaponName.contains("zamorakian spear"))
+					return 12008;
+				if (weaponName.contains("spear") || weaponName.contains("halberd") || weaponName.contains("hasta"))
+					return 430;
+				if (weaponName.contains("2h sword") || weaponName.contains("godsword") || weaponName.equals("saradomin sword"))
+					return 7050;
 			}
-			if (shieldName != null) {
-				if (shieldName.contains("shield") || shieldName.contains("-ket-xil"))
-					return 1156;
-				if (shieldName.contains("defender"))
-					return 4177;
-			}
-			switch (shieldId) {
-			case -1:
-			default:
-				return 424;
-			}
+			return 424;
+		}
+		if (shieldName != null) {
+			if (shieldName.contains("shield") || shieldName.contains("-ket-xil"))
+				return 1156;
+			if (shieldName.contains("defender"))
+				return 4177;
+		}
+		switch (shieldId) {
+		case -1:
+		default:
+			return 424;
 		}
 	}
 

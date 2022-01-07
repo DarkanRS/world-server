@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -34,33 +34,33 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 
 @PluginEventHandler
 public class GuardBypasses {
-	
+
 	static {
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3146, 3336, 0), 
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3146, 3336, 0),
 				new WorldTile(3145, 3336, 0), new WorldTile(3147, 3336, 0), 85, 24)); //Draynor Manor East
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3069, 3276, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3069, 3276, 0),
 				new WorldTile(3070, 3275, 0), new WorldTile(3070, 3277, 0), 85, 24)); //Draynor West
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3077, 3333, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3077, 3333, 0),
 				new WorldTile(3076, 3333, 0), new WorldTile(3078, 3333, 0), 85, 24)); //Draynor Manor West
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3108, 3420, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3108, 3420, 0),
 				new WorldTile(3109, 3419, 0), new WorldTile(3109, 3421, 0), 88, 87)); //Varrock to Barb Village
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3138, 3467, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3138, 3467, 0),
 				new WorldTile(3137, 3467, 0), new WorldTile(3139, 3467, 0), 85, 24)); //GE to Edgeville
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3260, 3173, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3260, 3173, 0),
 				new WorldTile(3261, 3172, 0), new WorldTile(3261, 3174, 0), 88, 87)); //Lumbridge swamp to Al Kharid
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3283, 3329, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3283, 3329, 0),
 				new WorldTile(3282, 3330, 0), new WorldTile(3284, 3330, 0), 88, 87)); //Al Kharid to Varrock
-		
-		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3292, 3385, 0), 
+
+		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3292, 3385, 0),
 				new WorldTile(3291, 3385, 0), new WorldTile(3293, 3385, 0), 4640, 4636)); //Varrock East to Wall
 	}
-	
+
 	public static PlayerStepHandler createDoubleGuardBypass(WorldTile bottomLeftTile, WorldTile guard1, WorldTile guard2, int openAnim, int closeAnim) {
 		return new PlayerStepHandler(bottomLeftTile, bottomLeftTile.transform(0, 1), bottomLeftTile.transform(1, 0), bottomLeftTile.transform(1, 1)) {
 			@Override
@@ -101,7 +101,7 @@ public class GuardBypasses {
 			});
 		}
 	};
-	
+
 	public static PlayerStepHandler varrockEastGates = new PlayerStepHandler(new WorldTile(3273, 3428, 0), new WorldTile(3273, 3429, 0), new WorldTile(3274, 3428, 0), new WorldTile(3274, 3429, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
@@ -120,7 +120,7 @@ public class GuardBypasses {
 			});
 		}
 	};
-	
+
 	public static PlayerStepHandler varrockNorthDoor = new PlayerStepHandler(new WorldTile(3245, 3501, 0), new WorldTile(3245, 3502, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
@@ -136,7 +136,7 @@ public class GuardBypasses {
 			});
 		}
 	};
-	
+
 	public static PlayerStepHandler daemonheimWildyEntrance = new PlayerStepHandler(new WorldTile(3384, 3615, 0), new WorldTile(3385, 3615, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
@@ -160,8 +160,8 @@ public class GuardBypasses {
 	public static ObjectClickHandler uselessDoors = new ObjectClickHandler(new Object[] { 45853, 45854, 45855, 45856, 45857, 45858, 45859 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			
+
 		}
 	};
-	
+
 }

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -26,9 +26,9 @@ import com.rs.lib.util.Utils;
 
 /**
  * Handles ancient effigies non-dialogue related stuff.
- * 
+ *
  * @author Raghav/Own4g3 <Raghav_ftw@hotmail.com>
- * 
+ *
  */
 public class AncientEffigies {
 
@@ -49,7 +49,7 @@ public class AncientEffigies {
 
 	/**
 	 * Getting the required level for each effigy.
-	 * 
+	 *
 	 * @param id
 	 *            The effigy's item id.
 	 * @return Required level.
@@ -70,7 +70,7 @@ public class AncientEffigies {
 
 	/**
 	 * Getting the message.
-	 * 
+	 *
 	 * @param skill
 	 *            The skill
 	 * @return message
@@ -99,7 +99,7 @@ public class AncientEffigies {
 
 	/**
 	 * Getting the experience amount.
-	 * 
+	 *
 	 * @param itemId
 	 *            The effigy's item id.
 	 * @return The amount of experience.
@@ -120,7 +120,7 @@ public class AncientEffigies {
 
 	/**
 	 * Investigation of an effigy.
-	 * 
+	 *
 	 * @param player
 	 *            The player who is doing investigation.
 	 * @param id
@@ -129,11 +129,11 @@ public class AncientEffigies {
 	public static void effigyInvestigation(Player player, Item item) {
 		Inventory inv = player.getInventory();
 		if (item.getId() == STARVED_ANCIENT_EFFIGY)
-			inv.replace(item, new Item(NOURISHED_ANCIENT_EFFIGY, 1).addMetaData("effigyType", (double) Utils.random(7)+1.0));
+			inv.replace(item, new Item(NOURISHED_ANCIENT_EFFIGY, 1).addMetaData("effigyType", Utils.random(7)+1.0));
 		else if (item.getId() == NOURISHED_ANCIENT_EFFIGY)
-			inv.replace(item, new Item(SATED_ANCIENT_EFFIGY, 1).addMetaData("effigyType", (double) Utils.random(7)+1.0));
+			inv.replace(item, new Item(SATED_ANCIENT_EFFIGY, 1).addMetaData("effigyType", Utils.random(7)+1.0));
 		else if (item.getId() == SATED_ANCIENT_EFFIGY)
-			inv.replace(item, new Item(GORGED_ANCIENT_EFFIGY, 1).addMetaData("effigyType", (double) Utils.random(7)+1.0));
+			inv.replace(item, new Item(GORGED_ANCIENT_EFFIGY, 1).addMetaData("effigyType", Utils.random(7)+1.0));
 		else if (item.getId() == GORGED_ANCIENT_EFFIGY) {
 			player.incrementCount("Ancient Effigies opened");
 			inv.replace(item, new Item(DRAGONKIN_LAMP, 1));

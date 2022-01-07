@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,13 +28,13 @@ public abstract class Dialogue {
 	protected byte stage = -1;
 
 	public static final int
-			REALLY_SAD = 9760, SAD = 9765, DEPRESSED = 9770, WORRIED = 9775, SCARED = 9780, MEAN_FACE = 9785,
-			MEAN_HEAD_BANG = 9790, EVIL = 9795, WHAT_THE_CRAP = 9800, CALM = 9805, CALM_TALK = 9810, TOUGH = 9815, SNOBBY = 9820,
-			SNOBBY_HEAD_MOVE = 9825, CONFUSED = 9830, DRUNK_HAPPY_TIRED = 9835, TALKING_ALOT = 9845, HAPPY_TALKING = 9850, BAD_ASS = 9855,
-			THINKING = 9860, COOL_YES = 9864, LAUGH_EXCITED = 9851, SECRELTY_TALKING = 9838;
+	REALLY_SAD = 9760, SAD = 9765, DEPRESSED = 9770, WORRIED = 9775, SCARED = 9780, MEAN_FACE = 9785,
+	MEAN_HEAD_BANG = 9790, EVIL = 9795, WHAT_THE_CRAP = 9800, CALM = 9805, CALM_TALK = 9810, TOUGH = 9815, SNOBBY = 9820,
+	SNOBBY_HEAD_MOVE = 9825, CONFUSED = 9830, DRUNK_HAPPY_TIRED = 9835, TALKING_ALOT = 9845, HAPPY_TALKING = 9850, BAD_ASS = 9855,
+	THINKING = 9860, COOL_YES = 9864, LAUGH_EXCITED = 9851, SECRELTY_TALKING = 9838;
 
 	public static final int NORMAL = 9827, QUESTIONS = 9827, MAD = 9789, MOCK = 9878, LAUGHING = 9851;
-	
+
 	public Dialogue() {
 
 	}
@@ -196,7 +196,7 @@ public abstract class Dialogue {
 	public boolean sendPlayerDialogue(int animationId, String... text) {
 		return sendEntityDialogue(IS_PLAYER, -1, animationId, text);
 	}
-	
+
 	public static boolean sendNPCDialogue(Player player, int npcId, int animationId, String... text) {
 		return sendEntityDialogue(player, IS_NPC, npcId, animationId, text);
 	}
@@ -210,27 +210,27 @@ public abstract class Dialogue {
 	}
 
 	/*
-	 * 
+	 *
 	 * auto selects title, new dialogues
 	 */
 	public boolean sendEntityDialogue(int type, int entityId, int animationId, String... text) {
 		String title = "";
-		if (type == IS_PLAYER) {
+		if (type == IS_PLAYER)
 			title = player.getDisplayName();
-		} else if (type == IS_NPC) {
+		else if (type == IS_NPC)
 			title = NPCDefinitions.getDefs(entityId).getName(player.getVars());
-		} else if (type == IS_ITEM)
+		else if (type == IS_ITEM)
 			title = ItemDefinitions.getDefs(entityId).getName();
 		return sendEntityDialogue(type, title, entityId, animationId, text);
 	}
-	
+
 	public static boolean sendEntityDialogue(Player player, int type, int entityId, int animationId, String... text) {
 		String title = "";
-		if (type == IS_PLAYER) {
+		if (type == IS_PLAYER)
 			title = player.getDisplayName();
-		} else if (type == IS_NPC) {
+		else if (type == IS_NPC)
 			title = NPCDefinitions.getDefs(entityId).getName(player.getVars());
-		} else if (type == IS_ITEM)
+		else if (type == IS_ITEM)
 			title = ItemDefinitions.getDefs(entityId).getName();
 		return sendEntityDialogue(player, type, title, entityId, animationId, text);
 	}
@@ -245,18 +245,15 @@ public abstract class Dialogue {
 	public static final int OPTION_1 = 11, OPTION_2 = 13, OPTION_3 = 14, OPTION_4 = 15, OPTION_5 = 16;
 
 	public static boolean sendOptionsDialogue(Player player, String title, String... options) {
-		if (options.length > 5) {
+		if (options.length > 5)
 			throw new InvalidParameterException("The max options length is 5.");
-		}
 		String[] optionArray = new String[5];
 		for (int i = 0; i < 5; i++)
 			optionArray[i] = "";
 		int ptr = 0;
-		for (String s : options) {
-			if (s != null) {
+		for (String s : options)
+			if (s != null)
 				optionArray[ptr++] = s;
-			}
-		}
 		player.getInterfaceManager().sendChatBoxInterface(1188);
 		player.getPackets().setIFText(1188, 20, title);
 		player.getPackets().sendRunScriptReverse(5589, optionArray[4], optionArray[3], optionArray[2], optionArray[1], optionArray[0], options.length);
@@ -264,18 +261,15 @@ public abstract class Dialogue {
 	}
 
 	public boolean sendOptionsDialogue(String title, String... options) {
-		if (options.length > 5) {
+		if (options.length > 5)
 			throw new InvalidParameterException("The max options length is 5.");
-		}
 		String[] optionArray = new String[5];
 		for (int i = 0; i < 5; i++)
 			optionArray[i] = "";
 		int ptr = 0;
-		for (String s : options) {
-			if (s != null) {
+		for (String s : options)
+			if (s != null)
 				optionArray[ptr++] = s;
-			}
-		}
 		player.getInterfaceManager().sendChatBoxInterface(1188);
 		player.getPackets().setIFText(1188, 20, title);
 		player.getPackets().sendRunScriptReverse(5589, optionArray[4], optionArray[3], optionArray[2], optionArray[1], optionArray[0], options.length);
@@ -291,24 +285,24 @@ public abstract class Dialogue {
 	}
 
 	/*
-	 * 
+	 *
 	 * auto selects title, new dialogues
 	 */
 	public static boolean sendEntityDialogueNoContinue(Player player, int type, int entityId, int animationId, String... text) {
 		String title = "";
-		if (type == IS_PLAYER) {
+		if (type == IS_PLAYER)
 			title = player.getDisplayName();
-		} else if (type == IS_NPC) {
+		else if (type == IS_NPC)
 			title = NPCDefinitions.getDefs(entityId).getName();
-		} else if (type == IS_ITEM)
+		else if (type == IS_ITEM)
 			title = ItemDefinitions.getDefs(entityId).getName();
 		return sendEntityDialogueNoContinue(player, type, title, entityId, animationId, text);
 	}
 
 	public static boolean sendEntityDialogueNoContinue(Player player, int type, String title, int entityId, int animationId, String... texts) {
 		StringBuilder builder = new StringBuilder();
-		for (int line = 0; line < texts.length; line++)
-			builder.append(" " + texts[line]);
+		for (String text2 : texts)
+			builder.append(" " + text2);
 		String text = builder.toString();
 		player.getInterfaceManager().replaceRealChatBoxInterface(1192);
 		player.getPackets().setIFText(1192, 16, title);
@@ -330,9 +324,8 @@ public abstract class Dialogue {
 		player.getInterfaceManager().sendChatBoxInterface(519);
 		String text = "";
 		text += title+"<br>";
-		for (String s : texts) {
+		for (String s : texts)
 			text += s + "<br>";
-		}
 		player.getPackets().setIFText(519, 1, text);
 		player.getPackets().setIFItem(519, 0, itemId1, 1);
 		return true;
@@ -342,9 +335,8 @@ public abstract class Dialogue {
 		player.getInterfaceManager().sendChatBoxInterface(131);
 		String text = "";
 		text += title+"<br>";
-		for (String s : texts) {
+		for (String s : texts)
 			text += s + "<br>";
-		}
 		player.getPackets().setIFText(131, 1, text);
 		player.getPackets().setIFItem(131, 0, itemId1, 1);
 		player.getPackets().setIFItem(131, 2, itemId2, 1);
@@ -356,8 +348,8 @@ public abstract class Dialogue {
 	 */
 	public boolean sendEntityDialogue(int type, String title, int entityId, int animationId, String... texts) {
 		StringBuilder builder = new StringBuilder();
-		for (int line = 0; line < texts.length; line++)
-			builder.append(" " + texts[line]);
+		for (String text2 : texts)
+			builder.append(" " + text2);
 		String text = builder.toString();
 		if (type == IS_NPC) {
 			player.getInterfaceManager().sendChatBoxInterface(1184);
@@ -376,11 +368,11 @@ public abstract class Dialogue {
 		}
 		return true;
 	}
-	
+
 	public static boolean sendEntityDialogue(Player player, int type, String title, int entityId, int animationId, String... texts) {
 		StringBuilder builder = new StringBuilder();
-		for (int line = 0; line < texts.length; line++)
-			builder.append(" " + texts[line]);
+		for (String text2 : texts)
+			builder.append(" " + text2);
 		String text = builder.toString();
 		if (type == IS_NPC) {
 			player.getInterfaceManager().sendChatBoxInterface(1184);

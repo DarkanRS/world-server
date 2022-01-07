@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,7 +29,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 @PluginEventHandler
 public class CombatScriptsHandler {
 
-	private static final HashMap<Object, CombatScript> cachedCombatScripts = new HashMap<Object, CombatScript>();
+	private static final HashMap<Object, CombatScript> cachedCombatScripts = new HashMap<>();
 	private static final CombatScript DEFAULT_SCRIPT = new Default();
 
 	@ServerStartupEvent
@@ -41,16 +41,15 @@ public class CombatScriptsHandler {
 				if (c.isAnonymousClass()) // next
 					continue;
 				Object o = c.getDeclaredConstructor().newInstance();
-				if (!(o instanceof CombatScript))
+				if (!(o instanceof CombatScript script))
 					continue;
-				CombatScript script = (CombatScript) o;
 				for (Object key : script.getKeys())
 					cachedCombatScripts.put(key, script);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		Logger.log("CombatScriptsHandler", "Loaded combat scripts for " + cachedCombatScripts.size() + " NPCs...");
 	}
 

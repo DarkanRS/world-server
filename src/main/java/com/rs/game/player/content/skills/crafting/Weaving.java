@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,7 +31,7 @@ public class Weaving  {
 	private static int[] reqs = { 10, 21, 36, 52 };
 	private static double[] xp = { 12, 38, 56, 83 };
 	private static int[] anims = { -1, -1, -1, -1 };
-	
+
 	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Loom" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

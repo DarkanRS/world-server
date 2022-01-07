@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -70,10 +70,10 @@ public class Lander {
 	}
 
 	private void passPlayersToGame() {
-		final List<Player> playerList = new LinkedList<Player>();
+		final List<Player> playerList = new LinkedList<>();
 		playerList.addAll(Collections.synchronizedList(lobby));
 		lobby.clear();
-		if (playerList.size() > AUTO_GAME) {
+		if (playerList.size() > AUTO_GAME)
 			for (int index = AUTO_GAME; index < playerList.size(); index++) {
 				Player player = playerList.get(index);
 				if (player == null) {
@@ -84,7 +84,6 @@ public class Lander {
 				playerList.remove(index);
 				lobby.add(player);
 			}
-		}
 		new PestControl(playerList, PestData.valueOf(landerRequirement.name())).create();
 	}
 
@@ -128,7 +127,7 @@ public class Lander {
 
 		VETERAN(2, 100, new WorldTile(2635, 2653, 0), new WorldTile(2638, 2653, 0));
 
-		private static Map<Integer, LanderRequirement> landers = new HashMap<Integer, LanderRequirement>();
+		private static Map<Integer, LanderRequirement> landers = new HashMap<>();
 
 		public static LanderRequirement forId(int id) {
 			return landers.get(id);
@@ -190,7 +189,8 @@ public class Lander {
 		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequierment().requirement) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You need a combat level of " + lander.getLanderRequierment().getRequirement() + " or more to enter in boat.");
 			return false;
-		} else if (player.getPet() != null || player.getFamiliar() != null) {
+		}
+		if (player.getPet() != null || player.getFamiliar() != null) {
 			player.sendMessage("You can't take a follower into the lander, there isn't enough room!");
 			return false;
 		}

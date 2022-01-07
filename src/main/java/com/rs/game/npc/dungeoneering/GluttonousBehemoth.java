@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -46,11 +46,11 @@ public final class GluttonousBehemoth extends DungeonBoss {
 		if (heal != null) {
 			setNextFaceEntity(null);
 			ticks++;
-			if (ticks == 1) {
+			if (ticks == 1)
 				calcFollow(heal, true);
-			} else if (ticks == 5) {
+			else if (ticks == 5)
 				setNextAnimation(new Animation(13720));
-			} else if (ticks < 900 && ticks > 7) {
+			else if (ticks < 900 && ticks > 7) {
 				if (getHitpoints() >= (getMaxHitpoints() * 0.75)) {
 					setNextAnimation(new Animation(-1));
 					calcFollow(getRespawnTile(), true);

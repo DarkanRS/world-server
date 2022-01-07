@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -37,18 +37,16 @@ public class KaramjaTrip extends Dialogue {
 			sendOptionsDialogue("Would you like to go?", "Yes please.", "No thank you.");
 			stage = 1;
 		} else if (stage == 1) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				doTrip();
-			} else if (componentId == OPTION_2) {
+			else if (componentId == OPTION_2)
 				sendPlayerDialogue(9827, "No thank you.");
-			}
 			stage = 3;
 		} else if (stage == 2) {
 			sendDialogue("The ship arrived at Karamja.");
 			stage = 3;
-		} else if (stage == 3) {
+		} else if (stage == 3)
 			end();
-		}
 	}
 
 	@Override
