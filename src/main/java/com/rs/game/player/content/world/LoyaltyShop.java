@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.LoginHandler;
 
 @PluginEventHandler
 public class LoyaltyShop {
-	
+
 	public static LoginHandler sendLoyaltyPoints = new LoginHandler() {
 		@Override
 		public void handle(LoginEvent e) {
@@ -53,12 +53,12 @@ public class LoyaltyShop {
 		}
 		player.getPackets().setIFRightClickOps(1143, 40, 0, 4, 0, 1); //costume color select
 	}
-	
+
 	public static void open(Player player) {
 		player.getInterfaceManager().setScreenInterface(317, 1143);
 		refresh(player);
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1143) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -89,11 +89,10 @@ public class LoyaltyShop {
 			}
 			if (e.getComponentId() >= 7 && e.getComponentId() <= 12) {
 				Tab tab = Tab.values()[e.getComponentId() - 7];
-				if (tab != null && (e.getPlayer().hasRights(Rights.DEVELOPER) || (tab != Tab.RECOLOR))) {
+				if (tab != null && (e.getPlayer().hasRights(Rights.DEVELOPER) || (tab != Tab.RECOLOR)))
 					e.getPlayer().getVars().setVarBit(9487, tab.configId);
-				} else {
+				else
 					sendMessage(e.getPlayer(), "Tab not added", "That tab hasn't been added yet. Sorry.");
-				}
 				return;
 			}
 			Tab tab = Tab.forId(e.getComponentId());
@@ -102,13 +101,12 @@ public class LoyaltyShop {
 				Reward reward = tab.getReward(e.getSlotId());
 				if (reward != null) {
 					e.getPlayer().getTempAttribs().setO("LoyaltyReward", reward);
-					e.getPlayer().getPackets().sendRunScriptReverse(5355, new Object[] { e.getPlayer().unlockedLoyaltyReward(reward) ? 1 : 0, map.getIntValue(e.getSlotId()) });
+					e.getPlayer().getPackets().sendRunScriptReverse(5355, e.getPlayer().unlockedLoyaltyReward(reward) ? 1 : 0, map.getIntValue(e.getSlotId()));
 					e.getPlayer().getPackets().setIFHidden(1143, 16, false);
 					e.getPlayer().getPackets().setIFHidden(1143, 56, false);
 					e.getPlayer().getPackets().setIFHidden(1143, 58, true);
-				} else {
+				} else
 					e.getPlayer().getTempAttribs().removeO("LoyaltyReward");
-				}
 			} else if (tab != null && tab.isFavoriteComponent(e.getComponentId())) {
 				Reward reward = tab.getReward(e.getSlotId());
 				if (reward != null) {
@@ -124,7 +122,7 @@ public class LoyaltyShop {
 				e.getPlayer().getPackets().sendDevConsoleMessage("Loyalty click: " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
 		}
 	};
-	
+
 	public static void confirmBuy(Player player) {
 		Reward reward = player.getTempAttribs().getO("LoyaltyReward");
 		if (reward != null) {
@@ -139,16 +137,14 @@ public class LoyaltyShop {
 					giveReward(player, reward);
 					closeMessage(player);
 					sendMessage(player, "Success!", "You have unlocked " + (reward.getType() == Type.EMOTE ? " the emote " + reward.name().toLowerCase().replace("_", " ") + "." : reward.getItem().getName() + "! It has been sent to your bank."));
-				} else {
+				} else
 					sendMessage(player, "Not Enough Points", "You need " + reward.getPrice() + " loyalty points to purchase this.");
-				}
-			} else {
+			} else
 				sendMessage(player, "Previous Reward Required", "You need to buy " + ItemDefinitions.getDefs(reward.getPreReq()).name + " before purchasing this.");
-			}
 			refresh(player);
 		}
 	}
-	
+
 	private static void deletePreItems(Player player, Reward reward) {
 		Reward curr = Reward.forId(reward.getPreReq());
 		while(curr != null) {
@@ -159,7 +155,7 @@ public class LoyaltyShop {
 			curr = Reward.forId(curr.getPreReq());
 		}
 	}
-	
+
 	private static Reward getHighestTierUnlocked(Player player, Reward reward) {
 		Reward highest = reward.getLowestTier();
 		while(player.unlockedLoyaltyReward(Reward.forPreReq(highest.getItem().getId())))
@@ -180,16 +176,13 @@ public class LoyaltyShop {
 		case COSTUME:
 			int color = 0;
 			Object colObj = player.getTempAttribs().removeI("LoyaltyRewardColor");
-			if (colObj != null && colObj instanceof Integer) {
+			if (colObj != null && colObj instanceof Integer)
 				color = (int) colObj;
-			}
-			for (Item item : reward.getItems(player.getAppearance().isMale() ? 0 : 1)) {
-				if (item.getAmount() == 1) {
+			for (Item item : reward.getItems(player.getAppearance().isMale() ? 0 : 1))
+				if (item.getAmount() == 1)
 					player.getBank().addItem(item, true);
-				} else if (item.getAmount() == 2) {
+				else if (item.getAmount() == 2)
 					player.getBank().addItem(new Item(item.getId() + (color*2), 1), true);
-				}
-			}
 			break;
 		case TITLE:
 			player.setTitle(null);
@@ -199,12 +192,11 @@ public class LoyaltyShop {
 			player.getAppearance().generateAppearanceData();
 			break;
 		case EMOTE:
-			for (Emote emote : Emote.values()) {
+			for (Emote emote : Emote.values())
 				if (emote.name().equals(reward.name())) {
 					player.getEmotesManager().unlockEmote(emote);
 					break;
 				}
-			}
 			break;
 		default:
 			break;
@@ -214,18 +206,18 @@ public class LoyaltyShop {
 	/*
 	 * player.getPackets().sendHideIComponent(interfaceId, 56, false);
 	 * https://i.imgur.com/wnU2rJr.png
-	 * 
+	 *
 	 * player.getPackets().sendHideIComponent(interfaceId, 57, false);
 	 * https://i.imgur.com/50Rt2Rg.png
-	 * 
+	 *
 	 * player.getPackets().sendHideIComponent(interfaceId, 58, false);
 	 * https://i.imgur.com/pqeRgOA.png
 	 */
-	
+
 	public static void closeMessage(Player player) {
 		player.getPackets().setIFHidden(1143, 16, true);
 	}
-	
+
 	public static void sendMessage(Player player, String title, String message) {
 		player.getPackets().setIFHidden(1143, 16, false);
 		player.getPackets().setIFHidden(1143, 56, true);
@@ -234,75 +226,71 @@ public class LoyaltyShop {
 		player.getPackets().setIFText(1143, 161, title);
 		player.getPackets().setIFText(1143, 162, message);
 	}
-	
+
 	public static int[] getFavoriteFlags(Player player, Tab tab) {
 		if (tab == Tab.AURAS) {
 			int val1 = 0;
 			int val2 = 0;
 			int val3 = 0;
-			for (int i = 0;i < Tab.AURAS.getRewards().length;i++) {
+			for (int i = 0;i < Tab.AURAS.getRewards().length;i++)
 				if (i <= 31 && player.favoritedLoyaltyReward(Tab.AURAS.getRewards()[i]))
 					val1 += (1 << i);
 				else if (i <= 62 && player.favoritedLoyaltyReward(Tab.AURAS.getRewards()[i]))
 					val2 += (1 << (i-31));
 				else if (player.favoritedLoyaltyReward(Tab.AURAS.getRewards()[i]))
 					val3 += (1 << (i-62));
-			}
 			return new int[] { val1, val2, val3 };
-		} else if (tab == Tab.TITLES) {
+		}
+		if (tab == Tab.TITLES) {
 			int val1 = 0;
 			int val2 = 0;
-			for (int i = 0;i < Tab.TITLES.getRewards().length;i++) {
+			for (int i = 0;i < Tab.TITLES.getRewards().length;i++)
 				if (i < 16 && player.favoritedLoyaltyReward(Tab.TITLES.getRewards()[i]))
 					val1 += (1 << i);
 				else if (player.favoritedLoyaltyReward(Tab.TITLES.getRewards()[i]))
 					val2 += (1 << (i-16));
-			}
 			return new int[] { val1, val2 };
 		} else {
 			int val = 0;
-			for (Reward r : tab.getRewards()) {
+			for (Reward r : tab.getRewards())
 				if (player.favoritedLoyaltyReward(r))
 					val += (1 << r.getBit());
-			}
 			return new int[] { val };
 		}
 	}
-	
+
 	public static int[] getUnlockedFlags(Player player, Tab tab) {
 		if (tab == Tab.AURAS) {
 			int val1 = 0;
 			int val2 = 0;
 			int val3 = 0;
-			for (int i = 0;i < Tab.AURAS.getRewards().length;i++) {
+			for (int i = 0;i < Tab.AURAS.getRewards().length;i++)
 				if (i <= 31 && player.unlockedLoyaltyReward(Tab.AURAS.getRewards()[i]))
 					val1 += (1 << i);
 				else if (i <= 62 && player.unlockedLoyaltyReward(Tab.AURAS.getRewards()[i]))
 					val2 += (1 << (i-31));
 				else if (player.unlockedLoyaltyReward(Tab.AURAS.getRewards()[i]))
 					val3 += (1 << (i-62));
-			}
 			return new int[] { val1, val2, val3 };
-		} else if (tab == Tab.TITLES) {
+		}
+		if (tab == Tab.TITLES) {
 			int val1 = 0;
 			int val2 = 0;
-			for (int i = 0;i < Tab.TITLES.getRewards().length;i++) {
+			for (int i = 0;i < Tab.TITLES.getRewards().length;i++)
 				if (i < 16 && player.unlockedLoyaltyReward(Tab.TITLES.getRewards()[i]))
 					val1 += (1 << i);
 				else if (player.unlockedLoyaltyReward(Tab.TITLES.getRewards()[i]))
 					val2 += (1 << (i-16));
-			}
 			return new int[] { val1, val2 };
 		} else {
 			int val = 0;
-			for (Reward r : tab.getRewards()) {
+			for (Reward r : tab.getRewards())
 				if (player.unlockedLoyaltyReward(r))
 					val += (1 << r.getBit());
-			}
 			return new int[] { val };
 		}
 	}
-	
+
 	public static void refreshFavorite(Player player) {
 		int[] auras = getFavoriteFlags(player, Tab.AURAS);
 		player.getVars().setVar(2391, auras[0]);
@@ -312,13 +300,13 @@ public class LoyaltyShop {
 		int[] titles = getFavoriteFlags(player, Tab.TITLES);
 		player.getVars().setVar(2394, titles[0] + getFavoriteFlags(player, Tab.RECOLOR)[0]);
 		player.getVars().setVar(2445, titles[1]);
-		
+
 		player.getVars().setVar(2542, getFavoriteFlags(player, Tab.EFFECTS)[0]);
 		player.getVars().setVar(2392, getFavoriteFlags(player, Tab.EMOTES)[0]);
 		player.getVars().setVar(2393, getFavoriteFlags(player, Tab.COSTUMES)[0]);
 		player.getVars().setVar(2541, 0, true); //refresh
 	}
-	
+
 	public static void refreshOwned(Player player) {
 		int[] auras = getUnlockedFlags(player, Tab.AURAS);
 		player.getVars().setVar(2229, auras[0]);
@@ -328,7 +316,7 @@ public class LoyaltyShop {
 		int[] titles = getUnlockedFlags(player, Tab.TITLES);
 		player.getVars().setVar(2232, titles[0] + getUnlockedFlags(player, Tab.RECOLOR)[0]);
 		player.getVars().setVar(2447, titles[1]);
-		
+
 		player.getVars().setVar(2540, getUnlockedFlags(player, Tab.EFFECTS)[0]);
 		player.getVars().setVar(2230, getUnlockedFlags(player, Tab.EMOTES)[0]);
 		player.getVars().setVar(2231, getUnlockedFlags(player, Tab.COSTUMES)[0]);

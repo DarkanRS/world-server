@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,7 +35,7 @@ import com.rs.plugin.handlers.XPGainHandler;
 
 @PluginEventHandler
 public class Urns {
-	
+
 	public static ItemClickHandler handleTeleportUrns = new ItemClickHandler(Urn.FULL_IDS.keySet().toArray(), new String[] { "Teleport urn" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -45,7 +45,7 @@ public class Urns {
 			e.getPlayer().getSkills().addXpLamp(urn.getSkill(), urn.getTeleXp());
 		}
 	};
-	
+
 	public static ItemClickHandler handleCheckUrns = new ItemClickHandler(Urn.FILL_IDS.keySet().toArray(), new String[] { "Check level" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -53,7 +53,7 @@ public class Urns {
 			e.getPlayer().sendMessage("The urn is filled " + Utils.formatDouble(e.getItem().getMetaDataD("xp") / urn.getFillXp() * 100) + "%.");
 		}
 	};
-	
+
 	public static ItemOnItemHandler addRune = new ItemOnItemHandler(Urn.NR_IDS.keySet().stream().mapToInt(i->i).toArray()) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
@@ -64,7 +64,7 @@ public class Urns {
 				return;
 			final Urn urn = u;
 			Rune rune = Rune.forId(e.getUsedWith(urn.nrId()).getId());
-			if (rune == urn.getRune()) {
+			if (rune == urn.getRune())
 				e.getPlayer().startConversation(new Conversation(e.getPlayer())
 						.addNext(new MakeXStatement(new int[] { urn.rId() }))
 						.addNext(() -> {
@@ -77,11 +77,11 @@ public class Urns {
 							e.getPlayer().getSkills().addXpLamp(urn.getSkill(), amount);
 							e.getPlayer().setNextAnimation(urn.getReadyAnim());
 						}));
-			} else
+			else
 				e.getPlayer().sendMessage("You must use " + Utils.addArticle(urn.getRune().name().toLowerCase()) + " rune to activate this urn.");
 		}
 	};
-	
+
 	public static XPGainHandler handleUrnXp = new XPGainHandler() {
 		@Override
 		public void handle(XPGainEvent e) {
@@ -96,7 +96,7 @@ public class Urns {
 			}
 		}
 	};
-	
+
 	public static NPCDropHandler handle = new NPCDropHandler(20264, 20266, 20268) {
 		@Override
 		public void handle(NPCDropEvent e) {
@@ -116,23 +116,21 @@ public class Urns {
 			}
 		}
 	};
-	
+
 	public static Urn getUrn(Player player, int skillId) {
-		for (Urn urn : Urn.values()) {
+		for (Urn urn : Urn.values())
 			if (urn.getSkill() == skillId && player.getInventory().containsOneItem(urn.rId(), urn.fillId()))
 				return urn;
-		}
 		return null;
 	}
-	
+
 	public static Urn getUrn(Player player, Urn... urns) {
-		for (Urn urn : urns) {
+		for (Urn urn : urns)
 			if (player.getInventory().containsOneItem(urn.rId(), urn.fillId()))
 				return urn;
-		}
 		return null;
 	}
-	
+
 	public static boolean addXPToUrn(Player player, Urn urn, double xp) {
 		if (urn == null)
 			return false;

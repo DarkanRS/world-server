@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -44,16 +44,15 @@ public class Revenant extends NPC {
 		super.spawn();
 		setNextAnimation(new Animation(getSpawnAnimation()));
 	}
-	
+
 	@Override
 	public void drop(Player killer, boolean verifyCombatDefs) {
 		try {
-			if (!getDefinitions().getName().equals("null"))			
+			if (!getDefinitions().getName().equals("null"))
 				killer.sendNPCKill(getDefinitions().getName());
 			List<Item> drops = genDrop(killer, getDefinitions().getName(), getDefinitions().combatLevel);
-			for (Item item : drops) {
+			for (Item item : drops)
 				sendDrop(killer, item);
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} catch (Error e) {
@@ -96,13 +95,13 @@ public class Revenant extends NPC {
 			return -1;
 		}
 	}
-	
+
 	public static List<Item> genDrop(Player killer, String name, int combatLevel) {
 		List<Item> drops = new ArrayList<>();
-		
+
 		double g = Utils.clampD(Math.sqrt(combatLevel), 1.0, 12.0);
 		double r = 60000.0 / g;
-		
+
 		Utils.add(drops, DropTable.calculateDrops(killer, new DropSet(
 				//1/R chance each to obtain an Ancient, Seren, Armadyl, Zamorak, Saradomin or Bandos statuette, or a random brawling glove. The rate for brawling gloves is 2/15 for Smithing and Hunter gloves, and 1/15 for all others
 				new DropTable(1, r, new Drop(14876)),
@@ -112,7 +111,7 @@ public class Revenant extends NPC {
 				new DropTable(1, r, new Drop(14880)),
 				new DropTable(1, r, new Drop(14881)),
 				new DropTable(1, r, new Drop(13845), new Drop(13846), new Drop(13847), new Drop(13848), new Drop(13849), new Drop(13850), new Drop(13851), new Drop(13852), new Drop(13853), new Drop(13854), new Drop(13855), new Drop(13856), new Drop(13857), new Drop(13855), new Drop(13853)),
-			
+
 				//2/R chance each to obtain a Ruby chalice, Guthixian brazier, Armadyl totem, Zamorak medallion, Saradomin carving, Bandos scrimshaw or a corrupt dragon item
 				new DropTable(2, r, new Drop(14882)),
 				new DropTable(2, r, new Drop(14883)),
@@ -121,16 +120,16 @@ public class Revenant extends NPC {
 				new DropTable(2, r, new Drop(14886)),
 				new DropTable(2, r, new Drop(14887)),
 				new DropTable(2, r, new Drop(13958), new Drop(13961), new Drop(13964), new Drop(13967), new Drop(13970), new Drop(13973), new Drop(13976), new Drop(13979), new Drop(13982), new Drop(13985), new Drop(13988)),
-				
+
 				//3/R chance each to obtain a Saradomin amphora, Ancient psaltery bridge, Bronzed dragon claw, Third age carafe or broken statue headdress
 				new DropTable(3, r, new Drop(14888)),
 				new DropTable(3, r, new Drop(14889)),
 				new DropTable(3, r, new Drop(14890)),
 				new DropTable(3, r, new Drop(14891)),
 				new DropTable(3, r, new Drop(14892)),
-				
+
 				//10/R chance each to obtain a piece of Ancient Warriors' equipment or its corrupt version
-				new DropTable(10, r, 
+				new DropTable(10, r,
 						new Drop(13858),
 						new Drop(13861),
 						new Drop(13864),
@@ -149,7 +148,7 @@ public class Revenant extends NPC {
 						new Drop(13902),
 						new Drop(13905)
 						),
-				new DropTable(10, r, 
+				new DropTable(10, r,
 						new Drop(13908),
 						new Drop(13911),
 						new Drop(13914),
@@ -175,7 +174,7 @@ public class Revenant extends NPC {
 			drops.add(new Item(995, (int) (50.0 * g)));
 		return drops;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(13465, 13466, 13467, 13468, 13469, 13470, 13471, 13472, 13473, 13474, 13475, 13476, 13477, 13478, 13479, 13480, 13481) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

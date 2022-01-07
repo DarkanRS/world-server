@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -23,9 +23,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class AchievementInterface {
-	
+
 	//3483 enum for list of achievements
-	
+
 	public static void init(Player player) {
 		player.getVars().setVarBit(8575, 1); //task set
 		player.getVars().setVarBit(8582, 1); //task set
@@ -33,9 +33,8 @@ public class AchievementInterface {
 		player.getPackets().sendVarc(1423, 0); //completed in set
 		player.getPackets().sendVarc(1424, 0); //total in set
 		player.getVars().setVarBit(8601, 533); //total completed overall 534 unlocks taskmaster
-		for (int i = 0;i < 6;i++) {
+		for (int i = 0;i < 6;i++)
 			player.getVars().setVarBit(8587+i, 4095);
-		}
 		player.getPackets().setIFHidden(1056, 117, true);
 	}
 

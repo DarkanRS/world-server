@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -50,10 +50,10 @@ public enum Skillcapes {
 	Construction(9789, 9790, 9791, 25331, "a master home builder"),
 	Summoning(12169, 12170, 12171, 25348, "a master summoner"),
 	Dungeoneering(18508, 18509, 18510, 19709, "a master dungeon delver");
-	
+
 	public final int untrimmed, trimmed, hood, master;
 	public final String verb;
-	
+
 	private Skillcapes(int untrimmed, int trimmed, int hood, int master, String verb) {
 		this.untrimmed = untrimmed;
 		this.trimmed = trimmed;
@@ -61,48 +61,44 @@ public enum Skillcapes {
 		this.verb = verb;
 		this.master = master;
 	}
-	
+
 	private Dialogue getGiveCapeDialogue(Player player, int npcId, boolean masterCape) {
-		if (player.getInventory().containsItem(995, masterCape ? 120000 : 99000)) {
-			return new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, this.ordinal() == Constants.FIREMAKING ? "I'm sure you'll look hot in that cape." : "Excellent! Wear that cape with pride my friend."), () -> {
-				player.getInventory().deleteItem(995, masterCape ? 120000 : 99000);
-				if (!masterCape)
-					player.getInventory().addItem(hood, 1);
-				player.getInventory().addItem(masterCape ? master : player.getSkills().checkMulti99s() ? trimmed : untrimmed, 1);
-			});
-		} else {
+		if (!player.getInventory().containsItem(995, masterCape ? 120000 : 99000))
 			return new Dialogue(new PlayerStatement(HeadE.SAD_MILD, "But, unfortunately, I was mistaken.")).addNext(new NPCStatement(npcId, HeadE.NO_EXPRESSION, "Well, come back and see me when you do.")).finish();
-		}
+		return new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, ordinal() == Constants.FIREMAKING ? "I'm sure you'll look hot in that cape." : "Excellent! Wear that cape with pride my friend."), () -> {
+			player.getInventory().deleteItem(995, masterCape ? 120000 : 99000);
+			if (!masterCape)
+				player.getInventory().addItem(hood, 1);
+			player.getInventory().addItem(masterCape ? master : player.getSkills().checkMulti99s() ? trimmed : untrimmed, 1);
+		});
 	}
 
 	public Dialogue getOffer99CapeDialogue(Player player, int npcId) {
-		Dialogue start = new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, "Ah, this is a Skillcape of " + this.name() + ". I have mastered the art of " + this.name().toLowerCase() + " and wear it proudly to show others."))
+		Dialogue start = new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, "Ah, this is a Skillcape of " + name() + ". I have mastered the art of " + name().toLowerCase() + " and wear it proudly to show others."))
 				.addPlayer(HeadE.SKEPTICAL, "Hmm, interesting.");
-		if (player.getSkills().getLevelForXp(this.ordinal()) >= 99) {
-			start.addNPC(npcId, HeadE.NO_EXPRESSION, "Ah, but I see you are already "+verb+", perhaps you have come to me to purchase a Skillcape of "+this.name()+", and thus join the elite few who have mastered this exacting skill?")
+		if (player.getSkills().getLevelForXp(ordinal()) >= 99)
+			start.addNPC(npcId, HeadE.NO_EXPRESSION, "Ah, but I see you are already "+verb+", perhaps you have come to me to purchase a Skillcape of "+name()+", and thus join the elite few who have mastered this exacting skill?")
 			.addOptions("Choose an option", new Options() {
 				@Override
 				public void create() {
 					option("Yes, I'd like to buy one please.", new Dialogue()
 							.addNPC(npcId, HeadE.NO_EXPRESSION, "Most certainly; unfortunately being such a prestigious item, they are appropriately expensive. I'm afraid I must ask you for 99,000 gold.")
 							.addOption("Choose an option:", "99,000 coins? That's much too expensive.", "I think I have the money right here, actually."));
-					if (player.getSkills().is120(Skillcapes.this.ordinal())) {
+					if (player.getSkills().is120(Skillcapes.this.ordinal()))
 						option("I've mastered this skill. Is there anything else?", new Dialogue()
 								.addNPC(npcId, HeadE.AMAZED, "I've been saving this master cape for someone truly " + verb + ". Is that really you?")
 								.addPlayer(HeadE.CONFUSED, "I think so. I mean I really have mastered everything there is to know.")
 								.addNPC(npcId, HeadE.AMAZED, "I can see that! I would be glad to offer you this cape.")
 								.addOption("Buy a master cape for 120,000 coins?", "Yes, please.", "No, thanks.")
 								.addNext(getGiveCapeDialogue(player, npcId, true)));
-					}
 					option("Nevermind.", new Dialogue()
 							.addNPC(npcId, HeadE.NO_EXPRESSION, "No problem; there are many other adventurers who would love the opportunity to purchase such a prestigious item! You can find me here if you change your mind."));
 				}
 			});
-		} else {
+		else
 			start.addOption("Select an option", "Please tell me more about skillcapes.", "Bye.")
 			.addPlayer(HeadE.CONFUSED, "Please tell me more about skillcapes.")
 			.addNPC(npcId, HeadE.NO_EXPRESSION, "Of course. Skillcapes are a symbol of achievement. Only people who have mastered a skill and reached level 99 can get their hands on them and gain the benefits they carry.");
-		}
 		return start.finish();
 	}
 }

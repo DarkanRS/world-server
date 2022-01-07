@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -84,7 +84,7 @@ public class Rammernaut extends DungeonBoss {
 							tile = new WorldTile(new WorldTile(entity.getX() + (dirs[0] * distance), entity.getY() + (dirs[1] * distance), entity.getPlane()));
 							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && getManager().isAtBossRoom(tile))
 								break;
-							else if (distance == 0)
+							if (distance == 0)
 								tile = new WorldTile(entity);
 						}
 						entity.faceEntity(npc);
@@ -113,9 +113,9 @@ public class Rammernaut extends DungeonBoss {
 				setRun(false);
 				resetWalkSteps();
 				calcFollow(chargeTarget, true);
-			} else if (count == -8) {
+			} else if (count == -8)
 				setChargeTarget(null);
-			} else if (count > 2) {
+			else if (count > 2) {
 				resetWalkSteps();
 				/*
 				 * skip first step else it stucks ofc
@@ -154,7 +154,7 @@ public class Rammernaut extends DungeonBoss {
 	}
 
 	public void setChargeTarget(Player target) {
-		this.chargeTarget = target;
+		chargeTarget = target;
 		getCombat().removeTarget();
 		count = 0;
 	}

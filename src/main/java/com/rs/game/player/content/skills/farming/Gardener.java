@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,61 +33,61 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public enum Gardener {
-	
+
 	ELSTAN(2323, PatchLocation.Falador_allotment_north, PatchLocation.Falador_allotment_south),
 	LYRA(2326, PatchLocation.Canifis_allotment_north, PatchLocation.Canifis_allotment_south),
 	DANTAERA(2324, PatchLocation.Catherby_allotment_north, PatchLocation.Catherby_allotment_south),
 	KRAGEN(2325, PatchLocation.Ardougne_allotment_north, PatchLocation.Ardougne_allotment_south),
-	
+
 	VASQUEN(2333, PatchLocation.Lumbridge_hops),
 	RHONEN(2334, PatchLocation.Seers_Village_hops),
 	SELENA(2332, PatchLocation.Yanille_hops),
 	FRANCIS(2327, PatchLocation.Entrana_hops),
-	
+
 	DREVEN(2335, PatchLocation.Champions_Guild_bush),
 	TARIA(2336, PatchLocation.Rimmington_bush),
 	TORRELL(2338, PatchLocation.Ardougne_bush),
 	RHAZIEN(2337, PatchLocation.Etceteria_bush),
-	
+
 	FAYETH(2342, PatchLocation.Lumbridge_tree),
 	TREZNOR(2341, PatchLocation.Varrock_tree),
 	HESKEL(2340, PatchLocation.Falador_tree),
 	ALAIN(2339, PatchLocation.Taverly_tree),
 	PRISSY_SCILLA(1037, PatchLocation.Gnome_Stronghold_tree),
-	
+
 	BOLONGO(2343, PatchLocation.Gnome_Stronghold_fruit_tree),
 	GILETH(2344, PatchLocation.Tree_Gnome_Village_fruit_tree),
 	GARTH(2330, PatchLocation.Brimhaven_fruit_tree),
 	ELLENA(2331, PatchLocation.Catherby_fruit_tree),
 	AMAETHWR(2860, PatchLocation.Lletya_fruit_tree),
-		
+
 	YULF_SQUECKS(4561, PatchLocation.Etceteria_spirit_tree),
 	FRIZZY_SKERNIP(4560, PatchLocation.Port_Sarim_spirit_tree),
 	PRAISTAN_EBOLA(4562, PatchLocation.Brimhaven_spirit_tree),
-	
+
 	IMIAGO(871, PatchLocation.Karamja_calquat),
-	
+
 	ZOMBIE_FARMER(13101, PatchLocation.Herblore_Habitat_fruit_tree, PatchLocation.Herblore_Habitat_bush, PatchLocation.Herblore_Habitat_west_herbs);
-	
+
 	static Map<Integer, Gardener> MAP = new HashMap<>();
-	
+
 	static {
 		for (Gardener g : Gardener.values())
 			MAP.put(g.npcId, g);
 	}
-	
+
 	private static Gardener forNPC(int npcId) {
 		return MAP.get(npcId);
 	}
-	
+
 	private int npcId;
 	private PatchLocation[] locations;
-	
+
 	private Gardener(int npcId, PatchLocation... locations) {
 		this.npcId = npcId;
 		this.locations = locations;
 	}
-	
+
 	public static NPCClickHandler handleGardeners = new NPCClickHandler(871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -98,7 +98,7 @@ public enum Gardener {
 				protectPatch(e.getPlayer(), e.getNPC(), patch);
 				return;
 			}
-			if (e.getOption().contains("Talk")) {
+			if (e.getOption().contains("Talk"))
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addOptions("What would you like to say?", new Options() {
 					@Override
 					public void create() {
@@ -126,10 +126,9 @@ public enum Gardener {
 						option("That's all, thanks.");
 					}
 				}));
-			}
 		}
 	};
-	
+
 	private static void protectPatch(Player player, NPC npc, FarmPatch patch) {
 		if (patch == null || patch.seed == null) {
 			player.startConversation(new Dialogue().addNPC(npc.getId(), HeadE.CHEERFUL, "You don't have anything planted in that patch. Plant something and I might agree to look after it for you."));
@@ -156,7 +155,7 @@ public enum Gardener {
 		patch.diseaseProtected = true;
 		player.sendMessage(npc.getName(player) + " takes " + cost.getAmount() + " " + cost.getName() + " and agrees to protect the patch for you." );
 	}
-	
+
 	private static Dialogue buyItem(Player player, int npcId, int itemId, int cost) {
 		return new Dialogue()
 				.addPlayer(HeadE.CHEERFUL, "I'd like to buy a " + ItemDefinitions.getDefs(itemId).name.toLowerCase() + " please.")

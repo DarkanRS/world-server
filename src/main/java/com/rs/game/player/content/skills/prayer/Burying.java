@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,38 +31,37 @@ import com.rs.lib.game.SpotAnim;
 public class Burying {
 
 	public enum Bone {
-		NORMAL(526, 4.5), 
-		BURNT(528, 4.5), 
-		WOLF(2859, 4.5), 
-		MONKEY(3183, 4.5), 
-		BAT(530, 5.2), 
-		BIG(532, 15), 
-		JOGRE(3125, 15), 
-		ZOGRE(4812, 22.5), 
-		SHAIKAHAN(3123, 25), 
-		BABY(534, 30), 
-		WYVERN(6812, 50), 
-		DRAGON(536, 72), 
-		FAYRG(4830, 84), 
-		RAURG(4832, 96), 
-		DAGANNOTH(6729, 125), 
-		OURG(4834, 140), 
-		OURG2(14793, 140), 
-		FROST_DRAGON2(18830, 180), 
-		FROST_DRAGON(18832, 180), 
-		IMPIOUS_ASHES(20264, 4), 
-		ACCURSED_ASHES(20266, 12.5), 
+		NORMAL(526, 4.5),
+		BURNT(528, 4.5),
+		WOLF(2859, 4.5),
+		MONKEY(3183, 4.5),
+		BAT(530, 5.2),
+		BIG(532, 15),
+		JOGRE(3125, 15),
+		ZOGRE(4812, 22.5),
+		SHAIKAHAN(3123, 25),
+		BABY(534, 30),
+		WYVERN(6812, 50),
+		DRAGON(536, 72),
+		FAYRG(4830, 84),
+		RAURG(4832, 96),
+		DAGANNOTH(6729, 125),
+		OURG(4834, 140),
+		OURG2(14793, 140),
+		FROST_DRAGON2(18830, 180),
+		FROST_DRAGON(18832, 180),
+		IMPIOUS_ASHES(20264, 4),
+		ACCURSED_ASHES(20266, 12.5),
 		INFERNAL_ASHES(20268, 62.5);
 
 		private int id;
 		private double experience;
 
-		private static Map<Integer, Bone> bones = new HashMap<Integer, Bone>();
+		private static Map<Integer, Bone> bones = new HashMap<>();
 
 		static {
-			for (Bone bone : Bone.values()) {
+			for (Bone bone : Bone.values())
 				bones.put(bone.getId(), bone);
-			}
 		}
 
 		public static Bone forId(int id) {
@@ -87,23 +86,20 @@ public class Burying {
 
 		public static void bury(final Player player, int inventorySlot) {
 			final Item item = player.getInventory().getItem(inventorySlot);
-			if (item == null || Bone.forId(item.getId()) == null)
-				return;
-			if (!player.canBury())
+			if (item == null || Bone.forId(item.getId()) == null || !player.canBury())
 				return;
 			final Bone bone = Bone.forId(item.getId());
 			final ItemDefinitions itemDef = new ItemDefinitions(item.getId());
 			player.lock();
 			player.getPackets().sendSound(2738, 0, 1);
-			
+
 			player.setNextAnimation(bone.name().contains("ASHES") ? SCATTER_ANIMATION : BURY_ANIMATION);
-			if (bone == Bone.ACCURSED_ASHES) {
+			if (bone == Bone.ACCURSED_ASHES)
 				player.setNextSpotAnim(new SpotAnim(56));
-			} else if (bone == Bone.IMPIOUS_ASHES) {
+			else if (bone == Bone.IMPIOUS_ASHES)
 				player.setNextSpotAnim(new SpotAnim(47));
-			} else if (bone == Bone.INFERNAL_ASHES) {
+			else if (bone == Bone.INFERNAL_ASHES)
 				player.setNextSpotAnim(new SpotAnim(40));
-			}
 			player.sendMessage(bone.name().contains("ASHES") ? "You scatter the ashes in the wind..." : "You dig a hole in the ground...");
 
 			WorldTasksManager.schedule(new WorldTask() {
@@ -127,7 +123,7 @@ public class Burying {
 	public static void handleNecklaces(Player player, int itemId) {
 		ItemDefinitions itemDef = ItemDefinitions.getDefs(itemId);
 		int prayerGain = 0;
-		if (itemDef.getName().toLowerCase().contains("dragon") || itemDef.getName().toLowerCase().contains("ourg")) {
+		if (itemDef.getName().toLowerCase().contains("dragon") || itemDef.getName().toLowerCase().contains("ourg"))
 			switch (player.getEquipment().getAmuletId()) {
 			case 19888:
 				prayerGain = 300;
@@ -139,7 +135,7 @@ public class Burying {
 			default:
 				break;
 			}
-		} else if (itemDef.getName().toLowerCase().contains("big")) {
+		else if (itemDef.getName().toLowerCase().contains("big"))
 			switch (player.getEquipment().getAmuletId()) {
 			case 19888:
 			case 19887:
@@ -151,7 +147,7 @@ public class Burying {
 			default:
 				break;
 			}
-		} else if (itemDef.getName().toLowerCase().equals("bones")) {
+		else if (itemDef.getName().toLowerCase().equals("bones"))
 			switch (player.getEquipment().getAmuletId()) {
 			case 19888:
 			case 19887:
@@ -161,7 +157,6 @@ public class Burying {
 			default:
 				break;
 			}
-		}
 		player.getPrayer().restorePrayer(prayerGain);
 	}
 }

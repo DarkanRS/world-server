@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -37,11 +37,11 @@ import com.rs.lib.util.Utils;
 public class LexicusRunewright extends DungeonBoss {
 
 	private static final int[] TELEPORT_LOCS =
-	{ 8, 7, 3, 3, 3, 12, 12, 12, 12, 3 };
+		{ 8, 7, 3, 3, 3, 12, 12, 12, 12, 3 };
 
 	private boolean completedFirstAttack;
 	private int attackStage;
-	private List<TombOfLexicus> books = new CopyOnWriteArrayList<TombOfLexicus>();
+	private List<TombOfLexicus> books = new CopyOnWriteArrayList<>();
 
 	public LexicusRunewright(WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9842, 9855), manager.getBossLevel()), tile, manager, reference);
@@ -50,10 +50,9 @@ public class LexicusRunewright extends DungeonBoss {
 	@Override
 	public void processHit(Hit hit) {
 		int damage = hit.getDamage();
-		if (damage > 0) {
+		if (damage > 0)
 			if (hit.getLook() == HitLook.MELEE_DAMAGE)
 				hit.getSource().applyHit(new Hit(this, (int) (damage * .33), HitLook.REFLECTED_DAMAGE));
-		}
 		super.processHit(hit);
 	}
 
@@ -124,7 +123,7 @@ public class LexicusRunewright extends DungeonBoss {
 	}
 
 	public void setCompletedFirstAttack(boolean firstAttack) {
-		this.completedFirstAttack = firstAttack;
+		completedFirstAttack = firstAttack;
 	}
 
 	public int getAttackStage() {

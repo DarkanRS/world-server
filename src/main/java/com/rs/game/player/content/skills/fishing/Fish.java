@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,7 +32,7 @@ public enum Fish {
 	ANCHOVIES(321, 15, 40, 30, 90),
 
 	SARDINES(327, 5, 20, 32, 180),
-    GIANT_CARP(338, 10, 50, 32, 192),
+	GIANT_CARP(338, 10, 50, 32, 192),
 	HERRING(345, 10, 30, 16, 96),
 	TROUT(335, 20, 50, 32, 192),
 	SALMON(331, 30, 70, 16, 96),
@@ -42,20 +42,18 @@ public enum Fish {
 	FROGSPAWN(5004, 33, 75, 16, 96),
 
 	TUNA(359, 35, 80, 16, 70, (p) -> {
-		if (Utils.random(10) == 0) {
+		if (Utils.random(10) == 0)
 			if (p.getSkills().getLevel(Constants.AGILITY) >= 35) {
 				p.getInventory().addItemDrop(359, 1);
 				p.sendMessage("Your quick reflexes allow you to catch an extra fish!", true);
 			}
-		}
 	}),
 	SWORDFISH(371, 50, 100, 8, 50, (p) -> {
-		if (Utils.random(10) == 0) {
+		if (Utils.random(10) == 0)
 			if (p.getSkills().getLevel(Constants.AGILITY) >= 50) {
 				p.getInventory().addItemDrop(371, 1);
 				p.sendMessage("Your quick reflexes allow you to catch an extra fish!", true);
 			}
-		}
 	}),
 
 	LOBSTER(377, 40, 90, 1, 120),
@@ -91,18 +89,17 @@ public enum Fish {
 	MONKFISH(7944, 62, 120, 25, 80),
 
 	SHARK(383, 76, 110, 1, 37, (p) -> {
-		if (Utils.random(10) == 0) {
+		if (Utils.random(10) == 0)
 			if (p.getSkills().getLevel(Constants.AGILITY) >= 76) {
 				p.getInventory().addItemDrop(383, 1);
 				p.sendMessage("Your quick reflexes allow you to catch an extra fish!", true);
 			}
-		}
 	}),
 
 	CAVEFISH(15264, 85, 300, -40, 40),
 
 	ROCKTAIL(15270, 90, 385, -35, 35);
-	
+
 	private static final int[] BONUS_FISH = { 341, 349, 401, 407 };
 
 	private int id, level;
@@ -120,19 +117,19 @@ public enum Fish {
 		this.extraReqs = extraReqs;
 		this.extraRewards = extraRewards;
 	}
-	
+
 	private Fish(int id, int level, double xp, int rate1, int rate99, Predicate<Player> extraReq) {
 		this(id, level, xp, rate1, rate99, extraReq, null);
 	}
-	
+
 	private Fish(int id, int level, double xp, int rate1, int rate99, Consumer<Player> extraRewards) {
 		this(id, level, xp, rate1, rate99, null, extraRewards);
 	}
-	
+
 	private Fish(int id, int level, double xp, int rate1, int rate99) {
 		this(id, level, xp, rate1, rate99, null, null);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -144,26 +141,24 @@ public enum Fish {
 	public double getXp() {
 		return xp;
 	}
-	
+
 	public boolean checkRequirements(Player player) {
 		return player.getSkills().getLevel(Constants.FISHING) >= level && (extraReqs != null ? extraReqs.test(player) : true);
 	}
-	
+
 	public boolean rollSuccess(Player player, int level) {
 		return Utils.skillSuccess(level, player.getAuraManager().getFishingMul(), rate1, rate99);
 	}
-	
+
 	public void giveFish(Player player, FishingSpot spot) {
 		Item fish = new Item(id);
 		int baitToDelete = -1;
-		if (spot.getBait() != null) {
-			for (int bait : spot.getBait()) {
+		if (spot.getBait() != null)
+			for (int bait : spot.getBait())
 				if (player.getInventory().containsItem(bait)) {
 					baitToDelete = bait;
 					break;
 				}
-			}
-		}
 		if (baitToDelete != -1)
 			player.getInventory().deleteItem(baitToDelete, 1);
 		double totalXp = xp;
@@ -179,12 +174,11 @@ public enum Fish {
 			player.getInventory().addItem(fish);
 		player.getSkills().addXp(Constants.FISHING, totalXp);
 		player.incrementCount(fish.getDefinitions().getName()+" caught fishing");
-		if (player.getFamiliar() != null) {
+		if (player.getFamiliar() != null)
 			if (Utils.getRandomInclusive(50) == 0 && Fishing.getSpecialFamiliarBonus(player.getFamiliar().getId()) > 0) {
 				player.getInventory().addItem(new Item(BONUS_FISH[Utils.random(BONUS_FISH.length)]));
 				player.getSkills().addXp(Constants.FISHING, 5.5);
 			}
-		}
 		if (extraRewards != null)
 			extraRewards.accept(player);
 	}

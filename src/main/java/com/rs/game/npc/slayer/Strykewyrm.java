@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -60,13 +60,13 @@ public class Strykewyrm extends NPC {
 			});
 		}
 	}
-	
+
 	@Override
 	public void handlePreHit(Hit hit) {
-		if (getId() == 9462 || getId() == 9463) {
+		if (getId() == 9462 || getId() == 9463)
 			if (hit.getSource() instanceof Player) {
 				Player player = (Player) hit.getSource();
-				
+
 				switch (getId()) {
 				case 9462:
 				case 9463:
@@ -75,9 +75,8 @@ public class Strykewyrm extends NPC {
 						hit.setDamage(0);
 						setCapDamage(0);
 					}
-					if (hit.getData("combatSpell") != null && hit.getData("combatSpell", CombatSpell.class).isFireSpell()) {
+					if (hit.getData("combatSpell") != null && hit.getData("combatSpell", CombatSpell.class).isFireSpell())
 						hit.setDamage(hit.getDamage() * 2);
-					}
 					break;
 				case 9464:
 				case 9465:
@@ -96,18 +95,16 @@ public class Strykewyrm extends NPC {
 					}
 					break;
 				}
-				
+
 				if (!player.getEquipment().hasFirecape() && !player.iceStrykeNoCape()) {
 					player.sendMessage("The strykewyrm numbs your hands and freezes your attack.");
 					hit.setDamage(0);
 					setCapDamage(0);
 					return;
-				} else {
-					if (getCapDamage() == 0)
-						setCapDamage(-1);
 				}
+				if (getCapDamage() == 0)
+					setCapDamage(-1);
 			}
-		}
 		super.handlePreHit(hit);
 	}
 
@@ -130,12 +127,11 @@ public class Strykewyrm extends NPC {
 				return;
 			}
 			if (npc.getAttackedBy() != player && npc.inCombat()) {
-				if (npc.getAttackedBy() instanceof NPC) {
-					npc.setAttackedBy(player);
-				} else {
+				if (!(npc.getAttackedBy() instanceof NPC)) {
 					player.sendMessage("That npc is already in combat.");
 					return;
 				}
+				npc.setAttackedBy(player);
 			}
 		}
 		switch (npc.getId()) {
@@ -193,7 +189,7 @@ public class Strykewyrm extends NPC {
 
 		}, 2);
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(9462, 9463, 9464, 9465, 9466, 9467) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

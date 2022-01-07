@@ -357,14 +357,14 @@ public class InterfaceManager {
 	}
 	
 	public void setInterface(boolean overlay, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
-		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
+		int parentUid = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
 		getInterfaceParentId(interfaceId);
 
-		Integer oldInterface = openedInterfaces.get(parentComponentUID);
-        if (oldInterface != null)
+		Integer oldInterface = openedInterfaces.get(parentUid);
+		if (oldInterface != null)
 			clearChilds(oldInterface);
 
-		openedInterfaces.put(parentComponentUID, interfaceId);
+		openedInterfaces.put(parentUid, interfaceId);
 		player.getPackets().sendInterface(overlay, parentInterfaceId, parentInterfaceComponentId, interfaceId);
 	}
 

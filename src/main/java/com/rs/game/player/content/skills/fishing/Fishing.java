@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -61,9 +61,9 @@ public class Fishing extends Action {
 		FISHING_SPOTS.put(6267, new FishingSpot[] { FishingSpot.CRAYFISH });
 		FISHING_SPOTS.put(8841, new FishingSpot[] { FishingSpot.CAVEFISH });
 		FISHING_SPOTS.put(8842, new FishingSpot[] { FishingSpot.ROCKTAIL });
-        FISHING_SPOTS.put(14907, new FishingSpot[] { FishingSpot.CRAYFISH });
+		FISHING_SPOTS.put(14907, new FishingSpot[] { FishingSpot.CRAYFISH });
 	}
-	
+
 	public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray()) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -81,7 +81,7 @@ public class Fishing extends Action {
 			e.getPlayer().sendMessage("You find a barbarian fishing rod under the bed.");
 		}
 	};
-	
+
 	public static ItemOnItemHandler handleKnifeOnBarbFish = new ItemOnItemHandler(946, new int[] { 11328, 11330, 11332 }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
@@ -98,9 +98,8 @@ public class Fishing extends Action {
 				e.getPlayer().getInventory().addItemDrop(fish.getId() == 11332 ? 11326 : 11324, 1);
 				e.getPlayer().getSkills().addXp(Constants.COOKING, fish.getId() == 11332 ? 15 : 10);
 			}
-			if (Utils.getRandomInclusive(100) > 70) {
+			if (Utils.getRandomInclusive(100) > 70)
 				e.getPlayer().getInventory().addItemDrop(11334, 1);
-			}
 		}
 	};
 
@@ -134,12 +133,11 @@ public class Fishing extends Action {
 		int level = player.getSkills().getLevel(Constants.FISHING);
 		if (player.getFamiliar() != null)
 			level += getSpecialFamiliarBonus(player.getFamiliar().getId());
-		for (Fish f : spot.getFish()) {
+		for (Fish f : spot.getFish())
 			if (f.checkRequirements(player) && f.rollSuccess(player, level)) {
 				f.giveFish(player, spot);
 				return 4;
 			}
-		}
 		return 4;
 	}
 
@@ -153,10 +151,9 @@ public class Fishing extends Action {
 			return false;
 		}
 		boolean hasTool = false;
-		for (int tool : spot.getTool()) {
+		for (int tool : spot.getTool())
 			if (player.getInventory().containsOneItem(tool) || player.getEquipment().getWeaponId() == tool)
 				hasTool = true;
-		}
 		if (!hasTool) {
 			player.sendMessage("You need a " + new Item(spot.getTool()[0]).getDefinitions().getName().toLowerCase() + " to fish here.");
 			return false;
@@ -179,7 +176,7 @@ public class Fishing extends Action {
 	public void stop(final Player player) {
 		setActionDelay(player, 4);
 	}
-	
+
 	public static int getSpecialFamiliarBonus(int id) {
 		switch (id) {
 		case 6796:
@@ -190,7 +187,7 @@ public class Fishing extends Action {
 		}
 		return 0;
 	}
-	
+
 	public static boolean hasFishingSuit(Player player) {
 		if (player.getEquipment().getHatId() == 24427 && player.getEquipment().getChestId() == 24428 && player.getEquipment().getLegsId() == 24429 && player.getEquipment().getBootsId() == 24430)
 			return true;
@@ -200,7 +197,6 @@ public class Fishing extends Action {
 	public static String getMessage(FishingSpot spot, Fish fish) {
 		if (fish == Fish.ANCHOVIES || fish == Fish.SHRIMP)
 			return "You manage to catch some " + ItemDefinitions.getDefs(fish.getId()).getName().toLowerCase() + ".";
-		else
-			return "You manage to catch a " + ItemDefinitions.getDefs(fish.getId()).getName().toLowerCase() + ".";
+		return "You manage to catch a " + ItemDefinitions.getDefs(fish.getId()).getName().toLowerCase() + ".";
 	}
 }

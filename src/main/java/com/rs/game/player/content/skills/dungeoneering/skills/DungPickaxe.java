@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,17 +32,17 @@ public enum DungPickaxe {
 	GORGONITE(16311, 80, 13082, 16),
 	PROMETHIUM(16313, 90, 13083, 17),
 	PRIMAL(16315, 99, 13084, 20);
-	
+
 	private int itemId, level, ticks;
 	private Animation animation;
 
 	private DungPickaxe(int itemId, int level, int animId, int ticks) {
 		this.itemId = itemId;
 		this.level = level;
-		this.animation = new Animation(animId);
+		animation = new Animation(animId);
 		this.ticks = ticks;
 	}
-	
+
 	public int getItemId() {
 		return itemId;
 	}
@@ -58,14 +58,13 @@ public enum DungPickaxe {
 	public Animation getAnimation() {
 		return animation;
 	}
-	
+
 	public static DungPickaxe getBest(Player player) {
 		for (int i = DungPickaxe.values().length-1; i >= 0; i--) {
 			DungPickaxe def = DungPickaxe.values()[i];
-			if (player.getInventory().containsItem(def.itemId) || player.getEquipment().getWeaponId() == def.itemId) {
+			if (player.getInventory().containsItem(def.itemId) || player.getEquipment().getWeaponId() == def.itemId)
 				if (player.getSkills().getLevel(Constants.MINING) >= def.level)
 					return def;
-			}
 		}
 		return null;
 	}

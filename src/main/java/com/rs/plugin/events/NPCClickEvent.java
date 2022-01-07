@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class NPCClickEvent implements PluginEvent {
-	
+
 	private static Map<Object, NPCClickHandler> HANDLERS = new HashMap<>();
 
 	private Player player;
@@ -39,7 +39,7 @@ public class NPCClickEvent implements PluginEvent {
 		this.npc = npc;
 		this.opNum = opNum;
 		this.atNPC = atNPC;
-		this.option = npc.getDefinitions(player).getOption(opNum-1);
+		option = npc.getDefinitions(player).getOption(opNum-1);
 	}
 
 	public Player getPlayer() {
@@ -49,7 +49,7 @@ public class NPCClickEvent implements PluginEvent {
 	public NPC getNPC() {
 		return npc;
 	}
-	
+
 	public int getNPCId() {
 		return npc.getId();
 	}
@@ -57,7 +57,7 @@ public class NPCClickEvent implements PluginEvent {
 	public String getOption() {
 		return option;
 	}
-	
+
 	public int getOpNum() {
 		return opNum;
 	}
@@ -73,9 +73,7 @@ public class NPCClickEvent implements PluginEvent {
 			method = HANDLERS.get(getNPC().getDefinitions().getName(getPlayer().getVars()));
 		if (method == null)
 			method = HANDLERS.get(getOption());
-		if (method == null)
-			return null;
-		if (!isAtNPC() && method.isCheckDistance())
+		if ((method == null) || (!isAtNPC() && method.isCheckDistance()))
 			return null;
 		return method;
 	}
@@ -83,9 +81,8 @@ public class NPCClickEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCClickHandler) method);
-			if (old != null) {
+			if (old != null)
 				System.err.println("ERROR: Duplicate NPCClick methods for key: " + key);
-			}
 		}
 	}
 

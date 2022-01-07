@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -39,29 +39,26 @@ public class NulodionD extends Conversation {
 	public static NPCClickHandler talkToNulodion = new NPCClickHandler(NULODION) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOption().equals("Talk-to")) {
+			if (e.getOption().equals("Talk-to"))
 				e.getPlayer().startConversation(new NulodionD(e.getPlayer()));
-			} else if (e.getOption().equals("Trade")) {
+			else if (e.getOption().equals("Trade")) {
 				if (!e.getPlayer().getQuestManager().isComplete(Quest.DWARF_CANNON)) {
 					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "Who are you?")));
 					return;
 				}
 				ShopsHandler.openShop(e.getPlayer(), "nulodions_cannon_parts");
-			} else if (e.getOption().equals("Replace-cannon")) {
-				if (DwarfMultiCannon.canFreelyReplace(e.getPlayer())) {
+			} else if (e.getOption().equals("Replace-cannon"))
+				if (DwarfMultiCannon.canFreelyReplace(e.getPlayer()))
 					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.HAPPY_TALKING, "Please try not to lose it next time..", () -> {
-						for (int item : DwarfMultiCannon.CANNON_PIECES[e.getPlayer().getPlacedCannon()-1]) {
+						for (int item : DwarfMultiCannon.CANNON_PIECES[e.getPlayer().getPlacedCannon()-1])
 							e.getPlayer().getInventory().addItemDrop(item, 1);
-						}
 						e.getPlayer().setPlacedCannon(0);
 					})));
-				} else {
+				else
 					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "I haven't found any cannons of yours.")));
-				}
-			}
 		}
 	};
-	
+
 	public static ItemClickHandler handleNotes = new ItemClickHandler(new Object[] { NULODIONS_NOTES }, new String[] { "Read" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -84,18 +81,16 @@ public class NulodionD extends Conversation {
 			});
 			addPlayer(HeadE.HAPPY_TALKING, "That's great, thanks.");
 			addNPC(NULODION, HeadE.HAPPY_TALKING, "Thank you, adventurer. The Dwarf Black Guard will remember this.");
+		} else if (player.getQuestManager().isComplete(Quest.DWARF_CANNON) && !player.getInventory().containsItem(AMMO_MOULD) && !player.getBank().containsItem(AMMO_MOULD, 1)) {
+			addPlayer(HeadE.UPSET, "Hello again.");
+			addPlayer(HeadE.UPSET, "I've lost the cannonball mould.");
+			addNPC(NULODION, HeadE.SHAKING_HEAD, "Deary me, you are trouble. Here, take this one.");
+			addItem(AMMO_MOULD, "The cannon engineer gives you another ammo mould.", () -> {
+				player.getInventory().addItemDrop(AMMO_MOULD, 1);
+			});
 		} else {
-			if (player.getQuestManager().isComplete(Quest.DWARF_CANNON) && !player.getInventory().containsItem(AMMO_MOULD) && !player.getBank().containsItem(AMMO_MOULD, 1)) {
-				addPlayer(HeadE.UPSET, "Hello again.");
-				addPlayer(HeadE.UPSET, "I've lost the cannonball mould.");
-				addNPC(NULODION, HeadE.SHAKING_HEAD, "Deary me, you are trouble. Here, take this one.");
-				addItem(AMMO_MOULD, "The cannon engineer gives you another ammo mould.", () -> {
-					player.getInventory().addItemDrop(AMMO_MOULD, 1);
-				});
-			} else {
-				addPlayer(HeadE.NO_EXPRESSION, "Hello again.");
-				addNPC(NULODION, HeadE.NO_EXPRESSION, "Hello.");
-			}
+			addPlayer(HeadE.NO_EXPRESSION, "Hello again.");
+			addNPC(NULODION, HeadE.NO_EXPRESSION, "Hello.");
 		}
 		create();
 	}

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,7 +35,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.XPGainEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
@@ -43,40 +42,40 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 public final class Skills {
 
 	public static final double MAXIMUM_EXP = 200000000;
-    public static final int
-            ATTACK = 0,
-            DEFENSE = 1,
-            STRENGTH = 2,
-            HITPOINTS = 3,
-            RANGE = 4,
-            PRAYER = 5,
-            MAGIC = 6,
-            COOKING = 7,
-            WOODCUTTING = 8,
-            FLETCHING = 9,
-            FISHING = 10,
-            FIREMAKING = 11,
-            CRAFTING = 12,
-            SMITHING = 13,
-            MINING = 14,
-            HERBLORE = 15,
-            AGILITY = 16,
-            THIEVING = 17,
-            SLAYER = 18,
-            FARMING = 19,
-            RUNECRAFTING = 20,
-            HUNTER = 21,
-            CONSTRUCTION = 22,
-            SUMMONING = 23,
-            DUNGEONEERING = 24;
+	public static final int
+	ATTACK = 0,
+	DEFENSE = 1,
+	STRENGTH = 2,
+	HITPOINTS = 3,
+	RANGE = 4,
+	PRAYER = 5,
+	MAGIC = 6,
+	COOKING = 7,
+	WOODCUTTING = 8,
+	FLETCHING = 9,
+	FISHING = 10,
+	FIREMAKING = 11,
+	CRAFTING = 12,
+	SMITHING = 13,
+	MINING = 14,
+	HERBLORE = 15,
+	AGILITY = 16,
+	THIEVING = 17,
+	SLAYER = 18,
+	FARMING = 19,
+	RUNECRAFTING = 20,
+	HUNTER = 21,
+	CONSTRUCTION = 22,
+	SUMMONING = 23,
+	DUNGEONEERING = 24;
 
 	public static int SIZE = 25;
 
-    public static final String[] SKILL_NAME = { "Attack", "Defence", "Strength", "Constitution", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblore", "Agility",
-            "Thieving", "Slayer", "Farming", "Runecrafting", "Hunter", "Construction", "Summoning", "Dungeoneering" };
+	public static final String[] SKILL_NAME = { "Attack", "Defence", "Strength", "Constitution", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblore", "Agility",
+			"Thieving", "Slayer", "Farming", "Runecrafting", "Hunter", "Construction", "Summoning", "Dungeoneering" };
 
 	public static final int NONE = -1;
-	
+
 	public static final int[] SKILLING = { PRAYER, COOKING, WOODCUTTING, FLETCHING, FISHING, FIREMAKING, CRAFTING, SMITHING, MINING, HERBLORE, AGILITY, THIEVING, SLAYER, FARMING, HUNTER, CONSTRUCTION, DUNGEONEERING };
 	public static final int[] COMBAT = { ATTACK, DEFENSE, STRENGTH, RANGE, MAGIC };
 
@@ -99,8 +98,8 @@ public final class Skills {
 	private transient int[] lastCheckedLevels = new int[25];
 
 	public void passLevels(Player p) {
-		this.level = p.getSkills().level;
-		this.xp = p.getSkills().xp;
+		level = p.getSkills().level;
+		xp = p.getSkills().xp;
 	}
 
 	public Skills() {
@@ -124,27 +123,25 @@ public final class Skills {
 		for (int i = 0; i < trackSkillsIds.length; i++)
 			trackSkillsIds[i] = 30;
 	}
-	
+
 	public boolean checkMulti99s() {
 		int num99s = 0;
-		for (int i = 0;i < xp.length;i++) {
+		for (int i = 0;i < xp.length;i++)
 			if (getLevelForXp(i) >= 99)
 				num99s++;
-		}
 		return num99s > 1;
 	}
-	
+
 	public void trimCapes() {
-		if (checkMulti99s()) {
+		if (checkMulti99s())
 			for (Skillcapes cape : Skillcapes.values()) {
 				if (player.getEquipment().getCapeId() == cape.untrimmed) {
 					player.getEquipment().set(Equipment.CAPE, new Item(cape.trimmed, 1));
 					player.getAppearance().generateAppearanceData();
 				}
 				for(int i = 0;i < player.getInventory().getItems().getSize();i++) {
-					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getId() == cape.untrimmed) {
+					if (player.getInventory().getItem(i) != null && player.getInventory().getItem(i).getId() == cape.untrimmed)
 						player.getInventory().replaceItem(cape.trimmed, 1, i);
-					}
 					player.getInventory().refresh();
 				}
 				for(int tab = 0;tab < player.getBank().getBankTabs().length;tab++) {
@@ -160,9 +157,8 @@ public final class Skills {
 					}
 				}
 			}
-		}
 	}
-	
+
 	public static int getTargetIdByComponentId(int componentId) {
 		switch (componentId) {
 		case 150: // Attack
@@ -276,7 +272,7 @@ public final class Skills {
 			return -1;
 		}
 	}
-	
+
 	public static int getTargetIdBySkillId(int targetId) {
 		switch (targetId) {
 		case Constants.ATTACK:
@@ -333,7 +329,7 @@ public final class Skills {
 			return -1;
 		}
 	}
-	
+
 	public static ButtonClickHandler handleLevelupButtons = new ButtonClickHandler(741) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -341,14 +337,14 @@ public final class Skills {
 				e.getPlayer().getInterfaceManager().sendInterface(499);
 		}
 	};
-	
+
 	public static ButtonClickHandler handleGuideButtons = new ButtonClickHandler(499) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			e.getPlayer().getVars().setVarBit(3289, e.getComponentId()-9);
 		}
 	};
-	
+
 	public static ButtonClickHandler handleSkillTabButtons = new ButtonClickHandler(320) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -375,44 +371,36 @@ public final class Skills {
 			} else if (e.getPacket() == ClientPacket.IF_OP2 || e.getPacket() == ClientPacket.IF_OP3) {
 				int skillId = Skills.getSkillIdByTargetId(Skills.getTargetIdByComponentId(e.getComponentId()));
 				final boolean usingLevel = e.getPacket() == ClientPacket.IF_OP2;
-				e.getPlayer().sendInputInteger("Please enter target " + (usingLevel ? "level" : "xp") + " you want to set: ", new InputIntegerEvent() {
-					@Override
-					public void run(int integer) {
-						if (!usingLevel) {
-							int xpTarget = integer;
-							if (xpTarget < e.getPlayer().getSkills().getXp(skillId) || e.getPlayer().getSkills().getXp(skillId) >= 200000000) {
-								return;
-							}
-							if (xpTarget > 200000000) {
-								xpTarget = 200000000;
-							}
-							e.getPlayer().getSkills().setSkillTarget(false, skillId, xpTarget);
+				e.getPlayer().sendInputInteger("Please enter target " + (usingLevel ? "level" : "xp") + " you want to set: ", integer -> {
+					if (!usingLevel) {
+						int xpTarget = integer;
+						if (xpTarget < e.getPlayer().getSkills().getXp(skillId) || e.getPlayer().getSkills().getXp(skillId) >= 200000000)
+							return;
+						if (xpTarget > 200000000)
+							xpTarget = 200000000;
+						e.getPlayer().getSkills().setSkillTarget(false, skillId, xpTarget);
 
-						} else {
-							int levelTarget = integer;
-							int curLevel = e.getPlayer().getSkills().getLevel(skillId);
-							if (curLevel >= (skillId == 24 ? 120 : 99)) {
-								return;
-							}
-							if (levelTarget > (skillId == 24 ? 120 : 99)) {
-								levelTarget = skillId == 24 ? 120 : 99;
-							}
-							if (levelTarget < e.getPlayer().getSkills().getLevel(skillId)) {
-								return;
-							}
-							e.getPlayer().getSkills().setSkillTarget(true, skillId, levelTarget);
-						}
+					} else {
+						int levelTarget = integer;
+						int curLevel = e.getPlayer().getSkills().getLevel(skillId);
+						if (curLevel >= (skillId == 24 ? 120 : 99))
+							return;
+						if (levelTarget > (skillId == 24 ? 120 : 99))
+							levelTarget = skillId == 24 ? 120 : 99;
+						if (levelTarget < e.getPlayer().getSkills().getLevel(skillId))
+							return;
+						e.getPlayer().getSkills().setSkillTarget(true, skillId, levelTarget);
 					}
 				});
 			} else if (e.getPacket() == ClientPacket.IF_OP4) {
 				int skillId = Skills.getSkillIdByTargetId(Skills.getTargetIdByComponentId(e.getComponentId()));
 				e.getPlayer().getSkills().setSkillTargetEnabled(skillId, false);
 				e.getPlayer().getSkills().setSkillTargetValue(skillId, 0);
-				e.getPlayer().getSkills().setSkillTargetUsingLevelMode(skillId, false);		
+				e.getPlayer().getSkills().setSkillTargetUsingLevelMode(skillId, false);
 			}
 		}
 	};
-	
+
 	private static int getVarcIdFromTarget(int targetId) {
 		switch(targetId) {
 		case 0:
@@ -468,7 +456,7 @@ public final class Skills {
 		}
 		return -1;
 	}
-	
+
 	public static ButtonClickHandler handleSkillGuideButtons = new ButtonClickHandler(1218) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -479,34 +467,28 @@ public final class Skills {
 
 	public void refreshEnabledSkillsTargets() {
 		int value = 0;
-		for (int i = 0;i < enabledSkillsTargets.length;i++) {
-			if (enabledSkillsTargets[i]) {
+		for (int i = 0;i < enabledSkillsTargets.length;i++)
+			if (enabledSkillsTargets[i])
 				value |= 1 << getTargetIdBySkillId(i);
-			}
-		}
 		player.getVars().setVar(1966, value);
 	}
 
 	public void refreshUsingLevelTargets() {
 		int value = 0;
-		for (int i = 0;i < skillsTargetsUsingLevelMode.length;i++) {
-			if (skillsTargetsUsingLevelMode[i]) {
+		for (int i = 0;i < skillsTargetsUsingLevelMode.length;i++)
+			if (skillsTargetsUsingLevelMode[i])
 				value |= 1 << getTargetIdBySkillId(i);
-			}
-		}
 		player.getVars().setVar(1968, value);
 	}
 
 	public void refreshSkillsTargetsValues() {
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 25; i++)
 			player.getVars().setVar(1969 + getTargetIdBySkillId(i)-1, skillsTargetsValues[i]);
-		}
 	}
-	
+
 	public void refreshSkillTargetStartValues() {
-		for (int i = 0; i < 25; i++) {
+		for (int i = 0; i < 25; i++)
 			player.getVars().setVar(1994 + getTargetIdBySkillId(i)-1, skillTargetStartValues[i]);
-		}
 	}
 
 	public void setSkillTargetEnabled(int id, boolean enabled) {
@@ -523,7 +505,7 @@ public final class Skills {
 		skillsTargetsValues[skillId] = value;
 		refreshSkillsTargetsValues();
 	}
-	
+
 	public void setSkillTargetStartValue(int skillId, int value) {
 		if (skillTargetStartValues == null)
 			skillTargetStartValues = new int[25];
@@ -581,7 +563,7 @@ public final class Skills {
 	public void refreshCounterXp(int counter) {
 		player.getVars().setVar(counter == 0 ? 1801 : 2474 + counter, (int) (xpTracks[counter] * 10));
 	}
-	
+
 	public static ButtonClickHandler handleSetupXPCounter = new ButtonClickHandler(1214) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -685,7 +667,7 @@ public final class Skills {
 		}
 		return true;
 	}
-	
+
 	public int getCombatLevel() {
 		return getCombatLevel(false);
 	}
@@ -699,12 +681,10 @@ public final class Skills {
 		int rangeBased = (int) (getLevelForXp(Constants.RANGE) * 1.5);
 		int magicBased = (int) (getLevelForXp(Constants.MAGIC) * 1.5);
 		int realBase = meleeBased;
-		if (rangeBased > realBase) {
+		if (rangeBased > realBase)
 			realBase = rangeBased;
-		}
-		if (magicBased > realBase) {
+		if (magicBased > realBase)
 			realBase = magicBased;
-		}
 		realBase *= 1.3;
 		realBase = (realBase + getLevelForXp(Constants.DEFENSE) + getLevelForXp(Constants.HITPOINTS) + (getLevelForXp(Constants.PRAYER) / 2) + (summ ? (getLevelForXp(Constants.SUMMONING) / 2) : 0)) / 4;
 		return realBase;
@@ -717,13 +697,11 @@ public final class Skills {
 
 	public int drainLevel(int skill, int drain) {
 		int drainLeft = drain - level[skill];
-		if (drainLeft < 0) {
+		if (drainLeft < 0)
 			drainLeft = 0;
-		}
 		level[skill] -= drain;
-		if (level[skill] < 0) {
+		if (level[skill] < 0)
 			level[skill] = 0;
-		}
 		markForRefresh(skill);
 		return drainLeft;
 	}
@@ -740,9 +718,8 @@ public final class Skills {
 		int output = 0;
 		for (int lvl = 1; lvl <= level; lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
-			if (lvl >= level) {
+			if (lvl >= level)
 				return output;
-			}
 			output = (int) Math.floor(points / 4);
 		}
 		return 0;
@@ -755,31 +732,28 @@ public final class Skills {
 		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : 99); lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
 			output = (int) Math.floor(points / 4);
-			if ((output - 1) >= exp) {
+			if ((output - 1) >= exp)
 				return lvl;
-			}
 		}
 		return skill == Constants.DUNGEONEERING ? 120 : 99;
 	}
-	
+
 	public static int getLevelForXp(int skill, long xp) {
 		int points = 0;
 		int output = 0;
 		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : 99); lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
 			output = (int) Math.floor(points / 4);
-			if ((output - 1) >= Math.floor(xp)) {
+			if ((output - 1) >= Math.floor(xp))
 				return lvl;
-			}
 		}
 		return skill == Constants.DUNGEONEERING ? 120 : 99;
 	}
 
 	public int getTotalLevel() {
 		int totalLevel = 0;
-		for (int i = 0; i < level.length; i++) {
+		for (int i = 0; i < level.length; i++)
 			totalLevel += getLevelForXp(i);
-		}
 		return totalLevel;
 	}
 
@@ -802,7 +776,7 @@ public final class Skills {
 		refreshSkillsTargetsValues();
 		updateXPDrops();
 	}
-	
+
 	public void queueBonusXPDrop(double amount) {
 		bonusXpDrop += amount * 10.0;
 	}
@@ -810,11 +784,11 @@ public final class Skills {
 	public void markForRefresh(int skill) {
 		markedForUpdate.add(skill);
 	}
-	
+
 	public void updateXPDrops() {
 		if (bonusXpDrop > 0)
 			player.getVars().setVar(2044, (int) bonusXpDrop);
- 		else
+		else
 			player.getVars().setVar(2044, 0);
 		player.getVars().syncVarsToClient();
 		player.getPackets().updateStats(player, markedForUpdate.stream().mapToInt(e -> e.intValue()).toArray());
@@ -825,9 +799,9 @@ public final class Skills {
 		bonusXpDrop = 0;
 	}
 
-    public static final int[] SKILL_LEVEL_UP_MUSIC_EFFECTS = { 30, 38, 65, 48,
-            58, 56, 52, 34, 70, 44, 42, 39, 36, 64, 54, 46, 28, 68, 62, -1, 60,
-            50, 32, 300, 417 };
+	public static final int[] SKILL_LEVEL_UP_MUSIC_EFFECTS = { 30, 38, 65, 48,
+			58, 56, 52, 34, 70, 44, 42, 39, 36, 64, 54, 46, 28, 68, 62, -1, 60,
+			50, 32, 300, 417 };
 
 	private void sendLevelUp(int skill) {
 		int level = getLevelForXp(skill);
@@ -837,23 +811,21 @@ public final class Skills {
 		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
 		if (musicEffect != -1)
 			player.getPackets().sendMusicEffect(musicEffect);
-		if (!player.hasRights(Rights.ADMIN) && (level == 99 || level == 120)) {
+		if (!player.hasRights(Rights.ADMIN) && (level == 99 || level == 120))
 			checkMaxedNotification(player, skill, level);
-		}
 	}
-	
+
 	public static void checkMaxedNotification(Player player, int skill, int level) {
 		boolean reachedAll = true;
-		for (int i = 0; i < Constants.SKILL_NAME.length; i++) {
+		for (int i = 0; i < Constants.SKILL_NAME.length; i++)
 			if (player.getSkills().getLevelForXp(i) < 99) {
 				reachedAll = false;
 				break;
 			}
-		}
 		if (reachedAll)
 			World.sendWorldMessage("<img=7><col=ff0000>News: " + player.getDisplayName() + " has just achieved at least level 99 in all skills!", false);
 	}
-	
+
 	public static void switchFlash(Player player, int skill, boolean on) {
 		int id;
 		if (skill == Constants.ATTACK)
@@ -969,39 +941,35 @@ public final class Skills {
 
 	public double addXpLamp(int skill, double exp) {
 		player.getControllerManager().trackXP(skill, (int) exp);
-		
+
 		int oldLevel = getLevelForXp(skill);
 		double oldXp = xp[skill];
 		if (!player.getControllerManager().gainXP(skill, exp))
 			return 0.0;
-		
+
 		if (Settings.getConfig().getXpRate() > 1)
 			exp *= Settings.getConfig().getXpRate();
-		
+
 		xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
 		double newXp = xp[skill];
-		for (int i = 0; i < trackSkills.length; i++) {
-			if (trackSkills[i]) {
+		for (int i = 0; i < trackSkills.length; i++)
+			if (trackSkills[i])
 				if (trackSkillsIds[i] == 30 || (trackSkillsIds[i] == 29 && (skill == Constants.ATTACK || skill == Constants.DEFENSE || skill == Constants.STRENGTH || skill == Constants.MAGIC || skill == Constants.RANGE || skill == Constants.HITPOINTS))
-						|| trackSkillsIds[i] == getCounterSkill(skill)) {
+				|| trackSkillsIds[i] == getCounterSkill(skill)) {
 					xpTracks[i] += exp;
 					refreshCounterXp(i);
 				}
-			}
-		}
 
-		if (xp[skill] > MAXIMUM_EXP) {
+		if (xp[skill] > MAXIMUM_EXP)
 			xp[skill] = MAXIMUM_EXP;
-		}
 
 		if (oldLevel < 99 && newLevel >= 99) {
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved 99 " + Constants.SKILL_NAME[skill] + "!", false);
 			trimCapes();
 		}
-		if (oldXp <= 104273166 && newXp > 104273166) {
+		if (oldXp <= 104273166 && newXp > 104273166)
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved the equivalent of 120 " + Constants.SKILL_NAME[skill] + "!", false);
-		}
 
 		int levelDiff = newLevel - oldLevel;
 		if (newLevel > oldLevel) {
@@ -1029,10 +997,10 @@ public final class Skills {
 		player.getControllerManager().trackXP(skill, (int) exp);
 		if (player.isXpLocked())
 			return;
-		
+
 		if (Settings.getConfig().getXpRate() > 1)
 			exp *= Settings.getConfig().getXpRate();
-		
+
 		int oldLevel = getLevelForXp(skill);
 		double oldXp = xp[skill];
 		if (!player.getControllerManager().gainXP(skill, exp))
@@ -1040,27 +1008,23 @@ public final class Skills {
 		xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
 		double newXp = xp[skill];
-		for (int i = 0; i < trackSkills.length; i++) {
-			if (trackSkills[i]) {
+		for (int i = 0; i < trackSkills.length; i++)
+			if (trackSkills[i])
 				if (trackSkillsIds[i] == 30 || (trackSkillsIds[i] == 29 && (skill == Constants.ATTACK || skill == Constants.DEFENSE || skill == Constants.STRENGTH || skill == Constants.MAGIC || skill == Constants.RANGE || skill == Constants.HITPOINTS))
-						|| trackSkillsIds[i] == getCounterSkill(skill)) {
+				|| trackSkillsIds[i] == getCounterSkill(skill)) {
 					xpTracks[i] += exp;
 					refreshCounterXp(i);
 				}
-			}
-		}
 
-		if (xp[skill] > MAXIMUM_EXP) {
+		if (xp[skill] > MAXIMUM_EXP)
 			xp[skill] = MAXIMUM_EXP;
-		}
 
 		if (oldLevel < 99 && newLevel >= 99) {
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved 99 " + Constants.SKILL_NAME[skill] + "!", false);
 			trimCapes();
 		}
-		if (oldXp <= 104273166 && newXp > 104273166) {
+		if (oldXp <= 104273166 && newXp > 104273166)
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved the equivalent of 120 " + Constants.SKILL_NAME[skill] + "!", false);
-		}
 
 		int levelDiff = newLevel - oldLevel;
 		if (newLevel > oldLevel) {
@@ -1088,26 +1052,26 @@ public final class Skills {
 		PluginManager.handle(new XPGainEvent(player, skill, exp));
 		if (player.isXpLocked())
 			return;
-		
+
 		if (Settings.getConfig().getXpRate() > 1)
 			exp *= Settings.getConfig().getXpRate();
-		
+
 		double modifier = 1.0;
-		
+
 		if (Utils.random(600) == 0)
 			RandomEvents.attemptSpawnRandom(player);
-		
+
 		modifier += getBrawlerModifiers(skill);
 
 		if (player.hasEffect(Effect.DOUBLE_XP))
 			modifier += 1.0;
-		
+
 		if (player.getBonusXpRate() > 0.0)
 			modifier += player.getBonusXpRate();
-		
+
 		if (player.getAuraManager().isActivated(Aura.WISDOM))
 			modifier += 0.025;
-		
+
 		if (modifier > 1.0) {
 			double origXp = exp;
 			exp *= modifier;
@@ -1120,27 +1084,23 @@ public final class Skills {
 		xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
 		double newXp = xp[skill];
-		for (int i = 0; i < trackSkills.length; i++) {
-			if (trackSkills[i]) {
+		for (int i = 0; i < trackSkills.length; i++)
+			if (trackSkills[i])
 				if (trackSkillsIds[i] == 30 || (trackSkillsIds[i] == 29 && (skill == Constants.ATTACK || skill == Constants.DEFENSE || skill == Constants.STRENGTH || skill == Constants.MAGIC || skill == Constants.RANGE || skill == Constants.HITPOINTS))
-						|| trackSkillsIds[i] == getCounterSkill(skill)) {
+				|| trackSkillsIds[i] == getCounterSkill(skill)) {
 					xpTracks[i] += exp;
 					refreshCounterXp(i);
 				}
-			}
-		}
 
-		if (xp[skill] > MAXIMUM_EXP) {
+		if (xp[skill] > MAXIMUM_EXP)
 			xp[skill] = MAXIMUM_EXP;
-		}
 
 		if (oldLevel < 99 && newLevel >= 99) {
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved 99 " + Constants.SKILL_NAME[skill] + "!", false);
 			trimCapes();
 		}
-		if (oldXp <= 104273166 && newXp > 104273166) {
+		if (oldXp <= 104273166 && newXp > 104273166)
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has achieved the equivalent of 120 " + Constants.SKILL_NAME[skill] + "!", false);
-		}
 		int levelDiff = newLevel - oldLevel;
 		if (newLevel > oldLevel) {
 			level[skill] += levelDiff;
@@ -1161,7 +1121,7 @@ public final class Skills {
 		}
 		markForRefresh(skill);
 	}
-	
+
 	private double processBrawlers(Item gloves, int charges, int skill, int... validSkills) {
 		boolean validSkill = false;
 		for (int valid : validSkills)
@@ -1180,8 +1140,7 @@ public final class Skills {
 		}
 		if (player.getControllerManager().getController() != null && player.getControllerManager().getController() instanceof WildernessController)
 			return 2.0;
-		else
-			return 0.5;
+		return 0.5;
 	}
 
 	public double getBrawlerModifiers(int skill) {
@@ -1242,13 +1201,12 @@ public final class Skills {
 
 	public boolean isMaxed(boolean compCape) {
 		boolean maxed = true;
-		for (int i = 0; i < level.length; i++) {
+		for (int i = 0; i < level.length; i++)
 			if (getLevelForXp(i) < 99) {
 				if (player != null)
 					player.sendMessage("You need a " + Constants.SKILL_NAME[i] + " level of 99.");
 				maxed = false;
 			}
-		}
 		if (compCape && (getLevelForXp(Constants.DUNGEONEERING) < 120)) {
 			if (player != null)
 				player.sendMessage("You need a Dungeoneering level of 120.");
@@ -1259,33 +1217,29 @@ public final class Skills {
 
 	public long getTotalXp() {
 		long totalXp = 0;
-		for (int i = 0; i < level.length; i++) {
+		for (int i = 0; i < level.length; i++)
 			totalXp += xp[i];
-		}
 		return totalXp;
 	}
-	
+
 	public static int getSkillIndex(String skillName) {
-		for (int i = 0; i < Constants.SKILL_NAME.length; i++) {
+		for (int i = 0; i < Constants.SKILL_NAME.length; i++)
 			if (skillName.equalsIgnoreCase(Constants.SKILL_NAME[i]))
 				return i;
-		}
 		return 0;
 	}
 
 	public double getXp(String skillName) {
-		for (int i = 0; i < Constants.SKILL_NAME.length; i++) {
+		for (int i = 0; i < Constants.SKILL_NAME.length; i++)
 			if (skillName.equalsIgnoreCase(Constants.SKILL_NAME[i]))
 				return xp[i];
-		}
 		return 0.0;
 	}
 
 	public boolean is120(int skillId) {
 		if (xp[skillId] >= 104273166)
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public int[] getXpInt() {
@@ -1306,14 +1260,13 @@ public final class Skills {
 	}
 
 	public void divideXp(double xpRate) {
-		if (xpRate > 2) {
+		if (xpRate > 2)
 			for (int i = 0;i < xp.length;i++) {
 				xp[i] = xp[i] / xpRate;
 				level[i] = (short) getLevelForXp(i);
 			}
-		}
 	}
-	
+
 	public void adjustStat(int baseMod, double mul, int... skills) {
 		for (int i : skills)
 			adjustStat(baseMod, mul, true, i);
@@ -1323,7 +1276,7 @@ public final class Skills {
 		for (int i : skills)
 			adjustStat(baseMod, mul, boost, i);
 	}
-	
+
 	public void adjustStat(int baseMod, double mul, boolean boost, int skill) {
 		int realLevel = getLevelForXp(skill);
 		int realBoost = (int) (baseMod + (getLevel(skill) * mul));

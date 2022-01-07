@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,7 +32,7 @@ public class MutatedZygomite extends ConditionalDeath {
 
 	public MutatedZygomite(int id, WorldTile tile) {
 		super(7421, null, false, id, tile);
-		this.lvl74 = id == 3344;
+		lvl74 = id == 3344;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class MutatedZygomite extends ConditionalDeath {
 		setNextNPCTransformation(lvl74 ? 3344 : 3345);
 		setNextWorldTile(getRespawnTile());
 	}
-	
+
 	@Override
 	public void onRespawn() {
 		resetNPC();
@@ -69,7 +69,7 @@ public class MutatedZygomite extends ConditionalDeath {
 			}
 		}, 1);
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3344, 3345, 3346, 3347) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

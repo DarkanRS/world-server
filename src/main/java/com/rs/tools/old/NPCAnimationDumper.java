@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -47,12 +47,11 @@ public class NPCAnimationDumper {
 			AnimationDefinitions anim = AnimationDefinitions.getDefs(render.standAnimation);
 			if (anim.anIntArray5923 == null)
 				continue;
-			ArrayList<AnimationDefinitions> relatedDefs = new ArrayList<AnimationDefinitions>();
+			ArrayList<AnimationDefinitions> relatedDefs = new ArrayList<>();
 			for (int i = 0;i < Utils.getAnimationDefinitionsSize();i++) {
 				AnimationDefinitions def = AnimationDefinitions.getDefs(i);
-				if (def.anIntArray5923 != null && def.anIntArray5923[0] == anim.anIntArray5923[0]) {
+				if (def.anIntArray5923 != null && def.anIntArray5923[0] == anim.anIntArray5923[0])
 					relatedDefs.add(def);
-				}
 			}
 			writer.append(id + " (" + npc.getName() + ") - " + Arrays.toString(relatedDefs.stream().map(def -> def.id + " (" + (def.getEmoteTime()/1000.0) + " secs)").toArray()));
 			writer.newLine();

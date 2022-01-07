@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -37,15 +37,14 @@ public class LivingRockStrickerCombat extends CombatScript {
 		int distanceX = target.getX() - npc.getX();
 		int distanceY = target.getY() - npc.getY();
 		int size = npc.getSize();
-		if (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1) {
-			// TODO add projectile
-			npc.setNextAnimation(new Animation(12196));
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target)));
-		} else {
+		if ((distanceX <= size) && (distanceX >= -1) && (distanceY <= size) && (distanceY >= -1)) {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 84, AttackStyle.MELEE, target)));
 			return npc.getAttackSpeed();
 		}
+		// TODO add projectile
+		npc.setNextAnimation(new Animation(12196));
+		delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target)));
 
 		return npc.getAttackSpeed();
 	}

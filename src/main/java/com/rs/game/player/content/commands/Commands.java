@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -42,17 +42,17 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.events.DialogueOptionEvent;
 
 public final class Commands {
-	
+
 	private static Map<Rights, Map<String , Command>> COMMANDS = new HashMap<>();
 	private static Map<Rights, Set<Command>> UNIQUE_COMMANDS = new HashMap<>();
-	
+
 	static {
 		for (Rights r : Rights.values()) {
 			COMMANDS.put(r, new HashMap<String, Command>());
 			UNIQUE_COMMANDS.put(r, new HashSet<Command>());
 		}
 	}
-	
+
 	public static Set<Command> getCommands(Rights rights) {
 		return UNIQUE_COMMANDS.get(rights);
 	}
@@ -87,15 +87,13 @@ public final class Commands {
 		if (commandStr.length() == 0)
 			return false;
 		String[] cmd = commandStr.split(" ");
-		if (cmd.length == 0)
-			return false;
-		if (cmd.length == 0)
+		if ((cmd.length == 0) || (cmd.length == 0))
 			return false;
 
 		String[] args = new String[cmd.length - 1];
 		for (int i = 1; i < cmd.length; i++)
 			args[i - 1] = cmd[i];
-		
+
 		for (int i = Rights.values().length-1;i >= 0;i--) {
 			if (player.getRights().ordinal() < Rights.values()[i].ordinal())
 				continue;
@@ -107,7 +105,7 @@ public final class Commands {
 		}
 		return false;
 	}
-	
+
 	@SuppressWarnings("unused")
 	private static boolean REFACTOR_ALL_THESE_INTO_NEW_SYSTEM(final Player p, String[] casedCmd, String[] args, boolean console, boolean clientCommand) {
 		switch (args[0]) {
@@ -154,47 +152,39 @@ public final class Commands {
 			return true;
 
 		case "snow":
-			for (int x = 0; x < 5; x++) {
-				for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++)
+				for (int y = 0; y < 5; y++)
 					World.spawnObject(new GameObject(3701, ObjectType.SCENERY_INTERACT, 1, p.getX() + (x * 10), p.getY() + (y * 10), 3));
-				}
-			}
-			for (int x = 0; x < 5; x++) {
-				for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++)
+				for (int y = 0; y < 5; y++)
 					World.spawnObject(new GameObject(3701, ObjectType.SCENERY_INTERACT, 1, p.getX() - (x * 10), p.getY() - (y * 10), 3));
-				}
-			}
-			for (int x = 0; x < 5; x++) {
-				for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++)
+				for (int y = 0; y < 5; y++)
 					World.spawnObject(new GameObject(3701, ObjectType.SCENERY_INTERACT, 1, p.getX() + (x * 10), p.getY() - (y * 10), 3));
-				}
-			}
-			for (int x = 0; x < 5; x++) {
-				for (int y = 0; y < 5; y++) {
+			for (int x = 0; x < 5; x++)
+				for (int y = 0; y < 5; y++)
 					World.spawnObject(new GameObject(3701, ObjectType.SCENERY_INTERACT, 1, p.getX() - (x * 10), p.getY() + (y * 10), 3));
-				}
-			}
 			return true;
 
 		case "glowme":
 			p.setNextBodyGlow(new BodyGlow(500, Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4])));
 			return true;
 
-//		case "getaccs":
-//			ArrayList<String> ips = Utils.getCharactersWithIP(args[1]);
-//			p.getPackets().sendRunScriptReverse(1207, new Object[] { ips.size() });
-//			p.getInterfaceManager().sendInterface(275);
-//			p.getPackets().setIFText(275, 1, "Characters with IP:  " + args[1]);
-//			int numa = 10;
-//			for (String ip : ips) {
-//				if (numa > 288)
-//					break;
-//				if (ip == null)
-//					continue;
-//				p.getPackets().setIFText(275, numa, ip);
-//				numa++;
-//			}
-//			return true;
+			//		case "getaccs":
+			//			ArrayList<String> ips = Utils.getCharactersWithIP(args[1]);
+			//			p.getPackets().sendRunScriptReverse(1207, new Object[] { ips.size() });
+			//			p.getInterfaceManager().sendInterface(275);
+			//			p.getPackets().setIFText(275, 1, "Characters with IP:  " + args[1]);
+			//			int numa = 10;
+			//			for (String ip : ips) {
+			//				if (numa > 288)
+			//					break;
+			//				if (ip == null)
+			//					continue;
+			//				p.getPackets().setIFText(275, numa, ip);
+			//				numa++;
+			//			}
+			//			return true;
 
 		case "script":
 			p.getPackets().sendRunScript(Integer.valueOf(args[1]));
@@ -220,11 +210,9 @@ public final class Commands {
 
 		case "loadouts":
 			String loadouts = "";
-			for (String keys : p.getSavingAttributes().keySet()) {
-				if (keys.contains("loadoutinv")) {
+			for (String keys : p.getSavingAttributes().keySet())
+				if (keys.contains("loadoutinv"))
 					loadouts += keys.replace("loadoutinv", "") + ", ";
-				}
-			}
 			p.sendMessage(loadouts);
 			return true;
 
@@ -253,15 +241,13 @@ public final class Commands {
 			return true;
 
 		case "hintgame":
-			for (Player players : World.getPlayers()) {
+			for (Player players : World.getPlayers())
 				players.getHintIconsManager().addHintIcon(p.getX(), p.getY(), 0, 0, 2, 0, -1, true);
-			}
 			return true;
 
 		case "endhintgame":
-			for (Player players : World.getPlayers()) {
+			for (Player players : World.getPlayers())
 				players.getHintIconsManager().removeAll();
-			}
 			return true;
 
 		case "dropitem":
@@ -269,21 +255,18 @@ public final class Commands {
 			return true;
 
 		case "trolldropitem":
-			for (Player players : World.getPlayers()) {
+			for (Player players : World.getPlayers())
 				players.getPackets().sendGroundItem(new GroundItem(new Item(Integer.valueOf(args[1]), 1), new WorldTile(p.getX(), p.getY(), p.getPlane()), players.getUsername(), GroundItemType.NORMAL));
-			}
 			return true;
 
 		case "deathnpcs":
-			if (Settings.isOwner(p.getUsername().toLowerCase())) {
+			if (Settings.isOwner(p.getUsername().toLowerCase()))
 				for (NPC npc : World.getNPCs()) {
 					if (npc instanceof Familiar || npc instanceof Pet)
 						continue;
-					if (Utils.getDistance(npc, p) < 9) {
+					if (Utils.getDistance(npc, p) < 9)
 						npc.sendDeath(p);
-					}
 				}
-			}
 			return true;
 
 		case "voice":
@@ -347,18 +330,18 @@ public final class Commands {
 
 		if (!player.hasRights(Rights.ADMIN)) {
 			String[] invalid = { "<euro", "<img", "<img=", "<col", "<col=", "<shad", "<shad=", "<str>", "<u>" };
-			for (String s : invalid) {
+			for (String s : invalid)
 				if (message.contains(s)) {
 					player.sendMessage("You cannot add additional code to the message.");
 					return;
 				}
-			}
 			if (player.getRights() == Rights.MOD)
 				World.sendWorldMessage("[<img=0><col=0077FF>Moderator</col>] <img=0>" + player.getDisplayName() + ": <col=0077FF>" + message + "", false);
 			else
 				World.sendWorldMessage("[<col=218736>Yell</col>] " + player.getDisplayName() + ": <col=218736>" + message + "", false);
 			return;
-		} else if (Settings.isOwner(player.getUsername().toLowerCase())) {
+		}
+		if (Settings.isOwner(player.getUsername().toLowerCase())) {
 			World.sendWorldMessage("[<img=1><col=ff0000><shad=000000>Owner/Developer</shad></col>] <img=1>" + player.getDisplayName() + ": <col=ff0000><shad=000000>" + message + "", false);
 			return;
 		}

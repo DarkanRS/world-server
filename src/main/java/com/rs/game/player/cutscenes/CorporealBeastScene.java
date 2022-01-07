@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,7 +33,7 @@ public class CorporealBeastScene extends Cutscene {
 
 	@Override
 	public CutsceneAction[] getActions(Player player) {
-		ArrayList<CutsceneAction> actionsList = new ArrayList<CutsceneAction>();
+		ArrayList<CutsceneAction> actionsList = new ArrayList<>();
 		actionsList.add(new LookCameraAction(2993, 4378, 1000, -1));
 		actionsList.add(new PosCameraAction(2984, 4383, 5000, -1));
 		actionsList.add(new DialogueAction("You peek through the door."));

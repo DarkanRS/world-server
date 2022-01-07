@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,8 +33,6 @@ import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.managers.InterfaceManager.Tab;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -49,11 +47,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-
-
 @PluginEventHandler
 public class DungManager {
-	
+
 	private static final int[] UPGRADE_COSTS = { 135, 175, 335, 660, 1360, 3400, 6800, 18750, 58600, 233000 };
 
 	private int tokens;
@@ -123,7 +119,7 @@ public class DungManager {
 		if (visitedResources == null) // temporary
 			visitedResources = new boolean[ResourceDungeon.values().length];
 	}
-	
+
 	public void setKinshipLevel(KinshipPerk perk, int level) {
 		if (kinshipTiers == null) {
 			kinshipTiers = new int[KinshipPerk.values().length];
@@ -132,7 +128,7 @@ public class DungManager {
 		kinshipTiers[perk.ordinal()] = level;
 		refreshKinship();
 	}
-	
+
 	public int getKinshipTier(KinshipPerk perk) {
 		if (kinshipTiers == null) {
 			kinshipTiers = new int[KinshipPerk.values().length];
@@ -219,7 +215,7 @@ public class DungManager {
 		player.getInterfaceManager().sendInterface(993);
 		refreshKinship();
 	}
-	
+
 	private void promptResetRing() {
 		if (kinshipResets <= 0) {
 			player.sendMessage("You have no kinship resets left.");
@@ -230,12 +226,10 @@ public class DungManager {
 			public void run(Player player) {
 				if (option == 1) {
 					int tokensToRefund = 0;
-					for (int i = 0;i < kinshipTiers.length;i++) {
-						for (int lvl = 0;lvl <= kinshipTiers[i];lvl++) {
+					for (int kinshipTier : kinshipTiers)
+						for (int lvl = 0;lvl <= kinshipTier;lvl++)
 							if (lvl > 0)
 								tokensToRefund += UPGRADE_COSTS[lvl-1];
-						}
-					}
 					tokens += tokensToRefund;
 					kinshipTiers = new int[KinshipPerk.values().length];
 					kinshipResets--;
@@ -245,7 +239,7 @@ public class DungManager {
 			}
 		});
 	}
-		
+
 	public void refreshKinship() {
 		for (KinshipPerk p : KinshipPerk.values())
 			player.getVars().setVarBit(p.getVarbit(), getKinshipTier(p));
@@ -254,13 +248,13 @@ public class DungManager {
 			player.getPackets().sendRunScriptBlank(3494);
 		refreshKinshipStrings();
 	}
-	
+
 	public void refreshKinshipStrings() {
 		player.getPackets().setIFText(993, 138, player.getDungManager().getStatus(getPerk(player.getTempAttribs().getI("kinshipTab"), 0)));
 		player.getPackets().setIFText(993, 45, player.getDungManager().getStatus(getPerk(player.getTempAttribs().getI("kinshipTab"), 1)));
 		player.getPackets().setIFText(993, 87, player.getDungManager().getStatus(getPerk(player.getTempAttribs().getI("kinshipTab"), 2)));
 	}
-	
+
 	private String getStatus(KinshipPerk perk) {
 		if (activeRingPerk == perk)
 			return "In-Use";
@@ -268,21 +262,21 @@ public class DungManager {
 			return "Quick-switch";
 		return "Switch-to";
 	}
-	
+
 	private static KinshipPerk getPerk(int page, int offset) {
 		int idx = page * 3 + offset;
 		if (idx < 0 || idx > 11)
 			return null;
 		return KinshipPerk.values()[idx];
 	}
-	
+
 	public static ObjectClickHandler handleResourceDungeonEntrance = new ObjectClickHandler(new Object[] { "Mysterious entrance", "Mysterious door" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().getDungManager().enterResourceDungeon(e.getObject());
 		}
 	};
-	
+
 	public static ItemClickHandler handleKinship = new ItemClickHandler(Utils.streamObjects(15707, Utils.range(18817, 18828)), new String[] { "Customise", "Quick-switch", "Teleport to Daemonheim", "Open party interface" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -313,9 +307,8 @@ public class DungManager {
 						e.getPlayer().getEquipment().refresh(Equipment.RING);
 					else
 						e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-				} else {
+				} else
 					e.getPlayer().sendMessage("You need to have an active perk set and a quick-switch to use this feature.");
-				}
 				break;
 			}
 		}
@@ -333,11 +326,11 @@ public class DungManager {
 				if (dung == ResourceDungeon.POLYPORE_DUNGEON)
 					Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, 0, 0,
 							object.getX() == 4695 && object.getY() == 5626 ? dung.outside : dung.inside, 1, false,
-							Magic.OBJECT_TELEPORT);
+									Magic.OBJECT_TELEPORT);
 				else
 					Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, 0, 0,
 							object.getId() == dung.insideId ? dung.outside : dung.inside, 1, false,
-							Magic.OBJECT_TELEPORT);
+									Magic.OBJECT_TELEPORT);
 				if (!visitedResources[i]) {
 					visitedResources[i] = true;
 					player.getSkills().addXp(Constants.DUNGEONEERING, dung.xp);
@@ -354,9 +347,8 @@ public class DungManager {
 	}
 
 	public void setBindedAmmo(int itemId, int dg_bindedAmmoAmount) {
-		if (bindedAmmo == null) {
+		if (bindedAmmo == null)
 			bindedAmmo = new Item(itemId);
-		}
 		bindedAmmo.setId(itemId);
 		bindedAmmo.setAmount(dg_bindedAmmoAmount);
 	}
@@ -416,7 +408,7 @@ public class DungManager {
 	public void reset() {
 		currentProgress = new boolean[DungeonConstants.FLOORS_COUNT];
 		previousProgress = 0;
-		bindedItems = new ItemsContainer<Item>(10, false);
+		bindedItems = new ItemsContainer<>(10, false);
 		maxFloor = maxComplexity = 1;
 		visitedResources = new boolean[ResourceDungeon.values().length];
 	}
@@ -454,7 +446,7 @@ public class DungManager {
 	}
 
 	public void setPreviousProgress(int progress) {
-		this.previousProgress = progress;
+		previousProgress = progress;
 	}
 
 	public int getPrestige() {
@@ -520,7 +512,7 @@ public class DungManager {
 	public void setMaxComplexity(int maxComplexity) {
 		this.maxComplexity = maxComplexity;
 	}
-	
+
 	public static ButtonClickHandler handleDungTab = new ButtonClickHandler(939) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -545,12 +537,11 @@ public class DungManager {
 				e.getPlayer().getDungManager().openResetProgress();
 			else if (e.getComponentId() == 94)
 				e.getPlayer().getDungManager().switchGuideMode();
-			else if (e.getComponentId() == 112) {
+			else if (e.getComponentId() == 112)
 				e.getPlayer().getInterfaceManager().sendTab(Tab.QUEST);
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleInviteScreen = new ButtonClickHandler(949) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -560,7 +551,7 @@ public class DungManager {
 				e.getPlayer().closeInterfaces();
 		}
 	};
-	
+
 	public static ButtonClickHandler handleComplexitySelect = new ButtonClickHandler(938) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -589,7 +580,7 @@ public class DungManager {
 			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleFloorSelect = new ButtonClickHandler(947) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -724,70 +715,66 @@ public class DungManager {
 	};
 
 	private void inspectPlayer(Player p) {
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				openPartyInterface();
-			}
-		});
+		player.setCloseInterfacesEvent(() -> openPartyInterface());
 
-		this.player.getInterfaceManager().sendTab(Tab.QUEST, 936);
+		player.getInterfaceManager().sendTab(Tab.QUEST, 936);
 		String name = p.getUsername();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
-		this.player.getPackets().setIFText(936, 132, name);
+		player.getPackets().setIFText(936, 132, name);
 
-		this.player.getPackets().setIFText(936, 7, String.valueOf(p.getSkills().getLevel(Constants.ATTACK)));
-		this.player.getPackets().setIFText(936, 22, String.valueOf(p.getSkills().getLevel(Constants.STRENGTH)));
-		this.player.getPackets().setIFText(936, 37, String.valueOf(p.getSkills().getLevel(Constants.DEFENSE)));
-		this.player.getPackets().setIFText(936, 52, String.valueOf(p.getSkills().getLevel(Constants.RANGE)));
-		this.player.getPackets().setIFText(936, 67, String.valueOf(p.getSkills().getLevel(Constants.PRAYER)));
-		this.player.getPackets().setIFText(936, 82, String.valueOf(p.getSkills().getLevel(Constants.MAGIC)));
-		this.player.getPackets().setIFText(936, 97, String.valueOf(p.getSkills().getLevel(Constants.RUNECRAFTING)));
-		this.player.getPackets().setIFText(936, 112, String.valueOf(p.getSkills().getLevel(Constants.CONSTRUCTION)));
-		this.player.getPackets().setIFText(936, 127, String.valueOf(p.getSkills().getLevel(Constants.DUNGEONEERING)));
-		this.player.getPackets().setIFText(936, 12, String.valueOf(p.getSkills().getLevel(Constants.HITPOINTS)));
-		this.player.getPackets().setIFText(936, 27, String.valueOf(p.getSkills().getLevel(Constants.AGILITY)));
-		this.player.getPackets().setIFText(936, 42, String.valueOf(p.getSkills().getLevel(Constants.HERBLORE)));
-		this.player.getPackets().setIFText(936, 57, String.valueOf(p.getSkills().getLevel(Constants.THIEVING)));
-		this.player.getPackets().setIFText(936, 72, String.valueOf(p.getSkills().getLevel(Constants.CRAFTING)));
-		this.player.getPackets().setIFText(936, 87, String.valueOf(p.getSkills().getLevel(Constants.FLETCHING)));
-		this.player.getPackets().setIFText(936, 102, String.valueOf(p.getSkills().getLevel(Constants.SLAYER)));
-		this.player.getPackets().setIFText(936, 117, String.valueOf(p.getSkills().getLevel(Constants.HUNTER)));
-		this.player.getPackets().setIFText(936, 17, String.valueOf(p.getSkills().getLevel(Constants.MINING)));
-		this.player.getPackets().setIFText(936, 32, String.valueOf(p.getSkills().getLevel(Constants.SMITHING)));
-		this.player.getPackets().setIFText(936, 47, String.valueOf(p.getSkills().getLevel(Constants.FISHING)));
-		this.player.getPackets().setIFText(936, 62, String.valueOf(p.getSkills().getLevel(Constants.COOKING)));
-		this.player.getPackets().setIFText(936, 77, String.valueOf(p.getSkills().getLevel(Constants.FIREMAKING)));
-		this.player.getPackets().setIFText(936, 92, String.valueOf(p.getSkills().getLevel(Constants.WOODCUTTING)));
-		this.player.getPackets().setIFText(936, 107, String.valueOf(p.getSkills().getLevel(Constants.FARMING)));
-		this.player.getPackets().setIFText(936, 122, String.valueOf(p.getSkills().getLevel(Constants.SUMMONING)));
+		player.getPackets().setIFText(936, 7, String.valueOf(p.getSkills().getLevel(Constants.ATTACK)));
+		player.getPackets().setIFText(936, 22, String.valueOf(p.getSkills().getLevel(Constants.STRENGTH)));
+		player.getPackets().setIFText(936, 37, String.valueOf(p.getSkills().getLevel(Constants.DEFENSE)));
+		player.getPackets().setIFText(936, 52, String.valueOf(p.getSkills().getLevel(Constants.RANGE)));
+		player.getPackets().setIFText(936, 67, String.valueOf(p.getSkills().getLevel(Constants.PRAYER)));
+		player.getPackets().setIFText(936, 82, String.valueOf(p.getSkills().getLevel(Constants.MAGIC)));
+		player.getPackets().setIFText(936, 97, String.valueOf(p.getSkills().getLevel(Constants.RUNECRAFTING)));
+		player.getPackets().setIFText(936, 112, String.valueOf(p.getSkills().getLevel(Constants.CONSTRUCTION)));
+		player.getPackets().setIFText(936, 127, String.valueOf(p.getSkills().getLevel(Constants.DUNGEONEERING)));
+		player.getPackets().setIFText(936, 12, String.valueOf(p.getSkills().getLevel(Constants.HITPOINTS)));
+		player.getPackets().setIFText(936, 27, String.valueOf(p.getSkills().getLevel(Constants.AGILITY)));
+		player.getPackets().setIFText(936, 42, String.valueOf(p.getSkills().getLevel(Constants.HERBLORE)));
+		player.getPackets().setIFText(936, 57, String.valueOf(p.getSkills().getLevel(Constants.THIEVING)));
+		player.getPackets().setIFText(936, 72, String.valueOf(p.getSkills().getLevel(Constants.CRAFTING)));
+		player.getPackets().setIFText(936, 87, String.valueOf(p.getSkills().getLevel(Constants.FLETCHING)));
+		player.getPackets().setIFText(936, 102, String.valueOf(p.getSkills().getLevel(Constants.SLAYER)));
+		player.getPackets().setIFText(936, 117, String.valueOf(p.getSkills().getLevel(Constants.HUNTER)));
+		player.getPackets().setIFText(936, 17, String.valueOf(p.getSkills().getLevel(Constants.MINING)));
+		player.getPackets().setIFText(936, 32, String.valueOf(p.getSkills().getLevel(Constants.SMITHING)));
+		player.getPackets().setIFText(936, 47, String.valueOf(p.getSkills().getLevel(Constants.FISHING)));
+		player.getPackets().setIFText(936, 62, String.valueOf(p.getSkills().getLevel(Constants.COOKING)));
+		player.getPackets().setIFText(936, 77, String.valueOf(p.getSkills().getLevel(Constants.FIREMAKING)));
+		player.getPackets().setIFText(936, 92, String.valueOf(p.getSkills().getLevel(Constants.WOODCUTTING)));
+		player.getPackets().setIFText(936, 107, String.valueOf(p.getSkills().getLevel(Constants.FARMING)));
+		player.getPackets().setIFText(936, 122, String.valueOf(p.getSkills().getLevel(Constants.SUMMONING)));
 
-		this.player.getPackets().setIFText(936, 8, String.valueOf(p.getSkills().getLevelForXp(Constants.ATTACK)));
-		this.player.getPackets().setIFText(936, 23, String.valueOf(p.getSkills().getLevelForXp(Constants.STRENGTH)));
-		this.player.getPackets().setIFText(936, 38, String.valueOf(p.getSkills().getLevelForXp(Constants.DEFENSE)));
-		this.player.getPackets().setIFText(936, 53, String.valueOf(p.getSkills().getLevelForXp(Constants.RANGE)));
-		this.player.getPackets().setIFText(936, 68, String.valueOf(p.getSkills().getLevelForXp(Constants.PRAYER)));
-		this.player.getPackets().setIFText(936, 83, String.valueOf(p.getSkills().getLevelForXp(Constants.MAGIC)));
-		this.player.getPackets().setIFText(936, 98, String.valueOf(p.getSkills().getLevelForXp(Constants.RUNECRAFTING)));
-		this.player.getPackets().setIFText(936, 113, String.valueOf(p.getSkills().getLevelForXp(Constants.CONSTRUCTION)));
-		this.player.getPackets().setIFText(936, 128, String.valueOf(p.getSkills().getLevelForXp(Constants.DUNGEONEERING)));
-		this.player.getPackets().setIFText(936, 13, String.valueOf(p.getSkills().getLevelForXp(Constants.HITPOINTS)));
-		this.player.getPackets().setIFText(936, 28, String.valueOf(p.getSkills().getLevelForXp(Constants.AGILITY)));
-		this.player.getPackets().setIFText(936, 43, String.valueOf(p.getSkills().getLevelForXp(Constants.HERBLORE)));
-		this.player.getPackets().setIFText(936, 58, String.valueOf(p.getSkills().getLevelForXp(Constants.THIEVING)));
-		this.player.getPackets().setIFText(936, 73, String.valueOf(p.getSkills().getLevelForXp(Constants.CRAFTING)));
-		this.player.getPackets().setIFText(936, 88, String.valueOf(p.getSkills().getLevelForXp(Constants.FLETCHING)));
-		this.player.getPackets().setIFText(936, 103, String.valueOf(p.getSkills().getLevelForXp(Constants.SLAYER)));
-		this.player.getPackets().setIFText(936, 118, String.valueOf(p.getSkills().getLevelForXp(Constants.HUNTER)));
-		this.player.getPackets().setIFText(936, 18, String.valueOf(p.getSkills().getLevelForXp(Constants.MINING)));
-		this.player.getPackets().setIFText(936, 33, String.valueOf(p.getSkills().getLevelForXp(Constants.SMITHING)));
-		this.player.getPackets().setIFText(936, 48, String.valueOf(p.getSkills().getLevelForXp(Constants.FISHING)));
-		this.player.getPackets().setIFText(936, 63, String.valueOf(p.getSkills().getLevelForXp(Constants.COOKING)));
-		this.player.getPackets().setIFText(936, 78, String.valueOf(p.getSkills().getLevelForXp(Constants.FIREMAKING)));
-		this.player.getPackets().setIFText(936, 93, String.valueOf(p.getSkills().getLevelForXp(Constants.WOODCUTTING)));
-		this.player.getPackets().setIFText(936, 108, String.valueOf(p.getSkills().getLevelForXp(Constants.FARMING)));
-		this.player.getPackets().setIFText(936, 123, String.valueOf(p.getSkills().getLevelForXp(Constants.SUMMONING)));
+		player.getPackets().setIFText(936, 8, String.valueOf(p.getSkills().getLevelForXp(Constants.ATTACK)));
+		player.getPackets().setIFText(936, 23, String.valueOf(p.getSkills().getLevelForXp(Constants.STRENGTH)));
+		player.getPackets().setIFText(936, 38, String.valueOf(p.getSkills().getLevelForXp(Constants.DEFENSE)));
+		player.getPackets().setIFText(936, 53, String.valueOf(p.getSkills().getLevelForXp(Constants.RANGE)));
+		player.getPackets().setIFText(936, 68, String.valueOf(p.getSkills().getLevelForXp(Constants.PRAYER)));
+		player.getPackets().setIFText(936, 83, String.valueOf(p.getSkills().getLevelForXp(Constants.MAGIC)));
+		player.getPackets().setIFText(936, 98, String.valueOf(p.getSkills().getLevelForXp(Constants.RUNECRAFTING)));
+		player.getPackets().setIFText(936, 113, String.valueOf(p.getSkills().getLevelForXp(Constants.CONSTRUCTION)));
+		player.getPackets().setIFText(936, 128, String.valueOf(p.getSkills().getLevelForXp(Constants.DUNGEONEERING)));
+		player.getPackets().setIFText(936, 13, String.valueOf(p.getSkills().getLevelForXp(Constants.HITPOINTS)));
+		player.getPackets().setIFText(936, 28, String.valueOf(p.getSkills().getLevelForXp(Constants.AGILITY)));
+		player.getPackets().setIFText(936, 43, String.valueOf(p.getSkills().getLevelForXp(Constants.HERBLORE)));
+		player.getPackets().setIFText(936, 58, String.valueOf(p.getSkills().getLevelForXp(Constants.THIEVING)));
+		player.getPackets().setIFText(936, 73, String.valueOf(p.getSkills().getLevelForXp(Constants.CRAFTING)));
+		player.getPackets().setIFText(936, 88, String.valueOf(p.getSkills().getLevelForXp(Constants.FLETCHING)));
+		player.getPackets().setIFText(936, 103, String.valueOf(p.getSkills().getLevelForXp(Constants.SLAYER)));
+		player.getPackets().setIFText(936, 118, String.valueOf(p.getSkills().getLevelForXp(Constants.HUNTER)));
+		player.getPackets().setIFText(936, 18, String.valueOf(p.getSkills().getLevelForXp(Constants.MINING)));
+		player.getPackets().setIFText(936, 33, String.valueOf(p.getSkills().getLevelForXp(Constants.SMITHING)));
+		player.getPackets().setIFText(936, 48, String.valueOf(p.getSkills().getLevelForXp(Constants.FISHING)));
+		player.getPackets().setIFText(936, 63, String.valueOf(p.getSkills().getLevelForXp(Constants.COOKING)));
+		player.getPackets().setIFText(936, 78, String.valueOf(p.getSkills().getLevelForXp(Constants.FIREMAKING)));
+		player.getPackets().setIFText(936, 93, String.valueOf(p.getSkills().getLevelForXp(Constants.WOODCUTTING)));
+		player.getPackets().setIFText(936, 108, String.valueOf(p.getSkills().getLevelForXp(Constants.FARMING)));
+		player.getPackets().setIFText(936, 123, String.valueOf(p.getSkills().getLevelForXp(Constants.SUMMONING)));
 	}
+
 	public void invite() {
 		if (party == null || !party.isLeader(player))
 			return;
@@ -796,13 +783,7 @@ public class DungManager {
 			player.sendMessage("You can't do that right now.");
 			return;
 		}
-		WorldTasksManager.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.getPackets().sendInputNameScript("Enter name:");
-				player.getTempAttribs().setB("DUNGEON_INVITE", true);
-			}
-		});
+		player.sendInputName("Enter name:", name -> player.getDungManager().invite(name));
 	}
 
 	public void acceptInvite() {
@@ -866,13 +847,9 @@ public class DungManager {
 			}
 			player.getPackets().sendVarc(1173, party.getFloor());
 			player.getPackets().sendVarc(1174, party.getComplexity());
-			player.setCloseInterfacesEvent(new Runnable() {
-				@Override
-				public void run() {
-					p2.getDungManager().expireInvitation();
-					player.getTempAttribs().removeO("DUNGEON_INVITED_BY");
-				}
-
+			player.setCloseInterfacesEvent(() -> {
+				p2.getDungManager().expireInvitation();
+				player.getTempAttribs().removeO("DUNGEON_INVITED_BY");
 			});
 		} else {
 			if (!party.isLeader(player) || party.getDungeon() != null) {
@@ -922,8 +899,8 @@ public class DungManager {
 			player.sendMessage("You cannot change the guide mode once the dungeon has started.");
 			return;
 		}
-		if (!party.isLeader(this.player)) {
-			this.player.sendMessage("Only your party's leader can switch guide mode!");
+		if (!party.isLeader(player)) {
+			player.sendMessage("Only your party's leader can switch guide mode!");
 			return;
 		}
 		player.stopAll();
@@ -949,16 +926,16 @@ public class DungManager {
 	public static int PLAYER_5_FLOORS_COMPLETE = 183;
 
 	public void changeFloor() {
-//		if (party.getDungeon() != null) {
-//			player.sendMessage("You cannot change these settings while in a dungeon.");
-//			return;
-//		}
-//		if (!party.isLeader(this.player)) {
-//			this.player.sendMessage("Only your party's leader can change floor!");
-//			return;
-//		}
+		//		if (party.getDungeon() != null) {
+		//			player.sendMessage("You cannot change these settings while in a dungeon.");
+		//			return;
+		//		}
+		//		if (!party.isLeader(this.player)) {
+		//			this.player.sendMessage("Only your party's leader can change floor!");
+		//			return;
+		//		}
 		if (party == null) {
-            player.sendMessage("You must be in a party to view your floors.");
+			player.sendMessage("You must be in a party to view your floors.");
 			return;
 		}
 		player.stopAll();
@@ -996,13 +973,8 @@ public class DungManager {
 			player.getPackets().setIFPosition(947, startComponentAvailable + 121, 3,
 					teamMate.getDungManager().getMaxFloor() * 10);
 		}
-		player.getPackets().sendRunScriptReverse(3285, new Object[] { Math.min(highestFloor * 12 + 80, 700) });
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				player.getTempAttribs().removeI("DUNG_FLOOR");
-			}
-		});
+		player.getPackets().sendRunScriptReverse(3285, Math.min(highestFloor * 12 + 80, 700));
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeI("DUNG_FLOOR"));
 	}
 
 	public void selectFloor(int floor) {
@@ -1011,13 +983,13 @@ public class DungManager {
 			return;
 		}
 
-        if(player.getDungManager().isInsideDungeon()) {
-            player.sendMessage("Floor settings cannot be changed in a dungeon.");
-            return;
-        }
+		if(player.getDungManager().isInsideDungeon()) {
+			player.sendMessage("Floor settings cannot be changed in a dungeon.");
+			return;
+		}
 
-        if (!party.isLeader(this.player)) {
-			this.player.sendMessage("Only your party's leader can change floor!");
+		if (!party.isLeader(player)) {
+			player.sendMessage("Only your party's leader can change floor!");
 			return;
 		}
 		/*
@@ -1045,7 +1017,7 @@ public class DungManager {
 			return;
 		}
 		if (party.getDungeon() != null) {
-            player.sendMessage("Floor settings cannot be changed in a dungeon.");
+			player.sendMessage("Floor settings cannot be changed in a dungeon.");
 			return;
 		}
 		if (!party.isLeader(player)) {
@@ -1071,12 +1043,7 @@ public class DungManager {
 		player.stopAll();
 		player.getInterfaceManager().sendInterface(938);
 		selectComplexity(party.getMaxComplexity());
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				player.getTempAttribs().removeI("DUNG_COMPLEXITY");
-			}
-		});
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeI("DUNG_COMPLEXITY"));
 	}
 
 	public void selectComplexity(int complexity) {
@@ -1088,10 +1055,9 @@ public class DungManager {
 			player.sendMessage("A member in your party can't do this complexity.");
 			return;
 		}
-		Integer selectedComplexity = (Integer) player.getTempAttribs().removeI("DUNG_COMPLEXITY");
-		if (selectedComplexity != null) {
+		Integer selectedComplexity = player.getTempAttribs().removeI("DUNG_COMPLEXITY");
+		if (selectedComplexity != null)
 			markComplexity(selectedComplexity, false);
-		}
 		markComplexity(complexity, true);
 		hideSkills(complexity);
 		int penalty = complexity == 6 ? 0 : ((6 - complexity) * 5 + 25);
@@ -1146,9 +1112,8 @@ public class DungManager {
 			count += 5;
 		if (complexity >= 6)
 			count += 1;
-		for (int i = 0; i < COMPLEXITY_SKILLS.length; i++) {
+		for (int i = 0; i < COMPLEXITY_SKILLS.length; i++)
 			player.getPackets().setIFText(938, 90 + i, (i >= count ? "<col=383838>" : "") + COMPLEXITY_SKILLS[i]);
-		}
 	}
 
 	public void expireInvitation() {
@@ -1181,35 +1146,32 @@ public class DungManager {
 			return;
 		}
 		if (party.getDificulty() == 0) {
-			if (party.getTeam().size() == 1)
-				party.setDificulty(1);
-			else {
+			if (party.getTeam().size() != 1) {
 				player.getDialogueManager().execute(new DungeonDifficulty(), party.getTeam().size());
 				return;
 			}
+			party.setDificulty(1);
 		}
 		if (selectSize) {
 			if (party.getComplexity() == 6) {
 				player.getDialogueManager().execute(new DungeonSize());
 				return;
-			} else
-				party.setSize(DungeonConstants.SMALL_DUNGEON);
+			}
+			party.setSize(DungeonConstants.SMALL_DUNGEON);
 		}
 		for (Player p2 : party.getTeam()) {
-			for (Item item : p2.getInventory().getItems().getItems()) {
+			for (Item item : p2.getInventory().getItems().getItems())
 				if (item != null && item.getId() != 15707) {
 					player.sendMessage(
 							p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;
 				}
-			}
-			for (Item item : p2.getEquipment().getItemsCopy()) {
+			for (Item item : p2.getEquipment().getItemsCopy())
 				if (item != null && item.getId() != 15707) {
 					player.sendMessage(
 							p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;
 				}
-			}
 			if (p2.getFamiliar() != null || p2.getPet() != null) {
 				player.sendMessage(
 						p2.getDisplayName() + " is carrying a familiar that cannot be taken into Daemonheim.");
@@ -1254,22 +1216,19 @@ public class DungManager {
 		int index;
 		for (Player selectedPlayer : party.getTeam()) {
 			index = 0;
-			for (Player memberPosition : party.getTeam()) {
+			for (Player memberPosition : party.getTeam())
 				selectedPlayer.getPackets().sendVarcString(292 + index++, memberPosition.getDisplayName());
-			}
 		}
 		refreshDungRingPlayerNames();
 	}
 
 	public void refreshDungRingPlayerNames() {
-		for (Player player : party.getTeam()) {
-			for(int i = 0; i < 5; i++) {
+		for (Player player : party.getTeam())
+			for(int i = 0; i < 5; i++)
 				if(i >= party.getTeam().size())
 					hideICompRingPlayerText(player, i, true);
 				else
 					hideICompRingPlayerText(player, i, false);
-			}
-		}
 	}
 
 	public static void hideICompRingPlayerText(Player p, int slot, boolean hidden) {

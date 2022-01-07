@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -27,7 +27,7 @@ public class DTPreview extends Cutscene {
 
 	@Override
 	public CutsceneAction[] getActions(Player player) {
-		ArrayList<CutsceneAction> actionsList = new ArrayList<CutsceneAction>();
+		ArrayList<CutsceneAction> actionsList = new ArrayList<>();
 		actionsList.add(new LookCameraAction(getX(player, 3386), getY(player, 3104), 1000, 6, 6, -1));
 		actionsList.add(new PosCameraAction(getX(player, 3395), getY(player, 3104), 5000, 7, 8, 5));
 		actionsList.add(new LookCameraAction(getX(player, 3390), getY(player, 3115), 6000, 6, 6, -1));

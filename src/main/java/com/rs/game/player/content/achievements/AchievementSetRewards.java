@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,14 +41,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class AchievementSetRewards {
-	
+
 	private static final WorldTile ARDY_FARM = new WorldTile(2664, 3375, 0);
 	private static final WorldTile KANDARIN_MONASTERY = new WorldTile(2606, 3222, 0);
-	
+
 	public static ItemClickHandler handleArdougneCloak = new ItemClickHandler(new Object[] { 15345, 15347, 15349, 19748, 20767, 20769, 20771 }, new String[] { "Teleports", "Teleport", "Kandarin Monastery", "Summoning-restore", "Ardougne Farm", "Customise", "Features" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Teleports") || e.getOption().equals("Features")) {
+			if (e.getOption().equals("Teleports") || e.getOption().equals("Features"))
 				e.getPlayer().sendOptionDialogue("Where would you like to go?", new String[] { "Ardougne Farm", "Kandarin Monastery", "Nowhere" }, new DialogueOptionEvent() {
 					@Override
 					public void run(Player player) {
@@ -59,14 +59,13 @@ public class AchievementSetRewards {
 							}
 							e.getPlayer().setDailyB("ardyCloakFarmTele", true);
 							Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, Magic.MAGIC_TELEPORT);
-						} else if (option == 2) {
+						} else if (option == 2)
 							Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.MAGIC_TELEPORT);
-						}
 					}
 				});
-			} else if (e.getOption().contains("Kandarin Monastery") || e.getOption().equals("Teleport")) {
+			else if (e.getOption().contains("Kandarin Monastery") || e.getOption().equals("Teleport"))
 				Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.MAGIC_TELEPORT);
-			} else if (e.getOption().contains("Ardougne Farm")) {
+			else if (e.getOption().contains("Ardougne Farm")) {
 				if (e.getPlayer().getDailyB("ardyCloakFarmTele") && (e.getItem().getId() == 15345 || e.getItem().getId() == 15347 || e.getItem().getId() == 15349)) {
 					e.getPlayer().sendMessage("You already used your teleport for today.");
 					return;
@@ -81,12 +80,11 @@ public class AchievementSetRewards {
 				e.getPlayer().getSkills().set(Constants.SUMMONING, e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING));
 				e.getPlayer().setDailyB("ardyCloakSumm", true);
 				e.getPlayer().sendMessage("You restore your summoning points.");
-			} else if (e.getOption().equals("Customise")) {
+			} else if (e.getOption().equals("Customise"))
 				SkillCapeCustomizer.startCustomizing(e.getPlayer(), e.getItem().getId());
-			}
 		}
 	};
-	
+
 	public static ItemClickHandler handleExplorersRing = new ItemClickHandler(new Object[] { 13560, 13561, 13562, 19760 }, new String[] { "Cabbage-port", "Run-replenish", "Low-alchemy", "Low-Alchemy", "High-Alchemy", "Superheat", "Alchemy-or-superheat" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -98,7 +96,8 @@ public class AchievementSetRewards {
 				if (e.getItem().getId() == 13560 && e.getPlayer().getDailyI("eRingRunRep") >= 1) {
 					e.getPlayer().sendMessage("You've already used up your run replenishes today.");
 					return;
-				} else if (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2) {
+				}
+				if (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2) {
 					e.getPlayer().sendMessage("You've already used up your run replenishes today.");
 					return;
 				} else if (e.getPlayer().getDailyI("eRingRunRep") >= 3) {
@@ -133,7 +132,7 @@ public class AchievementSetRewards {
 			}
 		}
 	};
-	
+
 	private static void openERingInter(Player player, int type) {
 		player.getTempAttribs().setI("eRingInterType", type);
 		String action = type == 0 ? "Low-alchemy" : type == 1 ? "High-alchemy" : "Superheat";
@@ -142,7 +141,7 @@ public class AchievementSetRewards {
 		player.getPackets().setIFRightClickOps(12, 13, 0, 27, 0);
 		player.getInterfaceManager().sendInterface(12);
 	}
-	
+
 	public static ButtonClickHandler handleAlchs = new ButtonClickHandler(12) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -177,14 +176,14 @@ public class AchievementSetRewards {
 			}
 		}
 	};
-	
+
 	public static ItemEquipHandler handleKaramjaGloveLadderUnlock = new ItemEquipHandler(11140, 19754) {
 		@Override
 		public void handle(ItemEquipEvent e) {
 			e.getPlayer().getVars().setVarBit(3610, e.equip() ? 1 : 0);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleUndergroundGem = new ObjectClickHandler(new Object[] { 23584, 23586 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -194,14 +193,14 @@ public class AchievementSetRewards {
 				e.getPlayer().useLadder(new WorldTile(2838, 9387, 0));
 		}
 	};
-	
+
 	public static ItemClickHandler handleKaramjaGlovesTele = new ItemClickHandler(new Object[] { 11140, 19754 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2841, 9387, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleCooksGuildSpecialDoor = new ObjectClickHandler(new Object[] { 26810 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -211,11 +210,11 @@ public class AchievementSetRewards {
 				e.getPlayer().sendMessage("You must have the requirements for the Varrock Hard Achievement Set to enter here.");
 		}
 	};
-	
+
 	public static ItemClickHandler handleFaladorShieldOps = new ItemClickHandler(new Object[] { 14577, 14578, 14579, 19749 }, new String[] { "Prayer-restore", "Emote" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Emote")) {
+			if (e.getOption().equals("Emote"))
 				switch(e.getItem().getId()) {
 				case 14577:
 					e.getPlayer().setNextAnimation(new Animation(13843));
@@ -232,7 +231,7 @@ public class AchievementSetRewards {
 					e.getPlayer().setNextSpotAnim(new SpotAnim(1965));
 					break;
 				}
-			} else if (e.getOption().equals("Prayer-restore")) {
+			else if (e.getOption().equals("Prayer-restore")) {
 				if (e.getPlayer().getDailyI("fallyShieldPrayer") >= (e.getItem().getId() == 19749 ? 2 : 1)) {
 					e.getPlayer().sendMessage("You've already used up your prayer restores for the day.");
 					return;

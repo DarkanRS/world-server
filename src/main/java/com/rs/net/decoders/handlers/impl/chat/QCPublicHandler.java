@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,20 +29,18 @@ public class QCPublicHandler implements PacketHandler<Player, QCPublic> {
 
 	@Override
 	public void handle(Player player, QCPublic packet) {
-		if (!player.hasStarted())
-			return;
-		if (!Utils.isQCValid(packet.getQcId()))
+		if (!player.hasStarted() || !Utils.isQCValid(packet.getQcId()))
 			return;
 		packet.setCompletedData(WorldUtil.completeQuickMessage(player, packet.getQcId(), packet.getMessageData()));
 		switch(packet.getChatType()) {
-			case 1, 2, 3 -> LobbyCommunicator.forwardPackets(player, packet);
-			case 0 -> {
-				if (player.getControllerManager().getController() instanceof DungeonController)
-					for (Player party : player.getDungManager().getParty().getTeam())
-						party.getPackets().sendPublicMessage(player, new QuickChatMessage(packet.getQcId(), packet.getCompletedData()));
-				else
-					player.sendPublicChatMessage(new QuickChatMessage(packet.getQcId(), packet.getCompletedData()));
-			}
+		case 1, 2, 3 -> LobbyCommunicator.forwardPackets(player, packet);
+		case 0 -> {
+			if (player.getControllerManager().getController() instanceof DungeonController)
+				for (Player party : player.getDungManager().getParty().getTeam())
+					party.getPackets().sendPublicMessage(player, new QuickChatMessage(packet.getQcId(), packet.getCompletedData()));
+			else
+				player.sendPublicChatMessage(new QuickChatMessage(packet.getQcId(), packet.getCompletedData()));
+		}
 		}
 	}
 

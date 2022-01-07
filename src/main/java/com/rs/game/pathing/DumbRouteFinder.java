@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -24,7 +24,7 @@ import com.rs.game.World;
 import com.rs.lib.game.WorldTile;
 
 public final class DumbRouteFinder {
-	
+
 	public static boolean addDumbPathfinderSteps(Entity entity, WorldTile target, ClipType type) {
 		return addDumbPathfinderSteps(entity, target, 25, type);
 	}
@@ -100,29 +100,28 @@ public final class DumbRouteFinder {
 				if (World.checkWalkStep(real, real.transform(1, 0), size, type)) {
 					real = add(positions, real.transform(1, 0));
 					curr = curr.transform(1, 0);
-				} 
+				}
 			} else if (curr.getX() > targ.getX()) {
 				if (World.checkWalkStep(real, real.transform(-1, 0), size, type)) {
 					real = add(positions, real.transform(-1, 0));
 					curr = curr.transform(-1, 0);
-				} 
+				}
 			} else if (curr.getY() < targ.getY()) {
 				if (World.checkWalkStep(real, real.transform(0, 1), size, type)) {
 					real = add(positions, real.transform(0, 1));
 					curr = curr.transform(0, 1);
-				} 
-			} else if (curr.getY() > targ.getY()) {
+				}
+			} else if (curr.getY() > targ.getY())
 				if (World.checkWalkStep(real, real.transform(0, -1), size, type)) {
 					real = add(positions, real.transform(0, -1));
 					curr = curr.transform(0, -1);
-				} 
-			}
+				}
 			if (curr.matches(from))
 				break;
 		}
 		return positions;
 	}
-	
+
 	private static WorldTile add(Deque<WorldTile> positions, WorldTile att) {
 		positions.add(att);
 		return att;

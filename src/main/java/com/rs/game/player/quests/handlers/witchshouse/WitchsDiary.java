@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -48,7 +48,7 @@ public class WitchsDiary extends Book {
 								"now, but unfortunately",
 								"is not too intelligent yet.",
 								"It has a really mean stare",
-                                "too!",
+								"too!",
 						}),
 				new BookPage(
 						new String[] {
@@ -73,63 +73,63 @@ public class WitchsDiary extends Book {
 								"new security system ",
 								"after his successful ",
 								"installation in the cellar.",
-                                "",
-                                "",
-                                "",
+								"",
+								"",
+								"",
 						}),
 				new BookPage(
 						new String[] {
-                                "<col=FF0000>7th of Pentember</col>",
-                                "That pesky kid keeps",
-                                "kicking his ball into my ",
-                                "garden. I swear, if he ",
-                                "does it AGAIN, I'm going",
-                                "to lock his ball away in ",
-                                "the shed.",
-                                "",
-                                "<col=FF0000>8th of Pentember</col>",
-                                "The security system is ",
-                                "done. By Zamorak! Wow, ",
+								"<col=FF0000>7th of Pentember</col>",
+								"That pesky kid keeps",
+								"kicking his ball into my ",
+								"garden. I swear, if he ",
+								"does it AGAIN, I'm going",
+								"to lock his ball away in ",
+								"the shed.",
+								"",
+								"<col=FF0000>8th of Pentember</col>",
+								"The security system is ",
+								"done. By Zamorak! Wow, ",
 						},
 						new String[] {
-                                "is it contrived! Now, to ",
-                                "open my own back door, ",
-                                "I lure a mouse out of a ",
-                                "hole in the back porch, I ",
-                                "fit a magic curved piece ",
-                                "of metal to the harness ",
-                                "on its back, the mouse ",
-                                "goes back in the hole, and",
-                                " the door unlocks! The",
-                                "prof tells me that this is ",
-                                "cutting edge technology!",
+								"is it contrived! Now, to ",
+								"open my own back door, ",
+								"I lure a mouse out of a ",
+								"hole in the back porch, I ",
+								"fit a magic curved piece ",
+								"of metal to the harness ",
+								"on its back, the mouse ",
+								"goes back in the hole, and",
+								" the door unlocks! The",
+								"prof tells me that this is ",
+								"cutting edge technology!",
 						}),
 				new BookPage(
 						new String[] {
-                                "As an added precaution I",
-                                "have hidden the key to ",
-                                "the shed in a secret ",
-                                "compartment of the ",
-                                "fountain in the garden. ",
-                                "No one will ever look ",
-                                "there!",
-                                "",
-                                "<col=FF0000>9th of Pentember</col>",
-                                "Still cant think of a good",
-                                " name for 'The ",
+								"As an added precaution I",
+								"have hidden the key to ",
+								"the shed in a secret ",
+								"compartment of the ",
+								"fountain in the garden. ",
+								"No one will ever look ",
+								"there!",
+								"",
+								"<col=FF0000>9th of Pentember</col>",
+								"Still cant think of a good",
+								" name for 'The ",
 						},
 						new String[] {
-                                "Experiment'. Leaning",
-                                " towards 'Fritz'... Although",
-                                "am considering Lucy as",
-                                "it reminds me of my ",
-                                "mother!",
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
-                                "",
+								"Experiment'. Leaning",
+								" towards 'Fritz'... Although",
+								"am considering Lucy as",
+								"it reminds me of my ",
+								"mother!",
+								"",
+								"",
+								"",
+								"",
+								"",
+								"",
 						})
 				);
 	}

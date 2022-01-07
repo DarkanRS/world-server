@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -40,7 +40,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 public final class DominionTower {
 
 	public static final int CLIMBER = 0, ENDURANCE = 1, MAX_FACTOR = 10000000;
-	
+
 	private transient Player player;
 	private transient DynamicRegionReference region;
 
@@ -96,7 +96,7 @@ public final class DominionTower {
 		player.getInterfaceManager().sendInterface(1164);
 		player.getPackets().setIFText(1164, 27, progress == 0 ? "Ready for a new match" : "Floor progress: " + progress);
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1163, 1164, 1168, 1170, 1173) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -120,15 +120,14 @@ public final class DominionTower {
 			} else if (e.getInterfaceId() == 1170) {
 				if (e.getComponentId() == 85)
 					e.getPlayer().closeInterfaces();
-			} else if (e.getInterfaceId() == 1173) {
+			} else if (e.getInterfaceId() == 1173)
 				if (e.getComponentId() == 58)
 					e.getPlayer().closeInterfaces();
 				else if (e.getComponentId() == 59)
 					e.getPlayer().getDominionTower().startEnduranceMode();
-			}
 		}
 	};
-	
+
 	private static final int[] MUSICS = { 1015, 1022, 1018, 1016, 1021 };
 
 	public static final class Boss {
@@ -242,9 +241,9 @@ public final class DominionTower {
 					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 25), Cutscene.getY(player, getBaseY() + 38), 1800);
 					player.getPackets().sendCameraLook(Cutscene.getX(player, getBaseX() + 25), Cutscene.getY(player, getBaseY() + 29), 800);
 					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 32), Cutscene.getY(player, getBaseY() + 38), 1800, 6, 6);
-				} else if (count == 1) {
+				} else if (count == 1)
 					player.setNextForceTalk(new ForceTalk(getStartFightText(Utils.getRandomInclusive(1))));
-				} else if (count == 3) {
+				else if (count == 3) {
 					player.getPackets().setIFHidden(1172, 2, false);
 					player.getPackets().setIFHidden(1172, 5, true);
 					player.getPackets().setIFText(1172, 6, BOSSES[index].name);
@@ -346,10 +345,9 @@ public final class DominionTower {
 		if (mode == CLIMBER) {
 			if (progress > maxFloorClimber)
 				maxFloorClimber = progress;
-		} else if (mode == ENDURANCE) {
+		} else if (mode == ENDURANCE)
 			if (progress > maxFloorEndurance)
 				maxFloorEndurance = progress;
-		}
 
 		killedBossesCount++;
 		dominionFactor += factor;
@@ -455,9 +453,9 @@ public final class DominionTower {
 		player.getPackets().setIFText(1173, 52, "None. Good luck :o."); // current
 		player.getPackets().setIFText(1173, 29, String.valueOf(dominionFactor)); // current
 		player.getPackets().setIFText(1173, 31, dominionFactor == MAX_FACTOR ? "" : String.valueOf(getBossesTotalLevel() * 10)); // on
-																																			// win
+		// win
 		player.getPackets().setIFText(1173, 33, String.valueOf(dominionFactor)); // on
-																							// death
+		// death
 	}
 
 	public int getBossesTotalLevel() {
@@ -523,15 +521,13 @@ public final class DominionTower {
 	public void giveRewards(int dominionFactor) {
 		Item[] rewards;
 		int random = Utils.getRandomInclusive(100);
-		if (random < 15 && player.getDominionTower().getKilledBossesCount() >= 450) {
+		if (random < 15 && player.getDominionTower().getKilledBossesCount() >= 450)
 			rewards = new Item[] { commonRewards[Utils.getRandomInclusive(commonRewards.length - 1)], commonRewards[Utils.getRandomInclusive(commonRewards.length - 1)], commonRewards[Utils.getRandomInclusive(commonRewards.length - 1)],
 					mediumRewards[Utils.getRandomInclusive(mediumRewards.length - 1)] };
-		} else {
+		else
 			rewards = new Item[] { commonRewards[Utils.getRandomInclusive(commonRewards.length - 1)], commonRewards[Utils.getRandomInclusive(commonRewards.length - 1)], commonRewards[Utils.getRandomInclusive(commonRewards.length - 1)] };
-		}
-		for (Item item : rewards) {
+		for (Item item : rewards)
 			player.getInventory().addItem(item);
-		}
 		player.getInterfaceManager().sendInterface(1171);
 		player.getPackets().sendInterSetItemsOptionsScript(1171, 7, 100, 8, 3, "Take", "Convert", "Discard", "Examine");
 		player.getPackets().setIFRightClickOps(1171, 7, 0, 10, 0, 1, 2, 3);
@@ -583,7 +579,7 @@ public final class DominionTower {
 	}
 
 	public void setKilledBossesCount(int count) {
-		this.killedBossesCount = count;
+		killedBossesCount = count;
 	}
 
 }

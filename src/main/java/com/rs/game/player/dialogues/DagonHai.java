@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,9 +32,8 @@ public class DagonHai extends Dialogue {
 		if (stage == 1) {
 			stage = 2;
 			sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] { player.getDisplayName(), "That monk - he called to Zamorak for revenge." }, IS_PLAYER, player.getIndex(), 9827); // TODO Need correct Animation ID.
-		} else {
+		} else
 			sendEntityDialogue(SEND_3_TEXT_CHAT, new String[] { NPCDefinitions.getDefs(npcId).getName(), "Our Lord Zamorak has power over life and death,", Utils.formatPlayerNameForDisplay(player.getDisplayName()) + "! He has seen fit to ressurect Bork to", "continue his great work... and now you will fall before him!" }, IS_NPC, npcId, 9843); // TODO Need correct Animation ID.
-		}
 	}
 
 	@Override
@@ -46,9 +45,8 @@ public class DagonHai extends Dialogue {
 			stage = 3;
 			// player.getPackets().sendCameraShake(3, 30, 5, 30, 5);
 			sendPlayerDialogue(9827, "What th-? This power again! It must be Zamorak! I", "can't fight something this strong! I better loot what I ", "can and get out of here!");
-		} else {
+		} else
 			end();
-		}
 	}
 
 	@Override

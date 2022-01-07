@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class FairyRings {
 
-	private final static String[][] LETTERS = new String[][] { { "a", "b", "c", "d" }, { "i", "j", "k", "l" }, { "p", "q", "r", "s" } };
+	private final static String[][] LETTERS = { { "a", "b", "c", "d" }, { "i", "j", "k", "l" }, { "p", "q", "r", "s" } };
 	private final static WorldTile FAIRY_SOURCE = new WorldTile(2412, 4434, 0);
 	private final static int FIRST_ANIMATION = 3254, SECOND_ANIMATION = 3255;
 	private final static int FIRST_GRAPHICS = 2670, SECOND_GRAPHICS = 2671;
@@ -155,13 +155,13 @@ public class FairyRings {
 				return Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		
+
 		;
-		
+
 		private String name;
 		private int logId;
 		private WorldTile tile;
-		
+
 		private Ring(int logId, String name, WorldTile tile) {
 			this.logId = logId;
 			this.name = name;
@@ -180,14 +180,14 @@ public class FairyRings {
 			return true;
 		}
 	}
-	
+
 	public static ObjectClickHandler handleRings = new ObjectClickHandler(new Object[] { "Fairy ring", 27331 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			FairyRings.openRingInterface(e.getPlayer(), e.getObject(), e.getObjectId() == 12128);
 		}
 	};
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(734) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -197,7 +197,7 @@ public class FairyRings {
 				handleDialButtons(e.getPlayer(), e.getComponentId());
 		}
 	};
-	
+
 	public static ButtonClickHandler handleQuickTeleport = new ButtonClickHandler(735) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -207,9 +207,7 @@ public class FairyRings {
 	};
 
 	public static boolean checkAll(Player player) {
-		if (player.getQuestManager().isComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT) && Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player))
-			return true;
-		if (player.getEquipment().getWeaponId() == 772 || player.getEquipment().getWeaponId() == 9084)
+		if ((player.getQuestManager().isComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT) && Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player)) || player.getEquipment().getWeaponId() == 772 || player.getEquipment().getWeaponId() == 9084)
 			return true;
 		player.sendMessage("The fairy ring only works for those who wield fairy magic.");
 		return false;
@@ -231,10 +229,9 @@ public class FairyRings {
 
 	private static void sendTravelLog(Player player) {
 		player.getInterfaceManager().sendInventoryInterface(735);
-		for (Ring r : Ring.values()) {
+		for (Ring r : Ring.values())
 			if (r.meetsRequirements(player, true) && !r.name.equals("Nowhere"))
 				player.getPackets().setIFText(735, r.logId, "          " + r.name);
-		}
 	}
 
 	public static boolean confirmRingHash(Player player) {
@@ -307,9 +304,8 @@ public class FairyRings {
 
 	private static int[] getCorrectValues(int[] locationArray) {
 		int loop = 0;
-		for (int values : locationArray) {
+		for (int values : locationArray)
 			locationArray[loop++] = values & 0x3;
-		}
 		return locationArray;
 	}
 }

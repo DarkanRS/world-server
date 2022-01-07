@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,57 +36,53 @@ public enum ItemPack {
 	BIRD_MEAT(15365, new Item(9979, 50)),
 	JUJU_VIAL(20047, new Item(19997, 50)),
 	VIAL(15362, new Item(230, 50));
-	
+
 	private static Map<Integer, ItemPack> MAP = new HashMap<>();
-	
+
 	static {
 		for (ItemPack pack : ItemPack.values())
 			MAP.put(pack.itemId, pack);
 	}
-	
+
 	private int itemId;
 	private Item contents;
-	
+
 	private ItemPack(int itemId, Item contents) {
 		this.itemId = itemId;
 		this.contents = contents;
 	}
-	
+
 	public static ItemPack forId(int itemId) {
 		return MAP.get(itemId);
 	}
-	
+
 	public int getItemId() {
 		return itemId;
 	}
-	
+
 	public Item getContents() {
 		return contents;
 	}
-	
+
 	public static ItemClickHandler onClick = new ItemClickHandler(ItemPack.MAP.keySet().toArray()) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			ItemPack pack = ItemPack.forId(e.getItem().getId());
 			if (pack != null) {
-				if (e.getOption().equals("Open")) {
+				if (e.getOption().equals("Open"))
 					pack.open(e.getPlayer());
-				}
-				if (e.getOption().equals("Open-All")) {
+				if (e.getOption().equals("Open-All"))
 					pack.openAll(e.getPlayer());
-				}
 			}
 		}
 	};
-	
+
 	public void open(Player player) {
-		if (player.getInventory().containsItem(itemId, 1)) {
-			if (player.getInventory().addItem(contents)) {
+		if (player.getInventory().containsItem(itemId, 1))
+			if (player.getInventory().addItem(contents))
 				player.getInventory().deleteItem(itemId, 1);
-			}
-		}
 	}
-	
+
 	public void openAll(Player player) {
 		int count = player.getInventory().getNumberOf(itemId);
 		if (player.getInventory().containsItem(itemId, count)) {

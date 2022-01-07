@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -43,11 +43,10 @@ public final class MiningGuildDwarf extends Dialogue {
 		switch (stage) {
 		case -1:
 			stage = 0;
-			if (skillCape) {
+			if (skillCape)
 				sendOptionsDialogue("What would you like to say?", "What have you got in the Guild?", "What do you dwarves do with the ore you mine?", "Can you tell me about your skillcape?", "No thanks, I'm fine.");
-			} else {
+			else
 				sendOptionsDialogue("What would you like to say?", "What have you got in the Guild?", "What do you dwarves do with the ore you mine?", "No thanks, I'm fine.");
-			}
 			break;
 		case 0:
 			if (componentId == OPTION_1) {
@@ -179,7 +178,7 @@ public final class MiningGuildDwarf extends Dialogue {
 		int distance = -1;
 		for (int regionId : player.getMapRegionsIds()) {
 			Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-			if (npcsIndexes != null) {
+			if (npcsIndexes != null)
 				for (int npcIndex : npcsIndexes) {
 					NPC npc = World.getNPCs().get(npcIndex);
 					if (npc == null || npc.isDead() || npc.hasFinished() || !npc.getName().equals("Dwarf"))
@@ -190,8 +189,6 @@ public final class MiningGuildDwarf extends Dialogue {
 						npcId = npc.getId();
 					}
 				}
-			}
-			;
 		}
 		return npcId;
 	}

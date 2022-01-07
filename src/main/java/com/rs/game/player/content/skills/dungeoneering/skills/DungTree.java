@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,7 +31,7 @@ public enum DungTree {
 	CORPESTHORN_TREE(70, 245, 17696, 150, 180),
 	ENTGALLOW_TREE(80, 285, 17698, 150, 170),
 	GRAVE_CREEPER_TREE(90, 330, 17700, 150, 170);
-	
+
 	private int level;
 	private double xp;
 	private int logsId;
@@ -57,11 +57,11 @@ public enum DungTree {
 	public int getLogsId() {
 		return logsId;
 	}
-	
+
 	public boolean rollSuccess(int level, DungHatchet hatchet) {
 		return Utils.skillSuccess(level, hatchet.getToolMod(), rate1, rate99);
 	}
-	
+
 	public void giveLog(Player player) {
 		player.getInventory().addItem(logsId, 1);
 		player.getSkills().addXp(Constants.WOODCUTTING, xp);

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -36,33 +36,31 @@ import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
 public class AgilityPyramidBlock extends NPC {
-	
+
 	private int timer;
 	private WorldTile dangerTile;
-	
+
 	public AgilityPyramidBlock(int id, WorldTile tile) {
 		super(id, tile);
 		dangerTile = transform(getId() == 3125 ? 2 : 0, getId() == 3125 ? 0 : 2, 0);
 	}
-	
+
 	@Override
 	public void processNPC() {
 		if (timer-- <= 0) {
-			for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+			for (Player player : World.getPlayersInRegionRange(getRegionId()))
 				if (player.getPlane() == getPlane())
 					player.getVars().setVarBit(1550, getId() == 3125 ? 1 : 3);
-			}
 			setNextForceMovement(new ForceMovement(dangerTile, 2, getId() == 3125 ? Direction.EAST : Direction.NORTH));
 			timer = 10;
 		}
-		if (timer > 7) {
+		if (timer > 7)
 			for (Player p : getHittablePlayers()) {
 				int dist = 0;
-				if (getId() == 3125) {
+				if (getId() == 3125)
 					dist = p.getX() - dangerTile.getX();
-				} else {
+				else
 					dist = p.getY() - dangerTile.getY();
-				}
 				if (dist == 0)
 					dist = 2;
 				p.lock();
@@ -78,17 +76,14 @@ public class AgilityPyramidBlock extends NPC {
 					}
 				}, 2);
 			}
-		}
-		if (timer == 4) {
-			for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+		if (timer == 4)
+			for (Player player : World.getPlayersInRegionRange(getRegionId()))
 				if (player.getPlane() == getPlane())
 					player.getVars().setVarBit(1550, 0);
-			}
-		}
 	}
-	
+
 	public List<Player> getHittablePlayers() {
-		List<Player> players = new ArrayList<Player>();
+		List<Player> players = new ArrayList<>();
 		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
 			if (player.getPlane() != getPlane() || player.isLocked())
 				continue;
@@ -97,7 +92,7 @@ public class AgilityPyramidBlock extends NPC {
 		}
 		return players;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3124, 2125) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

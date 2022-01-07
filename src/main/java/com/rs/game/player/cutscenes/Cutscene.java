@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -111,7 +111,8 @@ public abstract class Cutscene {
 			if (stage == actions.length) {
 				stopCutscene(player);
 				return false;
-			} else if (stage == 0)
+			}
+			if (stage == 0)
 				startCutscene(player);
 			CutsceneAction action = actions[stage++];
 			action.process(player, cache);
@@ -137,10 +138,9 @@ public abstract class Cutscene {
 		actions = getActions(player);
 		endTile = new WorldTile(player);
 		int lastIndex = 0;
-		for (CutsceneAction action : actions) {
+		for (CutsceneAction action : actions)
 			if (action.getCachedObjectIndex() > lastIndex)
 				lastIndex = action.getCachedObjectIndex();
-		}
 		cache = new Object[lastIndex + 1];
 		cache[0] = this;
 	}

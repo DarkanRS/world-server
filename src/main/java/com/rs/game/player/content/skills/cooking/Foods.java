@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -34,20 +34,20 @@ import com.rs.lib.util.Utils;
 public class Foods {
 
 	public static enum Food {
-		
+
 		TURKEY_DRUMSTICK(15428, 1),
 		ROAST_POTATOES(15429, 1),
 		YULE_LOGS(15430, 1),
 		MULLED_WINE(15431, 1),
 
 		CRAFISH(13433, 2),
-		
+
 		KINGWORM(2162, 2),
 
 		ANCHOVIE(319, 1),
 
 		SHRIMP(315, 3),
-		
+
 		FROG_SPAWN(5004, 2),
 
 		KARAMBWANJI(3151, 3),
@@ -67,7 +67,7 @@ public class Foods {
 		LAVA_EEL(2149, 7),
 
 		HERRING(347, 5),
-		
+
 		EDIBLE_SEAWEED(403, 4),
 
 		MACKEREL(355, 6),
@@ -87,7 +87,7 @@ public class Foods {
 		BASS(365, 13),
 
 		SWORDFISH(373, 14),
-		
+
 		SWEETCORN(5988, 10),
 		STRAWBERRY(5504, 6),
 
@@ -296,7 +296,7 @@ public class Foods {
 		FILLETS(10969, 2),
 		LOACH(10970, 3),
 		EELSUSHI(10971, 10),
-		
+
 		CAKE(1891, 4, 1893),
 
 		TWO_THIRDS_CAKE(1893, 4, 1895),
@@ -312,7 +312,7 @@ public class Foods {
 		FISHCAKE(7530, 11),
 
 		BREAD(2309, 5),
-		
+
 		TEA(1978, 3, 1980, Effect.TEA_MESSAGE),
 		WINE(1993, 11, 1935),
 
@@ -326,35 +326,35 @@ public class Foods {
 
 		CHEESE_WHEEL(18789, 2),
 		SPINACH_ROLL(1969, 2),
-		
+
 		PAPAYA(5972, 8, Effect.PAPAYA),
 
-        BANANA(1963, 2),
+		BANANA(1963, 2),
 
 		THIN_SNAIL_MEAT(3369, 5 + Utils.random(2)),
 
 		LEAN_SNAIL_MEAT(3371, 8),
 
 		FAT_SNAIL_MEAT(3373, 8 + Utils.random(2)),
-		
+
 		HEIM_CRAB(18159, 2),
-		
+
 		BLUE_CRAB(18175, 22),
-		
+
 		BOULDABASS(18171, 17),
-		
+
 		CAVE_MORAY(18177, 25),
-		
+
 		DUSK_EEL(18163, 7),
-		
+
 		GIANT_FLATFISH(18165, 10),
-		
+
 		RED_EYE(18161, 5),
-		
+
 		SALVE_EEL(18173, 20),
-		
+
 		SHORT_FINNED_EEL(18167, 12),
-		
+
 		WEB_SNIPER(18169, 15);
 
 		/**
@@ -382,11 +382,11 @@ public class Foods {
 		/**
 		 * A map of object ids to foods.
 		 */
-		private static Map<Integer, Food> foods = new HashMap<Integer, Food>();
+		private static Map<Integer, Food> foods = new HashMap<>();
 
 		/**
 		 * Gets a food by an object id.
-		 * 
+		 *
 		 * @param itemId
 		 *            The object id.
 		 * @return The food, or <code>null</code> if the object is not a food.
@@ -399,14 +399,13 @@ public class Foods {
 		 * Populates the tree map.
 		 */
 		static {
-			for (final Food food : Food.values()) {
+			for (final Food food : Food.values())
 				foods.put(food.id, food);
-			}
 		}
 
 		/**
 		 * Represents a food being eaten
-		 * 
+		 *
 		 * @param id
 		 *            The food id
 		 * @param heal
@@ -419,7 +418,7 @@ public class Foods {
 
 		/**
 		 * Represents a part of a food item being eaten (example: cake)
-		 * 
+		 *
 		 * @param id
 		 *            The food id
 		 * @param heal
@@ -449,7 +448,7 @@ public class Foods {
 
 		/**
 		 * Gets the id.
-		 * 
+		 *
 		 * @return The id.
 		 */
 		public int getId() {
@@ -458,7 +457,7 @@ public class Foods {
 
 		/**
 		 * Gets the exp amount.
-		 * 
+		 *
 		 * @return The exp amount.
 		 */
 		public int getHeal() {
@@ -467,7 +466,7 @@ public class Foods {
 
 		/**
 		 * Gets the new food id
-		 * 
+		 *
 		 * @return The new food id.
 		 */
 		public int getNewId() {
@@ -565,7 +564,7 @@ public class Foods {
 				player.sendMessage("You don't really like it much.", true);
 			}
 		},
-		
+
 		PAPAYA {
 			@Override
 			public void effect(Object object) {
@@ -574,7 +573,7 @@ public class Foods {
 				player.setRunEnergy(restoredEnergy > 100 ? 100 : restoredEnergy);
 			}
 		},
-		
+
 		TEA_MESSAGE {
 			@Override
 			public void effect(Object object) {
@@ -608,14 +607,12 @@ public class Foods {
 	public static boolean eat(final Player player, Item item, int slot) {
 		return eat(player, item, slot, null);
 	}
-	
+
 	public static boolean eat(final Player player, Item item, int slot, Player givenFrom) {
 		Food food = Food.forId(item.getId());
 		if (food == null)
 			return false;
-		if (!player.canEat())
-			return true;
-		if (!player.getControllerManager().canEat(food))
+		if (!player.canEat() || !player.getControllerManager().canEat(food))
 			return true;
 		String name = ItemDefinitions.getDefs(food.getId()).getName().toLowerCase();
 		player.sendMessage("You eat the " + name + ".");
@@ -632,15 +629,13 @@ public class Foods {
 			if (givenFrom != null && givenFrom.getDungManager().getActivePerk() == KinshipPerk.MEDIC)
 				healed *= 1.2 + (givenFrom.getDungManager().getKinshipTier(KinshipPerk.MEDIC) * 0.03);
 			player.applyHit(new Hit(player, healed, HitLook.HEALED_DAMAGE));
-		} else {
+		} else
 			player.heal(food.getHeal() * 10, food.getExtraHP() * 10);
-		}
 		if (player.getHitpoints() > hp)
 			player.sendMessage("It heals some health.");
 		player.getInventory().refresh();
-		if (food.effect != null) {
+		if (food.effect != null)
 			food.effect.effect(player);
-		}
 		return true;
 	}
 

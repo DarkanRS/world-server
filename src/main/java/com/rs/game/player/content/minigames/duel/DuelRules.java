@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,7 +29,7 @@ public class DuelRules {
 	public DuelRules(Player player, Player target) {
 		this.player = player;
 		this.target = target;
-		this.stake = new ItemsContainer<Item>(28, false);
+		stake = new ItemsContainer<>(28, false);
 	}
 
 	public boolean canAccept(ItemsContainer<Item> stake) {
@@ -41,14 +41,12 @@ public class DuelRules {
 		Item item;
 		for (int i = 10; i < 24; i++) {
 			int slot = i - 10;
-			if (getRule(i) && (item = player.getEquipment().getItem(slot)) != null) {
+			if (getRule(i) && (item = player.getEquipment().getItem(slot)) != null)
 				if (i == 23) {// arrows
 					if (!(item.getDefinitions().isStackable() && player.getInventory().getItems().containsOne(item)))
 						count++;
-				} else {
+				} else
 					count++;
-				}
-			}
 		}
 		int freeSlots = player.getInventory().getItems().freeSlots() - count;
 		if (freeSlots < 0) {
@@ -56,11 +54,9 @@ public class DuelRules {
 			getTarget().sendMessage("Your opponent does not have enough space to remove all the equipment.");
 			return false;
 		}
-		for (int i = 0; i < stake.getSize(); i++) {
-			if (stake.get(i) != null) {
+		for (int i = 0; i < stake.getSize(); i++)
+			if (stake.get(i) != null)
 				freeSlots--;
-			}
-		}
 		if (freeSlots < 0) {
 			player.sendMessage("You do not have enough room in your inventory for this stake.");
 			getTarget().sendMessage("Your opponent does not have enough room in his inventory for this stake.");
@@ -80,9 +76,8 @@ public class DuelRules {
 			setRule(ruleId, false);
 		if (updated) {
 			DuelRules rules = getTarget().getLastDuelRules();
-			if (rules == null) {
+			if (rules == null)
 				return;
-			}
 			rules.setRules(ruleId, false);
 		}
 		setConfigs();

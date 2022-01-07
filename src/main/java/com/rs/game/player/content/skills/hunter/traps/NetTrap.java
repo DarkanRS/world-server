@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,13 +33,13 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 
 public class NetTrap extends BoxStyleTrap {
-	
+
 	private enum TreeType {
 		SWAMP(19679, 19681, 19678, 19676, 19677, 19674, 19675),
 		DESERT(19652, 19651, 19650, 19657, 19656, 19655, 19654),
 		LAVA(19663, 19665, 19662, 19660, 19661, 19658, 19659),
 		WILDY(19671, 19673, 19670, 19668, 19669, 19666, 19667);
-		
+
 		private int base;
 		private int net;
 		private int setUp;
@@ -47,18 +47,18 @@ public class NetTrap extends BoxStyleTrap {
 		private int failed;
 		private int catching;
 		private int caught;
-		
+
 		private static Map<Integer, TreeType> BY_BASE = new HashMap<>();
-		
+
 		static {
 			for (TreeType t : TreeType.values())
 				BY_BASE.put(t.base, t);
 		}
-		
+
 		public static TreeType fromBase(int base) {
 			return BY_BASE.get(base);
 		}
-		
+
 		private TreeType(int base, int net, int setUp, int failing, int failed, int catching, int caught) {
 			this.base = base;
 			this.setUp = setUp;
@@ -69,7 +69,7 @@ public class NetTrap extends BoxStyleTrap {
 			this.net = net;
 		}
 	}
-	
+
 	private OwnedObject tree;
 	private TreeType treeType;
 
@@ -77,14 +77,14 @@ public class NetTrap extends BoxStyleTrap {
 		super(player, BoxTrapType.TREE_NET, tile);
 		if (tree != null) {
 			this.tree = new OwnedObject(player, tree);
-			this.treeType = TreeType.fromBase(tree.getId());
-			if (this.treeType == null)
+			treeType = TreeType.fromBase(tree.getId());
+			if (treeType == null)
 				FileManager.logError("Tree type null: " + tree);
-			this.setIdNoRefresh(treeType.net);
-			this.setRotation(tree.getRotation());
+			setIdNoRefresh(treeType.net);
+			setRotation(tree.getRotation());
 		}
 	}
-	
+
 	@Override
 	public void onCreate() {
 		if (tree != null) {
@@ -92,12 +92,13 @@ public class NetTrap extends BoxStyleTrap {
 			tree.createReplace();
 		}
 	}
-	
+
+	@Override
 	public void onDestroy() {
 		if (tree != null)
 			tree.setId(treeType.base);
 	}
-	
+
 	@Override
 	public void expire(Player player) {
 		WorldTile tile = new WorldTile(this);
@@ -106,7 +107,7 @@ public class NetTrap extends BoxStyleTrap {
 		World.addGroundItem(new Item(954, 1), tile, player, true, 60);
 		World.addGroundItem(new Item(303, 1), tile, player, true, 60);
 	}
-	
+
 	@Override
 	public void handleCatch(BoxHunterNPC npc, boolean success) {
 		destroy();

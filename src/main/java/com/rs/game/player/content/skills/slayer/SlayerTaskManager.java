@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,7 +31,7 @@ public class SlayerTaskManager {
 	private TaskMonster lastMonster = TaskMonster.ABYSSAL_DEMONS;
 	private Task task;
 	private int killsLeft = 0;
-	
+
 	public Master getMaster() {
 		return task == null ? null : task.getMaster();
 	}
@@ -47,7 +47,7 @@ public class SlayerTaskManager {
 	public void setTask(Task task) {
 		this.task = task;
 	}
-	
+
 	public void removeTask() {
 		if (task != null)
 			lastMonster = task.getMonster();
@@ -58,18 +58,15 @@ public class SlayerTaskManager {
 	public void setMonstersLeft(int i) {
 		killsLeft = i;
 	}
-	
+
 	public boolean isOnTaskAgainst(NPC npc) {
 		if (task != null) {
 			String npcName = npc.getDefinitions().getName().toLowerCase();
-			for (String slayable : task.getMonster().getMonsterNames()) {
+			for (String slayable : task.getMonster().getMonsterNames())
 				if (slayable != null) {
-					if (npcName.startsWith(" ") && npcName.contains(slayable.replace(" ", "")))
-						return true;
-					if (npcName.contains(slayable))
+					if ((npcName.startsWith(" ") && npcName.contains(slayable.replace(" ", ""))) || npcName.contains(slayable))
 						return true;
 				}
-			}
 		}
 		return false;
 	}
@@ -83,32 +80,28 @@ public class SlayerTaskManager {
 			player.consecutiveTasks++;
 			int amount = 0;
 			if (player.consecutiveTasks != 0) {
-				if (player.consecutiveTasks % 50 == 0) {
+				if (player.consecutiveTasks % 50 == 0)
 					amount = player.getSlayer().getMaster().getPoints50();
-				} else if (player.consecutiveTasks % 10 == 0) {
+				else if (player.consecutiveTasks % 10 == 0)
 					amount = player.getSlayer().getMaster().getPoints10();
-				} else {
+				else
 					amount = player.getSlayer().getMaster().getPoints();
-				}
-			} else {
+			} else
 				amount = player.getSlayer().getMaster().getPoints();
-			}
 			player.addSlayerPoints(amount);
 			player.sendMessage("You have completed " + player.consecutiveTasks + " tasks in a row and receive "+amount+" slayer points!");
 			player.sendMessage("You have finished your slayer task, talk to a slayer master for a new one.");
 			player.incrementCount("Slayer tasks completed");
-            player.getPackets().sendMusicEffect(61);
+			player.getPackets().sendMusicEffect(61);
 			removeTask();
 			player.updateSlayerTask();
 		}
 	}
 
 	public String getTaskString() {
-		if (task == null) {
+		if (task == null)
 			return "You need something new to hunt; return to a Slayer master.";
-		} else {
-			return "Your current assignment is "+task.getMonster().getName()+"; only "+killsLeft+" more to go.";
-		}
+		return "Your current assignment is "+task.getMonster().getName()+"; only "+killsLeft+" more to go.";
 	}
 
 	public void speakToMaster(Player player, Master master) {
@@ -117,24 +110,19 @@ public class SlayerTaskManager {
 				player.getDialogueManager().execute(new EnchantedGemD(), player.getSlayer().getMaster());
 			else
 				player.sendMessage("You have no task currently.");
-		} else {
+		} else
 			player.startConversation(new SlayerMasterD(player, master));
-		}
 	}
-	
+
 	public void generateNewTask(Player player, Master master) {
 		if (player.hasSlayerTask()) {
 			player.sendMessage("You are trying to get a task with a task already in progress.");
 			return;
 		}
-		
-		ArrayList<Task> possibleTasks = new ArrayList<Task>();
+
+		ArrayList<Task> possibleTasks = new ArrayList<>();
 		for (Task task : Task.values()) {
-			if (task.getMaster() != master)
-				continue;
-			if (player.blockedTaskContains(task.getMonster()) || lastMonster == task.getMonster())
-				continue;
-			if (player.getSkills().getLevelForXp(Constants.SLAYER) < task.getMonster().getLevel())
+			if ((task.getMaster() != master) || player.blockedTaskContains(task.getMonster()) || lastMonster == task.getMonster() || (player.getSkills().getLevelForXp(Constants.SLAYER) < task.getMonster().getLevel()))
 				continue;
 			if (task.getMonster().getQuestReq() != null && (!task.getMonster().getQuestReq().meetsRequirements(player) || !player.getQuestManager().isComplete(task.getMonster().getQuestReq())))
 				continue;
@@ -168,13 +156,12 @@ public class SlayerTaskManager {
 							player.getSlayer().removeTask();
 							player.getSlayer().generateNewTask(player, master);
 							player.updateSlayerTask();
-							Dialogue.sendNPCDialogue(player, master.npcId, Dialogue.HAPPY_TALKING, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());	
+							Dialogue.sendNPCDialogue(player, master.npcId, Dialogue.HAPPY_TALKING, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());
 						}
 					}
 				});
-			} else {
+			} else
 				Dialogue.sendNPCDialogue(player, master.npcId, Dialogue.HAPPY_TALKING, "You already have a task of " + player.getSlayer().getTask().getMonster().getName() + "" + (master == getMaster() ? "" : (" from "+ player.getSlayer().getTask().getMaster().name())) + ".");
-			}
 		} else {
 			if (player.getSkills().getLevelForXp(Constants.SLAYER) < master.reqSlayerLevel || player.getSkills().getCombatLevelWithSummoning() < master.requiredCombatLevel) {
 				Dialogue.sendNPCDialogue(player, master.npcId, Dialogue.HAPPY_TALKING, "You are not yet experienced enough to recieve my tasks. Come back when you're stronger.");
@@ -185,7 +172,7 @@ public class SlayerTaskManager {
 				public void run(Player player) {
 					if (option == 1) {
 						player.getSlayer().generateNewTask(player, master);
-						Dialogue.sendNPCDialogue(player, master.npcId, Dialogue.HAPPY_TALKING, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());	
+						Dialogue.sendNPCDialogue(player, master.npcId, Dialogue.HAPPY_TALKING, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());
 					}
 				}
 			});

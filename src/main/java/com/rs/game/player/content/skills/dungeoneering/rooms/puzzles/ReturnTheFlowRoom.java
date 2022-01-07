@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -33,45 +33,44 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 	//private static final int[] PEDESTAL =
 	//{ 54110, 54111, 54112, 54113, 37202 };
 	private static final int[] PEDESTAL_FLOW =
-	{ 54114, 54115, 54116, 54117, 37203 };
+		{ 54114, 54115, 54116, 54117, 37203 };
 
 	//private static final int[] PILLAR =
 	//{ 54118, 54119, 54120, 54121, 37204 };
 	private static final int[] PILLAR_BROKEN =
-	{ 54122, 54123, 54124, 54125, 37207 };
+		{ 54122, 54123, 54124, 54125, 37207 };
 	private static final int[] PILLAR_REPAIRED =
-	{ 54126, 54127, 54128, 54129, 37219 };
+		{ 54126, 54127, 54128, 54129, 37219 };
 
 	//Rubble pieces receiving no flow (each rooms seems to have a few of these prespawned)
 	private static final int[] RUBBLE_PIECE =
-	{ 54130, 54131, 54132, 54133, 37220 };
+		{ 54130, 54131, 54132, 54133, 37220 };
 	private static final int[] RUBBLE_PIECE_CLEARED =
-	{ 54134, 54135, 54136, 54137, 37229 };
+		{ 54134, 54135, 54136, 54137, 37229 };
 	//Cleared rubble pieces receiving flow (they still have remnants on them)
 	private static final int[] RUBBLE_PIECE_FLOW =
-	{ 54138, 54139, 54140, 54141, 37232 };
+		{ 54138, 54139, 54140, 54141, 37232 };
 	private static final int[] RUBBLE_PIECE_CLEARED_FLOW =
-	{ 54142, 54143, 54144, 54145, 37249 };
+		{ 54142, 54143, 54144, 54145, 37249 };
 
 	//Clean straight pieces
 	private static final int[] STRAIGHT_PIECE_PATH =
-	//This must also be used as a base for the rubble pieces to make a groove in the ground
-	{ 54146, 54147, 54148, 54149, 37250 };
+			//This must also be used as a base for the rubble pieces to make a groove in the ground
+		{ 54146, 54147, 54148, 54149, 37250 };
 	private static final int[] STRAIGHT_PIECE_PATH_FLOW =
-	{ 54150, 54151, 54152, 54153, 37251 };
+		{ 54150, 54151, 54152, 54153, 37251 };
 
 	//Clean corner pieces
 	private static final int[] CORNER_PIECE_PATH =
-	{ 54154, 54155, 54156, 54157, 37252 };
+		{ 54154, 54155, 54156, 54157, 37252 };
 	private static final int[] CORNER_PIECE_PATH_FLOW =
-	{ 54158, 54159, 54160, 54161, 37253 };
+		{ 54158, 54159, 54160, 54161, 37253 };
 
-	private static final int[][] pillars = new int[][]
-	{
-	{ 5, 5 },
-	{ 5, 10 },
-	{ 10, 10 },
-	{ 10, 5 } };
+	private static final int[][] pillars = {
+			{ 5, 5 },
+			{ 5, 10 },
+			{ 10, 10 },
+			{ 10, 5 } };
 
 	private int roomRotation;
 	private Flow[] flows;
@@ -81,14 +80,12 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 	public void openRoom() {
 		flows = new Flow[4];
 		roomRotation = manager.getRoom(reference).getRotation();
-		for (int x = 5; x <= 10; x++) {
+		for (int x = 5; x <= 10; x++)
 			for (int y = 5; y <= 10; y++) {
 				GameObject object = manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y);
-				if (object != null && object.getId() == RUBBLE_PIECE[type]) {
+				if (object != null && object.getId() == RUBBLE_PIECE[type])
 					World.removeObject(object);
-				}
 			}
-		}
 
 		boolean counterClockwise = coinFlip();
 		int pillarPtr = counterClockwise ? 1 : 0;
@@ -97,11 +94,10 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			int pillarX = pillars[pillarPtr][0];
 			int pillarY = pillars[pillarPtr][1];
 			GameObject pillar = new GameObject(manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, pillarX, pillarY));
-			if (counterClockwise) {
+			if (counterClockwise)
 				pillar.setRotation(roomRotation + 1 + i);
-			} else {
+			else
 				pillar.setRotation(roomRotation + 3 + i);
-			}
 			boolean broken = false;
 			if (coinFlip()) {
 				tasks++;
@@ -111,9 +107,8 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			World.spawnObject(pillar);
 
 			flows[i] = new Flow(pillarX, pillarY);
-			if (counterClockwise) {
+			if (counterClockwise)
 				flows[i].flow.mirror();
-			}
 			FlowPiece node = flows[i].flow.start;
 			while (node.next != null) {
 				if (i == 1) {
@@ -129,17 +124,15 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 					node.y = tmp - 1;
 				}
 				node.rotation += i;
-				if (!broken && !node.blocked) {
+				if (!broken && !node.blocked)
 					manager.spawnObject(reference, node.corner ? CORNER_PIECE_PATH_FLOW[type] : STRAIGHT_PIECE_PATH_FLOW[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
-				} else {
+				else
 					manager.spawnObject(reference, node.corner ? CORNER_PIECE_PATH[type] : STRAIGHT_PIECE_PATH[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
-				}
 				if (node.blocked) {
-					if (!broken) {
+					if (!broken)
 						manager.spawnObject(reference, RUBBLE_PIECE_FLOW[type], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
-					} else {
+					else
 						manager.spawnObject(reference, RUBBLE_PIECE[type], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
-					}
 					broken = true;
 				}
 				node = node.next;
@@ -182,9 +175,8 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 						World.spawnObject(rubble);
 						node.blocked = false;
 						advance();
-						if (object.getId() == RUBBLE_PIECE_FLOW[type]) {
+						if (object.getId() == RUBBLE_PIECE_FLOW[type])
 							startFlow(node);
-						}
 					}
 				}
 			}, 3);
@@ -196,7 +188,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 				return false;
 			}
 			int[] coords = manager.getRoomPos(object);
-			for (Flow flow : flows) {
+			for (Flow flow : flows)
 				if (flow.pillarX == coords[0] && flow.pillarY == coords[1]) {
 					giveXP(player, Constants.CONSTRUCTION);
 					player.setNextAnimation(new Animation(14566));
@@ -206,7 +198,6 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 					startFlow(flow.flow.start);
 					return false;
 				}
-			}
 		}
 		return true;
 	}
@@ -221,11 +212,11 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 
 	private void startFlow(FlowPiece node) {
 		while (node.next != null) {
-			if (node.corner) {
+			if (node.corner)
 				manager.spawnObject(reference, CORNER_PIECE_PATH_FLOW[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
-			} else if (!node.blocked) {
+			else if (!node.blocked)
 				manager.spawnObject(reference, STRAIGHT_PIECE_PATH_FLOW[type], ObjectType.GROUND_DECORATION, node.rotation, 5 + node.x, 6 + node.y);
-			} else {
+			else {
 				manager.spawnObject(reference, RUBBLE_PIECE_FLOW[type], ObjectType.SCENERY_INTERACT, node.rotation, 5 + node.x, 6 + node.y);
 				return;
 			}
@@ -237,9 +228,8 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 		for (Flow flow : flows) {
 			FlowPiece node = flow.flow.start;
 			while (node.next != null) {
-				if (5 + node.x == x && 6 + node.y == y) {
+				if (5 + node.x == x && 6 + node.y == y)
 					return node;
-				}
 				node = node.next;
 			}
 		}
@@ -255,8 +245,8 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 		FlowBuilder flow;
 
 		public Flow(int x, int y) {
-			this.pillarX = x;
-			this.pillarY = y;
+			pillarX = x;
+			pillarY = y;
 			flow = new FlowBuilder();
 			flow.generate();
 		}
@@ -287,58 +277,55 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 					if (curr.x == SIZE_X && !used[curr.x - 1][curr.y]) {
 						move(WEST);
 						continue;
-					} else if (curr.x == 0 && !used[SIZE_X][curr.y]) {
+					}
+					if (curr.x == 0 && !used[SIZE_X][curr.y]) {
 						move(EAST);
 						continue;
 					}
-					//Else can't change X
 				}
+				//Else can't change X
 				if (curr.y == SIZE_Y) {
-					if (!used[curr.x][curr.y - 1]) {
+					if (!used[curr.x][curr.y - 1])
 						move(SOUTH);
-					} else {
+					else
 						move(EAST); //rest is impossible
-					}
-				} else {
+				} else
 					move(NORTH);
-				}
 			}
 			move(EAST);
 		}
 
 		public void move(int dir) {
 			used[curr.x][curr.y] = true;
-			if (curr.fromDir == NORTH && dir == NORTH) {
+			if (curr.fromDir == NORTH && dir == NORTH)
 				new FlowPiece(curr.x, curr.y + 1, false, 1, dir, coinFlip());
-			} else if (curr.fromDir == EAST && dir == EAST) {
+			else if (curr.fromDir == EAST && dir == EAST)
 				new FlowPiece(curr.x + 1, curr.y, false, 2, dir, coinFlip());
-			} else if (curr.fromDir == NORTH && dir == EAST) {
+			else if (curr.fromDir == NORTH && dir == EAST)
 				new FlowPiece(curr.x + 1, curr.y, true, 3, dir, false);
-			} else if (curr.fromDir == SOUTH && dir == EAST) {
+			else if (curr.fromDir == SOUTH && dir == EAST)
 				new FlowPiece(curr.x + 1, curr.y, true, 2, dir, false);
-			} else if (curr.fromDir == NORTH && dir == WEST) {
+			else if (curr.fromDir == NORTH && dir == WEST)
 				new FlowPiece(curr.x - 1, curr.y, true, 0, dir, false);
-			} else if (curr.fromDir == EAST && dir == SOUTH) {
+			else if (curr.fromDir == EAST && dir == SOUTH)
 				new FlowPiece(curr.x, curr.y - 1, true, 0, dir, false);
-			} else if (curr.fromDir == EAST && dir == NORTH) {
+			else if (curr.fromDir == EAST && dir == NORTH)
 				new FlowPiece(curr.x, curr.y + 1, true, 1, dir, false);
-			} else if (curr.fromDir == WEST && dir == NORTH) {
+			else if (curr.fromDir == WEST && dir == NORTH)
 				new FlowPiece(curr.x, curr.y + 1, true, 2, dir, false);
-			} else {
+			else
 				throw new RuntimeException();
-			}
 		}
 
 		public void mirror() {
 			FlowPiece node = start;
 			while (node.next != null) {
 				node.y = SIZE_Y - node.y + 1;
-				if (node.corner) {
+				if (node.corner)
 					node.rotation = 1 - node.rotation;
-				} else if (node.rotation == 1) {
+				else if (node.rotation == 1)
 					//turn straight pieces in Y direction
 					node.rotation += 2;
-				}
 				node = node.next;
 			}
 		}
@@ -358,7 +345,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			public FlowPiece(int x, int y, boolean corner, int rotation, int dir, boolean blocked) {
 				this.x = x;
 				this.y = y;
-				this.fromDir = dir;
+				fromDir = dir;
 				if (curr != null) {
 					curr.corner = corner;
 					if (!hasRock) {

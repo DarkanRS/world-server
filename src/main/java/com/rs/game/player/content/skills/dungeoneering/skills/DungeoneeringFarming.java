@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -112,10 +112,9 @@ public class DungeoneeringFarming {
 		}
 
 		public static Harvest forSeed(int id) {
-			for (Harvest harvest : Harvest.values()) {
+			for (Harvest harvest : Harvest.values())
 				if (harvest.seed == id)
 					return harvest;
-			}
 			return null;
 		}
 	}
@@ -135,13 +134,12 @@ public class DungeoneeringFarming {
 		DungFarmPatch patch = null;
 		if (object instanceof DungFarmPatch p)
 			patch = p;
-		
-		if (isTextile) {
+
+		if (isTextile)
 			if (player.getSkills().getLevel(Constants.FARMING) < harvest.lvl) {
 				player.sendMessage("You need a Farming level of " + harvest.lvl + " in order to pick " + productName + ".");
 				return;
 			}
-		}
 
 		if (harvestCount == -1)
 			harvestCount = Utils.random(3, 6);
@@ -173,7 +171,7 @@ public class DungeoneeringFarming {
 		final Harvest harvest = Harvest.forSeed(item.getId());
 		if (harvest == null)
 			return;
-		else if (player.getSkills().getLevel(Constants.FARMING) < harvest.lvl) {
+		if (player.getSkills().getLevel(Constants.FARMING) < harvest.lvl) {
 			player.sendMessage("You need a Farming level of " + harvest.lvl + " in order to plant a " + ItemDefinitions.getDefs(harvest.seed).getName().toLowerCase() + ".");
 			return;
 		}

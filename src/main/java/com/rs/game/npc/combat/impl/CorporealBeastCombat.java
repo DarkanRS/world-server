@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -54,13 +54,12 @@ public class CorporealBeastCombat extends CombatScript {
 		if (attackStyle == 0 || attackStyle == 1) { // melee
 			int distanceX = target.getX() - npc.getX();
 			int distanceY = target.getY() - npc.getY();
-			if (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1)
-				attackStyle = 2 + Utils.getRandomInclusive(2); // set mage
-			else {
+			if ((distanceX <= size) && (distanceX >= -1) && (distanceY <= size) && (distanceY >= -1)) {
 				npc.setNextAnimation(new Animation(attackStyle == 0 ? defs.getAttackEmote() : 10058));
 				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
+			attackStyle = 2 + Utils.getRandomInclusive(2);
 		}
 		if (attackStyle == 2) { // powerfull mage spiky ball
 			npc.setNextAnimation(new Animation(10410));
@@ -69,7 +68,7 @@ public class CorporealBeastCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(10410));
 			int delay = World.sendProjectile(npc, target, 1823, 41, 16, 10, 1, 16, 0).getTaskDelay();
 			delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, AttackStyle.MAGE, target)));
-			if (target instanceof Player player) {
+			if (target instanceof Player player)
 				WorldTasksManager.schedule(new WorldTask() {
 					@Override
 					public void run() {
@@ -86,7 +85,6 @@ public class CorporealBeastCombat extends CombatScript {
 					}
 
 				}, delay);
-			}
 		} else if (attackStyle == 4) {
 			npc.setNextAnimation(new Animation(10410));
 			final WorldTile tile = new WorldTile(target);

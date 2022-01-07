@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,7 +32,7 @@ import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.InterfaceOnObjectEvent;
 
 public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
-	
+
 	@Override
 	public void handle(Player player, IFOnObject packet) {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
@@ -47,11 +47,7 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 		if (mapObject == null || mapObject.getId() != packet.getObjectId())
 			return;
 		final GameObject object = mapObject;
-		if (player.isDead() || Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId())
-			return;
-		if (player.isLocked())
-			return;
-		if (!player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
+		if (player.isDead() || Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || player.isLocked() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
 			return;
 		player.stopAll();
 		if (packet.isForceRun())
@@ -59,11 +55,10 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 		switch (packet.getInterfaceId()) {
 		case 430:
 			player.stopAll(true);
-			if (packet.getComponentId() == 55) {
+			if (packet.getComponentId() == 55)
 				Lunars.handleCurePlant(player, object);
-			} else if (packet.getComponentId() == 24) {
+			else if (packet.getComponentId() == 24)
 				Lunars.handleFertileSoil(player, object);
-			}
 			break;
 		case Inventory.INVENTORY_INTERFACE: // inventory
 			final Item item = player.getInventory().getItem(packet.getSlotId());
@@ -73,12 +68,9 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 			break;
 		default:
 			PluginManager.handle(new InterfaceOnObjectEvent(player, object, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), false));
-			player.setRouteEvent(new RouteEvent(object, new Runnable() {
-				@Override
-				public void run() {
-					player.faceObject(object);
-					PluginManager.handle(new InterfaceOnObjectEvent(player, object, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), true));
-				}
+			player.setRouteEvent(new RouteEvent(object, () -> {
+				player.faceObject(object);
+				PluginManager.handle(new InterfaceOnObjectEvent(player, object, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), true));
 			}));
 			break;
 		}

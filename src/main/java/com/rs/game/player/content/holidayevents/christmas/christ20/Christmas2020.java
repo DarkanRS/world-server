@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -30,9 +30,9 @@ import com.rs.utils.spawns.NPCSpawns;
 
 @PluginEventHandler
 public class Christmas2020 {
-	
+
 	public static final String STAGE_KEY = "christ2022";
-	
+
 	private static boolean ACTIVE = false;
 
 	@ServerStartupEvent
@@ -42,7 +42,7 @@ public class Christmas2020 {
 		NPCSpawns.add(new NPCSpawn(9398, new WorldTile(2655, 5678, 0), "Queen of Snow"));
 		NPCSpawns.add(new NPCSpawn(9400, new WorldTile(2654, 5679, 0), "Santa"));
 	}
-	
+
 	public static LoginHandler login = new LoginHandler() {
 		@Override
 		public void handle(LoginEvent e) {
@@ -51,7 +51,7 @@ public class Christmas2020 {
 			e.getPlayer().getVars().setVarBit(6934, 1);
 		}
 	};
-	
+
 	public static ItemClickHandler handleYoyo = new ItemClickHandler(new Object[] { 4079 }, new String[] { "Play", "Loop", "Walk", "Crazy" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -71,7 +71,7 @@ public class Christmas2020 {
 			}
 		}
 	};
-	
+
 	public static ItemClickHandler handleReinhat = new ItemClickHandler(new Object[] { 10507 }, new String[] { "Emote" }) {
 		@Override
 		public void handle(ItemClickEvent e) {

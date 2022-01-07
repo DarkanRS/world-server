@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -23,26 +23,23 @@ import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 /**
- * 
+ *
  * @author Humid
  */
 @PluginEventHandler
 public class GodSwordCreation {
 
 	public static boolean handleGodSword(Player player, int usedWith, int itemUsed) {
-		if (!player.getInventory().containsItem(usedWith, 1)) {
+		if (!player.getInventory().containsItem(usedWith, 1) || !player.getInventory().containsItem(itemUsed, 1))
 			return false;
-		}
-		if (!player.getInventory().containsItem(itemUsed, 1)) {
-			return false;
-		}
 		if (itemUsed == 11702 && usedWith == 11690 || itemUsed == 11690 && usedWith == 11702) {
 			player.getInventory().deleteItem(usedWith, 1);
 			player.getInventory().deleteItem(itemUsed, 1);
 			player.getInventory().addItem(11694, 1);
 			player.sendMessage("You join the hilt and blade into a godsword.");
 			return true;
-		} else if (itemUsed == 11704 && usedWith == 11690 || usedWith == 11704 && itemUsed == 11690) {
+		}
+		if (itemUsed == 11704 && usedWith == 11690 || usedWith == 11704 && itemUsed == 11690) {
 			player.getInventory().deleteItem(itemUsed, 1);
 			player.getInventory().deleteItem(usedWith, 1);
 			player.getInventory().addItem(11696, 1);
@@ -145,7 +142,7 @@ public class GodSwordCreation {
 			player.sendMessage("You put the skull onto the sceptre and a strange magic begins to emnate from it.");
 			return true;
 		}
-		
+
 		/*
 		 * START SPIRIT SHIELDS
 		 */
@@ -204,9 +201,8 @@ public class GodSwordCreation {
 				player.getInventory().deleteItem(21359, 2); // BOLAS
 				player.getInventory().addItem(21365, 1);
 				player.getSkills().addXp(Constants.FLETCHING, 25);
-			} else {
+			} else
 				player.sendMessage("You need 2 excressence, 1 mutated vine, and 72 fletching to create bolas.");
-			}
 			return true;
 		}
 		return false;
@@ -219,9 +215,8 @@ public class GodSwordCreation {
 				e.getPlayer().getInventory().addItem(4151);
 				e.getPlayer().getInventory().addItem(21369);
 				e.getPlayer().sendMessage("You split the vine from the whip.");
-			} else {
+			} else
 				e.getPlayer().sendMessage("Not enough space in your inventory.");
-			}
 		}
 	};
 }

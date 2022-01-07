@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -42,13 +42,13 @@ public class ItemOnItemEvent implements PluginEvent {
 	}
 
 	public Item getUsedWith(int used) {
-		if (this.item1.getId() == used)
+		if (item1.getId() == used)
 			return item2;
-		else if (this.item2.getId() == used)
+		if (item2.getId() == used)
 			return item1;
 		return null;
 	}
-	
+
 	public Item getUsedWith(int... used) {
 		for (int use : used) {
 			if (item1.getId() == use)
@@ -86,13 +86,12 @@ public class ItemOnItemEvent implements PluginEvent {
 			return null;
 		return method;
 	}
-	
+
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, method);
-			if (old != null) {
+			if (old != null)
 				System.err.println("ERROR: Duplicate ItemOnItem methods for key: " + key + " " + method);
-			}
 		}
 	}
 }

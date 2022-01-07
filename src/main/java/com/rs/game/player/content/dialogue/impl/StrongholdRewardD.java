@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -23,10 +23,10 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.managers.EmotesManager.Emote;
 
 public class StrongholdRewardD extends Conversation {
-	
+
 	public StrongholdRewardD(Player player, int reward) {
-		super(player);		
-		
+		super(player);
+
 		switch(reward) {
 		case 0:
 			addSimple("The box hinges and crack and appear to be forming audible words....");
@@ -56,7 +56,7 @@ public class StrongholdRewardD extends Conversation {
 			if (!player.containsOneItem(9005, 9006)) {
 				addSimple("Welcome adventurer... you appear to have a choice...");
 				addSimple("You can choose between these two pairs of boots. They will both protect your feet in exactly same manner; however, they look very different. You can always come back and get another pair if you lose them, or even swap them for the other style!");
-				
+
 				Dialogue op = addOption("Choose your style of boots", "I'll take the colourful ones.", "I'll take the fighting ones.");
 				if (player.getEmotesManager().unlockedEmote(Emote.STOMP)) {
 					op.addPlayer(HeadE.CHEERFUL, "I'll take the colourful ones.")
@@ -79,12 +79,11 @@ public class StrongholdRewardD extends Conversation {
 						player.getEmotesManager().unlockEmote(Emote.STOMP);
 					});
 				}
-			} else {
+			} else
 				addSimple("You already have your boots. Return if you lose them.");
-			}
 			break;
 		}
-		
+
 		create();
 	}
 }

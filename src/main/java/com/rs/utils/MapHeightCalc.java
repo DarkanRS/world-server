@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -26,19 +26,18 @@ public class MapHeightCalc {
 
 	static {
 		for (int i = 0; i < JAGEX_CIRCULAR_ANGLE; i++) {
-			SIN[i] = (int) (65536.0D * Math.sin((double) i * JAGEX_RADIAN));
-			COS[i] = (int) (65536.0D * Math.cos((double) i * JAGEX_RADIAN));
+			SIN[i] = (int) (65536.0D * Math.sin(i * JAGEX_RADIAN));
+			COS[i] = (int) (65536.0D * Math.cos(i * JAGEX_RADIAN));
 		}
 	}
 
 	public static int calculate(int x, int y) {
 		int n = interpolateNoise(x + 45365, y + 91923, 4) - 128 + (interpolateNoise(10294 + x, y + 37821, 2) - 128 >> 1) + (interpolateNoise(x, y, 1) - 128 >> 2);
-		n = 35 + (int) ((double) n * 0.3D);
-		if (n < 10) {
+		n = 35 + (int) (n * 0.3D);
+		if (n < 10)
 			n = 10;
-		} else if (n > 60) {
+		else if (n > 60)
 			n = 60;
-		}
 
 		return n;
 	}

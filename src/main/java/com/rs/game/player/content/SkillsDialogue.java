@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -40,7 +40,7 @@ public final class SkillsDialogue {
 			itemIds[i] = items[i].getId();
 		sendSkillsDialogue(player, option, explanation, maxQuantity, itemIds, filter, true);
 	}
-	
+
 	public static void sendSkillsDialogue(Player player, int option, String explanation, int maxQuantity, ReqItem[] items, ItemNameFilter filter) {
 		int[] itemIds = new int[items.length];
 		for (int i = 0; i < items.length; i++)
@@ -53,12 +53,10 @@ public final class SkillsDialogue {
 	}
 
 	public static void sendSkillsDialogue(Player player, int option, String explanation, int maxQuantity, int[] items, ItemNameFilter filter, boolean sendQuantitySelector) {
-		if (!sendQuantitySelector) {
+		if (!sendQuantitySelector)
 			maxQuantity = -1;
-		} else {
-			if (option != MAKE_SETS && option != MAKE_INTERVAL)
-				player.getPackets().setIFRightClickOps(916, 8, -1, 0, 0);
-		}
+		else if (option != MAKE_SETS && option != MAKE_INTERVAL)
+			player.getPackets().setIFRightClickOps(916, 8, -1, 0, 0);
 		player.getPackets().setIFText(916, 6, explanation);
 		player.getPackets().sendVarc(754, option);
 		for (int i = 0; i < 10; i++) {
@@ -77,7 +75,7 @@ public final class SkillsDialogue {
 		player.getInterfaceManager().sendChatBoxInterface(905);
 		player.getInterfaceManager().setInterface(true, 905, 4, 916);
 	}
-	
+
 	public static ButtonClickHandler handleSetQuantityButtons = new ButtonClickHandler(916) {
 		@Override
 		public void handle(ButtonClickEvent e) {

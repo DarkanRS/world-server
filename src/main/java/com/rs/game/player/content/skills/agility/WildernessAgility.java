@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -225,9 +225,8 @@ public class WildernessAgility {
 	}
 
 	public static void climbCliff(final Player player, GameObject object) {
-		if (player.getY() != 3939) {
+		if (player.getY() != 3939)
 			return;
-		}
 		player.setNextAnimation(new Animation(3378));
 		final WorldTile toTile = new WorldTile(player.getX(), 3935, 0);
 

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,14 +32,14 @@ public class ObjectStrategy extends RouteStrategy {
 	private int accessBlockFlag;
 
 	public ObjectStrategy(GameObject object) {
-		this.x = object.getX();
-		this.y = object.getY();
-		this.routeType = getType(object);
-		this.type = object.getType();
-		this.rotation = object.getRotation();
-		this.sizeX = rotation == 0 || rotation == 2 ? object.getDefinitions().getSizeX() : object.getDefinitions().getSizeY();
-		this.sizeY = rotation == 0 || rotation == 2 ? object.getDefinitions().getSizeY() : object.getDefinitions().getSizeX();
-		this.accessBlockFlag = object.getDefinitions().getAccessBlockFlag();
+		x = object.getX();
+		y = object.getY();
+		routeType = getType(object);
+		type = object.getType();
+		rotation = object.getRotation();
+		sizeX = rotation == 0 || rotation == 2 ? object.getDefinitions().getSizeX() : object.getDefinitions().getSizeY();
+		sizeY = rotation == 0 || rotation == 2 ? object.getDefinitions().getSizeY() : object.getDefinitions().getSizeX();
+		accessBlockFlag = object.getDefinitions().getAccessBlockFlag();
 		if (rotation != 0)
 			accessBlockFlag = ((accessBlockFlag << rotation) & 0xF) + (accessBlockFlag >> (4 - rotation));
 	}
@@ -106,9 +106,8 @@ public class ObjectStrategy extends RouteStrategy {
 
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof ObjectStrategy))
+		if (!(other instanceof ObjectStrategy strategy))
 			return false;
-		ObjectStrategy strategy = (ObjectStrategy) other;
 		return x == strategy.x && y == strategy.y && routeType == strategy.routeType && type == strategy.type && rotation == strategy.rotation && sizeX == strategy.sizeX && sizeY == strategy.sizeY && accessBlockFlag == strategy.accessBlockFlag;
 	}
 

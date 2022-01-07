@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -21,7 +21,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.impl.skilling.MakeXItem;
 
 public class MakeXStatement implements Statement {
-	
+
 	public enum MakeXType {
 		MAKE,
 		MAKE_SET,
@@ -41,13 +41,13 @@ public class MakeXStatement implements Statement {
 		HEAT,
 		ADD
 	}
-	
+
 	private MakeXType type;
 	private int maxQuantity = -1;
 	private String question;
 	private int[] items;
 	private String[] options;
-	
+
 	public MakeXStatement(MakeXType type, int maxQuantity, String question, int[] items, String[] options) {
 		this.type = type;
 		this.maxQuantity = maxQuantity;
@@ -55,7 +55,7 @@ public class MakeXStatement implements Statement {
 		this.items = items;
 		this.options = options;
 	}
-	
+
 	public MakeXStatement(MakeXItem[] items, int maxQuantity) {
 		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", null, null);
 		int[] itemIds = new int[items.length];
@@ -63,15 +63,15 @@ public class MakeXStatement implements Statement {
 			itemIds[i] = items[i].getItemId();
 		this.items = itemIds;
 	}
-	
+
 	public MakeXStatement(int[] items, int maxQuantity) {
 		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", items, null);
 	}
-	
+
 	public MakeXStatement(int[] items, String[] options) {
 		this(MakeXType.SELECT, -1, "Select an item.", items, options);
 	}
-	
+
 	public MakeXStatement(int[] items) {
 		this(MakeXType.SELECT, -1, "Select an item.", items, null);
 	}
@@ -105,7 +105,7 @@ public class MakeXStatement implements Statement {
 			return componentId - 13;
 		return componentId - 14;
 	}
-	
+
 	public static void setMaxQuantity(Player player, int maxQuantity) {
 		player.getVars().setVarBit(8094, maxQuantity);
 	}

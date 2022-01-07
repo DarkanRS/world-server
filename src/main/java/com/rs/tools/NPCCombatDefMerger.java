@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,18 +28,18 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 
 public class NPCCombatDefMerger {
-	
+
 	private final static String ORIGINAL_PATH = "data/npcs/combatdefs/";
 	public static Map<String, NPCCombatDefinitions> ORIGINAL = new HashMap<>();
-	
+
 	private final static String DUMPED_PATH = "dumps/statdump/";
 	public static Map<String, NPCCombatDefinitions> DUMPED = new HashMap<>();
-	
+
 	public static void main(String[] args) throws IOException {
 		//Cache.init();
-		
+
 		loadPackedCombatDefinitions();
-		
+
 		for (String key : ORIGINAL.keySet()) {
 			NPCCombatDefinitions orig = ORIGINAL.get(key);
 			NPCCombatDefinitions dump = DUMPED.get(key);
@@ -48,7 +48,7 @@ public class NPCCombatDefMerger {
 				orig.setLevels(dump.getLevels());
 				orig.setAttackBonus(dump.getAttackBonus());
 				found = true;
-			} else if (orig.getIds() != null) {
+			} else if (orig.getIds() != null)
 				for (int id : orig.getIds()) {
 					NPCDefinitions npc = NPCDefinitions.getDefs(id);
 					dump = DUMPED.get(npc.getName().toLowerCase().replace(" ", "_"));
@@ -66,21 +66,20 @@ public class NPCCombatDefMerger {
 						break;
 					}
 				}
-			}
-			if (!found) {
+			if (!found)
 				System.out.println("Nothing for: " + key);
-			} else {
+			else {
 				//System.out.println("Found: " + key);
 			}
 		}
 	}
-	
+
 	private static void loadPackedCombatDefinitions() {
 		try {
 			File[] files = new File(ORIGINAL_PATH).listFiles();
 			for (File f : files)
 				loadFile(f, ORIGINAL);
-			
+
 			files = new File(DUMPED_PATH).listFiles();
 			for (File f : files)
 				loadFile(f, DUMPED);
@@ -88,7 +87,7 @@ public class NPCCombatDefMerger {
 			Logger.handle(e);
 		}
 	}
-	
+
 	private static void loadFile(File f, Map<String, NPCCombatDefinitions> map) throws JsonIOException, IOException {
 		if (f.isDirectory()) {
 			for (File dir : f.listFiles())
@@ -96,9 +95,8 @@ public class NPCCombatDefMerger {
 			return;
 		}
 		NPCCombatDefinitions defs = (NPCCombatDefinitions) JsonFileManager.loadJsonFile(f, NPCCombatDefinitions.class);
-		if (defs != null) {
+		if (defs != null)
 			map.put(f.getName(), defs);
-		}
 	}
 
 }

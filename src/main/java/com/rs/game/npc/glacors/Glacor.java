@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -64,27 +64,23 @@ public class Glacor extends NPC {
 
 	public Glacor(int id, WorldTile tile, boolean spawned) {
 		super(id, tile, spawned);
-		this.setForceMultiAttacked(true);
+		setForceMultiAttacked(true);
 	}
 
 	public boolean minionsKilled() {
-		if (minionsSpawned) {
+		if (minionsSpawned)
 			if (unstable.defeated && sapping.defeated && enduring.defeated)
 				return true;
-		}
 		return false;
 	}
 
 	public void resetNpcs() {
-		if (unstable != null) {
+		if (unstable != null)
 			unstable.finish();
-		}
-		if (sapping != null) {
+		if (sapping != null)
 			sapping.finish();
-		}
-		if (enduring != null) {
+		if (enduring != null)
 			enduring.finish();
-		}
 		setStage(Stage.FIRST);
 		setHitpoints(5000);
 		minionsSpawned = false;
@@ -98,15 +94,12 @@ public class Glacor extends NPC {
 	}
 
 	public void deathReset() {
-		if (unstable != null) {
+		if (unstable != null)
 			unstable.finish();
-		}
-		if (sapping != null) {
+		if (sapping != null)
 			sapping.finish();
-		}
-		if (enduring != null) {
+		if (enduring != null)
 			enduring.finish();
-		}
 		minionsSpawned = false;
 		minionType = null;
 		setAttackedBy(null);
@@ -149,16 +142,15 @@ public class Glacor extends NPC {
 		if (getMinionType() == null) {
 			if (unstable == null && sapping == null && enduring == null)
 				return;
-			if (unstable.defeated && enduring.defeated && !sapping.defeated) {
+			if (unstable.defeated && enduring.defeated && !sapping.defeated)
 				setMinionType(InheritedType.SAPPING);
-			} else if (unstable.defeated && !enduring.defeated && sapping.defeated) {
+			else if (unstable.defeated && !enduring.defeated && sapping.defeated)
 				setMinionType(InheritedType.ENDURING);
-			} else if (!unstable.defeated && enduring.defeated && sapping.defeated) {
+			else if (!unstable.defeated && enduring.defeated && sapping.defeated)
 				setMinionType(InheritedType.UNSTABLE);
-			}
 		}
 
-		if (getMinionType() == InheritedType.UNSTABLE && unstable.defeated) {
+		if (getMinionType() == InheritedType.UNSTABLE && unstable.defeated)
 			if (!startedTimer && !hasExploded) {
 				getNextHitBars().add(new TimerBar(700));
 				startedTimer = true;
@@ -167,19 +159,17 @@ public class Glacor extends NPC {
 					public void run() {
 						if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
 							return;
-						for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+						for (Player player : World.getPlayersInRegionRange(getRegionId()))
 							if (Utils.getDistance(thisNpc.getX(), thisNpc.getY(), player.getX(), player.getY()) < 3)
 								player.applyHit(new Hit(player, player.getHitpoints() / 2, HitLook.TRUE_DAMAGE));
-						}
 						thisNpc.applyHit(new Hit(thisNpc, (int) (thisNpc.getHitpoints() * 0.80), HitLook.TRUE_DAMAGE));
 						thisNpc.setNextSpotAnim(new SpotAnim(739));
 						hasExploded = true;
 					}
 				}, 25);
 			}
-		}
 	}
-	
+
 	@Override
 	public void sendDeath(Entity source) {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
@@ -192,9 +182,9 @@ public class Glacor extends NPC {
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					resetNpcs();
 					drop();
 					reset();
@@ -207,7 +197,7 @@ public class Glacor extends NPC {
 			}
 		}, 0, 1);
 	}
-	
+
 	@Override
 	public void setRespawnTask() {
 		if (!hasFinished()) {
@@ -216,19 +206,16 @@ public class Glacor extends NPC {
 			finish();
 		}
 		final NPC npc = this;
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					setFinished(false);
-					World.addNPC(npc);
-					npc.setLastRegionId(0);
-					World.updateEntityRegion(npc);
-					loadMapRegions();
-					checkMultiArea();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				setFinished(false);
+				World.addNPC(npc);
+				npc.setLastRegionId(0);
+				World.updateEntityRegion(npc);
+				loadMapRegions();
+				checkMultiArea();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, getCombatDefinitions().getRespawnDelay());
 	}
@@ -236,9 +223,9 @@ public class Glacor extends NPC {
 	public void spawnMinions() {
 		setNextAnimation(new Animation(9964));
 		setNextSpotAnim(new SpotAnim(635));
-		unstable = new UnstableMinion(14302, new WorldTile(this.getX() + 1, this.getY() + 1, this.getPlane()), -1, true, true, this);
-		sapping = new SappingMinion(14303, new WorldTile(this.getX() + 1, this.getY(), this.getPlane()), -1, true, true, this);
-		enduring = new EnduringMinion(14304, new WorldTile(this.getX() + 1, this.getY() - 1, this.getPlane()), -1, true, true, this);
+		unstable = new UnstableMinion(14302, new WorldTile(getX() + 1, getY() + 1, getPlane()), -1, true, true, this);
+		sapping = new SappingMinion(14303, new WorldTile(getX() + 1, getY(), getPlane()), -1, true, true, this);
+		enduring = new EnduringMinion(14304, new WorldTile(getX() + 1, getY() - 1, getPlane()), -1, true, true, this);
 		World.sendProjectile(this, unstable, 634, 60, 32, 50, 0.7, 0, 0);
 		World.sendProjectile(this, sapping, 634, 60, 32, 50, 0.7, 0, 0);
 		World.sendProjectile(this, enduring, 634, 60, 32, 50, 0.7, 0, 0);
@@ -270,7 +257,7 @@ public class Glacor extends NPC {
 	public void setStage(Stage stage) {
 		this.stage = stage;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(14301) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

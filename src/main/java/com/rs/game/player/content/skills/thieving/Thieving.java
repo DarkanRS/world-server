@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -38,9 +38,9 @@ import com.rs.utils.drop.DropTable;
 
 /**
  * Handles the Thieving Skill
- * 
+ *
  * @author Dragonkk
- * 
+ *
  */
 public class Thieving {
 
@@ -140,12 +140,11 @@ public class Thieving {
 	public static boolean isGuard(int npcId) {
 		if (npcId == 32 || npcId == 21 || npcId == 2256 || npcId == 2132 || npcId == 2236 || npcId == 23 || npcId == 8813)
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public static void handleStalls(final Player player, final GameObject object) {
-		for (final Stalls stall : Stalls.values()) {
+		for (final Stalls stall : Stalls.values())
 			if (stall.getObjectId() == object.getId()) {
 				if (player.getAttackedBy() != null && player.inCombat()) {
 					player.sendMessage("You can't do this while you're under combat.");
@@ -178,7 +177,6 @@ public class Thieving {
 					}
 				}, 0, 0);
 			}
-		}
 	}
 
 	public static void checkGuards(Player player) {
@@ -206,12 +204,12 @@ public class Thieving {
 			guard.setTarget(player);
 		}
 	}
-	
+
 	public static void checkTrapsChest(Player player, GameObject object, int openedId, int level , int respawnTime, double xp, DropSet set) {
 		Item[] loot = DropTable.calculateDrops(player, set);
 		checkTrapsChest(player, object, openedId, level , respawnTime, xp, loot);
 	}
-	
+
 	public static void checkTrapsChest(Player player, GameObject object, int openedId, int level, int respawnTime, double xp, Item... loot) {
 		player.faceObject(object);
 		if (!player.getInventory().hasFreeSlots()) {
@@ -227,10 +225,9 @@ public class Thieving {
 		player.getSkills().addXp(Constants.THIEVING, xp);
 		player.incrementCount("Chests thieved");
 		object.setIdTemporary(openedId, Ticks.fromSeconds(respawnTime));
-		for (Item item : loot) {
+		for (Item item : loot)
 			if (item != null)
 				player.getInventory().addItem(item);
-		}
 	}
 
 	public static boolean pickDoor(Player player, GameObject object) {

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -35,7 +35,7 @@ import com.rs.utils.shop.ShopsHandler;
 @QuestHandler(Quest.IMP_CATCHER)
 @PluginEventHandler
 public class ImpCatcher extends QuestOutline {
-	
+
 	private final static int WIZARD_MIZGOG = 706;
 	private final static int RED_BEAD = 1470;
 	private final static int YELLOW_BEAD = 1472;
@@ -49,7 +49,7 @@ public class ImpCatcher extends QuestOutline {
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:
 			lines.add("I can start this quest by speaking to Wizard Mizgog who is");
@@ -75,7 +75,7 @@ public class ImpCatcher extends QuestOutline {
 		}
 		return lines;
 	}
-	
+
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.MAGIC, 875);
@@ -105,28 +105,27 @@ public class ImpCatcher extends QuestOutline {
 				addOptions(new Options() {
 					@Override
 					public void create() {
-						if (player.getInventory().containsItems(new int[] { RED_BEAD, YELLOW_BEAD, BLACK_BEAD, WHITE_BEAD }, new int[] { 1, 1, 1, 1 })) {
+						if (player.getInventory().containsItems(new int[] { RED_BEAD, YELLOW_BEAD, BLACK_BEAD, WHITE_BEAD }, new int[] { 1, 1, 1, 1 }))
 							option("I've got all four beads.", new Dialogue().addPlayer(HeadE.CALM_TALK, "I've got all four beads.")
-								.addNPC(WIZARD_MIZGOG, HeadE.HAPPY_TALKING, "Thank you! Give them here and I'll check that they really are my beads, before I give you your reward. You'll like it, it's an amulet of accuracy.")
-								.addSimple("You give four coloured beads to Wizard Mizgog.")
-								.addNext(() -> {
-									player.getInventory().deleteItem(RED_BEAD, 1);
-									player.getInventory().deleteItem(YELLOW_BEAD, 1);
-									player.getInventory().deleteItem(BLACK_BEAD, 1);
-									player.getInventory().deleteItem(WHITE_BEAD, 1);
-									player.getQuestManager().completeQuest(Quest.IMP_CATCHER);
-								}));
-						} else {
+									.addNPC(WIZARD_MIZGOG, HeadE.HAPPY_TALKING, "Thank you! Give them here and I'll check that they really are my beads, before I give you your reward. You'll like it, it's an amulet of accuracy.")
+									.addSimple("You give four coloured beads to Wizard Mizgog.")
+									.addNext(() -> {
+										player.getInventory().deleteItem(RED_BEAD, 1);
+										player.getInventory().deleteItem(YELLOW_BEAD, 1);
+										player.getInventory().deleteItem(BLACK_BEAD, 1);
+										player.getInventory().deleteItem(WHITE_BEAD, 1);
+										player.getQuestManager().completeQuest(Quest.IMP_CATCHER);
+									}));
+						else
 							option("I don't have them all yet.", new Dialogue()
 									.addPlayer(HeadE.CALM_TALK, "I don't have them all yet.")
 									.addNPC(WIZARD_MIZGOG, HeadE.CALM_TALK, "Come back when you have them all. I've lost a white bead, a red bead, a black bead, and a yellow bead. Go kill some imps!"));
-						}
 						option("Goodbye.");
 					}
 				});
 				break;
 			case 2:
-				addOptions(new Options() { 
+				addOptions(new Options() {
 					@Override
 					public void create() {
 						option("Got any more quests?", new Dialogue()

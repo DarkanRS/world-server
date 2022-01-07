@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -29,8 +29,8 @@ import com.rs.utils.EconomyPrices;
 public class PriceChecker {
 
 	public static void openPriceCheck(Player player) {
-		player.getTempAttribs().setO("pcContainer", new ItemsContainer<Item>(28, false));
-		player.getTempAttribs().setO("pcInvContainer", new ItemsContainer<Item>(28, false));
+		player.getTempAttribs().setO("pcContainer", new ItemsContainer<>(28, false));
+		player.getTempAttribs().setO("pcInvContainer", new ItemsContainer<>(28, false));
 		ItemsContainer<Item> pc = player.getTempAttribs().getO("pcContainer");
 		ItemsContainer<Item> inv = player.getTempAttribs().getO("pcInvContainer");
 		for (int i = 0;i < player.getInventory().getItems().getItemsCopy().length;i++) {
@@ -141,12 +141,12 @@ public class PriceChecker {
 		player.getPackets().sendItems(90, pc);
 		player.getPackets().sendItems(93, inv);
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(206, 207) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getInterfaceId() == 206) {
-				if (e.getComponentId() == 15) {
+				if (e.getComponentId() == 15)
 					switch(e.getPacket()) {
 					case IF_OP1:
 						removeItem(e.getPlayer(), e.getSlotId(), 1);
@@ -166,9 +166,8 @@ public class PriceChecker {
 					default:
 						break;
 					}
-				}
-			} else if (e.getInterfaceId() == 207) {
-				if (e.getComponentId() == 0) {
+			} else if (e.getInterfaceId() == 207)
+				if (e.getComponentId() == 0)
 					switch(e.getPacket()) {
 					case IF_OP1:
 						addItem(e.getPlayer(), e.getSlotId(), 1);
@@ -191,8 +190,6 @@ public class PriceChecker {
 					default:
 						break;
 					}
-				}
-			}
 		}
 	};
 }

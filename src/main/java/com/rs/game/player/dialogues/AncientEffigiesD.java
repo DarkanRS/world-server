@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -44,13 +44,13 @@ public class AncientEffigiesD extends Dialogue {
 		}
 		skill1 = AncientEffigies.SKILL_1[type];
 		skill2 = AncientEffigies.SKILL_2[type];
-		sendDialogue(new String[] { "As you inspect the ancient effigy, you begin to feel a", "strange sensation of the relic searching your mind,", "drawing on your knowledge." });
+		sendDialogue("As you inspect the ancient effigy, you begin to feel a", "strange sensation of the relic searching your mind,", "drawing on your knowledge.");
 	}
 
 	@Override
 	public void run(int interfaceId, int componentId) {
 		if (stage == -1) {
-			sendDialogue(new String[] { "Images from your experiences of " + AncientEffigies.getMessage(skill1), "fill your mind." });
+			sendDialogue("Images from your experiences of " + AncientEffigies.getMessage(skill1), "fill your mind.");
 			stage = 0;
 		} else if (stage == 0) {
 			player.getTempAttribs().setI("skill1", skill1);
@@ -59,36 +59,35 @@ public class AncientEffigiesD extends Dialogue {
 			stage = 1;
 		} else if (stage == 1 && componentId == OPTION_1) {
 			if (player.getSkills().getLevel(player.getTempAttribs().getI("skill1")) < AncientEffigies.getRequiredLevel(item.getId())) {
-				sendDialogue(new String[] { "The images in your mind fade; the ancient effigy seems", "to desire knowledge of experiences you have not yet", "had." });
+				sendDialogue("The images in your mind fade; the ancient effigy seems", "to desire knowledge of experiences you have not yet", "had.");
 				player.sendMessage("You require at least level" + AncientEffigies.getRequiredLevel(item.getId()) + Constants.SKILL_NAME[player.getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
 				player.setNextAnimation(new Animation(4067));
 			} else {
 				player.getTempAttribs().setI("skill", skill1);
-				sendDialogue(new String[] { "As you focus on your memories, you can almost hear a", "voice in the back of your mind whispering to you..." });
+				sendDialogue("As you focus on your memories, you can almost hear a", "voice in the back of your mind whispering to you...");
 				stage = 2;
 			}
 		} else if (stage == 1 && componentId == OPTION_2) {
 			if (player.getSkills().getLevel(player.getTempAttribs().getI("skill2")) < AncientEffigies.getRequiredLevel(item.getId())) {
-				sendDialogue(new String[] { "The images in your mind fade; the ancient effigy seems", "to desire knowledge of experiences you have not yet", "had." });
+				sendDialogue("The images in your mind fade; the ancient effigy seems", "to desire knowledge of experiences you have not yet", "had.");
 				player.sendMessage("You require at least level" + AncientEffigies.getRequiredLevel(item.getId()) + " " + Constants.SKILL_NAME[player.getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
 				player.setNextAnimation(new Animation(4067));
 			} else {
 				player.getTempAttribs().setI("skill", skill2);
-				sendDialogue(new String[] { "As you focus on your memories, you can almost hear a", "voice in the back of your mind whispering to you..." });
+				sendDialogue("As you focus on your memories, you can almost hear a", "voice in the back of your mind whispering to you...");
 				stage = 2;
 			}
 		} else if (stage == 2) {
 			player.getSkills().addXpLamp(player.getTempAttribs().getI("skill"), AncientEffigies.getExp(item.getId()));
 			player.sendMessage("You have gained " + AncientEffigies.getExp(item.getId()) + " " + Constants.SKILL_NAME[player.getTempAttribs().getI("skill")] + " experience!");
 			AncientEffigies.effigyInvestigation(player, item);
-			sendDialogue(new String[] { "The ancient effigy glows briefly; it seems changed", "somehow and no longer responds to the same memories", "as before." });
+			sendDialogue("The ancient effigy glows briefly; it seems changed", "somehow and no longer responds to the same memories", "as before.");
 			stage = 3;
 		} else if (stage == 3) {
-			sendDialogue(new String[] { "A sudden bolt of inspiration flashes through your mind,", "revealing new insight into your experiences!" });
+			sendDialogue("A sudden bolt of inspiration flashes through your mind,", "revealing new insight into your experiences!");
 			stage = -2;
-		} else {
+		} else
 			end();
-		}
 	}
 
 	@Override

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -82,12 +82,12 @@ public class Cooking extends Action {
 		RAW_SUMMER_PIE(new Item(7216, 1), 95, 120, 260, new Item(2329, 1), new Item(7218, 1), false, false),
 		RAW_FISHCAKE(new Item(7529, 1), 31, 60, 100, new Item(7531, 1), new Item(7530, 1), false, false),
 		RAW_POTATO(new Item(1942, 1), 7, 200, 15, new Item(6699, 1), new Item(6701, 1), false, false),
-		
+
 		HARDENED_STRAIT_ROOT(new Item(21349), 83, 1, 379, new Item(-1), new Item(21351), false, true),
 		SODA_ASH_1(new Item(401), 1, 0, 3, new Item(1781), new Item(1781), false, false),
 		SODA_ASH_2(new Item(7516), 1, 0, 3, new Item(1781), new Item(1781), false, false),
 		SODA_ASH_3(new Item(10978), 1, 0, 3, new Item(1781), new Item(1781), false, false),
-		
+
 		CAVE_POTATO(new Item(17817), 1, 0, 9, new Item(-1), new Item(18093), false, false),
 		HIEM_CRAB(new Item(17797), 1, 20, 22, new Item(18179), new Item(18159), false, false),
 		RED_EYE(new Item(17799), 10, 30, 41, new Item(18181), new Item(18161), false, false),
@@ -100,16 +100,15 @@ public class Cooking extends Action {
 		BLUE_CRAB(new Item(17813), 80, 70, 191, new Item(18195), new Item(18175), false, false),
 		CAVE_MORAY(new Item(17815), 90, 70, 215, new Item(18197), new Item(18177), false, false);
 
-		private static Map<Short, Cookables> ingredients = new HashMap<Short, Cookables>();
+		private static Map<Short, Cookables> ingredients = new HashMap<>();
 
 		public static Cookables forId(short itemId) {
 			return ingredients.get(itemId);
 		}
 
 		static {
-			for (Cookables ingredient : Cookables.values()) {
+			for (Cookables ingredient : Cookables.values())
 				ingredients.put((short) ingredient.getRawItem().getId(), ingredient);
-			}
 		}
 
 		private Item raw;
@@ -125,7 +124,7 @@ public class Cooking extends Action {
 			this.raw = raw;
 			this.lvl = lvl;
 			this.burningLvl = burningLvl;
-			this.xp = exp;
+			xp = exp;
 			this.burnt = burnt;
 			this.total = total;
 			this.spitRoast = spitRoast;
@@ -183,12 +182,11 @@ public class Cooking extends Action {
 
 	@Override
 	public boolean start(Player player) {
-		if ((this.cook = Cookables.forId((short) item.getId())) == null) {
+		if ((cook = Cookables.forId((short) item.getId())) == null)
 			return false;
-		}
-		if (cook.isFireOnly() && !object.getDefinitions(player).getName().equals("Fire")) {
+		if (cook.isFireOnly() && !object.getDefinitions(player).getName().equals("Fire"))
 			player.getDialogueManager().execute(new SimpleMessage(), "You may only cook this on a fire.");
-		} else if (cook.isSpitRoast() && object.getId() != 11363) {
+		else if (cook.isSpitRoast() && object.getId() != 11363) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You may only cook this on an iron spit.");
 			return false;
 		} else if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
@@ -203,10 +201,9 @@ public class Cooking extends Action {
 	private boolean isBurned(Cookables cook, Player player) {
 		int level = player.getSkills().getLevel(Constants.COOKING);
 		int burnLevel = cook.getBurningLvl();
-		if (player.getEquipment().getGlovesId() == 775) {
+		if (player.getEquipment().getGlovesId() == 775)
 			burnLevel -= 6;
-		}
-		
+
 		double chance = ((double) level / (double) burnLevel);
 		if (chance < 0.7)
 			chance = 0.7;
@@ -219,14 +216,8 @@ public class Cooking extends Action {
 
 	@Override
 	public boolean process(Player player) {
-		if (!World.getRegion(object.getRegionId()).objectExists(object))
+		if (!World.getRegion(object.getRegionId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
 			return false;
-		if (!player.getInventory().containsItem(item.getId(), 1)) {
-			return false;
-		}
-		if (!player.getInventory().containsItem(cook.getRawItem().getId(), 1)) {
-			return false;
-		}
 		if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You need a level of " + cook.getLvl() + " to cook this.");
 			return false;
@@ -257,6 +248,6 @@ public class Cooking extends Action {
 
 	@Override
 	public void stop(final Player player) {
-		this.setActionDelay(player, 3);
+		setActionDelay(player, 3);
 	}
 }

@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -70,7 +70,7 @@ public class ServantDialogue extends Dialogue {
 
 	@Override
 	public void start() {
-		this.npcId = (int) parameters[0];
+		npcId = (int) parameters[0];
 		sendNPCDialogue(npcId, NORMAL, BEGINNING_MESSAGE[getSlot()]);
 
 	}
@@ -113,7 +113,8 @@ public class ServantDialogue extends Dialogue {
 				sendDialogue("You don't have enough to cover the costs.");
 				stage = 10;
 				return;
-			} else if (player.getSkills().getLevel(Constants.CONSTRUCTION) < servant.getLevel()) {
+			}
+			if (player.getSkills().getLevel(Constants.CONSTRUCTION) < servant.getLevel()) {
 				sendDialogue("You need a Construction level of at least " + servant.getLevel() + ".");
 				stage = 10;
 				return;
@@ -121,9 +122,8 @@ public class ServantDialogue extends Dialogue {
 			sendNPCDialogue(npcId, NORMAL, "Thank you master.");
 			stage = 10;
 			player.getHouse().setServantOrdinal((byte) slot);
-		} else if (stage == 10) {
+		} else if (stage == 10)
 			end();
-		}
 	}
 
 	@Override

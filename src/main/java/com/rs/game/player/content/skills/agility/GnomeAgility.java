@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -32,7 +32,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class GnomeAgility {
-	
+
 	public static ObjectClickHandler handle = new ObjectClickHandler(false, new Object[] { 43529 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -43,12 +43,12 @@ public class GnomeAgility {
 				e.getPlayer().lock();
 				WorldTasksManager.schedule(new WorldTask() {
 					int stage = 0;
-					
+
 					@Override
 					public void run() {
-						if (stage == 0) {
+						if (stage == 0)
 							e.getPlayer().faceObject(e.getObject());
-						} else if (stage == 1) {
+						else if (stage == 1) {
 							e.getPlayer().setNextAnimation(new Animation(11784));
 							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, new WorldTile(x, 3421, 3), 1));
 						} else if (stage == 2) {
@@ -58,9 +58,9 @@ public class GnomeAgility {
 						} else if (stage == 3) {
 							e.getPlayer().setNextWorldTile(new WorldTile(x, 3425, 3));
 							e.getPlayer().setNextAnimation(new Animation(11789));
-						} else if (stage == 6) {
+						} else if (stage == 6)
 							e.getPlayer().setNextForceMovement(new ForceMovement(new WorldTile(x, 3425, 3), 1, new WorldTile(x, 3429, 3), 2));
-						} else if (stage == 11) {
+						else if (stage == 11) {
 							e.getPlayer().setNextWorldTile(new WorldTile(x, 3429, 3));
 							e.getPlayer().setNextForceMovement(new ForceMovement(new WorldTile(x, 3429, 3), 1, new WorldTile(x, 3432, 3), 2));
 						} else if (stage == 15) {
@@ -77,7 +77,7 @@ public class GnomeAgility {
 			}));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleBoard = new ObjectClickHandler(false, new Object[] { 69514 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -101,7 +101,7 @@ public class GnomeAgility {
 			}));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTreeBranch2 = new ObjectClickHandler(new Object[] { 69506 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -114,7 +114,7 @@ public class GnomeAgility {
 			e.getPlayer().getSkills().addXp(Constants.AGILITY, 19);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleJumpDown = new ObjectClickHandler(new Object[] { 69389 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -176,7 +176,7 @@ public class GnomeAgility {
 			}, 0, 5);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleObstacleNet = new ObjectClickHandler(new Object[] { 69383 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -192,7 +192,7 @@ public class GnomeAgility {
 			}, 1);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTreeBranch = new ObjectClickHandler(new Object[] { 69508 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -208,14 +208,14 @@ public class GnomeAgility {
 			}, 1);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWalkBackRope = new ObjectClickHandler(new Object[] { 4059 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("I would keep moving forward on the course.");
 		}
 	};
-	
+
 	public static ObjectClickHandler handleRope = new ObjectClickHandler(new Object[] { 2312 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -245,7 +245,7 @@ public class GnomeAgility {
 			}, 0, 5);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleTreeBranch3 = new ObjectClickHandler(new Object[] { 69507 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -260,7 +260,7 @@ public class GnomeAgility {
 			}, 1);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleObstacleNet2 = new ObjectClickHandler(false, new Object[] { 69384 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -278,7 +278,7 @@ public class GnomeAgility {
 			}));
 		}
 	};
-	
+
 	public static ObjectClickHandler handlePipe = new ObjectClickHandler(new Object[] { 69377, 69378 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -321,7 +321,7 @@ public class GnomeAgility {
 		player.getTempAttribs().setI("GnomeCourse", stage);
 		player.getTempAttribs().setI("GnomeCourseAdv", stage);
 	}
-	
+
 	public static int getGnomeStageAdv(Player player) {
 		return player.getTempAttribs().getI("GnomeCourseAdv");
 	}

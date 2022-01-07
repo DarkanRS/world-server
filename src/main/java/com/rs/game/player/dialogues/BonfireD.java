@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,8 +28,8 @@ public class BonfireD extends Dialogue {
 
 	@Override
 	public void start() {
-		this.logs = (Log[]) parameters[0];
-		this.object = (GameObject) parameters[1];
+		logs = (Log[]) parameters[0];
+		object = (GameObject) parameters[1];
 		int[] ids = new int[logs.length];
 		for (int i = 0; i < ids.length; i++)
 			ids[i] = logs[i].getLogId();

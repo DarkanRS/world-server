@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,9 +28,8 @@ public class Max extends Dialogue {
 		if (!player.getSkills().isMaxed(false)) {
 			sendNPCDialogue(npcId, 9827, "You are not yet eligible for this cape, " + player.getDisplayName() + ".");
 			stage = -2;
-		} else {
+		} else
 			sendNPCDialogue(npcId, 9827, "How can I help you?");
-		}
 	}
 
 	@Override
@@ -88,13 +87,12 @@ public class Max extends Dialogue {
 					player.getInventory().addItem(20768, 1);
 					player.getInventory().addItem(20767, 1);
 					sendNPCDialogue(npcId, 9827, "Enjoy your new cape!");
-					if (player.getSkills().isMaxed(false) && player.isMaxed == false) {
+					if (player.getSkills().isMaxed(false) && !player.isMaxed) {
 						player.isMaxed = true;
 						World.sendWorldMessage("<col=ff8c38><img=7>News: " + player.getDisplayName() + " has just been awarded the Max cape!" + "</col> ", false);
 					}
-				} else {
+				} else
 					sendNPCDialogue(npcId, 9827, "You don't have enough coins on you.");
-				}
 				stage = -2;
 			}
 			break;

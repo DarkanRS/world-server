@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -41,7 +41,7 @@ public class BanditCampBandit extends NPC {
 	@Override
 	public List<Entity> getPossibleTargets() {
 		List<Entity> targets = super.getPossibleTargets();
-		ArrayList<Entity> targetsCleaned = new ArrayList<Entity>();
+		ArrayList<Entity> targetsCleaned = new ArrayList<>();
 		for (Entity t : targets) {
 			if (!(t instanceof Player) || (!ZamorakFactionNPC.hasGodItem((Player) t) && !SaradominFactionNPC.hasGodItem((Player) t)))
 				continue;
@@ -56,7 +56,7 @@ public class BanditCampBandit extends NPC {
 			setNextForceTalk(new ForceTalk(ZamorakFactionNPC.hasGodItem((Player) entity) ? "Prepare to suffer, Zamorakian scum!" : "Time to die, Saradominist filth!"));
 		super.setTarget(entity);
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1926, 1931) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

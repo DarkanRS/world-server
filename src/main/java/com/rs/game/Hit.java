@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -24,18 +24,18 @@ import com.rs.game.player.Player;
 public final class Hit {
 
 	public static enum HitLook {
-		MISSED(8), 
-		TRUE_DAMAGE(3), 
-		MELEE_DAMAGE(0), 
-		RANGE_DAMAGE(1), 
-		MAGIC_DAMAGE(2), 
-		REFLECTED_DAMAGE(4), 
-		ABSORB_DAMAGE(5), 
-		POISON_DAMAGE(6), 
-		DESEASE_DAMAGE(7), 
-		HEALED_DAMAGE(9), 
+		MISSED(8),
+		TRUE_DAMAGE(3),
+		MELEE_DAMAGE(0),
+		RANGE_DAMAGE(1),
+		MAGIC_DAMAGE(2),
+		REFLECTED_DAMAGE(4),
+		ABSORB_DAMAGE(5),
+		POISON_DAMAGE(6),
+		DESEASE_DAMAGE(7),
+		HEALED_DAMAGE(9),
 		CANNON_DAMAGE(13);
-		
+
 		private int mark;
 
 		private HitLook(int mark) {
@@ -63,7 +63,7 @@ public final class Hit {
 		look = HitLook.HEALED_DAMAGE;
 		critical = false;
 	}
-	
+
 	public Hit(int damage, HitLook look) {
 		this(null, damage, look, 0);
 	}
@@ -90,9 +90,8 @@ public final class Hit {
 	public int getMark(Player player, Entity victm) {
 		if (HitLook.HEALED_DAMAGE == look)
 			return look.getMark();
-		if (damage == 0) {
+		if (damage == 0)
 			return HitLook.MISSED.getMark();
-		}
 		int mark = look.getMark();
 		if (critical)
 			mark += 10;
@@ -142,17 +141,17 @@ public final class Hit {
 		data.put(key, obj);
 		return this;
 	}
-	
+
 	public <T> T getData(String key, Class<T> clazz) {
-	    try {
-	    	if (data.containsKey(key))
+		try {
+			if (data.containsKey(key))
 				return clazz.cast(data.get(key));
-	    } catch(ClassCastException e) {
-	        return null;
-	    }
-	    return null;
+		} catch(ClassCastException e) {
+			return null;
+		}
+		return null;
 	}
-	
+
 	public Object getData(String key) {
 		if (data.containsKey(key))
 			return data.get(key);

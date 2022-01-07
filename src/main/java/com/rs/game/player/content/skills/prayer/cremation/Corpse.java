@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -28,14 +28,14 @@ import com.rs.utils.drop.WeightedSet;
 import com.rs.utils.drop.WeightedTable;
 
 public enum Corpse {
-	LOAR(new int[] { 3396 }, 35, 
+	LOAR(new int[] { 3396 }, 35,
 			new WeightedSet(
-				new WeightedTable(6, new Drop(995, 400, 500)),
-				new WeightedTable(1, new Drop(3450)),
-				new WeightedTable(1, new Drop(3451)),
-				new WeightedTable(1, new Drop(3452))
-			)),
-	PHRIN(new int[] { 3398 }, 46.5, 
+					new WeightedTable(6, new Drop(995, 400, 500)),
+					new WeightedTable(1, new Drop(3450)),
+					new WeightedTable(1, new Drop(3451)),
+					new WeightedTable(1, new Drop(3452))
+					)),
+	PHRIN(new int[] { 3398 }, 46.5,
 			new WeightedSet(
 					new WeightedTable(10, new Drop(995, 600, 700)),
 					new WeightedTable(1, new Drop(3453)),
@@ -43,8 +43,8 @@ public enum Corpse {
 					new WeightedTable(1, new Drop(3455)),
 					new WeightedTable(1, new Drop(3456)),
 					new WeightedTable(1, new Drop(3457))
-				)),
-	RIYL(new int[] { 3400 }, 61.5, 
+					)),
+	RIYL(new int[] { 3400 }, 61.5,
 			new WeightedSet(
 					new WeightedTable(10, new Drop(995, 700, 800)),
 					new WeightedTable(1, new Drop(3458)),
@@ -52,8 +52,8 @@ public enum Corpse {
 					new WeightedTable(1, new Drop(3460)),
 					new WeightedTable(1, new Drop(3461)),
 					new WeightedTable(1, new Drop(3462))
-				)),
-	ASYN(new int[] { 3402 }, 80, 
+					)),
+	ASYN(new int[] { 3402 }, 80,
 			new WeightedSet(
 					new WeightedTable(10, new Drop(995, 800, 900)),
 					new WeightedTable(1, new Drop(3463)),
@@ -61,8 +61,8 @@ public enum Corpse {
 					new WeightedTable(1, new Drop(3465)),
 					new WeightedTable(1, new Drop(3466)),
 					new WeightedTable(1, new Drop(3467))
-				)),
-	FIYR(new int[] { 3404 }, 100, 
+					)),
+	FIYR(new int[] { 3404 }, 100,
 			new WeightedSet(
 					new WeightedTable(20, new Drop(995, 1500, 5000)),
 					new WeightedTable(2, new Drop(3465)),
@@ -71,29 +71,29 @@ public enum Corpse {
 					new WeightedTable(2, new Drop(3468)),
 					new WeightedTable(2, new Drop(3469)),
 					new WeightedTable(1, new Drop(21511))
-				)),
-	VYRE(new int[] { 21454, 21608 }, 79.5, 
+					)),
+	VYRE(new int[] { 21454, 21608 }, 79.5,
 			new WeightedSet(
 					new WeightedTable(2, new Drop(995, 600, 700)),
 					new WeightedTable(1, new Drop(13158))
-				));
-	
+					));
+
 	private static Map<Integer, Corpse> ID_MAP = new HashMap<>();
-	
+
 	static {
 		for (Corpse corpse : Corpse.values())
 			for (int id : corpse.itemIds)
 				ID_MAP.put(id, corpse);
 	}
-	
+
 	public static Corpse forId(int id) {
 		return ID_MAP.get(id);
 	}
-	
+
 	public final int[] itemIds;
 	public final double xp;
 	public final DropSet keyDropSet;
-	
+
 	private Corpse(int[] itemIds, double xp, DropSet keyDropSet) {
 		this.itemIds = itemIds;
 		this.xp = xp;
