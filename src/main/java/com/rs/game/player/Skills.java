@@ -702,6 +702,11 @@ public final class Skills {
 		markForRefresh(skill);
 	}
 
+    public void setNoPrestige(int skill, int newLevel) {
+        level[skill] = (short) newLevel;
+        markForRefresh(skill);
+    }
+
 	public int drainLevel(int skill, int drain) {
 		int drainLeft = drain - level[skill];
 		if (drainLeft < 0)
@@ -1303,6 +1308,7 @@ public final class Skills {
 			realLevel = getLevel(skill);
 		int maxBoost = (int) (realLevel + (baseMod + (realLevel * mul)));
 		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : (getLevel(skill) > realLevel ? getLevel(skill) : realLevel));
+        set(skill, level[skill]);
 		markForRefresh(skill);
 	}
 

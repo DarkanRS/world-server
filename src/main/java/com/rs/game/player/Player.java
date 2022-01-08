@@ -994,6 +994,8 @@ public class Player extends Entity {
                 getCombatDefinitions().restoreSpecialAttack();
                 addEffect(Effect.PRAYER_RENEWAL, 500);
                 loyaltyPoints+=50;
+
+
             }
 
             if (getTickCounter() % 300 == 0) {
@@ -1089,7 +1091,7 @@ public class Player extends Entity {
 			WorldTasksManager.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					musicsManager.nextAmbientSong();
+//					musicsManager.nextAmbientSong();
 					getTempAttribs().setB("MUSIC_BREAK", false);
 				}
 			}, Utils.randomInclusive(10, 30));
