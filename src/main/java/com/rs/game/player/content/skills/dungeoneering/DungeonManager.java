@@ -93,7 +93,7 @@ import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.managers.InterfaceManager;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -484,7 +484,7 @@ public class DungeonManager {
 	}
 
 	public void linkPartyToDungeon() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (Player player : party.getTeam()) {
@@ -1321,12 +1321,12 @@ public class DungeonManager {
 	}
 
 	public void setRewardsTimer() {
-		WorldTasksManager.schedule(rewardsTimer = new RewardsTimer(), 1, 9);
+		WorldTasks.schedule(rewardsTimer = new RewardsTimer(), 1, 9);
 	}
 
 	public void setDestroyTimer() {
 		//cant be already instanced before anyway, afterall only isntances hwen party is 0 and remvoes if party not 0
-		WorldTasksManager.schedule(destroyTimer = new DestroyTimer(), 1, 9);
+		WorldTasks.schedule(destroyTimer = new DestroyTimer(), 1, 9);
 	}
 
 	public void setMark(Entity target, boolean mark) {

@@ -31,7 +31,7 @@ import com.rs.game.npc.dungeoneering.YkLagorMage;
 import com.rs.game.npc.dungeoneering.YkLagorThunderous;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -53,7 +53,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 			if (boss.getNextAttack() == 0) {
 				boss.setNextForceTalk(new ForceTalk("Come closer!"));
 				// boss.playSoundEffect(1930);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					int cycles;
 
@@ -89,7 +89,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 			} else if (boss.getNextAttack() == 1) {// earthquake shit
 				boss.setNextForceTalk(new ForceTalk("This is..."));
 				// boss.playSoundEffect(1929);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					int cycles;
 
@@ -158,7 +158,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 		player.setNextAnimation(new Animation(14388));
 		player.setNextSpotAnim(new SpotAnim(2767));
 		player.setNextForceMovement(new ForceMovement(player, 0, tile, 2, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

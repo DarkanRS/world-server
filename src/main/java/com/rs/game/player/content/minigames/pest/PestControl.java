@@ -34,7 +34,7 @@ import com.rs.game.player.controllers.PestControlGameController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
@@ -95,7 +95,7 @@ public class PestControl {
 				player.getControllerManager().startController(new PestControlGameController(this));
 			}
 
-			WorldTasksManager.schedule(new PestGameTimer(), 2, 2);
+			WorldTasks.schedule(new PestGameTimer(), 2, 2);
 		});
 		return this;
 	}
@@ -144,7 +144,7 @@ public class PestControl {
 		for (final Player player : team) {
 			final int knightZeal = (int) ((PestControlGameController) player.getControllerManager().getController()).getPoints();
 			player.getControllerManager().forceStop();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -193,7 +193,7 @@ public class PestControl {
 			unlockPortal();
 		else {
 			portalCount--;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

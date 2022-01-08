@@ -13,7 +13,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -235,7 +235,7 @@ public class MerlinsCrystal extends QuestOutline {
 			Player p = e.getPlayer();
 			if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
 				return;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				@Override
 				public void run() {

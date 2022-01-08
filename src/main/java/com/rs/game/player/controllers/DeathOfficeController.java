@@ -24,7 +24,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
@@ -171,7 +171,7 @@ public class DeathOfficeController extends Controller {
 		region.copyMapSinglePlane(246, 662, () -> {
 			player.reset();
 			player.setNextWorldTile(region.getLocalTile(10, 6));
-			WorldTasksManager.delay(1, () -> {
+			WorldTasks.delay(1, () -> {
 				player.setNextAnimation(new Animation(-1));
 				player.getMusicsManager().playMusic(683);
 				player.getPackets().setBlockMinimapState(2);

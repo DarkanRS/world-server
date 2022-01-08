@@ -19,7 +19,7 @@ package com.rs.game.player.content.minigames.herblorehabitat;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 
@@ -31,7 +31,7 @@ public class HerbloreHabitat {
 
 	@ServerStartupEvent
 	public static void initUpdateTask() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (Player player : World.getPlayersInRegion(REGION_ID))

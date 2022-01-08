@@ -26,7 +26,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.NexCutScene;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -49,7 +49,7 @@ public class NoEscape implements NexAttack {
 		final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
 		final WorldTile dir = NO_ESCAPE_TELEPORTS[idx];
 		final WorldTile center = new WorldTile(2924, 5202, 0);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			private int count;
 
 			@Override

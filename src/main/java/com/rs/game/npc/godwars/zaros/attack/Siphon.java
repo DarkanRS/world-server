@@ -21,7 +21,7 @@ import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.godwars.zaros.Nex;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -43,7 +43,7 @@ public class Siphon implements NexAttack {
 			if (tile != null)
 				nex.getBloodReavers()[respawnedBloodReaverCount++] = new NPC(13458, tile, true);
 		}
-		WorldTasksManager.schedule(9, () -> nex.getTempAttribs().setB("siphoning", false));
+		WorldTasks.schedule(9, () -> nex.getTempAttribs().setB("siphoning", false));
 		return nex.getAttackSpeed();
 	}
 

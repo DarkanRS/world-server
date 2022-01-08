@@ -28,7 +28,7 @@ import com.rs.game.World;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.object.GameObject;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -51,7 +51,7 @@ public class ShadowTraps implements NexAttack {
 				World.spawnObjectTemporary(new GameObject(57261, ObjectType.SCENERY_INTERACT, 0, t.getX(), t.getY(), 0), 4);
 			}
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			private boolean firstCall;
 
 			@Override

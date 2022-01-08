@@ -22,7 +22,7 @@ import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
@@ -137,7 +137,7 @@ public class Yanille {
 			e.getPlayer().lock();
 			e.getPlayer().setNextFaceWorldTile(endLoc);
 			e.getPlayer().setNextAnimation(new Animation(769));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().unlockNextTick();

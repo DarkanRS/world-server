@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.summoning.Summoning;
 import com.rs.game.player.content.skills.summoning.Summoning.Pouches;
 import com.rs.game.player.dialogues.DismissD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -376,7 +376,7 @@ public abstract class Familiar extends NPC {
 		WorldTile teleTile = null;
 		teleTile = owner.getNearestTeleTile(this.getSize());
 		if (login || teleTile != null)
-			WorldTasksManager.schedule(() -> setNextSpotAnim(new SpotAnim(getDefinitions().size > 1 ? 1315 : 1314)));
+			WorldTasks.schedule(() -> setNextSpotAnim(new SpotAnim(getDefinitions().size > 1 ? 1315 : 1314)));
 		if (teleTile == null) {
 			if (!sentRequestMoveMessage) {
 				owner.sendMessage("Theres not enough space for your familiar appear.");
@@ -417,7 +417,7 @@ public abstract class Familiar extends NPC {
 		setCantInteract(true);
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

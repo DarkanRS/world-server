@@ -120,7 +120,7 @@ import com.rs.game.player.quests.QuestManager;
 import com.rs.game.player.social.FCManager;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -1079,7 +1079,7 @@ public class Player extends Entity {
 	private void processMusic() {
 		if (!getTempAttribs().getB("MUSIC_BREAK") && musicsManager.musicEnded()) {
 			getTempAttribs().setB("MUSIC_BREAK", true);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					musicsManager.nextAmbientSong();
@@ -2044,7 +2044,7 @@ public class Player extends Entity {
 		if (castedVeng && hit.getDamage() >= 4) {
 			castedVeng = false;
 			setNextForceTalk(new ForceTalk("Taste vengeance!"));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					source.applyHit(new Hit(Player.this, (int) (hit.getDamage() * 0.75), HitLook.TRUE_DAMAGE));
@@ -2128,7 +2128,7 @@ public class Player extends Entity {
 					}
 				else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(this, 1))
 					source.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() - 1, target.getY(), target.getPlane()));
@@ -2153,7 +2153,7 @@ public class Player extends Entity {
 				World.sendProjectile(this, new WorldTile(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 				World.sendProjectile(this, new WorldTile(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 				final Player target = this;
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						setNextSpotAnim(new SpotAnim(2259));
@@ -2210,7 +2210,7 @@ public class Player extends Entity {
 		if (isAtDynamicRegion())
 			lastTile = getRandomGraveyardTile();
 		final WorldTile deathTile = lastTile;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
@@ -2499,7 +2499,7 @@ public class Player extends Entity {
 		if (useDelay == 0)
 			setNextWorldTile(dest);
 		else
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (isDead())
@@ -2924,7 +2924,7 @@ public class Player extends Entity {
 			setNextForceTalk(new ForceTalk("For Camelot!"));
 			final boolean enhanced = weaponId == 14632;
 			skills.set(Constants.DEFENSE, enhanced ? (int) (skills.getLevelForXp(Constants.DEFENSE) * 1.15D) : (skills.getLevel(Constants.DEFENSE) + 8));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int count = 5;
 
 				@Override
@@ -3145,7 +3145,7 @@ public class Player extends Entity {
 
 	public void ladder(final WorldTile toTile) {
 		setNextAnimation(new Animation(828));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextWorldTile(toTile);
@@ -3339,7 +3339,7 @@ public class Player extends Entity {
 
 	public void useLadder(int anim, final WorldTile tile) {
 		setNextAnimation(new Animation(anim));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextWorldTile(tile);
@@ -3860,7 +3860,7 @@ public class Player extends Entity {
 		setRunHidden(false);
 		lock(5);
 		addWalkSteps(tile.getX(), tile.getY(), 3, false);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setRunHidden(running);

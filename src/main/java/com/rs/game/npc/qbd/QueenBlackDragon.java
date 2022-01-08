@@ -28,7 +28,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -273,12 +273,12 @@ public final class QueenBlackDragon extends NPC {
 		attacker.sendMessage("Worms burrow through her rotting flesh.");
 		final WorldTile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
 		WorldProjectile p = World.sendProjectile(this, destination, 3141, 128, 0, 60, 1.5, 5, 3);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (getPhase() > 4)
 					return;
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (getPhase() > 4)

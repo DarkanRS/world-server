@@ -27,7 +27,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -116,7 +116,7 @@ public class Blink extends DungeonBoss {
 		//playSoundEffect(FAILURE_SOUNDS[Utils.random(FAILURE_SOUNDS.length)]);
 		setNextForceTalk(new ForceTalk("Oof!"));
 		setNextAnimation(new Animation(14946));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -200,7 +200,7 @@ public class Blink extends DungeonBoss {
 		newPillar.setId(32196);//Our little secret :D
 		activePillar = new WorldTile(selectedPillar);
 		World.spawnObjectTemporary(newPillar, 4);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

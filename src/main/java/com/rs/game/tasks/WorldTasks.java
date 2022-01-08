@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 import com.rs.lib.util.Logger;
 
-public class WorldTasksManager {
+public class WorldTasks {
 
 	private static final List<WorldTaskInformation> TASKS = Collections.synchronizedList(new LinkedList<>());
 
@@ -102,7 +102,7 @@ public class WorldTasksManager {
 		return TASKS.size();
 	}
 
-	private WorldTasksManager() {
+	private WorldTasks() {
 
 	}
 

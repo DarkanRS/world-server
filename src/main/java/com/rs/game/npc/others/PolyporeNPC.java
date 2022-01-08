@@ -21,7 +21,7 @@ import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -44,7 +44,7 @@ public class PolyporeNPC extends NPC {
 	public static void useStairs(final Player player, WorldTile tile, final boolean down) {
 		player.useStairs(down ? 15458 : 15456, tile, 2, 3); // TODO find correct
 		// emote
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(down ? 15459 : 15457));

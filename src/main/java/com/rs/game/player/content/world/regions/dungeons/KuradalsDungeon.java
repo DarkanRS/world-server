@@ -23,7 +23,7 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.content.skills.slayer.TaskMonster;
 import com.rs.game.player.controllers.KuradalDungeonController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -53,7 +53,7 @@ public class KuradalsDungeon {
 				return;
 			}
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 				boolean isPlayerNorth = true;
 
@@ -101,7 +101,7 @@ public class KuradalsDungeon {
 				return;
 			}
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 				boolean isPlayerNorth = true;
 

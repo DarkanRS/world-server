@@ -39,7 +39,7 @@ import com.rs.game.player.dialogues.StealingCreationMagic;
 import com.rs.game.player.dialogues.StealingCreationManagerD;
 import com.rs.game.player.dialogues.StealingCreationRange;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -121,7 +121,7 @@ public class StealingCreationController extends Controller {
 			player.getAppearance().transformIntoNPC(-1);
 			player.getAppearance().setHidden(false);
 			if (!player.getRun())
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						player.setRunHidden(true);
@@ -493,7 +493,7 @@ public class StealingCreationController extends Controller {
 				return false;
 			player.getActionManager().addActionDelay(combatDelay);
 			player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(weaponId, attackStyle)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					game.damageBarrier(x, y);
@@ -550,7 +550,7 @@ public class StealingCreationController extends Controller {
 			player.setNextForceMovement(nextForceMovement);
 			player.setNextAnimation(new Animation(object.getId() == 39602 ? 6132 : 10590));
 			final Direction finalDirection = direction;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -707,7 +707,7 @@ public class StealingCreationController extends Controller {
 				otherPlayer.lock(3);
 			}
 			player.lock(2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				private int step = 0;
 
 				@Override
@@ -769,7 +769,7 @@ public class StealingCreationController extends Controller {
 					return false;
 				}
 				player.lock(2);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					private int step = 0;
 
 					@Override
@@ -803,7 +803,7 @@ public class StealingCreationController extends Controller {
 			player.unlock();
 		final Player p = player;
 		final GameObject o = object;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			private int step = 0;
 
 			@Override
@@ -835,7 +835,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

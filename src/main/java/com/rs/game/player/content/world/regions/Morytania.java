@@ -35,7 +35,7 @@ import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -292,7 +292,7 @@ public class Morytania  {
 			e.getPlayer().lock();
 			e.getPlayer().setNextFaceWorldTile(endTile);
 			e.getPlayer().setNextAnimation(new Animation(769));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().unlockNextTick();
@@ -410,7 +410,7 @@ public class Morytania  {
 
 			e.getPlayer().setNextAnimation(new Animation(3659));
 			e.getPlayer().lock(1);
-			WorldTasksManager.delay(0, () -> {
+			WorldTasks.delay(0, () -> {
 				if (e.getPlayer().getInventory().addItemDrop(product.getProduct(), 1)) {
 					e.getPlayer().sendMessage("You pick a " + productName + ".");
 					e.getPlayer().incrementCount(productName + " bloomed", 1);

@@ -18,7 +18,7 @@ package com.rs.game.npc.others;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -50,7 +50,7 @@ public class FireSpirit extends OwnedNPC {
 			return;
 		player.lock();
 		player.setNextAnimation(new Animation(16705));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlock();

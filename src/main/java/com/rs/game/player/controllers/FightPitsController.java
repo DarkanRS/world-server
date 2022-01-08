@@ -21,7 +21,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.FightPits;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 
@@ -105,7 +105,7 @@ public class FightPitsController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

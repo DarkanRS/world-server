@@ -26,7 +26,7 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -41,7 +41,7 @@ public class ContainThis implements NexAttack {
 		nex.setNextAnimation(new Animation(6984));
 		final WorldTile base = nex.transform(1, 1, 0);
 		nex.resetWalkSteps();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (int y = 2; y >= -2; y-=2)

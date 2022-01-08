@@ -22,7 +22,7 @@ import com.rs.game.player.actions.Action;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 
@@ -69,7 +69,7 @@ public class TanningD extends Dialogue {
 				int leatherAmount = player.getInventory().getAmountOf(INGREDIENT[componentIndex]);
 				if (leatherAmount == 0) {
 					end();
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 
 						@Override
 						public void run() {

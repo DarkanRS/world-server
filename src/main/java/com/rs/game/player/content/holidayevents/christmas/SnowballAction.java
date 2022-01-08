@@ -21,7 +21,7 @@ import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.EntityInteractionAction;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -65,7 +65,7 @@ public class SnowballAction extends EntityInteractionAction {
 		player.setNextAnimation(new Animation(7530));
 		player.lock(3);
 		player.resetWalkSteps();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, 0, () -> {

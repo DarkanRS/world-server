@@ -26,7 +26,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.holidayevents.halloween.hw09.Halloween2009;
 import com.rs.game.player.content.holidayevents.halloween.hw09.SpiderStatement;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.events.DialogueOptionEvent;
@@ -51,7 +51,7 @@ public class Halloween2009Controller extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

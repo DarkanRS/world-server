@@ -43,7 +43,7 @@ import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -60,7 +60,7 @@ public class WarriorsGuild extends Controller {
 
 	public static void init() {
 		if (timer == null)
-			WorldTasksManager.schedule(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
+			WorldTasks.schedule(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
 	}
 
 	public static class WarriorTimer extends WorldTask {
@@ -151,7 +151,7 @@ public class WarriorsGuild extends Controller {
 	public void process() {
 		if (player.withinDistance(CATAPULT_TARGET, 0)) {
 			if (timer.ticks % 14 == 0)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (!player.withinDistance(CATAPULT_TARGET, 0))
@@ -283,7 +283,7 @@ public class WarriorsGuild extends Controller {
 			player.setNextAnimation(new Animation(827));
 			player.lock();
 			final int finalIndex = realIndex;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks;
 
 				@Override
@@ -336,7 +336,7 @@ public class WarriorsGuild extends Controller {
 
 	private void submitDummyHit(final GameObject object) {
 		player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -522,7 +522,7 @@ public class WarriorsGuild extends Controller {
 			player.unlock();
 			return;
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int ticks;
 
@@ -558,7 +558,7 @@ public class WarriorsGuild extends Controller {
 	private void balanceKeg(final GameObject object) {
 		player.lock(4);
 		player.setNextAnimation(new Animation(4180));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

@@ -19,7 +19,7 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -193,7 +193,7 @@ public class LeprecaunLostCityD extends Conversation {
 					addNPC(LEPRACAUN, HeadE.AMAZED_MILD, "Woah, woah!");
 					addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
 					addSimple("The leprechaun falls down", () -> {
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							int tick;
 							NPC lepracaun;
 							@Override

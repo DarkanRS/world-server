@@ -21,7 +21,7 @@ import java.util.List;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringTraps;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -56,7 +56,7 @@ public class DungeonHunterNPC extends DungeonNPC {
 
 			setCantInteract(true);
 			if (failed)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					int ticks = 0;
 
@@ -77,7 +77,7 @@ public class DungeonHunterNPC extends DungeonNPC {
 					}
 				}, 0, 0);
 			else
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					int ticks = 0;
 

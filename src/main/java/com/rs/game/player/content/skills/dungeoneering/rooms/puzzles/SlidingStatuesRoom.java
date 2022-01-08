@@ -23,7 +23,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -120,7 +120,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 				}
 
 			player.lock(2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				private boolean moved;
 

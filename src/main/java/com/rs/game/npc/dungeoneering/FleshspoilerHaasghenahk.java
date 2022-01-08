@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -79,7 +79,7 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 			tiles.add(tile);
 		}
 		final FleshspoilerHaasghenahk boss = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -100,7 +100,7 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 			calculateNextTarget();
 			setNextAnimation(new Animation(14467));
 			setNextSpotAnim(new SpotAnim(2765, 240, 0));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

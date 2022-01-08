@@ -52,7 +52,7 @@ import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -77,7 +77,7 @@ public class HouseController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
@@ -344,7 +344,7 @@ public class HouseController extends Controller {
 		player.setNextAnimation(new Animation(741));
 		final WorldTile toTile = target;
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -425,7 +425,7 @@ public class HouseController extends Controller {
 		player.setNextAnimation(new Animation(3688));
 		final WorldTile toTile = target;
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

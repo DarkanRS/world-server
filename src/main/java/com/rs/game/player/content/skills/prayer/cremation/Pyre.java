@@ -22,7 +22,7 @@ import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -74,16 +74,16 @@ public class Pyre extends OwnedObject {
 		lit = true;
 		player.lock();
 		player.setNextAnimation(new Animation(16700));
-		WorldTasksManager.delay(1, () -> {
+		WorldTasks.delay(1, () -> {
 			World.sendSpotAnim(player, new SpotAnim(357), getCoordFace());
 			new ReleasedSpirit(player, getCoordFace(), shadePyre);
 			player.getSkills().addXp(Constants.FIREMAKING, log.xp);
 			player.getSkills().addXp(Constants.PRAYER, corpse.xp);
 		});
-		WorldTasksManager.delay(3, () -> {
+		WorldTasks.delay(3, () -> {
 			destroy();
 		});
-		WorldTasksManager.delay(4, () -> {
+		WorldTasks.delay(4, () -> {
 			player.incrementCount(ItemDefinitions.getDefs(corpse.itemIds[0]).name + " cremated");
 			player.unlock();
 			GameObject stand = World.getClosestObject(shadePyre ? 4065 : 30488, getCoordFace());

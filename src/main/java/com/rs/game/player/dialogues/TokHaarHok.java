@@ -19,7 +19,7 @@ package com.rs.game.player.dialogues;
 import com.rs.game.player.controllers.FightKilnController;
 import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.utils.Ticks;
@@ -112,7 +112,7 @@ public class TokHaarHok extends Dialogue {
 				player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
 				WorldTile posTile = fightKiln.getWorldTile(37, 45);
 				player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						try {
@@ -167,7 +167,7 @@ public class TokHaarHok extends Dialogue {
 				stage = 1;
 				fightKiln.showHarAken();
 				player.getInterfaceManager().closeChatBoxInterface();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						try {
@@ -181,7 +181,7 @@ public class TokHaarHok extends Dialogue {
 			case 1:
 				end();
 				fightKiln.hideHarAken();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						try {

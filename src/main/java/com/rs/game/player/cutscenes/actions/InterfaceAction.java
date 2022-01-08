@@ -18,7 +18,7 @@ package com.rs.game.player.cutscenes.actions;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 
 /**
  * Handles an interface showing up cutscene action.
@@ -55,7 +55,7 @@ public final class InterfaceAction extends CutsceneAction {
 	@Override
 	public void process(final Player player, Object[] cache) {
 		player.getInterfaceManager().sendInterface(interfaceId);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getInterfaceManager().removeScreenInterface();

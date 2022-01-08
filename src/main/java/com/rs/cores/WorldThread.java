@@ -25,7 +25,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -55,7 +55,7 @@ public final class WorldThread extends Thread {
 		WORLD_CYCLE++;
 		try {
 			long startTime = System.currentTimeMillis();
-			WorldTasksManager.processTasks();
+			WorldTasks.processTasks();
 			OwnedObject.process();
 			World.processRegions();
 			NAMES.clear();

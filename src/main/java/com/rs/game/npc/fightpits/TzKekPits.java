@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.content.minigames.FightPits;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -41,7 +41,7 @@ public class TzKekPits extends FightPitsNPC {
 		getCombat().removeTarget();
 		setNextAnimation(null);
 		final WorldTile tile = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

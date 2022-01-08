@@ -77,7 +77,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -120,7 +120,7 @@ public class InventoryOptionsHandler {
 		player.resetWalkSteps();
 		player.setNextAnimation(new Animation(830));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -248,7 +248,7 @@ public class InventoryOptionsHandler {
 			final GameObject flowerObject = new GameObject(2987, ObjectType.SCENERY_INTERACT, Utils.getRandomInclusive(4), tile.getX(), tile.getY(), tile.getPlane());
 			World.spawnObjectTemporary(flowerObject, Ticks.fromSeconds(45));
 			player.lock();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int step;
 
 				@Override
@@ -728,7 +728,7 @@ public class InventoryOptionsHandler {
 				player.faceEntity(other);
 				if (item.getAmount() >= 1) {
 					if (other.getInventory().getFreeSlots() >= 1)
-						WorldTasksManager.delay(0, () -> {
+						WorldTasks.delay(0, () -> {
 							player.setNextAnimation(new Animation(881));
 							player.getInventory().removeItems(new Item(item.getId(), 1));
 							other.getInventory().addItem(new Item(item.getId(), 1));

@@ -20,7 +20,7 @@ import com.rs.game.ForceMovement;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.woodcutting.Hatchet;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -41,7 +41,7 @@ public class BrimhavenDungeon {
 			}
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(defs.getAnim());
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					WorldTile tile = new WorldTile(e.getObject());
@@ -65,7 +65,7 @@ public class BrimhavenDungeon {
 			e.getPlayer().setNextAnimation(new Animation(741));
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, e.getObject(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
 			if (e.getObject().getId() == 5110)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int ticks = 0;
 
 					@Override
@@ -116,7 +116,7 @@ public class BrimhavenDungeon {
 					}
 				}, 0, 0);
 			else
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int ticks = 0;
 
 					@Override
@@ -178,7 +178,7 @@ public class BrimhavenDungeon {
 				WorldTile face = new WorldTile(2681, 9537, 0);
 				e.getPlayer().setNextAnimation(new Animation(14717));
 				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, face, 1, Utils.getAngleTo(face.getX() - e.getPlayer().getX(), face.getY() - e.getPlayer().getY())));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						e.getPlayer().setNextAnimation(new Animation(14718));
@@ -201,7 +201,7 @@ public class BrimhavenDungeon {
 			final boolean isRun = e.getPlayer().isRunning();
 			e.getPlayer().setRun(false);
 			e.getPlayer().addWalkSteps(tile.getX(), tile.getY(), -1, false);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().setRun(isRun);

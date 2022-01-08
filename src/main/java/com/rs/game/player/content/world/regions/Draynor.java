@@ -43,7 +43,7 @@ import com.rs.game.player.content.world.doors.DoorPair;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.game.player.quests.handlers.dragonslayer.NedDragonSlayerD;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -407,10 +407,10 @@ public class Draynor {
 			e.getPlayer().lock();
 			e.getPlayer().setNextFaceWorldTile(e.getObject());
 			e.getPlayer().setNextAnimation(new Animation(1548));
-			WorldTasksManager.delay(2, () -> {
+			WorldTasks.delay(2, () -> {
 				e.getPlayer().addWalkSteps(e.getPlayer().transform(0, e.getObjectId() == 47404 ? -1 : 1), 1, true);
 			});
-			WorldTasksManager.delay(4, () -> {
+			WorldTasks.delay(4, () -> {
 				GameObject door1 = World.getObjectWithId(
 						e.getObject().transform(e.getObjectId() == 47404 ? 0 : 1, e.getObjectId() == 47404 ? -1 : 2),
 						47531);

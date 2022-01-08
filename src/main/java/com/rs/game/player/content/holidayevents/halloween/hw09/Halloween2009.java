@@ -30,7 +30,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.controllers.Halloween2009Controller;
 import com.rs.game.player.dialogues.DestroyItemOption;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldObject;
@@ -169,7 +169,7 @@ public class Halloween2009 {
 			boolean needStart = !e.getPlayer().matches(from);
 			if (needStart)
 				e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean started;
 				int failTimer = 3;
 
@@ -180,7 +180,7 @@ public class Halloween2009 {
 						e.getPlayer().resetWalkSteps();
 						e.getPlayer().getAppearance().setBAS(-1);
 						e.getPlayer().setNextAnimation(new Animation(12917));
-						WorldTasksManager.delay(1, () -> {
+						WorldTasks.delay(1, () -> {
 							e.getPlayer().setNextAnimation(new Animation(767));
 							e.getPlayer().unlock();
 							e.getPlayer().setNextWorldTile(WEB_RESET_LOC);
@@ -230,14 +230,14 @@ public class Halloween2009 {
 					public void run(Player player) {
 						if (option == 1) {
 							e.getPlayer().setNextAnimation(new Animation(12776));
-							WorldTasksManager.delay(1, () -> {
+							WorldTasks.delay(1, () -> {
 								e.getPlayer().setNextAnimation(new Animation(12777));
 								e.getPlayer().setNextWorldTile(new WorldTile(3936, 5125, 2));
 								e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 							});
 						} else {
 							e.getPlayer().setNextAnimation(new Animation(12776));
-							WorldTasksManager.delay(1, () -> {
+							WorldTasks.delay(1, () -> {
 								e.getPlayer().setNextAnimation(new Animation(12777));
 								e.getPlayer().setNextWorldTile(new WorldTile(3744, 5287, 0));
 								e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
@@ -247,7 +247,7 @@ public class Halloween2009 {
 				});
 			else {
 				e.getPlayer().setNextAnimation(new Animation(12776));
-				WorldTasksManager.delay(1, () -> {
+				WorldTasks.delay(1, () -> {
 					e.getPlayer().setNextAnimation(new Animation(12777));
 					e.getPlayer().setNextWorldTile(new WorldTile(3936, 5125, 2));
 					e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
@@ -260,7 +260,7 @@ public class Halloween2009 {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextAnimation(new Animation(12776));
-			WorldTasksManager.delay(1, () -> {
+			WorldTasks.delay(1, () -> {
 				e.getPlayer().setNextAnimation(new Animation(12777));
 				e.getPlayer().setNextWorldTile(new WorldTile(3805, 5149, 0));
 			});
@@ -339,7 +339,7 @@ public class Halloween2009 {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(12490));
 			e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
-			WorldTasksManager.delay(2, () -> {
+			WorldTasks.delay(2, () -> {
 				e.getPlayer().unlock();
 				e.getPlayer().setNextAnimation(new Animation(1264));
 				e.getPlayer().setNextSpotAnim(new SpotAnim(-1));

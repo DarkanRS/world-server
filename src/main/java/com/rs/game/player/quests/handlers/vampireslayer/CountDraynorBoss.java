@@ -28,7 +28,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -88,7 +88,7 @@ public class CountDraynorBoss extends NPC {
 		setLocked(true);
 		faceEntity(source);
 
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			int finalTick = Ticks.fromSeconds(12);
 			@Override
@@ -113,7 +113,7 @@ public class CountDraynorBoss extends NPC {
 	 * @param player
 	 */
 	public void die(Player player) {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			@Override
 			public void run() {
@@ -174,7 +174,7 @@ public class CountDraynorBoss extends NPC {
 			countDraynor.faceTile(new WorldTile(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
 			countDraynor.transformIntoNPC(266);
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					World.removeObject(coffin);
@@ -183,7 +183,7 @@ public class CountDraynorBoss extends NPC {
 				}
 			}, Ticks.fromMinutes(3));
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick = 0;
 				@Override
 				public void run() {

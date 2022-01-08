@@ -27,7 +27,7 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.dialogues.NexEntrance;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -140,7 +140,7 @@ public class GodwarsController extends Controller {
 				boolean withinArmadyl = player.getY() < 5276;
 				final WorldTile tile = new WorldTile(2872, withinArmadyl ? 5279 : 5269, 2);
 				player.lock();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					int ticks = 0, projectileTicks = 0;
 

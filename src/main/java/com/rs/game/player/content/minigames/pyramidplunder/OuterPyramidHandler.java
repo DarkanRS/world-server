@@ -8,7 +8,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -26,7 +26,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	static int MUMMY_ROOM = 0;
 	@ServerStartupEvent
 	public static void init() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				MUMMY_ROOM = Utils.randomInclusive(0, 3);
@@ -53,7 +53,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void enterMummyRoom(Player p, WorldTile tile) {
 		p.lock(11);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {
@@ -89,7 +89,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void exitMummyRoom(Player p, WorldTile tile, int dir) {
 		p.lock(11);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {

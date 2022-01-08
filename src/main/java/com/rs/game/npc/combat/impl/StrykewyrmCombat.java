@@ -28,7 +28,7 @@ import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -63,7 +63,7 @@ public class StrykewyrmCombat extends CombatScript {
 			delayHit(npc, 1, target, hit);
 			World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 30, 16, 0);
 			if (npc.getId() == 9463)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (Utils.getRandomInclusive(10) == 0 && !target.hasEffect(Effect.FREEZE)) {
@@ -87,7 +87,7 @@ public class StrykewyrmCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(12796));
 			npc.setCantInteract(true);
 			npc.getCombat().removeTarget();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				int count;
 
@@ -114,7 +114,7 @@ public class StrykewyrmCombat extends CombatScript {
 						}
 						count++;
 					} else if (count == 2) {
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							@Override
 							public void run() {
 								npc.getCombat().setCombatDelay(npc.getAttackSpeed());

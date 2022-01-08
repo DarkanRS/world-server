@@ -29,7 +29,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -353,7 +353,7 @@ public class Potions {
 
 		OVERLOAD(VIAL, new int[] { 15332, 15333, 15334, 15335 }, true, p -> {
 			p.addEffect(Effect.OVERLOAD, 500);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int count = 4;
 
 				@Override
@@ -382,7 +382,7 @@ public class Potions {
 		},
 		OVERLOAD_FLASK(-1, new int[] { 23531, 23532, 23533, 23534, 23535, 23536 }, true, p -> {
 			p.addEffect(Effect.OVERLOAD, 500);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int count = 4;
 
 				@Override

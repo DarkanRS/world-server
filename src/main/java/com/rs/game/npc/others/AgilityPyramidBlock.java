@@ -27,7 +27,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -67,7 +67,7 @@ public class AgilityPyramidBlock extends NPC {
 				p.setNextAnimation(new Animation(3066));
 				final WorldTile tile = p.transform(getId() == 3125 ? dist : 0, getId() == 3125 ? 0 : dist, 0);
 				p.setNextForceMovement(new ForceMovement(tile, dist, getId() == 3125 ? Direction.WEST : Direction.SOUTH));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						p.setNextWorldTile(tile.transform(0, 0, -1));

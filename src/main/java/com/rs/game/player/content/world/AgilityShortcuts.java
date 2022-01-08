@@ -21,7 +21,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -36,7 +36,7 @@ public class AgilityShortcuts {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player, 1, tile, delay+1+useDelay));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(tile);
@@ -49,7 +49,7 @@ public class AgilityShortcuts {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player, 1, tile, delay+1+useDelay, direction));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(tile);
@@ -66,7 +66,7 @@ public class AgilityShortcuts {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player, 0, tile, delay+1+useDelay));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(tile);
@@ -79,7 +79,7 @@ public class AgilityShortcuts {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player, 0, tile, delay+1+useDelay, direction));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(tile);
@@ -105,7 +105,7 @@ public class AgilityShortcuts {
 		player.lock();
 		player.setNextAnimation(new Animation(animId));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(toTile);
@@ -115,7 +115,7 @@ public class AgilityShortcuts {
 	}
 
 	public static void sidestep(final Player player, WorldTile toTile) {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -135,7 +135,7 @@ public class AgilityShortcuts {
 	}
 
 	public static void crawlUnder(final Player player, WorldTile toTile) {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -161,7 +161,7 @@ public class AgilityShortcuts {
 		player.lock(delay);
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
 		player.sendMessage("You walk carefully across the slippery log...", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			boolean secondloop;
 
 			@Override

@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.construction.HouseConstants.Room;
 import com.rs.game.player.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -107,7 +107,7 @@ public class ServantNPC extends NPC {
 			setCantInteract(true);
 			house.incrementPaymentStage();
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				int count = 0, totalCount = 0, index = 0;
 
@@ -211,7 +211,7 @@ public class ServantNPC extends NPC {
 		if (defs.isNoted())
 			item = defs.getCertId();
 		final int finalItem = item;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextNPCTransformation(servant.getId());

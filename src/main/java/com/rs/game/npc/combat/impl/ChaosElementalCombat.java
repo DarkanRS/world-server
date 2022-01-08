@@ -26,7 +26,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -44,7 +44,7 @@ public class ChaosElementalCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(npc.getCombatDefinitions().getAttackEmote()));
 		if (atk <= 10) {
 			World.sendProjectile(npc, target, 2966, 30, 30, 45, 30, 15, 0);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					for (int i = 6;i > 0;i++) {
@@ -59,7 +59,7 @@ public class ChaosElementalCombat extends CombatScript {
 		} else if (atk <= 18) {
 			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15, 0);
 			if (target instanceof Player player)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						int num = player.getInventory().getFreeSlots();

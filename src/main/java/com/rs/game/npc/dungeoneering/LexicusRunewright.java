@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -67,7 +67,7 @@ public class LexicusRunewright extends DungeonBoss {
 		setCantInteract(true);
 		setNextAnimation(new Animation(8939));
 		setNextSpotAnim(new SpotAnim(1576));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int cycles = 0;
 
@@ -92,7 +92,7 @@ public class LexicusRunewright extends DungeonBoss {
 	public boolean sendAlmanacArmyAttack(final Entity target) {
 		final LexicusRunewright boss = this;
 		boss.setNextForceTalk(new ForceTalk("Almanac Army, attack!"));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

@@ -30,7 +30,7 @@ import com.rs.game.player.controllers.GodwarsController;
 import com.rs.game.player.controllers.HouseController;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -477,7 +477,7 @@ public class Magic {
 			return;
 		player.setNextAnimation(new Animation(2140));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlock();
@@ -532,7 +532,7 @@ public class Magic {
 		if (teleType == MAGIC_TELEPORT)
 			player.getPackets().sendSound(5527, 0, 2);
 		player.lock(3 + delay);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			boolean removeDamage;
 
@@ -587,7 +587,7 @@ public class Magic {
 		player.setNextAnimation(new Animation(8939));
 		player.setNextSpotAnim(new SpotAnim(1576));
 
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int stage;
 
 			@Override
@@ -623,7 +623,7 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextSpotAnim(new SpotAnim(1680));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int stage;
 
 			@Override
@@ -659,7 +659,7 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextSpotAnim(new SpotAnim(1680));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int stage;
 
 			@Override

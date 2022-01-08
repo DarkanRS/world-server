@@ -21,7 +21,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 
@@ -44,7 +44,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 			insideCrate = instance.getLocalTile(2, 7);
 			System.out.println(insideCrate);
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				static final int CROUCH_CRATE_ANIM = 14592;
 				@Override

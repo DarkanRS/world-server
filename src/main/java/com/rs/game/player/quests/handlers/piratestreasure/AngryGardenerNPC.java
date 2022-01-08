@@ -6,7 +6,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.PluginManager;
@@ -31,7 +31,7 @@ public class AngryGardenerNPC extends NPC {
 		removeTarget();
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 			@Override
 			public void run() {

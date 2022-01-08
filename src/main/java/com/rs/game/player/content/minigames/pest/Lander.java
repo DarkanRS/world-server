@@ -28,7 +28,7 @@ import com.rs.game.player.content.minigames.pest.PestControl.PestData;
 import com.rs.game.player.controllers.PestControlLobbyController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 
 public class Lander {
@@ -89,7 +89,7 @@ public class Lander {
 
 	public void enterLander(Player player) {
 		if (lobby.size() == 0)
-			WorldTasksManager.schedule(timer = new LobbyTimer(), 2, 2);
+			WorldTasks.schedule(timer = new LobbyTimer(), 2, 2);
 		player.getControllerManager().startController(new PestControlLobbyController(landerRequirement.getId()));
 		add(player);
 		player.useStairs(-1, landerRequirement.getWorldTile(), 1, 2, "You board the lander.");

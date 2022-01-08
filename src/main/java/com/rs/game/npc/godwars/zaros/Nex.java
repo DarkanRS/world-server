@@ -31,7 +31,7 @@ import com.rs.game.npc.godwars.zaros.attack.NexAttack;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -152,7 +152,7 @@ public final class Nex extends NPC {
 	public void sendDeath(Entity source) {
 		transformIntoNPC(13450);
 		final NPCCombatDefinitions defs = getCombatDefinitions();
-		WorldTasksManager.scheduleTimer(tick -> {
+		WorldTasks.scheduleTimer(tick -> {
 			if (tick == 0)
 				setNextAnimation(new Animation(defs.getDeathEmote()));
 			else if (tick >= defs.getDeathDelay()) {
@@ -183,7 +183,7 @@ public final class Nex extends NPC {
 		sendWrathProj(this, new WorldTile(getX() - 2, getY() + 2, getPlane()), 0.4);
 		sendWrathProj(this, new WorldTile(getX() + 2, getY() + 2, getPlane()), 0.4);
 		sendWrathProj(this, new WorldTile(getX() - 2, getY() - 2, getPlane()), 0.4);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				List<Entity> possibleTargets = getPossibleTargets();

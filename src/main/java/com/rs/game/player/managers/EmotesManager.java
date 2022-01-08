@@ -27,7 +27,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
@@ -310,7 +310,7 @@ public final class EmotesManager {
 				player.lock();
 				grim.setNextFaceEntity(player);
 				player.setNextFaceEntity(grim);
-				WorldTasksManager.scheduleTimer(1, tick -> {
+				WorldTasks.scheduleTimer(1, tick -> {
 					if (tick >= 10 || player.hasFinished())
 						return false;
 					if (tick == 0) {
@@ -488,7 +488,7 @@ public final class EmotesManager {
 					player.setNextAnimation(new Animation(13190));
 					player.setNextSpotAnim(new SpotAnim(2442));
 					player.lock();
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						int step;
 
 						@Override
@@ -524,7 +524,7 @@ public final class EmotesManager {
 						break;
 					player.setNextFaceWorldTile(new WorldTile(player.getX(), player.getY() - 1, player.getPlane()));
 					player.lock();
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						int step;
 
 						@Override
@@ -591,7 +591,7 @@ public final class EmotesManager {
 					}
 					nextEmoteEnd = World.getServerTicks() + 25;
 					final WorldTile npcTile = spawnTile;
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						private int step;
 						private NPC npc;
 
@@ -647,7 +647,7 @@ public final class EmotesManager {
 						return;
 					}
 					nextEmoteEnd = World.getServerTicks() + 20;
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						private int step;
 						@Override
 						public void run() {
@@ -677,7 +677,7 @@ public final class EmotesManager {
 				}
 				return;
 			} else if (emote == Emote.GIVE_THANKS)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (step == 0) {
@@ -697,7 +697,7 @@ public final class EmotesManager {
 					private int step;
 				}, 0, 1);
 			else if (emote == Emote.SEAL_OF_APPROVAL)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int random = (int) (Math.random() * (2 + 1));
 					@Override
 					public void run() {

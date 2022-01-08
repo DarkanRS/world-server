@@ -31,7 +31,7 @@ import com.rs.game.npc.dungeoneering.NightGazerKhighorahk;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -55,7 +55,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		}
 
 		if (!gazer.isSecondStage())
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -87,7 +87,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 					gazer.setUsedSpecial(true);
 				}
 			if (success) {
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					private int ticks;
 					private List<WorldTile> tiles = new LinkedList<>();
@@ -138,7 +138,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		if (Utils.random(10) == 0) { // range aoe
 			if (!gazer.isSecondStage()) {
 				npc.setNextAnimation(new Animation(13423));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {

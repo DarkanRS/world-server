@@ -29,7 +29,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -249,7 +249,7 @@ public class RuneMysteries extends QuestOutline {
 			if (e.getOption().equalsIgnoreCase("teleport")) {
 				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
 				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
@@ -269,7 +269,7 @@ public class RuneMysteries extends QuestOutline {
 			case "Teleport":
 				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
 				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
@@ -307,7 +307,7 @@ public class RuneMysteries extends QuestOutline {
 												.addNext(() -> {
 													e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
 													World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-													WorldTasksManager.schedule(new WorldTask() {
+													WorldTasks.schedule(new WorldTask() {
 														@Override
 														public void run() {
 															e.getPlayer().setNextWorldTile(new WorldTile(3113, 3175, 0, 0));
@@ -351,7 +351,7 @@ public class RuneMysteries extends QuestOutline {
 									option("Can you teleport me to the rune essence?", () -> {
 										e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
 										World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-										WorldTasksManager.schedule(new WorldTask() {
+										WorldTasks.schedule(new WorldTask() {
 											@Override
 											public void run() {
 												e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));

@@ -24,7 +24,7 @@ import com.rs.game.player.content.minigames.creations.Helper;
 import com.rs.game.player.content.minigames.creations.StealingCreationLobby;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.WorldTile;
@@ -67,7 +67,7 @@ public class StealingCreationLobbyController extends Controller {
 		player.setNextAnimation(new Animation(1560));
 		final WorldTile toTile = new WorldTile(enterance ? object.getX() : object.getX() + 2, object.getY(), object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, enterance ? Direction.WEST : Direction.EAST));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(toTile);

@@ -27,7 +27,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.demonslayer.DelrithBoss;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -67,7 +67,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 			spawn = instance.getLocalTile(19, 17);
 			combatStartTile = instance.getLocalTile(15, 20);
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				NPC delrith;
 				List<NPC> wizards = new ArrayList<>();
@@ -170,7 +170,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 									for (NPC wizard : wizards)
 										if (wizard.getId() == DENATH) {
 											wizard.setCantInteract(true);
-											WorldTasksManager.schedule(new WorldTask() {
+											WorldTasks.schedule(new WorldTask() {
 												@Override
 												public void run() {
 													wizard.finish();

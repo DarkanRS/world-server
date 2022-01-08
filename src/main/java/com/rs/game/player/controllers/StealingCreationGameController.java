@@ -33,7 +33,7 @@ import com.rs.game.player.content.minigames.creations.Helper;
 import com.rs.game.player.content.minigames.creations.Score;
 import com.rs.game.player.content.minigames.creations.StealingCreationManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
@@ -394,7 +394,7 @@ public class StealingCreationGameController {
 			final StealingCreationGameController game = this;
 			for (final Player player : blueTeam) {
 				Helper.spawn(this, player, false);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new StealingCreationController(game, false));
@@ -404,7 +404,7 @@ public class StealingCreationGameController {
 			}
 			for (final Player player : redTeam) {
 				Helper.spawn(this, player, true);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new StealingCreationController(game, true));
@@ -425,7 +425,7 @@ public class StealingCreationGameController {
 			int totalRed = Score.totalXP(allScores, true, false);
 			final int winner = totalBlue > totalRed ? 1 : (totalBlue == totalRed ? 0 : 2);
 			lockPeople(7);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					for (Player player : blueTeam) {

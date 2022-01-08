@@ -31,7 +31,7 @@ import com.rs.game.npc.dungeoneering.Blink;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -54,7 +54,7 @@ public class BlinkCombat extends CombatScript {
 			boss.setSpecialRequired(false);
 			boss.setNextForceTalk(new ForceTalk("H...Here it comes..."));
 			// boss.playSoundEffect(2989);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -88,7 +88,7 @@ public class BlinkCombat extends CombatScript {
 				boss.setNextFaceEntity(null);
 				boss.setNextFaceWorldTile(beginningTile);// Faces the direction it throws into
 				World.sendProjectile(boss, beginningTile, 2853, 18, 18, 50, 50, 0, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					private List<WorldTile> knifeTargets;
 					private int cycles;
