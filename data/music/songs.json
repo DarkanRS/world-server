@@ -197,7 +197,7 @@
   {
     "name": "Arabique",
     "hint": "at the hellhounds in Taverley Dungeon.",
-    "comment": "",
+    "comment": "Region only",
     "allowAmbient": false,
     "id": 19,
     "regionIds": [
@@ -521,7 +521,7 @@
   {
     "name": "Royale",
     "hint": "at the Black Knight base in Taverley Dungeon.",
-    "comment": "",
+    "comment": "Only region",
     "allowAmbient": false,
     "id": 53,
     "regionIds": [

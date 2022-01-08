@@ -266,7 +266,10 @@
   {
     "genre": "Dungeon",
     "comment": "",
-    "songs": []
+    "songs": [
+      68,
+      95
+    ]
   },
   {
   "genre": "Dungeoneering",
