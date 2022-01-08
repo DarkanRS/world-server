@@ -131,15 +131,14 @@ public final class Nex extends NPC {
 			if ((!lineOfSightTo(target, isFollowTarget())) || !WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), maxDistance)) {
 				resetWalkSteps();
 				if (!WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), 5)) {
-					int[][] dirs = Utils.getCoordOffsetsNear(getSize());
-					for (int dir = 0; dir < dirs[0].length; dir++) {
-						final WorldTile tile = new WorldTile(new WorldTile(target.getX() + dirs[0][dir], target.getY() + dirs[1][dir], target.getPlane()));
-						if (World.floorAndWallsFree(tile, getSize())) {
-							setNextForceMovement(new ForceMovement(new WorldTile(this), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
-							setNextAnimation(new Animation(6985));
-							setNextWorldTile(tile);
-							return;
-						}
+					WorldTile tile = target.getNearestTeleTile(this);
+					if (tile == null)
+						tile = new WorldTile(target);
+					if (World.floorAndWallsFree(tile, getSize())) {
+						setNextForceMovement(new ForceMovement(new WorldTile(this), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
+						setNextAnimation(new Animation(6985));
+						setNextWorldTile(tile);
+						return;
 					}
 				} else
 					calcFollow(target, 2, true, true);
@@ -153,23 +152,18 @@ public final class Nex extends NPC {
 	public void sendDeath(Entity source) {
 		transformIntoNPC(13450);
 		final NPCCombatDefinitions defs = getCombatDefinitions();
-		WorldTasksManager.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					drop();
-					reset();
-					finish();
-					arena.endWar();
-					stop();
-				}
-				loop++;
+		WorldTasksManager.scheduleTimer(tick -> {
+			if (tick == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (tick >= defs.getDeathDelay()) {
+				drop();
+				reset();
+				finish();
+				arena.endWar();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 		setNextForceTalk(new ForceTalk("Taste my wrath!"));
 		playSound(3323, 2);
 		sendWrath();

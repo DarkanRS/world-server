@@ -19,6 +19,7 @@ package com.rs.game.tasks;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import com.rs.lib.util.Logger;
 
@@ -59,6 +60,42 @@ public class WorldTasksManager {
 		if (task == null)
 			return;
 		TASKS.add(new WorldTaskInformation(task, 0, -1));
+	}
+	
+	public static void schedule(int startDelay, int loopDelay, Runnable task) {
+		if (task == null || startDelay < 0 || loopDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay));
+	}
+
+	public static void schedule(int startDelay, Runnable task) {
+		if (task == null || startDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1));
+	}
+
+	public static void schedule(Runnable task) {
+		if (task == null)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), 0, -1));
+	}
+	
+	public static void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
+		if (task == null || startDelay < 0 || loopDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
+	}
+	
+	public static void scheduleTimer(Function<Integer, Boolean> task) {
+		if (task == null)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 1));
+	}
+	
+	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
+		if (task == null || startDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 1));
 	}
 
 	public static int getTasksCount() {

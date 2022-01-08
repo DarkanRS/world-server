@@ -310,32 +310,24 @@ public final class EmotesManager {
 				player.lock();
 				grim.setNextFaceEntity(player);
 				player.setNextFaceEntity(grim);
-				WorldTasksManager.schedule(new WorldTask() {
-					int emote = 10;
-					@Override
-					public void run() {
-						if (emote <= 0 || player.hasFinished())
-							stop();
-						if (emote == 10) {
-							grim.setNextAnimation(new Animation(13964));
-							player.setNextSpotAnim(new SpotAnim(1766));
-							player.setNextAnimation(new Animation(13965));
-						}
-						if (emote == 1) {
-							grim.setFinished(true);
-							World.removeNPC(grim);
-							grim.setNextFaceEntity(null);
-						}
-						if (emote == 0) {
-							player.setNextForceTalk(new ForceTalk("Phew! Close call."));
-							player.setNextFaceEntity(null);
-							emote = 0;
-							player.unlock();
-						}
-						if (emote > 0)
-							emote--;
+				WorldTasksManager.scheduleTimer(1, tick -> {
+					if (tick >= 10 || player.hasFinished())
+						return false;
+					if (tick == 0) {
+						grim.setNextAnimation(new Animation(13964));
+						player.setNextSpotAnim(new SpotAnim(1766));
+						player.setNextAnimation(new Animation(13965));
+					} else if (tick == 8) {
+						grim.setFinished(true);
+						World.removeNPC(grim);
+						grim.setNextFaceEntity(null);
+					} else if (tick == 9) {
+						player.setNextForceTalk(new ForceTalk("Phew! Close call."));
+						player.setNextFaceEntity(null);
+						player.unlock();
 					}
-				}, 1, 1);
+					return true;
+				});
 			} else if (emote == Emote.CAPE) {
 				final int capeId = player.getEquipment().getCapeId();
 				switch (capeId) {
@@ -591,17 +583,8 @@ public final class EmotesManager {
 					}
 					int size = NPCDefinitions.getDefs(1224).size;
 					WorldTile spawnTile = new WorldTile(new WorldTile(player.getX() + 1, player.getY(), player.getPlane()));
-					if (!World.floorAndWallsFree(spawnTile, size)) {
-						spawnTile = null;
-						int[][] dirs = Utils.getCoordOffsetsNear(size);
-						for (int dir = 0; dir < dirs[0].length; dir++) {
-							final WorldTile tile = new WorldTile(new WorldTile(player.getX() + dirs[0][dir], player.getY() + dirs[1][dir], player.getPlane()));
-							if (World.floorAndWallsFree(tile, size)) {
-								spawnTile = tile;
-								break;
-							}
-						}
-					}
+					if (!World.floorAndWallsFree(spawnTile, size))
+						spawnTile = player.getNearestTeleTile(size);
 					if (spawnTile == null) {
 						player.sendMessage("Need more space to perform this skillcape emote.");
 						return;

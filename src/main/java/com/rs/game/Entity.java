@@ -1339,4 +1339,20 @@ public abstract class Entity extends WorldTile {
 	public void setClipType(ClipType clipType) {
 		this.clipType = clipType;
 	}
+	
+	public WorldTile getNearestTeleTile(Entity toMove) {
+		return getNearestTeleTile(toMove.getSize());
+	}
+	
+	public WorldTile getNearestTeleTile(int size) {
+		WorldTile teleTile = null;
+		for (int att = 0; att < 10; att++) {
+			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
+			if (World.checkWalkStep(getPlane(), getX(), getY(), dir, size)) {
+				teleTile = transform(dir.getDx(), dir.getDy(), 0);
+				break;
+			}
+		}
+		return teleTile;
+	}
 }

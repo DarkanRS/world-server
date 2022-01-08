@@ -16,7 +16,6 @@
 //
 package com.rs.game.npc.pet;
 
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
@@ -24,64 +23,20 @@ import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.pet.PetDetails;
 import com.rs.game.player.content.pet.Pets;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
-/**
- * Represents a pet.
- *
- * @author Emperor
- *
- */
 public final class Pet extends NPC {
 
-	/**
-	 * The owner.
-	 */
 	private final Player owner;
-
-	/**
-	 * The "near" directions.
-	 */
-	private final int[][] checkNearDirs;
-
-	/**
-	 * The item id.
-	 */
 	private final int itemId;
-
-	/**
-	 * The pet details.
-	 */
 	private final PetDetails details;
-
-	/**
-	 * The growth rate of the pet.
-	 */
 	private double growthRate;
-
-	/**
-	 * The pets type.
-	 */
 	private final Pets pet;
 
-	/**
-	 * Constructs a new {@code Pet} {@code Object}.
-	 *
-	 * @param id
-	 *            The NPC id.
-	 * @param itemId
-	 *            The item id.
-	 * @param owner
-	 *            The owner.
-	 * @param tile
-	 *            The world tile.
-	 */
 	public Pet(int id, int itemId, Player owner, WorldTile tile, PetDetails details) {
 		super(id, tile);
 		this.owner = owner;
 		this.itemId = itemId;
-		checkNearDirs = Utils.getCoordOffsetsNear(super.getSize());
 		this.details = details;
 		pet = Pets.forId(itemId);
 		setIgnoreNPCClipping(true);
@@ -114,9 +69,6 @@ public final class Pet extends NPC {
 		sendFollow();
 	}
 
-	/**
-	 * Grows into the next stage of this pet (if any).
-	 */
 	public void growNextStage() {
 		if ((details.getStage() == 3) || (pet == null))
 			return;
@@ -136,9 +88,6 @@ public final class Pet extends NPC {
 		owner.sendMessage("<col=ff0000>Your pet has grown larger.</col>");
 	}
 
-	/**
-	 * Picks up the pet.
-	 */
 	public void pickup() {
 		if (itemId > 50000 || owner.getInventory().hasFreeSlots()) {
 			if (itemId < 50000)
@@ -154,27 +103,12 @@ public final class Pet extends NPC {
 			owner.sendMessage("You need more inventory slots to pick up your pet.");
 	}
 
-	/**
-	 * Calls the pet.
-	 */
 	public void call() {
-		int size = getSize();
-		WorldTile teleTile = null;
-		for (int dir = 0; dir < checkNearDirs[0].length; dir++) {
-			final WorldTile tile = new WorldTile(new WorldTile(owner.getX() + checkNearDirs[0][dir], owner.getY() + checkNearDirs[1][dir], owner.getPlane()));
-			if (World.floorAndWallsFree(tile, size)) {
-				teleTile = tile;
-				break;
-			}
-		}
-		if (teleTile == null)
-			return;
-		setNextWorldTile(teleTile);
+		WorldTile teleTile = owner.getNearestTeleTile(this);
+		if (teleTile != null)
+			setNextWorldTile(teleTile);
 	}
 
-	/**
-	 * Follows the owner.
-	 */
 	private void sendFollow() {
 		if (getLastFaceEntity() != owner.getClientIndex())
 			setNextFaceEntity(owner);
@@ -202,9 +136,6 @@ public final class Pet extends NPC {
 			calcFollow(owner, 2, true, false);
 	}
 
-	/**
-	 * Sends the main configurations for the Pet interface (+ summoning orb).
-	 */
 	public void sendMainConfigurations() {
 		switchOrb(true);
 		owner.getVars().setVar(448, itemId);// configures
@@ -213,9 +144,6 @@ public final class Pet extends NPC {
 		unlockOrb(); // temporary
 	}
 
-	/**
-	 * Sends the follower details.
-	 */
 	public void sendFollowerDetails() {
 		if (details == null || owner == null)
 			return;
@@ -227,12 +155,6 @@ public final class Pet extends NPC {
 		owner.getPackets().sendVarc(168, 8);// tab id
 	}
 
-	/**
-	 * Switch the Summoning orb state.
-	 *
-	 * @param enable
-	 *            If the orb should be enabled.
-	 */
 	public void switchOrb(boolean enable) {
 		owner.getVars().setVar(1174, enable ? getId() : 0);
 		if (enable) {
@@ -242,61 +164,31 @@ public final class Pet extends NPC {
 		lockOrb();
 	}
 
-	/**
-	 * Unlocks the orb.
-	 */
 	public void unlockOrb() {
 		owner.getPackets().setIFHidden(747, 9, false);
 		Familiar.sendLeftClickOption(owner);
 	}
 
-	/**
-	 * Unlocks the interfaces.
-	 */
 	public void unlock() {
 		owner.getPackets().setIFHidden(747, 9, false);
 	}
 
-	/**
-	 * Locks the orb.
-	 */
 	public void lockOrb() {
 		owner.getPackets().setIFHidden(747, 9, true);
 	}
 
-	/**
-	 * Gets the details.
-	 *
-	 * @return The details.
-	 */
 	public PetDetails getDetails() {
 		return details;
 	}
 
-	/**
-	 * Gets the growthRate.
-	 *
-	 * @return The growthRate.
-	 */
 	public double getGrowthRate() {
 		return growthRate;
 	}
 
-	/**
-	 * Sets the growthRate.
-	 *
-	 * @param growthRate
-	 *            The growthRate to set.
-	 */
 	public void setGrowthRate(double growthRate) {
 		this.growthRate = growthRate;
 	}
 
-	/**
-	 * Gets the item id of the pet.
-	 *
-	 * @return The item id.
-	 */
 	public int getItemId() {
 		return itemId;
 	}
