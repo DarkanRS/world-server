@@ -21,11 +21,15 @@ import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.social.FCManager;
 import com.rs.lib.model.Account;
+import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.ErrorResponse;
 import com.rs.lib.web.WebAPI;
 import com.rs.lib.web.dto.FCData;
+import com.rs.lib.web.dto.PacketDto;
 import com.rs.lib.web.dto.PacketEncoderDto;
+import com.rs.lobby.Lobby;
+import com.rs.lobby.model.SocialPlayer;
 
 import io.undertow.util.StatusCodes;
 
@@ -80,6 +84,23 @@ public class WorldAPI extends WebAPI {
 					if (player == null || player.getSession() == null)
 						return;
 					player.getSession().writeToQueue(request.encoders());
+					APIUtil.sendResponse(ex, StatusCodes.OK, true);
+				});
+			});
+		});
+		
+		this.routes.post("/forwardpackets", ex -> {
+			ex.dispatch(() -> {
+				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+					return;
+				}
+				APIUtil.readJSON(ex, PacketDto.class, packet -> {
+					Player player = World.getPlayer(packet.username());
+					if (player == null)
+						return;
+					for (Packet p : packet.packets())
+						player.getSession().queuePacket(p);
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
 				});
 			});

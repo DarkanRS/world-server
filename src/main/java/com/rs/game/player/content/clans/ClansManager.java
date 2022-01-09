@@ -24,7 +24,7 @@ import com.rs.game.player.content.dialogue.statements.Statement;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.ClanMember;
-import com.rs.lib.net.packets.decoders.lobby.CCCreate;
+import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
@@ -105,7 +105,7 @@ public class ClansManager {
 								return;
 							}
 							player.getTempAttribs().setB("ccCreateLock", true);
-							LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> {
+							LobbyCommunicator.forwardPacket(player, new CCCheckName(name, false), cb -> {
 								player.getTempAttribs().removeB("ccCreateLock");
 							});
 						});

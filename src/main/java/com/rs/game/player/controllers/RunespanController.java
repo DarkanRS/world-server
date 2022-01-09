@@ -419,6 +419,11 @@ public class RunespanController extends Controller {
 						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough inventory space.");
 						return;
 					}
+					int itemId = reward.getIntValue(2381);
+					if (itemId <= 0) {
+						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>Error purchasing item.");
+						return;
+					}
 					e.getPlayer().removeRunespanPoints(totalPrice);
 					e.getPlayer().getInventory().addItem(reward.getIntValue(2381), amount);
 					e.getPlayer().getPackets().setIFHidden(1273, 37, true);
