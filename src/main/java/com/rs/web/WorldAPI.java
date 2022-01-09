@@ -28,9 +28,6 @@ import com.rs.lib.web.WebAPI;
 import com.rs.lib.web.dto.FCData;
 import com.rs.lib.web.dto.PacketDto;
 import com.rs.lib.web.dto.PacketEncoderDto;
-import com.rs.lobby.Lobby;
-import com.rs.lobby.model.SocialPlayer;
-
 import io.undertow.util.StatusCodes;
 
 public class WorldAPI extends WebAPI {
