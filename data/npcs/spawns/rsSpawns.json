@@ -75243,6 +75243,7 @@
   {
     "comment": "Grand Exchange clerk",
     "npcId": 2241,
+    "dir": "EAST",
     "tile": {
       "x": 3182,
       "y": 3504,
@@ -75252,6 +75253,7 @@
   {
     "comment": "Grand Exchange clerk",
     "npcId": 2241,
+    "dir": "EAST",
     "tile": {
       "x": 3150,
       "y": 3505,
@@ -75270,6 +75272,7 @@
   {
     "comment": "Grand Exchange clerk",
     "npcId": 2241,
+    "dir": "EAST",
     "tile": {
       "x": 3182,
       "y": 3479,
@@ -75324,6 +75327,7 @@
   {
     "comment": "Banker",
     "npcId": 3418,
+    "dir": "SOUTH",
     "tile": {
       "x": 3180,
       "y": 3477,
@@ -75333,6 +75337,7 @@
   {
     "comment": "Banker",
     "npcId": 3418,
+    "dir": "NORTH",
     "tile": {
       "x": 3180,
       "y": 3480,
@@ -75351,6 +75356,7 @@
   {
     "comment": "Banker",
     "npcId": 3418,
+    "dir": "NORTH",
     "tile": {
       "x": 3181,
       "y": 3506,
@@ -75358,6 +75364,7 @@
     }
   },
   {
+    "dir": "NORTH",
     "tile": {
       "plane": 0,
       "x": 3251,
@@ -75367,6 +75374,7 @@
     "npcId": 553
   },
   {
+    "dir": "NORTH",
     "tile": {
       "plane": 0,
       "x": 3252,
@@ -75376,6 +75384,7 @@
     "npcId": 553
   },
   {
+    "dir": "NORTH",
     "tile": {
       "plane": 0,
       "x": 3253,
@@ -75385,6 +75394,7 @@
     "npcId": 553
   },
   {
+    "dir": "NORTH",
     "tile": {
       "plane": 0,
       "x": 3254,
@@ -75394,6 +75404,7 @@
     "npcId": 2759
   },
   {
+    "dir": "NORTH",
     "tile": {
       "plane": 0,
       "x": 3255,
@@ -75403,6 +75414,7 @@
     "npcId": 2759
   },
   {
+    "dir": "NORTH",
     "tile": {
       "plane": 0,
       "x": 3256,

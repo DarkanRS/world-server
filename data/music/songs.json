@@ -1024,7 +1024,7 @@
   {
     "name": "Oriental",
     "hint": "in the Waterfall Dungeon, East of Shilo Village.",
-    "comment": "",
+    "comment": "Region only",
     "allowAmbient": false,
     "id": 103,
     "regionIds": [
@@ -1075,7 +1075,7 @@
   {
     "name": "Starlight",
     "hint": "at the Asgarnian Ice Dungeon north of Mudskipper Point.",
-    "comment": "",
+    "comment": "Region only",
     "allowAmbient": false,
     "id": 108,
     "regionIds": [
@@ -1948,7 +1948,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Fun travel jingle",
     "allowAmbient": false,
     "id": 199,
     "regionIds": []
@@ -2073,8 +2073,8 @@
   {
     "name": "Undead Dungeon",
     "hint": "in Tarn's Lair.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Lock with haunted mine quest",
+    "allowAmbient": true,
     "id": 214,
     "regionIds": [
       12615
