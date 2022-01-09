@@ -1,7 +1,41 @@
 [
   {
+    "genre": "God Wars Dungeon",
+    "parent": "Dungeon",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      11092,
+      11091,
+      11090,
+      11089,
+      11348,
+      11347,
+      11346,
+      11345,
+      11604,
+      11603,
+      11602,
+      11601,
+      11860,
+      11859,
+      11858,
+      11857
+    ],
+    "songs": [
+      399,
+      495,
+      617,
+      618,
+      952,
+      959
+    ]
+  },
+  {
     "genre": "Other Dungeons",
+    "parent": "Dungeon",
     "comment": "https://runescape.wiki/w/List_of_dungeons?oldid=5197718 don't forget to check GWD songs, most regions are done.",
+    "isActive": true,
     "regionIds": [
       11925,
       12181,
@@ -134,12 +168,12 @@
       13124,
       13123,
       12946,
-      13202
+      13202,
+      18517,
+      18516,
+      18773,
+      18775
     ],
-    "songs": [
-      144,
-      321,
-      361
-    ]
+    "songs": []
   }
 ]

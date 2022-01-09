@@ -1,9 +1,8 @@
 [
   {
     "genre": "Tzhaar City",
-    "parent": "Dungeon",
-    "comment": "Use for fight kiln controller & fight caves controller.",
-    "isActive": false,
+    "comment": "Add from wild and spooky, silent chill ambience.  Use for fight kiln controller & fight caves controller.",
+    "isActive": true,
     "regionIds": [
       18255,
       18511,
@@ -19,8 +18,27 @@
       18258
     ],
     "songs": [
+      365,
+      376,
       463,
+      449,
+      513,
       526,
+      641,
+      685,
+      686,
+      687,
+      688,
+      689,
+      690,
+      691,
+      692,
+      696,
+      698,
+      700,
+      701,
+      972,
+      975,
       1075,
       1081,
       1083,
@@ -44,6 +62,7 @@
       118,
       181,
       301,
+      393,
       974,
       984,
       987,
@@ -51,38 +70,6 @@
       990,
       993,
       996
-    ]
-  },
-  {
-    "genre": "God Wars Dungeon",
-    "parent": "Dungeon",
-    "comment": "",
-    "isActive": false,
-    "regionIds": [
-      11092,
-      11091,
-      11090,
-      11089,
-      11348,
-      11347,
-      11346,
-      11345,
-      11604,
-      11603,
-      11602,
-      11601,
-      11860,
-      11859,
-      11858,
-      11857
-    ],
-    "songs": [
-      399,
-      495,
-      617,
-      618,
-      952,
-      959
     ]
   },
   {
