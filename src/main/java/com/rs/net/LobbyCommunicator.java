@@ -93,17 +93,7 @@ public class LobbyCommunicator {
 	}
 
 	public static void forwardPacket(Player player, Packet packet, Consumer<Boolean> cb) {
-		post(Boolean.class, new PacketDto(player.getUsername(), packet), "forwardpackets", cb);
-	}
-
-	public static void clanChatKick(Player player, boolean guest, String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void kickFCPlayer(Player player, String name) {
-		// TODO Auto-generated method stub
-
+		post(Boolean.class, new PacketDto(player.getUsername(), new Packet[] { packet }), "forwardpackets", cb);
 	}
 
 	public static Clan getClan(String clan) {
@@ -111,42 +101,7 @@ public class LobbyCommunicator {
 		return null;
 	}
 
-	public static void createClan(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static void updateClan(Clan clan) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void connectToClan(Player player, String text, boolean b) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void banClanPlayer(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void unbanClanPlayer(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void setClanMotto(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void addClanMember(Clan clan, Player player) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void leaveClanCompletely(Player player) {
 		// TODO Auto-generated method stub
 
 	}

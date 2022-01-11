@@ -26,7 +26,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.Stomp;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -58,7 +58,7 @@ public class StompCombat extends CombatScript {
 		if (stomp.getStage() > 1 && Utils.random(10) == 0) {
 			final WorldTile tile = new WorldTile(target);
 			World.sendSpotAnim(npc, new SpotAnim(2400), tile);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

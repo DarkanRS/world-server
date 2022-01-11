@@ -21,7 +21,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -41,7 +41,7 @@ public class GnomeAgility {
 			int x = Utils.clampI(e.getObject().getX(), 2485, 2487);
 			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(x, 3419, 3), () -> {
 				e.getPlayer().lock();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int stage = 0;
 
 					@Override
@@ -89,7 +89,7 @@ public class GnomeAgility {
 				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, new WorldTile(2484, 3418, 3), 3, Direction.EAST));
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
 				e.getPlayer().sendMessage("You skillfully run across the board", true);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						e.getPlayer().unlock();
@@ -121,7 +121,7 @@ public class GnomeAgility {
 			if (!Agility.hasLevel(e.getPlayer(), 85))
 				return;
 			e.getPlayer().lock();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick = 0;
 				@Override
 				public void run() {
@@ -155,7 +155,7 @@ public class GnomeAgility {
 			e.getPlayer().lock();
 			e.getPlayer().addWalkSteps(2474, 3429, -1, false);
 			e.getPlayer().sendMessage("You walk carefully across the slippery log...", true);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean secondloop;
 
 				@Override
@@ -182,7 +182,7 @@ public class GnomeAgility {
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("You climb the netting.", true);
 			e.getPlayer().useStairs(828, new WorldTile(e.getPlayer().getX(), 3423, 1), 1, 2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (getGnomeStage(e.getPlayer()) == 0)
@@ -198,7 +198,7 @@ public class GnomeAgility {
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("You climb the tree...", true);
 			e.getPlayer().useStairs(828, new WorldTile(2473, 3420, 2), 1, 2, "... to the platform above.");
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (getGnomeStage(e.getPlayer()) == 1)
@@ -223,7 +223,7 @@ public class GnomeAgility {
 			e.getPlayer().setRunHidden(false);
 			e.getPlayer().lock();
 			e.getPlayer().addWalkSteps(2483, 3420, -1, false);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean secondloop;
 
 				@Override
@@ -250,7 +250,7 @@ public class GnomeAgility {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(828, new WorldTile(2487, 3421, 0), 1, 2, "You climbed the tree branch succesfully.");
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (getGnomeStage(e.getPlayer()) == 3)
@@ -267,7 +267,7 @@ public class GnomeAgility {
 			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(Utils.clampI(e.getPlayer().getX(), 2483, 2488), e.getObject().getY()-1, 0), () -> {
 				e.getPlayer().sendMessage("You climb the netting.", true);
 				e.getPlayer().useStairs(828, new WorldTile(e.getPlayer().getX(), e.getObject().getY()+1, 0), 1, 2);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (getGnomeStage(e.getPlayer()) == 4)
@@ -287,7 +287,7 @@ public class GnomeAgility {
 			e.getPlayer().lock(8);
 			e.getPlayer().addWalkSteps(e.getObject().getX(), e.getObject().getY() == 3431 ? 3437 : 3430, -1, false);
 			e.getPlayer().sendMessage("You pulled yourself through the pipes.", true);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean secondloop;
 
 				@Override

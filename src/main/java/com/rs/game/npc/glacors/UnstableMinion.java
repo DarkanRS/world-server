@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -71,7 +71,7 @@ public class UnstableMinion extends NPC {
 	}
 
 	public void startStopMovingTimer() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
@@ -79,7 +79,7 @@ public class UnstableMinion extends NPC {
 				thisNpc.freeze(50000000);
 			}
 		}, 22);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
@@ -90,7 +90,7 @@ public class UnstableMinion extends NPC {
 	}
 
 	public void startExplosionTimer() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())

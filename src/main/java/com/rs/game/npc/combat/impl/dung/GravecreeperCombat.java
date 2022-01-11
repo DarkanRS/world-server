@@ -24,7 +24,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.Gravecreeper;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -46,7 +46,7 @@ public class GravecreeperCombat extends CombatScript {
 				return 4;
 			}
 			boss.setNextForceTalk(new ForceTalk("Burrnnn!"));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					boss.createBurnTiles(new WorldTile(boss));
@@ -55,7 +55,7 @@ public class GravecreeperCombat extends CombatScript {
 			boss.setSpecialDelay(World.getServerTicks() + Gravecreeper.BURN_DELAY);
 			if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 				boss.setForceFollowClose(true);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {

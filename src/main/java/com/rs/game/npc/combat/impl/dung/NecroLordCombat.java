@@ -29,7 +29,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.NecroLord;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -49,7 +49,7 @@ public class NecroLordCombat extends CombatScript {
 		if (Utils.random(10) == 0) {
 			final int skeletonCount = boss.getManager().getParty().getTeam().size();
 			final List<WorldTile> projectileTile = new LinkedList<>();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int cycles;
 
 				@Override
@@ -88,7 +88,7 @@ public class NecroLordCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
 			npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
 			World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					for (Entity t : boss.getPossibleTargets()) {

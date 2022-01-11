@@ -24,7 +24,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -52,10 +52,10 @@ public class JadCombat extends CombatScript {
 		if (attackStyle == 1) { // range
 			npc.setNextAnimation(new Animation(16202));
 			npc.setNextSpotAnim(new SpotAnim(2994));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							target.setNextSpotAnim(new SpotAnim(3000));
@@ -67,7 +67,7 @@ public class JadCombat extends CombatScript {
 		} else {
 			npc.setNextAnimation(new Animation(16195));
 			npc.setNextSpotAnim(new SpotAnim(2995));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					WorldProjectile p = World.sendProjectile(npc, target, 2996, 80, 30, 40, 5, 5, 0);

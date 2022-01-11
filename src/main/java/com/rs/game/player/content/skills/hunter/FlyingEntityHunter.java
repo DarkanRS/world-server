@@ -28,7 +28,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.controllers.PuroPuroController;
 import com.rs.game.player.dialogues.ItemMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -183,7 +183,7 @@ public class FlyingEntityHunter {
 		player.lock(2);
 		player.sendMessage("You swing your net...");
 		player.setNextAnimation(CAPTURE_ANIMATION);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (isSuccessful(player, instance.getLevel(), player1 -> {
@@ -205,7 +205,7 @@ public class FlyingEntityHunter {
 				}
 				if (isImpling) {
 					npc.setNextForceTalk(new ForceTalk("Tehee, you missed me!"));
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							WorldTile teleTile = npc;

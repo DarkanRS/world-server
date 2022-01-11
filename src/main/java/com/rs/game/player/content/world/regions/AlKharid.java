@@ -21,7 +21,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -45,7 +45,7 @@ public class AlKharid {
 			}
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
-			WorldTasksManager.delay(3, () -> {
+			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
 			});
 		}

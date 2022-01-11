@@ -20,7 +20,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Projectile;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -35,7 +35,7 @@ public class WorldProjectile extends Projectile {
 		lockOnId = toE == null ? 0 : (toE instanceof Player ? -(toE.getIndex() + 1) : toE.getIndex() + 1);
 
 		if (task != null)
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					task.run();

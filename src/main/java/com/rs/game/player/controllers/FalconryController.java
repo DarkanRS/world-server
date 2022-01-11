@@ -22,7 +22,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -55,7 +55,7 @@ public class FalconryController extends Controller {
 	@Override
 	public void start() {
 		player.setNextAnimation(new Animation(1560));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(new WorldTile(2371, 3619, 0));
@@ -109,11 +109,11 @@ public class FalconryController extends Controller {
 					player.getEquipment().refresh(3);
 					player.getAppearance().generateAppearanceData();
 					player.getTempAttribs().setB("falconReleased", true);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							World.sendProjectile(player, npc, 918, 41, 16, 31, 35, 16, 0);
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
 									npc.transformIntoNPC(npc.getId() - 4);
@@ -129,15 +129,15 @@ public class FalconryController extends Controller {
 					player.getEquipment().refresh(3);
 					player.getAppearance().generateAppearanceData();
 					player.getTempAttribs().setB("falconReleased", true);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							World.sendProjectile(player, npc, 918, 41, 16, 31, 35, 16, 0);
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
 									World.sendProjectile(npc, player, 918, 41, 16, 31, 35, 16, 0);
-									WorldTasksManager.schedule(new WorldTask() {
+									WorldTasks.schedule(new WorldTask() {
 										@Override
 										public void run() {
 											player.getEquipment().set(3, new Item(10024, 1));

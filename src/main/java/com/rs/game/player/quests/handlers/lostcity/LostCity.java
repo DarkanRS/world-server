@@ -10,7 +10,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -107,7 +107,7 @@ public class LostCity extends QuestOutline {
 			Doors.handleDoor(p, obj);
 			if(p.getX() <= obj.getX())
 				if(p.getEquipment().getWeaponId() == DRAMEN_STAFF)
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						int tick;
 						@Override
 						public void run() {

@@ -19,7 +19,7 @@ package com.rs.game.npc.others;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -62,7 +62,7 @@ public class MutatedZygomite extends ConditionalDeath {
 		npc.getCombat().setTarget(player);
 		npc.setHitpoints(npc.getMaxHitpoints());
 		npc.resetLevels();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				npc.setCantInteract(false);

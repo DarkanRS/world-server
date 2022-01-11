@@ -32,7 +32,7 @@ import com.rs.game.player.controllers.FightPitsController;
 import com.rs.game.player.controllers.FightPitsLobbyController;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
@@ -96,7 +96,7 @@ public final class FightPits {
 								spawns.add(new FightPitsNPC(2739, new WorldTile(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3)));
 						else if (minutes == 10)
 							// alot hits appears on players
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 
 								@Override
 								public void run() {
@@ -258,7 +258,7 @@ public final class FightPits {
 			startedGame = false;
 		}
 		gameTask = new GameTask();
-		WorldTasksManager.schedule(gameTask, end ? Ticks.fromSeconds(60) : Ticks.fromSeconds(10), Ticks.fromSeconds(60));
+		WorldTasks.schedule(gameTask, end ? Ticks.fromSeconds(60) : Ticks.fromSeconds(10), Ticks.fromSeconds(60));
 
 	}
 

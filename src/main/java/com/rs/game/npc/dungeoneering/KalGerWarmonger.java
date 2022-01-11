@@ -35,7 +35,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.player.content.skills.prayer.Prayer;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -65,7 +65,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setCapDamage(5000);
 		setCantInteract(true);
 		typeTicks = -1;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -141,7 +141,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("Impossible!"));
 
 		final NPC boss = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -227,7 +227,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("You dare hide from me? BURN!"));
 		setNextAnimation(new Animation(14996));
 		final NPC boss = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int ticks;
 			private List<Entity> possibleTargets;

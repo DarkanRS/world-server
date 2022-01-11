@@ -22,7 +22,7 @@ import com.rs.game.World.DropMethod;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -54,7 +54,7 @@ public class Balloon extends GameObject {
 			final GameObject poppedBalloon = new GameObject(getId() + 8, ObjectType.SCENERY_INTERACT, this.getRotation(), getX(), getY(), getPlane());
 			World.spawnObject(poppedBalloon);
 			player.incrementCount("Party balloons popped");
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (item != null)

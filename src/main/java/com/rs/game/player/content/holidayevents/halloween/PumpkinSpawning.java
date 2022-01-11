@@ -24,7 +24,7 @@ import com.rs.game.player.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.player.content.holidayevents.halloween.hw09.Halloween2009;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -45,7 +45,7 @@ public class PumpkinSpawning {
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (int id : regionsToSpawn)

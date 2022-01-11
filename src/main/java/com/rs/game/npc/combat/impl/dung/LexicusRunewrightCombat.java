@@ -34,7 +34,7 @@ import com.rs.game.npc.dungeoneering.LexicusRunewright;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -103,7 +103,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 			}
 
 		npc.setNextForceTalk(new ForceTalk("Book barrage!"));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int cycle = 0;
 			private LinkedList<WorldTile> targets = new LinkedList<>();

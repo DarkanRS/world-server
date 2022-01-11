@@ -26,7 +26,7 @@ import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -149,7 +149,7 @@ public class NexArena {
 		if (getPlayersCount() >= 1)
 			if (nex == null) {
 				nex = new Nex(this, new WorldTile(2924, 5202, 0));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					private int count = 0;
 
 					@Override

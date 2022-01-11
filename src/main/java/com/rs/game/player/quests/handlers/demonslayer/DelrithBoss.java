@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -56,7 +56,7 @@ public class DelrithBoss extends NPC {
 		setNextAnimation(new Animation(STUNNED));
 		removeTarget();
 
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			int finalTick = Ticks.fromSeconds(12);
 			boolean conversating = false;
@@ -82,7 +82,7 @@ public class DelrithBoss extends NPC {
 	}
 
 	public void die() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			@Override
 			public void run() {

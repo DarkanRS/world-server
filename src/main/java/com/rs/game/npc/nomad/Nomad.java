@@ -27,7 +27,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.transportation.FadingScreen;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -96,7 +96,7 @@ public class Nomad extends NPC {
 			target.getVars().setVarBit(6962, 0);
 			Dialogue.sendNPCDialogueNoContinue(target, getId(), 9802, "You...<br>You have doomed this world.");
 			target.getPackets().sendVoice(8260);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					Dialogue.closeNoContinueDialogue(target);
@@ -153,7 +153,7 @@ public class Nomad extends NPC {
 	public void sendTeleport(final WorldTile tile) {
 		setNextAnimation(new Animation(12729));
 		setNextSpotAnim(new SpotAnim(1576));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextWorldTile(tile);
@@ -188,7 +188,7 @@ public class Nomad extends NPC {
 		setNextSpotAnim(new SpotAnim(1576));
 		final int thisIndex = Utils.random(4);
 		final Nomad thisNpc = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				copies = new ArrayList<>();

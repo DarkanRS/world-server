@@ -27,7 +27,7 @@ import com.rs.game.npc.dungeoneering.HopeDevourer;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -60,7 +60,7 @@ public class HopeDevourerCombat extends CombatScript {
 
 		if (Utils.random(10) == 0) {
 			npc.setNextForceTalk(new ForceTalk("Grrrrrrrrrroooooooooaaaarrrrr"));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -92,7 +92,7 @@ public class HopeDevourerCombat extends CombatScript {
 			if (target instanceof Player player)
 				player.getSkills().set(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) - (damage * .05)));
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				private int ticks;
 				private WorldTile tile;
 

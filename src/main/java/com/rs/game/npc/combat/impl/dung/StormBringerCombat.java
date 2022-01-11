@@ -23,7 +23,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -53,7 +53,7 @@ public class StormBringerCombat extends CombatScript {
 		World.sendProjectile(npc, target, 2592, 41, 16, 41, 35, 16, 0);// 2593
 		delayHit(npc, 2, target, getRangeHit(npc, damage));
 		if (damage > 0)
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

@@ -14,7 +14,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -40,7 +40,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 				wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
 				World.sendProjectile(wizard, p, 50, 5, 5, 5, 1, 5, 0);
 				p.lock(3);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						p.setNextWorldTile(new WorldTile(2642, 3321, 0));//Mansion in ardy
@@ -81,7 +81,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 												wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
 												World.sendProjectile(wizard, p, 50, 5, 5, 5, 1, 5, 0);
 												p.lock(3);
-												WorldTasksManager.schedule(new WorldTask() {
+												WorldTasks.schedule(new WorldTask() {
 													@Override
 													public void run() {
 														if(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM) >= GET_TOTEM)

@@ -32,7 +32,7 @@ import com.rs.game.player.content.skills.cooking.Foods.Food;
 import com.rs.game.player.dialogues.ForfeitDialouge;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -104,7 +104,7 @@ public class DuelArenaController extends Controller {
 		Player oldTarget = target;
 		if (duelStage != DuelStage.DONE) {
 			target = null;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -300,7 +300,7 @@ public class DuelArenaController extends Controller {
 		startEndingTeleport(loser);
 		loser.sendMessage("Oh dear, it seems you have lost to " + victor.getDisplayName() + ".");
 		victor.sendMessage("Congratulations! You easily defeated " + loser.getDisplayName() + ".");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -350,7 +350,7 @@ public class DuelArenaController extends Controller {
 		player.getTempAttribs().setB("canFight", false);
 		player.setCanPvp(true);
 		player.getHintIconsManager().addHintIcon(target, 1, -1, false);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int count = 3;
 
 			@Override
@@ -430,7 +430,7 @@ public class DuelArenaController extends Controller {
 	public boolean sendDeath() {
 		endDuel(target, player);
 		player.lock(7);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

@@ -39,7 +39,11 @@ public final class BaseWorldDecoder extends Decoder {
 		case 14:
 			return decodeLogin(stream);
 		default:
-			System.out.println("Connection type: " + packetId);
+			System.out.println("Connection type: " + packetId + " Remaining: " + stream.getRemaining());
+			String hex = "";
+			for (byte i : stream.getBuffer())
+				hex += String.format("%02X", i);
+			System.out.println(hex);
 			return -1;
 		}
 	}

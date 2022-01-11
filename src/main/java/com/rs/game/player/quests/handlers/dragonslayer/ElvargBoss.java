@@ -13,7 +13,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -54,7 +54,7 @@ public class ElvargBoss extends NPC {
 			ElvargBoss elvarg = this;
 			removeTarget();
 			elvarg.setCantInteract(true);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick = 0;
 				int WALK_TO_TILE_TICK = 7;
 				WorldTile animTile;

@@ -52,7 +52,7 @@ import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.prayer.Prayer;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -254,7 +254,7 @@ public abstract class Entity extends WorldTile {
 		if (delay < 0)
 			receivedHits.add(hit);
 		else
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (isDead()) {
@@ -315,7 +315,7 @@ public abstract class Entity extends WorldTile {
 			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
 		if (this instanceof Player p)
 			p.getPrayer().drainPrayer(hit.getDamage() / 5);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextSpotAnim(new SpotAnim(2264));
@@ -1338,5 +1338,21 @@ public abstract class Entity extends WorldTile {
 
 	public void setClipType(ClipType clipType) {
 		this.clipType = clipType;
+	}
+	
+	public WorldTile getNearestTeleTile(Entity toMove) {
+		return getNearestTeleTile(toMove.getSize());
+	}
+	
+	public WorldTile getNearestTeleTile(int size) {
+		WorldTile teleTile = null;
+		for (int att = 0; att < 10; att++) {
+			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
+			if (World.checkWalkStep(getPlane(), getX(), getY(), dir, size)) {
+				teleTile = transform(dir.getDx(), dir.getDy(), 0);
+				break;
+			}
+		}
+		return teleTile;
 	}
 }

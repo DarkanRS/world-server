@@ -28,7 +28,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungHatchet;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
@@ -117,8 +117,8 @@ public class FlowerRootsRoom extends PuzzleRoom {
 			}
 		colorTask = new ChangeColorTask();
 		objectTask = new ChangeObjectTask();
-		WorldTasksManager.schedule(colorTask, 0, 6);
-		WorldTasksManager.schedule(objectTask, 4, 6); //color animation is 3 ticks
+		WorldTasks.schedule(colorTask, 0, 6);
+		WorldTasks.schedule(objectTask, 4, 6); //color animation is 3 ticks
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 						player.lock(4);
 						for (Player team : manager.getParty().getTeam())
 							team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							@Override
 							public void run() {
 								giveXP(player, Constants.WOODCUTTING);
@@ -195,7 +195,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 			for (GameObject leaf : leaves)
 				team.getPackets().sendObjectAnimation(leaf, new Animation(LEAF_DESPAWN));
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (int x = 0; x < 16; x++)

@@ -29,7 +29,7 @@ import com.rs.game.npc.dungeoneering.ToKashBloodChiller;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -75,7 +75,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		npc.setNextForceTalk(new ForceTalk("Sleep now, in the bitter cold..."));
 		// npc.playSoundEffect(2896);
 		boss.setSpecialAttack(true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -98,7 +98,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		FrozenAdventurer npc = new FrozenAdventurer(10023, player, -1, false);
 		npc.setPlayer(player);
 		player.sendMessage("You have been frozen solid!");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int counter = 0;
 

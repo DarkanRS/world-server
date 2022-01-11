@@ -11,7 +11,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -329,7 +329,7 @@ public class DragonSlayer extends QuestOutline {
 
 			if(attr.getB(DOOR_BOMB_ATTR) && attr.getB(DOOR_BOWL_ATTR) && attr.getB(DOOR_SILK_ATTR) && attr.getB(DOOR_CAGE_ATTR)) {
 				obj.animate(new Animation(6636));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					@Override
 					public void run() {
@@ -453,7 +453,7 @@ public class DragonSlayer extends QuestOutline {
 	};
 
 	public static void introduceElvarg(Player p) {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {

@@ -21,7 +21,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -40,7 +40,7 @@ public class SuqahCombat extends CombatScript {
 		if (Utils.getRandomInclusive(3) == 0) {// barrage
 			boolean hit = Utils.getRandomInclusive(1) == 0;
 			delayHit(npc, 2, target, getMagicHit(npc, hit ? 100 : 0));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

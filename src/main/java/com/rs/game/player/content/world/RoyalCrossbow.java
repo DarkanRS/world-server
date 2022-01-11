@@ -23,7 +23,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.controllers.QueenBlackDragonController;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -71,7 +71,7 @@ public class RoyalCrossbow {
 				}
 				e.getPlayer().setNextAnimation(new Animation(16870));
 				e.getPlayer().lock(5);
-				WorldTasksManager.delay(4, () -> e.getPlayer().resetReceivedHits());
+				WorldTasks.delay(4, () -> e.getPlayer().resetReceivedHits());
 				e.getPlayer().sendMessage("You brandish the crossbow and it absorbs the dragon's extremely hot fire.");
 				e.getItem().setId(24338);
 				e.getItem().deleteMetaData();

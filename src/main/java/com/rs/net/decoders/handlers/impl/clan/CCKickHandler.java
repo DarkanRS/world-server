@@ -27,7 +27,7 @@ public class CCKickHandler implements PacketHandler<Player, CCKick> {
 	public void handle(Player player, CCKick p) {
 		if (!player.hasStarted())
 			return;
-		LobbyCommunicator.clanChatKick(player, p.isGuest(), p.getName());
+		LobbyCommunicator.forwardPackets(player, p);
 	}
 
 }

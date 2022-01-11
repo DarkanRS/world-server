@@ -27,7 +27,7 @@ import com.rs.game.player.actions.Action;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -188,7 +188,7 @@ public class SiphonNodeAction extends Action {
 	@SuppressWarnings("unused")
 	private void processNodeDestroy(final Player player) {
 		player.sendMessage("The node you were siphoning from has been depleted of energy.", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(16599));
@@ -214,7 +214,7 @@ public class SiphonNodeAction extends Action {
 			player.setNextFaceWorldTile(node);
 			WorldProjectile p = World.sendProjectile(node, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextSpotAnim(new SpotAnim(succF ? 3062 : 3071));

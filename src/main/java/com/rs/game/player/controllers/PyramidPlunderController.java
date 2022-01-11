@@ -17,7 +17,7 @@
 package com.rs.game.player.controllers;
 
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 
 public class PyramidPlunderController extends Controller {
@@ -58,7 +58,7 @@ public class PyramidPlunderController extends Controller {
 
 	public void startMinigame() {
 		player.lock(11);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {

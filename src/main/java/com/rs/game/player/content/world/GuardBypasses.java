@@ -23,7 +23,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.content.world.doors.DoorPair;
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.WildernessController;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -70,7 +70,7 @@ public class GuardBypasses {
 
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
-				WorldTasksManager.delay(3, () -> {
+				WorldTasks.delay(3, () -> {
 					e.getPlayer().setRunHidden(true);
 					World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
 					World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
@@ -94,7 +94,7 @@ public class GuardBypasses {
 			e.getPlayer().setRunHidden(false);
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
-			WorldTasksManager.delay(3, () -> {
+			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
@@ -115,7 +115,7 @@ public class GuardBypasses {
 			}
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
-			WorldTasksManager.delay(3, () -> {
+			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
 			});
 		}
@@ -131,7 +131,7 @@ public class GuardBypasses {
 			}
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
-			WorldTasksManager.delay(3, () -> {
+			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
 			});
 		}
@@ -150,7 +150,7 @@ public class GuardBypasses {
 				e.getPlayer().getControllerManager().startController(new DamonheimController());
 			}
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1366));
-			WorldTasksManager.delay(3, () -> {
+			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1365));
 			});

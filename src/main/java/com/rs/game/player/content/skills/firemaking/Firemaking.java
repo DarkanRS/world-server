@@ -26,7 +26,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.controllers.DuelArenaController;
 import com.rs.game.player.controllers.DuelController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -197,7 +197,7 @@ public class Firemaking extends Action {
 				if (!player.addWalkSteps(player.getX(), player.getY() + 1, 1))
 					player.addWalkSteps(player.getX(), player.getY() - 1, 1);
 		player.sendMessage("The fire catches and the logs begin to burn.", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				final GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(fire.getLogId(), tile, player);

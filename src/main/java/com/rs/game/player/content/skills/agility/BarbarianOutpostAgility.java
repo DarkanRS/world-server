@@ -24,7 +24,7 @@ import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -44,7 +44,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().setNextAnimation(new Animation(10580));
 			final WorldTile toTile = new WorldTile(e.getObject().getX(), e.getPlayer().getY() >= 3561 ? 3558 : 3561, e.getObject().getPlane());
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 2, e.getPlayer().getY() >= 3561 ? Direction.SOUTH : Direction.NORTH));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().unlock();
@@ -69,7 +69,7 @@ public class BarbarianOutpostAgility {
 				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.SOUTH));
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
 				e.getPlayer().sendMessage("You skilfully swing across.", true);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						e.getPlayer().unlock();
@@ -91,7 +91,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().setNextAnimation(new Animation(9908));
 			final WorldTile toTile = new WorldTile(2541, e.getObject().getY(), e.getObject().getPlane());
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, toTile, 12, Direction.WEST));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().setNextWorldTile(toTile);
@@ -127,7 +127,7 @@ public class BarbarianOutpostAgility {
 				return;
 			e.getPlayer().sendMessage("You put your foot on the ledge and try to edge across...", true);
 			e.getPlayer().lock();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int stage = 0;
 
 				@Override
@@ -171,7 +171,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().setNextAnimation(new Animation(4853));
 			final WorldTile toTile = new WorldTile(e.getObject().getX() + 1, e.getObject().getY(), e.getObject().getPlane());
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 2, Direction.EAST));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().unlock();
@@ -197,7 +197,7 @@ public class BarbarianOutpostAgility {
 				return;
 			e.getPlayer().lock();
 			final WorldTile toTile = new WorldTile(2538, 3545, 2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int stage = 0;
 
 				@Override
@@ -228,7 +228,7 @@ public class BarbarianOutpostAgility {
 				return;
 			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(e.getObject()), () -> {
 				e.getPlayer().lock();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int stage = 0;
 					@Override
 					public void run() {
@@ -260,7 +260,7 @@ public class BarbarianOutpostAgility {
 				WorldTile toTile = new WorldTile(2532, 3553, 3);
 
 				e.getPlayer().lock();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int stage = 0;
 					@Override
 					public void run() {
@@ -294,7 +294,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.EAST));
 			e.getPlayer().setNextAnimation(new Animation(16079));
 			e.getPlayer().getAppearance().setBAS(330);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().stopAll();
@@ -318,7 +318,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(2586));
 			e.getPlayer().getAppearance().setBAS(-1);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().unlock();
@@ -342,7 +342,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().setNextAnimation(new Animation(11792));
 			final WorldTile toTile = new WorldTile(2544, e.getPlayer().getY(), 0);
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 5, Direction.EAST));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int stage;
 
 				@Override

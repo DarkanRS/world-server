@@ -29,7 +29,7 @@ import com.rs.game.player.content.skills.summoning.Summoning;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -133,7 +133,7 @@ public class FightCavesController extends Controller {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
 			player.setNextWorldTile(!login ? getWorldTile(46, 61) : getWorldTile(32, 32));
 			stage = Stages.RUNNING;
-			WorldTasksManager.delay(1, () -> {
+			WorldTasks.delay(1, () -> {
 				if (!login) {
 					WorldTile walkTo = getWorldTile(32, 32);
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
@@ -145,7 +145,7 @@ public class FightCavesController extends Controller {
 				player.unlock(); // unlocks player
 			});
 			if (!login)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (stage != Stages.RUNNING)
@@ -230,7 +230,7 @@ public class FightCavesController extends Controller {
 	public void setWaveEvent() {
 		if (getCurrentWave() == 63)
 			player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "Look out, here comes TzTok-Jad!");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {
@@ -259,7 +259,7 @@ public class FightCavesController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

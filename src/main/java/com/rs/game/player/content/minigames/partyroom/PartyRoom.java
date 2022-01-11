@@ -32,7 +32,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -160,7 +160,7 @@ public class PartyRoom {
 			npcs[i] = new NPC(660, new WorldTile(3043 + i, 3378, 0));
 			npcs[i].setFaceAngle(0);
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
@@ -216,7 +216,7 @@ public class PartyRoom {
 				World.removeObject(e.getObject());
 				final GameObject poppedBalloon = new GameObject(e.getObject().getId() + 8, ObjectType.SCENERY_INTERACT, e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
 				World.spawnObject(poppedBalloon);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						World.removeObject(poppedBalloon);

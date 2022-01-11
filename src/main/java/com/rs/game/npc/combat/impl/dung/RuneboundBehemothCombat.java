@@ -31,7 +31,7 @@ import com.rs.game.npc.dungeoneering.RuneboundBehemoth;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -67,7 +67,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 		if (Utils.random(15) == 0) {// Special attack
 			final List<WorldTile> explosions = new LinkedList<>();
 			boss.setNextForceTalk(new ForceTalk("Raaaaaaaaaaaaaaaaaaaaaaaaaawr!"));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				int cycles;
 

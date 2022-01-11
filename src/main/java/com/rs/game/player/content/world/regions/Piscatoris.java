@@ -24,7 +24,7 @@ import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
@@ -49,7 +49,7 @@ public class Piscatoris {
 				return;
 			final boolean isNorth = e.getPlayer().getY() > 3653;
 			final WorldTile tile = isNorth ? new WorldTile(2344, 3650, 0) : new WorldTile(2344, 3655, 0);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override

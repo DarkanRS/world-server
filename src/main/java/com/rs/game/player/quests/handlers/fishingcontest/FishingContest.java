@@ -30,7 +30,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -195,7 +195,7 @@ public class FishingContest extends QuestOutline {
 						p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
 						p.sendMessage("You place the garlic in the pipe.");
 						p.lock(8);
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							int tick;
 							NPC stranger;
 

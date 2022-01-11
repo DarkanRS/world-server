@@ -26,7 +26,7 @@ import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.hunter.BoxTrapType;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -120,7 +120,7 @@ public class NetTrap extends BoxStyleTrap {
 			npc.setNextAnimation(new Animation(-1));
 			npc.setRespawnTask();
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				compTrap.setNpcTrapped(npc.getType());

@@ -22,7 +22,7 @@ import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.content.minigames.pest.PestControl;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -42,13 +42,13 @@ public class Splatter extends PestMonsters {
 	private void sendExplosion() {
 		final Splatter splatter = this;
 		setNextAnimation(new Animation(3888));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
 				setNextAnimation(new Animation(3889));
 				setNextSpotAnim(new SpotAnim(649 + (getId() - 3727)));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -68,7 +68,7 @@ public class Splatter extends PestMonsters {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

@@ -20,7 +20,7 @@ import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -47,7 +47,7 @@ public class TaverlyDungeon {
 				return;
 			}
 			int x = e.getPlayer().getX() == 2886 ? 2892 : 2886;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().setNextAnimation(new Animation(10580));
@@ -68,7 +68,7 @@ public class TaverlyDungeon {
 			final WorldTile tile = isSouth ? new WorldTile(2878, 9812, 0) : new WorldTile(2881, 9814, 0);
 			e.getPlayer().setRun(true);
 			e.getPlayer().addWalkSteps(isSouth ? 2881 : 2877, isSouth ? 9814 : 9812);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override

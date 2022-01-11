@@ -20,7 +20,7 @@ import com.rs.game.ForceMovement;
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -73,7 +73,7 @@ public class LumbridgeSwampDungeon {
 			e.getPlayer().lock();
 			e.getPlayer().setRun(true);
 			e.getPlayer().addWalkSteps(isWest ? 3208 : 3204, 9572);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override
@@ -107,7 +107,7 @@ public class LumbridgeSwampDungeon {
 			e.getPlayer().lock();
 			e.getPlayer().setRun(true);
 			e.getPlayer().addWalkSteps(3221, isSouth ? 9556 : 9553);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override

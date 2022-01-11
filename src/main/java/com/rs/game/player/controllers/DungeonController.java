@@ -86,7 +86,7 @@ import com.rs.game.player.dialogues.CreationActionD;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.SmugglerD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -228,7 +228,7 @@ public class DungeonController extends Controller {
 				int damage = hit.getDamage() / 10;
 				if (Utils.random(100) < procChance)
 					for (int i = 1;i <= 5;i++)
-						WorldTasksManager.delay(2*i, () -> {
+						WorldTasks.delay(2*i, () -> {
 							target.applyHit(new Hit(player, damage, HitLook.MAGIC_DAMAGE).setData("blazerBleed", true));
 						});
 			}
@@ -288,7 +288,7 @@ public class DungeonController extends Controller {
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
@@ -430,7 +430,7 @@ public class DungeonController extends Controller {
 			player.setNextSpotAnim(new SpotAnim(fail ? s.getFailGfx() : s.getOpenGfx()));
 		if (s.getOpenObjectAnim() != -1 && !fail)
 			World.sendObjectAnimation(object, new Animation(s.getOpenObjectAnim()));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -600,7 +600,7 @@ public class DungeonController extends Controller {
 			}
 			player.setNextAnimation(defs.getAnimation());
 			player.lock(4);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -1219,7 +1219,7 @@ public class DungeonController extends Controller {
 		if (!group) {
 			player.setCantWalk(true);
 			player.getEmotesManager().setNextEmoteEnd(3); //prevents dropping etc
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setCantWalk(false);

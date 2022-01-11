@@ -29,7 +29,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -52,7 +52,7 @@ public class KalphiteQueenCombat extends CombatScript {
 			World.sendProjectile(fromEntity, target, projectile, fromEntity == startTile ? 70 : 20, 20, 30, 6, 0, 0);
 			int endTime = 3;
 			delayHit(startTile, endTime, target, getMagicHit(startTile, getMaxHit(startTile, npc.getMaxHit(), AttackStyle.MAGE, target)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(gfx));
@@ -70,7 +70,7 @@ public class KalphiteQueenCombat extends CombatScript {
 			arrayList.add(player);
 		World.sendProjectile(fromEntity, target, 280, fromEntity == startTile ? 70 : 20, 20, 60, 30, 0, 0);
 		delayHit(startTile, 0, target, getMagicHit(startTile, getMaxHit(startTile, startTile.getMaxHit(), AttackStyle.MAGE, target)));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -137,7 +137,7 @@ public class KalphiteQueenCombat extends CombatScript {
 			}
 		else {
 			npc.setNextSpotAnim(new SpotAnim(npc.getId() == 1158 ? 278 : 279));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

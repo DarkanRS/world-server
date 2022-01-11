@@ -34,7 +34,7 @@ import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringFishi
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringFishing.Fish;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -88,7 +88,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 				GameObject o = World.getObjectWithType(this, ObjectType.GROUND_DECORATION);
 				if (o != null && o.getDefinitions().getName().equals("Hole")) {
 					setNextAnimation(new Animation(13797));
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 
 						@Override
 						public void run() {
@@ -181,7 +181,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		player.faceObject(object);
 		player.sendMessage("You throw the fish.");
 		WorldProjectile p = World.sendProjectile(player, object, 2522, 32, 0, 25, 1, 15, 0);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				World.sendSpotAnim(player, new SpotAnim(2523), object);

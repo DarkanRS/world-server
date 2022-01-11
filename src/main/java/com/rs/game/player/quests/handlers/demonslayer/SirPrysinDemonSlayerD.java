@@ -26,7 +26,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -264,7 +264,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 				NPC dummy = World.spawnNPC(SIR_PRYSIN, new WorldTile(3204, 3470, 0), -1, false, true);
 				dummy.setRandomWalk(false);
 				dummy.faceTile(new WorldTile(3204, 3469, 0));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					WorldTile playerTile;
 					@Override

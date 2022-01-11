@@ -22,7 +22,7 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -50,7 +50,7 @@ public class Drag implements NexAttack {
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextWorldTile(nex);

@@ -25,7 +25,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.managers.EmotesManager.Emote;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -59,7 +59,7 @@ public class Muncher07D extends Conversation {
 		op.addPlayer(HeadE.LAUGH, "Hehe. This'll make him think twice!")
 		.addNext(() -> {
 			player.lock();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int stage = 0;
 				@Override
 				public void run() {

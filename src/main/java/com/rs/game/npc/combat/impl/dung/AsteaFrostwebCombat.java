@@ -28,7 +28,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.AsteaFrostweb;
 import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -71,7 +71,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 			int d = getMaxHit(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 1, target, getMagicHit(npc, d));
 			if (d != 0) {
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (target.hasEffect(Effect.FREEZE))
@@ -87,7 +87,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 						int damage = getMaxHit(npc, AttackStyle.MAGE, t);
 						delayHit(npc, 1, t, getMagicHit(npc, damage));
 						if (damage != 0)
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
 									if (t.hasEffect(Effect.FREEZE))

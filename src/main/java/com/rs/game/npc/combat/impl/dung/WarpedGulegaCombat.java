@@ -28,7 +28,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.WarpedGulega;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -55,7 +55,7 @@ public class WarpedGulegaCombat extends CombatScript {
 			final List<WorldTile> attackTiles = new LinkedList<>();
 			for (Entity t : boss.getPossibleTargets(true))
 				attackTiles.add(new WorldTile(t));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -89,7 +89,7 @@ public class WarpedGulegaCombat extends CombatScript {
 			break;
 		case 0:
 			npc.setNextAnimation(new Animation(15004));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				WorldTile center;
 				int cycles;

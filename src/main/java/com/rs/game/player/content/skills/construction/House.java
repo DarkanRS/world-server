@@ -42,7 +42,7 @@ import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.game.region.Region;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -338,7 +338,7 @@ public class House {
 		for (final Player p : getTrappedPlayers(x, y)) {
 			p.lock(10);
 			p.setNextAnimation(new Animation(1950));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					p.setNextWorldTile(new WorldTile(p.getX(), p.getY(), 0));
@@ -651,7 +651,7 @@ public class House {
 			for (Item item : piece.getRequirements(player))
 				player.getInventory().deleteItem(item);
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getSkills().addXp(Constants.CONSTRUCTION, piece.getXP());
@@ -765,7 +765,7 @@ public class House {
 			return;
 		player.lock();
 		player.setNextAnimation(new Animation(3685));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				World.removeObject(object);
@@ -830,7 +830,7 @@ public class House {
 		player.getControllerManager().startController(new HouseController(this));
 		if (loaded) {
 			teleportPlayer(player);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.lock(1);

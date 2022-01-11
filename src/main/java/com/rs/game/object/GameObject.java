@@ -21,7 +21,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
@@ -85,7 +85,7 @@ public class GameObject extends WorldObject {
 			return;
 		final int original = this.id;
 		setId(id);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setId(original);

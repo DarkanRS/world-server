@@ -25,7 +25,7 @@ import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.mining.Pickaxe;
 import com.rs.game.player.content.skills.woodcutting.Hatchet;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -52,7 +52,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -89,7 +89,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -121,7 +121,7 @@ public class Abyss {
 
 	public static void clearEyes(final Player player, final GameObject object, final WorldTile tile) {
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -153,7 +153,7 @@ public class Abyss {
 
 	public static void clearGap(final Player player, final GameObject object, final WorldTile tile, final boolean quick) {
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -188,7 +188,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -235,7 +235,7 @@ public class Abyss {
 		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
 		npc.setNextSpotAnim(new SpotAnim(108));
 		player.setNextSpotAnim(new SpotAnim(110));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				int index = Utils.random(ABYSS_TELEPORT_OUTER.length);

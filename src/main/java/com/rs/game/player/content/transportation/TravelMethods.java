@@ -20,7 +20,7 @@ import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.dialogues.QuickCharter;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -249,7 +249,7 @@ public class TravelMethods {
 		else {
 			player.lock();
 			if(getComponentForMap(ship, returning) == 54 || getComponentForMap(ship, returning) == 46)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					@Override
 					public void run() {
@@ -275,7 +275,7 @@ public class TravelMethods {
 					}
 				}, 0, 1);
 			else
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					@Override
 					public void run() {

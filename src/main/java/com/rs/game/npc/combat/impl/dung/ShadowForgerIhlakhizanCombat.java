@@ -29,7 +29,7 @@ import com.rs.game.npc.dungeoneering.ShadowForgerIhlakhizan;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -63,7 +63,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 					if (WorldUtil.collides(npc.getX(), npc.getY(), npc.getSize(), tile.getX(), tile.getY(), 1))
 						continue;
 					World.sendProjectile(npc, tile, 2371, 120, 30, 41, 30, 16, 0);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 
 						@Override
 						public void run() {
@@ -84,7 +84,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				if (t instanceof Player player)
 					player.sendMessage("The shadow-forger starts to glow.");
 			forger.setUsedShadow();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -92,7 +92,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 					for (Entity t : npc.getPossibleTargets()) {
 						t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
 						if (t instanceof Player player) {
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								private int ticks;
 								private WorldTile tile;
 

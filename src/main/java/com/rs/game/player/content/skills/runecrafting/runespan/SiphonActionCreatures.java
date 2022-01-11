@@ -27,7 +27,7 @@ import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -163,7 +163,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 			player.setNextFaceWorldTile(creature);
 			WorldProjectile p = World.sendProjectile(creature, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextSpotAnim(new SpotAnim(succF ? 3062 : 3071));
@@ -175,7 +175,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 
 	public void processEsslingDeath(final Player player) {
 		creature.setNextAnimation(new Animation(creatures.getDeathEmote()));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.sendMessage("The creature has been broken down.");

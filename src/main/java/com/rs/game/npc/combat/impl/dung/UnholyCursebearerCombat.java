@@ -27,7 +27,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.DungeonBoss;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -48,7 +48,7 @@ public class UnholyCursebearerCombat extends CombatScript {
 		if (target instanceof Player player && target.getTempAttribs().getI("UNHOLY_CURSEBEARER_ROT") == -1) {
 			target.getTempAttribs().setI("UNHOLY_CURSEBEARER_ROT", 1);
 			player.sendMessage("An undead rot starts to work at your body.");
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

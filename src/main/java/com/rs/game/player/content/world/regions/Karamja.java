@@ -30,7 +30,7 @@ import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -138,7 +138,7 @@ public class Karamja  {
 
 					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Utils.getAngleTo(toTile.getX() - e.getPlayer().getX(), toTile.getY() - e.getPlayer().getY())));
 					e.getPlayer().sendMessage("You skillfully swing across the rope.", true);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							e.getPlayer().unlockNextTick();
@@ -159,7 +159,7 @@ public class Karamja  {
 				return;
 			e.getPlayer().setNextAnimation(new Animation(741));
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, e.getObject(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().setNextWorldTile(new WorldTile(e.getObject()));
@@ -318,7 +318,7 @@ public class Karamja  {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 				boolean goingEast = true;
 

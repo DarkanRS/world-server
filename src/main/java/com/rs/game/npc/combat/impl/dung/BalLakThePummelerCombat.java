@@ -27,7 +27,7 @@ import com.rs.game.npc.dungeoneering.BalLakThePummeler;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -60,7 +60,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			npc.setNextForceTalk(new ForceTalk("Rrrraargh!"));
 			//npc.playSoundEffect(3038);
 			final WorldTile center = manager.getRoomCenterTile(boss.getReference());
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -97,7 +97,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			boss.setNextAnimation(new Animation(firstHand ? defs.getAttackEmote() : defs.getAttackEmote() + 1));
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
 			delayHit(npc, 2, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

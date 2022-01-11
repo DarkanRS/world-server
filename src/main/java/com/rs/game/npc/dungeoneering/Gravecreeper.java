@@ -31,7 +31,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -132,20 +132,20 @@ public class Gravecreeper extends DungeonBoss {
 		setNextFaceEntity(null);
 		setForceWalk(walkTo);
 		setNextForceTalk(new ForceTalk(SPECIAL_SHOUTS[specialDelay == -1 ? 2 : Utils.random(SPECIAL_SHOUTS.length)]));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextAnimation(new Animation(14507));
 				activatePlinths();
 				activateTombs();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						// finish();
 						setNextNPCTransformation(1957);
 						if (specialDelay == -1)
 							specialDelay = -2;
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							@Override
 							public void run() {
 								if (getManager().isDestroyed())
@@ -153,7 +153,7 @@ public class Gravecreeper extends DungeonBoss {
 								setNextWorldTile(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
 								setNextNPCTransformation(originalId);
 								setNextAnimation(new Animation(14506));
-								WorldTasksManager.schedule(new WorldTask() {
+								WorldTasks.schedule(new WorldTask() {
 									@Override
 									public void run() {
 										if (getManager().isDestroyed())

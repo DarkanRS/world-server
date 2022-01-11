@@ -27,7 +27,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -58,7 +58,7 @@ public class NomadCombat extends CombatScript {
 					nomad.setHealed(true);
 					Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "You're thougher than I thought, time to even things up!");
 					player.getPackets().sendVoice(8019);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							Dialogue.closeNoContinueDialogue(player);
@@ -69,7 +69,7 @@ public class NomadCombat extends CombatScript {
 				nomad.setMeleeMode();
 				Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "Enough! THIS..ENDS..NOW!");
 				player.getPackets().sendVoice(7964);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						Dialogue.closeNoContinueDialogue(player);
@@ -94,7 +94,7 @@ public class NomadCombat extends CombatScript {
 				Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9842, "Let's make things interesting!");
 				player.getPackets().sendVoice(8039);
 				final WorldTile middle = new WorldTile(player);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int count;
 
 					@Override
@@ -151,7 +151,7 @@ public class NomadCombat extends CombatScript {
 				WorldTile throne = nomad.getThroneTile();
 				if (nomad.getX() != throne.getX() || nomad.getY() != throne.getY())
 					nomad.sendTeleport(nomad.getThroneTile());
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					private boolean secondLoop;
 
@@ -182,7 +182,7 @@ public class NomadCombat extends CombatScript {
 				Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9842, "Let's see how well you senses serve you!");
 				player.getActionManager().forceStop();
 				nomad.createCopies(player);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						Dialogue.closeNoContinueDialogue(player);
@@ -195,7 +195,7 @@ public class NomadCombat extends CombatScript {
 				nomad.sendTeleport(nomad.getThroneTile());
 				Magic.sendObjectTeleportSpell(player, false, throne.transform(1, -3, 0));
 				player.lock();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					private boolean secondLoop;
 
 					@Override
@@ -210,7 +210,7 @@ public class NomadCombat extends CombatScript {
 							player.setNextSpotAnim(new SpotAnim(369));
 							player.unlock();
 							secondLoop = true;
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
 									Dialogue.closeNoContinueDialogue(player);
@@ -235,7 +235,7 @@ public class NomadCombat extends CombatScript {
 			int damage = getMaxHit(npc, 322, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
 			if (damage == 0)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						target.setNextSpotAnim(new SpotAnim(85, 0, 100));

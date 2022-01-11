@@ -22,7 +22,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -40,7 +40,7 @@ public class EasterEggSpawning {
 
 	//@ServerStartupEvent
 	public static void initSpawning() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (int id : regionsToSpawn)

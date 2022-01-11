@@ -32,7 +32,7 @@ import com.rs.game.player.controllers.CastleWarsPlayingController;
 import com.rs.game.player.controllers.CastleWarsWaitingController;
 import com.rs.game.player.dialogues.CastleWarsScoreboard;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -139,7 +139,7 @@ public final class CastleWars {
 
 	public static void createPlayingGame() {
 		playingGame = new PlayingGame();
-		WorldTasksManager.schedule(playingGame, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+		WorldTasks.schedule(playingGame, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 		refreshAllPlayersTime();
 	}
 
@@ -160,7 +160,7 @@ public final class CastleWars {
 				player.lock(7);
 				player.stopAll();
 			}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				for (int i = 0; i < playing.length; i++)
