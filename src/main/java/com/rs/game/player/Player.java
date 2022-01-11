@@ -828,8 +828,9 @@ public class Player extends Entity {
 			List<GroundItem> floorItems = World.getRegion(regionId).getAllGroundItems();
 			if (floorItems == null)
 				continue;
-			for (GroundItem item : floorItems) {
+			for (GroundItem item : floorItems)
 				getPackets().removeGroundItem(item);
+			for (GroundItem item : floorItems) {
 				if (item.isPrivate() && item.getVisibleToId() != getUuid())
 					continue;
 				getPackets().sendGroundItem(item);

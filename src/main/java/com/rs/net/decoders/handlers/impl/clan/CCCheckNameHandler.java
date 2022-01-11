@@ -2,42 +2,32 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright Â© 2021 Trenton Kress
+//  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.dialogues;
+package com.rs.net.decoders.handlers.impl.clan;
 
-public class ClanCreateD extends Dialogue {
+import com.rs.game.player.Player;
+import com.rs.game.player.content.clans.ClansManager;
+import com.rs.lib.net.packets.PacketHandler;
+import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 
-	@Override
-	public void start() {
-		sendDialogue("You must be a member of a clan in order to join their channel.", "Would you like to create a clan?");
-
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == -1) {
-			player.getTempAttribs().setB("setclan", true);
-			player.getPackets().sendInputNameScript("Enter the clan name you'd like to have.");
-			end();
-		}
-
-	}
+public class CCCheckNameHandler implements PacketHandler<Player, CCCheckName> {
 
 	@Override
-	public void finish() {
-		// TODO Auto-generated method stub
-
+	public void handle(Player player, CCCheckName packet) {
+		if (packet.isApproved())
+			ClansManager.create(player, packet.getName());
+		else
+			ClansManager.promptName(player);
 	}
-
 }
