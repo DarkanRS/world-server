@@ -16,7 +16,6 @@
 //
 package com.rs.game.player.content.clans;
 
-import com.rs.game.ge.GE;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -24,7 +23,7 @@ import com.rs.game.player.content.dialogue.statements.SimpleStatement;
 import com.rs.game.player.content.dialogue.statements.Statement;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.model.ClanMember;
+import com.rs.lib.model.MemberData;
 import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 import com.rs.lib.net.packets.decoders.lobby.CCCreate;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
@@ -269,7 +268,7 @@ public class ClansManager {
 		}
 	};
 
-	public static void viewClanmateDetails(Player player, ClanMember member) {
+	public static void viewClanmateDetails(Player player, String username, MemberData member) {
 		player.getPackets().sendVarc(1500, member.getRank().getIconId());
 		player.getPackets().sendVarc(1501, member.getJob());
 		player.getPackets().sendVarc(1564, 0);
@@ -277,7 +276,7 @@ public class ClansManager {
 		player.getPackets().sendVarc(1566, member.isBanFromCitadel() ? 1 : 0);
 		player.getPackets().sendVarc(1567, member.isBanFromIsland() ? 1 : 0);
 		player.getPackets().sendVarc(1568, member.firstWeek() ? 1 : 0);
-		player.getPackets().sendVarcString(347, Utils.formatPlayerNameForDisplay(member.getUsername()));
+		player.getPackets().sendVarcString(347, username);
 		player.getPackets().sendRunScriptBlank(4319);
 	}
 
