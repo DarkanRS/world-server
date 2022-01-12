@@ -16,6 +16,7 @@
 //
 package com.rs.net;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
@@ -41,7 +42,7 @@ public class LobbyCommunicator {
 		post(new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
 	}
 
-	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException {
+	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException, IOException {
 		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
 	}
 
@@ -114,7 +115,7 @@ public class LobbyCommunicator {
 		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 
-	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException {
+	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException, IOException {
 		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 }
