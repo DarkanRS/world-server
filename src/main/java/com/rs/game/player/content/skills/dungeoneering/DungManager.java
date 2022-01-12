@@ -132,7 +132,7 @@ public class DungManager {
 			if (dung == null)
 				return;
 			if (e.getPlayer().getSkills().getLevelForXp(Constants.DUNGEONEERING) < dung.level) {
-				e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You need a dungeoneering level of " + dung.level + " to enter this dungeoneering resource.");
+				e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You need a dungeoneering level of " + dung.level + " to enter this resource dungeon.");
 				return;
 			}
 			if (dung == ResourceDungeon.POLYPORE_DUNGEON)
