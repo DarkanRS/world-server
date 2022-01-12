@@ -38,7 +38,7 @@ public class ChatHandler implements PacketHandler<Player, Chat> {
 		}
 		int effects = (packet.getColor() << 8) | (packet.getEffect() & 0xff);
 		switch(player.chatType) {
-		case 1, 2, 3 -> LobbyCommunicator.forwardPackets(player, packet);
+		case 1, 2, 3 -> LobbyCommunicator.forwardPackets(player, packet.setType(player.chatType));
 		default -> {
 			if (packet.getMessage() == null || packet.getMessage().replaceAll(" ", "").equals(""))
 				return;
