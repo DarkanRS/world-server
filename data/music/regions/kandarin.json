@@ -19,20 +19,13 @@
   {
     "genre": "Hunter in Kandarin",
     "parent": "Kandarin",
-    "comment": "Feldip hills, south of piscatoris",
+    "comment": "south of piscatoris",
     "isActive": true,
     "regionIds": [
       9016,
       9272,
       9271,
-      9528,
-      9773,
-      9772,
-      10030,
-      10029,
-      10286,
-      10285,
-      10542
+      9528
     ],
     "songs": [
       71,

@@ -265,6 +265,30 @@
     ]
   },
   {
+    "genre": "Elf",
+    "comment": "Zanaris + Isafdar",
+    "songs": [
+      118,
+      181,
+      251,
+      259,
+      268,
+      301,
+      393,
+      430,
+      500,
+      636,
+      974,
+      979,
+      984,
+      987,
+      988,
+      990,
+      993,
+      996
+    ]
+  },
+  {
     "genre": "Dungeon",
     "comment": "Every underground lair or dungeon...",
     "songs": [

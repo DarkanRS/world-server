@@ -724,7 +724,7 @@
   {
     "name": "All's Fairy in Love and War",
     "hint": "at the fairy resistance hideout in Fairy Tale Part II.",
-    "comment": "Zanaris",
+    "comment": "Sounds like an event",
     "allowAmbient": false,
     "id": 73,
     "regionIds": []
@@ -2135,7 +2135,7 @@
     "name": "Jester Minute",
     "hint": "during Fremennik Isles.",
     "comment": "Fremnik for neitznot?",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 221,
     "regionIds": []
   },
@@ -2162,7 +2162,7 @@
   {
     "name": "Ogre the Top",
     "hint": "during Fremennik Isles.",
-    "comment": "",
+    "comment": "Fremennik but too exciting",
     "allowAmbient": false,
     "id": 224,
     "regionIds": [
@@ -2173,7 +2173,7 @@
     "name": "Volcanic Vikings",
     "hint": "during Fremennik Isles.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 225,
     "regionIds": [
       9275
@@ -2827,7 +2827,7 @@
     "name": "Warrior",
     "hint": "during Fremennik Trials.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 295,
     "regionIds": []
   },
@@ -2861,7 +2861,7 @@
     "name": "Inadequacy",
     "hint": "during Dream Mentor.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 299,
     "regionIds": []
   },
@@ -3018,7 +3018,7 @@
     "name": "The Navigator",
     "hint": "during Fremennik Trials.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 316,
     "regionIds": []
   },
@@ -4107,7 +4107,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Lunar isle(not added), Daemonheim",
+    "comment": "Lunar isle, Zanaris, Daemonheim",
     "allowAmbient": true,
     "id": 430,
     "regionIds": []
@@ -4602,7 +4602,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 484,
     "regionIds": []
   },
@@ -4610,7 +4610,7 @@
     "name": "The Noble Rodent",
     "hint": "during Rat Catchers.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 485,
     "regionIds": []
   },
@@ -4739,8 +4739,8 @@
   {
     "name": "A New Menace",
     "hint": "during Kennith's Concerns.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "Lunar isle, Zanaris",
+    "allowAmbient": true,
     "id": 500,
     "regionIds": []
   },
@@ -4793,7 +4793,7 @@
     "name": "Land Down Under",
     "hint": "during Royal Trouble.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 506,
     "regionIds": []
   },
@@ -5815,7 +5815,7 @@
     "name": "Waking Dream",
     "hint": "during your dream in Lunar Diplomacy.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 622,
     "regionIds": []
   },
@@ -5823,7 +5823,7 @@
     "name": "Dreamstate",
     "hint": "during your dream in Lunar Diplomacy.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 623,
     "regionIds": []
   },
@@ -5850,11 +5850,9 @@
     "name": "Way of the Enchanter",
     "hint": "in the dungeon beneath Lunar Isle.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 626,
-    "regionIds": [
-      9377
-    ]
+    "regionIds": []
   },
   {
     "name": "Isle of Everywhere",
@@ -5872,8 +5870,8 @@
   {
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "God Wars",
+    "allowAmbient": true,
     "id": 628,
     "regionIds": []
   },
@@ -5881,15 +5879,15 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "Lunar isle, Neitzot & that other isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 629,
     "regionIds": []
   },
   {
     "name": "The Galleon",
     "hint": "during Lunar Diplomacy.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "Lunar isle, fremennik",
+    "allowAmbient": true,
     "id": 630,
     "regionIds": [
       8763
@@ -5949,8 +5947,8 @@
   {
     "name": "Nial's Widow",
     "hint": "somewhere.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "Lunar isle, Zanaris",
+    "allowAmbient": true,
     "id": 636,
     "regionIds": []
   },
@@ -5958,7 +5956,7 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 637,
     "regionIds": []
   },
@@ -6039,8 +6037,8 @@
   {
     "name": "Rest for the Weary",
     "hint": "during The Tale of the Muspah.",
-    "comment": "Lunar isle, wild",
-    "allowAmbient": false,
+    "comment": "Lunar isle, wild, tzhaar",
+    "allowAmbient": true,
     "id": 647,
     "regionIds": [
       11425,
@@ -8573,7 +8571,7 @@
     "name": "Only a King",
     "hint": "during King of the Dwarves.",
     "comment": "Lunar isle, neitzot+",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 956,
     "regionIds": []
   },
@@ -8760,7 +8758,7 @@
     "name": "Citadel XV",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle Zanris",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 979,
     "regionIds": []
   },
@@ -8776,7 +8774,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 981,
     "regionIds": []
   },
@@ -8872,7 +8870,7 @@
     "name": "Citadel I",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 994,
     "regionIds": []
   },

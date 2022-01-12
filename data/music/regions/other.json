@@ -25,6 +25,7 @@
       513,
       526,
       641,
+      647,
       685,
       686,
       687,
@@ -49,6 +50,7 @@
   },
   {
     "genre": "Zanaris",
+    "parent": "Elf",
     "comment": "",
     "isActive": true,
     "regionIds": [
@@ -58,17 +60,77 @@
       9540,
       9029
     ],
+    "songs": []
+  },
+  {
+    "genre": "Fremennik Isles",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      8253,
+      8252,
+      8509,
+      8508,
+      8763,
+      9276,
+      9275,
+      9532,
+      9531,
+      10044,
+      10043,
+      10042,
+      10040,
+      10300,
+      10297,
+      10296,
+      10554,
+      10553,
+      10552,
+      10811,
+      10810,
+      10809,
+      10808,
+      11064
+    ],
     "songs": [
-      118,
-      181,
+      220,
+      221,
+      222,
+      223,
+      225,
+      295,
+      299,
       301,
-      393,
+      302,
+      316,
+      430,
+      484,
+      485,
+      500,
+      506,
+      508,
+      509,
+      510,
+      622,
+      623,
+      626,
+      629,
+      630,
+      635,
+      636,
+      637,
+      647,
+      956,
+      961,
       974,
-      984,
-      987,
+      976,
+      977,
+      979,
+      981,
       988,
       990,
       993,
+      994,
       996
     ]
   },
@@ -102,11 +164,8 @@
     "comment": "Trollheim + ice trolls north of netizot, look at 11421 songs",
     "isActive": true,
     "regionIds": [
-      9276,
-      9532,
       11677,
       11065,
-      11064,
       11063,
       11322,
       11321,
@@ -114,7 +173,10 @@
       11578,
       11577,
       11576,
-      11421
+      11421,
+      11068,
+      11067,
+      11066
     ],
     "songs": [
       9,
@@ -130,7 +192,9 @@
   },
   {
     "genre": "Isafdar",
+    "parent": "Elf",
     "comment": "Tyras, Isafdar, elf camp, lletya, Tirannwn, 2012 Prifddinas, zemo",
+    "isActive": true,
     "regionIds": [
       8753,
       9009,
@@ -146,17 +210,58 @@
       8497,
       8496
     ],
-    "songs": []
+    "songs": [
+      91,
+      252,
+      255
+    ]
   },
   {
-    "genre": "Oog'log",
-    "parent": "Kandarin",
+    "genre": "Ogre",
+    "parent": "Jungle",
     "comment": "Ogres south of Yanille",
+    "isActive": true,
     "regionIds": [
-
+      9775,
+      10031,
+      10287,
+      10028,
+      10284
     ],
     "songs": [
-      390
+      71,
+      188,
+      224,
+      390,
+      392,
+      468,
+      477
+    ]
+  },
+  {
+    "genre": "Feldip Hills",
+    "parent": "Jungle",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      9774,
+      10030,
+      10286,
+      10542,
+      9773,
+      10029,
+      10285,
+      9516,
+      9772
+    ],
+    "songs": [
+      71,
+      80,
+      128,
+      194,
+      390,
+      453,
+      460
     ]
   },
   {
@@ -249,7 +354,9 @@
   },
   {
     "genre": "Miscellaneous swamps",
+    "parent": "Swamp",
     "comment": "Poison waste, Lumbridge swamp & desert swamp",
+    "isActive": true,
     "regionIds": [
       12593,
       12849,
@@ -257,9 +364,7 @@
       8752,
       9008
     ],
-    "songs": [
-      0
-    ]
+    "songs": []
   },
   {
     "genre": "Duel arena",
