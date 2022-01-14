@@ -316,6 +316,23 @@ public class Debug {
 				World.addGroundItem(item, new WorldTile(p));
 			}
 		});
+		
+		Commands.add(Rights.PLAYER, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
+			if (args[0].contains(",")) {
+				args = args[0].split(",");
+				int plane = Integer.valueOf(args[0]);
+				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
+				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
+				p.resetWalkSteps();
+				p.setNextWorldTile(new WorldTile(x, y, plane));
+			} else if (args.length == 1) {
+				p.resetWalkSteps();
+				p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0])));
+			} else {
+				p.resetWalkSteps();
+				p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+			}
+		});
 		// case "load":
 		// if (!player.getInterfaceManager().containsInterface(762) || (Boolean)
 		// player.getTemporaryAttributes().get("viewingOtherBank") != null && (Boolean)
