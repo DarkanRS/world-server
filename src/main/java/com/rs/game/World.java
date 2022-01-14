@@ -297,7 +297,7 @@ public final class World {
 		int regionId = entity.getRegionId();
 		if (entity.getLastRegionId() != regionId || entity.isForceUpdateEntityRegion()) {
 			if (entity instanceof Player player) {
-                if(Settings.getConfig().isDebug() && Music.getGenre(regionId) == null)
+                if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(regionId) == null)
                     player.sendMessage(regionId + " has no music genre!");
 				if (entity.getLastRegionId() > 0)
 					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());

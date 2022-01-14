@@ -2234,7 +2234,7 @@ public final class ObjectHandler {
 
 	public static void handleOptionExamine(final Player player, final GameObject object) {
 		player.getPackets().sendObjectMessage(player, 0, 0xFFFFFF, object, "It's " + Utils.addArticle(object.getDefinitions(player).getName()).toLowerCase() + ".");
-		if (player.hasRights(Rights.DEVELOPER)) {
+		if (player.hasRights(Rights.DEVELOPER) || player.hasRights(Rights.ADMIN)) {
 			player.sendMessage(object.toString());
 			if (object.getDefinitions().varpBit != -1)
 				player.sendMessage("Transforms with varbit " + object.getDefinitions().varpBit);

@@ -71,9 +71,10 @@
   {
     "genre": "Other Kandarin",
     "parent": "Kandarin",
-    "comment": "",
+    "comment": "Includes Rune Essence mine",
     "isActive": true,
     "regionIds": [
+      11595,
       9017,
       9273,
       9270,
