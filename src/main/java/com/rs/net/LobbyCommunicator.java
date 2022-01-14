@@ -42,8 +42,8 @@ public class LobbyCommunicator {
 		post(new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
 	}
 
-	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException, IOException {
-		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
+	public static Account authWorldLogin(String username, String password) throws InterruptedException, ExecutionException, IOException {
+		return postSync(Account.class, new LoginRequest(username, password), "authworldlogin");
 	}
 
 	public static void getAccountByDisplay(String displayName, Consumer<Account> cb) {
