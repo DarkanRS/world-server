@@ -94,11 +94,7 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(10);
 			return -1;
 		}
-		String password = rsaStream.readString();
-		if (password.length() > 30 || password.length() < 3) {
-			session.sendClientPacket(3);
-			return -1;
-		}
+		String password = rsaStream.readString(); //old password
 		String unknown = Utils.longToString(rsaStream.readLong());
 		rsaStream.readLong(); // random value
 		rsaStream.readLong(); // random value
@@ -188,7 +184,7 @@ public final class WorldLoginDecoder extends Decoder {
 
 		Account a = null;
 		try {
-			a = LobbyCommunicator.getAccountSync(username, password);
+			a = LobbyCommunicator.authWorldLogin(username, password);
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			System.err.println("Error connecting to login server!");
 			session.sendClientPacket(23);
