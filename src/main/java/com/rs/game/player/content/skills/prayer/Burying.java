@@ -22,7 +22,7 @@ import java.util.Map;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -102,7 +102,7 @@ public class Burying {
 				player.setNextSpotAnim(new SpotAnim(40));
 			player.sendMessage(bone.name().contains("ASHES") ? "You scatter the ashes in the wind..." : "You dig a hole in the ground...");
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					handleNecklaces(player, bone.getId());

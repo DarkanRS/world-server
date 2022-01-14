@@ -22,7 +22,7 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.npc.godwars.zaros.Nex.Phase;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -35,7 +35,7 @@ public class EmbraceDarkness implements NexAttack {
 		nex.playSound(3322, 2);
 		nex.setNextAnimation(new Animation(6355));
 		nex.setNextSpotAnim(new SpotAnim(1217));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (nex.getPhase() != Phase.SHADOW || nex.hasFinished()) {

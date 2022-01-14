@@ -22,7 +22,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.pest.PestControl;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -53,7 +53,7 @@ public class Spinner extends PestMonsters {
 
 	private void healPortal(final PestPortal portal) {
 		setNextFaceEntity(portal);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -68,7 +68,7 @@ public class Spinner extends PestMonsters {
 
 	private void explode() {
 		final NPC npc = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

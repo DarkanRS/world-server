@@ -29,7 +29,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -98,7 +98,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 			int damage = getMaxHit(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			if (damage != 0)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						target.setNextSpotAnim(new SpotAnim(2613));
@@ -108,7 +108,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(13721));
 			World.sendProjectile(npc, target, 2610, 41, 16, 41, 35, 16, 0);
 			delayHit(npc, 2, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(2611));

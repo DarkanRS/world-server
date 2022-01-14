@@ -5,7 +5,7 @@ import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -84,7 +84,7 @@ public class WitchHavenPuzzleFamilyCrest {
 			}
 			obj.setIdTemporary(e.getObjectId()+1, TICKS_UP);
 			northNorthLeverUp = true;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					northNorthLeverUp = false;
@@ -107,7 +107,7 @@ public class WitchHavenPuzzleFamilyCrest {
 			}
 			obj.setIdTemporary(e.getObjectId()+1, TICKS_UP);
 			northLeverUp = true;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					northLeverUp = false;
@@ -130,7 +130,7 @@ public class WitchHavenPuzzleFamilyCrest {
 			}
 			obj.setIdTemporary(e.getObjectId()+1, TICKS_UP);
 			southLeverUp = true;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					southLeverUp = false;

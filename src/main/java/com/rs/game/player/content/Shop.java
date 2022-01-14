@@ -23,7 +23,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
@@ -236,7 +236,7 @@ public class Shop {
 			player.getPackets().setIFHidden(1265, 52, false);
 		sendInventory(player);
 		player.getTempAttribs().setB("shop_buying", true);
-		WorldTasksManager.delay(1, () -> sendCustomPrices(player));
+		WorldTasks.delay(1, () -> sendCustomPrices(player));
 	}
 
 	public void sendCustomPrices(Player player) {
@@ -330,7 +330,7 @@ public class Shop {
 		if (needRefresh) {
 			refreshShop();
 			for (Player player : viewingPlayers)
-				WorldTasksManager.delay(0, () -> sendCustomPrices(player));
+				WorldTasks.delay(0, () -> sendCustomPrices(player));
 		}
 	}
 

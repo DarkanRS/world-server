@@ -39,7 +39,7 @@ import com.rs.game.player.content.minigames.barrows.BarrowsPuzzle;
 import com.rs.game.player.content.minigames.barrows.Link;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
@@ -80,7 +80,7 @@ public final class BarrowsController extends Controller {
 		for (Hills hill : Hills.values())
 			if (player.getPlane() == hill.outBound.getPlane() && player.getX() >= hill.outBound.getX() && player.getY() >= hill.outBound.getY() && player.getX() <= hill.outBound.getX() + 3 && player.getY() <= hill.outBound.getY() + 3) {
 				player.useStairs(-1, hill.inside, 1, 2, "You've broken into a crypt.");
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new BarrowsController());
@@ -330,7 +330,7 @@ public final class BarrowsController extends Controller {
 			removeDarkness = (removeDarkness == 1 ? 0 : 1);
 			player.getVars().setVar(1270, removeDarkness);
 			if (Utils.random(10) == 0)
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (player.getHiddenBrother() != -1) {

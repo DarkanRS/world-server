@@ -48,7 +48,7 @@ import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.managers.AuraManager.Aura;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -292,7 +292,7 @@ public class PlayerCombat extends Action {
 			int hit = calculateMagicHit(player, 1000);
 			if (hit > 0)
 				spell.onHit(player, target, null);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if (hit > 0) {
@@ -423,12 +423,12 @@ public class PlayerCombat extends Action {
 				player.setNextAnimation(new Animation(9055));
 				p = World.sendProjectile(player, target, 258, 20, 50, 1);
 				delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						for (Entity target : getMultiAttackTargets(player, 5, 4)) {
 							WorldProjectile p = World.sendProjectile(player, target, 258, 20, 50, 1);
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
 									target.applyHit(getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
@@ -528,7 +528,7 @@ public class PlayerCombat extends Action {
 				delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, hit));
 				if (hit > 0) {
 					final Entity finalTarget = target;
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						int damage = hit;
 
 						@Override
@@ -569,7 +569,7 @@ public class PlayerCombat extends Action {
 				target.setNextSpotAnim(new SpotAnim(44));
 				target.resetWalkSteps();
 				if (target instanceof NPC npc) {
-					WorldTasksManager.delay(p.getTaskDelay(), () -> {
+					WorldTasks.delay(p.getTaskDelay(), () -> {
 						npc.setCapDamage(-1);
 						target.applyHit(new Hit(player, target.getHitpoints(), HitLook.TRUE_DAMAGE));
 					});
@@ -586,7 +586,7 @@ public class PlayerCombat extends Action {
 					public boolean attack() {
 						int damage = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
 						player.setNextAnimation(new Animation(2779));
-						WorldTasksManager.delay(p.getTaskDelay(), () -> target.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
+						WorldTasks.delay(p.getTaskDelay(), () -> target.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
 						delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, damage));
 						if (!nextTarget) {
 							if (damage == -1)
@@ -689,12 +689,12 @@ public class PlayerCombat extends Action {
 						int maxHit = getMaxHit(player, target, weaponId, attackStyle, true, 1.0);
 						int minBleed = (int) (maxHit * (lockedOn ? 0.25 : 0.20));
 						int maxBleed = (int) (minBleed * 0.70);
-						WorldTasksManager.delay(14, () -> {
+						WorldTasks.delay(14, () -> {
 							if (target == null || target.isDead() || target.hasFinished())
 								return;
 							delayHit(0, weaponId, attackStyle, getRangeHit(player, Utils.random(minBleed, maxBleed)));
 						});
-						WorldTasksManager.delay(28, () -> {
+						WorldTasks.delay(28, () -> {
 							if (target == null || target.isDead() || target.hasFinished())
 								return;
 							delayHit(0, weaponId, attackStyle, getRangeHit(player, Utils.random(minBleed, maxBleed)));
@@ -738,7 +738,7 @@ public class PlayerCombat extends Action {
 				}
 				if (getRandomMaxHit(player, weaponId, attackStyle, true) > 0) {
 					target.freeze(delay, true);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							target.setNextSpotAnim(new SpotAnim(469, 0, 96));
@@ -878,7 +878,7 @@ public class PlayerCombat extends Action {
 					damDamage = 40;
 				final int specHits = damDamage;
 				for (int i = 0; i < 11; ++i)
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							if (target == null || target.hasFinished() || player == null || player.hasFinished())
@@ -926,7 +926,7 @@ public class PlayerCombat extends Action {
 				if (!target.addWalkSteps(target.getX() - player.getX() + target.getX(), target.getY() - player.getY() + target.getY(), 1))
 					player.setNextFaceEntity(target);
 				target.setNextFaceEntity(player);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						target.setNextFaceEntity(null);
@@ -937,7 +937,7 @@ public class PlayerCombat extends Action {
 					other.lock();
 					other.addFoodDelay(3000);
 					other.setDisableEquip(true);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							other.setDisableEquip(false);
@@ -1035,7 +1035,7 @@ public class PlayerCombat extends Action {
 				max_hit = (int) (korasiDamage * 1.5);
 				korasiDamage *= multiplier;
 				delayNormalHit(weaponId, attackStyle, getMagicHit(player, korasiDamage));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						target.setNextSpotAnim(new SpotAnim(1730));
@@ -1156,7 +1156,7 @@ public class PlayerCombat extends Action {
 							target.freeze(Ticks.fromSeconds(10), true);
 							target.setNextSpotAnim(new SpotAnim(181, 0, 96));
 							final Entity t = target;
-							WorldTasksManager.schedule(new WorldTask() {
+							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
 									final int damage = getRandomMaxHit(player, -2, attack, false, false, 1.0, 1.0);

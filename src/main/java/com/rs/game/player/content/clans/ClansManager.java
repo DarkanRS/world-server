@@ -23,13 +23,15 @@ import com.rs.game.player.content.dialogue.statements.SimpleStatement;
 import com.rs.game.player.content.dialogue.statements.Statement;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.model.ClanMember;
+import com.rs.lib.model.MemberData;
+import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 import com.rs.lib.net.packets.decoders.lobby.CCCreate;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -57,26 +59,26 @@ public class ClansManager {
 		public void handle(ButtonClickEvent e) {
 			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 			switch(e.getComponentId()) {
-			case 82 -> {
-				if (e.getPlayer().getSocial().isConnectedToClan())
-					leaveChannel(e.getPlayer(), null);
-				else
-					joinChannel(e.getPlayer(), null);
-			}
-			case 91 -> {
-				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
-					leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
-				else
-					e.getPlayer().sendInputName("Which clan chat would you like to join?",
-							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
-							name -> joinChannel(e.getPlayer(), name));
-			}
-			case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
-			case 78 -> openSettings(e.getPlayer());
-			case 75 -> openDetails(e.getPlayer());
-			case 109 -> leaveClan(e.getPlayer());
-			case 11 -> unban(e.getPlayer(), e.getSlotId());
-			case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
+				case 82 -> {
+					if (e.getPlayer().getSocial().isConnectedToClan())
+						leaveChannel(e.getPlayer(), null);
+					else
+						joinChannel(e.getPlayer(), null);
+				}
+				case 91 -> {
+					if (e.getPlayer().getSocial().getGuestedClanChat() != null)
+						leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
+					else
+						e.getPlayer().sendInputName("Which clan chat would you like to join?",
+								"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
+								name -> joinChannel(e.getPlayer(), name));
+				}
+				case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
+				case 78 -> openSettings(e.getPlayer());
+				case 75 -> openDetails(e.getPlayer());
+				case 109 -> leaveClan(e.getPlayer());
+				case 11 -> unban(e.getPlayer(), e.getSlotId());
+				case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
 			}
 		}
 
@@ -98,18 +100,7 @@ public class ClansManager {
 		private void createClan(Player player) {
 			player.startConversation(new Conversation(new Dialogue(new SimpleStatement("You are not currently in a clan. Would you like to create one?")))
 					.addOption("Create a clan?", "Yes", "Not right now.")
-					.addNext(() -> {
-						player.sendInputName("Which name would you like for your clan?", name -> {
-							if (player.getTempAttribs().getB("ccCreateLock")) {
-								player.simpleDialogue("Your previous request to create a clan is still in progress... Please wait.");
-								return;
-							}
-							player.getTempAttribs().setB("ccCreateLock", true);
-							LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> {
-								player.getTempAttribs().removeB("ccCreateLock");
-							});
-						});
-					}));
+					.addNext(() -> promptName(player)));
 		}
 
 		private void leaveChannel(Player player, String guestClanName) {
@@ -140,6 +131,34 @@ public class ClansManager {
 			// TODO Auto-generated method stub
 		}
 	};
+	
+	public static void create(Player player, String name) {
+		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", new String[] { "Yes, create " + name + ".", "No, I want to pick another name." }, new DialogueOptionEvent() {
+			@Override
+			public void run(Player player) {
+				if (getOption() == 1) {
+					LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> {
+						
+					});
+				} else {
+					
+				}
+			}
+		});
+	}
+	
+	public static void promptName(Player player) {
+		player.sendInputName("Which name would you like for your clan?", name -> {
+			if (player.getTempAttribs().getB("ccCreateLock")) {
+				player.simpleDialogue("Your previous request to create a clan is still in progress... Please wait.");
+				return;
+			}
+			player.getTempAttribs().setB("ccCreateLock", true);
+			LobbyCommunicator.forwardPacket(player, new CCCheckName(name, false), cb -> {
+				player.getTempAttribs().removeB("ccCreateLock");
+			});
+		});
+	}
 
 	public static ButtonClickHandler handleClanFlagButtons = new ButtonClickHandler(1089) {
 		@Override
@@ -249,7 +268,7 @@ public class ClansManager {
 		}
 	};
 
-	public static void viewClanmateDetails(Player player, ClanMember member) {
+	public static void viewClanmateDetails(Player player, String username, MemberData member) {
 		player.getPackets().sendVarc(1500, member.getRank().getIconId());
 		player.getPackets().sendVarc(1501, member.getJob());
 		player.getPackets().sendVarc(1564, 0);
@@ -257,7 +276,7 @@ public class ClansManager {
 		player.getPackets().sendVarc(1566, member.isBanFromCitadel() ? 1 : 0);
 		player.getPackets().sendVarc(1567, member.isBanFromIsland() ? 1 : 0);
 		player.getPackets().sendVarc(1568, member.firstWeek() ? 1 : 0);
-		player.getPackets().sendVarcString(347, Utils.formatPlayerNameForDisplay(member.getUsername()));
+		player.getPackets().sendVarcString(347, username);
 		player.getPackets().sendRunScriptBlank(4319);
 	}
 

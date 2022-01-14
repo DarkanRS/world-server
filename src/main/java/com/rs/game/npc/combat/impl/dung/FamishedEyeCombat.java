@@ -27,7 +27,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.dungeoneering.FamishedEye;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -52,7 +52,7 @@ public class FamishedEyeCombat extends CombatScript {
 		}
 
 		npc.setNextAnimation(new Animation(14916));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private List<WorldTile> tiles;
 			private WorldTile targetTile;

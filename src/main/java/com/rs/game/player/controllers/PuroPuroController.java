@@ -24,7 +24,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -108,7 +108,7 @@ public class PuroPuroController extends Controller {
 		final WorldTile tile = new WorldTile(objectX, objectY, 0);
 		player.setNextFaceWorldTile(object);
 		player.setNextForceMovement(new ForceMovement(tile, 6, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

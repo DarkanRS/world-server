@@ -20,7 +20,7 @@ import java.util.Random;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
@@ -88,7 +88,7 @@ public class Dicing {
 		player.getInventory().deleteItem(itemId, 1);
 		player.setNextAnimation(new Animation(11900));
 		player.setNextSpotAnim(new SpotAnim(graphic));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getInventory().addItem(itemId, 1);

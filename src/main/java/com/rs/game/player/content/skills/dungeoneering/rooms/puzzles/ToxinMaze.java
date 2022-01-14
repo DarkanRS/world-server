@@ -32,7 +32,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -77,7 +77,7 @@ public class ToxinMaze extends PuzzleRoom {
 			player.lock(1);
 			player.setNextAnimation(new Animation(832));
 			toxinTask = new ToxinTask();
-			WorldTasksManager.schedule(toxinTask, 0, TICK_SPEED);
+			WorldTasks.schedule(toxinTask, 0, TICK_SPEED);
 			setComplete(); //doors are unlocked instantly
 			return false;
 		}
@@ -117,7 +117,7 @@ public class ToxinMaze extends PuzzleRoom {
 			}
 			final WorldTile target_ = target;
 			player.lock(delay + 1);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					WorldTile fromTile = new WorldTile(player.getX(), player.getY(), player.getPlane());

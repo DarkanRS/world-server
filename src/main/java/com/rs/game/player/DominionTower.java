@@ -27,7 +27,7 @@ import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StrangeFace;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -226,7 +226,7 @@ public final class DominionTower {
 		player.setNextWorldTile(new WorldTile(getBaseX() + 25, getBaseY() + 32, 2));
 		player.setNextFaceWorldTile(new WorldTile(getBaseX() + 26, getBaseY() + 32, 0));
 		final int index = getNextBossIndex();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int count;
 
@@ -306,7 +306,7 @@ public final class DominionTower {
 		player.setNextWorldTile(new WorldTile(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceWorldTile(new WorldTile(player.getX() + 1, player.getY(), 0));
 
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int count;
 
 			@Override
@@ -361,7 +361,7 @@ public final class DominionTower {
 		player.setNextWorldTile(new WorldTile(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceWorldTile(new WorldTile(getBaseX() + 36, getBaseY() + 31, 0));
 
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int count;
 

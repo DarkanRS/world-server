@@ -28,7 +28,7 @@ import com.rs.game.player.content.Effect;
 import com.rs.game.player.dialogues.BonfireD;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -177,7 +177,7 @@ public class Bonfire extends Action {
 	@Override
 	public void stop(final Player player) {
 		player.getEmotesManager().setNextEmoteEnd(4);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

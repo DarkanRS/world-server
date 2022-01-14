@@ -23,7 +23,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -156,7 +156,7 @@ public class DungeoneeringFarming {
 		player.getTempAttribs().setI("HARVEST_COUNT", harvestCount);
 		player.setNextAnimation(new Animation(3659));
 		player.lock(2);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (player.getInventory().addItemDrop(harvest.product, 1)) {
@@ -186,7 +186,7 @@ public class DungeoneeringFarming {
 	public static void clearHarvest(final Player player, final GameObject object) {
 		player.setNextAnimation(new Animation(3659));
 		player.lock(2);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				World.spawnObject(new GameObject(DungeonConstants.EMPTY_FARMING_PATCH, object.getType(), object.getRotation(), object));

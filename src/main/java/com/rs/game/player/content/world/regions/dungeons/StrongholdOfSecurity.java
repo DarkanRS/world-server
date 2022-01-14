@@ -19,7 +19,7 @@ package com.rs.game.player.content.world.regions.dungeons;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.managers.EmotesManager.Emote;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -118,7 +118,7 @@ public class StrongholdOfSecurity {
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().lock(3);
 			e.getPlayer().setNextAnimation(new Animation(4282));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					WorldTile tile = switch (e.getObject().getRotation()) {

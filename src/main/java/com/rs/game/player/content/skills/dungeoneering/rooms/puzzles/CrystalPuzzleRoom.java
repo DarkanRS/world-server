@@ -22,7 +22,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -79,7 +79,7 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 			} else
 				World.spawnObject(new GameObject(LODESTONE_INACTIVE[color][type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_BASE_LODESTONE[0] + color, POS_BASE_LODESTONE[1] + color)));
 		task = new TileTask();
-		WorldTasksManager.schedule(task, 0, 0);
+		WorldTasks.schedule(task, 0, 0);
 	}
 
 	@Override

@@ -56,7 +56,7 @@ import com.rs.game.player.controllers.GodwarsController;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
@@ -379,7 +379,7 @@ public class NPC extends Entity {
 	 * @param p
 	 */
 	public void lingerForPlayer(Player p) {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {
@@ -405,7 +405,7 @@ public class NPC extends Entity {
 	 * @param ticks
 	 */
 	public void finishAfterTicks(final int ticks) {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {
@@ -484,7 +484,7 @@ public class NPC extends Entity {
 		combat.removeTarget();
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

@@ -23,7 +23,7 @@ import com.rs.game.player.content.Potions;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.skills.woodcutting.TreeType;
 import com.rs.game.player.content.skills.woodcutting.Woodcutting;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -119,7 +119,7 @@ public class FarmPatch {
 				player.setNextAnimation(PRUNING_ANIMATION);
 				player.sendMessage("You prune the diseased leaves from the plant.");
 				player.lock(6);
-				WorldTasksManager.delay(5, () -> {
+				WorldTasks.delay(5, () -> {
 					diseased = false;
 					updateVars(player);
 					player.setNextAnimation(new Animation(-1));

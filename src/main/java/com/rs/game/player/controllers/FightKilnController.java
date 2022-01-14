@@ -32,7 +32,7 @@ import com.rs.game.player.dialogues.FightKilnDialogue;
 import com.rs.game.player.dialogues.TokHaarHok;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -217,7 +217,7 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
 				// 1delay because player cant walk while teleing :p,
 				// + possible issues avoid
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int count = 0;
 					boolean run;
 
@@ -252,7 +252,7 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -263,7 +263,7 @@ public class FightKilnController extends Controller {
 						HarAken harAken = new HarAken(15211, getWorldTile(45, 26), FightKilnController.this);
 						harAken.spawn();
 						harAken.sendDeath(player);
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							@Override
 							public void run() {
 								try {
@@ -282,7 +282,7 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -298,7 +298,7 @@ public class FightKilnController extends Controller {
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					int count = 0;
 
@@ -337,7 +337,7 @@ public class FightKilnController extends Controller {
 				player.setNextFaceWorldTile(getWorldTile(20, 20));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -355,7 +355,7 @@ public class FightKilnController extends Controller {
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -373,7 +373,7 @@ public class FightKilnController extends Controller {
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -393,7 +393,7 @@ public class FightKilnController extends Controller {
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
 				player.setNextFaceWorldTile(tokHaarHok);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -409,7 +409,7 @@ public class FightKilnController extends Controller {
 				}, 1);
 			} else if (login) { // LOGIN during
 				FightKilnController.this.login = login;
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						stage = Stages.RUNNING;
@@ -530,7 +530,7 @@ public class FightKilnController extends Controller {
 		aliveNPCSCount = WAVES[currentWave - 1].length;
 		for (int i = 0; i < WAVES[currentWave - 1].length; i += 4) {
 			final int next = i;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					try {
@@ -672,7 +672,7 @@ public class FightKilnController extends Controller {
 	}
 
 	public void setWaveEvent() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -691,7 +691,7 @@ public class FightKilnController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
@@ -891,7 +891,7 @@ public class FightKilnController extends Controller {
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Magic prowess, at the expense of your Defence, Strength and Ranged ability.");
 		else if (skill == Constants.STRENGTH)
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Strength prowess, at the expense of your Defence, Ranged and Magical ability.");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int count;
 
@@ -943,7 +943,7 @@ public class FightKilnController extends Controller {
 		harAken.resetTimer();
 		harAken.setCantInteract(true);
 		harAken.setNextAnimation(new Animation(16234));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {

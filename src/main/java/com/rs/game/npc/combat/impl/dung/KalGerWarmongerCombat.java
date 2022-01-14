@@ -28,7 +28,7 @@ import com.rs.game.npc.dungeoneering.KalGerWarmonger;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -65,7 +65,7 @@ public class KalGerWarmongerCombat extends CombatScript {
 					if (Utils.inCircle(player, boss, 5))// 5 square radius (imperfect circle)
 						player.applyHit(new Hit(boss, Utils.random(300, boss.getMaxHit()), HitLook.TRUE_DAMAGE));
 				}
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {

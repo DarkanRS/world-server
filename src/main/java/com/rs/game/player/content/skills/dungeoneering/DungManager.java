@@ -16,11 +16,15 @@
 //
 package com.rs.game.player.content.skills.dungeoneering;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.item.ItemsContainer;
-import com.rs.game.object.GameObject;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonDifficulty;
@@ -59,7 +63,7 @@ public class DungManager {
 	private int maxComplexity;
 	private ItemsContainer<Item> bindedItems;
 	private Item bindedAmmo;
-	private boolean[] visitedResources;
+	private Set<ResourceDungeon> resourceXpGranted;
 	private int[] kinshipTiers;
 	private int kinshipResets;
 	private KinshipPerk activeRingPerk;
@@ -72,23 +76,36 @@ public class DungManager {
 	private transient Player invitingPlayer;
 
 	public static enum ResourceDungeon {
-		EDGEVILLE_DUNGEON(10, 1100, 52849, new WorldTile(3132, 9933, 0), 52867, new WorldTile(991, 4585, 0)),
-		DWARVEN_MINE(15, 1500, 52855, new WorldTile(3034, 9772, 0), 52864, new WorldTile(1041, 4575, 0)),
-		EDGEVILLE_DUNGEON_2(20, 1600, 52853, new WorldTile(3104, 9826, 0), 52868, new WorldTile(1135, 4589, 0)),
-		KARANJA_VOLCANO(25, 2100, 52850, new WorldTile(2845, 9557, 0), 52869, new WorldTile(1186, 4598, 0)),
+		EDGEVILLE_DUNGEON(10, 1100, 52849, new WorldTile(3132, 9933, 0), 52867, new WorldTile(991, 4585, 0)), 
+		DWARVEN_MINE(15, 1500, 52855, new WorldTile(3034, 9772, 0), 52864, new WorldTile(1041, 4575, 0)), 
+		EDGEVILLE_DUNGEON_2(20, 1600, 52853, new WorldTile(3104, 9826, 0), 52868, new WorldTile(1135, 4589, 0)), 
+		KARAMJA_VOLCANO(25, 2100, 52850, new WorldTile(2845, 9557, 0), 52869, new WorldTile(1186, 4598, 0)), 
 		DAEMONHEIM_PENINSULA(30, 2400, 52861, new WorldTile(3513, 3666, 0), 52862, new WorldTile(3498, 3633, 0)),
-		BAXTORIAN_FALLS(35, 3000, 52857, new WorldTile(2578, 9898, 0), 52873, new WorldTile(1256, 4592, 0)),
-		MINING_GUILD(45, 4400, 52856, new WorldTile(3022, 9741, 0), 52866, new WorldTile(1052, 4521, 0)),
-		TAVERLY_DUNGEON_1(55, 6200, 52851, new WorldTile(2854, 9841, 0), 52870, new WorldTile(1394, 4588, 0)),
-		TAVERLY_DUNGEON_2(60, 7000, 52852, new WorldTile(2912, 9810, 0), 52865, new WorldTile(1000, 4522, 0)),
-		VARRICK_SEWERS(65, 8500, 52863, new WorldTile(3164, 9878, 0), 52876, new WorldTile(1312, 4590, 0)),
+		BAXTORIAN_FALLS(35, 3000, 52857, new WorldTile(2578, 9898, 0), 52873, new WorldTile(1256, 4592, 0)), 
+		MINING_GUILD(45, 4400, 52856, new WorldTile(3022, 9741, 0), 52866, new WorldTile(1052, 4521, 0)), 
+		TAVERLEY_DUNGEON_1(55, 6200, 52851, new WorldTile(2854, 9841, 0), 52870, new WorldTile(1394, 4588, 0)), 
+		TAVERLEY_DUNGEON_2(60, 7000, 52852, new WorldTile(2912, 9810, 0), 52865, new WorldTile(1000, 4522, 0)), 
+		VARROCK_SEWERS(65, 8500, 52863, new WorldTile(3164, 9878, 0), 52876, new WorldTile(1312, 4590, 0)),
 		CHAOS_TUNNELS(70, 9600, 52858, new WorldTile(3160, 5521, 0), 52874, new WorldTile(1238, 4524, 0)),
-		AL_KHARID(75, 11400, 52860, new WorldTile(3298, 3307, 0), 52872, new WorldTile(1182, 4515, 0)),
-		BRIMHAVEM_DUNGEON(80, 12800, 52854, new WorldTile(2697, 9442, 0), 52871, new WorldTile(1140, 4499, 0)),
-		POLYPORE_DUNGEON(82, 13500, 64291, new WorldTile(4661, 5491, 3), 64291, new WorldTile(4695, 5625, 3)),
+		AL_KHARID(75, 11400, 52860, new WorldTile(3298, 3307, 0), 52872, new WorldTile(1182, 4515, 0)), 
+		BRIMHAVEN_DUNGEON(80, 12800, 52854, new WorldTile(2697, 9442, 0), 52871, new WorldTile(1140, 4499, 0)), 
+		POLYPORE_DUNGEON(82, 13500, 64291, new WorldTile(4661, 5491, 3), 64291, new WorldTile(4695, 5625, 3)), 
 		ASGARNIAN_ICE_DUNGEON(85, 15000, 52859, new WorldTile(3033, 9599, 0), 52875, new WorldTile(1297, 4510, 0))
 
 		;
+		
+		private static Map<Integer, ResourceDungeon> ID_MAP = new HashMap<>();
+		
+		static {
+			for (ResourceDungeon d : ResourceDungeon.values()) {
+				ID_MAP.put(d.insideId, d);
+				ID_MAP.put(d.outsideId, d);
+			}
+		}
+		
+		public static ResourceDungeon forId(int id) {
+			return ID_MAP.get(id);
+		}
 
 		private ResourceDungeon(int level, int xp) {
 			outsideId = insideId = -1;
@@ -98,8 +115,7 @@ public class DungManager {
 		private double xp;
 		private WorldTile inside, outside;
 
-		private ResourceDungeon(int level, double xp, int outsideId, WorldTile outside, int insideId,
-				WorldTile inside) {
+		private ResourceDungeon(int level, double xp, int outsideId, WorldTile outside, int insideId, WorldTile inside) {
 			this.level = level;
 			this.xp = xp;
 			this.outsideId = outsideId;
@@ -108,16 +124,45 @@ public class DungManager {
 			this.inside = inside;
 		}
 	}
+	
+	public static ObjectClickHandler handleResourceDungeonEntrance = new ObjectClickHandler(ResourceDungeon.ID_MAP.keySet().toArray()) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			ResourceDungeon dung = ResourceDungeon.forId(e.getObjectId());
+			if (dung == null)
+				return;
+			if (e.getPlayer().getSkills().getLevelForXp(Constants.DUNGEONEERING) < dung.level) {
+				e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You need a dungeoneering level of " + dung.level + " to enter this resource dungeon.");
+				return;
+			}
+			if (dung == ResourceDungeon.POLYPORE_DUNGEON)
+				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getX() == 4695 && e.getObject().getY() == 5626 ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT);
+			else
+				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getId() == dung.insideId ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT);
+			if (e.getPlayer().getDungManager().gainedXp(dung)) {
+				e.getPlayer().getDungManager().addGainedXp(dung);
+				e.getPlayer().getSkills().addXp(Constants.DUNGEONEERING, dung.xp);
+			}
+		}
+	};
 
 	public DungManager(Player player) {
 		setPlayer(player);
 		reset();
 	}
 
+	protected void addGainedXp(ResourceDungeon dung) {
+		resourceXpGranted.add(dung);
+	}
+
+	protected boolean gainedXp(ResourceDungeon dung) {
+		return resourceXpGranted.contains(dung);
+	}
+
 	public void setPlayer(Player player) {
 		this.player = player;
-		if (visitedResources == null) // temporary
-			visitedResources = new boolean[ResourceDungeon.values().length];
+		if (resourceXpGranted == null)
+			resourceXpGranted = new HashSet<>();
 	}
 
 	public void setKinshipLevel(KinshipPerk perk, int level) {
@@ -145,12 +190,12 @@ public class DungManager {
 				e.getPlayer().closeInterfaces();
 				return;
 			}
-			switch(e.getComponentId()) {
+			switch (e.getComponentId()) {
 			case 257:
 			case 242:
 			case 227:
 			case 212:
-				e.getPlayer().getTempAttribs().setI("kinshipTab", (257-e.getComponentId()) / 15);
+				e.getPlayer().getTempAttribs().setI("kinshipTab", (257 - e.getComponentId()) / 15);
 				e.getPlayer().getDungManager().refreshKinshipStrings();
 				break;
 			case 139:
@@ -202,7 +247,7 @@ public class DungManager {
 		player.getTempAttribs().setO("perkUpgradePrompt", perk);
 		String upgradeInfo = EnumDefinitions.getEnum(3089 + perk.ordinal()).getStringValue(kinshipTiers[perk.ordinal()]);
 		upgradeInfo += "<br><br>";
-		upgradeInfo += EnumDefinitions.getEnum(3089 + perk.ordinal()).getStringValue(kinshipTiers[perk.ordinal()]+1);
+		upgradeInfo += EnumDefinitions.getEnum(3089 + perk.ordinal()).getStringValue(kinshipTiers[perk.ordinal()] + 1);
 		player.getPackets().setIFText(993, 276, upgradeInfo);
 		player.getPackets().setIFText(993, 277, "Upgrade cost: " + Utils.formatNumber(UPGRADE_COSTS[kinshipTiers[perk.ordinal()]]));
 		player.getPackets().setIFText(993, 298, Utils.formatNumber(tokens));
@@ -227,9 +272,9 @@ public class DungManager {
 				if (option == 1) {
 					int tokensToRefund = 0;
 					for (int kinshipTier : kinshipTiers)
-						for (int lvl = 0;lvl <= kinshipTier;lvl++)
+						for (int lvl = 0; lvl <= kinshipTier; lvl++)
 							if (lvl > 0)
-								tokensToRefund += UPGRADE_COSTS[lvl-1];
+								tokensToRefund += UPGRADE_COSTS[lvl - 1];
 					tokens += tokensToRefund;
 					kinshipTiers = new int[KinshipPerk.values().length];
 					kinshipResets--;
@@ -243,7 +288,7 @@ public class DungManager {
 	public void refreshKinship() {
 		for (KinshipPerk p : KinshipPerk.values())
 			player.getVars().setVarBit(p.getVarbit(), getKinshipTier(p));
-		player.getVars().setVarBit(8065, activeRingPerk == null ? 0 : activeRingPerk.ordinal()+1);
+		player.getVars().setVarBit(8065, activeRingPerk == null ? 0 : activeRingPerk.ordinal() + 1);
 		if (player.getInterfaceManager().containsInterface(993))
 			player.getPackets().sendRunScriptBlank(3494);
 		refreshKinshipStrings();
@@ -270,17 +315,10 @@ public class DungManager {
 		return KinshipPerk.values()[idx];
 	}
 
-	public static ObjectClickHandler handleResourceDungeonEntrance = new ObjectClickHandler(new Object[] { "Mysterious entrance", "Mysterious door" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().getDungManager().enterResourceDungeon(e.getObject());
-		}
-	};
-
 	public static ItemClickHandler handleKinship = new ItemClickHandler(Utils.streamObjects(15707, Utils.range(18817, 18828)), new String[] { "Customise", "Quick-switch", "Teleport to Daemonheim", "Open party interface" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
+			switch (e.getOption()) {
 			case "Teleport to Daemonheim":
 				Magic.sendDamonheimTeleport(e.getPlayer(), new WorldTile(3449, 3698, 0));
 				break;
@@ -314,34 +352,6 @@ public class DungManager {
 		}
 	};
 
-	public boolean enterResourceDungeon(GameObject object) {
-		int i = 0;
-		for (ResourceDungeon dung : ResourceDungeon.values()) {
-			if (object.getId() == dung.outsideId || object.getId() == dung.insideId) {
-				if (player.getSkills().getLevelForXp(Constants.DUNGEONEERING) < dung.level) {
-					player.getDialogueManager().execute(new SimpleMessage(), "You need a dungeoneering level of "
-							+ dung.level + " to enter this dungeoneering resource.");
-					return true;
-				}
-				if (dung == ResourceDungeon.POLYPORE_DUNGEON)
-					Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, 0, 0,
-							object.getX() == 4695 && object.getY() == 5626 ? dung.outside : dung.inside, 1, false,
-									Magic.OBJECT_TELEPORT);
-				else
-					Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, 0, 0,
-							object.getId() == dung.insideId ? dung.outside : dung.inside, 1, false,
-									Magic.OBJECT_TELEPORT);
-				if (!visitedResources[i]) {
-					visitedResources[i] = true;
-					player.getSkills().addXp(Constants.DUNGEONEERING, dung.xp);
-				}
-				return true;
-			}
-			i++;
-		}
-		return false;
-	}
-
 	public void addBindedItem(int itemId) {
 		bindedItems.add(new Item(itemId));
 	}
@@ -373,8 +383,7 @@ public class DungManager {
 			if (bindedAmmo.getAmount() > 255)
 				bindedAmmo.setAmount(255);
 		} else {
-			if (bindedItems.getUsedSlots() >= DungeonUtils
-					.getMaxBindItems(player.getSkills().getLevelForXp(Constants.DUNGEONEERING))) {
+			if (bindedItems.getUsedSlots() >= DungeonUtils.getMaxBindItems(player.getSkills().getLevelForXp(Constants.DUNGEONEERING))) {
 				player.sendMessage("A currently bound item must be destroyed before another item may be bound.");
 				return;
 			}
@@ -382,8 +391,7 @@ public class DungManager {
 			player.getInventory().refresh(slot);
 			bindedItems.add(new Item(item));
 		}
-		player.sendMessage(
-				"You bind the " + defs.getName() + " to you. Check in the smuggler to manage your bound items.");
+		player.sendMessage("You bind the " + defs.getName() + " to you. Check in the smuggler to manage your bound items.");
 	}
 
 	public void unbind(Item item) {
@@ -410,7 +418,6 @@ public class DungManager {
 		previousProgress = 0;
 		bindedItems = new ItemsContainer<>(10, false);
 		maxFloor = maxComplexity = 1;
-		visitedResources = new boolean[ResourceDungeon.values().length];
 	}
 
 	public boolean isTickedOff(int floor) {
@@ -425,20 +432,12 @@ public class DungManager {
 		return count;
 	}
 
-	public boolean getVisitedResourcesB(int pos) {
-		return visitedResources[pos];
-	}
-
 	public boolean getCurrentProgresB(int pos) {
 		return currentProgress[pos];
 	}
 
 	public void setCurrentProgres(int pos, boolean b) {
 		currentProgress[pos] = b;
-	}
-
-	public void setVisitedResource(int pos, boolean b) {
-		visitedResources[pos] = b;
 	}
 
 	public int getPreviousProgress() {
@@ -519,8 +518,7 @@ public class DungManager {
 			if (e.getComponentId() >= 59 && e.getComponentId() <= 72) {
 				int playerIndex = (e.getComponentId() - 59) / 3;
 				if ((e.getComponentId() & 0x3) != 0 || e.getComponentId() == 68)
-					e.getPlayer().getDungManager().pressOption(playerIndex,
-							e.getPacket() == ClientPacket.IF_OP1 ? 0 : e.getPacket() == ClientPacket.IF_OP2 ? 1 : 2);
+					e.getPlayer().getDungManager().pressOption(playerIndex, e.getPacket() == ClientPacket.IF_OP1 ? 0 : e.getPacket() == ClientPacket.IF_OP2 ? 1 : 2);
 				else
 					e.getPlayer().getDungManager().pressOption(playerIndex, 3);
 			} else if (e.getComponentId() == 45)
@@ -624,25 +622,25 @@ public class DungManager {
 			if (party.isLeader(player)) { // party leader stuff here
 				player.getPackets().setIFHidden(939, 31, false);
 				player.getPackets().setIFHidden(939, 33, false);
-				player.getPackets().setIFHidden(939, 34, true); //Big Button leave Party
-				player.getPackets().setIFHidden(939, 37, true); //big button form party
-				player.getPackets().setIFHidden(939, 38, false); //right button, invite player
+				player.getPackets().setIFHidden(939, 34, true); // Big Button leave Party
+				player.getPackets().setIFHidden(939, 37, true); // big button form party
+				player.getPackets().setIFHidden(939, 38, false); // right button, invite player
 				player.getPackets().setIFHidden(939, 105, true);// Complexity change
 				player.getPackets().setIFHidden(939, 111, true);// Floor change
 			} else { // non-party leader stuff here
 				player.getPackets().setIFHidden(939, 31, true);
-				player.getPackets().setIFHidden(939, 34, false); //Big Button leave Party
-				player.getPackets().setIFHidden(939, 37, true); //big button form party
-				player.getPackets().setIFHidden(939, 38, true); //right button, invite player
+				player.getPackets().setIFHidden(939, 34, false); // Big Button leave Party
+				player.getPackets().setIFHidden(939, 37, true); // big button form party
+				player.getPackets().setIFHidden(939, 38, true); // right button, invite player
 				player.getPackets().setIFHidden(939, 105, true);// Complexity change
 				player.getPackets().setIFHidden(939, 111, true);// Floor change
 			}
 		} else if (party == null) {
 			player.getPackets().setIFHidden(939, 33, true);
-			player.getPackets().setIFHidden(939, 34, true); //Big Button leave Party
+			player.getPackets().setIFHidden(939, 34, true); // Big Button leave Party
 			player.getPackets().setIFHidden(939, 36, false);
-			player.getPackets().setIFHidden(939, 37, false);//big button form party
-			player.getPackets().setIFHidden(939, 38, true);//right button invite player
+			player.getPackets().setIFHidden(939, 37, false);// big button form party
+			player.getPackets().setIFHidden(939, 38, true);// right button invite player
 			player.getPackets().setIFHidden(939, 105, true);// Complexity change
 			player.getPackets().setIFHidden(939, 111, true);// Floor change
 		}
@@ -701,14 +699,14 @@ public class DungManager {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			int comp = e.getComponentId();
-			if(e.getInterfaceId() == 936) {
-				if (comp == 146)//exit button
+			if (e.getInterfaceId() == 936) {
+				if (comp == 146)// exit button
 					e.getPlayer().getDungManager().openPartyInterface();
-				if (comp == 134)//inventory
+				if (comp == 134)// inventory
 					e.getPlayer().sendMessage("Not implemented");
-				if (comp == 137)//equipment
+				if (comp == 137)// equipment
 					e.getPlayer().sendMessage("Not implemented");
-				if (comp == 140)//summoning
+				if (comp == 140)// summoning
 					e.getPlayer().sendMessage("Not implemented");
 			}
 		}
@@ -827,8 +825,7 @@ public class DungManager {
 				return;
 			}
 			DungeonPartyManager party = p2.getDungManager().getParty();
-			if (p2.getDungManager().invitingPlayer != player || player.getPlane() != 0 || party == null
-					|| !party.isLeader(p2)) {
+			if (p2.getDungManager().invitingPlayer != player || player.getPlane() != 0 || party == null || !party.isLeader(p2)) {
 				player.sendMessage("You can't do that right now.");
 				return;
 			}
@@ -837,12 +834,9 @@ public class DungManager {
 			for (int i = 0; i < 5; i++) {
 				Player teamMate = i >= party.getTeam().size() ? null : party.getTeam().get(i);
 				player.getPackets().sendVarcString(284 + i, teamMate == null ? "" : teamMate.getDisplayName());
-				player.getPackets().sendVarc(1153 + i,
-						teamMate == null ? -1 : teamMate.getSkills().getCombatLevelWithSummoning());
-				player.getPackets().sendVarc(1158 + i,
-						teamMate == null ? -1 : teamMate.getSkills().getLevelForXp(Constants.DUNGEONEERING));
-				player.getPackets().sendVarc(1163 + i,
-						teamMate == null ? -1 : teamMate.getSkills().getHighestSkillLevel());
+				player.getPackets().sendVarc(1153 + i, teamMate == null ? -1 : teamMate.getSkills().getCombatLevelWithSummoning());
+				player.getPackets().sendVarc(1158 + i, teamMate == null ? -1 : teamMate.getSkills().getLevelForXp(Constants.DUNGEONEERING));
+				player.getPackets().sendVarc(1163 + i, teamMate == null ? -1 : teamMate.getSkills().getHighestSkillLevel());
 				player.getPackets().sendVarc(1168 + i, teamMate == null ? -1 : teamMate.getSkills().getTotalLevel());
 			}
 			player.getPackets().sendVarc(1173, party.getFloor());
@@ -906,8 +900,7 @@ public class DungManager {
 		player.stopAll();
 		party.setGuideMode(!party.getGuideMode());
 		if (party.getGuideMode())
-			player.sendMessage(
-					"Guide mode enabled. Your map will show you the critical path, but you will receive an xp penalty.");
+			player.sendMessage("Guide mode enabled. Your map will show you the critical path, but you will receive an xp penalty.");
 		else
 			player.sendMessage("Guide mode disabled. Your map will no longer show the critical path.");
 		for (Player p2 : party.getTeam())
@@ -926,14 +919,14 @@ public class DungManager {
 	public static int PLAYER_5_FLOORS_COMPLETE = 183;
 
 	public void changeFloor() {
-		//		if (party.getDungeon() != null) {
-		//			player.sendMessage("You cannot change these settings while in a dungeon.");
-		//			return;
-		//		}
-		//		if (!party.isLeader(this.player)) {
-		//			this.player.sendMessage("Only your party's leader can change floor!");
-		//			return;
-		//		}
+		// if (party.getDungeon() != null) {
+		// player.sendMessage("You cannot change these settings while in a dungeon.");
+		// return;
+		// }
+		// if (!party.isLeader(this.player)) {
+		// this.player.sendMessage("Only your party's leader can change floor!");
+		// return;
+		// }
 		if (party == null) {
 			player.sendMessage("You must be in a party to view your floors.");
 			return;
@@ -970,8 +963,7 @@ public class DungManager {
 				if (teamMate.getDungManager().currentProgress[floor])
 					player.getPackets().setIFHidden(947, startComponentCompleted + floor - 1, false);
 			}
-			player.getPackets().setIFPosition(947, startComponentAvailable + 121, 3,
-					teamMate.getDungManager().getMaxFloor() * 10);
+			player.getPackets().setIFPosition(947, startComponentAvailable + 121, 3, teamMate.getDungManager().getMaxFloor() * 10);
 		}
 		player.getPackets().sendRunScriptReverse(3285, Math.min(highestFloor * 12 + 80, 700));
 		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeI("DUNG_FLOOR"));
@@ -983,7 +975,7 @@ public class DungManager {
 			return;
 		}
 
-		if(player.getDungManager().isInsideDungeon()) {
+		if (player.getDungManager().isInsideDungeon()) {
 			player.sendMessage("Floor settings cannot be changed in a dungeon.");
 			return;
 		}
@@ -1094,9 +1086,7 @@ public class DungManager {
 		player.getPackets().setIFHidden(938, 57 + ((complexity - 1) * 5), !mark);
 	}
 
-	private static final String[] COMPLEXITY_SKILLS = { "Combat", "Cooking", "Firemaking", "Woodcutting", "Fishing",
-			"Creating Weapons", "Mining", "Runecrafting", "Farming Textiles", "Hunting", "Creating Armour",
-			"Farming Seeds", "Herblore", "Thieving", "Summoning", "Construction" };
+	private static final String[] COMPLEXITY_SKILLS = { "Combat", "Cooking", "Firemaking", "Woodcutting", "Fishing", "Creating Weapons", "Mining", "Runecrafting", "Farming Textiles", "Hunting", "Creating Armour", "Farming Seeds", "Herblore", "Thieving", "Summoning", "Construction" };
 
 	private void hideSkills(int complexity) {
 		int count = 0;
@@ -1162,23 +1152,19 @@ public class DungManager {
 		for (Player p2 : party.getTeam()) {
 			for (Item item : p2.getInventory().getItems().getItems())
 				if (item != null && item.getId() != 15707) {
-					player.sendMessage(
-							p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
+					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;
 				}
 			for (Item item : p2.getEquipment().getItemsCopy())
 				if (item != null && item.getId() != 15707) {
-					player.sendMessage(
-							p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
+					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;
 				}
 			if (p2.getFamiliar() != null || p2.getPet() != null) {
-				player.sendMessage(
-						p2.getDisplayName() + " is carrying a familiar that cannot be taken into Daemonheim.");
+				player.sendMessage(p2.getDisplayName() + " is carrying a familiar that cannot be taken into Daemonheim.");
 				return;
 			}
-			if (p2.getPlane() != 0 || p2.getInterfaceManager().containsScreenInter() || p2.isLocked()
-					|| !(p2.getControllerManager().getController() instanceof DamonheimController)) {
+			if (p2.getPlane() != 0 || p2.getInterfaceManager().containsScreenInter() || p2.isLocked() || !(p2.getControllerManager().getController() instanceof DamonheimController)) {
 				player.sendMessage(p2.getDisplayName() + " is busy.");
 				return;
 			}
@@ -1224,16 +1210,16 @@ public class DungManager {
 
 	public void refreshDungRingPlayerNames() {
 		for (Player player : party.getTeam())
-			for(int i = 0; i < 5; i++)
-				if(i >= party.getTeam().size())
+			for (int i = 0; i < 5; i++)
+				if (i >= party.getTeam().size())
 					hideICompRingPlayerText(player, i, true);
 				else
 					hideICompRingPlayerText(player, i, false);
 	}
 
 	public static void hideICompRingPlayerText(Player p, int slot, boolean hidden) {
-		if(slot >= 0 && slot <= 4)
-			p.getPackets().setIFHidden(939, slot==0 ? 59 : slot==1 ? 62 : slot==2 ? 65 : slot==3 ? 68 : 71, hidden);
+		if (slot >= 0 && slot <= 4)
+			p.getPackets().setIFHidden(939, slot == 0 ? 59 : slot == 1 ? 62 : slot == 2 ? 65 : slot == 3 ? 68 : 71, hidden);
 	}
 
 	public void refreshFloor() {

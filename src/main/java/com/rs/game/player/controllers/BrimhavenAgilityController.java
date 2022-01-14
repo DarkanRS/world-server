@@ -22,7 +22,7 @@ import java.util.List;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -58,8 +58,8 @@ public final class BrimhavenAgilityController extends Controller {
 	}
 
 	private static void startGame() {
-		WorldTasksManager.schedule(currentGame = new PlayingGame(), 0, Ticks.fromMinutes(1));
-		WorldTasksManager.schedule(bladesManager = new BladesManager(), 9, 9);
+		WorldTasks.schedule(currentGame = new PlayingGame(), 0, Ticks.fromMinutes(1));
+		WorldTasks.schedule(bladesManager = new BladesManager(), 9, 9);
 	}
 
 	private static void cancelGame() {

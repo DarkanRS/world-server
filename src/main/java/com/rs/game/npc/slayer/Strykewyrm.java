@@ -22,7 +22,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.combat.CombatSpell;
 import com.rs.game.player.content.skills.slayer.TaskMonster;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -46,11 +46,11 @@ public class Strykewyrm extends NPC {
 		if (getId() != stompId && !isCantInteract() && !isUnderCombat()) {
 			setNextAnimation(new Animation(12796));
 			setCantInteract(true);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					transformIntoNPC(stompId);
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							setCantInteract(false);
@@ -171,13 +171,13 @@ public class Strykewyrm extends NPC {
 		player.setNextAnimation(new Animation(4278));
 		player.lock(2);
 		npc.setCantInteract(true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				npc.setNextAnimation(new Animation(12795));
 				npc.transformIntoNPC(((Strykewyrm) npc).stompId + 1);
 				stop();
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						npc.setTarget(player);

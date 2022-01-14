@@ -23,7 +23,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 import com.rs.game.player.dialogues.SimpleMessage;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -62,7 +62,7 @@ public class PickPocketAction extends Action {
 				player.sendMessage("You attempt to grab the phoenix's tail-feather.");
 			else
 				player.sendMessage("You attempt to pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket...");
-			WorldTasksManager.delay(0, () -> {
+			WorldTasks.delay(0, () -> {
 				player.setNextAnimation(getAnimation());
 				player.setNextSpotAnim(getGraphics());
 			});

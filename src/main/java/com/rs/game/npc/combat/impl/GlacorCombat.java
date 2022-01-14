@@ -29,7 +29,7 @@ import com.rs.game.npc.glacors.Glacor.InheritedType;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -57,7 +57,7 @@ public class GlacorCombat extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(905));
 			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0, 0);
 			final WorldTile targetPosition = new WorldTile(target.getX(), target.getY(), target.getPlane());
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if ((target.getX() == targetPosition.getX()) && (target.getY() == targetPosition.getY()))
@@ -84,7 +84,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(9967));
 				npc.setNextSpotAnim(new SpotAnim(902));
 				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						delayHit(npc, -1, target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, player)));
@@ -98,7 +98,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(9968));
 				npc.setNextSpotAnim(new SpotAnim(905));
 				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						delayHit(npc, -1, target, getRangeHit(npc, getMaxHit(npc, 255, AttackStyle.RANGE, player)));
@@ -109,7 +109,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(905));
 				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0, 0);
 				final WorldTile targetPosition = new WorldTile(player.getX(), player.getY(), player.getPlane());
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if ((player.getX() == targetPosition.getX()) && (player.getY() == targetPosition.getY()))

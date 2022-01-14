@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 
@@ -135,7 +135,7 @@ public class HerbCleaning {
 			player.sendMessage("You do not have the required level to clean this.", true);
 			return true;
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				Item i = player.getInventory().getItem(slotId);

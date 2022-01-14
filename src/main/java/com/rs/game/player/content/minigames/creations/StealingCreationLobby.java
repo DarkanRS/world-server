@@ -23,7 +23,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.controllers.StealingCreationLobbyController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.utils.Ticks;
 
@@ -87,7 +87,7 @@ public class StealingCreationLobby {
 		} else if (!blueTeam.contains(player))
 			blueTeam.add(player);
 		if (hasRequiredPlayers() && lobbyTask == null)// saves performance
-			WorldTasksManager.schedule(lobbyTask = new LobbyTimer(), Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+			WorldTasks.schedule(lobbyTask = new LobbyTimer(), Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 		player.getControllerManager().startController(new StealingCreationLobbyController());
 		updateInterfaces();
 		return true;

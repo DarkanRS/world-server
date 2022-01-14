@@ -25,7 +25,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -78,7 +78,7 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 			addSimple("You hand over the disguise and key over to Prince Ali.", ()-> {
 				for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
 					if(npc.getId() == PRINCE_ALI)
-						WorldTasksManager.schedule(new WorldTask() {//deletes all ali2s when region is loaded.
+						WorldTasks.schedule(new WorldTask() {//deletes all ali2s when region is loaded.
 							int tick;
 							NPC ali2;
 							@Override

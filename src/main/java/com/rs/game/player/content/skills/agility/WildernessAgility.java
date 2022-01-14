@@ -22,7 +22,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -39,7 +39,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY()) {
 			player.addWalkSteps(2998, 3916, 0, false);
 			player.lock(2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -56,7 +56,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY()) {
 			player.addWalkSteps(2998, 3931, 0, false);
 			player.lock(2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -73,7 +73,7 @@ public class WildernessAgility {
 		player.setNextAnimation(new Animation(9908));
 		final WorldTile toTile = new WorldTile(object.getX(), 3931, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 16, Direction.NORTH));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -91,7 +91,7 @@ public class WildernessAgility {
 		player.setNextAnimation(new Animation(9908));
 		final WorldTile toTile = new WorldTile(object.getX() + 1, 3916, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 16, Direction.SOUTH));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -112,7 +112,7 @@ public class WildernessAgility {
 		player.lock(7);
 		player.addWalkSteps(objectX, objectY == 3938 ? 3950 : 3937, -1, false);
 		player.sendMessage("You pulled yourself through the pipes.", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			boolean secondloop;
 
 			@Override
@@ -146,7 +146,7 @@ public class WildernessAgility {
 		player.setNextForceMovement(new ForceMovement(player, 1, toTile, 3, Direction.NORTH));
 		player.getSkills().addXp(Constants.AGILITY, 22);
 		player.sendMessage("You skilfully swing across.", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -166,7 +166,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY())
 			return;
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int x;
 
@@ -180,7 +180,7 @@ public class WildernessAgility {
 				final WorldTile toTile = new WorldTile(3002 - x, player.getY(), player.getPlane());
 				player.setNextForceMovement(new ForceMovement(toTile, 1, Direction.WEST));
 				player.setNextAnimation(new Animation(741));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
@@ -202,7 +202,7 @@ public class WildernessAgility {
 		player.lock();
 		player.addWalkSteps(2994, 3945, -1, false);
 		player.sendMessage("You walk carefully across the log...", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			boolean secondloop;
 
 			@Override
@@ -231,7 +231,7 @@ public class WildernessAgility {
 		final WorldTile toTile = new WorldTile(player.getX(), 3935, 0);
 
 		player.sendMessage("You climb up the rock.", true);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.setNextWorldTile(toTile);

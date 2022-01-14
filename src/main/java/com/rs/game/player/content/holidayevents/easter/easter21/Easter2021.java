@@ -19,7 +19,7 @@ package com.rs.game.player.content.holidayevents.easter.easter21;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -178,7 +178,7 @@ public class Easter2021 {
 				e.getPlayer().sendMessage("The bird wakes up and begins eating and drinking!");
 				e.getPlayer().save(Easter2021.STAGE_KEY, 3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
-				WorldTasksManager.delay(10, () -> {
+				WorldTasks.delay(10, () -> {
 					e.getPlayer().getVars().setVarBit(6026, 0);
 					e.getPlayer().getVars().setVarBit(6027, 0);
 				});
@@ -209,7 +209,7 @@ public class Easter2021 {
 			if (e.getPlayer().getVars().getVarBit(6026) == (e.getPlayer().getNSV().getI("easterBirdFood")+1)) {
 				e.getPlayer().save(Easter2021.STAGE_KEY, 3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
-				WorldTasksManager.delay(10, () -> {
+				WorldTasks.delay(10, () -> {
 					e.getPlayer().getVars().setVarBit(6026, 0);
 					e.getPlayer().getVars().setVarBit(6027, 0);
 				});
@@ -287,15 +287,15 @@ public class Easter2021 {
 	public static void useBunnyHole(Player player, GameObject object, WorldTile toTile) {
 		player.lock();
 		player.faceObject(object);
-		WorldTasksManager.delay(1, () -> {
+		WorldTasks.delay(1, () -> {
 			player.setNextAnimation(new Animation(8901));
 			player.setNextSpotAnim(new SpotAnim(1567));
 		});
-		WorldTasksManager.delay(13, () -> {
+		WorldTasks.delay(13, () -> {
 			player.setNextWorldTile(toTile);
 			player.setNextAnimation(new Animation(8902));
 		});
-		WorldTasksManager.delay(22, () -> {
+		WorldTasks.delay(22, () -> {
 			player.setNextAnimation(new Animation(-1));
 			player.unlock();
 		});

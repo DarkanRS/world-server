@@ -23,7 +23,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -101,7 +101,7 @@ public class Agility {
 			World.sendObjectAnimation(player, object, new Animation(497));
 			player.setNextForceMovement(new ForceMovement(player, 1, endTile, 3, Utils.getAngleTo(endTile.getX()-player.getX(), endTile.getY()-player.getY())));
 			player.sendMessage("You skillfully swing across the rope.", true);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.unlockNextTick();
@@ -116,7 +116,7 @@ public class Agility {
 	public static void handleObstacle(final Player player, int animationId, int delay, final WorldTile toTile, final double xp) {
 		player.lock();
 		player.setNextAnimation(new Animation(animationId));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlockNextTick();
@@ -136,7 +136,7 @@ public class Agility {
 		player.setRunHidden(false);
 		player.lock();
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (player.getX() != toTile.getX() || player.getY() != toTile.getY())

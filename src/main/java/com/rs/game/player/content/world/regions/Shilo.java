@@ -22,7 +22,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -49,7 +49,7 @@ public class Shilo {
 			final Direction direction = dir;
 			p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? new WorldTile(2860, 2971, 0) : new WorldTile(2860, 2977, 0), () -> {
 				AgilityShortcuts.forceMovementInstant(p, new WorldTile(2860, 2974, 0), 741, 1, 0, direction);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						AgilityShortcuts.forceMovementInstant(p, new WorldTile(2860, 2977, 0), 741, 1, 0, direction);

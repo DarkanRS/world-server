@@ -23,7 +23,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -78,7 +78,7 @@ public class LeverRoom extends PuzzleRoom {
 		//1 - 14.4 seconds
 		maxTicks = (6 - difficulty) + ((size == 1 ? 23 : 20) / difficulty);
 		resetTask = new ResetTask();
-		WorldTasksManager.schedule(resetTask, 0, 0);
+		WorldTasks.schedule(resetTask, 0, 0);
 	}
 
 	private void resetTask() {

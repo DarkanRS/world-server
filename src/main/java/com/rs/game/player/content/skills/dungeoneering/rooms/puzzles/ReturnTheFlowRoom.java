@@ -24,7 +24,7 @@ import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.content.skills.dungeoneering.rooms.puzzles.ReturnTheFlowRoom.FlowBuilder.FlowPiece;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungPickaxe;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
@@ -162,7 +162,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			}
 			player.setNextAnimation(pick.getAnimation());
 			player.lock(4);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					final int[] coords = manager.getRoomPos(object);

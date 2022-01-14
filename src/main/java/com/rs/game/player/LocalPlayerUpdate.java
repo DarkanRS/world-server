@@ -350,7 +350,7 @@ public final class LocalPlayerUpdate {
 			applyForceTalkMask(p, block);
 		}
 
-		//maskData |= 0x80000; //chat related
+		//maskData |= 0x80000; //Forcechat with optional display in chatbox (nex cough?)
 
 		if (p.getNextSpotAnim3() != null) {
 			maskData |= 0x40000;

@@ -50,7 +50,7 @@ import com.rs.game.player.quests.handlers.shieldofarrav.MuseumCuratorArravD;
 import com.rs.game.player.quests.handlers.shieldofarrav.ReldoShieldOfArravD;
 import com.rs.game.player.quests.handlers.shieldofarrav.StravenShieldOfArravD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -164,7 +164,7 @@ public class Varrock {
 					p.lock(5);
 					p.sendMessage("You pray to the gods...", true);
 					p.setNextAnimation(new Animation(645));
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
 							p.getPrayer().restorePrayer(maxPrayer);
@@ -461,7 +461,7 @@ public class Varrock {
 		public void handle(ObjectClickEvent e) {
 			if (!Agility.hasLevel(e.getPlayer(), 21))
 				return;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override

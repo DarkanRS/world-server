@@ -19,7 +19,7 @@ package com.rs.game.player.content.world;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -47,7 +47,7 @@ public class MuddyChest {
 				e.getPlayer().setNextAnimation(new Animation(536));
 				e.getPlayer().lock(2);
 				e.getPlayer().sendMessage("You unlock the chest with your key.");
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						GameObject openedChest = new GameObject(e.getObject().getId() + 1, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());

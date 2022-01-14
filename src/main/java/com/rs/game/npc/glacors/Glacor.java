@@ -27,7 +27,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.combat.CombatSpell;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -154,7 +154,7 @@ public class Glacor extends NPC {
 			if (!startedTimer && !hasExploded) {
 				getNextHitBars().add(new TimerBar(700));
 				startedTimer = true;
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
@@ -177,7 +177,7 @@ public class Glacor extends NPC {
 		getCombat().removeTarget();
 		setNextAnimation(null);
 		deathReset();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

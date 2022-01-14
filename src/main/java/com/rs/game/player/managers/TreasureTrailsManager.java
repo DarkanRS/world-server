@@ -33,7 +33,7 @@ import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.dialogues.SimpleItemMessage;
 import com.rs.game.player.managers.EmotesManager.Emote;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -213,7 +213,7 @@ public class TreasureTrailsManager {
 			boolean isCoordinateClue = currentClue.details.type == COORDINATE;
 			final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, World.getFreeTile(player, 1));
 			npc.setNextSpotAnim(new SpotAnim(74));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					npc.setTarget(player);
@@ -224,7 +224,7 @@ public class TreasureTrailsManager {
 		} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
 			final NPC npc = new Ugi(player, 5141, World.getFreeTile(player, 1));
 			npc.setNextSpotAnim(new SpotAnim(74));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					npc.faceEntity(player);

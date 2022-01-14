@@ -34,7 +34,7 @@ import com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.player.quests.handlers.scorpioncatcher.SeerScorpionCatcherD;
 import com.rs.game.player.quests.handlers.scorpioncatcher.ThormacScorpionCatcherD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -69,7 +69,7 @@ public class SeersVillage {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
 			if(p.getX() < obj.getX())
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick = 0;
 
 					@Override
@@ -86,7 +86,7 @@ public class SeersVillage {
 					}
 				}, 0, 1);
 			else
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick = 0;
 
 					@Override

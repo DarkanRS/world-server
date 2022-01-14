@@ -22,7 +22,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -320,7 +320,7 @@ public class RunecraftingAltar {
 				}
 			if (altar != null) {
 				e.getPlayer().sendMessage("You touch the mysterious ruin...");
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						Altar altar = null;
@@ -380,7 +380,7 @@ public class RunecraftingAltar {
 			case "Teleport":
 				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
 				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));

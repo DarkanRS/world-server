@@ -23,7 +23,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.handlers.demonslayer.GypsyArisDemonSlayerD;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 
@@ -47,7 +47,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 			spawn = instance.getLocalTile(19, 17);
 			System.out.println(spawn);
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				NPC npc;
 

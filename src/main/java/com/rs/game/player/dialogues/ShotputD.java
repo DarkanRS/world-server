@@ -19,7 +19,7 @@ package com.rs.game.player.dialogues;
 import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.WarriorsGuild;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 
 public class ShotputD extends Dialogue {
@@ -30,7 +30,7 @@ public class ShotputD extends Dialogue {
 	public void start() {
 		is18LB = (boolean) parameters[0];
 		player.setNextAnimation(new Animation(827));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

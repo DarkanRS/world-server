@@ -17,7 +17,7 @@
 package com.rs.game.player.content.world;
 
 import com.rs.game.ForceTalk;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -46,7 +46,7 @@ public class SheepShearing {
 				e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
 				e.getPlayer().setNextAnimation(new Animation(893));
 				e.getNPC().transformIntoNPC(5149);
-				WorldTasksManager.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
+				WorldTasks.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
 			} else
 				e.getPlayer().sendMessage("You need a pair of shears to shear the sheep.");
 		}
@@ -68,7 +68,7 @@ public class SheepShearing {
 				e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
 				e.getPlayer().setNextAnimation(new Animation(893));
 				e.getNPC().transformIntoNPC(5149);
-				WorldTasksManager.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
+				WorldTasks.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
 			} else
 				e.getPlayer().sendMessage("You need a pair of shears to shear the sheep.");
 		}

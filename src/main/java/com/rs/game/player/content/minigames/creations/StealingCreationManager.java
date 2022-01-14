@@ -22,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.game.player.Player;
 import com.rs.game.player.controllers.StealingCreationGameController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 
 public class StealingCreationManager {
@@ -33,7 +33,7 @@ public class StealingCreationManager {
 	public synchronized static void createGame(int size, List<Player> blueTeam, List<Player> redTeam) {
 		running.add(new StealingCreationGameController(size, blueTeam, redTeam));
 		if (watcher == null)
-			WorldTasksManager.schedule(watcher = new WorldTask() {
+			WorldTasks.schedule(watcher = new WorldTask() {
 				@Override
 				public void run() {
 					try {

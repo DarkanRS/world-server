@@ -27,7 +27,7 @@ import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -112,7 +112,7 @@ public class Edgeville  {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(745));
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, tile, 5, isNorth ? Direction.SOUTH : Direction.NORTH));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override

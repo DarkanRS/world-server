@@ -16,6 +16,7 @@
 //
 package com.rs.net;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
@@ -41,7 +42,7 @@ public class LobbyCommunicator {
 		post(new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "removeworldplayer");
 	}
 
-	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException {
+	public static Account getAccountSync(String username, String password) throws InterruptedException, ExecutionException, IOException {
 		return postSync(Account.class, new LoginRequest(username, password), "getaccountauth");
 	}
 
@@ -93,17 +94,7 @@ public class LobbyCommunicator {
 	}
 
 	public static void forwardPacket(Player player, Packet packet, Consumer<Boolean> cb) {
-		post(Boolean.class, new PacketDto(player.getUsername(), packet), "forwardpackets", cb);
-	}
-
-	public static void clanChatKick(Player player, boolean guest, String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void kickFCPlayer(Player player, String name) {
-		// TODO Auto-generated method stub
-
+		post(Boolean.class, new PacketDto(player.getUsername(), new Packet[] { packet }), "forwardpackets", cb);
 	}
 
 	public static Clan getClan(String clan) {
@@ -111,42 +102,7 @@ public class LobbyCommunicator {
 		return null;
 	}
 
-	public static void createClan(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static void updateClan(Clan clan) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void connectToClan(Player player, String text, boolean b) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void banClanPlayer(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void unbanClanPlayer(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void setClanMotto(Player player, String text) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void addClanMember(Clan clan, Player player) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void leaveClanCompletely(Player player) {
 		// TODO Auto-generated method stub
 
 	}
@@ -159,7 +115,7 @@ public class LobbyCommunicator {
 		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 
-	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException {
+	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException, IOException {
 		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 }

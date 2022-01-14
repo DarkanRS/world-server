@@ -24,7 +24,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.slayer.Slayer;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -65,13 +65,13 @@ public class HoleInTheWall extends NPC {
 						player.lock(4);
 						player.setNextAnimation(new Animation(425));
 						player.sendMessage("A giant hand appears and grabs your head.");
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 
 							@Override
 							public void run() {
 								player.applyHit(new Hit(player, Utils.getRandomInclusive(44), HitLook.TRUE_DAMAGE));
 								setNextAnimation(new Animation(-1));
-								WorldTasksManager.schedule(new WorldTask() {
+								WorldTasks.schedule(new WorldTask() {
 
 									@Override
 									public void run() {
@@ -94,7 +94,7 @@ public class HoleInTheWall extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
@@ -107,7 +107,7 @@ public class HoleInTheWall extends NPC {
 					reset();
 					setLocation(getRespawnTile());
 					finish();
-					WorldTasksManager.schedule(new WorldTask() {
+					WorldTasks.schedule(new WorldTask() {
 
 						@Override
 						public void run() {

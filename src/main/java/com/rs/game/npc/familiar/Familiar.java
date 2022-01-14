@@ -20,7 +20,6 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
 import com.rs.game.Entity;
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
@@ -29,7 +28,7 @@ import com.rs.game.player.content.skills.summoning.Summoning;
 import com.rs.game.player.content.skills.summoning.Summoning.Pouches;
 import com.rs.game.player.dialogues.DismissD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -357,7 +356,6 @@ public abstract class Familiar extends NPC {
 		owner.getPackets().setIFHidden(747, 9, true);
 	}
 
-	private transient int[][] checkNearDirs;
 	private transient boolean sentRequestMoveMessage;
 
 	public void call() {
@@ -369,29 +367,16 @@ public abstract class Familiar extends NPC {
 	}
 
 	public void call(boolean login) {
-		int size = getSize();
 		if (login) {
 			if (bob != null)
 				bob.setEntitys(owner, this);
-			checkNearDirs = Utils.getCoordOffsetsNear(size);
 			sendMainConfigs();
 		} else
 			removeTarget();
 		WorldTile teleTile = null;
-		for (int dir = 0; dir < checkNearDirs[0].length; dir++) {
-			final WorldTile tile = new WorldTile(new WorldTile(owner.getX() + checkNearDirs[0][dir], owner.getY() + checkNearDirs[1][dir], owner.getPlane()));
-			if (World.floorAndWallsFree(tile, size)) {
-				teleTile = tile;
-				break;
-			}
-		}
+		teleTile = owner.getNearestTeleTile(this.getSize());
 		if (login || teleTile != null)
-			WorldTasksManager.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					setNextSpotAnim(new SpotAnim(getDefinitions().size > 1 ? 1315 : 1314));
-				}
-			});
+			WorldTasks.schedule(() -> setNextSpotAnim(new SpotAnim(getDefinitions().size > 1 ? 1315 : 1314)));
 		if (teleTile == null) {
 			if (!sentRequestMoveMessage) {
 				owner.sendMessage("Theres not enough space for your familiar appear.");
@@ -432,7 +417,7 @@ public abstract class Familiar extends NPC {
 		setCantInteract(true);
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override

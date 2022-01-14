@@ -46,7 +46,7 @@ import com.rs.game.region.ClipFlag;
 import com.rs.game.region.Region;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -956,7 +956,7 @@ public final class World {
 
 	public static final void spawnObjectTemporary(final GameObject object, int ticks, boolean clip) {
 		spawnObject(object, clip);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {
@@ -976,7 +976,7 @@ public final class World {
 
 	public static final boolean removeObjectTemporary(final GameObject object, int ticks) {
 		removeObject(object);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {
@@ -991,7 +991,7 @@ public final class World {
 
 	public static final void spawnTempGroundObject(final GameObject object, final int replaceId, int ticks) {
 		spawnObject(object);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {
@@ -1294,7 +1294,7 @@ public final class World {
 
 	public static void executeAfterLoadRegion(final int regionId, int startTime, final Runnable event) {
 		long startMs = System.currentTimeMillis() + startTime * 600;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {

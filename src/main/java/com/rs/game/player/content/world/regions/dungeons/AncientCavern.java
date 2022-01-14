@@ -20,7 +20,7 @@ import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -97,7 +97,7 @@ public class AncientCavern {
 	public static ObjectClickHandler handleWhirlpool = new ObjectClickHandler(new Object[] { 67966 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override

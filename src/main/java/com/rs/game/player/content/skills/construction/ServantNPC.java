@@ -28,12 +28,11 @@ import com.rs.game.player.content.skills.construction.HouseConstants.Room;
 import com.rs.game.player.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
 public class ServantNPC extends NPC {
@@ -42,14 +41,12 @@ public class ServantNPC extends NPC {
 	private Player owner;
 	private House house;
 	private boolean follow, greetGuests;
-	private int[][] checkNearDirs;
 
 	public ServantNPC(House house) {
 		super(house.getServant().getId(), house.getPortal().transform(1, 0, 0), true);
 		servant = house.getServant();
 		owner = house.getPlayer();
 		this.house = house;
-		checkNearDirs = Utils.getCoordOffsetsNear(super.getSize());
 		if (owner.getSkills().getLevel(Constants.CONSTRUCTION) < servant.getLevel()) {
 			house.setServantOrdinal((byte) -1);
 			return;
@@ -110,7 +107,7 @@ public class ServantNPC extends NPC {
 			setCantInteract(true);
 			house.incrementPaymentStage();
 
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				int count = 0, totalCount = 0, index = 0;
 
@@ -214,7 +211,7 @@ public class ServantNPC extends NPC {
 		if (defs.isNoted())
 			item = defs.getCertId();
 		final int finalItem = item;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextNPCTransformation(servant.getId());
@@ -243,18 +240,9 @@ public class ServantNPC extends NPC {
 	}
 
 	public void call() {
-		int size = getSize();
-		WorldTile teleTile = null;
-		for (int dir = 0; dir < checkNearDirs[0].length; dir++) {
-			final WorldTile tile = new WorldTile(new WorldTile(owner.getX() + checkNearDirs[0][dir], owner.getY() + checkNearDirs[1][dir], owner.getPlane()));
-			if (World.floorAndWallsFree(tile, size)) {
-				teleTile = tile;
-				break;
-			}
-		}
-		if (teleTile == null)
-			return;
-		setNextWorldTile(teleTile);
+		WorldTile teleTile = owner.getNearestTeleTile(this);
+		if (teleTile != null)
+			setNextWorldTile(teleTile);
 	}
 
 	private void sendFollow() {

@@ -25,7 +25,7 @@ import com.rs.game.npc.dungeoneering.SkeletalAdventurer;
 import com.rs.game.npc.dungeoneering.YkLagorMage;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -97,7 +97,7 @@ public class ForgottenMage extends CombatScript {
 		delayHit(npc, 2, target, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), AttackStyle.MAGE, target)));
 		if (hit == -1)
 			return;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -111,7 +111,7 @@ public class ForgottenMage extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(start, 0, 50));
 		World.sendProjectile(npc, target, projectileId, 39, 18, 55, 1.2, 5, 0);
 		if (hit > 0) {
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

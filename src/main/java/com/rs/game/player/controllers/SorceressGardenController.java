@@ -31,7 +31,7 @@ import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.transportation.FadingScreen;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -131,7 +131,7 @@ public class SorceressGardenController extends Controller {
 		else
 			teleport = Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, Magic.MAGIC_TELEPORT);
 		if (teleport)
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -166,7 +166,7 @@ public class SorceressGardenController extends Controller {
 		if (object.getId() == 21764) {
 			player.lock();
 			player.setNextAnimation(new Animation(5796));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

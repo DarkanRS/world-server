@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.firemaking.Bonfire;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.content.transportation.ItemTeleports;
 import com.rs.game.player.managers.PriceChecker;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -752,7 +752,7 @@ public final class Equipment {
 		refreshEquipBonuses(player);
 		player.getInterfaceManager().sendInventoryInterface(670);
 		player.getInterfaceManager().sendInterface(667);
-		WorldTasksManager.delay(0, () -> {
+		WorldTasks.delay(0, () -> {
 			player.getPackets().sendRunScript(2319);
 		});
 		if (banking) {

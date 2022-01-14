@@ -29,7 +29,7 @@ import com.rs.game.npc.combat.impl.KalphiteQueenCombat;
 import com.rs.game.npc.dungeoneering.BulwarkBeast;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -65,7 +65,7 @@ public class BulwarkBeastCombat extends CombatScript {
 		case 0:
 			npc.setNextAnimation(new Animation(13004));
 			npc.setNextSpotAnim(new SpotAnim(2397));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

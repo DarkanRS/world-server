@@ -34,7 +34,7 @@ import com.rs.game.player.content.dialogue.statements.LegacyItemStatement;
 import com.rs.game.player.content.dialogue.statements.PlayerStatement;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -166,7 +166,7 @@ public class AgilityPyramidController extends Controller {
 	private void grabTop(GameObject object) {
 		player.setNextFaceWorldTile(player.transform(1, 0, 0));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks;
 			@Override
 			public void run() {
@@ -228,7 +228,7 @@ public class AgilityPyramidController extends Controller {
 		final boolean running = player.getRun();
 		player.setRunHidden(false);
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks;
 			@Override
 			public void run() {
@@ -264,7 +264,7 @@ public class AgilityPyramidController extends Controller {
 			player.setRunHidden(false);
 			player.lock();
 			player.addWalkSteps(player.transform(-4, 0, 0), -1, false);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean secondloop;
 				@Override
 				public void run() {
@@ -283,7 +283,7 @@ public class AgilityPyramidController extends Controller {
 			final WorldTile toTile = player.transform(4, 0, 0);
 			player.setNextAnimation(new Animation(740));
 			player.setNextForceMovement(new ForceMovement(player, 0, toTile, 4, Direction.WEST));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextAnimation(new Animation(-1));
@@ -303,7 +303,7 @@ public class AgilityPyramidController extends Controller {
 		player.setRunHidden(false);
 		player.lock();
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			boolean secondloop;
 			@Override
 			public void run() {
@@ -340,7 +340,7 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.setNextAnimation(new Animation(3067));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlock();
@@ -374,7 +374,7 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.setNextAnimation(new Animation(1560));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlock();
@@ -416,7 +416,7 @@ public class AgilityPyramidController extends Controller {
 			player.getVars().setVarBit(block.configId, 1);
 			player.setNextAnimation(new Animation(3064));
 			player.setNextForceMovement(new ForceMovement(player, 0, Utils.getDistance(player, toTile) > 50 ? player.transform(2, 0, -1) : toTile, 2, Direction.forDelta(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.unlock();
@@ -432,7 +432,7 @@ public class AgilityPyramidController extends Controller {
 		player.getVars().setVarBit(block.configId, 1);
 		player.setNextAnimation(new Animation(1115));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, WorldUtil.getFaceDirection(toTile, player)));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getVars().setVarBit(block.configId, 0);

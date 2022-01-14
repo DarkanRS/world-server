@@ -19,7 +19,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -248,7 +248,7 @@ public class BlackKnightsFortress extends QuestOutline {
 			if(e.getItem().getId() == CABBAGE) {
 				p.lock();
 				p.getInventory().removeItems(new Item(CABBAGE, 1));
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					final int WITCH_DIALOGUE1 = 10;
 					final int KNIGHT_CAPTAIN_DIALOGUE1 = 12;

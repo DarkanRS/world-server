@@ -24,7 +24,7 @@ import com.rs.game.World;
 import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
@@ -39,7 +39,7 @@ public class BloodSacrifice implements NexAttack {
 		final Player player = (Player) target;
 		player.getAppearance().setGlowRed(true);
 		player.sendMessage("Nex has marked you as a sacrifice, RUN!");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getAppearance().setGlowRed(false);

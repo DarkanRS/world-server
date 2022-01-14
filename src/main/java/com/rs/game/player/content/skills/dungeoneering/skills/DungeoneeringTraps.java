@@ -21,7 +21,7 @@ import com.rs.game.npc.dungeoneering.MastyxTrap;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -48,7 +48,7 @@ public class DungeoneeringTraps {
 		}
 		player.lock(2);
 		player.setNextAnimation(new Animation(827));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

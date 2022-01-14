@@ -31,7 +31,7 @@ import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -101,7 +101,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		player.lock();
 		player.setNextFaceWorldTile(pos);
 		DwarfMultiCannon cannon = new DwarfMultiCannon(player, pos, type);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int stage = 0;
 
 			@Override
