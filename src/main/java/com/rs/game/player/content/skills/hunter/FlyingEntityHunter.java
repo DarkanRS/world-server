@@ -230,12 +230,10 @@ public class FlyingEntityHunter {
 			Item[] loot = DropTable.calculateDrops(player, DropSets.getDropSet(instance.getNpcId()));
 			player.getInventory().getItem(slot).setId(isImpling ? 11260 : 11);
 			player.getInventory().refresh(slot);
-			if (loot.length > 0) {
-				for (Item item : loot) {
+			if (loot.length > 0)
+				for (Item item : loot)
 					if (item != null)
-						player.getInventory().addItem(item.getId(), item.getAmount()*5, true);
-				}
-			}
+						player.getInventory().addItem(item.getId(), item.getAmount(), true);
 		}
 		if (instance != null)
 			instance.effect(player);
@@ -254,7 +252,7 @@ public class FlyingEntityHunter {
 		 * Utils.random(hunterlevel + increasedProbability) + 1;
 		 *
 		 * int chance = level * 100 / (dataLevel * 2);
-		 * 
+		 *
 		 * if (Utils.random(100) > chance) return false;
 		 */
 

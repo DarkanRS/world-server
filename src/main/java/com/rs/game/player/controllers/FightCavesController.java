@@ -219,9 +219,6 @@ public class FightCavesController extends Controller {
 
 	public void nextWave() {
 		playMusic();
-        if(getCurrentWave() == 2)
-            setCurrentWave(60);
-        else
 		    setCurrentWave(getCurrentWave() + 1);
 		if (logoutAtEnd) {
 			player.forceLogout();

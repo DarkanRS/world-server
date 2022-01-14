@@ -128,7 +128,7 @@ public class Runecrafting {
 
 	public static void craftZMIAltar(Player player) {
 		int level = player.getSkills().getLevel(Constants.RUNECRAFTING);
-		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS)*10;
+		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
 		int length = 0;
 		for (int i = 0; i < RCRune.values().length; i++) {
 			if (RCRune.values()[i].req > level)
@@ -233,7 +233,7 @@ public class Runecrafting {
 			player.lock(5);
 			player.sendMessage("You bind the temple's power into " + ItemDefinitions.getDefs(rune.runeId).getName().toLowerCase() + "s.");
 		}
-		player.getInventory().addItem(rune.runeId, runes*10);
+		player.getInventory().addItem(rune.runeId, runes);
 		player.incrementCount(ItemDefinitions.getDefs(rune.runeId).getName()+" runecrafted", runes);
 	}
 

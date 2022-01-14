@@ -260,9 +260,6 @@ public class TreasureTrailsManager {
 	}
 	public boolean useItem(Item item, int slot) {
 		int level = getScrollboxLevel(item.getId());
-        player.getInventory().deleteItem(item.getId(), 1);
-        openReward(level);
-        return true;/*
 		if (level != -1) {
 			if (hasClueScrollItem()) {
 				player.sendMessage("You should finish the clue you already have first.");
@@ -310,7 +307,7 @@ public class TreasureTrailsManager {
 			}
 			return true;
 		}
-		return false;*/
+		return false;
 	}
 
 	private boolean hasCurrentClue() {

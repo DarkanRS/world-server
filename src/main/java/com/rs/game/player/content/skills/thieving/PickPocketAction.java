@@ -110,7 +110,7 @@ public class PickPocketAction extends Action {
 			for (int i = 0; i <= index; i++) {
 				Item[] items = DropTable.calculateDrops(player, npcData.getLoot());
 				for (Item item : items)
-					player.getInventory().addItem(item.getId(), item.getAmount()*10);
+					player.getInventory().addItem(item.getId(), item.getAmount());
 			}
 			stop(player);
 		}

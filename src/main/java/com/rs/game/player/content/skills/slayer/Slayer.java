@@ -112,7 +112,7 @@ public class Slayer {
 					openAssignmentInterface(e.getPlayer());
 				if (e.getComponentId() == 32 || e.getComponentId() == 24)
 					if (e.getPlayer().slayerPoints >= 400) {
-//						e.getPlayer().getSkills().addXp(Constants.SLAYER, 10000);
+						e.getPlayer().getSkills().addXp(Constants.SLAYER, 10000);
 						e.getPlayer().slayerPoints -= 400;
 						refreshPoints(e.getPlayer(), e.getInterfaceId());
 					} else

@@ -38,7 +38,7 @@ public class HarAken extends NPC {
 	public void resetTimer() {
 		underLava = !underLava;
 		if (time == 0)
-			spawnTentacleTime = System.currentTimeMillis() + 120000;
+			spawnTentacleTime = System.currentTimeMillis() + 9000;
 		time = System.currentTimeMillis() + (underLava ? 43000 : 31000);
 	}
 

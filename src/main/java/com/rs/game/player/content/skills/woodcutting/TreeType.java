@@ -85,6 +85,6 @@ public enum TreeType {
 	}
 
 	public boolean rollSuccess(Player player, int level, Hatchet hatchet) {
-		return Utils.skillSuccess((int) (level * player.getAuraManager().getWoodcuttingMul()), hatchet.getToolMod(), rate1, rate99*10);
+		return Utils.skillSuccess((int) (level * player.getAuraManager().getWoodcuttingMul()), hatchet.getToolMod(), rate1, rate99);
 	}
 }

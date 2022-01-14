@@ -991,17 +991,8 @@ public class Player extends Entity {
 		timePlayed = getTimePlayed() + 1;
 		timeLoggedOut = System.currentTimeMillis();
 		if (!isDead()) {
-			if (getTickCounter() % 30 == 0) {
+			if (getTickCounter() % 50 == 0)
                 getCombatDefinitions().restoreSpecialAttack();
-                addEffect(Effect.PRAYER_RENEWAL, 500);
-                loyaltyPoints+=50;
-
-
-            }
-
-            if (getTickCounter() % 300 == 0) {
-                sendMessage("You have " + loyaltyPoints + " loyalty points!");
-            }
 
 			//Restore skilling stats
 			if (getTickCounter() % 100 == 0) {
@@ -1012,7 +1003,7 @@ public class Player extends Entity {
 			//Restore combat stats
 			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
 				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount*2));
+				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
 			}
 		}
 		if (getNextRunDirection() == null) {
@@ -1092,7 +1083,7 @@ public class Player extends Entity {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-//					musicsManager.nextAmbientSong();
+					musicsManager.nextAmbientSong();
 					getTempAttribs().setB("MUSIC_BREAK", false);
 				}
 			}, Utils.randomInclusive(10, 30));

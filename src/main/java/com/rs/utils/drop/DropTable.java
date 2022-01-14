@@ -109,8 +109,7 @@ public class DropTable {
 	}
 
 	public double getRate() {
-        double rate = (outOf == 0.0 ? 0.0 : chance / outOf);
-		return rate;
+		return outOf == 0.0 ? 0.0 : chance / outOf;
 	}
 
 	public void setChance(int num, int den) {

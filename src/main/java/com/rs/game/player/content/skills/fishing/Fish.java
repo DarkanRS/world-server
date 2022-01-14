@@ -147,11 +147,11 @@ public enum Fish {
 	}
 
 	public boolean rollSuccess(Player player, int level) {
-		return Utils.skillSuccess(level, player.getAuraManager().getFishingMul(), rate1, rate99*10);
+		return Utils.skillSuccess(level, player.getAuraManager().getFishingMul(), rate1, rate99);
 	}
 
 	public void giveFish(Player player, FishingSpot spot) {
-		Item fish = new Item(id, 10);
+		Item fish = new Item(id);
 		int baitToDelete = -1;
 		if (spot.getBait() != null)
 			for (int bait : spot.getBait())

@@ -41,7 +41,7 @@ public class Herblore extends Action {
 
 	public Herblore(CraftablePotion potion, int amount) {
 		this.potion = potion;
-		this.ticks = amount;
+		ticks = amount;
 	}
 
 	@Override
@@ -68,17 +68,14 @@ public class Herblore extends Action {
 	public int processWithDelay(Player player) {
 		player.setNextAnimation(new Animation(363));
 		ticks--;
-        int saveItem = Utils.random(0, 10);
-        if(saveItem == 5)
 		    player.getInventory().deleteItem(potion.getPrimary());
-		List<Item> secondaries = new LinkedList<Item>(Arrays.asList(potion.getSecondaries()));
+		List<Item> secondaries = new LinkedList<>(Arrays.asList(potion.getSecondaries()));
 		boolean cleansingProc = player.hasScrollOfCleansing && Utils.random(10) == 0;
 		if (cleansingProc)
 			player.sendMessage("Your scroll of cleansing saves " + Utils.addArticle(secondaries.remove(Utils.random(secondaries.size())).getName().toLowerCase()) + ".");
 		if (secondaries.size() > 0)
-            if(saveItem == 6)
 			    player.getInventory().removeItems(secondaries);
-		player.getInventory().addItemDrop(potion.getProduct());
+		player.getInventory().addItemDrop(potion.getProduct().clone());
 		player.incrementCount(potion.getProduct().getName() + " mixed");
 		String potName = potion.getProduct().getName().toLowerCase();
 		player.sendMessage("You mix " + Utils.addArticle(potName) + ".", true);

@@ -291,7 +291,7 @@ public class Woodcutting extends Action {
 			if (random < 11)
 				player.addEffect(Effect.JUJU_WC_BANK, 75);
 		}
-		if (Utils.random(25) == 0) {
+		if (Utils.random(256) == 0) {
 			for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
 				World.addGroundItem(rew, new WorldTile(player), player, true, 30);
 			player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
@@ -307,18 +307,13 @@ public class Woodcutting extends Action {
 				if (player.getFamiliar() != null)
 					for (int item : type.getLogsId())
 						player.getInventory().addItemDrop(item, 1);
-				}
-			} else {
-				if (player.hasEffect(Effect.JUJU_WC_BANK)) {
+			} else if (player.hasEffect(Effect.JUJU_WC_BANK)) {
 					for (int item : type.getLogsId())
 						player.getBank().addItem(new Item(item, 1), true);
 					player.setNextSpotAnim(new SpotAnim(2897));
-				} else {
-					for (int item : type.getLogsId()) {
-						player.getInventory().addItemDrop(item, 6);
-					}
-				}
-			}
+			} else
+				for (int item : type.getLogsId())
+					player.getInventory().addItemDrop(item, 1);
 			if (type == TreeType.FRUIT_TREE)
 				return;
 			if (type == TreeType.IVY)
@@ -336,6 +331,7 @@ public class Woodcutting extends Action {
 			}
     }
 
+	}
 
 	public boolean checkTree() {
 		return World.getRegion(treeObj.getRegionId()).objectExists(treeObj);

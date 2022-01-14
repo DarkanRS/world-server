@@ -311,18 +311,17 @@ public class Fletching extends Action {
 		if (fletch.getProduct()[option] == 21581)
 			amount = 10;
 		
-		if (player.getInventory().containsItem(fletch.getId(), amount) || (fletch.getProduct()[option] == 52) || (fletch.getProduct()[option] == 21581)) {
+		if (!player.getInventory().containsItem(fletch.getId(), amount) && (fletch.getProduct()[option] != 52) && (fletch.getProduct()[option] != 21581)) {
+			player.sendMessage("You don't have enough of the supplies to make that many.");
+			return -1;
+		}
 			player.setNextAnimation(fletch.getAnim());
 			player.getInventory().deleteItem(fletch.getId(), fletch.getProduct()[option] == 52 || fletch.getProduct()[option] == 21581  ? 1 : amount);
 			if (fletch.getSelected() != KNIFE && fletch.getSelected() != CHISLE)
 				player.getInventory().deleteItem(fletch.getSelected(), amount);
-			player.getInventory().addItem(fletch.getProduct()[option], amount*10);
+		player.getInventory().addItem(fletch.getProduct()[option], amount);
 			player.sendMessage("You create a " + new Item(fletch.getProduct()[option]).getDefinitions().getName().toLowerCase().replace(" (u)", "") + ".", true);
 			player.getSkills().addXp(Constants.FLETCHING, fletch.getXp()[option] * amount);
-		} else {
-			player.sendMessage("You don't have enough of the supplies to make that many.");
-			return -1;
-		}
 		if (fletch.getSelected() == KNIFE)
 			return 2;
 		if (amount > 5)

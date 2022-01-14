@@ -849,7 +849,7 @@ public class MiscTest {
 			p.getCombatDefinitions().resetSpecialAttack();
 		});
 		
-		Commands.add(Rights.PLAYER, "bank", "Opens the bank.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "bank", "Opens the bank.", (p, args) -> {
 			p.getBank().open();
 		});
 

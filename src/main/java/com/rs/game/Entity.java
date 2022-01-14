@@ -693,10 +693,8 @@ public abstract class Entity extends WorldTile {
 		}
 		if (tile instanceof Stomp stomp)
 			return stomp.getManager().isAtBossRoom(this);
-		if (melee && !(tile instanceof Entity e ? e.ignoreWallsWhenMeleeing() : false)) {
-            boolean f = World.checkMeleeStep(this, tile) && World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
-            return f;
-        }
+		if (melee && !(tile instanceof Entity e ? e.ignoreWallsWhenMeleeing() : false))
+			return World.checkMeleeStep(this, tile) && World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
 		return World.hasLineOfSight(getMiddleWorldTile(), tile instanceof Entity e ? e.getMiddleWorldTile() : tile);
 	}
 

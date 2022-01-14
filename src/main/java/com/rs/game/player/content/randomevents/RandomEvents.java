@@ -49,11 +49,11 @@ public class RandomEvents {
 			return;
 		player.getNSV().setL("lastRandom", World.getServerTicks());
 
-//        int random = Utils.random(0, 100);
-//		if(random < 90)//90% chance
-//            new SandwichLady(player);
-//        else
-//            new Genie(player);
+		int random = Utils.random(0, 100);
+		if(random < 90)//90% chance
+			new SandwichLady(player);
+		else
+			new Genie(player);
 		//TODO add more than this rofl.
 	}
 

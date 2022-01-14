@@ -369,7 +369,7 @@ public class PrayerManager {
 	}
 
 	public void processPrayer() {
-		if (player.isDead())
+		if (player.isDead() || !player.isRunning() || active.isEmpty())
 			return;
 		double drain = 0;
 		for (Prayer p : active)
@@ -706,16 +706,15 @@ public class PrayerManager {
 	}
 
 	public boolean hasFullPoints() {
-		return getPoints() >= player.getSkills().getLevelForXp(Constants.PRAYER) * 10 + player.getI(Skills.SKILL_NAME[Constants.PRAYER]);
+		return getPoints() >= player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 	}
 
 	public void drainPrayer(double amount) {
 		if (player.getNSV().getB("infPrayer"))
 			return;
-		this.points -= amount;
-		if (points <= 0) {
-			this.points = 0;
-		}
+		points -= amount;
+		if (points <= 0)
+			points = 0;
 		refreshPoints();
 	}
 
@@ -727,7 +726,7 @@ public class PrayerManager {
 	}
 
 	public void restorePrayer(double amount) {
-		int maxPrayer = player.getSkills().getLevelForXp(Constants.PRAYER) * 10  + player.getI(Skills.SKILL_NAME[Constants.PRAYER]);
+		int maxPrayer = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 		amount *= player.getAuraManager().getPrayerResMul();
 		if ((points + amount) <= maxPrayer)
 			points += amount;

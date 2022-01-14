@@ -76,7 +76,7 @@ public class FarmPatch {
 	public FarmPatch(PatchLocation location) {
 		this.location = location;
 		empty();
-		this.weeds = 3;
+		weeds = 3;
 	}
 	
 	private void handleClick(Player player, GameObject object, String option, ClientPacket opNum) {
@@ -374,18 +374,17 @@ public class FarmPatch {
 			if (weeds >= 3) {
 				seed = null;
 				return;
-			} else if (seed == null) {
+			}
+			if (seed == null) {
 				weeds++;
 				return;
 			}
-		} else {
-			if (seed == null)
+		} else if (seed == null)
 				return;
-		}
 		if (dead)
 			return;
 		totalGrowthTicks++;
-		if (fullyGrown()) {
+		if (fullyGrown())
 			switch(seed.type) {
 			case BUSH:
 			case CACTUS:
@@ -402,15 +401,12 @@ public class FarmPatch {
 				if (seed == ProduceType.Willow) {
 					if (checkedHealth && lives < 6)
 						lives++;
-				} else {
-					if (checkedHealth && lives < 0)
+				} else if (checkedHealth && lives < 0)
 						lives++;
-				}
 				break;
 			default:
 				break;
 			}
-		}
 		if (totalGrowthTicks % seed.type.getGrowthTicksPerStage() == 0) {
 			if (fullyGrown())
 				return;
@@ -429,10 +425,10 @@ public class FarmPatch {
 					diseased = true;
 					return;
 				}
-			}
 			watered = false;
     }
 
+	}
 
 	public boolean isDiseaseProtected(Player player) {
 		if (seed == null|| watered || diseaseProtected || fullyGrown())

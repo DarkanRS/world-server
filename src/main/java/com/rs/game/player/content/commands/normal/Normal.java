@@ -42,42 +42,6 @@ public class Normal {
 	@ServerStartupEvent
 	public static void loadCommands() {
 
-        Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
-            p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
-            p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInScene(p.getSceneBaseChunkId())+","+p.getYInScene(p.getSceneBaseChunkId()));
-        });
-
-        Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
-            p.getPackets().sendDevConsoleMessage("Searching for items containing: " + Arrays.toString(args));
-            for (int i = 0; i < Utils.getItemDefinitionsSize(); i++) {
-                boolean contains = true;
-                for (int idx = 0; idx < args.length; idx++) {
-                    if (!ItemDefinitions.getDefs(i).getName().toLowerCase().contains(args[idx].toLowerCase()) || ItemDefinitions.getDefs(i).isLended()) {
-                        contains = false;
-                        continue;
-                    }
-                }
-                if (contains)
-                    p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
-            }
-        });
-
-
-        Commands.add(Rights.PLAYER, "pestp", "Gives pest control points", (p, args) -> {
-            p.setPestPoints(p.getPestPoints() + 200);
-            p.sendMessage("Pestp points");
-        });
-
-        Commands.add(Rights.PLAYER, "tileflag", "Get the tile flags for the tile you're standing on.", (p, args) -> {
-            p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
-        });
-
-
-
-        Commands.add(Rights.PLAYER, "onlinep", "diaplays all players", (p, args) -> {
-            for(Player player : World.getPlayers())
-                p.sendMessage("On World" + player.getUsername());
-        });
 
 		Commands.add(Rights.PLAYER, "commandlist,commands", "Displays all the commands the player has permission to use.", (p, args) -> {
 			p.getPackets().setIFText(275, 1, "Commands List");
@@ -96,15 +60,6 @@ public class Normal {
 			p.getInterfaceManager().sendInterface(275);
 		});
 
-        Commands.add(Rights.PLAYER, "resett", "Displays all the commands the player has permission to use.", (p, args) -> {
-            p.getSlayer().removeTask();
-            p.updateSlayerTask();
-        });
-
-        Commands.add(Rights.PLAYER, "tokenator", "Gives the specified player dungeoneering tokens.", (p, args) -> {
-                p.getDungManager().addTokens(200000);
-                p.sendMessage("Successfully gave tokens..");
-        });
 
 		Commands.add(Rights.PLAYER, "drops [npcId numberKilled]", "Emulates a number of NPC kills and displays the collected loot.", (p, args) -> {
 			int npcId = Integer.valueOf(args[0]);
@@ -118,16 +73,13 @@ public class Normal {
 			NPC.displayDropsFor(p, npcId, npcAmount);
 		});
 
-        Commands.add(Rights.PLAYER, "addslayer", "More points", (p, args) -> {
-            p.addSlayerPoints(300);
-        });
 
 
 
 //		Commands.add(Rights.PLAYER, "cluesim [difficulty]", "Emulates opening a clue of specific difficulty", (p, args) -> {
 //			Item[] rewards = null;
 //			switch (args[0].toLowerCase()) {
-//				case "easy":				
+		//				case "easy":
 //					rewards = TreasureTrailsManager.generateRewards(p, 0);
 //					break;
 //				case "medium":
@@ -205,6 +157,12 @@ public class Normal {
 			p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
 		});
 
+		Commands.add(Rights.PLAYER, "owner", "Gives you owner rank if you're Trent :)", (p, args) -> {
+			if (Settings.isOwner(p.getUsername())) {
+				p.setRights(Rights.OWNER);
+				p.getAppearance().generateAppearanceData();
+			}
+		});
         Commands.add(Rights.PLAYER, "title", "Sets your title to display your XP rate.", (p, args) -> {
 			Dialogue switchTitle = new Dialogue();
 			switchTitle.addOption("Would you like to change your title to display your XP rate and mode?", "Yes.", "No.");

@@ -197,7 +197,6 @@ public final class Equipment {
 			int maxhp = player.getSkills().getLevel(Constants.HITPOINTS) * 10;
 			hpIncrease += (maxhp * Bonfire.getBonfireBoostMultiplier(player)) - maxhp;
 		}
-        hpIncrease +=player.getI(Skills.SKILL_NAME[Constants.HITPOINTS])*10;
 		if (player.getHpBoostMultiplier() != 0) {
 			int maxhp = player.getSkills().getLevel(Constants.HITPOINTS) * 10;
 			hpIncrease += maxhp * player.getHpBoostMultiplier();
