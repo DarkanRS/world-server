@@ -8,6 +8,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -15,6 +16,8 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
+
+import java.util.List;
 
 @PluginEventHandler
 public class PyramidPlunderHandler {//All objects within the minigame
@@ -34,21 +37,54 @@ public class PyramidPlunderHandler {//All objects within the minigame
             Player p = e.getPlayer();
             GameObject obj = e.getObject();
             if(isIn21Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 21) {
+                    p.sendMessage("You need a thieving level of 21 or higher...");
+                    return;
+                }
             else if(isIn31Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 31) {
+                    p.sendMessage("You need a thieving level of 31 or higher...");
+                    return;
+                }
             else if(isIn41Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 41) {
+                    p.sendMessage("You need a thieving level of 41 or higher...");
+                    return;
+                }
             else if(isIn51Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 51) {
+                    p.sendMessage("You need a thieving level of 51 or higher...");
+                    return;
+                }
             else if(isIn61Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 61) {
+                    p.sendMessage("You need a thieving level of 61 or higher...");
+                    return;
+                }
             else if(isIn71Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 71) {
+                    p.sendMessage("You need a thieving level of 71 or higher...");
+                    return;
+                }
             else if(isIn81Room(obj))
-                ;
+                if(p.getSkills().getLevel(Constants.THIEVING) < 81) {
+                    p.sendMessage("You need a thieving level of 81 or higher...");
+                    return;
+                }
+            passTrap(e);
         }
     };
+
+    private static void passTrap(ObjectClickEvent e) {
+        WorldTile tile = e.getObject();
+        WorldTile north = new WorldTile(tile.getX(), tile.getY()+1, tile.getPlane());
+        WorldTile east = new WorldTile(tile.getX()+1, tile.getY(), tile.getPlane());
+        WorldTile south = new WorldTile(tile.getX(), tile.getY()-1, tile.getPlane());
+        WorldTile west = new WorldTile(tile.getX()-1, tile.getY(), tile.getPlane());
+        for(GameObject obj : World.getSurroundingObjects(e.getObject(), 1))
+            e.getPlayer().sendMessage(obj + "");
+
+    }
 
     private static boolean isIn21Room(WorldTile tile) {
         return tile.withinDistance(new WorldTile(1928, 4470, 0));
