@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import com.google.common.net.PercentEscaper;
 import com.google.gson.JsonIOException;
 import com.rs.lib.Globals;
 import com.rs.lib.file.JsonFileManager;
@@ -215,7 +216,7 @@ public final class Settings {
 	public String getMongoDb() {
 		String db = "mongodb://";
 		if (mongoUser != null && !mongoUser.isEmpty())
-			db += mongoUser + ":" + mongoPass + "@";
+			db += mongoUser + ":" + new PercentEscaper("", false).escape(mongoPass) + "@";
 		db += mongoUrl;
 		if (mongoPort > 0)
 			db += ":" + mongoPort;
