@@ -29,6 +29,8 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.StandardEntityInteraction;
+import com.rs.game.player.actions.interactions.StandardObjectInteraction;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -108,7 +110,9 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.ObjectInteractionDistanceEvent;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
@@ -124,7 +128,13 @@ public final class ObjectHandler {
 		if (!objectDef.containsOption(0) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, false)))
 			return;
 
-		player.setRouteEvent(new RouteEvent(object, () -> {
+        Object dist = PluginManager.getObj(new ObjectInteractionDistanceEvent(player, object));
+        int distance = 0;
+        if (dist != null)
+            distance = (int) dist;
+
+
+        player.getInteractionManager().setInteraction(new StandardObjectInteraction(object, distance, () -> {
 			player.stopAll();
 			player.faceObject(object);
 
@@ -1873,7 +1883,7 @@ public final class ObjectHandler {
 			else if (id == 67053)
 				player.useStairs(-1, new WorldTile(3120, 3519, 0), 0, 1);
 			else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true)))
-				return;
+                return;
 			else
 				switch (objectDef.getName().toLowerCase()) {
 				case "obelisk":
