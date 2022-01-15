@@ -81,6 +81,7 @@ fabric.properties
 # modules.xml
 
 serverConfig.json
+worldConfig.json
 /dumps/
 /bin/
 /logs/

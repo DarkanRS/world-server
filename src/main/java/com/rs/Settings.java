@@ -114,9 +114,9 @@ public final class Settings {
 
 	public static void loadConfig() {
 		try {
-			File configFile = new File("./serverConfig.json");
+			File configFile = new File("./worldConfig.json");
 			if (configFile.exists())
-				SETTINGS = JsonFileManager.loadJsonFile(new File("./serverConfig.json"), Settings.class);
+				SETTINGS = JsonFileManager.loadJsonFile(new File("./worldConfig.json"), Settings.class);
 			else
 				SETTINGS = new Settings();
 			for (Field f : SETTINGS.getClass().getDeclaredFields())
