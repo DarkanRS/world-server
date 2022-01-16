@@ -397,6 +397,17 @@ public final class MusicsManager {
 		}
 	}
 
+    public void unlockMusic(int musicId) {
+        Song song = Music.getSong(musicId);
+        if (song != null) {
+            if (!unlockedMusics.contains(musicId)) {
+                addMusic(musicId);
+                if (song.getName() != null)
+                    player.sendMessage("<col=ff0000>You have unlocked a new music track: " + song.getName() + ".");
+            }
+        }
+    }
+
 	public boolean isUnlocked(int musicId) {
 		Song song = Music.getSong(musicId);
 		if (song != null)

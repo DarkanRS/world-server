@@ -63,7 +63,7 @@ public abstract class ObjectInteraction extends Interaction {
 	}
 
 	public boolean isWithinDistance(Player player, GameObject target) {
-		if (!player.lineOfSightTo(target, distance == 0) || !WorldUtil.isInRange(player, target, distance) || WorldUtil.collides(player, target)) {
+		if (!WorldUtil.isInRange(player, target, distance)) {
             return false;
         }
 		return true;

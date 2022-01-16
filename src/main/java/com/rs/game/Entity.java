@@ -658,16 +658,6 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public boolean lineOfSightTo(WorldTile tile, boolean melee) {
-        if(tile instanceof GameObject obj) {//Special cases where line of sight is not important
-            switch(obj.getId()) {
-                case 16517://Spear traps
-                case 16539://pyramid tomb doors
-                case 16540:
-                case 16541:
-                case 16542:
-                    return true;
-            }
-        }
 		if (tile instanceof NPC npc) {//special case.
 			switch(npc.getId()) {
 			case 2440:

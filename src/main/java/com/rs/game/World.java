@@ -303,11 +303,19 @@ public final class World {
 					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
 				Region region = getRegion(regionId);
 				region.addPlayerIndex(entity.getIndex());
-				int musicId = region.getMusicId();
-				if (musicId != -1)//if should play random song on enter region
-					if(Music.getGenre(regionId) == null || player.getMusicsManager().getPlayingGenre() == null
-					|| !player.getMusicsManager().isUnlocked(musicId) || !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))
-						player.getMusicsManager().checkMusic(musicId);
+
+                //Unlock all region music at once.
+				int[] musicIds = region.getMusicIds();
+                if (musicIds != null && musicIds.length > 0)
+                    for (int musicId : musicIds)
+                        if (!player.getMusicsManager().hasMusic(musicId))
+                            player.getMusicsManager().unlockMusic(musicId);
+
+                //if should play random song on enter region
+                if(Music.getGenre(regionId) == null || player.getMusicsManager().getPlayingGenre() == null
+                        || !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))
+                    player.getMusicsManager().nextAmbientSong();
+
 				player.getControllerManager().moved();
 				if (player.hasStarted())
 					checkControllersAtMove(player);
