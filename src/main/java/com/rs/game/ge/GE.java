@@ -63,6 +63,10 @@ public class GE {
 	public static ButtonClickHandler mainInterface = new ButtonClickHandler(105) {
 		@Override
 		public void handle(ButtonClickEvent e) {;
+		if (e.getPlayer().isIronMan()) {
+			e.getPlayer().sendMessage("Ironmen stand alone.");
+			return;
+		}
 		if (e.getPlayer().getTempAttribs().getB("geLocked"))
 			return;
 		switch(e.getComponentId()) {
@@ -126,6 +130,10 @@ public class GE {
 	public static ButtonClickHandler sellInv = new ButtonClickHandler(SPECIAL_DEPOSIT_INV) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			if (e.getPlayer().isIronMan()) {
+				e.getPlayer().sendMessage("Ironmen stand alone.");
+				return;
+			}
 			if (e.getPlayer().getTempAttribs().getB("geLocked"))
 				return;
 			if (e.getComponentId() == 18) {
@@ -142,6 +150,10 @@ public class GE {
 	public static ButtonClickHandler collBox = new ButtonClickHandler(COLLECTION_BOX) {
 		@Override
 		public void handle(ButtonClickEvent e) {
+			if (e.getPlayer().isIronMan()) {
+				e.getPlayer().sendMessage("Ironmen stand alone.");
+				return;
+			}
 			if (e.getPlayer().getTempAttribs().getB("geLocked"))
 				return;
 			switch(e.getComponentId()) {
