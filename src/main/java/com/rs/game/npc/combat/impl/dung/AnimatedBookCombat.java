@@ -39,17 +39,12 @@ public class AnimatedBookCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, Entity target) {
 		boolean meleeAttack = Utils.random(2) == 0;
-		if (!meleeAttack) {
+		if (!meleeAttack || !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 			magicAttack(npc, target);
 			return npc.getAttackSpeed();
 		}
-		if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
-			magicAttack(npc, target);
-			return npc.getAttackSpeed();
-		} else {
-			meleeAttack(npc, target);
-			return npc.getAttackSpeed();
-		}
+		meleeAttack(npc, target);
+		return npc.getAttackSpeed();
 	}
 
 	private void meleeAttack(NPC npc, Entity target) {

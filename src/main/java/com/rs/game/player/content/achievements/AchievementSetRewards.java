@@ -93,14 +93,11 @@ public class AchievementSetRewards {
 				Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, new WorldTile(3053, 3291, 0), 4, true, Magic.MAGIC_TELEPORT);
 				break;
 			case "Run-replenish":
-				if (e.getItem().getId() == 13560 && e.getPlayer().getDailyI("eRingRunRep") >= 1) {
+				if ((e.getItem().getId() == 13560 && e.getPlayer().getDailyI("eRingRunRep") >= 1) || (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2)) {
 					e.getPlayer().sendMessage("You've already used up your run replenishes today.");
 					return;
 				}
-				if (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2) {
-					e.getPlayer().sendMessage("You've already used up your run replenishes today.");
-					return;
-				} else if (e.getPlayer().getDailyI("eRingRunRep") >= 3) {
+				if (e.getPlayer().getDailyI("eRingRunRep") >= 3) {
 					e.getPlayer().sendMessage("You've already used up your run replenishes today.");
 					return;
 				}

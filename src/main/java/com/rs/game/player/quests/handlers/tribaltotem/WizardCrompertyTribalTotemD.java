@@ -86,8 +86,8 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 													public void run() {
 														if(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM) >= GET_TOTEM)
 															p.setNextWorldTile(new WorldTile(2642, 3321, 0)); //Mansion in ardy
-															else
-																p.setNextWorldTile(new WorldTile(2649, 3271, 0)); //RPDT crates in ardy
+														else
+															p.setNextWorldTile(new WorldTile(2649, 3271, 0)); //RPDT crates in ardy
 													}
 												}, 2);
 											}));

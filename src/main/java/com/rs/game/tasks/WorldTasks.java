@@ -61,7 +61,7 @@ public class WorldTasks {
 			return;
 		TASKS.add(new WorldTaskInformation(task, 0, -1));
 	}
-	
+
 	public static void schedule(int startDelay, int loopDelay, Runnable task) {
 		if (task == null || startDelay < 0 || loopDelay < 0)
 			return;
@@ -79,19 +79,19 @@ public class WorldTasks {
 			return;
 		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), 0, -1));
 	}
-	
+
 	public static void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
 		if (task == null || startDelay < 0 || loopDelay < 0)
 			return;
 		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
 	}
-	
+
 	public static void scheduleTimer(Function<Integer, Boolean> task) {
 		if (task == null)
 			return;
 		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 1));
 	}
-	
+
 	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
 		if (task == null || startDelay < 0)
 			return;

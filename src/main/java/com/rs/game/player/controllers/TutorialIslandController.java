@@ -1035,7 +1035,8 @@ public final class TutorialIslandController extends Controller {
 		if (npc.getId() == RUNESCAPE_GUIDE && pastStage(Stage.TALK_TO_GUIDE)) {
 			player.startConversation(new RuneScapeGuide(player, npc, this));
 			return false;
-		} else if (npc.getId() == SURVIVAL_EXPERT && pastStage(Stage.TALK_TO_SURVIVAL_EXPERT)) {
+		}
+		if (npc.getId() == SURVIVAL_EXPERT && pastStage(Stage.TALK_TO_SURVIVAL_EXPERT)) {
 			player.startConversation(new SurvivalExpert(player, npc, this));
 			return false;
 		} else if (npc.getId() == FISHING_SPOT && pastStage(Stage.CATCH_SHRIMP)) {
@@ -1118,13 +1119,12 @@ public final class TutorialIslandController extends Controller {
 			player.handleOneWayDoor(object, 0, 1);
 			nextStage(Stage.TALK_TO_COMBAT_INSTRUCTOR);
 		} else if (object.getId() == 3022 || object.getId() == 3023 && pastStage(Stage.ENTER_RAT_CAGE)) {
-			if (getStage() != Stage.KILL_RAT_RANGE) {
-				player.handleOneWayDoor(object, 0, 1);
-				nextStage(Stage.ATTACK_RAT_MELEE);
-			} else {
+			if (getStage() == Stage.KILL_RAT_RANGE) {
 				player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(COMBAT_INSTRUCTOR, HeadE.FRUSTRATED, "No, don't enter the pit. Range the rats from outside", "the cage."))));
 				return false;
 			}
+			player.handleOneWayDoor(object, 0, 1);
+			nextStage(Stage.ATTACK_RAT_MELEE);
 		} else if (object.getId() == 3030 && pastStage(Stage.LEAVE_COMBAT_AREA)) {
 			nextStage(Stage.OPEN_BANK);
 			player.useLadder(player.transform(0, -6400, 0));

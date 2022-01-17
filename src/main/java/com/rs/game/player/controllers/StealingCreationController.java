@@ -193,7 +193,8 @@ public class StealingCreationController extends Controller {
 				//			} else if (!target.isAcceptingAid()) {
 				//				player.sendMessage("That player currently does not want your aid.");
 				//				return false;
-			} else if (target.getInventory().addItem(item)) {
+			}
+			if (target.getInventory().addItem(item)) {
 				player.getInventory().deleteItem(item);
 				target.sendMessage(Utils.formatPlayerNameForDisplay(player.getDisplayName()) + " has given you an item.");
 				return false;
@@ -268,11 +269,9 @@ public class StealingCreationController extends Controller {
 	@Override
 	public boolean canPlayerOption3(final Player target) {
 		final int thievingLevel = player.getSkills().getLevel(Constants.THIEVING);
-		if (player.getTempAttribs().getL("PICKPOCK_DELAY") + 1500 > System.currentTimeMillis())
+		if ((player.getTempAttribs().getL("PICKPOCK_DELAY") + 1500 > System.currentTimeMillis()) || Helper.withinSafeArea(target, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam()))
 			return false;
-		if (Helper.withinSafeArea(target, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam()))
-			return false;
-		else if (player.getAttackedBy() != null && player.inCombat()) {
+		if (player.getAttackedBy() != null && player.inCombat()) {
 			player.sendMessage("You can't do this while you're under combat.");
 			return false;
 		} else if (target.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
@@ -398,7 +397,8 @@ public class StealingCreationController extends Controller {
 				if (itemName.contains("food (class")) {
 					doFoodEffect(item, Integer.parseInt(item.getName().substring(item.getName().indexOf("(class")).replace("(class ", "").replace(")", "")));
 					return false;
-				} else if (itemName.contains("potion (") || itemName.contains("super")) {
+				}
+				if (itemName.contains("potion (") || itemName.contains("super")) {
 					boolean superPotion = itemName.contains("super");
 					int index = 0;
 					for (String name : Constants.SKILL_NAME) {
@@ -480,7 +480,8 @@ public class StealingCreationController extends Controller {
 				game.sendItemToBase(player, item, getTeam(), false, true);
 			}
 			return false;
-		} else if ((!getTeam() && (object.getId() == Helper.BLUE_DOOR_1 || object.getId() == Helper.BLUE_DOOR_2)) || (getTeam() && (object.getId() == Helper.RED_DOOR_1 || object.getId() == Helper.RED_DOOR_2))) {
+		}
+		if ((!getTeam() && (object.getId() == Helper.BLUE_DOOR_1 || object.getId() == Helper.BLUE_DOOR_2)) || (getTeam() && (object.getId() == Helper.RED_DOOR_1 || object.getId() == Helper.RED_DOOR_2))) {
 			passWall(player, object, getTeam());
 			return false;
 		} else if (isEnemySCGate || isEnemySCWall) {

@@ -40,9 +40,8 @@ public class EmbraceDarkness implements NexAttack {
 			public void run() {
 				if (nex.getPhase() != Phase.SHADOW || nex.hasFinished()) {
 					for (Entity entity : nex.getPossibleTargets())
-						if (entity instanceof Player player) {
+						if (entity instanceof Player player)
 							player.getPackets().sendVarc(1435, 255);
-						}
 					stop();
 					return;
 				}

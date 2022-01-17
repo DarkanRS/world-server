@@ -152,7 +152,7 @@ public class GeomancerCombat extends CombatScript {
 			int damage = getMaxHit(npc, AttackStyle.MAGE, t);
 
 			if (damage > 0)
-				if (t instanceof Player player) {
+				if (t instanceof Player player)
 					if (player.getPrayer().hasPrayersOn()) {
 						if (!hasDrained) {
 							int prayerPoints = (int) player.getPrayer().getPoints();
@@ -167,7 +167,6 @@ public class GeomancerCombat extends CombatScript {
 						player.getPrayer().closeAllPrayers();
 						player.sendMessage("Your prayers have been disabled.");
 					}
-				}
 			delayHit(npc, 1, t, getMagicHit(npc, (int) (damage * .50)));
 			t.setNextSpotAnim(new SpotAnim(2147));
 			World.sendProjectile(npc, t, 2368, 50, 18, 55, 70, 5, 0);

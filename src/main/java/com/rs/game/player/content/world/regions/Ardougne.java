@@ -17,7 +17,6 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.World;
-import com.rs.game.ge.GE;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteEvent;
@@ -67,24 +66,23 @@ public class Ardougne  {
 		}
 	};
 
-    public static NPCClickHandler handleZMIBanker = new NPCClickHandler(6362) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            Player p = e.getPlayer();
-            switch(e.getOption()) {
-//                case "Bank":
-//                    p.getBank().open();
-//                    break;
-//                case "Collect":
-//                    GE.openCollection(p);
-//                    break;
-                case "Talk-to":
-                    e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
-                    break;
-            }
+	public static NPCClickHandler handleZMIBanker = new NPCClickHandler(6362) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			switch(e.getOption()) {
+			//                case "Bank":
+			//                    p.getBank().open();
+			//                    break;
+			//                case "Collect":
+			//                    GE.openCollection(p);
+			//                    break;
+			case "Talk-to":
+				e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
+				break;
+			}
 
-        }
-    };
+		}
+	};
 
 	public static NPCClickHandler handleDrOrbon = new NPCClickHandler(290) {
 		@Override
@@ -98,7 +96,7 @@ public class Ardougne  {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK).getStart());
 						}
 					});
-                    create();
+					create();
 				}
 			});
 		}

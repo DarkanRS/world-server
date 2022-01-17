@@ -109,7 +109,8 @@ public class UndergroundDungeonController extends Controller {
 			player.useStairs(828, new WorldTile(3168, 3171, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
-		} else if (object.getId() == 15811)
+		}
+		if (object.getId() == 15811)
 			player.getControllerManager().forceStop();
 		else if (object.getId() == 32944) {
 			player.useStairs(-1, new WorldTile(3219, 9532, 2), 1, 2);

@@ -164,7 +164,8 @@ public class FlaskPotions {
 						p.getInventory().addItem(EMPTY_POTION, 1);
 						p.getInventory().replace(e.getUsedWith(usedOnFlask), new Item(Flasks.getFlaskIdFromPotionId(potionId), 1));
 						return;
-					} else if (dosesLeft -Flasks.getDose(potionId) > 0) {
+					}
+					if (dosesLeft -Flasks.getDose(potionId) > 0) {
 						dosesLeft = dosesLeft -Flasks.getDose(potionId);
 						p.getInventory().deleteItem(potionId, 1);
 						p.getInventory().addItem(EMPTY_POTION, 1);

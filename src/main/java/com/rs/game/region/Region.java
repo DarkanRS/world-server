@@ -437,7 +437,8 @@ public class Region {
 								//heights[plane][x][y] = mapStream.readByte();
 								mapStream.readByte();
 								break;
-							} else if (value <= 49) {
+							}
+							if (value <= 49) {
 								int v = mapStream.readUnsignedByte();
 								overlayIds[plane][x][y] = v;
 								overlayPathShapes[plane][x][y] = (byte) ((value - 2) / 4);
@@ -607,13 +608,13 @@ public class Region {
 		for (GameObject[][][] object : objects) {
 			if (object == null)
 				continue;
-			for (int x = 0; x < object.length; x++) {
-				if (object[x] == null)
+			for (GameObject[][] element : object) {
+				if (element == null)
 					continue;
-				for (int y = 0; y < object[x].length; y++) {
-					if (object[x][y] == null)
+				for (int y = 0; y < element.length; y++) {
+					if (element[y] == null)
 						continue;
-					for (GameObject o : object[x][y])
+					for (GameObject o : element[y])
 						if (o != null)
 							list.add(o);
 				}
@@ -970,9 +971,9 @@ public class Region {
 		return musicIds[Utils.getRandomInclusive(musicIds.length - 1)];
 	}
 
-    public int[] getMusicIds() {
-        return musicIds;
-    }
+	public int[] getMusicIds() {
+		return musicIds;
+	}
 
 	public int getLoadMapStage() {
 		return loadMapStage;

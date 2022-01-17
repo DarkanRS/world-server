@@ -512,9 +512,7 @@ public class InventoryOptionsHandler {
 			player.getDialogueManager().execute(new LeatherCraftingD(), leatherIndex);
 			return true;
 		}
-		if (Firemaking.isFiremaking(player, used, usedWith))
-			return true;
-		if (GemCutting.isCutting(player, used, usedWith))
+		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
 			return true;
 		if (contains(1755, Gem.OPAL.getCut(), used, usedWith))
 			GemTipCutting.cut(player, GemTips.OPAL);
@@ -554,9 +552,7 @@ public class InventoryOptionsHandler {
 					player.getInventory().addItem(item.getId() + 2, 1);
 				player.refreshForinthry();
 			}
-		if (LightSource.lightSource(player, slotId))
-			return;
-		if (LightSource.extinguishSource(player, slotId, false))
+		if (LightSource.lightSource(player, slotId) || LightSource.extinguishSource(player, slotId, false))
 			return;
 		if (itemId >= 5509 && itemId <= 5514) {
 			int pouch = -1;
@@ -634,9 +630,7 @@ public class InventoryOptionsHandler {
 		if (PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(4))))
 			return;
 		player.stopAll(false);
-		if (player.getPetManager().spawnPet(itemId, true))
-			return;
-		if (PluginManager.handle(new DropItemEvent(player, item)))
+		if (player.getPetManager().spawnPet(itemId, true) || PluginManager.handle(new DropItemEvent(player, item)))
 			return;
 		player.getInventory().deleteItem(slotId, item);
 		World.addGroundItem(item, new WorldTile(player), player);

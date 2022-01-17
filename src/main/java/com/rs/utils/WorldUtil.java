@@ -104,7 +104,7 @@ public class WorldUtil {
 			return Direction.EAST;
 		if (player.getX() > faceTile.getX())
 			return Direction.WEST;
-		else if (player.getY() < faceTile.getY())
+		if (player.getY() < faceTile.getY())
 			return Direction.NORTH;
 		else if (player.getY() > faceTile.getY())
 			return Direction.SOUTH;

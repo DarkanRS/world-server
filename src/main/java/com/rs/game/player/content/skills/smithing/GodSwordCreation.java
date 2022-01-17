@@ -45,7 +45,8 @@ public class GodSwordCreation {
 			player.getInventory().addItem(11696, 1);
 			player.sendMessage("You join the hilt and blade into a godsword.");
 			return true;
-		} else if (itemUsed == 11706 && usedWith == 11690 || usedWith == 11706 && itemUsed == 11690) {
+		}
+		if (itemUsed == 11706 && usedWith == 11690 || usedWith == 11706 && itemUsed == 11690) {
 			player.getInventory().deleteItem(itemUsed, 1);
 			player.getInventory().deleteItem(usedWith, 1);
 			player.getInventory().addItem(11698, 1);

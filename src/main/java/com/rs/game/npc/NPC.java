@@ -579,7 +579,7 @@ public class NPC extends Entity {
 
 	public static boolean yellDrop(int itemId) {
 		//Nex
-		
+
 		//Revenants
 		if ((itemId >= 20125 && itemId <= 20174) || (itemId >= 13845 && itemId <= 13990))
 			return true;

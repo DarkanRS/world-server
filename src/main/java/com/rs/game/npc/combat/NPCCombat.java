@@ -138,10 +138,9 @@ public final class NPCCombat {
 		if (npc instanceof Familiar familiar && !familiar.canAttack(target))
 			return false;
 		if (!npc.isForceMultiAttacked())
-			if (!target.isAtMultiArea() || !npc.isAtMultiArea()) {
+			if (!target.isAtMultiArea() || !npc.isAtMultiArea())
 				if ((npc.getAttackedBy() != target && npc.inCombat()) || (target.getAttackedBy() != npc && target.inCombat()))
 					return false;
-			}
 		if (!npc.isCantFollowUnderCombat()) {
 			int targetSize = target.getSize();
 			if (!target.hasWalkSteps() && WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize)) {

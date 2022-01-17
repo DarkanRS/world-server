@@ -260,7 +260,8 @@ public class CastleWarsPlayingController extends Controller {
 		if ((id == 4469 && team == CastleWars.SARADOMIN) || (id == 4470 && team == CastleWars.ZAMORAK)) {
 			passBarrier(object);
 			return false;
-		} else if (id == 4377 || id == 4378) { // no flag anymore
+		}
+		if (id == 4377 || id == 4378) { // no flag anymore
 			if (id == 4377 && team == CastleWars.SARADOMIN) {
 				if (player.getEquipment().getWeaponId() == 4039) {
 					CastleWars.addScore(player, team, CastleWars.ZAMORAK);
@@ -403,7 +404,8 @@ public class CastleWarsPlayingController extends Controller {
 		if (id == 36575 || id == 36582) {
 			player.getInventory().addItem(new Item(4053, 5));
 			return false;
-		} else if (id == 36577 || id == 36584) {
+		}
+		if (id == 36577 || id == 36584) {
 			player.getInventory().addItem(new Item(4045, 5));
 			return false;
 		}

@@ -68,7 +68,6 @@ import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
-import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -245,36 +244,33 @@ public final class World {
 		if (!npc.hasFinished())
 			fillNPCClip(npc, npc.getSize(), true);
 	}
-	
+
 	public static void fillNPCClip(WorldTile tile, int size, boolean blocks) {
-		for (int x = 0; x < size; x++) {
+		for (int x = 0; x < size; x++)
 			for (int y = 0; y < size; y++) {
 				WorldTile local = tile.transform(x, y);
 				World.getRegion(local.getRegionId()).setClipNPC(local.getPlane(), local.getXInRegion(), local.getYInRegion(), blocks);
 			}
-		}
 	}
-	
+
 	public static boolean getClipNPC(WorldTile tile) {
 		return getRegion(tile.getRegionId()).getClipNPC(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
 	}
-	
+
 	public static boolean checkNPCClip(NPC npc, Direction dir) {
 		int size = npc.getSize();
 		int toX = npc.getX() + dir.getDx();
 		int toY = npc.getY() + dir.getDy();
 		int eastMostX = npc.getX() + (size - 1);
 		int northMostY = npc.getY() + (size - 1);
-		for (int x = toX; x < (toX + size); x++) {
+		for (int x = toX; x < (toX + size); x++)
 			for (int y = toY; y < (toY + size); y++) {
-				if (x >= npc.getX() && x <= eastMostX && y >= npc.getY() && y <= northMostY) {
+				if (x >= npc.getX() && x <= eastMostX && y >= npc.getY() && y <= northMostY)
 					/* stepping within itself, allow it */
 					continue;
-				}
 				if (World.getClipNPC(new WorldTile(x, y, npc.getPlane())))
 					return false;
 			}
-		}
 		return true;
 	}
 
@@ -297,24 +293,24 @@ public final class World {
 		int regionId = entity.getRegionId();
 		if (entity.getLastRegionId() != regionId || entity.isForceUpdateEntityRegion()) {
 			if (entity instanceof Player player) {
-                if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(regionId) == null)
-                    player.sendMessage(regionId + " has no music genre!");
+				if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(regionId) == null)
+					player.sendMessage(regionId + " has no music genre!");
 				if (entity.getLastRegionId() > 0)
 					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
 				Region region = getRegion(regionId);
 				region.addPlayerIndex(entity.getIndex());
 
-                //Unlock all region music at once.
+				//Unlock all region music at once.
 				int[] musicIds = region.getMusicIds();
-                if (player.hasStarted() && musicIds != null && musicIds.length > 0)
-                    for (int musicId : musicIds)
-                        if (!player.getMusicsManager().hasMusic(musicId))
-                            player.getMusicsManager().unlockMusic(musicId);
+				if (player.hasStarted() && musicIds != null && musicIds.length > 0)
+					for (int musicId : musicIds)
+						if (!player.getMusicsManager().hasMusic(musicId))
+							player.getMusicsManager().unlockMusic(musicId);
 
-                //if should play random song on enter region
-                if(player.hasStarted() && Music.getGenre(regionId) == null || player.getMusicsManager().getPlayingGenre() == null
-                        || !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))
-                        player.getMusicsManager().nextAmbientSong();
+				//if should play random song on enter region
+				if(player.hasStarted() && Music.getGenre(regionId) == null || player.getMusicsManager().getPlayingGenre() == null
+						|| !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))
+					player.getMusicsManager().nextAmbientSong();
 
 				player.getControllerManager().moved();
 				if (player.hasStarted())
@@ -497,8 +493,8 @@ public final class World {
 				return false;
 			x += slope;
 			int newXTile = x >>> 16;
-			if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
-				return false;
+		if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
+			return false;
 				}
 		}
 		return true;
@@ -519,9 +515,9 @@ public final class World {
 			int sizeFrom = ((Entity)from).getSize();
 			int sizeTo = ((Entity)to).getSize();
 			double shortest = 1000.0;
-			for (int x1 = 0; x1 < sizeFrom; x1++) {
-				for (int y1 = 0; y1 < sizeFrom; y1++) {
-					for (int x2 = 0; x2 < sizeTo; x2++) {
+			for (int x1 = 0; x1 < sizeFrom; x1++)
+				for (int y1 = 0; y1 < sizeFrom; y1++)
+					for (int x2 = 0; x2 < sizeTo; x2++)
 						for (int y2 = 0; y2 < sizeTo; y2++) {
 							double dist = Utils.getDistance(from.transform(x1, y1), to.transform(x2, y2));
 							if (dist < shortest) {
@@ -530,9 +526,6 @@ public final class World {
 								shortest = dist;
 							}
 						}
-					}
-				}
-			}
 			from = closestFrom;
 			to = closestTo;
 		}
@@ -541,8 +534,8 @@ public final class World {
 		if (from.matches(to))
 			return true;
 		switch(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY())) {
-			case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> { return false; }
-			default -> {}
+		case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> { return false; }
+		default -> {}
 		}
 		return checkWalkStep(from, to, 1);
 	}

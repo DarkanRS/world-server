@@ -29,9 +29,7 @@ public class IFOpHandler implements PacketHandler<Player, IFOp> {
 	public void handle(Player player, IFOp packet) {
 		if ((packet.getInterfaceId() >= Utils.getInterfaceDefinitionsSize()) || player.isLocked() || player.isDead() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
 			return;
-		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())
-			return;
-		if (!player.getControllerManager().processButtonClick(packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), packet.getOpcode()))
+		if ((packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId()) || !player.getControllerManager().processButtonClick(packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), packet.getOpcode()))
 			return;
 		PluginManager.handle(new ButtonClickEvent(player, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), packet.getOpcode()));
 	}

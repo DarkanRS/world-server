@@ -39,27 +39,26 @@ public class SlayerHelmet  {
 				if (e.getPlayer().getInventory().getFreeSlots() < 7) {
 					e.getPlayer().sendMessage("You don't have enough space in your inventory to dissassemble the helmet.");
 					return;
-				} else {
-					e.getPlayer().getInventory().deleteItem(15492, 1);
-					for (int parts : FULL_SLAYER_HELMET_PARTS)
-						e.getPlayer().getInventory().addItem(parts, 1, true);
-					for (int parts : SLAYER_HELMET_PARTS)
-						e.getPlayer().getInventory().addItem(parts, 1, true);
-					e.getPlayer().getInventory().addItem(8921, 1);
-					return;
 				}
+				e.getPlayer().getInventory().deleteItem(15492, 1);
+				for (int parts : FULL_SLAYER_HELMET_PARTS)
+					e.getPlayer().getInventory().addItem(parts, 1, true);
+				for (int parts : SLAYER_HELMET_PARTS)
+					e.getPlayer().getInventory().addItem(parts, 1, true);
+				e.getPlayer().getInventory().addItem(8921, 1);
+				return;
 			}
-			if (e.getItem().getId() == SLAYER_HELMET)
+			if (e.getItem().getId() == SLAYER_HELMET) {
 				if (e.getPlayer().getInventory().getFreeSlots() < 5) {
 					e.getPlayer().sendMessage("You don't have enough space in your inventory to dissassemble the helmet.");
 					return;
-				} else {
-					e.getPlayer().getInventory().deleteItem(13263, 1);
-					for (int parts : SLAYER_HELMET_PARTS)
-						e.getPlayer().getInventory().addItem(parts, 1, true);
-					e.getPlayer().getInventory().addItem(8921, 1);
-					return;
 				}
+				e.getPlayer().getInventory().deleteItem(13263, 1);
+				for (int parts : SLAYER_HELMET_PARTS)
+					e.getPlayer().getInventory().addItem(parts, 1, true);
+				e.getPlayer().getInventory().addItem(8921, 1);
+				return;
+			}
 		}
 	};
 
@@ -86,7 +85,8 @@ public class SlayerHelmet  {
 		if (!e.getPlayer().isSlayerHelmCreation()) {
 			e.getPlayer().sendMessage("You don't know what to do with these parts. You should talk to an expert, perhaps they know how to assemble these parts.");
 			return true;
-		} else if (e.getPlayer().getSkills().getLevel(Constants.CRAFTING) < 55) {
+		}
+		if (e.getPlayer().getSkills().getLevel(Constants.CRAFTING) < 55) {
 			e.getPlayer().sendMessage("You need a Crafting level of 55 in order to assemble a slayer helmet.");
 			return true;
 		}
@@ -99,9 +99,7 @@ public class SlayerHelmet  {
 		//Verify the player has all normal slayer helmet parts
 		for (int parts : SLAYER_HELMET_PARTS)
 			if (!e.getPlayer().getInventory().containsItem(parts, 1)) {
-				if (!CRAFT_FULL_SLAYER_HELMET)
-					return false;
-				if (!e.getPlayer().getInventory().containsItem(SLAYER_HELMET, 1))
+				if (!CRAFT_FULL_SLAYER_HELMET || !e.getPlayer().getInventory().containsItem(SLAYER_HELMET, 1))
 					return false;
 			}
 
@@ -129,22 +127,21 @@ public class SlayerHelmet  {
 			e.getPlayer().getInventory().addItem(new Item(15492, 1));
 			e.getPlayer().sendMessage("You attach two parts to your slayer helmet.");
 			return true;
-		} else {
-			for (int parts : SLAYER_HELMET_PARTS)
-				e.getPlayer().getInventory().deleteItem(parts, 1);
-			for (int parts : FULL_SLAYER_HELMET_PARTS)
-				e.getPlayer().getInventory().deleteItem(parts, 1);
-
-			for (int i = 8901; i <= 8922; i++)
-				if (!ItemDefinitions.getDefs(i).isNoted() && e.getPlayer().getInventory().containsItem(i)) {
-					e.getPlayer().getInventory().deleteItem(i, 1);
-					break;
-				}
-
-			e.getPlayer().getInventory().addItem(new Item(15492, 1));
-			e.getPlayer().sendMessage("You combine all parts of the helmet.");
-			return true;
 		}
+		for (int parts : SLAYER_HELMET_PARTS)
+			e.getPlayer().getInventory().deleteItem(parts, 1);
+		for (int parts : FULL_SLAYER_HELMET_PARTS)
+			e.getPlayer().getInventory().deleteItem(parts, 1);
+
+		for (int i = 8901; i <= 8922; i++)
+			if (!ItemDefinitions.getDefs(i).isNoted() && e.getPlayer().getInventory().containsItem(i)) {
+				e.getPlayer().getInventory().deleteItem(i, 1);
+				break;
+			}
+
+		e.getPlayer().getInventory().addItem(new Item(15492, 1));
+		e.getPlayer().sendMessage("You combine all parts of the helmet.");
+		return true;
 	}
 
 	public static boolean isSlayerHelmComponent(int itemId) {

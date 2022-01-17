@@ -182,8 +182,7 @@ public class DungeonManager {
 
 	public boolean isBossOpen() {
 		for (VisibleRoom[] element : visibleMap)
-			for (int y = 0; y < element.length; y++) {
-				VisibleRoom room = element[y];
+			for (VisibleRoom room : element) {
 				if (room == null || !room.isLoaded())
 					continue;
 				if (isAtBossRoom(getRoomCenterTile(room.reference)))
@@ -210,16 +209,16 @@ public class DungeonManager {
 	 */
 	public void clearGuardians() {
 		for (VisibleRoom[] element : visibleMap)
-			for (int y = 0; y < element.length; y++)
-				if (element[y] != null)
-					element[y].forceRemoveGuardians();
+			for (VisibleRoom element2 : element)
+				if (element2 != null)
+					element2.forceRemoveGuardians();
 	}
 
 	public int getVisibleRoomsCount() {
 		int count = 0;
 		for (VisibleRoom[] element : visibleMap)
-			for (int y = 0; y < element.length; y++)
-				if (element[y] != null)
+			for (VisibleRoom element2 : element)
+				if (element2 != null)
 					count++;
 		return count;
 	}
@@ -238,10 +237,10 @@ public class DungeonManager {
 		int killedGuardians = 0;
 
 		for (VisibleRoom[] element : visibleMap)
-			for (int y = 0; y < element.length; y++)
-				if (element[y] != null) {
-					totalGuardians += element[y].getGuardiansCount();
-					killedGuardians += element[y].getKilledGuardiansCount();
+			for (VisibleRoom element2 : element)
+				if (element2 != null) {
+					totalGuardians += element2.getGuardiansCount();
+					killedGuardians += element2.getKilledGuardiansCount();
 				}
 
 		return totalGuardians == 0 ? 100 : killedGuardians * 100 / totalGuardians;
@@ -1045,9 +1044,9 @@ public class DungeonManager {
 		removeDungeon();
 		partyDeaths.clear();
 		for (VisibleRoom[] element : visibleMap)
-			for (int y = 0; y < element.length; y++)
-				if (element[y] != null)
-					element[y].destroy();
+			for (VisibleRoom element2 : element)
+				if (element2 != null)
+					element2.destroy();
 		dungeon = null;
 		region.destroy();
 	}

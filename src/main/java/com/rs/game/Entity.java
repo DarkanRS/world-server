@@ -1339,11 +1339,11 @@ public abstract class Entity extends WorldTile {
 	public void setClipType(ClipType clipType) {
 		this.clipType = clipType;
 	}
-	
+
 	public WorldTile getNearestTeleTile(Entity toMove) {
 		return getNearestTeleTile(toMove.getSize());
 	}
-	
+
 	public WorldTile getNearestTeleTile(int size) {
 		WorldTile teleTile = null;
 		for (int att = 0; att < 10; att++) {

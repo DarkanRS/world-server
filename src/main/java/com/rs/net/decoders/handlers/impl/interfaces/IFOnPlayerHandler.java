@@ -32,11 +32,7 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 	public void handle(Player player, IFOnPlayer packet) {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead() || player.isLocked())
 			return;
-		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId())
-			return;
-		if (!player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
-			return;
-		if (packet.getComponentId() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())
+		if ((Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()) || (packet.getComponentId() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId()))
 			return;
 		Player p2 = World.getPlayers().get(packet.getPlayerIndex());
 		if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))

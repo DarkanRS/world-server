@@ -1100,7 +1100,7 @@ public class HouseConstants {
 			return CHAIR_EMOTES[id-13581];
 		if (id >= 13300 && id <= 13306)
 			return BENCH_EMOTES[id-13300];
-		else if (id >= 13665 && id <= 13671)
+		if (id >= 13665 && id <= 13671)
 			return THRONE_EMOTES[id-13665];
 		else if (id >= 13694 && id <= 13696) {
 			if (id == 13694)

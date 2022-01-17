@@ -74,40 +74,39 @@ public class RouteEvent {
 				player.getSession().writeToQueue(new MinimapFlag());
 			}
 			return true;
-		} else {
-			last = strategies;
-
-			for (int i = 0; i < strategies.length; i++) {
-				RouteStrategy strategy = strategies[i];
-				int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
-				if (steps == -1)
-					continue;
-				if ((!RouteFinder.lastIsAlternative() && steps <= 0)) {
-					if (alternative && player != null)
-						player.getSession().writeToQueue(new MinimapFlag());
-					event.run();
-					return true;
-				}
-				int[] bufferX = RouteFinder.getLastPathBufferX();
-				int[] bufferY = RouteFinder.getLastPathBufferY();
-
-				WorldTile last = new WorldTile(bufferX[0], bufferY[0], entity.getPlane());
-				entity.resetWalkSteps();
-				if (player != null)
-					player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
-				if (entity.hasEffect(Effect.FREEZE) || (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e)))
-					return false;
-				for (int step = steps - 1; step >= 0; step--)
-					if (!entity.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
-						break;
-				return false;
-			}
-			if (player != null) {
-				player.sendMessage("You can't reach that.");
-				player.getSession().writeToQueue(new MinimapFlag());
-			}
-			return true;
 		}
+		last = strategies;
+
+		for (int i = 0; i < strategies.length; i++) {
+			RouteStrategy strategy = strategies[i];
+			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
+			if (steps == -1)
+				continue;
+			if ((!RouteFinder.lastIsAlternative() && steps <= 0)) {
+				if (alternative && player != null)
+					player.getSession().writeToQueue(new MinimapFlag());
+				event.run();
+				return true;
+			}
+			int[] bufferX = RouteFinder.getLastPathBufferX();
+			int[] bufferY = RouteFinder.getLastPathBufferY();
+
+			WorldTile last = new WorldTile(bufferX[0], bufferY[0], entity.getPlane());
+			entity.resetWalkSteps();
+			if (player != null)
+				player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
+			if (entity.hasEffect(Effect.FREEZE) || (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e)))
+				return false;
+			for (int step = steps - 1; step >= 0; step--)
+				if (!entity.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
+					break;
+			return false;
+		}
+		if (player != null) {
+			player.sendMessage("You can't reach that.");
+			player.getSession().writeToQueue(new MinimapFlag());
+		}
+		return true;
 	}
 
 	private boolean simpleCheck(Entity entity) {
@@ -128,7 +127,7 @@ public class RouteEvent {
 			return new RouteStrategy[] { new EntityStrategy(e) };
 		if (object instanceof GameObject go)
 			return new RouteStrategy[] { new ObjectStrategy(go) };
-		else if (object instanceof WorldTile wt)
+		if (object instanceof WorldTile wt)
 			return new RouteStrategy[] { new FixedTileStrategy(wt.getX(), wt.getY()), new FloorItemStrategy(wt, true)};
 		else if (object instanceof GroundItem gi)
 			return new RouteStrategy[] { new FixedTileStrategy(gi.getTile().getX(), gi.getTile().getY()), new FloorItemStrategy(gi) };

@@ -96,11 +96,12 @@ public class FalconryController extends Controller {
 				return false;
 			}
 			int level = levels[(npc.getId() - 5098)];
-			if (proccessFalconAttack(npc))
+			if (proccessFalconAttack(npc)) {
 				if (player.getSkills().getLevel(Constants.HUNTER) < level) {
 					player.getDialogueManager().execute(new SimpleMessage(), "You need a Hunter level of " + level + " to capture this kebbit.");
 					return true;
-				} else if (FlyingEntityHunter.isSuccessful(player, level, player -> {
+				}
+				if (FlyingEntityHunter.isSuccessful(player, level, player -> {
 					if (player.getEquipment().getGlovesId() == 10075)
 						return 3;
 					return 1;
@@ -152,6 +153,7 @@ public class FalconryController extends Controller {
 						}
 					});
 				}
+			}
 			return false;
 		}
 		if (npc.getDefinitions().getName().toLowerCase().contains("gyr falcon")) {

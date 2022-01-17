@@ -108,7 +108,7 @@ public enum Direction {
 			return NORTHEAST;
 		if (dy <= -1 && dx >= 1)
 			return SOUTHEAST;
-		else if (dy <= -1 && dx <= -1)
+		if (dy <= -1 && dx <= -1)
 			return SOUTHWEST;
 		else if (dy >= 1 && dx <= -1)
 			return NORTHWEST;
@@ -133,7 +133,7 @@ public enum Direction {
 			return Direction.EAST;
 		if (player.getX() > faceTile.getX())
 			return Direction.WEST;
-		else if (player.getY() < faceTile.getY())
+		if (player.getY() < faceTile.getY())
 			return Direction.NORTH;
 		else if (player.getY() > faceTile.getY())
 			return Direction.SOUTH;

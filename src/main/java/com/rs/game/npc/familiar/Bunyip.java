@@ -82,13 +82,12 @@ public class Bunyip extends Familiar {
 			if (getOwner().getSkills().getLevel(Constants.COOKING) < fish.getLevel()) {
 				getOwner().sendMessage("Your cooking level is not high enough for the bunyip to eat this fish.");
 				return false;
-			} else {
-				getOwner().setNextSpotAnim(new SpotAnim(1316));
-				getOwner().setNextAnimation(new Animation(7660));
-				getOwner().heal(Food.forId(item.getId()).getHeal());
-				getOwner().getInventory().deleteItem(item.getId(), item.getAmount());
-				return true;// stop here
 			}
+			getOwner().setNextSpotAnim(new SpotAnim(1316));
+			getOwner().setNextAnimation(new Animation(7660));
+			getOwner().heal(Food.forId(item.getId()).getHeal());
+			getOwner().getInventory().deleteItem(item.getId(), item.getAmount());
+			return true;// stop here
 		}
 		return true;
 	}

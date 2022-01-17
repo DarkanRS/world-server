@@ -172,20 +172,20 @@ public class Falador {
 																	player.getPackets().sendGameMessage(
 																			"You need 15 coins for this transaction");
 															}));
-																					option("How about 20 coins?",
-																							new Dialogue().addPlayer(HeadE.CALM, "How about 20 coins?")
-																							.addNPC(e.getNPCId(), HeadE.FRUSTRATED,
-																									"Okay, that's more than fair", () -> {
-																										if (player.getInventory()
-																												.containsItem(995, 20)) {
-																											player.getInventory()
-																											.deleteItem(995, 20);
-																											player.getInventory().addItem(1793,
-																													2);
-																										} else
-																											player.getPackets().sendGameMessage(
-																													"You need 20 coins for this transaction");
-																									}));
+											option("How about 20 coins?",
+													new Dialogue().addPlayer(HeadE.CALM, "How about 20 coins?")
+													.addNPC(e.getNPCId(), HeadE.FRUSTRATED,
+															"Okay, that's more than fair", () -> {
+																if (player.getInventory()
+																		.containsItem(995, 20)) {
+																	player.getInventory()
+																	.deleteItem(995, 20);
+																	player.getInventory().addItem(1793,
+																			2);
+																} else
+																	player.getPackets().sendGameMessage(
+																			"You need 20 coins for this transaction");
+															}));
 										}
 									}));
 							option("How about ME helping YOU instead?", new Dialogue()

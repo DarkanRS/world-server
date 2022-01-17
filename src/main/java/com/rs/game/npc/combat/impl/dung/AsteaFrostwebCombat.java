@@ -56,14 +56,14 @@ public class AsteaFrostwebCombat extends CombatScript {
 			return npc.getAttackSpeed();
 		}
 		int attackStyle = Utils.random(2);
-		if (attackStyle == 1)
-			if (Utils.getDistance(npc.getX(), npc.getY(), target.getX(), target.getY()) > 1)
-				attackStyle = 0; // set mage
-			else { // melee
+		if (attackStyle == 1) {
+			if (Utils.getDistance(npc.getX(), npc.getY(), target.getX(), target.getY()) <= 1) { // melee
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
+			attackStyle = 0;
+		}
 		if (attackStyle == 0) { // mage
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			List<Entity> possibleTargets = npc.getPossibleTargets();

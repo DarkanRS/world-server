@@ -78,7 +78,8 @@ public class LocationFinder {
 							if (value == 1) {
 								mapStream.readByte();
 								break;
-							} else if (value <= 49)
+							}
+							if (value <= 49)
 								mapStream.readByte();
 							else if (value <= 81)
 								mapSettings[plane][x][y] = (byte) (value - 49);

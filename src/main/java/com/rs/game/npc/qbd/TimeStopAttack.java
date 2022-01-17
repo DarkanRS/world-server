@@ -81,7 +81,8 @@ public final class TimeStopAttack implements QueenAttack {
 					victim.sendMessage("<col=33900>The tortured soul has stopped time for everyone except himself and the Queen Black</col>");
 					victim.sendMessage("<col=33900>Dragon.</col>");
 					return;
-				} else if (stage > 3)
+				}
+				if (stage > 3)
 					return;
 				if (soul.isDead()) {
 					stop();

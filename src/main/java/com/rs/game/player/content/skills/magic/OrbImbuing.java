@@ -122,18 +122,17 @@ public class OrbImbuing {
 				player.sendMessage("You've run out of orbs to imbue.");
 				return -1;
 			}
-			if (player.getInventory().containsItem(564, 3) && Magic.checkRunes(player, true, new RuneSet(orb.getRune(), 30))) {
-				player.getInventory().deleteItem(564, 3);
-				player.getInventory().deleteItem(UNPOWERED, 1);
-				player.getInventory().addItem(orb.getOrbId(), 1);
-				player.getSkills().addXp(Constants.MAGIC, orb.getXp());
-				player.setNextSpotAnim(new SpotAnim(orb.getGfx(), 0, 100));
-				player.setNextAnimation(new Animation(726));
-				player.setNextFaceWorldTile(tile);
-			} else {
+			if (!player.getInventory().containsItem(564, 3) || !Magic.checkRunes(player, true, new RuneSet(orb.getRune(), 30))) {
 				player.sendMessage("You have run out of runes.");
 				return -1;
 			}
+			player.getInventory().deleteItem(564, 3);
+			player.getInventory().deleteItem(UNPOWERED, 1);
+			player.getInventory().addItem(orb.getOrbId(), 1);
+			player.getSkills().addXp(Constants.MAGIC, orb.getXp());
+			player.setNextSpotAnim(new SpotAnim(orb.getGfx(), 0, 100));
+			player.setNextAnimation(new Animation(726));
+			player.setNextFaceWorldTile(tile);
 			return 3;
 		}
 

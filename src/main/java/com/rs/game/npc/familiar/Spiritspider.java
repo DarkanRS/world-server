@@ -70,9 +70,8 @@ public class Spiritspider extends Familiar {
 			if (World.floorAndWallsFree(tile, player.getSize()))
 				return true;
 			for (Entity entity : this.getPossibleTargets()) {
-				if (entity instanceof Player players) {
+				if (entity instanceof Player players)
 					players.getPackets().sendSpotAnim(new SpotAnim(1342), tile);
-				}
 				World.addGroundItem(new Item(223, 1), tile, player, true, 120);
 			}
 		}

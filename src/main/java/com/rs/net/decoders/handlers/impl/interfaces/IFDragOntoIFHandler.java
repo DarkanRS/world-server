@@ -29,9 +29,7 @@ public class IFDragOntoIFHandler implements PacketHandler<Player, IFDragOntoIF> 
 	public void handle(Player player, IFDragOntoIF packet) {
 		if (Utils.getInterfaceDefinitionsSize() <= packet.getFromInter() || Utils.getInterfaceDefinitionsSize() <= packet.getToInter() || !player.getInterfaceManager().containsInterface(packet.getFromInter()) || !player.getInterfaceManager().containsInterface(packet.getToInter()))
 			return;
-		if (packet.getFromComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getFromInter()) <= packet.getFromComp())
-			return;
-		if (packet.getToComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getToInter()) <= packet.getToComp())
+		if ((packet.getFromComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getFromInter()) <= packet.getFromComp()) || (packet.getToComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getToInter()) <= packet.getToComp()))
 			return;
 
 		if (packet.getFromInter() == Inventory.INVENTORY_INTERFACE && packet.getFromComp() == 0 && packet.getToInter() == Inventory.INVENTORY_INTERFACE && packet.getToComp() == 0) {

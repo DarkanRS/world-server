@@ -75,14 +75,9 @@ public class Music {
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/kandarin.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/misthalin.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/morytania.json"), Genre[].class)));
-            genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/dungeons.json"), Genre[].class)));
+			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/dungeons.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/other.json"), Genre[].class)));
 			addGenresToRegionMap();
-
-			//error check
-			for(Genre g : parentGenres)
-				for(int s : g.getSongs())
-					s++;
 
 			//Auto-unlock songs list.
 			for(Song s : songs)
@@ -96,13 +91,12 @@ public class Music {
 
 	private static void addGenresToRegionMap() {
 		for(Genre g : genres)
-			if(g.isActive()) {
-                for (int regionId : g.getRegionIds()) {
-                    if (GENRE_REGION.containsKey(regionId))
-                        throw new java.lang.Error("Error, duplicate key at: " + regionId);
-                    GENRE_REGION.put(regionId, g);//none of the values can be empty
-                }
-            }
+			if(g.isActive())
+				for (int regionId : g.getRegionIds()) {
+					if (GENRE_REGION.containsKey(regionId))
+						throw new java.lang.Error("Error, duplicate key at: " + regionId);
+					GENRE_REGION.put(regionId, g);//none of the values can be empty
+				}
 	}
 
 	public static int[] getRegionMusics(int regionId) {
@@ -117,12 +111,11 @@ public class Music {
 		if(!GENRE_REGION.containsKey(regionId))
 			return null;
 		Genre g = GENRE_REGION.get(regionId);
-//		if(g.getSongs().length < 10)
-//			return null;
+		//		if(g.getSongs().length < 10)
+		//			return null;
 		if(g.isActive())
 			return g;
-		else
-			return null;
+		return null;
 	}
 
 	public static Genre getParent(String name) {

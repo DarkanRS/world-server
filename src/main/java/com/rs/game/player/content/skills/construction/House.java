@@ -1352,7 +1352,8 @@ public class House {
 			if (oRef.getId(slot) == HouseConstants.HObject.KALPHITESOLDIER.getId()) {
 				spawnNPC(3589, object);
 				return true;
-			} else if (oRef.getId(slot) == HouseConstants.HObject.TOKXIL.getId()) {
+			}
+			if (oRef.getId(slot) == HouseConstants.HObject.TOKXIL.getId()) {
 				spawnNPC(3592, object);
 				return true;
 			} else if (oRef.getId(slot) == HouseConstants.HObject.DAGANNOTH.getId()) {

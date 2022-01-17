@@ -38,19 +38,13 @@ public class MelzarsMaze {
 			GameObject obj = e.getObject();
 			if(obj.matches(new WorldTile(2928, 3258, 0)) || obj.matches(new WorldTile(2925, 3258, 0)) || obj.matches(new WorldTile(2930, 3258, 1)) || obj.matches(new WorldTile(2937, 3247, 1)))
 				return;
-			if(obj.matches(new WorldTile(2934, 3243, 1)))
-				return;
-			if(obj.matches(new WorldTile(2929, 3245, 1)))
-				return;
-			if(obj.matches(new WorldTile(2940, 3240, 1)))
-				return;
-			if(obj.matches(new WorldTile(2937, 3240, 0)))
+			if(obj.matches(new WorldTile(2934, 3243, 1)) || obj.matches(new WorldTile(2929, 3245, 1)) || obj.matches(new WorldTile(2940, 3240, 1)) || obj.matches(new WorldTile(2937, 3240, 0)))
 				return;
 
 
 			//Exits
 			if(obj.matches(new WorldTile(2924, 9650, 0)))//Melzar Mad basement exit ladder to first floor
-			e.getPlayer().useLadder(new WorldTile(2923, 3250, 0));
+				e.getPlayer().useLadder(new WorldTile(2923, 3250, 0));
 			if(obj.matches(new WorldTile(2924, 3250, 0)))//1st floor to Melzar mad exit
 				e.getPlayer().useLadder(new WorldTile(2924, 9649, 0));
 			if(obj.matches(new WorldTile(2939, 3257, 0)))//Front exit to Lesser demon exit ladder

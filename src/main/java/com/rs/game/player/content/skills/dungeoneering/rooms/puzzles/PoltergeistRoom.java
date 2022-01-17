@@ -113,7 +113,8 @@ public class PoltergeistRoom extends PuzzleRoom {
 				poltergeist.finish();
 			World.spawnObject(new GameObject(CENSERS[manager.getParty().getFloorType()][2], object.getType(), object.getRotation(), object));
 			return false;
-		} else if (name.equals("Censer") && object.getDefinitions().containsOption("Inspect")) {
+		}
+		if (name.equals("Censer") && object.getDefinitions().containsOption("Inspect")) {
 			player.sendMessage("This censer would be ideal for burning something in.");
 			return false;
 		} else if (name.equals("Herb patch") && object.getDefinitions().containsOption("Harvest")) {

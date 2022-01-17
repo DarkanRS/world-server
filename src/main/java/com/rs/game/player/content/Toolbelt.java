@@ -148,11 +148,9 @@ public class Toolbelt {
 				InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.PESTLE_AND_MORTAR.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
 				break;
 			case "Craft":
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()) || InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;
 				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.GLASSBLOWING_PIPE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;
@@ -168,7 +166,7 @@ public class Toolbelt {
 					return;
 				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;
 				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;

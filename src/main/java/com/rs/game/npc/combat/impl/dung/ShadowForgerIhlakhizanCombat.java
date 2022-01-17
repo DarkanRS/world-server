@@ -109,7 +109,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 											tile = new WorldTile(new WorldTile(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
 											if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 												break;
-											else if (distance == 0)
+											if (distance == 0)
 												tile = new WorldTile(target);
 										}
 										target.faceEntity(forger);

@@ -579,7 +579,8 @@ public final class Equipment {
 				openEquipmentBonuses(e.getPlayer(), false);
 				openEquipmentBonuses(e.getPlayer(), false);
 				return;
-			} else if (e.getComponentId() == 41) {
+			}
+			if (e.getComponentId() == 41) {
 				e.getPlayer().stopAll();
 				ItemsKeptOnDeath.openItemsKeptOnDeath(e.getPlayer());
 				return;

@@ -189,7 +189,7 @@ public class Helper {
 			return 7;
 		if (name.contains("potion"))
 			return 9;
-		else if (name.contains("food"))
+		if (name.contains("food"))
 			return 10;
 		else if (name.contains("scroll") || name.contains("pouch"))
 			return 11;
@@ -217,7 +217,7 @@ public class Helper {
 			return Constants.SMITHING;
 		if (indexedId >= 2 && indexedId <= 3 || indexedId >= 9 && indexedId <= 14 || indexedId >= 18 && indexedId <= 19 || indexedId == 23)
 			return Constants.CRAFTING;
-		else if (indexedId == 4)
+		if (indexedId == 4)
 			return Constants.CONSTRUCTION;
 		else if (indexedId == 5)
 			return Constants.COOKING;
@@ -292,17 +292,17 @@ public class Helper {
 		if (player.getX() == gate.getX() && player.getY() == gate.getY())
 			return true;
 
-		if (gate.getRotation() == 0)
+		if (gate.getRotation() == 0) {
 			if (player.getX() == (gate.getX() - 1) && player.getY() == gate.getY())
 				return true;
-			else
-				return player.addWalkSteps(gate.getX(), gate.getY()) || player.addWalkSteps(gate.getX() - 1, gate.getY());
+			return player.addWalkSteps(gate.getX(), gate.getY()) || player.addWalkSteps(gate.getX() - 1, gate.getY());
+		}
 		if (gate.getRotation() == 1)
 			if (player.getX() == gate.getX() && player.getY() == (gate.getY() + 1))
 				return true;
 			else
 				return player.addWalkSteps(gate.getX(), gate.getY()) || player.addWalkSteps(gate.getX(), gate.getY() + 1);
-		else if (gate.getRotation() == 2)
+		if (gate.getRotation() == 2)
 			if (player.getX() == (gate.getX() + 1) && player.getY() == gate.getY())
 				return true;
 			else
@@ -323,7 +323,7 @@ public class Helper {
 			return player.getX() == (gate.getX() - 1) && player.getY() == gate.getY();
 		if (gate.getRotation() == 1)
 			return player.getX() == gate.getX() && player.getY() == (gate.getY() + 1);
-		else if (gate.getRotation() == 2)
+		if (gate.getRotation() == 2)
 			return player.getX() == (gate.getX() + 1) && player.getY() == gate.getY();
 		else if (gate.getRotation() == 3)
 			return player.getX() == gate.getX() && player.getY() == (gate.getY() - 1);
@@ -339,7 +339,7 @@ public class Helper {
 			return new WorldTile(gate.getX() - 1, gate.getY(), gate.getPlane());
 		if (gate.getRotation() == 1)
 			return new WorldTile(gate.getX(), gate.getY() + 1, gate.getPlane());
-		else if (gate.getRotation() == 2)
+		if (gate.getRotation() == 2)
 			return new WorldTile(gate.getX() + 1, gate.getY(), gate.getPlane());
 		else if (gate.getRotation() == 3)
 			return new WorldTile(gate.getX(), gate.getY() - 1, gate.getPlane());
@@ -352,7 +352,7 @@ public class Helper {
 			return Direction.EAST;
 		if (player.getX() > faceTile.getX())
 			return Direction.WEST;
-		else if (player.getY() < faceTile.getY())
+		if (player.getY() < faceTile.getY())
 			return Direction.NORTH;
 		else if (player.getY() > faceTile.getY())
 			return Direction.SOUTH;

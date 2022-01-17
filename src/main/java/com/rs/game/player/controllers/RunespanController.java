@@ -682,7 +682,8 @@ public class RunespanController extends Controller {
 			}, 1);
 			player.getPackets().sendVarc(1917, 1);
 			return false;
-		} else if (object.getId() == 70511) {
+		}
+		if (object.getId() == 70511) {
 			player.useStairs(16675, BONE_LADDER, 2, 3);
 			WorldTasks.schedule(new WorldTask() {
 				@Override
