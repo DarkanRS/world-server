@@ -18,12 +18,19 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ge.GE;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.skills.dungeoneering.DungeonRewards;
+import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.DialogueOptionEvent;
+import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -55,4 +62,87 @@ public class Daemonheim {
 		}
 	};
 
+    public static NPCClickHandler handleRewardsTrader = new NPCClickHandler(9711) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            Player p = e.getPlayer();
+            int NPC = e.getNPCId();
+            if(e.getOption().equalsIgnoreCase("talk-to"))
+                p.startConversation(new Conversation(p) {
+                    {
+                        addNPC(NPC, HeadE.CALM_TALK, "Oh, hello, I didn't see...");
+                        addPlayer(HeadE.HAPPY_TALKING, "Hey. I was wondering if you could help me?");
+                        addNPC(NPC, HeadE.CALM_TALK, "Help? Uh... I'm not sure that I can... uh...");
+                        create();
+                    }
+                });
+            if(e.getOption().equalsIgnoreCase("shop"))
+                DungeonRewards.openRewardsShop(p);
+            if(e.getOption().equalsIgnoreCase("recharge"))
+                p.startConversation(new Conversation(p) {
+                    {
+                        addNPC(NPC, HeadE.HAPPY_TALKING, "Did you want to recharge your gear?");
+                        addPlayer(HeadE.HAPPY_TALKING, "Yes.");
+                        addNPC(NPC, HeadE.CALM_TALK, "Give me the item.");
+                        addPlayer(HeadE.HAPPY_TALKING, "Okay.");
+                        addSimple("He looks blankly at you...");
+                        addPlayer(HeadE.SECRETIVE, "Umm...");
+                        addPlayer(HeadE.SECRETIVE, "How do I give it to you?");
+                        addNPC(NPC, HeadE.CALM_TALK, "Use it on me, blimey, how else?");
+                        addPlayer(HeadE.HAPPY_TALKING, "That makes sense.");
+                        addSimple("He rolls his eyes...");
+                        create();
+                    }
+                });
+
+        }
+    };
+
+    public static ItemOnNPCHandler handleChaoticsRecharge = new ItemOnNPCHandler(9711) {
+        @Override
+        public void handle(ItemOnNPCEvent e) {
+            if (e.getItem().getId() < 18349 || e.getItem().getId() > 18374)
+                return;
+            ItemConstants.ItemDegrade deg = ItemConstants.ItemDegrade.forId(e.getItem().getId());
+            if (deg == null)
+                return;
+            int cost = deg.getCost(e.getItem());
+            e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(9711, HeadE.SCARED, "I can repair that for either " + Utils.formatNumber(cost) + " coins or " + Utils.formatNumber(cost / 10) + " coins and " + Utils.formatNumber(cost / 100) + " dungeoneering tokens.").addNext(() -> {
+                e.getPlayer().sendOptionDialogue("Which repair option would you like to use?", new String[] { Utils.formatNumber(cost) + " coins", Utils.formatNumber(cost / 10) + " coins and " + Utils.formatNumber(cost / 100) + " dungeoneering tokens", "Nevermind" }, new DialogueOptionEvent() {
+                    @Override
+                    public void run(Player player) {
+                        Item item = player.getInventory().getItem(e.getItem().getSlot());
+                        if (item == null || item.getId() != e.getItem().getId())
+                            return;
+                        if (option == 1) {
+                            if (!player.getInventory().containsItem(995, cost)) {
+                                player.sendMessage("You don't have enough coins.");
+                                return;
+                            }
+                            player.getInventory().deleteItem(995, cost);
+                            item.setId(deg.getItemId());
+                            item.deleteMetaData();
+                            player.getInventory().refresh(e.getItem().getSlot());
+                        } else if (option == 2) {
+                            int coinCost = cost / 10;
+                            int tokenCost = cost / 100;
+                            if (!player.getInventory().containsItem(995, coinCost)) {
+                                player.sendMessage("You don't have enough coins.");
+                                return;
+                            }
+                            if (player.getDungManager().getTokens() < tokenCost) {
+                                player.sendMessage("You don't have enough dungeoneering tokens.");
+                                return;
+                            }
+                            player.getInventory().deleteItem(995, coinCost);
+                            player.getDungManager().removeTokens(tokenCost);
+                            item.setId(deg.getItemId());
+                            item.deleteMetaData();
+                            player.getInventory().refresh(e.getItem().getSlot());
+                        }
+                    }
+                });
+            }));
+        }
+    };
 }

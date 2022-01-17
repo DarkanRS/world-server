@@ -276,8 +276,6 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new ClanCloak(), false);
 			else if (npc.getId() == 5915)
 				player.getDialogueManager().execute(new ClanVex(), false);
-			else if (npc.getId() == 9711)
-				DungeonRewards.openRewardsShop(player);
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
 				player.getDialogueManager().execute(new TanningD(), npc.getId());
 			else if (npc.getName().toLowerCase().contains("impling"))
@@ -457,8 +455,6 @@ public class NPCHandler {
 				player.setNextWorldTile(new WorldTile(2839, 10131, 0));
 			else if (npc.getId() == 1419)
 				GE.open(player);
-			else if (npc.getId() == 9711)
-				DungeonRewards.openRewardsShop(player);
 			else if (npc.getId() == 2676 || npc.getId() == 599)
 				PlayerLook.openMageMakeOver(player);
 			else if (npc.getId() == 598)
