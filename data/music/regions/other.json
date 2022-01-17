@@ -1,7 +1,7 @@
 [
   {
     "genre": "Tzhaar City",
-    "comment": "Use for fight kiln controller & fight caves controller.",
+    "comment": "Add from wild and spooky, silent chill ambience.  Use for fight kiln controller & fight caves controller.",
     "isActive": true,
     "regionIds": [
       18255,
@@ -18,8 +18,28 @@
       18258
     ],
     "songs": [
+      365,
+      376,
       463,
+      449,
+      513,
       526,
+      641,
+      647,
+      685,
+      686,
+      687,
+      688,
+      689,
+      690,
+      691,
+      692,
+      696,
+      698,
+      700,
+      701,
+      972,
+      975,
       1075,
       1081,
       1083,
@@ -30,56 +50,88 @@
   },
   {
     "genre": "Zanaris",
+    "parent": "Elf",
     "comment": "",
     "isActive": true,
     "regionIds": [
       9541,
       9797,
       9796,
-      9540
+      9540,
+      9029
     ],
-    "songs": [
-      118,
-      181,
-      301,
-      974,
-      984,
-      987,
-      988,
-      990,
-      993,
-      996
-    ]
+    "songs": []
   },
   {
-    "genre": "God Wars Dungeon",
+    "genre": "Fremennik Isles",
     "comment": "",
     "isActive": true,
     "regionIds": [
-      11092,
-      11091,
-      11090,
-      11089,
-      11348,
-      11347,
-      11346,
-      11345,
-      11604,
-      11603,
-      11602,
-      11601,
-      11860,
-      11859,
-      11858,
-      11857
+      8253,
+      8252,
+      8509,
+      8508,
+      8763,
+      9276,
+      9275,
+      9532,
+      9531,
+      10044,
+      10043,
+      10042,
+      10040,
+      10300,
+      10297,
+      10296,
+      10554,
+      10553,
+      10552,
+      10811,
+      10810,
+      10809,
+      10808,
+      11064
     ],
     "songs": [
-      399,
-      495,
-      617,
-      618,
-      952,
-      959
+      220,
+      221,
+      222,
+      223,
+      225,
+      295,
+      299,
+      301,
+      302,
+      316,
+      430,
+      484,
+      485,
+      500,
+      506,
+      508,
+      509,
+      510,
+      622,
+      623,
+      626,
+      629,
+      630,
+      635,
+      636,
+      637,
+      647,
+      956,
+      961,
+      974,
+      976,
+      977,
+      979,
+      981,
+      988,
+      990,
+      993,
+      994,
+      996
     ]
   },
   {
@@ -109,21 +161,22 @@
   },
   {
     "genre": "Trolls",
-    "comment": "Trollheim + ice trolls north of netizot",
+    "comment": "Trollheim ice trolls north of netizot",
     "isActive": true,
     "regionIds": [
-      9276,
-      9532,
       11677,
       11065,
-      11064,
       11063,
       11322,
       11321,
       11320,
       11578,
       11577,
-      11576
+      11576,
+      11421,
+      11068,
+      11067,
+      11066
     ],
     "songs": [
       9,
@@ -139,7 +192,9 @@
   },
   {
     "genre": "Isafdar",
+    "parent": "Elf",
     "comment": "Tyras, Isafdar, elf camp, lletya, Tirannwn, 2012 Prifddinas, zemo",
+    "isActive": true,
     "regionIds": [
       8753,
       9009,
@@ -155,17 +210,58 @@
       8497,
       8496
     ],
-    "songs": []
+    "songs": [
+      91,
+      252,
+      255
+    ]
   },
   {
-    "genre": "Oog'log",
-    "parent": "Kandarin",
+    "genre": "Ogre",
+    "parent": "Jungle",
     "comment": "Ogres south of Yanille",
+    "isActive": true,
     "regionIds": [
-
+      9775,
+      10031,
+      10287,
+      10028,
+      10284
     ],
     "songs": [
-      390
+      71,
+      188,
+      224,
+      390,
+      392,
+      468,
+      477
+    ]
+  },
+  {
+    "genre": "Feldip Hills",
+    "parent": "Jungle",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      9774,
+      10030,
+      10286,
+      10542,
+      9773,
+      10029,
+      10285,
+      9516,
+      9772
+    ],
+    "songs": [
+      71,
+      80,
+      128,
+      194,
+      390,
+      453,
+      460
     ]
   },
   {
@@ -258,7 +354,9 @@
   },
   {
     "genre": "Miscellaneous swamps",
+    "parent": "Swamp",
     "comment": "Poison waste, Lumbridge swamp & desert swamp",
+    "isActive": true,
     "regionIds": [
       12593,
       12849,
@@ -266,9 +364,7 @@
       8752,
       9008
     ],
-    "songs": [
-      0
-    ]
+    "songs": []
   },
   {
     "genre": "Duel arena",
@@ -309,32 +405,20 @@
     ]
   },
   {
-    "genre": "Dungeons",
-    "comment": "",
-    "regionIds": [
-      11925,
-      12181,
-      11417,
-      11416,
-      11673,
-      11672,
-      11671,
-      11929,
-      11928,
-      12185,
-      12184
-    ],
-    "songs": [
-      144,
-      321,
-      361
-    ]
-  },
-  {
     "genre": "Wilderness",
-    "comment": "Covers the entire overworld wild, maybe call on wildy controller?",
+    "comment": "Covers the entire overworld wild, maybe call on wildy controller?, covers edgevill dungeon wilderness",
     "isActive": true,
     "regionIds": [
+      12630,
+      12629,
+      12886,
+      12885,
+      13142,
+      13141,
+      12443,
+      12190,
+      12446,
+      12445,
       11837,
       11836,
       11835,
@@ -383,7 +467,18 @@
       13370,
       13369,
       13368,
-      13367
+      13367,
+      13722,
+      11670,
+      11937,
+      12193,
+      10057,
+      12610,
+      12107,
+      11588,
+      11844,
+      13459,
+      13458
     ],
     "songs": [
       1,

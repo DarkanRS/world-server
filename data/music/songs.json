@@ -5,20 +5,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 0,
-    "regionIds": [
-      9040,
-      18517,
-      18516,
-      18773,
-      11580,
-      12190,
-      12446,
-      12445,
-      13973,
-      10137,
-      11324,
-      11581
-    ]
+    "regionIds": []
   },
   {
     "name": "Iban",
@@ -210,7 +197,7 @@
   {
     "name": "Arabique",
     "hint": "at the hellhounds in Taverley Dungeon.",
-    "comment": "",
+    "comment": "Region only",
     "allowAmbient": false,
     "id": 19,
     "regionIds": [
@@ -534,7 +521,7 @@
   {
     "name": "Royale",
     "hint": "at the Black Knight base in Taverley Dungeon.",
-    "comment": "",
+    "comment": "Only region",
     "allowAmbient": false,
     "id": 53,
     "regionIds": [
@@ -737,7 +724,7 @@
   {
     "name": "All's Fairy in Love and War",
     "hint": "at the fairy resistance hideout in Fairy Tale Part II.",
-    "comment": "Zanaris",
+    "comment": "Sounds like an event",
     "allowAmbient": false,
     "id": 73,
     "regionIds": []
@@ -1037,7 +1024,7 @@
   {
     "name": "Oriental",
     "hint": "in the Waterfall Dungeon, East of Shilo Village.",
-    "comment": "",
+    "comment": "Region only",
     "allowAmbient": false,
     "id": 103,
     "regionIds": [
@@ -1088,7 +1075,7 @@
   {
     "name": "Starlight",
     "hint": "at the Asgarnian Ice Dungeon north of Mudskipper Point.",
-    "comment": "",
+    "comment": "Region only",
     "allowAmbient": false,
     "id": 108,
     "regionIds": [
@@ -1103,8 +1090,7 @@
     "allowAmbient": false,
     "id": 109,
     "regionIds": [
-      10294,
-      10394
+      10294
     ]
   },
   {
@@ -1424,10 +1410,7 @@
       13210,
       12443,
       12442,
-      12441,
-      12698,
-      12954,
-      13210
+      12441
     ]
   },
   {
@@ -1961,7 +1944,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Fun travel jingle",
     "allowAmbient": false,
     "id": 199,
     "regionIds": []
@@ -2086,8 +2069,8 @@
   {
     "name": "Undead Dungeon",
     "hint": "in Tarn's Lair.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Lock with haunted mine quest",
+    "allowAmbient": true,
     "id": 214,
     "regionIds": [
       12615
@@ -2152,7 +2135,7 @@
     "name": "Jester Minute",
     "hint": "during Fremennik Isles.",
     "comment": "Fremnik for neitznot?",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 221,
     "regionIds": []
   },
@@ -2179,7 +2162,7 @@
   {
     "name": "Ogre the Top",
     "hint": "during Fremennik Isles.",
-    "comment": "",
+    "comment": "Fremennik but too exciting",
     "allowAmbient": false,
     "id": 224,
     "regionIds": [
@@ -2190,7 +2173,7 @@
     "name": "Volcanic Vikings",
     "hint": "during Fremennik Isles.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 225,
     "regionIds": [
       9275
@@ -2515,13 +2498,7 @@
     "id": 260,
     "regionIds": [
       13972,
-      14228,
-      1316,
-      14484,
-      14227,
-      14483,
-      14226,
-      14482
+      14228
     ]
   },
   {
@@ -2651,7 +2628,7 @@
   {
     "name": "Rising Damp",
     "hint": "during Olaf's Quest.",
-    "comment": "",
+    "comment": "Region only, its funky",
     "allowAmbient": false,
     "id": 274,
     "regionIds": [
@@ -2661,7 +2638,7 @@
   {
     "name": "Slice of Station",
     "hint": "during Another Slice of H.A.M..",
-    "comment": "",
+    "comment": "Freakin weird",
     "allowAmbient": false,
     "id": 275,
     "regionIds": []
@@ -2732,7 +2709,7 @@
   {
     "name": "Miscellania",
     "hint": "on Miscellania.",
-    "comment": "",
+    "comment": "fremennik",
     "allowAmbient": false,
     "id": 284,
     "regionIds": [
@@ -2850,7 +2827,7 @@
     "name": "Warrior",
     "hint": "during Fremennik Trials.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 295,
     "regionIds": []
   },
@@ -2884,7 +2861,7 @@
     "name": "Inadequacy",
     "hint": "during Dream Mentor.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 299,
     "regionIds": []
   },
@@ -3041,7 +3018,7 @@
     "name": "The Navigator",
     "hint": "during Fremennik Trials.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 316,
     "regionIds": []
   },
@@ -3529,7 +3506,7 @@
   {
     "name": "Melzar's Maze",
     "hint": "during Dragon Slayer.",
-    "comment": "Dungeon, wild",
+    "comment": "Tzhaar, Dungeon, wild",
     "allowAmbient": false,
     "id": 365,
     "regionIds": [
@@ -3603,7 +3580,7 @@
   {
     "name": "Claustrophobia",
     "hint": "during Between a Rock...",
-    "comment": "",
+    "comment": "Dungeon",
     "allowAmbient": false,
     "id": 373,
     "regionIds": []
@@ -3621,7 +3598,7 @@
   {
     "name": "Fight or Flight",
     "hint": "at the slave mine under West Ardougne.",
-    "comment": "",
+    "comment": "Dungeon",
     "allowAmbient": false,
     "id": 375,
     "regionIds": [
@@ -3632,8 +3609,8 @@
   {
     "name": "Temple of Light",
     "hint": "during Mourning's Ends Part II.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Tzhaar",
+    "allowAmbient": true,
     "id": 376,
     "regionIds": [
       7496
@@ -3791,7 +3768,7 @@
   {
     "name": "Zogre Dance",
     "hint": "at the zogre area.",
-    "comment": "",
+    "comment": "Ogre",
     "allowAmbient": false,
     "id": 392,
     "regionIds": [
@@ -3801,7 +3778,7 @@
   {
     "name": "Path of Peril",
     "hint": "in Damis's Shadow Dungeon.",
-    "comment": "",
+    "comment": "Zanaris",
     "allowAmbient": false,
     "id": 393,
     "regionIds": [
@@ -3812,7 +3789,7 @@
   {
     "name": "Wayward",
     "hint": "at the zogre Dungeon.",
-    "comment": "",
+    "comment": "Dungeon",
     "allowAmbient": false,
     "id": 394,
     "regionIds": [
@@ -4105,7 +4082,7 @@
     "name": "Bolrie's Diary",
     "hint": "during Path of Glouphrie.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 427,
     "regionIds": []
   },
@@ -4130,7 +4107,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "Lunar isle(not added), Daemonheim",
+    "comment": "Lunar isle, Zanaris, Daemonheim",
     "allowAmbient": true,
     "id": 430,
     "regionIds": []
@@ -4625,7 +4602,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 484,
     "regionIds": []
   },
@@ -4633,7 +4610,7 @@
     "name": "The Noble Rodent",
     "hint": "during Rat Catchers.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 485,
     "regionIds": []
   },
@@ -4762,8 +4739,8 @@
   {
     "name": "A New Menace",
     "hint": "during Kennith's Concerns.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "Lunar isle, Zanaris",
+    "allowAmbient": true,
     "id": 500,
     "regionIds": []
   },
@@ -4816,7 +4793,7 @@
     "name": "Land Down Under",
     "hint": "during Royal Trouble.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 506,
     "regionIds": []
   },
@@ -5029,7 +5006,7 @@
     "allowAmbient": false,
     "id": 529,
     "regionIds": [
-      5193
+      12181
     ]
   },
   {
@@ -5566,7 +5543,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 590,
     "regionIds": []
   },
@@ -5838,7 +5815,7 @@
     "name": "Waking Dream",
     "hint": "during your dream in Lunar Diplomacy.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 622,
     "regionIds": []
   },
@@ -5846,7 +5823,7 @@
     "name": "Dreamstate",
     "hint": "during your dream in Lunar Diplomacy.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 623,
     "regionIds": []
   },
@@ -5873,11 +5850,9 @@
     "name": "Way of the Enchanter",
     "hint": "in the dungeon beneath Lunar Isle.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 626,
-    "regionIds": [
-      9377
-    ]
+    "regionIds": []
   },
   {
     "name": "Isle of Everywhere",
@@ -5895,8 +5870,8 @@
   {
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "God Wars",
+    "allowAmbient": true,
     "id": 628,
     "regionIds": []
   },
@@ -5904,15 +5879,15 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "Lunar isle, Neitzot & that other isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 629,
     "regionIds": []
   },
   {
     "name": "The Galleon",
     "hint": "during Lunar Diplomacy.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "Lunar isle, fremennik",
+    "allowAmbient": true,
     "id": 630,
     "regionIds": [
       8763
@@ -5972,8 +5947,8 @@
   {
     "name": "Nial's Widow",
     "hint": "somewhere.",
-    "comment": "Lunar isle",
-    "allowAmbient": false,
+    "comment": "Lunar isle, Zanaris",
+    "allowAmbient": true,
     "id": 636,
     "regionIds": []
   },
@@ -5981,7 +5956,7 @@
     "name": "Glorious Recallation...",
     "hint": "somewhere.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 637,
     "regionIds": []
   },
@@ -6062,8 +6037,8 @@
   {
     "name": "Rest for the Weary",
     "hint": "during The Tale of the Muspah.",
-    "comment": "Lunar isle, wild",
-    "allowAmbient": false,
+    "comment": "Lunar isle, wild, tzhaar",
+    "allowAmbient": true,
     "id": 647,
     "regionIds": [
       11425,
@@ -6399,64 +6374,64 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Ambient tzhaar",
+    "allowAmbient": true,
     "id": 685,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Ambient tzhaar",
+    "allowAmbient": true,
     "id": 686,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 687,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 688,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 689,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 690,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 691,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 692,
     "regionIds": []
   },
@@ -6474,7 +6449,7 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "To unique, may be recognizable as a quest sound",
     "allowAmbient": false,
     "id": 694,
     "regionIds": []
@@ -6482,16 +6457,16 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
+    "comment": "Too short",
     "allowAmbient": false,
     "id": 695,
     "regionIds": []
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient Tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 696,
     "regionIds": []
   },
@@ -6521,10 +6496,18 @@
   },
   {
     "name": "",
-    "hint": "somewhere.",
+    "hint": "Ambient Tzhaar",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 700,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "Ambient Tzhaar",
+    "comment": "",
+    "allowAmbient": true,
+    "id": 701,
     "regionIds": []
   },
   {
@@ -6770,9 +6753,9 @@
   },
   {
     "name": "Dead and Buried",
-    "hint": "in the Lumbridge Catacombs.",
+    "hint": "Dungeon in the Lumbridge Catacombs.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 731,
     "regionIds": [
       13910,
@@ -6782,8 +6765,8 @@
   {
     "name": "The Pact",
     "hint": "during The Blood Pact.",
-    "comment": "lumbridge catacombs",
-    "allowAmbient": false,
+    "comment": "Dungeon lumbridge catacombs",
+    "allowAmbient": true,
     "id": 732,
     "regionIds": [
       15446
@@ -6792,8 +6775,8 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "lumbridge catacombs",
-    "allowAmbient": false,
+    "comment": "Dungeon lumbridge catacombs",
+    "allowAmbient": true,
     "id": 733,
     "regionIds": [
       15446
@@ -8500,7 +8483,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 945,
     "regionIds": []
   },
@@ -8588,7 +8571,7 @@
     "name": "Only a King",
     "hint": "during King of the Dwarves.",
     "comment": "Lunar isle, neitzot+",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 956,
     "regionIds": []
   },
@@ -8596,7 +8579,7 @@
     "name": "Colonel Grimsson",
     "hint": "during King of the Dwarves.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 957,
     "regionIds": []
   },
@@ -8687,7 +8670,7 @@
     "name": "Three of a Kind",
     "hint": "during Deadliest Catch.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 968,
     "regionIds": []
   },
@@ -8695,7 +8678,7 @@
     "name": "Deadliest Catch",
     "hint": "during Deadliest Catch.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 969,
     "regionIds": []
   },
@@ -8719,7 +8702,7 @@
     "name": "Kethsi",
     "hint": "on entering Kethsi.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 972,
     "regionIds": []
   },
@@ -8727,7 +8710,7 @@
     "name": "Slug Poison",
     "hint": "during Salt in the Wound.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 973,
     "regionIds": []
   },
@@ -8742,8 +8725,8 @@
   {
     "name": "Natural Selection",
     "hint": "in the Jadinko Lair.",
-    "comment": "Dungeon",
-    "allowAmbient": false,
+    "comment": "Dungeon, Tzhaar",
+    "allowAmbient": true,
     "id": 975,
     "regionIds": []
   },
@@ -8775,7 +8758,7 @@
     "name": "Citadel XV",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle Zanris",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 979,
     "regionIds": []
   },
@@ -8791,7 +8774,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 981,
     "regionIds": []
   },
@@ -8823,7 +8806,7 @@
     "name": "",
     "hint": "on entering a Clan Citadel.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 985,
     "regionIds": []
   },
@@ -8847,7 +8830,7 @@
     "name": "Citadel XIV",
     "hint": "in a Clan Citadel.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 989,
     "regionIds": []
   },
@@ -8887,7 +8870,7 @@
     "name": "Citadel I",
     "hint": "in a Clan Citadel.",
     "comment": "Lunar isle",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 994,
     "regionIds": []
   },
@@ -8895,7 +8878,7 @@
     "name": "Citadel V",
     "hint": "in a Clan Citadel.",
     "comment": "Dungeon",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 995,
     "regionIds": []
   },
@@ -9221,12 +9204,9 @@
     "name": "Spiritual",
     "hint": "in Taverley.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 1061,
-    "regionIds": [
-      11573,
-      11574
-    ]
+    "regionIds": []
   },
   {
     "name": "Taverley Frolics",
@@ -9262,12 +9242,9 @@
     "name": "Taverley Ambience",
     "hint": "in Taverley.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 1066,
-    "regionIds": [
-      11574,
-      11573
-    ]
+    "regionIds": []
   },
   {
     "name": "Taverley Enchantment",

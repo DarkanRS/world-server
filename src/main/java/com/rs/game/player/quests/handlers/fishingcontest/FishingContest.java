@@ -184,52 +184,53 @@ public class FishingContest extends QuestOutline {
 		public void handle(ItemOnObjectEvent e) {
 			Player p = e.getPlayer();
 			int stage = p.getQuestManager().getStage(Quest.FISHING_CONTEST);
-			if(p.matches(new WorldTile(2638, 3445, 0))) {
-				if (stage == ENTER_COMPETITION || stage == DO_ROUNDS)
-					if (e.getItem().getId() == 1550) {//garlic
-						if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {
-							p.sendMessage("There is already garlic...");
-							return;
-						}
-						p.getInventory().removeItems(new Item(1550, 1));
-						p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
-						p.sendMessage("You place the garlic in the pipe.");
-						p.lock(8);
-						WorldTasks.schedule(new WorldTask() {
-							int tick;
-							NPC stranger;
+            p.walkToAndExecute(new WorldTile(2638, 3445, 0), () -> {
+                if (stage == ENTER_COMPETITION || stage == DO_ROUNDS)
+                    if (e.getItem().getId() == 1550) {//garlic
+                        if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {
+                            p.sendMessage("There is already garlic...");
+                            return;
+                        }
+                        p.getInventory().removeItems(new Item(1550, 1));
+                        p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
+                        p.sendMessage("You place the garlic in the pipe.");
+                        p.lock(8);
+                        WorldTasks.schedule(new WorldTask() {
+                            int tick;
+                            NPC stranger;
 
-							@Override
-							public void run() {
-								if (tick == 0)
-									for (NPC npc : World.getNPCsInRegion(p.getRegionId()))
-										if (npc.getId() == 3677)//vampyre stranger
-										stranger = npc;
-								if (tick == 1) {
-									if (stranger == null)
-										stop();
-									stranger.forceTalk("What is that ghastly smell?");
-								}
-								if (tick == 2) {
-									p.startConversation(new Conversation(p) {
-										{
-											addNPC(3677, HeadE.FRUSTRATED, "Can I take the spot by the willow tree?");
-											addPlayer(HeadE.HAPPY_TALKING, "Sure...");
-											addNext(() -> {
-												p.unlock();
-											});
-											create();
-										}
-									});
-									stop();
-								}
+                            @Override
+                            public void run() {
+                                if (tick == 0)
+                                    for (NPC npc : World.getNPCsInRegion(p.getRegionId()))
+                                        if (npc.getId() == 3677)//vampyre stranger
+                                            stranger = npc;
+                                if (tick == 1) {
+                                    if (stranger == null)
+                                        stop();
+                                    stranger.forceTalk("What is that ghastly smell?");
+                                }
+                                if (tick == 2) {
+                                    p.startConversation(new Conversation(p) {
+                                        {
+                                            addNPC(3677, HeadE.FRUSTRATED, "Can I take the spot by the willow tree?");
+                                            addPlayer(HeadE.HAPPY_TALKING, "Sure...");
+                                            addNext(() -> {
+                                                p.unlock();
+                                            });
+                                            create();
+                                        }
+                                    });
+                                    stop();
+                                }
 
-								tick++;
-							}
-						}, 0, 1);
-					}
-			} else
-				p.sendMessage("Stand next to the pipe to place the garlic.");
+                                tick++;
+                            }
+                        }, 0, 1);
+                    }
+            });
+
+
 		}
 	};
 

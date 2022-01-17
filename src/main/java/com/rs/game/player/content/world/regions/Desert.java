@@ -17,7 +17,12 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.Options;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
@@ -173,6 +178,65 @@ public class Desert  {
 			ShopsHandler.openShop(e.getPlayer(), "the_big_heist_lodge");
 		}
 	};
+
+    public static NPCClickHandler aliSnakeCharmer = new NPCClickHandler(1872) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            Player p = e.getPlayer();
+            p.startConversation(new Conversation(p) {
+                {
+                    addPlayer(HeadE.HAPPY_TALKING, "Hello...");
+                    addNPC(1872, HeadE.FRUSTRATED, "What do you want " + p.getPronoun("sir", "m'am") + "?");
+                    addOptions("Choose an option:", new Options() {
+                        @Override
+                        public void create() {
+                            option("Would you like some money?", new Dialogue()
+                                    .addPlayer(HeadE.CHEERFUL, "Would you like some money?")
+                                    .addNPC(1872, HeadE.FRUSTRATED, "Why else would I sit here with a dangerous snake?")
+                                    .addOptions("Give money?", new Options() {
+                                        @Override
+                                        public void create() {
+                                            if(p.getInventory().containsItem(995, 1))
+                                                option("Yes.", new Dialogue()
+                                                        .addItem(995, "You give the charmer 1 coin", ()->{
+                                                            p.getInventory().removeItems(new Item(995, 1));
+                                                        })
+                                                        .addNPC(1872, HeadE.CHEERFUL, "Oh thank you so much! Please please come again")
+                                                        .addSimple("You feel swindled...")
+                                                );
+                                            else
+                                                option("I would give you if I had some...", new Dialogue()
+                                                        .addPlayer(HeadE.CHEERFUL, "I would give you money if I had it.")
+                                                        .addNPC(1872, HeadE.FRUSTRATED, "Leave me alone.")
+                                                );
+                                            option("No.", new Dialogue());
+                                        }
+                                    })
+                            );
+                            option("Does the snake ever bite?", new Dialogue()
+                                    .addPlayer(HeadE.CHEERFUL, "Does the snake ever bite?")
+                                    .addNPC(1872, HeadE.SECRETIVE, "It's trained not to.")
+                                    .addPlayer(HeadE.AMAZED, "That's cheating isn't it?")
+                                    .addNPC(1872, HeadE.CALM_TALK, "Please, leave me alone.")
+                            );
+                            option("Can I try your flute?", new Dialogue()
+                                    .addPlayer(HeadE.CHEERFUL, "Can I try your flute?")
+                                    .addSimple("He looks upset...")
+                                    .addNPC(1872, HeadE.FRUSTRATED, "Will it get you off my back?")
+                                    .addPlayer(HeadE.SECRETIVE, "Umm, sure.")
+                                    .addSimple("He pulls out a set of flutes...")
+                                    .addNPC(1872, HeadE.FRUSTRATED, "I will give you one, just leave me alone")
+                                    .addItem(4605, "He gives you a flute", ()-> {
+                                        p.getInventory().addItem(4605, 1);
+                                    })
+                            );
+                        }
+                    });
+                    create();
+                }
+            });
+        }
+    };
 
 	public static ObjectClickHandler handlePyramidBackEntrance = new ObjectClickHandler(new Object[] { 6481 }) {
 		@Override

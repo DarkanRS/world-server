@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
+import com.rs.Settings;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.lib.file.JsonFileManager;
@@ -44,7 +45,10 @@ public class NPCExamines {
 	}
 
 	public static final String getExamine(NPC npc, Player player) {
-		String examine = EXAMINES.get(npc.getId());
+        if(Settings.getConfig().isDebug())
+            player.sendMessage(npc.getId() + ", X: " + npc.getX() + ", Y: " + npc.getY() + ", Plane: " + npc.getPlane() + ". Transforms with varbit "
+                    + npc.getDefinitions().varpBit + " and var " + npc.getDefinitions().varp);
+        String examine = EXAMINES.get(npc.getId());
 		if (examine != null)
 			return examine;
 		return "It's " + Utils.addArticle(npc.getDefinitions().getName(player.getVars())).toLowerCase() + ".";

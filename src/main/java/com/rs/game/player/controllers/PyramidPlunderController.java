@@ -16,14 +16,14 @@
 //
 package com.rs.game.player.controllers;
 
+import com.rs.game.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 
 public class PyramidPlunderController extends Controller {
 
-
-	@Override
+    @Override
 	public void start() {
 		startMinigame();
 	}
@@ -65,8 +65,8 @@ public class PyramidPlunderController extends Controller {
 				if(tick == 0)
 					player.getInterfaceManager().setFadingInterface(115);
 				if(tick == 2) {
-					player.faceNorth();
-					player.setNextWorldTile(new WorldTile(1927, 4478, 0));
+					player.faceSouth();
+					player.setNextWorldTile(new WorldTile(1927, 4477, 0));
 				}
 				if(tick == 5)
 					player.getInterfaceManager().setFadingInterface(170);

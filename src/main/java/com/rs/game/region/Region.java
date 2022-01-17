@@ -970,6 +970,10 @@ public class Region {
 		return musicIds[Utils.getRandomInclusive(musicIds.length - 1)];
 	}
 
+    public int[] getMusicIds() {
+        return musicIds;
+    }
+
 	public int getLoadMapStage() {
 		return loadMapStage;
 	}

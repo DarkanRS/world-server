@@ -206,11 +206,13 @@ public class ErnestTheChicken extends QuestOutline {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
-			if(p.getInventory().containsItem(PRESSURE_GAUGE, 1))
-				p.startConversation(new Conversation(p) {{
-					addPlayer(HeadE.CALM_TALK, "I already have the pressure gauge...");
-					create();
-				}});
+			if(p.getInventory().containsItem(PRESSURE_GAUGE, 1)) {
+                p.startConversation(new Conversation(p) {{
+                    addPlayer(HeadE.CALM_TALK, "I already have the pressure gauge...");
+                    create();
+                }});
+                return;
+            }
 			if(p.getTempAttribs().getB("FountainFishDead"))
 				p.startConversation(new Conversation(p) {
 					{
