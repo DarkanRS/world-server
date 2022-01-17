@@ -72,12 +72,12 @@ public class Ardougne  {
         public void handle(NPCClickEvent e) {
             Player p = e.getPlayer();
             switch(e.getOption()) {
-                case "Bank":
-                    p.getBank().open();
-                    break;
-                case "Collect":
-                    GE.openCollection(p);
-                    break;
+//                case "Bank":
+//                    p.getBank().open();
+//                    break;
+//                case "Collect":
+//                    GE.openCollection(p);
+//                    break;
                 case "Talk-to":
                     e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
                     break;

@@ -308,9 +308,9 @@ public class Woodcutting extends Action {
 					for (int item : type.getLogsId())
 						player.getInventory().addItemDrop(item, 1);
 			} else if (player.hasEffect(Effect.JUJU_WC_BANK)) {
-					for (int item : type.getLogsId())
-						player.getBank().addItem(new Item(item, 1), true);
-					player.setNextSpotAnim(new SpotAnim(2897));
+				for (int item : type.getLogsId())
+					player.getBank().addItem(new Item(item, 1), true);
+				player.setNextSpotAnim(new SpotAnim(2897));
 			} else
 				for (int item : type.getLogsId())
 					player.getInventory().addItemDrop(item, 1);
@@ -329,8 +329,7 @@ public class Woodcutting extends Action {
 						player.setNextSpotAnim(new SpotAnim(1776));
 					}
 			}
-    }
-
+		}
 	}
 
 	public boolean checkTree() {

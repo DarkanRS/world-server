@@ -73,34 +73,6 @@ public class Normal {
 			NPC.displayDropsFor(p, npcId, npcAmount);
 		});
 
-
-
-
-//		Commands.add(Rights.PLAYER, "cluesim [difficulty]", "Emulates opening a clue of specific difficulty", (p, args) -> {
-//			Item[] rewards = null;
-//			switch (args[0].toLowerCase()) {
-		//				case "easy":
-//					rewards = TreasureTrailsManager.generateRewards(p, 0);
-//					break;
-//				case "medium":
-//					rewards = TreasureTrailsManager.generateRewards(p, 1);
-//					break;
-//				case "hard":
-//					rewards = TreasureTrailsManager.generateRewards(p, 2);
-//					break;
-//				case "elite":
-//					rewards = TreasureTrailsManager.generateRewards(p, 3);
-//					break;
-//				default:
-//					rewards = TreasureTrailsManager.generateRewards(p, 0);
-//			}
-//
-//			p.getInterfaceManager().sendInterface(364);
-//			p.getPackets().sendInterSetItemsOptionsScript(364, 4, 141, 3, 4, "Examine");
-//			p.getPackets().setIFRightClickOps(364, 4, 0, rewards.length, 0);
-//			p.getPackets().sendItems(141, rewards);
-//		});
-
 		Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> {
 			WorldDB.getGE().getAllOffersOfType(false, offers -> {
 				p.getPackets().sendRunScript(1207, offers.size());

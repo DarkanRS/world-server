@@ -848,7 +848,7 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "spec", "Restores special attack energy to full.", (p, args) -> {
 			p.getCombatDefinitions().resetSpecialAttack();
 		});
-		
+
 		Commands.add(Rights.ADMIN, "bank", "Opens the bank.", (p, args) -> {
 			p.getBank().open();
 		});

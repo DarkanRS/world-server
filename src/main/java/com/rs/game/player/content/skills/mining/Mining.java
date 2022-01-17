@@ -179,7 +179,7 @@ public class Mining extends Action {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getDailyI("redSandstoneMined") < 50)
-            e.getPlayer().getActionManager().setAction(new Mining(RockType.RED_SANDSTONE, e.getObject()));
+				e.getPlayer().getActionManager().setAction(new Mining(RockType.RED_SANDSTONE, e.getObject()));
 			else
 				e.getPlayer().sendMessage("You've mined all you can from the rock.");
 		}

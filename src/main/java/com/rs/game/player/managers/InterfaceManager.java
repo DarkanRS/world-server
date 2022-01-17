@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -31,24 +31,24 @@ public class InterfaceManager {
 	public static final int FIXED_CENTRAL_SUB = 44;
 	public static final int FIXED_INVENTORY_SUB = 172;
 	public static final int FIXED_OVERLAY_SUB = 3;
-	
+
 	public static final int RESIZEABLE_TOP = 746;
 	public static final int RESIZEABLE_CENTRAL_SUB = 29;
 	public static final int RESIZEABLE_OVERLAY_SUB = 12;
 	public static final int FULL_SCREEN_OVERLAY_SUB = 11;
 	public static final int RESIZEABLE_INVENTORY_SUB = 109;
-	
+
 	public static final int CHATBOX_WINDOW = 752;
 	public static final int REAL_CHATBOX_TAB = 11;
 	public static final int CHATBOX_TAB = 13;
-	
+
 	private Player player;
 
-	private final ConcurrentHashMap<Integer, Integer> openedInterfaces = new ConcurrentHashMap<Integer, Integer>();
+	private final ConcurrentHashMap<Integer, Integer> openedInterfaces = new ConcurrentHashMap<>();
 
 	private boolean resizableScreen;
 	private int top;
-	
+
 	public enum Tab {
 		COMBAT(112, 176, 884, p -> p.getCombatDefinitions().sendUnlockAttackStylesButtons()),
 		ACHIEVEMENT(113, 177, 1056, p -> AchievementInterface.init(p)),
@@ -70,19 +70,19 @@ public class InterfaceManager {
 		NOTES(127, 191, 34),
 		RUN(198, 162, 750, p -> p.sendRunButtonConfig()),
 		NONE(-1, -1, -1);
-		
+
 		private int resizable;
 		private int fixed;
 		private int defaultInterfaceId;
 		private Consumer<Player> defaultProcedure;
-		
+
 		Tab(int resizable, int fixed, int defaultInterfaceId, Consumer<Player> defaultProcedure) {
 			this.resizable = resizable;
 			this.fixed = fixed;
 			this.defaultInterfaceId = defaultInterfaceId;
 			this.defaultProcedure = defaultProcedure;
 		}
-		
+
 		Tab(int resizable, int fixed, int defaultInterfaceId) {
 			this(resizable, fixed, defaultInterfaceId, (p) -> {});
 		}

@@ -128,7 +128,7 @@ public class PlayerCombat extends Action {
 	public static boolean isWithinDistance(Player player, Entity target) {
 		int attackRange = getAttackRange(player);
 		if (!player.lineOfSightTo(target, attackRange <= 0 || isMeleeing(player)) || !WorldUtil.isInRange(player, target, attackRange + (player.hasWalkSteps() && target.hasWalkSteps() ? (player.getRun() && target.getRun() ? 2 : 1) : 0)) || WorldUtil.collides(player, target)) // doesnt let u attack when u
-            return false;
+			return false;
 		return true;
 	}
 

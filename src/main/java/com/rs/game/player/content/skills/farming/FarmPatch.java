@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -40,26 +40,26 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class FarmPatch {
 	public static int FARMING_TICK = 500;
-	
+
 	public static final int[] COMPOST_ORGANIC = { 6055, 1942, 1957, 1965, 5986, 5504, 5982, 249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269, 1951, 753, 2126, 247, 239, 6018 };
 	public static final int[] SUPER_COMPOST_ORGANIC = { 2114, 5978, 5980, 5982, 6004, 247, 6469, 19974 };
-	
-	public static final Animation 
-			RAKING_ANIMATION = new Animation(2273), 
-			WATERING_ANIMATION = new Animation(2293), 
-			SEED_DIBBING_ANIMATION = new Animation(2291), 
-			SPADE_ANIMATION = new Animation(830), 
-			HERB_PICKING_ANIMATION = new Animation(2282),
-			MAGIC_PICKING_ANIMATION = new Animation(2286), 
-			CURE_PLANT_ANIMATION = new Animation(2288), 
-			CHECK_TREE_ANIMATION = new Animation(832), 
-			PRUNING_ANIMATION = new Animation(2275), 
-			FLOWER_PICKING_ANIMATION = new Animation(2292),
-			FRUIT_PICKING_ANIMATION = new Animation(2280), 
-			COMPOST_ANIMATION = new Animation(2283), 
-			BUSH_PICKING_ANIMATION = new Animation(2281), 
-			FILL_COMPOST_ANIMATION = new Animation(832);
-	
+
+	public static final Animation
+	RAKING_ANIMATION = new Animation(2273),
+	WATERING_ANIMATION = new Animation(2293),
+	SEED_DIBBING_ANIMATION = new Animation(2291),
+	SPADE_ANIMATION = new Animation(830),
+	HERB_PICKING_ANIMATION = new Animation(2282),
+	MAGIC_PICKING_ANIMATION = new Animation(2286),
+	CURE_PLANT_ANIMATION = new Animation(2288),
+	CHECK_TREE_ANIMATION = new Animation(832),
+	PRUNING_ANIMATION = new Animation(2275),
+	FLOWER_PICKING_ANIMATION = new Animation(2292),
+	FRUIT_PICKING_ANIMATION = new Animation(2280),
+	COMPOST_ANIMATION = new Animation(2283),
+	BUSH_PICKING_ANIMATION = new Animation(2281),
+	FILL_COMPOST_ANIMATION = new Animation(832);
+
 	public PatchLocation location;
 	public ProduceType seed;
 	public int weeds;
@@ -72,13 +72,13 @@ public class FarmPatch {
 	public int compostLevel;
 	public int lives;
 	public boolean checkedHealth;
-	
+
 	public FarmPatch(PatchLocation location) {
 		this.location = location;
 		empty();
 		weeds = 3;
 	}
-	
+
 	private void handleClick(Player player, GameObject object, String option, ClientPacket opNum) {
 		if (location.type == PatchType.COMPOST) {
 			if (seed == null) {
@@ -380,7 +380,7 @@ public class FarmPatch {
 				return;
 			}
 		} else if (seed == null)
-				return;
+			return;
 		if (dead)
 			return;
 		totalGrowthTicks++;
@@ -402,7 +402,7 @@ public class FarmPatch {
 					if (checkedHealth && lives < 6)
 						lives++;
 				} else if (checkedHealth && lives < 0)
-						lives++;
+					lives++;
 				break;
 			default:
 				break;
@@ -426,8 +426,7 @@ public class FarmPatch {
 					return;
 				}
 			watered = false;
-    }
-
+		}
 	}
 
 	public boolean isDiseaseProtected(Player player) {
