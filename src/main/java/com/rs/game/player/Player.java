@@ -1296,6 +1296,7 @@ public class Player extends Entity {
 			getDialogueManager().execute(new StartDialogue());
 		}
 		//getPackets().write(new UpdateRichPresence("state", "Logged in as " + getDisplayName()));
+
 		PluginManager.handle(new LoginEvent(this));
 		PluginManager.handle(new EnterChunkEvent(this, getChunkId()));
 	}
