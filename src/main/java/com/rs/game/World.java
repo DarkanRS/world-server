@@ -1169,7 +1169,7 @@ public final class World {
 			player.sendMessage("You may not pick up other players items as an ironman.");
 			return false;
 		}
-		if (add && (player.getInventory().getFreeSlots() == 0 && (!groundItem.getDefinitions().isStackable() || !player.getInventory().containsItem(groundItem.getId(), 1)))) {
+		if (add && !player.getInventory().hasRoomFor(groundItem)) {
 			player.sendMessage("Not enough space in your inventory.");
 			return false;
 		}
