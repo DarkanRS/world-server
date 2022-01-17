@@ -100,7 +100,7 @@ public class Normal {
 //			p.getPackets().setIFRightClickOps(364, 4, 0, rewards.length, 0);
 //			p.getPackets().sendItems(141, rewards);
 //		});
-		
+
 		Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> {
 			WorldDB.getGE().getAllOffersOfType(false, offers -> {
 				p.getPackets().sendRunScript(1207, offers.size());
@@ -163,11 +163,9 @@ public class Normal {
 				p.getAppearance().generateAppearanceData();
 			}
 		});
-        Commands.add(Rights.PLAYER, "title", "Sets your title to display your XP rate.", (p, args) -> {
-			Dialogue switchTitle = new Dialogue();
-			switchTitle.addOption("Would you like to change your title to display your XP rate and mode?", "Yes.", "No.");
-			switchTitle.addSimple("Your title has been changed.", () -> p.applyAccountTitle());
-			p.startConversation(switchTitle);
+
+		Commands.add(Rights.PLAYER, "ping", "Checks your ping if you have gotten it recently.", (p, args) -> {
+			p.sendMessage("Ping: " + p.getNSV().getI("ping", -1));
 		});
 
 		Commands.add(Rights.PLAYER, "dunginfo", "Shows dungeon seed", (p, args) -> {
