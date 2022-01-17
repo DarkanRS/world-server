@@ -1015,6 +1015,10 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
 			p.getPackets().setIFHidden(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Boolean.valueOf(args[2]));
 		});
+		
+		Commands.add(Rights.DEVELOPER, "ifgraphic [interfaceId componentId graphicId]", "interface set graphic.", (p, args) -> {
+			p.getPackets().setIFGraphic(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+		});
 
 		Commands.add(Rights.ADMIN, "checkclient [player name]", "Verifies the user's client.", (p, args) -> {
 			Player target = World.getPlayer(args[0]);
