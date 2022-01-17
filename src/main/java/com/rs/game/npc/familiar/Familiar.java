@@ -221,7 +221,8 @@ public abstract class Familiar extends NPC {
 			transformIntoNPC(originalId - 1);
 			call(false);
 			return;
-		} else if (!withinDistance(owner, 12)) {
+		}
+		if (!withinDistance(owner, 12)) {
 			call(false);
 			return;
 		}
@@ -233,10 +234,9 @@ public abstract class Familiar extends NPC {
 	}
 
 	public boolean canAttack(Entity target) {
-		if (target instanceof Player player) {
+		if (target instanceof Player player)
 			if (!owner.isCanPvp() || !player.isCanPvp() || (owner == target))
 				return false;
-		}
 		return !target.isDead() && ((owner.isAtMultiArea() && isAtMultiArea() && target.isAtMultiArea()) || (owner.isForceMultiArea() && target.isForceMultiArea())) && owner.getControllerManager().canAttack(target);
 	}
 
@@ -374,7 +374,7 @@ public abstract class Familiar extends NPC {
 		} else
 			removeTarget();
 		WorldTile teleTile = null;
-		teleTile = owner.getNearestTeleTile(this.getSize());
+		teleTile = owner.getNearestTeleTile(getSize());
 		if (login || teleTile != null)
 			WorldTasks.schedule(() -> setNextSpotAnim(new SpotAnim(getDefinitions().size > 1 ? 1315 : 1314)));
 		if (teleTile == null) {

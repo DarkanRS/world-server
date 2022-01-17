@@ -79,9 +79,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 					if (player.isDead() || player.hasFinished())
 						return false;
 					final GroundItem item = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
-					if (item == null)
-						return false;
-					if (player.getPlane() != tile.getPlane())
+					if ((item == null) || (player.getPlane() != tile.getPlane()))
 						return false;
 					if (player.hasEffect(Effect.FREEZE))
 						return true;

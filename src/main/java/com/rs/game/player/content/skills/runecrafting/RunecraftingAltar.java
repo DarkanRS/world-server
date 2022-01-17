@@ -169,7 +169,8 @@ public class RunecraftingAltar {
 						if (selection.name().equals("SOUL")) {
 							e.getPlayer().sendMessage("The hood refuses to function.");
 							return;
-						} else if (e.getPlayer().hasWickedHoodTalisman(selection)) {
+						}
+						if (e.getPlayer().hasWickedHoodTalisman(selection)) {
 							if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedOmniTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
 								e.getPlayer().incDailyI("wickedRunes");
 								e.getPlayer().getInventory().addItem(selection.getRuneId(), selection.ordinal() > 5 ? 5 : 100);
@@ -192,7 +193,8 @@ public class RunecraftingAltar {
 						if (selection.name().equals("SOUL")) {
 							e.getPlayer().sendMessage("The hood refuses to function.");
 							return;
-						} else if (e.getPlayer().hasWickedHoodTalisman(selection)) {
+						}
+						if (e.getPlayer().hasWickedHoodTalisman(selection)) {
 							if (e.getPlayer().getDailyI("wickedTeles") < 2) {
 								e.getPlayer().incDailyI("wickedTeles");
 								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null);

@@ -60,7 +60,7 @@ public class WikiEqupSlotDumper {
 			return new EquipSlot(id, SlotType.NECK_SLOT);
 		if (line.equals("Weapon slot"))
 			return new EquipSlot(id, SlotType.WEAPON_SLOT);
-		else if (line.equals("Body slot"))
+		if (line.equals("Body slot"))
 			return new EquipSlot(id, SlotType.BODY_SLOT);
 		else if (line.equals("Feet slot"))
 			return new EquipSlot(id, SlotType.FEET_SLOT);

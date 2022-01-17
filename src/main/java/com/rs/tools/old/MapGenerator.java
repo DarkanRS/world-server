@@ -187,7 +187,8 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 										if (plane == planePos)
 											heights[rx * 64 + x][ry * 64 + y] = v;
 										break;
-									} else if (value <= 49) {
+									}
+									if (value <= 49) {
 										int v = mapStream.readUnsignedByte();
 										if (plane == planePos) {
 											overlayIds[rx * 64 + x][ry * 64 + y] = v;

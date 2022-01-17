@@ -577,7 +577,7 @@ public class Magic {
 	}
 
 	public static boolean useHouseTeleport(final Player player) {
-		
+
 		//		if (player.getControllerManager().getController() instanceof HouseController)
 		//			return false;
 		if (!player.getControllerManager().processMagicTeleport(new WorldTile(3217, 3426, 0)) || player.isLocked())

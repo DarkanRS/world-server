@@ -53,7 +53,6 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 					addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, RETRIEVE_KEY_AGAIN).getStart());});
 					return;
 				}
-				;
 			} else if(p.getInventory().containsItem(526, 25)) {
 				addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, HAS_BONES).getStart());});
 				return;

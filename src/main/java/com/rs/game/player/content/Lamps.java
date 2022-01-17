@@ -252,8 +252,8 @@ public class Lamps {
 
 	public static boolean isSkillLamp(int id) {
 		for (int[] element : SKILL_LAMPS)
-			for (int i = 0; i < element.length; i++)
-				if (element[i] == id)
+			for (int element2 : element)
+				if (element2 == id)
 					return true;
 		return false;
 	}

@@ -380,7 +380,8 @@ public class DungeonController extends Controller {
 			if (!item.isPrivate()) {
 				World.removeGroundItem(player, item);
 				return false;
-			} else if (item.getVisibleToId() != player.getUuid()) {
+			}
+			if (item.getVisibleToId() != player.getUuid()) {
 				player.sendMessage("This isn't your gatestone!");
 				return false;
 			}
@@ -477,7 +478,8 @@ public class DungeonController extends Controller {
 			FrozenAdventurer adventurer = (FrozenAdventurer) npc;
 			adventurer.getFrozenPlayer().getAppearance().transformIntoNPC(-1);
 			return false;
-		} else if (npc.getId() == DungeonConstants.SMUGGLER) {
+		}
+		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			npc.faceEntity(player);
 			player.getDialogueManager().execute(new SmugglerD(), dungeon.getParty().getComplexity());
 			return false;
@@ -505,7 +507,8 @@ public class DungeonController extends Controller {
 			if (player.getFamiliar() != familiar) {
 				player.sendMessage("That isn't your familiar.");
 				return false;
-			} else if (familiar.getDefinitions().hasOption("Take")) {
+			}
+			if (familiar.getDefinitions().hasOption("Take")) {
 				familiar.takeBob();
 				return false;
 			}
@@ -518,7 +521,8 @@ public class DungeonController extends Controller {
 			}
 			dungeon.setMark(npc, !player.getHintIconsManager().hasHintIcon(6)); //6th slot
 			return false;
-		} else if (npc.getId() == DungeonConstants.SMUGGLER) {
+		}
+		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			DungeonResourceShop.openResourceShop(player, dungeon.getParty().getComplexity());
 			return false;
 		}
@@ -592,7 +596,8 @@ public class DungeonController extends Controller {
 			if (boss != null)
 				((Stomp) boss).chargeLodeStone(player, (object.getId() & 0x1));
 			return false;
-		} else if (object.getId() == 49268) {
+		}
+		if (object.getId() == 49268) {
 			DungPickaxe defs = DungPickaxe.getBest(player);
 			if (defs == null) {
 				player.sendMessage("You do not have a pickaxe or do not have the required level to use the pickaxe.");
@@ -1061,7 +1066,8 @@ public class DungeonController extends Controller {
 			}
 			dungeon.openMap(player);
 			return false;
-		} else if (interfaceId == Inventory.INVENTORY_INTERFACE) {
+		}
+		if (interfaceId == Inventory.INVENTORY_INTERFACE) {
 			Item item = player.getInventory().getItem(slotId);
 			if (item == null || item.getId() != slotId2)
 				return false;
@@ -1243,7 +1249,8 @@ public class DungeonController extends Controller {
 		if (gatestone != null) {
 			player.sendMessage("You already have an active gatestone.");
 			return false;
-		} else if (!Magic.checkSpellLevel(player, 32))
+		}
+		if (!Magic.checkSpellLevel(player, 32))
 			return false;
 		else if (!Magic.checkRunes(player, true, new RuneSet(Rune.COSMIC, 3)))
 			return false;

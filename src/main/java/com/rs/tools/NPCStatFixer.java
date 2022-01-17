@@ -125,9 +125,7 @@ public class NPCStatFixer {
 
 				if (split[0].startsWith("attackstyle")) {
 					split[0] = split[0].replace("attackstyle", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -137,9 +135,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("combat")) {
 					split[0] = split[0].replace("combat", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -149,9 +145,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("att")) {
 					split[0] = split[0].replace("att", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -161,9 +155,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("str")) {
 					split[0] = split[0].replace("str", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -173,9 +165,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("def")) {
 					split[0] = split[0].replace("def", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -185,9 +175,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("range")) {
 					split[0] = split[0].replace("range", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -197,9 +185,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("mage")) {
 					split[0] = split[0].replace("mage", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -209,9 +195,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("hitpoints")) {
 					split[0] = split[0].replace("hitpoints", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())
@@ -221,9 +205,7 @@ public class NPCStatFixer {
 					} catch (Exception e) { }
 				} else if (split[0].startsWith("maxhit")) {
 					split[0] = split[0].replace("maxhit", "");
-					if (split[0].length() > 2)
-						continue;
-					if (split.length < 2)
+					if ((split[0].length() > 2) || (split.length < 2))
 						continue;
 					try {
 						if (split[0].isEmpty())

@@ -96,24 +96,24 @@ public final class MusicsManager {
 		}
 	};
 
-    /**
-     * Only for debug use
-     * @param p
-     */
-    public void clearUnlocked(Player p) {
-        unlockedMusics.clear();
-        unlockedMusics.add(62);
-        unlockedMusics.add(400);
-        unlockedMusics.add(16);
-        unlockedMusics.add(466);
-        unlockedMusics.add(321);
-        unlockedMusics.add(547);
-        unlockedMusics.add(621);
-        unlockedMusics.add(207);
-        unlockedMusics.add(401);
-        unlockedMusics.add(457);
-        unlockedMusics.add(552);
-    }
+	/**
+	 * Only for debug use
+	 * @param p
+	 */
+	public void clearUnlocked(Player p) {
+		unlockedMusics.clear();
+		unlockedMusics.add(62);
+		unlockedMusics.add(400);
+		unlockedMusics.add(16);
+		unlockedMusics.add(466);
+		unlockedMusics.add(321);
+		unlockedMusics.add(547);
+		unlockedMusics.add(621);
+		unlockedMusics.add(207);
+		unlockedMusics.add(401);
+		unlockedMusics.add(457);
+		unlockedMusics.add(552);
+	}
 
 	public void passMusics(Player p) {
 		for (int musicId : p.getMusicsManager().unlockedMusics)
@@ -138,9 +138,9 @@ public final class MusicsManager {
 		shuffleOn = !shuffleOn;
 	}
 
-    public int getPlayingMusicId() {
-        return playingMusic;
-    }
+	public int getPlayingMusicId() {
+		return playingMusic;
+	}
 
 	public void switchPlayListOn() {
 		if (playListOn) {
@@ -269,7 +269,7 @@ public final class MusicsManager {
 		}
 		while(lastTenSongs.size() > 10)
 			lastTenSongs.removeLast();
-//		player.sendMessage(playingMusic +"");
+		//		player.sendMessage(playingMusic +"");
 		playAmbientSong(playingMusic);
 	}
 
@@ -306,7 +306,9 @@ public final class MusicsManager {
 			//genre song ids int[] -> list<>
 			List<Integer> genreSongs = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
 
-			genreSongs.retainAll(new ArrayList<Integer>() {{ //Unlocked music or allowed ambient music inside the genre & region music
+			genreSongs.retainAll(new ArrayList<Integer>() {
+				private static final long serialVersionUID = 1L;
+			{ //Unlocked music or allowed ambient music inside the genre & region music
 				addAll(unlockedMusics);
 				addAll(Music.getAllowAmbientMusic());
 			}});
@@ -417,16 +419,15 @@ public final class MusicsManager {
 		}
 	}
 
-    public void unlockMusic(int musicId) {
-        Song song = Music.getSong(musicId);
-        if (song != null) {
-            if (!unlockedMusics.contains(musicId)) {
-                addMusic(musicId);
-                if (song.getName() != null)
-                    player.sendMessage("<col=ff0000>You have unlocked a new music track: " + song.getName() + ".");
-            }
-        }
-    }
+	public void unlockMusic(int musicId) {
+		Song song = Music.getSong(musicId);
+		if (song != null)
+			if (!unlockedMusics.contains(musicId)) {
+				addMusic(musicId);
+				if (song.getName() != null)
+					player.sendMessage("<col=ff0000>You have unlocked a new music track: " + song.getName() + ".");
+			}
+	}
 
 	public boolean isUnlocked(int musicId) {
 		Song song = Music.getSong(musicId);

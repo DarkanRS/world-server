@@ -68,7 +68,7 @@ public class ForgingInterface {
 			return 1;
 		if (def.contains("hatchet") || def.contains("mace") || def.contains("iron spit"))
 			return 2;
-		else if (def.contains("bolts") || def.contains("med helm"))
+		if (def.contains("bolts") || def.contains("med helm"))
 			return 3;
 		else if (def.contains("sword") || def.contains("dart tip") || def.contains("nails") || def.contains("wire"))
 			return 4;
@@ -115,7 +115,7 @@ public class ForgingInterface {
 			return 5;
 		if (name.contains("bolts") || name.contains("dart tip"))
 			return 10;
-		else if (name.contains("arrowheads") || name.contains("nails"))
+		if (name.contains("arrowheads") || name.contains("nails"))
 			return 15;
 		return 1;
 	}
@@ -168,7 +168,8 @@ public class ForgingInterface {
 			if (name.contains("knife") || name.contains("limb") || name.contains("studs") || name.contains("arrow"))
 				return 1;
 			return 2;
-		} else if (level >= 9 && level <= 16) {
+		}
+		if (level >= 9 && level <= 16) {
 			if (name.contains("grapple"))
 				return 1;
 			else if (name.contains("claws"))

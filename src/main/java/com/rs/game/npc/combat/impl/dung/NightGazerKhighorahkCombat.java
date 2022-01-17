@@ -135,34 +135,33 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		} else
 			gazer.setUsedSpecial(false);
 
-		if (Utils.random(10) == 0) { // range aoe
-			if (!gazer.isSecondStage()) {
-				npc.setNextAnimation(new Animation(13423));
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						sendRangeAoe(gazer);
-					}
-
-				}, 1);
-				return npc.getAttackSpeed() + 6;
-			} else {
+		if (Utils.random(10) == 0) {
+			if (gazer.isSecondStage()) {
 				sendRangeAoe(gazer);
 				return npc.getAttackSpeed() + 1;
 			}
+			npc.setNextAnimation(new Animation(13423));
+			WorldTasks.schedule(new WorldTask() {
+
+				@Override
+				public void run() {
+					sendRangeAoe(gazer);
+				}
+
+			}, 1);
+			return npc.getAttackSpeed() + 6;
 		}
 		if (Utils.random(3) == 0) { // range single target
 			npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13433 : 13434));
 			World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 90, 0, 0);
 			delayHit(npc, 3, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
 			return npc.getAttackSpeed() + 1;
-		} else { // magic
-			npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
-			World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 30, 0, 0);
-			target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
-			return npc.getAttackSpeed();
 		}
+		// magic
+		npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
+		World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 30, 0, 0);
+		target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
+		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+		return npc.getAttackSpeed();
 	}
 }

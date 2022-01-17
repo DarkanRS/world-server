@@ -94,7 +94,7 @@ public class LobbyCommunicator {
 	}
 
 	public static void forwardPacket(Player player, Packet packet, Consumer<Boolean> cb) {
-		post(Boolean.class, new PacketDto(player.getUsername(), new Packet[] { packet }), "forwardpackets", cb);
+		post(Boolean.class, new PacketDto(player.getUsername(), packet), "forwardpackets", cb);
 	}
 
 	public static Clan getClan(String clan) {

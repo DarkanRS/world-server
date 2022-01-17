@@ -23,9 +23,8 @@ public class AngryGardenerNPC extends NPC {
 
 	@Override
 	public void sendDeath(Entity source) {
-		if(source instanceof Player p) {
+		if(source instanceof Player p)
 			p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(PiratesTreasure.KILLED_GARDENER_ATTR, true);
-		}
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		removeTarget();

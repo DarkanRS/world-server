@@ -181,7 +181,8 @@ public class PlayerCombat extends Action {
 				}
 			}, null, null);
 			return 3;
-		} else if (spell != null) {
+		}
+		if (spell != null) {
 			boolean manualCast = player.getCombatDefinitions().hasManualCastQueued();
 			Item gloves = player.getEquipment().getItem(Equipment.HANDS);
 			spellcasterGloveSpell = gloves != null && gloves.getDefinitions().getName().contains("Spellcaster glove") && player.getEquipment().getWeaponId() == -1 && new Random().nextInt(30) == 0 ? spell : null;
@@ -2099,10 +2100,9 @@ public class PlayerCombat extends Action {
 				return false;
 		}
 		if (!(target instanceof NPC n && n.isForceMultiAttacked()))
-			if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
+			if (!target.isAtMultiArea() || !player.isAtMultiArea())
 				if ((player.getAttackedBy() != target && player.inCombat()) || (target.getAttackedBy() != player && target.inCombat()))
 					return false;
-			}
 		if (player.hasEffect(Effect.FREEZE)) {
 			if (isMeleeing(player) && target.getSize() == 1) {
 				Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());

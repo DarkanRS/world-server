@@ -277,10 +277,8 @@ public enum RangedWeapon {
 				return World.sendProjectile(player, target, projAnim, 20, 5 + (attackSpeed * 5), 2);
 			if (ammos == null)
 				return World.sendProjectile(player, target, projAnim, 20, 35, 2);
-			else {
-				AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
-				return World.sendProjectile(player, target, ammo.getProjAnim(player.getEquipment().getAmmoId()), 20, 40, 2);
-			}
+			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
+			return World.sendProjectile(player, target, ammo.getProjAnim(player.getEquipment().getAmmoId()), 20, 40, 2);
 		}
 	}
 

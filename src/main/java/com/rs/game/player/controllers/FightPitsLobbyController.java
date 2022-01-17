@@ -47,7 +47,8 @@ public class FightPitsLobbyController extends Controller {
 		if (object.getId() == 68222) {
 			player.sendMessage("The heat prevents you passing through.");
 			return false;
-		} else if (object.getId() == 68220) {
+		}
+		if (object.getId() == 68220) {
 			player.getActionManager().setAction(new FightPitsViewingOrb());
 			return false;
 		}

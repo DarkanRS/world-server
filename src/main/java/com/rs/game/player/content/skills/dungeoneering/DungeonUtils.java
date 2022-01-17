@@ -216,9 +216,7 @@ public final class DungeonUtils {
 	public static boolean checkDungeonBounds(RoomReference reference, Room[][] map, Room room) {
 		if ((reference.getRoomX() == 0 && room.hasWestDoor()) || (reference.getRoomX() == map.length - 1 && room.hasEastDoor()))
 			return false;
-		if (reference.getRoomY() == 0 && room.hasSouthDoor())
-			return false;
-		if (reference.getRoomY() == map[0].length - 1 && room.hasNorthDoor())
+		if ((reference.getRoomY() == 0 && room.hasSouthDoor()) || (reference.getRoomY() == map[0].length - 1 && room.hasNorthDoor()))
 			return false;
 		return true;
 	}

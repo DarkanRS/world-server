@@ -45,10 +45,10 @@ public class NPCExamines {
 	}
 
 	public static final String getExamine(NPC npc, Player player) {
-        if(Settings.getConfig().isDebug())
-            player.sendMessage(npc.getId() + ", X: " + npc.getX() + ", Y: " + npc.getY() + ", Plane: " + npc.getPlane() + ". Transforms with varbit "
-                    + npc.getDefinitions().varpBit + " and var " + npc.getDefinitions().varp);
-        String examine = EXAMINES.get(npc.getId());
+		if(Settings.getConfig().isDebug())
+			player.sendMessage(npc.getId() + ", X: " + npc.getX() + ", Y: " + npc.getY() + ", Plane: " + npc.getPlane() + ". Transforms with varbit "
+					+ npc.getDefinitions().varpBit + " and var " + npc.getDefinitions().varp);
+		String examine = EXAMINES.get(npc.getId());
 		if (examine != null)
 			return examine;
 		return "It's " + Utils.addArticle(npc.getDefinitions().getName(player.getVars())).toLowerCase() + ".";

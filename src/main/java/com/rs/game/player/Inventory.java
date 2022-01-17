@@ -382,10 +382,9 @@ public final class Inventory {
 	}
 
 	public boolean containsOneItem(boolean checkToolbelt, int... itemIds) {
-		for (int itemId : itemIds) {
+		for (int itemId : itemIds)
 			if (items.containsOne(new Item(itemId, 1)) || (checkToolbelt && player.containsTool(itemId)))
 				return true;
-		}
 		return false;
 	}
 

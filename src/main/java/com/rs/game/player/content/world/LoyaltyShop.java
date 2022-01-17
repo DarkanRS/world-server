@@ -241,22 +241,21 @@ public class LoyaltyShop {
 					val3 += (1 << (i-62));
 			return new int[] { val1, val2, val3 };
 		}
-		if (tab == Tab.TITLES) {
-			int val1 = 0;
-			int val2 = 0;
-			for (int i = 0;i < Tab.TITLES.getRewards().length;i++)
-				if (i < 16 && player.favoritedLoyaltyReward(Tab.TITLES.getRewards()[i]))
-					val1 += (1 << i);
-				else if (player.favoritedLoyaltyReward(Tab.TITLES.getRewards()[i]))
-					val2 += (1 << (i-16));
-			return new int[] { val1, val2 };
-		} else {
+		if (tab != Tab.TITLES) {
 			int val = 0;
 			for (Reward r : tab.getRewards())
 				if (player.favoritedLoyaltyReward(r))
 					val += (1 << r.getBit());
 			return new int[] { val };
 		}
+		int val1 = 0;
+		int val2 = 0;
+		for (int i = 0;i < Tab.TITLES.getRewards().length;i++)
+			if (i < 16 && player.favoritedLoyaltyReward(Tab.TITLES.getRewards()[i]))
+				val1 += (1 << i);
+			else if (player.favoritedLoyaltyReward(Tab.TITLES.getRewards()[i]))
+				val2 += (1 << (i-16));
+		return new int[] { val1, val2 };
 	}
 
 	public static int[] getUnlockedFlags(Player player, Tab tab) {
@@ -273,22 +272,21 @@ public class LoyaltyShop {
 					val3 += (1 << (i-62));
 			return new int[] { val1, val2, val3 };
 		}
-		if (tab == Tab.TITLES) {
-			int val1 = 0;
-			int val2 = 0;
-			for (int i = 0;i < Tab.TITLES.getRewards().length;i++)
-				if (i < 16 && player.unlockedLoyaltyReward(Tab.TITLES.getRewards()[i]))
-					val1 += (1 << i);
-				else if (player.unlockedLoyaltyReward(Tab.TITLES.getRewards()[i]))
-					val2 += (1 << (i-16));
-			return new int[] { val1, val2 };
-		} else {
+		if (tab != Tab.TITLES) {
 			int val = 0;
 			for (Reward r : tab.getRewards())
 				if (player.unlockedLoyaltyReward(r))
 					val += (1 << r.getBit());
 			return new int[] { val };
 		}
+		int val1 = 0;
+		int val2 = 0;
+		for (int i = 0;i < Tab.TITLES.getRewards().length;i++)
+			if (i < 16 && player.unlockedLoyaltyReward(Tab.TITLES.getRewards()[i]))
+				val1 += (1 << i);
+			else if (player.unlockedLoyaltyReward(Tab.TITLES.getRewards()[i]))
+				val2 += (1 << (i-16));
+		return new int[] { val1, val2 };
 	}
 
 	public static void refreshFavorite(Player player) {

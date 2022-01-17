@@ -138,39 +138,38 @@ public class FlowerRootsRoom extends PuzzleRoom {
 						setComplete();
 						return false;
 					}
-					if (plants[coords[0]][coords[1]].currentColor == bigPlant.currentColor) {
-						if (!hasRequirement(player, Constants.WOODCUTTING)) {
-							player.sendMessage("You need a woodcutting level of " + getRequirement(Constants.WOODCUTTING) + " to chop down this plant.");
-							return false;
-						}
-						DungHatchet defs = DungHatchet.getHatchet(player);
-						if (defs == null) {
-							player.sendMessage("You do not have a hatchet or do not have the required level to use the hatchet.");
-							return false;
-						}
-						if (plants[coords[0]][coords[1]].locked)
-							//already being used by other player
-							return false;
-						plants[coords[0]][coords[1]].locked = true;
-						player.setNextAnimation(new Animation(defs.getEmoteId()));
-						player.lock(4);
-						for (Player team : manager.getParty().getTeam())
-							team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
-						WorldTasks.schedule(new WorldTask() {
-							@Override
-							public void run() {
-								giveXP(player, Constants.WOODCUTTING);
-								player.setNextAnimation(new Animation(-1));
-								plants[coords[0]][coords[1]] = null;
-								manager.spawnObject(reference, -1, ObjectType.SCENERY_INTERACT, 0, coords[0], coords[1]);
-
-							}
-						}, 3);
-						return false;
-					} else {
+					if (plants[coords[0]][coords[1]].currentColor != bigPlant.currentColor) {
 						player.applyHit(new Hit(player, (int) (player.getMaxHitpoints() * .15), HitLook.TRUE_DAMAGE));
 						return false;
 					}
+					if (!hasRequirement(player, Constants.WOODCUTTING)) {
+						player.sendMessage("You need a woodcutting level of " + getRequirement(Constants.WOODCUTTING) + " to chop down this plant.");
+						return false;
+					}
+					DungHatchet defs = DungHatchet.getHatchet(player);
+					if (defs == null) {
+						player.sendMessage("You do not have a hatchet or do not have the required level to use the hatchet.");
+						return false;
+					}
+					if (plants[coords[0]][coords[1]].locked)
+						//already being used by other player
+						return false;
+					plants[coords[0]][coords[1]].locked = true;
+					player.setNextAnimation(new Animation(defs.getEmoteId()));
+					player.lock(4);
+					for (Player team : manager.getParty().getTeam())
+						team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
+					WorldTasks.schedule(new WorldTask() {
+						@Override
+						public void run() {
+							giveXP(player, Constants.WOODCUTTING);
+							player.setNextAnimation(new Animation(-1));
+							plants[coords[0]][coords[1]] = null;
+							manager.spawnObject(reference, -1, ObjectType.SCENERY_INTERACT, 0, coords[0], coords[1]);
+
+						}
+					}, 3);
+					return false;
 				}
 		return true;
 	}

@@ -178,9 +178,9 @@ public class Bank {
 	public void deleteItem(int itemId, int amount) {
 		if (bankTabs != null)
 			for (Item[] bankTab : bankTabs)
-				for (int i2 = 0; i2 < bankTab.length; i2++)
-					if (bankTab[i2].getId() == itemId) {
-						bankTab[i2].setAmount(bankTab[i2].getAmount() - amount);
+				for (Item element : bankTab)
+					if (element.getId() == itemId) {
+						element.setAmount(element.getAmount() - amount);
 						refreshItems();
 					}
 	}
@@ -188,9 +188,9 @@ public class Bank {
 	public boolean containsItem(int itemId, int amount) {
 		if (bankTabs != null)
 			for (Item[] bankTab : bankTabs)
-				for (int i2 = 0; i2 < bankTab.length; i2++)
-					if (bankTab[i2].getId() == itemId)
-						if (bankTab[i2].getAmount() >= amount)
+				for (Item element : bankTab)
+					if (element.getId() == itemId)
+						if (element.getAmount() >= amount)
 							return true;
 		return false;
 	}

@@ -88,7 +88,8 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 			replaceObject(object, JEWELLERY_BOX[type]);
 			advance(player);
 			return false;
-		} else if (object.getId() == BROKEN_POT[type]) {
+		}
+		if (object.getId() == BROKEN_POT[type]) {
 			if (!hasRequirement(player, Constants.CONSTRUCTION)) {
 				player.sendMessage("You need a construction level of " + getRequirement(Constants.CONSTRUCTION) + " to repair this pillar.");
 				return false;

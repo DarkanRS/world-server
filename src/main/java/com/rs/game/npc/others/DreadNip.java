@@ -43,7 +43,8 @@ public class DreadNip extends NPC {
 		if (getCombat().getTarget() == null || getCombat().getTarget().isDead()) {
 			finish(0);
 			return;
-		} else if (Utils.getDistance(owner, this) >= 10) {
+		}
+		if (Utils.getDistance(owner, this) >= 10) {
 			finish(1);
 			return;
 		} else if (ticks++ == 33) {

@@ -59,7 +59,8 @@ public class DomTowerController extends Controller {
 				player.getDominionTower().startFight(bosses);
 			}
 			return false;
-		} else if (object.getId() == 62686 || object.getId() == 62687) {
+		}
+		if (object.getId() == 62686 || object.getId() == 62687) {
 			if (bosses == null && onArena == 1) {
 				onArena = 2;
 				player.lock(2);

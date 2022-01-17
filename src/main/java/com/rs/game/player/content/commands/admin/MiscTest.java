@@ -435,29 +435,28 @@ public class MiscTest {
 			p.getMusicsManager().playAmbientSong(Integer.valueOf(args[0]));
 		});
 
-        Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
-            int count = 0;
-            for(int i = 0; i < 1099; i++) {
-                if(Music.getSongGenres(i).length == 0) {
-                    Song song = Music.getSong(i);
-                    count++;
-                    if(song == null) {
-                        System.out.println("Error @" + i);
-                    } else
-                        System.out.println(i + " " + song.getName() + ": " + song.getHint());
-                }
-            }
-            System.out.println("Total unused: " + count);
-            System.out.println("Unused is " + Math.ceil(count/1099.0*100) + "%");
-        });
+		Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
+			int count = 0;
+			for(int i = 0; i < 1099; i++)
+				if(Music.getSongGenres(i).length == 0) {
+					Song song = Music.getSong(i);
+					count++;
+					if(song == null)
+						System.out.println("Error @" + i);
+					else
+						System.out.println(i + " " + song.getName() + ": " + song.getHint());
+				}
+			System.out.println("Total unused: " + count);
+			System.out.println("Unused is " + Math.ceil(count/1099.0*100) + "%");
+		});
 
-        Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
-            p.getMusicsManager().nextAmbientSong();
-        });
+		Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
+			p.getMusicsManager().nextAmbientSong();
+		});
 
-        Commands.add(Rights.DEVELOPER, "genre", "Shows genre", (p, args) -> {
-            p.sendMessage(p.getMusicsManager().getPlayingGenre().getGenreName());
-        });
+		Commands.add(Rights.DEVELOPER, "genre", "Shows genre", (p, args) -> {
+			p.sendMessage(p.getMusicsManager().getPlayingGenre().getGenreName());
+		});
 
 
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
@@ -752,28 +751,28 @@ public class MiscTest {
 			p.getSkills().init();
 		});
 
-        Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> {
-            p.playSound(Integer.valueOf(args[0]), 2);
-        });
+		Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> {
+			p.playSound(Integer.valueOf(args[0]), 2);
+		});
 
 
-        Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
-            if (args[0].contains(",")) {
-                args = args[0].split(",");
-                int plane = Integer.valueOf(args[0]);
-                int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
-                int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
-                p.resetWalkSteps();
-                p.setNextWorldTile(new WorldTile(x, y, plane));
-            } else if (args.length == 1) {
-                p.resetWalkSteps();
-                p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0])));
-            } else {
-                p.resetWalkSteps();
-                p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
-            }
-        });
-		
+		Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
+			if (args[0].contains(",")) {
+				args = args[0].split(",");
+				int plane = Integer.valueOf(args[0]);
+				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
+				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
+				p.resetWalkSteps();
+				p.setNextWorldTile(new WorldTile(x, y, plane));
+			} else if (args.length == 1) {
+				p.resetWalkSteps();
+				p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0])));
+			} else {
+				p.resetWalkSteps();
+				p.setNextWorldTile(new WorldTile(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+			}
+		});
+
 		Commands.add(Rights.ADMIN, "teler,tpr [regionId]", "Teleports the player to a region id.", (p, args) -> {
 			int regionX = (Integer.valueOf(args[0]) >> 8) * 64 + 32;
 			int regionY = (Integer.valueOf(args[0]) & 0xff) * 64 + 32;
@@ -1046,7 +1045,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
 			p.getPackets().setIFHidden(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Boolean.valueOf(args[2]));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "ifgraphic [interfaceId componentId graphicId]", "interface set graphic.", (p, args) -> {
 			p.getPackets().setIFGraphic(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
 		});

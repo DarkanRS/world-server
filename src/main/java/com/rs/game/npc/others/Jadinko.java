@@ -33,9 +33,8 @@ public class Jadinko extends NPC {
 	@Override
 	public void sendDeath(Entity source) {
 		super.sendDeath(source);
-		if (source instanceof Player player) {
+		if (source instanceof Player player)
 			player.addJadinkoFavor((getId() == 13820 ? 3 : getId() == 13821 ? 7 : 10));
-		}
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(13820, 13821, 13822) {

@@ -177,9 +177,7 @@ public final class BarrowsController extends Controller {
 		for (int i = 0;i < rolls;i++) {
 			if (rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(1, equipmentChance, equipment)))) || (points >= 381 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(558, 253, 336)))))))
 				continue;
-			if (points >= 506 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139))))))
-				continue;
-			if (points >= 631 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83))))))
+			if ((points >= 506 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139)))))) || (points >= 631 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83)))))))
 				continue;
 			if (points >= 756 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(565, 37, 43))))))
 				continue;
@@ -227,9 +225,7 @@ public final class BarrowsController extends Controller {
 		for (int i = 0;i < rolls;i++) {
 			if ((player.getKilledBarrowBrothers()[i] && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(1, equipmentChance, equipment))))) || (points >= 381 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(558, 253, 336)))))))
 				continue;
-			if (points >= 506 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139))))))
-				continue;
-			if (points >= 631 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83))))))
+			if ((points >= 506 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139)))))) || (points >= 631 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83)))))))
 				continue;
 			if (points >= 756 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(565, 37, 43))))))
 				continue;

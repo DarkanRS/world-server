@@ -165,7 +165,7 @@ public class CommendationExchange {// 1875 TODO
 			return RATE_ONE;
 		if (index == 1)
 			return RATE_TEN;
-		else if (index == 2)
+		if (index == 2)
 			return RATE_HUNDRED;
 		return 0;
 	}

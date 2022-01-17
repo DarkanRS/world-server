@@ -211,7 +211,8 @@ public class WarriorsGuild extends Controller {
 		if (object.getId() == 15656) {
 			player.getInterfaceManager().sendInterface(412);
 			return false;
-		} else if (object.getId() == 66604) {
+		}
+		if (object.getId() == 66604) {
 			player.getInterfaceManager().sendInterface(410);
 			return false;
 		} else if (object.getId() == 15664 || object.getId() == 15665) {
@@ -363,7 +364,7 @@ public class WarriorsGuild extends Controller {
 			return style.getXpType() == XPType.ACCURATE;
 		if (object.getId() == 15625)
 			return style.getAttackType() == AttackType.SLASH;
-		else if (object.getId() == 15626)
+		if (object.getId() == 15626)
 			return style.getXpType() == XPType.AGGRESSIVE;
 		else if (object.getId() == 15627)
 			return style.getXpType() == XPType.CONTROLLED;

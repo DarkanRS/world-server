@@ -63,10 +63,9 @@ public class SlayerTaskManager {
 		if (task != null) {
 			String npcName = npc.getDefinitions().getName().toLowerCase();
 			for (String slayable : task.getMonster().getMonsterNames())
-				if (slayable != null) {
+				if (slayable != null)
 					if ((npcName.startsWith(" ") && npcName.contains(slayable.replace(" ", ""))) || npcName.contains(slayable))
 						return true;
-				}
 		}
 		return false;
 	}
@@ -126,9 +125,7 @@ public class SlayerTaskManager {
 				continue;
 			if (task.getMonster().getQuestReq() != null && (!task.getMonster().getQuestReq().meetsRequirements(player) || !player.getQuestManager().isComplete(task.getMonster().getQuestReq())))
 				continue;
-			if (task.getMonster() == TaskMonster.AQUANITES && !player.aquanitesUnlocked())
-				continue;
-			if (task.getMonster() == TaskMonster.CYCLOPES && !((player.getSkills().getLevelForXp(Constants.ATTACK) + player.getSkills().getLevelForXp(Constants.STRENGTH)) >= 130))
+			if ((task.getMonster() == TaskMonster.AQUANITES && !player.aquanitesUnlocked()) || (task.getMonster() == TaskMonster.CYCLOPES && !((player.getSkills().getLevelForXp(Constants.ATTACK) + player.getSkills().getLevelForXp(Constants.STRENGTH)) >= 130)))
 				continue;
 			for (int i = 0;i < task.getWeighting();i++)
 				possibleTasks.add(task);

@@ -317,11 +317,9 @@ public class TreasureTrailsManager {
 	}
 
 	public void useEmote(Emote emote) {
-		if (currentClue == null)
+		if ((currentClue == null) || (currentClue.details.type != EMOTE))
 			return;
-		if (currentClue.details.type != EMOTE)
-			return;
-		else if (!hasCurrentClue())
+		if (!hasCurrentClue())
 			return;
 		else if (!player.withinDistance(new WorldTile(currentClue.details.getId()), 8)) {
 			player.sendMessage("Hint: " + new WorldTile(currentClue.details.getId()).toString());
@@ -373,9 +371,7 @@ public class TreasureTrailsManager {
 	public boolean useObject(GameObject object) {
 		if ((currentClue == null) || currentClue.details.idType != OBJECT || !currentClue.details.isId(object.getId()))
 			return false;
-		if (currentClue.details.type != SIMPLE && currentClue.details.type != MAP)
-			return false;
-		else if (!hasCurrentClue())
+		if ((currentClue.details.type != SIMPLE && currentClue.details.type != MAP) || !hasCurrentClue())
 			return false;
 		setNextClue(SOURCE_OBJECT);
 		return true;
@@ -384,9 +380,7 @@ public class TreasureTrailsManager {
 	public boolean useNPC(final NPC npc) {
 		if ((currentClue == null) || currentClue.details.idType != NPC || !currentClue.details.isId(npc.getId()))
 			return false;
-		if (currentClue.details.type != SIMPLE && currentClue.details.type != ANAGRAM)
-			return false;
-		if (!hasCurrentClue())
+		if ((currentClue.details.type != SIMPLE && currentClue.details.type != ANAGRAM) || !hasCurrentClue())
 			return false;
 		if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD && !player.containsOneItem(PUZZLES)) {
 			player.getDialogueManager().execute(new Dialogue() {

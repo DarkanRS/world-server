@@ -22,21 +22,14 @@ import java.util.Map;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.ItemConstants.ItemDegrade;
-import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
 
 @PluginEventHandler
 public class DungeonRewards {

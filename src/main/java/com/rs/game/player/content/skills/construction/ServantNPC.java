@@ -88,70 +88,67 @@ public class ServantNPC extends NPC {
 		if (diningRoom == null) {
 			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a proper dining room.");
 			return;
-		} else {
-
-			for (Builds build : builds)
-				if (!kitchen.containsBuild(build)) {
-					owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a " + build.toString().toLowerCase() + ".");
-					return;
-				}
-
-			if (!diningRoom.containsBuild(HouseConstants.Builds.DINING_TABLE)) {
-				owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a dining table");
+		}
+		for (Builds build : builds)
+			if (!kitchen.containsBuild(build)) {
+				owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a " + build.toString().toLowerCase() + ".");
 				return;
 			}
 
-			final WorldTile kitchenTile = house.getCenterTile(kitchen);
-			final WorldTile diningRoomTile = house.getCenterTile(diningRoom);
+		if (!diningRoom.containsBuild(HouseConstants.Builds.DINING_TABLE)) {
+			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a dining table");
+			return;
+		}
 
-			setCantInteract(true);
-			house.incrementPaymentStage();
+		final WorldTile kitchenTile = house.getCenterTile(kitchen);
+		final WorldTile diningRoomTile = house.getCenterTile(diningRoom);
 
-			WorldTasks.schedule(new WorldTask() {
+		setCantInteract(true);
+		house.incrementPaymentStage();
 
-				int count = 0, totalCount = 0, index = 0;
+		WorldTasks.schedule(new WorldTask() {
 
-				@Override
-				public void run() {
-					if (!house.isLoaded()) {
+			int count = 0, totalCount = 0, index = 0;
+
+			@Override
+			public void run() {
+				if (!house.isLoaded()) {
+					stop();
+					return;
+				}
+				count++;
+				if (count == 1) {
+					setNextForceTalk(new ForceTalk("I shall return in a moment."));
+					setNextAnimation(new Animation(858));
+					totalCount = (builds.length * 3) + count;
+				} else if (count == 2)
+					setNextWorldTile(new WorldTile(World.getFreeTile(kitchenTile, 2)));
+				else if (totalCount > 0 && index < builds.length) {
+					int calculatedCount = totalCount - count;
+					Builds build = builds[index];
+					if (calculatedCount % 3 == 0) {
+						setNextAnimation(new Animation(build == Builds.STOVE ? 897 : 3659));
+						index++;
+					} else if (calculatedCount % 1 == 0)
+						calcFollow(house.getWorldObjectForBuild(kitchen, build), true);
+				} else if (count == totalCount + 3)
+					setNextWorldTile(World.getFreeTile(diningRoomTile, 2));
+				else if (count == totalCount + 4 || count == totalCount + 5) {
+					WorldTile diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
+					if (count == totalCount + 4)
+						calcFollow(diningTable, true);
+					else {
+						setNextAnimation(new Animation(808));
+						int rotation = kitchen.getRotation();
+						for (int x = 0; x < (rotation == 1 || rotation == 3 ? 2 : 4); x++)
+							for (int y = 0; y < (rotation == 1 || rotation == 3 ? 4 : 2); y++)
+								World.addGroundItem(new Item(builds.length == 6 ? 7736 : builds.length == 5 ? house.getServant().getFoodId() : HouseConstants.BEERS[kitchen.getBuildSlot(Builds.BARRELS)]), diningTable.transform(x, y, 0), null, false, 300);
+						setCantInteract(false);
 						stop();
-						return;
-					}
-					count++;
-					if (count == 1) {
-						setNextForceTalk(new ForceTalk("I shall return in a moment."));
-						setNextAnimation(new Animation(858));
-						totalCount = (builds.length * 3) + count;
-					} else if (count == 2)
-						setNextWorldTile(new WorldTile(World.getFreeTile(kitchenTile, 2)));
-					else if (totalCount > 0 && index < builds.length) {
-						int calculatedCount = totalCount - count;
-						Builds build = builds[index];
-						if (calculatedCount % 3 == 0) {
-							setNextAnimation(new Animation(build == Builds.STOVE ? 897 : 3659));
-							index++;
-						} else if (calculatedCount % 1 == 0)
-							calcFollow(house.getWorldObjectForBuild(kitchen, build), true);
-					} else if (count == totalCount + 3)
-						setNextWorldTile(World.getFreeTile(diningRoomTile, 2));
-					else if (count == totalCount + 4 || count == totalCount + 5) {
-						WorldTile diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
-						if (count == totalCount + 4)
-							calcFollow(diningTable, true);
-						else {
-							setNextAnimation(new Animation(808));
-							int rotation = kitchen.getRotation();
-							for (int x = 0; x < (rotation == 1 || rotation == 3 ? 2 : 4); x++)
-								for (int y = 0; y < (rotation == 1 || rotation == 3 ? 4 : 2); y++)
-									World.addGroundItem(new Item(builds.length == 6 ? 7736 : builds.length == 5 ? house.getServant().getFoodId() : HouseConstants.BEERS[kitchen.getBuildSlot(Builds.BARRELS)]), diningTable.transform(x, y, 0), null, false, 300);
-							setCantInteract(false);
-							stop();
-						}
 					}
 				}
-			}, 2, 2);
-
-		}
+			}
+		}, 2, 2);
 	}
 
 	/**

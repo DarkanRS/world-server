@@ -89,9 +89,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 			break;
 		case PLAYER_OP4:
 			player.stopAll(true);
-			if (!player.getControllerManager().canTrade())
-				return;
-			if (!player.getControllerManager().canPlayerOption4(target))
+			if (!player.getControllerManager().canTrade() || !player.getControllerManager().canPlayerOption4(target))
 				return;
 			player.setRouteEvent(new RouteEvent(target, () -> {
 				//					if (p2.getTemporaryAttributtes().get("coopSlayerRequest") == player) {

@@ -331,8 +331,7 @@ public enum PatchType {
 					return 0;
 				if (patch.lives <= -15)
 					return 15;
-				else
-					return 5;
+				return 5;
 			}
 			switch(patch.seed) {
 			case Compost:

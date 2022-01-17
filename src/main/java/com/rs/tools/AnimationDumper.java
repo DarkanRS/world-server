@@ -120,9 +120,9 @@ public class AnimationDumper {
 				}
 				};
 
-			writer.append(i + ": " + name);
-			writer.newLine();
-			writer.flush();
+				writer.append(i + ": " + name);
+				writer.newLine();
+				writer.flush();
 		}
 
 		List<Integer> keys = new ArrayList<>(UNIDS.keySet());

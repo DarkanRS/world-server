@@ -146,9 +146,7 @@ public class Offer {
 	public boolean process(Offer other) {
 		if (state != State.STABLE || other.getState() != State.STABLE || (selling && price > other.getPrice()))
 			return false;
-		if (!selling && price < other.getPrice())
-			return false;
-		if (itemId != other.getItemId())
+		if ((!selling && price < other.getPrice()) || (itemId != other.getItemId()))
 			return false;
 		int numTransact = Math.min(amountLeft(), other.amountLeft());
 		int finalPrice = numTransact * other.price;

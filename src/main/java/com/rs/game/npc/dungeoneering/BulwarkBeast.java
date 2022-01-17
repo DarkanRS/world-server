@@ -49,9 +49,8 @@ public final class BulwarkBeast extends DungeonBoss {
 			return;
 		hit.setDamage(0);
 		Entity source = hit.getSource();
-		if (source == null || !(source instanceof Player) || (hit.getLook() != HitLook.MELEE_DAMAGE))
+		if (source == null || !(source instanceof Player playerSource) || (hit.getLook() != HitLook.MELEE_DAMAGE))
 			return;
-		Player playerSource = (Player) source;
 		int weaponId = playerSource.getEquipment().getWeaponId();
 		if (weaponId != -1 && DungPickaxe.getBest(playerSource) != null) {
 			hit.setDamage(Utils.random(50));

@@ -79,7 +79,8 @@ public class FremennikCampRoom extends PuzzleRoom {
 			player.setNextAnimation(new Animation(898));
 			player.setNextSpotAnim(new SpotAnim(2123));
 			return false;
-		} else if (object.getId() == LOGS[type]) {
+		}
+		if (object.getId() == LOGS[type]) {
 			if (!hasRequirement(player, Constants.FLETCHING)) {
 				player.sendMessage("You need a fletching level of " + getRequirement(Constants.FLETCHING) + " to fletch these bows.");
 				return false;

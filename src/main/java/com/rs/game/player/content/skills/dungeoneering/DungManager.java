@@ -76,33 +76,33 @@ public class DungManager {
 	private transient Player invitingPlayer;
 
 	public static enum ResourceDungeon {
-		EDGEVILLE_DUNGEON(10, 1100, 52849, new WorldTile(3132, 9933, 0), 52867, new WorldTile(991, 4585, 0)), 
-		DWARVEN_MINE(15, 1500, 52855, new WorldTile(3034, 9772, 0), 52864, new WorldTile(1041, 4575, 0)), 
-		EDGEVILLE_DUNGEON_2(20, 1600, 52853, new WorldTile(3104, 9826, 0), 52868, new WorldTile(1135, 4589, 0)), 
-		KARAMJA_VOLCANO(25, 2100, 52850, new WorldTile(2845, 9557, 0), 52869, new WorldTile(1186, 4598, 0)), 
+		EDGEVILLE_DUNGEON(10, 1100, 52849, new WorldTile(3132, 9933, 0), 52867, new WorldTile(991, 4585, 0)),
+		DWARVEN_MINE(15, 1500, 52855, new WorldTile(3034, 9772, 0), 52864, new WorldTile(1041, 4575, 0)),
+		EDGEVILLE_DUNGEON_2(20, 1600, 52853, new WorldTile(3104, 9826, 0), 52868, new WorldTile(1135, 4589, 0)),
+		KARAMJA_VOLCANO(25, 2100, 52850, new WorldTile(2845, 9557, 0), 52869, new WorldTile(1186, 4598, 0)),
 		DAEMONHEIM_PENINSULA(30, 2400, 52861, new WorldTile(3513, 3666, 0), 52862, new WorldTile(3498, 3633, 0)),
-		BAXTORIAN_FALLS(35, 3000, 52857, new WorldTile(2578, 9898, 0), 52873, new WorldTile(1256, 4592, 0)), 
-		MINING_GUILD(45, 4400, 52856, new WorldTile(3022, 9741, 0), 52866, new WorldTile(1052, 4521, 0)), 
-		TAVERLEY_DUNGEON_1(55, 6200, 52851, new WorldTile(2854, 9841, 0), 52870, new WorldTile(1394, 4588, 0)), 
-		TAVERLEY_DUNGEON_2(60, 7000, 52852, new WorldTile(2912, 9810, 0), 52865, new WorldTile(1000, 4522, 0)), 
+		BAXTORIAN_FALLS(35, 3000, 52857, new WorldTile(2578, 9898, 0), 52873, new WorldTile(1256, 4592, 0)),
+		MINING_GUILD(45, 4400, 52856, new WorldTile(3022, 9741, 0), 52866, new WorldTile(1052, 4521, 0)),
+		TAVERLEY_DUNGEON_1(55, 6200, 52851, new WorldTile(2854, 9841, 0), 52870, new WorldTile(1394, 4588, 0)),
+		TAVERLEY_DUNGEON_2(60, 7000, 52852, new WorldTile(2912, 9810, 0), 52865, new WorldTile(1000, 4522, 0)),
 		VARROCK_SEWERS(65, 8500, 52863, new WorldTile(3164, 9878, 0), 52876, new WorldTile(1312, 4590, 0)),
 		CHAOS_TUNNELS(70, 9600, 52858, new WorldTile(3160, 5521, 0), 52874, new WorldTile(1238, 4524, 0)),
-		AL_KHARID(75, 11400, 52860, new WorldTile(3298, 3307, 0), 52872, new WorldTile(1182, 4515, 0)), 
-		BRIMHAVEN_DUNGEON(80, 12800, 52854, new WorldTile(2697, 9442, 0), 52871, new WorldTile(1140, 4499, 0)), 
-		POLYPORE_DUNGEON(82, 13500, 64291, new WorldTile(4661, 5491, 3), 64291, new WorldTile(4695, 5625, 3)), 
+		AL_KHARID(75, 11400, 52860, new WorldTile(3298, 3307, 0), 52872, new WorldTile(1182, 4515, 0)),
+		BRIMHAVEN_DUNGEON(80, 12800, 52854, new WorldTile(2697, 9442, 0), 52871, new WorldTile(1140, 4499, 0)),
+		POLYPORE_DUNGEON(82, 13500, 64291, new WorldTile(4661, 5491, 3), 64291, new WorldTile(4695, 5625, 3)),
 		ASGARNIAN_ICE_DUNGEON(85, 15000, 52859, new WorldTile(3033, 9599, 0), 52875, new WorldTile(1297, 4510, 0))
 
 		;
-		
+
 		private static Map<Integer, ResourceDungeon> ID_MAP = new HashMap<>();
-		
+
 		static {
 			for (ResourceDungeon d : ResourceDungeon.values()) {
 				ID_MAP.put(d.insideId, d);
 				ID_MAP.put(d.outsideId, d);
 			}
 		}
-		
+
 		public static ResourceDungeon forId(int id) {
 			return ID_MAP.get(id);
 		}
@@ -124,7 +124,7 @@ public class DungManager {
 			this.inside = inside;
 		}
 	}
-	
+
 	public static ObjectClickHandler handleResourceDungeonEntrance = new ObjectClickHandler(ResourceDungeon.ID_MAP.keySet().toArray()) {
 		@Override
 		public void handle(ObjectClickEvent e) {

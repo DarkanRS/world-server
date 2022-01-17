@@ -1695,9 +1695,9 @@ public class Player extends Entity {
 		World.updateEntityRegion(this);
 	}
 
-    public long getLastLoggedIn() {
-        return lastLoggedIn;
-    }
+	public long getLastLoggedIn() {
+		return lastLoggedIn;
+	}
 
 	@Override
 	public boolean restoreHitPoints() {
@@ -2889,10 +2889,9 @@ public class Player extends Entity {
 			Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : getTempAttribs().getO("last_target");
 			if (target != null) {
 				if (!(target instanceof NPC n && n.isForceMultiAttacked()))
-					if (!target.isAtMultiArea() || !isAtMultiArea()) {
+					if (!target.isAtMultiArea() || !isAtMultiArea())
 						if ((getAttackedBy() != target && inCombat()) || (target.getAttackedBy() != this && target.inCombat()))
 							return;
-					}
 				if (!(getActionManager().getAction() instanceof PlayerCombat combat) || combat.getTarget() != target)
 					getActionManager().setAction(new PlayerCombat(target));
 				PlayerCombat pcb = (PlayerCombat) getActionManager().getAction();

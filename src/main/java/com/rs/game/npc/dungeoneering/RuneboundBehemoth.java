@@ -95,7 +95,7 @@ public class RuneboundBehemoth extends DungeonBoss {
 			return baseId - 45;
 		if (melee && range)
 			return baseId + 30;
-		else if (melee && magic)
+		if (melee && magic)
 			return baseId + 15;
 		else if (magic && range)
 			return baseId + 45;

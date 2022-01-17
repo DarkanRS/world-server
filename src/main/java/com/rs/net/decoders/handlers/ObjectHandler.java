@@ -128,9 +128,7 @@ public final class ObjectHandler {
 			player.stopAll();
 			player.faceObject(object);
 
-			if (!player.getControllerManager().processObjectClick1(object))
-				return;
-			if (player.getTreasureTrailsManager().useObject(object))
+			if (!player.getControllerManager().processObjectClick1(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
 			//				if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, false)))
 			//					return;
@@ -144,7 +142,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, new WorldTile(object.getX()-2, player.getY(), 0), 1, 2);
 				return;
 			}
-			else if (object.getId() == 7434) {
+			if (object.getId() == 7434) {
 				player.useStairs(828, new WorldTile(3682, 9961, 0), 1, 2);
 				return;
 			} else if (object.getId() == 7433) {
@@ -2013,9 +2011,7 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-			if (!player.getControllerManager().processObjectClick2(object))
-				return;
-			if (player.getTreasureTrailsManager().useObject(object))
+			if (!player.getControllerManager().processObjectClick2(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
 			if (object.getDefinitions(player).getName().equalsIgnoreCase("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))
 				player.getDialogueManager().execute(new SmeltingD(), object);
@@ -2135,10 +2131,7 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-			if (!player.getControllerManager().processObjectClick3(object))
-				return;
-
-			if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP3, true)))
+			if (!player.getControllerManager().processObjectClick3(object) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP3, true)))
 				return;
 
 			switch (def.getName().toLowerCase()) {
@@ -2184,9 +2177,7 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-			if (!player.getControllerManager().processObjectClick4(object))
-				return;
-			if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP4, true)))
+			if (!player.getControllerManager().processObjectClick4(object) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP4, true)))
 				return;
 			switch (def.getName().toLowerCase()) {
 			default:
@@ -2208,9 +2199,7 @@ public final class ObjectHandler {
 		player.setRouteEvent(new RouteEvent(object, () -> {
 			player.stopAll();
 			player.faceObject(object);
-			if (!player.getControllerManager().processObjectClick5(object))
-				return;
-			if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP5, true)))
+			if (!player.getControllerManager().processObjectClick5(object) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP5, true)))
 				return;
 			if (id == -1) {
 				// unused
@@ -2295,10 +2284,7 @@ public final class ObjectHandler {
 		final int itemId = item.getId();
 		final ObjectDefinitions objectDef = object.getDefinitions(player);
 
-		if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, false)))
-			return;
-
-		if (FishingFerretRoom.handleFerretThrow(player, object, item))
+		if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, false)) || FishingFerretRoom.handleFerretThrow(player, object, item))
 			return;
 
 		player.setRouteEvent(new RouteEvent(object, () -> {

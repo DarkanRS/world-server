@@ -326,10 +326,9 @@ public final class ItemsContainer<T extends Item> {
 
 	@SuppressWarnings("unchecked")
 	public void addAll(Item[] container) {
-		for (Item item : container) {
+		for (Item item : container)
 			if (item != null)
 				this.add((T) item);
-		}
 	}
 
 	public boolean hasSpaceFor(ItemsContainer<T> container) {

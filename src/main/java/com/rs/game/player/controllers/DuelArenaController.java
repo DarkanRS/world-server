@@ -483,7 +483,8 @@ public class DuelArenaController extends Controller {
 		if (isRanging && rules.getRule(0) && isDueling) {
 			player.sendMessage("You cannot use Range in this duel!", true);
 			return false;
-		} else if (!isRanging && rules.getRule(1) && player.getCombatDefinitions().getSpell() == null && isDueling) {
+		}
+		if (!isRanging && rules.getRule(1) && player.getCombatDefinitions().getSpell() == null && isDueling) {
 			player.sendMessage("You cannot use Melee in this duel!", true);
 			return false;
 		} else
@@ -498,12 +499,11 @@ public class DuelArenaController extends Controller {
 	@Override
 	public boolean canEquip(int slotId, int itemId) {
 		DuelRules rules = player.getLastDuelRules();
-		if (isDueling) {
+		if (isDueling)
 			if (rules.getRule(10 + slotId) || (slotId == 3 && player.getEquipment().hasTwoHandedWeapon() && rules.getRule(15))) {
 				player.sendMessage("You can't equip " + ItemDefinitions.getDefs(itemId).getName().toLowerCase() + " during this duel.");
 				return false;
 			}
-		}
 		return true;
 	}
 

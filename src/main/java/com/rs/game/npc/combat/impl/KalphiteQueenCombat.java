@@ -106,8 +106,7 @@ public class KalphiteQueenCombat extends CombatScript {
 				return 1;
 			if (Utils.getDistance(o1, fromEntity) < Utils.getDistance(o2, fromEntity))
 				return -1;
-			else
-				return 0;
+			return 0;
 		});
 		return added.get(0);
 

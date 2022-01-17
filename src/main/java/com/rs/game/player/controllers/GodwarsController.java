@@ -109,7 +109,8 @@ public class GodwarsController extends Controller {
 			player.sendMessage("Your prayer points feel rejuvinated.");
 			lastPrayerRecharge = 600000 + System.currentTimeMillis();
 			return false;
-		} else if (object.getId() == 26444) {
+		}
+		if (object.getId() == 26444) {
 			if (player.getSkills().getLevel(Constants.AGILITY) >= 70)
 				player.useStairs(828, new WorldTile(2914, 5300, 1), 1, 2);
 			else

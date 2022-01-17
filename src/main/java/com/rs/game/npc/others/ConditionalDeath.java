@@ -82,7 +82,7 @@ public class ConditionalDeath extends NPC {
 				return new ConditionalDeath(4161, "The rockslug shrivels and dies.", true, npcId, tile);
 			if (npcId == 1610)
 				return new ConditionalDeath(4162, "The gargoyle breaks into peices as you slam the hammer onto its head.", false, npcId, tile);
-			else if (npcId == 14849)
+			if (npcId == 14849)
 				return new ConditionalDeath(23035, null, false, npcId, tile);
 			else
 				return new ConditionalDeath(6696, null, true, npcId, tile);

@@ -86,8 +86,8 @@ public class WorldAPI extends WebAPI {
 				});
 			});
 		});
-		
-		this.routes.post("/forwardpackets", ex -> {
+
+		routes.post("/forwardpackets", ex -> {
 			ex.dispatch(() -> {
 				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
 					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));

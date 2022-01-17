@@ -88,7 +88,8 @@ public class MapDump {
 										if (plane == 0)
 											heights[rx * 64 + x][ry * 64 + y] = v;
 										break;
-									} else if (value <= 49) {
+									}
+									if (value <= 49) {
 										int v = mapStream.readUnsignedByte();
 										if (plane == 0) {
 											overlayIds[rx * 64 + x][ry * 64 + y] = v;

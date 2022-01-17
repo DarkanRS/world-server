@@ -213,38 +213,37 @@ public class Conversation {
 			if (options.getConv() != null)
 				options.getConv().addStage(options.getStageName(), op);
 			return addNext(op);
-		} else {
-			String[] ops = new String[options.getOptions().keySet().size()];
-			options.getOptions().keySet().toArray(ops);
-			String[] baseOptions = new String[5];
-			for (int i = 0;i < 4;i++)
-				baseOptions[i] = ops[i];
-			baseOptions[4] = "More options...";
-			Dialogue baseOption = new Dialogue(new OptionStatement(title, baseOptions));
-			Dialogue currPage = baseOption;
-			for (int i = 0;i < ops.length;i++) {
-				Option op = options.getOptions().get(ops[i]);
-				if (op.show()) {
-					currPage.addNext(op.getDialogue());
-					if (i >= 3 && ((i+1) % 4) == 0) {
-						String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
-						for (int j = 1;j < 5;j++) {
-							if (i+j >= ops.length)
-								continue;
-							nextOps[j-1] = ops[i+j];
-						}
-						nextOps[nextOps.length-1] = "More options...";
-						Dialogue nextPage = new Dialogue(new OptionStatement(title, nextOps));
-						currPage.addNext(nextPage);
-						currPage = nextPage;
+		}
+		String[] ops = new String[options.getOptions().keySet().size()];
+		options.getOptions().keySet().toArray(ops);
+		String[] baseOptions = new String[5];
+		for (int i = 0;i < 4;i++)
+			baseOptions[i] = ops[i];
+		baseOptions[4] = "More options...";
+		Dialogue baseOption = new Dialogue(new OptionStatement(title, baseOptions));
+		Dialogue currPage = baseOption;
+		for (int i = 0;i < ops.length;i++) {
+			Option op = options.getOptions().get(ops[i]);
+			if (op.show()) {
+				currPage.addNext(op.getDialogue());
+				if (i >= 3 && ((i+1) % 4) == 0) {
+					String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
+					for (int j = 1;j < 5;j++) {
+						if (i+j >= ops.length)
+							continue;
+						nextOps[j-1] = ops[i+j];
 					}
+					nextOps[nextOps.length-1] = "More options...";
+					Dialogue nextPage = new Dialogue(new OptionStatement(title, nextOps));
+					currPage.addNext(nextPage);
+					currPage = nextPage;
 				}
 			}
-			currPage.addNext(baseOption);
-			if (options.getConv() != null)
-				options.getConv().addStage(options.getStageName(), baseOption);
-			return addNext(baseOption);
 		}
+		currPage.addNext(baseOption);
+		if (options.getConv() != null)
+			options.getConv().addStage(options.getStageName(), baseOption);
+		return addNext(baseOption);
 	}
 
 	public Dialogue addItem(int itemId, String text) {
@@ -293,9 +292,8 @@ public class Conversation {
 			player.endConversation();
 			return;
 		}
-		if (current instanceof StageSelectDialogue d) {
+		if (current instanceof StageSelectDialogue d)
 			current = d.getConversation().getStage(d.getStageName());
-		}
 		if (player.getInterfaceManager().containsChatBoxInter())
 			player.getInterfaceManager().closeChatBoxInterface();
 		current.run(player);

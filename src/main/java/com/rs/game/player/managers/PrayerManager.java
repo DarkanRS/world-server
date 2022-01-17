@@ -346,7 +346,7 @@ public class PrayerManager {
 			return 0;
 		if (active.contains(Prayer.PROTECT_RANGE))
 			return 1;
-		else if (active.contains(Prayer.PROTECT_MAGIC))
+		if (active.contains(Prayer.PROTECT_MAGIC))
 			return 2;
 		else if (active.contains(Prayer.RETRIBUTION))
 			return 3;

@@ -130,18 +130,13 @@ public class TribalTotem extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if (p.getX() < obj.getX() || p.getQuestManager().isComplete(Quest.TRIBAL_TOTEM)) {
+			if (p.getX() < obj.getX() || p.getQuestManager().isComplete(Quest.TRIBAL_TOTEM) || (p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getO(LOCK_PASS_ATTR) != null
+					&& ((String) p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getO(LOCK_PASS_ATTR)).equalsIgnoreCase("KURT"))) {
 				handleDoor(p, obj);
 				return;
 			}
-			if (p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getO(LOCK_PASS_ATTR) != null
-					&& ((String) p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getO(LOCK_PASS_ATTR)).equalsIgnoreCase("KURT")) {
-				handleDoor(p, obj);
-				return;
-			} else {
-				p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).setO(LOCK_PASS_ATTR, "AAAA");
-				p.getInterfaceManager().sendInterface(285);//Door lock tribal totem
-			}
+			p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).setO(LOCK_PASS_ATTR, "AAAA");
+			p.getInterfaceManager().sendInterface(285);//Door lock tribal totem
 		}
 	};
 

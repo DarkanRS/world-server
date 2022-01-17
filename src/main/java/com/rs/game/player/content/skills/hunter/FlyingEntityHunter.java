@@ -189,7 +189,7 @@ public class FlyingEntityHunter {
 				if (isSuccessful(player, instance.getLevel(), player1 -> {
 					if (player1.getEquipment().getItem(3).getId() == 11259)
 						return 3;// magic net
-					else if (player1.getEquipment().getItem(3).getId() == 10010)
+					if (player1.getEquipment().getItem(3).getId() == 10010)
 						return 2;// regular net
 					return 1;// hands
 				})) {

@@ -106,7 +106,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 			return 8;
 		}
 		int[] possibleAttacks = { 0, 1, 2 };
-		if (target instanceof Player player) {
+		if (target instanceof Player player)
 			if (player.getPrayer().isProtectingMelee())
 				possibleAttacks = new int[]
 						{ 1, 2 };
@@ -116,7 +116,6 @@ public class RuneboundBehemothCombat extends CombatScript {
 			else if (player.getPrayer().isProtectingMage())
 				possibleAttacks = new int[]
 						{ 0, 2 };
-		}
 		boolean distanced = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 		int attack = possibleAttacks[Utils.random(possibleAttacks.length)];
 		if (attack == 0 && distanced)

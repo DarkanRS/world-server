@@ -46,7 +46,6 @@ import com.rs.game.player.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.player.content.minigames.pest.CommendationExchange;
 import com.rs.game.player.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.player.content.skills.construction.ServantDialogue;
-import com.rs.game.player.content.skills.dungeoneering.DungeonRewards;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeoneeringTutor;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.player.content.skills.runecrafting.runespan.SiphonActionCreatures;

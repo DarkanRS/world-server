@@ -270,7 +270,7 @@ public final class CombatDefinitions {
 			return 950; // dung book
 		if (spellBook == 0)
 			return 192; // normal
-		else if (spellBook == 1)
+		if (spellBook == 1)
 			return 193; // ancients
 		else
 			return 430; // lunar
