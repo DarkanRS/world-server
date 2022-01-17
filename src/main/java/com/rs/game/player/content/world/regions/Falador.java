@@ -68,12 +68,6 @@ public class Falador {
         }
     };
 
-    public static ObjectClickHandler handleArtisansFurnace = new ObjectClickHandler(new Object[] { 24720 }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            e.getPlayer().getDialogueManager().execute(new SmeltingD(), e.getObject());
-        }
-    };
 
     public static NPCClickHandler handleChemist = new NPCClickHandler(367) {
         @Override
