@@ -4120,6 +4120,8 @@ public class Player extends Entity {
 	}
 
 	public Map<Integer, Offer> getGEOffers() {
+		if (geOffers == null)
+			geOffers = new HashMap<>();
 		return geOffers;
 	}
 
@@ -4209,5 +4211,9 @@ public class Player extends Entity {
 
 	public void simpleDialogue(String message) {
 		startConversation(new com.rs.game.player.content.dialogue.Dialogue(new SimpleStatement(message)));
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

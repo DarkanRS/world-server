@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import com.google.common.net.PercentEscaper;
 import com.google.gson.JsonIOException;
 import com.rs.lib.Globals;
 import com.rs.lib.file.JsonFileManager;
@@ -114,9 +115,9 @@ public final class Settings {
 
 	public static void loadConfig() {
 		try {
-			File configFile = new File("./serverConfig.json");
+			File configFile = new File("./worldConfig.json");
 			if (configFile.exists())
-				SETTINGS = JsonFileManager.loadJsonFile(new File("./serverConfig.json"), Settings.class);
+				SETTINGS = JsonFileManager.loadJsonFile(new File("./worldConfig.json"), Settings.class);
 			else
 				SETTINGS = new Settings();
 			for (Field f : SETTINGS.getClass().getDeclaredFields())
@@ -215,7 +216,7 @@ public final class Settings {
 	public String getMongoDb() {
 		String db = "mongodb://";
 		if (mongoUser != null && !mongoUser.isEmpty())
-			db += mongoUser + ":" + mongoPass + "@";
+			db += mongoUser + ":" + new PercentEscaper("", false).escape(mongoPass) + "@";
 		db += mongoUrl;
 		if (mongoPort > 0)
 			db += ":" + mongoPort;
