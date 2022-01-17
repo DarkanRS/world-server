@@ -992,7 +992,7 @@ public class Player extends Entity {
 		timeLoggedOut = System.currentTimeMillis();
 		if (!isDead()) {
 			if (getTickCounter() % 50 == 0)
-                getCombatDefinitions().restoreSpecialAttack();
+				getCombatDefinitions().restoreSpecialAttack();
 
 			//Restore skilling stats
 			if (getTickCounter() % 100 == 0) {
@@ -1296,7 +1296,6 @@ public class Player extends Entity {
 			getDialogueManager().execute(new StartDialogue());
 		}
 		//getPackets().write(new UpdateRichPresence("state", "Logged in as " + getDisplayName()));
-
 		PluginManager.handle(new LoginEvent(this));
 		PluginManager.handle(new EnterChunkEvent(this, getChunkId()));
 	}

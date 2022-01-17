@@ -23,25 +23,18 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
-import com.rs.game.player.Player;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.region.ClipFlag;
-import com.rs.game.region.RenderFlag;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-
-import java.util.Arrays;
 
 @PluginEventHandler
 public class Normal {
 
 	@ServerStartupEvent
 	public static void loadCommands() {
-
 
 		Commands.add(Rights.PLAYER, "commandlist,commands", "Displays all the commands the player has permission to use.", (p, args) -> {
 			p.getPackets().setIFText(275, 1, "Commands List");
@@ -59,7 +52,6 @@ public class Normal {
 			p.getPackets().sendRunScript(1207, componentId - 10);
 			p.getInterfaceManager().sendInterface(275);
 		});
-
 
 		Commands.add(Rights.PLAYER, "drops [npcId numberKilled]", "Emulates a number of NPC kills and displays the collected loot.", (p, args) -> {
 			int npcId = Integer.valueOf(args[0]);
@@ -129,7 +121,7 @@ public class Normal {
 			p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
 		});
 
-		Commands.add(Rights.PLAYER, "owner", "Gives you owner rank if you're Trent :)", (p, args) -> {
+		Commands.add(Rights.PLAYER, "owner", "Gives you owner rank if you're the owner.", (p, args) -> {
 			if (Settings.isOwner(p.getUsername())) {
 				p.setRights(Rights.OWNER);
 				p.getAppearance().generateAppearanceData();
