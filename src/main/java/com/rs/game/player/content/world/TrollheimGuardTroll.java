@@ -42,10 +42,10 @@ public class TrollheimGuardTroll extends NPC {
         }
     }
 
-    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1130, 1131, 1132, 1133, 1134) {
-        @Override
-        public NPC getNPC(int npcId, WorldTile tile) {
-            return new TrollheimGuardTroll(npcId, tile);
-        }
-    };
+//    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1130, 1131, 1132, 1133, 1134) {
+//        @Override
+//        public NPC getNPC(int npcId, WorldTile tile) {
+//            return new TrollheimGuardTroll(npcId, tile);
+//        }
+//    };
 }
