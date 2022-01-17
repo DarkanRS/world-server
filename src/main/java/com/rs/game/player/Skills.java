@@ -691,9 +691,9 @@ public final class Skills {
 	}
 
 	public void set(int skill, int newLevel) {
-        level[skill] = (short) newLevel;
-        markForRefresh(skill);
-    }
+		level[skill] = (short) newLevel;
+		markForRefresh(skill);
+	}
 
 	public int drainLevel(int skill, int drain) {
 		int drainLeft = drain - level[skill];
@@ -1046,7 +1046,6 @@ public final class Skills {
 		}
 		markForRefresh(skill);
 	}
-
 
 	public void addXp(int skill, double exp) {
 		player.getControllerManager().trackXP(skill, (int) exp);

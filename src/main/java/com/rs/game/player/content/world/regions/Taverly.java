@@ -22,8 +22,6 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.dialogues.TanningD;
-import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;

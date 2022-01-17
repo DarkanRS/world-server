@@ -658,7 +658,7 @@ public abstract class Entity extends WorldTile {
 	}
 
 	public boolean lineOfSightTo(WorldTile tile, boolean melee) {
-		if (tile instanceof NPC npc) {//special case.
+		if (tile instanceof NPC npc) {
 			switch(npc.getId()) {
 			case 2440:
 			case 2443:

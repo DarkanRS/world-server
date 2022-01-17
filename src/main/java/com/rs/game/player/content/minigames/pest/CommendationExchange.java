@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -86,7 +86,7 @@ public class CommendationExchange {// 1875 TODO
 			else if (e.getComponentId() == 88)
 				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
 			else if (e.getComponentId() == 29)
-                e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
+				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
 			else if (e.getComponentId() == 75) {
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, true);
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
@@ -180,7 +180,6 @@ public class CommendationExchange {// 1875 TODO
 				rate = i;
 				break;
 			}
-
 		double experience = calculateExperience(player, skill) * rate;
 		player.getSkills().addXp(skill, experience / 18);
 		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");

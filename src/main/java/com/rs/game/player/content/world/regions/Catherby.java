@@ -16,21 +16,10 @@
 //
 package com.rs.game.player.content.world.regions;
 
-import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
-import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;
-import com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Catherby {

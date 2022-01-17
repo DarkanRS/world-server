@@ -56,7 +56,6 @@ public class DropList {
 			}
 			drops.add(new DropEntry(table, curr, curr + rate));
 			curr += rate;
-
 			if (curr > 1.0000000000000009) {
 				overflowed = true;
 				overflow = curr - 1.0;
@@ -75,39 +74,39 @@ public class DropList {
 	public double getOverflow() {
 		return overflow;
 	}
-	
+
 	public String getNothingFracString() {
 		return Rational.toRational(nothingRate).toString();
 	}
-	
+
 	public double getNothingRate() {
 		return Utils.round(nothingRate, 10);
 	}
-	
+
 	public List<Item> genDrop() {
 		return genDrop(1.0);
 	}
-	
+
 	public List<Item> genDrop(double modifier) {
 		return genDrop(null, modifier);
 	}
-	
+
 	public List<DropEntry> getDrops() {
 		return drops;
 	}
-	
+
 	public List<Item> genDrop(Player killer, double modifier) {
 		List<Item> finals = new ArrayList<>();
-		
+
 		modifier *= Settings.getConfig().getDropModifier();
-		
+
 		double roll = Utils.clampD(Utils.randomD() * modifier, -100, MAX_ROLL);
 		for (DropEntry drop : drops) {
 			if ((!drop.isAlways() && roll < drop.getMin()) || (!drop.isAlways() && roll >= drop.getMax()))
 				continue;
-            DropTable table = drop.getTable();
-            if (table == null)
-                continue;
+			DropTable table = drop.getTable();
+			if (table == null)
+				continue;
 			if (table.getRollTable() != null) {
 				if (killer != null)
 					switch(table.getRollTable().getNames()[0]) {
@@ -144,10 +143,10 @@ public class DropList {
 					else
 						for(int i = 0;i < d.getAmount();i++)
 							finals.addAll(d.getRollTable().getDropList().genDrop(modifier));
-					}
+		}
 		return finals;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();

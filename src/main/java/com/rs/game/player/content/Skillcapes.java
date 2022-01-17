@@ -2,12 +2,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
@@ -50,10 +50,10 @@ public enum Skillcapes {
 	Construction(9789, 9790, 9791, 25331, "a master home builder"),
 	Summoning(12169, 12170, 12171, 25348, "a master summoner"),
 	Dungeoneering(18508, 18509, 18510, 19709, "a master dungeon delver");
-	
+
 	public final int untrimmed, trimmed, hood, master;
 	public final String verb;
-	
+
 	private Skillcapes(int untrimmed, int trimmed, int hood, int master, String verb) {
 		this.untrimmed = untrimmed;
 		this.trimmed = trimmed;
@@ -61,16 +61,16 @@ public enum Skillcapes {
 		this.verb = verb;
 		this.master = master;
 	}
-	
+
 	private Dialogue getGiveCapeDialogue(Player player, int npcId, boolean masterCape) {
 		if (!player.getInventory().containsItem(995, masterCape ? 120000 : 99000))
 			return new Dialogue(new PlayerStatement(HeadE.SAD_MILD, "But, unfortunately, I was mistaken.")).addNext(new NPCStatement(npcId, HeadE.NO_EXPRESSION, "Well, come back and see me when you do.")).finish();
 		return new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, ordinal() == Constants.FIREMAKING ? "I'm sure you'll look hot in that cape." : "Excellent! Wear that cape with pride my friend."), () -> {
-				player.getInventory().deleteItem(995, masterCape ? 120000 : 99000);
-				if (!masterCape)
-					player.getInventory().addItem(hood, 1);
-				player.getInventory().addItem(masterCape ? master : player.getSkills().checkMulti99s() ? trimmed : untrimmed, 1);
-			});
+			player.getInventory().deleteItem(995, masterCape ? 120000 : 99000);
+			if (!masterCape)
+				player.getInventory().addItem(hood, 1);
+			player.getInventory().addItem(masterCape ? master : player.getSkills().checkMulti99s() ? trimmed : untrimmed, 1);
+		});
 	}
 
 	public Dialogue getOffer99CapeDialogue(Player player, int npcId) {
