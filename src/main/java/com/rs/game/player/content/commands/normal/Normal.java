@@ -25,7 +25,6 @@ import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.content.commands.Command;
 import com.rs.game.player.content.commands.Commands;
-import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -65,31 +64,6 @@ public class Normal {
 			}
 			NPC.displayDropsFor(p, npcId, npcAmount);
 		});
-
-		//		Commands.add(Rights.PLAYER, "cluesim [difficulty]", "Emulates opening a clue of specific difficulty", (p, args) -> {
-		//			Item[] rewards = null;
-		//			switch (args[0].toLowerCase()) {
-		//				case "easy":
-		//					rewards = TreasureTrailsManager.generateRewards(p, 0);
-		//					break;
-		//				case "medium":
-		//					rewards = TreasureTrailsManager.generateRewards(p, 1);
-		//					break;
-		//				case "hard":
-		//					rewards = TreasureTrailsManager.generateRewards(p, 2);
-		//					break;
-		//				case "elite":
-		//					rewards = TreasureTrailsManager.generateRewards(p, 3);
-		//					break;
-		//				default:
-		//					rewards = TreasureTrailsManager.generateRewards(p, 0);
-		//			}
-		//
-		//			p.getInterfaceManager().sendInterface(364);
-		//			p.getPackets().sendInterSetItemsOptionsScript(364, 4, 141, 3, 4, "Examine");
-		//			p.getPackets().setIFRightClickOps(364, 4, 0, rewards.length, 0);
-		//			p.getPackets().sendItems(141, rewards);
-		//		});
 
 		Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> {
 			WorldDB.getGE().getAllOffersOfType(false, offers -> {
@@ -147,18 +121,15 @@ public class Normal {
 			p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
 		});
 
-		Commands.add(Rights.PLAYER, "owner", "Gives you owner rank if you're Trent :)", (p, args) -> {
+		Commands.add(Rights.PLAYER, "owner", "Gives you owner rank if you're the owner.", (p, args) -> {
 			if (Settings.isOwner(p.getUsername())) {
 				p.setRights(Rights.OWNER);
 				p.getAppearance().generateAppearanceData();
 			}
 		});
 
-		Commands.add(Rights.PLAYER, "title", "Sets your title to display your XP rate.", (p, args) -> {
-			Dialogue switchTitle = new Dialogue();
-			switchTitle.addOption("Would you like to change your title to display your XP rate and mode?", "Yes.", "No.");
-			switchTitle.addSimple("Your title has been changed.", () -> p.applyAccountTitle());
-			p.startConversation(switchTitle);
+		Commands.add(Rights.PLAYER, "ping", "Checks your ping if you have gotten it recently.", (p, args) -> {
+			p.sendMessage("Ping: " + p.getNSV().getI("ping", -1));
 		});
 
 		Commands.add(Rights.PLAYER, "dunginfo", "Shows dungeon seed", (p, args) -> {
