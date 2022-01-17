@@ -873,9 +873,8 @@ public class MiscTest {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "overlay [interfaceId (childId)]", "Opens an interface as a walkable overlay.", (p, args) -> {
-			int child = args.length > 1 ? Integer.parseInt(args[1]) : 28;
-			p.getInterfaceManager().setInterface(true, 746, child, Integer.valueOf(args[0]));
+		Commands.add(Rights.DEVELOPER, "overlay [interfaceId]", "Opens an interface as a walkable overlay.", (p, args) -> {
+			p.getInterfaceManager().setOverlay(428);
 		});
 
 		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId", "Sends an interface to the window specified component.", (p, args) -> {

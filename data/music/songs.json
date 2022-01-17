@@ -9204,12 +9204,9 @@
     "name": "Spiritual",
     "hint": "in Taverley.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 1061,
-    "regionIds": [
-      11573,
-      11574
-    ]
+    "regionIds": []
   },
   {
     "name": "Taverley Frolics",
@@ -9245,12 +9242,9 @@
     "name": "Taverley Ambience",
     "hint": "in Taverley.",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 1066,
-    "regionIds": [
-      11574,
-      11573
-    ]
+    "regionIds": []
   },
   {
     "name": "Taverley Enchantment",

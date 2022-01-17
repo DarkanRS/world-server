@@ -1,5 +1,14 @@
 [
   {
+    "comment": "Eniola added by jawarrior1",
+    "npcId": 6362,
+    "tile": {
+      "x": 3273,
+      "y": 4861,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Sinister Stranger added by jawarrior1",
     "npcId": 3677,
     "tile": {

@@ -96,6 +96,25 @@ public final class MusicsManager {
 		}
 	};
 
+    /**
+     * Only for debug use
+     * @param p
+     */
+    public void clearUnlocked(Player p) {
+        unlockedMusics.clear();
+        unlockedMusics.add(62);
+        unlockedMusics.add(400);
+        unlockedMusics.add(16);
+        unlockedMusics.add(466);
+        unlockedMusics.add(321);
+        unlockedMusics.add(547);
+        unlockedMusics.add(621);
+        unlockedMusics.add(207);
+        unlockedMusics.add(401);
+        unlockedMusics.add(457);
+        unlockedMusics.add(552);
+    }
+
 	public void passMusics(Player p) {
 		for (int musicId : p.getMusicsManager().unlockedMusics)
 			if (!unlockedMusics.contains(musicId))
@@ -118,6 +137,10 @@ public final class MusicsManager {
 		}
 		shuffleOn = !shuffleOn;
 	}
+
+    public int getPlayingMusicId() {
+        return playingMusic;
+    }
 
 	public void switchPlayListOn() {
 		if (playListOn) {
@@ -226,9 +249,6 @@ public final class MusicsManager {
 	}
 
 	public void init() {
-		// unlock music inter all options
-		if (playingMusic >= 0)
-			playMusic(playingMusic);
 		refreshListConfigs();
 		refreshPlayListConfigs();
 	}

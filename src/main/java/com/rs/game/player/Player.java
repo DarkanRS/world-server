@@ -1695,6 +1695,10 @@ public class Player extends Entity {
 		World.updateEntityRegion(this);
 	}
 
+    public long getLastLoggedIn() {
+        return lastLoggedIn;
+    }
+
 	@Override
 	public boolean restoreHitPoints() {
 		boolean update = super.restoreHitPoints();
