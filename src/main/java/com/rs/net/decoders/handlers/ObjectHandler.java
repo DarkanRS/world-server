@@ -2295,7 +2295,8 @@ public final class ObjectHandler {
 		final int itemId = item.getId();
 		final ObjectDefinitions objectDef = object.getDefinitions(player);
 
-		PluginManager.handle(new ItemOnObjectEvent(player, item, object, false));
+		if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, false)))
+			return;
 
 		if (FishingFerretRoom.handleFerretThrow(player, object, item))
 			return;
