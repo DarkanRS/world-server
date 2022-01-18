@@ -26,6 +26,8 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 public class DemonSlayer_WallyVSDelrith extends Controller {
 	private static final int WALLY = 4664;
@@ -38,6 +40,16 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 	public void start() {
 		playCutscene();
 	}
+
+    @Override
+    public Genre getGenre() {
+        return Music.getGenreByName("Other Dungeons");
+    }
+
+    @Override
+    public boolean playMusicOnRegionEnter() {
+        return false;
+    }
 
 	private void playCutscene() {
 		locationBeforeCutscene = new WorldTile(player.getX(), player.getY(), player.getPlane());
@@ -172,14 +184,12 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 
 	@Override
 	public boolean login() {
-		System.out.println("Login");
 		forceClose();
 		return false;
 	}
 
 	@Override
 	public boolean logout() {
-		System.out.println("logout");
 		removeInstance();
 		player.unlock();
 		return false;
@@ -187,7 +197,6 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 
 	@Override
 	public void forceClose() {
-		System.out.println("Force close");
 		player.setNextWorldTile(locationBeforeCutscene);
 		removeInstance();
 		player.unlock();

@@ -134,6 +134,13 @@ public class Music {
 		return genreNames.stream().toArray(String[]::new);
 	}
 
+    public static Genre getGenreByName(String name) {
+        for(Genre g : genres)
+            if(g.getGenreName().equalsIgnoreCase(name))
+                return g;
+        return null;
+    }
+
 	public static ArrayList<Integer> getAllowAmbientMusic() {
 		return allowAmbientMusic;
 	}

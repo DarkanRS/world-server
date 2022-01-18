@@ -15,7 +15,10 @@ public class SeerScorpionCatcherD extends Conversation {
 		if (!p.getInventory().containsOneItem(ScorpionCatcher.EMPTY_CAGE, ScorpionCatcher.CAUGHT_CAGE_1, ScorpionCatcher.CAUGHT_CAGE_2, ScorpionCatcher.CAUGHT_CAGE_3)) {
 			addNPC(NPC, HeadE.CALM_TALK, "Thormac has your cage.");
 			addPlayer(HeadE.FRUSTRATED, "Oh...");
-		}
+		} else {
+            addNPC(NPC, HeadE.CALM_TALK, "Many greetings");
+            addPlayer(HeadE.HAPPY_TALKING, "Your friend Thormac sent me to speak to you.");
+        }
 		
 		if (p.getInventory().containsItem(ScorpionCatcher.CAUGHT_CAGE_3, 1)) {
 			addPlayer(HeadE.HAPPY_TALKING, "I got all the scorpions!");
@@ -23,8 +26,7 @@ public class SeerScorpionCatcherD extends Conversation {
 			return;
 		}
 
-		addNPC(NPC, HeadE.CALM_TALK, "Many greetings");
-		addPlayer(HeadE.HAPPY_TALKING, "Your friend Thormac sent me to speak to you.");
+
 		addNPC(NPC, HeadE.CALM_TALK, "What does the old fellow want?");
 		addPlayer(HeadE.HAPPY_TALKING, "He's lost his valuable lesser Kharid scorpions.");
 		addNPC(NPC, HeadE.CALM_TALK, "Well you have come to the right place. I am a master of animal detection. Let me look into my looking glass.");

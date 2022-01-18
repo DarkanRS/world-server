@@ -32,6 +32,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.Ticks;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 public class DemonSlayer_PlayerVSDelrith extends Controller {
 	static final int DELRITH = 879;
@@ -58,6 +60,16 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	public void start() {
 		playCutscene();
 	}
+
+    @Override
+    public Genre getGenre() {
+        return Music.getGenreByName("Other Dungeons");
+    }
+
+    @Override
+    public boolean playMusicOnRegionEnter() {
+        return false;
+    }
 
 	private void playCutscene() {
 		player.lock();

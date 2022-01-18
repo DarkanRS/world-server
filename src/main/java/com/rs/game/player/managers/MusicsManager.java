@@ -27,6 +27,7 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.player.controllers.Controller;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
@@ -299,7 +300,8 @@ public final class MusicsManager {
 	 * Only for use in nextAmbientSong.
 	 */
 	private void pickAmbientSong() {
-		playingGenre =  Music.getGenre(player.getRegionId());
+        playingGenre = player.getControllerManager().getController() == null ?
+                Music.getGenre(player.getRegionId()) : player.getControllerManager().getController().getGenre();
 		if(playingGenre == null)
 			playRandom();
 		else {
@@ -342,6 +344,8 @@ public final class MusicsManager {
 			player.getPackets().setIFText(187, 4, "");
 			return;
 		}
+        Song song = Music.getSong(musicId);
+        player.getPackets().setIFText(187, 4, song.getName() != null ? song.getName() : "");
 		player.getPackets().sendMusic(musicId, playingMusic == -1 ? 0 : 100, 255);
 		playingMusic = musicId;
 	}
