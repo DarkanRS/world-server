@@ -28,6 +28,8 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 public abstract class Controller {
 
@@ -58,6 +60,14 @@ public abstract class Controller {
 	public void processIncomingHit(final Hit hit) {
 
 	}
+
+    public Genre getGenre() {
+        return Music.getGenre(player.getRegionId());
+    }
+
+    public boolean playMusicOnRegionEnter() {
+        return true;
+    }
 
 	public void processOutgoingHit(final Hit hit, Entity target) {
 

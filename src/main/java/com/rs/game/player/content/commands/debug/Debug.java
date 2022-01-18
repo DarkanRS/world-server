@@ -26,6 +26,10 @@ import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.commands.Commands;
+import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
+import com.rs.game.player.controllers.DemonSlayer_WallyVSDelrith;
+import com.rs.game.player.controllers.DragonSlayer_BoatScene;
+import com.rs.game.player.controllers.MerlinsCrystalCrateScene;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -97,6 +101,16 @@ public class Debug {
 					p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
 			}
 		});
+
+        Commands.add(Rights.ADMIN, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
+            switch(Integer.valueOf(args[0])) {
+                case 0 -> {p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());}
+                case 1 -> {p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());}
+                case 2 -> {p.getControllerManager().startController(new DragonSlayer_BoatScene());}
+                case 3 -> {p.getControllerManager().startController(new MerlinsCrystalCrateScene());}
+            }
+
+        });
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {
 			attemptSpawnRandom(p, true);
