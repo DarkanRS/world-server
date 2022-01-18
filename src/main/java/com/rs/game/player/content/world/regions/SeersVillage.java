@@ -115,12 +115,8 @@ public class SeersVillage {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
-							if(e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
-								option("About Scorpion Catcher", new Dialogue()
-										.addNext(() -> {
-											e.getPlayer().startConversation(new SeerScorpionCatcherD(e.getPlayer()).getStart());
-										})
-										);
+							if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
+								option("About Scorpion Catcher", new SeerScorpionCatcherD(e.getPlayer()).getStart());
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
 						}
 					});
@@ -133,7 +129,7 @@ public class SeersVillage {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int NPC= e.getNPCId();
-			if(!e.getPlayer().getQuestManager().isComplete(Quest.SCORPION_CATCHER))
+			if (!e.getPlayer().getQuestManager().isComplete(Quest.SCORPION_CATCHER))
 				e.getPlayer().startConversation(new ThormacScorpionCatcherD(e.getPlayer()).getStart());
 			else
 				/**
@@ -162,7 +158,7 @@ public class SeersVillage {
 						@Override
 						public void create() {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
-							if(!player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+							if (!player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
 								option("About Merlin's Crystal", new Dialogue()
 										.addNext(()->{e.getPlayer().startConversation(new SirKayMerlinsCrystalD(e.getPlayer()).getStart());}));
 						}

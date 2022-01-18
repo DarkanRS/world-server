@@ -198,8 +198,9 @@ public final class Launcher {
 	}
 
 	public static void pullAndCompile() {
+		executeCommand("cd ../darkan-core & git pull origin master");
 		executeCommand("git pull origin master");
-		executeCommand("mvn clean install");
+		executeCommand("gradle clean build");
 	}
 
 }

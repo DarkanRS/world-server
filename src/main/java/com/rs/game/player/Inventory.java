@@ -207,6 +207,14 @@ public final class Inventory {
 		}
 		return true;
 	}
+	
+	public void removeAllItems(int... list) {
+		for (int item : list) {
+			if (!containsItem(item, 1))
+				continue;
+			deleteItem(item, Integer.MAX_VALUE);
+		}
+	}
 
 	public void deleteItem(int itemId, int amount) {
 		if (!player.getControllerManager().canDeleteInventoryItem(itemId, amount))
@@ -485,6 +493,13 @@ public final class Inventory {
 			deleteItem(itemId, item.getAmount());
 		else
 			deleteItem(notedId, item.getAmount());
+	}
+
+	public int getTotalNumberOf(int... ids) {
+		int count = 0;
+		for (int id : ids)
+			count += getNumberOf(id);
+		return count;
 	}
 
 }

@@ -29,6 +29,7 @@ import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.GroundItemOp;
 import com.rs.lib.util.Utils;
@@ -52,17 +53,18 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 		final GroundItem item = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
 		if (item == null)
 			return;
+		if (packet.getOpcode() == ClientPacket.GROUND_ITEM_EXAMINE) {
+			ItemDefinitions def = ItemDefinitions.getDefs(item.getId());
+			if (item.getMetaData("combatCharges") != null)
+				player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
+			player.getPackets().sendGroundItemMessage(player, item, ItemExamines.getExamine(item) + " General store: " + Utils.formatTypicalInteger(def.getSellPrice()) + " High Alchemy: " + Utils.formatTypicalInteger(def.getHighAlchPrice()));
+			return;
+		}
 		player.stopAll();
 		if (packet.isForceRun())
 			player.setRun(packet.isForceRun());
 
 		switch(packet.getOpcode()) {
-		case GROUND_ITEM_EXAMINE:
-			ItemDefinitions def = ItemDefinitions.getDefs(item.getId());
-			if (item.getMetaData("combatCharges") != null)
-				player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
-			player.getPackets().sendGroundItemMessage(player, item, ItemExamines.getExamine(item) + " General store: " + Utils.formatTypicalInteger(def.getSellPrice()) + " High Alchemy: " + Utils.formatTypicalInteger(def.getHighAlchPrice()));
-			break;
 		case GROUND_ITEM_OP1:
 			break;
 		case GROUND_ITEM_OP2:
