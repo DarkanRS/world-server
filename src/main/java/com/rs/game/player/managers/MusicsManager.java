@@ -342,6 +342,8 @@ public final class MusicsManager {
 			player.getPackets().setIFText(187, 4, "");
 			return;
 		}
+        Song song = Music.getSong(musicId);
+        player.getPackets().setIFText(187, 4, song.getName() != null ? song.getName() : "");
 		player.getPackets().sendMusic(musicId, playingMusic == -1 ? 0 : 100, 255);
 		playingMusic = musicId;
 	}
