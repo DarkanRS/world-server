@@ -75,7 +75,7 @@ public class ScorpionCatcher extends QuestOutline {
 				lines.add("I still need to ask the Seer where the 1st scorpion is.");
 			}
 			if (player.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).getB("scorp2LocKnown")) {
-				lines.add((caughtScorp(player, SCORP_2) ? "<str>" : "") + "The 2nd scorpion's location in somewhere inside the");
+				lines.add((caughtScorp(player, SCORP_2) ? "<str>" : "") + "The 2nd scorpion's location is somewhere inside the");
 				lines.add((caughtScorp(player, SCORP_2) ? "<str>" : "") + "barbarian agility course.");
 				lines.add("");
 			} else {
