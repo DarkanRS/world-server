@@ -21,6 +21,7 @@ import com.rs.game.Entity;
 import com.rs.game.ForceMovement;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
@@ -42,8 +43,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
-public class CountDraynorBoss extends NPC {
-	Player p;
+public class CountDraynorBoss extends OwnedNPC {
 	private static int COUNT_DRAYNOR_ID = 9356;
 
 	//Vampyre animations
@@ -75,9 +75,8 @@ public class CountDraynorBoss extends NPC {
 
 	public boolean actuallyDead = false;
 
-	public CountDraynorBoss(WorldTile tile) {
-		super(COUNT_DRAYNOR_ID, tile, true);
-		p = World.getPlayersInRegion(getRegionId()).get(0);
+	public CountDraynorBoss(Player owner, WorldTile tile) {
+		super(owner, COUNT_DRAYNOR_ID, tile, false);
 	}
 
 	@Override
@@ -108,11 +107,18 @@ public class CountDraynorBoss extends NPC {
 		}, 0, 1);
 	}
 
+
 	/**
 	 * player in die is seperate from player in the boss.
 	 * @param player
 	 */
 	public void die(Player player) {
+        if(getOwner() == null)
+            return;
+        if(player != getOwner()) {
+            player.sendMessage("This is not your vampyre to kill!");
+            return;
+        }
 		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			@Override
@@ -123,8 +129,8 @@ public class CountDraynorBoss extends NPC {
 				}
 				if(tick == 5) {
 					finish();
-					p.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.VAMPYRE_KILLED);
-					p.startConversation(new Conversation(p) {
+					player.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.VAMPYRE_KILLED);
+					player.startConversation(new Conversation(player) {
 						{
 							addPlayer(HeadE.CALM_TALK, "I should tell Morgan that I've killed the vampyre!");
 						}
@@ -169,7 +175,8 @@ public class CountDraynorBoss extends NPC {
 			GameObject coffin = World.getObject(e.getObject(), ObjectType.forId(10));
 			p.getMusicsManager().playMusic(COUNTING_ON_YOU);
 
-			NPC countDraynor = World.spawnNPC(COUNT_DRAYNOR_ID, new WorldTile(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()), -1, false, true);
+            CountDraynorBoss countDraynor = new CountDraynorBoss(p, new WorldTile(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()));
+
 			countDraynor.setLocked(true);
 			countDraynor.faceTile(new WorldTile(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
 			countDraynor.transformIntoNPC(266);
@@ -250,13 +257,6 @@ public class CountDraynorBoss extends NPC {
 			}, 0, 1);
 
 
-		}
-	};
-
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(COUNT_DRAYNOR_ID) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new CountDraynorBoss(tile);
 		}
 	};
 
