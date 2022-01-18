@@ -30,6 +30,7 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @QuestHandler(Quest.MERLINS_CRYSTAL)
 @PluginEventHandler
@@ -123,43 +124,66 @@ public class MerlinsCrystal extends QuestOutline {
 		final int NPC=562;
 		final int UNLIT_BLACK_CANDLE = 38;
 		final int BUCKET_WAX = 30;
+
+        private static void openShop(Player p) {
+            if(p.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+                ShopsHandler.openShop(p, "candle_with_black_shop");
+            else
+                ShopsHandler.openShop(p, "candle_shop");
+        }
+
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("Talk-to"))
-				if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= MerlinsCrystal.THE_BLACK_CANDLE
-				&& !e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
-					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-						{
-							if(e.getPlayer().getInventory().containsItem(UNLIT_BLACK_CANDLE)) {
-								addNPC(NPC, HeadE.CALM_TALK, "Good luck with your candle!");
-								addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
-							} else if (e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR)) {
-								if (e.getPlayer().getInventory().containsItem(BUCKET_WAX, 1)) {
-									addNPC(NPC, HeadE.CALM_TALK, "Do you have the wax?");
-									addPlayer(HeadE.HAPPY_TALKING, "Yes");
-									addSimple("You exchange the wax with the candle maker for a black candle.", () -> {
-										e.getPlayer().getInventory().removeItems(new Item(30, 1));
-										e.getPlayer().getInventory().addItem(new Item(38, 1), true);
-										e.getPlayer().getQuestManager().setStage(Quest.MERLINS_CRYSTAL, OBTAINING_EXCALIBUR);
-									});
+			if(e.getOption().equalsIgnoreCase("Talk-to")) {
+                if (e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= MerlinsCrystal.THE_BLACK_CANDLE
+                        && !e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL)) {
+                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            if (e.getPlayer().getInventory().containsItem(UNLIT_BLACK_CANDLE)) {
+                                addNPC(NPC, HeadE.CALM_TALK, "Good luck with your candle!");
+                                addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
+                            } else if (e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR)) {
+                                if (e.getPlayer().getInventory().containsItem(BUCKET_WAX, 1)) {
+                                    addNPC(NPC, HeadE.CALM_TALK, "Do you have the wax?");
+                                    addPlayer(HeadE.HAPPY_TALKING, "Yes");
+                                    addSimple("You exchange the wax with the candle maker for a black candle.", () -> {
+                                        e.getPlayer().getInventory().removeItems(new Item(30, 1));
+                                        e.getPlayer().getInventory().addItem(new Item(38, 1), true);
+                                        e.getPlayer().getQuestManager().setStage(Quest.MERLINS_CRYSTAL, OBTAINING_EXCALIBUR);
+                                    });
 
-								} else {
-									addNPC(NPC, HeadE.CALM_TALK, "Do you have the wax?");
-									addPlayer(HeadE.HAPPY_TALKING, "Not yet");
-								}
-							} else {
-								addNPC(NPC, HeadE.CALM_TALK, "Hi! Would you be interested in some of my fine candles?");
-								addPlayer(HeadE.HAPPY_TALKING, "Have you got any black candles?");
-								addNPC(NPC, HeadE.CALM_TALK, "BLACK candles??? Hmmm. In the candle making trade, we have a tradition that it's very bad luck" +
-										" to make black candles. VERY bad luck.");
-								addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
-								addNPC(NPC, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
-									e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR, true);
-								});
-							}
-							create();
-						}
-					});
+                                } else {
+                                    addNPC(NPC, HeadE.CALM_TALK, "Do you have the wax?");
+                                    addPlayer(HeadE.HAPPY_TALKING, "Not yet");
+                                }
+                            } else {
+                                addNPC(NPC, HeadE.CALM_TALK, "Hi! Would you be interested in some of my fine candles?");
+                                addPlayer(HeadE.HAPPY_TALKING, "Have you got any black candles?");
+                                addNPC(NPC, HeadE.CALM_TALK, "BLACK candles??? Hmmm. In the candle making trade, we have a tradition that it's very bad luck" +
+                                        " to make black candles. VERY bad luck.");
+                                addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
+                                addNPC(NPC, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
+                                    e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR, true);
+                                });
+                            }
+                            create();
+                        }
+                    });
+                } else {
+                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                        {
+                            addNPC(NPC, HeadE.CALM_TALK, "Hi, looking for candles?");
+                            addPlayer(HeadE.HAPPY_TALKING, "Sure!");
+                            addNext(() -> {
+                                openShop(e.getPlayer());
+                            });
+                            create();
+                        }
+                    });
+                }
+            } else if(e.getOption().equalsIgnoreCase("trade")) {
+                openShop(e.getPlayer());
+            }
 		}
 
 	};
