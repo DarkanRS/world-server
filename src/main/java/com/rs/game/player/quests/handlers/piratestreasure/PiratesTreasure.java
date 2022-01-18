@@ -147,11 +147,10 @@ public class PiratesTreasure extends QuestOutline {
 	public static EnterChunkHandler handleBreakRum = new EnterChunkHandler() {
 		@Override
 		public void handle(EnterChunkEvent e) {
-			Player p = e.getPlayer();
-			if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
-				if(!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
-					if(Utils.getDistance(p, new WorldTile(2928, 3143, 0)) > 70) {
-						while(p.getInventory().containsItem(RUM, 1))
+			if (e.getEntity() instanceof Player p && p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
+				if (!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
+					if (Utils.getDistance(p, new WorldTile(2928, 3143, 0)) > 70) {
+						while (p.getInventory().containsItem(RUM, 1))
 							p.getInventory().removeItems(new Item(RUM, 1));
 						p.sendMessage("Your Karamja rum gets broken and spilled.");
 					}

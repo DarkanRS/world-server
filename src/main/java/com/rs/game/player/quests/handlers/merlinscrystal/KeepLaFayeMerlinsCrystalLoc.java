@@ -141,15 +141,15 @@ public class KeepLaFayeMerlinsCrystalLoc {
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler() {
 		@Override
 		public void handle(EnterChunkEvent e) {
-			Player p = e.getPlayer();
-			if(STRONGHOLD_CHUNKS.contains(e.getChunkId()))
-				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-					if(npc.getName().equalsIgnoreCase("Renegade Knight"))
-						if(npc.lineOfSightTo(p, false)) {
-							npc.setTarget(p);
-							if(Utils.random(0, 5) == 1)
-								npc.forceTalk("Intruder!");
-						}
+			if (e.getEntity() instanceof Player p && p.hasStarted() && STRONGHOLD_CHUNKS.contains(e.getChunkId())) {
+				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
+					if (!npc.getName().equalsIgnoreCase("Renegade Knight") || !npc.lineOfSightTo(p, false))
+						continue;
+					npc.setTarget(p);
+					if (Utils.random(0, 5) == 1)
+						npc.forceTalk("Intruder!");
+				}
+			}
 		}
 	};
 }

@@ -1,7 +1,9 @@
 while :
 do
+  cd ..
+  cd darkan-core
   git pull origin master
-  git lfs pull origin master
-  mvn compile
-  mvn exec:java >> mainlog.txt
+  cd ..
+  cd darkan-world-server
+  gradle clean build run >> mainlog.txt
 done

@@ -9,6 +9,33 @@
     }
   },
   {
+    "comment": "Khazard scorpion 1",
+    "npcId": 385,
+    "tile": {
+      "x": 2878,
+      "y": 9796,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Khazard scorpion 2",
+    "npcId": 386,
+    "tile": {
+      "x": 2555,
+      "y": 3570,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Khazard scorpion 3",
+    "npcId": 387,
+    "tile": {
+      "x": 3059,
+      "y": 3486,
+      "plane": 1
+    }
+  },
+  {
     "comment": "Sinister Stranger added by jawarrior1",
     "npcId": 3677,
     "tile": {

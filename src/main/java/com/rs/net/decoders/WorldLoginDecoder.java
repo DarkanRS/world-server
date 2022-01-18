@@ -191,7 +191,7 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 		final Account account = a;
-		if (account == null) {
+		if (account == null || account.getUsername() == null || account.getUsername().isEmpty()) {
 			session.sendClientPacket(3);
 			return -1;
 		}
