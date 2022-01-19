@@ -120,26 +120,28 @@ public abstract class Cutscene {
 	}
 
 	public final boolean process() {
+		if (dialoguePaused)
+			return true;
 		if (delay > 0) {
 			delay--;
 			return true;
 		}
-		if (constructingRegion || dialoguePaused)
-			return true;
-		while(delay <= 0 && !constructingRegion) {
-			if (currIndex == actions.size())
-				break;
-			if (currIndex == 0)
+		while(true) {
+			if (constructingRegion)
+				return true;
+			if (currIndex == actions.size()) {
+				stopCutscene();
+				return false;
+			} else if (currIndex == 0)
 				startCutscene();
 			CutsceneAction action = actions.get(currIndex++);
 			action.process(player, objects);
-			delay += action.getDelay();
+			int delay = action.getDelay();
+			if (delay == -1)
+				continue;
+			this.delay = delay;
+			return true;
 		}
-		if (currIndex == actions.size()) {
-			stopCutscene();
-			return false;
-		}
-		return true;
 	}
 
 	public void deleteObjects() {
@@ -194,19 +196,19 @@ public abstract class Cutscene {
 	}
 	
 	public void camPos(int x, int y, int height) {
-		camPos(x, y, height, 0);
+		camPos(x, y, height, -1);
 	}
 	
 	public void camLook(int x, int y, int height) {
-		camLook(x, y, height, 0);
+		camLook(x, y, height, -1);
 	}
 	
 	public void camPos(int x, int y, int height, int speed1, int speed2) {
-		camPos(x, y, height, speed1, speed2, 0);
+		camPos(x, y, height, speed1, speed2, -1);
 	}
 	
 	public void camLook(int x, int y, int height, int speed1, int speed2) {
-		camLook(x, y, height, speed1, speed2, 0);
+		camLook(x, y, height, speed1, speed2, -1);
 	}
 	
 	public void dialogue(Dialogue dialogue, int delay) {
@@ -214,7 +216,7 @@ public abstract class Cutscene {
 	}
 	
 	public void dialogue(Dialogue dialogue) {
-		dialogue(dialogue, 0);
+		dialogue(dialogue, -1);
 	}
 	
 	public void dialogue(Dialogue dialogue, boolean pause) {
@@ -222,7 +224,7 @@ public abstract class Cutscene {
 			dialoguePaused = true;
 			dialogue.addNext(() -> { dialoguePaused = false; });
 		}
-		actions.add(new DialogueAction(dialogue, 1));
+		actions.add(new DialogueAction(dialogue, -1));
 	}
 	
 	public void constructMap(int baseX, int baseY, int widthChunks, int heightChunks) {
@@ -234,7 +236,7 @@ public abstract class Cutscene {
 	}
 	
 	public void musicEffect(int id) {
-		musicEffect(id, 0);
+		musicEffect(id, -1);
 	}
 	
 	public void npcCreate(String key, int npcId, int x, int y, int z, int delay) {
@@ -242,7 +244,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcCreate(String key, int npcId, int x, int y, int z) {
-		npcCreate(key, npcId, x, y, z, 0);
+		npcCreate(key, npcId, x, y, z, -1);
 	}
 	
 	public void npcDestroy(String key, int delay) {
@@ -250,7 +252,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcDestroy(String key) {
-		npcDestroy(key, 0);
+		npcDestroy(key, -1);
 	}
 	
 	public void npcFaceTile(String key, int x, int y, int delay) {
@@ -258,7 +260,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcFaceTile(String key, int x, int y) {
-		npcFaceTile(key, x, y, 0);
+		npcFaceTile(key, x, y, -1);
 	}
 	
 	public void npcSpotAnim(String key, SpotAnim anim, int delay) {
@@ -266,7 +268,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcSpotAnim(String key, SpotAnim anim) {
-		npcSpotAnim(key, anim, 0);
+		npcSpotAnim(key, anim, -1);
 	}
 	
 	public void npcAnim(String key, Animation anim, int delay) {
@@ -274,7 +276,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcAnim(String key, Animation anim) {
-		npcAnim(key, anim, 0);
+		npcAnim(key, anim, -1);
 	}
 	
 	public void npcTalk(String key, String message, int delay) {
@@ -282,7 +284,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcTalk(String key, String message) {
-		npcTalk(key, message, 0);
+		npcTalk(key, message, -1);
 	}
 	
 	public void npcMove(String key, int x, int y, int z, MoveType type, int delay) {
@@ -290,7 +292,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcMove(String key, int x, int y, int z, MoveType type) {
-		npcMove(key, x, y, z, type, 0);
+		npcMove(key, x, y, z, type, -1);
 	}
 	
 	public void npcMove(String key, int x, int y, MoveType type, int delay) {
@@ -298,7 +300,7 @@ public abstract class Cutscene {
 	}
 	
 	public void npcMove(String key, int x, int y, MoveType type) {
-		npcMove(key, x, y, player.getPlane(), type, 0);
+		npcMove(key, x, y, player.getPlane(), type, -1);
 	}
 	
 	public void playerMove(int x, int y, int z, MoveType type, int delay) {
@@ -306,7 +308,7 @@ public abstract class Cutscene {
 	}
 	
 	public void playerMove(int x, int y, int z, MoveType type) {
-		playerMove(x, y, z, type, 0);
+		playerMove(x, y, z, type, -1);
 	}
 	
 	public void playerMove(int x, int y, MoveType type, int delay) {
@@ -314,7 +316,7 @@ public abstract class Cutscene {
 	}
 	
 	public void playerMove(int x, int y, MoveType type) {
-		playerMove(x, y, player.getPlacedCannon(), type, 0);
+		playerMove(x, y, player.getPlane(), type, -1);
 	}
 	
 	public void playerFaceTile(int x, int y, int delay) {
@@ -322,7 +324,7 @@ public abstract class Cutscene {
 	}
 	
 	public void playerFaceTile(int x, int y) {
-		playerFaceTile(x, y, 0);
+		playerFaceTile(x, y, -1);
 	}
 	
 	public void playerAnim(Animation anim, int delay) {
@@ -330,7 +332,7 @@ public abstract class Cutscene {
 	}
 	
 	public void playerAnim(Animation anim) {
-		playerAnim(anim, 0);
+		playerAnim(anim, -1);
 	}
 	
 	public void playerSpotAnim(SpotAnim anim, int delay) {
@@ -338,7 +340,7 @@ public abstract class Cutscene {
 	}
 	
 	public void playerSpotAnim(SpotAnim anim) {
-		playerSpotAnim(anim, 0);
+		playerSpotAnim(anim, -1);
 	}
 	
 	public void playerTalk(String message, int delay) {
@@ -346,7 +348,7 @@ public abstract class Cutscene {
 	}
 	
 	public void playerTalk(String message) {
-		playerTalk(message, 0);
+		playerTalk(message, -1);
 	}
 	
 	public void action(int delay, Runnable runnable) {
@@ -354,6 +356,10 @@ public abstract class Cutscene {
 	}
 	
 	public void action(Runnable runnable) {
-		action(0, runnable);
+		action(-1, runnable);
+	}
+	
+	public void delay(int delay) {
+		actions.add(new DelayAction(delay));
 	}
 }

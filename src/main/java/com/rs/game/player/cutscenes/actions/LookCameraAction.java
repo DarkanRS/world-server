@@ -26,16 +26,16 @@ public class LookCameraAction extends CutsceneAction {
 	private int viewLocalX;
 	private int viewLocalY;
 	private int viewZ;
-	private int speed;
-	private int speed2;
+	private int speedToExactDestination;
+	private int speedOnRoutePath;
 
-	public LookCameraAction(int viewLocalX, int viewLocalY, int viewZ, int speed, int speed2, int actionDelay) {
+	public LookCameraAction(int viewLocalX, int viewLocalY, int viewZ, int speedToExactDestination, int speedOnRoutePath, int actionDelay) {
 		super(null, actionDelay);
 		this.viewLocalX = viewLocalX;
 		this.viewLocalY = viewLocalY;
 		this.viewZ = viewZ;
-		this.speed = speed;
-		this.speed2 = speed2;
+		this.speedToExactDestination = speedToExactDestination;
+		this.speedOnRoutePath = speedOnRoutePath;
 	}
 
 	public LookCameraAction(int viewLocalX, int viewLocalY, int viewZ, int actionDelay) {
@@ -45,7 +45,7 @@ public class LookCameraAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		player.getPackets().sendCameraLook(scene.localX(viewLocalX), scene.localY(viewLocalY), viewZ, speed, speed2);
+		player.getPackets().sendCameraLook(scene.localX(viewLocalX), scene.localY(viewLocalY), viewZ, speedToExactDestination, speedOnRoutePath);
 	}
 
 }

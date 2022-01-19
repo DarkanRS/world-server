@@ -30,7 +30,7 @@ public class MoveNPCAction extends CutsceneAction {
 	private MoveType movementType;
 
 	public MoveNPCAction(String key, int x, int y, boolean run, int actionDelay) {
-		this(key, x, y, -1, run ? MoveType.RUN : MoveType.WALK, actionDelay);
+		this(key, x, y, 0, run ? MoveType.RUN : MoveType.WALK, actionDelay);
 	}
 
 	public MoveNPCAction(String key, int x, int y, int plane, MoveType movementType, int actionDelay) {

@@ -940,7 +940,7 @@ public class Player extends Entity {
 	}
 
 	public void setClientHasntLoadedMapRegion() {
-		clientLoadedMapRegion = World.getServerTicks() + 30;
+		clientLoadedMapRegion = World.getServerTicks() + 10;
 	}
 
 	@Override
