@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.lib.game.SpotAnim;
 
@@ -24,12 +26,12 @@ public class PlayerGraphicAction extends CutsceneAction {
 	private SpotAnim gfx;
 
 	public PlayerGraphicAction(SpotAnim gfx, int actionDelay) {
-		super(-1, actionDelay);
+		super(null, actionDelay);
 		this.gfx = gfx;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
+	public void process(Player player, Map<String, Object> objects) {
 		player.setNextSpotAnim(gfx);
 	}
 

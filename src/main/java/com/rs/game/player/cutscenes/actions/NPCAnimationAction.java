@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
@@ -24,14 +26,14 @@ public class NPCAnimationAction extends CutsceneAction {
 
 	private Animation anim;
 
-	public NPCAnimationAction(int cachedObjectIndex, Animation anim, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public NPCAnimationAction(String key, Animation anim, int actionDelay) {
+		super(key, actionDelay);
 		this.anim = anim;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		NPC npc = (NPC) cache[getCachedObjectIndex()];
+	public void process(Player player, Map<String, Object> objects) {
+		NPC npc = (NPC) objects.get(getObjectKey());
 		npc.setNextAnimation(anim);
 	}
 

@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.lib.game.WorldTile;
@@ -25,14 +27,14 @@ public class PlayerFaceTileAction extends CutsceneAction {
 	private int x, y;
 
 	public PlayerFaceTileAction(int x, int y, int actionDelay) {
-		super(-1, actionDelay);
+		super(null, actionDelay);
 		this.x = x;
 		this.y = y;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");
 		player.setNextFaceWorldTile(new WorldTile(scene.getBaseX() + x, scene.getBaseY() + y, player.getPlane()));
 	}
 

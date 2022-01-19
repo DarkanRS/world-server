@@ -379,7 +379,7 @@ public final class LocalPlayerUpdate {
 			applyFaceEntityMask(p, block);
 		}
 
-		if (p.getTemporaryMoveType() != -1) {
+		if (p.getTemporaryMoveType() != null) {
 			maskData |= 0x1000;
 			applyTemporaryMoveTypeMask(p, block);
 		}
@@ -480,7 +480,7 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void applyTemporaryMoveTypeMask(Player p, OutputStream data) {
-		data.writeByteC(p.getTemporaryMoveType());
+		data.writeByteC(p.getTemporaryMoveType().getId());
 	}
 
 	private void applyGraphicsMask1(Player p, OutputStream data) {

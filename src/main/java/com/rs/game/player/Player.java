@@ -106,7 +106,7 @@ import com.rs.game.player.dialogues.StartDialogue;
 import com.rs.game.player.managers.ActionManager;
 import com.rs.game.player.managers.AuraManager;
 import com.rs.game.player.managers.ControllerManager;
-import com.rs.game.player.managers.CutscenesManager;
+import com.rs.game.player.managers.CutsceneManager;
 import com.rs.game.player.managers.DialogueManager;
 import com.rs.game.player.managers.EmotesManager;
 import com.rs.game.player.managers.HintIconsManager;
@@ -161,8 +161,6 @@ import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
 
 public class Player extends Entity {
-
-	public static final int TELE_MOVE_TYPE = 127, WALK_MOVE_TYPE = 1, RUN_MOVE_TYPE = 2;
 
 	private String username;
 	private Date dateJoined;
@@ -259,7 +257,7 @@ public class Player extends Entity {
 	private transient HintIconsManager hintIconsManager;
 	private transient ActionManager actionManager;
 	private transient InteractionManager interactionManager;
-	private transient CutscenesManager cutscenesManager;
+	private transient CutsceneManager cutsceneManager;
 	private transient Trade trade;
 	private transient DuelRules lastDuelRules;
 	private transient Pet pet;
@@ -277,15 +275,15 @@ public class Player extends Entity {
 	public int ringOfForgingCharges = 140;
 	public int bindingNecklaceCharges = 15;
 
-	private ConcurrentHashMap<String, Object> savingAttributes;
+	private Map<String, Object> savingAttributes;
 
-	private ConcurrentHashMap<String, Integer> npcKills;
-	private ConcurrentHashMap<String, Integer> variousCounter;
+	private Map<String, Integer> npcKills;
+	private Map<String, Integer> variousCounter;
 
-	private HashSet<Reward> unlockedLoyaltyRewards;
-	private HashSet<Reward> favoritedLoyaltyRewards;
+	private Set<Reward> unlockedLoyaltyRewards;
+	private Set<Reward> favoritedLoyaltyRewards;
 
-	private HashMap<Tools, Integer> toolbelt;
+	private Map<Tools, Integer> toolbelt;
 
 	private transient ArrayList<String> attackedBy = new ArrayList<>();
 
@@ -317,7 +315,7 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private int temporaryMovementType;
+	private MoveType tempMoveType;
 	private boolean updateMovementType;
 
 	// player stages
@@ -662,7 +660,7 @@ public class Player extends Entity {
 		if (varManager == null)
 			varManager = new VarManager();
 		varManager.setSession(session);
-		cutscenesManager = new CutscenesManager(this);
+		cutsceneManager = new CutsceneManager(this);
 		trade = new Trade(this);
 		// loads player on saved instances
 		appearence.setPlayer(this);
@@ -684,7 +682,7 @@ public class Player extends Entity {
 		auraManager.setPlayer(this);
 		petManager.setPlayer(this);
 		setFaceAngle(Utils.getAngleTo(0, -1));
-		temporaryMovementType = -1;
+		tempMoveType = null;
 		initEntity();
 		if (clickQueue == null)
 			clickQueue = new LinkedList<>();
@@ -751,7 +749,7 @@ public class Player extends Entity {
 		return unlockedLoyaltyRewards.contains(reward);
 	}
 
-	public HashSet<Reward> getUnlockedLoyaltyRewards() {
+	public Set<Reward> getUnlockedLoyaltyRewards() {
 		return unlockedLoyaltyRewards;
 	}
 
@@ -773,7 +771,7 @@ public class Player extends Entity {
 		return favoritedLoyaltyRewards.contains(reward);
 	}
 
-	public HashSet<Reward> getFavoritedLoyaltyRewards() {
+	public Set<Reward> getFavoritedLoyaltyRewards() {
 		return favoritedLoyaltyRewards;
 	}
 
@@ -855,16 +853,23 @@ public class Player extends Entity {
 		started = true;
 		run();
 
-		//tele to demonheim if your physically in a dungeon but have no loaded dungeon/party
-		if(getBool("isLoggedOutInDungeon"))
-			if(getDungManager().getParty() == null) {
+		if (getBool("isLoggedOutInDungeon")) {
+			if (getDungManager().getParty() == null) {
 				setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
 				this.reset();
 				getEquipment().reset();
 				getInventory().reset();
 				getInventory().addItem(15707, 1);
 			}
-		save("isLoggedOutInDungeon", false);
+			delete("isLoggedOutInDungeon");
+		}
+		if (getI("cutsceneManagerStartTileX") != -1) {
+			WorldTile tile = new WorldTile(getI("cutsceneManagerStartTileX"), getI("cutsceneManagerStartTileY"), getI("cutsceneManagerStartTileZ"));
+			setNextWorldTile(tile);
+			delete("cutsceneManagerStartTileX");
+			delete("cutsceneManagerStartTileY");
+			delete("cutsceneManagerStartTileZ");
+		}
 
 		if (isDead())
 			sendDeath(null);
@@ -977,7 +982,7 @@ public class Player extends Entity {
 			finish(0);
 		processPackets();
 		processForinthry();
-		cutscenesManager.process();
+		cutsceneManager.process();
 		super.processEntity();
 		if (hasStarted() && isIdle())
 			if (!hasRights(Rights.ADMIN))
@@ -1127,7 +1132,7 @@ public class Player extends Entity {
 
 	@Override
 	public boolean needMasksUpdate() {
-		return super.needMasksUpdate() || temporaryMovementType != -1 || updateMovementType;
+		return super.needMasksUpdate() || tempMoveType != null || updateMovementType;
 	}
 
 	@Override
@@ -1143,7 +1148,7 @@ public class Player extends Entity {
 	@Override
 	public void resetMasks() {
 		super.resetMasks();
-		temporaryMovementType = -1;
+		tempMoveType = null;
 		updateMovementType = false;
 	}
 
@@ -1449,7 +1454,7 @@ public class Player extends Entity {
 		return (Boolean) val;
 	}
 
-	public ConcurrentHashMap<String, Object> getSavingAttributes() {
+	public Map<String, Object> getSavingAttributes() {
 		if (savingAttributes == null)
 			savingAttributes = new ConcurrentHashMap<>();
 		return savingAttributes;
@@ -1481,7 +1486,7 @@ public class Player extends Entity {
 		return 0;
 	}
 
-	public ConcurrentHashMap<String, Integer> getCounter() {
+	public Map<String, Integer> getCounter() {
 		return variousCounter;
 	}
 
@@ -1515,7 +1520,7 @@ public class Player extends Entity {
 		return number;
 	}
 
-	public ConcurrentHashMap<String, Integer> getNPCKills() {
+	public Map<String, Integer> getNPCKills() {
 		return npcKills;
 	}
 
@@ -1672,7 +1677,7 @@ public class Player extends Entity {
 		if (isDead() || isDying())
 			return;
 		stopAll();
-		cutscenesManager.logout();
+		cutsceneManager.logout();
 		controllerManager.logout(); // checks what to do on before logout for
 		house.finish();
 		dungManager.finish();
@@ -1844,12 +1849,12 @@ public class Player extends Entity {
 		return equipment;
 	}
 
-	public int getTemporaryMoveType() {
-		return temporaryMovementType;
+	public MoveType getTemporaryMoveType() {
+		return tempMoveType;
 	}
 
-	public void setTemporaryMoveType(int temporaryMovementType) {
-		this.temporaryMovementType = temporaryMovementType;
+	public void setTemporaryMoveType(MoveType temporaryMovementType) {
+		this.tempMoveType = temporaryMovementType;
 	}
 
 	public LocalPlayerUpdate getLocalPlayerUpdate() {
@@ -2752,8 +2757,8 @@ public class Player extends Entity {
 		return updateMovementType;
 	}
 
-	public CutscenesManager getCutscenesManager() {
-		return cutscenesManager;
+	public CutsceneManager getCutsceneManager() {
+		return cutsceneManager;
 	}
 
 	public void sendPublicChatMessage(PublicChatMessage message) {
@@ -2844,10 +2849,10 @@ public class Player extends Entity {
 		return (getAppearance().isMale() ? male : female);
 	}
 
-	public int getMovementType() {
-		if (getTemporaryMoveType() != -1)
+	public MoveType getMovementType() {
+		if (getTemporaryMoveType() != null)
 			return getTemporaryMoveType();
-		return getRun() ? RUN_MOVE_TYPE : WALK_MOVE_TYPE;
+		return getRun() ? MoveType.RUN : MoveType.WALK;
 	}
 
 	public boolean hasInstantSpecial(final int weaponId) {
@@ -3767,7 +3772,7 @@ public class Player extends Entity {
 		return jadinkoFavor;
 	}
 
-	public HashMap<Tools, Integer> getToolbelt() {
+	public Map<Tools, Integer> getToolbelt() {
 		return toolbelt;
 	}
 

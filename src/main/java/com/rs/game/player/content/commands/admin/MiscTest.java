@@ -49,6 +49,7 @@ import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.RunespanController;
+import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
@@ -217,6 +218,10 @@ public class MiscTest {
 		//				}
 		//			});
 		//		});
+		
+		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
+			p.getCutsceneManager().play(new ExampleCutscene());
+		});
 
 		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {
 			p.getInterfaceManager().setWindowInterface(Integer.valueOf(args[0]), 1216);

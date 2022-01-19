@@ -17,7 +17,6 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.player.controllers.FightKilnController;
-import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
@@ -109,9 +108,9 @@ public class TokHaarHok extends Dialogue {
 				stage = 0;
 				player.getInterfaceManager().closeChatBoxInterface();
 				WorldTile lookTo = fightKiln.getWorldTile(37, 50);
-				player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
+				player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 				WorldTile posTile = fightKiln.getWorldTile(37, 45);
-				player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
+				player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {

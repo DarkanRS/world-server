@@ -16,26 +16,26 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 
 public abstract class CutsceneAction {
+	private String objectKey;
+	private int delay;
+	
+	public CutsceneAction(String objectKey, int delay) {
+		this.objectKey = objectKey;
+		this.delay = delay;
+	}
+	
+	public abstract void process(Player player, Map<String, Object> objects);
 
-	private int actionDelay; // -1 for no delay
-	private int cachedObjectIndex;
-
-	public CutsceneAction(int cachedObjectIndex, int actionDelay) {
-		this.cachedObjectIndex = cachedObjectIndex;
-		this.actionDelay = actionDelay;
+	public String getObjectKey() {
+		return objectKey;
 	}
 
-	public int getActionDelay() {
-		return actionDelay;
+	public int getDelay() {
+		return delay;
 	}
-
-	public int getCachedObjectIndex() {
-		return cachedObjectIndex;
-	}
-
-	public abstract void process(Player player, Object[] cache);
-
 }

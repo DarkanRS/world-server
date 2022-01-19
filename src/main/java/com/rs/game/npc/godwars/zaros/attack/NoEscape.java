@@ -64,7 +64,7 @@ public class NoEscape implements NexAttack {
 					nex.setNextForceMovement(new ForceMovement(dir, 1, center, 3, idx == 3 ? 1 : idx == 2 ? 0 : idx == 1 ? 3 : 2));
 					for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2))
 						if (entity instanceof Player player) {
-							player.getCutscenesManager().play(new NexCutScene(dir, idx));
+							player.getCutsceneManager().play(new NexCutScene(dir, idx));
 							player.applyHit(new Hit(nex, Utils.getRandomInclusive(650), HitLook.TRUE_DAMAGE));
 							player.setNextAnimation(new Animation(10070));
 							player.setNextForceMovement(new ForceMovement(player, 1, idx == 3 ? Direction.WEST : idx == 2 ? Direction.SOUTH : idx == 1 ? Direction.EAST : Direction.NORTH));

@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -26,8 +28,8 @@ public class CreateNPCAction extends CutsceneAction {
 
 	private int id, x, y, plane;
 
-	public CreateNPCAction(int cachedObjectIndex, int id, int x, int y, int plane, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public CreateNPCAction(String key, int id, int x, int y, int plane, int actionDelay) {
+		super(key, actionDelay);
 		this.id = id;
 		this.x = x;
 		this.y = y;
@@ -35,11 +37,12 @@ public class CreateNPCAction extends CutsceneAction {
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
-		if (cache[getCachedObjectIndex()] != null)
-			scene.destroyCache(cache[getCachedObjectIndex()]);
-		NPC npc = (NPC) (cache[getCachedObjectIndex()] = World.spawnNPC(id, new WorldTile(scene.getBaseX() + x, scene.getBaseY() + y, plane), -1, true, true));
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");
+		if (objects.get(getObjectKey()) != null)
+			scene.deleteObject(objects.get(getObjectKey()));
+		NPC npc = World.spawnNPC(id, new WorldTile(scene.getBaseX() + x, scene.getBaseY() + y, plane), -1, true, true);
+		objects.put(getObjectKey(), npc);
 		npc.setRandomWalk(false);
 	}
 

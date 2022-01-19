@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.lib.game.SpotAnim;
@@ -24,14 +26,14 @@ public class NPCGraphicAction extends CutsceneAction {
 
 	private SpotAnim gfx;
 
-	public NPCGraphicAction(int cachedObjectIndex, SpotAnim gfx, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public NPCGraphicAction(String key, SpotAnim gfx, int actionDelay) {
+		super(key, actionDelay);
 		this.gfx = gfx;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		NPC npc = (NPC) cache[getCachedObjectIndex()];
+	public void process(Player player, Map<String, Object> objects) {
+		NPC npc = (NPC) objects.get(getObjectKey());
 		npc.setNextSpotAnim(gfx);
 	}
 

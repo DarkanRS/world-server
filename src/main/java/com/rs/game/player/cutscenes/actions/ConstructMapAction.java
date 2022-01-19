@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
 
@@ -24,7 +26,7 @@ public class ConstructMapAction extends CutsceneAction {
 	private int baseChunkX, baseChunkY, widthChunks, heightChunks;
 
 	public ConstructMapAction(int baseChunkX, int baseChunkY, int widthChunks, int heightChunks) {
-		super(-1, -1);
+		super(null, 0);
 		this.baseChunkX = baseChunkX;
 		this.baseChunkY = baseChunkY;
 		this.widthChunks = widthChunks;
@@ -32,8 +34,8 @@ public class ConstructMapAction extends CutsceneAction {
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
-		scene.constructArea(player, baseChunkX, baseChunkY, widthChunks, heightChunks);
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");
+		scene.constructArea(baseChunkX, baseChunkY, widthChunks, heightChunks);
 	}
 }
