@@ -43,8 +43,17 @@ public class HoracioTribalTotemD extends Conversation {
 										.addNPC(NPC, HeadE.CALM_TALK, "Trying to muscle in on my job, eh? I'm more than happy to do this all by myself!\n")
 										);
 							}
-						})
-						);
+						}));
+                option("How do I get into the mansion?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "How do I get into the mansion?")
+                        .addNPC(NPC, HeadE.CALM_TALK, "It is impossible!")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Lord Handelmort has the latest of security features in his home...")
+                        .addNPC(NPC, HeadE.CALM_TALK, "He has a state of the art password lock and trick stairs which dump you into the sewers.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Yep, there is no getting past that locked door, only me and him know password, it's rather easy," +
+                                " it's his middle name")
+                        .addPlayer(HeadE.HAPPY_TALKING, "Whose middle name?")
+                        .addNPC(NPC, HeadE.AMAZED, "Hum. I probably shouldn't have said that. Forget I mentioned it.")
+                );
 			}
 		});
 

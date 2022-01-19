@@ -1,5 +1,15 @@
 [
   {
+    "comment": "Guide book, Tribal Totem quest",
+    "itemId": 1856,
+    "amount": 1,
+    "tile": {
+      "x": 2638,
+      "y": 3292,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Kid's ball, Witchs House quest",
     "itemId": 2407,
     "amount": 1,

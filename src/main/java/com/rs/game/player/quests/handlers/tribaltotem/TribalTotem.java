@@ -29,15 +29,18 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
+import com.rs.game.player.quests.handlers.witchshouse.WitchsDiary;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
@@ -96,11 +99,15 @@ public class TribalTotem extends QuestOutline {
 			lines.add("Okay, the stone is in the mansion. Now I just need to tele");
 			lines.add("in, get past the theft protection system and take the totem.");
 			lines.add("I have deduced from my rumors that Handlemort's middle name is");
-			lines.add("Kurt...");
+			lines.add("the password for the lock.");
 			lines.add("");
+            lines.add("Maybe I can get his middle name from the real estate agent or");
+            lines.add("his paper guides about ardougne, south of the mansion.");
+            lines.add("");
 			break;
 		case QUEST_COMPLETE:
 			lines.add("");
+            lines.add("");
 			lines.add("QUEST COMPLETE!");
 			break;
 		default:
@@ -139,6 +146,19 @@ public class TribalTotem extends QuestOutline {
 			p.getInterfaceManager().sendInterface(285);//Door lock tribal totem
 		}
 	};
+
+    public static ItemClickHandler handleClickOnGuideBook = new ItemClickHandler(1856) { //Guide book for middle name
+        @Override
+        public void handle(ItemClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("read"))
+                e.getPlayer().openBook(new RealEstateGuideBook());
+            if(e.getOption().equalsIgnoreCase("drop")) {
+                e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                e.getPlayer().getPackets().sendSound(2739, 0, 1);
+            }
+        }
+    };
 
 	public static ObjectClickHandler handleTrapStairs = new ObjectClickHandler(new Object[] { 2711 }) {
 		@Override
