@@ -3,8 +3,11 @@ package com.rs.game.player.quests.handlers.merlinscrystal;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -24,12 +27,17 @@ public class MordredMob extends NPC {
 				for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 					if(npc.getId() == MORGAN)
 						return;
-				NPC morgan =  World.spawnNPC(MORGAN, new WorldTile(2769, 3403, 2), -1, false, true);
+                OwnedNPC morgan = new OwnedNPC(p, MORGAN, new WorldTile(2769, 3403, 2), true);
 				morgan.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 				morgan.forceTalk("Stop! Spare my son!");
 				morgan.faceSouth();
 				morgan.setRandomWalk(false);
-				morgan.lingerForPlayer(p);
+                WorldTasks.schedule(new WorldTask() {
+                    @Override
+                    public void run() {
+                        resetNPC(null);
+                    }
+                }, 10);
 			} else
 				super.sendDeath(source);
 		} else
@@ -42,22 +50,24 @@ public class MordredMob extends NPC {
 		reset();
 		finish();
 		if (!isSpawned())
-			setRespawnTask(0);
+			setRespawnTask(10);
 	}
 
 	@Override
 	public boolean canBeAttackedBy(Player player) {
 		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
-			if(npc.getId() == MORGAN)
-				return false;
+			if(npc.getId() == MORGAN && npc instanceof OwnedNPC morgan)
+                if(player.getUsername().equalsIgnoreCase(morgan.getOwner().getUsername()))
+				    return false;
 		return true;
 	}
 
 	@Override
 	public boolean canAggroPlayer(Player player) {
 		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
-			if(npc.getId() == MORGAN)
-				return false;
+            if(npc.getId() == MORGAN && npc instanceof OwnedNPC morgan)
+                if(player.getUsername().equalsIgnoreCase(morgan.getOwner().getUsername()))
+                    return false;
 		return true;
 	}
 

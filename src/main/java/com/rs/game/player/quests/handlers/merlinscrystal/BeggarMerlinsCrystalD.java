@@ -8,6 +8,7 @@ import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.P
 
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -94,10 +95,9 @@ public class BeggarMerlinsCrystalD extends Conversation {
 			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 				if(npc.getId() == BEGGAR)
 					return;
-			NPC beggar =  World.spawnNPC(BEGGAR, new WorldTile(3016, 3247, 0), -1, false, true);
+            OwnedNPC beggar = new OwnedNPC(p, BEGGAR, new WorldTile(3016, 3247, 0), true);
 			beggar.setNextSpotAnim(new SpotAnim(1605));
 			beggar.forceTalk("Hey!");
-			beggar.lingerForPlayer(p);
 		}
 	};
 }
