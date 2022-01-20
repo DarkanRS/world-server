@@ -221,7 +221,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						captainNed.faceTile(tile);
 						player.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -248,7 +248,7 @@ public class DragonSlayer_BoatScene extends Controller {
 							}
 						});
 						WorldTile tile = new WorldTile(instance.getLocalX(16), instance.getLocalY(12), 1);
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -269,7 +269,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 					if(tick == 31) {
 						WorldTile tile = new WorldTile(instance.getLocalX(15), instance.getLocalY(12), 1);
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -292,7 +292,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(546);
 						WorldTile tile = new WorldTile(instance.getLocalX(13), instance.getLocalY(12), 1);
 						int fireHeight = 500;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -322,7 +322,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						captainNed.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
 						int fireHeight = 500;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -344,7 +344,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 35) {
 						WorldTile tile = new WorldTile(instance.getLocalX(15), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -367,7 +367,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 36) {
 						WorldTile tile = new WorldTile(instance.getLocalX(16), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -390,7 +390,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 37) {
 						WorldTile tile = new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -413,7 +413,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 38) {
 						WorldTile tile = new WorldTile(instance.getLocalX(18), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -437,7 +437,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 39) {
 						WorldTile tile = new WorldTile(instance.getLocalX(19), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -460,7 +460,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 40) {
 						WorldTile tile = new WorldTile(instance.getLocalX(41), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, () -> {
+						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
