@@ -404,7 +404,7 @@ public class PrayerManager {
 				sap.activate(player, target);
 				player.setNextAnimation(new Animation(12569));
 				player.setNextSpotAnim(new SpotAnim(sap.getSpotAnimStart()));
-				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, 0, () -> {
+				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(sap.getSpotAnimHit()));
 				});
@@ -413,7 +413,7 @@ public class PrayerManager {
 			if (active(leech.getPrayer()) && Utils.random(7) == 0) {
 				leech.activate(player, target);
 				player.setNextAnimation(new Animation(12575));
-				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, 0, () -> {
+				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(leech.getSpotAnimHit()));
 				});

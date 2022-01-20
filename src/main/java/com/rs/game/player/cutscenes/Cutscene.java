@@ -20,9 +20,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
+import com.rs.game.World;
+import com.rs.game.WorldProjectile;
 import com.rs.game.Entity.MoveType;
 import com.rs.game.npc.NPC;
+import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.cutscenes.actions.*;
@@ -30,6 +34,8 @@ import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 
 public abstract class Cutscene {
 	private Player player;
@@ -80,7 +86,7 @@ public abstract class Cutscene {
 		DynamicRegionReference old = region;
 		region = new DynamicRegionReference(widthChunks, heightChunks);
 		region.copyMapAllPlanes(baseChunkX, baseChunkY, () -> {
-			player.setNextWorldTile(new WorldTile(getBaseX() + widthChunks * 4, getBaseY() + heightChunks * 4, 0));
+			player.setNextWorldTile(new WorldTile(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
 			constructingRegion = false;
 			if (old != null)
 				old.destroy();
@@ -93,26 +99,6 @@ public abstract class Cutscene {
 	
 	public void setPlayer(Player player) {
 		this.player = player;
-	}
-
-	public int localX(int x) {
-		if (region == null)
-			return x;
-		return xInRegion(getBaseX() + x);
-	}
-
-	public int localY(int y) {
-		if (region == null)
-			return y;
-		return yInRegion(getBaseY() + y);
-	}
-
-	public int getBaseX() {
-		return region == null ? 0 : region.getBaseX();
-	}
-
-	public int getBaseY() {
-		return region == null ? 0 : region.getBaseY();
 	}
 
 	public final void logout() {
@@ -159,12 +145,20 @@ public abstract class Cutscene {
 		objects.put("cutscene", this);
 	}
 
-	public int xInRegion(int x) {
-		return new WorldTile(x, 0, 0).getXInScene(player.getSceneBaseChunkId());
+	public int getX(int x) {
+		return region != null && region.isCreated() ? region.getLocalX(x) : x;
 	}
-
-	public int yInRegion(int y) {
-		return new WorldTile(0, y, 0).getYInScene(player.getSceneBaseChunkId());
+	
+	public int getY(int y) {
+		return region != null && region.isCreated() ? region.getLocalY(y) : y;
+	}
+	
+	public int getLocalX(int x) {
+		return x > 0xFF ? (x - MapUtils.decode(Structure.CHUNK, player.getSceneBaseChunkId())[0] * 8) : x;
+	}
+	
+	public int getLocalY(int y) {
+		return y > 0xFF ? (y - MapUtils.decode(Structure.CHUNK, player.getSceneBaseChunkId())[1] * 8) : y;
 	}
 
 	public boolean isHideMap() {
@@ -211,8 +205,24 @@ public abstract class Cutscene {
 		camLook(x, y, height, speed1, speed2, -1);
 	}
 	
+	public void camShake(int slotId, int v1, int v2, int v3, int v4, int delay) {
+		action(delay, () -> player.getPackets().sendCameraShake(slotId, v1, v2, v3, v4));
+	}
+	
+	public void camShake(int slotId, int v1, int v2, int v3, int v4) {
+		camShake(slotId, v1, v2, v3, v4, -1);
+	}
+	
+	public void camShakeReset(int delay) {
+		action(delay, () -> player.getPackets().sendStopCameraShake());
+	}
+	
+	public void camShakeReset() {
+		camShakeReset(-1);
+	}
+	
 	public void dialogue(Dialogue dialogue, int delay) {
-		actions.add(new DialogueAction(dialogue, delay));
+		actions.add(new DialogueAction(dialogue, delay, false));
 	}
 	
 	public void dialogue(Dialogue dialogue) {
@@ -220,15 +230,37 @@ public abstract class Cutscene {
 	}
 	
 	public void dialogue(Dialogue dialogue, boolean pause) {
-		if (pause) {
-			dialoguePaused = true;
+		if (pause)
 			dialogue.addNext(() -> { dialoguePaused = false; });
-		}
-		actions.add(new DialogueAction(dialogue, -1));
+		actions.add(new DialogueAction(dialogue, pause ? 1 : -1, pause));
 	}
 	
-	public void constructMap(int baseX, int baseY, int widthChunks, int heightChunks) {
+	public void dynamicRegion(int baseX, int baseY, int widthChunks, int heightChunks) {
 		actions.add(new ConstructMapAction(baseX, baseY, widthChunks, heightChunks));
+	}
+	
+	public void fadeIn(int delay) {
+		action(delay, () -> player.getInterfaceManager().fadeIn());
+	}
+	
+	public void fadeOut(int delay) {
+		action(delay, () -> player.getInterfaceManager().fadeOut());
+	}
+	
+	public void fadeInBG(int delay) {
+		action(delay, () -> player.getInterfaceManager().fadeInBG());
+	}
+	
+	public void fadeOutBG(int delay) {
+		action(delay, () -> player.getInterfaceManager().fadeOutBG());
+	}
+	
+	public void music(int id, int delay) {
+		action(delay, () -> player.getPackets().sendMusic(id, 5, 255));
+	}
+	
+	public void music(int id) {
+		music(id, -1);
 	}
 	
 	public void musicEffect(int id, int delay) {
@@ -351,6 +383,14 @@ public abstract class Cutscene {
 		playerTalk(message, -1);
 	}
 	
+	public void playerFaceEntity(String key, int delay) {
+		actions.add(new PlayerFaceEntityAction(key, delay));
+	}
+	
+	public void playerFaceEntity(String key) {
+		playerFaceEntity(key, -1);
+	}
+	
 	public void action(int delay, Runnable runnable) {
 		actions.add(new CutsceneCodeAction(runnable, delay));
 	}
@@ -361,5 +401,37 @@ public abstract class Cutscene {
 	
 	public void delay(int delay) {
 		actions.add(new DelayAction(delay));
+	}
+
+	public void setDialoguePause(boolean paused) {
+		this.dialoguePaused = paused;
+	}
+	
+	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task, int delay) {
+		action(delay, () -> World.sendProjectile(new WorldTile(getX(from.getX()), getY(from.getY()), from.getPlane()), new WorldTile(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope, task));
+	}
+	
+	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, int delay) {
+		action(delay, () -> World.sendProjectile(new WorldTile(getX(from.getX()), getY(from.getY()), from.getPlane()), new WorldTile(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope));
+	}
+	
+	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+		projectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, task, -1);
+	}
+	
+	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
+		projectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, -1);
+	}
+
+	public void npcFaceEntity(String key, String targetKey) {
+		
+	}
+
+	public void playerFaceDir(Direction north) {
+		
+	}
+
+	public void npcFaceDir(String key, Direction east) {
+		
 	}
 }

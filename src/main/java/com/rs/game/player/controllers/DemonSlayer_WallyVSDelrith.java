@@ -66,7 +66,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 				@Override
 				public void run() {
 					if (tick == 0) { // setup p1
-						player.getInterfaceManager().setFadingInterface(115);
+						player.getInterfaceManager().fadeIn();
 						player.getPackets().sendMusic(-1, 100, 255);
 					} else if (tick == 3) {// setup p2, move player
 						player.getPackets().setBlockMinimapState(2);
@@ -77,7 +77,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()), 1300);
 						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()) + 4, player.getYInScene(player.getSceneBaseChunkId()) - 4, 50);
 					} else if (tick == 6) {// start scene
-						player.getInterfaceManager().setFadingInterface(170);
+						player.getInterfaceManager().fadeOut();
 						player.getPackets().sendMusic(196, 100, 255);
 						npc = World.spawnNPC(WALLY, new WorldTile(player.getX() - 1, player.getY() - 5, player.getPlane()), -1, false, true);
 						npc.setRandomWalk(false);

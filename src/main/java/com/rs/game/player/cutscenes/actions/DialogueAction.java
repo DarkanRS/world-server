@@ -20,18 +20,23 @@ import java.util.Map;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.cutscenes.Cutscene;
 
 public class DialogueAction extends CutsceneAction {
 	
 	private Dialogue dialogue;
+	private boolean pause;
 
-	public DialogueAction(Dialogue dialogue, int delay) {
+	public DialogueAction(Dialogue dialogue, int delay, boolean pause) {
 		super(null, delay);
 		this.dialogue = dialogue;
+		this.pause = pause;
 	}
 
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
+		if (pause)
+			((Cutscene) objects.get("cutscene")).setDialoguePause(true);
 		player.startConversation(dialogue);
 	}
 

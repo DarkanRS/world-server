@@ -35,7 +35,7 @@ public class PlayerFaceTileAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		player.setNextFaceWorldTile(new WorldTile(scene.getBaseX() + x, scene.getBaseY() + y, player.getPlane()));
+		player.setNextFaceWorldTile(new WorldTile(scene.getX(x), scene.getY(y), player.getPlane()));
 	}
 
 }

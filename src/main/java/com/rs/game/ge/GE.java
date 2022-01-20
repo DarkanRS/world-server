@@ -69,6 +69,7 @@ public class GE {
 		}
 		if (e.getPlayer().getTempAttribs().getB("geLocked"))
 			return;
+		
 		switch(e.getComponentId()) {
 		//Buy box selection
 		case 31 -> openBuy(e.getPlayer(), 0);

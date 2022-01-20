@@ -26,7 +26,7 @@ public class ConstructMapAction extends CutsceneAction {
 	private int baseChunkX, baseChunkY, widthChunks, heightChunks;
 
 	public ConstructMapAction(int baseChunkX, int baseChunkY, int widthChunks, int heightChunks) {
-		super(null, -1);
+		super(null, 1);
 		this.baseChunkX = baseChunkX;
 		this.baseChunkY = baseChunkY;
 		this.widthChunks = widthChunks;

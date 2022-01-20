@@ -199,7 +199,7 @@ public final class Nex extends NPC {
 	}
 
 	public static void sendWrathProj(Entity nex, WorldTile tile, double speed) {
-		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, 0, () -> {
+		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, 0, p -> {
 			World.sendSpotAnim(nex, new SpotAnim(2260), tile);
 		});
 	}

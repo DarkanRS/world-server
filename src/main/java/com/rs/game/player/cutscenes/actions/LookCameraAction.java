@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
+import com.rs.lib.game.WorldTile;
 
 public class LookCameraAction extends CutsceneAction {
 
@@ -45,7 +46,7 @@ public class LookCameraAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		player.getPackets().sendCameraLook(scene.localX(viewLocalX), scene.localY(viewLocalY), viewZ, speedToExactDestination, speedOnRoutePath);
+		player.getPackets().sendCameraLook(player, new WorldTile(scene.getX(viewLocalX), scene.getY(viewLocalY), 0), viewZ, speedToExactDestination, speedOnRoutePath);
 	}
 
 }

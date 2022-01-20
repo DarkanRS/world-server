@@ -18,32 +18,19 @@ package com.rs.game.player.cutscenes.actions;
 
 import java.util.Map;
 
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.cutscenes.Cutscene;
-import com.rs.lib.game.WorldTile;
 
-public class CreateNPCAction extends CutsceneAction {
+public class PlayerFaceEntityAction extends CutsceneAction {
 
-	private int id, x, y, plane;
-
-	public CreateNPCAction(String key, int id, int x, int y, int plane, int actionDelay) {
+	public PlayerFaceEntityAction(String key, int actionDelay) {
 		super(key, actionDelay);
-		this.id = id;
-		this.x = x;
-		this.y = y;
-		this.plane = plane;
 	}
 
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
-		Cutscene scene = (Cutscene) objects.get("cutscene");
-		if (objects.get(getObjectKey()) != null)
-			scene.deleteObject(objects.get(getObjectKey()));
-		NPC npc = World.spawnNPC(id, new WorldTile(scene.getX(x), scene.getY(y), plane), -1, true, true);
-		objects.put(getObjectKey(), npc);
-		npc.setRandomWalk(false);
+		NPC npc = (NPC) objects.get(getObjectKey());
+		player.faceEntity(npc);
 	}
 
 }

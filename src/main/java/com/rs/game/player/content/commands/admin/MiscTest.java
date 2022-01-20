@@ -51,6 +51,7 @@ import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.dragonslayer.BoatCutscene;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
@@ -220,7 +221,7 @@ public class MiscTest {
 		//		});
 		
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
-			p.getCutsceneManager().play(new ExampleCutscene());
+			p.getCutsceneManager().play(new BoatCutscene());
 		});
 
 		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {

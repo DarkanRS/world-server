@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
+import com.rs.lib.game.WorldTile;
 
 public class PosCameraAction extends CutsceneAction {
 
@@ -45,7 +46,7 @@ public class PosCameraAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		player.getPackets().sendCameraPos(scene.localX(moveLocalX), scene.localY(moveLocalY), moveZ, speed, speed2);
+		player.getPackets().sendCameraPos(player, new WorldTile(scene.getX(moveLocalX), scene.getY(moveLocalY), 0), moveZ, speed, speed2);
 	}
 
 }

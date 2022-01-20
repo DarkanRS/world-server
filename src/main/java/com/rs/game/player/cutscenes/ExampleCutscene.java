@@ -18,6 +18,8 @@ package com.rs.game.player.cutscenes;
 
 import com.rs.game.Entity.MoveType;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
@@ -27,7 +29,7 @@ public class ExampleCutscene extends Cutscene {
 
 	@Override
 	public void construct(Player player) {
-		constructMap(360, 482, 3, 3);
+		dynamicRegion(360, 482, 3, 3);
 		musicEffect(215);
 		playerMove(10, 0, 0, MoveType.TELE);
 		camLook(10, 8, 1000);
@@ -47,16 +49,18 @@ public class ExampleCutscene extends Cutscene {
 		playerFaceTile(9, 7, 2);
 		playerFaceTile(8, 6, 2);
 		playerFaceTile(10, 6, 2);
-		playerTalk("Huh?", 2);
+		dialogue(new Dialogue().addPlayer(HeadE.CONFUSED, "Huh?"), true);
+		delay(2);
 		playerAnim(new Animation(857));
-		playerTalk("Where am I?", 4);
+		dialogue(new Dialogue().addPlayer(HeadE.CONFUSED, "Where am I?"), true);
+		delay(2);
 		npcCreate(GUARD1, 296, 3, 7, 0);
 		npcCreate(GUARD2, 298, 3, 5, 0);
 		npcMove(GUARD1, 8, 7, MoveType.WALK);
 		npcMove(GUARD2, 8, 5, MoveType.WALK, 3);
 		npcTalk(GUARD1, "You! What are you doing here?");
 		playerFaceTile(8, 6, 4);
-		playerTalk("Idk... Walking??", 3);
+		playerTalk("Walking around?..", 3);
 		npcTalk(GUARD1, "You must have slipped", 2);
 		npcTalk(GUARD1, "and hit your head on the ice.", 2);
 		npcTalk(GUARD2, "Does it matter?", 2);
@@ -65,8 +69,8 @@ public class ExampleCutscene extends Cutscene {
 		playerMove(15, 6, MoveType.WALK);
 		npcMove(GUARD2, 15, 5, MoveType.WALK);
 		playerTalk("What's Falador?");
-		npcTalk(GUARD2, "Dammit...", 6);
-		constructMap(369, 421, 4, 6);
+		npcTalk(GUARD2, "Damn it...", 6);
+		dynamicRegion(369, 421, 4, 6);
 		musicEffect(214);
 		npcCreate(GUARD1, 296, 12, 38, 0);
 		npcCreate(GUARD2, 298, 14, 38, 0);
