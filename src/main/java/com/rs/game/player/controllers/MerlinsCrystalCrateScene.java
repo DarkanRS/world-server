@@ -24,6 +24,8 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 public class MerlinsCrystalCrateScene extends Controller {
 	private DynamicRegionReference instance;
@@ -39,11 +41,24 @@ public class MerlinsCrystalCrateScene extends Controller {
 		playCutscene();
 	}
 
+    @Override
+    public Genre getGenre() {
+        return Music.getGenreByName("Other Kandarin");
+    }
+
+    @Override
+    public boolean playMusicOnRegionEnter() {
+        return false;
+    }
+
+    @Override
+    public boolean playAmbientMusic() {
+        return false;
+    }
+
 	private void playCutscene() {
 		instance.copyMapAllPlanes(347, 1229, () -> {
 			insideCrate = instance.getLocalTile(2, 7);
-			System.out.println(insideCrate);
-
 			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				static final int CROUCH_CRATE_ANIM = 14592;
@@ -52,6 +67,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 					if (tick == 0)
 						player.getInterfaceManager().setFadingInterface(115);
 					else if (tick == 3) {// setup p2, move player
+                        player.getPackets().sendMusic(-1, 100, 255);
 						player.getPackets().setBlockMinimapState(2);
 						player.setNextWorldTile(insideCrate);
 					} else if (tick == 4) {

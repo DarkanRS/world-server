@@ -55,6 +55,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	WorldTile locationOnVictory = new WorldTile(3228, 3368, 0);
 	WorldTile spawn;
 	WorldTile combatStartTile;
+    boolean ambientMusicOn = false;
 
 	@Override
 	public void start() {
@@ -69,6 +70,11 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
     @Override
     public boolean playMusicOnRegionEnter() {
         return false;
+    }
+
+    @Override
+    public boolean playAmbientMusic() {
+        return ambientMusicOn;
     }
 
 	private void playCutscene() {
@@ -205,6 +211,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 						player.getPackets().sendResetCamera();
 						player.getAppearance().transformIntoNPC(-1);
 						player.unlock();
+                        ambientMusicOn = true;
 					} else if (tick == 19) {
 						player.setForceMultiArea(true);
 						for (NPC wizard : wizards) {
@@ -225,6 +232,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 					else if (tick == 26) {
 						player.getPackets().setBlockMinimapState(0);
 						player.setNextWorldTile(locationOnVictory);
+                        ambientMusicOn = false;
 					} else if (tick == 28)
 						player.getInterfaceManager().setFadingInterface(170);
 					else if (tick == 31) {

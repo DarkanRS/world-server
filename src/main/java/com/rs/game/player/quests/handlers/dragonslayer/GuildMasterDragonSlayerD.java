@@ -68,7 +68,7 @@ public class GuildMasterDragonSlayerD extends Conversation {
 			addNPC(GUILD_MASTER, HeadE.CALM_TALK, "You're already on a quest for me, if I recall correctly. Have you talked to Oziach yet?");
 			addPlayer(HeadE.HAPPY_TALKING, "No, not yet.");
 			addNPC(GUILD_MASTER, HeadE.CALM_TALK, "Well, he's the only one who can grant you the right to wear rune platemail. He lives in a hut, " +
-					"but the cliffs west of Edgeville.");
+					"by the cliffs west of Edgeville.");
 			addPlayer(HeadE.HAPPY_TALKING, "Okay I'll go and talk to him.");
 
 		}

@@ -38,7 +38,12 @@ public class DragonSlayer_BoatScene extends Controller {
         return false;
     }
 
-	@Override
+    @Override
+    public boolean playAmbientMusic() {
+        return false;
+    }
+
+    @Override
 	public void start() {
 		startingTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
 		player.getPackets().setBlockMinimapState(2);
@@ -558,6 +563,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 53) {
+                        player.getPackets().sendMusic(170, 5, 255);//crandor music
 						player.setNextAnimation(new Animation(ANIM_PLAYER_GET_UP));
 						player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(170);
 					}
