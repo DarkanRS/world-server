@@ -23,8 +23,7 @@ git clone git@github.com:titandino/darkan-game-client.git
 
 ### Running and Testing
 - (Optional if not using the test-lobby-db) Make sure you have a MongoDB server running on your local machine or somewhere else (the connection URL for the Mongo server can be configured through the serverConfig.json file that gets generated after trying to run the world server once)
-- Create an account on the test lobby server using the following CURL command:
-`curl -X POST -H "Content-Type: application/json" -d '{ "username": "DESIRED_USERNAME", "password": "DESIRED_PASSWORD", "email": "ANY_EMAIL_ADDRESS" }' http://testlobby.darkan.org:4040/api/createaccount`
+- Create an account on the test lobby server by running the client and clicking "Create Account Now" button at the bottom of the login screen.
 - Run the world server with the command `gradle run` within the darkan-world-server project.
 - Load up the client and login with the account details you created. (You login with the username, not the email address)
 
