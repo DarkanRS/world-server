@@ -50,9 +50,7 @@ public class BoatCutscene extends Cutscene {
 				
 		action(4, () -> player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(BOAT_TO_CRANDOR));
 				
-		action(() -> {
-			player.getInterfaceManager().closeInterfacesOverGameWindow();
-		});
+		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
 		
 		fadeOutBG(-1);
 		playerFaceEntity("ned");
