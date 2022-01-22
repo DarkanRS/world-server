@@ -6321,8 +6321,8 @@
   {
     "name": "Scape Theme",
     "hint": "automatically.",
-    "comment": "",
-    "allowAmbient": true,
+    "comment": "Overplayed",
+    "allowAmbient": false,
     "id": 679,
     "regionIds": []
   },
@@ -7794,8 +7794,8 @@
   {
     "name": "Destiny",
     "hint": "automatically.",
-    "comment": "",
-    "allowAmbient": true,
+    "comment": "Overplayed",
+    "allowAmbient": false,
     "id": 859,
     "regionIds": []
   },
