@@ -1,5 +1,25 @@
 [
   {
+    "comment": "Garlic in Seers Village, prompted from Fishing Contest",
+    "itemId": 1550,
+    "amount": 1,
+    "tile": {
+      "x": 2646,
+      "y": 3299,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Garlic in Seers Village, prompted from Fishing Contest",
+    "itemId": 1550,
+    "amount": 1,
+    "tile": {
+      "x": 2714,
+      "y": 3478,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Guide book, Tribal Totem quest",
     "itemId": 1856,
     "amount": 1,

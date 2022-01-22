@@ -27,7 +27,7 @@ public enum FishingSpot {
 	CRAYFISH(new int[] { 13431 }, null, new Animation(619), Fish.CRAYFISH),
 	SHRIMP(new int[] { 303 }, null, new Animation(621), Fish.SHRIMP, Fish.ANCHOVIES),
 	SEA_BAIT(new int[] { 307 }, new int[] { 313 }, new Animation(622), Fish.SARDINES, Fish.HERRING),
-	GIANT_CARP(new int[] { 307 }, new int[] { 313, 25 }, new Animation(622), Fish.GIANT_CARP),
+	GIANT_CARP(new int[] { 307 }, new int[] { 25 }, new Animation(622), Fish.GIANT_CARP),
 	BIG_NET(new int[] { 305 }, null, new Animation(620), Fish.MACKEREL, Fish.COD, Fish.BASS, Fish.SEAWEED, Fish.OYSTER, Fish.CASKET, Fish.LEATHER_BOOTS, Fish.LEATHER_GLOVES),
 	TUNA_SWORDFISH(new int[] { 311, 10129 }, null, new Animation(618), Fish.TUNA, Fish.SWORDFISH),
 	LOBSTER(new int[] { 301 }, null, new Animation(619), Fish.LOBSTER),
