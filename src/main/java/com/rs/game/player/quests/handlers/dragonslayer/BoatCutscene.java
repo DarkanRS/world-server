@@ -104,22 +104,23 @@ public class BoatCutscene extends Cutscene {
 		npcFaceTile("ned", 17, 12);
 		npcFaceTile("jenkins", 17, 12);
 		playerFaceTile(17, 12);
-		projectile(new WorldTile(17, 9, 1), new WorldTile(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> {
-			WorldTasks.scheduleTimer(tick -> {
-				if (tick == 0) {
-					World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(p.getDestination().getX(), p.getDestination().getY(), p.getDestination().getPlane()));
-					World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(p.getDestination().getX(), p.getDestination().getY(), p.getDestination().getPlane()));
-				}
-				if (tick > 1)
-					World.sendSpotAnim(player, new SpotAnim(453), new WorldTile(p.getDestination().getX(), p.getDestination().getY(), p.getDestination().getPlane()));
-				if(tick == 80)
-					return false;
-				return true;
-			});
-		});
+		projectile(new WorldTile(17, 9, 1), new WorldTile(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination()));
 		
 		
 		
 	}
-
+	
+	private void repeatFireSpotAnim(Player player, WorldTile target) {
+		WorldTasks.scheduleTimer(tick -> {
+			if (tick == 0) {
+				World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(target.getX(), target.getY(), target.getPlane()));
+			}
+			if (tick > 1)
+				World.sendSpotAnim(player, new SpotAnim(453), new WorldTile(target.getX(), target.getY(), target.getPlane()));
+			if(tick == 80)
+				return false;
+			return true;
+		});
+	}
 }

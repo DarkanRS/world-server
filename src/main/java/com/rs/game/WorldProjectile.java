@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Projectile;
 import com.rs.lib.game.WorldTile;
@@ -37,12 +36,7 @@ public class WorldProjectile extends Projectile {
 		lockOnId = toE == null ? 0 : (toE instanceof Player ? -(toE.getIndex() + 1) : toE.getIndex() + 1);
 
 		if (task != null)
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					task.accept(WorldProjectile.this);
-				}
-			}, getTaskDelay());
+			WorldTasks.schedule(getTaskDelay(), () -> task.accept(WorldProjectile.this));
 
 		if (from instanceof Entity e)
 			fromSizeX = fromSizeY = e.getSize();
