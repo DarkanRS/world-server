@@ -16,15 +16,21 @@
 //
 package com.rs.game.player.controllers;
 
+import com.rs.game.World;
+import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
+import com.rs.utils.Ticks;
 
 public class PyramidPlunderController extends Controller {
+    final static int PLUNDER_INTERFACE = 428;
 
 	@Override
-	public void start() {
+	public void start() { //600ms
 		startMinigame();
+
+
 	}
 
 	@Override
@@ -69,10 +75,22 @@ public class PyramidPlunderController extends Controller {
 				}
 				if(tick == 5)
 					player.getInterfaceManager().setFadingInterface(170);
+                if(tick == 6) {
+                    updatePlunderInterface(player);
+                }
+
 				tick++;
 			}
 		}, 0, 1);
 	}
+
+    private static void updatePlunderInterface(Player player) {
+        if(player.getInterfaceManager().hasRezizableScreen())
+            player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
+        else
+            player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(PLUNDER_INTERFACE);
+        player.getVars().setVar(822, 21);
+    }
 
 	public void exitMinigame() {
 		player.setNextWorldTile(new WorldTile(3288, 2801, 0));
