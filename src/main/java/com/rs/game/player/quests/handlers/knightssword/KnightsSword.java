@@ -48,8 +48,6 @@ public class KnightsSword extends QuestOutline {
 	protected static final String PICTURE_LOCATION_KNOWN_ATTR = "picture_location_known";
 	protected static final String GAVE_THRUGO_PIE_ATTR = "gave_thurgo_pie";
 	protected static final String MADE_SWORD_ATTR = "made_sword";
-	//    protected static final int
-	//    protected static final int
 
 	@Override
 	public int getCompletedStage() {
@@ -76,8 +74,9 @@ public class KnightsSword extends QuestOutline {
 			break;
 		case FIND_DWARF:
 			lines.add("The dwarf is south of Port Sarim, living in a hut.");
-			lines.add("Maybe he can help me restore the Knight's Sword?");
-			lines.add("");
+			lines.add("Maybe he can help me restore the Knight's Sword? I");
+			lines.add("also hear they like redberry pies...");
+            lines.add("");
 			break;
 		case GET_PICTURE:
 			lines.add("I will need a picture of the sword. Maybe the");
