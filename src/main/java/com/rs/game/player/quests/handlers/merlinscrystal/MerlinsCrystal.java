@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -226,7 +227,7 @@ public class MerlinsCrystal extends QuestOutline {
 						p.sendMessage("... and it shatters under the force of Excalibur!");
 						p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
 						p.getVars().setVar(14, 7);
-						NPC merlin = World.spawnNPC(MERLIN, new WorldTile(obj.getX(), obj.getY(), obj.getPlane()), -1, false, true);
+                        OwnedNPC merlin = new OwnedNPC(p, MERLIN, new WorldTile(obj.getX(), obj.getY(), obj.getPlane()), true);
 						merlin.setCantInteract(true);
 						merlin.setRandomWalk(false);
 						merlin.finishAfterTicks(5);

@@ -60,8 +60,7 @@ public class PiratesTreasure extends QuestOutline {
 	//Objects
 	protected final static int BANANA_TREE_PLANT = 2073;
 	protected final static int BLUE_MOON_INN_CHEST = 2079;
-	//    protected final static int
-	//    protected final static int
+
 
 
 
@@ -75,10 +74,10 @@ public class PiratesTreasure extends QuestOutline {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
-			lines.add("Redbeard Frank knows the location of pirate treasure,");
-			lines.add("but he'll only part with the knowledge for a bottle of");
-			lines.add("Karamjan rum.");
-			lines.add("");
+            lines.add("You can start this quest at Port Sarim. Redbeard Frank");
+            lines.add("knows the location of pirate treasure, but he'll only");
+			lines.add("part with the knowledge for a bottle of Karamjan rum.");
+            lines.add("");
 			break;
 		case SMUGGLE_RUM:
 			lines.add("To get the pirate treasure I must first help Redbeard");
@@ -105,9 +104,6 @@ public class PiratesTreasure extends QuestOutline {
 		}
 		return lines;
 	}
-
-	//eat banana, banana tree
-
 
 	public static ObjectClickHandler handleTreasureChest = new ObjectClickHandler(new Object[] {BLUE_MOON_INN_CHEST }) {
 		@Override

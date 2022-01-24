@@ -112,6 +112,10 @@ public class Debug {
 
         });
 
+        Commands.add(Rights.PLAYER, "getcontroller", "Clears m", (p, args) -> {
+            p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getClass().getName()));
+        });
+
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {
 			attemptSpawnRandom(p, true);
 		});

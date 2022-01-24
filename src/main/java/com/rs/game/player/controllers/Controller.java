@@ -61,6 +61,10 @@ public abstract class Controller {
 
 	}
 
+    public boolean playAmbientMusic() {
+        return true;
+    }
+
     public Genre getGenre() {
         return Music.getGenre(player.getRegionId());
     }

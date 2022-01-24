@@ -85,6 +85,7 @@ public class WitchsHouse extends QuestOutline {
 			lines.add("I need to find this boy's ball. Perhaps the witch left");
 			lines.add("clues lying around her house?");
 			lines.add("");
+            lines.add("*Hint, you may need cheese");
 			break;
 		case QUEST_COMPLETE:
 			lines.add("");
@@ -233,6 +234,10 @@ public class WitchsHouse extends QuestOutline {
 			Player p = e.getPlayer();
 			if(!p.withinDistance(new WorldTile(2927, 3361, 0), 2))
 				return;
+            if(p.getInventory().containsItem(BALL)) {
+                p.getInventory().removeItems(new Item(BALL, 1));
+                World.addGroundItem(e.getItem(), new WorldTile(2927, 3360, 0));
+            }
 			if(p.getQuestManager().getStage(Quest.WITCHS_HOUSE) != FIND_BALL) {
 				p.getInventory().removeItems(new Item(BALL, 1));
 				World.addGroundItem(e.getItem(), new WorldTile(2927, 3360, 0));
@@ -355,19 +360,18 @@ public class WitchsHouse extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			String itemName = new Item(p.getEquipment().getGlovesId(), 1).getName();
-			if(!p.getEquipment().wearingGloves() || (!itemName.contains("gloves") && !itemName.contains("Gloves"))) {
-				p.startConversation(new Conversation(e.getPlayer()) {
-					{
-						addSimple("As your bare hands touch the gate you feel a shock", () -> {
-							p.applyHit(new Hit(76, Hit.HitLook.TRUE_DAMAGE));
-						});
-						addPlayer(HeadE.SCARED, "I will need some gloves to stop the electric current...");
-						create();
-					}
-				});
-				return;
-			}
-			handleDoubleDoor(e.getPlayer(), e.getObject());
+			if(p.getEquipment().wearingGloves() || (itemName.contains("gloves") && itemName.contains("Gloves")))
+                handleDoubleDoor(e.getPlayer(), e.getObject());
+            else
+                p.startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addSimple("As your bare hands touch the gate you feel a shock", () -> {
+                            p.applyHit(new Hit(76, Hit.HitLook.TRUE_DAMAGE));
+                        });
+                        addPlayer(HeadE.SCARED, "I will need some gloves to stop the electric current...");
+                        create();
+                    }
+                });
 		}
 	};
 

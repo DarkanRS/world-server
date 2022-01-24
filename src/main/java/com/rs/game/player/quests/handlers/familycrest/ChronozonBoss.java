@@ -30,8 +30,13 @@ public class ChronozonBoss extends NPC {
 
 	@Override
 	public void sendDeath(Entity source) {
-		if(canDie())
-			super.sendDeath(source);
+		if(canDie()) {
+            hitWater = false;
+            hitEarth = false;
+            hitFire = false;
+            hitAir = false;
+            super.sendDeath(source);
+        }
 		else {
 			forceTalk("Hahaha, you cannot defeat me!");
 			setHitpoints(getMaxHitpoints());
@@ -79,7 +84,7 @@ public class ChronozonBoss extends NPC {
 		public void handle(NPCDeathEvent e) {
 			if(e.getKiller() instanceof Player) {
 				Player p = (Player)e.getKiller();
-				if(p.getQuestManager().getStage(Quest.FAMILY_CREST) == KILL_CHRONOZON)
+				if(p.getQuestManager().getStage(Quest.FAMILY_CREST) == KILL_CHRONOZON && !p.getInventory().containsItem(JOHNATHAN_CREST))
 					World.addGroundItem(new Item(JOHNATHAN_CREST, 1), new WorldTile(e.getNPC()), p);
 			}
 		}

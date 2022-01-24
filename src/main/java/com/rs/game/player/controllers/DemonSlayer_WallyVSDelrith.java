@@ -51,6 +51,11 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
         return false;
     }
 
+    @Override
+    public boolean playAmbientMusic() {
+        return false;
+    }
+
 	private void playCutscene() {
 		locationBeforeCutscene = new WorldTile(player.getX(), player.getY(), player.getPlane());
 		player.lock();

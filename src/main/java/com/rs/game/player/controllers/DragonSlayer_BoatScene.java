@@ -33,7 +33,17 @@ public class DragonSlayer_BoatScene extends Controller {
 	int ANIM_JENKINS_DIE = 836;
 	int ANIM_PLAYER_GET_UP = 4191;
 
-	@Override
+    @Override
+    public boolean playMusicOnRegionEnter() {
+        return false;
+    }
+
+    @Override
+    public boolean playAmbientMusic() {
+        return false;
+    }
+
+    @Override
 	public void start() {
 		startingTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
 		player.getPackets().setBlockMinimapState(2);
@@ -123,7 +133,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == PAUSE_FOR_NED2)
 						player.startConversation(new Conversation(player) {
 							{
-								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Now long now! According to the chart, we'd be able to see Crandor if it wasn't for " +
+								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Not long now! According to the chart, we'd be able to see Crandor if it wasn't for " +
 										"the clouds on the horizon.");
 								addNext(()->{
 									tick++;
@@ -553,6 +563,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 53) {
+                        player.getPackets().sendMusic(170, 5, 255);//crandor music
 						player.setNextAnimation(new Animation(ANIM_PLAYER_GET_UP));
 						player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(170);
 					}

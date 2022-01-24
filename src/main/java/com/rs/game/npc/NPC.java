@@ -371,36 +371,6 @@ public class NPC extends Entity {
 	}
 
 	/**
-	 * NPC becomes set to finish/dissapear when the player either
-	 * 1. Leaves the region
-	 * 2. Logs out
-	 *
-	 * Reason: For quests
-	 * @param p
-	 */
-	public void lingerForPlayer(Player p) {
-		WorldTasks.schedule(new WorldTask() {
-			int tick;
-			@Override
-			public void run() {
-				if (tick == 3)
-					if (p.hasFinished())
-						;
-					else
-						for (Player rPlayer : World.getPlayersInRegion(getRegionId()))
-							if (rPlayer == p)
-								tick = 0;
-				if (tick == 5) {
-					if (!hasFinished())
-						finish();
-					stop();
-				}
-				tick++;
-			}
-		}, 0, 1);
-	}
-
-	/**
 	 * For quests
 	 * @param ticks
 	 */

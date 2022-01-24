@@ -76,6 +76,7 @@ public class Music {
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/misthalin.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/morytania.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/dungeons.json"), Genre[].class)));
+            genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/karamja.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/other.json"), Genre[].class)));
 			addGenresToRegionMap();
 

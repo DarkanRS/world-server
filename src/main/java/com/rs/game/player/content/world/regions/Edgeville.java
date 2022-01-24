@@ -23,6 +23,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.OziachDragonSlayerD;
@@ -60,6 +61,13 @@ public class Edgeville  {
 				e.getPlayer().handleOneWayDoor(e.getObject());
 		}
 	};
+
+    public static ObjectClickHandler handleBlackKnightWall = new ObjectClickHandler(new Object[] { 2341 }) {//Wall in blackknights fortress
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
+        }
+    };
 
 	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 29603 }) {
 		@Override

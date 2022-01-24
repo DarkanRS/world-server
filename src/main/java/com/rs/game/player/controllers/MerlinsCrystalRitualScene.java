@@ -18,6 +18,7 @@ package com.rs.game.player.controllers;
 
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
+import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.player.quests.handlers.merlinscrystal.ThrantaxMerlinsCrystalD;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -40,13 +41,12 @@ public class MerlinsCrystalRitualScene extends Controller {
 		if(hasSpirit)
 			;
 		else {
-			spirit = World.spawnNPC(THRANTAX_SPIRIT, new WorldTile(2780, 3516, 0), -1, false, true);
+            OwnedNPC spirit = new OwnedNPC(player, THRANTAX_SPIRIT, new WorldTile(2780, 3516, 0), true);
 			player.getPackets().sendMusic(449, 100, 255);
 			spirit.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 			spirit.setCantInteract(true);
 			spirit.faceSouth();
 			spirit.setRandomWalk(false);
-			spirit.lingerForPlayer(player);
 		}
 		player.startConversation(new ThrantaxMerlinsCrystalD(player).getStart());
 	}

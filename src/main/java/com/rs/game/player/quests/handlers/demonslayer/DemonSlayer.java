@@ -192,6 +192,8 @@ public class DemonSlayer extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			p.sendMessage("You peer into the drain.");
+            if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(PRYSIN_KEY) && p.getVars().getVarBit(2568) != 1)
+                p.getVars().setVarBit(2568, 0);
 			p.startConversation(new Conversation(p) {
 				{
 					if(p.getVars().getVarBit(2568) == 0)
