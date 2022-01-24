@@ -68,7 +68,7 @@ public class SnowballAction extends EntityInteractionAction {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, 0, () -> {
+				World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, 0, p -> {
 					target.setNextSpotAnim(new SpotAnim(862));
 				});
 			}

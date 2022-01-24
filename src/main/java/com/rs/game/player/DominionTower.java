@@ -21,7 +21,6 @@ import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.controllers.DomTowerController;
-import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.game.player.dialogues.DTSpectateReq;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StrangeFace;
@@ -238,9 +237,9 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 7, true);
 					player.getPackets().setIFText(1172, 4, player.getDisplayName());
 					player.getVars().setVar(1241, 1);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 25), Cutscene.getY(player, getBaseY() + 38), 1800);
-					player.getPackets().sendCameraLook(Cutscene.getX(player, getBaseX() + 25), Cutscene.getY(player, getBaseY() + 29), 800);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 32), Cutscene.getY(player, getBaseY() + 38), 1800, 6, 6);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 25), player.getSceneY(getBaseY() + 38), 1800);
+					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 25), player.getSceneY(getBaseY() + 29), 800);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 38), 1800, 6, 6);
 				} else if (count == 1)
 					player.setNextForceTalk(new ForceTalk(getStartFightText(Utils.getRandomInclusive(1))));
 				else if (count == 3) {
@@ -248,9 +247,9 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 5, true);
 					player.getPackets().setIFText(1172, 6, BOSSES[index].name);
 					player.getVars().setVar(1241, 0);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 35), Cutscene.getY(player, getBaseY() + 37), 1800);
-					player.getPackets().sendCameraLook(Cutscene.getX(player, getBaseX() + 35), Cutscene.getY(player, getBaseY() + 28), 800);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 42), Cutscene.getY(player, getBaseY() + 37), 1800, 6, 6);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 1800);
+					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 1800, 6, 6);
 				} else if (count == 4) {
 					if (BOSSES[index].text != null)
 						bosses[0].setNextForceTalk(new ForceTalk(BOSSES[index].text));
@@ -263,8 +262,8 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 5, true);
 					player.getPackets().setIFText(1172, 8, "Fight!");
 					player.getPackets().setIFHidden(1172, 10, true);
-					player.getPackets().sendCameraLook(Cutscene.getX(player, getBaseX() + 32), Cutscene.getY(player, getBaseY() + 36), 0);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 32), Cutscene.getY(player, getBaseY() + 16), 5000);
+					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 36), 0);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 16), 5000);
 					player.getPackets().sendVoice(7882);
 				} else if (count == 8) {
 					if (nextBossIndex != -1 && BOSSES[index].item != null)
@@ -319,9 +318,9 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 5, true);
 					player.getPackets().setIFText(1172, 8, "Unlucky, you lost!");
 					player.getPackets().setIFText(1172, 10, "You leave with a dominion factor of: " + dominionFactor);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 35), Cutscene.getY(player, getBaseY() + 37), 2500);
-					player.getPackets().sendCameraLook(Cutscene.getX(player, getBaseX() + 35), Cutscene.getY(player, getBaseY() + 28), 800);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 42), Cutscene.getY(player, getBaseY() + 37), 2500, 6, 6);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 2500);
+					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 2500, 6, 6);
 					player.getPackets().sendVoice(7874);
 				} else if (count == 4) {
 					player.setForceMultiArea(false);
@@ -374,9 +373,9 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 5, true);
 					player.getPackets().setIFText(1172, 8, "Yeah! You won!");
 					player.getPackets().setIFText(1172, 10, "You now have a dominion factor of: " + dominionFactor);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 35), Cutscene.getY(player, getBaseY() + 37), 2500);
-					player.getPackets().sendCameraLook(Cutscene.getX(player, getBaseX() + 35), Cutscene.getY(player, getBaseY() + 28), 800);
-					player.getPackets().sendCameraPos(Cutscene.getX(player, getBaseX() + 42), Cutscene.getY(player, getBaseY() + 37), 2500, 6, 6);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 2500);
+					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
+					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 2500, 6, 6);
 					player.getPackets().sendVoice(7897);
 				} else if (count == 4) {
 					player.reset();

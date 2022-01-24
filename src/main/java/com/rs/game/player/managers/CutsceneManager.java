@@ -14,26 +14,43 @@
 //  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.cutscenes;
-
-import java.util.ArrayList;
+package com.rs.game.player.managers;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.cutscenes.actions.CutsceneAction;
+import com.rs.game.player.cutscenes.Cutscene;
 
-public class Example2Cutscene extends Cutscene {
-	static final int WALLY = 4664;
-	static final int GYPSY_ARIS = 882;
+public final class CutsceneManager {
 
-	@Override
-	public boolean hiddenMinimap() {
-		return false;
+	private Player player;
+	private Cutscene cutscene;
+	
+	public CutsceneManager(Player player) {
+		this.player = player;
 	}
 
-	@Override
-	public CutsceneAction[] getActions(Player p) {
-		ArrayList<CutsceneAction> actionsList = new ArrayList<>();
-		return actionsList.toArray(new CutsceneAction[actionsList.size()]);
+	public void process() {
+		if ((cutscene == null) || cutscene.process())
+			return;
+		cutscene = null;
+	}
+
+	public void logout() {
+		if (hasCutscene())
+			cutscene.logout();
+	}
+
+	public boolean hasCutscene() {
+		return cutscene != null;
+	}
+
+	public boolean play(Cutscene cutscene) {
+		if (hasCutscene() || (cutscene == null))
+			return false;
+		cutscene.setPlayer(player);
+		cutscene.createObjectMap();
+		cutscene.construct(player);
+		this.cutscene = cutscene;
+		return true;
 	}
 
 }

@@ -1531,7 +1531,7 @@ public final class ObjectHandler {
 			else if (id == 1815)
 				Magic.pushLeverTeleport(player, new WorldTile(2561, 3311, 0));
 			else if (id == 62675)
-				player.getCutscenesManager().play(new DTPreview());
+				player.getCutsceneManager().play(new DTPreview());
 			else if (id == 62678 || id == 62679)
 				player.getDominionTower().openModes();
 			else if (id == 62688)

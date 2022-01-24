@@ -256,8 +256,7 @@ public class BlackKnightsFortress extends QuestOutline {
 
 						if (tick == 0) {
 							p.setNextAnimation(new Animation(TOSS_CABBAGE));
-							World.sendProjectile(p, new WorldTile(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0, () -> {
-							});
+							World.sendProjectile(p, new WorldTile(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
 						}
 						if (tick == 3)
 							p.getInterfaceManager().setFadingInterface(115);
@@ -297,7 +296,7 @@ public class BlackKnightsFortress extends QuestOutline {
 							});
 
 						if (tick == 14)
-							World.sendProjectile(new WorldTile(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, () -> {
+							World.sendProjectile(new WorldTile(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
 								World.sendSpotAnim(p, new SpotAnim(CAULDRON_EXPLOSION_GFX), new WorldTile(p.getX(), p.getY(), p.getPlane()));
 							});
 

@@ -1259,7 +1259,7 @@ public final class World {
 		return sendProjectile(from, to, graphicId, angle, delay, speed, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, int delay, double speed, Runnable task) {
+	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, int delay, double speed, Consumer<WorldProjectile> task) {
 		return sendProjectile(from, to, graphicId, 28, 28, delay, speed, angle, 0, task);
 	}
 
@@ -1267,7 +1267,7 @@ public final class World {
 		return sendProjectile(from, to, graphicId, angle, speed, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, double speed, Runnable task) {
+	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, double speed, Consumer<WorldProjectile> task) {
 		return sendProjectile(from, to, graphicId, 28, 28, 0, speed, angle, 0, task);
 	}
 
@@ -1275,7 +1275,7 @@ public final class World {
 		return sendProjectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Runnable task) {
+	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
@@ -1301,6 +1301,31 @@ public final class World {
 		if (graphicId != -1)
 			getRegion(from.getRegionId()).addProjectile(projectile);
 		return projectile;
+	}
+	
+	public static final WorldProjectile createProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+		if (speed > 20.0)
+			speed = speed / 50.0;
+		int fromSizeX, fromSizeY;
+		if (from instanceof Entity e)
+			fromSizeX = fromSizeY = e.getSize();
+		else if (from instanceof GameObject go) {
+			ObjectDefinitions defs = go.getDefinitions();
+			fromSizeX = defs.getSizeX();
+			fromSizeY = defs.getSizeY();
+		} else
+			fromSizeX = fromSizeY = 1;
+		int toSizeX, toSizeY;
+		if (to instanceof Entity e)
+			toSizeX = toSizeY = e.getSize();
+		else if (to instanceof GameObject go) {
+			ObjectDefinitions defs = go.getDefinitions();
+			toSizeX = defs.getSizeX();
+			toSizeY = defs.getSizeY();
+		} else
+			toSizeX = toSizeY = 1;
+		slope = fromSizeX * 30;
+		return new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY) : Utils.getProjectileTimeNew(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY, speed)), slope, angle, task);
 	}
 
 	public static void executeAfterLoadRegion(final int regionId, final Runnable event) {

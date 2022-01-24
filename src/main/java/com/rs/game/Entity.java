@@ -69,6 +69,22 @@ import com.rs.utils.WorldUtil;
 public abstract class Entity extends WorldTile {
 
 	private final static AtomicInteger HASH_CODE_GENERATOR = new AtomicInteger();
+	
+	public enum MoveType {
+		WALK(1),
+		RUN(2),
+		TELE(127);
+		
+		private int id;
+		
+		MoveType(int id) {
+			this.id = id;
+		}
+		
+		public int getId() {
+			return id;
+		}
+	}
 
 	// transient stuff
 	private transient int index;
@@ -211,6 +227,19 @@ public abstract class Entity extends WorldTile {
 
 	public boolean inArea(int a, int b, int c, int d) {
 		return getX() >= a && getY() >= b && getX() <= c && getY() <= d;
+	}
+	
+	public WorldTile getTileInScene(int x, int y) {
+		WorldTile tile = new WorldTile(x, y, getPlane());
+		return new WorldTile(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId()), getPlane());
+	}
+	
+	public int getSceneX(int targetX) {
+		return new WorldTile(targetX, 0, 0).getXInScene(getSceneBaseChunkId());
+	}
+	
+	public int getSceneY(int targetY) {
+		return new WorldTile(0, targetY, 0).getYInScene(getSceneBaseChunkId());
 	}
 
 	public final void initEntity() {
@@ -553,8 +582,8 @@ public abstract class Entity extends WorldTile {
 			tileBehind = getBackfacingTile();
 			nextWorldTile = null;
 			teleported = true;
-			if (player != null && player.getTemporaryMoveType() == -1)
-				player.setTemporaryMoveType(Player.TELE_MOVE_TYPE);
+			if (player != null && player.getTemporaryMoveType() == null)
+				player.setTemporaryMoveType(MoveType.TELE);
 			World.updateEntityRegion(this);
 			if (needMapUpdate())
 				loadMapRegions();
@@ -571,7 +600,7 @@ public abstract class Entity extends WorldTile {
 			if (player.getRunEnergy() <= 0.0 || player.isRunBlocked())
 				setRun(false);
 			if (walkSteps.size() <= 1)
-				player.setTemporaryMoveType(Player.WALK_MOVE_TYPE);
+				player.setTemporaryMoveType(MoveType.WALK);
 		}
 
 		if (npc != null)

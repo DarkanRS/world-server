@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 
@@ -24,12 +26,12 @@ public class PlayerAnimationAction extends CutsceneAction {
 	private Animation anim;
 
 	public PlayerAnimationAction(Animation anim, int actionDelay) {
-		super(-1, actionDelay);
+		super(null, actionDelay);
 		this.anim = anim;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
+	public void process(Player player, Map<String, Object> objects) {
 		player.setNextAnimation(anim);
 	}
 

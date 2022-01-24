@@ -16,8 +16,11 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
+import com.rs.lib.game.WorldTile;
 
 public class PosCameraAction extends CutsceneAction {
 
@@ -28,7 +31,7 @@ public class PosCameraAction extends CutsceneAction {
 	private int speed2;
 
 	public PosCameraAction(int moveLocalX, int moveLocalY, int moveZ, int speed, int speed2, int actionDelay) {
-		super(-1, actionDelay);
+		super(null, actionDelay);
 		this.moveLocalX = moveLocalX;
 		this.moveLocalY = moveLocalY;
 		this.moveZ = moveZ;
@@ -41,9 +44,9 @@ public class PosCameraAction extends CutsceneAction {
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
-		player.getPackets().sendCameraPos(scene.getLocalX(player, moveLocalX), scene.getLocalY(player, moveLocalY), moveZ, speed, speed2);
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");
+		player.getPackets().sendCameraPos(player, new WorldTile(scene.getX(moveLocalX), scene.getY(moveLocalY), 0), moveZ, speed, speed2);
 	}
 
 }

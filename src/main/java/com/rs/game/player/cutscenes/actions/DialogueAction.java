@@ -16,31 +16,28 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
-import com.rs.game.player.dialogues.SimpleItemMessage;
-import com.rs.game.player.dialogues.SimpleMessage;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.cutscenes.Cutscene;
 
 public class DialogueAction extends CutsceneAction {
+	
+	private Dialogue dialogue;
+	private boolean pause;
 
-	private int id;
-	private String message;
-
-	public DialogueAction(String message) {
-		this(-1, message);
-	}
-
-	public DialogueAction(int id, String message) {
-		super(-1, -1);
-		this.id = id;
-		this.message = message;
+	public DialogueAction(Dialogue dialogue, int delay, boolean pause) {
+		super(null, delay);
+		this.dialogue = dialogue;
+		this.pause = pause;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		if (id == -1)
-			player.getDialogueManager().execute(new SimpleMessage(), message);
-		else
-			player.getDialogueManager().execute(new SimpleItemMessage(), id, message);
+	public void process(Player player, Map<String, Object> objects) {
+		if (pause)
+			((Cutscene) objects.get("cutscene")).setDialoguePause(true);
+		player.startConversation(dialogue);
 	}
 
 }

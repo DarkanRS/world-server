@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 
 public class CutsceneCodeAction extends CutsceneAction {
@@ -23,12 +25,12 @@ public class CutsceneCodeAction extends CutsceneAction {
 	private Runnable runnable;
 
 	public CutsceneCodeAction(Runnable runnable, int actionDelay) {
-		super(-1, actionDelay);
+		super(null, actionDelay);
 		this.runnable = runnable;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
+	public void process(Player player, Map<String, Object> objects) {
 		runnable.run();
 	}
 

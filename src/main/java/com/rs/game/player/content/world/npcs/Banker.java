@@ -24,6 +24,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -53,6 +54,19 @@ public class Banker extends Conversation {
 								option("Didn't you used to be called the Bank of Varrock?", new Dialogue()
 										.addNPC(npc.getId(), HeadE.CALM_TALK, "Yes we did, but people kept on coming into our branches outside of Varrock and telling us that our signs were wrong. They acted as if we didn't know what town we were in or something."));
 							}
+						}));
+				option("I'd like to change my theshold for valuable loot notifications.", new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "I'd like to change my theshold for valuable loot notifications.")
+						.addNPC(npc.getId(), HeadE.HAPPY_TALKING, "Okay, your current threshold is " + player.getI("lootbeamThreshold", 90000) + " GP. What would you like to set it to?")
+						.addNext(() -> { 
+							player.sendInputInteger("What would you like to set it to?", new InputIntegerEvent() {
+								@Override
+								public void run(int amount) {
+									if (amount < 0)
+										return;
+									player.save("lootbeamThreshold", amount);
+								}
+							});
 						}));
 			}
 		});

@@ -14,41 +14,19 @@
 //  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.managers;
+package com.rs.game.player.cutscenes.actions;
+
+import java.util.Map;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.cutscenes.Cutscene;
 
-public final class CutscenesManager {
+public class DelayAction extends CutsceneAction {
 
-	private Player player;
-	private Cutscene cutscene;
-
-	public CutscenesManager(Player player) {
-		this.player = player;
+	public DelayAction(int delay) {
+		super(null, delay);
 	}
 
-	public void process() {
-		if ((cutscene == null) || cutscene.process(player))
-			return;
-		cutscene = null;
+	@Override
+	public void process(Player player, Map<String, Object> objects) {
 	}
-
-	public void logout() {
-		if (hasCutscene())
-			cutscene.logout(player);
-	}
-
-	public boolean hasCutscene() {
-		return cutscene != null;
-	}
-
-	public boolean play(Cutscene cutscene) {
-		if (hasCutscene() || (cutscene == null))
-			return false;
-		cutscene.createCache(player);
-		this.cutscene = cutscene;
-		return true;
-	}
-
 }

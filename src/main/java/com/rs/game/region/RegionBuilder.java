@@ -202,6 +202,10 @@ public final class RegionBuilder {
 		public boolean isDestroyed() {
 			return destroyed;
 		}
+
+		public boolean isCreated() {
+			return base != null;
+		}
 	}
 
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;

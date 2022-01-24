@@ -101,7 +101,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						player.setNextAnimation(new Animation(711));
 						player.getSkills().addXp(Constants.MAGIC, 43);
 						player.setNextSpotAnim(new SpotAnim(142, 2, 50, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
-						World.sendProjectile(player, tile, 143, 35, 0, 60, 1, 0, 0, () -> {
+						World.sendProjectile(player, tile, 143, 35, 0, 60, 1, 0, 0, p -> {
 							final GroundItem gItem = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
 							if (gItem == null) {
 								player.sendMessage("Too late. It's gone!");

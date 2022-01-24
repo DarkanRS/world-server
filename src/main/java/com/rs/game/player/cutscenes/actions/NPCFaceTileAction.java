@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
@@ -25,17 +27,17 @@ public class NPCFaceTileAction extends CutsceneAction {
 
 	private int x, y;
 
-	public NPCFaceTileAction(int cachedObjectIndex, int x, int y, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public NPCFaceTileAction(String key, int x, int y, int actionDelay) {
+		super(key, actionDelay);
 		this.x = x;
 		this.y = y;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
-		NPC npc = (NPC) cache[getCachedObjectIndex()];
-		npc.setNextFaceWorldTile(new WorldTile(scene.getBaseX() + x, scene.getBaseY() + y, npc.getPlane()));
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");;
+		NPC npc = (NPC) objects.get(getObjectKey());
+		npc.setNextFaceWorldTile(new WorldTile(scene.getX(x), scene.getY(y), npc.getPlane()));
 	}
 
 }

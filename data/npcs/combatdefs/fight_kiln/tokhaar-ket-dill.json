@@ -12,5 +12,8 @@
   "attackStyle": "MELEE",
   "attackGfx": -1,
   "attackProjectile": -1,
-  "agressivenessType": "AGGRESSIVE"
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+  	200, 250, 200, 0, 80
+  ]
 }

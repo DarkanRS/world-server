@@ -484,10 +484,10 @@ public class PlayerCombat extends Action {
 					int damage2 = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0, 1.5);
 					if (damage2 < 80)
 						damage2 = 80;
-					p = World.sendProjectile(player, target, 1099, 20, 50, 1, () -> {
+					p = World.sendProjectile(player, target, 1099, 20, 50, 1, proj -> {
 						target.setNextSpotAnim(new SpotAnim(1100, 0, 100));
 					});
-					p2 = World.sendProjectile(player, target, 1099, 30, 50, 1.5, () -> {
+					p2 = World.sendProjectile(player, target, 1099, 30, 50, 1.5, proj -> {
 						target.setNextSpotAnim(new SpotAnim(1100, 0, 100));
 					});
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, damage));

@@ -82,14 +82,14 @@ public class Dialogue {
 		return addNext(new StageSelectDialogue(stageName, conversation));
 	}
 
-	public Dialogue addNext(Statement statement, Dialogue... options) {
+	public Dialogue addStatementWithOptions(Statement statement, Dialogue... options) {
 		Dialogue option = addNext(statement);
 		for (Dialogue option2 : options)
 			option.addNext(option2);
 		return option;
 	}
 
-	public Dialogue addNext(Statement statement, Runnable... events) {
+	public Dialogue addStatementWithActions(Statement statement, Runnable... events) {
 		Dialogue option = addNext(statement);
 		for (Runnable event2 : events)
 			option.addNext(event2);

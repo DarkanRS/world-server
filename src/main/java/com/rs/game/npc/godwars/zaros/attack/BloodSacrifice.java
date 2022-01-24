@@ -47,7 +47,7 @@ public class BloodSacrifice implements NexAttack {
 					player.sendMessage("You didn't make it far enough in time - Nex fires a punishing attack!");
 					nex.setNextAnimation(new Animation(6987));
 					for (final Entity t : nex.getPossibleTargets())
-						World.sendProjectile(nex, t, 374, 41, 16, 41, 35, 16, 0, () -> {
+						World.sendProjectile(nex, t, 374, 41, 16, 41, 35, 16, 0, p -> {
 							nex.heal(t.getHitpoints());
 							t.applyHit(new Hit(nex, (int) (t.getHitpoints() * 0.1), HitLook.TRUE_DAMAGE));
 						});
