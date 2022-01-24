@@ -109,7 +109,7 @@ public class BoatCutscene extends Cutscene {
 		playerFaceTile(17, 12);
 		projectile(1, new WorldTile(17, 9, 1), new WorldTile(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 				
-		dialogue(new Dialogue().addNPC(6084, HeadE.SCARED, "It's the dragon!"));
+		dialogue(new Dialogue().addNPC(6084, HeadE.SCARED, "It's the dragon!"), true);
 		projectile(1, new WorldTile(17, 9, 1), new WorldTile(16, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 				
 		projectile(1, new WorldTile(17, 9, 1), new WorldTile(15, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
@@ -119,8 +119,8 @@ public class BoatCutscene extends Cutscene {
 
 		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
 		camShake(1, 0, 8, 5, 8);
-		camPos(19, 14, 0, 1200);
-		camLook(17, 14, 0, 700);
+		camPos(19, 14, 1200);
+		camLook(17, 14, 700);
 		camPos(26, 14, 1200, 0, 3);
 		npcFaceTile("ned", 13, 14);
 		npcFaceTile("jenkins", 13, 14);
@@ -134,8 +134,8 @@ public class BoatCutscene extends Cutscene {
 		projectile(1, new WorldTile(19, 17, 1), new WorldTile(19, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 		projectile(1, new WorldTile(41, 17, 1), new WorldTile(41, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 
-		camPos(34, 14, 0, 1900);
-		camLook(17, 14, 0, 700);
+		camPos(34, 14, 1900);
+		camLook(17, 14, 700);
 		camPos(28, 14, 1200, 0, 3);
 		
 		delay(1);
