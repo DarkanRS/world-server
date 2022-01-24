@@ -14,6 +14,6 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "levels": [
-  	att, def, str, range, mage
+  	200, 250, 200, 0, 80
   ]
 }

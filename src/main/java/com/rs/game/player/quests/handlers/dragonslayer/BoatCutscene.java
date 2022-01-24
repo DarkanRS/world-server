@@ -23,7 +23,9 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.cutscenes.Cutscene;
+import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 
@@ -34,6 +36,7 @@ public class BoatCutscene extends Cutscene {
 
 	@Override
 	public void construct(Player player) {
+		setEndTile(new WorldTile(2849, 3239, 0));
 		fadeInBG(2);
 		hideMinimap();
 		dynamicRegion(256, 688, 8, 8);
@@ -85,7 +88,7 @@ public class BoatCutscene extends Cutscene {
 		
 		npcFaceDir("ned", Direction.NORTH);
 		playerFaceDir(Direction.NORTH);
-		npcFaceEntity("ned", "jenkins");
+		npcFaceNPC("ned", "jenkins");
 		dialogue(new Dialogue().addNPC(6084, HeadE.HAPPY_TALKING, "Oh, well. The weather had been so good up until now."), true);
 		
 		action(1, () -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(545));
@@ -104,23 +107,93 @@ public class BoatCutscene extends Cutscene {
 		npcFaceTile("ned", 17, 12);
 		npcFaceTile("jenkins", 17, 12);
 		playerFaceTile(17, 12);
-		projectile(new WorldTile(17, 9, 1), new WorldTile(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination()));
+		projectile(1, new WorldTile(17, 9, 1), new WorldTile(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+				
+		dialogue(new Dialogue().addNPC(6084, HeadE.SCARED, "It's the dragon!"));
+		projectile(1, new WorldTile(17, 9, 1), new WorldTile(16, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+				
+		projectile(1, new WorldTile(17, 9, 1), new WorldTile(15, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 		
+		action(() -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(546));
+		projectile(2, new WorldTile(17, 9, 1), new WorldTile(13, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
+
+		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
+		camShake(1, 0, 8, 5, 8);
+		camPos(19, 14, 0, 1200);
+		camLook(17, 14, 0, 700);
+		camPos(26, 14, 1200, 0, 3);
+		npcFaceTile("ned", 13, 14);
+		npcFaceTile("jenkins", 13, 14);
+		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
+		projectile(1, new WorldTile(13, 11, 1), new WorldTile(13, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
+
+		projectile(1, new WorldTile(15, 11, 1), new WorldTile(15, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(2105))));
+		projectile(1, new WorldTile(16, 17, 1), new WorldTile(16, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("ned").setNextAnimation(new Animation(4280))));
+		projectile(1, new WorldTile(17, 17, 1), new WorldTile(17, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(6649))));
+		projectile(1, new WorldTile(18, 17, 1), new WorldTile(18, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(836))));
+		projectile(1, new WorldTile(19, 17, 1), new WorldTile(19, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, new WorldTile(41, 17, 1), new WorldTile(41, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+
+		camPos(34, 14, 0, 1900);
+		camLook(17, 14, 0, 700);
+		camPos(28, 14, 1200, 0, 3);
 		
+		delay(1);
 		
+		dialogue(new Dialogue().addNPC(6084, HeadE.SCARED, "We're going to sink!"), true);
+		npcFaceTile("ned", 18, 12);
+		playerFaceDir(Direction.EAST);
+		
+		dialogue(new Dialogue().addPlayer(HeadE.AMAZED_MILD, "Look! Land ahead!"), true);
+		delay(1);
+		
+		camPos(20, 14, 1200, 0, 3);
+		playerFaceTile(18, 13);
+		npcFaceDir("ned", Direction.EAST);
+		delay(1);
+		
+		dialogue(new Dialogue().addNPC(6084, HeadE.AMAZED, "We're going to crash!"), true);
+		delay(1);
+		
+		camShake(1, 5, 8, 25, 8);
+		dialogue(new Dialogue().addSimple("CRASH!"));
+		delay(2);
+		
+		fadeInBG(3);
+		action(() -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(516));
+		action(1, () -> player.setNextWorldTile(getEndTile()));
+		playerFaceDir(Direction.NORTH);
+		camShakeReset();
+		camPosReset();
+		dialogue(new Dialogue().addSimple("You are knocked unconcious and later awake on an ash-strewn beach."), true);
+		delay(1);
+		
+		playerAnim(new Animation(4191));
+		fadeOutBG(7);
+		action(() -> { 
+			player.getInterfaceManager().closeInterfacesOverGameWindow();
+			player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(DragonSlayer.FINISHED_BOAT_SCENE_ATTR, true);
+		});
 	}
 	
-	private void repeatFireSpotAnim(Player player, WorldTile target) {
+	private void repeatFireSpotAnim(Player player, WorldTile target, int fireHeight, Runnable extra) {
 		WorldTasks.scheduleTimer(tick -> {
 			if (tick == 0) {
 				World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(target.getX(), target.getY(), target.getPlane()));
 				World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(target.getX(), target.getY(), target.getPlane()));
+				if (extra != null)
+					extra.run();
 			}
 			if (tick > 1)
-				World.sendSpotAnim(player, new SpotAnim(453), new WorldTile(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(target.getX(), target.getY(), target.getPlane()));
 			if(tick == 80)
 				return false;
 			return true;
 		});
 	}
+	
+	private void repeatFireSpotAnim(Player player, WorldTile target, int fireHeight) {
+		repeatFireSpotAnim(player, target, fireHeight, null);
+	}
+	
 }

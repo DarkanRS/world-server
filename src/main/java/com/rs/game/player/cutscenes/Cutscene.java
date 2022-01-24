@@ -66,6 +66,7 @@ public abstract class Cutscene {
 		player.delete("cutsceneManagerStartTileX");
 		player.delete("cutsceneManagerStartTileY");
 		player.delete("cutsceneManagerStartTileZ");
+		player.getTempAttribs().removeB("CUTSCENE_INTERFACE_CLOSE_DISABLED");
 	}
 
 	public final void startCutscene() {
@@ -79,6 +80,7 @@ public abstract class Cutscene {
 		player.save("cutsceneManagerStartTileX", tile.getX());
 		player.save("cutsceneManagerStartTileY", tile.getY());
 		player.save("cutsceneManagerStartTileZ", tile.getPlane());
+		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
 	}
 
 	public void constructArea(final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
@@ -173,6 +175,10 @@ public abstract class Cutscene {
 		this.endTile = tile;
 	}
 	
+	public WorldTile getEndTile() {
+		return endTile;
+	}
+	
 	public void camPos(int x, int y, int height, int delay) {
 		actions.add(new PosCameraAction(x, y, height, delay));
 	}
@@ -219,6 +225,14 @@ public abstract class Cutscene {
 	
 	public void camShakeReset() {
 		camShakeReset(-1);
+	}
+	
+	public void camPosReset(int delay) {
+		action(delay, () -> player.getPackets().sendResetCamera());
+	}
+	
+	public void camPosReset() {
+		camPosReset(-1);
 	}
 	
 	public void dialogue(Dialogue dialogue, int delay) {
@@ -269,6 +283,12 @@ public abstract class Cutscene {
 	
 	public void musicEffect(int id) {
 		musicEffect(id, -1);
+	}
+	
+	public NPC getNPC(String key) {
+		if (objects.get(key) != null)
+			return (NPC) objects.get(key);
+		return null;
 	}
 	
 	public void npcCreate(String key, int npcId, int x, int y, int z, int delay) {
@@ -407,31 +427,43 @@ public abstract class Cutscene {
 		this.dialoguePaused = paused;
 	}
 	
-	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task, int delay) {
+	public void projectile(int delay, WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
 		action(delay, () -> World.sendProjectile(new WorldTile(getX(from.getX()), getY(from.getY()), from.getPlane()), new WorldTile(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope, task));
 	}
 	
-	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, int delay) {
+	public void projectile(int delay, WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
 		action(delay, () -> World.sendProjectile(new WorldTile(getX(from.getX()), getY(from.getY()), from.getPlane()), new WorldTile(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope));
 	}
 	
 	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		projectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, task, -1);
+		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, task);
 	}
 	
 	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
-		projectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, -1);
+		projectile(-1, from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope);
 	}
 
-	public void npcFaceEntity(String key, String targetKey) {
-		
+	public void npcFaceNPC(String key, String targetKey, int delay) {
+		action(delay, () -> getNPC(key).setNextFaceEntity(getNPC(targetKey)));
+	}
+	
+	public void npcFaceNPC(String key, String targetKey) {
+		npcFaceNPC(key, targetKey, -1);
 	}
 
-	public void playerFaceDir(Direction north) {
-		
+	public void playerFaceDir(Direction dir, int delay) {
+		action(delay, () -> player.setNextFaceWorldTile(player.transform(dir.getDx(), dir.getDy())));
+	}
+	
+	public void playerFaceDir(Direction dir) {
+		playerFaceDir(dir, -1);
 	}
 
-	public void npcFaceDir(String key, Direction east) {
-		
+	public void npcFaceDir(String key, Direction dir, int delay) {
+		action(delay, () -> getNPC(key).setNextFaceWorldTile(getNPC(key).transform(dir.getDx(), dir.getDy())));
+	}
+	
+	public void npcFaceDir(String key, Direction dir) {
+		npcFaceDir(key, dir, -1);
 	}
 }

@@ -1,11 +1,11 @@
 {
   "names": [
-    "Har-Aken (Magic Tentacle)"
+    "Har-Aken (Ranged Tentacle)"
   ],
   "hitpoints": 700,
-  "attackAnim": 16252,
+  "attackAnim": 16239,
   "defenceAnim": 16253,
-  "deathAnim": 16243,
+  "deathAnim": 16240,
   "deathDelay": 3,
   "respawnDelay": 60,
   "maxHit": 230,
@@ -14,10 +14,10 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "levels": [
-    1410,
-    950,
-    1410,
-    1410,
-    950
+    200,
+    500,
+    150,
+    250,
+    500
   ]
 }
