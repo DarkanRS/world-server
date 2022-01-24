@@ -69,6 +69,7 @@ import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.tools.MapSearcher;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
+import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
 import com.rs.utils.shop.ShopsHandler;
@@ -455,7 +456,11 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "genre", "Shows genre", (p, args) -> {
-			p.sendMessage(p.getMusicsManager().getPlayingGenre().getGenreName());
+            Genre genre = p.getMusicsManager().getPlayingGenre();
+            if(genre == null)
+                p.sendMessage("No genre, remember this updates after an ambient song is played...");
+            else
+			    p.sendMessage(genre.getGenreName());
 		});
 
 

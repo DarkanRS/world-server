@@ -42,6 +42,7 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Karamja  {
@@ -58,10 +59,27 @@ public class Karamja  {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.KARAMJA_GLOVES).getStart());
 						}
 					});
+                    create();
 				}
 			});
 		}
 	};
+
+    public static NPCClickHandler handleRumDealer = new NPCClickHandler(568) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getOption().equalsIgnoreCase("talk-to"))
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, welcome to my store!");
+                        addNext(()->{ShopsHandler.openShop(e.getPlayer(), "karamja_wines_spirits_and_beers");});
+                        create();
+                    }
+                });
+            if(e.getOption().equalsIgnoreCase("trade"))
+                ShopsHandler.openShop(e.getPlayer(), "karamja_wines_spirits_and_beers");
+        }
+    };
 
 	public static NPCClickHandler handleKalebParamaya = new NPCClickHandler(512) {
 		@Override
@@ -75,6 +93,7 @@ public class Karamja  {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.KARAMJA_GLOVES).getStart());
 						}
 					});
+                    create();
 				}
 			});
 		}
@@ -92,6 +111,7 @@ public class Karamja  {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.KARAMJA_GLOVES).getStart());
 						}
 					});
+                    create();
 				}
 			});
 		}
