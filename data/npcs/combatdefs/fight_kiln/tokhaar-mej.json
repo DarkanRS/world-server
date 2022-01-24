@@ -12,5 +12,8 @@
   "attackStyle": "SPECIAL",
   "attackGfx": -1,
   "attackProjectile": -1,
-  "agressivenessType": "AGGRESSIVE"
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+  	160, 200, 100, 0, 120
+  ]
 }

@@ -14,10 +14,10 @@
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
   "levels": [
-    770,
-    625,
-    770,
-    770,
-    525
+    0,
+    1000,
+    0,
+    0,
+    250
   ]
 }

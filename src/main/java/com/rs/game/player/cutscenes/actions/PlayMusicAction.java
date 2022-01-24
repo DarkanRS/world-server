@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 
 public class PlayMusicAction extends CutsceneAction {
@@ -25,14 +27,14 @@ public class PlayMusicAction extends CutsceneAction {
 	private int volume;
 
 	public PlayMusicAction(int id, int delay, int volume, int actionDelay) {
-		super(-1, actionDelay);
+		super(null, actionDelay);
 		this.id = id;
 		this.delay = delay;
 		this.volume = volume;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
+	public void process(Player player, Map<String, Object> objects) {
 		player.getPackets().sendMusic(id, delay, volume);
 	}
 

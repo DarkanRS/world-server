@@ -14,10 +14,10 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "levels": [
-    1375,
-    950,
-    1375,
-    1375,
-    950
+    200,
+    500,
+    150,
+    250,
+    500
   ]
 }

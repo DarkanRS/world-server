@@ -16,115 +16,70 @@
 //
 package com.rs.game.player.cutscenes;
 
-import java.util.ArrayList;
-
+import com.rs.game.Entity.MoveType;
 import com.rs.game.player.Player;
-import com.rs.game.player.cutscenes.actions.ConstructMapAction;
-import com.rs.game.player.cutscenes.actions.CreateNPCAction;
-import com.rs.game.player.cutscenes.actions.CutsceneAction;
-import com.rs.game.player.cutscenes.actions.DestroyCachedObjectAction;
-import com.rs.game.player.cutscenes.actions.LookCameraAction;
-import com.rs.game.player.cutscenes.actions.MoveNPCAction;
-import com.rs.game.player.cutscenes.actions.MovePlayerAction;
-import com.rs.game.player.cutscenes.actions.NPCAnimationAction;
-import com.rs.game.player.cutscenes.actions.NPCFaceTileAction;
-import com.rs.game.player.cutscenes.actions.NPCForceTalkAction;
-import com.rs.game.player.cutscenes.actions.NPCGraphicAction;
-import com.rs.game.player.cutscenes.actions.PlayerAnimationAction;
-import com.rs.game.player.cutscenes.actions.PlayerFaceTileAction;
-import com.rs.game.player.cutscenes.actions.PlayerForceTalkAction;
-import com.rs.game.player.cutscenes.actions.PlayerGraphicAction;
-import com.rs.game.player.cutscenes.actions.PlayerMusicEffectAction;
-import com.rs.game.player.cutscenes.actions.PosCameraAction;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
 public class ExampleCutscene extends Cutscene {
+	
+	private static final String GUTHIX = "guthix", GUARD1 = "guard1", GUARD2 = "guard2";
 
 	@Override
-	public boolean hiddenMinimap() {
-		return false;
+	public void construct(Player player) {
+		dynamicRegion(360, 482, 3, 3);
+		musicEffect(215);
+		playerMove(10, 0, 0, MoveType.TELE);
+		camLook(10, 8, 1000);
+		camPos(10, 0, 2000, 4);
+		npcCreate(GUTHIX, 8008, 10, 6, 0);
+		npcFaceTile(GUTHIX, 10, 5);
+		npcSpotAnim(GUTHIX, new SpotAnim(184), 3);
+		npcTalk(GUTHIX, "....", 4);
+		npcTalk(GUTHIX, "GuthiXx!@!@!@!");
+		npcAnim(GUTHIX, new Animation(2108), 4);
+		npcFaceTile(GUTHIX, 9, 6);
+		playerMove(9, 6, 0, MoveType.TELE);
+		playerFaceTile(9, 5);
+		playerAnim(new Animation(2111));
+		playerSpotAnim(new SpotAnim(184), 2);
+		npcDestroy(GUTHIX);
+		playerFaceTile(9, 7, 2);
+		playerFaceTile(8, 6, 2);
+		playerFaceTile(10, 6, 2);
+		dialogue(new Dialogue().addPlayer(HeadE.CONFUSED, "Huh?"), true);
+		delay(2);
+		playerAnim(new Animation(857));
+		dialogue(new Dialogue().addPlayer(HeadE.CONFUSED, "Where am I?"), true);
+		delay(2);
+		npcCreate(GUARD1, 296, 3, 7, 0);
+		npcCreate(GUARD2, 298, 3, 5, 0);
+		npcMove(GUARD1, 8, 7, MoveType.WALK);
+		npcMove(GUARD2, 8, 5, MoveType.WALK, 3);
+		npcTalk(GUARD1, "You! What are you doing here?");
+		playerFaceTile(8, 6, 4);
+		playerTalk("Walking around?..", 3);
+		npcTalk(GUARD1, "You must have slipped", 2);
+		npcTalk(GUARD1, "and hit your head on the ice.", 2);
+		npcTalk(GUARD2, "Does it matter?", 2);
+		npcTalk(GUARD1, "Lets just take him to Falador...", 3);
+		npcMove(GUARD1, 15, 7, MoveType.WALK);
+		playerMove(15, 6, MoveType.WALK);
+		npcMove(GUARD2, 15, 5, MoveType.WALK);
+		playerTalk("What's Falador?");
+		npcTalk(GUARD2, "Damn it...", 6);
+		dynamicRegion(369, 421, 4, 6);
+		musicEffect(214);
+		npcCreate(GUARD1, 296, 12, 38, 0);
+		npcCreate(GUARD2, 298, 14, 38, 0);
+		playerMove(13, 37, 0, MoveType.TELE);
+		camPos(14, 5, 5000);
+		camLook(14, 20, 3000);
+		playerMove(13, 25, MoveType.WALK);
+		npcMove(GUARD1, 12, 24, MoveType.WALK);
+		npcMove(GUARD2, 14, 24, MoveType.WALK);
+		camPos(14, 16, 4000, 6, 6, 11);
 	}
-
-	private static int GUTHIX = 1, GUARD1 = 2, GUARD2 = 3;
-
-	@Override
-	public CutsceneAction[] getActions(Player player) {
-		ArrayList<CutsceneAction> actionsList = new ArrayList<>();
-		// first part
-		actionsList.add(new ConstructMapAction(360, 482, 3, 3));
-		actionsList.add(new PlayerMusicEffectAction(215, -1));
-		actionsList.add(new MovePlayerAction(10, 0, 0, Player.TELE_MOVE_TYPE, 0)); // out
-		actionsList.add(new LookCameraAction(10, 8, 1000, -1));
-		actionsList.add(new PosCameraAction(10, 0, 2000, 3));
-		actionsList.add(new CreateNPCAction(GUTHIX, 8008, 10, 6, 0, -1));
-		actionsList.add(new NPCFaceTileAction(GUTHIX, 10, 5, -1));
-		actionsList.add(new NPCGraphicAction(GUTHIX, new SpotAnim(184), 2));
-
-		actionsList.add(new NPCForceTalkAction(GUTHIX, "....", 3));
-
-		actionsList.add(new NPCForceTalkAction(GUTHIX, "GuthiXx!@!@!@!", -1));
-		actionsList.add(new NPCAnimationAction(GUTHIX, new Animation(2108), 3)); // headbang
-
-		actionsList.add(new NPCFaceTileAction(GUTHIX, 9, 6, -1));
-		actionsList.add(new MovePlayerAction(9, 6, 0, Player.TELE_MOVE_TYPE, -1));
-		actionsList.add(new PlayerFaceTileAction(9, 5, -1));
-		actionsList.add(new PlayerAnimationAction(new Animation(2111), -1));
-		actionsList.add(new PlayerGraphicAction(new SpotAnim(184), 1));
-
-		actionsList.add(new DestroyCachedObjectAction(GUTHIX, 0));
-
-		actionsList.add(new PlayerFaceTileAction(9, 7, 1));
-
-		actionsList.add(new PlayerFaceTileAction(8, 6, 1));
-
-		actionsList.add(new PlayerFaceTileAction(10, 6, 1));
-
-		actionsList.add(new PlayerForceTalkAction("Huh?", 1));
-
-		actionsList.add(new PlayerAnimationAction(new Animation(857), -1));
-		actionsList.add(new PlayerForceTalkAction("Where am I?", 3));
-
-		actionsList.add(new CreateNPCAction(GUARD1, 296, 3, 7, 0, -1)); // Todo
-		actionsList.add(new CreateNPCAction(GUARD2, 298, 3, 5, 0, -1)); // Todo
-		actionsList.add(new MoveNPCAction(GUARD1, 8, 7, false, 0));
-
-		actionsList.add(new MoveNPCAction(GUARD2, 8, 5, false, 2));
-		actionsList.add(new NPCForceTalkAction(GUARD1, "You! What are you doing here?", -1));
-
-		actionsList.add(new PlayerFaceTileAction(8, 6, 3));
-
-		actionsList.add(new PlayerForceTalkAction("Idk... Walking??", 2));
-
-		actionsList.add(new NPCForceTalkAction(GUARD1, "You must have slipped", 1));
-
-		actionsList.add(new NPCForceTalkAction(GUARD1, "and hit your head on the ice.", 1));
-
-		actionsList.add(new NPCForceTalkAction(GUARD2, "Does it matter?", 1));
-
-		actionsList.add(new NPCForceTalkAction(GUARD1, "Lets just take him to Falador...", 2));
-
-		actionsList.add(new MoveNPCAction(GUARD1, 15, 7, false, -1));
-		actionsList.add(new MovePlayerAction(15, 6, false, -1));
-		actionsList.add(new MoveNPCAction(GUARD2, 15, 5, false, 0));
-
-		actionsList.add(new PlayerForceTalkAction("What's Falador?", 0));
-
-		actionsList.add(new NPCForceTalkAction(GUARD2, "Dammit...", 5));
-
-		// second part
-		actionsList.add(new ConstructMapAction(369, 421, 4, 6));
-		actionsList.add(new PlayerMusicEffectAction(214, -1));
-		actionsList.add(new CreateNPCAction(GUARD1, 296, 13, 39, 0, -1));
-		actionsList.add(new CreateNPCAction(GUARD2, 298, 15, 39, 0, -1));
-		actionsList.add(new MovePlayerAction(14, 38, 0, Player.TELE_MOVE_TYPE, 0));
-		actionsList.add(new PosCameraAction(14, 5, 5000, -1));
-		actionsList.add(new LookCameraAction(14, 20, 3000, -1));
-		actionsList.add(new MovePlayerAction(14, 25, false, -1));
-		actionsList.add(new MoveNPCAction(GUARD1, 13, 25, false, -1));
-		actionsList.add(new MoveNPCAction(GUARD2, 15, 25, false, -1));
-		actionsList.add(new PosCameraAction(14, 16, 4000, 6, 6, 10));
-		return actionsList.toArray(new CutsceneAction[actionsList.size()]);
-	}
-
 }

@@ -16,19 +16,21 @@
 //
 package com.rs.game.player.cutscenes.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.cutscenes.Cutscene;
 
 public class DestroyCachedObjectAction extends CutsceneAction {
 
-	public DestroyCachedObjectAction(int cachedObjectIndex, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public DestroyCachedObjectAction(String objectKey, int actionDelay) {
+		super(objectKey, actionDelay);
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
-		scene.destroyCache(cache[getCachedObjectIndex()]);
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");
+		scene.deleteObject(objects.get(getObjectKey()));
 	}
 
 }

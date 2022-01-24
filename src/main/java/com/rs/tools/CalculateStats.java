@@ -27,6 +27,8 @@ public class CalculateStats {
 		calculate(785, 2000);
 		calculate(280, 250);
 		calculate(69, 88);
+		
+		System.out.println(getCombatLevel(200, 100, 30, 30, 60, 90));
 	}
 
 	public static void calculate(int combat, int hp) {

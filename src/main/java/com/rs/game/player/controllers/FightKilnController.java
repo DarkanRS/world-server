@@ -27,7 +27,6 @@ import com.rs.game.npc.fightkiln.TokHaarKetDill;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.transportation.FadingScreen;
-import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.game.player.dialogues.FightKilnDialogue;
 import com.rs.game.player.dialogues.TokHaarHok;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
@@ -225,9 +224,9 @@ public class FightKilnController extends Controller {
 					public void run() {
 						if (count == 0) {
 							WorldTile lookTo = getWorldTile(29, 39);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 3500);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 3500);
 							WorldTile posTile = getWorldTile(27, 30);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3500);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3500);
 							run = player.getRun();
 							player.setRun(false);
 							WorldTile walkTo = getWorldTile(31, 39);
@@ -257,9 +256,9 @@ public class FightKilnController extends Controller {
 					@Override
 					public void run() {
 						WorldTile lookTo = getWorldTile(40, 28);
-						player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2200);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
 						WorldTile posTile = getWorldTile(29, 28);
-						player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 2500);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
 						HarAken harAken = new HarAken(15211, getWorldTile(45, 26), FightKilnController.this);
 						harAken.spawn();
 						harAken.sendDeath(player);
@@ -287,9 +286,9 @@ public class FightKilnController extends Controller {
 					@Override
 					public void run() {
 						WorldTile lookTo = getWorldTile(40, 28);
-						player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2200);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
 						WorldTile posTile = getWorldTile(29, 28);
-						player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 2500);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
 						player.getDialogueManager().execute(new TokHaarHok(), 5, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
@@ -306,14 +305,14 @@ public class FightKilnController extends Controller {
 					public void run() {
 						if (count == 0) {
 							WorldTile lookTo = getWorldTile(32, 41);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 							WorldTile posTile = getWorldTile(32, 38);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 1200);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 1200);
 						} else if (count == 6) {
 							WorldTile lookTo = getWorldTile(64, 30);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 3000);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 3000);
 							WorldTile posTile = getWorldTile(42, 36);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 							player.setNextWorldTile(getWorldTile(33, 39));
 							player.setNextFaceWorldTile(getWorldTile(32, 39));
 						} else if (count == 12) {
@@ -322,9 +321,9 @@ public class FightKilnController extends Controller {
 							tokHaarHok.setFaceAngle(Utils.getAngleTo(1, 0));
 
 							WorldTile lookTo = getWorldTile(30, 38);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2500);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 							WorldTile posTile = getWorldTile(30, 30);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 							player.getDialogueManager().execute(new TokHaarHok(), 7, TOKHAAR_HOK_SCENE, FightKilnController.this);
 						}
 						count++;
@@ -342,9 +341,9 @@ public class FightKilnController extends Controller {
 					@Override
 					public void run() {
 						WorldTile lookTo = getWorldTile(20, 17);
-						player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2500);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 						WorldTile posTile = getWorldTile(25, 26);
-						player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 						player.getDialogueManager().execute(new TokHaarHok(), 4, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
@@ -360,9 +359,9 @@ public class FightKilnController extends Controller {
 					@Override
 					public void run() {
 						WorldTile lookTo = getWorldTile(31, 43);
-						player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2500);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 						WorldTile posTile = getWorldTile(31, 34);
-						player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 4000);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 4000);
 						player.getDialogueManager().execute(new TokHaarHok(), 3, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
@@ -378,9 +377,9 @@ public class FightKilnController extends Controller {
 					@Override
 					public void run() {
 						WorldTile lookTo = getWorldTile(45, 45);
-						player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 						WorldTile posTile = getWorldTile(38, 37);
-						player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 						player.getDialogueManager().execute(new TokHaarHok(), 2, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
@@ -398,9 +397,9 @@ public class FightKilnController extends Controller {
 					@Override
 					public void run() {
 						WorldTile lookTo = getWorldTile(31, 40);
-						player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 						WorldTile posTile = getWorldTile(31, 50);
-						player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 						player.getDialogueManager().execute(new TokHaarHok(), 1, TOKHAAR_HOK_SCENE, FightKilnController.this);
 						stage = Stages.RUNNING;
 						player.unlock();

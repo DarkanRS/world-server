@@ -489,4 +489,20 @@ public class InterfaceManager {
 		player.getPackets().sendVarc(168, tab.ordinal());
 	}
 
+	public void fadeIn() {
+		setFadingInterface(115);
+	}
+
+	public void fadeOut() {
+		setFadingInterface(170);
+	}
+	
+	public void fadeInBG() {
+		sendBackgroundInterfaceOverGameWindow(115);
+	}
+
+	public void fadeOutBG() {
+		sendBackgroundInterfaceOverGameWindow(170);
+	}
+
 }

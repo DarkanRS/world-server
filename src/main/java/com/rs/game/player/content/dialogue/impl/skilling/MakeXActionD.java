@@ -31,7 +31,7 @@ public class MakeXActionD extends Dialogue {
 		options.add(option);
 		MakeXItem[] opArr = new MakeXItem[options.size()];
 		options.toArray(opArr);
-		addNext(new MakeXStatement(opArr, 28), opArr);
+		addStatementWithOptions(new MakeXStatement(opArr, 28), opArr);
 		return this;
 	}
 
