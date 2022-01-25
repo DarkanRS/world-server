@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.World;
+import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Skillcapes;
@@ -29,13 +31,13 @@ import com.rs.game.player.quests.handlers.knightssword.ThurgoKnightsSwordD;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.List;
 
 @PluginEventHandler
 public class PortSarim {
@@ -61,6 +63,15 @@ public class PortSarim {
 				});
 		}
 	};
+
+    public static ItemAddedToInventoryHandler handlePortSarimApron= new ItemAddedToInventoryHandler(7957) { //Apron in port sarim fishing shop
+        @Override
+        public void handle(ItemAddedToInventoryEvent e) {
+            Player p = e.getPlayer();
+            p.getInventory().removeItems(e.getItem());
+            p.getInventory().addItem(1005, 1);
+        }
+    };
 
 	public static NPCClickHandler handleThurgo = new NPCClickHandler(604) {
 		@Override

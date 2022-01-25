@@ -1,11 +1,11 @@
 [
   {
     "comment": "Apron in port sarim, prompted from Pirates Treasure",
-    "itemId": 1005,
+    "itemId": 7957,
     "amount": 1,
     "tile": {
-      "x": 3015,
-      "y": 3227,
+      "x": 3016,
+      "y": 3229,
       "plane": 0
     }
   },

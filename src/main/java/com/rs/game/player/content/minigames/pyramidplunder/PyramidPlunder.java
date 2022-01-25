@@ -36,7 +36,7 @@ import com.rs.utils.Ticks;
  *
  */
 @PluginEventHandler
-public class PyramidPlunderHandler {//All objects within the minigame
+public class PyramidPlunder {//All objects within the minigame
 
 	static int[] exitDoors = {
 			Utils.randomInclusive(0,3), Utils.randomInclusive(0,3), Utils.randomInclusive(0,3), Utils.randomInclusive(0,3),
@@ -82,19 +82,21 @@ public class PyramidPlunderHandler {//All objects within the minigame
 
     private static void giveCheckUrnXP(Player p) {
         if (isIn21Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 20);
         else if (isIn31Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 30);
         else if (isIn41Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 50);
         else if (isIn51Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 70);
         else if (isIn61Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 100);
         else if (isIn71Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 150);
         else if (isIn81Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
+            p.getSkills().addXp(Constants.THIEVING, 225);
+        else if (isIn91Room(p))
+            p.getSkills().addXp(Constants.THIEVING, 275);
     }
 
     private static void giveSearchCheckedUrnXP(Player p) {
@@ -112,7 +114,7 @@ public class PyramidPlunderHandler {//All objects within the minigame
             p.getSkills().addXp(Constants.THIEVING, 150);
         else if (isIn81Room(p))
             p.getSkills().addXp(Constants.THIEVING, 225);
-        else
+        else if (isIn91Room(p))
             p.getSkills().addXp(Constants.THIEVING, 275);
     }
 
@@ -131,7 +133,7 @@ public class PyramidPlunderHandler {//All objects within the minigame
             p.getSkills().addXp(Constants.THIEVING, 450);
         else if (isIn81Room(p))
             p.getSkills().addXp(Constants.THIEVING, 675);
-        else
+        else if (isIn91Room(p))
             p.getSkills().addXp(Constants.THIEVING, 825);
     }
 
@@ -150,7 +152,7 @@ public class PyramidPlunderHandler {//All objects within the minigame
             p.getSkills().addXp(Constants.THIEVING, 300);
         else if (isIn81Room(p))
             p.getSkills().addXp(Constants.THIEVING, 450);
-        else
+        else if (isIn91Room(p))
             p.getSkills().addXp(Constants.THIEVING, 550);
     }
 
@@ -169,62 +171,99 @@ public class PyramidPlunderHandler {//All objects within the minigame
             p.getSkills().addXp(Constants.THIEVING, 0);
         else if (isIn81Room(p))
             p.getSkills().addXp(Constants.THIEVING, 0);
+        else if (isIn91Room(p))
+            p.getSkills().addXp(Constants.THIEVING, 0);
     }
 
     private static void giveTrapXP(Player p) {
         p.getSkills().addXp(Constants.THIEVING, 10);
     }
 
-	public static ObjectClickHandler handlePlunderPlunderObj = new ObjectClickHandler(new Object[] { 16518, 16519, 16520, 16521, 16522, 16523, 16524,
+	public static ObjectClickHandler handlePlunderUrns = new ObjectClickHandler(new Object[] { 16518, 16519, 16520, 16521, 16522, 16523, 16524,
 			16525, 16526, 16527, 16528, 16529, 16530, 16531, 16532 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			int varNum = obj.getDefinitions().varpBit;
-			if(e.isAtObject())
-				if(p.getVars().getVarBit(varNum) == 0) { //Untouched urn
-					if(e.getOption().equalsIgnoreCase("check for snakes")) {
-                        p.getVars().setVarBit(varNum, 2);
-                        giveCheckUrnXP(p);
+			if(e.isAtObject()) {
+                e.getPlayer().lock(1);
+                WorldTasks.schedule(new WorldTask() {//I had to do this to actually make the player face the urn more often. He only faces the urn 1/2 the time without this
+                    int tick;
+                    boolean checked = false;
+                    @Override
+                    public void run() {
+                        if (tick == 0)
+                            e.getPlayer().faceObject(e.getObject());
+                        if (!checked && tick >= 0
+                                && (Direction.getDirectionTo(e.getPlayer(), e.getObject()).getId() == e.getPlayer().getDirection().getId())) {//make sure you face the urn...
+                            checkUrn(e);
+                            checked = true;
+                        }
+                        if (tick == 3)
+                            stop();
+                        tick++;
                     }
-					else if(urnSnakeBiteChance(p)) { //search option
-						p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS)/5, Hit.HitLook.TRUE_DAMAGE));
-						p.forceTalk("Ow!");
-						p.getVars().setVarBit(varNum, 2);
-					} else {
-						urnLoot(p);
-                        giveSearchBlindUrnXP(p);
-						p.getVars().setVarBit(varNum, 1);
-					}
-				} else if(p.getVars().getVarBit(varNum) == 1)
-					return;
-				else if(p.getVars().getVarBit(varNum) == 2) {//Snake active
-					if(e.getOption().equalsIgnoreCase("charm snake")) {
-						if(p.getInventory().containsItem(4605, 1))
-							p.getVars().setVarBit(varNum, 3);
-						else
-							p.sendMessage("You need a snake charm flute for that!");
-					} else if (urnSnakeBiteChance(p)) {
-						p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
-						p.forceTalk("Ow!");
-					} else {
-						urnLoot(p);
-                        giveSearchCheckedUrnXP(p);
-						p.getVars().setVarBit(varNum, 1);
-					}
-				} else if(p.getVars().getVarBit(varNum) == 3)
-					if(urnSnakeBiteChance(p, true)) {
-						p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS)/5, Hit.HitLook.TRUE_DAMAGE));
-						p.forceTalk("Ow!");
-					} else {
-						urnLoot(p);
-                        giveSearchCheckedUrnXP(p);
-						p.getVars().setVarBit(varNum, 1);
-					}
-			p.sendMessage("Nothing interesting happens.");
+                }, 0, 1);
+            }
 		}
 	};
+
+    private static void checkUrn(ObjectClickEvent e) {
+        Player p = e.getPlayer();
+        GameObject obj = e.getObject();
+        int varNum = obj.getDefinitions().varpBit;
+        if (p.getVars().getVarBit(varNum) == 0) { //Untouched urn
+            if (e.getOption().equalsIgnoreCase("check for snakes")) {
+                p.lock(1);
+                p.setNextAnimation(new Animation(4340));
+                p.getVars().setVarBit(varNum, 2);
+                giveCheckUrnXP(p);
+            } else { //search option
+                p.lock(3);
+                WorldTasks.scheduleTimer(tick -> {
+                    if (tick == 0)
+                        p.setNextAnimation(new Animation(4340));//check urn anim
+                    if (tick == 1)
+                        if (urnSnakeBiteChance(p)) {
+                            p.setNextAnimation(new Animation(4341));//snake bite anim
+                            p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
+                            p.forceTalk("Ow!");
+                            p.getVars().setVarBit(varNum, 2);
+                        } else {
+                            p.setNextAnimation(new Animation(4342));//loot urn anim
+                            urnLoot(p);
+                            giveSearchBlindUrnXP(p);
+                            p.getVars().setVarBit(varNum, 1);
+                        }
+                    if (tick == 3)
+                        return false;
+                    return true;
+                });
+            }
+        } else if (p.getVars().getVarBit(varNum) == 1)//empty urn
+            return;
+        else if (p.getVars().getVarBit(varNum) == 2) {//Snake active
+            if (e.getOption().equalsIgnoreCase("charm snake")) {
+                if (p.getInventory().containsItem(4605, 1))
+                    p.getVars().setVarBit(varNum, 3);
+                else
+                    p.sendMessage("You need a snake charm flute for that!");
+            } else if (urnSnakeBiteChance(p)) {
+                p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
+                p.forceTalk("Ow!");
+            } else {
+                urnLoot(p);
+                giveSearchCheckedUrnXP(p);
+                p.getVars().setVarBit(varNum, 1);
+            }
+        } else if (p.getVars().getVarBit(varNum) == 3)//snake charmed
+            if (urnSnakeBiteChance(p, true)) {
+                p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
+                p.forceTalk("Ow!");
+            } else {
+                urnLoot(p);
+                giveSearchCheckedUrnXP(p);
+                p.getVars().setVarBit(varNum, 1);
+            }
+    }
 
 	private static void urnLoot(Player p) {
 		if (isIn21Room(p))
@@ -241,6 +280,8 @@ public class PyramidPlunderHandler {//All objects within the minigame
 			p.getInventory().addItem(rollItem(5), true);
 		else if (isIn81Room(p))
 			p.getInventory().addItem(rollItem(6), true);
+        else if (isIn91Room(p))
+            p.getInventory().addItem(rollItem(7), true);
 	}
 
 	private static boolean urnSnakeBiteChance(Player p) {
@@ -252,18 +293,20 @@ public class PyramidPlunderHandler {//All objects within the minigame
 		if(ratio < 1.0)
 			ratio = 1.0;
 		if (isIn21Room(p))
-			return Utils.random(0.0, 1.0) < (0.3/ratio);
+			return Utils.random(0.0, 1.0) < (0.25/ratio);
         else if (isIn31Room(p))
-            return Utils.random(0.0, 1.0) < (0.4/ratio);
+            return Utils.random(0.0, 1.0) < (0.3/ratio);
         else if (isIn41Room(p))
-            return Utils.random(0.0, 1.0) < (0.5/ratio);
+            return Utils.random(0.0, 1.0) < (0.4/ratio);
         else if (isIn51Room(p))
-            return Utils.random(0.0, 1.0) < (0.6/ratio);
+            return Utils.random(0.0, 1.0) < (0.5/ratio);
         else if (isIn61Room(p))
-            return Utils.random(0.0, 1.0) < (0.7/ratio);
+            return Utils.random(0.0, 1.0) < (0.6/ratio);
         else if (isIn71Room(p))
-            return Utils.random(0.0, 1.0) < (0.8/ratio);
+            return Utils.random(0.0, 1.0) < (0.7/ratio);
         else if (isIn81Room(p))
+            return Utils.random(0.0, 1.0) < (0.8/ratio);
+        else if (isIn91Room(p))
             return Utils.random(0.0, 1.0) < (0.9/ratio);
         else
             return true;
@@ -294,6 +337,8 @@ public class PyramidPlunderHandler {//All objects within the minigame
                     p.getInventory().addItem(rollItem(5, 1.1, true), true);
                 else if (isIn81Room(p))
                     p.getInventory().addItem(rollItem(6, 1.1, true), true);
+                else if (isIn91Room(p))
+                    p.getInventory().addItem(rollItem(7, 1.1, true), true);
                 giveSearchGoldChestXP(p);
 			}
 		}
@@ -326,20 +371,26 @@ public class PyramidPlunderHandler {//All objects within the minigame
 							return;
 						}
 					} else if (isIn61Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 51) {
-							p.sendMessage("You need 51 strength...");
+						if(p.getSkills().getLevel(Constants.STRENGTH) < 61) {
+							p.sendMessage("You need 61 strength...");
 							return;
 						}
 					} else if (isIn71Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 51) {
-							p.sendMessage("You need 51 strength...");
+						if(p.getSkills().getLevel(Constants.STRENGTH) < 71) {
+							p.sendMessage("You need 71 strength...");
 							return;
 						}
-					} else if (isIn81Room(p))
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 51) {
-							p.sendMessage("You need 51 strength...");
-							return;
-						}
+					} else if (isIn81Room(p)) {
+                        if (p.getSkills().getLevel(Constants.STRENGTH) < 81) {
+                            p.sendMessage("You need 81 strength...");
+                            return;
+                        }
+                    } else if (isIn91Room(p)) {
+                        if (p.getSkills().getLevel(Constants.STRENGTH) < 91) {
+                            p.sendMessage("You need 91 strength...");
+                            return;
+                        }
+                    }
 					p.getVars().setVarBit(2362, 1);
 					if (Utils.randomInclusive(0, 4) == 1) {
                         OwnedNPC mummy = new OwnedNPC(p, 2015, p, false);
@@ -361,9 +412,33 @@ public class PyramidPlunderHandler {//All objects within the minigame
 						p.getInventory().addItem(rollItem(5, 1.1, true), true);
 					else if (isIn81Room(p))
 						p.getInventory().addItem(rollItem(6, 1.1, true), true);
+                    else if (isIn91Room(p))
+                        p.getInventory().addItem(rollItem(7, 1.1, true), true);
 				}
 		}
 	};
+
+    public static ObjectClickHandler handleEngravedSarcophagus = new ObjectClickHandler(new Object[] { 59795 }) {
+        @Override
+        public void handle(ObjectClickEvent e) {
+            Player p = e.getPlayer();
+            if(e.isAtObject())
+                if(p.getVars().getVarBit(3422) == 0) {
+                        if (p.getSkills().getLevel(Constants.STRENGTH) < 91) {
+                            p.sendMessage("You need 91 strength...");
+                            return;
+                        }
+                    p.getVars().setVarBit(3422, 1);
+                    if (Utils.randomInclusive(0, 4) == 1) {
+                        OwnedNPC mummy = new OwnedNPC(p, 2015, p, false);
+                        mummy.setTarget(p);
+                    }
+                } else if(p.getVars().getVarBit(3422) == 1) {
+                    p.getVars().setVarBit(3422, 2);
+                    p.getInventory().addItem(rollItem(7, 1.2, true), true);
+                }
+        }
+    };
 
 	private static Item rollItem(int roomNum, double modifier) {
 		return rollItem(roomNum, modifier, false);
@@ -397,11 +472,11 @@ public class PyramidPlunderHandler {//All objects within the minigame
 	static final double pottery_scarab_base_chance = 1/9.0;
 	static final double stone_seal_base_chance = 1/10.0;
 	static final double stone_scarab_base_chance = 1/12.0;
-	static final double stone_stat_base_chance = 1/13.0;
-	static final double gold_seal_base_chance = 1/22.0;
-	static final double gold_scarab_base_chance = 1/25.0;
-	static final double gold_stat_base_chance = 1/28.0;
-	static final double jeweled_gold_stat_base_chance = 1/70.0;
+	static final double stone_stat_base_chance = 1/15.0;
+	static final double gold_seal_base_chance = 1/28.0;
+	static final double gold_scarab_base_chance = 1/32.0;
+	static final double gold_stat_base_chance = 1/35.0;
+	static final double jeweled_gold_stat_base_chance = 1/130.0;
 
 	static final double PHARAOH_SCEPTRE_base_chance = 1/3500.0; //Proof: https://oldschool.runescape.wiki/w/Grand_Gold_Chest
 
@@ -415,17 +490,17 @@ public class PyramidPlunderHandler {//All objects within the minigame
 	private static Item rollItem(int roomNum, double modifier, boolean scepter) {
 		if(roomNum < 0)
 			roomNum = 0;
-		if(roomNum > 6)
-			roomNum = 6;
+		if(roomNum > 7)
+			roomNum = 7;
 		modifier = modifier + (roomNum+1.0)*0.02;
-		return roll(modifier, scepter);
+		return roll(modifier, scepter, roomNum <= 1);
 	}
 
-	private static Item roll(double modifier, boolean scepter) {
-		for (int i = scepter ? 0 : 1; i < rolls.size(); i++)
+	private static Item roll(double modifier, boolean scepter, boolean ivoryComb) {
+		for (int i = scepter ? 0 : 1; i < rolls.size() - (ivoryComb ? 0 : 1); i++)
 			if (Utils.random(0.0, 1.0) <= rolls.get(i) * modifier)
 				return new Item(rewards.get(i));
-		return roll(modifier, scepter);
+		return roll(modifier, scepter, ivoryComb);
 	}
 
 	public static ObjectClickHandler handlePyramidTombDoors = new ObjectClickHandler(new Object[] { 16539, 16540, 16541, 16542 }) {
@@ -436,35 +511,40 @@ public class PyramidPlunderHandler {//All objects within the minigame
 			if(e.isAtObject()) {
 				if (isIn21Room(p)) {
 					if (16542 - obj.getId() == exitDoors[0]) {
-						teleAndResetRoom(p, new WorldTile(1954, 4477, 0));
+                        teleAndResetRoom(p, new WorldTile(1977, 4471, 0));
 						return;
 					}
 				} else if (isIn31Room(p)) {
-					if (16542 - obj.getId() == exitDoors[1]) {
-						teleAndResetRoom(p, new WorldTile(1927, 4453, 0));
-						return;
-					}
-				} else if (isIn41Room(p)) {
+                    if (16542 - obj.getId() == exitDoors[1]) {
+                        teleAndResetRoom(p, new WorldTile(1954, 4477, 0));
+                        return;
+                    }
+                } else if (isIn41Room(p)) {
+                    if (16542 - obj.getId() == exitDoors[1]) {
+                        teleAndResetRoom(p, new WorldTile(1927, 4453, 0));
+                        return;
+                    }
+                } else if (isIn51Room(p)) {
 					if (16542 - obj.getId() == exitDoors[2]) {
 						teleAndResetRoom(p, new WorldTile(1965, 4444, 0));
 						return;
 					}
-				} else if (isIn51Room(p)) {
+				} else if (isIn61Room(p)) {
 					if (16542 - obj.getId() == exitDoors[3]) {
 						teleAndResetRoom(p, new WorldTile(1927, 4424, 0));
 						return;
 					}
-				} else if (isIn61Room(p)) {
+				} else if (isIn71Room(p)) {
 					if (16542 - obj.getId() == exitDoors[4]) {
 						teleAndResetRoom(p, new WorldTile(1943, 4421, 0));
 						return;
 					}
-				} else if (isIn71Room(p)) {
+				} else if (isIn81Room(p)) {
 					if (16542 - obj.getId() == exitDoors[5]) {
 						teleAndResetRoom(p, new WorldTile(1974, 4420, 0));
 						return;
 					}
-				} else if (isIn81Room(p))
+				} else if (isIn91Room(p))
 					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 						{
 							addSimple("Opening this door will cause you to leave the pyramid.");
@@ -526,13 +606,18 @@ public class PyramidPlunderHandler {//All objects within the minigame
 						return;
 					}
 				} else if (isIn71Room(p)) {
-					if (p.getSkills().getLevel(Constants.THIEVING) < 71) {
-						p.sendMessage("You need a thieving level of 71 or higher...");
-						return;
-					}
-				} else if (isIn81Room(p))
-					if (p.getSkills().getLevel(Constants.THIEVING) < 81) {
-						p.sendMessage("You need a thieving level of 81 or higher...");
+                    if (p.getSkills().getLevel(Constants.THIEVING) < 71) {
+                        p.sendMessage("You need a thieving level of 71 or higher...");
+                        return;
+                    }
+                } else if (isIn81Room(p)) {
+                    if (p.getSkills().getLevel(Constants.THIEVING) < 81) {
+                        p.sendMessage("You need a thieving level of 81 or higher...");
+                        return;
+                    }
+                } else if (isIn91Room(p))
+					if (p.getSkills().getLevel(Constants.THIEVING) < 91) {
+						p.sendMessage("You need a thieving level of 91 or higher...");
 						return;
 					}
 				passTrap(e);
@@ -572,43 +657,49 @@ public class PyramidPlunderHandler {//All objects within the minigame
 		}
 	}
 
-	private static boolean isIn21Room(Player p) {//they are little boxes...
+	public static boolean isIn21Room(Player p) {//they are little boxes...
 		if((p.getX()>=1921 && p.getX()<=1933) && (p.getY()>=4463 && p.getY()<=4480))
 			return true;
 		return false;
 	}
 
-	private static boolean isIn31Room(Player p) {
+    public static boolean isIn31Room(Player p) {
+        if((p.getX()>=1968 && p.getX()<=1984) && (p.getY()>=4451 && p.getY()<=4475))
+            return true;
+        return false;
+    }
+
+	public static boolean isIn41Room(Player p) {
 		if((p.getX()>=1946 && p.getX()<=1961) && (p.getY()>=4462 && p.getY()<=4479))
 			return true;
 		return false;
 	}
 
-	private static boolean isIn41Room(Player p) {
+	public static boolean isIn51Room(Player p) {
 		if((p.getX()>=1922 && p.getX()<=1943) && (p.getY()>=4447 && p.getY()<=4460))
 			return true;
 		return false;
 	}
 
-	private static boolean isIn51Room(Player p) {
+	public static boolean isIn61Room(Player p) {
 		if((p.getX()>=1949 && p.getX()<=1967) && (p.getY()>=4443 && p.getY()<=4456))
 			return true;
 		return false;
 	}
 
-	private static boolean isIn61Room(Player p) {
+	public static boolean isIn71Room(Player p) {
 		if((p.getX()>=1921 && p.getX()<=1933) && (p.getY()>=4422 && p.getY()<=4441))
 			return true;
 		return false;
 	}
 
-	private static boolean isIn71Room(Player p) {
+	public static boolean isIn81Room(Player p) {
 		if((p.getX()>=1938 && p.getX()<=1957) && (p.getY()>=4419 && p.getY()<=4436))
 			return true;
 		return false;
 	}
 
-	private static boolean isIn81Room(Player p) {
+	public static boolean isIn91Room(Player p) {
 		if((p.getX()>=1965 && p.getX()<=1979) && (p.getY()>=4417 && p.getY()<=4438))
 			return true;
 		return false;
