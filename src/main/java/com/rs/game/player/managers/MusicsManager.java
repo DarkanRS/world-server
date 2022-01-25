@@ -259,6 +259,8 @@ public final class MusicsManager {
 	}
 
 	public void nextAmbientSong() {
+        if(player.getCutsceneManager().hasCutscene())
+            return;
         if(player.getControllerManager().getController() != null && !player.getControllerManager().getController().playAmbientMusic())
             return;
 		if (playListOn && playList.size() > 0)//playlist
