@@ -34,6 +34,7 @@ import com.rs.game.player.content.AncientEffigies;
 import com.rs.game.player.content.Dicing;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.Lamps;
+import com.rs.game.player.content.dialogue.impl.DestroyItem;
 import com.rs.game.player.content.skills.Fletching;
 import com.rs.game.player.content.skills.Fletching.Fletch;
 import com.rs.game.player.content.skills.cooking.CookingCombos;
@@ -67,7 +68,6 @@ import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.FightKilnController;
 import com.rs.game.player.controllers.SorceressGardenController;
 import com.rs.game.player.dialogues.AncientEffigiesD;
-import com.rs.game.player.dialogues.DestroyItemOption;
 import com.rs.game.player.dialogues.FletchingD;
 import com.rs.game.player.dialogues.FlowerPickup;
 import com.rs.game.player.dialogues.ItemMessage;
@@ -624,13 +624,17 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || !player.getBank().checkPin() || !player.getControllerManager().canDropItem(item))
 			return;
 		if (item.getDefinitions().isDestroyItem()) {
-			player.getDialogueManager().execute(new DestroyItemOption(), slotId, item);
+			player.startConversation(new DestroyItem(player, slotId, item));
 			return;
 		}
 		if (PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(4))))
 			return;
 		player.stopAll(false);
-		if (player.getPetManager().spawnPet(itemId, true) || PluginManager.handle(new DropItemEvent(player, item)))
+		if (player.getPetManager().spawnPet(itemId, true))
+			return;
+		DropItemEvent event = new DropItemEvent(player, item);
+		PluginManager.handle(event);
+		if (event.dropCancelled())
 			return;
 		player.getInventory().deleteItem(slotId, item);
 		World.addGroundItem(item, new WorldTile(player), player);

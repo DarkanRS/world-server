@@ -17,6 +17,7 @@
 package com.rs.game.player.quests.handlers.scorpioncatcher;
 
 import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;

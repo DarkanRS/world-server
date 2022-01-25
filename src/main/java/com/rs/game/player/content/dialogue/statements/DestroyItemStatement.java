@@ -14,38 +14,32 @@
 //  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.dialogues;
+package com.rs.game.player.content.dialogue.statements;
 
+import com.rs.game.player.Player;
 import com.rs.lib.game.Item;
 
-public class DestroyItemOption extends Dialogue {
+public class DestroyItemStatement implements Statement {
+	
+	private Item item;
+	private String message;
 
-	int slotId;
-	Item item;
-
+	public DestroyItemStatement(Item item, String message) {
+		this.item = item;
+		this.message = message;
+	}
+	
 	@Override
-	public void start() {
-		slotId = (Integer) parameters[0];
-		item = (Item) parameters[1];
+	public void send(Player player) {
 		player.getInterfaceManager().sendChatBoxInterface(1183);
 		player.getPackets().setIFText(1183, 7, item.getName());
+		if (message != null)
+			player.getPackets().setIFText(1183, 12, message);
 		player.getPackets().setIFItem(1183, 13, item.getId(), 1);
 	}
 
 	@Override
-	public void run(int interfaceId, int componentId) {
-		if (interfaceId == 1183 && componentId == 9) {
-			player.getInventory().deleteItem(slotId, item);
-			if (item.getDefinitions().isBinded())
-				player.getDungManager().unbind(item);
-			player.getPackets().sendSound(4500, 0, 1);
-		}
-		end();
+	public int getOptionId(int componentId) {
+		return componentId == 9 ? 0 : 1;
 	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

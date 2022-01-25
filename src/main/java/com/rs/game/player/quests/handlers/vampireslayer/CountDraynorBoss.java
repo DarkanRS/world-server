@@ -38,7 +38,6 @@ import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 

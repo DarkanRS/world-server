@@ -14,43 +14,32 @@
 //  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.dialogues;
-
-import java.util.function.Consumer;
+package com.rs.game.player.content.dialogue.impl;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.statements.DestroyItemStatement;
 import com.rs.lib.game.Item;
+import com.rs.plugin.PluginManager;
+import com.rs.plugin.events.DestroyItemEvent;
 
-public class DestroyItemConsumer extends Dialogue {
-
-	private Item item;
-	private Consumer<Player> onDestroy;
-
-	public DestroyItemConsumer(Item item, Consumer<Player> onDestroy) {
-		this.item = item;
-		this.onDestroy = onDestroy;
+public class DestroyItem extends Conversation {
+	
+	public DestroyItem(Player player, int slotId, Item item) {
+		this(player, slotId, item, null);
 	}
 
-	@Override
-	public void start() {
-		player.getInterfaceManager().sendChatBoxInterface(1183);
-		player.getPackets().setIFText(1183, 7, item.getName());
-		player.getPackets().setIFItem(1183, 13, item.getId(), 1);
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (interfaceId == 1183 && componentId == 9) {
-			onDestroy.accept(player);
-			player.getInventory().deleteItem(item);
+	public DestroyItem(Player player, int slotId, Item item, String message) {
+		super(player);
+		addNext(new DestroyItemStatement(item, message));
+		addNext(() -> {
+			PluginManager.handle(new DestroyItemEvent(player, item));
+			player.getInventory().deleteItem(slotId, item);
+			if (item.getDefinitions().isBinded())
+				player.getDungManager().unbind(item);
 			player.getPackets().sendSound(4500, 0, 1);
-		}
-		end();
-	}
-
-	@Override
-	public void finish() {
-
+		});
+		create();
 	}
 
 }
