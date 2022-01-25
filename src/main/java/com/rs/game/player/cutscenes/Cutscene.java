@@ -22,14 +22,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.game.Entity.MoveType;
 import com.rs.game.World;
 import com.rs.game.WorldProjectile;
-import com.rs.game.Entity.MoveType;
 import com.rs.game.npc.NPC;
+import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.cutscenes.actions.*;
+import com.rs.game.player.cutscenes.actions.ConstructMapAction;
+import com.rs.game.player.cutscenes.actions.CreateNPCAction;
+import com.rs.game.player.cutscenes.actions.CutsceneAction;
+import com.rs.game.player.cutscenes.actions.CutsceneCodeAction;
+import com.rs.game.player.cutscenes.actions.DelayAction;
+import com.rs.game.player.cutscenes.actions.DestroyCachedObjectAction;
+import com.rs.game.player.cutscenes.actions.DialogueAction;
+import com.rs.game.player.cutscenes.actions.LookCameraAction;
+import com.rs.game.player.cutscenes.actions.MoveNPCAction;
+import com.rs.game.player.cutscenes.actions.MovePlayerAction;
+import com.rs.game.player.cutscenes.actions.NPCAnimationAction;
+import com.rs.game.player.cutscenes.actions.NPCFaceTileAction;
+import com.rs.game.player.cutscenes.actions.NPCForceTalkAction;
+import com.rs.game.player.cutscenes.actions.NPCGraphicAction;
+import com.rs.game.player.cutscenes.actions.PlayerAnimationAction;
+import com.rs.game.player.cutscenes.actions.PlayerFaceEntityAction;
+import com.rs.game.player.cutscenes.actions.PlayerFaceTileAction;
+import com.rs.game.player.cutscenes.actions.PlayerForceTalkAction;
+import com.rs.game.player.cutscenes.actions.PlayerGraphicAction;
+import com.rs.game.player.cutscenes.actions.PlayerMusicEffectAction;
+import com.rs.game.player.cutscenes.actions.PosCameraAction;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -465,5 +487,9 @@ public abstract class Cutscene {
 	
 	public void npcFaceDir(String key, Direction dir) {
 		npcFaceDir(key, dir, -1);
+	}
+	
+	public void spawnObj(int id, int rotation, int x, int y, int z) {
+		action(() -> World.spawnObject(new GameObject(id, ObjectDefinitions.getDefs(id).types[0], rotation, new WorldTile(getX(x), getY(y), z))));
 	}
 }

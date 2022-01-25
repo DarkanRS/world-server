@@ -51,7 +51,6 @@ import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.cutscenes.ExampleCutscene;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.dragonslayer.BoatCutscene;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
@@ -78,8 +77,6 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
-
-
 
 @PluginEventHandler
 public class MiscTest {
@@ -222,7 +219,7 @@ public class MiscTest {
 		//		});
 		
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
-			p.getCutsceneManager().play(new BoatCutscene());
+			p.getCutsceneManager().play(new ExampleCutscene());
 		});
 
 		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {
@@ -605,6 +602,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY() + ", hash: " + p.getTileHash());
 			p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInRegion()+","+p.getYInRegion());
+			p.sendMessage("Local coords: " + p.getXInRegion() + " , " + p.getYInRegion());
 			p.sendMessage("16x16: " +(p.getXInScene(p.getSceneBaseChunkId()) % 16) +", "+(p.getYInScene(p.getSceneBaseChunkId()) % 16));
 		});
 

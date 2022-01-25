@@ -3,7 +3,6 @@ package com.rs.game.player.quests.handlers.merlinscrystal;
 import java.util.ArrayList;
 
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;

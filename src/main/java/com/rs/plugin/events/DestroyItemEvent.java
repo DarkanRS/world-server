@@ -23,15 +23,14 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.handlers.PluginHandler;
 
-public class DropItemEvent implements PluginEvent {
+public class DestroyItemEvent implements PluginEvent {
 
 	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
 	private Player player;
 	private Item item;
-	private boolean cancelDrop = false;
 
-	public DropItemEvent(Player player, Item item) {
+	public DestroyItemEvent(Player player, Item item) {
 		this.player = player;
 		this.item = item;
 	}
@@ -58,16 +57,8 @@ public class DropItemEvent implements PluginEvent {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, method);
 			if (old != null)
-				System.err.println("ERROR: Duplicate DropItem methods for key: " + key);
+				System.err.println("ERROR: Duplicate DestroyItem methods for key: " + key);
 		}
-	}
-
-	public boolean dropCancelled() {
-		return cancelDrop;
-	}
-
-	public void cancelDrop() {
-		this.cancelDrop = true;
 	}
 
 }

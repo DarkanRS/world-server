@@ -41,7 +41,7 @@ public class Bullant extends Familiar {
 
 	@Override
 	public int getBOBSize() {
-		return 30;
+		return 9;
 	}
 
 	@Override

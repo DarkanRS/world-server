@@ -27,8 +27,8 @@ import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.impl.DestroyItem;
 import com.rs.game.player.controllers.Halloween2009Controller;
-import com.rs.game.player.dialogues.DestroyItemOption;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -135,7 +135,7 @@ public class Halloween2009 {
 				e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
 				break;
 			case "Dismiss":
-				e.getPlayer().getDialogueManager().execute(new DestroyItemOption(), e.getSlotId(), e.getItem());
+				e.getPlayer().startConversation(new DestroyItem(e.getPlayer(), e.getSlotId(), e.getItem()));
 				break;
 			}
 		}
