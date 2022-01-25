@@ -14,18 +14,12 @@
 //  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.player.cutscenes;
+package com.rs.plugin.handlers;
 
-import com.rs.game.Entity.MoveType;
-import com.rs.game.player.Player;
+import com.rs.plugin.events.DestroyItemEvent;
 
-public class ExampleCutscene extends Cutscene {
-	
-	@Override
-	public void construct(Player player) {
-		dynamicRegion(178, 554, 4, 4);
-		playerMove(15, 20, 0, MoveType.TELE);
-		spawnObj(67500, 2, 14, 23, 0);
-		delay(20);
+public abstract class DestroyItemHandler extends PluginHandler<DestroyItemEvent> {
+	public DestroyItemHandler(Object... namesOrIds) {
+		super(namesOrIds);
 	}
 }

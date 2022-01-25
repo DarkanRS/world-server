@@ -29,7 +29,6 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
-import com.rs.game.player.quests.handlers.witchshouse.WitchsDiary;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;

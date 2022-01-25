@@ -27,7 +27,6 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.player.controllers.Controller;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
