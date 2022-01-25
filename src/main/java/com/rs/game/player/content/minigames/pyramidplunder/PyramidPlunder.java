@@ -7,7 +7,6 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;

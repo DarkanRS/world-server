@@ -16,18 +16,21 @@
 //
 package com.rs.game.player.controllers;
 
-import com.rs.game.World;
-import com.rs.game.player.Player;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn21Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn31Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn41Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn51Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn61Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn71Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn81Room;
+import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn91Room;
+
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.Ticks;
-
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.*;
 
 public class PyramidPlunderController extends Controller {
     final static int PLUNDER_INTERFACE = 428;
