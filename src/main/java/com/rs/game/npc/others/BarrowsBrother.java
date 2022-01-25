@@ -17,7 +17,9 @@
 package com.rs.game.npc.others;
 
 import com.rs.game.Entity;
+import com.rs.game.Hit;
 import com.rs.game.player.controllers.BarrowsController;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
@@ -43,6 +45,15 @@ public class BarrowsBrother extends OwnedNPC {
 	@Override
 	public double getMeleePrayerMultiplier() {
 		return getId() != 2030 ? 0 : Utils.random(3) == 0 ? 1 : 0;
+	}
+	
+	@Override
+	public void handlePreHitOut(Entity target, Hit hit) {
+		super.handlePreHitOut(target, hit);
+		if (getId() == 2027 && hit.getDamage() > 0 && Utils.random(4) == 0) {
+			target.setNextSpotAnim(new SpotAnim(398));
+			heal(hit.getDamage());
+		}
 	}
 
 	public void disappear() {
