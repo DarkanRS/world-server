@@ -64,8 +64,8 @@ public class PyramidPlunderController extends Controller {
         WorldTasks.scheduleTimer(tick -> {
             if(!player.getControllerManager().isIn(PyramidPlunderController.class))
                 return false;
-            player.getVars().setVarBit(2375, tick*4);
-            if(tick == Ticks.fromMinutes(1.25)) {
+            player.getVars().setVarBit(2375, tick);
+            if(tick == Ticks.fromMinutes(5)) {
                 kickPlayer();
                 return false;
             }
