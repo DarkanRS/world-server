@@ -781,4 +781,8 @@ public final class Equipment {
 		player.getPackets().setIFText(667, 44, "Prayer: " + player.getCombatDefinitions().getBonus(Bonus.PRAYER));
 		player.getPackets().setIFText(667, 45, "Magic Damage: " + player.getCombatDefinitions().getBonus(Bonus.MAGIC_STR) + "%");
 	}
+
+	public boolean wearingRingOfWealth() {
+		return getRingId() != -1 && ItemDefinitions.getDefs(getRingId()).getName().toLowerCase().contains("ring of wealth");
+	}
 }

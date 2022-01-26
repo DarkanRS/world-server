@@ -28,21 +28,23 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
-import com.rs.utils.Ticks;
+import com.rs.lib.util.Utils;
 
 public class PyramidPlunderController extends Controller {
 	final static int PLUNDER_INTERFACE = 428;
 
-	private int tick;
-	private int currentRoom;
+	private int tick = 500;
+	private int currentRoom = 0;
 
 	private int correctDoor = 0;
 	private List<Integer> checkedDoors = new ArrayList<>();
-	private Map<Integer, Integer> urnVarbits = new HashMap<>();
+	private Map<Integer, Integer> varbits = new HashMap<>();
 
 	@Override
 	public void start() {
-		startMinigame();
+		player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
+		updatePlunderInterface();
+		nextRoom();
 	}
 
 	@Override
@@ -56,38 +58,16 @@ public class PyramidPlunderController extends Controller {
 			updatePlunderInterface();
 	}
 
-	public void startMinigame() {
-		player.lock();
-		WorldTasks.scheduleTimer(i -> {
-			if (i == 0)
-				player.getInterfaceManager().setFadingInterface(115);
-			if (i == 2) {
-				player.faceSouth();
-				nextRoom();
-			}
-			if (i == 5)
-				player.getInterfaceManager().setFadingInterface(170);
-			if (i == 6) {
-				tick = Ticks.fromMinutes(5);
-				player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
-			}
-			if (i == 8) {
-				player.unlock();
-				return false;
-			}
-			return true;
-		});
-	}
-
 	private void updatePlunderInterface() {
 		player.getVars().setVar(822, (currentRoom + 1) * 10 + 1);
 		player.getVars().setVarBit(2377, currentRoom);
+		player.getVars().setVarBit(2375, 500-tick);
 	}
 
 	private void kickPlayer() {
 		player.lock();
 		player.startConversation(new Dialogue()
-				.addNPC(4476, HeadE.FRUSTRATED, "You have had your five minutes, time to go!"));
+				.addNPC(4476, HeadE.CHILD_FRUSTRATED, "You have had your five minutes, time to go!"));
 		WorldTasks.scheduleTimer(i -> {
 			if (i == 1)
 				player.getInterfaceManager().setFadingInterface(115);
@@ -106,6 +86,9 @@ public class PyramidPlunderController extends Controller {
 	@Override
 	public boolean login() {
 		player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
+		for (Integer vb : varbits.keySet())
+			player.getVars().setVarBit(vb.intValue(), varbits.get(vb).intValue());
+		updatePlunderInterface();
 		return false;
 	}
 
@@ -159,16 +142,18 @@ public class PyramidPlunderController extends Controller {
 			}
 		}
 		if (currentRoom < 8) {
-			urnVarbits.clear();
+			correctDoor = PyramidPlunder.DOORS[Utils.random(PyramidPlunder.DOORS.length)];
+			varbits.clear();
 			checkedDoors.clear();
 			for(int i = 2346; i <= 2363; i++)
 				player.getVars().setVarBit(i, 0);
+			player.getVars().setVarBit(3422, 0);
 			currentRoom++;
 		}
 	}
 	
-	public void updateUrn(GameObject object, int value) {
-		urnVarbits.put(object.getDefinitions().varpBit, value);
+	public void updateObject(GameObject object, int value) {
+		varbits.put(object.getDefinitions().varpBit, value);
 		player.getVars().setVarBit(object.getDefinitions().varpBit, value);
 	}
 

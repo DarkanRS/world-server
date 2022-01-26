@@ -151,6 +151,7 @@ public final class Settings {
 			Logger.handle(e);
 		}
 		Globals.DEBUG = getConfig().debug;
+		Logger.log("Settings", "Loaded lobby IP: " + getConfig().lobbyIp);
 	}
 
 	public String getServerName() {

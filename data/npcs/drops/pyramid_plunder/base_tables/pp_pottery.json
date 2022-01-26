@@ -1,0 +1,29 @@
+{
+  "names": [
+    "pp_pottery"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": true,
+      "drops": [
+        {
+          "id": 9032,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 9036,
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": 9026,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

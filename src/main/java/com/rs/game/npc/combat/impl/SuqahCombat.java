@@ -37,11 +37,11 @@ public class SuqahCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, final Entity target) {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
-		if (Utils.getRandomInclusive(3) == 0) {// barrage
+		boolean meleeOnly = npc.getId() == 4528 || npc.getId() == 4529 || npc.getId() == 4531 || npc.getId() == 4532;
+		if (!meleeOnly && Utils.getRandomInclusive(3) == 0) {// barrage
 			boolean hit = Utils.getRandomInclusive(1) == 0;
 			delayHit(npc, 2, target, getMagicHit(npc, hit ? 100 : 0));
 			WorldTasks.schedule(new WorldTask() {
-
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(369));
