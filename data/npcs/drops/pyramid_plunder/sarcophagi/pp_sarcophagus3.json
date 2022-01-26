@@ -1,18 +1,14 @@
 {
   "names": [
-    "pp_urn3"
+    "pp_sarcophagus3"
   ],
   "tables": [
 	{
-      "chance": 10.0, "outOf": 50.0,
+      "chance": 20.0, "outOf": 50.0,
       "rollTable": "pp_gold"
     },
     {
-      "chance": 5.0, "outOf": 50.0,
-      "rollTable": "pp_pottery"
-    },
-    {
-      "chance": 35.0, "outOf": 50.0,
+      "chance": 30.0, "outOf": 50.0,
       "rollTable": "pp_stone"
     }
   ]

@@ -70,7 +70,7 @@ public class PyramidPlunderController extends Controller {
 	private void kickPlayer() {
 		player.lock();
 		player.startConversation(new Dialogue()
-				.addNPC(4476, HeadE.CHILD_FRUSTRATED, "You have had your five minutes, time to go!"));
+				.addNPC(4476, HeadE.CHILD_FRUSTRATED, "You've had your five minutes of plundering! Now be off with you!"));
 		WorldTasks.scheduleTimer(i -> {
 			if (i == 1)
 				player.getInterfaceManager().setFadingInterface(115);

@@ -223,7 +223,7 @@ public class PyramidPlunder {
 					switch(i) {
 						case 1 -> {
 							e.getPlayer().faceObject(e.getObject());
-							e.getPlayer().setNextAnimation(new Animation(881));
+							e.getPlayer().setNextAnimation(new Animation(832));
 						}
 						case 3 -> {
 							if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.THIEVING), e.getPlayer().getInventory().containsOneItem(1523, 11682) ? 1.3 : 1.0, 150, 240)) {
@@ -385,7 +385,7 @@ public class PyramidPlunder {
 			switch(i) {
 				case 1 -> {
 					e.getPlayer().faceObject(e.getObject());
-					e.getPlayer().setNextAnimation(new Animation(881));
+					e.getPlayer().setNextAnimation(new Animation(832));
 				}
 				case 3 -> {
 					e.getPlayer().setRun(false);
