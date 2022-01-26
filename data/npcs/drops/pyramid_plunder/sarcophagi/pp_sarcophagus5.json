@@ -1,0 +1,26 @@
+{
+  "names": [
+    "pp_sarcophagus5"
+  ],
+  "tables": [
+	{
+      "chance": 34.0, "outOf": 50.0,
+      "rollTable": "pp_gold"
+    },
+    {
+      "chance": 15.0, "outOf": 50.0,
+      "rollTable": "pp_stone"
+    },
+    {
+      "chance": 1.0, "outOf": 50.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 20661,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "names": [
+    "pp_sarcophagus4"
+  ],
+  "tables": [
+	{
+      "chance": 30.0, "outOf": 50.0,
+      "rollTable": "pp_gold"
+    },
+    {
+      "chance": 20.0, "outOf": 50.0,
+      "rollTable": "pp_stone"
+    }
+  ]
+}

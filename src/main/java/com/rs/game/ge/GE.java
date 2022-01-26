@@ -98,7 +98,7 @@ public class GE {
 		//Back button
 		case 128 -> open(e.getPlayer());
 
-		case 206, 208 -> collectItems(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), e.getComponentId() == 206 ? 0 : 1);
+		case 206, 208 -> collectItems(e.getPlayer(), e.getPlayer().getVars().getVar(VAR_CURR_BOX), e.getComponentId() == 206 ? 0 : 1, e.getPacket() == ClientPacket.IF_OP1);
 
 		//Amount adjustments
 		case 155 -> e.getPlayer().getVars().setVar(VAR_ITEM_AMOUNT, Utils.clampI(e.getPlayer().getVars().getVar(VAR_ITEM_AMOUNT) - 1, 0, Integer.MAX_VALUE));
@@ -158,12 +158,12 @@ public class GE {
 			if (e.getPlayer().getTempAttribs().getB("geLocked"))
 				return;
 			switch(e.getComponentId()) {
-			case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2);
-			case 23 -> collectItems(e.getPlayer(), 1, e.getSlotId() / 2);
-			case 27 -> collectItems(e.getPlayer(), 2, e.getSlotId() / 2);
-			case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2);
-			case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2);
-			case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2);
+			case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 23 -> collectItems(e.getPlayer(), 1, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 27 -> collectItems(e.getPlayer(), 2, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+			case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
 			default -> System.out.println("Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
 			}
 		}
@@ -178,42 +178,41 @@ public class GE {
 			player.getInterfaceManager().sendInterface(OFFER_SELECTION);
 	}
 
-	public static void collectItems(Player player, int box, int slot) {
+	public static void collectItems(Player player, int box, int slot, boolean noted) {
 		Offer offer = player.getGEOffers().get(box);
 		if (offer == null)
 			return;
-		Item item = offer.getProcessedItems().get(slot).clone();
+		Item orig = offer.getProcessedItems().get(slot).clone();
+		Item item = orig.clone();
 		if (item == null)
 			return;
+		ItemDefinitions defs = item.getDefinitions();
+		if (noted) {
+			if (item.getAmount() > 1 && !defs.isNoted() && defs.getCertId() != -1 && item.getMetaData() == null)
+				item.setId(defs.getCertId());
+		}
 		if (!item.getDefinitions().isStackable() && item.getAmount() > player.getInventory().getFreeSlots())
 			item.setAmount(player.getInventory().getFreeSlots());
 		if (item.getAmount() <= 0 || !player.getInventory().hasRoomFor(item)) {
 			player.sendMessage("Not enough space in your inventory.");
 			return;
 		}
-		final Item toRemove = item;
-		offer.getProcessedItems().remove(toRemove);
-		ItemDefinitions defs = toRemove.getDefinitions();
 		player.getTempAttribs().setB("geLocked", true);
-		if (offer.getProcessedItems().isEmpty() && offer.getState() != State.STABLE)
+		offer.getProcessedItems().remove(new Item(orig.getId(), item.getAmount()));
+		if (offer.getProcessedItems().isEmpty() && offer.getState() != State.STABLE) {
 			WorldDB.getGE().remove(offer.getOwner(), box, () -> {
 				player.getGEOffers().remove(box);
-				//Turn to note upon withdrawel
-				if (toRemove.getAmount() > 1 && !defs.isNoted() && defs.getCertId() != -1 && toRemove.getMetaData() == null)
-					toRemove.setId(defs.getCertId());
-				player.getInventory().addItemDrop(toRemove);
+				player.getInventory().addItemDrop(item);
 				player.getTempAttribs().setB("geLocked", false);
 				updateGE(player);
 			});
-		else
+		} else {
 			WorldDB.getGE().save(offer, () -> {
-				//Turn to note upon withdrawel
-				if (toRemove.getAmount() > 1 && !defs.isNoted() && defs.getCertId() != -1 && toRemove.getMetaData() == null)
-					toRemove.setId(defs.getCertId());
-				player.getInventory().addItemDrop(toRemove);
+				player.getInventory().addItemDrop(item);
 				player.getTempAttribs().setB("geLocked", false);
 				updateGE(player);
 			});
+		}
 	}
 
 	public static void clickBox(Player player, int box, boolean abort) {

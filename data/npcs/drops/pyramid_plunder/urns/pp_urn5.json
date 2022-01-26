@@ -1,0 +1,15 @@
+{
+  "names": [
+    "pp_urn5"
+  ],
+  "tables": [
+	{
+      "chance": 15.0, "outOf": 50.0,
+      "rollTable": "pp_gold"
+    },
+    {
+      "chance": 35.0, "outOf": 50.0,
+      "rollTable": "pp_stone"
+    }
+  ]
+}

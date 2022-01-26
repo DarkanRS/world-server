@@ -144,7 +144,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	public boolean failed() {
-		return (player.getSkills().getLevel(Constants.AGILITY) / 65.0) < Math.random();
+		return (player.getSkills().getLevel(Constants.AGILITY) / 75.0) < Math.random();
 	}
 
 	private void updateTop() {

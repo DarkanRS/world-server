@@ -26,13 +26,9 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	static int MUMMY_ROOM = 0;
 	@ServerStartupEvent
 	public static void init() {
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				MUMMY_ROOM = Utils.randomInclusive(0, 3);
-				//                System.out.println("Mummy" + MUMMY_ROOM);
-			}
-		}, 0, 600);
+		WorldTasks.schedule(0, 600, () -> {
+			MUMMY_ROOM = Utils.randomInclusive(0, 3);
+		});
 	}
 
 	public static ObjectClickHandler handleOuterPyramidDoors = new ObjectClickHandler(new Object[] { 16543, 16544, 16545, 16546 }) {
@@ -52,7 +48,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	};
 
 	private static void enterMummyRoom(Player p, WorldTile tile) {
-		p.lock(11);
+		p.lock(5);
 		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
@@ -63,7 +59,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 					p.faceNorth();
 					p.setNextWorldTile(new WorldTile(tile.getX(), tile.getY() - 8, tile.getPlane()));
 				}
-				if(tick == 5)
+				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
 				tick++;
 			}
@@ -88,7 +84,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	};
 
 	private static void exitMummyRoom(Player p, WorldTile tile, int dir) {
-		p.lock(11);
+		p.lock(4);
 		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
@@ -106,7 +102,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 						p.faceWest();
 					p.setNextWorldTile(tile);
 				}
-				if(tick == 5)
+				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
 				tick++;
 			}
