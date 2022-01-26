@@ -227,7 +227,7 @@ public class PyramidPlunder {
 						}
 						case 3 -> {
 							if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.THIEVING), e.getPlayer().getInventory().containsOneItem(1523, 11682) ? 1.3 : 1.0, 150, 240)) {
-								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()));
+								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()) * 2);
 								ctrl.updateObject(e.getObject(), 1);
 							} else {
 								e.getPlayer().sendMessage("You fail to pick the lock.");
@@ -276,24 +276,53 @@ public class PyramidPlunder {
 		double boost = player.getAuraManager().getThievingMul();
 		if (varbitValue == 2)
 			boost += 0.15;
-		if (varbitValue == 3)
-			boost += 0.5;
-		return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), boost, 120, 180); //TODO real values
+		else if (varbitValue == 3)
+			boost += 0.40;
+		int chance1 = switch(room) {
+			case 1 -> 73;
+			case 2 -> 55;
+			case 3 -> 32;
+			case 4 -> -21;
+			case 5 -> -72;
+			case 6 -> -150;
+			case 7 -> -300;
+			default -> -900;
+		};
+		int chance99 = switch(room) {
+			case 1 -> 213;
+			case 2 -> 207;
+			case 3 -> 203;
+			case 4 -> 197;
+			case 5 -> 193;
+			case 6 -> 187;
+			case 7 -> 183;
+			default -> 177;
+		};
+		return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), boost, chance1, chance99, 213);
 	}
-	
-	/** sarcophagus/chest success rates 99 thieving
-		Object:	Sarcophagus:		Chest:
-		Room 1:	73.33%				83.33% / 75% @ 75 thieving
-		Room 2:	73.33%				83.33%
-		Room 3:	73.33%				83.33%
-		Room 4:	46.66%				83.33%
-		Room 5:	40%					83.33%
-		Room 6:	33.33%				83.33%
-		Room 7:	26.66%				83.33%
-		Room 8:	6.66%				76.66%
-	 */
+
 	private static boolean rollSarcophagusSuccess(Player player, int room) {
-		return Utils.skillSuccess(player.getSkills().getLevel(Constants.STRENGTH), 120, 180); //TODO real values
+		int chance1 = switch(room) {
+			case 1 -> 62;
+			case 2 -> 30;
+			case 3 -> 20;
+			case 4 -> 0;
+			case 5 -> -50;
+			case 6 -> -90;
+			case 7 -> -120;
+			default -> -200;
+		};
+		int chance99 = switch(room) {
+			case 1 -> 256;
+			case 2 -> 226;
+			case 3 -> 196;
+			case 4 -> 166;
+			case 5 -> 136;
+			case 6 -> 106;
+			case 7 -> 76;
+			default -> 46;
+		};
+		return Utils.skillSuccess(player.getSkills().getLevel(Constants.STRENGTH), chance1, chance99, 188);
 	}
 	
 	private static boolean loot(Player player, String lootTable, int room) {
