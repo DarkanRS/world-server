@@ -226,7 +226,7 @@ public class PyramidPlunder {
 							e.getPlayer().setNextAnimation(new Animation(832));
 						}
 						case 3 -> {
-							if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.THIEVING), e.getPlayer().getInventory().containsOneItem(1523, 11682) ? 1.3 : 1.0, 150, 240)) {
+							if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.THIEVING), e.getPlayer().getInventory().containsOneItem(1523, 11682) ? 1.3 : 1.0, 190, 190)) {
 								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()) * 2);
 								ctrl.updateObject(e.getObject(), 1);
 							} else {
@@ -298,7 +298,7 @@ public class PyramidPlunder {
 			case 7 -> 183;
 			default -> 177;
 		};
-		return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), boost, chance1, chance99, 213);
+		return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), boost, chance1, chance99, varbitValue != 0 ? 235 : 213);
 	}
 
 	private static boolean rollSarcophagusSuccess(Player player, int room) {
@@ -322,7 +322,7 @@ public class PyramidPlunder {
 			case 7 -> 76;
 			default -> 46;
 		};
-		return Utils.skillSuccess(player.getSkills().getLevel(Constants.STRENGTH), chance1, chance99, 188);
+		return Utils.skillSuccess(player.getSkills().getLevel(Constants.STRENGTH), 1.0, chance1, chance99, 188);
 	}
 	
 	private static boolean loot(Player player, String lootTable, int room) {

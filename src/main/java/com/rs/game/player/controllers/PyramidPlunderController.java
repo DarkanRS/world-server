@@ -150,6 +150,8 @@ public class PyramidPlunderController extends Controller {
 			checkedDoors.clear();
 			for(int i = 2346; i <= 2363; i++)
 				player.getVars().setVarBit(i, 0);
+			for(int i = 2366; i <= 2369; i++)
+				player.getVars().setVarBit(i, 0);
 			player.getVars().setVarBit(3422, 0);
 			currentRoom++;
 		}
