@@ -30,24 +30,24 @@ public class WorldTasks {
 	public static void processTasks() {
 		for (WorldTaskInformation task : TASKS.toArray(new WorldTaskInformation[TASKS.size()]))
 			try {
-				if (task.continueCount > 0) {
-					task.continueCount--;
+				if (task.currDelay > 0) {
+					task.currDelay--;
 					continue;
 				}
 				task.task.run();
 				if (task.task.needRemove)
 					TASKS.remove(task);
 				else
-					task.continueCount = task.continueMaxCount;
+					task.currDelay = task.loopDelay;
 			} catch (Throwable e) {
 				Logger.handle(e);
 			}
 	}
 
-	public static void schedule(WorldTask task, int delayCount, int periodCount) {
-		if (task == null || delayCount < 0 || periodCount < 0)
+	public static void schedule(WorldTask task, int startDelay, int loopDelay) {
+		if (task == null || startDelay < 0 || loopDelay < 0)
 			return;
-		TASKS.add(new WorldTaskInformation(task, delayCount, periodCount));
+		TASKS.add(new WorldTaskInformation(task, startDelay, loopDelay));
 	}
 
 	public static void schedule(WorldTask task, int delayCount) {
@@ -89,13 +89,13 @@ public class WorldTasks {
 	public static void scheduleTimer(Function<Integer, Boolean> task) {
 		if (task == null)
 			return;
-		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 1));
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
 	}
 
 	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
 		if (task == null || startDelay < 0)
 			return;
-		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 1));
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
 	}
 
 	public static int getTasksCount() {
@@ -109,14 +109,14 @@ public class WorldTasks {
 	private static final class WorldTaskInformation {
 
 		private WorldTask task;
-		private int continueMaxCount;
-		private int continueCount;
+		private int loopDelay;
+		private int currDelay;
 
-		public WorldTaskInformation(WorldTask task, int continueCount, int continueMaxCount) {
+		public WorldTaskInformation(WorldTask task, int startDelay, int loopDelay) {
 			this.task = task;
-			this.continueCount = continueCount;
-			this.continueMaxCount = continueMaxCount;
-			if (continueMaxCount == -1)
+			this.currDelay = startDelay;
+			this.loopDelay = loopDelay;
+			if (loopDelay == -1)
 				task.needRemove = true;
 		}
 	}

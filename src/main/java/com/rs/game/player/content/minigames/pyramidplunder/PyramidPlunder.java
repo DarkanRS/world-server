@@ -39,13 +39,16 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePyramidExits = new ObjectClickHandler(new Object[] { 16458 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
+			}
 			e.getPlayer().startConversation(new Dialogue().addOptions("Would you like to exit?", new Options() {
 				@Override
 				public void create() {
-					option("Yes", new Dialogue().addNext(() -> {
-						e.getPlayer().setNextWorldTile(EXIT_TILE);
-						e.getPlayer().getControllerManager().forceStop();
-					}));
+					option("Yes", new Dialogue().addNext(() -> ctrl.exitMinigame()));
 					option("No", new Dialogue());
 				}
 			}));
@@ -76,17 +79,20 @@ public class PyramidPlunder {
 			}
 			case "Charm Snake" -> {
 				e.getPlayer().unlock();
-				if (e.getPlayer().getInventory().containsItem(4605, 1))
-					ctrl.updateObject(e.getObject(), 3); //TODO anim
-				else
+				if (e.getPlayer().getInventory().containsItem(4605, 1)) {
+					e.getPlayer().setNextAnimation(new Animation(1877));
+					ctrl.updateObject(e.getObject(), 3);
+				} else
 					e.getPlayer().sendMessage("You need a snake charm flute for that!");
 			}
 			case "Search" -> {
 				WorldTasks.scheduleTimer(i -> {
 					switch(i) {
-						case 0 -> e.getPlayer().faceObject(e.getObject());
-						case 1 -> e.getPlayer().setNextAnimation(new Animation(4340));
-						case 2 -> {
+						case 1 -> {
+							e.getPlayer().faceObject(e.getObject());
+							e.getPlayer().setNextAnimation(new Animation(4340));
+						}
+						case 3 -> {
 							if (rollUrnSuccess(e.getPlayer(), ctrl.getCurrentRoom(), varbitValue)) {
 								e.getPlayer().setNextAnimation(new Animation(4342));
 								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom() * (varbitValue == 0 ? 3 : 2)));
@@ -99,8 +105,9 @@ public class PyramidPlunder {
 								e.getPlayer().forceTalk("Ow!");
 							}
 						}
-						case 4 -> {
+						case 5 -> {
 							e.getPlayer().unlock();
+							e.getPlayer().processReceivedHits();
 							return false;
 						}
 					}
@@ -151,9 +158,13 @@ public class PyramidPlunder {
 					switch(i) {
 						case 0 -> e.getPlayer().faceObject(e.getObject());
 						case 1 -> e.getPlayer().setNextAnimation(new Animation(success ? 4345 : 4344));
-						case 5 -> ctrl.updateObject(e.getObject(), success ? 0 : 1);
+						case 3 -> ctrl.updateObject(e.getObject(), success ? 1 : 0);
 						case 6 -> {
 							if (success) {
+								if (Utils.randomInclusive(0, 4) == 1) {
+									OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
+									mummy.setTarget(e.getPlayer());
+								}
 								e.getPlayer().getSkills().addXp(Constants.STRENGTH, getRoomBaseXP(ctrl.getCurrentRoom()));
 								ctrl.updateObject(e.getObject(), 2);
 								loot(e.getPlayer(), "pp_sarcophagus", ctrl.getCurrentRoom());
@@ -162,7 +173,7 @@ public class PyramidPlunder {
 								e.getPlayer().forceTalk("Ow!");
 							}
 						}
-						case 7 -> {
+						case 8 -> {
 							e.getPlayer().unlock();
 							return false;
 						}
@@ -188,6 +199,7 @@ public class PyramidPlunder {
 					OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
 					mummy.setTarget(e.getPlayer());
 				}
+				ctrl.updateObject(e.getObject(), 1);
 				e.getPlayer().getSkills().addXp(Skills.RUNECRAFTING, getRoomBaseXP(ctrl.getCurrentRoom()));
 				loot(e.getPlayer(), "pp_sarcophagus_engraved", ctrl.getCurrentRoom());
 			} else if (e.getOption().equals("Search")) {
@@ -206,12 +218,15 @@ public class PyramidPlunder {
 				return;
 			}
 			if (e.getOption().equals("Pick-lock")) {
+				e.getPlayer().lock();
 				WorldTasks.scheduleTimer(i -> {
 					switch(i) {
-						case 0 -> e.getPlayer().faceObject(e.getObject());
 						case 1 -> {
+							e.getPlayer().faceObject(e.getObject());
+							e.getPlayer().setNextAnimation(new Animation(881));
+						}
+						case 3 -> {
 							if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.THIEVING), e.getPlayer().getInventory().containsOneItem(1523, 11682) ? 1.3 : 1.0, 150, 240)) {
-								e.getPlayer().setNextAnimation(new Animation(4342));
 								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()));
 								ctrl.updateObject(e.getObject(), 1);
 							} else {
@@ -220,13 +235,13 @@ public class PyramidPlunder {
 								return false;
 							}
 						}
-						case 2 -> {
+						case 5 -> {
 							if (e.getObjectId() == ctrl.getCorrectDoor())
 								ctrl.nextRoom();
 							else
 								e.getPlayer().sendMessage("The door leads nowhere.");
 						}
-						case 3 -> {
+						case 6 -> {
 							e.getPlayer().unlock();
 							return false;
 						}
@@ -354,35 +369,39 @@ public class PyramidPlunder {
 	};
 
 	private static void passTrap(ObjectClickEvent e) {
-		Player p = e.getPlayer();
-		WorldTile tile = e.getObject();
-		WorldTile[] nearbyTiles = {
-				new WorldTile(tile.getX(), tile.getY()+1, tile.getPlane()), new WorldTile(tile.getX()+1, tile.getY(), tile.getPlane()),
-				new WorldTile(tile.getX(), tile.getY()-1, tile.getPlane()), new WorldTile(tile.getX()-1, tile.getY(), tile.getPlane())
-		};
-		WorldTile[] farTiles = {
-				new WorldTile(p.getX(), p.getY()+3, p.getPlane()), new WorldTile(p.getX()+3, p.getY(), p.getPlane()),
-				new WorldTile(p.getX(), p.getY()-3, p.getPlane()), new WorldTile(p.getX()-3, p.getY(), p.getPlane())
-		};
-		int i = 0;
+		WorldTile[] nearbyTiles = { e.getObject().transform(0, 1), e.getObject().transform(1, 0), e.getObject().transform(0, -1), e.getObject().transform(-1, 0) };
+		WorldTile[] farTiles = { e.getPlayer().transform(0, 3), e.getPlayer().transform(3, 0), e.getPlayer().transform(0, -3), e.getPlayer().transform(-3, 0) };
+		int tileIdx = 0;
 		for(WorldTile nearbyTile : nearbyTiles) {
 			GameObject obj2 = World.getObject(nearbyTile, ObjectType.SCENERY_INTERACT);
-			if (obj2 != null && obj2.getId() == 16517) {
-				p.lock(3);
-				boolean hasRun = p.getRun();
-				p.setRun(false);
-				p.addWalkSteps(farTiles[i], 4, false);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						p.setRun(hasRun);
-						p.getSkills().addXp(Skills.THIEVING, 10);
-					}
-				}, 1);
-				return;
-			}
-			i++;
+			if (obj2 != null && obj2.getId() == 16517)
+				break;
+			tileIdx++;
 		}
+		final WorldTile toTile = farTiles[tileIdx];
+		e.getPlayer().lock();
+		boolean hasRun = e.getPlayer().getRun();
+		WorldTasks.scheduleTimer(i -> {
+			switch(i) {
+				case 1 -> {
+					e.getPlayer().faceObject(e.getObject());
+					e.getPlayer().setNextAnimation(new Animation(881));
+				}
+				case 3 -> {
+					e.getPlayer().setRun(false);
+					e.getPlayer().addWalkSteps(toTile, 4, false);
+				}
+				case 5 -> {
+					e.getPlayer().setRun(hasRun);
+					e.getPlayer().getSkills().addXp(Skills.THIEVING, 10);
+				}
+				case 6 -> {
+					e.getPlayer().unlock();
+					return false;
+				}
+			}
+			return true;
+		});
 	}
 
 	final static WorldTile[] rightHandSpearTraps = {

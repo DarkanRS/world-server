@@ -155,7 +155,7 @@ public final class Nex extends NPC {
 		WorldTasks.scheduleTimer(tick -> {
 			if (tick == 0)
 				setNextAnimation(new Animation(defs.getDeathEmote()));
-			else if (tick >= defs.getDeathDelay()) {
+			else if (tick >= defs.getDeathDelay()*2) { //TODO need to redo all npc death timers since they're increment of 2 ticks..
 				drop();
 				reset();
 				finish();

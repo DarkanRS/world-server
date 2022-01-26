@@ -27,6 +27,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
@@ -54,7 +55,9 @@ public class PyramidPlunderController extends Controller {
 			tick = -1;
 			return;
 		}
-		if (tick-- % 5 == 0)
+		if (!player.hasRights(Rights.ADMIN))
+			tick--;
+		if (tick % 5 == 0)
 			updatePlunderInterface();
 	}
 
@@ -135,7 +138,7 @@ public class PyramidPlunderController extends Controller {
 						.addOptions("Would you like to exit?", new Options() {
 							@Override
 							public void create() {
-								option("Yes", new Dialogue().addNext(() -> player.getControllerManager().forceStop()));
+								option("Yes", new Dialogue().addNext(() -> exitMinigame()));
 								option("No", new Dialogue());
 							}
 						}));
