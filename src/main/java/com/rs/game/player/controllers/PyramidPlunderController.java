@@ -16,122 +16,96 @@
 //
 package com.rs.game.player.controllers;
 
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn21Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn31Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn41Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn51Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn61Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn71Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn81Room;
-import static com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder.isIn91Room;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.object.GameObject;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.minigames.pyramidplunder.PyramidPlunder;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.Ticks;
 
 public class PyramidPlunderController extends Controller {
-    final static int PLUNDER_INTERFACE = 428;
+	final static int PLUNDER_INTERFACE = 428;
+
+	private int tick;
+	private int currentRoom;
+
+	private int correctDoor = 0;
+	private List<Integer> checkedDoors = new ArrayList<>();
+	private Map<Integer, Integer> urnVarbits = new HashMap<>();
 
 	@Override
-	public void start() { //600ms
+	public void start() {
 		startMinigame();
 	}
 
-    public void startMinigame() {
-        player.lock(11);
-        WorldTasks.schedule(new WorldTask() {
-            int tick;
-            @Override
-            public void run() {
-                if(tick == 0)
-                    player.getInterfaceManager().setFadingInterface(115);
-                if(tick == 2) {
-                    player.faceSouth();
-                    player.setNextWorldTile(new WorldTile(1927, 4477, 0));
-                }
-                if(tick == 5)
-                    player.getInterfaceManager().setFadingInterface(170);
-                if(tick == 6)
-                    startTimer();
-                if(tick == 8)
-                    stop();
-                tick++;
-            }
-        }, 0, 1);
-    }
+	@Override
+	public void process() {
+		if (tick == 0) {
+			kickPlayer();
+			tick = -1;
+			return;
+		}
+		if (tick-- % 5 == 0)
+			updatePlunderInterface();
+	}
 
-    public void startTimer() {
-        WorldTasks.scheduleTimer(tick -> {
-            if(!player.getControllerManager().isIn(PyramidPlunderController.class))
-                return false;
-            player.getVars().setVarBit(2375, tick);
-            if(tick == Ticks.fromMinutes(5)) {
-                kickPlayer();
-                return false;
-            }
-            if(tick % 5 == 0)
-                updatePlunderInterface();
-            return true;
-        });
-    }
+	public void startMinigame() {
+		player.lock();
+		WorldTasks.scheduleTimer(i -> {
+			if (i == 0)
+				player.getInterfaceManager().setFadingInterface(115);
+			if (i == 2) {
+				player.faceSouth();
+				nextRoom();
+			}
+			if (i == 5)
+				player.getInterfaceManager().setFadingInterface(170);
+			if (i == 6) {
+				tick = Ticks.fromMinutes(5);
+				player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
+			}
+			if (i == 8) {
+				player.unlock();
+				return false;
+			}
+			return true;
+		});
+	}
 
-    private void updatePlunderInterface() {
-        player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
-        if(isIn21Room(player)) {
-            player.getVars().setVar(822, 21);
-            player.getVars().setVarBit(2377, 1);
-        } else if(isIn31Room(player)) {
-            player.getVars().setVar(822, 31);
-            player.getVars().setVarBit(2377, 2);
-        } else if(isIn41Room(player)) {
-            player.getVars().setVar(822, 41);
-            player.getVars().setVarBit(2377, 3);
-        } else if(isIn51Room(player)) {
-            player.getVars().setVar(822, 51);
-            player.getVars().setVarBit(2377, 4);
-        } else if(isIn61Room(player)) {
-            player.getVars().setVar(822, 61);
-            player.getVars().setVarBit(2377, 5);
-        } else if(isIn71Room(player)) {
-            player.getVars().setVar(822, 71);
-            player.getVars().setVarBit(2377, 6);
-        } else if(isIn81Room(player)) {
-            player.getVars().setVar(822, 81);
-            player.getVars().setVarBit(2377, 7);
-        } else if(isIn91Room(player)) {
-            player.getVars().setVar(822, 91);
-            player.getVars().setVarBit(2377, 8);
-        }
-    }
+	private void updatePlunderInterface() {
+		player.getVars().setVar(822, (currentRoom + 1) * 10 + 1);
+		player.getVars().setVarBit(2377, currentRoom);
+	}
 
-    private void kickPlayer() {
-        player.lock(6);
-        player.startConversation(new Conversation(player) {
-            {
-                addNPC(4476, HeadE.FRUSTRATED, "You have had your five minutes, time to go!");
-                create();
-            }
-        });
-        WorldTasks.scheduleTimer(tick -> {
-            if(tick == 1)
-                player.getInterfaceManager().setFadingInterface(115);
-            if(tick == 3)
-                exitMinigame();
-            if(tick == 6) {
-                player.getInterfaceManager().setFadingInterface(170);
-                return false;
-            }
-            return true;
-        });
+	private void kickPlayer() {
+		player.lock();
+		player.startConversation(new Dialogue()
+				.addNPC(4476, HeadE.FRUSTRATED, "You have had your five minutes, time to go!"));
+		WorldTasks.scheduleTimer(i -> {
+			if (i == 1)
+				player.getInterfaceManager().setFadingInterface(115);
+			if (i == 3)
+				exitMinigame();
+			if (i == 6) {
+				player.getInterfaceManager().setFadingInterface(170);
+				player.unlock();
+				return false;
+			}
+			return true;
+		});
 
-    }
+	}
 
 	@Override
 	public boolean login() {
-		exitMinigame();
+		player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
 		return false;
 	}
 
@@ -142,25 +116,71 @@ public class PyramidPlunderController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-        forceClose();
+		forceClose();
 		return true;
 	}
 
 	@Override
 	public void magicTeleported(int type) {
-        forceClose();
+		forceClose();
 	}
 
 	@Override
 	public void forceClose() {
-        player.getInterfaceManager().removeOverlay();
+		player.getInterfaceManager().removeOverlay();
 		removeController();
 	}
 
-
-
 	public void exitMinigame() {
-		player.setNextWorldTile(new WorldTile(3288, 2801, 0));
-        forceClose();
+		player.setNextWorldTile(PyramidPlunder.EXIT_TILE);
+		forceClose();
+	}
+
+	public void nextRoom() {
+		switch(currentRoom) {
+			case 0 -> player.setNextWorldTile(new WorldTile(1927, 4477, 0));
+			case 1 -> player.setNextWorldTile(new WorldTile(1977, 4471, 0));
+			case 2 -> player.setNextWorldTile(new WorldTile(1954, 4477, 0));
+			case 3 -> player.setNextWorldTile(new WorldTile(1927, 4453, 0));
+			case 4 -> player.setNextWorldTile(new WorldTile(1965, 4444, 0));
+			case 5 -> player.setNextWorldTile(new WorldTile(1927, 4424, 0));
+			case 6 -> player.setNextWorldTile(new WorldTile(1943, 4421, 0));
+			case 7 -> player.setNextWorldTile(new WorldTile(1974, 4420, 0));
+			case 8 -> {
+				player.startConversation(new Dialogue()
+						.addSimple("Opening this door will cause you to leave the pyramid.")
+						.addOptions("Would you like to exit?", new Options() {
+							@Override
+							public void create() {
+								option("Yes", new Dialogue().addNext(() -> player.getControllerManager().forceStop()));
+								option("No", new Dialogue());
+							}
+						}));
+			}
+		}
+		if (currentRoom < 8) {
+			urnVarbits.clear();
+			checkedDoors.clear();
+			for(int i = 2346; i <= 2363; i++)
+				player.getVars().setVarBit(i, 0);
+			currentRoom++;
+		}
+	}
+	
+	public void updateUrn(GameObject object, int value) {
+		urnVarbits.put(object.getDefinitions().varpBit, value);
+		player.getVars().setVarBit(object.getDefinitions().varpBit, value);
+	}
+
+	public void setCurrentRoom(int room) {
+		this.currentRoom = room;
+	}
+
+	public int getCurrentRoom() {
+		return this.currentRoom;
+	}
+
+	public int getCorrectDoor() {
+		return correctDoor;
 	}
 }
