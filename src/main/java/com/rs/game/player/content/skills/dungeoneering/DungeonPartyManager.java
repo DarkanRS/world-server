@@ -210,7 +210,6 @@ public final class DungeonPartyManager {
 		int cb = player.getSkills().getCombatLevelWithSummoning();
 		double diff = Math.abs(cb - average);
 		return (diff > 50 ? ((diff - 50) * 0.01) : 0);
-
 	}
 
 	public int getMaxLevelDiference() {
