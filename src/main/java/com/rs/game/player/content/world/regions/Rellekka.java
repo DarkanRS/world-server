@@ -123,8 +123,8 @@ public class Rellekka {
 		}
 	};
 
-	public static void rechargeLyre(Player player, Item item) {
-		if (item.getId() != 383) {
+	public static void rechargeLyre(Player player) {
+		if (!player.getInventory().containsItem(383, 1)) {
 			player.sendMessage("The Fossegrimen is unresponsive.");
 			return;
 		}
@@ -150,7 +150,7 @@ public class Rellekka {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if (e.getItem().getDefinitions().getName().contains("Raw"))
-				rechargeLyre(e.getPlayer(), e.getItem());
+				rechargeLyre(e.getPlayer()); //TODO no way is this real in RS lmao
 		}
 	};
 
@@ -163,11 +163,33 @@ public class Rellekka {
 		return 3690;
 	}
 
-	private static final void lyreTele(Player player, WorldTile loc, Item lyre) {
+	private static final void lyreTele(Player player, WorldTile loc, Item lyre, boolean reduceDaily) {
 		if (Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, Magic.MAGIC_TELEPORT)) {
-			lyre.setId(getLowerLyreId(lyre.getId()));
-			player.getInventory().refresh();
+			if (reduceDaily)
+				player.setDailyB("freeLyreTele", true);
+			if (lyre != null) {
+				lyre.setId(getLowerLyreId(lyre.getId()));
+				player.getInventory().refresh();
+			}
 		}
+	}
+	
+	public static Dialogue getLyreTeleOptions(Player player, Item item, boolean reduceDaily) {
+		if (player.getDailyB("freeLyreTele"))
+			return new Dialogue().addNext(() -> player.sendMessage("You've already used your free teleport today."));
+		
+		return new Dialogue().addOptions("Where would you like to teleport?", new Options() {
+			@Override
+			public void create() {
+				option("Rellekka", () -> Rellekka.lyreTele(player, new WorldTile(2643, 3676, 0), item, reduceDaily));
+				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
+					option("Waterbirth Island", () -> Rellekka.lyreTele(player, new WorldTile(2547, 3757, 0), item, reduceDaily));
+				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
+					option("Jatizso", () -> Rellekka.lyreTele(player, new WorldTile(2407, 3803, 0), item, reduceDaily));
+					option("Neitiznot", () -> Rellekka.lyreTele(player, new WorldTile(2336, 3803, 0), item, reduceDaily));
+				}
+			}
+		});
 	}
 
 	public static ItemClickHandler handleEnchantedLyre = new ItemClickHandler(new Object[] { 3690 }, new String[] { "Play" }) {
@@ -180,22 +202,7 @@ public class Rellekka {
 	public static ItemClickHandler handleEnchantedLyreTeleports = new ItemClickHandler(new Object[] { 3691, 6125, 6126, 6127, 14590, 14591 }, new String[] { "Play" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				{
-					addOptions("Where would you like to teleport?", new Options() {
-						@Override
-						public void create() {
-							option("Rellekka", () -> lyreTele(e.getPlayer(), new WorldTile(2643, 3676, 0), e.getItem()));
-							if (AchievementDef.meetsRequirements(e.getPlayer(), Area.FREMENNIK, Difficulty.HARD, false))
-								option("Waterbirth Island", () -> lyreTele(e.getPlayer(), new WorldTile(2547, 3757, 0), e.getItem()));
-							if (AchievementDef.meetsRequirements(e.getPlayer(), Area.FREMENNIK, Difficulty.ELITE, false)) {
-								option("Jatizso", () -> lyreTele(e.getPlayer(), new WorldTile(2407, 3803, 0), e.getItem()));
-								option("Neitiznot", () -> lyreTele(e.getPlayer(), new WorldTile(2336, 3803, 0), e.getItem()));
-							}
-						}
-					});
-				}
-			});
+			e.getPlayer().startConversation(getLyreTeleOptions(e.getPlayer(), e.getItem(), false));
 		}
 	};
 
