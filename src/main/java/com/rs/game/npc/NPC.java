@@ -678,7 +678,7 @@ public class NPC extends Entity {
 					return;
 				}
 
-		PluginManager.handle(new NPCDropEvent(dropTo, item));
+		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
 	}
 

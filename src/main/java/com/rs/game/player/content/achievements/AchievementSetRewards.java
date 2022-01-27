@@ -36,10 +36,12 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
+import com.rs.plugin.events.NPCDropEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
+import com.rs.plugin.handlers.NPCDropHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -47,6 +49,14 @@ public class AchievementSetRewards {
 
 	private static final WorldTile ARDY_FARM = new WorldTile(2664, 3375, 0);
 	private static final WorldTile KANDARIN_MONASTERY = new WorldTile(2606, 3222, 0);
+	
+	public static NPCDropHandler handleNotingDagBones = new NPCDropHandler(new Object[] { 2881, 2882, 2883 }, new Object[] { 6729 }) {
+		@Override
+		public void handle(NPCDropEvent e) {
+			if (e.getPlayer().getEquipment().getBootsId() == 19766)
+				e.getItem().setId(e.getItem().getDefinitions().getCertId());
+		}
+	};
 
 	public static ItemClickHandler handleArdougneCloak = new ItemClickHandler(new Object[] { 15345, 15347, 15349, 19748, 20767, 20769, 20771 }, new String[] { "Teleports", "Teleport", "Kandarin Monastery", "Summoning-restore", "Ardougne Farm", "Customise", "Features" }) {
 		@Override

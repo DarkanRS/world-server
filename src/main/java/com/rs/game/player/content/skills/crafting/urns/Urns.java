@@ -97,7 +97,7 @@ public class Urns {
 		}
 	};
 
-	public static NPCDropHandler handle = new NPCDropHandler(20264, 20266, 20268) {
+	public static NPCDropHandler handle = new NPCDropHandler(null, new Object[] { 20264, 20266, 20268 }) {
 		@Override
 		public void handle(NPCDropEvent e) {
 			switch(e.getItem().getId()) {
