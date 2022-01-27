@@ -625,6 +625,12 @@ public class PyramidPlunder {//All objects within the minigame
 		}
 	};
 
+    /**
+     * Use nearby tiles surrounding the trap object to choose a direction for the far tiles.
+     * Both near and far point in the same directions per index N, E, S, W
+     * If a nearby tile is a trap that is the direction we must go as a player...
+     * @param e
+     */
 	private static void passTrap(ObjectClickEvent e) {
 		Player p = e.getPlayer();
 		WorldTile tile = e.getObject();
