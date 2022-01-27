@@ -1221,7 +1221,7 @@ public class DungeonManager {
 			multiplier += DungeonConstants.MAX_BONUS_ROOM * levelMod / 10000;
 			levelMod = (getLevelModPerc() * 20) - 1000;
 			player.getPackets().sendVarc(1236, levelMod); //sets level mod
-			multiplier += ((double) levelMod) / 10000;
+			multiplier += ((double) levelMod) / 10000.0;
 			player.getPackets().sendVarc(1196, party.isGuideMode() ? 1 : 0); //sets guidemode
 			if (party.isGuideMode())
 				multiplier -= 0.05;
@@ -1236,7 +1236,7 @@ public class DungeonManager {
 			double countedDeaths = Math.min(deaths == null ? 0 : deaths.intValue(), 6);
 			multiplier *= (1.0 - (countedDeaths * 0.1)); //adds FLAT 10% reduction per death, upto 6
 			//base xp is based on a ton of factors, including opened rooms, resources harvested, ... but this is most imporant one
-			double floorXP = getXPForFloor(player, party.getFloor(), party.getSize()) * getVisibleRoomsCount() / dungeon.getRoomsCount();
+			double floorXP = getFloorXP(party.getFloor(), party.getSize(), getVisibleRoomsCount());
 			boolean tickedOff = player.getDungManager().isTickedOff(party.getFloor());
 			if (!tickedOff)
 				player.getDungManager().tickOff(party.getFloor());
@@ -1248,18 +1248,16 @@ public class DungeonManager {
 					if (!player.getDungManager().isTickedOff(floor)) {
 						player.sendMessage("Since you have previously completed this floor, floor " + floor + " was instead ticked-off.");
 						player.getDungManager().tickOff(floor);
-						floorXP = getXPForFloor(player, floor, party.getSize()) * getVisibleRoomsCount() / dungeon.getRoomsCount();
+						floorXP = getFloorXP(floor, party.getSize(), getVisibleRoomsCount());
 						tickedOff = false;
 						break;
 					}
 				}
 			}
-			double prestigeXP = tickedOff ? 0 : getXPForFloor(player, player.getDungManager().getPrestige(), party.getSize()) * getVisibleRoomsCount() / dungeon.getRoomsCount();
+			double prestigeXP = tickedOff ? 0 : getFloorXP(player.getDungManager().getPrestige(), party.getSize(), getVisibleRoomsCount());
 			player.getVars().setVarBit(7550, player.getDungManager().getCurrentProgress());
 			player.getVars().setVarBit(7551, player.getDungManager().getPreviousProgress());
 			double averageXP = (floorXP + prestigeXP) / 2;
-			if (party.getSize() != DungeonConstants.LARGE_DUNGEON)
-				averageXP *= 1.5;
 			multiplier = Math.max(0.1, multiplier);
 			double totalXp = averageXP * multiplier;
 			int tokens = (int) (totalXp / 10.0);
@@ -1290,15 +1288,36 @@ public class DungeonManager {
 		clearGuardians();
 	}
 
-	public static int getXPForFloor(Player player, int floor, int type) {
-		int points = 0;
-		for (int i = 1; i <= floor; i++)
-			points += Math.floor(i + 100.0 * Math.pow(1.3, i / 10));
-		if (type == DungeonConstants.MEDIUM_DUNGEON)
-			points *= 4;
-		else if (type == DungeonConstants.LARGE_DUNGEON)
-			points *= 10;
-		return points;
+	public static int getFloorXP(int floor, int size, int roomsOpened) {
+		double baseXP = 0.16*(floor*floor*floor)+0.28*(floor*floor)+76.94*floor+100.0;
+		double roomMod = 1.0;
+		double sizeMod = 1.0;
+		switch(size) {
+		case 0 -> {
+			roomMod = roomsOpened / 16.0;
+		}
+		case 1 -> {
+			roomMod = roomsOpened / 32.0;
+			sizeMod = 2.0;
+		}
+		case 2 -> {
+			roomMod = roomsOpened / 64.0;
+			sizeMod = 3.5;
+		}
+		}
+		return (int) (baseXP * sizeMod * roomMod);
+	}
+	
+	public static void printXP(int floor, int size, int prestige, int roomsOpened) {
+		int baseXp = getFloorXP(floor, size, roomsOpened);
+		int presXp = getFloorXP(prestige, size, roomsOpened);
+		int avgXp = (int) ((baseXp+presXp) / 2);
+		
+		System.out.println("~~~Experience for floor " + floor + " size: " + size + " roomsOpened: " + roomsOpened + "~~~");
+		System.out.println("Base XP: " + baseXp);
+		System.out.println("Prestige " + prestige + " XP:" + presXp);
+		System.out.println("Average XP: " + avgXp);
+		System.out.println("Maximum possible XP for floor: " + ((int) (avgXp * 1.56)));
 	}
 
 	public void voteToMoveOn(Player player) {
