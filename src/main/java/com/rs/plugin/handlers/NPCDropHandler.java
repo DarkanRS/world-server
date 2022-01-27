@@ -19,7 +19,19 @@ package com.rs.plugin.handlers;
 import com.rs.plugin.events.NPCDropEvent;
 
 public abstract class NPCDropHandler extends PluginHandler<NPCDropEvent> {
-	public NPCDropHandler(Object... namesOrIds) {
-		super(namesOrIds);
+	private Object[] npcKeys, itemKeys;
+	
+	public NPCDropHandler(Object[] npcNamesOrIds, Object[] itemNamesOrIds) {
+		super(new Object[] { "meme" });
+		this.npcKeys = npcNamesOrIds;
+		this.itemKeys = itemNamesOrIds;
+	}
+
+	public Object[] getNpcKeys() {
+		return npcKeys;
+	}
+
+	public Object[] getItemKeys() {
+		return itemKeys;
 	}
 }
