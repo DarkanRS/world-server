@@ -50,7 +50,7 @@ public class MoveNPCAction extends CutsceneAction {
 			return;
 		}
 		npc.setRun(movementType == MoveType.RUN);
-		npc.addWalkSteps(scene.getX(x), scene.getY(y));
+		npc.addWalkSteps(scene.getX(x), scene.getY(y), 25, false);
 	}
 
 }

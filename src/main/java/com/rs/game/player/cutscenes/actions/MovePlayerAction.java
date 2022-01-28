@@ -44,7 +44,7 @@ public class MovePlayerAction extends CutsceneAction {
 			return;
 		}
 		player.setRun(movementType == MoveType.RUN);
-		player.addWalkSteps(scene.getX(x), scene.getY(y));
+		player.addWalkSteps(scene.getX(x), scene.getY(y), 25, false);
 	}
 
 }
