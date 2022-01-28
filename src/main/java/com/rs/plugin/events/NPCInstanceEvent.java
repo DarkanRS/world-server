@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.plugin.events;
@@ -61,6 +61,7 @@ public class NPCInstanceEvent implements PluginEvent {
 	}
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
+		System.out.println("Registering " + eventType.getName() + " for " + method.getClass().getName());
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCInstanceHandler) method);
 			if (old != null)
