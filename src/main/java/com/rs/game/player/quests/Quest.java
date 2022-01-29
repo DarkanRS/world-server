@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
@@ -224,7 +225,7 @@ public enum Quest {
 
 	public static void initializeHandlers() {
 		try {
-			ArrayList<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs.game.player.quests.handlers", QuestHandler.class);
+			List<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs.game.player.quests.handlers", QuestHandler.class);
 			for (Class<?> clazz : classes) {
 				QuestHandler handler = clazz.getAnnotation(QuestHandler.class);
 				if (handler == null || clazz.getSuperclass() != QuestOutline.class)

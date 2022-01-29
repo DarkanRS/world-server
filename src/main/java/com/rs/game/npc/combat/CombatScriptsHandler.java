@@ -18,6 +18,7 @@ package com.rs.game.npc.combat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.rs.game.Entity;
 import com.rs.game.npc.NPC;
@@ -34,7 +35,7 @@ public class CombatScriptsHandler {
 
 	@ServerStartupEvent
 	public static final void loadScripts() {
-		ArrayList<Class<?>> classes;
+		List<Class<?>> classes;
 		try {
 			classes = Utils.getClasses("com.rs.game.npc.combat.impl");
 			for (Class<?> c : classes) {

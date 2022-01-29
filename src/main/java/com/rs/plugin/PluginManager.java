@@ -22,12 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.smithing.ArtisansWorkshop;
@@ -58,8 +53,8 @@ public class PluginManager {
 		try {
 			long start = System.currentTimeMillis();
 			Logger.log("PluginManager", "Loading plugins...");
-			ArrayList<Class<?>> eventTypes = Utils.getClasses("com.rs.plugin.events");
-			ArrayList<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs", PluginEventHandler.class);
+			List<Class<?>> eventTypes = Utils.getClasses("com.rs.plugin.events");
+			List<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs", PluginEventHandler.class);
 			Set<Method> visitedMethods = new HashSet<>();
 			Set<Field> visitedFields = new HashSet<>();
 			Logger.log("PluginManager", "Loading " + eventTypes.size() + " event types and " + classes.size() + " plugin enabled classes.");
@@ -83,26 +78,21 @@ public class PluginManager {
 						continue;
 					visitedFields.add(field);
 
-					for (Class<?> eventType : eventTypes) {
-						if (field.getType() == PluginHandler.class) {
-							Class<?> type = ((Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]);
-							if (type != eventType)
-								continue;
-						} else if (field.getType().getSuperclass() == PluginHandler.class) {
-							Class<?> type = ((Class<?>) ((ParameterizedType) field.getType().getGenericSuperclass()).getActualTypeArguments()[0]);
-							if (type != eventType)
-								continue;
-						} else
-							continue;
-						field.setAccessible(true);
-						PluginHandler<PluginEvent> handler = (PluginHandler<PluginEvent>) field.get(null);
-						if (handler.keys() == null || handler.keys().length <= 0) {
-							addUnmappedHandler(eventType.getName(), handler);
-						} else {
-							REPOSITORY.addMappedHandler(eventType, handler);
+					if (field.getName().equals("Companion")) {
+						try {
+							Object kotlinCompanion = field.get(null);
+							for (Method method : kotlinCompanion.getClass().getDeclaredMethods()) {
+								if (visitedMethods.contains(method))
+									continue;
+								visitedMethods.add(method);
+								handlers += processKotlinCompanionGetter(method, eventTypes, kotlinCompanion);
+							}
+						} catch (Exception e) {
+							System.err.println("Failed to load Kotlin companion class for " + clazz.getName());
 						}
-						handlers++;
+						continue;
 					}
+					handlers += processField(field, eventTypes);
 				}
 			}
 			Logger.log("PluginManager", "Loaded " + handlers + " plugin event handlers in " + (System.currentTimeMillis()-start) + "ms.");
@@ -111,6 +101,55 @@ public class PluginManager {
 		}
 	}
 
+	public static int processKotlinCompanionGetter(Method method, List<Class<?>> eventTypes, Object companion) throws IllegalAccessException, InvocationTargetException {
+		int found = 0;
+		for (Class<?> eventType : eventTypes) {
+			if (method.getReturnType() == PluginHandler.class) {
+				Class<?> type = ((Class<?>) ((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0]);
+				if (type != eventType)
+					continue;
+			} else if (method.getReturnType().getSuperclass() == PluginHandler.class) {
+				Class<?> type = ((Class<?>) ((ParameterizedType) method.getReturnType().getGenericSuperclass()).getActualTypeArguments()[0]);
+				if (type != eventType)
+					continue;
+			} else
+				continue;
+			method.setAccessible(true);
+			PluginHandler<PluginEvent> handler = (PluginHandler<PluginEvent>) method.invoke(companion);
+			if (handler.keys() == null || handler.keys().length <= 0) {
+				addUnmappedHandler(eventType.getName(), handler);
+			} else {
+				REPOSITORY.addMappedHandler(eventType, handler);
+			}
+			found++;
+		}
+		return found;
+	}
+
+	public static int processField(Field field, List<Class<?>> eventTypes) throws IllegalAccessException {
+		int found = 0;
+		for (Class<?> eventType : eventTypes) {
+			if (field.getType() == PluginHandler.class) {
+				Class<?> type = ((Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0]);
+				if (type != eventType)
+					continue;
+			} else if (field.getType().getSuperclass() == PluginHandler.class) {
+				Class<?> type = ((Class<?>) ((ParameterizedType) field.getType().getGenericSuperclass()).getActualTypeArguments()[0]);
+				if (type != eventType)
+					continue;
+			} else
+				continue;
+			field.setAccessible(true);
+			PluginHandler<PluginEvent> handler = (PluginHandler<PluginEvent>) field.get(null);
+			if (handler.keys() == null || handler.keys().length <= 0) {
+				addUnmappedHandler(eventType.getName(), handler);
+			} else {
+				REPOSITORY.addMappedHandler(eventType, handler);
+			}
+			found++;
+		}
+		return found;
+	}
 
 	public static void executeStartupHooks() {
 		for (Method m : STARTUP_HOOKS) {
