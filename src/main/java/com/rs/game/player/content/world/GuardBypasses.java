@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright (C) 2021 Trenton Kress
+//  Copyright © 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.world;
@@ -37,28 +37,28 @@ public class GuardBypasses {
 
 	static {
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3146, 3336, 0),
-				new WorldTile(3145, 3336, 0), new WorldTile(3147, 3336, 0), 85, 24)); //Draynor Manor East
+		new WorldTile(3145, 3336, 0), new WorldTile(3147, 3336, 0), 85, 24)); //Draynor Manor East
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3069, 3276, 0),
-				new WorldTile(3070, 3275, 0), new WorldTile(3070, 3277, 0), 85, 24)); //Draynor West
+		new WorldTile(3070, 3275, 0), new WorldTile(3070, 3277, 0), 85, 24)); //Draynor West
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3077, 3333, 0),
-				new WorldTile(3076, 3333, 0), new WorldTile(3078, 3333, 0), 85, 24)); //Draynor Manor West
+		new WorldTile(3076, 3333, 0), new WorldTile(3078, 3333, 0), 85, 24)); //Draynor Manor West
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3108, 3420, 0),
-				new WorldTile(3109, 3419, 0), new WorldTile(3109, 3421, 0), 88, 87)); //Varrock to Barb Village
+		new WorldTile(3109, 3419, 0), new WorldTile(3109, 3421, 0), 88, 87)); //Varrock to Barb Village
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3138, 3467, 0),
-				new WorldTile(3137, 3467, 0), new WorldTile(3139, 3467, 0), 85, 24)); //GE to Edgeville
+		new WorldTile(3137, 3467, 0), new WorldTile(3139, 3467, 0), 85, 24)); //GE to Edgeville
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3260, 3173, 0),
-				new WorldTile(3261, 3172, 0), new WorldTile(3261, 3174, 0), 88, 87)); //Lumbridge swamp to Al Kharid
+		new WorldTile(3261, 3172, 0), new WorldTile(3261, 3174, 0), 88, 87)); //Lumbridge swamp to Al Kharid
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3283, 3329, 0),
-				new WorldTile(3282, 3330, 0), new WorldTile(3284, 3330, 0), 88, 87)); //Al Kharid to Varrock
+		new WorldTile(3282, 3330, 0), new WorldTile(3284, 3330, 0), 88, 87)); //Al Kharid to Varrock
 
 		PlayerStepEvent.registerMethod(PlayerStepEvent.class, createDoubleGuardBypass(new WorldTile(3292, 3385, 0),
-				new WorldTile(3291, 3385, 0), new WorldTile(3293, 3385, 0), 4640, 4636)); //Varrock East to Wall
+		new WorldTile(3291, 3385, 0), new WorldTile(3293, 3385, 0), 4640, 4636)); //Varrock East to Wall
 	}
 
 	public static PlayerStepHandler createDoubleGuardBypass(WorldTile bottomLeftTile, WorldTile guard1, WorldTile guard2, int openAnim, int closeAnim) {
@@ -71,10 +71,10 @@ public class GuardBypasses {
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
 				WorldTasks.delay(3, () -> {
-					e.getPlayer().setRunHidden(true);
-					World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
-					World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
-				});
+				e.getPlayer().setRunHidden(true);
+				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
+				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
+			});
 			}
 		};
 	}
@@ -95,10 +95,10 @@ public class GuardBypasses {
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
 			WorldTasks.delay(3, () -> {
-				e.getPlayer().setRunHidden(true);
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
-			});
+			e.getPlayer().setRunHidden(true);
+			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
+			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
+		});
 		}
 	};
 
@@ -116,8 +116,8 @@ public class GuardBypasses {
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
 			WorldTasks.delay(3, () -> {
-				e.getPlayer().setRunHidden(true);
-			});
+			e.getPlayer().setRunHidden(true);
+		});
 		}
 	};
 
@@ -132,8 +132,8 @@ public class GuardBypasses {
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
 			WorldTasks.delay(3, () -> {
-				e.getPlayer().setRunHidden(true);
-			});
+			e.getPlayer().setRunHidden(true);
+		});
 		}
 	};
 
@@ -151,9 +151,9 @@ public class GuardBypasses {
 			}
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1366));
 			WorldTasks.delay(3, () -> {
-				e.getPlayer().setRunHidden(true);
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1365));
-			});
+			e.getPlayer().setRunHidden(true);
+			World.sendObjectAnimation(e.getPlayer(), World.getObject(new WorldTile(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1365));
+		});
 		}
 	};
 
