@@ -27,8 +27,7 @@ public class WorldThreadFactory implements ThreadFactory {
 	private final String namePrefix;
 
 	public WorldThreadFactory() {
-		SecurityManager s = System.getSecurityManager();
-		group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+		group = Thread.currentThread().getThreadGroup();
 		namePrefix = "World Pool-" + poolNumber.getAndIncrement() + "-thread-";
 	}
 

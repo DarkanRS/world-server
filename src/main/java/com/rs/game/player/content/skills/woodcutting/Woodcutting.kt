@@ -91,7 +91,8 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 	override fun processWithDelay(player: Player): Int {
 		var level: Int = player.skills.getLevel(Constants.WOODCUTTING)
 		player.faceObject(treeObj)
-		if (player.familiar != null) level += getSpecialFamiliarBonus(player.familiar.id)
+//		if (player.familiar != null)
+//			level += getSpecialFamiliarBonus(player.familiar.id) //TODO: Familiar bonus
 		if (type.rollSuccess(player, level, hatchet)) {
 			giveLog(player, type, usingBeaver)
 			if (!type.isPersistent || Utils.random(8) == 0) {
@@ -105,7 +106,7 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 
 	open fun fellTree() {
 		if (!World.isSpawnedObject(treeObj) && treeObj.plane < 3 && type != TreeType.IVY) {
-			var obj: GameObject = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
+			var obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
 			if (obj == null) {
 				obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
 				if (obj == null) {
@@ -281,12 +282,6 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 					}
 				}
 			}
-		}
-
-		fun getSpecialFamiliarBonus(id: Int): Int {
-			when (id) {
-			}
-			return 0
 		}
 	}
 }
