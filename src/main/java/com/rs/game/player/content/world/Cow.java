@@ -28,29 +28,29 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class Cow extends NPC {
 
-	public Cow(int id, WorldTile tile) {
-		super(id, tile);
-	}
+    public Cow(int id, WorldTile tile) {
+        super(id, tile);
+    }
 
-	@Override
-	public void processNPC() {
-		if (Utils.random(100) == 0)
-			setNextForceTalk(new ForceTalk("Moo"));
-		super.processNPC();
-	}
+    @Override
+    public void processNPC() {
+        if (Utils.random(100) == 0)
+            setNextForceTalk(new ForceTalk("Moo"));
+        super.processNPC();
+    }
 
-	public static ItemOnNPCHandler itemOnCow = new ItemOnNPCHandler("Cow") {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			e.getPlayer().sendMessage("The cow doesn't want that.");
-		}
-	};
+    public static ItemOnNPCHandler itemOnCow = new ItemOnNPCHandler("Cow") {
+        @Override
+        public void handle(ItemOnNPCEvent e) {
+            e.getPlayer().sendMessage("The cow doesn't want that.");
+        }
+    };
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Cow") {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Cow(npcId, tile);
-		}
-	};
+    public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Cow") {
+        @Override
+        public NPC getNPC(int npcId, WorldTile tile) {
+            return new Cow(npcId, tile);
+        }
+    };
 
 }

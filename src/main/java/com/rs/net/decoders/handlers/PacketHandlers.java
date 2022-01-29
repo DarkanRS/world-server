@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.net.decoders.handlers;
@@ -19,11 +19,7 @@ package com.rs.net.decoders.handlers;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.Packet;
@@ -48,7 +44,7 @@ public class PacketHandlers {
 	public static void loadHandlersFromPackage(String pack) {
 		try {
 			Logger.log("PacketHandlers", "Initializing packet handlers ("+pack+")...");
-			ArrayList<Class<?>> classes = Utils.getClasses(pack);
+			List<Class<?>> classes = Utils.getClasses(pack);
 
 			for (Class<?> clazz : classes)
 				mapHandler((PacketHandler<?, ? extends Packet>) clazz.getConstructor().newInstance());
