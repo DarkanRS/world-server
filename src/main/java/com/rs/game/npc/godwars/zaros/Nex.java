@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.godwars.zaros;
@@ -155,7 +155,7 @@ public final class Nex extends NPC {
 		WorldTasks.scheduleTimer(tick -> {
 			if (tick == 0)
 				setNextAnimation(new Animation(defs.getDeathEmote()));
-			else if (tick >= defs.getDeathDelay()) {
+			else if (tick >= defs.getDeathDelay()*2) { //TODO need to redo all npc death timers since they're increment of 2 ticks..
 				drop();
 				reset();
 				finish();

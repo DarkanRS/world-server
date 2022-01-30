@@ -11,19 +11,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
@@ -35,15 +26,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.dungeoneering.Stomp;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
-import com.rs.game.pathing.ClipType;
-import com.rs.game.pathing.Direction;
-import com.rs.game.pathing.DumbRouteFinder;
-import com.rs.game.pathing.EntityStrategy;
-import com.rs.game.pathing.FixedTileStrategy;
-import com.rs.game.pathing.ObjectStrategy;
-import com.rs.game.pathing.RouteEvent;
-import com.rs.game.pathing.RouteFinder;
-import com.rs.game.pathing.WalkStep;
+import com.rs.game.pathing.*;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
@@ -65,6 +48,11 @@ import com.rs.lib.util.Vec2;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.WorldUtil;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Entity extends WorldTile {
 
@@ -614,7 +602,7 @@ public abstract class Entity extends WorldTile {
 				break;
 			if (player != null)
 				PluginManager.handle(new PlayerStepEvent(player, nextStep, new WorldTile(getX() + nextStep.getDir().getDx(), getY() + nextStep.getDir().getDy(), getPlane())));
-			if ((nextStep.checkClip() && !World.checkWalkStep(getPlane(), getX(), getY(), nextStep.getDir(), getSize(), getClipType())) || (npc != null && !npc.checkNPCCollision(nextStep.getDir())) || !canMove(nextStep.getDir())) {
+			if ((nextStep.checkClip() && !World.checkWalkStep(getPlane(), getX(), getY(), nextStep.getDir(), getSize(), getClipType())) || (nextStep.checkClip() && npc != null && !npc.checkNPCCollision(nextStep.getDir())) || !canMove(nextStep.getDir())) {
 				resetWalkSteps();
 				break;
 			}
@@ -781,7 +769,7 @@ public abstract class Entity extends WorldTile {
 		Direction dir = Direction.forDelta(nextX - lastX, nextY - lastY);
 		if (dir == null)
 			return false;
-		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (this instanceof NPC n && !n.checkNPCCollision(dir)))// double
+		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (check && this instanceof NPC n && !n.checkNPCCollision(dir)))// double
 			return false;
 		if (this instanceof Player player)
 			if (!player.getControllerManager().checkWalkStep(lastX, lastY, nextX, nextY))

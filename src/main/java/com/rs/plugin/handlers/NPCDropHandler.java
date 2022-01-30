@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.plugin.handlers;
@@ -19,7 +19,19 @@ package com.rs.plugin.handlers;
 import com.rs.plugin.events.NPCDropEvent;
 
 public abstract class NPCDropHandler extends PluginHandler<NPCDropEvent> {
-	public NPCDropHandler(Object... namesOrIds) {
-		super(namesOrIds);
+	private Object[] npcKeys, itemKeys;
+	
+	public NPCDropHandler(Object[] npcNamesOrIds, Object[] itemNamesOrIds) {
+		super(new Object[] { "meme" });
+		this.npcKeys = npcNamesOrIds;
+		this.itemKeys = itemNamesOrIds;
+	}
+
+	public Object[] getNpcKeys() {
+		return npcKeys;
+	}
+
+	public Object[] getItemKeys() {
+		return itemKeys;
 	}
 }

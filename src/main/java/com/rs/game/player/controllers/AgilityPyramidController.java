@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -144,7 +144,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	public boolean failed() {
-		return (player.getSkills().getLevel(Constants.AGILITY) / 65.0) < Math.random();
+		return (player.getSkills().getLevel(Constants.AGILITY) / 75.0) < Math.random();
 	}
 
 	private void updateTop() {

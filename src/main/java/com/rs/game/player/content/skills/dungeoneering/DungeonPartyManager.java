@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering;
@@ -210,7 +210,6 @@ public final class DungeonPartyManager {
 		int cb = player.getSkills().getCombatLevelWithSummoning();
 		double diff = Math.abs(cb - average);
 		return (diff > 50 ? ((diff - 50) * 0.01) : 0);
-
 	}
 
 	public int getMaxLevelDiference() {

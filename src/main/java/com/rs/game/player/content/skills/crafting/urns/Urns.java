@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.crafting.urns;
@@ -97,7 +97,7 @@ public class Urns {
 		}
 	};
 
-	public static NPCDropHandler handle = new NPCDropHandler(20264, 20266, 20268) {
+	public static NPCDropHandler handle = new NPCDropHandler(null, new Object[] { 20264, 20266, 20268 }) {
 		@Override
 		public void handle(NPCDropEvent e) {
 			switch(e.getItem().getId()) {

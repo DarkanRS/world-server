@@ -1,20 +1,17 @@
 package com.rs.game.player.content.minigames.pyramidplunder;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
 import com.rs.game.npc.others.OwnedNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.controllers.PyramidPlunderController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -23,605 +20,380 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
-import com.rs.utils.Ticks;
+import com.rs.utils.DropSets;
+import com.rs.utils.drop.DropTable;
 
-
-/**
- * 2366, 2375, 2376, 2377 varbits
- *
- */
 @PluginEventHandler
-public class PyramidPlunder {//All objects within the minigame
+public class PyramidPlunder {
 
-	static int[] exitDoors = {
-			Utils.randomInclusive(0,3), Utils.randomInclusive(0,3), Utils.randomInclusive(0,3), Utils.randomInclusive(0,3),
-			Utils.randomInclusive(0,3), Utils.randomInclusive(0,3)
-	};
-
-	@ServerStartupEvent
-	public static void init() {
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				exitDoors = new int[] {
-						Utils.randomInclusive(0,3), Utils.randomInclusive(0,3), Utils.randomInclusive(0,3),
-						Utils.randomInclusive(0,3), Utils.randomInclusive(0,3), Utils.randomInclusive(0,3)
-				};
-			}
-		}, 0, Ticks.fromMinutes(4));
-	}
-
-
+	public static final WorldTile EXIT_TILE = new WorldTile(3288, 2801, 0);
+	public static final Integer[] DOORS = { 16539, 16540, 16541, 16542 };
+	private static final int PHARAOHS_SCEPTRE = 9044;
+	private static final int SCEPTRE_OF_THE_GODS = 21536;
+	private static final int[] BLACK_IBIS = { 21532, 21533, 21534, 21535 };
 
 	public static ObjectClickHandler handlePyramidExits = new ObjectClickHandler(new Object[] { 16458 }) {
 		@Override
-		public void handle(ObjectClickEvent e) {;
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addOptions("Would you like to exit?", new Options() {
-					@Override
-					public void create() {
-						option("Yes", new Dialogue()
-								.addNext(()-> {
-									teleAndResetRoom(e.getPlayer(), new WorldTile(3288, 2801, 0));
-									e.getPlayer().getControllerManager().forceStop();
-								}));
-						option("No", new Dialogue());
-					}
-				});
-				create();
+		public void handle(ObjectClickEvent e) {
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
 			}
-		});
+			e.getPlayer().startConversation(new Dialogue().addOptions("Would you like to exit?", new Options() {
+				@Override
+				public void create() {
+					option("Yes", new Dialogue().addNext(() -> ctrl.exitMinigame()));
+					option("No", new Dialogue());
+				}
+			}));
 		}
 	};
 
-    private static void giveCheckUrnXP(Player p) {
-        if (isIn21Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 20);
-        else if (isIn31Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 30);
-        else if (isIn41Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 50);
-        else if (isIn51Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 70);
-        else if (isIn61Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 100);
-        else if (isIn71Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 150);
-        else if (isIn81Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 225);
-        else if (isIn91Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 275);
-    }
-
-    private static void giveSearchCheckedUrnXP(Player p) {
-        if (isIn21Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 20);
-        else if (isIn31Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 30);
-        else if (isIn41Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 50);
-        else if (isIn51Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 70);
-        else if (isIn61Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 100);
-        else if (isIn71Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 150);
-        else if (isIn81Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 225);
-        else if (isIn91Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 275);
-    }
-
-    private static void giveSearchBlindUrnXP(Player p) {
-        if (isIn21Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 60);
-        else if (isIn31Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 90);
-        else if (isIn41Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 150);
-        else if (isIn51Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 215);
-        else if (isIn61Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 300);
-        else if (isIn71Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 450);
-        else if (isIn81Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 675);
-        else if (isIn91Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 825);
-    }
-
-    private static void giveSearchGoldChestXP(Player p) {
-        if (isIn21Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 40);
-        else if (isIn31Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 60);
-        else if (isIn41Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 100);
-        else if (isIn51Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 140);
-        else if (isIn61Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 200);
-        else if (isIn71Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 300);
-        else if (isIn81Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 450);
-        else if (isIn91Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 550);
-    }
-
-    private static void giveDoorXP(Player p) {
-        if (isIn21Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn31Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn41Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn51Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn61Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn71Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn81Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-        else if (isIn91Room(p))
-            p.getSkills().addXp(Constants.THIEVING, 0);
-    }
-
-    private static void giveTrapXP(Player p) {
-        p.getSkills().addXp(Constants.THIEVING, 10);
-    }
-
-	public static ObjectClickHandler handlePlunderUrns = new ObjectClickHandler(new Object[] { 16518, 16519, 16520, 16521, 16522, 16523, 16524,
-			16525, 16526, 16527, 16528, 16529, 16530, 16531, 16532 }) {
+	public static ObjectClickHandler handlePlunderUrns = new ObjectClickHandler(new Object[] { 16518, 16519, 16520, 16521, 16522, 16523, 16524, 16525, 16526, 16527, 16528, 16529, 16530, 16531, 16532 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.isAtObject()) {
-                e.getPlayer().lock(1);
-                WorldTasks.schedule(new WorldTask() {//I had to do this to actually make the player face the urn more often. He only faces the urn 1/2 the time without this
-                    int tick;
-                    boolean checked = false;
-                    @Override
-                    public void run() {
-                        if (tick == 0)
-                            e.getPlayer().faceObject(e.getObject());
-                        if (!checked && tick >= 0
-                                && (Direction.getDirectionTo(e.getPlayer(), e.getObject()).getId() == e.getPlayer().getDirection().getId())) {//make sure you face the urn...
-                            checkUrn(e);
-                            checked = true;
-                        }
-                        if (tick == 3)
-                            stop();
-                        tick++;
-                    }
-                }, 0, 1);
-            }
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
+			}
+			e.getPlayer().lock();
+			int varbitValue = e.getPlayer().getVars().getVarBit(e.getObject().getDefinitions().varpBit);
+			if (varbitValue == 1) {
+				e.getPlayer().sendMessage("The urn is empty.");
+				return;
+			}
+			switch(e.getOption()) {
+			case "Check for Snakes" -> {
+				e.getPlayer().unlock();
+				e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()));
+				ctrl.updateObject(e.getObject(), 2);
+				return;
+			}
+			case "Charm Snake" -> {
+				e.getPlayer().unlock();
+				if (e.getPlayer().getInventory().containsItem(4605, 1)) {
+					e.getPlayer().setNextAnimation(new Animation(1877));
+					ctrl.updateObject(e.getObject(), 3);
+				} else
+					e.getPlayer().sendMessage("You need a snake charm flute for that!");
+			}
+			case "Search" -> {
+				WorldTasks.scheduleTimer(i -> {
+					switch(i) {
+						case 1 -> {
+							e.getPlayer().faceObject(e.getObject());
+							e.getPlayer().setNextAnimation(new Animation(4340));
+						}
+						case 3 -> {
+							if (rollUrnSuccess(e.getPlayer(), ctrl.getCurrentRoom(), varbitValue)) {
+								e.getPlayer().setNextAnimation(new Animation(4342));
+								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom() * (varbitValue == 0 ? 3 : 2)));
+								ctrl.updateObject(e.getObject(), 1);
+								loot(e.getPlayer(), "pp_urn", ctrl.getCurrentRoom());
+							} else {
+								e.getPlayer().setNextAnimation(new Animation(4341));
+								e.getPlayer().applyHit(new Hit(e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
+								e.getPlayer().getPoison().makePoisoned(30);
+								e.getPlayer().forceTalk("Ow!");
+							}
+						}
+						case 5 -> {
+							e.getPlayer().unlock();
+							e.getPlayer().processReceivedHits();
+							return false;
+						}
+					}
+					return true;
+				});
+			}
+			}
 		}
 	};
-
-    private static void checkUrn(ObjectClickEvent e) {
-        Player p = e.getPlayer();
-        GameObject obj = e.getObject();
-        int varNum = obj.getDefinitions().varpBit;
-        if (p.getVars().getVarBit(varNum) == 0) { //Untouched urn
-            if (e.getOption().equalsIgnoreCase("check for snakes")) {
-                p.lock(1);
-                p.setNextAnimation(new Animation(4340));
-                p.getVars().setVarBit(varNum, 2);
-                giveCheckUrnXP(p);
-            } else { //search option
-                p.lock(3);
-                WorldTasks.scheduleTimer(tick -> {
-                    if (tick == 0)
-                        p.setNextAnimation(new Animation(4340));//check urn anim
-                    if (tick == 1)
-                        if (urnSnakeBiteChance(p)) {
-                            p.setNextAnimation(new Animation(4341));//snake bite anim
-                            p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
-                            p.forceTalk("Ow!");
-                            p.getVars().setVarBit(varNum, 2);
-                        } else {
-                            p.setNextAnimation(new Animation(4342));//loot urn anim
-                            urnLoot(p);
-                            giveSearchBlindUrnXP(p);
-                            p.getVars().setVarBit(varNum, 1);
-                        }
-                    if (tick == 3)
-                        return false;
-                    return true;
-                });
-            }
-        } else if (p.getVars().getVarBit(varNum) == 1)//empty urn
-            return;
-        else if (p.getVars().getVarBit(varNum) == 2) {//Snake active
-            if (e.getOption().equalsIgnoreCase("charm snake")) {
-                if (p.getInventory().containsItem(4605, 1))
-                    p.getVars().setVarBit(varNum, 3);
-                else
-                    p.sendMessage("You need a snake charm flute for that!");
-            } else if (urnSnakeBiteChance(p)) {
-                p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
-                p.forceTalk("Ow!");
-            } else {
-                urnLoot(p);
-                giveSearchCheckedUrnXP(p);
-                p.getVars().setVarBit(varNum, 1);
-            }
-        } else if (p.getVars().getVarBit(varNum) == 3)//snake charmed
-            if (urnSnakeBiteChance(p, true)) {
-                p.applyHit(new Hit(p.getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
-                p.forceTalk("Ow!");
-            } else {
-                urnLoot(p);
-                giveSearchCheckedUrnXP(p);
-                p.getVars().setVarBit(varNum, 1);
-            }
-    }
-
-	private static void urnLoot(Player p) {
-		if (isIn21Room(p))
-			p.getInventory().addItem(rollItem(0), true);//Gold chest has higher chance of rare items + scepter
-		else if (isIn31Room(p))
-			p.getInventory().addItem(rollItem(1), true);
-		else if (isIn41Room(p))
-			p.getInventory().addItem(rollItem(2), true);
-		else if (isIn51Room(p))
-			p.getInventory().addItem(rollItem(3), true);
-		else if (isIn61Room(p))
-			p.getInventory().addItem(rollItem(4), true);
-		else if (isIn71Room(p))
-			p.getInventory().addItem(rollItem(5), true);
-		else if (isIn81Room(p))
-			p.getInventory().addItem(rollItem(6), true);
-        else if (isIn91Room(p))
-            p.getInventory().addItem(rollItem(7), true);
-	}
-
-	private static boolean urnSnakeBiteChance(Player p) {
-		return urnSnakeBiteChance(p, false);
-	}
-
-	private static boolean urnSnakeBiteChance(Player p, boolean hasCharm) {
-		double ratio = (p.getSkills().getLevel(Constants.THIEVING))/100.0*(hasCharm ? 6.0 : 3.0); //level 1 is ~0, level 99 is ~3
-		if(ratio < 1.0)
-			ratio = 1.0;
-		if (isIn21Room(p))
-			return Utils.random(0.0, 1.0) < (0.25/ratio);
-        else if (isIn31Room(p))
-            return Utils.random(0.0, 1.0) < (0.3/ratio);
-        else if (isIn41Room(p))
-            return Utils.random(0.0, 1.0) < (0.4/ratio);
-        else if (isIn51Room(p))
-            return Utils.random(0.0, 1.0) < (0.5/ratio);
-        else if (isIn61Room(p))
-            return Utils.random(0.0, 1.0) < (0.6/ratio);
-        else if (isIn71Room(p))
-            return Utils.random(0.0, 1.0) < (0.7/ratio);
-        else if (isIn81Room(p))
-            return Utils.random(0.0, 1.0) < (0.8/ratio);
-        else if (isIn91Room(p))
-            return Utils.random(0.0, 1.0) < (0.9/ratio);
-        else
-            return true;
-	}
 
 	public static ObjectClickHandler handleGrandChest = new ObjectClickHandler(new Object[] { 16537 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if(e.isAtObject()) {
-				p.getVars().setVarBit(2363, 1);
-				if(Utils.randomInclusive(0, 4) == 1) {
-					OwnedNPC swarm = new OwnedNPC(p, 2001, p, false);
-					swarm.setTarget(p);
-				}
-				if (isIn21Room(p))
-					p.getInventory().addItem(rollItem(0, 1.1, true), true);//Gold chest has higher chance of rare items + scepter
-                else if (isIn31Room(p))
-                    p.getInventory().addItem(rollItem(1, 1.1, true), true);
-                else if (isIn41Room(p))
-                    p.getInventory().addItem(rollItem(2, 1.1, true), true);
-                else if (isIn51Room(p))
-                    p.getInventory().addItem(rollItem(3, 1.1, true), true);
-                else if (isIn61Room(p))
-                    p.getInventory().addItem(rollItem(4, 1.1, true), true);
-                else if (isIn71Room(p))
-                    p.getInventory().addItem(rollItem(5, 1.1, true), true);
-                else if (isIn81Room(p))
-                    p.getInventory().addItem(rollItem(6, 1.1, true), true);
-                else if (isIn91Room(p))
-                    p.getInventory().addItem(rollItem(7, 1.1, true), true);
-                giveSearchGoldChestXP(p);
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
 			}
+			if(Utils.randomInclusive(0, 4) == 1) {
+				OwnedNPC swarm = new OwnedNPC(e.getPlayer(), 2001, e.getPlayer(), false);
+				swarm.setTarget(e.getPlayer());
+			}
+			ctrl.updateObject(e.getObject(), 1);
+			e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()) * 2);
+			loot(e.getPlayer(), "pp_sarcophagus", ctrl.getCurrentRoom());
 		}
 	};
 
 	public static ObjectClickHandler handleSarcophagus = new ObjectClickHandler(new Object[] { 16547 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if(e.isAtObject())
-				if(p.getVars().getVarBit(2362) == 0) {
-					if (isIn21Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 21) {
-							p.sendMessage("You need 21 strength...");
-							return;
-						}
-					} else if (isIn31Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 31) {
-							p.sendMessage("You need 31 strength...");
-							return;
-						}
-					} else if (isIn41Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 41) {
-							p.sendMessage("You need 41 strength...");
-							return;
-						}
-					} else if (isIn51Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 51) {
-							p.sendMessage("You need 51 strength...");
-							return;
-						}
-					} else if (isIn61Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 61) {
-							p.sendMessage("You need 61 strength...");
-							return;
-						}
-					} else if (isIn71Room(p)) {
-						if(p.getSkills().getLevel(Constants.STRENGTH) < 71) {
-							p.sendMessage("You need 71 strength...");
-							return;
-						}
-					} else if (isIn81Room(p)) {
-                        if (p.getSkills().getLevel(Constants.STRENGTH) < 81) {
-                            p.sendMessage("You need 81 strength...");
-                            return;
-                        }
-                    } else if (isIn91Room(p)) {
-                        if (p.getSkills().getLevel(Constants.STRENGTH) < 91) {
-                            p.sendMessage("You need 91 strength...");
-                            return;
-                        }
-                    }
-					p.getVars().setVarBit(2362, 1);
-					if (Utils.randomInclusive(0, 4) == 1) {
-                        OwnedNPC mummy = new OwnedNPC(p, 2015, p, false);
-						mummy.setTarget(p);
-					}
-				} else if(p.getVars().getVarBit(2362) == 1) {
-					p.getVars().setVarBit(2362, 2);
-					if (isIn21Room(p))
-						p.getInventory().addItem(rollItem(0, 1.1, true), true);//Gold chest has higher chance of rare items + scepter
-					else if (isIn31Room(p))
-						p.getInventory().addItem(rollItem(1, 1.1, true), true);
-					else if (isIn41Room(p))
-						p.getInventory().addItem(rollItem(2, 1.1, true), true);
-					else if (isIn51Room(p))
-						p.getInventory().addItem(rollItem(3, 1.1, true), true);
-					else if (isIn61Room(p))
-						p.getInventory().addItem(rollItem(4, 1.1, true), true);
-					else if (isIn71Room(p))
-						p.getInventory().addItem(rollItem(5, 1.1, true), true);
-					else if (isIn81Room(p))
-						p.getInventory().addItem(rollItem(6, 1.1, true), true);
-                    else if (isIn91Room(p))
-                        p.getInventory().addItem(rollItem(7, 1.1, true), true);
-				}
-		}
-	};
-
-    public static ObjectClickHandler handleEngravedSarcophagus = new ObjectClickHandler(new Object[] { 59795 }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            Player p = e.getPlayer();
-            if(e.isAtObject())
-                if(p.getVars().getVarBit(3422) == 0) {
-                        if (p.getSkills().getLevel(Constants.STRENGTH) < 91) {
-                            p.sendMessage("You need 91 strength...");
-                            return;
-                        }
-                    p.getVars().setVarBit(3422, 1);
-                    if (Utils.randomInclusive(0, 4) == 1) {
-                        OwnedNPC mummy = new OwnedNPC(p, 2015, p, false);
-                        mummy.setTarget(p);
-                    }
-                } else if(p.getVars().getVarBit(3422) == 1) {
-                    p.getVars().setVarBit(3422, 2);
-                    p.getInventory().addItem(rollItem(7, 1.2, true), true);
-                }
-        }
-    };
-
-	private static Item rollItem(int roomNum, double modifier) {
-		return rollItem(roomNum, modifier, false);
-	}
-
-	private static Item rollItem(int roomNum, boolean scepter) {
-		return rollItem(roomNum, 1, scepter);
-	}
-
-	private static Item rollItem(int roomNum) {
-		return rollItem(roomNum, 1, false);
-	}
-
-	private static final int IVORY_COMB = 9026;//only first 2, urns only
-	private static final int POTTERY_STATUETTE = 9036;
-
-
-
-	private static final int POTTERY_SCARAB = 9032;
-	private static final int STONE_SEAL = 9042;
-	private static final int STONE_SCARAB = 9030;
-	private static final int STONE_STATUETTE = 9038;
-	private static final int GOLDEN_SEAL = 9040;
-	private static final int GOLDEN_SCARAB = 9028;
-	private static final int GOLDEN_STATUETTE = 9034;
-	private static final int JEWELED_GOLDEN_STATUETTE = 20661;
-	private static final int PHARAOH_SCEPTRE = 9044; //Only golden chest and sarcophagus incremental chanves
-
-	static final double ivory_base_chance = 1/5.0;
-	static final double pottery_stat_base_chance = 1/9.0;
-	static final double pottery_scarab_base_chance = 1/9.0;
-	static final double stone_seal_base_chance = 1/10.0;
-	static final double stone_scarab_base_chance = 1/12.0;
-	static final double stone_stat_base_chance = 1/15.0;
-	static final double gold_seal_base_chance = 1/28.0;
-	static final double gold_scarab_base_chance = 1/32.0;
-	static final double gold_stat_base_chance = 1/35.0;
-	static final double jeweled_gold_stat_base_chance = 1/130.0;
-
-	static final double PHARAOH_SCEPTRE_base_chance = 1/3500.0; //Proof: https://oldschool.runescape.wiki/w/Grand_Gold_Chest
-
-	static final List<Double> rolls = Arrays.asList(PHARAOH_SCEPTRE_base_chance, jeweled_gold_stat_base_chance, gold_stat_base_chance, gold_scarab_base_chance,
-			gold_seal_base_chance, stone_stat_base_chance, stone_scarab_base_chance, stone_seal_base_chance, pottery_scarab_base_chance,
-			pottery_stat_base_chance, ivory_base_chance);
-
-	static final List<Integer> rewards = Arrays.asList(PHARAOH_SCEPTRE, JEWELED_GOLDEN_STATUETTE, GOLDEN_STATUETTE, GOLDEN_SCARAB, GOLDEN_SEAL,
-			STONE_STATUETTE, STONE_SCARAB, STONE_SEAL, POTTERY_SCARAB, POTTERY_STATUETTE, IVORY_COMB);
-
-	private static Item rollItem(int roomNum, double modifier, boolean scepter) {
-		if(roomNum < 0)
-			roomNum = 0;
-		if(roomNum > 7)
-			roomNum = 7;
-		modifier = modifier + (roomNum+1.0)*0.02;
-		return roll(modifier, scepter, roomNum <= 1);
-	}
-
-	private static Item roll(double modifier, boolean scepter, boolean ivoryComb) {
-		for (int i = scepter ? 0 : 1; i < rolls.size() - (ivoryComb ? 0 : 1); i++)
-			if (Utils.random(0.0, 1.0) <= rolls.get(i) * modifier)
-				return new Item(rewards.get(i));
-		return roll(modifier, scepter, ivoryComb);
-	}
-
-	public static ObjectClickHandler handlePyramidTombDoors = new ObjectClickHandler(new Object[] { 16539, 16540, 16541, 16542 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if(e.isAtObject()) {
-				if (isIn21Room(p)) {
-					if (16542 - obj.getId() == exitDoors[0]) {
-                        teleAndResetRoom(p, new WorldTile(1977, 4471, 0));
-						return;
-					}
-				} else if (isIn31Room(p)) {
-                    if (16542 - obj.getId() == exitDoors[1]) {
-                        teleAndResetRoom(p, new WorldTile(1954, 4477, 0));
-                        return;
-                    }
-                } else if (isIn41Room(p)) {
-                    if (16542 - obj.getId() == exitDoors[1]) {
-                        teleAndResetRoom(p, new WorldTile(1927, 4453, 0));
-                        return;
-                    }
-                } else if (isIn51Room(p)) {
-					if (16542 - obj.getId() == exitDoors[2]) {
-						teleAndResetRoom(p, new WorldTile(1965, 4444, 0));
-						return;
-					}
-				} else if (isIn61Room(p)) {
-					if (16542 - obj.getId() == exitDoors[3]) {
-						teleAndResetRoom(p, new WorldTile(1927, 4424, 0));
-						return;
-					}
-				} else if (isIn71Room(p)) {
-					if (16542 - obj.getId() == exitDoors[4]) {
-						teleAndResetRoom(p, new WorldTile(1943, 4421, 0));
-						return;
-					}
-				} else if (isIn81Room(p)) {
-					if (16542 - obj.getId() == exitDoors[5]) {
-						teleAndResetRoom(p, new WorldTile(1974, 4420, 0));
-						return;
-					}
-				} else if (isIn91Room(p))
-					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-						{
-							addSimple("Opening this door will cause you to leave the pyramid.");
-							addOptions("Would you like to exit?", new Options() {
-								@Override
-								public void create() {
-									option("Yes", new Dialogue()
-											.addNext(() -> {
-												teleAndResetRoom(p, new WorldTile(3288, 2801, 0));
-												e.getPlayer().getControllerManager().forceStop();
-											}));
-									option("No", new Dialogue());
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
+			}
+			int lvlReq = (ctrl.getCurrentRoom()+1) * 10 + 1;
+			if (e.getPlayer().getSkills().getLevel(Constants.STRENGTH) < lvlReq) {
+				e.getPlayer().sendMessage("You need " + lvlReq + " strength...");
+				return;
+			}
+			if (e.getOption().equals("Open")) {
+				e.getPlayer().lock();
+				boolean success = rollSarcophagusSuccess(e.getPlayer(), ctrl.getCurrentRoom());
+				WorldTasks.scheduleTimer(i -> {
+					switch(i) {
+						case 0 -> e.getPlayer().faceObject(e.getObject());
+						case 1 -> e.getPlayer().setNextAnimation(new Animation(success ? 4345 : 4344));
+						case 3 -> ctrl.updateObject(e.getObject(), success ? 1 : 0);
+						case 6 -> {
+							if (success) {
+								if (Utils.randomInclusive(0, 4) == 1) {
+									OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
+									mummy.setTarget(e.getPlayer());
 								}
-							});
-							create();
+								e.getPlayer().getSkills().addXp(Constants.STRENGTH, getRoomBaseXP(ctrl.getCurrentRoom()));
+								ctrl.updateObject(e.getObject(), 2);
+								loot(e.getPlayer(), "pp_sarcophagus", ctrl.getCurrentRoom());
+							} else {
+								e.getPlayer().applyHit(new Hit(e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
+								e.getPlayer().forceTalk("Ow!");
+							}
 						}
-					});
-
-				p.sendMessage("This door is not the exit...");
+						case 8 -> {
+							e.getPlayer().unlock();
+							return false;
+						}
+					}
+					return true;
+				});
 			}
 		}
 	};
 
-	private static void teleAndResetRoom(Player p, WorldTile tile) {
-		p.setNextWorldTile(tile);
-		for(int i = 2346; i <= 2363; i++)
-			p.getVars().setVarBit(i, 0);
+	public static ObjectClickHandler handleEngravedSarcophagus = new ObjectClickHandler(new Object[] { 59795 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
+			}
+
+			if (e.getOption().equals("Open")) {
+				if (Utils.randomInclusive(0, 4) == 1) {
+					OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
+					mummy.setTarget(e.getPlayer());
+				}
+				ctrl.updateObject(e.getObject(), 1);
+				e.getPlayer().getSkills().addXp(Skills.RUNECRAFTING, getRoomBaseXP(ctrl.getCurrentRoom()));
+				loot(e.getPlayer(), "pp_sarcophagus_engraved", ctrl.getCurrentRoom());
+			} else if (e.getOption().equals("Search")) {
+				e.getPlayer().sendMessage("The sarcophagus has already been looted.");
+			}
+		}
+	};
+
+	public static ObjectClickHandler handlePyramidTombDoors = new ObjectClickHandler((Object[]) DOORS) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
+			}
+			if (e.getOption().equals("Pick-lock")) {
+				e.getPlayer().lock();
+				WorldTasks.scheduleTimer(i -> {
+					switch(i) {
+						case 1 -> {
+							e.getPlayer().faceObject(e.getObject());
+							e.getPlayer().setNextAnimation(new Animation(832));
+						}
+						case 3 -> {
+							if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.THIEVING), e.getPlayer().getInventory().containsOneItem(1523, 11682) ? 1.3 : 1.0, 190, 190)) {
+								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom()) * 2);
+								ctrl.updateObject(e.getObject(), 1);
+							} else {
+								e.getPlayer().sendMessage("You fail to pick the lock.");
+								e.getPlayer().unlock();
+								return false;
+							}
+						}
+						case 5 -> {
+							if (e.getObjectId() == ctrl.getCorrectDoor())
+								ctrl.nextRoom();
+							else
+								e.getPlayer().sendMessage("The door leads nowhere.");
+						}
+						case 6 -> {
+							e.getPlayer().unlock();
+							return false;
+						}
+					}
+					return true;
+				});
+			} else if (e.getOption().equals("Enter")) {
+				if (e.getObjectId() == ctrl.getCorrectDoor()) {
+					ctrl.nextRoom();
+					return;
+				} else
+					e.getPlayer().sendMessage("You've already checked this door and found it's not the right way.");
+			}
+		}
+	};
+
+	private static int getRoomBaseXP(int roomId) {
+		return switch(roomId) {
+		case 1 -> 20;
+		case 2 -> 30;
+		case 3 -> 50;
+		case 4 -> 70;
+		case 5 -> 100;
+		case 6 -> 150;
+		case 7 -> 225;
+		case 8 -> 275;
+		default -> 0;
+		};
+	}
+
+	private static boolean rollUrnSuccess(Player player, int room, int varbitValue) {
+		double boost = player.getAuraManager().getThievingMul();
+		if (varbitValue == 2)
+			boost += 0.15;
+		else if (varbitValue == 3)
+			boost += 0.40;
+		int chance1 = switch(room) {
+			case 1 -> 73;
+			case 2 -> 55;
+			case 3 -> 32;
+			case 4 -> -21;
+			case 5 -> -72;
+			case 6 -> -150;
+			case 7 -> -300;
+			default -> -900;
+		};
+		int chance99 = switch(room) {
+			case 1 -> 213;
+			case 2 -> 207;
+			case 3 -> 203;
+			case 4 -> 197;
+			case 5 -> 193;
+			case 6 -> 187;
+			case 7 -> 183;
+			default -> 177;
+		};
+		return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), boost, chance1, chance99, varbitValue != 0 ? 235 : 213);
+	}
+
+	private static boolean rollSarcophagusSuccess(Player player, int room) {
+		int chance1 = switch(room) {
+			case 1 -> 62;
+			case 2 -> 30;
+			case 3 -> 20;
+			case 4 -> 0;
+			case 5 -> -50;
+			case 6 -> -90;
+			case 7 -> -120;
+			default -> -200;
+		};
+		int chance99 = switch(room) {
+			case 1 -> 256;
+			case 2 -> 226;
+			case 3 -> 196;
+			case 4 -> 166;
+			case 5 -> 136;
+			case 6 -> 106;
+			case 7 -> 76;
+			default -> 46;
+		};
+		return Utils.skillSuccess(player.getSkills().getLevel(Constants.STRENGTH), 1.0, chance1, chance99, 188);
+	}
+
+	private static boolean loot(Player player, String lootTable, int room) {
+		if (rollForBlackIbis(player))
+			return false;
+		if (lootTable.contains("sarcophagus")) {
+			int chance = switch(room) {
+				case 1 -> 3500;
+				case 2 -> 2250;
+				case 3 -> 1250;
+				case 4 -> 750;
+				default -> 650;
+			};
+			if (Utils.random(chance * (player.getEquipment().wearingRingOfWealth() ? 0.97 : 1)) == 0) {
+				player.getInventory().addItemDrop(PHARAOHS_SCEPTRE, 1);
+				World.broadcastLoot(player.getDisplayName() + " has just received a Pharaoh's sceptre from Pyramid Plunder!");
+				return true;
+			}
+		}
+		if (!player.containsItem(SCEPTRE_OF_THE_GODS) && lootTable.contains("engraved")) {
+			if (Utils.random(650 * (player.getEquipment().wearingRingOfWealth() ? 0.97 : 1)) == 0) {
+				player.getInventory().addItemDrop(new Item(SCEPTRE_OF_THE_GODS).addMetaData("teleCharges", 10));
+				World.broadcastLoot(player.getDisplayName() + " has just received a Sceptre of the Gods from Pyramid Plunder!");
+				return true;
+			}
+		}
+		Item[] drops = DropTable.calculateDrops(DropSets.getDropSet(lootTable + room));
+		for (Item item : drops) {
+			if (item == null)
+				continue;
+			player.getInventory().addItemDrop(item);
+		}
+		return false;
+	}
+
+	public static boolean rollForBlackIbis(Player player) {
+		if (player.containsItem(BLACK_IBIS[3]))
+			return false;
+		int rate = player.getEquipment().getWeaponId() == SCEPTRE_OF_THE_GODS ? 1150 : 2300;
+		if (player.getEquipment().wearingRingOfWealth())
+			rate *= 0.97;
+		if (Utils.random(rate) == 0) {
+			int drop = -1;
+			for (int peices : BLACK_IBIS) {
+				if (!player.containsItem(peices)) {
+					drop = peices;
+					break;
+				}
+			}
+			player.getInventory().addItemDrop(drop, 1);
+			World.broadcastLoot(player.getDisplayName() + " has just received a peice of Black Ibis from Pyramid Plunder!");
+			return true;
+		}
+		return false;
 	}
 
 	public static ObjectClickHandler handleSpearTrap = new ObjectClickHandler(new Object[] { 16517 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if(e.isAtObject()) {
-				if (isIn21Room(p)) {
-					if (p.getSkills().getLevel(Constants.THIEVING) < 21) {
-						p.sendMessage("You need a thieving level of 21 or higher...");
-						return;
-					}
-				} else if (isIn31Room(p)) {
-					if (p.getSkills().getLevel(Constants.THIEVING) < 31) {
-						p.sendMessage("You need a thieving level of 31 or higher...");
-						return;
-					}
-				} else if (isIn41Room(p)) {
-					if (p.getSkills().getLevel(Constants.THIEVING) < 41) {
-						p.sendMessage("You need a thieving level of 41 or higher...");
-						return;
-					}
-				} else if (isIn51Room(p)) {
-					if (p.getSkills().getLevel(Constants.THIEVING) < 51) {
-						p.sendMessage("You need a thieving level of 51 or higher...");
-						return;
-					}
-				} else if (isIn61Room(p)) {
-					if (p.getSkills().getLevel(Constants.THIEVING) < 61) {
-						p.sendMessage("You need a thieving level of 61 or higher...");
-						return;
-					}
-				} else if (isIn71Room(p)) {
-                    if (p.getSkills().getLevel(Constants.THIEVING) < 71) {
-                        p.sendMessage("You need a thieving level of 71 or higher...");
-                        return;
-                    }
-                } else if (isIn81Room(p)) {
-                    if (p.getSkills().getLevel(Constants.THIEVING) < 81) {
-                        p.sendMessage("You need a thieving level of 81 or higher...");
-                        return;
-                    }
-                } else if (isIn91Room(p))
-					if (p.getSkills().getLevel(Constants.THIEVING) < 91) {
-						p.sendMessage("You need a thieving level of 91 or higher...");
-						return;
-					}
-				passTrap(e);
+			PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
+			if (ctrl == null) {
+				e.getPlayer().setNextWorldTile(EXIT_TILE);
+				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
+				return;
 			}
+			int lvlReq = (ctrl.getCurrentRoom()+1) * 10 + 1;
+			if (e.getPlayer().getSkills().getLevel(Constants.THIEVING) < lvlReq) {
+				e.getPlayer().sendMessage("You need a thieving level of " + lvlReq + " or higher...");
+				return;
+			}
+			passTrap(e);
 		}
 	};
 
@@ -632,83 +404,39 @@ public class PyramidPlunder {//All objects within the minigame
      * @param e
      */
 	private static void passTrap(ObjectClickEvent e) {
-		Player p = e.getPlayer();
-		WorldTile tile = e.getObject();
-		WorldTile[] nearbyTiles = {
-				new WorldTile(tile.getX(), tile.getY()+1, tile.getPlane()), new WorldTile(tile.getX()+1, tile.getY(), tile.getPlane()),
-				new WorldTile(tile.getX(), tile.getY()-1, tile.getPlane()), new WorldTile(tile.getX()-1, tile.getY(), tile.getPlane())
-		};
-		WorldTile[] farTiles = {
-				new WorldTile(p.getX(), p.getY()+3, p.getPlane()), new WorldTile(p.getX()+3, p.getY(), p.getPlane()),
-				new WorldTile(p.getX(), p.getY()-3, p.getPlane()), new WorldTile(p.getX()-3, p.getY(), p.getPlane())
-		};
-		int i = 0;
+		WorldTile[] nearbyTiles = { e.getObject().transform(0, 1), e.getObject().transform(1, 0), e.getObject().transform(0, -1), e.getObject().transform(-1, 0) };
+		WorldTile[] farTiles = { e.getPlayer().transform(0, 3), e.getPlayer().transform(3, 0), e.getPlayer().transform(0, -3), e.getPlayer().transform(-3, 0) };
+		int tileIdx = 0;
 		for(WorldTile nearbyTile : nearbyTiles) {
 			GameObject obj2 = World.getObject(nearbyTile, ObjectType.SCENERY_INTERACT);
-			if (obj2 != null && obj2.getId() == 16517) {
-				p.lock(3);
-				boolean hasRun = p.getRun();
-				p.setRun(false);
-				p.addWalkSteps(farTiles[i], 4, false);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						p.setRun(hasRun);
-                        giveTrapXP(p);
-					}
-				}, 1);
-				return;
-			}
-			i++;
+			if (obj2 != null && obj2.getId() == 16517)
+				break;
+			tileIdx++;
 		}
-	}
-
-	public static boolean isIn21Room(Player p) {//they are little boxes...
-		if((p.getX()>=1921 && p.getX()<=1933) && (p.getY()>=4463 && p.getY()<=4480))
+		final WorldTile toTile = farTiles[tileIdx];
+		e.getPlayer().lock();
+		boolean hasRun = e.getPlayer().getRun();
+		WorldTasks.scheduleTimer(i -> {
+			switch(i) {
+				case 1 -> {
+					e.getPlayer().faceObject(e.getObject());
+					e.getPlayer().setNextAnimation(new Animation(832));
+				}
+				case 3 -> {
+					e.getPlayer().setRun(false);
+					e.getPlayer().addWalkSteps(toTile, 4, false);
+				}
+				case 5 -> {
+					e.getPlayer().setRun(hasRun);
+					e.getPlayer().getSkills().addXp(Skills.THIEVING, 10);
+				}
+				case 6 -> {
+					e.getPlayer().unlock();
+					return false;
+				}
+			}
 			return true;
-		return false;
-	}
-
-    public static boolean isIn31Room(Player p) {
-        if((p.getX()>=1968 && p.getX()<=1984) && (p.getY()>=4451 && p.getY()<=4475))
-            return true;
-        return false;
-    }
-
-	public static boolean isIn41Room(Player p) {
-		if((p.getX()>=1946 && p.getX()<=1961) && (p.getY()>=4462 && p.getY()<=4479))
-			return true;
-		return false;
-	}
-
-	public static boolean isIn51Room(Player p) {
-		if((p.getX()>=1922 && p.getX()<=1943) && (p.getY()>=4447 && p.getY()<=4460))
-			return true;
-		return false;
-	}
-
-	public static boolean isIn61Room(Player p) {
-		if((p.getX()>=1949 && p.getX()<=1967) && (p.getY()>=4443 && p.getY()<=4456))
-			return true;
-		return false;
-	}
-
-	public static boolean isIn71Room(Player p) {
-		if((p.getX()>=1921 && p.getX()<=1933) && (p.getY()>=4422 && p.getY()<=4441))
-			return true;
-		return false;
-	}
-
-	public static boolean isIn81Room(Player p) {
-		if((p.getX()>=1938 && p.getX()<=1957) && (p.getY()>=4419 && p.getY()<=4436))
-			return true;
-		return false;
-	}
-
-	public static boolean isIn91Room(Player p) {
-		if((p.getX()>=1965 && p.getX()<=1979) && (p.getY()>=4417 && p.getY()<=4438))
-			return true;
-		return false;
+		});
 	}
 
 	final static WorldTile[] rightHandSpearTraps = {
@@ -766,6 +494,7 @@ public class PyramidPlunder {//All objects within the minigame
 	private static void hitPlayer(PlayerStepEvent e) {
 		Player p = e.getPlayer();
 		p.applyHit(new Hit(30, Hit.HitLook.POISON_DAMAGE));
+		p.getPoison().makePoisoned(20);
 		Direction oppositeDir = Direction.rotateClockwise(e.getStep().getDir(), 4);//180 degree turn
 		int dX = oppositeDir.getDx();
 		int dY = oppositeDir.getDy();

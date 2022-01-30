@@ -11,13 +11,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.rs.game.Entity;
 import com.rs.game.npc.NPC;
@@ -34,7 +35,7 @@ public class CombatScriptsHandler {
 
 	@ServerStartupEvent
 	public static final void loadScripts() {
-		ArrayList<Class<?>> classes;
+		List<Class<?>> classes;
 		try {
 			classes = Utils.getClasses("com.rs.game.npc.combat.impl");
 			for (Class<?> c : classes) {

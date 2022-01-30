@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player;
@@ -149,21 +149,18 @@ public final class Inventory {
 	}
 
 	public boolean addItem(int itemId, int amount) {
-		if (itemId < 0 || amount < 0 || !Utils.itemExists(itemId) || !player.getControllerManager().canAddInventoryItem(itemId, amount))
+		Item item = new Item(itemId, amount);
+		PluginManager.handle(new ItemAddedToInventoryEvent(player, item));
+		if (item.getId() < 0 || item.getAmount() < 0 || !Utils.itemExists(item.getId()) || !player.getControllerManager().canAddInventoryItem(item.getId(), item.getAmount()))
 			return false;
-		// if (player.getUsername().equalsIgnoreCase("thieving")) {
-		// player.getBank().addItem(new Item(itemId, amount), true);
-		// return true;
-		// }
 		Item[] itemsBefore = items.getItemsCopy();
-		if (!items.add(new Item(itemId, amount))) {
-			items.add(new Item(itemId, items.getFreeSlots()));
+		if (!items.add(item)) {
+			items.add(new Item(item.getId(), items.getFreeSlots()));
 			player.sendMessage("Not enough space in your inventory.");
 			refreshItems(itemsBefore);
 			return false;
 		}
 		refreshItems(itemsBefore);
-		PluginManager.handle(new ItemAddedToInventoryEvent(player, new Item(itemId, amount)));
 		return true;
 	}
 
@@ -174,6 +171,7 @@ public final class Inventory {
 	}
 
 	public boolean addItem(Item item) {
+		PluginManager.handle(new ItemAddedToInventoryEvent(player, item));
 		if (item.getId() < 0 || item.getAmount() < 0 || !Utils.itemExists(item.getId()) || !player.getControllerManager().canAddInventoryItem(item.getId(), item.getAmount()))
 			return false;
 		Item[] itemsBefore = items.getItemsCopy();
@@ -185,7 +183,6 @@ public final class Inventory {
 			return false;
 		}
 		refreshItems(itemsBefore);
-		PluginManager.handle(new ItemAddedToInventoryEvent(player, item));
 		return true;
 	}
 

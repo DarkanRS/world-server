@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl;
@@ -37,11 +37,11 @@ public class SuqahCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, final Entity target) {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
-		if (Utils.getRandomInclusive(3) == 0) {// barrage
+		boolean meleeOnly = npc.getId() == 4528 || npc.getId() == 4529 || npc.getId() == 4531 || npc.getId() == 4532;
+		if (!meleeOnly && Utils.getRandomInclusive(3) == 0) {// barrage
 			boolean hit = Utils.getRandomInclusive(1) == 0;
 			delayHit(npc, 2, target, getMagicHit(npc, hit ? 100 : 0));
 			WorldTasks.schedule(new WorldTask() {
-
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(369));

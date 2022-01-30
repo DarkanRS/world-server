@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs;
@@ -151,6 +151,7 @@ public final class Settings {
 			Logger.handle(e);
 		}
 		Globals.DEBUG = getConfig().debug;
+		Logger.log("Settings", "Loaded lobby IP: " + getConfig().lobbyIp);
 	}
 
 	public String getServerName() {

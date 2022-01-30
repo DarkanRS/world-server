@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game;
@@ -1502,5 +1502,9 @@ public final class World {
 				if (r != null)
 					r.processGroundItems();
 		}
+	}
+
+	public static void broadcastLoot(String message) {
+		sendWorldMessage("<img=4><shad=000000><col=00FF00>" + message, false);
 	}
 }

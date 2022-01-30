@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs;
@@ -108,7 +108,12 @@ public final class Launcher {
 		Logger.log("Launcher", "Registering world with lobby server...");
 		Logger.log("Launcher", Settings.getConfig().getWorldInfo());
 		new WorldAPI().start();
-		LobbyCommunicator.post(Settings.getConfig().getWorldInfo(), "addworld");
+		LobbyCommunicator.post(Boolean.class, Settings.getConfig().getWorldInfo(), "addworld", success -> {
+			if (success)
+				Logger.log("Launcher", "Registered world with lobby server...");
+			else
+				Logger.log("Launcher", "Failed to register world with lobby server...");
+		});
 		addAccountsSavingTask();
 		addCleanMemoryTask();
 	}

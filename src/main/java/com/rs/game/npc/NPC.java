@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc;
@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.rs.cache.loaders.Bonus;
-import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cores.CoresManager;
@@ -623,7 +622,7 @@ public class NPC extends Entity {
 
 		dropTo.incrementCount(item.getName()+" drops earned", item.getAmount());
 		if (yellDrop(item.getId())) {
-			World.sendWorldMessage("<img=4><shad=000000><col=00FF00>" + dropTo.getDisplayName() + " has just recieved a " + item.getName() + " drop from " + getDefinitions().getName() + "!", false);
+			World.broadcastLoot(dropTo.getDisplayName() + " has just recieved a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
 			FileManager.writeToFile("droplog.txt", dropTo.getDisplayName() + " has just recieved a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
 		}
 
@@ -679,7 +678,7 @@ public class NPC extends Entity {
 					return;
 				}
 
-		PluginManager.handle(new NPCDropEvent(dropTo, item));
+		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
 	}
 
@@ -712,7 +711,7 @@ public class NPC extends Entity {
 	}
 
 	public static void displayDropsFor(Player player, int npcId, int npcAmount) {
-		ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().getRingId() != -1 && ItemDefinitions.getDefs(player.getEquipment().getRingId()).getName().toLowerCase().contains("ring of wealth"));
+		ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().wearingRingOfWealth());
 		if (dropCollection == null) {
 			player.sendMessage("No drops found for that NPC.");
 			return;

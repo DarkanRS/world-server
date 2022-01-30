@@ -1,11 +1,22 @@
 # Darkan World Server
 The world server for Darkan that integrates with the lobby server.
 
+[![discord][discord-badge]][discord-link] [![license][license-badge]][gnu-gpl-link] [![open-bugs][bug-badge]][bug-link]
+
+[discord-link]: https://discord.gg/p8qqZrWC
+[discord-badge]: https://img.shields.io/discord/118102728026095623?label=discord&logo=discord
+
+[gnu-gpl-link]: https://www.gnu.org/licenses/gpl-3.0.en.html
+[license-badge]: https://img.shields.io/badge/license-GPLv3-blue.svg
+
+[bug-link]: https://github.com/titandino/darkan-world-server/issues
+[bug-badge]: https://img.shields.io/github/issues-raw/titandino/darkan-world-server/bug?label=open%20bugs
+
 ## Setup steps
 
 ### Pre-requisites
 - [Git](https://git-scm.com/download/win) (if on Windows, otherwise just use a package-manager like `pacman -S git` on Unix)
-- [JDK-16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.html)
+- [JDK-17](https://jdk.java.net/17/)
 - [Git-LFS](https://git-lfs.github.com/ "Git-LFS")
 - [MongoDB](https://docs.mongodb.com/manual/installation/ "MongoDB")
 - [Gradle](https://gradle.org/install/ "Gradle")

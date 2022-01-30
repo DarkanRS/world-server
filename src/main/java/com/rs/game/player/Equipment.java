@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player;
@@ -780,5 +780,9 @@ public final class Equipment {
 		player.getPackets().setIFText(667, 43, "Ranged Str: " + player.getCombatDefinitions().getBonus(Bonus.RANGE_STR));
 		player.getPackets().setIFText(667, 44, "Prayer: " + player.getCombatDefinitions().getBonus(Bonus.PRAYER));
 		player.getPackets().setIFText(667, 45, "Magic Damage: " + player.getCombatDefinitions().getBonus(Bonus.MAGIC_STR) + "%");
+	}
+
+	public boolean wearingRingOfWealth() {
+		return getRingId() != -1 && ItemDefinitions.getDefs(getRingId()).getName().toLowerCase().contains("ring of wealth");
 	}
 }

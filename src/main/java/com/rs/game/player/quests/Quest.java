@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
@@ -224,7 +225,7 @@ public enum Quest {
 
 	public static void initializeHandlers() {
 		try {
-			ArrayList<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs.game.player.quests.handlers", QuestHandler.class);
+			List<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs.game.player.quests.handlers", QuestHandler.class);
 			for (Class<?> clazz : classes) {
 				QuestHandler handler = clazz.getAnnotation(QuestHandler.class);
 				if (handler == null || clazz.getSuperclass() != QuestOutline.class)
