@@ -1,5 +1,23 @@
 [
   {
+    "comment": "Lava eel Fishing spot for Heroes Quest",
+    "npcId": 15020,
+    "tile": {
+      "x": 2884,
+      "y": 9765,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Lava eel Fishing spot 2 for Heroes Quest",
+    "npcId": 15020,
+    "tile": {
+      "x": 2894,
+      "y": 9764,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Eniola added by jawarrior1",
     "npcId": 6362,
     "tile": {
@@ -567,13 +585,13 @@
     }
   },
   {
-  "comment": "Sir Prysin; Demon Slayer",
-  "npcId": 883,
-  "tile": {
-    "x": 3202,
-    "y": 3472,
-    "plane": 0
-  }
+    "comment": "Sir Prysin; Demon Slayer",
+    "npcId": 883,
+    "tile": {
+      "x": 3202,
+      "y": 3472,
+      "plane": 0
+    }
   },
   {
     "comment": "Spider herald added by trent",
@@ -114925,7 +114943,6 @@
     "comment": "Mercenary Captain",
     "npcId": 830
   },
-
   {
     "tile": {
       "plane": 0,

@@ -1,5 +1,6 @@
 package com.rs.game.player.quests.handlers.heroesquest;
 
+import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.quests.Quest;
@@ -7,7 +8,13 @@ import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestManager;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.Constants;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
 
 import java.util.ArrayList;
 
@@ -55,11 +62,12 @@ public class HeroesQuest extends QuestOutline {
                 }
             }
             case GET_ITEMS -> {
-                if (player.getInventory().containsItem(995, 1)) {
-                    lines.add("");
+                if (player.getInventory().containsItem(2149, 1)) { //Lava Eel
+                    lines.add("You need a cooked Lava Eel. Maybe Garrent in");
+                    lines.add("Port Sarim can help?");
                     lines.add("");
                 } else {
-                    lines.add("");
+                    lines.add("You got the cooked Lava Eeel, finally!");
                     lines.add("");
                 }
 
@@ -114,10 +122,40 @@ public class HeroesQuest extends QuestOutline {
         return true;
     }
 
+    public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{309}) {//blamish oil, fly fishing rod
+        @Override
+        public void handle(ItemOnItemEvent e) {
+            int rod_slot = e.getItem1().getId() == 309 ? e.getItem1().getSlot() : e.getItem2().getSlot();
+            int oil_slot = e.getItem1().getId() == 1582 ? e.getItem1().getSlot() : e.getItem2().getSlot();
+            e.getPlayer().getInventory().deleteItem(oil_slot, new Item(1582, 1));
+            e.getPlayer().getInventory().replaceItem(1585, 1, rod_slot);
+        }
+    };
+
+    public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(1582) {
+        @Override
+        public void handle(ItemClickEvent e) {
+            Player p = e.getPlayer();
+            if (e.getOption().equalsIgnoreCase("drop")) {
+                p.getInventory().removeItems(e.getItem());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                e.getPlayer().getPackets().sendSound(2739, 0, 1);
+                return;
+            }
+            p.sendMessage("You know... I'd really rather not.");
+        }
+    };
+
     @Override
     public void complete(Player player) {
-        getQuest().sendQuestCompleteInterface(player, 778, "Total of 29,232XP over twelve xp lamps", "Access to the heroes guild",
-                "Can wield Dragon Battleaxe & Mace", "Access to Heroes Guild Shop");
+        Object[][] xpAdded = {{Constants.ATTACK, 3075}, {Constants.DEFENSE, 3075}, {Constants.STRENGTH, 3075}, {Constants.HITPOINTS, 3075},
+                {Constants.RANGE, 2075}, {Constants.FISHING, 2725}, {Constants.COOKING, 2825}, {Constants.WOODCUTTING, 1575}, {Constants.FIREMAKING, 1575},
+                {Constants.SMITHING, 2257}, {Constants.MINING, 2575}, {Constants.HERBLORE, 1325}};
+        for (int i = 0; i < xpAdded.length; i++) {
+            player.sendMessage("You have gained " + xpAdded[i][1] + " in " + Skills.SKILL_NAME[(int) xpAdded[i][0]] + ".");
+            player.getSkills().addXpQuest((int) xpAdded[i][0], (int) xpAdded[i][1]);
+        }
+        getQuest().sendQuestCompleteInterface(player, 1377, "Access to the heroes guild", "Access to Heroes Guild Shop", "Total of 29,232XP over twelve skills");
     }
 
 }

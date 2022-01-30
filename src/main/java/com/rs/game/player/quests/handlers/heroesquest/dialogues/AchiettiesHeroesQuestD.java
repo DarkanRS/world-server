@@ -15,7 +15,6 @@ import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.NOT_STA
 @PluginEventHandler
 public class AchiettiesHeroesQuestD extends Conversation {
     private static final int NPC = 796;
-    private int prevOp = 0;
 
     public AchiettiesHeroesQuestD(Player p) {
         super(p);
@@ -26,22 +25,15 @@ public class AchiettiesHeroesQuestD extends Conversation {
                 option("Any hints on getting the thieves armband?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Any hints on getting the thieves armband?")
                         .addNPC(NPC, HeadE.CALM_TALK, "I'm sure you have relevant contacts to find out about that.")
-                        .addNext(() -> {
-                            p.startConversation(new Conversation(itemsOptions));
-                        })
-                );
+                        .addNext(() -> p.startConversation(new Conversation(itemsOptions))));
                 option("Any hints on getting the feather?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Any hints on getting the feather?")
                         .addNPC(NPC, HeadE.CALM_TALK, "Not really – other than Entrana firebirds tend to live on Entrana")
-                        .addNext(() -> {
-                            p.startConversation(new Conversation(itemsOptions));
-                        }));
+                        .addNext(() -> p.startConversation(new Conversation(itemsOptions))));
                 option("Any hints on getting the eel?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Any hints on getting the eel?")
-                        .addNPC(NPC, HeadE.CALM_TALK, "Maybe go and find someone who knows a lot about fishing?")
-                        .addNext(() -> {
-                            p.startConversation(new Conversation(itemsOptions));
-                        }));
+                        .addNPC(NPC, HeadE.CALM_TALK, "Maybe go and find someone who knows a lot about fishing? (Try Gerrant in Port Sarim...)")
+                        .addNext(() -> p.startConversation(new Conversation(itemsOptions))));
                 option("I'll start looking for all those things then", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "I'll start looking for all those things then")
                         .addNPC(NPC, HeadE.CALM_TALK, "Good luck with that."));
@@ -79,6 +71,9 @@ public class AchiettiesHeroesQuestD extends Conversation {
                                             "points to file an application.")
                                     .addNPC(NPC, HeadE.CALM_TALK, "Additionally you must have completed the Shield of Arrav, Lost City, Merlin's Crystal " +
                                             "and Dragon Slayer.")
+                                    .addNext(() -> {
+                                        p.getQuestManager().showQuestDetailInterface(Quest.HEROES_QUEST);
+                                    })
                             );
                         option("Good for the foremost heroes of the land.", new Dialogue()
                                 .addPlayer(HeadE.HAPPY_TALKING, "Good for the foremost heroes of the land.")

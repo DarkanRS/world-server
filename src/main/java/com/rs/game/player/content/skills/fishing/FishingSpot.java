@@ -35,6 +35,7 @@ public enum FishingSpot {
 	FLY_FISHING(new int[] { 309 }, new int[] { 314, 10087, 10088, 10089, 10090, 10091 }, new Animation(622), Fish.TROUT, Fish.SALMON),
 	BARBARIAN_FLY_FISHING(new int[] { 11323 }, new int[] { 11326, 11324, 11334, 313, 314, 10087, 10088, 10089, 10090, 10091 }, new Animation(622), Fish.LEAPING_TROUT, Fish.LEAPING_SALMON, Fish.LEAPING_STURGEON),
 	PIKE(new int[] { 307 }, new int[] { 313 }, new Animation(622), Fish.PIKE),
+    LAVA_EEL(new int[] { 1585 }, new int[] { 313 }, new Animation(622), Fish.LAVA_EEL),//oily fishing rod, bait
 	MONKFISH(new int[] { 303 }, null, new Animation(621), Fish.MONKFISH),
 	FROGSPAWN(new int[] { 303 }, null, new Animation(621), Fish.FROGSPAWN),
 	CAVEFISH(new int[] { 307 }, new int[] { 313 }, new Animation(622), Fish.CAVEFISH),
