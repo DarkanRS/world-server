@@ -16,21 +16,6 @@
 //
 package com.rs.game.player;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.EnumDefinitions;
@@ -38,13 +23,9 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
-import com.rs.game.Entity;
-import com.rs.game.ForceTalk;
-import com.rs.game.Hit;
+import com.rs.game.*;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.World;
 import com.rs.game.World.DropMethod;
-import com.rs.game.WorldProjectile;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.item.ItemsContainer;
@@ -60,13 +41,8 @@ import com.rs.game.pathing.RouteEvent;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.actions.LodestoneAction.Lodestone;
 import com.rs.game.player.actions.PlayerCombat;
-import com.rs.game.player.content.Effect;
-import com.rs.game.player.content.ItemConstants;
+import com.rs.game.player.content.*;
 import com.rs.game.player.content.ItemConstants.ItemDegrade;
-import com.rs.game.player.content.Notes;
-import com.rs.game.player.content.PlayerLook;
-import com.rs.game.player.content.SkillCapeCustomizer;
-import com.rs.game.player.content.Toolbelt;
 import com.rs.game.player.content.Toolbelt.Tools;
 import com.rs.game.player.content.achievements.AchievementInterface;
 import com.rs.game.player.content.books.Book;
@@ -95,26 +71,11 @@ import com.rs.game.player.content.skills.slayer.SlayerTaskManager;
 import com.rs.game.player.content.skills.slayer.TaskMonster;
 import com.rs.game.player.content.transportation.FadingScreen;
 import com.rs.game.player.content.world.Musician;
-import com.rs.game.player.controllers.Controller;
-import com.rs.game.player.controllers.DeathOfficeController;
-import com.rs.game.player.controllers.GodwarsController;
-import com.rs.game.player.controllers.TutorialIslandController;
-import com.rs.game.player.controllers.WarriorsGuild;
+import com.rs.game.player.controllers.*;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StartDialogue;
-import com.rs.game.player.managers.ActionManager;
-import com.rs.game.player.managers.AuraManager;
-import com.rs.game.player.managers.ControllerManager;
-import com.rs.game.player.managers.CutsceneManager;
-import com.rs.game.player.managers.DialogueManager;
-import com.rs.game.player.managers.EmotesManager;
-import com.rs.game.player.managers.HintIconsManager;
-import com.rs.game.player.managers.InteractionManager;
-import com.rs.game.player.managers.InterfaceManager;
-import com.rs.game.player.managers.MusicsManager;
-import com.rs.game.player.managers.PrayerManager;
-import com.rs.game.player.managers.TreasureTrailsManager;
+import com.rs.game.player.managers.*;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestManager;
 import com.rs.game.player.social.FCManager;
@@ -122,14 +83,7 @@ import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.PublicChatMessage;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.VarManager;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.model.Social;
@@ -150,15 +104,16 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.InputIntegerEvent;
-import com.rs.plugin.events.InputStringEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.*;
 import com.rs.utils.Click;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Entity {
 
@@ -1497,7 +1452,7 @@ public class Player extends Entity {
 	public void incrementCount(String string, int count) {
 		if (variousCounter == null)
 			variousCounter = new ConcurrentHashMap<>();
-		variousCounter.put(string, variousCounter.getOrDefault(string, 0) + 1);
+		variousCounter.put(string, variousCounter.getOrDefault(string, 0) + count);
 	}
 
 	public int getNumberKilled(String npcName) {
