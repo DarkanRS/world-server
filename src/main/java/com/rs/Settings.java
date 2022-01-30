@@ -16,13 +16,6 @@
 //
 package com.rs;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import com.google.common.net.PercentEscaper;
 import com.google.gson.JsonIOException;
 import com.rs.lib.Globals;
@@ -31,6 +24,13 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldInfo;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public final class Settings {
 
@@ -66,13 +66,13 @@ public final class Settings {
 		ownerName = "trent";
 		cachePath = "../darkan-cache/";
 		debug = false;
-		lobbyIp = "testlobby.darkan.org";
-		mongoUrl = "testlobby.darkan.org";
+		lobbyIp = "dev.darkan.org";
+		mongoUrl = "localhost";
 		mongoPort = 27017;
-		mongoUser = "darkan";
-		mongoPass = "test";
+		mongoUser = "";
+		mongoPass = "";
 		lobbyApiKey = "TEST_API_KEY";
-		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "Admin Server", 1, true, true);
+		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, true, true);
 		loginMessage = "";
 		playerStartTile = new WorldTile(3226, 3219, 0);
 		playerRespawnTile = new WorldTile(3221, 3218, 0);
