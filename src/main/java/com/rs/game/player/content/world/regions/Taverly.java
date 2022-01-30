@@ -22,6 +22,8 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.dialogues.TanningD;
+import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.heroesquest.dialogues.AchiettiesHeroesQuestD;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -31,6 +33,25 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Taverly {
+    public static NPCClickHandler handleAchietties = new NPCClickHandler(796) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if(e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST)) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    int NPC = e.getNPCId();
+                    {
+                        addNPC(NPC, HeadE.CALM_TALK, "Greetings, welcome to the heroes guild!");
+                        addPlayer(HeadE.HAPPY_TALKING, "Thank you...");
+                        addNPC(NPC, HeadE.CALM_TALK, "You're welcome.");
+                        create();
+                    }
+                });
+            } else {
+                e.getPlayer().startConversation(new AchiettiesHeroesQuestD(e.getPlayer()).getStart());
+            }
+        }
+    };
+
 	public static NPCClickHandler handleHeadFarmerJones = new NPCClickHandler(14860) {
 		@Override
 		public void handle(NPCClickEvent e) {

@@ -171,7 +171,7 @@ public class InventoryOptionsHandler {
 				player.sendMessage("You need a hammer to break this open.");
 		if (Foods.eat(player, item, slotId))
 			return;
-		if (Lamps.isSelectable(itemId) || Lamps.isSkillLamp(itemId) || Lamps.isOtherLamp(itemId))
+		if (Lamps.isSelectable(itemId) || Lamps.isSkillLamp(itemId) || Lamps.isOtherSelectableLamp(itemId))
 			Lamps.processLampClick(player, slotId, itemId);
 		if (item.getId() == 405) {
 			Item[] loot = DropTable.calculateDrops(player, DropSets.getDropSet("fishing_casket"));
@@ -320,7 +320,7 @@ public class InventoryOptionsHandler {
 		}
 		if (HerbCleaning.clean(player, item, slotId))
 			return;
-		if (Lamps.isSelectable(itemId) || Lamps.isSkillLamp(itemId) || Lamps.isOtherLamp(itemId)) {
+		if (Lamps.isSelectable(itemId) || Lamps.isSkillLamp(itemId) || Lamps.isOtherSelectableLamp(itemId)) {
 			Lamps.processLampClick(player, slotId, itemId);
 			return;
 		}
