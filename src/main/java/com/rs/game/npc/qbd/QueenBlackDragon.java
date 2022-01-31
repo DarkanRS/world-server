@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.qbd;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
 import com.rs.game.World;
@@ -29,6 +26,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -36,6 +34,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the Queen Black Dragon.
@@ -363,6 +364,15 @@ public final class QueenBlackDragon extends NPC {
 		attacker.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 8, 3, "Take", "Bank", "Discard", "Examine");
 		attacker.getPackets().setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3);
 		attacker.getPackets().sendItems(100, rewards);
+		for (Item item : rewards.getItems()) {
+			if (item == null)
+				continue;
+			if (yellDrop(item.getId())) {
+				World.broadcastLoot(attacker.getDisplayName() + " has just received a " + item.getName() + " drop from the Queen Black Dragon!");
+				FileManager.writeToFile("droplog.txt", attacker.getDisplayName() + " has just recieved a " + item.getName() + " drop from the Queen Black Dragon!");
+			}
+			attacker.incrementCount(item.getName() + " drops earned", item.getAmount());
+		}
 		if (replace)
 			World.spawnObject(new GameObject(70817, ObjectType.SCENERY_INTERACT, 0, base.transform(30, 28, -1)));
 	}
