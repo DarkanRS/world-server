@@ -17,13 +17,11 @@
 package com.rs.game.player.controllers;
 
 import com.rs.game.ForceMovement;
-import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.player.content.skills.magic.Magic;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -38,6 +36,8 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PuroPuroController extends Controller {
+
+	private static WorldTile entranceTile;
 
 	private static final Item[][] REQUIRED = { { new Item(11238, 3), new Item(11240, 2), new Item(11242, 1) }, { new Item(11242, 3), new Item(11244, 2), new Item(11246, 1) }, { new Item(11246, 3), new Item(11248, 2), new Item(11250, 1) }, { null } };
 
@@ -73,11 +73,16 @@ public class PuroPuroController extends Controller {
 	public boolean processObjectClick1(GameObject object) {
 		switch (object.getId()) {
 		case 25014:
+			System.out.println("memes");
 			player.getControllerManager().forceStop();
-			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2427, 4446, 0), 9, false, Magic.OBJECT_TELEPORT);
+			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, entranceTile == null ? new WorldTile(2427, 4446, 0) : entranceTile, 9, false, Magic.OBJECT_TELEPORT);
 			return true;
 		}
 		return true;
+	}
+
+	public static void setEntranceTile(WorldTile tile) {
+		entranceTile = tile;
 	}
 
 	public static void pushThrough(final Player player, GameObject object) {
@@ -103,19 +108,15 @@ public class PuroPuroController extends Controller {
 		}
 		player.sendMessage(Utils.getRandomInclusive(2) == 0 ? "You use your strength to push through the wheat in the most efficient fashion." : "You use your strength to push through the wheat.");
 		player.setNextFaceWorldTile(object);
-		player.setNextAnimation(new Animation(6594));
+		player.setNextAnimation(new Animation(6594)); //6595
 		player.lock();
 		final WorldTile tile = new WorldTile(objectX, objectY, 0);
 		player.setNextFaceWorldTile(object);
 		player.setNextForceMovement(new ForceMovement(tile, 6, direction));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
+		WorldTasks.schedule(0, 6, () -> {
 				player.unlock();
 				player.setNextWorldTile(tile);
-			}
-		}, 6);
+		});
 	}
 
 	public static NPCClickHandler handleElnock = new NPCClickHandler(6070) {
@@ -137,30 +138,10 @@ public class PuroPuroController extends Controller {
 		}
 	};
 
-	public static WorldTile getRandomTile() {
-		return new WorldTile(Utils.random(2558 + 3, 2626 - 3), Utils.random(4285 + 3, 4354 - 3), 0);
-	}
-
-	public static int getRandomImplingId() {
-		FlyingEntities[] implings = FlyingEntities.values();
-		int random = Utils.getRandomInclusive(1000);
-		if (random < 3)
-			return implings[Utils.random(10, 14)].getNpcId();
-		if (random < 80)
-			return implings[Utils.random(4, 10)].getNpcId();
-		if (random < 300)
-			return implings[Utils.random(7)].getNpcId();
-		return implings[Utils.getRandomInclusive(5)].getNpcId();
-	}
-
-	public static void initPuroImplings() {
-		for (int i = 0; i < 5; i++)
-			for (int index = 0; index < 11; index++) {
-				if (i > 2)
-					if (Utils.getRandomInclusive(1) == 0)
-						continue;
-				World.spawnNPC(PuroPuroController.getRandomImplingId(), PuroPuroController.getRandomTile(), -1, false);
-			}
+	public static boolean isRareImpling(int npcId) {
+		if (npcId == FlyingEntities.KINGLY_IMPLING_PP.getNpcId() || npcId == FlyingEntities.ZOMBIE_IMPLING_PP.getNpcId() || npcId == FlyingEntities.DRAGON_IMPLING_PP.getNpcId() || npcId == FlyingEntities.PIRATE_IMPLING_PP.getNpcId() || npcId == FlyingEntities.NINJA_IMPLING_PP.getNpcId() || npcId == FlyingEntities.MAGPIE_IMPLING_PP.getNpcId() || npcId == FlyingEntities.NATURE_IMPLING_PP.getNpcId())
+			return true;
+		return false;
 	}
 
 	public static void openPuroInterface(final Player player) {

@@ -277,8 +277,6 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new ClanVex(), false);
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
 				player.getDialogueManager().execute(new TanningD(), npc.getId());
-			else if (npc.getName().toLowerCase().contains("impling"))
-				FlyingEntityHunter.captureFlyingEntity(player, npc);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
 
 			} else if (npc instanceof Pet pet) {

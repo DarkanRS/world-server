@@ -117,7 +117,7 @@ public class LostCity extends QuestOutline {
 								p.lock(3);
 							}
 							if(tick == 4)
-								if(!p.getQuestManager().isComplete(Quest.LOST_CITY))
+								if(!p.getQuestManager().isComplete(Quest.LOST_CITY) && p.getQuestManager().getStage(Quest.LOST_CITY) == 10)
 									p.getQuestManager().completeQuest(Quest.LOST_CITY);
 							if(tick == 5)
 								stop();

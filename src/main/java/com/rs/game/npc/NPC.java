@@ -139,10 +139,6 @@ public class NPC extends Entity {
 		BoxHunterType npc = BoxHunterType.forId(id);
 		if (npc != null)
 			setRandomWalk(true);
-		if (getName().contains("impling")) {
-			setRandomWalk(true);
-			setClipType(ClipType.FLYING);
-		}
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
 		levels = NPCCombatDefinitions.getDefs(id).getLevels();
@@ -363,16 +359,22 @@ public class NPC extends Entity {
 		setFinished(true);
 		World.updateEntityRegion(this);
 		World.removeNPC(this);
+		onFinish();
 	}
 
 	public void setRespawnTask() {
 		setRespawnTask(-1);
 	}
 
-	/**
-	 * For quests
-	 * @param ticks
-	 */
+	public void setRespawnTask(int time) {
+		if (!hasFinished()) {
+			reset();
+			setLocation(respawnTile);
+			finish();
+		}
+		CoresManager.schedule(() -> spawn(), time < 0 ? getCombatDefinitions().getRespawnDelay() : time);
+	}
+
 	public void finishAfterTicks(final int ticks) {
 		WorldTasks.schedule(new WorldTask() {
 			int tick;
@@ -385,16 +387,7 @@ public class NPC extends Entity {
 				}
 				tick++;
 			}
-		}, 0, 1);
-	}
-
-	public void setRespawnTask(int time) {
-		if (!hasFinished()) {
-			reset();
-			setLocation(respawnTile);
-			finish();
-		}
-		CoresManager.schedule(() -> spawn(), time < 0 ? getCombatDefinitions().getRespawnDelay() : time);
+		}, 0, 0);
 	}
 
 	public void deserialize() {
@@ -415,6 +408,10 @@ public class NPC extends Entity {
 	}
 
 	public void onRespawn() {
+
+	}
+
+	public void onFinish() {
 
 	}
 

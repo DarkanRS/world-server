@@ -101,11 +101,7 @@ public class FalconryController extends Controller {
 					player.getDialogueManager().execute(new SimpleMessage(), "You need a Hunter level of " + level + " to capture this kebbit.");
 					return true;
 				}
-				if (FlyingEntityHunter.isSuccessful(player, level, player -> {
-					if (player.getEquipment().getGlovesId() == 10075)
-						return 3;
-					return 1;
-				})) {
+				if (FlyingEntityHunter.isSuccessful(player, level)) {
 					player.getEquipment().set(3, new Item(10023, 1));
 					player.getEquipment().refresh(3);
 					player.getAppearance().generateAppearanceData();

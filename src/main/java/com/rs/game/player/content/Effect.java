@@ -128,6 +128,7 @@ public enum Effect {
 			}
 		}
 	},
+	FARMERS_AFFINITY("Farmer's affinity"),
 
 	;
 

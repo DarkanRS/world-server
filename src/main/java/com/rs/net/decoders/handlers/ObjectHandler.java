@@ -347,14 +347,6 @@ public final class ObjectHandler {
 			} else if (id == 25632) {
 				if (Lander.canEnter(player, 2))
 					return;
-			} else if (id == 24991) {
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						player.getControllerManager().startController(new PuroPuroController());
-					}
-				}, 10);
-				Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2591, 4320, 0), 9, false, Magic.OBJECT_TELEPORT);
 			} else if (id == 26847)
 				Runecrafting.craftZMIAltar(player);
 			else if (id == 35391 || id == 2832) {

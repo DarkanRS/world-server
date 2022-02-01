@@ -91,7 +91,6 @@ public final class World {
 		addRestoreShopItemsTask();
 		addBrewingProcessTask();
 		processPartyRoom();
-		PuroPuroController.initPuroImplings();
 		LivingRockCavern.init();
 	}
 
