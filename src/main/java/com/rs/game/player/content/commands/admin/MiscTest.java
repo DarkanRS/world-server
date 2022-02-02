@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.content.commands.admin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.cache.ArchiveType;
@@ -56,11 +52,7 @@ import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
@@ -77,6 +69,10 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @PluginEventHandler
 public class MiscTest {

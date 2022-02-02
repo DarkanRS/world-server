@@ -1079,6 +1079,18 @@ public class NPC extends Entity {
 		changedName = true;
 	}
 
+	@Override
+	public int hashCode() {
+		return getIndex();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof NPC n)
+			return n.hashCode() == hashCode();
+		return false;
+	}
+
 	public int getCustomCombatLevel() {
 		return combatLevel;
 	}
