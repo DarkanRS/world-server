@@ -3,6 +3,7 @@ package com.rs.game.player.quests.handlers.heroesquest;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestManager;
@@ -11,8 +12,10 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemAddedToInventoryEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
@@ -62,7 +65,7 @@ public class HeroesQuest extends QuestOutline {
                 }
             }
             case GET_ITEMS -> {
-                if (player.getInventory().containsItem(2149, 1)) { //Lava Eel
+                if (!player.getInventory().containsItem(2149, 1)) { //Lava Eel
                     lines.add("You need a cooked Lava Eel. Maybe Garrent in");
                     lines.add("Port Sarim can help?");
                     lines.add("");
@@ -71,11 +74,14 @@ public class HeroesQuest extends QuestOutline {
                     lines.add("");
                 }
 
-                if (player.getInventory().containsItem(995, 1)) {
-                    lines.add("");
+                if (!player.getInventory().containsItem(1583, 1)) {
+                    lines.add("You need a fire feather. They can be found");
+                    lines.add("by killing a fire bird in Entrana. Rumor is");
+                    lines.add("you need ice gloves from the ice queen under");
+                    lines.add("White Wolf Mountain.");
                     lines.add("");
                 } else {
-                    lines.add("");
+                    lines.add("You finally got the fire feather!");
                     lines.add("");
                 }
 
@@ -122,6 +128,19 @@ public class HeroesQuest extends QuestOutline {
         return true;
     }
 
+    public static ItemAddedToInventoryHandler handleFireFeather = new ItemAddedToInventoryHandler(1583) {
+        @Override
+        public void handle(ItemAddedToInventoryEvent e) {
+            Player p = e.getPlayer();
+            if (p.getEquipment().getGlovesId() == 1580)//ice gloves
+                return;
+            else {
+                e.cancel();
+                World.addGroundItem(new Item(1583, 1), p);
+                p.startConversation(new Dialogue().addSimple("The feather is too hot to pick up with your bare hands..."));
+            }
+        }
+    };
 
     public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{309}) {//blamish oil, fly fishing rod
         @Override
