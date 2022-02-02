@@ -108,7 +108,7 @@ public class NPCHandler {
 				}
 			});
 		if (Settings.getConfig().isDebug())
-			Logger.log("NPCHandler", "examined npc: " + npc.getIndex() + ", " + npc.getId());
+			Logger.log("NPCHandler", "examined npc: " + npc.getIndex() + ", " + npc.getId() + ", clip type: " + npc.getClipType() + ", randomWalk:" + npc.shouldRandomWalk());
 	}
 
 	public static void handleOption1(final Player player, final NPC npc) {

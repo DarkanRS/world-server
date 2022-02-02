@@ -17,9 +17,12 @@
 package com.rs.game.player.controllers;
 
 import com.rs.game.ForceMovement;
+import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
+import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.tasks.WorldTasks;
@@ -30,18 +33,25 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+import org.checkerframework.checker.units.qual.A;
 
 @PluginEventHandler
 public class PuroPuroController extends Controller {
 
-	private static WorldTile entranceTile;
+	private WorldTile entranceTile;
 
 	private static final Item[][] REQUIRED = { { new Item(11238, 3), new Item(11240, 2), new Item(11242, 1) }, { new Item(11242, 3), new Item(11244, 2), new Item(11246, 1) }, { new Item(11246, 3), new Item(11248, 2), new Item(11250, 1) }, { null } };
 
 	private static final Item[] REWARD = { new Item(11262, 1), new Item(11259, 1), new Item(11258, 1), new Item(11260, 3) };
+
+	public PuroPuroController(WorldTile tile) {
+		this.entranceTile = tile;
+	}
 
 	@Override
 	public void start() {
@@ -73,51 +83,61 @@ public class PuroPuroController extends Controller {
 	public boolean processObjectClick1(GameObject object) {
 		switch (object.getId()) {
 		case 25014:
-			System.out.println("memes");
 			player.getControllerManager().forceStop();
-			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, entranceTile == null ? new WorldTile(2427, 4446, 0) : entranceTile, 9, false, Magic.OBJECT_TELEPORT);
+			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, entranceTile, 9, false, Magic.OBJECT_TELEPORT);
 			return true;
 		}
 		return true;
 	}
 
-	public static void setEntranceTile(WorldTile tile) {
-		entranceTile = tile;
-	}
+	public static ObjectClickHandler pushThrough = new ObjectClickHandler(new Object[] { "Magical wheat" }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (e.isAtObject()) {
+				e.getPlayer().faceObject(e.getObject());
 
-	public static void pushThrough(final Player player, GameObject object) {
-		int objectX = object.getX();
-		int objectY = object.getY();
-		Direction direction = Direction.NORTH;
-		if (player.getX() == objectX && player.getY() < objectY) {
-			objectY = objectY + 1;
-			direction = Direction.NORTH;
-		} else if (player.getX() == objectX && player.getY() > objectY) {
-			objectY = objectY - 1;
-			direction = Direction.SOUTH;
-		} else if (player.getY() == objectY && player.getX() < objectX) {
-			objectX = objectX + 1;
-			direction = Direction.EAST;
-		} else if (player.getY() == objectY && player.getX() > objectX) {
-			objectX = objectX - 1;
-			direction = Direction.WEST;
-		} else {
-			objectY = objectY - 1;
-			objectX = objectX + 1;
-			direction = Direction.SOUTHEAST;
+				Direction dir = e.getPlayer().getDirection();
+				int speed = Utils.randomInclusive(0, 2) * 2;
+				int finalSpeed = e.getPlayer().hasEffect(Effect.FARMERS_AFFINITY) ? 3+speed : 6+speed;
+				WorldTile finalTile = e.getPlayer().getFrontfacingTile(2);
+
+				GameObject loc = World.getObject(finalTile);
+				if (loc != null && loc.getDefinitions(e.getPlayer()).getName().equals("Magical wheat")) {
+					e.getPlayer().sendMessage("The wheat here seems unusually stubborn. You cannot push through");
+					return;
+				}
+
+				e.getPlayer().lock();
+				switch (speed) {
+					case 0 -> {
+						if (e.getPlayer().hasEffect(Effect.FARMERS_AFFINITY))
+							e.getPlayer().sendMessage("You use your strength to push through the wheat in the most efficient fashion.");
+						else
+							e.getPlayer().sendMessage("You use your strength to push through the wheat.");
+					}
+					case 2 -> e.getPlayer().sendMessage("You push through the wheat.");
+					case 4 -> e.getPlayer().sendMessage("You push through the wheat. It's hard work, though.");
+				}
+				//6953, 6594, 6595
+				WorldTasks.scheduleTimer(ticks -> {
+					if (ticks == 0) {
+						e.getPlayer().setNextForceMovement(new ForceMovement(finalTile, finalSpeed, dir));
+						e.getPlayer().setNextAnimation(new Animation(6593 + speed/2));
+					}
+					if (ticks == finalSpeed) {
+						e.getPlayer().unlock();
+						e.getPlayer().setNextWorldTile(finalTile);
+						if (e.getPlayer().getO("ppStrengthEnabled") == null)
+							e.getPlayer().save("ppStrengthEnabled", true);
+						if (e.getPlayer().getBool("ppStrengthEnabled"))
+							e.getPlayer().getSkills().addXp(Skills.STRENGTH, 4-speed);
+						return false;
+					}
+					return true;
+				});
+			}
 		}
-		player.sendMessage(Utils.getRandomInclusive(2) == 0 ? "You use your strength to push through the wheat in the most efficient fashion." : "You use your strength to push through the wheat.");
-		player.setNextFaceWorldTile(object);
-		player.setNextAnimation(new Animation(6594)); //6595
-		player.lock();
-		final WorldTile tile = new WorldTile(objectX, objectY, 0);
-		player.setNextFaceWorldTile(object);
-		player.setNextForceMovement(new ForceMovement(tile, 6, direction));
-		WorldTasks.schedule(0, 6, () -> {
-				player.unlock();
-				player.setNextWorldTile(tile);
-		});
-	}
+	};
 
 	public static NPCClickHandler handleElnock = new NPCClickHandler(6070) {
 		@Override

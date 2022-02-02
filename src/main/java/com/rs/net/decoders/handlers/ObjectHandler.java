@@ -2201,9 +2201,6 @@ public final class ObjectHandler {
 					if (def.containsOption(4, "Add-logs"))
 						Bonfire.addLogs(player, object);
 					break;
-				case "magical wheat":
-					PuroPuroController.pushThrough(player, object);
-					break;
 				default:
 					player.sendMessage("Nothing interesting happens.");
 					break;

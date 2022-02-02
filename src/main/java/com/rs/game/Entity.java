@@ -208,6 +208,21 @@ public abstract class Entity extends WorldTile {
 		return transform(backFaceDirs[0], backFaceDirs[1], 0);
 	}
 
+	public WorldTile getBackfacingTile(int distance) {
+		int[] backFaceDirs = Utils.getBackFace(faceAngle);
+		return transform(backFaceDirs[0] * distance, backFaceDirs[1] * distance, 0);
+	}
+
+	public WorldTile getFrontfacingTile() {
+		int[] frontFaceDirs = Utils.getFrontFace(faceAngle);
+		return transform(frontFaceDirs[0], frontFaceDirs[1], 0);
+	}
+
+	public WorldTile getFrontfacingTile(int distance) {
+		int[] frontFaceDirs = Utils.getFrontFace(faceAngle);
+		return transform(frontFaceDirs[0] * distance, frontFaceDirs[1] * distance, 0);
+	}
+
 	@Override
 	public int hashCode() {
 		return hashCode;

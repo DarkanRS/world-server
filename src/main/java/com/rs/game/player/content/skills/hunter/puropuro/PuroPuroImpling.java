@@ -2,6 +2,7 @@ package com.rs.game.player.content.skills.hunter.puropuro;
 
 import com.rs.game.npc.NPC;
 import com.rs.game.pathing.ClipType;
+import com.rs.game.player.content.holidayevents.christmas.christ19.Christmas2019;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -80,7 +81,7 @@ public class PuroPuroImpling extends NPC {
         }
 
         for (WorldTile tile : IMP_DEFENDER_SPAWNS) {
-            PuroPuroImpling imp = new PuroPuroImpling(6074, tile);
+            ImpDefender imp = new ImpDefender(6074, tile);
         }
     }
 }
