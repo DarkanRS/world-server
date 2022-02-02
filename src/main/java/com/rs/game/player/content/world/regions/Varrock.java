@@ -39,15 +39,11 @@ import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
+import com.rs.game.player.quests.handlers.heroesquest.dialogues.KatrineHeroesQuestD;
+import com.rs.game.player.quests.handlers.heroesquest.dialogues.StravenHeroesQuestD;
 import com.rs.game.player.quests.handlers.knightssword.KnightsSword;
 import com.rs.game.player.quests.handlers.knightssword.ReldoKnightsSwordD;
-import com.rs.game.player.quests.handlers.shieldofarrav.BaraekShieldOfArravD;
-import com.rs.game.player.quests.handlers.shieldofarrav.CharlieTheTrampArravD;
-import com.rs.game.player.quests.handlers.shieldofarrav.KatrineShieldOfArravD;
-import com.rs.game.player.quests.handlers.shieldofarrav.KingRoaldShieldOfArravD;
-import com.rs.game.player.quests.handlers.shieldofarrav.MuseumCuratorArravD;
-import com.rs.game.player.quests.handlers.shieldofarrav.ReldoShieldOfArravD;
-import com.rs.game.player.quests.handlers.shieldofarrav.StravenShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.*;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -257,20 +253,24 @@ public class Varrock {
 	public static NPCClickHandler handleKatrine = new NPCClickHandler(642) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-				e.getPlayer().sendMessage("Nothing interesting happens");
+            Player p = e.getPlayer();
+			if(p.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV )
+                    && ShieldOfArrav.isBlackArmGang(p) && p.getQuestManager().getStage(Quest.HEROES_QUEST) > 0)
+				p.startConversation(new KatrineHeroesQuestD(p).getStart());
 			else
-				e.getPlayer().startConversation(new KatrineShieldOfArravD(e.getPlayer()).getStart());
+				p.startConversation(new KatrineShieldOfArravD(p).getStart());
 		}
 	};
 
 	public static NPCClickHandler handleStraven = new NPCClickHandler(644) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-				e.getPlayer().sendMessage("Nothing interesting happens");
-			else
-				e.getPlayer().startConversation(new StravenShieldOfArravD(e.getPlayer()).getStart());
+            Player p = e.getPlayer();
+			if(p.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV )
+                    && ShieldOfArrav.isPhoenixGang(p) && p.getQuestManager().getStage(Quest.HEROES_QUEST) > 0) //started
+                p.startConversation(new StravenHeroesQuestD(p).getStart());
+            else
+				p.startConversation(new StravenShieldOfArravD(p).getStart());
 		}
 	};
 

@@ -267,15 +267,15 @@ public class PlayerModifiers {
 				}
 		});
 
-        Commands.add(Rights.ADMIN, "setplayergang [player_name gang]", "Sets Player Gang", (p, args) -> {
+        Commands.add(Rights.ADMIN, "playergang [player_name gang]", "Sets Player Gang", (p, args) -> {
             Player player = World.getPlayer(args[0]);
             if (args[1].toLowerCase().contains("phoenix")) {
                 ShieldOfArrav.setPhoenixGang(player);
-                p.sendMessage("Set " + player.getUsername() + " gang to Phoenix");
+                p.sendMessage("Set " + player.getUsername() + "'s gang to Phoenix");
             }
             else if(args[1].toLowerCase().contains("black")) {
                 ShieldOfArrav.setBlackArmGang(player);
-                p.sendMessage("Set " + player.getUsername() + " gang to Black Arm");
+                p.sendMessage("Set " + player.getUsername() + "'s gang to Black Arm");
             }
         });
 	}
