@@ -122,6 +122,7 @@ public class HeroesQuest extends QuestOutline {
         return true;
     }
 
+
     public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{309}) {//blamish oil, fly fishing rod
         @Override
         public void handle(ItemOnItemEvent e) {

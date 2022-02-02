@@ -1,5 +1,275 @@
 [
   {
+    "comment": "Ice warrior added by jazneta, heroes quest: https://runescape.wiki/images/Ice_Queen%27s_Lair_map.png?875ac",
+    "npcId": 145,
+    "tile": {
+      "x": 2869,
+      "y": 9952,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 145,
+    "tile": {
+      "x": 2862,
+      "y": 9952,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 145,
+    "tile": {
+      "x": 2867,
+      "y": 9955,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 145,
+    "tile": {
+      "x": 2864,
+      "y": 9955,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 145,
+    "tile": {
+      "x": 2867,
+      "y": 9951,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 145,
+    "tile": {
+      "x": 2868,
+      "y": 9947,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 145,
+    "tile": {
+      "x": 2867,
+      "y": 9956,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice Queen added by jazneta",
+    "npcId": 795,
+    "tile": {
+      "x": 2863,
+      "y": 9959,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2860,
+      "y": 9911,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2879,
+      "y": 9926,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2887,
+      "y": 9937,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2891,
+      "y": 9938,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2892,
+      "y": 9945,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2892,
+      "y": 9949,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2891,
+      "y": 9952,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2887,
+      "y": 9954,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2885,
+      "y": 9963,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2882,
+      "y": 9966,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice giant added by jazneta",
+    "npcId": 111,
+    "tile": {
+      "x": 2878,
+      "y": 9969,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2873,
+      "y": 9971,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2853,
+      "y": 9970,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2828,
+      "y": 9957,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2820,
+      "y": 9953,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2818,
+      "y": 9930,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice spider added by jazneta",
+    "npcId": 64,
+    "tile": {
+      "x": 2828,
+      "y": 9925,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 125,
+    "tile": {
+      "x": 2819,
+      "y": 9903,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 125,
+    "tile": {
+      "x": 2832,
+      "y": 9901,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 125,
+    "tile": {
+      "x": 2839,
+      "y": 9919,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 125,
+    "tile": {
+      "x": 2845,
+      "y": 9921,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ice warrior added by jazneta",
+    "npcId": 125,
+    "tile": {
+      "x": 2847,
+      "y": 9912,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Lava eel Fishing spot for Heroes Quest",
     "npcId": 15020,
     "tile": {
