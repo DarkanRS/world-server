@@ -37,9 +37,10 @@
   {
     "genre": "Taverly & Burthrope",
     "parent": "Asgarnia",
-    "comment": "City specific of both ",
+    "comment": "City specific of both + rogues den",
     "isActive": true,
     "regionIds": [
+      12109,
       11575,
       11574,
       11573,
@@ -72,6 +73,8 @@
     "comment": "",
     "isActive": true,
     "regionIds": [
+      11060,
+      11316,
       11319,
       11572,
       11571,
