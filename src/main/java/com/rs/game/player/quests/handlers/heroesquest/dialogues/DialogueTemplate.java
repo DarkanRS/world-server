@@ -10,18 +10,19 @@ import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.*;
 @PluginEventHandler
 public class DialogueTemplate extends Conversation {
 	private static final int NPC = -1;
+
 	public DialogueTemplate(Player p) {
 		super(p);
-		switch(p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
-		case NOT_STARTED -> {
+		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
+			case NOT_STARTED -> {
 
-		}
-        case GET_ITEMS -> {
+			}
+			case GET_ITEMS -> {
 
-		}
-		case QUEST_COMPLETE ->  {
+			}
+			case QUEST_COMPLETE -> {
 
-		}
+			}
 		}
 	}
 }
