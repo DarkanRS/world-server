@@ -8,6 +8,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestManager;
 import com.rs.game.player.quests.QuestOutline;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -85,11 +86,19 @@ public class HeroesQuest extends QuestOutline {
                     lines.add("");
                 }
 
-                if (player.getInventory().containsItem(995, 1)) {
-                    lines.add("");
+                if (player.getInventory().containsItem(1579, 1)) {
+                    lines.add("Finally, you got the master thieves armband!");
                     lines.add("");
                 } else {
-                    lines.add("");
+                    if(ShieldOfArrav.hasGang(player)) {
+                        lines.add("To get the master thieves armband you");
+                        if (ShieldOfArrav.isPhoenixGang(player))
+                            lines.add("should talk to Straven for a mission...");
+                        if (ShieldOfArrav.isBlackArmGang(player))
+                            lines.add("should talk to Katrine for a mission...");
+                    } else {
+                        lines.add("Error, you don't have a gang, contact an admin!");
+                    }
                     lines.add("");
                 }
                 lines.add("");

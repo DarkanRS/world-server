@@ -1,5 +1,6 @@
 package com.rs.game.player.quests.handlers.heroesquest.dialogues;
 
+import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -7,6 +8,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.heroesquest.HeroesQuest;
+import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.GET_ITEMS;
@@ -84,11 +86,28 @@ public class AchiettiesHeroesQuestD extends Conversation {
             }
             case GET_ITEMS -> {
                 addNPC(NPC, HeadE.CALM_TALK, "Greetings. Welcome to the Heroes' Guild. How goes thy quest adventurer?");
+                if(hasAllItems(p)) {
+                    addPlayer(HeadE.HAPPY_TALKING, "I have all the required items.");
+                    addNPC(NPC, HeadE.CALM_TALK, "I see that you have. Well done. Now, to complete the quest, and gain entry to the Heroes' Guild in your" +
+                            " final task all that you have to do is...");
+                    addPlayer(HeadE.AMAZED, "W-what? What do you mean? There's MORE?");
+                    addNPC(NPC, HeadE.CALM_TALK, "I'm sorry, I was just having a little fun with you. Just a little Heroes' Guild humour there. What I really meant was...");
+                    addNPC(NPC, HeadE.CALM_TALK, "Congratulations! You have completed the Heroes' Guild entry requirements! You will find the door now open for you! Enter, Hero! And take this reward!");
+                    addNext(()->{
+                        p.getQuestManager().completeQuest(Quest.HEROES_QUEST);
+                        p.getInventory().removeItems(new Item(2149, 1), new Item(1579, 1), new Item(1583, 1));
+                    });
+                    return;
+                }
                 addPlayer(HeadE.HAPPY_TALKING, "It's tough. I've not done it yet.");
                 addNPC(NPC, HeadE.CALM_TALK, "Remember, the items you need to enter are: An Entranan Firebirds' feather, A Master Thieves armband, and a " +
                         "cooked Lava Eel.");
                 addNext(itemsOptions);
             }
         }
+    }
+
+    public static boolean hasAllItems(Player p) {
+        return p.getInventory().containsItems(new Item(2149, 1), new Item(1579, 1), new Item(1583, 1));
     }
 }

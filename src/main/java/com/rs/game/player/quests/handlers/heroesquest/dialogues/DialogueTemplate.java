@@ -9,9 +9,6 @@ import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.*;
 
 @PluginEventHandler
 public class DialogueTemplate extends Conversation {
-	private final int FIRST = 0;
-	private final int SECOND = 1;
-	@SuppressWarnings("unused")
 	private static final int NPC = -1;
 	public DialogueTemplate(Player p) {
 		super(p);
@@ -27,24 +24,4 @@ public class DialogueTemplate extends Conversation {
 		}
 		}
 	}
-
-	public DialogueTemplate(Player p, int id) {
-		super(p);
-		switch(id) {
-		case FIRST -> {
-
-		}
-		case SECOND -> {
-
-		}
-
-		}
-	}
-	/*
-    public static NPCClickHandler handleDialogue = new NPCClickHandler(NPC) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new DialogueTemplate(e.getPlayer()).getStart());
-        }
-    };*/
 }
