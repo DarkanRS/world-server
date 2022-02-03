@@ -63,6 +63,32 @@
     "songs": []
   },
   {
+    "genre": "Dorgesh-kaan",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      10835,
+      10834
+    ],
+    "songs": [
+      240,
+      249,
+      296,
+      313,
+      346,
+      389,
+      420,
+      439,
+      440,
+      704,
+      706,
+      707,
+      708,
+      711,
+      712
+    ]
+  },
+  {
     "genre": "Fremennik Isles",
     "comment": "",
     "isActive": true,
