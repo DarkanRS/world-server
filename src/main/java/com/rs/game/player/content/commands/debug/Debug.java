@@ -121,7 +121,7 @@ public class Debug {
 
 		});
 
-		Commands.add(Rights.PLAYER, "getcontroller", "Clears m", (p, args) -> {
+		Commands.add(Rights.PLAYER, "getcontroller", "Shows current controller", (p, args) -> {
 			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getClass().getName()));
 		});
 
