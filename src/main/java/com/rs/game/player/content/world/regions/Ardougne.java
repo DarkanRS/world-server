@@ -17,6 +17,7 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.World;
+import com.rs.game.ge.GE;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteEvent;
@@ -25,6 +26,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.agility.Agility;
@@ -32,15 +34,18 @@ import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.content.world.npcs.Banker;
+import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
@@ -48,6 +53,13 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ardougne  {
+
+	public static NPCClickHandler handleBrotherOmad = new NPCClickHandler(279) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getPlayer().startConversation(new BrotherOmadMonksFriendD(e.getPlayer()).getStart());
+		}
+	};
 
 	public static NPCClickHandler handleTownCrier = new NPCClickHandler(6138) {
 		@Override
@@ -61,26 +73,95 @@ public class Ardougne  {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK).getStart());
 						}
 					});
+					create();
 				}
 			});
 		}
 	};
 
 	public static NPCClickHandler handleZMIBanker = new NPCClickHandler(6362) {
+		private void bank(Player p) {
+			if(!p.getBank().checkPin())
+				return;
+			p.getTempAttribs().setB("open_zmi_collect", false);
+			p.getInterfaceManager().sendInterface(619);
+		}
+		private void collect(Player p) {
+			if(!p.getBank().checkPin())
+				return;
+			p.getTempAttribs().setB("open_zmi_collect", true);
+			p.getInterfaceManager().sendInterface(619);
+		}
+
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
-			//                case "Bank":
-			//                    p.getBank().open();
-			//                    break;
-			//                case "Collect":
-			//                    GE.openCollection(p);
-			//                    break;
-			case "Talk-to":
-				e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
-				break;
+				case "Bank"-> { bank(e.getPlayer()); }
+				case "Collect"-> { collect(e.getPlayer()); }
+				case "Talk-to"-> {
+					int NPC = e.getNPCId();
+					e.getPlayer().startConversation(new Dialogue()
+							.addNPC(NPC, HeadE.CALM_TALK, "Well met, fellow adventurer! How can I help you?")
+							.addPlayer(HeadE.HAPPY_TALKING, "Who are you?")
+							.addNPC(NPC, HeadE.CALM_TALK, "How frightfully rude of me, my dear " +e.getPlayer().getPronoun("chap", "lady") +
+									". My name is Eniola and I work for that most excellent enterprise, the Bank of Gielinor.")
+							.addPlayer(HeadE.HAPPY_TALKING, "If you work for the bank, what are you doing here?")
+							.addNPC(NPC, HeadE.CALM_TALK, "My presence here is the start of a new enterprise of travelling banks.")
+							.addNPC(NPC, HeadE.CALM_TALK, "I can give you bank services for a price...")
+							.addPlayer(HeadE.HAPPY_TALKING, "What price?")
+							.addNPC(NPC, HeadE.CALM_TALK, "20 of any rune...")
+							.addNPC(NPC, HeadE.CALM_TALK, "Would you like to bank or collect?")
+							.addOptions("Choose an option:", new Options() {
+								@Override
+								public void create() {
+									option("Bank", new Dialogue()
+											.addNext(()->{e.getPlayer().closeInterfaces(); bank(e.getPlayer());})
+									);
+									option("Collect", new Dialogue()
+											.addNext(()->{e.getPlayer().closeInterfaces(); collect(e.getPlayer());})
+									);
+									option("Nevermind", new Dialogue());
+								}
+							}));
+				}
 			}
 
+		}
+	};
+
+	public static ButtonClickHandler handleZMIRunesInterface = new ButtonClickHandler(619) {
+		private static void checkRunesBankOrCollect(Player p, int runeId) {
+			Item runes = new Item(runeId, 20);
+			if(p.getInventory().containsItems(runes)) {
+				p.getInventory().removeItems(runes);
+				if(p.getTempAttribs().getB("open_zmi_collect"))
+					GE.openCollection(p);
+				else
+					p.getBank().open();
+			} else {
+				p.sendMessage("You don't have enough " + runes.getName() + "s!");
+				p.closeInterfaces();
+			}
+		}
+		@Override
+		public void handle(ButtonClickEvent e) {
+			Player p = e.getPlayer();
+			switch(e.getComponentId()) {
+				case 28-> { checkRunesBankOrCollect(p, 556); }
+				case 29-> { checkRunesBankOrCollect(p, 558); }
+				case 30-> { checkRunesBankOrCollect(p, 555); }
+				case 31-> { checkRunesBankOrCollect(p, 557); }
+				case 32-> { checkRunesBankOrCollect(p, 554); }
+				case 33-> { checkRunesBankOrCollect(p, 559); }
+				case 34-> { checkRunesBankOrCollect(p, 564); }
+				case 35-> { checkRunesBankOrCollect(p, 562); }
+				case 36-> { checkRunesBankOrCollect(p, 9075); }
+				case 37-> { checkRunesBankOrCollect(p, 563); }
+				case 38-> { checkRunesBankOrCollect(p, 560); }
+				case 39-> { checkRunesBankOrCollect(p, 565); }
+				case 40-> { checkRunesBankOrCollect(p, 561); }
+				case 41-> { checkRunesBankOrCollect(p, 566); }
+			}
 		}
 	};
 
@@ -116,6 +197,7 @@ public class Ardougne  {
 								option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.ARDOUGNE_CLOAK).getStart());
 							}
 						});
+						create();
 					}
 				});
 			else
