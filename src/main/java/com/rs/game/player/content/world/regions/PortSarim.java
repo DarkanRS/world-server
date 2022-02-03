@@ -125,6 +125,7 @@ public class PortSarim {
                                             .addItem(1581, "He gives you some blamish snail oil...", ()->{
                                                 e.getPlayer().getInventory().addItem(1581, 1, true);
                                             })
+                                            .addNPC(NPC, HeadE.CALM_TALK, "Don't forget to add this to unfinished Harralander")
                                             .addPlayer(HeadE.HAPPY_TALKING, "So, where can I fish lava eels?")
                                             .addNPC(NPC, HeadE.CALM_TALK, "Taverley dungeon or the lava maze in the Wilderness.")
                                     );

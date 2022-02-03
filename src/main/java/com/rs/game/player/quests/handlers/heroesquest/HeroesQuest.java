@@ -4,6 +4,7 @@ import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestManager;
@@ -151,13 +152,20 @@ public class HeroesQuest extends QuestOutline {
         }
     };
 
-    public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{309}) {//blamish oil, fly fishing rod
+    public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{307}) {//blamish oil, fly fishing rod
         @Override
         public void handle(ItemOnItemEvent e) {
-            int rod_slot = e.getItem1().getId() == 309 ? e.getItem1().getSlot() : e.getItem2().getSlot();
+            int rod_slot = e.getItem1().getId() == 307 ? e.getItem1().getSlot() : e.getItem2().getSlot();
             int oil_slot = e.getItem1().getId() == 1582 ? e.getItem1().getSlot() : e.getItem2().getSlot();
             e.getPlayer().getInventory().deleteItem(oil_slot, new Item(1582, 1));
             e.getPlayer().getInventory().replaceItem(1585, 1, rod_slot);
+        }
+    };
+
+    public static ItemOnItemHandler handlePromptHarllander = new ItemOnItemHandler(new int[]{1581}, new int[]{307}) {//blamish slime, fly fishing rod
+        @Override
+        public void handle(ItemOnItemEvent e) {
+            e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "I'll need to add unfinished Harralander to the slime before I make it oily..."));
         }
     };
 

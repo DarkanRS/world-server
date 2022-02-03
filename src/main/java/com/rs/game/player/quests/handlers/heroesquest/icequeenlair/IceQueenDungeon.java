@@ -3,6 +3,8 @@ package com.rs.game.player.quests.handlers.heroesquest.icequeenlair;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Toolbelt;
+import com.rs.game.player.content.skills.mining.Pickaxe;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -18,6 +20,10 @@ public class IceQueenDungeon {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
+            if(!p.containsTool(1265) && Pickaxe.getBest(p) == null) {
+                p.sendMessage("You do not have a pickaxe...");
+                return;
+            }
             if (p.getSkills().getLevel(Constants.MINING) < 50)
                 return;
             GameObject obj = e.getObject();

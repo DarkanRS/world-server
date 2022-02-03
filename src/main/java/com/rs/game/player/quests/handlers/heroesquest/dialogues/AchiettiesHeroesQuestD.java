@@ -30,7 +30,7 @@ public class AchiettiesHeroesQuestD extends Conversation {
                         .addNext(() -> p.startConversation(new Conversation(itemsOptions))));
                 option("Any hints on getting the feather?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Any hints on getting the feather?")
-                        .addNPC(NPC, HeadE.CALM_TALK, "Not really – other than Entrana firebirds tend to live on Entrana")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Not really - other than Entrana firebirds tend to live on Entrana")
                         .addNext(() -> p.startConversation(new Conversation(itemsOptions))));
                 option("Any hints on getting the eel?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Any hints on getting the eel?")
