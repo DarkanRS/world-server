@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.commands.debug;
 
+import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
+
+import java.util.Arrays;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
@@ -40,9 +44,6 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 
-import java.util.Arrays;
-
-import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
 
 
 @PluginEventHandler
@@ -69,10 +70,8 @@ public class Debug {
                 System.out.println(e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
             return false;
         }
-
         @Override
-        public void handle(ButtonClickEvent e) {
-        }
+        public void handle(ButtonClickEvent e) { }
     };
 
     @ServerStartupEvent
@@ -86,7 +85,7 @@ public class Debug {
 
         Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
             p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
-            p.sendMessage("JagCoords: " + p.getPlane() + "," + p.getRegionX() + "," + p.getRegionY() + "," + p.getXInScene(p.getSceneBaseChunkId()) + "," + p.getYInScene(p.getSceneBaseChunkId()));
+            p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInScene(p.getSceneBaseChunkId())+","+p.getYInScene(p.getSceneBaseChunkId()));
         });
 
         Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
@@ -103,20 +102,12 @@ public class Debug {
             }
         });
 
-        Commands.add(Rights.DEVELOPER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
-            switch (Integer.valueOf(args[0])) {
-                case 0 -> {
-                    p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
-                }
-                case 1 -> {
-                    p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
-                }
-                case 2 -> {
-                    p.getControllerManager().startController(new DragonSlayer_BoatScene());
-                }
-                case 3 -> {
-                    p.getControllerManager().startController(new MerlinsCrystalCrateScene());
-                }
+        Commands.add(Rights.ADMIN, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
+            switch(Integer.valueOf(args[0])) {
+                case 0 -> {p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());}
+                case 1 -> {p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());}
+                case 2 -> {p.getControllerManager().startController(new DragonSlayer_BoatScene());}
+                case 3 -> {p.getControllerManager().startController(new MerlinsCrystalCrateScene());}
             }
 
         });
@@ -125,7 +116,7 @@ public class Debug {
             p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getClass().getName()));
         });
 
-        Commands.add(Rights.DEVELOPER, "random", "Forces a random event.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {
             attemptSpawnRandom(p, true);
         });
 
@@ -134,7 +125,7 @@ public class Debug {
             p.sendMessage("Hit chance display: " + p.getNSV().getB("hitChance"));
         });
 
-        Commands.add(Rights.DEVELOPER, "item,spawn [itemId (amount)]", "Spawns an item with specified id and amount.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "item,spawn [itemId (amount)]", "Spawns an item with specified id and amount.", (p, args) -> {
             if (ItemDefinitions.getDefs(Integer.valueOf(args[0])).getName().equals("null")) {
                 p.sendMessage("That item is unused.");
                 return;
@@ -143,7 +134,7 @@ public class Debug {
             p.stopAll();
         });
 
-        Commands.add(Rights.DEVELOPER, "setqstage [questName, stage]", "Resets the specified quest.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "setqstage [questName, stage]", "Resets the specified quest.", (p, args) -> {
             for (Quest quest : Quest.values())
                 if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
                     int stage = Integer.parseInt(args[1]);
@@ -153,7 +144,7 @@ public class Debug {
                 }
         });
 
-        Commands.add(Rights.DEVELOPER, "getqstage [questName]", "Resets the specified quest.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "getqstage [questName]", "Resets the specified quest.", (p, args) -> {
             for (Quest quest : Quest.values())
                 if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
                     int stage = p.getQuestManager().getStage(quest);
@@ -162,14 +153,14 @@ public class Debug {
                 }
         });
 
-        Commands.add(Rights.DEVELOPER, "master,max", "Maxes all stats out.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "master,max", "Maxes all stats out.", (p, args) -> {
             for (int skill = 0; skill < 25; skill++)
                 p.getSkills().setXp(skill, 105000000);
             p.reset();
             p.getAppearance().generateAppearanceData();
         });
 
-        Commands.add(Rights.DEVELOPER, "setlevel [skillId level]", "Sets a skill to a specified level.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "setlevel [skillId level]", "Sets a skill to a specified level.", (p, args) -> {
             if (!p.getEquipment().isEmpty()) {
                 p.sendMessage("Please unequip everything you're wearing first.");
                 return;
@@ -191,13 +182,13 @@ public class Debug {
             p.sendMessage("Successfully set " + Constants.SKILL_NAME[skill] + " to " + level + ".");
         });
 
-        Commands.add(Rights.DEVELOPER, "reset", "Resets all stats to 1.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "reset", "Resets all stats to 1.", (p, args) -> {
             for (int skill = 0; skill < 25; skill++)
                 p.getSkills().setXp(skill, 0);
             p.getSkills().init();
         });
 
-        Commands.add(Rights.DEVELOPER, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
             Player target = World.getPlayer(Utils.concat(args));
             if (target == null) {
                 p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
@@ -226,8 +217,8 @@ public class Debug {
             p.getAppearance().generateAppearanceData();
         });
 
-        Commands.add(Rights.DEVELOPER, "spellbook [modern/lunar/ancient]", "Switches to modern, lunar, or ancient spellbooks.", (p, args) -> {
-            switch (args[0].toLowerCase()) {
+        Commands.add(Rights.PLAYER, "spellbook [modern/lunar/ancient]", "Switches to modern, lunar, or ancient spellbooks.", (p, args) -> {
+            switch(args[0].toLowerCase()) {
                 case "modern":
                 case "normal":
                     p.getCombatDefinitions().setSpellBook(0);
@@ -246,8 +237,8 @@ public class Debug {
             }
         });
 
-        Commands.add(Rights.DEVELOPER, "prayers [normal/curses]", "Switches to curses, or normal prayers.", (p, args) -> {
-            switch (args[0].toLowerCase()) {
+        Commands.add(Rights.PLAYER, "prayers [normal/curses]", "Switches to curses, or normal prayers.", (p, args) -> {
+            switch(args[0].toLowerCase()) {
                 case "normal":
                 case "normals":
                     p.getPrayer().setPrayerBook(false);
@@ -262,14 +253,14 @@ public class Debug {
             }
         });
 
-        Commands.add(Rights.DEVELOPER, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
             for (Item i : p.getBank().getContainerCopy())
                 if (i != null)
                     i.setAmount(10500000);
         });
 
-        Commands.add(Rights.DEVELOPER, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
-            p.sendOptionDialogue("Clear bank?", new String[]{"Yes", "No"}, new DialogueOptionEvent() {
+        Commands.add(Rights.PLAYER, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
+            p.sendOptionDialogue("Clear bank?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
                 @Override
                 public void run(Player player) {
                     if (getOption() == 1)
@@ -278,29 +269,29 @@ public class Debug {
             });
         });
 
-        Commands.add(Rights.DEVELOPER, "god", "Toggles god mode for the player.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "god", "Toggles god mode for the player.", (p, args) -> {
             boolean god = p.getNSV().getB("godMode");
             p.getNSV().setB("godMode", !god);
             p.sendMessage("GODMODE: " + !god);
         });
 
-        Commands.add(Rights.DEVELOPER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
+        Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
             p.delete(args[0]);
         });
 
-        Commands.add(Rights.DEVELOPER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
             boolean spec = p.getNSV().getB("infSpecialAttack");
             p.getNSV().setB("infSpecialAttack", !spec);
             p.sendMessage("INFINITE SPECIAL ATTACK: " + !spec);
         });
 
-        Commands.add(Rights.DEVELOPER, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
             boolean spec = p.getNSV().getB("infPrayer");
             p.getNSV().setB("infPrayer", !spec);
             p.sendMessage("INFINITE PRAYER: " + !spec);
         });
 
-        Commands.add(Rights.DEVELOPER, "startdung [floor, seed, difficulty, size, complexity]", "Shows dungeon seed", (p, args) -> {
+        Commands.add(Rights.PLAYER, "startdung [floor, seed, difficulty, size, complexity]", "Shows dungeon seed", (p, args) -> {
             try {
                 int floor = Integer.parseInt(args[0]);
                 long seed = Long.parseLong(args[1]);
@@ -323,20 +314,20 @@ public class Debug {
                     p.getDungManager().enterDungeon(false);
                 } else
                     p.getPackets().sendGameMessage("You are already in a dungeon");
-            } catch (NullPointerException e) {
+            } catch(NullPointerException e) {
                 e.printStackTrace();
                 p.getPackets().sendGameMessage("You need to be in a party");
             }
         });
 
-        Commands.add(Rights.DEVELOPER, "droptest", "Drops worn equipment and inventory items to the ground if not null, bound, or a ring of kinship.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "droptest", "Drops worn equipment and inventory items to the ground if not null, bound, or a ring of kinship.", (p, args) -> {
             for (Item item : p.getEquipment().getItemsCopy()) {
                 if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
                     continue;
                 World.addGroundItem(item, new WorldTile(p));
             }
             for (Item item : p.getInventory().getItems().getItems()) {
-                if (item != null)
+                if(item != null)
                     System.out.println(item.getName() + ": " + item.getAmount());
                 if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
                     continue;
@@ -344,7 +335,7 @@ public class Debug {
             }
         });
 
-        Commands.add(Rights.DEVELOPER, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
+        Commands.add(Rights.PLAYER, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
             if (args[0].contains(",")) {
                 args = args[0].split(",");
                 int plane = Integer.valueOf(args[0]);
