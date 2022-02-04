@@ -5,7 +5,12 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.Constants;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PlayerStepEvent;
+import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PlayerStepHandler;
 
 import java.util.ArrayList;
 
@@ -14,8 +19,10 @@ import java.util.ArrayList;
 public class MonksFriend extends QuestOutline {
 	public final static int NOT_STARTED = 0;
 	public final static int GET_BLANKET = 1;
-	public final static int HELP_CEDRIC = 2;
-	public final static int QUEST_COMPLETE = 3;
+	public final static int ASK_ABOUT_PARTY = 2;
+	public final static int HELP_CEDRIC = 3;
+	public final static int RETURN_TO_OMAD = 4;
+	public final static int QUEST_COMPLETE = 5;
 
 
 	@Override
@@ -37,11 +44,13 @@ public class MonksFriend extends QuestOutline {
 				lines.add("");
 			}
 			case GET_BLANKET -> {
-				lines.add("");
+				lines.add("I need to find the thieve's hideout who took a blanket");
+				lines.add("from a poor child. I will need to look around to find it.");
 				lines.add("");
 			}
 			case HELP_CEDRIC -> {
-				lines.add("");
+				lines.add("Cedric is somewhere outside the Monastary. He needs");
+				lines.add("help before returning back to brother Omad.");
 				lines.add("");
 			}
 			case QUEST_COMPLETE -> {
@@ -55,6 +64,45 @@ public class MonksFriend extends QuestOutline {
 		}
 		return lines;
 	}
+
+	//It is a circle around a null ladder. A varbit makes it visible.
+	private static WorldTile[] ladderTilesInACircle = new WorldTile[]{
+			new WorldTile(2561, 3220, 0),
+			new WorldTile(2560, 3220, 0),
+			new WorldTile(2559, 3220, 0),
+			new WorldTile(2559, 3221, 0),
+			new WorldTile(2559, 3222, 0),
+			new WorldTile(2559, 3223, 0),
+			new WorldTile(2560, 3223, 0),
+			new WorldTile(2560, 3224, 0),
+			new WorldTile(2561, 3224, 0),
+			new WorldTile(2562, 3224, 0),
+			new WorldTile(2562, 3223, 0),
+			new WorldTile(2563, 3223, 0),
+			new WorldTile(2563, 3222, 0),
+			new WorldTile(2563, 3221, 0),
+			new WorldTile(2562, 3221, 0),
+			new WorldTile(2562, 3220, 0)
+	};
+
+	public static PlayerStepHandler handleInvisibleLadder = new PlayerStepHandler(ladderTilesInACircle) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			Player p = e.getPlayer();
+			p.getVars().setVarBit(4833, 1);
+		}
+	};
+
+	public static ObjectClickHandler handleThiefLadder = new ObjectClickHandler(new Object[]{42, 32015}) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			Player p = e.getPlayer();
+			if (e.getObjectId() == 42)
+				p.useLadder(new WorldTile(2561, 9621, 0));
+			else if (e.getObject().matches(new WorldTile(2561, 9622, 0)))
+				p.useLadder(new WorldTile(2560, 3222, 0));
+		}
+	};
 
 	@Override
 	public void complete(Player player) {

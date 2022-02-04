@@ -1152,6 +1152,18 @@ public class NPC extends Entity {
 		this.locked = locked;
 	}
 
+	public void setLockedForTicks(int ticks) {
+		WorldTasks.scheduleTimer(i -> {
+			if(i==0)
+				this.locked = true;
+			if(i==ticks) {
+				this.locked = false;
+				return false;
+			}
+			return true;
+		});
+	}
+
 	@Override
 	public boolean canMove(Direction dir) {
 		return true;

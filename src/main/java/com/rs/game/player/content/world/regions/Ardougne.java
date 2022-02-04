@@ -34,6 +34,7 @@ import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.content.world.npcs.Banker;
+import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -58,6 +59,13 @@ public class Ardougne  {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new BrotherOmadMonksFriendD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleBrotherCedric = new NPCClickHandler(280) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getPlayer().startConversation(new BrotherCedricMonksFriendD(e.getPlayer()).getStart());
 		}
 	};
 
