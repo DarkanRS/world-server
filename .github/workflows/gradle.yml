@@ -27,7 +27,7 @@ jobs:
       uses: sudosubin/git-clone-action@v1.0.1
       with:
         owner: titandino/darkan-core
-        ref: github.base_ref
+        ref: ${{ github.base_ref }}
         path: './darkan-core/'
     - uses: gradle/gradle-build-action@v2
       with:
