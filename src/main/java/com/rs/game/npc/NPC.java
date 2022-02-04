@@ -16,11 +16,6 @@
 //
 package com.rs.game.npc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
@@ -35,12 +30,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.pathing.ClipType;
-import com.rs.game.pathing.Direction;
-import com.rs.game.pathing.DumbRouteFinder;
-import com.rs.game.pathing.FixedTileStrategy;
-import com.rs.game.pathing.RouteEvent;
-import com.rs.game.pathing.RouteFinder;
+import com.rs.game.pathing.*;
 import com.rs.game.player.Bank;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
@@ -72,6 +62,11 @@ import com.rs.utils.NPCClueDrops;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NPC extends Entity {
 
@@ -622,7 +617,7 @@ public class NPC extends Entity {
 
 		dropTo.incrementCount(item.getName()+" drops earned", item.getAmount());
 		if (yellDrop(item.getId())) {
-			World.broadcastLoot(dropTo.getDisplayName() + " has just recieved a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
+			World.broadcastLoot(dropTo.getDisplayName() + " has just received a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
 			FileManager.writeToFile("droplog.txt", dropTo.getDisplayName() + " has just recieved a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
 		}
 
@@ -1082,6 +1077,18 @@ public class NPC extends Entity {
 	public void setName(String string) {
 		name = getDefinitions().getName().equals(string) ? null : string;
 		changedName = true;
+	}
+
+	@Override
+	public int hashCode() {
+		return getIndex();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof NPC n)
+			return n.hashCode() == hashCode();
+		return false;
 	}
 
 	public int getCustomCombatLevel() {

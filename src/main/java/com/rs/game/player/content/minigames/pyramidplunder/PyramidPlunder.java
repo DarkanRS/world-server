@@ -326,6 +326,14 @@ public class PyramidPlunder {
 	}
 
 	private static boolean loot(Player player, String lootTable, int room) {
+		String thingLooted = "urns";
+		if (lootTable.contains("chest"))
+			thingLooted = "grand chests";
+		else if (lootTable.contains("sarcophagus"))
+			thingLooted = "sarcophagi";
+		else if (lootTable.contains("engraved"))
+			thingLooted = "engraved sarcophagi";
+		player.incrementCount("Pyramid Plunder " + thingLooted + " looted", 1);
 		if (rollForBlackIbis(player))
 			return false;
 		if (lootTable.contains("sarcophagus")) {
