@@ -24,10 +24,10 @@ jobs:
         distribution: 'zulu'
         cache: gradle
     - name: Clone and publish darkan-core
-      uses: GuillaumeFalourd/clone-github-repo-action@v1
+      uses: sudosubin/git-clone-action@v1.0.1
       with:
-        owner: titandino
-        repository: darkan-core
+        owner: titandino/darkan-core
+        ref: GITHUB_BASE_REF
     - uses: gradle/gradle-build-action@v2
       with:
         arguments: publishToMavenLocal
