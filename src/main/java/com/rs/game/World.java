@@ -282,8 +282,8 @@ public final class World {
 		int regionId = entity.getRegionId();
 		if (entity.getLastRegionId() != regionId || entity.isForceUpdateEntityRegion()) {
 			if (entity instanceof Player player) {
-				if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(regionId) == null
-                        && !(World.getRegion(player.getRegionId()) instanceof DynamicRegion))
+				if (Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(regionId) == null
+						&& !(World.getRegion(player.getRegionId()) instanceof DynamicRegion))
 					player.sendMessage(regionId + " has no music genre!");
 				if (entity.getLastRegionId() > 0)
 					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
@@ -299,21 +299,21 @@ public final class World {
 
 				//if should play random song on enter region
 
-                /**
-                 * If the player is in the world and no genre is playing
-                 * if there is no controller and the region and playing genres don't match, play a song
-                 * same if there is a controller but check if the controller allows region play.
-                 */
-				if(player.hasStarted() && (Music.getGenre(regionId) == null || player.getMusicsManager().getPlayingGenre() == null
-                        || !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))) {//tested, looks good.
-                    if (player.getControllerManager().getController() == null) {
-                        player.getMusicsManager().nextAmbientSong();
-                    } else if (player.getControllerManager().getController().playMusicOnRegionEnter()) {//This has to be tested on a large dynamic region like dungeoneering...
-                        if(player.getMusicsManager().getPlayingGenre() == null || !player.getMusicsManager().getPlayingGenre().matches(player.getControllerManager().getController().getGenre())) {
-                            player.getMusicsManager().nextAmbientSong();
-                        }
-                    }
-                }
+				/**
+				 * If the player is in the world and no genre is playing
+				 * if there is no controller and the region and playing genres don't match, play a song
+				 * same if there is a controller but check if the controller allows region play.
+				 */
+				if (player.hasStarted() && (Music.getGenre(regionId) == null || player.getMusicsManager().getPlayingGenre() == null
+						|| !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))) {//tested, looks good.
+					if (player.getControllerManager().getController() == null) {
+						player.getMusicsManager().nextAmbientSong();
+					} else if (player.getControllerManager().getController().playMusicOnRegionEnter()) {//This has to be tested on a large dynamic region like dungeoneering...
+						if (player.getMusicsManager().getPlayingGenre() == null || !player.getMusicsManager().getPlayingGenre().matches(player.getControllerManager().getController().getGenre())) {
+							player.getMusicsManager().nextAmbientSong();
+						}
+					}
+				}
 
 				player.getControllerManager().moved();
 				if (player.hasStarted())
