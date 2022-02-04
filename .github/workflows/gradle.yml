@@ -29,11 +29,11 @@ jobs:
       with:
         owner: titandino/darkan-core
         ref: ${{ github.base_ref }}
-        path: 'darkan-core/'
+        path: '../darkan-core/'
     - uses: gradle/gradle-build-action@v2
       with:
         arguments: publishToMavenLocal
-        build-root-directory: 'darkan-core/'
+        build-root-directory: '../darkan-core/'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
