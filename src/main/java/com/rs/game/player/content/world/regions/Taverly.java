@@ -33,24 +33,25 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Taverly {
-    public static NPCClickHandler handleAchietties = new NPCClickHandler(796) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            if(e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST)) {
-                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                    int NPC = e.getNPCId();
-                    {
-                        addNPC(NPC, HeadE.CALM_TALK, "Greetings, welcome to the heroes guild!");
-                        addPlayer(HeadE.HAPPY_TALKING, "Thank you...");
-                        addNPC(NPC, HeadE.CALM_TALK, "You're welcome.");
-                        create();
-                    }
-                });
-            } else {
-                e.getPlayer().startConversation(new AchiettiesHeroesQuestD(e.getPlayer()).getStart());
-            }
-        }
-    };
+	public static NPCClickHandler handleAchietties = new NPCClickHandler(796) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST)) {
+				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+					int NPC = e.getNPCId();
+
+					{
+						addNPC(NPC, HeadE.CALM_TALK, "Greetings, welcome to the heroes guild!");
+						addPlayer(HeadE.HAPPY_TALKING, "Thank you...");
+						addNPC(NPC, HeadE.CALM_TALK, "You're welcome.");
+						create();
+					}
+				});
+			} else {
+				e.getPlayer().startConversation(new AchiettiesHeroesQuestD(e.getPlayer()).getStart());
+			}
+		}
+	};
 
 	public static NPCClickHandler handleHeadFarmerJones = new NPCClickHandler(14860) {
 		@Override
@@ -66,9 +67,9 @@ public class Taverly {
 									ShopsHandler.openShop(e.getPlayer(), "head_farmer_jones_shop");
 								});
 								option("Tell me more about farming", new Dialogue().addNPC(e.getNPCId(),
-										HeadE.HAPPY_TALKING,
-										"By farming you can grow your own plants. You'll start with simple stuff like potatoes"
-												+ " but if you stick at it, you'll even be able to grow trees and the like. Farming's a slow-paced skill. If you want")
+												HeadE.HAPPY_TALKING,
+												"By farming you can grow your own plants. You'll start with simple stuff like potatoes"
+														+ " but if you stick at it, you'll even be able to grow trees and the like. Farming's a slow-paced skill. If you want")
 										.addNPC(e.getNPCId(), HeadE.CALM,
 												" something that only needs checking on occasionally, it'll suit you down to the ground. Plant as many crops as ya can,"
 														+ " as often as ya can. It's only through practice that you'll improve."));
@@ -84,7 +85,7 @@ public class Taverly {
 		}
 	};
 
-	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }) {
+	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[]{2117}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
@@ -328,7 +329,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleRunecraftingShop = new NPCClickHandler(false, new Object[] { 14906 }) {
+	public static NPCClickHandler handleRunecraftingShop = new NPCClickHandler(false, new Object[]{14906}) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -346,10 +347,10 @@ public class Taverly {
 									ShopsHandler.openShop(e.getPlayer(), "carwens_rune_shop");
 								});
 								option("What can you tell me about Runecrafting?", new Dialogue().addNPC(e.getNPCId(),
-										HeadE.HAPPY_TALKING,
-										"There's so much to talk about! I'm just learning the ropes though. You'd be"
-												+ " better off talking to Mistress Carwen. As part of my duties I do help her by selling runes. Would you like to"
-												+ " take a look?")
+												HeadE.HAPPY_TALKING,
+												"There's so much to talk about! I'm just learning the ropes though. You'd be"
+														+ " better off talking to Mistress Carwen. As part of my duties I do help her by selling runes. Would you like to"
+														+ " take a look?")
 										.addPlayer(HeadE.CALM, "I'll have a look.").addNext(() -> {
 											ShopsHandler.openShop(e.getPlayer(), "carwens_rune_shop");
 										}));

@@ -1,5 +1,15 @@
 [
   {
+    "comment": "Blanket in Clock Tower Dungeon: Monk's friend",
+    "itemId": 90,
+    "amount": 1,
+    "tile": {
+      "x": 2570,
+      "y": 9604,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Apron in port sarim, prompted from Pirates Treasure",
     "itemId": 7957,
     "amount": 1,
