@@ -223,7 +223,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 				int monkIndex = (i / 4) % monks.size();
 				monks.get(monkIndex).setLockedForTicks(4);
 				monks.get(monkIndex).setNextAnimation(new Animation(818));
-				if (Utils.randomB())
+				if (Utils.randomInclusive(0, 1) == 0)
 					monks.get(monkIndex).forceTalk(dancePhrases[Utils.random(0, dancePhrases.length)]);
 			}
 			if (i == PARTY_TICK_LENGTH) {
@@ -240,7 +240,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 		for (int x = 2601; x < 2612; x++)
 			for (int y = 3205; y < 3222; y++)
 				if (World.getObject(new WorldTile(x, y, 0)) == null && (RenderFlag.flagged(World.getRenderFlags(0, x, y), RenderFlag.UNDER_ROOF)))
-					if (Utils.randomB())
+					if (Utils.randomInclusive(0, 1) == 0)
 						balloons.add(new Balloon(PartyRoom.getRandomBalloon(), 0, x, y, 0));
 		WorldTasks.scheduleTimer(i -> {
 			if (i == 0) {
