@@ -25,13 +25,13 @@ The world server for Darkan that integrates with the lobby server.
 - Create a new folder on your machine called darkan wherever you want.
 - Git clone the following repositories into it with these console commands:
 ```
-git clone git@github.com:titandino/darkan-cache.git
-git clone git@github.com:titandino/darkan-core.git
-git clone git@github.com:titandino/darkan-world-server.git
-git clone git@github.com:titandino/darkan-game-client.git
+git clone git@github.com:DarkanRS/cache.git
+git clone git@github.com:DarkanRS/core.git
+git clone git@github.com:DarkanRS/world-server.git
+git clone git@github.com:DarkanRS/client.git
 ```
 - Run the command `git lfs pull` within the darkan-cache project to get the packed information data file.
-- Within the darkan-core repository, run `./gradlew publishToMavenLocal`. You will have to do this again if a new version of
+- Within the core repository, run `./gradlew publishToMavenLocal`. You will have to do this again if a new version of
   darkan-core is released.
 
 ### Running and Testing
