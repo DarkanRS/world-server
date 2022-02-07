@@ -49,59 +49,83 @@ import java.util.List;
 
 import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
 
-
-
 @PluginEventHandler
 public class Debug {
 
 	public static List<WorldTile[]> test = new ArrayList<WorldTile[]>();
 
-	@ServerStartupEvent
-	public static void startup() {
-		if (!Settings.getConfig().isDebug())
-			return;
+	public static EnterChunkHandler handleTempleChunks = new EnterChunkHandler() {
+		@Override
+		public void handle(EnterChunkEvent e) {
+			if (!Settings.getConfig().isDebug())
+				return;
+			if (e.getEntity() instanceof Player player)
+				if (player.getNSV().getB("visChunks") && player.hasStarted()) {
+					player.devisualizeChunk(e.getEntity().getLastChunkId());
+					player.visualizeChunk(e.getChunkId());
+					player.sendMessage("Chunk: " + e.getChunkId());
+				}
+		}
+	};
 
-		//		Commands.add(Rights.PLAYER, "example [arg1 (optionalArg2)]", "This is an example command to replicate.", (p, args) -> {
-		//
-		//		});
-
-
-		for (MagicalWheat.MagicWheat mw : MagicalWheat.MagicWheat.values()) {
-			test.add(new WorldTile[] { mw.getTile1(), mw.getTile2() });
+	public static ButtonClickHandler debugButtons = new ButtonClickHandler() {
+		@Override
+		public boolean handleGlobal(ButtonClickEvent e) {
+			if (Settings.getConfig().isDebug())
+				System.out.println(e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
+			return false;
 		}
 
-		System.out.println("Found " + test.size() + " possible wheat spawns.");
+		@Override
+		public void handle(ButtonClickEvent e) {
+		}
+	};
 
-		Commands.add(Rights.PLAYER, "rmpp", "check current tile for puropuro testing", (p, args) -> {
-			for (int i = 0; i < test.size(); i++) {
-				if ((Integer.toString(test.get(i)[0].getX()).equals(Integer.toString(p.getX()))
-						&& Integer.toString(test.get(i)[0].getY()).equals(Integer.toString(p.getY())))
-						|| (Integer.toString(test.get(i)[1].getX()).equals(Integer.toString(p.getX()))
-						&& Integer.toString(test.get(i)[1].getY()).equals(Integer.toString(p.getY())))) {
+	@ServerStartupEvent
+	public static void startup() {
+        if (!Settings.getConfig().isDebug())
+            return;
 
-					System.out.println(p.getX() + ", " + p.getY() + ", " + p.getPlane());
-					System.out.println("removing index " + i + " - " + test.get(i)[0].getX() + ", " + test.get(i)[0].getY() + " | " + test.get(i)[1].getX() + ", " + test.get(i)[1].getY());
-					World.spawnObject(new GameObject(25000, ObjectType.GROUND_DECORATION, 0, new WorldTile(test.get(i)[0].getX(), test.get(i)[0].getY(), test.get(i)[0].getPlane())));
-					World.spawnObject(new GameObject(25000, ObjectType.GROUND_DECORATION, 0, new WorldTile(test.get(i)[1].getX(), test.get(i)[1].getY(), test.get(i)[1].getPlane())));
-					test.remove(i);
+        //		Commands.add(Rights.PLAYER, "example [arg1 (optionalArg2)]", "This is an example command to replicate.", (p, args) -> {
+        //
+        //		});
+
+        for (MagicalWheat.MagicWheat mw : MagicalWheat.MagicWheat.values()) {
+            test.add(new WorldTile[]{mw.getTile1(), mw.getTile2()});
+        }
+
+        System.out.println("Found " + test.size() + " possible wheat spawns.");
+
+        Commands.add(Rights.PLAYER, "rmpp", "check current tile for puropuro testing", (p, args) -> {
+            for (int i = 0; i < test.size(); i++) {
+                if ((Integer.toString(test.get(i)[0].getX()).equals(Integer.toString(p.getX()))
+                        && Integer.toString(test.get(i)[0].getY()).equals(Integer.toString(p.getY())))
+                        || (Integer.toString(test.get(i)[1].getX()).equals(Integer.toString(p.getX()))
+                        && Integer.toString(test.get(i)[1].getY()).equals(Integer.toString(p.getY())))) {
+
+                    System.out.println(p.getX() + ", " + p.getY() + ", " + p.getPlane());
+                    System.out.println("removing index " + i + " - " + test.get(i)[0].getX() + ", " + test.get(i)[0].getY() + " | " + test.get(i)[1].getX() + ", " + test.get(i)[1].getY());
+                    World.spawnObject(new GameObject(25000, ObjectType.GROUND_DECORATION, 0, new WorldTile(test.get(i)[0].getX(), test.get(i)[0].getY(), test.get(i)[0].getPlane())));
+                    World.spawnObject(new GameObject(25000, ObjectType.GROUND_DECORATION, 0, new WorldTile(test.get(i)[1].getX(), test.get(i)[1].getY(), test.get(i)[1].getPlane())));
+                    test.remove(i);
 //					GameObject g1 = World.getObject(test.get(i)[0]);
 //					g1.setId(25000);
 //					g1.setType(ObjectType.GROUND_DECORATION);
 //					GameObject g2 = World.getObject(test.get(i)[1]);
 //					g2.setId(25000);
 //					g2.setType(ObjectType.GROUND_DECORATION);
-				}
-			}
-		});
+                }
+            }
+        });
 
-		Commands.add(Rights.PLAYER, "listpp", "check current tile for puropuro testing", (p, args) -> {
-			System.out.println("Printing " + test.size() + " possible magic wheat spawns.");
-			for (int i = 0; i < test.size(); i++) {
-				System.out.println("SPAWN" + i + "(" +
-						"new WorldTile(" + test.get(i)[0].getX() + ", "  + test.get(i)[0].getY() + ", " + test.get(i)[0].getPlane() + "), " +
-						"new WorldTile(" + test.get(i)[1].getX() + ", "  + test.get(i)[1].getY() + ", " + test.get(i)[1].getPlane() + ")), ");
-			}
-		});
+        Commands.add(Rights.PLAYER, "listpp", "check current tile for puropuro testing", (p, args) -> {
+            System.out.println("Printing " + test.size() + " possible magic wheat spawns.");
+            for (int i = 0; i < test.size(); i++) {
+                System.out.println("SPAWN" + i + "(" +
+                        "new WorldTile(" + test.get(i)[0].getX() + ", " + test.get(i)[0].getY() + ", " + test.get(i)[0].getPlane() + "), " +
+                        "new WorldTile(" + test.get(i)[1].getX() + ", " + test.get(i)[1].getY() + ", " + test.get(i)[1].getPlane() + ")), ");
+            }
+        });
 
 //		Commands.add(Rights.PLAYER, "pp2", "check current tile for puropuro testing", (p, args) -> {
 //			Region r = World.getRegion(p.getRegionId());
@@ -115,16 +139,16 @@ public class Debug {
 //			}
 //		});
 
-		Commands.add(Rights.PLAYER, "pp4", "check current tile for puropuro testing", (p, args) -> {
-			for (int i = 0; i < test.size(); i++) {
-				GameObject obj1 = World.getObject(test.get(i)[0]);
-				obj1.setType(ObjectType.GROUND_DECORATION);
-				obj1.setId(100);
-				GameObject obj2 = World.getObject(test.get(i)[1]);
-				obj2.setType(ObjectType.GROUND_DECORATION);
-				obj2.setId(100);
-			}
-		});
+        Commands.add(Rights.PLAYER, "pp4", "check current tile for puropuro testing", (p, args) -> {
+            for (int i = 0; i < test.size(); i++) {
+                GameObject obj1 = World.getObject(test.get(i)[0]);
+                obj1.setType(ObjectType.GROUND_DECORATION);
+                obj1.setId(100);
+                GameObject obj2 = World.getObject(test.get(i)[1]);
+                obj2.setType(ObjectType.GROUND_DECORATION);
+                obj2.setId(100);
+            }
+        });
 
 //		Commands.add(Rights.PLAYER, "pp3", "check current tile for puropuro testing", (p, args) -> {
 //			Region r = World.getRegion(p.getRegionId());
@@ -213,62 +237,9 @@ public class Debug {
 //				p.sendMessage("Object: " +  obj.getId() + ", " + obj.getDefinitions(p).getName() + ", " + obj.getDefinitions(p).getClipType());
 //		});
 
-		Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
-			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
-			p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInScene(p.getSceneBaseChunkId())+","+p.getYInScene(p.getSceneBaseChunkId()));
-		});
-
-		Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
-			p.getPackets().sendDevConsoleMessage("Searching for items containing: " + Arrays.toString(args));
-			for (int i = 0; i < Utils.getItemDefinitionsSize(); i++) {
-				boolean contains = true;
-				for (String arg : args)
-					if (!ItemDefinitions.getDefs(i).getName().toLowerCase().contains(arg.toLowerCase()) || ItemDefinitions.getDefs(i).isLended()) {
-						contains = false;
-						continue;
-					}
-				if (contains)
-					p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
-			}
-		});
-
-    public static EnterChunkHandler handleTempleChunks = new EnterChunkHandler() {
-        @Override
-        public void handle(EnterChunkEvent e) {
-            if (!Settings.getConfig().isDebug())
-                return;
-            if (e.getEntity() instanceof Player player)
-                if (player.getNSV().getB("visChunks") && player.hasStarted()) {
-                    player.devisualizeChunk(e.getEntity().getLastChunkId());
-                    player.visualizeChunk(e.getChunkId());
-                    player.sendMessage("Chunk: " + e.getChunkId());
-                }
-        }
-    };
-
-    public static ButtonClickHandler debugButtons = new ButtonClickHandler() {
-        @Override
-        public boolean handleGlobal(ButtonClickEvent e) {
-            if (Settings.getConfig().isDebug())
-                System.out.println(e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
-            return false;
-        }
-        @Override
-        public void handle(ButtonClickEvent e) { }
-    };
-
-    @ServerStartupEvent
-    public static void startup() {
-        if (!Settings.getConfig().isDebug())
-            return;
-
-        //		Commands.add(Rights.PLAYER, "example [arg1 (optionalArg2)]", "This is an example command to replicate.", (p, args) -> {
-        //
-        //		});
-
         Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
             p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
-            p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInScene(p.getSceneBaseChunkId())+","+p.getYInScene(p.getSceneBaseChunkId()));
+            p.sendMessage("JagCoords: " + p.getPlane() + "," + p.getRegionX() + "," + p.getRegionY() + "," + p.getXInScene(p.getSceneBaseChunkId()) + "," + p.getYInScene(p.getSceneBaseChunkId()));
         });
 
         Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
@@ -284,14 +255,21 @@ public class Debug {
                     p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + ItemDefinitions.getDefs(i).getName() + " " + (ItemDefinitions.getDefs(i).isNoted() ? "(noted)" : "") + "" + (ItemDefinitions.getDefs(i).isLended() ? "(lent)" : ""));
             }
         });
->>>>>>> d417b2cb5be0e57a61aef56bc73e11a0f4c55ef7
 
         Commands.add(Rights.ADMIN, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
-            switch(Integer.valueOf(args[0])) {
-                case 0 -> {p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());}
-                case 1 -> {p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());}
-                case 2 -> {p.getControllerManager().startController(new DragonSlayer_BoatScene());}
-                case 3 -> {p.getControllerManager().startController(new MerlinsCrystalCrateScene());}
+            switch (Integer.valueOf(args[0])) {
+                case 0 -> {
+                    p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
+                }
+                case 1 -> {
+                    p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+                }
+                case 2 -> {
+                    p.getControllerManager().startController(new DragonSlayer_BoatScene());
+                }
+                case 3 -> {
+                    p.getControllerManager().startController(new MerlinsCrystalCrateScene());
+                }
             }
 
         });
@@ -402,7 +380,7 @@ public class Debug {
         });
 
         Commands.add(Rights.PLAYER, "spellbook [modern/lunar/ancient]", "Switches to modern, lunar, or ancient spellbooks.", (p, args) -> {
-            switch(args[0].toLowerCase()) {
+            switch (args[0].toLowerCase()) {
                 case "modern":
                 case "normal":
                     p.getCombatDefinitions().setSpellBook(0);
@@ -422,7 +400,7 @@ public class Debug {
         });
 
         Commands.add(Rights.PLAYER, "prayers [normal/curses]", "Switches to curses, or normal prayers.", (p, args) -> {
-            switch(args[0].toLowerCase()) {
+            switch (args[0].toLowerCase()) {
                 case "normal":
                 case "normals":
                     p.getPrayer().setPrayerBook(false);
@@ -444,7 +422,7 @@ public class Debug {
         });
 
         Commands.add(Rights.PLAYER, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
-            p.sendOptionDialogue("Clear bank?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
+            p.sendOptionDialogue("Clear bank?", new String[]{"Yes", "No"}, new DialogueOptionEvent() {
                 @Override
                 public void run(Player player) {
                     if (getOption() == 1)
@@ -498,7 +476,7 @@ public class Debug {
                     p.getDungManager().enterDungeon(false);
                 } else
                     p.getPackets().sendGameMessage("You are already in a dungeon");
-            } catch(NullPointerException e) {
+            } catch (NullPointerException e) {
                 e.printStackTrace();
                 p.getPackets().sendGameMessage("You need to be in a party");
             }
@@ -511,7 +489,7 @@ public class Debug {
                 World.addGroundItem(item, new WorldTile(p));
             }
             for (Item item : p.getInventory().getItems().getItems()) {
-                if(item != null)
+                if (item != null)
                     System.out.println(item.getName() + ": " + item.getAmount());
                 if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
                     continue;

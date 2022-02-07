@@ -31,11 +31,13 @@ git clone git@github.com:titandino/darkan-world-server.git
 git clone git@github.com:titandino/darkan-game-client.git
 ```
 - Run the command `git lfs pull` within the darkan-cache project to get the packed information data file.
+- Within the darkan-core repository, run `./gradlew publishToMavenLocal`. You will have to do this again if a new version of
+  darkan-core is released.
 
 ### Running and Testing
 - (Optional if not using the test-lobby-db) Make sure you have a MongoDB server running on your local machine or somewhere else (the connection URL for the Mongo server can be configured through the serverConfig.json file that gets generated after trying to run the world server once)
 - Create an account on the test lobby server by running the client and clicking "Create Account Now" button at the bottom of the login screen.
-- Run the world server with the command `gradle run` within the darkan-world-server project.
+- Run the world server with the command `./gradlew run` within the darkan-world-server project.
 - Load up the client and login with the account details you created. (You login with the username, not the email address)
 
 ### Extra notes

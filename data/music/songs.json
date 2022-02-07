@@ -2300,7 +2300,10 @@
     "comment": "",
     "allowAmbient": false,
     "id": 240,
-    "regionIds": []
+    "regionIds": [
+      10835,
+      10834
+    ]
   },
   {
     "name": "Stagnant",
@@ -4131,7 +4134,7 @@
   {
     "name": "Dusk in Yu'biusk",
     "hint": "during Land of the Goblins.",
-    "comment": "",
+    "comment": "Sounds like its during a cutscene/event",
     "allowAmbient": false,
     "id": 433,
     "regionIds": []
@@ -4184,7 +4187,7 @@
     "name": "Temple of Tribes",
     "hint": "during Land of the Goblins.",
     "comment": "Dorgesh-Kaan",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 440,
     "regionIds": []
   },
@@ -5672,7 +5675,7 @@
   {
     "name": "Demise of the Dorgeshuun",
     "hint": "during The Chosen Commander.",
-    "comment": "Goblin cave",
+    "comment": "Seems like it is part of an event or scene",
     "allowAmbient": false,
     "id": 605,
     "regionIds": []
@@ -6529,8 +6532,8 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Dorgesh-kaan",
+    "allowAmbient": true,
     "id": 704,
     "regionIds": []
   },
@@ -6545,16 +6548,24 @@
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Dorgesh-kaan",
+    "allowAmbient": true,
     "id": 706,
     "regionIds": []
   },
   {
     "name": "",
     "hint": "somewhere.",
-    "comment": "",
-    "allowAmbient": false,
+    "comment": "Dorgesh-kaan",
+    "allowAmbient": true,
+    "id": 707,
+    "regionIds": []
+  },
+  {
+    "name": "",
+    "hint": "somewhere.",
+    "comment": "Dorgesh-kaan",
+    "allowAmbient": true,
     "id": 708,
     "regionIds": []
   },
@@ -6580,7 +6591,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Goblin cave",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 711,
     "regionIds": []
   },
@@ -6588,7 +6599,7 @@
     "name": "",
     "hint": "Goblin cave",
     "comment": "",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 712,
     "regionIds": []
   },

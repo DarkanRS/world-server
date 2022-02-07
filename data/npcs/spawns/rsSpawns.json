@@ -1,5 +1,32 @@
 [
   {
+    "comment": "Thief added by jazneta",
+    "npcId": 282,
+    "tile": {
+      "x": 2568,
+      "y": 9604,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Head Thief added by jazneta",
+    "npcId": 283,
+    "tile": {
+      "x": 2566,
+      "y": 9605,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Thief added by jazneta",
+    "npcId": 282,
+    "tile": {
+      "x": 2566,
+      "y": 9609,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Ice warrior added by jazneta, heroes quest: https://runescape.wiki/images/Ice_Queen%27s_Lair_map.png?875ac",
     "npcId": 145,
     "tile": {
