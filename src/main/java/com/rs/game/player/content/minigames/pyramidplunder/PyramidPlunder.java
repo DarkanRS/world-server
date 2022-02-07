@@ -117,7 +117,7 @@ public class PyramidPlunder {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleGrandChest = new ObjectClickHandler(new Object[] { 16537 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -136,7 +136,7 @@ public class PyramidPlunder {
 			loot(e.getPlayer(), "pp_sarcophagus", ctrl.getCurrentRoom());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleSarcophagus = new ObjectClickHandler(new Object[] { 16547 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -193,7 +193,7 @@ public class PyramidPlunder {
 				e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 				return;
 			}
-			
+
 			if (e.getOption().equals("Open")) {
 				if (Utils.randomInclusive(0, 4) == 1) {
 					OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
@@ -257,8 +257,8 @@ public class PyramidPlunder {
 			}
 		}
 	};
-	
-	private static int getRoomBaseXP(int roomId) {		
+
+	private static int getRoomBaseXP(int roomId) {
 		return switch(roomId) {
 		case 1 -> 20;
 		case 2 -> 30;
@@ -324,8 +324,16 @@ public class PyramidPlunder {
 		};
 		return Utils.skillSuccess(player.getSkills().getLevel(Constants.STRENGTH), 1.0, chance1, chance99, 188);
 	}
-	
+
 	private static boolean loot(Player player, String lootTable, int room) {
+		String thingLooted = "urns";
+		if (lootTable.contains("chest"))
+			thingLooted = "grand chests";
+		else if (lootTable.contains("sarcophagus"))
+			thingLooted = "sarcophagi";
+		else if (lootTable.contains("engraved"))
+			thingLooted = "engraved sarcophagi";
+		player.incrementCount("Pyramid Plunder " + thingLooted + " looted", 1);
 		if (rollForBlackIbis(player))
 			return false;
 		if (lootTable.contains("sarcophagus")) {
@@ -357,7 +365,7 @@ public class PyramidPlunder {
 		}
 		return false;
 	}
-	
+
 	public static boolean rollForBlackIbis(Player player) {
 		if (player.containsItem(BLACK_IBIS[3]))
 			return false;
@@ -397,6 +405,12 @@ public class PyramidPlunder {
 		}
 	};
 
+    /**
+     * Use nearby tiles surrounding the trap object to choose a direction for the far tiles.
+     * Both near and far point in the same directions per index N, E, S, W
+     * If a nearby tile is a trap that is the direction we must go as a player...
+     * @param e
+     */
 	private static void passTrap(ObjectClickEvent e) {
 		WorldTile[] nearbyTiles = { e.getObject().transform(0, 1), e.getObject().transform(1, 0), e.getObject().transform(0, -1), e.getObject().transform(-1, 0) };
 		WorldTile[] farTiles = { e.getPlayer().transform(0, 3), e.getPlayer().transform(3, 0), e.getPlayer().transform(0, -3), e.getPlayer().transform(-3, 0) };

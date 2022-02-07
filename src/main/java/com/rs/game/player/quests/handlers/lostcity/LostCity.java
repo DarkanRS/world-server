@@ -106,7 +106,8 @@ public class LostCity extends QuestOutline {
 			GameObject obj = e.getObject();
 			Doors.handleDoor(p, obj);
 			if(p.getX() <= obj.getX())
-				if(p.getEquipment().getWeaponId() == DRAMEN_STAFF)
+				if(p.getEquipment().getWeaponId() == DRAMEN_STAFF
+                        && p.getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
 					WorldTasks.schedule(new WorldTask() {
 						int tick;
 						@Override

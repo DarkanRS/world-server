@@ -23,6 +23,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.commands.Commands;
 import com.rs.game.player.quests.Quest;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
@@ -255,7 +256,7 @@ public class PlayerModifiers {
 			});
 		});
 
-		Commands.add(Rights.ADMIN, "playerquestreset [player_name questName]", "Resets the specified quest.", (p, args) -> {
+		Commands.add(Rights.ADMIN, "playerquestreset [player_name questName]", "Resets the specified quest for the player", (p, args) -> {
 			Player player = World.getPlayer(args[0]);
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[1])) {
@@ -265,6 +266,18 @@ public class PlayerModifiers {
 					return;
 				}
 		});
+
+        Commands.add(Rights.ADMIN, "playergang [player_name gang]", "Sets Player Gang", (p, args) -> {
+            Player player = World.getPlayer(args[0]);
+            if (args[1].toLowerCase().contains("phoenix")) {
+                ShieldOfArrav.setPhoenixGang(player);
+                p.sendMessage("Set " + player.getUsername() + "'s gang to Phoenix");
+            }
+            else if(args[1].toLowerCase().contains("black")) {
+                ShieldOfArrav.setBlackArmGang(player);
+                p.sendMessage("Set " + player.getUsername() + "'s gang to Black Arm");
+            }
+        });
 	}
 
 }
