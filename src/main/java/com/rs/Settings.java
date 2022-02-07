@@ -64,7 +64,7 @@ public final class Settings {
 	public Settings() {
 		serverName = "Darkan";
 		ownerName = "trent";
-		cachePath = "../darkan-cache/";
+		cachePath = "../cache/";
 		debug = false;
 		lobbyIp = "dev.darkan.org";
 		mongoUrl = "localhost";
