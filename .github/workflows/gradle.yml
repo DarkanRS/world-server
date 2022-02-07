@@ -24,17 +24,17 @@ jobs:
         java-version: '17'
         distribution: 'zulu'
         cache: gradle
-    - name: Clone darkan-core
+    - name: Clone core
       uses: sudosubin/git-clone-action@v1.0.1
       with:
-        repository: titandino/darkan-core
+        repository: DarkanRS/core
         ref: ${{ github.base_ref }}
         path: 'darkan-core/'
     - name: Build & Publish darkan-core
       uses: gradle/gradle-build-action@v2
       with:
         arguments: publishToMavenLocal
-        build-root-directory: 'darkan-core/'
+        build-root-directory: 'core/'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
