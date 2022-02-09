@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -59,8 +59,8 @@ public class CharmDrop {
 			return 13;
 		case "nex":
 			return 20;
-			default:
-				return 1;
+		default:
+			return 1;
 		}
 	}
 
@@ -70,8 +70,8 @@ public class CharmDrop {
 		int crimRate = chances[2];
 		int blueRate = chances[3];
 
-		ArrayList<Integer> possibleCharms = new ArrayList<Integer>();
-		
+		ArrayList<Integer> possibleCharms = new ArrayList<>();
+
 		int rand = Utils.getRandomInclusive(100);
 		if (rand <= (blueRate) && blueRate != 0)
 			possibleCharms.add(3);
@@ -83,10 +83,8 @@ public class CharmDrop {
 			possibleCharms.add(0);
 		if (possibleCharms.isEmpty())
 			return -1;
-		else {
-			Collections.shuffle(possibleCharms);
-			return possibleCharms.get(Utils.random(possibleCharms.size()));
-		}
+		Collections.shuffle(possibleCharms);
+		return possibleCharms.get(Utils.random(possibleCharms.size()));
 	}
 
 	public static DropTable getCharmDrop(String npcName) {
@@ -106,7 +104,7 @@ public class CharmDrop {
 	@ServerStartupEvent
 	public static void loadCharmDrops() {
 		try {
-			charmDrops = new HashMap<String, int[]>();
+			charmDrops = new HashMap<>();
 			Path path = Paths.get(PACKED_PATH);
 			try (Scanner scanner = new Scanner(path, ENCODING.name())) {
 				int lineNumber = 0;
@@ -129,7 +127,7 @@ public class CharmDrop {
 					charmPerc[1] = Integer.parseInt(info[1]);
 					charmPerc[2] = Integer.parseInt(info[2]);
 					charmPerc[3] = Integer.parseInt(info[3]);
-					
+
 					charmDrops.put(npcName, new int[] {charmPerc[0], charmPerc[1], charmPerc[2], charmPerc[3]});
 				}
 				Logger.log("CharmDrop", "Parsed " + lineNumber + " lines of NPC charm drops.");

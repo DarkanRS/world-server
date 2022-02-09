@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.cooking;
@@ -23,15 +23,15 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
 public class TeaMaking  {
-	
+
 	static int[] cupsEmpty = {7728, 7732, 7735};
 	static int[] cupsFull = {7730, 7733, 7736};
-	
+
 	public static ItemOnItemHandler mixTea = new ItemOnItemHandler(Utils.range(7688, 7739)) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			if (e.getItem1().getDefinitions().getName().contains("Pot of tea")) {
-				for (int i = 0;i < 3;i++) {
+			if (e.getItem1().getDefinitions().getName().contains("Pot of tea"))
+				for (int i = 0;i < 3;i++)
 					if (e.getItem2().getId() == cupsEmpty[i]) {
 						e.getPlayer().getInventory().deleteItem(e.getItem1().getId(), 1);
 						e.getPlayer().getInventory().deleteItem(e.getItem2().getId(), 1);
@@ -42,9 +42,7 @@ public class TeaMaking  {
 							e.getPlayer().getInventory().addItem(e.getItem1().getId()+2, 1);
 						break;
 					}
-				}
-			}
-			
+
 			if (e.usedWith(7738, 7702)) {
 				e.getPlayer().getInventory().deleteItem(7738, 1);
 				e.getPlayer().getInventory().deleteItem(7702, 1); //Clay leaves into pot

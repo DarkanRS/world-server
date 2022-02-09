@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -39,7 +39,7 @@ import com.rs.game.player.dialogues.StealingCreationMagic;
 import com.rs.game.player.dialogues.StealingCreationManagerD;
 import com.rs.game.player.dialogues.StealingCreationRange;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -109,9 +109,8 @@ public class StealingCreationController extends Controller {
 						player.setRunHidden(false);
 						player.getNextHits().clear();
 					}
-				} else {
+				} else
 					resetFOG();
-				}
 			} else
 				resetFOG();
 		}
@@ -121,14 +120,13 @@ public class StealingCreationController extends Controller {
 		if (player.getAppearance().isNPC()) {
 			player.getAppearance().transformIntoNPC(-1);
 			player.getAppearance().setHidden(false);
-			if (!player.getRun()) {
-				WorldTasksManager.schedule(new WorldTask() {
+			if (!player.getRun())
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						player.setRunHidden(true);
 					}
 				});
-			}
 		}
 	}
 
@@ -157,9 +155,8 @@ public class StealingCreationController extends Controller {
 				return false;
 		} else if (target instanceof Familiar familiar) {
 			Player owner = familiar.getOwner();
-			if (owner.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
+			if (owner.getEquipment().getCapeId() == player.getEquipment().getCapeId())
 				return false;
-			}
 		}
 		return true;
 	}
@@ -170,7 +167,8 @@ public class StealingCreationController extends Controller {
 			if (other.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
 				player.sendMessage("You cannot attack player's on the same team!");
 				return false;
-			} else if (target.getTempAttribs().getL("in_kiln") >= System.currentTimeMillis()) {
+			}
+			if (target.getTempAttribs().getL("in_kiln") >= System.currentTimeMillis()) {
 				player.sendMessage("The power of the creation kiln is protecting the player.");
 				return false;
 			}
@@ -187,23 +185,22 @@ public class StealingCreationController extends Controller {
 	@Override
 	public boolean processItemOnPlayer(Player target, Item item, int slot) {
 		if (player.withinDistance(target, 3)) {
-			if (target.isDead() || player.isDead()) {
+			if (target.isDead() || player.isDead())
 				return false;
-			} else if (target.getEquipment().getCapeId() != player.getEquipment().getCapeId()) {
+			if (target.getEquipment().getCapeId() != player.getEquipment().getCapeId()) {
 				player.sendMessage("You cannot give an item to a player on the opposite team!");
 				return false;
-//			} else if (!target.isAcceptingAid()) {
-//				player.sendMessage("That player currently does not want your aid.");
-//				return false;
+				//			} else if (!target.isAcceptingAid()) {
+				//				player.sendMessage("That player currently does not want your aid.");
+				//				return false;
+			}
+			if (target.getInventory().addItem(item)) {
+				player.getInventory().deleteItem(item);
+				target.sendMessage(Utils.formatPlayerNameForDisplay(player.getDisplayName()) + " has given you an item.");
+				return false;
 			} else {
-				if (target.getInventory().addItem(item)) {
-					player.getInventory().deleteItem(item);
-					target.sendMessage(Utils.formatPlayerNameForDisplay(player.getDisplayName()) + " has given you an item.");
-					return false;
-				} else {
-					player.sendMessage(Utils.formatPlayerNameForDisplay(player.getDisplayName()) + " has insufficient room in their inventory.");
-					return false;
-				}
+				player.sendMessage(Utils.formatPlayerNameForDisplay(player.getDisplayName()) + " has insufficient room in their inventory.");
+				return false;
 			}
 		}
 		return false;
@@ -220,25 +217,23 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean processNPCClick1(NPC n) {
-		for (int i = 0; i < Helper.MANAGER_NPCS.length; i++) {
-			if (n.getId() == Helper.MANAGER_NPCS[i]) {
+		for (int element : Helper.MANAGER_NPCS)
+			if (n.getId() == element) {
 				n.setNextFaceEntity(player);
 				player.getDialogueManager().execute(new StealingCreationManagerD(), n, getGame());
 				return false;
 			}
-		}
 		return true;
 	}
 
 	@Override
 	public boolean processNPCClick2(NPC n) {
-		for (int i = 0; i < Helper.MANAGER_NPCS.length; i++) {
-			if (n.getId() == Helper.MANAGER_NPCS[i]) {
+		for (int element : Helper.MANAGER_NPCS)
+			if (n.getId() == element) {
 				n.setNextFaceEntity(player);
 				Helper.displayClayStatus(game.getArea(), player);
 				return false;
 			}
-		}
 		return true;
 	}
 
@@ -259,10 +254,10 @@ public class StealingCreationController extends Controller {
 			player.sendMessage("You cannot give an item to a player on the opposite team!");
 			return false;
 		}
-//		else if (!target.isAcceptingAid()) {
-//			player.sendMessage("That player currently does not want your aid.");
-//			return false;
-//		}
+		//		else if (!target.isAcceptingAid()) {
+		//			player.sendMessage("That player currently does not want your aid.");
+		//			return false;
+		//		}
 		return true;
 	}
 
@@ -274,11 +269,9 @@ public class StealingCreationController extends Controller {
 	@Override
 	public boolean canPlayerOption3(final Player target) {
 		final int thievingLevel = player.getSkills().getLevel(Constants.THIEVING);
-		if (player.getTempAttribs().getL("PICKPOCK_DELAY") + 1500 > System.currentTimeMillis()) {
+		if ((player.getTempAttribs().getL("PICKPOCK_DELAY") + 1500 > System.currentTimeMillis()) || Helper.withinSafeArea(target, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam()))
 			return false;
-		} else if (Helper.withinSafeArea(target, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam())) {
-			return false;
-		} else if (player.getAttackedBy() != null && player.inCombat()) {
+		if (player.getAttackedBy() != null && player.inCombat()) {
 			player.sendMessage("You can't do this while you're under combat.");
 			return false;
 		} else if (target.getEquipment().getCapeId() == player.getEquipment().getCapeId()) {
@@ -300,31 +293,27 @@ public class StealingCreationController extends Controller {
 			player.sendMessage("Too late.");
 			return false;
 		}
-		player.setRouteEvent(new RouteEvent(target, new Runnable() {
-			@Override
-			public void run() {
-				player.setNextFaceEntity(target);
-				player.setNextAnimation(new Animation(881));
-				player.sendMessage("You attempt to pickpocket from " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pockets.");
-				player.sendMessage("You pick " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pocket.");
-				player.getTempAttribs().setL("PICKPOCK_DELAY", System.currentTimeMillis());
-				int level = Utils.getRandomInclusive(thievingLevel);
-				double ratio = level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
-				if (!(Math.round(ratio * thievingLevel) > target.getSkills().getLevel(Constants.THIEVING))) {
-					player.sendMessage("You fail to pickpocket " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + ".");
-				} else {
-					Item caughtItem = getCalculatedItem(target);
-					itemLoop: for (int i = 0; i < 100; i++) {
-						if (caughtItem == null)
-							caughtItem = getCalculatedItem(target);
-						else {
-							if (player.getInventory().addItem(caughtItem))
-								target.getInventory().deleteItem(caughtItem);
-							break itemLoop;
-						}
+		player.setRouteEvent(new RouteEvent(target, () -> {
+			player.setNextFaceEntity(target);
+			player.setNextAnimation(new Animation(881));
+			player.sendMessage("You attempt to pickpocket from " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pockets.");
+			player.sendMessage("You pick " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pocket.");
+			player.getTempAttribs().setL("PICKPOCK_DELAY", System.currentTimeMillis());
+			int level = Utils.getRandomInclusive(thievingLevel);
+			double ratio = level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
+			if (!(Math.round(ratio * thievingLevel) > target.getSkills().getLevel(Constants.THIEVING)))
+				player.sendMessage("You fail to pickpocket " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + ".");
+			else {
+				Item caughtItem = getCalculatedItem(target);
+				itemLoop: for (int i = 0; i < 100; i++) {
+					if (caughtItem != null) {
+						if (player.getInventory().addItem(caughtItem))
+							target.getInventory().deleteItem(caughtItem);
+						break itemLoop;
 					}
-					player.sendMessage("You sucessfully pickpocket an item from " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pockets!");
+					caughtItem = getCalculatedItem(target);
 				}
+				player.sendMessage("You sucessfully pickpocket an item from " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pockets!");
 			}
 		}));
 		return false;
@@ -340,9 +329,9 @@ public class StealingCreationController extends Controller {
 			if (other.getAppearance().isNPC()) {
 				player.sendMessage("Your target is nowhere to be found.");
 				return false;
-			} else if (Helper.withinSafeArea(other, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam())) {
-				return false;
 			}
+			if (Helper.withinSafeArea(other, game.getArea(), !getTeam()) || Helper.withinSafeArea(player, game.getArea(), getTeam()))
+				return false;
 		}
 		if (player.getAppearance().isNPC()) {
 			player.sendMessage("You cannot attack while you are hidden.");
@@ -374,7 +363,8 @@ public class StealingCreationController extends Controller {
 		if (score.getWithdrawing() - pointsSubtracted <= -3000) {
 			player.sendMessage("You cannot take this amount of items as your score is too low.");
 			return false;
-		} else if (!item.isPrivate()) {
+		}
+		if (!item.isPrivate()) {
 			score.updateWithdrawing(pointsSubtracted);
 			sendScore(score);
 		}
@@ -394,7 +384,8 @@ public class StealingCreationController extends Controller {
 				}
 			}
 			return true;
-		} else if (interfaceId == 387) {
+		}
+		if (interfaceId == 387) {
 			if (packet == ClientPacket.IF_OP1 && componentId == 9) {
 				player.sendMessage("You can't remove your team's colours.");
 				return false;
@@ -406,7 +397,8 @@ public class StealingCreationController extends Controller {
 				if (itemName.contains("food (class")) {
 					doFoodEffect(item, Integer.parseInt(item.getName().substring(item.getName().indexOf("(class")).replace("(class ", "").replace(")", "")));
 					return false;
-				} else if (itemName.contains("potion (") || itemName.contains("super")) {
+				}
+				if (itemName.contains("potion (") || itemName.contains("super")) {
 					boolean superPotion = itemName.contains("super");
 					int index = 0;
 					for (String name : Constants.SKILL_NAME) {
@@ -464,34 +456,32 @@ public class StealingCreationController extends Controller {
 		boolean isEnemySCGate = false;
 		boolean isEnemySCWall = false;
 
-		gateLoop: for (int[] wallIDS : (getTeam() ? Helper.BLUE_BARRIER_GATES : Helper.RED_BARRIER_GATES)) {
-			for (int id : wallIDS) {
+		gateLoop: for (int[] wallIDS : (getTeam() ? Helper.BLUE_BARRIER_GATES : Helper.RED_BARRIER_GATES))
+			for (int id : wallIDS)
 				if (object.getId() == id) {
 					isEnemySCGate = true;
 					break gateLoop;
 				}
-			}
-		}
-		wallLoop: for (int[] wallIDS : (getTeam() ? Helper.BLUE_BARRIER_WALLS : Helper.RED_BARRIER_WALLS)) {
-			for (int id : wallIDS) {
+		wallLoop: for (int[] wallIDS : (getTeam() ? Helper.BLUE_BARRIER_WALLS : Helper.RED_BARRIER_WALLS))
+			for (int id : wallIDS)
 				if (object.getId() == id) {
 					isEnemySCWall = true;
 					break wallLoop;
 				}
-			}
-		}
 
 		if (object.getId() == Helper.KILN) {
 			Helper.displayKiln(player);
 			return false;
-		} else if (object.getId() == 39533) {
+		}
+		if (object.getId() == 39533) {
 			for (Item item : player.getInventory().getItems().getItems()) {
 				if (item == null)
 					continue;
 				game.sendItemToBase(player, item, getTeam(), false, true);
 			}
 			return false;
-		} else if ((!getTeam() && (object.getId() == Helper.BLUE_DOOR_1 || object.getId() == Helper.BLUE_DOOR_2)) || (getTeam() && (object.getId() == Helper.RED_DOOR_1 || object.getId() == Helper.RED_DOOR_2))) {
+		}
+		if ((!getTeam() && (object.getId() == Helper.BLUE_DOOR_1 || object.getId() == Helper.BLUE_DOOR_2)) || (getTeam() && (object.getId() == Helper.RED_DOOR_1 || object.getId() == Helper.RED_DOOR_2))) {
 			passWall(player, object, getTeam());
 			return false;
 		} else if (isEnemySCGate || isEnemySCWall) {
@@ -504,7 +494,7 @@ public class StealingCreationController extends Controller {
 				return false;
 			player.getActionManager().addActionDelay(combatDelay);
 			player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(weaponId, attackStyle)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					game.damageBarrier(x, y);
@@ -527,12 +517,11 @@ public class StealingCreationController extends Controller {
 			return false;
 		} else if (object.getId() == 39602 || object.getId() == 39613 || object.getId() == 39612 || object.getId() == 39611) {
 			boolean isWall = object.getId() == 39613 || object.getId() == 39612 || object.getId() == 39611;
-			if (isWall) {
+			if (isWall)
 				if (player.getSkills().getLevel(Constants.AGILITY) < 60) {
 					player.sendMessage("You need to have an Agility level of 60 to clim over the wall.");
 					return false;
 				}
-			}
 			int rotation = object.getRotation();
 			int xExtra = 0, yExtra = 0, totalDistance = isWall ? 2 : 3;
 			Direction direction = Direction.NORTH;
@@ -546,14 +535,12 @@ public class StealingCreationController extends Controller {
 					xExtra -= totalDistance;
 					direction = Direction.WEST;
 				}
-			} else {
-				if (DY >= 0) {
-					yExtra += totalDistance;
-					direction = Direction.NORTH;
-				} else if (DY < 0) {
-					yExtra -= totalDistance;
-					direction = Direction.SOUTH;
-				}
+			} else if (DY >= 0) {
+				yExtra += totalDistance;
+				direction = Direction.NORTH;
+			} else if (DY < 0) {
+				yExtra -= totalDistance;
+				direction = Direction.SOUTH;
 			}
 			final WorldTile toTile = new WorldTile(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
 			ForceMovement nextForceMovement;
@@ -564,7 +551,7 @@ public class StealingCreationController extends Controller {
 			player.setNextForceMovement(nextForceMovement);
 			player.setNextAnimation(new Animation(object.getId() == 39602 ? 6132 : 10590));
 			final Direction finalDirection = direction;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -595,13 +582,12 @@ public class StealingCreationController extends Controller {
 						if (baseItem == -1)
 							break itemLoop;
 						Item bestItem = new Item(baseItem + (index * 2), 1);
-						if (player.getEquipment().getWeaponId() == bestItem.getId() || player.getInventory().containsItem(bestItem.getId(), bestItem.getAmount())) {
+						if (player.getEquipment().getWeaponId() == bestItem.getId() || player.getInventory().containsItem(bestItem.getId(), bestItem.getAmount()))
 							if (player.getSkills().getLevel(skill.getRequestedSkill()) >= index * 20) {
 								this.bestItem = bestItem;
-								this.itemTier = index;
+								itemTier = index;
 								break itemLoop;
 							}
-						}
 					}
 					setActionDelay(player, getActionDelay());
 					return true;
@@ -689,24 +675,21 @@ public class StealingCreationController extends Controller {
 	public boolean processObjectClick2(GameObject object) {
 		boolean isFriendlySCGate = false;
 
-		gateLoop: for (int[] gateIDS : (getTeam() ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES)) {
-			for (int id : gateIDS) {
+		gateLoop: for (int[] gateIDS : (getTeam() ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES))
+			for (int id : gateIDS)
 				if (object.getId() == id) {
 					isFriendlySCGate = true;
 					break gateLoop;
 				}
-			}
-		}
 
 		if (object.getId() == Helper.EMPTY_BARRIER1 || object.getId() == Helper.EMPTY_BARRIER2 || object.getId() == Helper.EMPTY_BARRIER3) {
 			boolean redTeam = getTeam();
 			int tier = -1;
-			for (int i = 4; i >= 0; i--) {
+			for (int i = 4; i >= 0; i--)
 				if (player.getInventory().containsItem(Helper.BARRIER_ITEMS[i], 4)) {
 					tier = i;
 					break;
 				}
-			}
 			if (tier == -1) {
 				player.sendMessage("You don't have enough barrier items to build.");
 				return false;
@@ -725,7 +708,7 @@ public class StealingCreationController extends Controller {
 				otherPlayer.lock(3);
 			}
 			player.lock(2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				private int step = 0;
 
 				@Override
@@ -734,9 +717,8 @@ public class StealingCreationController extends Controller {
 						player.setNextAnimation(new Animation(10589));
 						step++;
 					} else if (step == 1) {
-						if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[t], 4)) && !game.buildBarrier(getTeam(), t + 1, x, y)) {
+						if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[t], 4)) && !game.buildBarrier(getTeam(), t + 1, x, y))
 							player.getInventory().addItem(new Item(Helper.BARRIER_ITEMS[t], 4));
-						}
 						player.unlock();
 						stop();
 					}
@@ -744,7 +726,8 @@ public class StealingCreationController extends Controller {
 
 			}, 0, 0);
 			return false;
-		} else if (isFriendlySCGate) {
+		}
+		if (isFriendlySCGate) {
 			passWall(player, object, getTeam());
 			return false;
 		}
@@ -756,22 +739,18 @@ public class StealingCreationController extends Controller {
 		boolean isFriendlySCGate = false;
 		boolean isFriendlySCWall = false;
 
-		gateLoop: for (int[] gateIDS : (getTeam() ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES)) {
-			for (int id : gateIDS) {
+		gateLoop: for (int[] gateIDS : (getTeam() ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES))
+			for (int id : gateIDS)
 				if (object.getId() == id) {
 					isFriendlySCGate = true;
 					break gateLoop;
 				}
-			}
-		}
-		wallLoop: for (int[] gateIDS : (getTeam() ? Helper.RED_BARRIER_WALLS : Helper.BLUE_BARRIER_WALLS)) {
-			for (int id : gateIDS) {
+		wallLoop: for (int[] gateIDS : (getTeam() ? Helper.RED_BARRIER_WALLS : Helper.BLUE_BARRIER_WALLS))
+			for (int id : gateIDS)
 				if (object.getId() == id) {
 					isFriendlySCWall = true;
 					break wallLoop;
 				}
-			}
-		}
 
 		if (isFriendlySCGate || isFriendlySCWall) {
 			final int x = object.getChunkX() - (game.getArea().getMinX() >> 3);
@@ -791,7 +770,7 @@ public class StealingCreationController extends Controller {
 					return false;
 				}
 				player.lock(2);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					private int step = 0;
 
 					@Override
@@ -800,9 +779,8 @@ public class StealingCreationController extends Controller {
 							player.setNextAnimation(new Animation(10589));
 							step++;
 						} else if (step == 1) {
-							if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[tier - 1], 1)) && !game.repairBarrier(x, y)) {
+							if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[tier - 1], 1)) && !game.repairBarrier(x, y))
 								player.getInventory().addItem(new Item(Helper.BARRIER_ITEMS[tier - 1], 1));
-							}
 							player.unlock();
 							stop();
 						}
@@ -822,12 +800,11 @@ public class StealingCreationController extends Controller {
 			return;
 		}
 		player.lock(3);
-		if (!Helper.setWalkToGate(object, player)) {
+		if (!Helper.setWalkToGate(object, player))
 			player.unlock();
-		}
 		final Player p = player;
 		final GameObject o = object;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			private int step = 0;
 
 			@Override
@@ -859,14 +836,14 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1) {
 					if (player.getFamiliar() != null)
 						player.getFamiliar().sendDeath(player);
 				} else if (loop == 3) {
@@ -914,12 +891,12 @@ public class StealingCreationController extends Controller {
 		else if (packet == ClientPacket.IF_OP3) {
 			player.getTempAttribs().setI("sc_component", componentId);
 			player.getTempAttribs().setB("kilnX", true);
-			player.getPackets().sendRunScriptReverse(108, new Object[] { "Enter Amount:" });
+			player.getPackets().sendRunScriptReverse(108, "Enter Amount:");
 		} else if (packet == ClientPacket.IF_OP4)
 			amount = player.getInventory().getAmountOf(clayId);
 		else
 			amount = player.getTempAttribs().getI("sc_amount_making");
-		if (Helper.checkSkillRequriments(player, Helper.getRequestedKilnSkill(componentId - 37), quality)) {
+		if (Helper.checkSkillRequriments(player, Helper.getRequestedKilnSkill(componentId - 37), quality))
 			if ((amount != 0 && Helper.proccessKilnItems(player, componentId, quality, clayId, amount))) {
 				Score score = game.getScore(player);
 				if (score == null)
@@ -928,7 +905,6 @@ public class StealingCreationController extends Controller {
 				sendScore(score);
 				return;
 			}
-		}
 	}
 
 	@Override

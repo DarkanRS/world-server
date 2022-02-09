@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
@@ -29,7 +29,7 @@ import com.rs.lib.net.packets.decoders.interfaces.IFOnIF;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 
 public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
-	
+
 	@Override
 	public void handle(Player player, IFOnIF packet) {
 		if (packet.getFromInter() == 192 && packet.getToInter() == 679) {
@@ -54,9 +54,8 @@ public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
 			case 88:
 				Enchanting.handleEnchanting(player, item, packet.getFromComp());
 			default:
-				if (player.hasRights(Rights.DEVELOPER)) {
+				if (player.hasRights(Rights.DEVELOPER))
 					player.sendMessage("Unhandled spell: fromComp: " + packet.getFromComp() + " slotId: " + packet.getToSlot());
-				}
 				break;
 			}
 			return;
@@ -80,9 +79,8 @@ public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
 				Lunars.handleBoostPotionShare(player, item);
 				break;
 			default:
-				if (player.hasRights(Rights.DEVELOPER)) {
+				if (player.hasRights(Rights.DEVELOPER))
 					player.sendMessage("Unhandled lunar spell: fromComp: " + packet.getFromComp() + " slotId: " + packet.getToSlot());
-				}
 				break;
 			}
 			return;
@@ -91,10 +89,9 @@ public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
 		if (packet.getFromInter() == 747 && packet.getToInter() == 679) {
 			if (player.getFamiliar() != null) {
 				player.getFamiliar().setSpecial(true);
-				if (player.getFamiliar().getSpecialAttack() == SpecialAttack.ITEM) {
+				if (player.getFamiliar().getSpecialAttack() == SpecialAttack.ITEM)
 					if (player.getFamiliar().hasSpecialOn())
 						player.getFamiliar().submitSpecial(packet.getToSlot());
-				}
 			}
 			return;
 		}

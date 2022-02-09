@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.qbd;
@@ -22,16 +22,16 @@ import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.skills.prayer.Prayer;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
 /**
  * Handles the Queen Black Dragon's melee attack.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class MeleeAttack implements QueenAttack {
 
@@ -52,14 +52,13 @@ public final class MeleeAttack implements QueenAttack {
 
 	@Override
 	public int attack(final QueenBlackDragon npc, final Player victim) {
-		if (victim.getX() < npc.getBase().getX() + 31) {
+		if (victim.getX() < npc.getBase().getX() + 31)
 			npc.setNextAnimation(WEST);
-		} else if (victim.getX() > npc.getBase().getX() + 35) {
+		else if (victim.getX() > npc.getBase().getX() + 35)
 			npc.setNextAnimation(EAST);
-		} else {
+		else
 			npc.setNextAnimation(DEFAULT);
-		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				stop();
@@ -68,9 +67,9 @@ public final class MeleeAttack implements QueenAttack {
 					victim.setNextAnimation(new Animation(12573));
 					victim.setNextSpotAnim(new SpotAnim(2230));
 					victim.sendMessage("You are unable to reflect damage back to this creature.");
-				} else if (victim.getPrayer().active(Prayer.PROTECT_MELEE)) {
+				} else if (victim.getPrayer().active(Prayer.PROTECT_MELEE))
 					victim.setNextAnimation(new Animation(PlayerCombat.getDefenceEmote(victim)));
-				} else {
+				else {
 					hit = Utils.random(0 + Utils.random(150), 360);
 					victim.setNextAnimation(new Animation(PlayerCombat.getDefenceEmote(victim)));
 				}

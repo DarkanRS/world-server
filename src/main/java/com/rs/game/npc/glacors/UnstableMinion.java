@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.glacors;
@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -45,18 +45,18 @@ public class UnstableMinion extends NPC {
 	public UnstableMinion(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
 		super(id, tile, spawned);
 		this.parent = parent;
-		this.setForceAgressive(true);
-		this.setForceMultiAttacked(true);
+		setForceAgressive(true);
+		setForceMultiAttacked(true);
 	}
 
 	@Override
 	public void processEntity() {
 		super.processEntity();
 
-		if ((this.getHitpoints() < 500) && !isDead() && (getHitpoints() != 0))
+		if ((getHitpoints() < 500) && !isDead() && (getHitpoints() != 0))
 			this.heal(10);
 
-		if (!startedTimer && this.getHitpoints() > 500) {
+		if (!startedTimer && getHitpoints() > 500) {
 			getNextHitBars().add(new TimerBar(700));
 			startedTimer = true;
 			startExplosionTimer();
@@ -71,7 +71,7 @@ public class UnstableMinion extends NPC {
 	}
 
 	public void startStopMovingTimer() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
@@ -79,7 +79,7 @@ public class UnstableMinion extends NPC {
 				thisNpc.freeze(50000000);
 			}
 		}, 22);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
@@ -90,15 +90,14 @@ public class UnstableMinion extends NPC {
 	}
 
 	public void startExplosionTimer() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
 					return;
-				for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+				for (Player player : World.getPlayersInRegionRange(getRegionId()))
 					if (Utils.getDistance(thisNpc.getX(), thisNpc.getY(), player.getX(), player.getY()) < 2)
 						player.applyHit(new Hit(player, player.getHitpoints() / 3, HitLook.TRUE_DAMAGE));
-				}
 				thisNpc.applyHit(new Hit(thisNpc, (int) (thisNpc.getHitpoints() * 0.90), HitLook.TRUE_DAMAGE));
 				thisNpc.setNextSpotAnim(new SpotAnim(EXPLODE_GFX));
 				startedTimer = false;

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.region;
@@ -29,112 +29,112 @@ import com.rs.lib.util.Logger;
 
 public final class RegionBuilder {
 
-    /**
-     * Instance builder
-     */
+	/**
+	 * Instance builder
+	 */
 	public static class DynamicRegionReference {
-		
+
 		private int[] base;
 		private int width;
 		private int height;
 		private boolean destroyed;
-		
+
 		public DynamicRegionReference(int width, int height) {
 			this.width = width;
 			this.height = height;
-			this.destroyed = false;
+			destroyed = false;
 		}
-		
+
 		public void requestChunkBound(Runnable callback) {
-			this.destroyed = false;
+			destroyed = false;
 			RegionBuilder.findEmptyChunkBound(this, callback);
 		}
-		
+
 		public void copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
-			if (base == null) {
+			if (base == null)
 				requestChunkBound(() -> {
 					RegionBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
 				});
-			} else
+			else
 				RegionBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
 		}
-		
+
 		public void clearChunk(int localChunkX, int localChunkY, int plane, Runnable callback) {
-			if (base == null) {
+			if (base == null)
 				requestChunkBound(() -> {
 					RegionBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
 				});
-			} else
+			else
 				RegionBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
 		}
-		
+
 		public void copy2x2ChunkSquare(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
-			if (base == null) {
+			if (base == null)
 				requestChunkBound(() -> {
 					RegionBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
 				});
-			} else
+			else
 				RegionBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
 		}
-		
+
 		public void copyMap(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
-			if (base == null) {
+			if (base == null)
 				requestChunkBound(() -> {
 					RegionBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
 				});
-			} else
+			else
 				RegionBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
 		}
-		
+
 		public void copyMapAllPlanes(int fromChunkX, int fromChunkY, int size, Runnable callback) {
 			copyMap(0, 0, fromChunkX, fromChunkY, size, callback);
 		}
-		
+
 		public void copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-			if (base == null) {
+			if (base == null)
 				requestChunkBound(() -> {
 					RegionBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
 				});
-			} else
+			else
 				RegionBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
 		}
-		
+
 		public void copyMap(int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
 			copyMap(0, 0, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
 		}
-		
+
 		public void copyMapSinglePlane(int fromChunkX, int fromChunkY, Runnable callback) {
 			copyMap(0, 0, new int[1], fromChunkX, fromChunkY, new int[1], width, height, callback);
 		}
-		
+
 		public void copyMapAllPlanes(int fromChunkX, int fromChunkY, Runnable callback) {
 			copyMap(0, 0, new int[] { 0, 1, 2, 3 }, fromChunkX, fromChunkY, new int[] { 0, 1, 2, 3 }, width, height, callback);
 		}
-		
+
 		public void clearMap(int chunkX, int chunkY, int width, int height, int[] planes, Runnable callback) {
-			if (base == null) {
+			if (base == null)
 				requestChunkBound(() -> {
 					RegionBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
 				});
-			} else
+			else
 				RegionBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
 		}
-		
+
 		public void clearMap(int width, int height, int[] planes, Runnable callback) {
 			clearMap(0, 0, width, height, planes, callback);
 		}
-		
+
 		public void clearMap(int[] planes, Runnable callback) {
 			clearMap(width, height, planes, callback);
 		}
-		
+
 		public void destroy(Runnable callback) {
 			if (destroyed)
 				return;
-			this.destroyed = true;
+			destroyed = true;
 			RegionBuilder.destroyMap(this, callback);
 		}
-		
+
 		public void destroy() {
 			destroy(null);
 		}
@@ -142,39 +142,39 @@ public final class RegionBuilder {
 		public int[] getBaseChunks() {
 			return base;
 		}
-		
+
 		public int getBaseChunkX() {
 			return base[0];
 		}
-		
+
 		public int getBaseChunkY() {
 			return base[1];
 		}
-		
+
 		public int getBaseX() {
 			return base[0] << 3;
 		}
-		
+
 		public int getBaseY() {
 			return base[1] << 3;
 		}
-		
+
 		public WorldTile getBase() {
 			return new WorldTile(getBaseX(), getBaseY(), 0);
 		}
-		
+
 		public WorldTile getLocalTile(int offsetX, int offsetY, int plane) {
 			return new WorldTile(getLocalX(offsetX), getLocalY(offsetY), plane);
 		}
-		
+
 		public WorldTile getLocalTile(int offsetX, int offsetY) {
 			return getLocalTile(offsetX, offsetY, 0);
 		}
-		
+
 		public int getLocalX(int offset) {
 			return getBaseX() + offset;
 		}
-		
+
 		public int getLocalY(int offset) {
 			return getBaseY() + offset;
 		}
@@ -182,19 +182,19 @@ public final class RegionBuilder {
 		public int getLocalX(int chunkXOffset, int tileXOffset) {
 			return (getChunkX(chunkXOffset) << 3) + tileXOffset;
 		}
-		
+
 		public int getLocalY(int chunkYOffset, int tileYOffset) {
 			return (getChunkY(chunkYOffset) << 3) + tileYOffset;
 		}
-		
+
 		public int getChunkX(int offsetX) {
 			return getBaseChunkX() + offsetX;
 		}
-		
+
 		public int getChunkY(int offsetY) {
 			return getBaseChunkY() + offsetY;
 		}
-		
+
 		public int getRegionId() {
 			return ((getBaseChunkX() >> 3) << 8) + (getBaseChunkY() >> 3);
 		}
@@ -202,26 +202,27 @@ public final class RegionBuilder {
 		public boolean isDestroyed() {
 			return destroyed;
 		}
+
+		public boolean isCreated() {
+			return base != null;
+		}
 	}
 
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 
-	private static final Set<Integer> EXISTING_MAPS = new HashSet<Integer>();
+	private static final Set<Integer> EXISTING_MAPS = new HashSet<>();
 
 	private static final int MAX_REGION_X = 127;
 	private static final int MAX_REGION_Y = 255;
-	
+
 	private static void reserveArea(int fromRegionX, int fromRegionY, int width, int height, boolean remove) {
 		synchronized(EXISTING_MAPS) {
-			for (int regionX = fromRegionX; regionX < fromRegionX + width; regionX++) {
-				for (int regionY = fromRegionY; regionY < fromRegionY + height; regionY++) {
-					if (remove) {
-						EXISTING_MAPS.remove((Integer) getRegionId(regionX, regionY));
-					} else {
-						EXISTING_MAPS.add((Integer) getRegionId(regionX, regionY));
-					}
-				}
-			}
+			for (int regionX = fromRegionX; regionX < fromRegionX + width; regionX++)
+				for (int regionY = fromRegionY; regionY < fromRegionY + height; regionY++)
+					if (remove)
+						EXISTING_MAPS.remove(getRegionId(regionX, regionY));
+					else
+						EXISTING_MAPS.add(getRegionId(regionX, regionY));
 		}
 	}
 
@@ -230,7 +231,7 @@ public final class RegionBuilder {
 			return EXISTING_MAPS.contains(regionId);
 		}
 	}
-	
+
 	private static int getRegionId(int mapX, int mapY) {
 		return (mapX << 8) + mapY;
 	}
@@ -240,8 +241,7 @@ public final class RegionBuilder {
 		if (region != null) {
 			if (region instanceof DynamicRegion dr)
 				return dr;
-			else
-				destroyRegion(regionId);
+			destroyRegion(regionId);
 		}
 		DynamicRegion newRegion = new DynamicRegion(regionId);
 		World.putRegion(regionId, newRegion);
@@ -259,17 +259,16 @@ public final class RegionBuilder {
 				region.getGroundItems().clear();
 			region.getSpawnedObjects().clear();
 			region.getRemovedObjects().clear();
-			if (npcIndexes != null) {
+			if (npcIndexes != null)
 				for (int npcIndex : npcIndexes) {
 					NPC npc = World.getNPCs().get(npcIndex);
 					if (npc == null)
 						continue;
 					npc.finish();
 				}
-			}
 			World.removeRegion(regionId);
 
-			if (playerIndexes != null) {
+			if (playerIndexes != null)
 				for (int playerIndex : playerIndexes) {
 					Player player = World.getPlayers().get(playerIndex);
 					if (player == null || !player.hasStarted() || player.hasFinished())
@@ -277,21 +276,17 @@ public final class RegionBuilder {
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
 				}
-			}
 		}
 	}
-	
+
 	public static void findEmptyChunkBound(DynamicRegionReference ref, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					ref.base = findEmptyChunkBound(ref.width, ref.height);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				ref.base = findEmptyChunkBound(ref.width, ref.height);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
@@ -319,40 +314,34 @@ public final class RegionBuilder {
 			regionsDistanceY += 1;
 			heightChunks -= 8;
 		}
-		for (int regionX = 1; regionX <= MAX_REGION_X - regionsDistanceX; regionX++) {
+		for (int regionX = 1; regionX <= MAX_REGION_X - regionsDistanceX; regionX++)
 			skip: for (int regionY = 1; regionY <= MAX_REGION_Y - regionsDistanceY; regionY++) {
 				int regionHash = getRegionId(regionX, regionY);
-				for (int checkRegionX = regionX - 1; checkRegionX <= regionX + regionsDistanceX; checkRegionX++) {
+				for (int checkRegionX = regionX - 1; checkRegionX <= regionX + regionsDistanceX; checkRegionX++)
 					for (int checkRegionY = regionY - 1; checkRegionY <= regionY + regionsDistanceY; checkRegionY++) {
 						int regionId = getRegionId(checkRegionX, checkRegionY);
-						if (regionExists(regionId)) {
+						if (regionExists(regionId))
 							continue skip;
-                        }
 
 					}
-				}
 				reserveArea(regionX, regionY, regionsDistanceX, regionsDistanceY, false);
 				return regionHash;
 			}
-		}
 		return -1;
 	}
-	
+
 	private static final void destroyMap(DynamicRegionReference ref, Runnable callback) {
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.width, ref.height);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.width, ref.height);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, 8);
 	}
-		
+
 	private static final void destroyMap(int chunkX, int chunkY, int widthRegions, int heightRegions) {
 		int fromRegionX = chunkX / 8;
 		int fromRegionY = chunkY / 8;
@@ -366,25 +355,20 @@ public final class RegionBuilder {
 			regionsDistanceY += 1;
 			heightRegions -= 8;
 		}
-		for (int regionX = fromRegionX; regionX < fromRegionX + regionsDistanceX; regionX++) {
-			for (int regionY = fromRegionY; regionY < fromRegionY + regionsDistanceY; regionY++) {
+		for (int regionX = fromRegionX; regionX < fromRegionX + regionsDistanceX; regionX++)
+			for (int regionY = fromRegionY; regionY < fromRegionY + regionsDistanceY; regionY++)
 				destroyRegion(getRegionId(regionX, regionY));
-			}
-		}
 		reserveArea(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
 	}
-	
+
 	private static void copyChunk(DynamicRegionReference ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
@@ -399,24 +383,22 @@ public final class RegionBuilder {
 		toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][3] = rotation;
 		toRegion.setReloadObjects(toPlane, regionOffsetX, regionOffsetY);
 	}
-	
+
 	private static void copy2x2ChunkSquare(DynamicRegionReference ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
 
 	private static final void copy2x2ChunkSquare(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int rotation, int... planes) {
-		for (int i : planes) { // plane 1 and 2
+		for (int i : planes)
+			// plane 1 and 2
 			if (rotation == 0) {
 				copyChunk(fromRegionX, fromRegionY, i, toRegionX, toRegionY, i, rotation);
 				copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX + 1, toRegionY, i, rotation);
@@ -438,38 +420,34 @@ public final class RegionBuilder {
 				copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX, toRegionY, i, rotation);
 				copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX, toRegionY + 1, i, rotation);
 			}
-		}
 	}
-	
+
 	private static void clearChunk(DynamicRegionReference ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
-	
+
 	private static void cutChunk(int toChunkX, int toChunkY, int toPlane) {
 		copyChunk(0, 0, 0, toChunkX, toChunkY, toPlane, 0);
 	}
 
 	private static final void repeatMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int fromChunkX, int fromChunkY, int fromPlane, int rotation, int... toPlanes) {
-		for (int xOffset = 0; xOffset < widthChunks; xOffset++) {
+		for (int xOffset = 0; xOffset < widthChunks; xOffset++)
 			for (int yOffset = 0; yOffset < heightChunks; yOffset++) {
 				int nextChunkX = toChunkX + xOffset;
 				int nextChunkY = toChunkY + yOffset;
 				DynamicRegion toRegion = createDynamicRegion((((nextChunkX / 8) << 8) + (nextChunkY / 8)));
 				int regionOffsetX = (nextChunkX - ((nextChunkX / 8) * 8));
 				int regionOffsetY = (nextChunkY - ((nextChunkY / 8) * 8));
-				for (int pIndex = 0; pIndex < toPlanes.length; pIndex++) {
-					int toPlane = toPlanes[pIndex];
+				for (int toPlane2 : toPlanes) {
+					int toPlane = toPlane2;
 					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][0] = fromChunkX;
 					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][1] = fromChunkY;
 					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][2] = fromPlane;
@@ -477,20 +455,16 @@ public final class RegionBuilder {
 					toRegion.setReloadObjects(toPlane, regionOffsetX, regionOffsetY);
 				}
 			}
-		}
 	}
-	
+
 	private static void clearMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
@@ -498,18 +472,15 @@ public final class RegionBuilder {
 	private static final void cutMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int... toPlanes) {
 		repeatMap(toChunkX, toChunkY, widthChunks, heightChunks, 0, 0, 0, 0, toPlanes);
 	}
-	
+
 	private static void copyMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
@@ -532,18 +503,15 @@ public final class RegionBuilder {
 	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, int[] fromPlanes, int[] toPlanes) {
 		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, size, fromPlanes, toPlanes);
 	}
-	
+
 	private static void copyMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-		CoresManager.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
-					if (callback != null)
-						callback.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.execute(() -> {
+			try {
+				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
+				if (callback != null)
+					callback.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		});
 	}
@@ -551,7 +519,7 @@ public final class RegionBuilder {
 	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int widthRegions, int heightRegions, int[] fromPlanes, int[] toPlanes) {
 		if (fromPlanes.length != toPlanes.length)
 			throw new RuntimeException("PLANES LENGTH ISNT SAME OF THE NEW PLANES ORDER!");
-		for (int xOffset = 0; xOffset < widthRegions; xOffset++) {
+		for (int xOffset = 0; xOffset < widthRegions; xOffset++)
 			for (int yOffset = 0; yOffset < heightRegions; yOffset++) {
 				int fromThisRegionX = fromRegionX + xOffset;
 				int fromThisRegionY = fromRegionY + yOffset;
@@ -569,6 +537,5 @@ public final class RegionBuilder {
 					toRegion.setReloadObjects(toPlane, regionOffsetX, regionOffsetY);
 				}
 			}
-		}
 	}
 }

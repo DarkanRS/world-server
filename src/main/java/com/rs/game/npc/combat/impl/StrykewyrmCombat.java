@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl;
@@ -28,7 +28,7 @@ import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -49,12 +49,11 @@ public class StrykewyrmCombat extends CombatScript {
 		int attackStyle = Utils.getRandomInclusive(10);
 		if (attackStyle <= 7 && WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) { // melee
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			if (npc.getId() == 9467) {
+			if (npc.getId() == 9467)
 				if (Utils.getRandomInclusive(10) == 0) {
 					target.setNextSpotAnim(new SpotAnim(2309));
 					target.getPoison().makePoisoned(44);
 				}
-			}
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target)));
 			return npc.getAttackSpeed();
 		}
@@ -63,8 +62,8 @@ public class StrykewyrmCombat extends CombatScript {
 			final Hit hit = getMagicHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target));
 			delayHit(npc, 1, target, hit);
 			World.sendProjectile(npc, target, defs.getAttackProjectile(), 41, 16, 41, 30, 16, 0);
-			if (npc.getId() == 9463) {
-				WorldTasksManager.schedule(new WorldTask() {
+			if (npc.getId() == 9463)
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (Utils.getRandomInclusive(10) == 0 && !target.hasEffect(Effect.FREEZE)) {
@@ -76,20 +75,19 @@ public class StrykewyrmCombat extends CombatScript {
 							target.setNextSpotAnim(new SpotAnim(2315));
 					}
 				}, 1);
-			} else if (npc.getId() == 9467) {
+			else if (npc.getId() == 9467)
 				if (Utils.getRandomInclusive(10) == 0) {
 					target.setNextSpotAnim(new SpotAnim(2313));
 					if (Utils.random(2) == 0)
 						target.getPoison().makePoisoned(88);
 				}
-			}
 		} else if (attackStyle == 10) { // bury
 			final WorldTile tile = new WorldTile(target);
 			tile.moveLocation(-1, -1, 0);
 			npc.setNextAnimation(new Animation(12796));
 			npc.setCantInteract(true);
 			npc.getCombat().removeTarget();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				int count;
 
@@ -107,16 +105,16 @@ public class StrykewyrmCombat extends CombatScript {
 						int size = npc.getSize();
 						if (distanceX < size && distanceX > -1 && distanceY < size && distanceY > -1) {
 							delayHit(npc, 0, target, new Hit(npc, 300, HitLook.TRUE_DAMAGE));
-							if (npc.getId() == 9467) {
+							if (npc.getId() == 9467)
 								target.getPoison().makePoisoned(88);
-							} else if (npc.getId() == 9465) {
+							else if (npc.getId() == 9465) {
 								delayHit(npc, 0, target, new Hit(npc, 300, HitLook.TRUE_DAMAGE));
 								target.setNextSpotAnim(new SpotAnim(2311));
 							}
 						}
 						count++;
 					} else if (count == 2) {
-						WorldTasksManager.schedule(new WorldTask() {
+						WorldTasks.schedule(new WorldTask() {
 							@Override
 							public void run() {
 								npc.getCombat().setCombatDelay(npc.getAttackSpeed());

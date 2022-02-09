@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -46,7 +46,7 @@ public final class NPCCombatConverter {
 		int[] levels;
 	}
 
-	private static Map<Integer, CombatInfo> beasts = new HashMap<Integer, CombatInfo>();
+	private static Map<Integer, CombatInfo> beasts = new HashMap<>();
 
 	private static void loadBeastData() throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader(new File("./testdefs.txt")));
@@ -76,7 +76,7 @@ public final class NPCCombatConverter {
 					if (line == null)
 						continue;
 					int stabatt = 0, slashatt = 0, crushatt = 0, magicatt = 0, rangeatt = 0, stabdef = 0, slashdef = 0, crushdef = 0, magicdef = 0, rangedef = 0;
-					
+
 					stabatt += def.getStabAtt() + line.levels[0];
 					slashatt += def.getSlashAtt() + line.levels[0];
 					crushatt += def.getCrushAtt() + line.levels[0];
@@ -87,7 +87,7 @@ public final class NPCCombatConverter {
 					crushdef += def.getCrushDef() + line.levels[2];
 					slashdef += def.getSlashDef() + line.levels[2];
 					stabdef += def.getStabDef() + line.levels[2];
-					
+
 					writer.write("//" + def.getName() + " (" + def.combatLevel + ")");
 					writer.newLine();
 					writer.write(npcId + " - " + stabatt + " " + slashatt + " " + crushatt + " " + magicatt + " " + rangeatt + " " + stabdef + " " + slashdef + " " + crushdef + " " + magicdef + " " + rangedef);
@@ -103,7 +103,7 @@ public final class NPCCombatConverter {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static void createData2() {
 		try {
 			loadBeastData();

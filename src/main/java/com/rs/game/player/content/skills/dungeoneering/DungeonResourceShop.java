@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering;
@@ -39,12 +39,7 @@ public class DungeonResourceShop {
 		player.getPackets().sendInterSetItemsOptionsScript(RESOURCE_SHOP_INV, 0, 93, 4, 7, "Value", "Sell 1", "Sell 5", "Sell 10", "Sell 50", "Examine");
 		player.getInterfaceManager().sendInterface(RESOURCE_SHOP);
 		player.getInterfaceManager().sendInventoryInterface(RESOURCE_SHOP_INV);
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				player.getTempAttribs().removeI("DUNG_COMPLEXITY");
-			}
-		});
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeI("DUNG_COMPLEXITY"));
 	}
 
 	public static void handlePurchaseOptions(Player player, int slotId, int quantity) {
@@ -77,10 +72,10 @@ public class DungeonResourceShop {
 		int openSlots = player.getInventory().getFreeSlots();
 		if (!def.isStackable())
 			quantity = quantity > openSlots ? openSlots : quantity;
-		if (quantity == 0)
-			return;
-		if (player.getInventory().addItem(item, quantity))
-			player.getInventory().deleteItem(new Item(DungeonConstants.RUSTY_COINS, price));
+			if (quantity == 0)
+				return;
+			if (player.getInventory().addItem(item, quantity))
+				player.getInventory().deleteItem(new Item(DungeonConstants.RUSTY_COINS, price));
 	}
 
 	public static void handleSellOptions(Player player, int slotId, int itemId, int quantity) {

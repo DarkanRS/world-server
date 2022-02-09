@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.creations;
@@ -34,15 +34,9 @@ public class StealingCreationShop {
 		player.getPackets().sendRunScriptBlank(5248);
 		player.getPackets().setIFHidden(1128, 330, true);
 		player.getPackets().setIFText(1128, 13, "" + player.scPoints);
-		player.setCloseInterfacesEvent(new Runnable() {
-
-			@Override
-			public void run() {
-				resetSelection(player);
-			}
-		});
+		player.setCloseInterfacesEvent(() -> resetSelection(player));
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1128) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -89,23 +83,22 @@ public class StealingCreationShop {
 			return;
 		}
 		int totalCost = 0;
-		for (int index = 0; index < requestedList.length; index++) {
+		for (int index = 0; index < requestedList.length; index++)
 			if (requestedList[index])
 				totalCost += POINTS_COST[index];
-		}
 		if (player.scPoints < totalCost) {
 			player.sendMessage("You don't have enough points.");
 			resetSelection(player);
 			return;
-		} else if (player.getInventory().getFreeSlots() < requestedList.length) {
+		}
+		if (player.getInventory().getFreeSlots() < requestedList.length) {
 			player.sendMessage("You don't have enough space for the requested items.");
 			resetSelection(player);
 			return;
 		}
-		for (int index = 0; index < requestedList.length; index++) {
+		for (int index = 0; index < requestedList.length; index++)
 			if (requestedList[index])
 				player.getInventory().addItem(new Item(DEFAULT_PRODUCTS[index]));
-		}
 		player.scPoints -= totalCost;
 		refresh(player);
 	}

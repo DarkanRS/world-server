@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.creations;
@@ -23,7 +23,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.controllers.StealingCreationLobbyController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.utils.Ticks;
 
@@ -68,8 +68,8 @@ public class StealingCreationLobby {
 	}
 
 	public static void reset() {
-		redTeam = new ArrayList<Player>();
-		blueTeam = new ArrayList<Player>();
+		redTeam = new ArrayList<>();
+		blueTeam = new ArrayList<>();
 	}
 
 	private static boolean hasRequiredPlayers() {
@@ -84,12 +84,10 @@ public class StealingCreationLobby {
 		if (onRedTeam) {
 			if (!redTeam.contains(player))
 				redTeam.add(player);
-		} else {
-			if (!blueTeam.contains(player))
-				blueTeam.add(player);
-		}
+		} else if (!blueTeam.contains(player))
+			blueTeam.add(player);
 		if (hasRequiredPlayers() && lobbyTask == null)// saves performance
-			WorldTasksManager.schedule(lobbyTask = new LobbyTimer(), Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+			WorldTasks.schedule(lobbyTask = new LobbyTimer(), Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 		player.getControllerManager().startController(new StealingCreationLobbyController());
 		updateInterfaces();
 		return true;
@@ -115,12 +113,10 @@ public class StealingCreationLobby {
 	}
 
 	public static void updateInterfaces() {
-		for (Player player : redTeam) {
+		for (Player player : redTeam)
 			updateTeamInterface(player, true);
-		}
-		for (Player player : blueTeam) {
+		for (Player player : blueTeam)
 			updateTeamInterface(player, false);
-		}
 	}
 
 	public static void updateTeamInterface(Player player, boolean inRedTeam) {
@@ -152,7 +148,8 @@ public class StealingCreationLobby {
 		if ((skillTotal + combatTotal) > (otherSkillTotal + otherCombatTotal)) {
 			player.sendMessage("This team is too strong for you to join at present.");
 			return false;
-		} else if (player.getEquipment().wearingArmour() || player.getInventory().getFreeSlots() != 28 || player.getFamiliar() != null || player.getPet() != null) {
+		}
+		if (player.getEquipment().wearingArmour() || player.getInventory().getFreeSlots() != 28 || player.getFamiliar() != null || player.getPet() != null) {
 			player.sendMessage("You may not take any items into Stealing Creation. You can use the nearby bank deposit bank to empty your inventory and storn wore items.");
 			return false;
 			// } else if (player.getMoneyPouch().getCoinsAmount() != 0) {
@@ -161,7 +158,8 @@ public class StealingCreationLobby {
 			// player.sendMessage("Deposite your money pouch's coins at the
 			// local deposite box near you.");
 			// return false;
-		} else if (player.getTempAttribs().getL("SC_PENALTY") >= System.currentTimeMillis()) {
+		}
+		if (player.getTempAttribs().getL("SC_PENALTY") >= System.currentTimeMillis()) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You have betrayed the mystics and must wait " + (int) (player.getTempAttribs().getL("SC_PENALTY") / 60000) + "minutes.");
 			return false;
 		}
@@ -173,9 +171,8 @@ public class StealingCreationLobby {
 		for (Player player : inRedTeam ? redTeam : blueTeam) {
 			if (player == null)
 				continue;
-			for (int skillRequested : ids) {
+			for (int skillRequested : ids)
 				skillTotal += player.getSkills().getLevel(skillRequested);
-			}
 		}
 		return skillTotal;
 	}

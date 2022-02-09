@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
@@ -23,7 +23,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -34,11 +34,11 @@ public class LeverRoom extends PuzzleRoom {
 	private static final int[] SWITCH_UP = {
 	49381, 49382, 49383, 54333, 33675
 	};
-	*/
+	 */
 
 	private static final int[] SWITCH_DOWN =
-	{ 49384, 49385, 49386, 49386, 49386 //TODO find down of 54333, 33675
-	};
+		{ 49384, 49385, 49386, 49386, 49386 //TODO find down of 54333, 33675
+		};
 
 	private int leverCount, leverTicks, maxTicks;
 	private WorldTask resetTask;
@@ -47,7 +47,7 @@ public class LeverRoom extends PuzzleRoom {
 	public void openRoom() {
 		manager.spawnRandomNPCS(reference);
 	}
-	
+
 	@Override
 	public boolean processObjectClick1(Player player, GameObject object) {
 		if (object.getDefinitions().getName().equals("Switch")) {
@@ -78,7 +78,7 @@ public class LeverRoom extends PuzzleRoom {
 		//1 - 14.4 seconds
 		maxTicks = (6 - difficulty) + ((size == 1 ? 23 : 20) / difficulty);
 		resetTask = new ResetTask();
-		WorldTasksManager.schedule(resetTask, 0, 0);
+		WorldTasks.schedule(resetTask, 0, 0);
 	}
 
 	private void resetTask() {

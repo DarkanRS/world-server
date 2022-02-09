@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.runecrafting;
@@ -25,7 +25,7 @@ import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.mining.Pickaxe;
 import com.rs.game.player.content.skills.woodcutting.Hatchet;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -35,13 +35,13 @@ import com.rs.utils.Ticks;
 
 public class Abyss {
 
-	protected static final int[][] ABYSS_TELEPORT_OUTER = { 
-			{ 3059, 4817 }, { 3062, 4812 }, { 3052, 4810 }, { 3041, 4807 }, { 3035, 4811 }, { 3030, 4808 }, { 3026, 4810 }, { 3021, 4811 }, 
-			{ 3015, 4810 }, { 3020, 4818 }, { 3018, 4819 }, { 3016, 4824 }, { 3013, 4827 }, { 3017, 4828 }, { 3015, 4837 }, { 3017, 4843 }, 
-			{ 3014, 4849 }, { 3021, 4847 }, { 3022, 4852 }, { 3027, 4849 }, { 3031, 4856 }, { 3035, 4854 }, { 3043, 4855 }, { 3045, 4852 }, 
-			{ 3050, 4857 }, { 3054, 4855 }, { 3055, 4848 }, { 3060, 4848 }, { 3059, 4844 }, { 3065, 4841 }, { 3061, 4836 }, { 3063, 4832 }, 
-			{ 3064, 4828 }, { 3060, 4824 }, { 3063, 4821 }, { 3041, 4808 }, { 3030, 4810 }, { 3018, 4816 }, { 3015, 4829 }, { 3017, 4840 }, 
-			{ 3020, 4849 }, { 3031, 4855 }, { 3020, 4854 }, { 3035, 4855 }, { 3047, 4854 }, { 3060, 4846 }, { 3062, 4836 }, { 3060, 4828 }, 
+	protected static final int[][] ABYSS_TELEPORT_OUTER = {
+			{ 3059, 4817 }, { 3062, 4812 }, { 3052, 4810 }, { 3041, 4807 }, { 3035, 4811 }, { 3030, 4808 }, { 3026, 4810 }, { 3021, 4811 },
+			{ 3015, 4810 }, { 3020, 4818 }, { 3018, 4819 }, { 3016, 4824 }, { 3013, 4827 }, { 3017, 4828 }, { 3015, 4837 }, { 3017, 4843 },
+			{ 3014, 4849 }, { 3021, 4847 }, { 3022, 4852 }, { 3027, 4849 }, { 3031, 4856 }, { 3035, 4854 }, { 3043, 4855 }, { 3045, 4852 },
+			{ 3050, 4857 }, { 3054, 4855 }, { 3055, 4848 }, { 3060, 4848 }, { 3059, 4844 }, { 3065, 4841 }, { 3061, 4836 }, { 3063, 4832 },
+			{ 3064, 4828 }, { 3060, 4824 }, { 3063, 4821 }, { 3041, 4808 }, { 3030, 4810 }, { 3018, 4816 }, { 3015, 4829 }, { 3017, 4840 },
+			{ 3020, 4849 }, { 3031, 4855 }, { 3020, 4854 }, { 3035, 4855 }, { 3047, 4854 }, { 3060, 4846 }, { 3062, 4836 }, { 3060, 4828 },
 			{ 3063, 4820 }, { 3028, 4806 }
 	};
 
@@ -52,7 +52,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -60,18 +60,18 @@ public class Abyss {
 				ticks++;
 				if (ticks == 1)
 					player.faceObject(object);
-				else if (ticks == 2) {
+				else if (ticks == 2)
 					player.setNextAnimation(pick.getAnimation());
-				} else if (ticks == 4) {
+				else if (ticks == 4) {
 					if (!isSuccessFul(player, Constants.MINING)) {
 						player.unlock();
 						player.setNextAnimation(new Animation(-1));
 						stop();
 						return;
 					}
-				} else if (ticks >= 5 && ticks <= 7) {
+				} else if (ticks >= 5 && ticks <= 7)
 					demolishObstical(7158 + (ticks - 5), object);
-				} else if (ticks == 9) {
+				else if (ticks == 9) {
 					player.setNextWorldTile(new WorldTile(object.getX(), object.getY() + 13, 0));
 					player.unlock();
 					stop();
@@ -89,7 +89,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -97,18 +97,18 @@ public class Abyss {
 				ticks++;
 				if (ticks == 1)
 					player.faceObject(object);
-				else if (ticks == 2) {
+				else if (ticks == 2)
 					player.setNextAnimation(hatchet.getAnim());
-				} else if (ticks == 3) {
+				else if (ticks == 3) {
 					if (!isSuccessFul(player, Constants.WOODCUTTING)) {
 						player.unlock();
 						player.setNextAnimation(new Animation(-1));
 						stop();
 						return;
 					}
-				} else if (ticks >= 4 && ticks <= 6) {
+				} else if (ticks >= 4 && ticks <= 6)
 					demolishObstical(7161 + (ticks - 4), object);
-				} else if (ticks == 7) {
+				else if (ticks == 7) {
 					player.setNextWorldTile(tile);
 					player.unlock();
 					stop();
@@ -121,7 +121,7 @@ public class Abyss {
 
 	public static void clearEyes(final Player player, final GameObject object, final WorldTile tile) {
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -129,18 +129,18 @@ public class Abyss {
 				ticks++;
 				if (ticks == 1)
 					player.faceObject(object);
-				else if (ticks == 2) {
+				else if (ticks == 2)
 					player.setNextAnimation(new Animation(866));
-				} else if (ticks == 3) {
+				else if (ticks == 3) {
 					if (!isSuccessFul(player, Constants.THIEVING)) {
 						player.unlock();
 						player.setNextAnimation(new Animation(-1));
 						stop();
 						return;
 					}
-				} else if (ticks >= 4 && ticks <= 6) {
+				} else if (ticks >= 4 && ticks <= 6)
 					demolishObstical(7168 + (ticks - 4), object);
-				} else if (ticks == 7) {
+				else if (ticks == 7) {
 					player.setNextWorldTile(tile);
 					player.unlock();
 					stop();
@@ -153,7 +153,7 @@ public class Abyss {
 
 	public static void clearGap(final Player player, final GameObject object, final WorldTile tile, final boolean quick) {
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -163,7 +163,7 @@ public class Abyss {
 					player.faceObject(object);
 				else if (ticks == 3) {
 					player.setNextAnimation(new Animation(844));
-					if (!quick) {
+					if (!quick)
 						if (!isSuccessFul(player, Constants.AGILITY)) {
 							player.sendMessage("You cannot seem to slip through the gap.");
 							player.unlock();
@@ -171,7 +171,6 @@ public class Abyss {
 							stop();
 							return;
 						}
-					}
 				} else if (ticks == 4) {
 					player.setNextWorldTile(tile);
 					player.unlock();
@@ -189,7 +188,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
 			@Override
@@ -197,18 +196,18 @@ public class Abyss {
 				ticks++;
 				if (ticks == 1)
 					player.faceObject(object);
-				else if (ticks == 2) {
+				else if (ticks == 2)
 					player.setNextAnimation(new Animation(733));
-				} else if (ticks == 3) {
+				else if (ticks == 3) {
 					if (!isSuccessFul(player, Constants.THIEVING)) {
 						player.unlock();
 						player.setNextAnimation(new Animation(-1));
 						stop();
 						return;
 					}
-				} else if (ticks >= 4 && ticks <= 6) {
+				} else if (ticks >= 4 && ticks <= 6)
 					demolishObstical(7165 + (ticks - 4), object);
-				} else if (ticks == 7) {
+				else if (ticks == 7) {
 					player.setNextWorldTile(tile);
 					player.unlock();
 					stop();
@@ -236,7 +235,7 @@ public class Abyss {
 		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
 		npc.setNextSpotAnim(new SpotAnim(108));
 		player.setNextSpotAnim(new SpotAnim(110));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				int index = Utils.random(ABYSS_TELEPORT_OUTER.length);

@@ -79,8 +79,10 @@ fabric.properties
 
 # *.iml
 # modules.xml
-
+.idea/
 serverConfig.json
+worldConfig.json
+mainlog.txt
 /dumps/
 /bin/
 /logs/

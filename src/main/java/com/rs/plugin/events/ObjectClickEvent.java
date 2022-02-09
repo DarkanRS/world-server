@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.plugin.events;
@@ -29,7 +29,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class ObjectClickEvent implements PluginEvent {
-	
+
 	private static Map<Object, Map<Integer, List<ObjectClickHandler>>> METHODS = new HashMap<>();
 
 	private Player player;
@@ -44,10 +44,10 @@ public class ObjectClickEvent implements PluginEvent {
 		this.object = object;
 		this.opNum = opNum;
 		this.atObject = atObject;
-		this.objectId = object.getId();
-		this.option = object.getDefinitions(player).getOption(opNum);
+		objectId = object.getId();
+		option = object.getDefinitions(player).getOption(opNum);
 	}
-	
+
 	public String getOption() {
 		return option;
 	}
@@ -71,11 +71,11 @@ public class ObjectClickEvent implements PluginEvent {
 	public int getObjectId() {
 		return objectId;
 	}
-	
+
 	public boolean objectAt(int x, int y) {
 		return object.isAt(x, y);
 	}
-	
+
 	public boolean objectAt(int x, int y, int plane) {
 		return object.isAt(x, y, plane);
 	}
@@ -117,23 +117,20 @@ public class ObjectClickEvent implements PluginEvent {
 					methods = new ArrayList<>();
 				methods.add(handler);
 				locMap.put(0, methods);
-			} else {
-				if (handler.getType() != null) {
-					List<ObjectClickHandler> methods = locMap.get(-handler.getType().id);
+			} else if (handler.getType() != null) {
+				List<ObjectClickHandler> methods = locMap.get(-handler.getType().id);
+				if (methods == null)
+					methods = new ArrayList<>();
+				methods.add(handler);
+				locMap.put(-handler.getType().id, methods);
+			} else
+				for (WorldTile tile : handler.getTiles()) {
+					List<ObjectClickHandler> methods = locMap.get(tile.getTileHash());
 					if (methods == null)
 						methods = new ArrayList<>();
 					methods.add(handler);
-					locMap.put(-handler.getType().id, methods);
-				} else {
-					for (WorldTile tile : handler.getTiles()) {
-						List<ObjectClickHandler> methods = locMap.get(tile.getTileHash());
-						if (methods == null)
-							methods = new ArrayList<>();
-						methods.add(handler);
-						locMap.put(tile.getTileHash(), methods);
-					}
+					locMap.put(tile.getTileHash(), methods);
 				}
-			}
 		}
 	}
 

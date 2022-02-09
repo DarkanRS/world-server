@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.actions;
@@ -30,7 +30,7 @@ public class PlayerFollow extends Action {
 
 	public PlayerFollow(Player target) {
 		this.target = target;
-		this.setNoRandoms(true);
+		setNoRandoms(true);
 	}
 
 	@Override
@@ -57,9 +57,9 @@ public class PlayerFollow extends Action {
 			return false;
 		int lastFaceEntity = target.getLastFaceEntity();
 		WorldTile toTile = target.getTileBehind() != null && Utils.getDistance(target, target.getTileBehind()) <= 3 ? target.getTileBehind() : target.getBackfacingTile();
-		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof PlayerFollow) {
+		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof PlayerFollow)
 			player.addWalkSteps(toTile.getX(), toTile.getY());
-		} else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {
+		else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, player.getX(), player.getY(), player.getPlane(), player.getSize(), new EntityStrategy(target), true);
 			if (steps == -1)
 				return false;
@@ -69,10 +69,9 @@ public class PlayerFollow extends Action {
 
 				int[] bufferX = RouteFinder.getLastPathBufferX();
 				int[] bufferY = RouteFinder.getLastPathBufferY();
-				for (int step = steps - 1; step >= 0; step--) {
+				for (int step = steps - 1; step >= 0; step--)
 					if (!player.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
 						break;
-				}
 			}
 			return true;
 		}

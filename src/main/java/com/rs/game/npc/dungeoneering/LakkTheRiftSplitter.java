@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -36,13 +36,13 @@ import com.rs.lib.util.Utils;
 public class LakkTheRiftSplitter extends DungeonBoss {
 
 	private static final int[] RAIN_GRAPHICS =
-	{ 2581, 2583, 2585 };
+		{ 2581, 2583, 2585 };
 
 	private List<PortalCluster> clusters;
 
 	public LakkTheRiftSplitter(WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9898, 9911), manager.getBossLevel()), tile, manager, reference);
-		clusters = new CopyOnWriteArrayList<PortalCluster>();
+		clusters = new CopyOnWriteArrayList<>();
 	}
 
 	@Override
@@ -60,8 +60,8 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 				Player player = (Player) t;
 				if (cluster.getCycle() < 1)
 					continue;
-				if (cluster.getCycle() % 2 == 0) {
-					for (WorldTile tile : cluster.getBoundary()) {
+				if (cluster.getCycle() % 2 == 0)
+					for (WorldTile tile : cluster.getBoundary())
 						if (player.getX() == tile.getX() && player.getY() == tile.getY()) {
 							cluster.increaseEffectMultipier();
 							int type = cluster.getType();
@@ -71,15 +71,13 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 							if (type == 0)
 								player.applyHit(new Hit(this, (int) (Utils.random(maxHit * .35, maxHit * .55) * effectMultiplier), HitLook.TRUE_DAMAGE));
 							else if (type == 1)
-								
+
 								player.getPoison().makePoisoned((int) (Utils.random(maxHit * .10, maxHit * .30) * effectMultiplier));
 							else {
 								int skill = Utils.random(6);
 								player.getSkills().drainLevel(skill == 3 ? Constants.MAGIC : skill, (int) (Utils.random(2, 3) * effectMultiplier));
 							}
 						}
-					}
-				}
 			}
 			if (cluster.getCycle() % 15 == 0)
 				submitGraphics(cluster, this);
@@ -142,14 +140,11 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 	}
 
 	public boolean doesBoundaryOverlap(List<WorldTile> boundaries) {
-		for (PortalCluster cluster : clusters) {
-			for (WorldTile tile : cluster.getBoundary()) {
-				for (WorldTile boundary : boundaries) {
+		for (PortalCluster cluster : clusters)
+			for (WorldTile tile : cluster.getBoundary())
+				for (WorldTile boundary : boundaries)
 					if (tile.getX() == boundary.getX() && tile.getY() == boundary.getY())
 						return true;
-				}
-			}
-		}
 		return false;
 	}
 }

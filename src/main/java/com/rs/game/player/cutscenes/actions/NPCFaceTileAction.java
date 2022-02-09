@@ -2,19 +2,21 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.cutscenes.actions;
+
+import java.util.Map;
 
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -25,17 +27,17 @@ public class NPCFaceTileAction extends CutsceneAction {
 
 	private int x, y;
 
-	public NPCFaceTileAction(int cachedObjectIndex, int x, int y, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public NPCFaceTileAction(String key, int x, int y, int actionDelay) {
+		super(key, actionDelay);
 		this.x = x;
 		this.y = y;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		Cutscene scene = (Cutscene) cache[0];
-		NPC npc = (NPC) cache[getCachedObjectIndex()];
-		npc.setNextFaceWorldTile(new WorldTile(scene.getBaseX() + x, scene.getBaseY() + y, npc.getPlane()));
+	public void process(Player player, Map<String, Object> objects) {
+		Cutscene scene = (Cutscene) objects.get("cutscene");;
+		NPC npc = (NPC) objects.get(getObjectKey());
+		npc.setNextFaceWorldTile(new WorldTile(scene.getX(x), scene.getY(y), npc.getPlane()));
 	}
 
 }

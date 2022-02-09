@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game;
@@ -42,13 +42,10 @@ public class DynamicRegion extends Region {
 		// plane,x,y, (real x, real y,or real plane coord, or rotation
 		regionCoords = new int[4][8][8][4];
 		needsReload = new boolean[4][8][8];
-		for (int z = 0; z < 4; z++) {
-			for (int x = 0; x < 8; x++) {
-				for (int y = 0; y < 8; y++) {
+		for (int z = 0; z < 4; z++)
+			for (int x = 0; x < 8; x++)
+				for (int y = 0; y < 8; y++)
 					needsReload[z][x][y] = true;
-				}
-			}
-		}
 		recheckReload = false;
 	}
 
@@ -63,18 +60,16 @@ public class DynamicRegion extends Region {
 
 	@Override
 	public void loadRegionMap() {
-		for (int dynZ = 0; dynZ < 4; dynZ++) {
-			for (int dynX = 0; dynX < 8; dynX++) {
+		for (int dynZ = 0; dynZ < 4; dynZ++)
+			for (int dynX = 0; dynX < 8; dynX++)
 				for (int dynY = 0; dynY < 8; dynY++) {
 					if (!needsReload[dynZ][dynX][dynY])
 						continue;
 					unloadChunk(dynX, dynY, dynZ);
 				}
-			}
-		}
 
-		for (int dynZ = 0; dynZ < 4; dynZ++) {
-			for (int dynX = 0; dynX < 8; dynX++) {
+		for (int dynZ = 0; dynZ < 4; dynZ++)
+			for (int dynX = 0; dynX < 8; dynX++)
 				for (int dynY = 0; dynY < 8; dynY++) {
 					if (!needsReload[dynZ][dynX][dynY])
 						continue;
@@ -87,9 +82,8 @@ public class DynamicRegion extends Region {
 					int renderLocalChunkX = renderChunkX - ((renderChunkX >> 3) << 3);
 					int renderLocalChunkY = renderChunkY - ((renderChunkY >> 3) << 3);
 
-					if (renderChunkX == 0 && renderChunkY == 0 && renderChunkZ == 0 && rotation == 0) {
+					if (renderChunkX == 0 && renderChunkY == 0 && renderChunkZ == 0 && rotation == 0)
 						continue;
-					}
 
 					int mapID = (renderChunkX >> 3) << 8 | (renderChunkY >> 3);
 					int landArchiveId = Cache.STORE.getIndex(IndexType.MAPS).getArchiveId("l" + (mapID >> 8) + "_" + (mapID & 0xFF));
@@ -99,55 +93,43 @@ public class DynamicRegion extends Region {
 					byte[][][] mapSettings = mapContainerData == null ? null : new byte[4][64][64];
 					if (mapContainerData != null) {
 						InputStream mapStream = new InputStream(mapContainerData);
-						for (int plane = 0; plane < 4; plane++) {
-							for (int x = 0; x < 64; x++) {
-								for (int y = 0; y < 64; y++) {
+						for (int plane = 0; plane < 4; plane++)
+							for (int x = 0; x < 64; x++)
+								for (int y = 0; y < 64; y++)
 									while (true) {
 										int value = mapStream.readUnsignedByte();
-										if (value == 0) {
+										if (value == 0)
 											break;
-										} else if (value == 1) {
+										if (value == 1) {
 											mapStream.readByte();
 											break;
-										} else if (value <= 49) {
-											mapStream.readByte();
-
-										} else if (value <= 81) {
-											mapSettings[plane][x][y] = (byte) (value - 49);
 										}
+										if (value <= 49)
+											mapStream.readByte();
+										else if (value <= 81)
+											mapSettings[plane][x][y] = (byte) (value - 49);
 									}
-								}
-							}
-						}
 
-						for (int z = 0; z < 4; z++) {
-							for (int x = 0; x < 64; x++) {
-								for (int y = 0; y < 64; y++) {
+						for (int z = 0; z < 4; z++)
+							for (int x = 0; x < 64; x++)
+								for (int y = 0; y < 64; y++)
 									if ((mapSettings[z][x][y] & 0x1) == 1) {
 										int realZ = z;
-										if ((mapSettings[1][x][y] & 0x2) == 2) {
+										if ((mapSettings[1][x][y] & 0x2) == 2)
 											realZ--;
-										}
 										if (realZ == renderChunkZ && (x >> 3) == renderLocalChunkX && (y >> 3) == renderLocalChunkY) {
 											int[] coords = translate(x & 0x7, y & 0x7, rotation);
 											forceGetClipMap().addBlockedTile(dynZ, (dynX << 3) | coords[0], (dynY << 3) | coords[1]);
 										}
 									}
-								}
-							}
-						}
-					} else {
-						for (int z = 0; z < 4; z++) {
-							for (int x = 0; x < 64; x++) {
-								for (int y = 0; y < 64; y++) {
+					} else
+						for (int z = 0; z < 4; z++)
+							for (int x = 0; x < 64; x++)
+								for (int y = 0; y < 64; y++)
 									if (z == renderChunkZ && (x >> 3) == renderLocalChunkX && (y >> 3) == renderLocalChunkY) {
 										int[] coords = translate(x & 0x7, y & 0x7, rotation);
 										forceGetClipMap().addBlockedTile(dynZ, (dynX << 3) | coords[0], (dynY << 3) | coords[1]);
 									}
-								}
-							}
-						}
-					}
 
 					if (landContainerData != null) {
 						InputStream landStream = new InputStream(landContainerData);
@@ -162,17 +144,17 @@ public class DynamicRegion extends Region {
 								int x = (location >> 6 & 0x3f);
 								int y = (location & 0x3f);
 								int z = location >> 12;
-								int objectData = landStream.readUnsignedByte();
-								int type = objectData >> 2;
-								int rot = objectData & 0x3;
-								int realZ = z;
-								if (mapSettings != null && (mapSettings[1][x][y] & 2) == 2)
-									realZ--;
-								if (realZ == renderChunkZ && (x >> 3) == renderLocalChunkX && (y >> 3) == renderLocalChunkY) {
-									ObjectDefinitions definition = ObjectDefinitions.getDefs(objectId);
-									int[] coords = translate(x & 0x7, y & 0x7, rotation, definition.sizeX, definition.sizeY, rot);
-									spawnObject(new GameObject(objectId, ObjectType.forId(type), (rotation + rot) & 0x3, (dynX << 3) + coords[0] + ((getRegionId() >> 8) << 6), (dynY << 3) + coords[1] + ((getRegionId() & 0xFF) << 6), dynZ), dynZ, (dynX << 3) + coords[0], (dynY << 3) + coords[1]);
-								}
+										int objectData = landStream.readUnsignedByte();
+										int type = objectData >> 2;
+											int rot = objectData & 0x3;
+											int realZ = z;
+											if (mapSettings != null && (mapSettings[1][x][y] & 2) == 2)
+												realZ--;
+											if (realZ == renderChunkZ && (x >> 3) == renderLocalChunkX && (y >> 3) == renderLocalChunkY) {
+												ObjectDefinitions definition = ObjectDefinitions.getDefs(objectId);
+												int[] coords = translate(x & 0x7, y & 0x7, rotation, definition.sizeX, definition.sizeY, rot);
+												spawnObject(new GameObject(objectId, ObjectType.forId(type), (rotation + rot) & 0x3, (dynX << 3) + coords[0] + ((getRegionId() >> 8) << 6), (dynY << 3) + coords[1] + ((getRegionId() & 0xFF) << 6), dynZ), dynZ, (dynX << 3) + coords[0], (dynY << 3) + coords[1]);
+											}
 							}
 						}
 					}
@@ -180,20 +162,16 @@ public class DynamicRegion extends Region {
 					if (landContainerData == null && landArchiveId != -1 && MapXTEAs.getMapKeys(mapID) != null)
 						System.err.println("Missing xteas for region " + mapID + ".");
 				}
-			}
-		}
 	}
 
 	private void unloadChunk(int chunkX, int chunkY, int chunkZ) {
-		for (int x = 0; x < 8; x++) {
+		for (int x = 0; x < 8; x++)
 			for (int y = 0; y < 8; y++) {
 				int fullX = (chunkX << 3) | x;
 				int fullY = (chunkY << 3) | y;
-				if (objects != null) {
-					for (int slot = 0; slot < 4; slot++) {
+				if (objects != null)
+					for (int slot = 0; slot < 4; slot++)
 						objects[chunkZ][fullX][fullY][slot] = null;
-					}
-				}
 				if (clipMap != null)
 					clipMap.setFlag(chunkZ, fullX, fullY, 0);
 				if (clipMapProj != null)
@@ -204,7 +182,6 @@ public class DynamicRegion extends Region {
 					if (removed.getPlane() == chunkZ && removed.getChunkX() == chunkX && removed.getChunkY() == chunkY)
 						deleteRemovedObject(removed);
 			}
-		}
 	}
 
 	public static int[] translate(int x, int y, int rotation) {

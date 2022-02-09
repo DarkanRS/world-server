@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.herblore;
@@ -21,14 +21,14 @@ import java.util.List;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 
 public class HerbCleaning {
 
 	public static enum Herbs {
-		
+
 		GUAM(199, 2.5, 1, 249),
 
 		MARRENTILL(201, 3.8, 5, 251),
@@ -80,15 +80,15 @@ public class HerbCleaning {
 		LYCOPUS(17508, 13.1, 70, 17526),
 
 		BUCKTHORN(17510, 13.8, 74, 17528),
-		
-		ERZILLE(19984, 10, 54, 19989), 
-		
-		ARGWAY(19985, 11.6, 57, 19990), 
-		
-		UGUNE(19986, 11.5, 56, 19991), 
-		
-		SHENGO(19987, 11.7, 58, 19992), 
-		
+
+		ERZILLE(19984, 10, 54, 19989),
+
+		ARGWAY(19985, 11.6, 57, 19990),
+
+		UGUNE(19986, 11.5, 56, 19991),
+
+		SHENGO(19987, 11.7, 58, 19992),
+
 		SAMADEN(19988, 11.7, 59, 19993);
 
 		private int herbId;
@@ -135,13 +135,11 @@ public class HerbCleaning {
 			player.sendMessage("You do not have the required level to clean this.", true);
 			return true;
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				Item i = player.getInventory().getItem(slotId);
-				if (i == null)
-					return;
-				if (i.getId() != herb.getHerbId())
+				if ((i == null) || (i.getId() != herb.getHerbId()))
 					return;
 				i.setId(herb.getCleanId());
 				player.getInventory().refresh(slotId);
@@ -155,11 +153,10 @@ public class HerbCleaning {
 	}
 
 	public static List<Herbs> getHerbs() {
-		List<Herbs> herbs = new LinkedList<Herbs>();
-		for (Herbs herb : Herbs.values()) {
+		List<Herbs> herbs = new LinkedList<>();
+		for (Herbs herb : Herbs.values())
 			if (herb.ordinal() < 17)
 				herbs.add(herb);
-		}
 		return herbs;
 	}
 }

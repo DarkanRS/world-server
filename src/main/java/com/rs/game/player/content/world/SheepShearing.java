@@ -2,22 +2,22 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.world;
 
 import com.rs.game.ForceTalk;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -29,7 +29,7 @@ import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class SheepShearing {
-	
+
 	public static ItemOnNPCHandler handleShearsOnSheep = new ItemOnNPCHandler(5157, 1765, 43, 5160, 5161, 5156) {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
@@ -46,12 +46,12 @@ public class SheepShearing {
 				e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
 				e.getPlayer().setNextAnimation(new Animation(893));
 				e.getNPC().transformIntoNPC(5149);
-				WorldTasksManager.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
+				WorldTasks.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
 			} else
 				e.getPlayer().sendMessage("You need a pair of shears to shear the sheep.");
 		}
 	};
-	
+
 	public static NPCClickHandler handleShearOption = new NPCClickHandler(5157, 1765, 43, 5160, 5161, 5156) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -68,7 +68,7 @@ public class SheepShearing {
 				e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
 				e.getPlayer().setNextAnimation(new Animation(893));
 				e.getNPC().transformIntoNPC(5149);
-				WorldTasksManager.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
+				WorldTasks.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
 			} else
 				e.getPlayer().sendMessage("You need a pair of shears to shear the sheep.");
 		}

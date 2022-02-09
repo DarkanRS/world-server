@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.data;
@@ -25,7 +25,7 @@ import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.WorldTile;
 
 public class QuestInformationParser {
-	
+
 	public static final long JOURNAL_SLOTID = 847;
 	public static final long STARTLOC_PRE_HASH = 854;
 	public static final long STARTLOC_HASH = 850;
@@ -39,21 +39,21 @@ public class QuestInformationParser {
 	public static final long ENEMIES_TO_DEFEAT = 950;
 	public static final long START_HINT = 948;
 	public static final long DIFFICULTY = 848;
-	
+
 	public static final long USES_NEW_INTERFACE = 694;
 	public static final long QUESTPOINT_REQ = 895;
-	
+
 	public static final long QUEST_REQ_START = 859;
 	public static final long QUEST_REQ_END = 870;
 	public static final long REQ_SKILL_START = 871;
 	public static final long REQ_LEVEL_START = 872;
 	public static final long REQ_SKILL_END = 883;
 	public static final long REQ_LEVEL_END = 884;
-	
-	public static HashMap<Integer, QuestInformation> QUESTS_ID = new HashMap<Integer, QuestInformation>();
-	public static HashMap<String, QuestInformation> QUESTS_NAME = new HashMap<String, QuestInformation>();
-	public static HashMap<Integer, QuestInformation> QUESTS_SLOTID = new HashMap<Integer, QuestInformation>();
-	
+
+	public static HashMap<Integer, QuestInformation> QUESTS_ID = new HashMap<>();
+	public static HashMap<String, QuestInformation> QUESTS_NAME = new HashMap<>();
+	public static HashMap<Integer, QuestInformation> QUESTS_SLOTID = new HashMap<>();
+
 	public static void init() {
 		EnumDefinitions questEnum = EnumDefinitions.getEnum(2252);
 		for (long i : questEnum.getValues().keySet()) {
@@ -74,10 +74,9 @@ public class QuestInformationParser {
 					qi.setStartLocation(new WorldTile((Integer) map.get(STARTLOC_HASH)));
 				if (map.get(QUEST_REQ_START) != null) {
 					int numReqs = 0;
-					for (long q = QUEST_REQ_START;q <= QUEST_REQ_END;q++) {
+					for (long q = QUEST_REQ_START;q <= QUEST_REQ_END;q++)
 						if (map.get(q) != null)
 							numReqs++;
-					}
 					int[] reqs = new int[numReqs];
 					for (int q = 0;q < reqs.length;q++) {
 						reqs[q] = (int) map.get(QUEST_REQ_START+q);
@@ -86,10 +85,9 @@ public class QuestInformationParser {
 				}
 				if (map.get(REQ_SKILL_START) != null) {
 					int numReqs = 0;
-					for (long q = REQ_SKILL_START;q <= REQ_SKILL_END;q += 2) {
+					for (long q = REQ_SKILL_START;q <= REQ_SKILL_END;q += 2)
 						if (map.get(q) != null)
 							numReqs++;
-					}
 					int[][] reqs = new int[numReqs][2];
 					for (int q = 0;q < reqs.length;q += 2) {
 						reqs[q][0] = (int) map.get(REQ_SKILL_START+q);
@@ -104,17 +102,15 @@ public class QuestInformationParser {
 				QuestDefinitions.getQuestDefinitions(quest.getId()).setExtraInfo(qi);
 			}
 		}
-		for (QuestInformation info : QUESTS_ID.values()) {
-			for (Quest quest : info.getPreReqs()) {
+		for (QuestInformation info : QUESTS_ID.values())
+			for (Quest quest : info.getPreReqs())
 				addPreReqs(info, quest);
-			}
-		}
 		Quest.RITUAL_OF_MAHJARRAT.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 76);
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 60);
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MAGIC, 65);
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.WOODCUTTING, 55);
 	}
-	
+
 	public static void addPreReqs(QuestInformation info, Quest quest) {
 		for (Quest q : quest.getDefs().getExtraInfo().getPreReqs())
 			addPreReqs(info, q);

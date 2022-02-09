@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player;
@@ -40,12 +40,12 @@ public class Appearance {
 	private transient byte[] md5AppearanceDataHash;
 	private transient short transformedNpcId;
 	private transient boolean hidePlayer;
-	
+
 	public static final int FEMALE_HAIR_STRUCT_LOOKUP = 2341;
 	public static final int MALE_HAIR_STRUCT_LOOKUP = 2338;
 	public static final int MALE_HAIR_SLOT_LOOKUP = 2339;
 	public static final int FEMALE_HAIR_SLOT_LOOKUP = 2342;
-	
+
 	public static final int HAIR_WITH_HAT_PARAM = 790;
 	public static final int HAIR_WITH_FACE_MASK_PARAM = 791;
 
@@ -93,7 +93,7 @@ public class Appearance {
 	public boolean isGlowRed() {
 		return glowRed;
 	}
-	
+
 	private int getHatHairStyle(int baseStyle, boolean isFaceMask) {
 		EnumDefinitions lookup = EnumDefinitions.getEnum(male ? MALE_HAIR_SLOT_LOOKUP : FEMALE_HAIR_SLOT_LOOKUP);
 		int slot = lookup.getIntValue(baseStyle);
@@ -120,9 +120,8 @@ public class Appearance {
 		// flag |= 0x7;
 
 		stream.writeByte(flag);
-		if (title != 0 || player.getTitle() != null) {
+		if (title != 0 || player.getTitle() != null)
 			stream.writeGJString(player.getFormattedTitle());
-		}
 		stream.writeByte(player.hasSkull() ? player.getSkullId() : -1);
 		stream.writeByte(player.getTempAttribs().getI("customHeadIcon", -1) != -1 ? player.getTempAttribs().getI("customHeadIcon") : player.getPrayer().getPrayerHeadIcon());
 		stream.writeByte(hidePlayer ? 1 : 0);
@@ -150,14 +149,12 @@ public class Appearance {
 				stream.writeShort(16384 + item.getId());
 
 			item = player.getEquipment().get(Equipment.CHEST);
-			if (lookI[3] != -1 && (item == null || !Equipment.hideArms(item))) {
+			if (lookI[3] != -1 && (item == null || !Equipment.hideArms(item)))
 				stream.writeShort(0x100 + lookI[3]);
-			} else {
-				if (item != null && !Equipment.hideArms(item))
-					stream.writeShort(0x100 + getOldArms());
-				else
-					stream.writeByte(0);
-			}
+			else if (item != null && !Equipment.hideArms(item))
+				stream.writeShort(0x100 + getOldArms());
+			else
+				stream.writeByte(0);
 			item = player.getEquipment().get(Equipment.LEGS);
 			stream.writeShort(item == null ? 0x100 + lookI[5] : 16384 + item.getId());
 
@@ -196,17 +193,16 @@ public class Appearance {
 			encodeMeshModifiers(stream);
 		}
 
-		for (int index = 0; index < colour.length; index++) {
-			stream.writeByte(colour[index]);
-		}
+		for (int element : colour)
+			stream.writeByte(element);
 
 		stream.writeShort(getRenderEmote());
 		stream.writeString(player.getDisplayName());
 		boolean pvpArea = World.isPvpArea(player);
 		stream.writeByte(pvpArea ? player.getSkills().getCombatLevel() : player.getSkills().getCombatLevelWithSummoning());
-		if (player.getTempAttribs().getB("showSkillTotal") && !pvpArea) {
+		if (player.getTempAttribs().getB("showSkillTotal") && !pvpArea)
 			stream.writeShort(player.getSkills().getTotalLevel());
-		} else {
+		else {
 			stream.writeByte(pvpArea ? player.getSkills().getCombatLevelWithSummoning() : 0);
 			stream.writeByte(-1);
 		}
@@ -219,17 +215,17 @@ public class Appearance {
 			stream.writeShort(defs.rotate90LeftAnimation);
 			stream.writeByte(defs.specialByte);
 		}
-		
+
 		// done separated for safe because of synchronization
 		byte[] appeareanceData = new byte[stream.getOffset()];
 		System.arraycopy(stream.getBuffer(), 0, appeareanceData, 0, appeareanceData.length);
 		byte[] md5Hash = Utils.encryptUsingMD5(appeareanceData);
-		this.appearanceData = appeareanceData;
+		appearanceData = appeareanceData;
 		md5AppearanceDataHash = md5Hash;
 	}
-	
+
 	private ArrayList<MeshModifier> getMeshModifiers() {
-		ArrayList<MeshModifier> modifiers = new ArrayList<MeshModifier>();
+		ArrayList<MeshModifier> modifiers = new ArrayList<>();
 		int slotFlag = -1;
 		for (int slotId = 0; slotId < Equipment.SIZE; slotId++) {
 			if (Equipment.DISABLED_SLOTS[slotId] != 0)
@@ -240,7 +236,7 @@ public class Appearance {
 			ItemDefinitions defs = ItemDefinitions.getDefs(player.getEquipment().getId(slotId));
 			if (defs == null)
 				continue;
-			
+
 			switch(defs.getId()) {
 			case 20767:
 			case 20768:
@@ -262,12 +258,11 @@ public class Appearance {
 							.addTextures(player.getClan().getMottifTextures()));
 				break;
 			}
-			
-			if (slotId == Equipment.AURA && player.getAuraManager().isActive()) {
+
+			if (slotId == Equipment.AURA && player.getAuraManager().isActive())
 				modifiers.add(new MeshModifier(defs, slotFlag)
 						.addBodyModels(player.getAuraManager().getAuraModelId(), player.getAuraManager().getAuraModelId2()));
-			}
-			
+
 		}
 		return modifiers;
 	}
@@ -294,10 +289,10 @@ public class Appearance {
 	}
 
 	public void setBAS(int id) {
-		this.bas = id;
+		bas = id;
 		generateAppearanceData();
 	}
-	
+
 	public boolean isTitleAfter(int title) {
 		if (title >= 32 && title <= 37)
 			return true;
@@ -316,7 +311,7 @@ public class Appearance {
 	public int getTransformedNPC() {
 		return transformedNpcId;
 	}
-	
+
 	public boolean isNPC() {
 		return transformedNpcId != -1;
 	}
@@ -334,7 +329,7 @@ public class Appearance {
 		colour = new int[10];
 		male();
 	}
-	
+
 	public int getOldArms() {
 		return male ? 26 : 61;
 	}
@@ -423,7 +418,7 @@ public class Appearance {
 	public void setArmsStyle(int i) {
 		lookI[3] = i;
 	}
-	
+
 	public int getArmsStyle() {
 		return lookI[3];
 	}
@@ -431,7 +426,7 @@ public class Appearance {
 	public void setWristsStyle(int i) {
 		lookI[4] = i;
 	}
-	
+
 	public int getWristsStyle() {
 		return lookI[4];
 	}
@@ -500,7 +495,7 @@ public class Appearance {
 	public int getTitle() {
 		return title;
 	}
-	
+
 	public void verifyArms() {
 		int topStyle = getTopStyle();
 		int setId = getSetByStyle(topStyle, 3, !isMale());
@@ -509,13 +504,13 @@ public class Appearance {
 			setArmsStyle(set.getIntValue(1183, -1));
 			setWristsStyle(set.getIntValue(1184, -1));
 		} else {
-			if (EnumDefinitions.getEnum(isMale() ? 711 : 693).getKeyForValue(getArmsStyle()) == -1) 
+			if (EnumDefinitions.getEnum(isMale() ? 711 : 693).getKeyForValue(getArmsStyle()) == -1)
 				setArmsStyle(isMale() ? 26 : 61);
-			if (EnumDefinitions.getEnum(isMale() ? 749 : 751).getKeyForValue(getWristsStyle()) == -1) 
+			if (EnumDefinitions.getEnum(isMale() ? 749 : 751).getKeyForValue(getWristsStyle()) == -1)
 				setWristsStyle(isMale() ? 34 : 68);
 		}
 	}
-	
+
 	private static int getSetByStyle(int styleID, int styleSlot, boolean female) {
 		EnumDefinitions sets = EnumDefinitions.getEnum(5735);
 		for (int slot = sets.getSize() - 1; slot >= 0; slot--) {
@@ -526,28 +521,24 @@ public class Appearance {
 				for (int setId = getSetStruct(struct, 0, female); setId != -1; setId = getSetStruct(struct, v7, female)) {
 					StructDefinitions setStyles = StructDefinitions.getStruct(setId);
 					switch (styleSlot) {
-						case 3:
-							if (setStyles.getIntValue(1182, -1) == styleID) {
-								return setId;
-							}
-							break;
-						case 4:
-							if (setStyles.getIntValue(1183, -1) == styleID) {
-								return setId;
-							}
-							break;
-						case 5:
-							if (setStyles.getIntValue(1184, -1) == styleID) {
-								return setId;
-							}
-							break;
-						case 6:
-							if (setStyles.getIntValue(1185, -1) == styleID) {
-								return setId;
-							}
-							break;
-						default:
-							return -1;
+					case 3:
+						if (setStyles.getIntValue(1182, -1) == styleID)
+							return setId;
+						break;
+					case 4:
+						if (setStyles.getIntValue(1183, -1) == styleID)
+							return setId;
+						break;
+					case 5:
+						if (setStyles.getIntValue(1184, -1) == styleID)
+							return setId;
+						break;
+					case 6:
+						if (setStyles.getIntValue(1185, -1) == styleID)
+							return setId;
+						break;
+					default:
+						return -1;
 					}
 					v7++;
 				}
@@ -555,7 +546,7 @@ public class Appearance {
 		}
 		return -1;
 	}
-	
+
 	private static int getSetStruct(StructDefinitions struct, int slot, boolean female) {
 		switch (slot) {
 		case 0:
@@ -572,15 +563,13 @@ public class Appearance {
 			return struct.getIntValue(female ? 1180 : 1174, -1);
 		default:
 			return -1;
-		}		
+		}
 	}
 
 	public void printDebug() {
-		for (int i = 0;i < lookI.length;i++) {
+		for (int i = 0;i < lookI.length;i++)
 			System.out.println("lookI["+i+"] = " + lookI[i] + ";");
-		}
-		for (int i = 0;i < colour.length;i++) {
+		for (int i = 0;i < colour.length;i++)
 			System.out.println("colour["+i+"] = " + colour[i] + ";");
-		}
 	}
 }

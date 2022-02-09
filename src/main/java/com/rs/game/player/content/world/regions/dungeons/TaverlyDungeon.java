@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.world.regions.dungeons;
@@ -20,7 +20,7 @@ import com.rs.game.ForceMovement;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -31,14 +31,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class TaverlyDungeon {
-	
+
 	public static ObjectClickHandler handleVSBSecretLocation = new ObjectClickHandler(new Object[] { 11901, 11902 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getObjectId() == 11901 ? new WorldTile(4498, 5680, 0) : new WorldTile(2915, 9673, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handlePipeSqueeze = new ObjectClickHandler(new Object[] { 9293 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -47,7 +47,7 @@ public class TaverlyDungeon {
 				return;
 			}
 			int x = e.getPlayer().getX() == 2886 ? 2892 : 2886;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					e.getPlayer().setNextAnimation(new Animation(10580));
@@ -57,7 +57,7 @@ public class TaverlyDungeon {
 			e.getPlayer().useStairs(-1, new WorldTile(x, 9799, 0), 3, 4);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleStrangeFloor = new ObjectClickHandler(new Object[] { 9294 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -68,7 +68,7 @@ public class TaverlyDungeon {
 			final WorldTile tile = isSouth ? new WorldTile(2878, 9812, 0) : new WorldTile(2881, 9814, 0);
 			e.getPlayer().setRun(true);
 			e.getPlayer().addWalkSteps(isSouth ? 2881 : 2877, isSouth ? 9814 : 9812);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
 				@Override
@@ -91,12 +91,12 @@ public class TaverlyDungeon {
 			}, 0, 0);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getObjectId() == 66991 ? new WorldTile(2885, 9795, 0) : new WorldTile(2885, 3395, 0));
 		}
 	};
-	
+
 }

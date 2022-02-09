@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.pest;
@@ -36,7 +36,7 @@ public class PestMonsters extends NPC {
 	public PestMonsters(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
 		super(id, tile, spawned);
 		this.manager = manager;
-		this.portalIndex = index;
+		portalIndex = index;
 		setForceMultiArea(true);
 		setForceAgressive(true);
 		setIgnoreDocile(true);
@@ -52,16 +52,15 @@ public class PestMonsters extends NPC {
 
 	@Override
 	public List<Entity> getPossibleTargets() {
-		ArrayList<Entity> possibleTarget = new ArrayList<Entity>();
+		ArrayList<Entity> possibleTarget = new ArrayList<>();
 		Set<Integer> playerIndexes = World.getRegion(getRegionId()).getPlayerIndexes();
-		if (playerIndexes != null) {
+		if (playerIndexes != null)
 			for (int playerIndex : playerIndexes) {
 				Player player = World.getPlayers().get(playerIndex);
 				if (player == null || player.isDead() || player.hasFinished() || !player.isRunning() || !player.withinDistance(this, 10))
 					continue;
 				possibleTarget.add(player);
 			}
-		}
 		if (possibleTarget.isEmpty() || Utils.random(3) == 0) {
 			possibleTarget.clear();
 			possibleTarget.add(manager.getKnight());

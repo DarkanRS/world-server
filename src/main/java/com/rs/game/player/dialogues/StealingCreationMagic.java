@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -39,17 +39,16 @@ public class StealingCreationMagic extends Dialogue {
 				player.getPackets().sendInputIntegerScript("Enter Amount:");
 			}
 		} else if (stage == 1) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				player.getTempAttribs().setI("sc_request", 14377);
-			} else if (componentId == OPTION_2) {
+			else if (componentId == OPTION_2)
 				player.getTempAttribs().setI("sc_request", 14379);
-			} else if (componentId == OPTION_3) {
+			else if (componentId == OPTION_3)
 				player.getTempAttribs().setI("sc_request", 14381);
-			} else if (componentId == OPTION_4) {
+			else if (componentId == OPTION_4)
 				player.getTempAttribs().setI("sc_request", 14383);
-			} else if (componentId == OPTION_5) {
+			else if (componentId == OPTION_5)
 				player.getTempAttribs().setI("sc_request", 14385);
-			}
 			end();
 			player.getPackets().sendInputIntegerScript("Enter Amount:");
 		}

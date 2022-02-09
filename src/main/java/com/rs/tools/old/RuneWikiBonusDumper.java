@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -30,11 +30,10 @@ public class RuneWikiBonusDumper {
 	public static final void main(String[] args) throws IOException {
 		System.out.println("Starting..");
 		//Cache.init();
-		for (int itemId = 22067; itemId < Utils.getItemDefinitionsSize(); itemId++) {
+		for (int itemId = 22067; itemId < Utils.getItemDefinitionsSize(); itemId++)
 			if (ItemDefinitions.getDefs(itemId).isWearItem() && !ItemDefinitions.getDefs(itemId).isNoted())
 				if (dumpItem(itemId))
 					System.out.println("Dumped ITEM: " + itemId + ", " + ItemDefinitions.getDefs(itemId).getName());
-		}
 	}
 
 	public static boolean dumpItem(int itemId) {
@@ -66,8 +65,7 @@ public class RuneWikiBonusDumper {
 
 			int bonusId = 0;
 			int[] bonuses = new int[18];
-			for (String line : page.getLines()) {
-
+			for (String line : page.getLines())
 				if (bonusId == 0 || bonusId == 5) {
 					String replace = "<td colspan=\"2\" width=\"30\" align=\"center\">";
 					if (line.startsWith(replace)) {
@@ -126,16 +124,14 @@ public class RuneWikiBonusDumper {
 						continue;
 					}
 				}
-			}
 			if (bonusId != 18)
 				return false;
 			boolean letssee = false;
-			for (int bonus : bonuses) {
+			for (int bonus : bonuses)
 				if (bonus != 0) {
 					letssee = true;
 					break;
 				}
-			}
 			if (!letssee)
 				return false;
 			try {

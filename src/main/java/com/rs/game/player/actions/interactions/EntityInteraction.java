@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.actions.interactions;
@@ -23,15 +23,15 @@ import com.rs.game.player.content.Effect;
 import com.rs.utils.WorldUtil;
 
 public abstract class EntityInteraction extends Interaction {
-	
+
 	protected Entity target;
 	private int distance;
-	
+
 	public EntityInteraction(Entity target, int distance) {
 		this.target = target;
 		this.distance = distance;
 	}
-	
+
 	public abstract boolean canStart(Player player);
 	public abstract boolean checkAll(Player player);
 	public abstract void interact(Player player);
@@ -66,11 +66,10 @@ public abstract class EntityInteraction extends Interaction {
 			return false;
 		return true;
 	}
-	
+
 	public final boolean checkDistance(Player player) {
-		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished()) {
+		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
 			return false;
-		}
 		int distanceX = player.getX() - target.getX();
 		int distanceY = player.getY() - target.getY();
 		int size = target.getSize();
@@ -85,7 +84,7 @@ public abstract class EntityInteraction extends Interaction {
 		}
 		if (distance == 0 && !target.hasWalkSteps() && target.getSize() == 1) {
 			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
-			if (dir != null) {
+			if (dir != null)
 				switch(dir) {
 				case NORTH:
 				case SOUTH:
@@ -97,7 +96,6 @@ public abstract class EntityInteraction extends Interaction {
 					player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
 					return true;
 				}
-			}
 		}
 		if (!WorldUtil.isInRange(player, target, distance) || !player.lineOfSightTo(target, distance == 0)) {
 			if (!player.hasWalkSteps() || target.hasWalkSteps()) {

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -21,7 +21,7 @@ import java.util.List;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringTraps;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -55,29 +55,29 @@ public class DungeonHunterNPC extends DungeonNPC {
 			final boolean failed = successRatio < Math.random();
 
 			setCantInteract(true);
-			if (failed) {
-				WorldTasksManager.schedule(new WorldTask() {
+			if (failed)
+				WorldTasks.schedule(new WorldTask() {
 
 					int ticks = 0;
 
 					@Override
 					public void run() {
 						ticks++;
-						if (ticks == 5) {
+						if (ticks == 5)
 							setNextAnimation(new Animation(13264));
-						} else if (ticks == 8) {
+						else if (ticks == 8) {
 							trap.setNextNPCTransformation(1957);
 							trap.setNextSpotAnim(new SpotAnim(2561 + trap_tier));
 						} else if (ticks == 16) {
 							getManager().removeMastyxTrap(trap);
 							setCantInteract(false);
-							this.stop();
+							stop();
 							return;
 						}
 					}
 				}, 0, 0);
-			} else {
-				WorldTasksManager.schedule(new WorldTask() {
+			else
+				WorldTasks.schedule(new WorldTask() {
 
 					int ticks = 0;
 
@@ -87,19 +87,18 @@ public class DungeonHunterNPC extends DungeonNPC {
 						if (ticks == 9) {
 							trap.setNextNPCTransformation(1957);
 							trap.setNextSpotAnim(new SpotAnim(2551 + trap_tier));
-						} else if (ticks == 13) {
+						} else if (ticks == 13)
 							setNextAnimation(new Animation(13260));
-						} else if (ticks == 18) {
+						else if (ticks == 18)
 							setNextNPCTransformation(getId() + 10);
-						} else if (ticks == 20) {
+						else if (ticks == 20) {
 							setCantInteract(false);
 							getManager().removeMastyxTrap(trap);
-							this.stop();
+							stop();
 							return;
 						}
 					}
 				}, 0, 0);
-			}
 		}
 	}
 

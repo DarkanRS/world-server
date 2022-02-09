@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.holidayevents.halloween.hw09;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SpiderQueenD extends Conversation {
-		
+
 	public static NPCClickHandler handleSpiderTalk = new NPCClickHandler(8975) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -38,7 +38,7 @@ public class SpiderQueenD extends Conversation {
 
 	public SpiderQueenD(Player player) {
 		super(player);
-				
+
 		switch(player.getI(Halloween2009.STAGE_KEY)) {
 		case 4:
 			addNPC(8975, HeadE.SPIDER_CALM, "Who approaches the Spider Queen?");
@@ -115,7 +115,7 @@ public class SpiderQueenD extends Conversation {
 			addNPC(8975, HeadE.SPIDER_CALM, "You will protect Eek, or feel my wrath.");
 			break;
 		}
-		
+
 		create();
 	}
 

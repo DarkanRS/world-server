@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.slayer;
@@ -40,8 +40,8 @@ public enum Task {
 	SPIDERS_T(Master.Turael, TaskMonster.SPIDERS, 10, 15, 50),
 	WOLVES_T(Master.Turael, TaskMonster.WOLVES, 15, 15, 50),
 	ZOMBIES_T(Master.Turael, TaskMonster.ZOMBIES, 10, 15, 50),
-	
-	
+
+
 	BANSHEES_M(Master.Mazchna, TaskMonster.BANSHEES, 20, 40, 70),
 	BATS_M(Master.Mazchna, TaskMonster.BATS, 10, 40, 70),
 	BEARS_M(Master.Mazchna, TaskMonster.BEARS, 10, 40, 70),
@@ -67,8 +67,8 @@ public enum Task {
 	VAMPYRES_M(Master.Mazchna, TaskMonster.VAMPYRES, 10, 40, 70),
 	WOLVES_M(Master.Mazchna, TaskMonster.WOLVES, 10, 40, 70),
 	ZOMBIES_M(Master.Mazchna, TaskMonster.ZOMBIES, 10, 40, 70),
-	
-	
+
+
 	ABERRANT_SPECTRES_V(Master.Vannaka, TaskMonster.ABERRANT_SPECTRES, 25, 60, 120),
 	ANKOU_V(Master.Vannaka, TaskMonster.ANKOU, 10, 60, 120),
 	BANSHEES_V(Master.Vannaka, TaskMonster.BANSHEES, 15, 60, 120),
@@ -103,8 +103,8 @@ public enum Task {
 	TUROTH_V(Master.Vannaka, TaskMonster.TUROTH, 20, 60, 120),
 	VAMPYRES_V(Master.Vannaka, TaskMonster.VAMPYRES, 15, 60, 120),
 	WEREWOLVES_V(Master.Vannaka, TaskMonster.WEREWOLVES, 10, 60, 120),
-	
-	
+
+
 	ABERRANT_SPECTRES_C(Master.Chaeldar, TaskMonster.ABERRANT_SPECTRES, 15, 110, 170),
 	BANSHEES_C(Master.Chaeldar, TaskMonster.BANSHEES, 5, 110, 170),
 	BASILISKS_C(Master.Chaeldar, TaskMonster.BASILISKS, 15, 110, 170),
@@ -137,8 +137,8 @@ public enum Task {
 	TUROTH_C(Master.Chaeldar, TaskMonster.TUROTH, 15, 110, 170),
 	VYREWATCH_C(Master.Chaeldar, TaskMonster.VYREWATCH, 10, 89, 106),
 	WARPED_TORTOISES_C(Master.Chaeldar, TaskMonster.WARPED_TORTOISES, 10, 110, 170),
-	
-	
+
+
 	ABERRANT_SPECTRES_S(Master.Sumona, TaskMonster.ABERRANT_SPECTRES, 15, 120, 185),
 	ABYSSAL_DEMONS_S(Master.Sumona, TaskMonster.ABYSSAL_DEMONS, 10, 120, 185),
 	AQUANITES_S(Master.Sumona, TaskMonster.AQUANITES, 10, 120, 185),
@@ -174,8 +174,8 @@ public enum Task {
 	TUROTH_S(Master.Sumona, TaskMonster.TUROTH, 15, 120, 185),
 	VYREWATCH_S(Master.Sumona, TaskMonster.VYREWATCH, 10, 96, 105),
 	WARPED_TORTOISES_S(Master.Sumona, TaskMonster.WARPED_TORTOISES, 10, 120, 185),
-	
-	
+
+
 	ABERRANT_SPECTRES_D(Master.Duradel, TaskMonster.ABERRANT_SPECTRES, 10, 130, 200),
 	ABYSSAL_DEMONS_D(Master.Duradel, TaskMonster.ABYSSAL_DEMONS, 15, 130, 200),
 	AQUANITES_D(Master.Duradel, TaskMonster.AQUANITES, 9, 130, 200),
@@ -210,8 +210,8 @@ public enum Task {
 	VYREWATCH_D(Master.Duradel, TaskMonster.VYREWATCH, 8, 98, 118),
 	WARPED_TERRORBIRDS_D(Master.Duradel, TaskMonster.WARPED_TERRORBIRDS, 9, 130, 200),
 	WATERFIENDS_D(Master.Duradel, TaskMonster.WATERFIENDS, 10, 130, 200),
-	
-	
+
+
 	ABERRANT_SPECTRES_K(Master.Kuradal, TaskMonster.ABERRANT_SPECTRES, 10, 140, 250),
 	ABYSSAL_DEMONS_K(Master.Kuradal, TaskMonster.ABYSSAL_DEMONS, 12, 150, 250),
 	AQUANITES_K(Master.Kuradal, TaskMonster.AQUANITES, 10, 120, 240),
@@ -256,14 +256,14 @@ public enum Task {
 	private Task(Master master, TaskMonster creature, int weighting, int min, int max) {
 		this.master = master;
 		this.creature = creature;
-		this.minMax = new int[] { min, max };
+		minMax = new int[] { min, max };
 		this.weighting = weighting;
 	}
 
 	public int getMin() {
 		return minMax[0];
 	}
-	
+
 	public int getMax() {
 		return minMax[1];
 	}

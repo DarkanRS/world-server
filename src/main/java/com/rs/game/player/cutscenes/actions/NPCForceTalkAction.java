@@ -2,19 +2,21 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.cutscenes.actions;
+
+import java.util.Map;
 
 import com.rs.game.ForceTalk;
 import com.rs.game.npc.NPC;
@@ -24,14 +26,14 @@ public class NPCForceTalkAction extends CutsceneAction {
 
 	private String text;
 
-	public NPCForceTalkAction(int cachedObjectIndex, String text, int actionDelay) {
-		super(cachedObjectIndex, actionDelay);
+	public NPCForceTalkAction(String key, String text, int actionDelay) {
+		super(key, actionDelay);
 		this.text = text;
 	}
 
 	@Override
-	public void process(Player player, Object[] cache) {
-		NPC npc = (NPC) cache[getCachedObjectIndex()];
+	public void process(Player player, Map<String, Object> objects) {
+		NPC npc = (NPC) objects.get(getObjectKey());
 		npc.setNextForceTalk(new ForceTalk(text));
 	}
 

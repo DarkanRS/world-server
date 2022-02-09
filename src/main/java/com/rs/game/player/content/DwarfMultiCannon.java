@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
@@ -31,7 +31,7 @@ import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -47,28 +47,28 @@ public class DwarfMultiCannon extends OwnedObject {
 	public static int[][] CANNON_PIECES = { { 6, 8, 10, 12 }, { 20494, 20495, 20496, 20497 }, { 20498, 20499, 20500, 20501 } };
 	private static int[][] CANNON_OBJECTS = { { 7, 8, 9, 6 }, { 29398, 29401, 29402, 29406 }, { 29403, 29404, 29405, 29408 } };
 	private static int[] CANNON_EMOTES = { 303, 305, 307, 289, 184, 182, 178, 291 };
-	
+
 	private int type;
 	private int balls = 0;
 	private int decay = 0;
 	private int spinRot = 0;
-	
+
 	public DwarfMultiCannon(Player player, WorldTile tile, int type) {
 		super(player, CANNON_OBJECTS[type][0], ObjectType.SCENERY_INTERACT, 0, tile);
 		this.type = type;
 	}
-	
+
 	public static ItemClickHandler handlePlace = new ItemClickHandler(new Object[] { 6, 20494, 20498 }, new String[] { "Set-up" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			setUp(e.getPlayer(), e.getItem().getId() == 6 ? 0 : e.getItem().getId() == 20494 ? 1 : 2);
 		}
 	};
-	
+
 	public static boolean canFreelyReplace(Player player) {
 		return player.getPlacedCannon() > 0 && OwnedObject.getNumOwned(player, DwarfMultiCannon.class) == 0;
 	}
-	
+
 	public static void setUp(Player player, int type) {
 		if (!player.getQuestManager().isComplete(Quest.DWARF_CANNON)) {
 			player.sendMessage("You have no idea how to operate this machine.");
@@ -101,9 +101,9 @@ public class DwarfMultiCannon extends OwnedObject {
 		player.lock();
 		player.setNextFaceWorldTile(pos);
 		DwarfMultiCannon cannon = new DwarfMultiCannon(player, pos, type);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int stage = 0;
-			
+
 			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(827));
@@ -133,18 +133,17 @@ public class DwarfMultiCannon extends OwnedObject {
 			}
 		}, 0, 0);
 	}
-	
+
 	public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] { "Dwarf multicannon", "Gold dwarf multicannon", "Royale dwarf multicannon" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (!(e.getObject() instanceof DwarfMultiCannon))
 				return;
 			DwarfMultiCannon cannon = (DwarfMultiCannon) e.getObject();
-			if (e.getOption().equals("Fire")) {
+			if (e.getOption().equals("Fire"))
 				cannon.fire(e.getPlayer());
-			} else if (e.getOption().equals("Pick-up")) {
+			else if (e.getOption().equals("Pick-up"))
 				cannon.pickUp(e.getPlayer(), e.getObject());
-			}
 		}
 	};
 
@@ -189,7 +188,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		player.setPlacedCannon(0);
 		destroy();
 	}
-	
+
 	@Override
 	public void tick(Player owner) {
 		if (owner == null) {
@@ -211,9 +210,7 @@ public class DwarfMultiCannon extends OwnedObject {
 			NPC npc = World.getNPCs().get(npcIndex);
 			if (npc == null || npc == owner.getFamiliar() || npc.isDead() || npc.hasFinished() || !npc.getDefinitions().hasAttackOption() || !owner.getControllerManager().canHit(npc))
 				continue;
-			if (!owner.lineOfSightTo(npc, true))
-				continue;
-			if (!owner.isAtMultiArea() && owner.inCombat() && owner.getAttackedBy() != npc)
+			if (!owner.lineOfSightTo(npc, true) || (!owner.isAtMultiArea() && owner.inCombat() && owner.getAttackedBy() != npc))
 				continue;
 			if (!owner.isAtMultiArea() && npc.getAttackedBy() != owner && npc.inCombat())
 				continue;
@@ -223,44 +220,36 @@ public class DwarfMultiCannon extends OwnedObject {
 			boolean hit = false;
 			switch (spinRot) {
 			case 0: // North
-				if ((distanceY <= 8 && distanceY >= 0) && (distanceX >= -1 && distanceX <= 1)) {
+				if ((distanceY <= 8 && distanceY >= 0) && (distanceX >= -1 && distanceX <= 1))
 					hit = true;
-				}
 				break;
 			case 1: // North East
-				if ((distanceY <= 8 && distanceY >= 0) && (distanceX <= 8 && distanceX >= 0)) {
+				if ((distanceY <= 8 && distanceY >= 0) && (distanceX <= 8 && distanceX >= 0))
 					hit = true;
-				}
 				break;
 			case 2: // East
-				if ((distanceY <= 1 && distanceY >= -1) && (distanceX <= 8 && distanceX >= 0)) {
+				if ((distanceY <= 1 && distanceY >= -1) && (distanceX <= 8 && distanceX >= 0))
 					hit = true;
-				}
 				break;
 			case 3: // South East
-				if ((distanceY >= -8 && distanceY <= 0) && (distanceX <= 8 && distanceX >= 0)) {
+				if ((distanceY >= -8 && distanceY <= 0) && (distanceX <= 8 && distanceX >= 0))
 					hit = true;
-				}
 				break;
 			case 4: // South
-				if ((distanceY >= -8 && distanceY <= 0) && (distanceX <= 1 && distanceX >= -1)) {
+				if ((distanceY >= -8 && distanceY <= 0) && (distanceX <= 1 && distanceX >= -1))
 					hit = true;
-				}
 				break;
 			case 5: // South West
-				if ((distanceY >= -8 && distanceY <= 0) && (distanceX >= -8 && distanceX <= 0)) {
+				if ((distanceY >= -8 && distanceY <= 0) && (distanceX >= -8 && distanceX <= 0))
 					hit = true;
-				}
 				break;
 			case 6: // West
-				if ((distanceY >= -1 && distanceY <= 1) && (distanceX >= -8 && distanceX <= 0)) {
+				if ((distanceY >= -1 && distanceY <= 1) && (distanceX >= -8 && distanceX <= 0))
 					hit = true;
-				}
 				break;
 			case 7: // North West
-				if ((distanceY <= 8 && distanceY >= 0) && (distanceX >= -8 && distanceX <= 0)) {
+				if ((distanceY <= 8 && distanceY >= 0) && (distanceX >= -8 && distanceX <= 0))
 					hit = true;
-				}
 				break;
 			default:
 				hit = false;

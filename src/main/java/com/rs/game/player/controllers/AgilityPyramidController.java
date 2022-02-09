@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -34,7 +34,7 @@ import com.rs.game.player.content.dialogue.statements.LegacyItemStatement;
 import com.rs.game.player.content.dialogue.statements.PlayerStatement;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -44,40 +44,39 @@ import com.rs.utils.WorldUtil;
 public class AgilityPyramidController extends Controller {
 
 	private boolean grabbedTop;
-	
+
 	private enum RollingBlock {
 		A(1551, new WorldTile(3354, 2841, 1), 1),
 		B(1552, new WorldTile(3368, 2849, 2), 2),
 		C(1553, new WorldTile(3374, 2835, 1), 3),
 		D(1554, new WorldTile(3048, 4699, 2), 3),
 		E(1555, new WorldTile(3044, 4699, 3), 2);
-		
+
 		private int configId;
 		private WorldTile tile;
 		private int rotation;
-		
+
 		private RollingBlock(int configId, WorldTile tile, int rotation) {
 			this.configId = configId;
 			this.tile = tile;
 			this.rotation = rotation;
 		}
 	}
-	
+
 	@Override
 	public void start() {
 		updateTop();
 	}
-	
+
 	@Override
 	public void process() {
-		for (RollingBlock block : RollingBlock.values()) {
+		for (RollingBlock block : RollingBlock.values())
 			if (WorldUtil.collides(player, block.tile, 1, 2) && !player.hasWalkSteps() && !player.isLocked()) {
 				jumpRoller(block, false); //TODO fail calc
 				return;
 			}
-		}
 	}
-	
+
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		int id = object.getId();
@@ -93,51 +92,47 @@ public class AgilityPyramidController extends Controller {
 				player.useStairs(-1, player.transform(320, -1859, 1), 1, 1);
 			else
 				player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-		} else if (id == 10865) {
+		} else if (id == 10865)
 			climbOver(object);
-		} else if (id == 10859) {
+		else if (id == 10859)
 			jumpGap(object);
-		} else if (id == 10868 || id == 10867) {
+		else if (id == 10868 || id == 10867)
 			walkLog(object);
-		} else if (object.getDefinitions(player).getFirstOption().equals("Cross") && object.getDefinitions(player).getName().equals("Ledge")) {
+		else if (object.getDefinitions(player).getFirstOption().equals("Cross") && object.getDefinitions(player).getName().equals("Ledge"))
 			shimmySideways(object);
-		} else if (object.getDefinitions(player).getFirstOption().equals("Cross") && object.getDefinitions(player).getName().equals("Gap")) {
+		else if (object.getDefinitions(player).getFirstOption().equals("Cross") && object.getDefinitions(player).getName().equals("Gap")) {
 			if (object.getType() == ObjectType.STRAIGHT_INSIDE_WALL_DEC) {
-				for (GameObject surr : World.getSurroundingObjects(object, 2)) {
+				for (GameObject surr : World.getSurroundingObjects(object, 2))
 					if (surr.getDefinitions(player).getFirstOption() != null && surr.getDefinitions(player).getFirstOption().equals("Cross") && surr.getDefinitions(player).getName().equals("Gap") && surr.getType() == ObjectType.SCENERY_INTERACT)
 						shimmyHandholds(new GameObject(surr.getId(), surr.getType(), surr.getRotation(), surr.getX(), surr.getY(), surr.getPlane()));
-				}
-			} else {
+			} else
 				shimmyHandholds(object);
-			}
 		} else if (id == 10851) {
-			if (!grabbedTop) {
+			if (!grabbedTop)
 				grabTop(object);
-			}
-		} else if (id == 10855 || id == 10856) {
+		} else if (id == 10855 || id == 10856)
 			finishCourse();
-		} else if (id == 16536) {
+		else if (id == 16536)
 			climbRocks(player, object);
-		} else if (id == 16535) {
+		else if (id == 16535) {
 			forceClose();
 			climbRocks(player, object);
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean processNPCClick1(NPC npc) {
-		if (npc.getId() == 3123) {
+		if (npc.getId() == 3123)
 			player.startConversation(new SimonTempletonD(player, npc.getId()));
-		}
 		return false;
 	}
-	
+
 	@Override
 	public void magicTeleported(int type) {
 		removeController();
 	}
-	
+
 	@Override
 	public boolean login() {
 		return false;
@@ -147,15 +142,15 @@ public class AgilityPyramidController extends Controller {
 	public boolean logout() {
 		return false;
 	}
-	
+
 	public boolean failed() {
-		return ((double) player.getSkills().getLevel(Constants.AGILITY) / 65.0) < Math.random();
+		return (player.getSkills().getLevel(Constants.AGILITY) / 75.0) < Math.random();
 	}
-	
+
 	private void updateTop() {
 		player.getVars().setVarBit(1556, grabbedTop ? 1 : 0);
 	}
-	
+
 	public void finishCourse() {
 		if (grabbedTop) {
 			player.setNextWorldTile(new WorldTile(3364, 2830, 0));
@@ -164,21 +159,20 @@ public class AgilityPyramidController extends Controller {
 			grabbedTop = false;
 			updateTop();
 			player.incrementCount("Agility Pyramid laps");
-		} else {
+		} else
 			player.startConversation(new Conversation(player, new Dialogue(new PlayerStatement(HeadE.CONFUSED, "I feel like I am forgetting something..."))));
-		}
 	}
-	
+
 	private void grabTop(GameObject object) {
 		player.setNextFaceWorldTile(player.transform(1, 0, 0));
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks;
 			@Override
 			public void run() {
-				if (ticks == 0) {
+				if (ticks == 0)
 					player.setNextAnimation(new Animation(3063));
-				} else if (ticks >= 2) {
+				else if (ticks >= 2) {
 					player.getInventory().addItemDrop(6970, 1);
 					grabbedTop = true;
 					updateTop();
@@ -190,7 +184,7 @@ public class AgilityPyramidController extends Controller {
 			}
 		}, 0, 1);
 	}
-	
+
 	//3056 fail
 	public void shimmyHandholds(GameObject object) {
 		int startAnim = 3057; //3053 alt
@@ -200,17 +194,14 @@ public class AgilityPyramidController extends Controller {
 			startAnim -= 4;
 			renderEmote -= 1;
 			endAnim = 3055;
-		} else {
-			if (failed())
-				endAnim= 3056;
-		}
-		if (object.getRotation() % 2 == 0) {
+		} else if (failed())
+			endAnim= 3056;
+		if (object.getRotation() % 2 == 0)
 			shimmy(object.transform(object.getRotation() == 0 ? 1 : 0, player.getY() < object.getY() ? 4 : -4, 0), startAnim, renderEmote, endAnim, endAnim == 3055 || endAnim == 3056);
-		} else {
+		else
 			shimmy(object.transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, endAnim == 3055 || endAnim == 3056);
-		}
 	}
-	
+
 	//760 761 fail
 	public void shimmySideways(GameObject object) {
 		int startAnim = 752;
@@ -227,27 +218,26 @@ public class AgilityPyramidController extends Controller {
 			endAnim = 760;
 			failed = true;
 		}
-		if (object.getRotation() % 2 == 0) {
+		if (object.getRotation() % 2 == 0)
 			shimmy(object.transform(object.getRotation() == 0 ? 1 : 0, player.getY() < object.getY() ? 4 : -4, 0), startAnim, renderEmote, endAnim, failed);
-		} else {
+		else
 			shimmy(object.transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, failed);
-		}
 	}
-	
+
 	public void shimmy(final WorldTile toTile, final int startAnim, final int renderEmote, final int endAnim, final boolean fail) {
 		final boolean running = player.getRun();
 		player.setRunHidden(false);
 		player.lock();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int ticks;
 			@Override
 			public void run() {
 				if (ticks == 0) {
 					player.setNextAnimation(new Animation(startAnim));
 					player.getAppearance().setBAS(renderEmote);
-				} else if (ticks == 1) {
+				} else if (ticks == 1)
 					player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-				} else if (ticks == 3 && fail) {
+				else if (ticks == 3 && fail) {
 					player.setNextAnimation(new Animation(endAnim));
 					player.resetWalkSteps();
 				} else if (ticks >= 4) {
@@ -267,14 +257,14 @@ public class AgilityPyramidController extends Controller {
 			}
 		}, 0, 1);
 	}
-	
+
 	public static void climbRocks(Player player, GameObject object) {
 		if (player.getX() > object.getX()) {
 			final boolean running = player.getRun();
 			player.setRunHidden(false);
 			player.lock();
 			player.addWalkSteps(player.transform(-4, 0, 0), -1, false);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean secondloop;
 				@Override
 				public void run() {
@@ -293,7 +283,7 @@ public class AgilityPyramidController extends Controller {
 			final WorldTile toTile = player.transform(4, 0, 0);
 			player.setNextAnimation(new Animation(740));
 			player.setNextForceMovement(new ForceMovement(player, 0, toTile, 4, Direction.WEST));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextAnimation(new Animation(-1));
@@ -302,19 +292,18 @@ public class AgilityPyramidController extends Controller {
 			}, 3);
 		}
 	}
-	
+
 	public void walkLog(GameObject object) {
 		final boolean running = player.getRun();
 		final WorldTile toTile;
-		if (object.getRotation() % 2 == 0) {
+		if (object.getRotation() % 2 == 0)
 			toTile = object.transform(object.getId() == 10867 ? 5 : -5, 0, 0);
-		} else {
+		else
 			toTile = object.transform(0, object.getId() == 10867 ? 5 : -5, 0);
-		}
 		player.setRunHidden(false);
 		player.lock();
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			boolean secondloop;
 			@Override
 			public void run() {
@@ -332,15 +321,14 @@ public class AgilityPyramidController extends Controller {
 			}
 		}, 0, 5);
 	}
-	
+
 	public void jumpGap(GameObject object) {
 		Direction direction = Direction.NORTH;
 		final WorldTile toTile;
-		if (object.getRotation() % 2 == 0) {
+		if (object.getRotation() % 2 == 0)
 			toTile = player.transform(0, player.getY() < object.getY() ? 3 : -3, 0);
-		} else {
+		else
 			toTile = player.transform(player.getX() < object.getX() ? 3 : -3, 0, 0);
-		}
 		if (player.getX() < toTile.getX())
 			direction = Direction.EAST;
 		else if (player.getX() > toTile.getX())
@@ -352,7 +340,7 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.setNextAnimation(new Animation(3067));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlock();
@@ -361,7 +349,7 @@ public class AgilityPyramidController extends Controller {
 			}
 		}, 1);
 	}
-	
+
 	public void climbOver(GameObject object) {
 		Direction direction = Direction.NORTH;
 		final WorldTile toTile;
@@ -371,11 +359,10 @@ public class AgilityPyramidController extends Controller {
 			player.lock(3);
 			return;
 		}
-		if (object.getRotation() % 2 == 0) {
+		if (object.getRotation() % 2 == 0)
 			toTile = player.transform(player.getX() < object.getX() ? 2 : -2, 0, 0);
-		} else {
+		else
 			toTile = player.transform(0, player.getY() < object.getY() ? 2 : -2, 0);
-		}
 		if (player.getX() < toTile.getX())
 			direction = Direction.EAST;
 		else if (player.getX() > toTile.getX())
@@ -387,7 +374,7 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.setNextAnimation(new Animation(1560));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.unlock();
@@ -396,7 +383,7 @@ public class AgilityPyramidController extends Controller {
 			}
 		}, 1);
 	}
-	
+
 	public void jumpRoller(RollingBlock block, boolean failed) {
 		byte[] dir = Utils.getDirection(player.getFaceAngle());
 		if (dir[0] != 0 && dir[1] != 0 || failed) {
@@ -429,7 +416,7 @@ public class AgilityPyramidController extends Controller {
 			player.getVars().setVarBit(block.configId, 1);
 			player.setNextAnimation(new Animation(3064));
 			player.setNextForceMovement(new ForceMovement(player, 0, Utils.getDistance(player, toTile) > 50 ? player.transform(2, 0, -1) : toTile, 2, Direction.forDelta(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.unlock();
@@ -445,7 +432,7 @@ public class AgilityPyramidController extends Controller {
 		player.getVars().setVarBit(block.configId, 1);
 		player.setNextAnimation(new Animation(1115));
 		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, WorldUtil.getFaceDirection(toTile, player)));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getVars().setVarBit(block.configId, 0);

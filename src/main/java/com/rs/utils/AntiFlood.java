@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.utils;
@@ -22,12 +22,12 @@ import com.rs.Settings;
 
 /**
  * Anti Flood
- * 
+ *
  * @Author Apache Ah64
  */
 public final class AntiFlood {
 
-	private static ArrayList<String> CONNECTIONS = new ArrayList<String>(Settings.PLAYERS_LIMIT * 3);
+	private static ArrayList<String> CONNECTIONS = new ArrayList<>(Settings.PLAYERS_LIMIT * 3);
 
 	public static void add(String ip) {
 		CONNECTIONS.add(ip);
@@ -39,10 +39,9 @@ public final class AntiFlood {
 
 	public static int getSessionsIP(String ip) {
 		int amount = 1;
-		for (int i = 0; i < CONNECTIONS.size(); i++) {
-			if (CONNECTIONS.get(i).equalsIgnoreCase(ip))
+		for (String element : CONNECTIONS)
+			if (element.equalsIgnoreCase(ip))
 				amount++;
-		}
 		return amount;
 	}
 }

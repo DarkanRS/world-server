@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -29,7 +29,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -73,9 +73,8 @@ public class SagittareCombat extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(isMagicAttack ? 2536 : 2539, 0, 96));
 
 			for (Entity t : npc.getPossibleTargets()) {
-				if (!(t instanceof Player))
+				if (!(t instanceof Player player))
 					continue;
-				Player player = (Player) t;
 				boolean bindTarget = false;
 
 				World.sendProjectile(npc, t, isMagicAttack ? 2537 : 2540, 65, 50, 54, 35, 5, 0);
@@ -107,7 +106,7 @@ public class SagittareCombat extends CombatScript {
 		final RoomReference rRef = manager.getCurrentRoomReference(center);
 		if (rRef == null)
 			return;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int cycles;
 
@@ -145,26 +144,22 @@ public class SagittareCombat extends CombatScript {
 							teleport = manager.getTile(rRef, Utils.random(14) + 1, 14);
 					}
 
-					for (int x = -1; x < 2; x++) {// 3x3 area
-						for (int y = -1; y < 2; y++) {
+					for (int x = -1; x < 2; x++)
+						for (int y = -1; y < 2; y++)
 							World.sendProjectile(boss, center.transform(x, y, 0), 2533, 250, 0, 40, 0, 0, 0);
-						}
-					}
 					boss.setNextWorldTile(teleport);
 					boss.setNextAnimation(new Animation(8941));
 					boss.setNextSpotAnim(new SpotAnim(1577));
 				} else if (cycles == 8) {
 					targetL: for (Entity target : boss.getPossibleTargets()) {
-						if (!(target instanceof Player))
+						if (!(target instanceof Player player))
 							continue;
-						Player player = (Player) target;
-						for (int x = -1; x < 2; x++) {// 3x3 area
+						for (int x = -1; x < 2; x++)
 							for (int y = -1; y < 2; y++) {
 								WorldTile projectileTile = center.transform(x, y, 0);
 								if (player.getX() != projectileTile.getX() || player.getY() != projectileTile.getY())
 									continue targetL;
 							}
-						}
 						player.setRun(false);
 						player.freeze(8);
 						player.sendMessage("You have been injured and can't move.");

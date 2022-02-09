@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat;
@@ -35,9 +35,9 @@ public class Default extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		AttackStyle attackStyle = defs.getAttackStyle();
-		if (attackStyle == AttackStyle.MELEE) {
+		if (attackStyle == AttackStyle.MELEE)
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
-		} else {
+		else {
 			int damage = getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
 			WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2, 0);
 			delayHit(npc, p.getTaskDelay(), target, attackStyle == AttackStyle.RANGE ? getRangeHit(npc, damage) : getMagicHit(npc, damage));

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.net.decoders.handlers.impl.chat;
@@ -30,39 +30,29 @@ public class ChatHandler implements PacketHandler<Player, Chat> {
 	public void handle(Player player, Chat packet) {
 		if (!player.hasStarted())
 			return;
-		if (player.getLastPublicMessage() > System.currentTimeMillis())
-			return;
-		player.setLastPublicMessage(System.currentTimeMillis() + 300);
-		if (packet.getMessage() == null || packet.getMessage().replaceAll(" ", "").equals(""))
-			return;
 		if (packet.getMessage().startsWith("::") || packet.getMessage().startsWith(";;")) {
 			try {
 				Commands.processCommand(player, packet.getMessage().replace("::", "").replace(";;", ""), false, false);
-			} catch(Throwable e) {
-				
-			}
-			return;
-		}
-		if (player.getAccount().isMuted()) {
-			player.sendMessage("You are muted. The mute will be lifted at " + player.getAccount().getUnmuteDate());
+			} catch(Throwable e) { }
 			return;
 		}
 		int effects = (packet.getColor() << 8) | (packet.getEffect() & 0xff);
-		if (player.chatType == 1)
-			LobbyCommunicator.sendFCMessage(player, packet.getMessage());
-		else if (player.chatType == 2)
-			LobbyCommunicator.sendCCMessage(player, packet.getMessage());
-		else if (player.chatType == 3)
-			LobbyCommunicator.sendGCCMessage(player, packet.getMessage());
-		else {
-			if (player.getControllerManager().getController() instanceof DungeonController) {
-				for (Player party : player.getDungManager().getParty().getTeam()) {
+		switch(player.chatType) {
+		case 1, 2, 3 -> LobbyCommunicator.forwardPackets(player, packet.setType(player.chatType));
+		default -> {
+			if (packet.getMessage() == null || packet.getMessage().replaceAll(" ", "").equals(""))
+				return;
+			if (player.getAccount().isMuted()) {
+				player.sendMessage("You are muted. The mute will be lifted at " + player.getAccount().getUnmuteDate());
+				return;
+			}
+			if (player.getControllerManager().getController() instanceof DungeonController)
+				for (Player party : player.getDungManager().getParty().getTeam())
 					party.getPackets().sendPublicMessage(player, new PublicChatMessage(packet.getMessage(), effects));
-				}
-			} else
+			else
 				player.sendPublicChatMessage(new PublicChatMessage(packet.getMessage(), effects));
 		}
-		player.setLastMsg(packet.getMessage());
+		}
 	}
 
 }

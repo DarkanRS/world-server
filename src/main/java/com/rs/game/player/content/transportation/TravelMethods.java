@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.transportation;
@@ -20,7 +20,7 @@ import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.dialogues.QuickCharter;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -34,7 +34,7 @@ import com.rs.utils.shop.ShopsHandler;
 public class TravelMethods {
 
 	private static final int TRAVEL_INTERFACE = 299, CHARTER_INTERFACE = 95;
-	private static final int[] REGIONS = new int[] { 8496, 14646, 11061, 11823, 11825, 11058, 10545, 12081, 14637, -1, 10284 };
+	private static final int[] REGIONS = { 8496, 14646, 11061, 11823, 11825, 11058, 10545, 12081, 14637, -1, 10284 };
 
 	public enum Carrier {
 		PORT_TYRAS(new int[] { -1, 3200, 3200, 3200, 3200, 3200, 3200, 3200, 1600, -1, 3200 }, new WorldTile(0,33,48,30,50)),
@@ -74,15 +74,15 @@ public class TravelMethods {
 		private String secondDest;
 
 		private Carrier(int[] fare, String secondDest, WorldTile destination, WorldTile origin) {
-			this.fares = fare;
+			fares = fare;
 			this.destination = destination;
 			this.secondDest = secondDest;
 			this.origin = origin;
 		}
 
-        public Carrier getCarrier() {
-            return this;
-        }
+		public Carrier getCarrier() {
+			return this;
+		}
 
 		private Carrier(int[] fares, WorldTile destination) {
 			this(fares, null, destination, null);
@@ -105,47 +105,47 @@ public class TravelMethods {
 		}
 	}
 
-    private static int getComponentForMap(Carrier ship, boolean returning) {
-        int iComp = -1;
-        switch(ship) {
-            case ENTRANA_FARE:
-                if(ship.getFixedName(returning).equalsIgnoreCase("entrana fare"))//sarim->entrana
-                    iComp = 54;
-                else if(ship.getFixedName(returning).equalsIgnoreCase("port sarim"))//entrana-> sarim
-                    iComp = 46;
-                break;
-            case KARAMJA_FARE://fare, meaning not charter
-                if(ship.getFixedName(returning).equalsIgnoreCase("port sarim"))//brimhaven->port sarim
-                    iComp = 42;
-                else if(ship.getFixedName(returning).equalsIgnoreCase("karamja fare"))//sarim->karamja
-                    iComp = 43;
-                break;
-            case BRIMHAVEN_FARE:
-                if(ship.getFixedName(returning).equalsIgnoreCase("ardougne"))//karamja/brim->ardougn
-                    iComp = 40;
-                else if(ship.getFixedName(returning).equalsIgnoreCase("brimhaven fare"))//ardy->brim fare
-                    iComp = 41;
-                break;
-			default:
-				break;
-        }
-        return iComp;
-    }
-    /**Add map then sound, MAP -> 299, music-effect -> 171(short)/172(long)
-     * p.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
-     * p.getPackets().setIFHidden(299, icomp, false);
-     * 40: brim->ardy(short)
-     * 41: ardy->brim(short)
-     * 42: Karamja->Sarim(short)
-     * 43: sarim -> karamja/(short)
-     * 46: entrana -> sarim(short)
-     * 54: sarim -> entrana(short)
-     *
-     * //save for dragon slayer
-     * * 45: crandor -> sarim(short)
-     * * 44: sarim -> crandor(short)
-     */
-	
+	private static int getComponentForMap(Carrier ship, boolean returning) {
+		int iComp = -1;
+		switch(ship) {
+		case ENTRANA_FARE:
+			if(ship.getFixedName(returning).equalsIgnoreCase("entrana fare"))//sarim->entrana
+				iComp = 54;
+			else if(ship.getFixedName(returning).equalsIgnoreCase("port sarim"))//entrana-> sarim
+				iComp = 46;
+			break;
+		case KARAMJA_FARE://fare, meaning not charter
+			if(ship.getFixedName(returning).equalsIgnoreCase("port sarim"))//brimhaven->port sarim
+				iComp = 42;
+			else if(ship.getFixedName(returning).equalsIgnoreCase("karamja fare"))//sarim->karamja
+				iComp = 43;
+			break;
+		case BRIMHAVEN_FARE:
+			if(ship.getFixedName(returning).equalsIgnoreCase("ardougne"))//karamja/brim->ardougn
+				iComp = 40;
+			else if(ship.getFixedName(returning).equalsIgnoreCase("brimhaven fare"))//ardy->brim fare
+				iComp = 41;
+			break;
+		default:
+			break;
+		}
+		return iComp;
+	}
+	/**Add map then sound, MAP -> 299, music-effect -> 171(short)/172(long)
+	 * p.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+	 * p.getPackets().setIFHidden(299, icomp, false);
+	 * 40: brim->ardy(short)
+	 * 41: ardy->brim(short)
+	 * 42: Karamja->Sarim(short)
+	 * 43: sarim -> karamja/(short)
+	 * 46: entrana -> sarim(short)
+	 * 54: sarim -> entrana(short)
+	 *
+	 * //save for dragon slayer
+	 * * 45: crandor -> sarim(short)
+	 * * 44: sarim -> crandor(short)
+	 */
+
 	public static NPCClickHandler handleCharterShips = new NPCClickHandler("Trader Crewmember", "Trader crewmember") {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -155,19 +155,18 @@ public class TravelMethods {
 				TravelMethods.openCharterInterface(e.getPlayer());
 		}
 	};
-	
+
 	public static void openCharterInterface(Player player) {
 		player.getInterfaceManager().sendInterface(CHARTER_INTERFACE);
 		int shipIndex = getOriginIndex(player.getRegionId());
 		if (shipIndex == -1)
 			return;
 		Carrier ship = Carrier.values()[shipIndex];
-		for (int index = 0; index < ship.fares.length; index++) {
+		for (int index = 0; index < ship.fares.length; index++)
 			if (ship.getFares()[index] == -1)
 				player.getPackets().setIFHidden(CHARTER_INTERFACE, 23 + index, true);
-		}
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(95) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -175,7 +174,7 @@ public class TravelMethods {
 				handleCharterOptions(e.getPlayer(), e.getComponentId());
 		}
 	};
-	
+
 	public static void handleCharterOptions(Player player, int componentId) {
 		int index = componentId - 23;
 		if (index < 0 || index > 10)
@@ -188,10 +187,9 @@ public class TravelMethods {
 	}
 
 	private static int getOriginIndex(int regionId) {
-		for (int index = 0; index < REGIONS.length; index++) {
+		for (int index = 0; index < REGIONS.length; index++)
 			if (REGIONS[index] == regionId)
 				return index;
-		}
 		return -1;
 	}
 
@@ -239,73 +237,69 @@ public class TravelMethods {
 		player.getMusicsManager().playMusic(550);
 		player.getTempAttribs().setB("using_carrier", true);
 
-        if(getComponentForMap(ship, returning) == -1)
-            FadingScreen.fade(player, new Runnable() {
-                @Override
-                public void run() {// 9
-                    player.setNextWorldTile(tile);
-                    player.lock(1);
-                    player.closeInterfaces();
-                    if (isFare)
-                        player.getVars().setVar(75, 0);
-                    player.getTempAttribs().removeB("using_carrier");
-                }
-            });
-        else {
-            player.lock();
-            if(getComponentForMap(ship, returning) == 54 || getComponentForMap(ship, returning) == 46)
-                WorldTasksManager.schedule(new WorldTask() {
-                    int tick;
-                    @Override
-                    public void run() {
-                        if (tick == 0)  //setup p1
-                            player.getInterfaceManager().setFadingInterface(115);
-                        else if (tick == 3) {
-                            player.getInterfaceManager().setFadingInterface(516);
-                            player.getPackets().setBlockMinimapState(2);
-                            player.getPackets().sendMusicEffect(172);
-                            player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
-                            player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
-                        } else if (tick == 11) {
-                            player.setNextWorldTile(tile);
-                            player.closeInterfaces();
-                            player.getInterfaceManager().setFadingInterface(170);
-                            player.getPackets().setBlockMinimapState(0);
-                        } else if (tick == 12) {
-                            player.getTempAttribs().removeB("using_carrier");
-                            player.unlock();
-                            stop();
-                        }
-                        tick++;
-                    }
-                }, 0, 1);
-            else {
-                WorldTasksManager.schedule(new WorldTask() {
-                    int tick;
-                    @Override
-                    public void run() {
-                        if (tick == 0)  //setup p1
-                            player.getInterfaceManager().setFadingInterface(115);
-                        else if (tick == 3) {
-                            player.getPackets().setBlockMinimapState(2);
-                            player.getPackets().sendMusicEffect(171);
-                            player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
-                            player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
-                        } else if (tick == 7) {
-                            player.setNextWorldTile(tile);
-                            player.closeInterfaces();
-                            player.getInterfaceManager().setFadingInterface(170);
-                            player.getPackets().setBlockMinimapState(0);
-                        } else if (tick == 8) {
-                            player.getTempAttribs().removeB("using_carrier");
-                            player.unlock();
-                            stop();
-                        }
-                        tick++;
-                    }
-                }, 0, 1);
-            }
-        }
+		if(getComponentForMap(ship, returning) == -1)
+			FadingScreen.fade(player, () -> {// 9
+				player.setNextWorldTile(tile);
+				player.lock(1);
+				player.closeInterfaces();
+				if (isFare)
+					player.getVars().setVar(75, 0);
+				player.getTempAttribs().removeB("using_carrier");
+			});
+		else {
+			player.lock();
+			if(getComponentForMap(ship, returning) == 54 || getComponentForMap(ship, returning) == 46)
+				WorldTasks.schedule(new WorldTask() {
+					int tick;
+					@Override
+					public void run() {
+						if (tick == 0)  //setup p1
+							player.getInterfaceManager().setFadingInterface(115);
+						else if (tick == 3) {
+							player.getInterfaceManager().setFadingInterface(516);
+							player.getPackets().setBlockMinimapState(2);
+							player.getPackets().sendMusicEffect(172);
+							player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+							player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
+						} else if (tick == 11) {
+							player.setNextWorldTile(tile);
+							player.closeInterfaces();
+							player.getInterfaceManager().setFadingInterface(170);
+							player.getPackets().setBlockMinimapState(0);
+						} else if (tick == 12) {
+							player.getTempAttribs().removeB("using_carrier");
+							player.unlock();
+							stop();
+						}
+						tick++;
+					}
+				}, 0, 1);
+			else
+				WorldTasks.schedule(new WorldTask() {
+					int tick;
+					@Override
+					public void run() {
+						if (tick == 0)  //setup p1
+							player.getInterfaceManager().setFadingInterface(115);
+						else if (tick == 3) {
+							player.getPackets().setBlockMinimapState(2);
+							player.getPackets().sendMusicEffect(171);
+							player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
+							player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
+						} else if (tick == 7) {
+							player.setNextWorldTile(tile);
+							player.closeInterfaces();
+							player.getInterfaceManager().setFadingInterface(170);
+							player.getPackets().setBlockMinimapState(0);
+						} else if (tick == 8) {
+							player.getTempAttribs().removeB("using_carrier");
+							player.unlock();
+							stop();
+						}
+						tick++;
+					}
+				}, 0, 1);
+		}
 		return true;
 	}
 }

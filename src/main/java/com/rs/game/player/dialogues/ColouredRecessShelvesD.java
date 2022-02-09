@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -35,15 +35,15 @@ public class ColouredRecessShelvesD extends Dialogue {
 			player.applyHit(new Hit(player, (int) (player.getMaxHitpoints() * 0.25D), HitLook.TRUE_DAMAGE));
 			end();
 			return;
-		} else if (componentId == OPTION_1) {
-			player.getInventory().addItem(19869, 1);
-		} else if (componentId == OPTION_2) {
-			player.getInventory().addItem(19871, 1);
-		} else if (componentId == OPTION_3) {
-			player.getInventory().addItem(19873, 1);
-		} else if (componentId == OPTION_4) {
-			player.getInventory().addItem(19875, 1);
 		}
+		if (componentId == OPTION_1)
+			player.getInventory().addItem(19869, 1);
+		else if (componentId == OPTION_2)
+			player.getInventory().addItem(19871, 1);
+		else if (componentId == OPTION_3)
+			player.getInventory().addItem(19873, 1);
+		else if (componentId == OPTION_4)
+			player.getInventory().addItem(19875, 1);
 		player.setNextAnimation(new Animation(832));
 		end();
 	}

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
@@ -32,64 +32,50 @@ public final class Notes {
 	private transient Player player;
 
 	public Notes() {
-		notes = new ArrayList<Note>(30);
+		notes = new ArrayList<>(30);
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(34) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			switch (e.getComponentId()) {
-			case 35:
-			case 37:
-			case 39:
-			case 41:
+			case 35, 37, 39, 41 -> {
 				e.getPlayer().getNotes().colour((e.getComponentId() - 35) / 2);
 				e.getPlayer().getPackets().setIFHidden(34, 16, true);
-				break;
-			case 3:
-				e.getPlayer().getPackets().sendInputLongTextScript("Add note:");
-				e.getPlayer().getTempAttribs().setB("entering_note", true);
-				break;
-			case 9:
+			}
+			case 3 -> e.getPlayer().sendInputLongText("Add note:", text -> e.getPlayer().getNotes().add(text));
+			case 9 -> {
 				switch (e.getPacket()) {
-				case IF_OP1:
+				case IF_OP1 -> {
 					if (e.getPlayer().getNotes().getCurrentNote() == e.getSlotId())
 						e.getPlayer().getNotes().removeCurrentNote();
 					else
 						e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					break;
-				case IF_OP2:
-					e.getPlayer().getPackets().sendInputLongTextScript("Edit note:");
+				}
+				case IF_OP2 -> e.getPlayer().sendInputLongText("Edit note:", text -> {
 					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					e.getPlayer().getTempAttribs().setB("editing_note", true);
-					break;
-				case IF_OP3:
+					e.getPlayer().getNotes().edit(text);
+				});
+				case IF_OP3 -> {
 					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
 					e.getPlayer().getPackets().setIFHidden(34, 16, false);
-					break;
-				case IF_OP4:
-					e.getPlayer().getNotes().delete(e.getSlotId());
-					break;
-				default:
-					break;
 				}
-				break;
-			case 11:
+				case IF_OP4 -> e.getPlayer().getNotes().delete(e.getSlotId());
+				default -> {}
+				}
+			}
+			case 11 -> {
 				switch (e.getPacket()) {
-				case IF_OP1:
-					e.getPlayer().getNotes().delete();
-					break;
-				case IF_OP2:
-					e.getPlayer().getNotes().deleteAll();
-					break;
-				default:
-					break;
+				case IF_OP1 -> e.getPlayer().getNotes().delete();
+				case IF_OP2 -> e.getPlayer().getNotes().deleteAll();
+				default -> {}
 				}
 				break;
+			}
 			}
 		}
 	};
@@ -195,7 +181,7 @@ public final class Notes {
 
 	/**
 	 * Gets the primary colour of the notes.
-	 * 
+	 *
 	 * @param notes
 	 *            The notes.
 	 * @return
@@ -212,7 +198,7 @@ public final class Notes {
 
 	/**
 	 * Gets the secondary colour of the notes.
-	 * 
+	 *
 	 * @param notes
 	 *            The notes.
 	 * @return

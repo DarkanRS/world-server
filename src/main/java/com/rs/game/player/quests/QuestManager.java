@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests;
@@ -39,14 +39,14 @@ public class QuestManager {
 	private int sort;
 	private boolean filter;
 	private boolean hideDone;
-    private Map<Integer, Integer> questStages;
-    private Map<Integer, GenericAttribMap> questAttribs;
+	private Map<Integer, Integer> questStages;
+	private Map<Integer, GenericAttribMap> questAttribs;
 
 	public QuestManager() {
-        questStages = new HashMap<>();
-        questAttribs = new HashMap<>();
+		questStages = new HashMap<>();
+		questAttribs = new HashMap<>();
 	}
-	
+
 	public static ButtonClickHandler handleQuestTabButtons = new ButtonClickHandler(190) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -58,89 +58,83 @@ public class QuestManager {
 				e.getPlayer().getQuestManager().toggleHideDone();
 			else if (e.getComponentId() == 15) {
 				Quest quest = Quest.forSlot(e.getSlotId());
-				if (quest != null) {
-					QuestInformation info = quest.getDefs().getExtraInfo();
-					if (quest.isImplemented()) {
-						ArrayList<String> lines = new ArrayList<>();
-						if (e.getPlayer().getQuestManager().getStage(quest) > 0) {
-							for (int i = 0;i < e.getPlayer().getQuestManager().getStage(quest);i++) {
-								for (String line : quest.getHandler().getJournalLines(e.getPlayer(), i)) {
-									lines.add("<str>" + line);
-								}
-							}
-						}
-						lines.addAll(quest.getHandler().getJournalLines(e.getPlayer(), e.getPlayer().getQuestManager().getStage(quest)));
-						
-						
-						e.getPlayer().getInterfaceManager().sendInterface(275);
-						e.getPlayer().getPackets().sendRunScriptReverse(1207, new Object[] { lines.size() });
-						e.getPlayer().getPackets().setIFText(275, 1, info.getName());
-						for (int i = 10; i < 289; i++) {
-							e.getPlayer().getPackets().setIFText(275, i, ((i - 10) >= lines.size() ? " " : lines.get(i - 10)));
-						}
-					} else {
-						ArrayList<String> lines = new ArrayList<String>();
-
-						lines.add("<col=00FF00><shad=000000>Requirements");
-						if (info.getSkillReq().size() > 0) {
-							for (int skillId : info.getSkillReq().keySet()) {
-								if (info.getSkillReq().get(skillId) == 0)
-									continue;
-								lines.add(info.getSkillReq().get(skillId) + " " + Skills.SKILL_NAME[skillId]);
-							}
-						} else {
-							lines.add("None.");
-						}
-						lines.add("");
-						lines.add("<col=00FF00><shad=000000>True requirements");
-						if (info.getPreReqSkillReqs().size() > 0) {
-							for (int skillId : info.getPreReqSkillReqs().keySet()) {
-								if (info.getPreReqSkillReqs().get(skillId) == 0)
-									continue;
-								lines.add(info.getPreReqSkillReqs().get(skillId) + " " + Skills.SKILL_NAME[skillId]);
-							}
-						} else {
-							lines.add("None.");
-						}
-						lines.add("");
-						lines.add("<col=00FF00><shad=000000>You must have completed the following quests");
-						if (info.getPreReqs().size() > 0) {
-							for (Quest preReq : info.getPreReqs()) {
-								lines.add(preReq.getDefs().getExtraInfo().getName());
-							}
-						} else {
-							lines.add("None.");
-						}
-						lines.add("");
-						lines.add("<col=00FF00><shad=000000>Quest point requirement");
-						lines.add(info.getQpReq() + "");
-						lines.add("");
-						lines.add("<col=00FF00><shad=000000>Start NPC ");
-						lines.add(info.getStartNpc() == -1 ? "NOT FOUND" : NPCDefinitions.getDefs(info.getStartNpc()).getName());
-						lines.add("");
-						String location = "NOT FOUND";
-						if (info.getStartLocation() != null)
-							location = "[" + info.getStartLocation().getX() + ", " + info.getStartLocation().getY() + ", " + info.getStartLocation().getPlane() + "]";
-						lines.add("<col=00FF00><shad=000000>Coordinates of quest start");
-						lines.add(location);
-						lines.add("");
-						lines.add("<col=ff0000><shad=000000>This is a test interface to showcase quest data.");
-						lines.add("<col=ff0000><shad=000000>Quests currently implemented are:");
-						for (Quest q : Quest.values()) {
-							if (q.isImplemented())
-								lines.add(q.name());
-						}
-						e.getPlayer().getInterfaceManager().sendInterface(275);
-						e.getPlayer().getPackets().sendRunScriptReverse(1207, new Object[] { lines.size() });
-						e.getPlayer().getPackets().setIFText(275, 1, info.getName());
-						for (int i = 10; i < 289; i++) {
-							e.getPlayer().getPackets().setIFText(275, i, ((i - 10) >= lines.size() ? " " : lines.get(i - 10)));
-						}
-					}
-				}
+                e.getPlayer().getQuestManager().showQuestDetailInterface(quest);
 			}
 		}
 	};
+
+    public void showQuestDetailInterface(Quest quest) {
+        if (quest != null) {
+            QuestInformation info = quest.getDefs().getExtraInfo();
+            if (quest.isImplemented()) {
+                ArrayList<String> lines = new ArrayList<>();
+                if (player.getQuestManager().getStage(quest) > 0)
+                    for (int i = 0;i < player.getQuestManager().getStage(quest);i++)
+                        for (String line : quest.getHandler().getJournalLines(player, i))
+                            lines.add("<str>" + line);
+                lines.addAll(quest.getHandler().getJournalLines(player, player.getQuestManager().getStage(quest)));
+
+
+                player.getInterfaceManager().sendInterface(275);
+                player.getPackets().sendRunScriptReverse(1207, lines.size());
+                player.getPackets().setIFText(275, 1, info.getName());
+                for (int i = 10; i < 289; i++)
+                    player.getPackets().setIFText(275, i, ((i - 10) >= lines.size() ? " " : lines.get(i - 10)));
+            } else {
+                ArrayList<String> lines = new ArrayList<>();
+
+                lines.add("<col=00FF00><shad=000000>Requirements");
+                if (info.getSkillReq().size() > 0)
+                    for (int skillId : info.getSkillReq().keySet()) {
+                        if (info.getSkillReq().get(skillId) == 0)
+                            continue;
+                        lines.add(info.getSkillReq().get(skillId) + " " + Skills.SKILL_NAME[skillId]);
+                    }
+                else
+                    lines.add("None.");
+                lines.add("");
+                lines.add("<col=00FF00><shad=000000>True requirements");
+                if (info.getPreReqSkillReqs().size() > 0)
+                    for (int skillId : info.getPreReqSkillReqs().keySet()) {
+                        if (info.getPreReqSkillReqs().get(skillId) == 0)
+                            continue;
+                        lines.add(info.getPreReqSkillReqs().get(skillId) + " " + Skills.SKILL_NAME[skillId]);
+                    }
+                else
+                    lines.add("None.");
+                lines.add("");
+                lines.add("<col=00FF00><shad=000000>You must have completed the following quests");
+                if (info.getPreReqs().size() > 0)
+                    for (Quest preReq : info.getPreReqs())
+                        lines.add(preReq.getDefs().getExtraInfo().getName());
+                else
+                    lines.add("None.");
+                lines.add("");
+                lines.add("<col=00FF00><shad=000000>Quest point requirement");
+                lines.add(info.getQpReq() + "");
+                lines.add("");
+                lines.add("<col=00FF00><shad=000000>Start NPC ");
+                lines.add(info.getStartNpc() == -1 ? "NOT FOUND" : NPCDefinitions.getDefs(info.getStartNpc()).getName());
+                lines.add("");
+                String location = "NOT FOUND";
+                if (info.getStartLocation() != null)
+                    location = "[" + info.getStartLocation().getX() + ", " + info.getStartLocation().getY() + ", " + info.getStartLocation().getPlane() + "]";
+                lines.add("<col=00FF00><shad=000000>Coordinates of quest start");
+                lines.add(location);
+                lines.add("");
+                lines.add("<col=ff0000><shad=000000>This is a test interface to showcase quest data.");
+                lines.add("<col=ff0000><shad=000000>Quests currently implemented are:");
+                for (Quest q : Quest.values())
+                    if (q.isImplemented())
+                        lines.add(q.name());
+                player.getInterfaceManager().sendInterface(275);
+                player.getPackets().sendRunScriptReverse(1207, lines.size());
+                player.getPackets().setIFText(275, 1, info.getName());
+                for (int i = 10; i < 289; i++)
+                    player.getPackets().setIFText(275, i, ((i - 10) >= lines.size() ? " " : lines.get(i - 10)));
+            }
+        }
+    }
 
 	public void unlockQuestTabOptions() {
 		player.getPackets().setIFRightClickOps(190, 15, 0, 201, 0, 1, 2, 3);
@@ -153,11 +147,11 @@ public class QuestManager {
 			return 0;
 		return questStages.get(quest.getId());
 	}
-	
+
 	public void setStage(Quest quest, int stage) {
 		setStage(quest, stage, true);
 	}
-	
+
 	public void setStage(Quest quest, int stage, boolean updateJournal) {
 		if (!quest.isImplemented())
 			return;
@@ -166,38 +160,38 @@ public class QuestManager {
 			sendQuestStage(quest, true);
 	}
 
-    public void completeQuest(Quest quest) {
-        if (!quest.isImplemented())
-            return;
-        if (!isComplete(quest)) {
-            setStage(quest, quest.getHandler().getCompletedStage());
-            clearQuestAttributes(quest);
-            quest.getHandler().complete(player);
-            sendQuestStage(quest, true);
-            sendQuestPoints();
-        }
-    }
+	public void completeQuest(Quest quest) {
+		if (!quest.isImplemented())
+			return;
+		if (!isComplete(quest)) {
+			setStage(quest, quest.getHandler().getCompletedStage());
+			clearQuestAttributes(quest);
+			quest.getHandler().complete(player);
+			sendQuestStage(quest, true);
+			sendQuestPoints();
+		}
+	}
 
-    public void resetQuest(Quest quest) {
-        if (!quest.isImplemented())
-            return;
-        clearQuestAttributes(quest);
-        setStage(quest, 0);
-    }
+	public void resetQuest(Quest quest) {
+		if (!quest.isImplemented())
+			return;
+		clearQuestAttributes(quest);
+		setStage(quest, 0);
+	}
 
-    private void clearQuestAttributes(Quest quest) {
-        questAttribs.remove(quest.getId());
-    }
+	private void clearQuestAttributes(Quest quest) {
+		questAttribs.remove(quest.getId());
+	}
 
-    public GenericAttribMap getAttribs(Quest quest) {
-        GenericAttribMap map = questAttribs.get(quest.getId());
-        if (map == null) {
-            map = new GenericAttribMap();
-            questAttribs.put(quest.getId(), map);
-        }
-        return map;
-    }
-	
+	public GenericAttribMap getAttribs(Quest quest) {
+		GenericAttribMap map = questAttribs.get(quest.getId());
+		if (map == null) {
+			map = new GenericAttribMap();
+			questAttribs.put(quest.getId(), map);
+		}
+		return map;
+	}
+
 	public boolean completedAllQuests() {
 		for (Quest quest : Quest.values()) {
 			if (!quest.isImplemented())
@@ -207,13 +201,13 @@ public class QuestManager {
 		}
 		return true;
 	}
-	
+
 	public boolean isComplete(Quest quest) {
 		if (!quest.isImplemented())
 			return true;
 		return getStage(quest) == quest.getHandler().getCompletedStage();
 	}
-	
+
 	public int getQuestPoints() {
 		int points = 0;
 		for (Quest quest : Quest.values()) {
@@ -231,11 +225,10 @@ public class QuestManager {
 	}
 
 	public void updateAllQuestStages() {
-		for (Quest quest : Quest.values()) {
+		for (Quest quest : Quest.values())
 			sendQuestStage(quest, false);
-		}
 	}
-	
+
 	public void sendQuestStage(Quest quest, boolean refresh) {
 		if (isComplete(quest))
 			quest.getDefs().sendCompleted(player);
@@ -249,14 +242,12 @@ public class QuestManager {
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		if (MAX_QUESTPOINTS == 0) {
-			for (Quest quest : Quest.values()) {
+		if (MAX_QUESTPOINTS == 0)
+			for (Quest quest : Quest.values())
 				if (quest.isImplemented())
 					MAX_QUESTPOINTS += quest.getDefs().questpointReward;
-			}
-		}
 	}
-	
+
 	public void updateOptions() {
 		//4538 = free/members toggle which is first?
 		player.getVars().setVarBit(4536, sort);
@@ -265,19 +256,19 @@ public class QuestManager {
 		player.getVars().syncVarsToClient();
 		player.getPackets().sendRunScript(2160, 0);
 	}
-	
+
 	public void setSort(int sort) {
 		this.sort = sort;
 		updateOptions();
 	}
 
 	public void toggleFilter() {
-		this.filter = !filter;
+		filter = !filter;
 		updateOptions();
 	}
 
 	public void toggleHideDone() {
-		this.hideDone = !hideDone;
+		hideDone = !hideDone;
 		updateOptions();
 	}
 }

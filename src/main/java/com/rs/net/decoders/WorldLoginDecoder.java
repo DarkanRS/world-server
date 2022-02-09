@@ -2,19 +2,22 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.net.decoders;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
@@ -61,10 +64,8 @@ public final class WorldLoginDecoder extends Decoder {
 		}
 		if (packetId == 16 || packetId == 18) // 16 world login
 			return decodeWorldLogin(stream);
-		else {
-			session.getChannel().close();
-			return -1;
-		}
+		session.getChannel().close();
+		return -1;
 	}
 
 	@SuppressWarnings("unused")
@@ -93,11 +94,7 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(10);
 			return -1;
 		}
-		String password = rsaStream.readString();
-		if (password.length() > 30 || password.length() < 3) {
-			session.sendClientPacket(3);
-			return -1;
-		}
+		String password = rsaStream.readString(); //old password
 		String unknown = Utils.longToString(rsaStream.readLong());
 		rsaStream.readLong(); // random value
 		rsaStream.readLong(); // random value
@@ -111,19 +108,17 @@ public final class WorldLoginDecoder extends Decoder {
 		stream.skip(24); // 24bytes directly from a file, no idea whats there
 		String settings = stream.readString();
 		int affid = stream.readInt();
-		
+
 		int prefSize = stream.readUnsignedByte();
 		int[] prefs = new int[prefSize];
-		for (int i = 0;i < prefs.length;i++) {
+		for (int i = 0;i < prefs.length;i++)
 			prefs[i] = stream.readUnsignedByte();
-			//System.out.println(i+": " + prefs[i]);
-		}
-		
+		//System.out.println(i+": " + prefs[i]);
+
 		MachineInformation mInformation = null;
 		int success = stream.readUnsignedByte();
-		if (success != 6) {
+		if (success != 6)
 			System.out.println("Failed to parse machine info");
-		}
 		int os = stream.readUnsignedByte();
 		boolean x64OS = stream.readUnsignedByte() == 1;
 		stream.readUnsignedByte();
@@ -147,9 +142,8 @@ public final class WorldLoginDecoder extends Decoder {
 		int cpuCores = stream.readUnsignedByte();
 		int rawCPUInformation = stream.readUnsignedByte();
 		int[] rawCPUInformationData = new int[3];
-		for (int i = 0;i < rawCPUInformationData.length;i++) {
+		for (int i = 0;i < rawCPUInformationData.length;i++)
 			rawCPUInformationData[i] = stream.readInt();
-		}
 		int rawCPUInformation2 = stream.readInt();
 		stream.readInt();
 		stream.readLong();
@@ -187,13 +181,21 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(9);
 			return -1;
 		}
-		
-		Account account = LobbyCommunicator.getAccountSync(username, password);
-		if (account == null) {
+
+		Account a = null;
+		try {
+			a = LobbyCommunicator.authWorldLogin(username, password);
+		} catch (InterruptedException | ExecutionException | IOException e) {
+			System.err.println("Error connecting to login server!");
 			session.sendClientPacket(23);
 			return -1;
 		}
-		
+		final Account account = a;
+		if (account == null || account.getUsername() == null || account.getUsername().isEmpty()) {
+			session.sendClientPacket(3);
+			return -1;
+		}
+
 		if (World.containsPlayer(account.getUsername())) {
 			session.sendClientPacket(5);
 			return -1;
@@ -208,8 +210,8 @@ public final class WorldLoginDecoder extends Decoder {
 				return;
 			}
 			player.init(session, account, displayMode, screenWidth, screenHeight, mInformation);
-			session.setIsaac(new IsaacKeyPair(isaacKeys));
 			session.write(new WorldLoginDetails(Settings.getConfig().isDebug() ? 2 : player.getRights().getCrown(), player.getIndex(), player.getDisplayName()));
+			session.setIsaac(new IsaacKeyPair(isaacKeys));
 			session.setDecoder(new GameDecoder(session));
 			session.setEncoder(new WorldEncoder(player, session));
 			player.start();

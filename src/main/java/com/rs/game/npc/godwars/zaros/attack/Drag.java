@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.godwars.zaros.attack;
@@ -22,7 +22,7 @@ import com.rs.game.npc.godwars.zaros.Nex;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -33,7 +33,7 @@ public class Drag implements NexAttack {
 	public int attack(Nex nex, Entity target) {
 		int distance = 0;
 		Entity settedTarget = null;
-		for (Entity t : nex.getPossibleTargets()) {
+		for (Entity t : nex.getPossibleTargets())
 			if (t instanceof Player) {
 				int thisDistance = (int) Utils.getDistance(t.getX(), t.getY(), nex.getX(), nex.getY());
 				if (settedTarget == null || thisDistance > distance) {
@@ -41,7 +41,6 @@ public class Drag implements NexAttack {
 					settedTarget = t;
 				}
 			}
-		}
 		if (settedTarget != null) {
 			final Player player = (Player) settedTarget;
 			player.lock(3);
@@ -51,7 +50,7 @@ public class Drag implements NexAttack {
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextWorldTile(nex);

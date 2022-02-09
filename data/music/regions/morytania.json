@@ -1,0 +1,33 @@
+[
+  {
+    "genre": "Morytania",
+    "parent": "Swamp",
+    "comment": "Includes port phas, burg de rott, child of swamp, barrows",
+    "isActive": true,
+    "regionIds": [
+      13621,
+      13620,
+      13619,
+      13618,
+      13879,
+      13878,
+      13877,
+      13876,
+      13875,
+      13874,
+      13873,
+      14135,
+      14134,
+      14133,
+      14131,
+      14130,
+      14129,
+      14391,
+      14390,
+      14389,
+      14647,
+      14646
+    ],
+    "songs": []
+  }
+]

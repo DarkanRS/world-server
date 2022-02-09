@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -29,7 +29,7 @@ import com.rs.game.player.content.skills.summoning.Summoning;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -39,7 +39,7 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
 public class FightCavesController extends Controller {
-	
+
 	public static final WorldTile OUTSIDE = new WorldTile(4610, 5130, 0);
 
 	private static final int THHAAR_MEJ_JAL = 2617;
@@ -59,11 +59,11 @@ public class FightCavesController extends Controller {
 	private transient Stages stage;
 	public transient boolean spawned;
 	private transient boolean logoutAtEnd;
-	
+
 	private int wave;
 	private boolean login;
 	public int selectedMusic;
-	
+
 	public FightCavesController(int wave) {
 		this.wave = wave;
 	}
@@ -133,7 +133,7 @@ public class FightCavesController extends Controller {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
 			player.setNextWorldTile(!login ? getWorldTile(46, 61) : getWorldTile(32, 32));
 			stage = Stages.RUNNING;
-			WorldTasksManager.delay(1, () -> {
+			WorldTasks.delay(1, () -> {
 				if (!login) {
 					WorldTile walkTo = getWorldTile(32, 32);
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
@@ -144,8 +144,8 @@ public class FightCavesController extends Controller {
 				playMusic();
 				player.unlock(); // unlocks player
 			});
-			if (!login) {
-				WorldTasksManager.schedule(new WorldTask() {
+			if (!login)
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (stage != Stages.RUNNING)
@@ -157,7 +157,6 @@ public class FightCavesController extends Controller {
 						}
 					}
 				}, Ticks.fromSeconds(30));
-			}
 		});
 	}
 
@@ -195,14 +194,13 @@ public class FightCavesController extends Controller {
 		player.getVars().setVar(639, currentWave);
 		if (stage != Stages.RUNNING)
 			return;
-		for (int id : WAVES[currentWave - 1]) {
+		for (int id : WAVES[currentWave - 1])
 			if (id == 2736)
 				new TzKekCaves(id, getSpawnTile());
 			else if (id == 2745)
 				new TzTok_Jad(id, getSpawnTile(), this);
 			else
 				new FightCavesNPC(id, getSpawnTile());
-		}
 		spawned = true;
 	}
 
@@ -232,7 +230,7 @@ public class FightCavesController extends Controller {
 	public void setWaveEvent() {
 		if (getCurrentWave() == 63)
 			player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "Look out, here comes TzTok-Jad!");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {
@@ -261,16 +259,16 @@ public class FightCavesController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("You have been defeated!");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					player.reset();
 					exitCave(1);
 					player.setNextAnimation(new Animation(-1));
@@ -288,19 +286,19 @@ public class FightCavesController extends Controller {
 	public void magicTeleported(int type) {
 		exitCave(2);
 	}
-	
+
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	@Override
 	public boolean processObjectTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");

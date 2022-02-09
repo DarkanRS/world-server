@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.holidayevents.halloween.hw09;
@@ -27,10 +27,10 @@ import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.dialogue.impl.DestroyItem;
 import com.rs.game.player.controllers.Halloween2009Controller;
-import com.rs.game.player.dialogues.DestroyItemOption;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldObject;
@@ -53,13 +53,13 @@ public class Halloween2009 {
 
 	public static String STAGE_KEY = "hw2022";
 	public static final boolean ENABLED = false;
-	
+
 	static WorldTile WEB_RESET_LOC = new WorldTile(3936, 5125, 2);
-	
+
 	public static WorldTile START_LOCATION = new WorldTile(3808, 5135, 0);
-	
+
 	private static HashMap<Integer, Set<Integer>> WEBS = new HashMap<>();
-	
+
 	private static Integer[][] PATHS = {
 			{ 46711, 46710, 46706, 46712 },
 			{ 46711, 46708, 46705, 46698, 46692, 46695, 46715 },
@@ -70,8 +70,8 @@ public class Halloween2009 {
 			{ 46711, 46708, 46697, 46690, 46692, 46695, 46693, 46696, 46717 },
 			{ 46711, 46709, 46707, 46701, 46700, 46696, 46717 },
 			{ 46711, 46709, 46702, 46691, 46688, 46689, 46692, 46695, 46699, 46714 }
-	}; 
-	
+	};
+
 	static {
 		//South line
 		WEBS.put(46711, new HashSet<>(Arrays.asList(46708, 46709, 46710)));
@@ -114,13 +114,13 @@ public class Halloween2009 {
 		WEBS.put(46703, new HashSet<>(Arrays.asList(46705, 46699, 46713, 46706)));
 		WEBS.put(46713, new HashSet<>(Arrays.asList(46703)));
 	}
-		
+
 	@ServerStartupEvent
 	public static void loadPortal() {
 		if (ENABLED)
 			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, new WorldTile(3210, 3425, 0), "Portal to enter Death's House."));
 	}
-	
+
 	public static ItemClickHandler handleEek = new ItemClickHandler(new Object[] { 15353 }, new String[] { "Hold", "Talk-to", "Play-with", "Dismiss" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -135,12 +135,12 @@ public class Halloween2009 {
 				e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
 				break;
 			case "Dismiss":
-				e.getPlayer().getDialogueManager().execute(new DestroyItemOption(), e.getSlotId(), e.getItem());
+				e.getPlayer().startConversation(new DestroyItem(e.getPlayer(), e.getSlotId(), e.getItem()));
 				break;
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWebWalks = new ObjectClickHandler(false, WEBS.keySet().toArray()) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -169,7 +169,7 @@ public class Halloween2009 {
 			boolean needStart = !e.getPlayer().matches(from);
 			if (needStart)
 				e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				boolean started;
 				int failTimer = 3;
 
@@ -180,7 +180,7 @@ public class Halloween2009 {
 						e.getPlayer().resetWalkSteps();
 						e.getPlayer().getAppearance().setBAS(-1);
 						e.getPlayer().setNextAnimation(new Animation(12917));
-						WorldTasksManager.delay(1, () -> {
+						WorldTasks.delay(1, () -> {
 							e.getPlayer().setNextAnimation(new Animation(767));
 							e.getPlayer().unlock();
 							e.getPlayer().setNextWorldTile(WEB_RESET_LOC);
@@ -201,10 +201,10 @@ public class Halloween2009 {
 					failTimer--;
 				}
 			}, needStart ? 1 : 0, 0);
-			
+
 		}
 	};
-	
+
 	public static ObjectClickHandler handleEnter = new ObjectClickHandler(new Object[] { 31845 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -213,31 +213,31 @@ public class Halloween2009 {
 			e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleGrimStairs = new ObjectClickHandler(new Object[] { 27866, 27870 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(e.getObjectId() == 27866 ? -5 : 5, 0, e.getObjectId() == 27866 ? 1 : -1));
 		}
 	};
-	
+
 	public static ObjectClickHandler spiderPortal = new ObjectClickHandler(new Object[] { 46932 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
+			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6)
 				e.getPlayer().sendOptionDialogue("Select an Option", new String[] { "Go to web maze.", "Go to spider court." }, new DialogueOptionEvent() {
 					@Override
 					public void run(Player player) {
 						if (option == 1) {
 							e.getPlayer().setNextAnimation(new Animation(12776));
-							WorldTasksManager.delay(1, () -> {
+							WorldTasks.delay(1, () -> {
 								e.getPlayer().setNextAnimation(new Animation(12777));
 								e.getPlayer().setNextWorldTile(new WorldTile(3936, 5125, 2));
 								e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 							});
 						} else {
 							e.getPlayer().setNextAnimation(new Animation(12776));
-							WorldTasksManager.delay(1, () -> {
+							WorldTasks.delay(1, () -> {
 								e.getPlayer().setNextAnimation(new Animation(12777));
 								e.getPlayer().setNextWorldTile(new WorldTile(3744, 5287, 0));
 								e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
@@ -245,9 +245,9 @@ public class Halloween2009 {
 						}
 					}
 				});
-			} else {
+			else {
 				e.getPlayer().setNextAnimation(new Animation(12776));
-				WorldTasksManager.delay(1, () -> {
+				WorldTasks.delay(1, () -> {
 					e.getPlayer().setNextAnimation(new Animation(12777));
 					e.getPlayer().setNextWorldTile(new WorldTile(3936, 5125, 2));
 					e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
@@ -255,18 +255,18 @@ public class Halloween2009 {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler spiderPortalExit = new ObjectClickHandler(new Object[] { 46934 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextAnimation(new Animation(12776));
-			WorldTasksManager.delay(1, () -> {
+			WorldTasks.delay(1, () -> {
 				e.getPlayer().setNextAnimation(new Animation(12777));
 				e.getPlayer().setNextWorldTile(new WorldTile(3805, 5149, 0));
 			});
 		}
 	};
-	
+
 	public static ObjectClickHandler webLaddersDown = new ObjectClickHandler(new Object[] { 46936 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -284,26 +284,25 @@ public class Halloween2009 {
 					return;
 				}
 				e.getPlayer().useLadder(/*new WorldTile(3936, 5372, 2)*/new WorldTile(3936, 5150, 2));
-			} else {
+			} else
 				e.getPlayer().useLadder(new WorldTile(3744, 5276, 0));
-			}
 		}
 	};
-	
+
 	public static ObjectClickHandler agilCourseLadderDown = new ObjectClickHandler(new Object[] { 46939 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useLadder(new WorldTile(3936, 5150, 2));
 		}
 	};
-	
+
 	public static ObjectClickHandler agilCourseLadderUp = new ObjectClickHandler(new Object[] { 46731 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useLadder(/*e.getObject().isAt(3936, 5151) ? new WorldTile(3936, 5315, 2) : */new WorldTile(3744, 5287, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler webLaddersUp = new ObjectClickHandler(new Object[] { 46938 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -318,14 +317,14 @@ public class Halloween2009 {
 	public static Set<Integer> getRandomPath() {
 		return new HashSet<>(Arrays.asList(PATHS[Utils.random(PATHS.length)]));
 	}
-	
+
 	public static ItemEquipHandler handleEekEquip = new ItemEquipHandler(15353) {
 		@Override
 		public void handle(ItemEquipEvent e) {
 			refreshWebbables(e.getPlayer(), e.equip());
 		}
 	};
-	
+
 	public static ObjectClickHandler webbables = new ObjectClickHandler(Arrays.stream(Utils.range(46861, 46924)).boxed().toArray(Integer[]::new)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -340,7 +339,7 @@ public class Halloween2009 {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(12490));
 			e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
-			WorldTasksManager.delay(2, () -> {
+			WorldTasks.delay(2, () -> {
 				e.getPlayer().unlock();
 				e.getPlayer().setNextAnimation(new Animation(1264));
 				e.getPlayer().setNextSpotAnim(new SpotAnim(-1));

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -35,7 +35,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.player.content.skills.prayer.Prayer;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -48,11 +48,11 @@ public class KalGerWarmonger extends DungeonBoss {
 		{ -1, 56057, 56054, 56056, 56055, 56053 };
 	private static final int[][] FLY_COORDINATES =
 		{ { 4, 2 },//correct
-		{ 0, 0 },//correct cuz he doesn't even fly
-		{ 10, 10 },//correct
-		{ 10, 2 },//correct
-		{ 5, 10 },//correct
-		{ 5, 3 } };//correct
+				{ 0, 0 },//correct cuz he doesn't even fly
+				{ 10, 10 },//correct
+				{ 10, 2 },//correct
+				{ 5, 10 },//correct
+				{ 5, 3 } };//correct
 
 	private WarpedSphere sphere;
 	private WorldTile nextFlyTile;
@@ -65,7 +65,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setCapDamage(5000);
 		setCantInteract(true);
 		typeTicks = -1;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -85,8 +85,8 @@ public class KalGerWarmonger extends DungeonBoss {
 		setCantInteract(true);
 		setNextFaceEntity(null);//Resets?
 	}
-	
-	
+
+
 
 	@Override
 	public void processHit(Hit hit) {
@@ -109,12 +109,10 @@ public class KalGerWarmonger extends DungeonBoss {
 				player.sendMessage("You have been injured and cannot use protective prayers.");
 			}
 			hit.setDamage(target.getHitpoints() - 1);
-		} else if (hit.getDamage() == 0) {
-			if (target instanceof Player player) {
+		} else if (hit.getDamage() == 0)
+			if (target instanceof Player player)
 				if (player.getPrayer().isUsingProtectionPrayer())
 					annoyanceMeter++;
-			}
-		}
 	}
 
 	@Override
@@ -123,13 +121,11 @@ public class KalGerWarmonger extends DungeonBoss {
 		if (typeTicks >= 0) {
 			processNextType();
 			typeTicks++;
-		} else {
-			if (type != 0) {
-				pullTicks++;
-				if (isMaximumPullTicks()) {
-					submitPullAttack();
-					return;
-				}
+		} else if (type != 0) {
+			pullTicks++;
+			if (isMaximumPullTicks()) {
+				submitPullAttack();
+				return;
 			}
 		}
 	}
@@ -145,14 +141,13 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("Impossible!"));
 
 		final NPC boss = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
-				for (Entity t : getPossibleTargets()) {
+				for (Entity t : getPossibleTargets())
 					if (Utils.inCircle(t, boss, 8))
 						t.applyHit(new Hit(boss, Utils.random(300, 990), HitLook.TRUE_DAMAGE));
-				}
 			}
 		}, 2);
 	}
@@ -185,7 +180,7 @@ public class KalGerWarmonger extends DungeonBoss {
 	private void processNextType() {
 		if (getManager().isDestroyed()) // Should fix some nullpointers
 			return;
-		
+
 		if (typeTicks == 1) {
 			setNextAnimation(new Animation(14995));
 			setNextSpotAnim(new SpotAnim(2870));
@@ -201,7 +196,7 @@ public class KalGerWarmonger extends DungeonBoss {
 				return;
 			}
 			int selectedWeapon = WEAPONS[type - 1];
-			outer: for (int x = 0; x < 16; x++) {
+			outer: for (int x = 0; x < 16; x++)
 				for (int y = 0; y < 16; y++) {
 					GameObject next = getManager().getObjectWithType(getReference(), ObjectType.SCENERY_INTERACT, x, y);
 					if (next != null && next.getId() == selectedWeapon) {
@@ -209,14 +204,13 @@ public class KalGerWarmonger extends DungeonBoss {
 						break outer;
 					}
 				}
-			}
 			calcFollow(nextWeapon, false);
 		} else if (typeTicks == 11) {
 			faceObject(nextWeapon);
 			setNextAnimation(new Animation(15027));
-		} else if (typeTicks == 13) {
+		} else if (typeTicks == 13)
 			setNextAnimation(new Animation(14923 + (type - 1)));
-		} else if (typeTicks == 14) {
+		else if (typeTicks == 14) {
 			setNextNPCTransformation(getId() + 17);
 			World.removeObject(nextWeapon);
 		} else if (typeTicks == 17) {
@@ -233,7 +227,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("You dare hide from me? BURN!"));
 		setNextAnimation(new Animation(14996));
 		final NPC boss = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int ticks;
 			private List<Entity> possibleTargets;
@@ -244,19 +238,18 @@ public class KalGerWarmonger extends DungeonBoss {
 				if (ticks == 1) {
 					possibleTargets = getPossibleTargets();
 					WorldTile tile = getManager().getTile(getReference(), 9, 8);
-					for (Entity t : possibleTargets) {
+					for (Entity t : possibleTargets)
 						if (t instanceof Player player) {
 							player.setCantWalk(true);
 							YkLagorThunderousCombat.sendPullAttack(tile, player, false);
 						}
-					}
 				} else if (ticks == 10) {
 					for (Entity t : getPossibleTargets())
 						t.setNextWorldTile(boss);
 					stop();
 					pullTicks = 0;
 					return;
-				} else if (ticks > 3) {
+				} else if (ticks > 3)
 					for (Entity t : possibleTargets) {
 						if (!getManager().isAtBossRoom(t))
 							continue;
@@ -269,7 +262,6 @@ public class KalGerWarmonger extends DungeonBoss {
 						}
 						t.applyHit(new Hit(boss, Utils.random(33, 87), HitLook.TRUE_DAMAGE));
 					}
-				}
 			}
 		}, 0, 0);
 	}
@@ -294,7 +286,7 @@ public class KalGerWarmonger extends DungeonBoss {
 	}
 
 	public void setPullTicks(int pullCount) {
-		this.pullTicks = pullCount;
+		pullTicks = pullCount;
 	}
 
 	public boolean hasStolenEffects() {

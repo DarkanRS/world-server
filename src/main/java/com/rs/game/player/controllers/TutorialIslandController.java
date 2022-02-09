@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -62,7 +62,7 @@ import com.rs.lib.net.ClientPacket;
 public final class TutorialIslandController extends Controller {
 
 	private static final int[] TUTORIAL_REGIONS = { 12336, 12592, 12337, 12436 };
-	
+
 	private static final int RUNESCAPE_GUIDE = 945;
 	private static final int SURVIVAL_EXPERT = 943;
 	private static final int MASTER_CHEF = 942;
@@ -78,9 +78,9 @@ public final class TutorialIslandController extends Controller {
 	private static final int CHICKEN = 951;
 	private static final int SKIPPY = 2795;
 
-	private transient String[] prevText = new String[] {""};
+	private transient String[] prevText = {""};
 	private Stage stage;
-	
+
 	public enum Stage {
 		TALK_TO_GUIDE(new String[] {
 				"Getting started",
@@ -953,11 +953,11 @@ public final class TutorialIslandController extends Controller {
 			ctrl.removeHint();
 			ctrl.hintNPC(MAGIC_INSTRUCTOR);
 		});
-		
+
 		private String[] textBody;
 		private Consumer<TutorialIslandController> setupInterfaces;
 		private Consumer<TutorialIslandController> onStart;
-		
+
 		Stage(String[] textBody, Consumer<TutorialIslandController> setupInterfaces, Consumer<TutorialIslandController> onStart) {
 			this.textBody = textBody;
 			this.setupInterfaces = setupInterfaces;
@@ -970,7 +970,7 @@ public final class TutorialIslandController extends Controller {
 			ctr.sendText(textBody);
 			ctr.sendProgress();
 		}
-		
+
 		public void loadAllUpTo(TutorialIslandController ctr) {
 			for (Stage s : Stage.values()) {
 				if (s == this) {
@@ -981,9 +981,9 @@ public final class TutorialIslandController extends Controller {
 			}
 		}
 	}
-	
+
 	public TutorialIslandController() {
-		this.stage = Stage.TALK_TO_GUIDE;
+		stage = Stage.TALK_TO_GUIDE;
 	}
 
 	@Override
@@ -993,37 +993,36 @@ public final class TutorialIslandController extends Controller {
 			if (item != null && item.getId() == 1511)
 				sendText(true, "Please wait.", "", "Your character is now attempting to light the fire.", "This should only take a few seconds.");
 		}
-		if (getStage() == Stage.OPEN_SETTINGS && player.getInterfaceManager().isTabClick(Tab.SETTINGS, interfaceId, componentId)) {
+		if (getStage() == Stage.OPEN_SETTINGS && player.getInterfaceManager().isTabClick(Tab.SETTINGS, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_GUIDE_2);
-		} else if (getStage() == Stage.OPEN_INVENTORY && player.getInterfaceManager().isTabClick(Tab.INVENTORY, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_INVENTORY && player.getInterfaceManager().isTabClick(Tab.INVENTORY, interfaceId, componentId))
 			nextStage(Stage.CHOP_TREE);
-		} else if (getStage() == Stage.OPEN_SKILLS && player.getInterfaceManager().isTabClick(Tab.SKILLS, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_SKILLS && player.getInterfaceManager().isTabClick(Tab.SKILLS, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_SURVIVAL_EXPERT_2);
-		} else if (getStage() == Stage.OPEN_MUSIC && player.getInterfaceManager().isTabClick(Tab.MUSIC, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_MUSIC && player.getInterfaceManager().isTabClick(Tab.MUSIC, interfaceId, componentId))
 			nextStage(Stage.LEAVE_CHEF_HOUSE);
-		} else if (getStage() == Stage.OPEN_EMOTES && player.getInterfaceManager().isTabClick(Tab.EMOTES, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_EMOTES && player.getInterfaceManager().isTabClick(Tab.EMOTES, interfaceId, componentId))
 			nextStage(Stage.USE_EMOTE);
-		} else if (getStage() == Stage.USE_EMOTE && interfaceId == 590 && componentId == 8) {
+		else if (getStage() == Stage.USE_EMOTE && interfaceId == 590 && componentId == 8)
 			nextStage(Stage.RUN);
-		} else if (getStage() == Stage.RUN && interfaceId == 750 && componentId == 4) {
+		else if (getStage() == Stage.RUN && interfaceId == 750 && componentId == 4)
 			nextStage(Stage.ENTER_QUEST_GUIDE_HOUSE);
-		} else if (getStage() == Stage.OPEN_QUEST_TAB && player.getInterfaceManager().isTabClick(Tab.QUEST, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_QUEST_TAB && player.getInterfaceManager().isTabClick(Tab.QUEST, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_QUEST_GUIDE_2);
-		} else if (getStage() == Stage.OPEN_EQUIPMENT_TAB && player.getInterfaceManager().isTabClick(Tab.EQUIPMENT, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_EQUIPMENT_TAB && player.getInterfaceManager().isTabClick(Tab.EQUIPMENT, interfaceId, componentId))
 			nextStage(Stage.OPEN_EQUIPMENT_SCREEN);
-		} else if (getStage() == Stage.OPEN_EQUIPMENT_SCREEN && interfaceId == 387 && componentId == 38) {
+		else if (getStage() == Stage.OPEN_EQUIPMENT_SCREEN && interfaceId == 387 && componentId == 38)
 			nextStage(Stage.WIELD_DAGGER);
-		} else if (getStage() == Stage.OPEN_COMBAT_TAB && player.getInterfaceManager().isTabClick(Tab.COMBAT, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_COMBAT_TAB && player.getInterfaceManager().isTabClick(Tab.COMBAT, interfaceId, componentId))
 			nextStage(Stage.ENTER_RAT_CAGE);
-		} else if (getStage() == Stage.OPEN_PRAYER_TAB && player.getInterfaceManager().isTabClick(Tab.PRAYER, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_PRAYER_TAB && player.getInterfaceManager().isTabClick(Tab.PRAYER, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_BROTHER_BRACE_2);
-		} else if (getStage() == Stage.OPEN_FRIENDS_TAB && player.getInterfaceManager().isTabClick(Tab.FRIENDS, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_FRIENDS_TAB && player.getInterfaceManager().isTabClick(Tab.FRIENDS, interfaceId, componentId))
 			nextStage(Stage.OPEN_IGNORE_LIST);
-		} else if (getStage() == Stage.OPEN_IGNORE_LIST && interfaceId == 550 && componentId == 48) {
+		else if (getStage() == Stage.OPEN_IGNORE_LIST && interfaceId == 550 && componentId == 48)
 			nextStage(Stage.TALK_TO_BROTHER_BRACE_3);
-		} else if (getStage() == Stage.OPEN_MAGIC_TAB && player.getInterfaceManager().isTabClick(Tab.MAGIC, interfaceId, componentId)) {
+		else if (getStage() == Stage.OPEN_MAGIC_TAB && player.getInterfaceManager().isTabClick(Tab.MAGIC, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_MAGIC_INSTRUCTOR_2);
-		}
 		return true;
 	}
 
@@ -1032,10 +1031,12 @@ public final class TutorialIslandController extends Controller {
 		if (npc.getId() == SKIPPY) {
 			player.startConversation(new Skippy(player, npc, this));
 			return false;
-		} else if (npc.getId() == RUNESCAPE_GUIDE && pastStage(Stage.TALK_TO_GUIDE)) {
+		}
+		if (npc.getId() == RUNESCAPE_GUIDE && pastStage(Stage.TALK_TO_GUIDE)) {
 			player.startConversation(new RuneScapeGuide(player, npc, this));
 			return false;
-		} else if (npc.getId() == SURVIVAL_EXPERT && pastStage(Stage.TALK_TO_SURVIVAL_EXPERT)) {
+		}
+		if (npc.getId() == SURVIVAL_EXPERT && pastStage(Stage.TALK_TO_SURVIVAL_EXPERT)) {
 			player.startConversation(new SurvivalExpert(player, npc, this));
 			return false;
 		} else if (npc.getId() == FISHING_SPOT && pastStage(Stage.CATCH_SHRIMP)) {
@@ -1063,7 +1064,7 @@ public final class TutorialIslandController extends Controller {
 						nextStage(Stage.ENTER_FINANCIAL_ROOM);
 						player.getBank().open();
 					}
-			)).finish()));
+							)).finish()));
 			return false;
 		} else if (npc.getId() == FINANCIAL_ADVISOR && pastStage(Stage.TALK_TO_FINANCIAL_ADVISOR)) {
 			player.startConversation(new FinancialAdvisor(player, npc, this));
@@ -1084,12 +1085,13 @@ public final class TutorialIslandController extends Controller {
 			nextStage(Stage.TALK_TO_SURVIVAL_EXPERT);
 			player.handleOneWayDoor(object);
 			return false;
-		} else if (object.getId() == 3033 && pastStage(Stage.CHOP_TREE)) {
+		}
+		if (object.getId() == 3033 && pastStage(Stage.CHOP_TREE)) {
 			player.getActionManager().setAction(new Woodcutting(object, TreeType.NORMAL));
 			sendText(true, "Please wait.", "", "Your character is now attempting to cut down the tree. Sit back", "for a moment while he does all the hard work.");
-		} else if (object.getDefinitions().getName().equals("Oak")) {
+		} else if (object.getDefinitions().getName().equals("Oak"))
 			sendText(true, "", "", "You wouldn't know where to start with this tree.");
-		} else if ((object.getId() == 3015 || object.getId() == 3016) && pastStage(Stage.LEAVE_SURVIVAL_EXPERT)) {
+		else if ((object.getId() == 3015 || object.getId() == 3016) && pastStage(Stage.LEAVE_SURVIVAL_EXPERT)) {
 			nextStage(Stage.ENTER_CHEF_HOUSE);
 			player.handleOneWayDoor(object, 0, 1);
 		} else if (object.getId() == 3017 && pastStage(Stage.ENTER_CHEF_HOUSE)) {
@@ -1104,48 +1106,47 @@ public final class TutorialIslandController extends Controller {
 		} else if (object.getId() == 3029 && pastStage(Stage.LEAVE_QUEST_GUIDE_HOUSE)) {
 			nextStage(Stage.TALK_TO_MINING_GUIDE);
 			player.useLadder(new WorldTile(3088, 9520, 0));
-		} else if (object.getId() == 3028 && pastStage(Stage.LEAVE_QUEST_GUIDE_HOUSE)) {
+		} else if (object.getId() == 3028 && pastStage(Stage.LEAVE_QUEST_GUIDE_HOUSE))
 			player.useLadder(new WorldTile(3088, 3120, 0));
-		} else if (object.getId() == 3043) {
+		else if (object.getId() == 3043)
 			player.getActionManager().setAction(new Mining(RockType.TIN, object));
-		} else if (object.getId() == 3042) {
+		else if (object.getId() == 3042)
 			player.getActionManager().setAction(new Mining(RockType.COPPER, object));
-		} else if (object.getId() == 2783 && pastStage(Stage.CLICK_ANVIL)) {
+		else if (object.getId() == 2783 && pastStage(Stage.CLICK_ANVIL)) {
 			nextStage(Stage.SMITH_DAGGER);
 			return true;
 		} else if ((object.getId() == 3020 || object.getId() == 3021) && pastStage(Stage.ENTER_CHEF_HOUSE)) {
 			player.handleOneWayDoor(object, 0, 1);
 			nextStage(Stage.TALK_TO_COMBAT_INSTRUCTOR);
 		} else if (object.getId() == 3022 || object.getId() == 3023 && pastStage(Stage.ENTER_RAT_CAGE)) {
-			if (getStage() != Stage.KILL_RAT_RANGE) {
-				player.handleOneWayDoor(object, 0, 1);
-				nextStage(Stage.ATTACK_RAT_MELEE);
-			} else {
+			if (getStage() == Stage.KILL_RAT_RANGE) {
 				player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(COMBAT_INSTRUCTOR, HeadE.FRUSTRATED, "No, don't enter the pit. Range the rats from outside", "the cage."))));
 				return false;
 			}
+			player.handleOneWayDoor(object, 0, 1);
+			nextStage(Stage.ATTACK_RAT_MELEE);
 		} else if (object.getId() == 3030 && pastStage(Stage.LEAVE_COMBAT_AREA)) {
 			nextStage(Stage.OPEN_BANK);
 			player.useLadder(player.transform(0, -6400, 0));
-		} else if (object.getId() == 3031 && pastStage(Stage.LEAVE_COMBAT_AREA)) {
+		} else if (object.getId() == 3031 && pastStage(Stage.LEAVE_COMBAT_AREA))
 			player.useLadder(player.transform(0, 6400, 0));
-		} else if (object.getId() == 3045 && pastStage(Stage.OPEN_BANK)) {
+		else if (object.getId() == 3045 && pastStage(Stage.OPEN_BANK))
 			player.startConversation(new Conversation(player, new Dialogue(new NPCStatement(BANKER, HeadE.CHEERFUL, "Good day, would you like to access your bank account?"))
 					.addNext(new OptionStatement("Select an Option", "Yes.", "No thanks."))
 					.addNext(new Dialogue().setFunc(() -> {
-								nextStage(Stage.ENTER_FINANCIAL_ROOM);
-								player.getBank().open();
-							}
-					)).finish()));
-		} else if (object.getId() == 3024 && pastStage(Stage.ENTER_FINANCIAL_ROOM)) {
+						nextStage(Stage.ENTER_FINANCIAL_ROOM);
+						player.getBank().open();
+					}
+							)).finish()));
+		else if (object.getId() == 3024 && pastStage(Stage.ENTER_FINANCIAL_ROOM)) {
 			nextStage(Stage.TALK_TO_FINANCIAL_ADVISOR);
 			player.handleOneWayDoor(object);
 		} else if (object.getId() == 3025 && pastStage(Stage.LEAVE_FINANCIAL_ADVISOR_ROOM)) {
 			nextStage(Stage.TALK_TO_BROTHER_BRACE);
 			player.handleOneWayDoor(object);
-		} else if (object.getId() == 36999 || object.getId() == 37002) {
+		} else if (object.getId() == 36999 || object.getId() == 37002)
 			Doors.handleDoubleDoor(player, object);
-		} else if (object.getId() == 3026 && pastStage(Stage.LEAVE_CHURCH_AREA)) {
+		else if (object.getId() == 3026 && pastStage(Stage.LEAVE_CHURCH_AREA)) {
 			nextStage(Stage.TALK_TO_MAGIC_INSTRUCTOR);
 			player.handleOneWayDoor(object, 0, 1);
 		}
@@ -1166,18 +1167,18 @@ public final class TutorialIslandController extends Controller {
 
 	@Override
 	public boolean processItemOnObject(GameObject object, Item item) {
-		if ((item.getId() == 438 || item.getId() == 436) && object.getId() == 3044) {
+		if ((item.getId() == 438 || item.getId() == 436) && object.getId() == 3044)
 			player.getActionManager().setAction(new Smelting(Smelting.SmeltingBar.BRONZE.getButtonId(), object, 1));
-		} else if (item.getId() == Fish.SHRIMP.getId() || item.getId() == 2307)
+		else if (item.getId() == Fish.SHRIMP.getId() || item.getId() == 2307)
 			return true;
 		return false;
 	}
 
 	@Override
 	public boolean canUseItemOnItem(Item itemUsed, Item usedWith) {
-		if (usedWith(itemUsed, usedWith, 590, 1511)) {
+		if (usedWith(itemUsed, usedWith, 590, 1511))
 			sendText(true, "Please wait.", "", "Your character is now attempting to light the fire.", "This should only take a few seconds.");
-		} else if (usedWith(itemUsed, usedWith, 1929, 1933)) {
+		else if (usedWith(itemUsed, usedWith, 1929, 1933)) {
 			player.getInventory().deleteItem(1929, 1);
 			player.getInventory().deleteItem(1933, 1);
 			player.getInventory().addItem(1925, 1);
@@ -1192,7 +1193,7 @@ public final class TutorialIslandController extends Controller {
 	public boolean usedWith(Item itemUsed, Item usedWith, int item1, int item2) {
 		return (itemUsed.getId() == item1 && usedWith.getId() == item2) || (usedWith.getId() == item1 && itemUsed.getId() == item2);
 	}
-	
+
 	@Override
 	public boolean gainXP(int skillId, double exp) {
 		double currXp = player.getSkills().getXp(skillId);
@@ -1201,18 +1202,16 @@ public final class TutorialIslandController extends Controller {
 			player.getSkills().set(skillId, 3);
 			return false;
 		}
-		if (player.getSkills().getLevelForXp(skillId) >= 3) {
+		if (player.getSkills().getLevelForXp(skillId) >= 3)
 			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public void trackXP(int skillId, int addedXp) {
 		player.closeInterfaces();
-		if (getStage() == Stage.MAKE_A_FIRE && skillId == Constants.FIREMAKING) {
+		if (getStage() == Stage.MAKE_A_FIRE && skillId == Constants.FIREMAKING)
 			nextStage(Stage.OPEN_SKILLS);
-		}
 		if (getStage() == Stage.ATTACK_RAT_MELEE && (skillId == Constants.ATTACK || skillId == Constants.STRENGTH || skillId == Constants.DEFENSE))
 			nextStage(Stage.KILL_RAT_MELEE);
 		if (getStage() == Stage.CAST_WIND_STRIKE && skillId == Constants.MAGIC)
@@ -1233,23 +1232,22 @@ public final class TutorialIslandController extends Controller {
 				return false;
 			}
 			nextStage(Stage.COOK_SHRIMP);
-		} else if (itemId == 2309 && getStage() == Stage.COOK_DOUGH) {
+		} else if (itemId == 2309 && getStage() == Stage.COOK_DOUGH)
 			nextStage(Stage.OPEN_MUSIC);
-		} else if (itemId == Cooking.Cookables.RAW_SHRIMP.getProduct().getId()) {
+		else if (itemId == Cooking.Cookables.RAW_SHRIMP.getProduct().getId()) {
 			if (getStage() == Stage.BURN_SHRIMP) {
 				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getBurntId());
 				return false;
 			}
 			nextStage(Stage.LEAVE_SURVIVAL_EXPERT);
-		} else if (itemId == 438) {
+		} else if (itemId == 438)
 			nextStage(Stage.MINING_COPPER);
-		} else if (itemId == 436) {
+		else if (itemId == 436)
 			nextStage(Stage.SMELTING);
-		} else if (itemId == 2349) {
+		else if (itemId == 2349)
 			nextStage(Stage.TALK_TO_MINING_GUIDE_3);
-		} else if (itemId == 1205) {
+		else if (itemId == 1205)
 			nextStage(Stage.LEAVE_MINING_AREA);
-		}
 		return true;
 	}
 
@@ -1270,11 +1268,10 @@ public final class TutorialIslandController extends Controller {
 	@Override
 	public boolean canEquip(int slotId, int itemId) {
 		if (pastStage(Stage.WIELD_DAGGER)) {
-			if (itemId == 1205) {
+			if (itemId == 1205)
 				nextStage(Stage.TALK_TO_COMBAT_INSTRUCTOR_2);
-			} else if ((itemId == 1171 && player.getEquipment().getWeaponId() == 1277) || (itemId == 1277 && player.getEquipment().getShieldId() == 1171)) {
+			else if ((itemId == 1171 && player.getEquipment().getWeaponId() == 1277) || (itemId == 1277 && player.getEquipment().getShieldId() == 1171))
 				nextStage(Stage.OPEN_COMBAT_TAB);
-			}
 			return true;
 		}
 		player.sendMessage("You'll be told how to equip items later.");
@@ -1293,13 +1290,12 @@ public final class TutorialIslandController extends Controller {
 		player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 25 : 42, 371);
 		getStage().loadAllUpTo(this);
 	}
-	
+
 	@Override
 	public boolean canTakeItem(GroundItem item) {
 		if (item != null && item.isPrivate() && item.getVisibleToId() == player.getUuid())
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	@Override
@@ -1313,7 +1309,7 @@ public final class TutorialIslandController extends Controller {
 		sendInterfaces();
 		return false;
 	}
-	
+
 	@Override
 	public void forceClose() {
 		player.getInterfaceManager().removeWindowInterface(25, 42);
@@ -1345,7 +1341,7 @@ public final class TutorialIslandController extends Controller {
 		float percent = (float) getStage().ordinal() / (float) Stage.values().length;
 		player.getVars().setVar(406, Math.round(percent * 21.0f));
 	}
-	
+
 	public NPC getNPC(int id) {
 		for (int regionId : TUTORIAL_REGIONS) {
 			Region r = World.getRegion(regionId, true);
@@ -1360,7 +1356,7 @@ public final class TutorialIslandController extends Controller {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
 		return false;
@@ -1396,23 +1392,21 @@ public final class TutorialIslandController extends Controller {
 	public void sendText(String... text) {
 		sendText(false, text);
 	}
-	
+
 	public void sendText(boolean temp, String... text) {
 		player.getInterfaceManager().replaceRealChatBoxInterface(372);
 		player.getPackets().setIFHidden(371, 4, true);
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 7; i++)
 			if (i < text.length)
 				player.getPackets().setIFText(372, i, text[i]);
 			else
 				player.getPackets().setIFText(372, i, "");
-		}
 		if (!temp)
 			prevText = text;
-		else {
+		else
 			player.setCloseInterfacesEvent(() -> {
 				sendText(prevText);
 			});
-		}
 	}
 
 }

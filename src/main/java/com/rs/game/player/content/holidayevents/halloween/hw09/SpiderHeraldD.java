@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.holidayevents.halloween.hw09;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SpiderHeraldD extends Conversation {
-		
+
 	public static NPCClickHandler handleSpiderTalk = new NPCClickHandler(8976) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -38,7 +38,7 @@ public class SpiderHeraldD extends Conversation {
 
 	public SpiderHeraldD(Player player) {
 		super(player);
-				
+
 		switch(player.getI(Halloween2009.STAGE_KEY)) {
 		case 3:
 			addNPC(8976, HeadE.SPIDER_CALM, "Who goes there? Four-limbed intruder! Come no further! State your business!");
@@ -90,9 +90,8 @@ public class SpiderHeraldD extends Conversation {
 					player.getInventory().addItem(15353);
 				});
 				addNext(new SpiderStatement("Let's go! This'll be fun!"));
-			} else {
+			} else
 				addNPC(8976, HeadE.SPIDER_CALM, "My sincerest apologies for my rudeness. I hope you found your meeting with our Queen delightful.");
-			}
 			break;
 		default:
 			addNPC(8976, HeadE.SPIDER_CALM, "Human, let me add my praises to the thanks of our Dread Monarch. You have joined the hallowed canon of heroes of our nation.");
@@ -100,7 +99,7 @@ public class SpiderHeraldD extends Conversation {
 			addNPC(8976, HeadE.SPIDER_CALM, "With the weaving of Arachne;With the cunning of Anansi;With these and our other stories your time here will be remembered.");
 			break;
 		}
-		
+
 		create();
 	}
 

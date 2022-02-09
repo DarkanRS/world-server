@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.randomevents;
@@ -32,18 +32,18 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SandwichLady extends OwnedNPC {
-	
+
 	private int ticks = 0;
 	private boolean claimed = false;
 
 	public SandwichLady(Player owner) {
 		super(owner, 8629, new WorldTile(owner), false);
-		this.setRun(true);
-		this.setNextFaceEntity(owner);
+		setRun(true);
+		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);
 		teleToOwner();
 	}
-	
+
 	@Override
 	public void processNPC() {
 		super.processNPC();
@@ -85,11 +85,10 @@ public class SandwichLady extends OwnedNPC {
 		} else if (ticks == 153) {
 			setNextSpotAnim(new SpotAnim(1605));
 			getOwner().setNextAnimation(new Animation(-1));
-		} else if (ticks == 155) {
+		} else if (ticks == 155)
 			finish();
-		}
 	}
-	
+
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(8629) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -118,7 +117,7 @@ public class SandwichLady extends OwnedNPC {
 			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleSandwichInterface = new ButtonClickHandler(297) {
 		@Override
 		public void handle(ButtonClickEvent e) {

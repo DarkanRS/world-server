@@ -2,21 +2,20 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -51,7 +50,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 	public LuminscentIcefiend(WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9912, 9928), manager.getBossLevel()), tile, manager, reference);
 		specialStage = FIRST_STAGE;
-		icicles = new LinkedList<WorldTile>();
+		icicles = new LinkedList<>();
 	}
 
 	@Override
@@ -90,7 +89,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 		specialEnabled = false;
 
 		final NPC icefiend = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int count = 0;
 
@@ -109,12 +108,11 @@ public class LuminscentIcefiend extends DungeonBoss {
 				count++;
 
 				if (count < 5) {
-					if (count == 1) {
+					if (count == 1)
 						for (Entity t : getPossibleTargets()) {
 							Player player = (Player) t;
 							player.sendMessage("The luminescent ice fiend is encased in ice and cannot be harmed!");
 						}
-					}
 					return;
 				}
 
@@ -137,9 +135,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 				if (count < 5)
 					return;
 
-				for (Iterator<WorldTile> it = icicles.iterator(); it.hasNext();) {
-					WorldTile tile = it.next();
-
+				for (WorldTile tile : icicles)
 					entityLoop: for (Entity t : getPossibleTargets()) {
 						Player player = (Player) t;
 						if (player.getTempAttribs().getB("FIEND_FLAGGED"))
@@ -162,7 +158,6 @@ public class LuminscentIcefiend extends DungeonBoss {
 							damage = damageCap;
 						player.applyHit(new Hit(icefiend, damage, HitLook.TRUE_DAMAGE));
 					}
-				}
 			}
 		}, 0, 0);
 	}

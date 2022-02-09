@@ -2,23 +2,23 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.transportation;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 
 public final class FadingScreen {
@@ -37,8 +37,8 @@ public final class FadingScreen {
 
 	public static void unfade(final Player player, int startDelay, int delay, final Runnable event) {
 		int leftTime = startDelay + delay;
-		if (startDelay > 0) {
-			WorldTasksManager.schedule(new WorldTask() {
+		if (startDelay > 0)
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					try {
@@ -48,14 +48,14 @@ public final class FadingScreen {
 					}
 				}
 			}, leftTime);
-		} else
+		else
 			unfade(player, event);
 	}
 
 	public static void unfade(final Player player, Runnable event) {
 		event.run();
 		player.getInterfaceManager().setFadingInterface(170);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {

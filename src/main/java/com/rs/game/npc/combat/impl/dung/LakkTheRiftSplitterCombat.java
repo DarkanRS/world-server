@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -29,7 +29,7 @@ import com.rs.game.npc.dungeoneering.LakkTheRiftSplitter;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -38,8 +38,8 @@ import com.rs.utils.WorldUtil;
 
 public class LakkTheRiftSplitterCombat extends CombatScript {
 
-//	private static final int[] VOICES =
-//	{ 3034, 2993, 3007 };
+	//	private static final int[] VOICES =
+	//	{ 3034, 2993, 3007 };
 	private static final String[] MESSAGES = { "A flame portal will flush you out!", "Taste miasma!", "This will cut you down to size!" };
 
 	@Override
@@ -54,14 +54,13 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 		DungeonManager manager = boss.getManager();
 
 		boolean smash = false;
-		for (Player player : manager.getParty().getTeam()) {
+		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
 				player.setProtectionPrayBlock(2);
 				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * .85), AttackStyle.MELEE, player)));
 				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * .60), AttackStyle.MELEE, player)));
 			}
-		}
 		if (smash) {
 			npc.setNextAnimation(new Animation(14383));
 			return 5;
@@ -73,18 +72,16 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 			case 0:
 			case 1:
 			case 2:
-				final List<WorldTile> boundary = new LinkedList<WorldTile>();
-				for (int x = -1; x < 2; x++) {// 3x3 area
-					for (int y = -1; y < 2; y++) {
+				final List<WorldTile> boundary = new LinkedList<>();
+				for (int x = -1; x < 2; x++)
+					for (int y = -1; y < 2; y++)
 						boundary.add(target.transform(x, y, 0));
-					}
-				}
 				if (boss.doesBoundaryOverlap(boundary)) {
 					regularMagicAttack(target, npc);
 					return 5;
 				}
 				// npc.playSoundEffect(VOICES[type]);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
@@ -27,15 +27,11 @@ public class IFDragOntoIFHandler implements PacketHandler<Player, IFDragOntoIF> 
 
 	@Override
 	public void handle(Player player, IFDragOntoIF packet) {
-		if (Utils.getInterfaceDefinitionsSize() <= packet.getFromInter() || Utils.getInterfaceDefinitionsSize() <= packet.getToInter())
+		if (Utils.getInterfaceDefinitionsSize() <= packet.getFromInter() || Utils.getInterfaceDefinitionsSize() <= packet.getToInter() || !player.getInterfaceManager().containsInterface(packet.getFromInter()) || !player.getInterfaceManager().containsInterface(packet.getToInter()))
 			return;
-		if (!player.getInterfaceManager().containsInterface(packet.getFromInter()) || !player.getInterfaceManager().containsInterface(packet.getToInter()))
+		if ((packet.getFromComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getFromInter()) <= packet.getFromComp()) || (packet.getToComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getToInter()) <= packet.getToComp()))
 			return;
-		if (packet.getFromComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getFromInter()) <= packet.getFromComp())
-			return;
-		if (packet.getToComp() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getToInter()) <= packet.getToComp())
-			return;
-		
+
 		if (packet.getFromInter() == Inventory.INVENTORY_INTERFACE && packet.getFromComp() == 0 && packet.getToInter() == Inventory.INVENTORY_INTERFACE && packet.getToComp() == 0) {
 			if (packet.getToSlot()-28 < 0 || packet.getToSlot()-28 >= player.getInventory().getItemsContainerSize() || packet.getFromSlot() >= player.getInventory().getItemsContainerSize())
 				return;
@@ -44,9 +40,9 @@ public class IFDragOntoIFHandler implements PacketHandler<Player, IFDragOntoIF> 
 			if (packet.getToSlot() >= player.getInventory().getItemsContainerSize() || packet.getFromSlot() >= player.getInventory().getItemsContainerSize())
 				return;
 			player.getInventory().switchItem(packet.getFromSlot(), packet.getToSlot());
-		} else if (packet.getFromInter() == 762 && packet.getToInter() == 762) {
+		} else if (packet.getFromInter() == 762 && packet.getToInter() == 762)
 			player.getBank().switchItem(packet.getFromSlot(), packet.getToSlot(), packet.getFromComp(), packet.getToComp());
-		} else if (packet.getFromInter() == 1265 && packet.getToInter() == 1266 && player.getTempAttribs().getB("shop_buying")) {
+		else if (packet.getFromInter() == 1265 && packet.getToInter() == 1266 && player.getTempAttribs().getB("shop_buying")) {
 			if (player.getTempAttribs().getB("shop_buying")) {
 				Shop shop = player.getTempAttribs().getO("Shop");
 				if (shop == null)

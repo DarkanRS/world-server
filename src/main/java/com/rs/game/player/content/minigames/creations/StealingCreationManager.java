@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.creations;
@@ -22,18 +22,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.game.player.Player;
 import com.rs.game.player.controllers.StealingCreationGameController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 
 public class StealingCreationManager {
 
-	private static final List<StealingCreationGameController> running = new CopyOnWriteArrayList<StealingCreationGameController>();
+	private static final List<StealingCreationGameController> running = new CopyOnWriteArrayList<>();
 	private static WorldTask watcher;
 
 	public synchronized static void createGame(int size, List<Player> blueTeam, List<Player> redTeam) {
 		running.add(new StealingCreationGameController(size, blueTeam, redTeam));
-		if (watcher == null) {
-			WorldTasksManager.schedule(watcher = new WorldTask() {
+		if (watcher == null)
+			WorldTasks.schedule(watcher = new WorldTask() {
 				@Override
 				public void run() {
 					try {
@@ -43,7 +43,6 @@ public class StealingCreationManager {
 					}
 				}
 			}, 0, 1);
-		}
 	}
 
 	/**

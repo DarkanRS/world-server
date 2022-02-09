@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.slayer;
@@ -29,7 +29,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class ReaperAssignments  {
-	
+
 	static class ReaperDialogue extends Conversation {
 
 		public ReaperDialogue(Player player) {
@@ -59,12 +59,12 @@ public class ReaperAssignments  {
 						option("I need an assignment.", () -> {
 							talkAboutAssignment(player);
 						});
-						
+
 						option("I'd like another grim gem.", new Dialogue()
 								.addItem(24806, "You receive a grim gem.", () -> {
 									player.getInventory().addItem(24806, 1);
 								}));
-						
+
 						option("Are there any rewards for this?", new Dialogue()
 								.addNPC(15661, HeadE.CALM, "Not yet, mortal. I am still thinking about possible reward options. But I will still keep tally of your points regardless."));
 					}
@@ -73,18 +73,18 @@ public class ReaperAssignments  {
 			create();
 		}
 	}
-	
+
 	public static void talkAboutAssignment(Player player) {
-		if (player.getBossTask() == null) {
+		if (player.getBossTask() == null)
 			giveNewTask(player);
-		} else
+		else
 			player.startConversation(new Conversation(player).addNext(getRerollTaskDialogue(player)));
 	}
-	
+
 	public static void giveNewTask(Player player) {
 		if (player.getDailyB("bossTaskCompleted")) {
 			player.startConversation(new Conversation(player)
-				.addNPC(15661, HeadE.CALM, "The imbalance has been corrected for today; your task is done. Visit me tomorrow for further instructions."));
+					.addNPC(15661, HeadE.CALM, "The imbalance has been corrected for today; your task is done. Visit me tomorrow for further instructions."));
 			return;
 		}
 		player.setBossTask(BossTask.create());
@@ -98,23 +98,22 @@ public class ReaperAssignments  {
 					}
 				}));
 	}
-	
+
 	public static Dialogue getRerollTaskDialogue(Player player) {
 		Dialogue d = new Dialogue();
-		if (player.getDailyI("bossTaskRerolls") < 3) {
-			d.addNPC(15661, HeadE.CALM, "Do not think I will allow you to change your mind freely. I will only allow you to change it 3 times per day. " 
+		if (player.getDailyI("bossTaskRerolls") < 3)
+			d.addNPC(15661, HeadE.CALM, "Do not think I will allow you to change your mind freely. I will only allow you to change it 3 times per day. "
 					+ (player.getDailyI("bossTaskRerolls") == 0 ? "" : "You've already used up " + player.getDailyI("bossTaskRerolls") + " of those."))
 			.addOption("Are you sure you want to reroll your task?", "Yes, I am sure.", "Nevermind, I will just do this task.")
 			.addNext(() -> {
 				player.incDailyI("bossTaskRerolls");
 				giveNewTask(player);
 			});
-		} else {
+		else
 			d.addNPC(15661, HeadE.CALM, "My patience only stretches so far. You have wasted enough of my time, I must address this imbalance myself. Be gone, mortal.");
-		}
 		return d;
 	}
-	
+
 	public static ItemClickHandler handleGrimGem = new ItemClickHandler(24806) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -134,7 +133,7 @@ public class ReaperAssignments  {
 			}
 		}
 	};
-	
+
 	public static NPCClickHandler handleDeath = new NPCClickHandler(15661) {
 		@Override
 		public void handle(NPCClickEvent e) {

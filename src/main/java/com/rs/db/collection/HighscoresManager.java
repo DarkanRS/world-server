@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.db.collection;
@@ -70,7 +70,7 @@ public class HighscoresManager extends DBItemManager {
 	}
 
 	public ArrayList<Document> getTotalSync(int page, int ironman) {
-		ArrayList<Document> docs = new ArrayList<Document>();
+		ArrayList<Document> docs = new ArrayList<>();
 
 		Bson filters = null, iron = null;
 
@@ -83,16 +83,15 @@ public class HighscoresManager extends DBItemManager {
 		FindIterable<Document> res = filters == null ? getDocs().find() : getDocs().find(filters);
 		MongoCursor<Document> cursor = res.sort(Sorts.descending("totalLevel", "totalXp")).skip(20 * page).limit(20).iterator();
 
-		while (cursor.hasNext()) {
+		while (cursor.hasNext())
 			docs.add(cursor.next());
-		}
 		cursor.close();
 
 		return docs;
 	}
 
 	public ArrayList<Document> getLevelSync(int skill, int page, int ironman) {
-		ArrayList<Document> docs = new ArrayList<Document>();
+		ArrayList<Document> docs = new ArrayList<>();
 
 		try {
 			Bson filters = null, iron = null;
@@ -106,9 +105,8 @@ public class HighscoresManager extends DBItemManager {
 			FindIterable<Document> res = filters == null ? getDocs().find() : getDocs().find(filters);
 
 			MongoCursor<Document> cursor = res.sort(new BasicDBObject("xp." + skill + "", -1)).skip(20 * page).limit(20).iterator();
-			while (cursor.hasNext()) {
+			while (cursor.hasNext())
 				docs.add(cursor.next());
-			}
 			cursor.close();
 		} catch (Exception e) {
 			e.printStackTrace();

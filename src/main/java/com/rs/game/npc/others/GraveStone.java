@@ -2,23 +2,22 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.others;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 
 	private static final int GRAVE_STONE_INTERFACE = 266;
 
-	private static final Map<String, GraveStone> GRAVESTONES = new HashMap<String, GraveStone>();
+	private static final Map<String, GraveStone> GRAVESTONES = new HashMap<>();
 
 	public static GraveStone getGraveStoneByUsername(String username) {
 		return GRAVESTONES.get(username);
@@ -64,7 +63,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		username = player.getUsername();
 		ticks = getMaximumTicks(graveStone);
 		inscription = getInscription(player.getDisplayName());
-		floorItems = new ArrayList<GroundItem>();
+		floorItems = new ArrayList<>();
 		for (Item item : items) {
 			GroundItem i = World.addGroundItem(item, deathTile, player, true, -1, DropMethod.NORMAL, -1);
 			if (i != null)
@@ -99,17 +98,16 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	}
 
 	public void addLeftTime(boolean clean) {
-		if (clean) {
+		if (clean)
 			for (GroundItem item : floorItems) {
 				item.setHiddenTime(Ticks.fromSeconds(60));
 				item.setDeleteTime(Ticks.fromMinutes(3));
 			}
-		} else {
+		else
 			for (GroundItem item : floorItems) {
 				item.setHiddenTime(ticks + Ticks.fromSeconds(180));
 				item.setDeleteTime(Ticks.fromMinutes(6));
 			}
-		}
 	}
 
 	@Override
@@ -168,7 +166,8 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		if (bless && blessed) {
 			blesser.sendMessage("This gravestone has already been blessed.");
 			return;
-		} else if (!bless && ticks > 100) {
+		}
+		if (!bless && ticks > 100) {
 			blesser.sendMessage("This gravestone doesn't seem to need repair.");
 			return;
 		}
@@ -194,7 +193,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 					demolisher.sendMessage("It looks like it'll survive another " + (ticks / 100) + " minutes. You demolish it anyway.");
 				}
 			}
-			
+
 		});
 	}
 
@@ -261,8 +260,8 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	 * reset inv and equipment all others will just disapear
 	 */
 	public static Item[][] getItemsKeptOnDeath(Player player, Integer[][] slots) {
-		ArrayList<Item> droppedItems = new ArrayList<Item>();
-		ArrayList<Item> keptItems = new ArrayList<Item>();
+		ArrayList<Item> droppedItems = new ArrayList<>();
+		ArrayList<Item> keptItems = new ArrayList<>();
 		for (int i : slots[0]) { // items kept on death
 			Item item = i >= 16 ? new Item(player.getInventory().getItem(i - 16)) : new Item(player.getEquipment().getItem(i - 1));
 			if (item.getAmount() > 1) {
@@ -296,9 +295,9 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	 * default, items protected by default, items lost by default
 	 */
 	public static Integer[][] getItemSlotsKeptOnDeath(final Player player, boolean atWilderness, boolean skulled, boolean protectPrayer) {
-		ArrayList<Integer> droppedItems = new ArrayList<Integer>();
-		ArrayList<Integer> protectedItems = atWilderness ? null : new ArrayList<Integer>();
-		ArrayList<Integer> lostItems = new ArrayList<Integer>();
+		ArrayList<Integer> droppedItems = new ArrayList<>();
+		ArrayList<Integer> protectedItems = atWilderness ? null : new ArrayList<>();
+		ArrayList<Integer> lostItems = new ArrayList<>();
 		for (int i = 1; i < 44; i++) {
 			Item item = i >= 16 ? player.getInventory().getItem(i - 16) : player.getEquipment().getItem(i - 1);
 			if (item == null)
@@ -316,20 +315,16 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 			keptAmount++;
 		if (droppedItems.size() < keptAmount)
 			keptAmount = droppedItems.size();
-		Collections.sort(droppedItems, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				Item i1 = o1 >= 16 ? player.getInventory().getItem(o1 - 16) : player.getEquipment().getItem(o1 - 1);
-				Item i2 = o2 >= 16 ? player.getInventory().getItem(o2 - 16) : player.getEquipment().getItem(o2 - 1);
-				int price1 = i1 == null ? 0 : i1.getDefinitions().getValue();
-				int price2 = i2 == null ? 0 : i2.getDefinitions().getValue();
-				if (price1 > price2)
-					return -1;
-				if (price1 < price2)
-					return 1;
-				return 0;
-			}
-
+		Collections.sort(droppedItems, (o1, o2) -> {
+			Item i1 = o1 >= 16 ? player.getInventory().getItem(o1 - 16) : player.getEquipment().getItem(o1 - 1);
+			Item i2 = o2 >= 16 ? player.getInventory().getItem(o2 - 16) : player.getEquipment().getItem(o2 - 1);
+			int price1 = i1 == null ? 0 : i1.getDefinitions().getValue();
+			int price2 = i2 == null ? 0 : i2.getDefinitions().getValue();
+			if (price1 > price2)
+				return -1;
+			if (price1 < price2)
+				return 1;
+			return 0;
 		});
 		Integer[] keptItems = new Integer[keptAmount];
 		for (int i = 0; i < keptAmount; i++)
@@ -345,9 +340,8 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 
 	public void logGraveData() {
 		String log = "";
-		for (GroundItem item : floorItems) {
+		for (GroundItem item : floorItems)
 			log += item.getDefinitions().getName() + ":" + item.getAmount() + "\n";
-		}
 		FileManager.writeToFile("graveLog.txt", "---" + username + "---\n" + log + "\n\n");
 	}
 }

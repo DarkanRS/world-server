@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -28,15 +28,14 @@ import com.rs.tools.old.WikiEqupSlotDumper.EquipSlot.SlotType;
 
 public class WikiEqupSlotDumper {
 
-	private static ArrayList<EquipSlot> slots = new ArrayList<EquipSlot>();
+	private static ArrayList<EquipSlot> slots = new ArrayList<>();
 
 	private static boolean dumpEquipmentSlot(Item item) {
-		if (item.getDefinitions().isWearItem() == false || item.getDefinitions().isNoted())
+		if (!item.getDefinitions().isWearItem() || item.getDefinitions().isNoted())
 			return false;
 		ArrayList<String> lines = getPage(item);
-		if (lines == null) {
+		if (lines == null)
 			return false;
-		}
 		Iterator<String> iterator = lines.iterator();
 		try {
 			while (iterator.hasNext()) {
@@ -45,9 +44,8 @@ public class WikiEqupSlotDumper {
 					line = iterator.next();
 					line = line.substring(line.indexOf("title=") + "title=".length() + 1, line.indexOf("\"><img alt=\""));
 					EquipSlot ep = getEquipSlot(item, line);
-					if (ep != null) {
+					if (ep != null)
 						slots.add(ep);
-					}
 				}
 			}
 			return true;
@@ -58,36 +56,36 @@ public class WikiEqupSlotDumper {
 
 	private static EquipSlot getEquipSlot(Item item, String line) {
 		int id = item.getId();
-		if (line.equals("Neck slot")) {
+		if (line.equals("Neck slot"))
 			return new EquipSlot(id, SlotType.NECK_SLOT);
-		} else if (line.equals("Weapon slot")) {
+		if (line.equals("Weapon slot"))
 			return new EquipSlot(id, SlotType.WEAPON_SLOT);
-		} else if (line.equals("Body slot")) {
+		if (line.equals("Body slot"))
 			return new EquipSlot(id, SlotType.BODY_SLOT);
-		} else if (line.equals("Feet slot")) {
+		else if (line.equals("Feet slot"))
 			return new EquipSlot(id, SlotType.FEET_SLOT);
-		} else if (line.equals("Ammunition slot")) {
+		else if (line.equals("Ammunition slot"))
 			return new EquipSlot(id, SlotType.AMMUNITION_SLOT);
-		} else if (line.equals("Legwear slot")) {
+		else if (line.equals("Legwear slot"))
 			return new EquipSlot(id, SlotType.LEGWEAR_SLOT);
-		} else if (line.equals("Head slot")) {
+		else if (line.equals("Head slot"))
 			/*
 			 * if (Equipment.isFullHat(item)) new EquipSlot(id,
 			 * SlotType.FULL_HELMET); else if (Equipment.isFullMask(item))
 			 * return new EquipSlot(id, SlotType.FULL_MASK);
 			 */
 			return new EquipSlot(id, SlotType.HEAD_SLOT);
-		} else if (line.equals("Shield slot")) {
+		else if (line.equals("Shield slot"))
 			return new EquipSlot(id, SlotType.SHIELD_SLOT);
-		} else if (line.equals("Two-handed slot")) {
+		else if (line.equals("Two-handed slot"))
 			return new EquipSlot(id, SlotType.TWO_HANDED);
-		} else if (line.equals("Ring slot")) {
+		else if (line.equals("Ring slot"))
 			return new EquipSlot(id, SlotType.RING_SLOT);
-		} else if (line.equals("Hands slot")) {
+		else if (line.equals("Hands slot"))
 			return new EquipSlot(id, SlotType.HANDS_SLOT);
-		} else if (line.equals("Cape slot")) {
+		else if (line.equals("Cape slot"))
 			return new EquipSlot(id, SlotType.CAPE_SLOT);
-		} else if (line.equals("Aura slot"))
+		else if (line.equals("Aura slot"))
 			return new EquipSlot(id, SlotType.AURA_SLOT);
 		else
 			System.err.println("Unhandled Slot: " + line);

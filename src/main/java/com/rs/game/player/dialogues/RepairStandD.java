@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -41,18 +41,15 @@ public class RepairStandD extends Dialogue {
 
 	@Override
 	public void run(int interfaceId, int componentId) {
-		if (componentId == 9) {
+		if (componentId == 9)
 			if (player.getInventory().containsItem(995, stand ? details.getRepairStandCost(player) : details.getCost(item))) {
-				if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId()) {
+				if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId())
 					return;
-				}
 				player.getInventory().getItems().set(slot, new Item(details.getItemId(), 1));
 				player.getInventory().deleteItem(995, stand ? details.getRepairStandCost(player) : details.getCost(item));
 				player.getInventory().refresh();
-			} else {
+			} else
 				player.sendMessage("You don't have enough coins.");
-			}
-		}
 		end();
 	}
 

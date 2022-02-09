@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -24,7 +24,7 @@ import com.rs.game.player.content.skills.magic.Magic;
 public class DomTowerController extends Controller {
 
 	private transient int mode;
-	
+
 	public DomTowerController(int mode) {
 		this.mode = mode;
 	}
@@ -46,7 +46,8 @@ public class DomTowerController extends Controller {
 		if (object.getId() == 62682 || object.getId() == 62683 || object.getId() == 62690) {
 			player.getDominionTower().destroyArena(false, getMode());
 			return false;
-		} else if (object.getId() == 62684 || object.getId() == 62685) {
+		}
+		if (object.getId() == 62684 || object.getId() == 62685) {
 			if (bosses == null && onArena == 0) {
 				bosses = player.getDominionTower().createBosses();
 				onArena = 1;
@@ -58,7 +59,8 @@ public class DomTowerController extends Controller {
 				player.getDominionTower().startFight(bosses);
 			}
 			return false;
-		} else if (object.getId() == 62686 || object.getId() == 62687) {
+		}
+		if (object.getId() == 62686 || object.getId() == 62687) {
 			if (bosses == null && onArena == 1) {
 				onArena = 2;
 				player.lock(2);
@@ -106,10 +108,9 @@ public class DomTowerController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		if (bosses != null) {
+		if (bosses != null)
 			for (NPC n : bosses)
 				n.finish();
-		}
 		bosses = null;
 		player.getDominionTower().loss(getMode());
 		return false;

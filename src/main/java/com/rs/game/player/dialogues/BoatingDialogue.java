@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -40,23 +40,20 @@ public class BoatingDialogue extends Dialogue {
 	public void start() {
 		npcId = (Integer) parameters[0];
 
-        if(npcId == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM)
-            player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
-        else if(npcId == 744 && !player.getQuestManager().isComplete(Quest.DRAGON_SLAYER))
-            player.startConversation(new KlarenseDragonSlayerD(player).getStart());
-        else {
-            if(npcId == 744 && !player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.IS_BOAT_FIXED_ATTR)) {
-                player.startConversation(new Conversation(player) {
-                    {
-                        addNPC(KLARENSE, HeadE.CALM_TALK, "Wow! You sure are lucky! Seems the Lady Lumbridge just washed right up into the dock by " +
-                                "herself! She's pretty badly damaged, though ...");
-                        create();
-                    }
-                });
-            } else {
-                sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
-            }
-        }
+		if(npcId == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM)
+			player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
+		else if(npcId == 744 && !player.getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+			player.startConversation(new KlarenseDragonSlayerD(player).getStart());
+		else if(npcId == 744 && !player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.IS_BOAT_FIXED_ATTR))
+			player.startConversation(new Conversation(player) {
+				{
+					addNPC(KLARENSE, HeadE.CALM_TALK, "Wow! You sure are lucky! Seems the Lady Lumbridge just washed right up into the dock by " +
+							"herself! She's pretty badly damaged, though ...");
+					create();
+				}
+			});
+		else
+			sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
 	}
 
 	@Override
@@ -101,9 +98,8 @@ public class BoatingDialogue extends Dialogue {
 		} else if (stage == 4) {
 			sendNPCDialogue(npcId, 9827, "Oh alright then, have a splendid day.");
 			stage = 5;
-		} else if (stage == 5) {
+		} else if (stage == 5)
 			end();
-		}
 	}
 
 	public static Object[] getBoatForShip(Player player, int npcId) {
@@ -112,12 +108,12 @@ public class BoatingDialogue extends Dialogue {
 		case 377:
 		case 378:
 			return new Object[] { Carrier.KARAMJA_FARE, false };
-        case 380:
-            return player.withinDistance(new WorldTile(2772, 3227, 0), 30) ?
-        new Object[] { Carrier.BRIMHAVEN_FARE, true } : new Object[] { Carrier.KARAMJA_FARE, true };
+		case 380:
+			return player.withinDistance(new WorldTile(2772, 3227, 0), 30) ?
+					new Object[] { Carrier.BRIMHAVEN_FARE, true } : new Object[] { Carrier.KARAMJA_FARE, true };
 
-        case 381:
-            return new Object[] { Carrier.BRIMHAVEN_FARE, true };
+		case 381:
+			return new Object[] { Carrier.BRIMHAVEN_FARE, true };
 		case 744:
 			return new Object[] { Carrier.CRANDOR_FARE, false };
 		case 2728:

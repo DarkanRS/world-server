@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.transportation;
@@ -27,14 +27,14 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 public class SpiritTree {
 
 	private static final int TREE_INTERFACE = 864;
-	private static final WorldTile[] TELEPORTS = { 
-			new WorldTile(2554, 3255, 0), 
+	private static final WorldTile[] TELEPORTS = {
+			new WorldTile(2554, 3255, 0),
 			new WorldTile(3187, 3507, 0),
-			new WorldTile(2416, 2852, 0), 
-			new WorldTile(2339, 3108, 0), 
-			new WorldTile(2541, 3170, 0), 
-			new WorldTile(2462, 3445, 0) 
-			};
+			new WorldTile(2416, 2852, 0),
+			new WorldTile(2339, 3108, 0),
+			new WorldTile(2541, 3170, 0),
+			new WorldTile(2462, 3445, 0)
+	};
 
 	public static void openInterface(Player player, boolean isMini) {
 		player.getVars().setVarBit(3959, 3);
@@ -44,11 +44,10 @@ public class SpiritTree {
 			player.getVars().setVar(1469, 0x27b8c61);
 		else if (player.getRegionId() == 9781)
 			player.getVars().setVar(1469, 0x2678d74);
-		else {
+		else
 			sendTeleport(player, TELEPORTS[4]);
-		}
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(864) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -62,12 +61,11 @@ public class SpiritTree {
 	}
 
 	public static void handleSpiritTree(Player player, int slot) {
-		if (slot == 0) {
+		if (slot == 0)
 			if (player.getRegionId() == 10033)
 				slot = 6;
 			else
 				slot = 5;
-		}
 		sendTeleport(player, TELEPORTS[slot - 1]);
 	}
 }

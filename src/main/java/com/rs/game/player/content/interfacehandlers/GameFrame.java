@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.interfacehandlers;
@@ -29,23 +29,22 @@ import com.rs.utils.ReportsManager;
 
 @PluginEventHandler
 public class GameFrame {
-	
+
 	public static ButtonClickHandler handlePrayerOrb = new ButtonClickHandler(749) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 4) {
+			if (e.getComponentId() == 4)
 				if (e.getPacket() == ClientPacket.IF_OP1) // activate
 					e.getPlayer().getPrayer().switchQuickPrayers();
 				else if (e.getPacket() == ClientPacket.IF_OP2) // switch
 					e.getPlayer().getPrayer().switchSettingQuickPrayer();
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleRunOrb = new ButtonClickHandler(750) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 4) {
+			if (e.getComponentId() == 4)
 				if (e.getPacket() == ClientPacket.IF_OP1) {
 					e.getPlayer().toggleRun(e.getPlayer().isResting() ? false : true);
 					if (e.getPlayer().isResting())
@@ -66,10 +65,9 @@ public class GameFrame {
 					e.getPlayer().stopAll();
 					e.getPlayer().getActionManager().setAction(new Rest());
 				}
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleAudioSettingsTab = new ButtonClickHandler(429) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -85,9 +83,9 @@ public class GameFrame {
 				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
 			else if (e.getComponentId() == 41)
 				e.getPlayer().setPrivateChatSetup(e.getPlayer().getPrivateChatSetup() == 0 ? 1 : 0);
-			else if (e.getComponentId() >= 17 && e.getComponentId() <= 36) {
+			else if (e.getComponentId() >= 17 && e.getComponentId() <= 36)
 				e.getPlayer().setClanChatSetup(e.getComponentId() - 17);
-			} else if (e.getComponentId() >= 97 && e.getComponentId() <= 116)
+			else if (e.getComponentId() >= 97 && e.getComponentId() <= 116)
 				e.getPlayer().setGuestChatSetup(e.getComponentId() - 97);
 			else if (e.getComponentId() >= 49 && e.getComponentId() <= 66)
 				e.getPlayer().setPrivateChatSetup(e.getComponentId() - 48);
@@ -110,9 +108,9 @@ public class GameFrame {
 				e.getPlayer().getInterfaceManager().sendInterface(742);
 			} else if (e.getComponentId() == 12)
 				e.getPlayer().switchAllowChatEffects();
-			else if (e.getComponentId() == 13) { // chat setup
+			else if (e.getComponentId() == 13)
 				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 982);
-			} else if (e.getComponentId() == 14)
+			else if (e.getComponentId() == 14)
 				e.getPlayer().switchMouseButtons();
 			else if (e.getComponentId() == 24) // audio options
 				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 429);
@@ -120,7 +118,7 @@ public class GameFrame {
 				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 398);
 		}
 	};
-	
+
 	public static ButtonClickHandler handleChatboxGameBar = new ButtonClickHandler(751) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -141,13 +139,13 @@ public class GameFrame {
 			} else if (e.getComponentId() == 0) {
 				if (e.getPacket() == ClientPacket.IF_OP2) {
 					e.getPlayer().getSocial().setFcStatus(0);
-					LobbyCommunicator.updateAccount(e.getPlayer());
+					LobbyCommunicator.updateSocial(e.getPlayer());
 				} else if (e.getPacket() == ClientPacket.IF_OP3) {
 					e.getPlayer().getSocial().setFcStatus(1);
-					LobbyCommunicator.updateAccount(e.getPlayer());
+					LobbyCommunicator.updateSocial(e.getPlayer());
 				} else if (e.getPacket() == ClientPacket.IF_OP4) {
 					e.getPlayer().getSocial().setFcStatus(2);
-					LobbyCommunicator.updateAccount(e.getPlayer());
+					LobbyCommunicator.updateSocial(e.getPlayer());
 				}
 			} else if (e.getComponentId() == 23) {
 				if (e.getPacket() == ClientPacket.IF_OP2)
@@ -156,7 +154,7 @@ public class GameFrame {
 					e.getPlayer().setClanStatus(1);
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					e.getPlayer().setClanStatus(2);
-			} else if (e.getComponentId() == 17) {
+			} else if (e.getComponentId() == 17)
 				if (e.getPacket() == ClientPacket.IF_OP2)
 					e.getPlayer().setAssistStatus(0);
 				else if (e.getPacket() == ClientPacket.IF_OP3)
@@ -166,10 +164,9 @@ public class GameFrame {
 				else if (e.getPacket() == ClientPacket.IF_OP6) {
 					// ASSIST XP Earned/Time
 				}
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleWorldMap = new ButtonClickHandler(755) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -181,7 +178,7 @@ public class GameFrame {
 			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(InterfaceManager.FIXED_TOP, InterfaceManager.RESIZEABLE_TOP) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -215,7 +212,7 @@ public class GameFrame {
 					e.getPlayer().getSkills().switchXPPopup();
 				else if (e.getPacket() == ClientPacket.IF_OP3)
 					e.getPlayer().getSkills().setupXPCounter();
-			} else if ((e.getInterfaceId() == 746 && e.getComponentId() == 207) || (e.getInterfaceId() == 548 && e.getComponentId() == 159)) {
+			} else if ((e.getInterfaceId() == 746 && e.getComponentId() == 207) || (e.getInterfaceId() == 548 && e.getComponentId() == 159))
 				if (e.getPacket() == ClientPacket.IF_OP4) {
 					if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
 						e.getPlayer().sendMessage("Please finish what you're doing before opening the price checker.");
@@ -224,10 +221,9 @@ public class GameFrame {
 					e.getPlayer().stopAll();
 					PriceChecker.openPriceCheck(e.getPlayer());
 				}
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleAudioOptionsClose = new ButtonClickHandler(743) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -235,7 +231,7 @@ public class GameFrame {
 				e.getPlayer().stopAll();
 		}
 	};
-	
+
 	public static ButtonClickHandler handleGraphicsSettingsClose = new ButtonClickHandler(742) {
 		@Override
 		public void handle(ButtonClickEvent e) {

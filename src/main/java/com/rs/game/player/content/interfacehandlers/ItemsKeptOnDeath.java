@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.interfacehandlers;
@@ -28,7 +28,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class ItemsKeptOnDeath {
-	
+
 	public static ButtonClickHandler handleSwapWildy = new ButtonClickHandler(17) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -36,12 +36,12 @@ public class ItemsKeptOnDeath {
 				sendItemsKeptOnDeath(e.getPlayer(), !e.getPlayer().getTempAttribs().getB("wildy"));
 		}
 	};
-	
+
 	public static void openItemsKeptOnDeath(Player player) {
 		player.getInterfaceManager().sendInterface(17);
 		sendItemsKeptOnDeath(player, false);
 	}
-	
+
 	public static void sendItemsKeptOnDeath(Player player, boolean wilderness) {
 		boolean skulled = player.hasSkull();
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(player, wilderness, skulled, player.getPrayer().isProtectingItem());
@@ -67,9 +67,9 @@ public class ItemsKeptOnDeath {
 		player.getVars().setVarBit(9229, skulled ? 1 : 0);
 		StringBuffer text = new StringBuffer();
 		text.append("The number of items kept on").append("<br>").append("death is normally 3.").append("<br>").append("<br>").append("<br>");
-		if (wilderness) {
+		if (wilderness)
 			text.append("Your gravestone will not").append("<br>").append("appear.");
-		} else {
+		else {
 			int time = GraveStone.getMaximumTicks(player.getGraveStone());
 			int seconds = (int) (time * 0.6);
 			int minutes = seconds / 60;
@@ -78,11 +78,10 @@ public class ItemsKeptOnDeath {
 			text.append("Gravestone:").append("<br>").append(EnumDefinitions.getEnum(1099).getStringValue(player.getGraveStone())).append("<br>").append("<br>").append("Initial duration:").append("<br>").append(minutes + ":" + (seconds < 10 ? "0" : "") + seconds).append("<br>");
 		}
 		text.append("<br>").append("<br>").append("Carried wealth:").append("<br>").append(carriedWealth > Integer.MAX_VALUE ? "Too high!" : Utils.getFormattedNumber((int) carriedWealth)).append("<br>").append("<br>").append("Risked wealth:").append("<br>").append(riskedWealth > Integer.MAX_VALUE ? "Too high!" : Utils.getFormattedNumber((int) riskedWealth)).append("<br>").append("<br>");
-		if (wilderness) {
+		if (wilderness)
 			text.append("Your hub will be set to:").append("<br>").append("Edgeville.");
-		} else {
+		else
 			text.append("Current hub: " + EnumDefinitions.getEnum(3792).getStringValue(DeathOfficeController.getCurrentHub(player)));
-		}
 		player.getPackets().sendVarcString(352, text.toString());
 	}
 

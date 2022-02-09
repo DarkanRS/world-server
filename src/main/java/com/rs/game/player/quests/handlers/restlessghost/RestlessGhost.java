@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.restlessghost;
@@ -37,7 +37,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class RestlessGhost extends QuestOutline {
 
 	public static int SKULL_CONF = 2130;
-	
+
 	@Override
 	public int getCompletedStage() {
 		return 4;
@@ -45,7 +45,7 @@ public class RestlessGhost extends QuestOutline {
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 
 		switch(stage) {
 		case 0:
@@ -94,9 +94,9 @@ public class RestlessGhost extends QuestOutline {
 		@Override
 		public void start() {
 			stage = 0;
-			if (player.getEquipment().getAmuletId() == 552) {
+			if (player.getEquipment().getAmuletId() == 552)
 				sendNPCDialogue(457, Dialogue.CALM_TALK, "Hello mortal.");
-			} else {
+			else {
 				sendNPCDialogue(457, Dialogue.CALM_TALK, "Woooo woooo wooo woo!");
 				stage = -1;
 			}
@@ -104,7 +104,7 @@ public class RestlessGhost extends QuestOutline {
 
 		@Override
 		public void run(int interfaceId, int componentId) {
-			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3) {
+			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
 				if (stage == 0) {
 					if (player.getInventory().containsItem(553, 1)) {
 						stage++;
@@ -115,24 +115,20 @@ public class RestlessGhost extends QuestOutline {
 					}
 				} else if (stage == 1) {
 					stage++;
-					if (player.getInventory().containsItem(553, 1)) {
+					if (player.getInventory().containsItem(553, 1))
 						sendNPCDialogue(457, Dialogue.HAPPY_TALKING, "That's it! That's my head! Thank you adventurer.<br>Finally I can be at peace.");
-					} else {
+					else
 						sendNPCDialogue(457, Dialogue.SAD, "I seem to have lost my skull. Could you go<br>find it for me please? I want to be released.<br>Last I saw it was a bit south of here by the mining site.");
-					}
 				} else if (stage == 2) {
 					stage++;
 					if (player.getInventory().containsItem(553, 1)) {
 						sendPlayerDialogue(Dialogue.LAUGH_EXCITED, "You're very welcome. Farewell.");
 						player.getInventory().deleteItem(553, 1);
 						player.getQuestManager().completeQuest(Quest.RESTLESS_GHOST);
-					} else {
+					} else
 						sendPlayerDialogue(Dialogue.HAPPY_TALKING, "I think I can handle that that.");
-					}
-				} else {
+				} else
 					end();
-				}
-			}
 		}
 
 		@Override
@@ -150,45 +146,40 @@ public class RestlessGhost extends QuestOutline {
 			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 0) {
 				sendNPCDialogue(458, Dialogue.MEAN_FACE, "Get out of my house!");
 				stage = -1;
-			} else if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1) {
+			} else if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
 				sendNPCDialogue(458, Dialogue.MEAN_FACE, "Get out of my house!");
-			} else {
+			else
 				sendNPCDialogue(458, Dialogue.MEAN_FACE, "What do you need now?");
-			}
 		}
 
 		@Override
 		public void run(int interfaceId, int componentId) {
-			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) > 0) {
+			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) > 0)
 				if (stage == 0) {
 					if (!player.getInventory().containsItem(552, 1)) {
 						stage++;
-						if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1) {
+						if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
 							sendPlayerDialogue(Dialogue.CALM_TALK, "Father Aereck told me to come talk to you about a ghost<br>haunting his graveyard.");
-						} else {
+						else
 							sendPlayerDialogue(Dialogue.CALM_TALK, "I've lost my amulet of ghostspeak.");
-						}
 					} else {
 						stage = -1;
 						sendPlayerDialogue(Dialogue.HAPPY_TALKING, "I don't need anything right now.<br>I just wanted to have a chat.");
 					}
 				} else if (stage == 1) {
 					stage++;
-					if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1) {
+					if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
 						sendNPCDialogue(458, Dialogue.MEAN_FACE, "Oh the silly old fool. Here, take this amulet<br>and see if you can communicate with the spectre.");
-					} else {
+					else
 						sendNPCDialogue(458, Dialogue.MEAN_FACE, "Have another one then. But be more careful next time!");
-					}
 					player.getInventory().addItem(552, 1);
 					if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
 						player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 2);
 				} else if (stage == 2) {
 					stage++;
 					sendPlayerDialogue(Dialogue.LAUGH_EXCITED, "Thank you. I'll try.");
-				} else {
+				} else
 					end();
-				}
-			}
 		}
 
 		@Override
@@ -214,7 +205,7 @@ public class RestlessGhost extends QuestOutline {
 			refreshSkull(e.getPlayer());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleSkullRock = new ObjectClickHandler(new Object[] { 47713 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -235,7 +226,7 @@ public class RestlessGhost extends QuestOutline {
 			}
 		}
 	};
-	
+
 	public static NPCClickHandler talkToNpcs = new NPCClickHandler(457, 458) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -243,7 +234,8 @@ public class RestlessGhost extends QuestOutline {
 				if (e.getNPC().getId() == 458) {
 					e.getPlayer().getDialogueManager().execute(new UrhneyD());
 					return;
-				} else if (e.getNPC().getId() == 457) {
+				}
+				if (e.getNPC().getId() == 457) {
 					if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
 						e.getPlayer().getDialogueManager().execute(new RGhostD());
 					return;

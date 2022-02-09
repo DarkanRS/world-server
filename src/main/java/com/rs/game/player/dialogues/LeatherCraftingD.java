@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -25,58 +25,58 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
 public class LeatherCraftingD extends Dialogue {
-	
+
 	public static final int DUNG_NEEDLE = 17446;
 
 	public static final int[] BASE_LEATHER = { 1741, 1743, 1745, 2505, 2507, 2509, 24374, 22451, 22449, 22450, 6289, 10820 };
-	
-	public static final double[][] EXPERIENCE = { 
-			{ 13.8, 16.25, 18.5, 22, 25, 27, 37 }, 
-			{ 35 }, 
-			{ 62, 124, 186 }, 
-			{ 70, 140, 210 }, 
-			{ 78, 156, 234 }, 
-			{ 86, 172, 258 }, 
-			{ 94, 188, 282 }, 
-			{ 100, 300, 1000 }, 
-			{ 10, 20, 30 }, 
+
+	public static final double[][] EXPERIENCE = {
+			{ 13.8, 16.25, 18.5, 22, 25, 27, 37 },
+			{ 35 },
+			{ 62, 124, 186 },
+			{ 70, 140, 210 },
+			{ 78, 156, 234 },
+			{ 86, 172, 258 },
+			{ 94, 188, 282 },
+			{ 100, 300, 1000 },
+			{ 10, 20, 30 },
 			{ 50, 150, 500 },
 			{ 30, 35, 45, 50, 55 },
 			{ 32, 32 }
 	};
-	
-	private int[][] LEVELS = { 
-			{ 1, 7, 9, 11, 14, 18, 38 }, 
-			{ 28 }, 
-			{ 57, 60, 63 }, 
-			{ 66, 68, 71 }, 
+
+	private int[][] LEVELS = {
+			{ 1, 7, 9, 11, 14, 18, 38 },
+			{ 28 },
+			{ 57, 60, 63 },
+			{ 66, 68, 71 },
 			{ 73, 75, 77 },
-			{ 79, 82, 84 }, 
-			{ 87, 89, 93 }, 
-			{ 86, 92, 98 }, 
-			{ 3, 12, 21 }, 
+			{ 79, 82, 84 },
+			{ 87, 89, 93 },
+			{ 86, 92, 98 },
+			{ 3, 12, 21 },
 			{ 65, 72, 78 },
 			{ 45, 47, 48, 51, 53 },
 			{ 43, 46 }
 	};
-	
-	private static final Item[][] POTENTIAL_PRODUCTS = { 
-			{ new Item(1059, 1), new Item(1061, 1), new Item(1167, 1), new Item(1063, 1), new Item(1129, 1), new Item(1095, 1), new Item(1169, 1) }, 
-			{ new Item(1131, 1) }, 
-			{ new Item(1065, 1), new Item(1099, 2), new Item(1135, 3) }, 
+
+	private static final Item[][] POTENTIAL_PRODUCTS = {
+			{ new Item(1059, 1), new Item(1061, 1), new Item(1167, 1), new Item(1063, 1), new Item(1129, 1), new Item(1095, 1), new Item(1169, 1) },
+			{ new Item(1131, 1) },
+			{ new Item(1065, 1), new Item(1099, 2), new Item(1135, 3) },
 			{ new Item(2487, 1), new Item(2493, 2), new Item(2499, 3) },
-			{ new Item(2489, 1), new Item(2495, 2), new Item(2501, 3) }, 
-			{ new Item(2491, 1), new Item(2497, 2), new Item(2503, 3) }, 
-			{ new Item(24376, 1), new Item(24379, 2), new Item(24382, 3) }, 
-			{ new Item(22482, 500), new Item(22486, 1500), new Item(22490, 5000) }, 
-			{ new Item(22458, 300), new Item(22462, 1000), new Item(22466, 2500) }, 
+			{ new Item(2489, 1), new Item(2495, 2), new Item(2501, 3) },
+			{ new Item(2491, 1), new Item(2497, 2), new Item(2503, 3) },
+			{ new Item(24376, 1), new Item(24379, 2), new Item(24382, 3) },
+			{ new Item(22482, 500), new Item(22486, 1500), new Item(22490, 5000) },
+			{ new Item(22458, 300), new Item(22462, 1000), new Item(22466, 2500) },
 			{ new Item(22470, 400), new Item(22474, 1200), new Item(22478, 3500) },
 			{ new Item(6328, 6), new Item(6330, 8), new Item(6326, 5), new Item(6324, 12), new Item(6322, 15) },
 			{ new Item(10824, 1), new Item(10822, 2) }
 	};
-	private static final Item[][] REQUIRED_BASE_ITEMS = { null, null, null, null, null, null, null, 
-			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) }, 
-			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) }, 
+	private static final Item[][] REQUIRED_BASE_ITEMS = { null, null, null, null, null, null, null,
+			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) },
+			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) },
 			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) }, null, null
 	};
 
@@ -203,14 +203,12 @@ public class LeatherCraftingD extends Dialogue {
 	}
 
 	public static boolean isExtraItem(int requestedId) {
-		for (int index = 0; index < REQUIRED_BASE_ITEMS.length; index++) {
-			Item[] items = REQUIRED_BASE_ITEMS[index];
+		for (Item[] items : REQUIRED_BASE_ITEMS) {
 			if (items == null)
 				continue;
-			for (Item item : items) {
+			for (Item item : items)
 				if (item.getId() == requestedId)
 					return true;
-			}
 		}
 		return false;
 	}

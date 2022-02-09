@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.qbd;
@@ -24,7 +24,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -32,9 +32,9 @@ import com.rs.lib.util.Utils;
 
 /**
  * Represents a Tortured soul.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class TorturedSoul extends NPC {
 
@@ -82,7 +82,7 @@ public final class TorturedSoul extends NPC {
 
 	/**
 	 * Constructs a new {@code TorturedSoul} {@code Object}.
-	 * 
+	 *
 	 * @param dragon
 	 *            The queen black dragon reference.
 	 * @param victim
@@ -107,14 +107,14 @@ public final class TorturedSoul extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					finish();
 					stop();
 				}
@@ -132,23 +132,20 @@ public final class TorturedSoul extends NPC {
 		super.setNextSpotAnim(TELEPORT_GRAPHIC);
 		super.setNextAnimation(TELEPORT_ANIMATION);
 		super.getCombat().reset();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				stop();
 				int diffX = getX() - victim.getX(), diffY = getY() - victim.getY();
-				if (diffX < 0) {
+				if (diffX < 0)
 					diffX = -diffX;
-				}
-				if (diffY < 0) {
+				if (diffY < 0)
 					diffY = -diffY;
-				}
 				int offsetX = 0, offsetY = 0;
-				if (diffX > diffY) {
+				if (diffX > diffY)
 					offsetX = getX() - victim.getX() < 0 ? -1 : 1;
-				} else {
+				else
 					offsetY = getY() - victim.getY() < 0 ? -1 : 1;
-				}
 				if (victim.transform(offsetX, offsetY, 0).matches(TorturedSoul.this)) {
 					offsetX = -offsetX;
 					offsetY = -offsetY;
@@ -159,7 +156,7 @@ public final class TorturedSoul extends NPC {
 				setNextSpotAnim(SPECIAL_ATT_GFX_);
 				setNextAnimation(SPECIAL_ATT_ANIM_);
 				getCombat().setTarget(victim);
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					int x = currentX, y = currentY;
 
 					@Override
@@ -167,38 +164,32 @@ public final class TorturedSoul extends NPC {
 						WorldTile current = new WorldTile(x, y, 1);
 						victim.getPackets().sendSpotAnim(SPECIAL_GRAPHIC, current);
 						Entity target = null;
-						for (TorturedSoul soul : dragon.getSouls()) {
+						for (TorturedSoul soul : dragon.getSouls())
 							if (soul.matches(current)) {
 								target = soul;
 								break;
 							}
-						}
-						if (target == null) {
-							for (NPC worm : dragon.getWorms()) {
+						if (target == null)
+							for (NPC worm : dragon.getWorms())
 								if (worm.matches(current)) {
 									target = worm;
 									break;
 								}
-							}
-						}
-						if (target == null && victim.matches(current)) {
+						if (target == null && victim.matches(current))
 							target = victim;
-						}
 						if (target != null) {
 							stop();
 							target.applyHit(new Hit(dragon, Utils.random(200, 260), HitLook.TRUE_DAMAGE));
 							return;
 						}
-						if (x > victim.getX()) {
+						if (x > victim.getX())
 							x--;
-						} else if (x < victim.getX()) {
+						else if (x < victim.getX())
 							x++;
-						}
-						if (y > victim.getY()) {
+						if (y > victim.getY())
 							y--;
-						} else if (y < victim.getY()) {
+						else if (y < victim.getY())
 							y++;
-						}
 					}
 				}, 0, 0);
 			}

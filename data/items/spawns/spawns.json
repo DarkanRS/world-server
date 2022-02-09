@@ -1,5 +1,55 @@
 [
   {
+    "comment": "Blanket in Clock Tower Dungeon: Monk's friend",
+    "itemId": 90,
+    "amount": 1,
+    "tile": {
+      "x": 2570,
+      "y": 9604,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Apron in port sarim, prompted from Pirates Treasure",
+    "itemId": 7957,
+    "amount": 1,
+    "tile": {
+      "x": 3016,
+      "y": 3229,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Garlic in Seers Village, prompted from Fishing Contest",
+    "itemId": 1550,
+    "amount": 1,
+    "tile": {
+      "x": 2646,
+      "y": 3299,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Garlic in Seers Village, prompted from Fishing Contest",
+    "itemId": 1550,
+    "amount": 1,
+    "tile": {
+      "x": 2714,
+      "y": 3478,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Guide book, Tribal Totem quest",
+    "itemId": 1856,
+    "amount": 1,
+    "tile": {
+      "x": 2638,
+      "y": 3292,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Kid's ball, Witchs House quest",
     "itemId": 2407,
     "amount": 1,

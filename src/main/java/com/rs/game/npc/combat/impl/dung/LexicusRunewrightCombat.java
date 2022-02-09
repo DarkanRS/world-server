@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -34,7 +34,7 @@ import com.rs.game.npc.dungeoneering.LexicusRunewright;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -94,20 +94,19 @@ public class LexicusRunewrightCombat extends CombatScript {
 
 	public static void sendBookBarrage(final LexicusRunewright npc) {
 
-		final List<GameObject> cases = new ArrayList<GameObject>();
-		for (int x = 0; x < 16; x++) {
+		final List<GameObject> cases = new ArrayList<>();
+		for (int x = 0; x < 16; x++)
 			for (int y = 0; y < 16; y++) {
 				GameObject o = npc.getManager().getObjectWithType(npc.getReference(), ObjectType.SCENERY_INTERACT, x, y);
 				if (o != null && o.getId() >= 49280 && o.getId() <= 49282)
 					cases.add(o);
 			}
-		}
 
 		npc.setNextForceTalk(new ForceTalk("Book barrage!"));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int cycle = 0;
-			private LinkedList<WorldTile> targets = new LinkedList<WorldTile>();
+			private LinkedList<WorldTile> targets = new LinkedList<>();
 
 			@Override
 			public void run() {
@@ -118,7 +117,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 					return;
 				}
 
-				if (cycle == 1) {
+				if (cycle == 1)
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
@@ -133,7 +132,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 							World.sendProjectile(c, tile, 2422, 60, 75, 30, 0, 0, 0);
 						}
 					}
-				} else if (cycle == 4) {
+				else if (cycle == 4) {
 
 					for (WorldTile tile : targets)
 						World.sendSpotAnim(npc, new SpotAnim(2423), tile);

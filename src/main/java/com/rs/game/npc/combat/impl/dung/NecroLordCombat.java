@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -29,7 +29,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.NecroLord;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -48,21 +48,21 @@ public class NecroLordCombat extends CombatScript {
 
 		if (Utils.random(10) == 0) {
 			final int skeletonCount = boss.getManager().getParty().getTeam().size();
-			final List<WorldTile> projectileTile = new LinkedList<WorldTile>();
-			WorldTasksManager.schedule(new WorldTask() {
+			final List<WorldTile> projectileTile = new LinkedList<>();
+			WorldTasks.schedule(new WorldTask() {
 				int cycles;
 
 				@Override
 				public void run() {
 					cycles++;
 
-					if (cycles == 2) {
+					if (cycles == 2)
 						for (int i = 0; i < skeletonCount; i++) {
 							WorldTile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
 							projectileTile.add(tile);
 							World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16, 0);
 						}
-					} else if (cycles == 4) {
+					else if (cycles == 4) {
 						for (WorldTile tile : projectileTile)
 							boss.addSkeleton(tile);
 						stop();
@@ -88,7 +88,7 @@ public class NecroLordCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
 			npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
 			World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					for (Entity t : boss.getPossibleTargets()) {

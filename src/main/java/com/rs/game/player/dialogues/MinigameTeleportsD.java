@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -41,15 +41,15 @@ public class MinigameTeleportsD extends Dialogue {
 			sendOptionsDialogue("Where would you like to go?", "Barrows", "Fight Caves", "Fight Kiln", "Dominion Tower", "More Options");
 			stage = 2;
 		} else if (stage == 2) {
-			if (componentId == OPTION_1) {
+			if (componentId == OPTION_1)
 				Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3565, 3289, 0));
-			} else if (componentId == OPTION_2) {
+			else if (componentId == OPTION_2)
 				Magic.sendNormalTeleportSpell(player, 0, 0, FightCavesController.OUTSIDE);
-			} else if (componentId == OPTION_3) {
+			else if (componentId == OPTION_3)
 				Magic.sendNormalTeleportSpell(player, 0, 0, FightKilnController.OUTSIDE);
-			} else if (componentId == OPTION_4) {
+			else if (componentId == OPTION_4)
 				Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3366, 3083, 0));
-			} else if (componentId == OPTION_5) {
+			else if (componentId == OPTION_5) {
 				stage = 3;
 				sendOptionsDialogue("Where would you like to go?", "Duel Arena", "Castle Wars", "Fight Pits", "Coming soon..", "More Options");
 			}
@@ -57,17 +57,17 @@ public class MinigameTeleportsD extends Dialogue {
 			if (componentId == OPTION_1) {
 				Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3365, 3275, 0));
 				player.getControllerManager().startController(new DuelController());
-			} else if (componentId == OPTION_2) {
+			} else if (componentId == OPTION_2)
 				Magic.sendNormalTeleportSpell(player, 0, 0, CastleWars.LOBBY);
-			} else if (componentId == OPTION_3) {
+			else if (componentId == OPTION_3)
 				Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(4608, 5061, 0));
-			} else if (componentId == OPTION_4) {
+			else if (componentId == OPTION_4) {
 				//Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(2897, 4845, 0));
 			} else if (componentId == OPTION_5) {
 				stage = 4;
 				sendOptionsDialogue("Where would you like to go?", "Coming soon..", "Coming soon..", "Coming soon..", "Coming soon..", "More Options");
 			}
-		} else if (stage == 4) {
+		} else if (stage == 4)
 			if (componentId == OPTION_1) {
 				//Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3421, 3537, 0));
 			} else if (componentId == OPTION_2) {
@@ -80,7 +80,6 @@ public class MinigameTeleportsD extends Dialogue {
 				stage = 1;
 				sendOptionsDialogue("Where would you like to go?", "Barrows", "Fight Caves", "Fight Kiln", "Dominion Tower", "More Options");
 			}
-		}
 	}
 
 	@Override

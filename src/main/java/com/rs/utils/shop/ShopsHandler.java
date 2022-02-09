@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.utils.shop;
@@ -68,7 +68,7 @@ public class ShopsHandler {
 		}
 		Logger.log("ShopsHandler", "Loaded "+SHOPS.size()+" shops...");
 	}
-	
+
 	private static void loadFile(File f) {
 		try {
 			if (f.isDirectory()) {
@@ -81,13 +81,13 @@ public class ShopsHandler {
 				SHOP_DEFS.put(f.getName().replace(".json", ""), def);
 		} catch(Throwable e) {
 			System.err.println("Error loading file: " + f.getPath());
-		}			
+		}
 	}
-	
+
 	private static String getShopForNpc(int npcId) {
 		return NPC_SHOPS.get(npcId);
 	}
-	
+
 	public static NPCClickHandler handleShop = new NPCClickHandler(new String[] { "Trade", "Shop" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -97,7 +97,7 @@ public class ShopsHandler {
 			openShop(e.getPlayer(), key);
 		}
 	};
-	
+
 	public static void restoreShops() {
 		for (Shop shop : SHOPS.values())
 			shop.restoreItems();
@@ -105,9 +105,7 @@ public class ShopsHandler {
 
 	public static boolean openShop(Player player, String key) {
 		Shop shop = getShop(key);
-		if (shop == null)
-			return false;
-		if (!player.getBank().checkPin())
+		if ((shop == null) || !player.getBank().checkPin())
 			return false;
 		shop.addPlayer(player);
 		return true;

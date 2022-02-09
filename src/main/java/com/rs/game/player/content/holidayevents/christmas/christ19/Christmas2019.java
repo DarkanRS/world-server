@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.holidayevents.christmas.christ19;
@@ -39,15 +39,15 @@ import com.rs.utils.spawns.NPCSpawns;
 
 @PluginEventHandler
 public class Christmas2019 {
-	
+
 	public static final String STAGE_KEY = "christ2021";
 
 	private static boolean ACTIVE = false;
 
 	public enum Imp {
-		WINE(9372, 6928, Location.VARROCK_CASTLE, Location.CAMELOT_CASTLE, Location.ARDOUGNE_CASTLE), 
-		YULE_LOG(9373, 6929, Location.LUMBRIDGE_COOK, Location.YANILLE_COOK, Location.COOKING_GUILD), 
-		TURKEY(9374, 6930, Location.LUMBRIDGE_CHICKEN, Location.FALADOR_CHICKEN, Location.PHASMATYS_CHICKEN), 
+		WINE(9372, 6928, Location.VARROCK_CASTLE, Location.CAMELOT_CASTLE, Location.ARDOUGNE_CASTLE),
+		YULE_LOG(9373, 6929, Location.LUMBRIDGE_COOK, Location.YANILLE_COOK, Location.COOKING_GUILD),
+		TURKEY(9374, 6930, Location.LUMBRIDGE_CHICKEN, Location.FALADOR_CHICKEN, Location.PHASMATYS_CHICKEN),
 		POTATOES(9375, 6931, Location.LUMBRIDGE_POTATO, Location.DRAYNOR_POTATO, Location.ARDOUGNE_POTATO);
 
 		private int npcId;
@@ -57,11 +57,9 @@ public class Christmas2019 {
 		private static Map<Integer, Imp> CHUNK_MAP = new HashMap<>();
 
 		static {
-			for (Imp i : Imp.values()) {
-				for (Location l : i.locs) {
+			for (Imp i : Imp.values())
+				for (Location l : i.locs)
 					CHUNK_MAP.put(l.chunkId, i);
-				}
-			}
 		}
 
 		public static Imp forChunk(int chunkId) {
@@ -95,7 +93,7 @@ public class Christmas2019 {
 		private Location(WorldTile loc, String hint) {
 			this.loc = loc;
 			this.hint = hint;
-			this.chunkId = loc.getChunkId();
+			chunkId = loc.getChunkId();
 		}
 
 		public String getHint() {
@@ -111,11 +109,9 @@ public class Christmas2019 {
 	public static void loadSnowyCupboard() {
 		if (!ACTIVE)
 			return;
-		for (Imp i : Imp.values()) {
-			for (Location l : i.locs) {
+		for (Imp i : Imp.values())
+			for (Location l : i.locs)
 				NPCSpawns.add(new NPCSpawn(i.npcId, l.loc, "Imp for Christmas event."));
-			}
-		}
 
 		NPCSpawns.add(new NPCSpawn(8540, new WorldTile(2655, 5678, 0), "Queen of Snow"));
 		NPCSpawns.add(new NPCSpawn(8539, new WorldTile(2654, 5679, 0), "Santa"));
@@ -145,20 +141,18 @@ public class Christmas2019 {
 				if (p.getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId()) {
 					Location loc = p.getChrist19Loc();
 					if (e.getChunkId() == loc.chunkId) {
-						if (p.getPet() != null) {
+						if (p.getPet() != null)
 							p.getPet().setNextForceTalk(new ForceTalk("Der he is!"));
-						}
 						p.getVars().setVarBit(loc.getImp().varBit, 0);
 					} else {
 						if (p.getPet() != null) {
 							int prevDist = p.getTempAttribs().getI("christ19LocDist");
 							int currDist = (int) Utils.getDistance(p, loc.loc);
-							if (prevDist != 0) {
+							if (prevDist != 0)
 								if (currDist > prevDist)
 									p.getPet().setNextForceTalk(new ForceTalk("Yer headin the wrong way, guv!"));
 								else
 									p.getPet().setNextForceTalk(new ForceTalk("Yer gettin closer, guv!"));
-							}
 							p.getTempAttribs().setI("christ19LocDist", currDist);
 						}
 						p.getVars().setVarBit(6928, 1);
@@ -195,9 +189,8 @@ public class Christmas2019 {
 	public static ItemEquipHandler handleUnequipIceAmulet = new ItemEquipHandler(14599) {
 		@Override
 		public void handle(ItemEquipEvent e) {
-			if (e.dequip() && e.getPlayer().getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId()) {
+			if (e.dequip() && e.getPlayer().getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId())
 				e.getPlayer().getPet().pickup();
-			}
 		}
 	};
 }

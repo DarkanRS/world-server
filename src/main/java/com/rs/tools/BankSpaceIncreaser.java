@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools;
@@ -30,7 +30,7 @@ public class BankSpaceIncreaser {
 
 	public static void main(String[] args) throws IOException {
 		Cache.init(Settings.getConfig().getCachePath());
-		
+
 		final int MAX_SIZE = Bank.MAX_BANK_SIZE;
 		final int MEMS_SIZE = MAX_SIZE-87;
 
@@ -44,30 +44,30 @@ public class BankSpaceIncreaser {
 		replaceOpValue(script.intOpValues, 40, MEMS_SIZE);
 		replaceOpValue(script.intOpValues, 59, MEMS_SIZE);
 		script.write(Cache.STORE);
-		
+
 		script = CS2Definitions.getScript(1467);
 		replaceOpValue(script.intOpValues, 28, MAX_SIZE);
 		script.write(Cache.STORE);
-		
+
 		script = CS2Definitions.getScript(1665);
 		replaceOpValue(script.intOpValues, 19, MEMS_SIZE);
 		replaceOpValue(script.intOpValues, 32, MEMS_SIZE);
 		script.write(Cache.STORE);
-		
+
 		script = CS2Definitions.getScript(1329);
 		replaceOpValue(script.intOpValues, 0, MAX_SIZE);
 		replaceOpValue(script.intOpValues, 1, MEMS_SIZE);
 		script.write(Cache.STORE);
-		
+
 		script = CS2Definitions.getScript(1248);
 		replaceOpValue(script.intOpValues, 0, MAX_SIZE);
 		script.write(Cache.STORE);
-		
+
 
 		Cache.STORE.getIndex(IndexType.CONFIG).rewriteTable();
 		Cache.STORE.getIndex(IndexType.CS2_SCRIPTS).rewriteTable();
 	}
-	
+
 	public static void replaceOpValue(int[] values, int index, int value) {
 		int old = values[index];
 		values[index] = value;

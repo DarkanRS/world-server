@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
@@ -22,9 +22,9 @@ import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.LoginHandler;
 
 public class AchievementTitles {
-	
-	public static String[] gamebreakerVariations = new String[] { " <col=DD0000>the Gamebreaker</col>", " <col=4682B4>the Gamebreaker</col>", " <col=FFFFFF>the Gam</col><col=DD0000>ebreaker</col>", " <str><col=DD0000>the Gamebreaker</col></str>", " <col=DD0000>the   Gamebreaker</col>", " <col=DD0000>thE gAmEbrEAkEr</col>", " <col=DD0000>the Gaembreaker</col>", " <col=DD0000>the Gamebreakr</col>"};
-	
+
+	public static String[] gamebreakerVariations = { " <col=DD0000>the Gamebreaker</col>", " <col=4682B4>the Gamebreaker</col>", " <col=FFFFFF>the Gam</col><col=DD0000>ebreaker</col>", " <str><col=DD0000>the Gamebreaker</col></str>", " <col=DD0000>the   Gamebreaker</col>", " <col=DD0000>thE gAmEbrEAkEr</col>", " <col=DD0000>the Gaembreaker</col>", " <col=DD0000>the Gamebreakr</col>"};
+
 	public enum TitleReward {
 		GAMEBREAKER("DD0000", "the Gamebreaker", "Gamebreaking bugs found", 1, false),
 		WEEDER("00FF00", "Weeder", "Weeds raked", 1420, false),
@@ -56,15 +56,15 @@ public class AchievementTitles {
 		GLOBETROTTER("73A93F", "Globetrotter", "Hard clues completed", 100, false),
 		CLUE_MANIAC("73A93F", "Clue Maniac", "Elite clues completed", 100, false),
 		MUDDY("794c13", "Muddy", "Muddy chests opened", 200, false),
-		
+
 		;
-		
+
 		private String color;
 		private String title;
 		private String req;
 		private int number;
 		private boolean npcKills;
-		
+
 		private TitleReward(String color, String title, String req, int number, boolean npcKills) {
 			this.color = color;
 			this.title = title;
@@ -72,7 +72,7 @@ public class AchievementTitles {
 			this.number = number;
 			this.npcKills = npcKills;
 		}
-		
+
 		public boolean isNpcKills() {
 			return npcKills;
 		}
@@ -92,53 +92,46 @@ public class AchievementTitles {
 		public int getNumber() {
 			return number;
 		}
-		
+
 		public void handleActivate(Player player) {
 			if (hasRequirements(player)) {
 				player.setTitle(title);
-				if (!color.startsWith("S")) {
+				if (!color.startsWith("S"))
 					player.setTitleColor(color);
-				} else {
+				else {
 					player.setTitleColor(color.replace("S", ""));
 					player.setTitleShading("000000");
 				}
-				
+
 				if (isUsingGamebreakerTitle(player)) {
 					player.setTitle(gamebreakerVariations[Utils.random(gamebreakerVariations.length)]);
 					player.setTitleAfter(true);
 				}
-				
+
 				player.sendMessage("You have set your title to "+getShadeColor(color)+""+title+"</col></shad>.");
 				player.getAppearance().generateAppearanceData();
-			} else {
+			} else
 				player.sendMessage("You don't meet the requirements for this title.");
-			}
 		}
-		
+
 		public boolean hasRequirements(Player player) {
 			if (npcKills) {
-				if (player.getNumberKilled(req) >= number) {
+				if (player.getNumberKilled(req) >= number)
 					return true;
-				}
-			} else {
-				if (player.getCounterValue(req) >= number) {
-					return true;
-				}
-			}
+			} else if (player.getCounterValue(req) >= number)
+				return true;
 			return false;
 		}
 	}
-	
+
 	public static String getShadeColor(String color) {
-		if (!color.startsWith("S")) {
+		if (!color.startsWith("S"))
 			return "<col="+color+">";
-		} else {
-			return "<shad=000000><col="+color.substring(1)+">";
-		}
+		return "<shad=000000><col="+color.substring(1)+">";
 	}
-	
+
 	public static void openInterface(Player player) {
-		int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
+		int[] names = { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
 				184, 186, 188 };
 		player.getTempAttribs().removeB("RemoteFarm");
 		player.getInterfaceManager().sendInterface(1082);
@@ -164,17 +157,14 @@ public class AchievementTitles {
 	}
 
 	public static void handleButtons(Player player, int componentId) {
-		int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
+		int[] names = { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
 				184, 186, 188 };
-		for (int i = 0; i < names.length; i++) {
-			if ((names[i]+1) == componentId) {
-				if (i < TitleReward.values().length && TitleReward.values()[i] != null) {
+		for (int i = 0; i < names.length; i++)
+			if ((names[i]+1) == componentId)
+				if (i < TitleReward.values().length && TitleReward.values()[i] != null)
 					TitleReward.values()[i].handleActivate(player);
-				}
-			}
-		}
 	}
-	
+
 	public static LoginHandler login = new LoginHandler() {
 		@Override
 		public void handle(LoginEvent e) {
@@ -185,15 +175,13 @@ public class AchievementTitles {
 			}
 		}
 	};
-	
+
 	public static boolean isUsingGamebreakerTitle(Player p) {
 		if (p.getTitle() == null)
 			return false;
-		for (String variation : gamebreakerVariations) {
-			if (variation != null && variation.contains(p.getTitle())) {
+		for (String variation : gamebreakerVariations)
+			if (variation != null && variation.contains(p.getTitle()))
 				return true;
-			}
-		}
 		return false;
 	}
 

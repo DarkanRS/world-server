@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -29,7 +29,7 @@ import com.rs.game.npc.dungeoneering.ToKashBloodChiller;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -48,10 +48,9 @@ public class ToKashBloodChillerCombat extends CombatScript {
 
 		boolean perfectDamage = false;
 
-		if (target instanceof Player player) {
+		if (target instanceof Player player)
 			if (player.getAppearance().isNPC())
 				perfectDamage = true;
-		}
 
 		if (perfectDamage) {
 			((Player) target).getAppearance().transformIntoNPC(-1);
@@ -60,23 +59,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 
 		boolean special = boss.canSpecialAttack() && Utils.random(10) == 0;
 
-		if (special) {
-			npc.setNextForceTalk(new ForceTalk("Sleep now, in the bitter cold..."));
-			// npc.playSoundEffect(2896);
-			boss.setSpecialAttack(true);
-			WorldTasksManager.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					npc.setNextForceTalk(new ForceTalk("DEEP FREEZE!"));
-					npc.setNextAnimation(new Animation(14396));
-					npc.setNextSpotAnim(new SpotAnim(2544));
-					for (Entity t : boss.getPossibleTargets())
-						setSpecialFreeze((Player) t, boss, manager);
-				}
-			}, 3);
-			return 8;
-		} else {
+		if (!special) {
 			boolean meleeAttack = perfectDamage || Utils.random(3) == 0;
 
 			if (meleeAttack) {
@@ -89,6 +72,21 @@ public class ToKashBloodChillerCombat extends CombatScript {
 			}
 			return meleeAttack ? 4 : 5;
 		}
+		npc.setNextForceTalk(new ForceTalk("Sleep now, in the bitter cold..."));
+		// npc.playSoundEffect(2896);
+		boss.setSpecialAttack(true);
+		WorldTasks.schedule(new WorldTask() {
+
+			@Override
+			public void run() {
+				npc.setNextForceTalk(new ForceTalk("DEEP FREEZE!"));
+				npc.setNextAnimation(new Animation(14396));
+				npc.setNextSpotAnim(new SpotAnim(2544));
+				for (Entity t : boss.getPossibleTargets())
+					setSpecialFreeze((Player) t, boss, manager);
+			}
+		}, 3);
+		return 8;
 	}
 
 	public static void setSpecialFreeze(final Player player, final ToKashBloodChiller boss, DungeonManager dungManager) {
@@ -100,7 +98,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		FrozenAdventurer npc = new FrozenAdventurer(10023, player, -1, false);
 		npc.setPlayer(player);
 		player.sendMessage("You have been frozen solid!");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			int counter = 0;
 

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -111,16 +111,16 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 	@Override
 	public void paint(Graphics g) {
 
-//		for (int x = 0; x < 10; x++) {
-//			for (int y = 0; y < 10; y++) {
-//				int regionId = ((x + xPos) << 8) | (y + yPos);
-//				BufferedImage[] data = getMap(regionId);
-//				if (data == null)
-//					continue;
-//				g.drawImage(data[planePos], x * 64, 640 - y * 64, null);
-//
-//			}
-//		}
+		//		for (int x = 0; x < 10; x++) {
+		//			for (int y = 0; y < 10; y++) {
+		//				int regionId = ((x + xPos) << 8) | (y + yPos);
+		//				BufferedImage[] data = getMap(regionId);
+		//				if (data == null)
+		//					continue;
+		//				g.drawImage(data[planePos], x * 64, 640 - y * 64, null);
+		//
+		//			}
+		//		}
 
 		screen = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics g2 = screen.getGraphics();
@@ -128,7 +128,7 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 		int localY = yPos & 63;
 
 		if (map != null && !forceNoRefresh)
-			g2.drawImage(map, (int) (((int) (-localX) + (rxPos - xPos / 64) * 64 - ratio * 64) * scale), (int) ((-((64 + (ryPos - yPos / 64) * 64 + ratio * 64) - localY)) * scale), this);
+			g2.drawImage(map, (int) (((-localX) + (rxPos - xPos / 64) * 64 - ratio * 64) * scale), (int) ((-((64 + (ryPos - yPos / 64) * 64 + ratio * 64) - localY)) * scale), this);
 		g2.setColor(Color.PINK);
 		if (loading)
 			g2.drawString("Loading", 50, 50);
@@ -161,7 +161,7 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 		int[][] heights = new int[64 * maxRX][64 * maxRY];
 		int[][] masks = new int[64 * maxRX][64 * maxRY];
 
-		for (int rx = 0; rx < maxRX; rx++) {
+		for (int rx = 0; rx < maxRX; rx++)
 			for (int ry = 0; ry < maxRY; ry++) {
 				int regionId = ((rx + rxPos) << 8) | (ry + ryPos);
 				int regionX = (regionId >> 8) * 64;
@@ -170,24 +170,25 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 				byte[] data = mapArchiveId == -1 ? null : Cache.STORE.getIndex(IndexType.MAPS).getFile(mapArchiveId, 0);
 				if (data == null)
 					continue;
-				
+
 				if (data != null) {
 					InputStream mapStream = new InputStream(data);
-					for (int plane = 0; plane < 4; plane++) {
-						for (int x = 0; x < 64; x++) {
-							for (int y = 0; y < 64; y++) {
+					for (int plane = 0; plane < 4; plane++)
+						for (int x = 0; x < 64; x++)
+							for (int y = 0; y < 64; y++)
 								while (true) {
 									int value = mapStream.readUnsignedByte();
 									if (plane == planePos)
 										dataOpcodes[rx * 64 + x][ry * 64 + y] = value;
-									if (value == 0) {
+									if (value == 0)
 										break;
-									} else if (value == 1) {
+									if (value == 1) {
 										int v = mapStream.readUnsignedByte();
 										if (plane == planePos)
 											heights[rx * 64 + x][ry * 64 + y] = v;
 										break;
-									} else if (value <= 49) {
+									}
+									if (value <= 49) {
 										int v = mapStream.readUnsignedByte();
 										if (plane == planePos) {
 											overlayIds[rx * 64 + x][ry * 64 + y] = v;
@@ -197,17 +198,11 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 									} else if (value <= 81) {
 										if (plane == planePos)
 											masks[rx * 64 + x][ry * 64 + y] = (byte) (value - 49);
-									} else {
-										if (plane == planePos)
-											underlayIds[rx * 64 + x][ry * 64 + y] = (value - 81);
-									}
+									} else if (plane == planePos)
+										underlayIds[rx * 64 + x][ry * 64 + y] = (value - 81);
 								}
-							}
-						}
-					}
 				}
 			}
-		}
 
 		for (int x = -5; x < rgb.length; x++) {
 			for (int y = 0; y < rgb[0].length; y++) {
@@ -261,46 +256,39 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 						r3 -= a5[i_108_];
 					}
 					// sets map
-					if (y >= 0 && r3 > 0) {
+					if (y >= 0 && r3 > 0)
 						rgb[x][y] = new Color(c1 / r3, c2 / r3, c3 / r3).getRGB();
-					}
-				}
-			}
-		}
-		
-		for (int x = 0; x < rgb.length; x++) {
-			for (int y = 0; y < rgb[0].length; y++) {
-				if (((overlayIds[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) > 0) {
-					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((overlayIds[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
-					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
-					if (col == 0 || col == -1 || col == 16711935) {
-						col = 0;
-					}
-					if (col == 0 && defs.texture != -1) {
-						col = TextureDefinitions.getDefinitions(defs.texture & 0xFF).color;
-					}
-					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
-				} else if (((shapes[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) > 0) {
-					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((shapes[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
-					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
-					if (col == 0 || col == -1 || col == 16711935) {
-						col = 0;
-					}
-					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
-				} else {
-//					//RAW rgb setting no blending
-//					UnderlayDefinitions defs = UnderlayDefinitions.getUnderlayDefinitions(((underlayData[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
-//					int col = defs.rgb == -1 || defs.rgb == 16711935 || defs.rgb == 0 ? defs.rgb : defs.rgb;
-//					if (col == 0 || col == -1 || col == 16711935) {
-//						col = 0;
-//					}
-//					img.setRGB(x, (rgb[0].length - 1) - y, new Color(defs.r, defs.g, defs.b).getRGB());
-					img.setRGB(x, (rgb[0].length - 1) - y, rgb[x][y]);
 				}
 			}
 		}
 
-		for (int rx = 0; rx < maxRX; rx++) {
+		for (int x = 0; x < rgb.length; x++)
+			for (int y = 0; y < rgb[0].length; y++)
+				if (((overlayIds[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) > 0) {
+					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((overlayIds[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
+					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
+					if (col == 0 || col == -1 || col == 16711935)
+						col = 0;
+					if (col == 0 && defs.texture != -1)
+						col = TextureDefinitions.getDefinitions(defs.texture & 0xFF).color;
+					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
+				} else if (((shapes[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) > 0) {
+					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((shapes[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
+					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
+					if (col == 0 || col == -1 || col == 16711935)
+						col = 0;
+					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
+				} else
+					//					//RAW rgb setting no blending
+					//					UnderlayDefinitions defs = UnderlayDefinitions.getUnderlayDefinitions(((underlayData[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
+					//					int col = defs.rgb == -1 || defs.rgb == 16711935 || defs.rgb == 0 ? defs.rgb : defs.rgb;
+					//					if (col == 0 || col == -1 || col == 16711935) {
+					//						col = 0;
+					//					}
+					//					img.setRGB(x, (rgb[0].length - 1) - y, new Color(defs.r, defs.g, defs.b).getRGB());
+					img.setRGB(x, (rgb[0].length - 1) - y, rgb[x][y]);
+
+		for (int rx = 0; rx < maxRX; rx++)
 			for (int ry = 0; ry < maxRY; ry++) {
 				int regionId = ((rx + rxPos) << 8) | (ry + ryPos);
 				int regionX = (regionId >> 8) * 64;
@@ -331,7 +319,7 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 						 * == 2) objectPlane--; if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
 						 * continue;
 						 */
-						
+
 						// System.out.println(spriteId);
 						if (plane == planePos) {
 							int mapSpriteId = ObjectDefinitions.getDefs(objectId).mapSpriteId;
@@ -349,7 +337,7 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 							/*
 							 * if(width > s.getWidth() || height > s.getHeight()) { width = s.getWidth(); height =
 							 * s.getHeight();
-							 * 
+							 *
 							 * }
 							 */
 
@@ -362,7 +350,6 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 					}
 				}
 			}
-		}
 
 		return img;
 
@@ -371,13 +358,13 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 	public static final int getV(int i, int i_1_, int i_2_) {
 		if (i_2_ > 243)
 			i_1_ >>= 4;
-		else if (i_2_ > 217)
-			i_1_ >>= 3;
-		else if (i_2_ > 192)
-			i_1_ >>= 2;
-		else if (i_2_ > 179)
-			i_1_ >>= 1;
-		return (i_2_ >> 1) + (((i & 0xff) >> 2 << 10) + (i_1_ >> 5 << 7));
+			else if (i_2_ > 217)
+				i_1_ >>= 3;
+				else if (i_2_ > 192)
+					i_1_ >>= 2;
+					else if (i_2_ > 179)
+						i_1_ >>= 1;
+						return (i_2_ >> 1) + (((i & 0xff) >> 2 << 10) + (i_1_ >> 5 << 7));
 	}
 
 	@Override
@@ -450,13 +437,10 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 				else
 					scale /= 1.5;
 
-			} else {
-				if (e.isControlDown())
-					planePos = (planePos + 1) & 0x3;
-				else {
-					scale *= 1.5;
-				}
-			}
+			} else if (e.isControlDown())
+				planePos = (planePos + 1) & 0x3;
+			else
+				scale *= 1.5;
 			forceNoRefresh = true;
 			checkLoad();
 		}

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.transportation;
@@ -24,7 +24,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -50,7 +50,7 @@ public class WildernessObelisk {
 		World.sendObjectAnimation(World.getObjectWithId(center.transform(4, 0, 0), id), new Animation(2226));
 		World.sendObjectAnimation(World.getObjectWithId(center.transform(0, 4, 0), id), new Animation(2226));
 		World.sendObjectAnimation(World.getObjectWithId(center.transform(4, 4, 0), id), new Animation(2226));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -60,7 +60,7 @@ public class WildernessObelisk {
 				Region region = World.getRegion(center.getRegionId());
 				Set<Integer> playerIndexes = region.getPlayerIndexes();
 				WorldTile newCenter = OBELISK_CENTER_TILES[Utils.random(OBELISK_CENTER_TILES.length)];
-				if (playerIndexes != null) {
+				if (playerIndexes != null)
 					for (Integer i : playerIndexes) {
 						Player p = World.getPlayers().get(i);
 						if (p == null || (p.getX() < center.getX() + 1 || p.getX() > center.getX() + 3 || p.getY() < center.getY() + 1 || p.getY() > center.getY() + 3))
@@ -69,7 +69,6 @@ public class WildernessObelisk {
 						int offsetY = p.getY() - center.getY();
 						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, new WorldTile(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.OBJECT_TELEPORT);
 					}
-				}
 				IS_ACTIVE[index] = false;
 			}
 

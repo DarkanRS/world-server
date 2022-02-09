@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -31,10 +31,9 @@ public class RuneWikiNPCDefinitionsDumper {
 	 */
 	public static void main(String[] args) {
 		//Cache.init();
-		for (int i = 6793; i < 6891; i++) {
+		for (int i = 6793; i < 6891; i++)
 			if (!dumpNPC(i))
 				System.out.println("Failed dumping npc: " + i + ", " + NPCDefinitions.getDefs(i).getName());
-		}
 	}
 
 	private static final String COMBAT_LEVEL_LINE = "<th nowrap=\"nowrap\"><a href=\"/wiki/Combat_level\" title=\"Combat level\">Combat level</a>";

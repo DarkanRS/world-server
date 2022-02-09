@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.gertrudescat;
@@ -57,7 +57,7 @@ public class GertrudesCat extends QuestOutline {
 	 */
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:
 			lines.add("I can start this quest by speaking to Gertrude.");
@@ -126,33 +126,33 @@ public class GertrudesCat extends QuestOutline {
 		player.getInventory().addItem(2003, 1);
 		getQuest().sendQuestCompleteInterface(player, 1555, "A kitten!", "1525 Cooking XP", "The ability to raise cats");
 	}
-	
+
 	/**
 	 * Updates whether Fluffs is visible to the player or not. In this case:
 	 * var 180 = 2 = Fluffs is only visible at the Lumber Yard
 	 * var 180 = 5 = Fluffs is only visible in Gertrude's house
-	 * 
+	 *
 	 * NPC ID: 759 - transforms into with v180:
-	 * [0: INVISIBLE], 
-	 * [1: INVISIBLE], 
-	 * [2: 7742 (Fluffs)], 
-	 * [3: 7742 (Fluffs)], 
-	 * [4: 7742 (Fluffs)], 
-	 * [5: INVISIBLE], 
-	 * 
+	 * [0: INVISIBLE],
+	 * [1: INVISIBLE],
+	 * [2: 7742 (Fluffs)],
+	 * [3: 7742 (Fluffs)],
+	 * [4: 7742 (Fluffs)],
+	 * [5: INVISIBLE],
+	 *
 	 * NPC ID: 7744 - transforms into with v180:
-	 * [0: INVISIBLE], 
-	 * [1: INVISIBLE], 
-	 * [2: INVISIBLE], 
-	 * [3: INVISIBLE], 
-	 * [4: INVISIBLE], 
-	 * [5: 7742 (Fluffs)], 
-	 * [6: 7742 (Fluffs)], 
-	 * [7: INVISIBLE], 
-	 * 
+	 * [0: INVISIBLE],
+	 * [1: INVISIBLE],
+	 * [2: INVISIBLE],
+	 * [3: INVISIBLE],
+	 * [4: INVISIBLE],
+	 * [5: 7742 (Fluffs)],
+	 * [6: 7742 (Fluffs)],
+	 * [7: INVISIBLE],
+	 *
 	 * NPC id 759 is spawned at the Lumber Yard upstairs.
 	 * NPC id 7744 is spawned in Gertrude's home.
-	 * 
+	 *
 	 * @param PlayerDao to update Fluffs for.
 	 */
 	public static void updateFluffs(Player player) {
@@ -161,17 +161,17 @@ public class GertrudesCat extends QuestOutline {
 		else if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 8 && !player.getQuestManager().isComplete(Quest.GERTRUDES_CAT))
 			player.getVars().setVar(180, 5);
 	}
-	
+
 	/**
 	 * Handles Fluff's Pick-up option. Whether or not Fluffs has this option available and is visible to the player
 	 * depending on the vars set above is automatically handled and verified by the server so cheating cannot occur.
-	 * 
+	 *
 	 * @param The event to handle.
 	 */
 	public static NPCClickHandler handleFluffsOptions = new NPCClickHandler(759) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOption().equals("Pick-up")) {
+			if (e.getOption().equals("Pick-up"))
 				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 2 || e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 4) {
 					e.getNPC().setNextAnimation(new Animation(9160));
 					e.getNPC().setNextForceTalk(new ForceTalk("Hiss!"));
@@ -189,10 +189,9 @@ public class GertrudesCat extends QuestOutline {
 					e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT)+1);
 					updateFluffs(e.getPlayer());
 				}
-			}
 		}
 	};
-	
+
 	/**
 	 * Handles when the player clicks on the shaking crates in the Lumber Yard.
 	 * @param The event to handle.
@@ -205,12 +204,12 @@ public class GertrudesCat extends QuestOutline {
 					return;
 				e.getPlayer().startConversation(new Conversation(new Dialogue()
 						.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> {
-					e.getPlayer().getInventory().addItem(13236, 1);
-				})));
+							e.getPlayer().getInventory().addItem(13236, 1);
+						})));
 			}
 		}
 	};
-	
+
 	/**
 	 * Handles starting Gertrude's dialogue.
 	 * @param The event to handle.
@@ -221,7 +220,7 @@ public class GertrudesCat extends QuestOutline {
 			e.getPlayer().startConversation(new GertrudeD(e.getPlayer()));
 		}
 	};
-	
+
 	/**
 	 * Handles starting Shilop and Wilough's dialogue.
 	 * @param The event to handle.
@@ -232,7 +231,7 @@ public class GertrudesCat extends QuestOutline {
 			e.getPlayer().startConversation(new ShilopWiloughD(e.getPlayer(), e.getNPC()));
 		}
 	};
-	
+
 	/**
 	 * When the player logs in, Fluffs is re-updated to make sure she is still visible.
 	 */
@@ -242,7 +241,7 @@ public class GertrudesCat extends QuestOutline {
 			updateFluffs(e.getPlayer());
 		}
 	};
-	
+
 	/**
 	 * Handles the creation of doogle sardines.
 	 * @param The event to handle.
@@ -276,7 +275,7 @@ public class GertrudesCat extends QuestOutline {
 								e.getPlayer().getInventory().addItem(1925, 1);
 								e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 4);
 								updateFluffs(e.getPlayer());
-					})));
+							})));
 				}
 			} else if (e.getItem().getId() == 1552) {
 				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 5) {
@@ -288,9 +287,9 @@ public class GertrudesCat extends QuestOutline {
 								e.getPlayer().getInventory().deleteItem(1552, 1);
 								e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 6);
 								updateFluffs(e.getPlayer());
-					})));
+							})));
 				}
-			} else if (e.getItem().getId() == 13236) {
+			} else if (e.getItem().getId() == 13236)
 				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 7) {
 					e.getPlayer().setNextAnimation(new Animation(827));
 					// TODO cutscene
@@ -301,7 +300,6 @@ public class GertrudesCat extends QuestOutline {
 					e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 8);
 					updateFluffs(e.getPlayer());
 				}
-			}
 		}
 	};
 }

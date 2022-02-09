@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
@@ -37,8 +37,8 @@ import com.rs.plugin.handlers.ItemClickHandler;
 @PluginEventHandler
 public class ItemConstants {
 
-	public static int[] CHARM_IDS = new int[] { 12158, 12159, 12160, 12163 };
-	
+	public static int[] CHARM_IDS = { 12158, 12159, 12160, 12163 };
+
 	public enum ItemDegrade {
 		AHRIM_HELM(4708, 4856, 4860, 90000, 60000),
 		AHRIM_WEAP(4710, 4862, 4866, 90000, 100000),
@@ -68,7 +68,7 @@ public class ItemConstants {
 		AKRISAE_WEAP(21744, 21746, 21750, 90000, 100000),
 		AKRISAE_TOP(21752, 21754, 21758, 90000, 90000),
 		AKRISAE_LEG(21760, 21762, 21766, 90000, 80000),
-		
+
 		ZURIELS_TOP(13858, 13860, -1, 6000, -1),
 		ZURIELS_BOTTOM(13861, 13863, -1, 6000, -1),
 		ZURIELS_HOOD(13858, 13860, -1, 6000, -1),
@@ -84,7 +84,7 @@ public class ItemConstants {
 		VESTAS_BOTTOM(13893, 13895, -1, 6000, -1),
 		VESTAS_LONGSWORD(13899, 13901, -1, 6000, -1),
 		VESTAS_SPEAR(13905, 13907, -1, 6000, -1),
-		
+
 		C_ZURIELS_TOP(13932, 13934, -1, 1500, -1),
 		C_ZURIELS_BOTTOM(13935, 13937, -1, 1500, -1),
 		C_ZURIELS_HOOD(13938, 13940, -1, 1500, -1),
@@ -100,7 +100,7 @@ public class ItemConstants {
 		C_VESTAS_BOTTOM(13917, 13919, -1, 1500, -1),
 		C_VESTAS_LONGSWORD(13923, 13925, -1, 1500, -1),
 		C_VESTAS_SPEAR(13929, 13931, -1, 1500, -1),
-		
+
 		C_DRAG_CHAIN(13958, 13960, -1, 3000, -1),
 		C_DRAG_HELM(13961, 13963, -1, 3000, -1),
 		C_DRAG_SQ_S(13964, 13966, -1, 3000, -1),
@@ -112,7 +112,7 @@ public class ItemConstants {
 		C_DRAG_LONG(13982, 13984, -1, 3000, -1),
 		C_DRAG_MACE(13985, 13987, -1, 3000, -1),
 		C_DRAG_SPEAR(13988, 13990, -1, 3000, -1),
-		
+
 		GOLIATH_B(22358, 22358, -1, 60000, -1),
 		GOLIATH_W(22359, 22359, -1, 60000, -1),
 		GOLIATH_Y(22360, 22360, -1, 60000, -1),
@@ -125,7 +125,7 @@ public class ItemConstants {
 		SPELLCASTER_W(22367, 22367, -1, 60000, -1),
 		SPELLCASTER_Y(22368, 22368, -1, 60000, -1),
 		SPELLCASTER_R(22369, 22369, -1, 60000, -1),
-		
+
 		CHAOTIC_RAPIER(18349, -1, 18350, 60000, 2000000),
 		CHAOTIC_LONGSWORD(18351, -1, 18352, 60000, 2000000),
 		CHAOTIC_MAUL(18353, -1, 18354, 60000, 2000000),
@@ -134,25 +134,25 @@ public class ItemConstants {
 		CHAOTIC_KITESHIELD(18359, -1, 18360, 60000, 2000000),
 		EAGLE_KITESHIELD(18361, -1, 18362, 60000, 2000000),
 		FARSEER_KITESHIELD(18363, -1, 18364, 60000, 2000000),
-		
+
 		GRAVITE_RAPIER(18365, -1, 18366, 30000, 1000000),
 		GRAVITE_LONGSWORD(18367, -1, 18368, 30000, 1000000),
 		GRAVITE_2H(18369, -1, 18370, 30000, 1000000),
 		GRAVITE_STAFF(18371, -1, 18372, 30000, 1000000),
 		GRAVITE_SHORTBOW(18373, -1, 18374, 30000, 1000000),
-		
+
 		FUNGAL_VISOR(22458, 22460, 22452, 60000, -1),
 		FUNGAL_PONCHO(22466, 22468, 22456, 60000, -1),
 		FUNGAL_LEGGINGS(22462, 22464, 22454, 60000, -1),
-		
+
 		GRIFOLIC_VISOR(22470, 22472, 22452, 60000, -1),
 		GRIFOLIC_PONCHO(22478, 22480, 22456, 60000, -1),
 		GRIFOLIC_LEGGINGS(22474, 22476, 22454, 60000, -1),
-		
+
 		GANODERMIC_VISOR(22482, 22484, 22452, 60000, -1),
 		GANODERMIC_PONCHO(22490, 22492, 22456, 60000, -1),
 		GANODERMIC_LEGGINGS(22486, 22488, 22454, 60000, -1),
-		
+
 		CRYSTAL_BOW_NEW(4212, 4214, 4215, 6000, -1),
 		CRYSTAL_BOW_FULL(4214, 4214, 4215, 6000, -1), //not certain how, but edge case to cover if someone got a fresh "full" bow without meta data instead of a new bow.
 		CRYSTAL_BOW_NINE(4215, 4215, 4216, 6000, -1),
@@ -164,7 +164,7 @@ public class ItemConstants {
 		CRYSTAL_BOW_THREE(4221, 4221, 4222, 6000, -1),
 		CRYSTAL_BOW_TWO(4222, 4222, 4223, 6000, -1),
 		CRYSTAL_BOW_ONE(4223, 4223, 4207, 6000, -1),
-		
+
 		CRYSTAL_SHIELD_NEW(4224, 4225, 4226, 6000, -1),
 		CRYSTAL_SHIELD_FULL(4225, 4225, 4226, 6000, -1), //not certain how, but edge case to cover if someone got a fresh "full" shield without meta data instead of a new bow.
 		CRYSTAL_SHIELD_NINE(4226, 4226, 4227, 6000, -1),
@@ -176,9 +176,9 @@ public class ItemConstants {
 		CRYSTAL_SHIELD_THREE(4232, 4232, 4222, 6000, -1),
 		CRYSTAL_SHIELD_TWO(4233, 4233, 4223, 6000, -1),
 		CRYSTAL_SHIELD_ONE(4234, 4234, 4207, 6000, -1),
-		
+
 		ROYAL_CROSSBOW(24338, 24338, 24339, 60000, -1),
-		
+
 		TORVA_HELM(20135, 20137, 20138, 60000, 500000),
 		TORVA_PLATE(20139, 20141, 20142, 60000, 2000000),
 		TORVA_LEGS(20143, 20145, 20146, 60000, 1000000),
@@ -195,16 +195,16 @@ public class ItemConstants {
 		VIRTUS_GLOVES(24980, 24981, 24982, 60000, 200000),
 		VIRTUS_BOOTS(24986, 24987, 24988, 60000, 100000),
 		ZARYTE_BOW(20171, 20173, 20174, 60000, 2000000);
-		
+
 		private int itemId;
 		private int degradedId;
 		private int brokenId;
 		private int defaultCharges;
 		private int cost;
-		
-		private static Map<Integer, ItemDegrade> broken = new HashMap<Integer, ItemDegrade>();
-		private static Map<Integer, ItemDegrade> degraded = new HashMap<Integer, ItemDegrade>();
-		private static Map<Integer, ItemDegrade> repaired = new HashMap<Integer, ItemDegrade>();
+
+		private static Map<Integer, ItemDegrade> broken = new HashMap<>();
+		private static Map<Integer, ItemDegrade> degraded = new HashMap<>();
+		private static Map<Integer, ItemDegrade> repaired = new HashMap<>();
 
 		static {
 			for (ItemDegrade item : ItemDegrade.values()) {
@@ -217,7 +217,7 @@ public class ItemConstants {
 				repaired.put(item.getItemId(), item);
 			}
 		}
-		
+
 		public static ItemDegrade forId(int itemId) {
 			ItemDegrade deg = broken.get(itemId);
 			if (deg == null)
@@ -228,31 +228,31 @@ public class ItemConstants {
 				deg = broken.get(itemId);
 			return deg;
 		}
-		
+
 		public static ItemDegrade forBrokenId(int itemId) {
 			return broken.get(itemId);
 		}
-		
+
 		public static ItemDegrade forDegradedId(int itemId) {
 			return degraded.get(itemId);
 		}
-		
+
 		public static ItemDegrade forNewId(int itemId) {
 			return repaired.get(itemId);
 		}
-		
+
 		private ItemDegrade(int itemId, int degradedId, int brokenId, int defaultCharges, int repairCost) {
 			this.itemId = itemId;
 			this.degradedId = degradedId;
 			this.brokenId = brokenId;
 			this.defaultCharges = defaultCharges;
-			this.cost = repairCost;
+			cost = repairCost;
 		}
 
 		public int getItemId() {
 			return itemId;
 		}
-		
+
 		public int getDegradedId() {
 			return degradedId;
 		}
@@ -264,18 +264,18 @@ public class ItemConstants {
 		public int getBrokenId() {
 			return brokenId;
 		}
-		
+
 		public int getCost(Item item) {
 			if (forBrokenId(item.getId()) != null)
 				return cost;
-			return cost - ((int) ((double) cost * (((double) item.getMetaDataI("combatCharges", 0)) / ((double) defaultCharges))));
+			return cost - ((int) (cost * (((double) item.getMetaDataI("combatCharges", 0)) / ((double) defaultCharges))));
 		}
-		
+
 		public int getRepairStandCost(Player player) {
 			return cost * (1-(player.getSkills().getLevel(Constants.SMITHING)/200));
 		}
 	}
-	
+
 	public static ItemClickHandler handleGenericCheckCharges = new ItemClickHandler(new String[] { "Check-charges", "Check state", "Check-state" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -285,31 +285,27 @@ public class ItemConstants {
 				e.getPlayer().sendMessage("<col=FF0000>It looks brand new.");
 		}
 	};
-	
+
 	public static void handleRepairs(Player player, Item item, final boolean stand, final int slot) {
 		if (item.getId() >= 18349 && item.getId() <= 18374) {
 			player.sendMessage("This item cannot be repaired here. You should speak with the rewards trader in Damonheim.");
 			return;
 		}
 		if (item.getId() == 20120) {
-			if (item.getMetaData("frozenKeyCharges") != null && item.getMetaDataI("frozenKeyCharges") < 100) {
+			if (item.getMetaData("frozenKeyCharges") != null && item.getMetaDataI("frozenKeyCharges") < 100)
 				player.sendOptionDialogue("Would you like to add a charge to your frozen key? It will cost 50,000 coins.", new String[] {"Yes please.", "No, that's too much."}, new DialogueOptionEvent() {
 					@Override
 					public void run(Player player) {
-						if (option == 1) {
+						if (option == 1)
 							if (player.getInventory().containsItem(995, 50000)) {
-								if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId()) {
+								if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId())
 									return;
-								}
 								player.getInventory().deleteItem(995, 50000);
 								player.getInventory().getItems().set(slot, new Item(20120, 1).addMetaData("frozenKeyCharges", item.getMetaDataI("frozenKeyCharges") + 1));
-							} else {
+							} else
 								player.sendMessage("You don't have enough money to add a charge.");
-							}
-						}
 					}
 				});
-			}
 			return;
 		}
 		ItemDegrade details = ItemDegrade.forId(item.getId());
@@ -319,20 +315,18 @@ public class ItemConstants {
 				return;
 			}
 			player.sendMessage("This item cannot be repaired or is already fully repaired.");
-		} else {
+		} else
 			player.getDialogueManager().execute(new RepairStandD(), details, item, stand, slot);
-		}
 	}
 
 	public static boolean canWear(Item item, Player player) {
 		if (player.hasRights(Rights.ADMIN))
 			return true;
-		if (item.getId() == 9813 || item.getId() == 10662) {
+		if (item.getId() == 9813 || item.getId() == 10662)
 			if (!player.getQuestManager().completedAllQuests()) {
 				player.sendMessage("You need to have completed all quests to wear this.");
 				return false;
 			}
-		}
 		Quest quest = Quest.forId(item.getDefinitions().getWieldQuestReq());
 		if (quest != null) {
 			if (!player.getQuestManager().isComplete(quest)) {
@@ -345,7 +339,7 @@ public class ItemConstants {
 		}
 		HashMap<Integer, Integer> requiriments = item.getDefinitions().getWearingSkillRequiriments();
 		boolean hasRequirements = true;
-		if (requiriments != null) {
+		if (requiriments != null)
 			for (int skillId : requiriments.keySet()) {
 				if (skillId > 24 || skillId < 0)
 					continue;
@@ -353,10 +347,9 @@ public class ItemConstants {
 				if (level < 0 || level > 120)
 					continue;
 				if (player.getSkills().getLevelForXp(skillId) < level) {
-					if (hasRequirements) {
+					if (hasRequirements)
 						if (player.getSession() != null)
 							player.sendMessage("You are not high enough level to use this item.");
-					}
 					hasRequirements = false;
 					String name = Constants.SKILL_NAME[skillId].toLowerCase();
 					if (player.getSession() != null)
@@ -364,29 +357,21 @@ public class ItemConstants {
 				}
 
 			}
-		}
 		SetReward reward = SetReward.forId(item.getId());
-		if (reward != null && !reward.hasRequirements(player, item.getId()))
+		if ((reward != null && !reward.hasRequirements(player, item.getId())) || !hasRequirements)
 			return false;
-		if (!hasRequirements)
-			return false;
-		if (item.getDefinitions().getName().contains("Max cape") || item.getDefinitions().getName().contains("Max hood")) {
-			if (!player.getSkills().isMaxed(false)) {
+		if (item.getDefinitions().getName().contains("Max cape") || item.getDefinitions().getName().contains("Max hood"))
+			if (!player.getSkills().isMaxed(false))
 				return false;
-			}
-		}
-		if ((item.getId() == 20769 || item.getId() == 20770 || item.getId() == 20771 || item.getId() == 20772)) {
-			if (!player.checkCompRequirements(item.getId() == 20771 || item.getId() == 20772)) {
+		if ((item.getId() == 20769 || item.getId() == 20770 || item.getId() == 20771 || item.getId() == 20772))
+			if (!player.checkCompRequirements(item.getId() == 20771 || item.getId() == 20772))
 				return false;
-			}
-		}
 		String itemName = item.getName();
-		if (itemName.contains("goliath gloves") || itemName.contains("spellcaster glove") || itemName.contains("swift glove")) {
+		if (itemName.contains("goliath gloves") || itemName.contains("spellcaster glove") || itemName.contains("swift glove"))
 			if (player.getDominionTower().getKilledBossesCount() < 50 && !Settings.getConfig().isDebug()) {
 				player.sendMessage("You need to have kill at least 50 bosses in the dominion tower to wear these gloves.");
 				return true;
 			}
-		}
 		return true;
 	}
 
@@ -395,7 +380,7 @@ public class ItemConstants {
 			return true;
 		return false;
 	}
-	
+
 	public static boolean isHouseOnlyItem(int itemId) {
 		if (itemId >= 7671 && itemId <= 7755)
 			return true;
@@ -420,13 +405,13 @@ public class ItemConstants {
 		case 20656:
 		case 20657:
 		case 20658:
-            case ShieldOfArrav.CERTIFICATE_LEFT:
-            case ShieldOfArrav.CERTIFICATE_RIGHT:
-            case ShieldOfArrav.WEAPONS_KEY:
+		case ShieldOfArrav.CERTIFICATE_LEFT:
+		case ShieldOfArrav.CERTIFICATE_RIGHT:
+		case ShieldOfArrav.WEAPONS_KEY:
 			return true;
 		}
 		if ((!item.getDefinitions().isStackable() && item.getDefinitions().getCertId() == -1) || item.getDefinitions().isDestroyItem() || item.getDefinitions().isLended())
-            return false;
+			return false;
 		return item.getDefinitions().canExchange();
 	}
 }

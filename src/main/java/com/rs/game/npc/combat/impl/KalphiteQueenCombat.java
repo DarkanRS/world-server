@@ -2,23 +2,22 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -53,7 +52,7 @@ public class KalphiteQueenCombat extends CombatScript {
 			World.sendProjectile(fromEntity, target, projectile, fromEntity == startTile ? 70 : 20, 20, 30, 6, 0, 0);
 			int endTime = 3;
 			delayHit(startTile, endTime, target, getMagicHit(startTile, getMaxHit(startTile, npc.getMaxHit(), AttackStyle.MAGE, target)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(gfx));
@@ -71,7 +70,7 @@ public class KalphiteQueenCombat extends CombatScript {
 			arrayList.add(player);
 		World.sendProjectile(fromEntity, target, 280, fromEntity == startTile ? 70 : 20, 20, 60, 30, 0, 0);
 		delayHit(startTile, 0, target, getMagicHit(startTile, getMaxHit(startTile, startTile.getMaxHit(), AttackStyle.MAGE, target)));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -82,10 +81,9 @@ public class KalphiteQueenCombat extends CombatScript {
 	}
 
 	private static Player getTarget(List<Player> list, final Entity fromEntity, WorldTile startTile) {
-		if (fromEntity == null) {
+		if (fromEntity == null)
 			return null;
-		}
-		ArrayList<Player> added = new ArrayList<Player>();
+		ArrayList<Player> added = new ArrayList<>();
 		for (int regionId : fromEntity.getMapRegionsIds()) {
 			Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
 			if (playersIndexes == null)
@@ -99,21 +97,16 @@ public class KalphiteQueenCombat extends CombatScript {
 		}
 		if (added.isEmpty())
 			return null;
-		Collections.sort(added, new Comparator<Player>() {
-
-			@Override
-			public int compare(Player o1, Player o2) {
-				if (o1 == null)
-					return 1;
-				if (o2 == null)
-					return -1;
-				if (Utils.getDistance(o1, fromEntity) > Utils.getDistance(o2, fromEntity))
-					return 1;
-				else if (Utils.getDistance(o1, fromEntity) < Utils.getDistance(o2, fromEntity))
-					return -1;
-				else
-					return 0;
-			}
+		Collections.sort(added, (o1, o2) -> {
+			if (o1 == null)
+				return 1;
+			if (o2 == null)
+				return -1;
+			if (Utils.getDistance(o1, fromEntity) > Utils.getDistance(o2, fromEntity))
+				return 1;
+			if (Utils.getDistance(o1, fromEntity) < Utils.getDistance(o2, fromEntity))
+				return -1;
+			return 0;
 		});
 		return added.get(0);
 
@@ -127,23 +120,23 @@ public class KalphiteQueenCombat extends CombatScript {
 			int distanceX = target.getX() - npc.getX();
 			int distanceY = target.getY() - npc.getY();
 			int size = npc.getSize();
-			if (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1)
-				attackStyle = Utils.random(2); // set mage
-			else {
+			if ((distanceX <= size) && (distanceX >= -1) && (distanceY <= size) && (distanceY >= -1)) {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
+			attackStyle = Utils.random(2);
 		}
 		npc.setNextAnimation(new Animation(npc.getId() == 1158 ? 6240 : 6234));
-		if (attackStyle == 1) { // range easy one
+		if (attackStyle == 1)
+			// range easy one
 			for (final Entity t : npc.getPossibleTargets()) {
 				delayHit(npc, 2, t, getRangeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, t)));
 				World.sendProjectile(npc, t, 288, 46, 31, 50, 30, 16, 0);
 			}
-		} else {
+		else {
 			npc.setNextSpotAnim(new SpotAnim(npc.getId() == 1158 ? 278 : 279));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

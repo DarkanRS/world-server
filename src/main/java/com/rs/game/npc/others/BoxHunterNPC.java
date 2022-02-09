@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.others;
@@ -44,8 +44,8 @@ public class BoxHunterNPC extends NPC {
 	public BoxHunterNPC(BoxHunterType type, int id, WorldTile tile, boolean spawned) {
 		super(id, tile, spawned);
 		this.type = type;
-		this.trap = type.getTrap();
-		this.setIgnoreNPCClipping(true);
+		trap = type.getTrap();
+		setIgnoreNPCClipping(true);
 	}
 
 	@Override
@@ -66,9 +66,8 @@ public class BoxHunterNPC extends NPC {
 		if (objects == null)
 			return;
 		for (final GameObject o : objects) {
-			if (!(o instanceof BoxStyleTrap))
-					continue;
-			BoxStyleTrap trapO = (BoxStyleTrap) o;
+			if (!(o instanceof BoxStyleTrap trapO))
+				continue;
 			Player owner = trapO.getOwner();
 			if (owner == null || owner.getSkills().getLevel(Constants.HUNTER) < type.getLevel() || trapO.getStatus() != Status.IDLE || trapO.getLife() < 10 || trapO.getLife() > 75 || trapO.getTrapType() != trap || trapO.getBait() != type.getBaitId() || !withinDistance(o, 2))
 				continue;
@@ -86,16 +85,16 @@ public class BoxHunterNPC extends NPC {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void setRespawnTask() {
 		super.setRespawnTask(4);
 	}
-	
+
 	public BoxHunterType getType() {
 		return type;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(BoxHunterType.ID_MAP.keySet().toArray()) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

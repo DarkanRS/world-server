@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.magic;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class BoltEnchanting  {
-	
+
 	public enum Bolt {
 
 		OPAL(14, 4, new RuneSet(Rune.COSMIC, 1, Rune.AIR, 2), 879, 9236, 9),
@@ -58,10 +58,9 @@ public class BoltEnchanting  {
 		}
 
 		public static Bolt forId(int id) {
-			for (Bolt bolt : Bolt.values()) {
+			for (Bolt bolt : Bolt.values())
 				if (bolt.getComponentId() == id)
 					return bolt;
-			}
 			return null;
 		}
 
@@ -89,21 +88,20 @@ public class BoltEnchanting  {
 			return xp;
 		}
 	}
-	
+
 	static class BoltEnchantingAction extends Action {
-		
+
 		private Bolt bolt;
 		private int amount;
-		
+
 		public BoltEnchantingAction(Bolt bolt, int amount) {
 			this.bolt = bolt;
 			this.amount = amount;
 		}
-		
+
 		public boolean checkAll(Player player) {
-			if (!Magic.checkRunes(player, false, bolt.getRunes())) {
+			if (!Magic.checkRunes(player, false, bolt.getRunes()))
 				return false;
-			}
 			if (!player.getInventory().containsItem(bolt.getOriginal(), 10)) {
 				player.sendMessage("You don't have 10 bolts of this type to enchant.");
 				return false;
@@ -118,7 +116,7 @@ public class BoltEnchanting  {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public boolean start(Player player) {
 			return checkAll(player);
@@ -131,20 +129,16 @@ public class BoltEnchanting  {
 
 		@Override
 		public int processWithDelay(Player player) {
-			if (!checkAll(player))
+			if (!checkAll(player) || !Magic.checkRunes(player, true, bolt.getRunes()))
 				return -1;
-			if (Magic.checkRunes(player, true, bolt.getRunes())) {
-				amount--;
-				player.getInventory().deleteItem(bolt.getOriginal(), 10);
-				player.getInventory().addItem(bolt.getProduct(), 10);
-				player.setNextAnimation(new Animation(4462));
-		        player.setNextSpotAnim(new SpotAnim(759));
-		        player.getSkills().addXp(Constants.MAGIC, bolt.getXp());
-				if (amount <= 0)
-					return -1;
-			} else {
+			amount--;
+			player.getInventory().deleteItem(bolt.getOriginal(), 10);
+			player.getInventory().addItem(bolt.getProduct(), 10);
+			player.setNextAnimation(new Animation(4462));
+			player.setNextSpotAnim(new SpotAnim(759));
+			player.getSkills().addXp(Constants.MAGIC, bolt.getXp());
+			if (amount <= 0)
 				return -1;
-			}
 			return 2;
 		}
 
@@ -154,12 +148,12 @@ public class BoltEnchanting  {
 		}
 
 	}
-	
+
 	public static ButtonClickHandler handleInter = new ButtonClickHandler(432) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			Bolt bolt = Bolt.forId(e.getComponentId());
-			if (bolt != null) {
+			if (bolt != null)
 				switch(e.getPacket()) {
 				case IF_OP1: //1
 					e.getPlayer().stopAll();
@@ -176,7 +170,6 @@ public class BoltEnchanting  {
 				default:
 					break;
 				}
-			}
 		}
 	};
 

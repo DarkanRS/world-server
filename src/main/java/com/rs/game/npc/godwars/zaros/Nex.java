@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.godwars.zaros;
@@ -31,7 +31,7 @@ import com.rs.game.npc.godwars.zaros.attack.NexAttack;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -43,7 +43,7 @@ import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
 public final class Nex extends NPC {
-	
+
 	public enum Phase {
 		SMOKE,
 		SHADOW,
@@ -58,7 +58,7 @@ public final class Nex extends NPC {
 	private int minionStage;
 	private int attackCount = 0;
 	private long ticksLastAttack;
-	
+
 	private NPC[] bloodReavers;
 
 	public Nex(NexArena arena, WorldTile tile) {
@@ -75,7 +75,7 @@ public final class Nex extends NPC {
 		attackCount = 1;
 		refreshTicksAttacked();
 	}
-	
+
 	public static ObjectClickHandler handleIcePrison = new ObjectClickHandler(new Object[] { 57263 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -131,21 +131,20 @@ public final class Nex extends NPC {
 			if ((!lineOfSightTo(target, isFollowTarget())) || !WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), maxDistance)) {
 				resetWalkSteps();
 				if (!WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), 5)) {
-					int[][] dirs = Utils.getCoordOffsetsNear(getSize());
-					for (int dir = 0; dir < dirs[0].length; dir++) {
-						final WorldTile tile = new WorldTile(new WorldTile(target.getX() + dirs[0][dir], target.getY() + dirs[1][dir], target.getPlane()));
-						if (World.floorAndWallsFree(tile, getSize())) {
-							setNextForceMovement(new ForceMovement(new WorldTile(this), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
-							setNextAnimation(new Animation(6985));
-							setNextWorldTile(tile);
-							return;
-						}
+					WorldTile tile = target.getNearestTeleTile(this);
+					if (tile == null)
+						tile = new WorldTile(target);
+					if (World.floorAndWallsFree(tile, getSize())) {
+						setNextForceMovement(new ForceMovement(new WorldTile(this), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
+						setNextAnimation(new Animation(6985));
+						setNextWorldTile(tile);
+						return;
 					}
 				} else
 					calcFollow(target, 2, true, true);
 				return;
-			} else
-				resetWalkSteps();
+			}
+			resetWalkSteps();
 		}
 	}
 
@@ -153,28 +152,23 @@ public final class Nex extends NPC {
 	public void sendDeath(Entity source) {
 		transformIntoNPC(13450);
 		final NPCCombatDefinitions defs = getCombatDefinitions();
-		WorldTasksManager.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0) {
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
-					drop();
-					reset();
-					finish();
-					arena.endWar();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(tick -> {
+			if (tick == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (tick >= defs.getDeathDelay()*2) { //TODO need to redo all npc death timers since they're increment of 2 ticks..
+				drop();
+				reset();
+				finish();
+				arena.endWar();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 		setNextForceTalk(new ForceTalk("Taste my wrath!"));
 		playSound(3323, 2);
 		sendWrath();
 	}
-	
+
 	public void sendWrath() {
 		setNextSpotAnim(new SpotAnim(2259));
 		sendWrathProj(this, new WorldTile(getX() + 3, getY() + 3, getPlane()), 0.4);
@@ -189,36 +183,34 @@ public final class Nex extends NPC {
 		sendWrathProj(this, new WorldTile(getX() - 2, getY() + 2, getPlane()), 0.4);
 		sendWrathProj(this, new WorldTile(getX() + 2, getY() + 2, getPlane()), 0.4);
 		sendWrathProj(this, new WorldTile(getX() - 2, getY() - 2, getPlane()), 0.4);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				List<Entity> possibleTargets = getPossibleTargets();
 
-				if (possibleTargets != null) {
+				if (possibleTargets != null)
 					for (Entity entity : possibleTargets) {
 						if (entity == null || entity.isDead() || entity.hasFinished() || !entity.withinDistance(Nex.this, 5))
 							continue;
 						entity.applyHit(new Hit(Nex.this, Utils.getRandomInclusive(600), HitLook.TRUE_DAMAGE));
 					}
-				}
 			}
 		}, 5);
 	}
-	
+
 	public static void sendWrathProj(Entity nex, WorldTile tile, double speed) {
-		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, 0, () -> {
+		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, 0, p -> {
 			World.sendSpotAnim(nex, new SpotAnim(2260), tile);
 		});
 	}
 
 	public ArrayList<Entity> calculatePossibleTargets(WorldTile current, WorldTile position, boolean northSouth) {
-		ArrayList<Entity> list = new ArrayList<Entity>();
-		for (Entity e : getPossibleTargets()) {
+		ArrayList<Entity> list = new ArrayList<>();
+		for (Entity e : getPossibleTargets())
 			if (e.inArea(current.getX(), current.getY(), position.getX() + (northSouth ? 2 : 0), position.getY() + (!northSouth ? 2 : 0))
 
-			|| e.inArea(position.getX(), position.getY(), current.getX() + (northSouth ? 2 : 0), current.getY() + (!northSouth ? 2 : 0)))
+					|| e.inArea(position.getX(), position.getY(), current.getX() + (northSouth ? 2 : 0), current.getY() + (!northSouth ? 2 : 0)))
 				list.add(e);
-		}
 		return list;
 	}
 
@@ -252,7 +244,7 @@ public final class Nex extends NPC {
 			playSound(3312, 2);
 		}
 	}
-	
+
 	public void checkPhase() {
 		switch(phase) {
 		case SMOKE:
@@ -277,7 +269,7 @@ public final class Nex extends NPC {
 	}
 
 	public void switchPrayers() {
-		if (this.isDead())
+		if (isDead())
 			return;
 		transformIntoNPC(getId() == 13449 ? 13447 : getId() + 1);
 	}
@@ -340,12 +332,12 @@ public final class Nex extends NPC {
 	public void setFollowTarget(boolean followTarget) {
 		this.followTarget = followTarget;
 	}
-	
+
 	public void setPhase(Phase phase) {
 		this.phase = phase;
-		this.attackCount = 0;
+		attackCount = 0;
 	}
-	
+
 	public NPC[] getBloodReavers() {
 		return bloodReavers;
 	}
@@ -366,7 +358,7 @@ public final class Nex extends NPC {
 	public Phase getPhase() {
 		return phase;
 	}
-	
+
 	public NexArena getArena() {
 		return arena;
 	}

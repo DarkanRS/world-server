@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -36,7 +36,7 @@ import com.rs.lib.util.Utils;
 
 public class FleshspoilerHaasghenahk extends DungeonBoss {
 
-	private List<FleshspoilerSpawn> creatures = new CopyOnWriteArrayList<FleshspoilerSpawn>();
+	private List<FleshspoilerSpawn> creatures = new CopyOnWriteArrayList<>();
 
 	private Entity cachedTarget;
 	private boolean secondStage, useMagicOnly;
@@ -72,14 +72,14 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 
 	private void addFleshCreatures() {
 		final WorldTile centerTile = getManager().getTile(getReference(), 8, 7);
-		final List<WorldTile> tiles = new LinkedList<WorldTile>();
+		final List<WorldTile> tiles = new LinkedList<>();
 		for (int i = 0; i < 5; i++) {
 			WorldTile tile = World.getFreeTile(centerTile, 6);
 			World.sendProjectile(this, tile, 2765, 150, 0, 30, 1, 40, 0);
 			tiles.add(tile);
 		}
 		final FleshspoilerHaasghenahk boss = this;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -100,7 +100,7 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 			calculateNextTarget();
 			setNextAnimation(new Animation(14467));
 			setNextSpotAnim(new SpotAnim(2765, 240, 0));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

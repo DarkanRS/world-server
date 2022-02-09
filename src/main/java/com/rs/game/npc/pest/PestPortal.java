@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.pest;
@@ -21,7 +21,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.content.minigames.pest.PestControl;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -41,6 +41,7 @@ public class PestPortal extends NPC {
 		isLocked = true;
 	}
 
+	@Override
 	public boolean isLocked() {
 		return isLocked;
 	}
@@ -49,13 +50,13 @@ public class PestPortal extends NPC {
 	public boolean ignoreWallsWhenMeleeing() {
 		return true;
 	}
-	
+
 	public void unlock() {
 		if (getId() >= 6146) {
 			transformIntoNPC(getId() - 4);
 			control.sendTeamMessage(getStringForId() + " portal shield has been dropped!");
 		}
-		this.isLocked = false;
+		isLocked = false;
 	}
 
 	private String getStringForId() {
@@ -98,12 +99,10 @@ public class PestPortal extends NPC {
 	public void processNPC() {
 		super.processNPC();
 		ticks++;
-		if (ticks % 15 == 0) {
-			if (control.createPestNPC(getIndexForId())) {
+		if (ticks % 15 == 0)
+			if (control.createPestNPC(getIndexForId()))
 				if (Utils.random(5) == 0) // double spawn xD
 					control.createPestNPC(getIndexForId());
-			}
-		}
 		if (isDead() || isLocked)
 			return;
 		cancelFaceEntityNoCheck();
@@ -114,14 +113,14 @@ public class PestPortal extends NPC {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					if (getIndexForId() != 4) {
 						control.unlockPortal();
 						control.getKnight().heal(500);

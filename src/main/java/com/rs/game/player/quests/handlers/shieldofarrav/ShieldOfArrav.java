@@ -2,31 +2,28 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.shieldofarrav;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
@@ -35,19 +32,12 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemAddedToInventoryEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @QuestHandler(Quest.SHIELD_OF_ARRAV)
@@ -121,15 +111,15 @@ public class ShieldOfArrav extends QuestOutline {
     final static int FULL_SHIELD = 11164;
     final static int PHOENIX_CROSSBOW = 767;
 
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE_STAGE;
-	}
+    @Override
+    public int getCompletedStage() {
+        return QUEST_COMPLETE_STAGE;
+    }
 
-	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
-		switch(stage) {
+    @Override
+    public ArrayList<String> getJournalLines(Player player, int stage) {
+        ArrayList<String> lines = new ArrayList<>();
+        switch (stage) {
             case NOT_STARTED_STAGE:
                 lines.add("Varrockian literature tells of a valuable shield.");
                 lines.add("It was stolen long ago from the Museum of Varrock,");
@@ -146,7 +136,7 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("You also must read the book then talk to Reldo");
                 lines.add("Turn to page 2");
                 lines.add("");
-			    break;
+                break;
             case BOOK_IS_READ_STAGE:
                 lines.add("Talk to Reldo");
                 lines.add("");
@@ -181,7 +171,7 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("at the blue moon inn and retrieve his intelligence");
                 lines.add("report then give it to Straven");
                 lines.add("");
-                if(isStageInPlayerSave(player, AFTER_BRIBE_CHARLIE_STAGE)) {
+                if (isStageInPlayerSave(player, AFTER_BRIBE_CHARLIE_STAGE)) {
                     lines.add("If I am feeling doubt Charlie says I can speak");
                     lines.add("to Katrine to join the Black Arm Gang");
                 } else {
@@ -206,7 +196,7 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("");
                 break;
             case JOINED_PHOENIX_STAGE:
-                if(ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_PHOENIX_STAGE)) {
+                if (ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_PHOENIX_STAGE)) {
                     lines.add("You have joined the Phoenix Gang");
                     lines.add("I should find the Shield Of Arrav");
                     lines.add("at their hideout");
@@ -214,7 +204,7 @@ public class ShieldOfArrav extends QuestOutline {
                 }
                 break;
             case JOINED_BLACK_ARM_STAGE:
-                if(ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_BLACK_ARM_STAGE)) {
+                if (ShieldOfArrav.isStageInPlayerSave(player, ShieldOfArrav.JOINED_BLACK_ARM_STAGE)) {
                     lines.add("You have joined the Black Arm Gang");
                     lines.add("I should find the Shield Of Arrav");
                     lines.add("at their hideout");
@@ -232,18 +222,18 @@ public class ShieldOfArrav extends QuestOutline {
                 break;
             case HAS_CERTIFICATE_STAGE:
                 lines.add("Somehow I must get the other certificate half");
-                if(!ShieldOfArrav.hasGang(player)) {
+                if (!ShieldOfArrav.hasGang(player)) {
                     lines.add("You dont' have a gang but the quest is complete");
                     lines.add("report this or try to join a gang.");
                 }
-                if(ShieldOfArrav.isPhoenixGang(player)) {
+                if (ShieldOfArrav.isPhoenixGang(player)) {
                     lines.add("I am part of the Phoenix Gang. Maybe a Black Arm");
                     lines.add("member can help?");
                     lines.add("");
                     lines.add("I can trade players by using quest items on them.");
                     lines.add("");
                 }
-                if(ShieldOfArrav.isBlackArmGang(player)) {
+                if (ShieldOfArrav.isBlackArmGang(player)) {
                     lines.add("I am part of the Black Arm Gang, Maybe a Phoenix");
                     lines.add("member can help?");
                     lines.add("");
@@ -253,7 +243,12 @@ public class ShieldOfArrav extends QuestOutline {
                 lines.add("");
                 break;
             case QUEST_COMPLETE_STAGE:
-                lines.add("");
+                if (!hasGang(player))
+                    lines.add("Contact an admin. You appear to not have a gang...");
+                if (isPhoenixGang(player))
+                    lines.add("You have joined the Phoenix gang...");
+                if (isBlackArmGang(player))
+                    lines.add("You have joined the Black Arm gang...");
                 lines.add("");
                 lines.add("QUEST COMPLETE!");
                 break;
@@ -275,53 +270,108 @@ public class ShieldOfArrav extends QuestOutline {
             default:
                 lines.add("Invalid quest stage. Report this to an administrator.");
                 break;
-		}
-		return lines;
-	}
+        }
+        return lines;
+    }
 
     public static void saveStageToPlayerSave(Player p, int questStage) {
         GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
-        switch(questStage) {
-            case NOT_STARTED_STAGE -> {questAttr.setB(NOT_STARTED_ATTR, true);}
-            case FIND_BOOK_STAGE -> {p.delete("claimedArravLamp"); questAttr.setB(FIND_BOOK_ATTR, true);}
-            case BOOK_IS_READ_STAGE -> {questAttr.setB(BOOK_IS_READ_ATTR, true);}
-            case TALK_TO_BARAEK_STAGE -> {questAttr.setB(TALK_TO_BARAEK_ATTR, true);}
-            case AFTER_BRIBE_BARAEK_STAGE -> {questAttr.setB(AFTER_BRIBE_BARAEK_ATTR, true);}
-            case PROVING_LOYALTY_PHOENIX_STAGE -> {questAttr.setB(PROVING_LOYALTY_PHOENIX_ATTR, true);}
-            case AFTER_BRIBE_CHARLIE_STAGE -> {questAttr.setB(AFTER_BRIBE_CHARLIE_ATTR, true);}
-            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {questAttr.setB(PROVING_LOYALTY_BLACK_ARM_ATTR, true);}
-            case JOINED_PHOENIX_STAGE -> {questAttr.setB(JOINED_PHOENIX_ATTR, true);}
-            case JOINED_BLACK_ARM_STAGE -> {questAttr.setB(JOINED_BLACK_ARM_ATTR, true);}
-            case HAS_SHIELD_STAGE -> {questAttr.setB(HAS_SHIELD_ATTR, true);}
-            case SPOKE_TO_KING_STAGE -> {questAttr.setB(SPOKE_TO_KING_ATTR, true);}
-            case HAS_CERTIFICATE_STAGE -> {questAttr.setB(HAS_CERTIFICATE_ATTR, true);}
+        switch (questStage) {
+            case NOT_STARTED_STAGE -> {
+                questAttr.setB(NOT_STARTED_ATTR, true);
+            }
+            case FIND_BOOK_STAGE -> {
+                p.delete("claimedArravLamp");
+                questAttr.setB(FIND_BOOK_ATTR, true);
+            }
+            case BOOK_IS_READ_STAGE -> {
+                questAttr.setB(BOOK_IS_READ_ATTR, true);
+            }
+            case TALK_TO_BARAEK_STAGE -> {
+                questAttr.setB(TALK_TO_BARAEK_ATTR, true);
+            }
+            case AFTER_BRIBE_BARAEK_STAGE -> {
+                questAttr.setB(AFTER_BRIBE_BARAEK_ATTR, true);
+            }
+            case PROVING_LOYALTY_PHOENIX_STAGE -> {
+                questAttr.setB(PROVING_LOYALTY_PHOENIX_ATTR, true);
+            }
+            case AFTER_BRIBE_CHARLIE_STAGE -> {
+                questAttr.setB(AFTER_BRIBE_CHARLIE_ATTR, true);
+            }
+            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {
+                questAttr.setB(PROVING_LOYALTY_BLACK_ARM_ATTR, true);
+            }
+            case JOINED_PHOENIX_STAGE -> {
+                questAttr.setB(JOINED_PHOENIX_ATTR, true);
+            }
+            case JOINED_BLACK_ARM_STAGE -> {
+                questAttr.setB(JOINED_BLACK_ARM_ATTR, true);
+            }
+            case HAS_SHIELD_STAGE -> {
+                questAttr.setB(HAS_SHIELD_ATTR, true);
+            }
+            case SPOKE_TO_KING_STAGE -> {
+                questAttr.setB(SPOKE_TO_KING_ATTR, true);
+            }
+            case HAS_CERTIFICATE_STAGE -> {
+                questAttr.setB(HAS_CERTIFICATE_ATTR, true);
+            }
         }
     }
 
     public static boolean isStageInPlayerSave(Player p, int questStage) {
         GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
-        switch(questStage) {
-            case NOT_STARTED_STAGE -> {return questAttr.getB(NOT_STARTED_ATTR);}
-            case FIND_BOOK_STAGE -> {return questAttr.getB(FIND_BOOK_ATTR);}
-            case BOOK_IS_READ_STAGE -> {return questAttr.getB(BOOK_IS_READ_ATTR);}
-            case TALK_TO_BARAEK_STAGE -> {return questAttr.getB(TALK_TO_BARAEK_ATTR);}
-            case AFTER_BRIBE_BARAEK_STAGE -> {return questAttr.getB(AFTER_BRIBE_BARAEK_ATTR);}
-            case PROVING_LOYALTY_PHOENIX_STAGE -> {return questAttr.getB(PROVING_LOYALTY_PHOENIX_ATTR);}
-            case AFTER_BRIBE_CHARLIE_STAGE -> {return questAttr.getB(AFTER_BRIBE_CHARLIE_ATTR);}
-            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {return questAttr.getB(PROVING_LOYALTY_BLACK_ARM_ATTR);}
-            case JOINED_PHOENIX_STAGE -> {return questAttr.getB(JOINED_PHOENIX_ATTR);}
-            case JOINED_BLACK_ARM_STAGE -> {return questAttr.getB(JOINED_BLACK_ARM_ATTR);}
-            case HAS_SHIELD_STAGE -> {return questAttr.getB(HAS_SHIELD_ATTR);}
-            case SPOKE_TO_KING_STAGE -> {return questAttr.getB(SPOKE_TO_KING_ATTR);}
-            case HAS_CERTIFICATE_STAGE -> {return questAttr.getB(HAS_CERTIFICATE_ATTR);}
-            default -> {return false;}
+        switch (questStage) {
+            case NOT_STARTED_STAGE -> {
+                return questAttr.getB(NOT_STARTED_ATTR);
+            }
+            case FIND_BOOK_STAGE -> {
+                return questAttr.getB(FIND_BOOK_ATTR);
+            }
+            case BOOK_IS_READ_STAGE -> {
+                return questAttr.getB(BOOK_IS_READ_ATTR);
+            }
+            case TALK_TO_BARAEK_STAGE -> {
+                return questAttr.getB(TALK_TO_BARAEK_ATTR);
+            }
+            case AFTER_BRIBE_BARAEK_STAGE -> {
+                return questAttr.getB(AFTER_BRIBE_BARAEK_ATTR);
+            }
+            case PROVING_LOYALTY_PHOENIX_STAGE -> {
+                return questAttr.getB(PROVING_LOYALTY_PHOENIX_ATTR);
+            }
+            case AFTER_BRIBE_CHARLIE_STAGE -> {
+                return questAttr.getB(AFTER_BRIBE_CHARLIE_ATTR);
+            }
+            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {
+                return questAttr.getB(PROVING_LOYALTY_BLACK_ARM_ATTR);
+            }
+            case JOINED_PHOENIX_STAGE -> {
+                return questAttr.getB(JOINED_PHOENIX_ATTR);
+            }
+            case JOINED_BLACK_ARM_STAGE -> {
+                return questAttr.getB(JOINED_BLACK_ARM_ATTR);
+            }
+            case HAS_SHIELD_STAGE -> {
+                return questAttr.getB(HAS_SHIELD_ATTR);
+            }
+            case SPOKE_TO_KING_STAGE -> {
+                return questAttr.getB(SPOKE_TO_KING_ATTR);
+            }
+            case HAS_CERTIFICATE_STAGE -> {
+                return questAttr.getB(HAS_CERTIFICATE_ATTR);
+            }
+            default -> {
+                return false;
+            }
         }
     }
 
     public static boolean hasGang(Player p) {
-	    if(isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE) || isStageInPlayerSave(p, JOINED_PHOENIX_STAGE))
-	        return true;
-	    return false;
+        if (isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE) || isStageInPlayerSave(p, JOINED_PHOENIX_STAGE))
+            return true;
+        return false;
     }
 
     public static boolean isPhoenixGang(Player p) {
@@ -341,28 +391,35 @@ public class ShieldOfArrav extends QuestOutline {
         p.getQuestManager().setStage(Quest.SHIELD_OF_ARRAV, questStage, updateJournal);
         saveStageToPlayerSave(p, questStage);
     }
-	
-	@Override
-	public void complete(Player player) {
-		player.getInventory().addItem(995, 1200, true);
-		getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas",  "at the Varrock Museum for a lamp", "1200gp");
-	}
 
-    public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[] { 2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763 }) {
+    public static void setPhoenixGang(Player p) {
+        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_PHOENIX_ATTR, true);
+        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_BLACK_ARM_ATTR, false);
+    }
+
+    public static void setBlackArmGang(Player p) {
+        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_PHOENIX_ATTR, false);
+        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_BLACK_ARM_ATTR, true);
+    }
+
+    @Override
+    public void complete(Player player) {
+        if (!hasGang(player))
+            setPhoenixGang(player);
+        player.getInventory().addItem(995, 1200, true);
+        getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
+    }
+
+    public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}) {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
-            if(e.getObject().getId()==2402)
-                if(!p.getInventory().containsItem(757)) {
+            if (e.getObject().getId() == 2402)
+                if (!p.getInventory().containsItem(757)) {
                     p.getInventory().addItem(757, 1);
                     p.getPackets().sendGameMessage("You found the book, \"Shield Of Arrav\".");
-                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
-                        p.startConversation(new Conversation(e.getPlayer()) {
-                            {
-                                addPlayer(HeadE.HAPPY_TALKING, "Aha! 'The Shield Of Arrav'! Exactly what I was looking for.");
-                                create();
-                            }
-                        });
+                    if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
+                        p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Aha, 'The Shield Of Arrav'! Exactly what I was looking for."));
                 } else
                     p.getPackets().sendGameMessage("You already found the book, \"Shield Of Arrav\".");
             else {
@@ -375,9 +432,9 @@ public class ShieldOfArrav extends QuestOutline {
     public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(BOOK) {
         @Override
         public void handle(ItemClickEvent e) {
-            if(e.getOption().equalsIgnoreCase("read"))
+            if (e.getOption().equalsIgnoreCase("read"))
                 BookShieldOfArrav.openBook(e.getPlayer());
-            if(e.getOption().equalsIgnoreCase("drop")) {
+            if (e.getOption().equalsIgnoreCase("drop")) {
                 e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
                 World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
                 e.getPlayer().getPackets().sendSound(2739, 0, 1);
@@ -388,30 +445,30 @@ public class ShieldOfArrav extends QuestOutline {
     public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(761) {
         @Override
         public void handle(ItemClickEvent e) {
-            if(e.getOption().equalsIgnoreCase("read"))
+            if (e.getOption().equalsIgnoreCase("read"))
                 e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang");
         }
     };
 
-    public static ObjectClickHandler handlePhoenixGangDoor = new ObjectClickHandler(new Object[] { 2397 }) {
+    public static ObjectClickHandler handlePhoenixGangDoor = new ObjectClickHandler(new Object[]{2397}) {
         @Override
         public void handle(ObjectClickEvent e) {
             if (e.getObject().matches(new WorldTile(3247, 9779, 0))) {
                 if (e.getOption().equalsIgnoreCase("open")) {
                     if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_PHOENIX_STAGE) && e.getPlayer().getY() > e.getObject().getY()) {
-                        e.getPlayer().startConversation(new com.rs.game.player.content.dialogue.Dialogue().addNPC(644, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of" +
+                        e.getPlayer().startConversation(new Dialogue().addNPC(644, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of" +
                                 " the VTAM Corporation are allowed beyond this point."));
                         return;
                     }
                     Doors.handleDoor(e.getPlayer(), e.getObject());
                 }
-            return;
+                return;
             }
             Doors.handleDoor(e.getPlayer(), e.getObject());
         }
     };
 
-    public static ObjectClickHandler handleBlackArmGangDoor = new ObjectClickHandler(new Object[] { 2399 }) {
+    public static ObjectClickHandler handleBlackArmGangDoor = new ObjectClickHandler(new Object[]{2399}) {
         @Override
         public void handle(ObjectClickEvent e) {
             if (e.getObject().matches(new WorldTile(3185, 3388, 0))) {
@@ -428,150 +485,107 @@ public class ShieldOfArrav extends QuestOutline {
         }
     };
 
-    public static ObjectClickHandler handleShieldChest = new ObjectClickHandler(new Object[] { 2403, 2404 }) {
+    public static ObjectClickHandler handleShieldChest = new ObjectClickHandler(new Object[]{2403, 2404}) {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
             GameObject obj = e.getObject();
-            if(!obj.matches(new WorldTile(3235, 9761, 0)))
+            if (!obj.matches(new WorldTile(3235, 9761, 0)))
                 return;
-            if(e.getOption().equalsIgnoreCase("open")) {
+            if (e.getOption().equalsIgnoreCase("open")) {
                 p.setNextAnimation(new Animation(536));
                 p.lock(2);
                 GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
                 p.faceObject(openedChest);
                 World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
             }
-            if(e.getOption().equalsIgnoreCase("search")) {
-                if(p.getInventory().containsItem(SHIELD_RIGHT_HALF))
+            if (e.getOption().equalsIgnoreCase("search"))
+                if (p.getInventory().containsItem(SHIELD_RIGHT_HALF))
                     p.sendMessage("The chest is empty");
-                else if(p.getBank().containsItem(SHIELD_RIGHT_HALF, 1)) {
-                    p.startConversation(new Conversation(e.getPlayer()) {
-                        {
-                            addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank.");
-                            create();
-                        }
-                    });
+                else if (p.getBank().containsItem(SHIELD_RIGHT_HALF, 1)) {
+                    p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
                     p.sendMessage("The chest is empty");
                 } else {
                     p.sendMessage("You get the right half of the shield of Arrav");
                     p.getInventory().addItem(SHIELD_RIGHT_HALF, 1);
-                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
+                    if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
                         setStage(p, HAS_SHIELD_STAGE);
-                        p.startConversation(new Conversation(e.getPlayer()) {
-                            {
-                                addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald");
-                                create();
-                            }
-                        });
+                        p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
                     }
                 }
-            }
 
         }
     };
 
-    public static ObjectClickHandler handleBlackArmCupboard = new ObjectClickHandler(new Object[] { 2400, 2401 }) {
+    public static ObjectClickHandler handleBlackArmCupboard = new ObjectClickHandler(new Object[]{2400, 2401}) {
         @Override
         public void handle(ObjectClickEvent e) {
             Player p = e.getPlayer();
             GameObject obj = e.getObject();
-            if(!obj.matches(new WorldTile(3189, 3385, 1)))
+            if (!obj.matches(new WorldTile(3189, 3385, 1)))
                 return;
-            if(e.getOption().equalsIgnoreCase("open")) {
+            if (e.getOption().equalsIgnoreCase("open")) {
                 p.setNextAnimation(new Animation(536));
                 p.lock(2);
                 GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
                 p.faceObject(openedChest);
                 World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
             }
-            if(e.getOption().equalsIgnoreCase("shut")) {
+            if (e.getOption().equalsIgnoreCase("shut")) {
                 p.setNextAnimation(new Animation(536));
                 p.lock(2);
                 GameObject openedChest = new GameObject(obj.getId() - 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
                 p.faceObject(openedChest);
                 World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
             }
-            if(e.getOption().equalsIgnoreCase("search")) {
-                if(p.getInventory().containsItem(SHIELD_LEFT_HALF))
+            if (e.getOption().equalsIgnoreCase("search"))
+                if (p.getInventory().containsItem(SHIELD_LEFT_HALF))
                     p.sendMessage("The cupboard is empty");
-                else if(p.getBank().containsItem(SHIELD_LEFT_HALF, 1)) {
-                    p.getDialogueManager().execute(new Dialogue() {
-                        @Override
-                        public void start() {
-                            sendPlayerDialogue(p, HeadE.HAPPY_TALKING.getEmoteId(), "Oh that's right, the right shield half is in my bank.");
-                        }
-
-                        @Override
-                        public void run(int interfaceId, int componentId) {
-                        }
-
-                        @Override
-                        public void finish() {
-
-                        }
-                    });
+                else if (p.getBank().containsItem(SHIELD_LEFT_HALF, 1)) {
+                    p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
                     p.sendMessage("The cupboard is empty");
                 } else {
                     p.sendMessage("You get the left half of the shield of Arrav");
                     p.getInventory().addItem(SHIELD_LEFT_HALF, 1);
-                    if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
+                    if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
                         setStage(p, HAS_SHIELD_STAGE);
-                        p.getDialogueManager().execute(new Dialogue() {
-                            @Override
-                            public void start() {
-                                sendPlayerDialogue(p, HeadE.HAPPY_TALKING.getEmoteId(), "I should take this to King Roald");
-                            }
-
-                            @Override
-                            public void run(int interfaceId, int componentId) {
-                            }
-
-                            @Override
-                            public void finish() {
-
-                            }
-                        });
+                        p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
                     }
                 }
-            }
 
         }
     };
 
-    public static ObjectClickHandler handleWeaponsStoreDoor = new ObjectClickHandler(new Object[] { 2398 }) {
+    public static ObjectClickHandler handleWeaponsStoreDoor = new ObjectClickHandler(new Object[]{2398}) {
         @Override
         public void handle(ObjectClickEvent e) {
             GameObject obj = e.getObject();
-            if(!obj.matches(new WorldTile(3251, 3386, 0)))
+            if (!obj.matches(new WorldTile(3251, 3386, 0)))
                 return;
-            if(e.getPlayer().getInventory().containsItem(WEAPONS_KEY, 1) || e.getPlayer().getY() < obj.getY())
+            if (e.getPlayer().getInventory().containsItem(WEAPONS_KEY, 1) || e.getPlayer().getY() < obj.getY())
                 Doors.handleDoor(e.getPlayer(), e.getObject());
-            else {
+            else
                 e.getPlayer().sendMessage("The door appears to need a key");
-            }
         }
     };
 
 
-    public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[] {CERTIFICATE_LEFT}) {
+    public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[]{CERTIFICATE_LEFT}) {
         @Override
         public void handle(ItemOnItemEvent e) {
-            if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
+            if (e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
                 e.getPlayer().getInventory().deleteItem(e.getItem1().getId(), 1);
                 e.getPlayer().getInventory().deleteItem(e.getItem2().getId(), 1);
                 e.getPlayer().getInventory().addItem(CERTIFICATE_FULL, 1);
-            }
-            else {
+            } else
                 e.getPlayer().sendMessage("You don't know what these papers are for...");
-            }
         }
     };
 
     public static ItemClickHandler handleClickOnCertificate = new ItemClickHandler(11173, 11174, 769) {
         @Override
         public void handle(ItemClickEvent e) {
-            if(e.getOption().equalsIgnoreCase("read"))
+            if (e.getOption().equalsIgnoreCase("read"))
                 e.getPlayer().sendMessage("This authenticates the Shield Of Arrav");
         }
     };
@@ -580,13 +594,13 @@ public class ShieldOfArrav extends QuestOutline {
         @Override
         public void handle(ItemAddedToInventoryEvent e) {
             Player p = e.getPlayer();
-            if(!p.matches(new WorldTile(3245, 3385, 1)))
+            if (!p.matches(new WorldTile(3245, 3385, 1)))
                 return;
 
             List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
-            for(NPC npc : npcs)
-                if(npc.getId() == 643) {
-                    switch(Utils.random(1, 4)) {
+            for (NPC npc : npcs)
+                if (npc.getId() == 643) {
+                    switch (Utils.random(1, 4)) {
                         case 1:
                             npc.forceTalk("Get your hands off!");
                             break;
@@ -627,7 +641,7 @@ public class ShieldOfArrav extends QuestOutline {
     public static LoginHandler onLogin = new LoginHandler() {
         @Override
         public void handle(LoginEvent e) {
-            if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
                 e.getPlayer().getVars().setVarBit(5394, 1);
             else
                 e.getPlayer().getVars().setVarBit(5394, 0);

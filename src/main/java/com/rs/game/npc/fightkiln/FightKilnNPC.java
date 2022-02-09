@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.fightkiln;
@@ -27,7 +27,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.controllers.FightKilnController;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -79,14 +79,14 @@ public class FightKilnNPC extends NPC {
 		setNextAnimation(null);
 		controller.checkCrystal();
 		setNextSpotAnim(new SpotAnim(getDeathGfx()));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					reset();
 					finish();
 					controller.removeNPC();
@@ -99,16 +99,15 @@ public class FightKilnNPC extends NPC {
 
 	@Override
 	public List<Entity> getPossibleTargets() {
-		ArrayList<Entity> possibleTarget = new ArrayList<Entity>(1);
+		ArrayList<Entity> possibleTarget = new ArrayList<>(1);
 		Set<Integer> playerIndexes = World.getRegion(getRegionId()).getPlayerIndexes();
-		if (playerIndexes != null) {
+		if (playerIndexes != null)
 			for (int npcIndex : playerIndexes) {
 				Player player = World.getPlayers().get(npcIndex);
 				if (player == null || player.isDead() || player.hasFinished() || !player.isRunning())
 					continue;
 				possibleTarget.add(player);
 			}
-		}
 		return possibleTarget;
 	}
 

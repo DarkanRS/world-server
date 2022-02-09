@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -31,7 +31,7 @@ import com.rs.game.npc.dungeoneering.NightGazerKhighorahk;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -54,8 +54,8 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 			delayHit(gazer, 1, target, getRangeHit(gazer, getMaxHit(gazer, (int) (gazer.getMaxHit() * 0.6), AttackStyle.RANGE, target)));
 		}
 
-		if (!gazer.isSecondStage()) {
-			WorldTasksManager.schedule(new WorldTask() {
+		if (!gazer.isSecondStage())
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -65,7 +65,6 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 				}
 
 			}, 5);
-		}
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		if (!gazer.isUsedSpecial()) {
 			final List<Entity> targets = gazer.getPossibleTargets();
 			boolean success = false;
-			for (Entity t : targets) {
+			for (Entity t : targets)
 				if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 1)) {
 					if (!success)
 						success = true;
@@ -87,20 +86,19 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 					npc.setNextSpotAnim(new SpotAnim(/* gazer.isSecondStage() ? 2391 : */2390));
 					gazer.setUsedSpecial(true);
 				}
-			}
 			if (success) {
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 
 					private int ticks;
-					private List<WorldTile> tiles = new LinkedList<WorldTile>();
+					private List<WorldTile> tiles = new LinkedList<>();
 
 					@Override
 					public void run() {
 						ticks++;
-						if (ticks == 1) {
+						if (ticks == 1)
 							npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13426 : 13428));
-						} else if (ticks == 3) {
-							for (Entity t : targets) {
+						else if (ticks == 3) {
+							for (Entity t : targets)
 								if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 1)) {
 									t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
 									if (t instanceof Player player) {
@@ -113,7 +111,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 										tile = new WorldTile(new WorldTile(t.getX() + (dirs[0] * distance), t.getY() + (dirs[1] * distance), t.getPlane()));
 										if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 											break distanceLoop;
-										else if (distance == 0)
+										if (distance == 0)
 											tile = new WorldTile(t);
 									}
 									tiles.add(tile);
@@ -121,7 +119,6 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 									t.setNextAnimation(new Animation(10070));
 									t.setNextForceMovement(new ForceMovement(t, 0, tile, 2, t.getFaceAngle()));
 								}
-							}
 						} else if (ticks == 4) {
 							for (int index = 0; index < tiles.size(); index++) {
 								Entity t = targets.get(index);
@@ -138,35 +135,33 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		} else
 			gazer.setUsedSpecial(false);
 
-		if (Utils.random(10) == 0) { // range aoe
-			if (!gazer.isSecondStage()) {
-				npc.setNextAnimation(new Animation(13423));
-				WorldTasksManager.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						sendRangeAoe(gazer);
-					}
-
-				}, 1);
-				return npc.getAttackSpeed() + 6;
-			} else {
+		if (Utils.random(10) == 0) {
+			if (gazer.isSecondStage()) {
 				sendRangeAoe(gazer);
 				return npc.getAttackSpeed() + 1;
 			}
-		} else {
-			if (Utils.random(3) == 0) { // range single target
-				npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13433 : 13434));
-				World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 90, 0, 0);
-				delayHit(npc, 3, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
-				return npc.getAttackSpeed() + 1;
-			} else { // magic
-				npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
-				World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 30, 0, 0);
-				target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
-				return npc.getAttackSpeed();
-			}
+			npc.setNextAnimation(new Animation(13423));
+			WorldTasks.schedule(new WorldTask() {
+
+				@Override
+				public void run() {
+					sendRangeAoe(gazer);
+				}
+
+			}, 1);
+			return npc.getAttackSpeed() + 6;
 		}
+		if (Utils.random(3) == 0) { // range single target
+			npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13433 : 13434));
+			World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 90, 0, 0);
+			delayHit(npc, 3, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
+			return npc.getAttackSpeed() + 1;
+		}
+		// magic
+		npc.setNextAnimation(new Animation(gazer.isSecondStage() ? 13430 : 13431));
+		World.sendProjectile(npc, target, 2385, gazer.isSecondStage() ? 60 : 40, 16, 41, 30, 0, 0);
+		target.setNextSpotAnim(new SpotAnim(2386, 70, 100));
+		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+		return npc.getAttackSpeed();
 	}
 }

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.utils;
@@ -43,14 +43,12 @@ public class NanotimeSleeper {
 	public int sleepNano(long nanoseconds) {
 		long sleepTime = getSleepTimeMs();
 		try {
-			if (sleepTime > 0L) {
+			if (sleepTime > 0L)
 				if (sleepTime % 10L == 0L) {
 					Thread.sleep(sleepTime - 1L);
 					Thread.sleep(1L);
-				} else {
+				} else
 					Thread.sleep(sleepTime);
-				}
-			}
 		} catch (InterruptedException e) {
 		}
 		return method4845(nanoseconds);
@@ -62,24 +60,21 @@ public class NanotimeSleeper {
 			aLong7738 += aLong7734 - aLong7738;
 			aLong7734 += long_1;
 			return 1;
-		} else {
-			int ticksSkipped = 0;
-			do {
-				++ticksSkipped;
-				aLong7734 += long_1;
-			} while (ticksSkipped < 10 && aLong7734 < aLong7738);
-			if (aLong7734 < aLong7738) {
-				aLong7734 = aLong7738;
-			}
-			return ticksSkipped;
 		}
+		int ticksSkipped = 0;
+		do {
+			++ticksSkipped;
+			aLong7734 += long_1;
+		} while (ticksSkipped < 10 && aLong7734 < aLong7738);
+		if (aLong7734 < aLong7738)
+			aLong7734 = aLong7738;
+		return ticksSkipped;
 	}
 
 	public void method4853() {
 		aLong7735 = 0L;
-		if (aLong7734 > aLong7738) {
+		if (aLong7734 > aLong7738)
 			aLong7738 += aLong7734 - aLong7738;
-		}
 	}
 
 	public long method12495() {
@@ -89,14 +84,12 @@ public class NanotimeSleeper {
 		if (elapsed > -5000000000L && elapsed < 5000000000L) {
 			aLongArray7733[anInt7737] = elapsed;
 			anInt7737 = (anInt7737 + 1) % 10;
-			if (anInt7736 < 1) {
+			if (anInt7736 < 1)
 				++anInt7736;
-			}
 		}
 		long long_6 = 0L;
-		for (int i_8 = 1; i_8 <= anInt7736; i_8++) {
+		for (int i_8 = 1; i_8 <= anInt7736; i_8++)
 			long_6 += aLongArray7733[(anInt7737 - i_8 + 10) % 10];
-		}
 		return long_6 / anInt7736;
 	}
 }

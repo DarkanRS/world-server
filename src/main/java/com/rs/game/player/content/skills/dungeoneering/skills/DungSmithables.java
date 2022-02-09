@@ -2,29 +2,28 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering.skills;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 
-public enum DungSmithables {	
+public enum DungSmithables {
 	NOVITE_BATTLEAXE(new Item(15753, 1), 5, 25.0, new Item[] { new Item(17650, 2) }),
 	BATHUS_BATTLEAXE(new Item(15755, 1), 15, 43.0, new Item[] { new Item(17652, 2) }),
 	MARMAROS_BATTLEAXE(new Item(15757, 1), 25, 61.0, new Item[] { new Item(17654, 2) }),
@@ -220,13 +219,12 @@ public enum DungSmithables {
 	public int req;
 	public double xp;
 	public Item[] materials;
-	
-	public static HashMap<Integer, DungSmithables[]> SMITHABLES = new HashMap<Integer, DungSmithables[]>();
-	
+
+	public static HashMap<Integer, DungSmithables[]> SMITHABLES = new HashMap<>();
+
 	static {
-		for (int i = 17650;i <= 17668;i += 2) {
+		for (int i = 17650;i <= 17668;i += 2)
 			SMITHABLES.put(i, DungSmithables.genSortedArray(i));
-		}
 	}
 
 	private DungSmithables(Item product, int req, double xp, Item[] materials) {
@@ -235,23 +233,17 @@ public enum DungSmithables {
 		this.xp = xp;
 		this.materials = materials;
 	}
-	
+
 	public static DungSmithables[] forBar(int barId) {
 		return SMITHABLES.get(barId);
 	}
-	
+
 	private static DungSmithables[] genSortedArray(int barId) {
-		ArrayList<DungSmithables> prods = new ArrayList<DungSmithables>();
-		for (DungSmithables d : DungSmithables.values()) {
+		ArrayList<DungSmithables> prods = new ArrayList<>();
+		for (DungSmithables d : DungSmithables.values())
 			if (d.materials[0].getId() == barId)
 				prods.add(d);
-		}
-		prods.sort(new Comparator<DungSmithables>() {
-		    @Override
-		    public int compare(DungSmithables ds1, DungSmithables ds2) {
-		        return ds1.req < ds2.req ? -1 : (ds1.req > ds2.req) ? 1 : 0;
-		    }
-		});
+		prods.sort((ds1, ds2) -> ds1.req < ds2.req ? -1 : (ds1.req > ds2.req) ? 1 : 0);
 		DungSmithables[] arr = new DungSmithables[prods.size()];
 		for (int i = 0;i < arr.length;i++)
 			arr[i] = prods.get(i);
@@ -259,6 +251,6 @@ public enum DungSmithables {
 	}
 
 	public boolean canMake(Player player) {
-		return player.getInventory().containsItems(this.materials) && player.getSkills().getLevel(Constants.SMITHING) >= this.req;
+		return player.getInventory().containsItems(materials) && player.getSkills().getLevel(Constants.SMITHING) >= req;
 	}
 }

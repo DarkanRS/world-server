@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.construction;
@@ -32,33 +32,31 @@ public class PetHouse {
 	private static final int ITEMS_KEY = 540;
 	private static final int INTERFACE_ID = 879;
 	private static final int INV_INTERFACE_ID = 878;
-	
+
 	private transient Player player;
 	private ItemsContainer<Item> pets;
 
 	public PetHouse() {
-		pets = new ItemsContainer<Item>(72, false);
+		pets = new ItemsContainer<>(72, false);
 	}
-	
+
 	public static ButtonClickHandler handleInvInterface = new ButtonClickHandler(INV_INTERFACE_ID) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 0) {
+			if (e.getComponentId() == 0)
 				if (e.getPacket() == ClientPacket.IF_OP1)
 					e.getPlayer().getHouse().getPetHouse().addItem(e.getSlotId());
 				else if (e.getPacket() == ClientPacket.IF_OP2)
 					e.getPlayer().getInventory().sendExamine(e.getSlotId());
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleInterfaceButtons = new ButtonClickHandler(INTERFACE_ID) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 13) {
+			if (e.getComponentId() == 13)
 				if (e.getPacket() == ClientPacket.IF_OP1)
 					e.getPlayer().getHouse().getPetHouse().removeItem(e.getSlotId());
-			}
 		}
 	};
 
@@ -71,16 +69,16 @@ public class PetHouse {
 		player.getPackets().sendInterSetItemsOptionsScript(INTERFACE_ID, 13, ITEMS_KEY, 12, 6, "Withdraw", "Examine");
 		refresh();
 	}
-	
+
 	public void refresh() {
 		player.getPackets().sendItems(ITEMS_KEY, pets);
-		player.getPackets().sendItems(93, player.getInventory().getItems());	
+		player.getPackets().sendItems(93, player.getInventory().getItems());
 	}
-	
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public void removeItem(int slot) {
 		Item item = pets.get(slot);
 		if (item == null)
@@ -96,11 +94,9 @@ public class PetHouse {
 				item.setAmount(freeSpace);
 				player.sendMessage("Not enough space in your inventory.");
 			}
-		} else {
-			if (freeSpace == 0 && !player.getInventory().containsItem(item.getId(), 1)) {
-				player.sendMessage("Not enough space in your inventory.");
-				return;
-			}
+		} else if (freeSpace == 0 && !player.getInventory().containsItem(item.getId(), 1)) {
+			player.sendMessage("Not enough space in your inventory.");
+			return;
 		}
 		player.getHouse().removePet(item, true);
 		pets.remove(slot, item);
@@ -134,11 +130,9 @@ public class PetHouse {
 				item.setAmount(freeSpace);
 				player.sendMessage("Not enough space in your Familiar Inventory.");
 			}
-		} else {
-			if (freeSpace == 0 && !pets.containsOne(item)) {
-				player.sendMessage("Not enough space in your Familiar Inventory.");
-				return;
-			}
+		} else if (freeSpace == 0 && !pets.containsOne(item)) {
+			player.sendMessage("Not enough space in your Familiar Inventory.");
+			return;
 		}
 		player.getHouse().addPet(item, true);
 		pets.add(item);
@@ -146,11 +140,11 @@ public class PetHouse {
 		player.getInventory().deleteItem(slot, item);
 		refresh();
 	}
-	
+
 	public ItemsContainer<Item> getPets() {
 		return pets;
 	}
-	
+
 	public boolean contains(int itemId) {
 		if (pets.containsOne(new Item(itemId, 1)))
 			return true;

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -26,13 +26,13 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.holidayevents.halloween.hw09.Halloween2009;
 import com.rs.game.player.content.holidayevents.halloween.hw09.SpiderStatement;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.events.DialogueOptionEvent;
 
 public class Halloween2009Controller extends Controller {
-	
+
 	private Set<Integer> path;
 	private Set<Integer> webbedUp;
 	private static int WEBS_TOTAL = 63;
@@ -41,26 +41,26 @@ public class Halloween2009Controller extends Controller {
 		path = Halloween2009.getRandomPath();
 		webbedUp = new HashSet<>();
 	}
-	
+
 	@Override
 	public void start() {
 		player.setNextWorldTile(Halloween2009.START_LOCATION);
 	}
-	
+
 	@Override
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					player.setNextWorldTile(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : new WorldTile(3211, 3424, 0));
 					player.reset();
 					player.setNextAnimation(new Animation(-1));
@@ -75,7 +75,7 @@ public class Halloween2009Controller extends Controller {
 		}, 0, 1);
 		return false;
 	}
-	
+
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		switch(object.getId()) {
@@ -93,64 +93,63 @@ public class Halloween2009Controller extends Controller {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void process() {
 		if (player.getI(Halloween2009.STAGE_KEY) >= 3)
 			refreshVars(player);
 	}
-	
+
 	@Override
 	public boolean login() {
 		Halloween2009.refreshWebbables(player, player.getEquipment().getWeaponId() == 15353);
 		return false;
 	}
-	
+
 	@Override
 	public boolean logout() {
 		return false;
 	}
-	
+
 	@Override
 	public void magicTeleported(int type) {
 
 	}
-	
+
 	@Override
 	public void forceClose() {
 
 	}
-	
+
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	@Override
 	public boolean processObjectTeleport(WorldTile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
-	
+
 	private void refreshVars(Player player) {
-		if (player.getI(Halloween2009.STAGE_KEY) >= 10) {
+		if (player.getI(Halloween2009.STAGE_KEY) >= 10)
 			player.getVars().setVarBit(4883, 50);
-		} else if (player.getI(Halloween2009.STAGE_KEY) >= 3) {
+		else if (player.getI(Halloween2009.STAGE_KEY) >= 3)
 			player.getVars().setVarBit(4883, 20);
-		}
 	}
 
 	public Set<Integer> getPath() {
 		return path;
 	}
-	
+
 	public void web(int objectId) {
 		webbedUp.add(objectId);
 		Halloween2009.refreshWebbables(player, player.getEquipment().getWeaponId() == 15353);

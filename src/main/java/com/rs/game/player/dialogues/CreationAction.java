@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.dialogues;
@@ -40,18 +40,18 @@ public class CreationAction extends Action {
 	private boolean consistentAnim = false;
 
 	public CreationAction(ReqItem product, int animationId, int gfx, int delay, int cycles) {
-		this.skill = product.getSkill();
-		this.mats = product.getMaterials();
-		this.level = product.getReq();
-		this.experience = product.getXp();
+		skill = product.getSkill();
+		mats = product.getMaterials();
+		level = product.getReq();
+		experience = product.getXp();
 		this.product = product.getProduct();
-		this.nonRemReq = product.getTool();
+		nonRemReq = product.getTool();
 		this.animationId = animationId;
 		this.delay = delay;
 		this.cycles = cycles;
 		this.gfx = gfx;
 	}
-	
+
 	public CreationAction setConsistentAnimation(boolean consistentAnim) {
 		this.consistentAnim = consistentAnim;
 		return this;
@@ -73,22 +73,20 @@ public class CreationAction extends Action {
 		if (!checkAll(player))
 			return false;
 		if (delay == -2) {
-			if (animationId > 0) {
+			if (animationId > 0)
 				player.setNextAnimation(new Animation(animationId));
-			}
 			else if (animationId == -1) {
 				int anim = -1;
 				if (nonRemReq != -1)
 					anim = AnimationDefinitions.getAnimationWithItem(nonRemReq);
 				if (anim == -1)
 					anim = AnimationDefinitions.getAnimationWithItem(product.getId());
-				for (Item item : mats) {
+				for (Item item : mats)
 					if (item != null) {
 						if (anim != -1)
 							break;
 						anim = AnimationDefinitions.getAnimationWithItem(item.getId());
 					}
-				}
 				if (anim != -1)
 					player.setNextAnimation(new Animation(anim));
 			}
@@ -124,12 +122,11 @@ public class CreationAction extends Action {
 			player.setNextAnimation(new Animation(animationId));
 		if (mats != null && !player.getInventory().containsItems(mats)) {
 			String mat = "";
-			for (Item item : mats) {
+			for (Item item : mats)
 				if (item != null) {
 					mat += item.getAmount() + " ";
 					mat += item.getDefinitions().getName() + ", ";
 				}
-			}
 			player.sendMessage("You need " + mat.toLowerCase().trim().substring(0, mat.length() - 2) + " to create a " + product.getName().toLowerCase() + ".");
 			return false;
 		}
@@ -151,13 +148,12 @@ public class CreationAction extends Action {
 				anim = AnimationDefinitions.getAnimationWithItem(nonRemReq);
 			if (anim == -1)
 				anim = AnimationDefinitions.getAnimationWithItem(product.getId());
-			for (Item item : mats) {
+			for (Item item : mats)
 				if (item != null) {
 					if (anim != -1)
 						break;
 					anim = AnimationDefinitions.getAnimationWithItem(item.getId());
 				}
-			}
 			if (anim != -1)
 				player.setNextAnimation(new Animation(anim));
 		}

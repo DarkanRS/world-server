@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player;
@@ -33,13 +33,12 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemExamines;
 
 @PluginEventHandler
 public class Bank {
-	
+
 	private static final long PIN_VALIDITY_TIME = 6 * 60 * 60 * 1000; //6 hours
 
 	private Item[][] bankTabs;
@@ -59,7 +58,7 @@ public class Bank {
 	public Bank() {
 		bankTabs = new Item[1][0];
 	}
-	
+
 	public static ButtonClickHandler handleDepositBox = new ButtonClickHandler(11) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -72,17 +71,17 @@ public class Bank {
 					e.getPlayer().getBank().depositItem(e.getSlotId(), 10, false);
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, false);
-				else if (e.getPacket() == ClientPacket.IF_OP5) {
+				else if (e.getPacket() == ClientPacket.IF_OP5)
 					e.getPlayer().sendInputInteger("How many would you like to deposit?", (integer) -> e.getPlayer().getBank().depositItem(e.getSlotId(), integer, true));
-				} else if (e.getPacket() == ClientPacket.IF_OP6)
+				else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getInventory().sendExamine(e.getSlotId());
-			} else if (e.getComponentId() == 18) {
+			} else if (e.getComponentId() == 18)
 				e.getPlayer().getBank().depositAllInventory(false);
-			} else if (e.getComponentId() == 22)
+			else if (e.getComponentId() == 22)
 				e.getPlayer().getBank().depositAllEquipment(false);
 		}
 	};
-	
+
 	public static ButtonClickHandler handleInvButtons = new ButtonClickHandler(762) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -103,12 +102,7 @@ public class Bank {
 			else if (e.getComponentId() == 46) {
 				e.getPlayer().closeInterfaces();
 				e.getPlayer().getInterfaceManager().sendInterface(767);
-				e.getPlayer().setCloseInterfacesEvent(new Runnable() {
-					@Override
-					public void run() {
-						e.getPlayer().getBank().open();
-					}
-				});
+				e.getPlayer().setCloseInterfacesEvent(() -> e.getPlayer().getBank().open());
 			} else if (e.getComponentId() >= 46 && e.getComponentId() <= 64) {
 				int tabId = 9 - ((e.getComponentId() - 46) / 2);
 				if (e.getPacket() == ClientPacket.IF_OP1)
@@ -124,36 +118,32 @@ public class Bank {
 					e.getPlayer().getBank().withdrawItem(e.getSlotId(), 10);
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					e.getPlayer().getBank().withdrawLastAmount(e.getSlotId());
-				else if (e.getPacket() == ClientPacket.IF_OP5) {
-					e.getPlayer().sendInputInteger("How many would you like to withdraw?", new InputIntegerEvent() {
-						@Override
-						public void run(int amount) {
-							if (amount < 0)
-								return;
-							e.getPlayer().getBank().setLastX(amount);
-							e.getPlayer().getBank().refreshLastX();
-							e.getPlayer().getBank().withdrawItem(e.getSlotId(), amount);
-						}
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					e.getPlayer().sendInputInteger("How many would you like to withdraw?", amount -> {
+						if (amount < 0)
+							return;
+						e.getPlayer().getBank().setLastX(amount);
+						e.getPlayer().getBank().refreshLastX();
+						e.getPlayer().getBank().withdrawItem(e.getSlotId(), amount);
 					});
-				} else if (e.getPacket() == ClientPacket.IF_OP6)
+				else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getBank().withdrawItem(e.getSlotId(), Integer.MAX_VALUE);
 				else if (e.getPacket() == ClientPacket.IF_OP7)
 					e.getPlayer().getBank().withdrawItemButOne(e.getSlotId());
 				else if (e.getPacket() == ClientPacket.IF_OP10)
 					e.getPlayer().getBank().sendExamine(e.getSlotId());
-	
-			} else if (e.getComponentId() == 119) {
+
+			} else if (e.getComponentId() == 119)
 				Equipment.openEquipmentBonuses(e.getPlayer(), true);
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleBankButtons = new ButtonClickHandler(763) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().getTempAttribs().getB("viewingOtherBank"))
 				return;
-			if (e.getComponentId() == 0) {
+			if (e.getComponentId() == 0)
 				if (e.getPacket() == ClientPacket.IF_OP1)
 					e.getPlayer().getBank().depositItem(e.getSlotId(), 1, true);
 				else if (e.getPacket() == ClientPacket.IF_OP2)
@@ -162,60 +152,46 @@ public class Bank {
 					e.getPlayer().getBank().depositItem(e.getSlotId(), 10, true);
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					e.getPlayer().getBank().depositLastAmount(e.getSlotId());
-				else if (e.getPacket() == ClientPacket.IF_OP5) {
-					e.getPlayer().sendInputInteger("How many would you like to deposit?", new InputIntegerEvent() {
-						@Override
-						public void run(int amount) {
-							if (amount < 0)
-								return;
-							e.getPlayer().getBank().setLastX(amount);
-							e.getPlayer().getBank().refreshLastX();
-							e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().containsInterface(11) ? false : true);
-						}
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					e.getPlayer().sendInputInteger("How many would you like to deposit?", amount -> {
+						if (amount < 0)
+							return;
+						e.getPlayer().getBank().setLastX(amount);
+						e.getPlayer().getBank().refreshLastX();
+						e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().containsInterface(11) ? false : true);
 					});
-				} else if (e.getPacket() == ClientPacket.IF_OP6)
+				else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, true);
 				else if (e.getPacket() == ClientPacket.IF_OP10)
 					e.getPlayer().getInventory().sendExamine(e.getSlotId());
-			}
 		}
 	};
 
 	public void removeItem(int id) {
-		if (bankTabs != null) {
-			for (int i = 0; i < bankTabs.length; i++) {
-				for (int i2 = 0; i2 < bankTabs[i].length; i2++) {
-					if (bankTabs[i][i2].getId() == id) {
+		if (bankTabs != null)
+			for (int i = 0; i < bankTabs.length; i++)
+				for (int i2 = 0; i2 < bankTabs[i].length; i2++)
+					if (bankTabs[i][i2].getId() == id)
 						removeItem(new int[] { i, i2 }, Integer.MAX_VALUE, true, false);
-					}
-				}
-			}
-		}
 	}
 
 	public void deleteItem(int itemId, int amount) {
-		if (bankTabs != null) {
-			for (int i = 0; i < bankTabs.length; i++) {
-				for (int i2 = 0; i2 < bankTabs[i].length; i2++) {
-					if (bankTabs[i][i2].getId() == itemId) {
-						bankTabs[i][i2].setAmount(bankTabs[i][i2].getAmount() - amount);
+		if (bankTabs != null)
+			for (Item[] bankTab : bankTabs)
+				for (Item element : bankTab)
+					if (element.getId() == itemId) {
+						element.setAmount(element.getAmount() - amount);
 						refreshItems();
 					}
-				}
-			}
-		}
 	}
 
 	public boolean containsItem(int itemId, int amount) {
-		if (bankTabs != null) {
-			for (int i = 0; i < bankTabs.length; i++) {
-				for (int i2 = 0; i2 < bankTabs[i].length; i2++) {
-					if (bankTabs[i][i2].getId() == itemId)
-						if (bankTabs[i][i2].getAmount() >= amount)
+		if (bankTabs != null)
+			for (Item[] bankTab : bankTabs)
+				for (Item element : bankTab)
+					if (element.getId() == itemId)
+						if (element.getAmount() >= amount)
 							return true;
-				}
-			}
-		}
 		return false;
 	}
 
@@ -383,12 +359,10 @@ public class Bank {
 				refreshTab(fromRealSlot[0]);
 				addItem(item, toTab, true);
 			}
-		} else {
-			if (!insertItems)
-				switchItem(fromSlot, toSlot);
-			else
-				insert(fromSlot, toSlot);
-		}
+		} else if (!insertItems)
+			switchItem(fromSlot, toSlot);
+		else
+			insert(fromSlot, toSlot);
 	}
 
 	public void insert(int fromSlot, int toSlot) {
@@ -399,25 +373,21 @@ public class Bank {
 
 		int[] toRealSlot = getRealSlot(toSlot);
 		Item toItem = getItem(toRealSlot);
-		if (toItem == null)
+		if ((toItem == null) || (toRealSlot[0] != fromRealSlot[0]))
 			return;
 
-		if (toRealSlot[0] != fromRealSlot[0])
-			return;
-
-		if (toRealSlot[1] > fromRealSlot[1]) {
+		if (toRealSlot[1] > fromRealSlot[1])
 			for (int slot = fromRealSlot[1]; slot < toRealSlot[1]; slot++) {
 				Item temp = bankTabs[toRealSlot[0]][slot];
 				bankTabs[toRealSlot[0]][slot] = bankTabs[toRealSlot[0]][slot + 1];
 				bankTabs[toRealSlot[0]][slot + 1] = temp;
 			}
-		} else if (fromRealSlot[1] > toRealSlot[1]) {
+		else if (fromRealSlot[1] > toRealSlot[1])
 			for (int slot = fromRealSlot[1]; slot > toRealSlot[1]; slot--) {
 				Item temp = bankTabs[toRealSlot[0]][slot];
 				bankTabs[toRealSlot[0]][slot] = bankTabs[toRealSlot[0]][slot - 1];
 				bankTabs[toRealSlot[0]][slot - 1] = temp;
 			}
-		}
 		refreshItems();
 	}
 
@@ -445,12 +415,9 @@ public class Bank {
 		player.getInterfaceManager().openGameTab(Tab.FRIENDS);
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				player.getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.EQUIPMENT);
-				player.getInterfaceManager().openGameTab(Tab.INVENTORY);
-			}
+		player.setCloseInterfacesEvent(() -> {
+			player.getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.EQUIPMENT);
+			player.getInterfaceManager().openGameTab(Tab.INVENTORY);
 		});
 	}
 
@@ -466,7 +433,7 @@ public class Bank {
 	public boolean pinCorrect(byte num1, byte num2, byte num3, byte num4) {
 		return bankPin == (short) ((num1 << 12) + (num2 << 8) + (num3 << 4) + num4);
 	}
-	
+
 	public void openPinSettings() {
 		if (!checkPin())
 			return;
@@ -490,17 +457,17 @@ public class Bank {
 		player.getTempAttribs().setB("settingPin", true);
 		sendPinConfirmScreen("Do you really wish to set a PIN on your bank account?", "Yes, I really want a bank PIN. I will never forget it!", "No, I might forget it!");
 	}
-	
+
 	public void confirmCancelPin() {
 		player.getTempAttribs().setB("cancellingPin", true);
 		sendPinConfirmScreen("Do you still want your PIN?", "Yes, I asked to cancel my PIN.", "No, I didn't ask to cancel my PIN.");
 	}
-	
+
 	public void confirmChangePin() {
 		player.getTempAttribs().setB("changingPin", true);
 		sendPinConfirmScreen("Do you really want to change your PIN?", "Yes, I asked to change my PIN.", "No, I didn't ask to change my PIN.");
 	}
-	
+
 	public void openPin() {
 		player.getTempAttribs().setI("pinStage", 0);
 		player.getTempAttribs().setI("enteredPin", 0);
@@ -515,7 +482,7 @@ public class Bank {
 		player.getVars().syncVarsToClient();
 		player.getPackets().sendRunScriptBlank(1107);
 	}
-	
+
 	public static ButtonClickHandler handlePin = new ButtonClickHandler(13, 14, 759) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -523,24 +490,21 @@ public class Bank {
 			case 14:
 				switch(e.getComponentId()) {
 				case 18:
-					if (e.getPlayer().getBank().bankPin == 0) {
+					if (e.getPlayer().getBank().bankPin == 0)
 						e.getPlayer().getBank().confirmSetPin();
-					} else {
+					else
 						e.getPlayer().getBank().confirmChangePin();
-					}
 					break;
 				case 33:
-					if (e.getPlayer().getBank().bankPin == 0) {
+					if (e.getPlayer().getBank().bankPin == 0)
+						e.getPlayer().getBank().openPin();
+					else if (e.getPlayer().getTempAttribs().getB("changingPin")) {
+						e.getPlayer().getBank().bankPin = 0;
+						e.getPlayer().sendMessage("Your pin has been removed. Please set a new one.");
 						e.getPlayer().getBank().openPin();
 					} else {
-						if (e.getPlayer().getTempAttribs().getB("changingPin")) {
-							e.getPlayer().getBank().bankPin = 0;
-							e.getPlayer().sendMessage("Your pin has been removed. Please set a new one.");
-							e.getPlayer().getBank().openPin();
-						} else {
-							e.getPlayer().getBank().bankPin = 0;
-							e.getPlayer().sendMessage("Your pin has been removed.");
-						}
+						e.getPlayer().getBank().bankPin = 0;
+						e.getPlayer().sendMessage("Your pin has been removed.");
 					}
 					break;
 				case 19:
@@ -560,10 +524,10 @@ public class Bank {
 				int num = (e.getComponentId() / 4) - 1;
 				e.getPlayer().getTempAttribs().setI("enteredPin", e.getPlayer().getTempAttribs().getI("enteredPin") + (num << (e.getPlayer().getTempAttribs().getI("pinStage") * 4)));
 				e.getPlayer().getTempAttribs().incI("pinStage");
-				if (e.getPlayer().getTempAttribs().getI("pinStage") == 3) {
+				if (e.getPlayer().getTempAttribs().getI("pinStage") == 3)
 					for (Object ifComp : EnumDefinitions.getEnum(3554).getValues().values())
 						e.getPlayer().getPackets().setIFHidden(Utils.interfaceIdFromHash((int) ifComp), Utils.componentIdFromHash((int) ifComp), false);
-				} else if (e.getPlayer().getTempAttribs().getI("pinStage") == 4) {
+				else if (e.getPlayer().getTempAttribs().getI("pinStage") == 4) {
 					e.getPlayer().getVars().setVarBit(1010, 4, true);
 					e.getPlayer().getVars().syncVarsToClient();
 					if (e.getPlayer().getBank().bankPin == 0) {
@@ -576,21 +540,19 @@ public class Bank {
 							e.getPlayer().getTempAttribs().setI("pinStage", 0);
 							e.getPlayer().getVars().setVarBit(1010, 0, true);
 							e.getPlayer().getVars().syncVarsToClient();
+						} else if (e.getPlayer().getTempAttribs().getI("prevPin") != e.getPlayer().getTempAttribs().getI("enteredPin")) {
+							e.getPlayer().sendMessage("The PIN you entered did not match the first one.");
+							e.getPlayer().closeInterfaces();
+							e.getPlayer().getBank().openPinSettings();
 						} else {
-							if (e.getPlayer().getTempAttribs().getI("prevPin") != e.getPlayer().getTempAttribs().getI("enteredPin")) {
-								e.getPlayer().sendMessage("The PIN you entered did not match the first one.");
-								e.getPlayer().closeInterfaces();
-								e.getPlayer().getBank().openPinSettings();
-							} else {
-								e.getPlayer().getBank().bankPin = (short) e.getPlayer().getTempAttribs().getI("prevPin");
-								e.getPlayer().sendMessage("Your PIN has been set.");
-								e.getPlayer().closeInterfaces();
-							}
+							e.getPlayer().getBank().bankPin = (short) e.getPlayer().getTempAttribs().getI("prevPin");
+							e.getPlayer().sendMessage("Your PIN has been set.");
+							e.getPlayer().closeInterfaces();
 						}
 					} else {
-						if (e.getPlayer().getTempAttribs().getI("enteredPin") != e.getPlayer().getBank().bankPin) {
+						if (e.getPlayer().getTempAttribs().getI("enteredPin") != e.getPlayer().getBank().bankPin)
 							e.getPlayer().sendMessage("That PIN was incorrect.");
-						} else {
+						else {
 							e.getPlayer().sendMessage("You have entered your PIN successfully.");
 							e.getPlayer().getBank().setEnteredPIN();
 						}
@@ -659,9 +621,7 @@ public class Bank {
 	}
 
 	public void withdrawItem(int bankSlot, int quantity) {
-		if (player.getTempAttribs().getB("viewingOtherBank"))
-			return;
-		if (quantity < 1)
+		if (player.getTempAttribs().getB("viewingOtherBank") || (quantity < 1))
 			return;
 		Item item = getItem(getRealSlot(bankSlot));
 		if (item == null)
@@ -674,13 +634,12 @@ public class Bank {
 			item = new Item(item.getId(), quantity, item.getMetaData());
 		boolean noted = false;
 		ItemDefinitions defs = item.getDefinitions();
-		if (withdrawNotes) {
+		if (withdrawNotes)
 			if (!defs.isNoted() && defs.getCertId() != -1 && item.getMetaData() == null) {
 				item.setId(defs.getCertId());
 				noted = true;
 			} else
 				player.sendMessage("You cannot withdraw this item as a note.");
-		}
 		if ((noted || defs.isStackable()) && item.getMetaData() == null) {
 			if (player.getInventory().getItems().containsOne(item)) {
 				int slot = player.getInventory().getItems().getThisItemSlot(item);
@@ -720,9 +679,7 @@ public class Bank {
 	}
 
 	public void depositItem(int invSlot, int quantity, boolean refresh) {
-		if (player.getTempAttribs().getB("viewingOtherBank"))
-			return;
-		if (quantity < 1 || invSlot < 0 || invSlot > 27)
+		if (player.getTempAttribs().getB("viewingOtherBank") || quantity < 1 || invSlot < 0 || invSlot > 27)
 			return;
 		Item item = player.getInventory().getItem(invSlot);
 		if (item == null)
@@ -752,12 +709,12 @@ public class Bank {
 		addItem(item, refresh);
 	}
 
-//	public void addItem(Item item, boolean refresh) {
-//		addItem(item.getId(), item.getAmount(), refresh);
-//	}
+	//	public void addItem(Item item, boolean refresh) {
+	//		addItem(item.getId(), item.getAmount(), refresh);
+	//	}
 
 	public int addItems(Item[] items, boolean refresh) {
-		int space = (int) (MAX_BANK_SIZE - getBankSize());
+		int space = MAX_BANK_SIZE - getBankSize();
 		if (space != 0) {
 			space = (space < items.length ? space : items.length);
 			for (int i = 0; i < space; i++) {
@@ -830,14 +787,11 @@ public class Bank {
 	}
 
 	public int[] getSlot(int itemId) {
-		if (bankTabs != null) {
-			for (int i = 0; i < bankTabs.length; i++) {
-				for (int i2 = 0; i2 < bankTabs[i].length; i2++) {
+		if (bankTabs != null)
+			for (int i = 0; i < bankTabs.length; i++)
+				for (int i2 = 0; i2 < bankTabs[i].length; i2++)
 					if (bankTabs[i][i2].getId() == itemId)
 						return new int[] { i, i2 };
-				}
-			}
-		}
 		return null;
 	}
 
@@ -871,20 +825,18 @@ public class Bank {
 	}
 
 	public Item getItem(int id) {
-		for (int slot = 0; slot < bankTabs.length; slot++) {
-			for (Item item : bankTabs[slot])
+		for (Item[] bankTab : bankTabs)
+			for (Item item : bankTab)
 				if (item.getId() == id)
 					return item;
-		}
 		return null;
 	}
 
 	public int[] getItemSlot(int id) {
-		for (int tab = 0; tab < bankTabs.length; tab++) {
+		for (int tab = 0; tab < bankTabs.length; tab++)
 			for (int slot = 0; slot < bankTabs[tab].length; slot++)
 				if (bankTabs[tab][slot].getId() == id)
 					return new int[] { tab, slot };
-		}
 		return null;
 	}
 
@@ -905,10 +857,9 @@ public class Bank {
 
 	public int[] getRealSlot(int slot) {
 		for (int tab = 1; tab < bankTabs.length; tab++) {
-			if (slot >= bankTabs[tab].length)
-				slot -= bankTabs[tab].length;
-			else
+			if (slot < bankTabs[tab].length)
 				return new int[] { tab, slot };
+			slot -= bankTabs[tab].length;
 		}
 		if (slot >= bankTabs[0].length)
 			return null;
@@ -968,10 +919,9 @@ public class Bank {
 		}
 		int[] changedSlots = new int[itemsAfter.length];
 		int count = 0;
-		for (int index = 0; index < itemsAfter.length; index++) {
+		for (int index = 0; index < itemsAfter.length; index++)
 			if (itemsBefore[index] != itemsAfter[index])
 				changedSlots[count++] = index;
-		}
 		int[] finalChangedSlots = new int[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		lastContainerCopy = itemsAfter;
@@ -980,8 +930,8 @@ public class Bank {
 
 	public int getBankSize() {
 		int size = 0;
-		for (int i = 0; i < bankTabs.length; i++)
-			size += bankTabs[i].length;
+		for (Item[] bankTab : bankTabs)
+			size += bankTab.length;
 		return size;
 	}
 
@@ -997,10 +947,10 @@ public class Bank {
 	}
 
 	public void unlockButtons() {
-//		player.getPackets().sendHideIComponent(762, 42, false);
-//		player.getPackets().sendHideIComponent(762, 43, false); //unlocks bank pin shit
-//		player.getPackets().sendHideIComponent(762, 44, false);
-		
+		//		player.getPackets().sendHideIComponent(762, 42, false);
+		//		player.getPackets().sendHideIComponent(762, 43, false); //unlocks bank pin shit
+		//		player.getPackets().sendHideIComponent(762, 44, false);
+
 		player.getPackets().setIFTargetParams(new IFTargetParams(762, 95, 0, MAX_BANK_SIZE)
 				.enableRightClickOptions(0,1,2,3,4,5,6,9)
 				.setDepth(2)
@@ -1058,22 +1008,21 @@ public class Bank {
 		if (enteredPin == null)
 			return false;
 		List<String> toRemove = new ArrayList<>();
-		for (String ip : enteredPin.keySet()) {
+		for (String ip : enteredPin.keySet())
 			if (System.currentTimeMillis() - enteredPin.get(ip) > PIN_VALIDITY_TIME)
 				toRemove.add(ip);
-		}
 		for (String ip : toRemove)
 			enteredPin.remove(ip);
 		return enteredPin.containsKey(player.getSession().getIP());
 	}
-	
+
 	public void setEnteredPIN() {
 		if (enteredPin == null)
 			enteredPin = new ConcurrentHashMap<>();
 		enteredPin.put(player.getSession().getIP(), System.currentTimeMillis());
 		sessionPin = true;
 	}
-	
+
 	public boolean checkPin() {
 		if (bankPin != 0 && !enteredPIN()) {
 			openPin();

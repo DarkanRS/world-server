@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools;
@@ -35,19 +35,17 @@ public class MapSearcher {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		//Cache.init();
 		MapXTEAs.loadKeys();
-		
-		for (GameObject obj : getObjectsById(SEARCH)) {
+
+		for (GameObject obj : getObjectsById(SEARCH))
 			System.out.println(obj);
-			//System.out.println("PITFALLS.add("+obj.getTileHash()+");");
-		}
+		//System.out.println("PITFALLS.add("+obj.getTileHash()+");");
 	}
-	
+
 	public static void removeAllObjects(int id) {
-		for (GameObject obj : getObjectsById(id)) {
+		for (GameObject obj : getObjectsById(id))
 			World.removeObject(obj);
-		}
 	}
-	
+
 	public static List<GameObject> getObjectsById(int id) {
 		List<GameObject> objects = new ArrayList<>();
 		for (int regionId = 0; regionId < 30000; regionId++) {
@@ -77,11 +75,11 @@ public class MapSearcher {
 					int rotation = objectData & 0x3;
 					if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
 						continue;
-//					ObjectDefinitions def = ObjectDefinitions.getDefs(objectId);
+					//					ObjectDefinitions def = ObjectDefinitions.getDefs(objectId);
 					if (objectId != id)
 						continue;
-//					if (def.ignoreAltClip)
-//						continue;
+					//					if (def.ignoreAltClip)
+					//						continue;
 					objects.add(new GameObject(objectId, ObjectType.forId(type), rotation, (regionX + localX), (regionY + localY), plane));
 				}
 			}

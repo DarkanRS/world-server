@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.construction;
@@ -31,8 +31,8 @@ public class SitChair extends Action {
 	private int animation;
 
 	public SitChair(Player player, GameObject object) {
-		this.animation = HouseConstants.getSitAnimation(object.getId());
-		this.originalTile = new WorldTile(player);
+		animation = HouseConstants.getSitAnimation(object.getId());
+		originalTile = new WorldTile(player);
 		chairTile = object;
 		WorldTile face = new WorldTile(player);
 		if (object.getType() == ObjectType.SCENERY_INTERACT) {
@@ -44,7 +44,7 @@ public class SitChair extends Action {
 				face.moveLocation(1, 0, 0);
 			else if (object.getRotation() == 1)
 				face.moveLocation(-1, 0, 0);
-		} else if (object.getType() == ObjectType.GROUND_INTERACT) {
+		} else if (object.getType() == ObjectType.GROUND_INTERACT)
 			if (object.getRotation() == 1)
 				face.moveLocation(-1, 1, 0);
 			else if (object.getRotation() == 2)
@@ -53,7 +53,6 @@ public class SitChair extends Action {
 				face.moveLocation(-1, -1, 0);
 			else if (object.getRotation() == 3)
 				face.moveLocation(1, -1, 0);
-		}
 		player.setNextFaceWorldTile(face);
 	}
 

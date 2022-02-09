@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.crafting;
@@ -50,34 +50,33 @@ public class Jewelry {
 
 		GOLD_RING(5, 15, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR) }, new Item(1635), 82), SAPP_RING(20, 40, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(SAPPHIRE) }, new Item(1637), 84), EMER_RING(27, 55, new Item[] {
 				new Item(RING_MOULD), new Item(GOLD_BAR), new Item(EMERALD) }, new Item(1639), 86), RUBY_RING(34, 70, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(RUBY) }, new Item(1641), 88), DIAM_RING(43, 85, new Item[] {
-				new Item(RING_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(1643), 90), DRAG_RING(55, 100, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(1645), 92), ONYX_RING(67, 115,
-				new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(6575), 94), SLAYER_RING(55, 15, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(ENCHANTED_GEM) }, new Item(13281), 97),
+						new Item(RING_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(1643), 90), DRAG_RING(55, 100, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(1645), 92), ONYX_RING(67, 115,
+								new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(6575), 94), SLAYER_RING(55, 15, new Item[] { new Item(RING_MOULD), new Item(GOLD_BAR), new Item(ENCHANTED_GEM) }, new Item(13281), 97),
 
 		GOLD_NECK(6, 20, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR) }, new Item(1654), 68), SAPP_NECK(22, 55, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(SAPPHIRE) }, new Item(1656), 70), EMER_NECK(29, 60,
 				new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(EMERALD) }, new Item(1658), 72), RUBY_NECK(40, 75, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(RUBY) }, new Item(1660), 74), DIAM_NECK(56,
-				90, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(1662), 76), DRAG_NECK(72, 105, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(1664), 78), ONYX_NECK(
-				82, 120, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(6577), 80),
+						90, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(1662), 76), DRAG_NECK(72, 105, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(1664), 78), ONYX_NECK(
+								82, 120, new Item[] { new Item(NECKLACE_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(6577), 80),
 
 		GOLD_AMMY(8, 30, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR) }, new Item(1673), 53), SAPP_AMMY(24, 65, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(SAPPHIRE) }, new Item(1675), 55), EMER_AMMY(31, 70,
 				new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(EMERALD) }, new Item(1677), 57), RUBY_AMMY(50, 85, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(RUBY) }, new Item(1679), 59), DIAM_AMMY(70, 100,
-				new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(1681), 61), DRAG_AMMY(80, 150, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(1683), 63), ONYX_AMMY(
-				90, 165, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(6579), 65),
+						new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(1681), 61), DRAG_AMMY(80, 150, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(1683), 63), ONYX_AMMY(
+								90, 165, new Item[] { new Item(AMULET_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(6579), 65),
 
 		GOLD_BRACE(7, 25, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR) }, new Item(11069), 33), SAPP_BRACE(23, 60, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(SAPPHIRE) }, new Item(11072), 35), EMER_BRACE(30, 65,
 				new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(EMERALD) }, new Item(11076), 37), RUBY_BRACE(42, 80, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(RUBY) }, new Item(11085), 39), DIAM_BRACE(
-				58, 95, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(11092), 41), DRAG_BRACE(74, 110, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(11115), 43), ONYX_BRACE(
-				84, 125, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(11130), 45);
+						58, 95, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(DIAMOND) }, new Item(11092), 41), DRAG_BRACE(74, 110, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(DRAGONSTONE) }, new Item(11115), 43), ONYX_BRACE(
+								84, 125, new Item[] { new Item(BRACELET_MOULD), new Item(GOLD_BAR), new Item(ONYX) }, new Item(11130), 45);
 
-		private static Map<Integer, Bling> rings = new HashMap<Integer, Bling>();
+		private static Map<Integer, Bling> rings = new HashMap<>();
 
 		public static Bling forId(int buttonId) {
 			return rings.get(buttonId);
 		}
 
 		static {
-			for (Bling ring : Bling.values()) {
+			for (Bling ring : Bling.values())
 				rings.put(ring.getButtonId(), ring);
-			}
 		}
 
 		private int levelRequired;
@@ -90,7 +89,7 @@ public class Jewelry {
 			this.levelRequired = levelRequired;
 			this.experience = experience;
 			this.itemsRequired = itemsRequired;
-			this.product = producedBar;
+			product = producedBar;
 			this.buttonId = buttonId;
 		}
 
@@ -120,7 +119,7 @@ public class Jewelry {
 		public int getButtonId() {
 			return buttonId;
 		}
-	};
+	}
 
 	public static int getNumberToMake(ClientPacket packetId) {
 		switch (packetId) {
@@ -143,36 +142,27 @@ public class Jewelry {
 			e.getPlayer().closeInterfaces();
 			Bling bling = Bling.forId(e.getComponentId());
 			int numberToMake = getNumberToMake(e.getPacket());
-			if (numberToMake == -5) {
+			if (numberToMake == -5)
 				e.getPlayer().sendInputInteger("How many would you like to make?", number -> {
 					if (bling != null) {
-						if (bling.name() == "SLAYER_RING") {
+						if (bling.name() == "SLAYER_RING")
 							if (!e.getPlayer().hasCraftROS()) {
 								e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
 								return;
 							}
-						}
 						e.getPlayer().getActionManager().setAction(new JewelryAction(bling, number));
-					}
-					else {
-						if (e.getPlayer().hasRights(Rights.DEVELOPER))
-							e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-					}
-				});
-			} else {
-				if (bling != null) {
-					if (bling.name() == "SLAYER_RING") {
-						if (!e.getPlayer().hasCraftROS()) {
-							e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
-							return;
-						}
-					}
-					e.getPlayer().getActionManager().setAction(new JewelryAction(bling, numberToMake));
-				} else {
-					if (e.getPlayer().hasRights(Rights.DEVELOPER))
+					} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
 						e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-				}
-			}
+				});
+			else if (bling != null) {
+				if (bling.name() == "SLAYER_RING")
+					if (!e.getPlayer().hasCraftROS()) {
+						e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
+						return;
+					}
+				e.getPlayer().getActionManager().setAction(new JewelryAction(bling, numberToMake));
+			} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
+				e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
 		}
 	};
 

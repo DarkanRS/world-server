@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -37,7 +37,7 @@ import com.rs.lib.util.MapXTEAs;
 public class MapDump {
 
 	private static final int SIZE = 200;
-	
+
 	public static void main(String[] args) throws IOException {
 		//Cache.init();
 		MapXTEAs.loadKeys();
@@ -47,12 +47,12 @@ public class MapDump {
 
 	@SuppressWarnings("unused")
 	public static BufferedImage getMap(int z) {
-		int[][] rgb = new int[(int) (SIZE * 64)][(int) (SIZE * 64)];
-		int[] a1 = new int[(int) ((64 * SIZE) * (64 * SIZE))];
-		int[] a2 = new int[(int) ((64 * SIZE) * (64 * SIZE))];
-		int[] a3 = new int[(int) ((64 * SIZE) * (64 * SIZE))];
-		int[] a4 = new int[(int) ((64 * SIZE) * (64 * SIZE))];
-		int[] a5 = new int[(int) ((64 * SIZE) * (64 * SIZE))];
+		int[][] rgb = new int[SIZE * 64][SIZE * 64];
+		int[] a1 = new int[(64 * SIZE) * (64 * SIZE)];
+		int[] a2 = new int[(64 * SIZE) * (64 * SIZE)];
+		int[] a3 = new int[(64 * SIZE) * (64 * SIZE)];
+		int[] a4 = new int[(64 * SIZE) * (64 * SIZE)];
+		int[] a5 = new int[(64 * SIZE) * (64 * SIZE)];
 		BufferedImage img = new BufferedImage(rgb.length, rgb[0].length, BufferedImage.TYPE_INT_RGB);
 		int[][] overlayIds = new int[64 * SIZE][64 * SIZE];
 		int[][] underlayIds = new int[64 * SIZE][64 * SIZE];
@@ -62,7 +62,7 @@ public class MapDump {
 		int[][] heights = new int[64 * SIZE][64 * SIZE];
 		int[][] masks = new int[64 * SIZE][64 * SIZE];
 
-		for (int rx = 0; rx < SIZE; rx++) {
+		for (int rx = 0; rx < SIZE; rx++)
 			for (int ry = 0; ry < SIZE; ry++) {
 				int regionId = (rx << 8) | ry;
 				int regionX = (regionId >> 8) * 64;
@@ -71,24 +71,25 @@ public class MapDump {
 				byte[] data = mapArchiveId == -1 ? null : Cache.STORE.getIndex(IndexType.MAPS).getFile(mapArchiveId, 0);
 				if (data == null)
 					continue;
-				
+
 				if (data != null) {
 					InputStream mapStream = new InputStream(data);
-					for (int plane = 0; plane < 4; plane++) {
-						for (int x = 0; x < 64; x++) {
-							for (int y = 0; y < 64; y++) {
+					for (int plane = 0; plane < 4; plane++)
+						for (int x = 0; x < 64; x++)
+							for (int y = 0; y < 64; y++)
 								while (true) {
 									int value = mapStream.readUnsignedByte();
 									if (plane == 0)
 										dataOpcodes[rx * 64 + x][ry * 64 + y] = value;
-									if (value == 0) {
+									if (value == 0)
 										break;
-									} else if (value == 1) {
+									if (value == 1) {
 										int v = mapStream.readUnsignedByte();
 										if (plane == 0)
 											heights[rx * 64 + x][ry * 64 + y] = v;
 										break;
-									} else if (value <= 49) {
+									}
+									if (value <= 49) {
 										int v = mapStream.readUnsignedByte();
 										if (plane == 0) {
 											overlayIds[rx * 64 + x][ry * 64 + y] = v;
@@ -98,17 +99,11 @@ public class MapDump {
 									} else if (value <= 81) {
 										if (plane == 0)
 											masks[rx * 64 + x][ry * 64 + y] = (byte) (value - 49);
-									} else {
-										if (plane == 0)
-											underlayIds[rx * 64 + x][ry * 64 + y] = (value - 81);
-									}
+									} else if (plane == 0)
+										underlayIds[rx * 64 + x][ry * 64 + y] = (value - 81);
 								}
-							}
-						}
-					}
 				}
 			}
-		}
 
 		for (int x = -5; x < rgb.length; x++) {
 			for (int y = 0; y < rgb[0].length; y++) {
@@ -161,46 +156,40 @@ public class MapDump {
 						r2 -= a4[i_108_];
 						r3 -= a5[i_108_];
 					}
-					if (y >= 0 && r3 > 0) {
+					if (y >= 0 && r3 > 0)
 						rgb[x][y] = new Color(c1 / r3, c2 / r3, c3 / r3).getRGB();
-					}
-				}
-			}
-		}
-		
-		for (int x = 0; x < rgb.length; x++) {
-			for (int y = 0; y < rgb[0].length; y++) {
-				if (((overlayIds[x][y]) & 0x7fff) > 0) {
-					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((overlayIds[x][y]) & 0x7fff) - 1);
-					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
-					if (col == 0 || col == -1 || col == 16711935) {
-						col = 0;
-					}
-					if (col == 0 && defs.texture != -1) {
-						col = TextureDefinitions.getDefinitions(defs.texture & 0xFF).color;
-					}
-					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
-				} else if (((shapes[x][y]) & 0x7fff) > 0) {
-					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((shapes[x][y]) & 0x7fff) - 1);
-					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
-					if (col == 0 || col == -1 || col == 16711935) {
-						col = 0;
-					}
-					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
-				} else {
-//					//RAW rgb setting no blending
-//					UnderlayDefinitions defs = UnderlayDefinitions.getUnderlayDefinitions(((underlayData[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
-//					int col = defs.rgb == -1 || defs.rgb == 16711935 || defs.rgb == 0 ? defs.rgb : defs.rgb;
-//					if (col == 0 || col == -1 || col == 16711935) {
-//						col = 0;
-//					}
-//					img.setRGB(x, (rgb[0].length - 1) - y, new Color(defs.r, defs.g, defs.b).getRGB());
-					//img.setRGB(x, (rgb[0].length - 1) - y, rgb[x][y]);
 				}
 			}
 		}
 
-		for (int rx = 0; rx < SIZE; rx++) {
+		for (int x = 0; x < rgb.length; x++)
+			for (int y = 0; y < rgb[0].length; y++)
+				if (((overlayIds[x][y]) & 0x7fff) > 0) {
+					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((overlayIds[x][y]) & 0x7fff) - 1);
+					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
+					if (col == 0 || col == -1 || col == 16711935)
+						col = 0;
+					if (col == 0 && defs.texture != -1)
+						col = TextureDefinitions.getDefinitions(defs.texture & 0xFF).color;
+					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
+				} else if (((shapes[x][y]) & 0x7fff) > 0) {
+					OverlayDefinitions defs = OverlayDefinitions.getOverlayDefinitions(((shapes[x][y]) & 0x7fff) - 1);
+					int col = defs.primaryRgb == -1 || defs.primaryRgb == 16711935 || defs.primaryRgb == 0 ? defs.secondaryRgb : defs.primaryRgb;
+					if (col == 0 || col == -1 || col == 16711935)
+						col = 0;
+					img.setRGB(x, (rgb[0].length - 1) - y, new Color(col).getRGB());
+				} else {
+					//					//RAW rgb setting no blending
+					//					UnderlayDefinitions defs = UnderlayDefinitions.getUnderlayDefinitions(((underlayData[(int) (x / scale)][(int) (y / scale)]) & 0x7fff) - 1);
+					//					int col = defs.rgb == -1 || defs.rgb == 16711935 || defs.rgb == 0 ? defs.rgb : defs.rgb;
+					//					if (col == 0 || col == -1 || col == 16711935) {
+					//						col = 0;
+					//					}
+					//					img.setRGB(x, (rgb[0].length - 1) - y, new Color(defs.r, defs.g, defs.b).getRGB());
+					//img.setRGB(x, (rgb[0].length - 1) - y, rgb[x][y]);
+				}
+
+		for (int rx = 0; rx < SIZE; rx++)
 			for (int ry = 0; ry < SIZE; ry++) {
 				int regionId = (rx << 8) | ry;
 				int regionX = (regionId >> 8) * 64;
@@ -236,8 +225,8 @@ public class MapDump {
 								continue;
 							SpriteDefinitions sprite = new SpriteDefinitions(Cache.STORE, spriteId, 0);
 							BufferedImage s = sprite.getImages()[0];
-							int width = (int) (s.getWidth()/2);
-							int height = (int) (s.getHeight()/2);
+							int width = s.getWidth()/2;
+							int height = s.getHeight()/2;
 							if (width == 0 || height == 0)
 								continue;
 
@@ -246,7 +235,6 @@ public class MapDump {
 					}
 				}
 			}
-		}
 
 		return img;
 
@@ -255,12 +243,12 @@ public class MapDump {
 	public static final int getV(int i, int i_1_, int i_2_) {
 		if (i_2_ > 243)
 			i_1_ >>= 4;
-		else if (i_2_ > 217)
-			i_1_ >>= 3;
-		else if (i_2_ > 192)
-			i_1_ >>= 2;
-		else if (i_2_ > 179)
-			i_1_ >>= 1;
-		return (i_2_ >> 1) + (((i & 0xff) >> 2 << 10) + (i_1_ >> 5 << 7));
+			else if (i_2_ > 217)
+				i_1_ >>= 3;
+				else if (i_2_ > 192)
+					i_1_ >>= 2;
+					else if (i_2_ > 179)
+						i_1_ >>= 1;
+						return (i_2_ >> 1) + (((i & 0xff) >> 2 << 10) + (i_1_ >> 5 << 7));
 	}
 }

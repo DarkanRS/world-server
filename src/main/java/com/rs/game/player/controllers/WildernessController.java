@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -26,7 +26,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -89,10 +89,9 @@ public class WildernessController extends Controller {
 			return true;
 		if (!canAttack(target))
 			return false;
-		if (target instanceof Player opp) {
+		if (target instanceof Player opp)
 			if (!player.attackedBy(opp.getUsername()))
 				player.setWildernessSkull();
-		}
 		if (player.getCombatDefinitions().getSpell() == null && Utils.inCircle(new WorldTile(3105, 3933, 0), target, 24)) {
 			player.sendMessage("You can only use magic in the arena.");
 			return false;
@@ -126,11 +125,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		if (getWildLevel() > 20) {
-			player.sendMessage("A mysterious force prevents you from teleporting.");
-			return false;
-		}
-		if (player.hasEffect(Effect.TELEBLOCK)) {
+		if ((getWildLevel() > 20) || player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
@@ -147,7 +142,8 @@ public class WildernessController extends Controller {
 		if (getWildLevel() <= 30 && player.getTempAttribs().getB("glory")) {
 			player.getTempAttribs().setB("glory", false);
 			return true;
-		} else if (getWildLevel() > 20) {
+		}
+		if (getWildLevel() > 20) {
 			player.getTempAttribs().setB("glory", false);
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
@@ -181,7 +177,7 @@ public class WildernessController extends Controller {
 					object.getPlane());
 
 			player.setNextForceMovement(new ForceMovement(new WorldTile(player), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.SOUTH : Direction.EAST));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextWorldTile(toTile);
@@ -193,7 +189,8 @@ public class WildernessController extends Controller {
 				}
 			}, 2);
 			return false;
-		} else if (object.getId() == 2557 || object.getId() == 65717) {
+		}
+		if (object.getId() == 2557 || object.getId() == 65717) {
 			player.sendMessage("It seems it is locked, maybe you should try something else.");
 			return false;
 		}
@@ -217,16 +214,16 @@ public class WildernessController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					Player killer = player.getMostDamageReceivedSourcePlayer();
 					if (killer != null) {
 						killer.removeDamage(player);
@@ -266,9 +263,8 @@ public class WildernessController extends Controller {
 			player.setCanPvp(true);
 			showSkull();
 			player.getAppearance().generateAppearanceData();
-		} else if (showingSkull && (isAtWildSafe || !isAtWild)) {
+		} else if (showingSkull && (isAtWildSafe || !isAtWild))
 			removeIcon();
-		}
 	}
 
 	public void removeIcon() {
@@ -290,16 +286,16 @@ public class WildernessController extends Controller {
 	public void forceClose() {
 		removeIcon();
 	}
-	
+
 	public static final boolean isAtWild(WorldTile tile) {// TODO fix this
 		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175) // fortihrny
-																											// dungeon
+				// dungeon
 				|| (tile.getX() >= 2940 && tile.getX() <= 3395 && tile.getY() >= 3525 && tile.getY() <= 4000)
 				|| (tile.getX() >= 3078 && tile.getX() <= 3139 && tile.getY() >= 9923 && tile.getY() <= 10002)
 				|| (tile.getX() >= 3264 && tile.getX() <= 3279 && tile.getY() >= 3279 && tile.getY() <= 3672)
 				|| (tile.getX() >= 2756 && tile.getX() <= 2875 && tile.getY() >= 5512 && tile.getY() <= 5627)
 				|| (tile.getX() >= 3158 && tile.getX() <= 3181 && tile.getY() >= 3679 && tile.getY() <= 3697)
-				|| (tile.getX() >= 3280 && tile.getX() <= 3183 && tile.getY() >= 3885 && tile.getY() <= 3888) 
+				|| (tile.getX() >= 3280 && tile.getX() <= 3183 && tile.getY() >= 3885 && tile.getY() <= 3888)
 				|| (tile.getX() >= 3012 && tile.getX() <= 3059 && tile.getY() >= 10303 && tile.getY() <= 10351)
 				|| (tile.getX() >= 3061 && tile.getX() <= 3071 && tile.getY() >= 10251 && tile.getY() <= 10262);
 	}

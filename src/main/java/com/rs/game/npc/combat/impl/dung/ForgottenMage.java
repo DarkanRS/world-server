@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -25,7 +25,7 @@ import com.rs.game.npc.dungeoneering.SkeletalAdventurer;
 import com.rs.game.npc.dungeoneering.YkLagorMage;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -35,16 +35,16 @@ public class ForgottenMage extends CombatScript {
 
 	private static final int[][] ATTACK_TYPES =
 		{ { 0, 9, 10 },
-		{ 10, 11, 0, 12, 1 },
-		{ 12, 13, 0, 1, 3, 2, 14 },
-		{ 14, 15, 0, 3, 16 },
-		{ 17, 18, 0, 1, 2, 3, 19 },
-		{ 20, 21, 0, 1, 2, 22, 4 },
-		{ 22, 23, 0, 1, 4, 6, 24 },
-		{ 24, 25, 0, 6, 7, 5, 26 },
-		{ 26, 27, 6, 7, 8, 5, 28 },
-		{ 28, 29, 6, 7, 8, 5, 30 },
-		{ 30, 6, 7, 8, 5 }, };
+				{ 10, 11, 0, 12, 1 },
+				{ 12, 13, 0, 1, 3, 2, 14 },
+				{ 14, 15, 0, 3, 16 },
+				{ 17, 18, 0, 1, 2, 3, 19 },
+				{ 20, 21, 0, 1, 2, 22, 4 },
+				{ 22, 23, 0, 1, 4, 6, 24 },
+				{ 24, 25, 0, 6, 7, 5, 26 },
+				{ 26, 27, 6, 7, 8, 5, 28 },
+				{ 28, 29, 6, 7, 8, 5, 30 },
+				{ 30, 6, 7, 8, 5 }, };
 
 	private static final int[] ATTACK_ANIMATIONS =
 		{ 711, 716, 724, 710, 710, 710, 729, 729, 729, 14221, 14222, 14221, 14221, 14220, 14220, 14222, 14223, 14221, 14220, 14222, 14223, 14221, 14220, 14222, 14223, 10546, 10542, 14209, 2791 };
@@ -97,7 +97,7 @@ public class ForgottenMage extends CombatScript {
 		delayHit(npc, 2, target, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), AttackStyle.MAGE, target)));
 		if (hit == -1)
 			return;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -111,16 +111,15 @@ public class ForgottenMage extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(start, 0, 50));
 		World.sendProjectile(npc, target, projectileId, 39, 18, 55, 1.2, 5, 0);
 		if (hit > 0) {
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
-					if (target instanceof Player player) {
-						if (percentDrain == 0) {
+					if (target instanceof Player player)
+						if (percentDrain == 0)
 							player.freeze(skill == 0 ? 8 : skill == 1 ? 12 : 16, true);
-						}else
+						else
 							player.getSkills().set(skill, (int) (player.getSkills().getLevel(skill) * percentDrain));
-					}
 				}
 			}, 2);
 			target.setNextSpotAnim(new SpotAnim(hit, 140, 85));

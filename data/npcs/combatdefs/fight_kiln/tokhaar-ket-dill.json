@@ -1,0 +1,19 @@
+{
+  "names": [
+    "TokHaar-Ket-Dill"
+  ],
+  "hitpoints": 750,
+  "attackAnim": 16210,
+  "defenceAnim": 16160,
+  "deathAnim": 16197,
+  "deathDelay": 3,
+  "respawnDelay": 60,
+  "maxHit": 250,
+  "attackStyle": "MELEE",
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "levels": [
+  	200, 250, 200, 0, 80
+  ]
+}

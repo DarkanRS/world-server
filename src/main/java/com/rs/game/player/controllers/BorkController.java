@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -27,10 +27,10 @@ import com.rs.game.player.dialogues.DagonHai;
 import com.rs.lib.game.WorldTile;
 
 public class BorkController extends Controller {
-	
+
 	public transient int borkStage;
 	public transient NPC bork;
-	
+
 	public BorkController(int borkStage, NPC bork) {
 		this.borkStage = borkStage;
 		this.bork = bork;
@@ -46,19 +46,17 @@ public class BorkController extends Controller {
 	@Override
 	public void process() {
 		if (borkStage == 0) {
-			if (stage == 0) {
+			if (stage == 0)
 				Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3114, 5528, 0));
-			}
-			if (stage == 5) {
+			if (stage == 5)
 				sendInterfaces();
-			}
 			if (stage == 18) {
 				player.getInterfaceManager().removeOverlay();
 				player.getDialogueManager().execute(new DagonHai(), 7137, player, -1);
 				player.sendMessage("The choas teleporter transports you to an unknown portal.");
 				removeController();
 			}
-		} else if (borkStage == 1) {
+		} else if (borkStage == 1)
 			if (stage == 4) {
 				sendInterfaces();
 				bork.setCantInteract(true);
@@ -71,20 +69,18 @@ public class BorkController extends Controller {
 				bork.setNextForceTalk(new ForceTalk("Destroy the intruder, my Legions!"));
 				removeController();
 			}
-		}
 		stage++;
 	}
 
 	@Override
 	public void sendInterfaces() {
-		if (borkStage == 0) {
+		if (borkStage == 0)
 			player.getInterfaceManager().setOverlay(692);
-		} else if (borkStage == 1) {
+		else if (borkStage == 1)
 			for (Entity t : bork.getPossibleTargets()) {
 				Player pl = (Player) t;
 				pl.getInterfaceManager().setOverlay(691);
 			}
-		}
 	}
 
 	@Override

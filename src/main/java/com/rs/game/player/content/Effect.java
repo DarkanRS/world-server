@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
@@ -28,7 +28,7 @@ public enum Effect {
 			if (entity instanceof Player player)
 				player.getAppearance().generateAppearanceData();
 		}
-		
+
 		@Override
 		public void expire(Entity entity) {
 			if (entity instanceof Player player)
@@ -51,13 +51,12 @@ public enum Effect {
 	PRAYER_RENEWAL("prayer renewal") {
 		@Override
 		public void tick(Entity entity, long tickNumber) {
-			if (entity instanceof Player player) {
+			if (entity instanceof Player player)
 				if (!player.getPrayer().hasFullPoints()) {
-					player.getPrayer().restorePrayer((((double) (player.getSkills().getLevelForXp(Constants.PRAYER) * 4.3) / 600.0)) + 0.2);
+					player.getPrayer().restorePrayer(((player.getSkills().getLevelForXp(Constants.PRAYER) * 4.3 / 600.0)) + 0.2);
 					if (tickNumber % 25 == 0)
 						player.setNextSpotAnim(new SpotAnim(1295));
 				}
-			}
 		}
 	},
 	JUJU_MINING("juju mining potion"),
@@ -71,34 +70,34 @@ public enum Effect {
 	SARA_BLESSING("Saradomin's blessing"),
 	GUTHIX_GIFT("Guthix's gift"),
 	ZAMMY_FAVOR("Zamorak's favour"),
-	
+
 	BONFIRE("bonfire boost") {
 		@Override
 		public void apply(Entity entity) {
 			if (entity instanceof Player player)
 				player.getEquipment().refreshConfigs(false);
 		}
-		
+
 		@Override
 		public void expire(Entity entity) {
 			if (entity instanceof Player player)
 				player.getEquipment().refreshConfigs(false);
 		}
 	},
-	
+
 	OVERLOAD("overload") {
 		@Override
 		public void apply(Entity entity) {
 			if (entity instanceof Player player)
 				Potions.applyOverLoadEffect(player);
 		}
-		
+
 		@Override
 		public void tick(Entity entity, long tick) {
 			if (tick % 25 == 0 && entity instanceof Player player)
 				Potions.applyOverLoadEffect(player);
 		}
-		
+
 		@Override
 		public void expire(Entity entity) {
 			if (entity instanceof Player player) {
@@ -129,35 +128,35 @@ public enum Effect {
 			}
 		}
 	},
-	
+
 	;
-	
+
 	private String name;
-	
+
 	private Effect(String name) {
 		this.name = name;
 	}
-	
+
 	private Effect() {
 		name = null;
 	}
-	
+
 	public void apply(Entity player) {
-		
+
 	}
-	
+
 	public void tick(Entity player, long tickNumber) {
-		
+
 	}
-	
+
 	public void expire(Entity player) {
-		
+
 	}
-	
+
 	public boolean sendWarnings() {
 		return name != null;
 	}
-	
+
 	public String get30SecWarning() {
 		return "<col=FF0000>Your " + name + " is going to run out in 30 seconds!";
 	}

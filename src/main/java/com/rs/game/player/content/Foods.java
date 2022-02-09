@@ -2,22 +2,22 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
 
 public class Foods {
-	
+
 	public enum Food {
 		JANGERBERRIES(247),
 		SHRIMPS(315),
@@ -331,27 +331,27 @@ public class Foods {
 		STEAK_AND_KIDNEY_PIE(24402),
 		FULL_BREAKFAST(24404),
 		SIR_CERILS_WINE(24499);
-		
+
 		private int[] ids;
 		private int emptyId;
-		
+
 		private Food(int emptyId, int[] ids) {
 			this.emptyId = emptyId;
 			this.ids = ids;
 		}
-		
+
 		private Food(int... ids) {
-			this.emptyId = -1;
+			emptyId = -1;
 			this.ids = ids;
 		}
 
 		public int[] getIds() {
 			return ids;
 		}
-		
+
 		public int getEmptyId() {
 			return emptyId;
 		}
 	}
-	
+
 }

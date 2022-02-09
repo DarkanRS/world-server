@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
@@ -25,7 +25,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.dialogues.ColouredRecessShelvesD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -35,18 +35,18 @@ import com.rs.utils.WorldUtil;
 public class ColouredRecessRoom extends PuzzleRoom {
 
 	public static final int[] SHELVES =
-	{ 35243, 35242, 35241, 35245, 35246 };
+		{ 35243, 35242, 35241, 35245, 35246 };
 
 	//+1-4 for colors
 	public static final int[] BASE_BLOCKS =
-	{ 13024, 13029, 13034, 13039, 13044 };
+		{ 13024, 13029, 13034, 13039, 13044 };
 
 	public static final int[][] LOCATIONS =
-	{
-	{ 5, 10 },
-	{ 10, 10 },
-	{ 10, 5 },
-	{ 5, 5 }, };
+		{
+				{ 5, 10 },
+				{ 10, 10 },
+				{ 10, 5 },
+				{ 5, 5 }, };
 
 	private Block[] blocks;
 	private boolean[] used;
@@ -56,21 +56,17 @@ public class ColouredRecessRoom extends PuzzleRoom {
 		manager.spawnRandomNPCS(reference);
 		blocks = new Block[4];
 		used = new boolean[4];
-		for (int i = 0; i < blocks.length; i++) {
+		for (int i = 0; i < blocks.length; i++)
 			while_: while (true) {
 				WorldTile tile = manager.getTile(reference, 4 + Utils.random(8), 4 + Utils.random(8));
-				if (!World.floorFree(tile, 1)) {
+				if (!World.floorFree(tile, 1))
 					continue;
-				}
-				for (int j = 0; j < i; j++) {
-					if (blocks[j].matches(tile)) {
+				for (int j = 0; j < i; j++)
+					if (blocks[j].matches(tile))
 						continue while_;
-					}
-				}
 				blocks[i] = new Block(tile);
 				break;
 			}
-		}
 
 	}
 
@@ -82,11 +78,9 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				int[] location = LOCATIONS[tileColor];
 				if (manager.getTile(reference, location[0], location[1]).matches(block)) {
 					int color = block.getId() - BASE_BLOCKS[type] - 1;
-					if (color == tileColor) {
+					if (color == tileColor)
 						continue outer;
-					} else {
-						return;
-					}
+					return;
 
 				}
 			}
@@ -112,7 +106,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 			final int dy = push ? getY() - player.getY() : player.getY() - getY();
 			final int ldx = push ? nPos[0] - pPos[0] : pPos[0] - nPos[0];
 			final int ldy = push ? nPos[1] - pPos[1] : pPos[1] - nPos[1];
-			
+
 			if (nPos[0] + ldx < 4 || nPos[0] + ldx > 11 || nPos[1] + ldy < 4 || nPos[1] + ldy > 11) {
 				player.sendMessage("You cannot push the block there.");
 				return;
@@ -129,15 +123,14 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				return;
 			}
 
-			for (Player team : manager.getParty().getTeam()) {
+			for (Player team : manager.getParty().getTeam())
 				if (team != player && team.matches(nTarget)) {
 					player.sendMessage("A party member is blocking the way.");
 					return;
 				}
-			}
 
 			player.lock(2);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				private boolean moved;
 
@@ -161,15 +154,8 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 		public boolean useItem(Player player, Item item) {
 			int color = (item.getId() - 19869) / 2;
-			if (color < 0 || color > 3) {
+			if (color < 0 || color > 3 || (getId() != BASE_BLOCKS[type]) || used[color])
 				return true;
-			}
-			if (getId() != BASE_BLOCKS[type]) {
-				return true;
-			}
-			if (used[color]) {
-				return true;
-			}
 			used[color] = true;
 			player.getInventory().deleteItem(item);
 			player.setNextAnimation(new Animation(832));
@@ -182,11 +168,9 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 	@Override
 	public boolean canMove(Player player, WorldTile to) {
-		for (WorldTile block : blocks) {
-			if (to.matches(block)) {
+		for (WorldTile block : blocks)
+			if (to.matches(block))
 				return false;
-			}
-		}
 		return true;
 	}
 

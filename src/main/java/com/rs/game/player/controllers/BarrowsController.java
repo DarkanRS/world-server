@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -39,7 +39,7 @@ import com.rs.game.player.content.minigames.barrows.BarrowsPuzzle;
 import com.rs.game.player.content.minigames.barrows.Link;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
@@ -60,11 +60,11 @@ public final class BarrowsController extends Controller {
 	public int[] varBits = new int[20];
 
 	private static enum Hills {
-		AHRIM_HILL(new WorldTile(3564, 3287, 0), new WorldTile(3557, 9703, 3)), 
-		DHAROK_HILL(new WorldTile(3573, 3296, 0), new WorldTile(3556, 9718, 3)), 
-		GUTHAN_HILL(new WorldTile(3574, 3279, 0), new WorldTile(3534, 9704, 3)), 
-		KARIL_HILL(new WorldTile(3563, 3276, 0), new WorldTile(3546, 9684, 3)), 
-		TORAG_HILL(new WorldTile(3553, 3281, 0), new WorldTile(3568, 9683, 3)), 
+		AHRIM_HILL(new WorldTile(3564, 3287, 0), new WorldTile(3557, 9703, 3)),
+		DHAROK_HILL(new WorldTile(3573, 3296, 0), new WorldTile(3556, 9718, 3)),
+		GUTHAN_HILL(new WorldTile(3574, 3279, 0), new WorldTile(3534, 9704, 3)),
+		KARIL_HILL(new WorldTile(3563, 3276, 0), new WorldTile(3546, 9684, 3)),
+		TORAG_HILL(new WorldTile(3553, 3281, 0), new WorldTile(3568, 9683, 3)),
 		VERAC_HILL(new WorldTile(3556, 3296, 0), new WorldTile(3578, 9706, 3));
 
 		private WorldTile outBound;
@@ -77,10 +77,10 @@ public final class BarrowsController extends Controller {
 	}
 
 	public static boolean digIntoGrave(final Player player) {
-		for (Hills hill : Hills.values()) {
+		for (Hills hill : Hills.values())
 			if (player.getPlane() == hill.outBound.getPlane() && player.getX() >= hill.outBound.getX() && player.getY() >= hill.outBound.getY() && player.getX() <= hill.outBound.getX() + 3 && player.getY() <= hill.outBound.getY() + 3) {
 				player.useStairs(-1, hill.inside, 1, 2, "You've broken into a crypt.");
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new BarrowsController());
@@ -88,7 +88,6 @@ public final class BarrowsController extends Controller {
 				});
 				return true;
 			}
-		}
 		return false;
 	}
 
@@ -131,7 +130,7 @@ public final class BarrowsController extends Controller {
 	}
 
 	public int getRandomBrother() {
-		List<Integer> bros = new ArrayList<Integer>();
+		List<Integer> bros = new ArrayList<>();
 		for (int i = 0; i < Hills.values().length; i++) {
 			if (player.getKilledBarrowBrothers()[i] || player.getHiddenBrother() == i)
 				continue;
@@ -141,7 +140,7 @@ public final class BarrowsController extends Controller {
 			return -1;
 		return bros.get(Utils.random(bros.size()));
 	}
-	
+
 	private static final Drop[] AHRIM = { new Drop(4708, 1), new Drop(4710, 1), new Drop(4712, 1), new Drop(4714, 1) };
 	private static final Drop[] DHAROK = { new Drop(4716, 1), new Drop(4718, 1), new Drop(4720, 1), new Drop(4722, 1) };
 	private static final Drop[] GUTHAN = { new Drop(4724, 1), new Drop(4726, 1), new Drop(4728, 1), new Drop(4730, 1) };
@@ -151,7 +150,7 @@ public final class BarrowsController extends Controller {
 	private static final Drop[] AKRISAE = { new Drop(21736, 1), new Drop(21744, 1), new Drop(21752, 1), new Drop(21760, 1) };
 
 	private static final Drop[][] BROTHERS_LOOT = { AHRIM, DHAROK, GUTHAN, KARIL, TORAG, VERAC, AKRISAE };
-	
+
 	public void drop(Item... items) {
 		if (items == null || items.length <= 0)
 			return;
@@ -164,26 +163,21 @@ public final class BarrowsController extends Controller {
 			player.incrementCount(ItemDefinitions.getDefs(item.getId()).getName()+" drops earned", item.getAmount());
 		}
 	}
-	
+
 	public static Item[] getSimulatedDrop(int brothersKilled, int points) {
 		ItemsContainer<Item> container = new ItemsContainer<>(points, false);
 		if (points > 1012)
 			points = 1012;
 		List<Drop> equipment = new ArrayList<>();
-		for (int i = 0;i < BROTHERS_LOOT.length-1;i++) {
-				for (Drop d : BROTHERS_LOOT[i])
-					equipment.add(d);
-		}
+		for (int i = 0;i < BROTHERS_LOOT.length-1;i++)
+			for (Drop d : BROTHERS_LOOT[i])
+				equipment.add(d);
 		int rolls = Utils.clampI(brothersKilled+1, 1, 7);
 		int equipmentChance = Utils.clampI(450 - (58 * brothersKilled), 73, 450);
 		for (int i = 0;i < rolls;i++) {
-			if (rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(1, equipmentChance, equipment)))))
+			if (rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(1, equipmentChance, equipment)))) || (points >= 381 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(558, 253, 336)))))))
 				continue;
-			if (points >= 381 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(558, 253, 336))))))
-				continue;
-			if (points >= 506 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139))))))
-				continue;
-			if (points >= 631 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83))))))
+			if ((points >= 506 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139)))))) || (points >= 631 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83)))))))
 				continue;
 			if (points >= 756 && rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(125, 1012, new Drop(565, 37, 43))))))
 				continue;
@@ -203,7 +197,7 @@ public final class BarrowsController extends Controller {
 		}
 		return container.getItemsNoNull();
 	}
-	
+
 	private static boolean rollAdd(ItemsContainer<Item> container, Item[] drops) {
 		if (drops.length <= 0)
 			return false;
@@ -216,27 +210,22 @@ public final class BarrowsController extends Controller {
 		int brothersKilled = 0;
 		ItemsContainer<Item> container = new ItemsContainer<>(20, false);
 		List<Drop> equipment = new ArrayList<>();
-		for (int i = 0;i < player.getKilledBarrowBrothers().length;i++) {
+		for (int i = 0;i < player.getKilledBarrowBrothers().length;i++)
 			if (player.getKilledBarrowBrothers()[i]) {
 				for (Drop d : BROTHERS_LOOT[i])
 					equipment.add(d);
 				brothersKilled++;
 				points += 110;
 			}
-		}
 		points += player.getBarrowsKillCount() * 73;
 		if (points > 1012)
 			points = 1012;
 		int rolls = Utils.clampI(brothersKilled+1, 1, 7);
 		int equipmentChance = Utils.clampI(450 - (58 * brothersKilled), 73, 450);
 		for (int i = 0;i < rolls;i++) {
-			if (player.getKilledBarrowBrothers()[i] && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(1, equipmentChance, equipment)))))
+			if ((player.getKilledBarrowBrothers()[i] && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(1, equipmentChance, equipment))))) || (points >= 381 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(558, 253, 336)))))))
 				continue;
-			if (points >= 381 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(558, 253, 336))))))
-				continue;
-			if (points >= 506 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139))))))
-				continue;
-			if (points >= 631 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83))))))
+			if ((points >= 506 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(562, 112, 139)))))) || (points >= 631 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(560, 70, 83)))))))
 				continue;
 			if (points >= 756 && rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(125, 1012, new Drop(565, 37, 43))))))
 				continue;
@@ -248,14 +237,13 @@ public final class BarrowsController extends Controller {
 				continue;
 			rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(995, 1, points))));
 		}
-		if (SetReward.MORYTANIA_LEGS.hasRequirements(player, Area.MORYTANIA, Difficulty.HARD, false)) {
+		if (SetReward.MORYTANIA_LEGS.hasRequirements(player, Area.MORYTANIA, Difficulty.HARD, false))
 			for (Item i : container.getItems()) {
 				if (i == null)
 					continue;
 				if (i.getId() >= 554 && i.getId() <= 566)
 					i.setAmount(i.getAmount() * 2);
 			}
-		}
 		player.sendMessage("Your drop potential this chest was " + Utils.formatNumber(points) + "/1,012.");
 		return container.getItemsNoNull();
 	}
@@ -268,7 +256,7 @@ public final class BarrowsController extends Controller {
 		player.getPackets().sendItems(100, rewards);
 		drop(rewards);
 	}
-	
+
 	@Override
 	public boolean processButtonClick(int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
 		if (interfaceId == 25) {
@@ -293,7 +281,8 @@ public final class BarrowsController extends Controller {
 			WorldTile out = Hills.values()[object.getId() - 6702].outBound;
 			exit(new WorldTile(out.getX() + 1, out.getY() + 1, out.getPlane()));
 			return false;
-		} else if (object.getId() >= 6709 && object.getId() <= 6712) {
+		}
+		if (object.getId() >= 6709 && object.getId() <= 6712) {
 			player.useLadder(new WorldTile(3565, 3288, 0));
 			leave(false);
 		} else if (object.getId() == 10284) {
@@ -301,9 +290,8 @@ public final class BarrowsController extends Controller {
 				player.sendMessage("You found nothing.");
 				return false;
 			}
-			if (!player.getKilledBarrowBrothers()[player.getHiddenBrother()]) {
+			if (!player.getKilledBarrowBrothers()[player.getHiddenBrother()])
 				sendTarget(2025 + player.getHiddenBrother(), new WorldTile(player));
-			}
 			if (object.getDefinitions(player).getOption(1).equals("Search")) {
 				player.incrementCount("Barrows chests looted");
 				sendReward();
@@ -311,12 +299,11 @@ public final class BarrowsController extends Controller {
 				player.getInterfaceManager().removeOverlay();
 				player.resetBarrows();
 				player.getVars().setVarBit(1394, 0);
-			} else {
+			} else
 				player.getVars().setVarBit(1394, 1);
-			}
 			return false;
 		} else if (object.getId() >= 6716 && object.getId() <= 6750) {
-			
+
 			switch(object.getId()) {
 			case 6720:
 			case 6724:
@@ -334,12 +321,12 @@ public final class BarrowsController extends Controller {
 			default:
 				break;
 			}
-			
+
 			Doors.handleDoubleDoor(player, object);
 			removeDarkness = (removeDarkness == 1 ? 0 : 1);
 			player.getVars().setVar(1270, removeDarkness);
-			if (Utils.random(10) == 0) {
-				WorldTasksManager.schedule(new WorldTask() {
+			if (Utils.random(10) == 0)
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if (player.getHiddenBrother() != -1) {
@@ -349,12 +336,11 @@ public final class BarrowsController extends Controller {
 						}
 					}
 				}, 0);
-			}
 			return false;
 		} else {
 			int sarcoId = getSarcophagusId(object.getId());
 			if (sarcoId != -1) {
-				if (sarcoId == player.getHiddenBrother()) {
+				if (sarcoId == player.getHiddenBrother())
 					player.startConversation(new Dialogue()
 							.addSimple("You've found a hidden tunnel, do you want to enter?")
 							.addOption("Select an Option", "Yes, I'm fearless.", "No way, that looks scary!")
@@ -364,7 +350,6 @@ public final class BarrowsController extends Controller {
 								BarrowsPath.updatePathDoors(player, currentPath);
 								BarrowsPath.setSpawn(player, spawn);
 							}).finish());
-				}
 				else if (target != null || player.getKilledBarrowBrothers()[sarcoId])
 					player.sendMessage("You found nothing.");
 				else
@@ -373,7 +358,7 @@ public final class BarrowsController extends Controller {
 			}
 		}
 		return true;
-	};
+	}
 
 	public int getSarcophagusId(int objectId) {
 		switch (objectId) {
@@ -400,7 +385,7 @@ public final class BarrowsController extends Controller {
 		target = null;
 
 	}
-	
+
 	public void cheat() {
 		setBrotherSlained(0);
 		setBrotherSlained(1);
@@ -514,23 +499,20 @@ public final class BarrowsController extends Controller {
 	public void sendCreaturesSlainCount(int count) {
 		player.getVars().setVarBit(464, count+player.getKilledBarrowBrothersCount());
 	}
-	
+
 	public void savePathVars() {
 		removeDarkness = player.getVars().getVar(1270);
-		for (int i = 0; i<20; i++) {
+		for (int i = 0; i<20; i++)
 			varBits[i] = player.getVars().getVarBit(465+i);
-		}
 	}
-	
+
 	public void loadPathVars() {
 		player.getVars().setVar(1270, removeDarkness);
-		if (varBits != null && (varBits.length == 20)) {
-			for (int i = 0; i<20; i++) {
+		if (varBits != null && (varBits.length == 20))
+			for (int i = 0; i<20; i++)
 				player.getVars().setVarBit(465+i, varBits[i]);
-			}
-		}
 	}
-	
+
 	public void resetPathVars() {
 		varBits = new int[20];
 	}

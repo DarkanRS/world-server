@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.shadesofmortton;
@@ -24,7 +24,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -47,40 +47,40 @@ import com.rs.utils.Areas;
 
 @PluginEventHandler
 public class ShadesOfMortton {
-	
+
 	private static Map<Integer, TempleWall> WALLS = new ConcurrentHashMap<>();
 	private static int REPAIR_STATE = 0;
-	
+
 	public static int getRepairState() {
 		return REPAIR_STATE;
 	}
-	
+
 	public static TempleWall getWall(GameObject obj) {
 		TempleWall wall = WALLS.get(obj.getTileHash());
 		if (wall == null)
 			wall = new TempleWall(obj);
 		return wall;
 	}
-	
+
 	public static TempleWall getRandomWall() {
 		if (WALLS.isEmpty())
 			return null;
 		return WALLS.get(WALLS.keySet().toArray()[Utils.random(WALLS.size())]);
 	}
-	
+
 	public static void addWall(TempleWall wall) {
 		WALLS.put(wall.getTileHash(), wall);
 		World.spawnObject(wall);
 	}
-	
+
 	public static void deleteWall(TempleWall wall) {
 		WALLS.remove(wall.getTileHash());
 		World.removeObject(wall);
 	}
-	
+
 	@ServerStartupEvent
 	public static void initUpdateTask() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				updateRepairState();
@@ -98,11 +98,9 @@ public class ShadesOfMortton {
 						altar.setId(4091);
 						World.sendSpotAnim(null, new SpotAnim(1605), altar);
 					}
-				} else {
-					if (altar != null && altar.getId() != 4092) {
-						World.removeObject(altar);
-						World.sendSpotAnim(null, new SpotAnim(1605), altar);
-					}
+				} else if (altar != null && altar.getId() != 4092) {
+					World.removeObject(altar);
+					World.sendSpotAnim(null, new SpotAnim(1605), altar);
 				}
 			}
 		}, 50, 50);
@@ -112,7 +110,7 @@ public class ShadesOfMortton {
 		int totalRepair = 0;
 		for (TempleWall wall : WALLS.values())
 			totalRepair += wall.getRepairPerc();
-		REPAIR_STATE = (int) (((double) totalRepair / 1500.0) * 100.0);
+		REPAIR_STATE = (int) ((totalRepair / 1500.0) * 100.0);
 	}
 
 	protected static void updateVars(Player player) {
@@ -120,27 +118,27 @@ public class ShadesOfMortton {
 		player.getVars().setVar(344, player.getI("shadeResources", 0));
 		player.getVars().setVar(345, (int) Math.ceil(player.getTempAttribs().getD("shadeSanctity")));
 	}
-	
+
 	public static void addSanctity(Player player, double amount) {
 		player.getTempAttribs().setD("shadeSanctity", Utils.clampD(player.getTempAttribs().getD("shadeSanctity") + amount, 0, 100));
 		updateVars(player);
 	}
-	
+
 	public static void addResources(Player player, int amount) {
 		player.save("shadeResources", Utils.clampI(player.getI("shadeResources", 0) + amount, 0, 100));
 		updateVars(player);
 	}
-	
+
 	public static void removeSanctity(Player player, double amount) {
 		player.getTempAttribs().setD("shadeSanctity", Utils.clampD(player.getTempAttribs().getD("shadeSanctity") - amount, 0, 100));
 		updateVars(player);
 	}
-	
+
 	public static void removeResources(Player player, int amount) {
 		player.save("shadeResources", Utils.clampI(player.getI("shadeResources", 0) - amount, 0, 100));
 		updateVars(player);
 	}
-	
+
 	public static EnterChunkHandler handleTempleChunks = new EnterChunkHandler() {
 		@Override
 		public void handle(EnterChunkEvent e) {
@@ -156,19 +154,17 @@ public class ShadesOfMortton {
 						updateVars(player);
 					}
 				}
-			} else {
-				if (Areas.withinArea("shades_temple", e.getChunkId())) {
-					Player player = e.getPlayer();
-					if (player != null && player.hasStarted()) {
-						player.getInterfaceManager().setOverlay(328);
-						e.getEntity().getTempAttribs().setB("inShadeTemple", true);
-						updateVars(player);
-					}
+			} else if (Areas.withinArea("shades_temple", e.getChunkId())) {
+				Player player = e.getPlayer();
+				if (player != null && player.hasStarted()) {
+					player.getInterfaceManager().setOverlay(328);
+					e.getEntity().getTempAttribs().setB("inShadeTemple", true);
+					updateVars(player);
 				}
 			}
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleOilOnAltar = new ItemOnObjectHandler(new Object[] { 4090 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -194,7 +190,7 @@ public class ShadesOfMortton {
 				e.getItem().setId(3436);
 				removeSanctity(e.getPlayer(), 0.9);
 				break;
-			//serums
+				//serums
 			case 3408:
 				e.getItem().setId(3416);
 				removeSanctity(e.getPlayer(), 3.6);
@@ -216,7 +212,7 @@ public class ShadesOfMortton {
 			e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 		}
 	};
-	
+
 	public static ObjectClickHandler handleLightAltar = new ObjectClickHandler(new Object[] { 4091 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -236,7 +232,7 @@ public class ShadesOfMortton {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWallRepairs = new ObjectClickHandler(new Object[] { 4068, 4069, 4070, 4071, 4072, 4073, 4074, 4075, 4076, 4077, 4078, 4079, 4080, 4081, 4082, 4083, 4084, 4085, 4086, 4087, 4088, 4089 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -289,11 +285,11 @@ public class ShadesOfMortton {
 				public void stop(Player player) {
 					player.setNextAnimation(new Animation(-1));
 				}
-				
+
 			});
 		}
 	};
-	
+
 	public static ItemOnItemHandler handleNecromancerKits = new ItemOnItemHandler(new int[] { 21489 }, new int[] { 14497, 14499, 14501 }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
@@ -322,7 +318,7 @@ public class ShadesOfMortton {
 			e.getPlayer().getInventory().refresh();
 		}
 	};
-	
+
 	public static ItemClickHandler handleRemoveNecromancerKits = new ItemClickHandler(new Object[] { 21477, 21478, 21479 }, new String[] { "Remove-kit" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -352,7 +348,7 @@ public class ShadesOfMortton {
 			});
 		}
 	};
-	
+
 	public static ItemOnItemHandler handleShadeSkulls = new ItemOnItemHandler(21488, new int[] { 1381, 1383, 1385, 1387, 1393, 1395, 1397, 1399, 1401, 1403, 1405, 1407, 3053, 3054, 6562, 6563, 11736, 11738 }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
@@ -420,7 +416,7 @@ public class ShadesOfMortton {
 			e.getPlayer().getInventory().refresh();
 		}
 	};
-	
+
 	public static ItemClickHandler handleRemoveShadeSkulls = new ItemClickHandler(Utils.range(21490, 21507), new String[] { "Remove-skull" }) {
 		@Override
 		public void handle(ItemClickEvent e) {

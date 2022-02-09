@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.farming;
@@ -88,12 +88,11 @@ public enum StorableItem {
 				return;
 			}
 			int index = 0;
-			for (int i = 0;i < validIds.length;i++) {
+			for (int i = 0;i < validIds.length;i++)
 				if (player.getLeprechaunStorage().get(WATERING_CAN).getId() == validIds[i]) {
 					index = i;
 					break;
 				}
-			}
 			player.getVars().setVarBit(VB_WATERING_CAN, index+1);
 		}
 	},
@@ -103,27 +102,27 @@ public enum StorableItem {
 			player.getVars().setVarBit(VB_PLANT_CURE, player.getNumInLeprechaun(PLANT_CURE));
 		}
 	};
-	
-	private static final int VB_RAKE = 1435, VB_SEED_DIBBER = 1436, VB_SPADE = 1437, VB_TROWEL = 1440, VB_SCARECROW = 1778, 
-			VB_BUCKET = 1441, VB_COMPOST = 1442, VB_SUPERCOMPOST = 1443, VB_SECATEURS = 1438, VB_IS_MAGIC_SECATEURS = 1848, 
+
+	private static final int VB_RAKE = 1435, VB_SEED_DIBBER = 1436, VB_SPADE = 1437, VB_TROWEL = 1440, VB_SCARECROW = 1778,
+			VB_BUCKET = 1441, VB_COMPOST = 1442, VB_SUPERCOMPOST = 1443, VB_SECATEURS = 1438, VB_IS_MAGIC_SECATEURS = 1848,
 			VB_WATERING_CAN = 1439, VB_EXTRA_BUCKETS = 10204, VB_PLANT_CURE = 10205;
-	
+
 	private static Map<Integer, StorableItem> MAP = new HashMap<>();
-	
+
 	static {
 		for (StorableItem item : StorableItem.values())
 			for (int id : item.validIds)
 				MAP.put(id, item);
 	}
-	
+
 	public static StorableItem forId(int itemId) {
 		return MAP.get(itemId);
 	}
-	
+
 	public int maxAmount;
 	public int[] validIds;
 	public abstract void updateVars(Player player);
-	
+
 	private StorableItem(int maxAmount, int... validIds) {
 		this.maxAmount = maxAmount;
 		this.validIds = validIds;

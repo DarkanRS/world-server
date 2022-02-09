@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.runecrafting.runespan;
@@ -27,7 +27,7 @@ import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.RunespanController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -75,7 +75,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 		public int getNpcEmoteId() {
 			return npcEmoteId;
 		}
-		
+
 		public int getLevelRequired() {
 			return levelRequired;
 		}
@@ -118,9 +118,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 
 	@Override
 	public boolean checkAll(final Player player) {
-		if (player.isLocked())
-			return false;
-		if (creature.hasFinished())
+		if (player.isLocked() || creature.hasFinished())
 			return false;
 		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < creatures.getLevelRequired()) {
 			player.getDialogueManager().execute(new SimpleMessage(), "This creature requires level " + creatures.getLevelRequired() + " to siphon.");
@@ -139,7 +137,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public int loopWithDelay(Player player) {
 		if (started) {
@@ -151,9 +149,8 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 				Controller controller = player.getControllerManager().getController();
 				if (controller instanceof RunespanController ctrl)
 					ctrl.addRunespanPoints(creatures.pointValue);
-			} else {
+			} else
 				player.getSkills().addXp(Constants.RUNECRAFTING, 0.5);
-			}
 			if (npcLife == 0) {
 				processEsslingDeath(player);
 				return -1;
@@ -166,7 +163,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 			player.setNextFaceWorldTile(creature);
 			WorldProjectile p = World.sendProjectile(creature, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setNextSpotAnim(new SpotAnim(succF ? 3062 : 3071));
@@ -178,7 +175,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 
 	public void processEsslingDeath(final Player player) {
 		creature.setNextAnimation(new Animation(creatures.getDeathEmote()));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.sendMessage("The creature has been broken down.");
@@ -194,7 +191,7 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 		player.setNextAnimation(new Animation(16599));
 		setActionDelay(player, 3);
 	}
-	
+
 	public static int getWickedWornCount(Player player) {
 		int count = 0;
 		if (player.getEquipment().getHatId() == 22332)

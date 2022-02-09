@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -32,7 +32,7 @@ import com.rs.game.player.content.skills.cooking.Foods.Food;
 import com.rs.game.player.dialogues.ForfeitDialouge;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -52,9 +52,9 @@ public class DuelArenaController extends Controller {
 
 	public DuelArenaController(Player target, boolean friendly) {
 		this.target = target;
-		this.ifFriendly = friendly;
+		ifFriendly = friendly;
 	}
-	
+
 	@Override
 	public void start() {
 		openDuelScreen(target, ifFriendly);
@@ -74,12 +74,7 @@ public class DuelArenaController extends Controller {
 		player.getTempAttribs().setB("firstScreen", true);
 		player.getInterfaceManager().sendInterface(ifFriendly ? 637 : 631);
 		refreshScreenMessage(true, ifFriendly);
-		player.setCloseInterfacesEvent(new Runnable() {
-			@Override
-			public void run() {
-				closeDuelInteraction(true, DuelStage.DECLINED);
-			}
-		});
+		player.setCloseInterfacesEvent(() -> closeDuelInteraction(true, DuelStage.DECLINED));
 	}
 
 	private void accept(boolean firstStage) {
@@ -109,7 +104,7 @@ public class DuelArenaController extends Controller {
 		Player oldTarget = target;
 		if (duelStage != DuelStage.DONE) {
 			target = null;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -128,7 +123,7 @@ public class DuelArenaController extends Controller {
 		if (controller == null)
 			return;
 		DuelArenaController targetConfiguration = (DuelArenaController) controller;
-		if (controller instanceof DuelArenaController) {
+		if (controller instanceof DuelArenaController)
 			if (targetConfiguration.hasTarget()) {
 				oldTarget.setCloseInterfacesEvent(null);
 				oldTarget.closeInterfaces();
@@ -147,13 +142,10 @@ public class DuelArenaController extends Controller {
 					oldTarget.sendMessage("Other player does not have enough space to continue!");
 				}
 			}
-		}
 	}
 
 	public void addItem(int slot, int amount) {
-		if (!hasTarget())
-			return;
-		if (player.isIronMan() || player.getRights() == Rights.ADMIN)
+		if (!hasTarget() || player.isIronMan() || player.getRights() == Rights.ADMIN)
 			return;
 		Item item = player.getInventory().getItem(slot);
 		if (item == null)
@@ -202,9 +194,8 @@ public class DuelArenaController extends Controller {
 		for (int index = 0; index < itemsBefore.length; index++) {
 			Item item = player.getLastDuelRules().getStake().getItems()[index];
 			if (item != null)
-				if (itemsBefore[index] != item) {
+				if (itemsBefore[index] != item)
 					changedSlots[count++] = index;
-				}
 		}
 		int[] finalChangedSlots = new int[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
@@ -247,7 +238,7 @@ public class DuelArenaController extends Controller {
 	private String getAcceptMessage(boolean firstStage) {
 		if (target.getTempAttribs().getB("acceptedDuel"))
 			return "Other player has accepted.";
-		else if (player.getTempAttribs().getB("acceptedDuel"))
+		if (player.getTempAttribs().getB("acceptedDuel"))
 			return "Waiting for other player...";
 		return firstStage ? "" : "Please look over the agreements to the duel.";
 	}
@@ -309,7 +300,7 @@ public class DuelArenaController extends Controller {
 		startEndingTeleport(loser);
 		loser.sendMessage("Oh dear, it seems you have lost to " + victor.getDisplayName() + ".");
 		victor.sendMessage("Congratulations! You easily defeated " + loser.getDisplayName() + ".");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -334,10 +325,9 @@ public class DuelArenaController extends Controller {
 	private void removeEquipment() {
 		int slot = 0;
 		for (int i = 10; i < 23; i++) {
-			if (i == 14) {
+			if (i == 14)
 				if (player.getEquipment().hasTwoHandedWeapon())
 					Equipment.sendRemove(target, 3);
-			}
 			if (player.getLastDuelRules().getRule(i)) {
 				slot = i - 10;
 				Equipment.sendRemove(player, slot);
@@ -360,7 +350,7 @@ public class DuelArenaController extends Controller {
 		player.getTempAttribs().setB("canFight", false);
 		player.setCanPvp(true);
 		player.getHintIconsManager().addHintIcon(target, 1, -1, false);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int count = 3;
 
 			@Override
@@ -370,7 +360,7 @@ public class DuelArenaController extends Controller {
 				if (count == 0) {
 					player.getTempAttribs().setB("canFight", true);
 					player.setNextForceTalk(new ForceTalk("FIGHT!"));
-					this.stop();
+					stop();
 				}
 				count--;
 			}
@@ -440,19 +430,19 @@ public class DuelArenaController extends Controller {
 	public boolean sendDeath() {
 		endDuel(target, player);
 		player.lock(7);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
 				player.stopAll();
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					player.setNextAnimation(new Animation(-1));
-					this.stop();
+					stop();
 				}
 				loop++;
 			}
@@ -489,36 +479,31 @@ public class DuelArenaController extends Controller {
 		if (player.getCombatDefinitions().getSpell() != null && rules.getRule(2) && isDueling) {
 			player.sendMessage("You cannot use Magic in this duel!", true);
 			return false;
-		} else if (isRanging && rules.getRule(0) && isDueling) {
+		}
+		if (isRanging && rules.getRule(0) && isDueling) {
 			player.sendMessage("You cannot use Range in this duel!", true);
 			return false;
-		} else if (!isRanging && rules.getRule(1) && player.getCombatDefinitions().getSpell() == null && isDueling) {
+		}
+		if (!isRanging && rules.getRule(1) && player.getCombatDefinitions().getSpell() == null && isDueling) {
 			player.sendMessage("You cannot use Melee in this duel!", true);
 			return false;
-		} else {
-			for (Item item : FUN_WEAPONS) {
+		} else
+			for (Item item : FUN_WEAPONS)
 				if (rules.getRule(8) && !player.getInventory().containsItem(item.getId(), item.getAmount())) {
 					player.sendMessage("You can only use fun weapons in this duel!");
 					return false;
 				}
-			}
-		}
 		return true;
 	}
 
 	@Override
 	public boolean canEquip(int slotId, int itemId) {
 		DuelRules rules = player.getLastDuelRules();
-		if (isDueling) {
-			if (rules.getRule(10 + slotId)) {
+		if (isDueling)
+			if (rules.getRule(10 + slotId) || (slotId == 3 && player.getEquipment().hasTwoHandedWeapon() && rules.getRule(15))) {
 				player.sendMessage("You can't equip " + ItemDefinitions.getDefs(itemId).getName().toLowerCase() + " during this duel.");
 				return false;
 			}
-			if (slotId == 3 && player.getEquipment().hasTwoHandedWeapon() && rules.getRule(15)) {
-				player.sendMessage("You can't equip " + ItemDefinitions.getDefs(itemId).getName().toLowerCase() + " during this duel.");
-				return false;
-			}
-		}
 		return true;
 	}
 
@@ -529,7 +514,7 @@ public class DuelArenaController extends Controller {
 		int[] arenaBoundariesY = { 3246, 3227, 3208 };
 		int[] maxOffsetX = { 14, 14, 16 };
 		int[] maxOffsetY = { 10, 10, 10 };
-		
+
 		//Obstacles enabled
 		if (player.getLastDuelRules().getRule(6)) {
 			arenaBoundariesX = new int[]{ 3336, 3367, 3367 };
@@ -537,17 +522,16 @@ public class DuelArenaController extends Controller {
 			maxOffsetX = new int[]{ 14, 14, 16 };
 			maxOffsetY = new int[]{ 10, 10, 10 };
 		}
-		
+
 		int finalX = arenaBoundariesX[arenaChoice] + Utils.getRandomInclusive(maxOffsetX[arenaChoice]);
 		int finalY = arenaBoundariesY[arenaChoice] + Utils.getRandomInclusive(maxOffsetY[arenaChoice]);
 		locations[0] = (new WorldTile(finalX, finalY, 0));
 		if (player.getLastDuelRules().getRule(25)) {
 			int direction = Utils.getRandomInclusive(1);
-			if (direction == 0) {
+			if (direction == 0)
 				finalX--;
-			} else {
+			else
 				finalY++;
-			}
 		} else {
 			finalX = arenaBoundariesX[arenaChoice] + Utils.getRandomInclusive(maxOffsetX[arenaChoice]);
 			finalY = arenaBoundariesY[arenaChoice] + Utils.getRandomInclusive(maxOffsetY[arenaChoice]);
@@ -575,12 +559,11 @@ public class DuelArenaController extends Controller {
 						return false;
 					return true;
 				case 884:
-					if (componentId == 4) {
+					if (componentId == 4)
 						if (rules.getRule(9) && isDueling) {
 							player.sendMessage("You can't use special attacks in this duel.");
 							return false;
 						}
-					}
 					return true;
 				case 631:
 					switch (componentId) {

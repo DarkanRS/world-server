@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.plugin.events;
@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class NPCInstanceEvent implements PluginEvent {
-	
+
 	private static Map<Object, NPCInstanceHandler> HANDLERS = new HashMap<>();
 
 	private int npcId;
@@ -37,7 +37,7 @@ public class NPCInstanceEvent implements PluginEvent {
 		this.tile = tile;
 		this.spawned = spawned;
 	}
-	
+
 	public int getNpcId() {
 		return npcId;
 	}
@@ -45,7 +45,7 @@ public class NPCInstanceEvent implements PluginEvent {
 	public WorldTile getTile() {
 		return tile;
 	}
-	
+
 	public boolean isSpawned() {
 		return spawned;
 	}
@@ -63,9 +63,8 @@ public class NPCInstanceEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCInstanceHandler) method);
-			if (old != null) {
+			if (old != null)
 				System.err.println("ERROR: Duplicate ItemOnNPC methods for key: " + key);
-			}
 		}
 	}
 }

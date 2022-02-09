@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.pet;
@@ -29,16 +29,16 @@ import com.rs.lib.game.Item;
 
 /**
  * The pet manager.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class PetManager {
 
 	/**
 	 * The pet details mapping, sorted by item id.
 	 */
-	private final Map<Integer, PetDetails> petDetails = new HashMap<Integer, PetDetails>();
+	private final Map<Integer, PetDetails> petDetails = new HashMap<>();
 
 	/**
 	 * The player.
@@ -71,7 +71,7 @@ public final class PetManager {
 
 	/**
 	 * Spawns a pet.
-	 * 
+	 *
 	 * @param itemId
 	 *            The item id.
 	 * @param deleteItem
@@ -80,16 +80,14 @@ public final class PetManager {
 	 */
 	public boolean spawnPet(int itemId, boolean deleteItem) {
 		Pets pets = Pets.forId(itemId);
-		if (pets == null) {
+		if (pets == null)
 			return false;
-		}
 		if (player.getPet() != null || player.getFamiliar() != null) {
 			player.sendMessage("You already have a follower.");
 			return true;
 		}
-		if (!hasRequirements(pets)) {
+		if (!hasRequirements(pets))
 			return true;
-		}
 		int baseItemId = pets.getBabyItemId();
 		PetDetails details = petDetails.get(baseItemId);
 		if (details == null) {
@@ -119,7 +117,7 @@ public final class PetManager {
 
 	/**
 	 * Checks if the player has the requirements for the pet.
-	 * 
+	 *
 	 * @param pet
 	 *            The pet.
 	 * @return {@code True} if so.
@@ -135,14 +133,13 @@ public final class PetManager {
 	 * Initializes the pet manager.
 	 */
 	public void init() {
-		if (npcId > 0 && itemId > 0) {
+		if (npcId > 0 && itemId > 0)
 			spawnPet(itemId, false);
-		}
 	}
 
 	/**
 	 * Makes the pet eat.
-	 * 
+	 *
 	 * @param foodId
 	 *            The food item id.
 	 * @param npc
@@ -154,9 +151,8 @@ public final class PetManager {
 			return;
 		}
 		Pets pets = Pets.forId(itemId);
-		if (pets == null) {
+		if (pets == null)
 			return;
-		}
 		if (pets == Pets.TROLL_BABY) {
 			if (!ItemConstants.isTradeable(new Item(foodId))) {
 				player.sendMessage("Your troll baby won't eat this item.");
@@ -171,7 +167,7 @@ public final class PetManager {
 			player.sendMessage("Your pet happily eats the " + ItemDefinitions.getDefs(foodId).getName() + ".");
 			return;
 		}
-		for (int food : pets.getFood()) {
+		for (int food : pets.getFood())
 			if (food == foodId) {
 				player.getInventory().deleteItem(food, 1);
 				player.sendMessage("Your pet happily eats the " + ItemDefinitions.getDefs(food).getName() + ".");
@@ -179,27 +175,25 @@ public final class PetManager {
 				npc.getDetails().updateHunger(-15.0);
 				return;
 			}
-		}
 		player.sendMessage("Nothing interesting happens.");
 	}
 
 	/**
 	 * Removes the details for this pet.
-	 * 
+	 *
 	 * @param npcId
 	 *            The item id of the pet.
 	 */
 	public void removeDetails(int itemId) {
 		Pets pets = Pets.forId(itemId);
-		if (pets == null) {
+		if (pets == null)
 			return;
-		}
 		petDetails.remove(pets.getBabyItemId());
 	}
 
 	/**
 	 * Gets the player.
-	 * 
+	 *
 	 * @return The player.
 	 */
 	public Player getPlayer() {
@@ -208,7 +202,7 @@ public final class PetManager {
 
 	/**
 	 * Sets the player.
-	 * 
+	 *
 	 * @param player
 	 *            The player to set.
 	 */
@@ -218,7 +212,7 @@ public final class PetManager {
 
 	/**
 	 * Gets the npcId.
-	 * 
+	 *
 	 * @return The npcId.
 	 */
 	public int getNpcId() {
@@ -227,7 +221,7 @@ public final class PetManager {
 
 	/**
 	 * Sets the npcId.
-	 * 
+	 *
 	 * @param npcId
 	 *            The npcId to set.
 	 */
@@ -237,7 +231,7 @@ public final class PetManager {
 
 	/**
 	 * Gets the itemId.
-	 * 
+	 *
 	 * @return The itemId.
 	 */
 	public int getItemId() {
@@ -246,7 +240,7 @@ public final class PetManager {
 
 	/**
 	 * Sets the itemId.
-	 * 
+	 *
 	 * @param itemId
 	 *            The itemId to set.
 	 */
@@ -256,7 +250,7 @@ public final class PetManager {
 
 	/**
 	 * Gets the trollBabyName.
-	 * 
+	 *
 	 * @return The trollBabyName.
 	 */
 	public String getTrollBabyName() {
@@ -265,7 +259,7 @@ public final class PetManager {
 
 	/**
 	 * Sets the trollBabyName.
-	 * 
+	 *
 	 * @param trollBabyName
 	 *            The trollBabyName to set.
 	 */

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.hunter;
@@ -38,21 +38,21 @@ public class BoxAction extends Action {
 	private GroundItem groundItem;
 	private GameObject obj;
 	private WorldTile tile;
-	
+
 	public BoxAction(BoxTrapType type, GroundItem groundItem, GameObject obj) {
 		this.type = type;
 		this.groundItem = groundItem;
 		this.obj = obj;
 	}
-	
+
 	public BoxAction(BoxTrapType type, GroundItem groundItem) {
 		this(type, groundItem, null);
 	}
-	
+
 	public BoxAction(BoxTrapType type, GameObject obj) {
 		this(type, null, obj);
 	}
-	
+
 	public BoxAction(BoxTrapType type) {
 		this(type, null, null);
 	}
@@ -98,7 +98,7 @@ public class BoxAction extends Action {
 			created = true;
 		} else
 			created = trap.createNoReplace();
-		if (created && type.getId() != -1) {
+		if (created && type.getId() != -1)
 			if (type == BoxTrapType.TREE_NET) {
 				player.getInventory().deleteItem(954, 1);
 				player.getInventory().deleteItem(303, 1);
@@ -107,7 +107,6 @@ public class BoxAction extends Action {
 				if (item != null)
 					World.removeGroundItem(player, item, false);
 			}
-		}
 		return -1;
 	}
 
@@ -138,7 +137,7 @@ public class BoxAction extends Action {
 		}
 		return true;
 	}
-	
+
 	public int getTrapAmount(Player player) {
 		return 1 + (int) Math.floor(player.getSkills().getLevel(Constants.HUNTER) / 20);
 	}

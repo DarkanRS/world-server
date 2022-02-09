@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering;
@@ -28,12 +28,12 @@ public class Room {
 	private HandledRoom room;
 	private int rotation;
 	private int dropId;
-//	private int creationIndex;
+	//	private int creationIndex;
 
 	private Door[] doors;
 
 	private int thiefChest;
-	
+
 	private boolean critPath;
 
 	public Room(HandledRoom room, int rotation) {
@@ -42,7 +42,7 @@ public class Room {
 		reset();
 		thiefChest = -1;
 	}
-	
+
 	public void reset() {
 		critPath = false;
 		dropId = -1;
@@ -150,13 +150,13 @@ public class Room {
 		room.openRoom(dungeon, reference);
 	}
 
-//	public int getCreationIndex() {
-//		return creationIndex;
-//	}
-//
-//	public void setCreationIndex(int creationIndex) {
-//		this.creationIndex = creationIndex;
-//	}
+	//	public int getCreationIndex() {
+	//		return creationIndex;
+	//	}
+	//
+	//	public void setCreationIndex(int creationIndex) {
+	//		this.creationIndex = creationIndex;
+	//	}
 
 	public int getDropId() {
 		return dropId;

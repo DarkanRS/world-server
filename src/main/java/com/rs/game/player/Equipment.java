@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player;
@@ -28,7 +28,7 @@ import com.rs.game.player.content.skills.firemaking.Bonfire;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.content.transportation.ItemTeleports;
 import com.rs.game.player.managers.PriceChecker;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -45,38 +45,38 @@ import com.rs.utils.ItemWeights;
 @PluginEventHandler
 public final class Equipment {
 
-	public static final byte 
-	HEAD = 0, 
-	CAPE = 1, 
-	NECK = 2, 
-	WEAPON = 3, 
-	CHEST = 4, 
-	SHIELD = 5, 
-	LEGS = 7, 
-	HANDS = 9, 
-	FEET = 10, 
-	RING = 12, 
-	AMMO = 13, 
+	public static final byte
+	HEAD = 0,
+	CAPE = 1,
+	NECK = 2,
+	WEAPON = 3,
+	CHEST = 4,
+	SHIELD = 5,
+	LEGS = 7,
+	HANDS = 9,
+	FEET = 10,
+	RING = 12,
+	AMMO = 13,
 	AURA = 14;
 
 	public static final int SIZE = 15;
-	
+
 	private ItemsContainer<Item> items;
 
 	private transient Player player;
 	private transient int equipmentHpIncrease;
 	private transient double equipmentWeight;
 
-	static final int[] DISABLED_SLOTS = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 };
+	static final int[] DISABLED_SLOTS = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 };
 
 	public Equipment() {
-		items = new ItemsContainer<Item>(15, false);
+		items = new ItemsContainer<>(15, false);
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public void replace(Item item, Item newItem) {
 		if (item != null)
 			PluginManager.handle(new ItemEquipEvent(player, item, false));
@@ -116,10 +116,9 @@ public final class Equipment {
 	}
 
 	public void reset() {
-		for (Item item : getItemsCopy()) {
+		for (Item item : getItemsCopy())
 			if (item != null)
 				PluginManager.handle(new ItemEquipEvent(player, item, false));
-		}
 		items.reset();
 		init();
 	}
@@ -127,12 +126,11 @@ public final class Equipment {
 	public Item getItem(int slot) {
 		return items.get(slot);
 	}
-	
+
 	public Item getItemById(int id) {
-		for (Item item : items.getItems()) {
+		for (Item item : items.getItems())
 			if (item != null && item.getId() == id)
 				return item;
-		}
 		return null;
 	}
 
@@ -146,12 +144,11 @@ public final class Equipment {
 		else if (item.getMetaData("brawlerCharges") != null)
 			player.sendMessage("These gloves have " + item.getMetaDataI("brawlerCharges") + " charges left.");
 	}
-	
+
 	public boolean containsOneItem(int... itemIds) {
-		for (int itemId : itemIds) {
+		for (int itemId : itemIds)
 			if (items.containsOne(new Item(itemId, 1)))
 				return true;
-		}
 		return false;
 	}
 
@@ -162,8 +159,8 @@ public final class Equipment {
 		int weaponId = player.getEquipment().getWeaponId();
 		if (helmId == -1 || chestId == -1 || legsId == -1 || weaponId == -1)
 			return false;
-		return ItemDefinitions.getDefs(helmId).getName().contains("Guthan's") && 
-				ItemDefinitions.getDefs(chestId).getName().contains("Guthan's") && 
+		return ItemDefinitions.getDefs(helmId).getName().contains("Guthan's") &&
+				ItemDefinitions.getDefs(chestId).getName().contains("Guthan's") &&
 				ItemDefinitions.getDefs(legsId).getName().contains("Guthan's")
 				&& ItemDefinitions.getDefs(weaponId).getName().contains("Guthan's");
 	}
@@ -179,22 +176,21 @@ public final class Equipment {
 				if (id == 20135 || id == 20137 // torva
 						|| id == 20147 || id == 20149 // pernix
 						|| id == 20159 || id == 20161 // virtus
-				)
+						)
 					hpIncrease += 66;
 
 			} else if (index == Equipment.CHEST) {
 				if (id == 20139 || id == 20141 // torva
 						|| id == 20151 || id == 20153 // pernix
 						|| id == 20163 || id == 20165 // virtus
-				)
+						)
 					hpIncrease += 200;
-			} else if (index == Equipment.LEGS) {
+			} else if (index == Equipment.LEGS)
 				if (id == 20143 || id == 20145 // torva
-						|| id == 20155 || id == 20157 // pernix
-						|| id == 20167 || id == 20169 // virtus
-				)
+				|| id == 20155 || id == 20157 // pernix
+				|| id == 20167 || id == 20169 // virtus
+						)
 					hpIncrease += 134;
-			}
 
 		}
 		if (player.hasEffect(Effect.BONFIRE)) {
@@ -227,7 +223,7 @@ public final class Equipment {
 	public static boolean hideHair(Item item) {
 		return item.getDefinitions().isEquipType(8);
 	}
-	
+
 	public static boolean hideBeard(Item item) {
 		return item.getDefinitions().isEquipType(11);
 	}
@@ -250,7 +246,7 @@ public final class Equipment {
 	public boolean hasShield() {
 		return items.get(5) != null;
 	}
-	
+
 	public String getWeaponName() {
 		Item item = items.get(WEAPON);
 		if (item == null)
@@ -343,10 +339,9 @@ public final class Equipment {
 	public void refreshItems(Item[] itemsBefore) {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
-		for (int index = 0; index < itemsBefore.length; index++) {
+		for (int index = 0; index < itemsBefore.length; index++)
 			if (itemsBefore[index] != items.getItems()[index])
 				changedSlots[count++] = index;
-		}
 		int[] finalChangedSlots = new int[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		refresh(finalChangedSlots);
@@ -369,7 +364,7 @@ public final class Equipment {
 			return -1;
 		return item.getId();
 	}
-	
+
 	public Item get(int slot) {
 		return items.get(slot);
 	}
@@ -381,17 +376,17 @@ public final class Equipment {
 			PluginManager.handle(new ItemEquipEvent(player, item, true));
 		items.set(slot, item);
 	}
-	
+
 	public void remove(int slot, Item item) {
 		if (items.get(slot) != null)
 			PluginManager.handle(new ItemEquipEvent(player, items.get(slot), false));
 		items.remove(slot, item);
 	}
-	
+
 	public void setNoPluginTrigger(int slot, Item item) {
 		items.set(slot, item);
 	}
-	
+
 	public boolean isEmpty() {
 		return items.isEmpty();
 	}
@@ -405,14 +400,14 @@ public final class Equipment {
 	}
 
 	public void setEquipmentHpIncrease(int hp) {
-		this.equipmentHpIncrease = hp;
+		equipmentHpIncrease = hp;
 	}
 
 	public boolean wearingArmour() {
 		return getItem(HEAD) != null || getItem(CAPE) != null || getItem(NECK) != null || getItem(WEAPON) != null || getItem(CHEST) != null || getItem(SHIELD) != null || getItem(LEGS) != null
 				|| getItem(HANDS) != null || getItem(FEET) != null;
 	}
-	
+
 	public int getId(int slot) {
 		Item item = items.get(slot);
 		if (item == null)
@@ -433,51 +428,44 @@ public final class Equipment {
 	}
 
 	public boolean wearingBlackMask() {
-		if (items.get(HEAD) != null) {
+		if (items.get(HEAD) != null)
 			if (ItemDefinitions.getDefs(items.get(HEAD).getId()).getName().toLowerCase().contains("black mask"))
 				return true;
-		}
 		return false;
 	}
 
 	public boolean wearingHexcrest() {
-		if (items.get(HEAD) != null) {
+		if (items.get(HEAD) != null)
 			if (items.get(HEAD).getId() == 15488)
 				return true;
-		}
 		return false;
 	}
 
 	public boolean wearingFocusSight() {
-		if (items.get(HEAD) != null) {
+		if (items.get(HEAD) != null)
 			if (items.get(HEAD).getId() == 15490)
 				return true;
-		}
 		return false;
 	}
 
 	public boolean wearingSlayerHelmet() {
-		if (items.get(HEAD) != null) {
+		if (items.get(HEAD) != null)
 			if (items.get(HEAD).getId() == 15492 || items.get(HEAD).getId() == 15496 || items.get(HEAD).getId() == 15497)
 				return true;
-		}
 		return false;
 	}
 
 	public float getWitchDoctorBoost() {
 		float boost = 1.0f;
-		if (items.get(HEAD) != null) {
+		if (items.get(HEAD) != null)
 			if (items.get(HEAD).getId() == 20046)
 				boost += 0.01f;
-		}
-		if (items.get(LEGS) != null) {
+		if (items.get(LEGS) != null)
 			if (items.get(LEGS).getId() == 20045)
 				boost += 0.02f;
-		}
-		if (items.get(CHEST) != null) {
+		if (items.get(CHEST) != null)
 			if (items.get(CHEST).getId() == 20044)
 				boost += 0.02f;
-		}
 		return boost;
 	}
 
@@ -487,15 +475,13 @@ public final class Equipment {
 			return false;
 		if (helmet.getDefinitions().getName().toLowerCase().contains("slayer helmet"))
 			return true;
-		else
-			return false;
+		return false;
 	}
 
 	public boolean wearingFullCeremonial() {
-		if (items.get(HEAD) != null && items.get(CHEST) != null && items.get(LEGS) != null && items.get(HANDS) != null && items.get(FEET) != null) {
+		if (items.get(HEAD) != null && items.get(CHEST) != null && items.get(LEGS) != null && items.get(HANDS) != null && items.get(FEET) != null)
 			if (items.get(HEAD).getId() == 20125 && items.get(CHEST).getId() == 20127 && items.get(LEGS).getId() == 20129 && items.get(HANDS).getId() == 20131 && items.get(FEET).getId() == 20133)
 				return true;
-		}
 		return false;
 	}
 
@@ -519,7 +505,7 @@ public final class Equipment {
 			return 1;
 		return -1;
 	}
-	
+
 	public static ButtonClickHandler handle = new ButtonClickHandler(884) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -536,7 +522,7 @@ public final class Equipment {
 				e.getPlayer().getCombatDefinitions().switchAutoRetaliate();
 		}
 	};
-	
+
 	public static ButtonClickHandler handleEquipmentStatsInterface = new ButtonClickHandler(667, 670) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -555,10 +541,9 @@ public final class Equipment {
 						sendRemove(e.getPlayer(), e.getSlotId());
 						Equipment.refreshEquipBonuses(e.getPlayer());
 					}
-				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().removeB("Banking")) {
+				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().removeB("Banking"))
 					e.getPlayer().getBank().open();
-				}
-			} else if (e.getInterfaceId() == 670) {
+			} else if (e.getInterfaceId() == 670)
 				if (e.getComponentId() == 0) {
 					if (e.getSlotId() >= e.getPlayer().getInventory().getItemsContainerSize())
 						return;
@@ -566,19 +551,16 @@ public final class Equipment {
 					if (item == null)
 						return;
 					if (e.getPacket() == ClientPacket.IF_OP1) {
-						if (e.getPlayer().isEquipDisabled())
-							return;
-						if (!EnchantedHeadwear.canEquip(item.getId(), e.getPlayer()))
+						if (e.getPlayer().isEquipDisabled() || !EnchantedHeadwear.canEquip(item.getId(), e.getPlayer()))
 							return;
 						if (sendWear(e.getPlayer(), e.getSlotId(), item.getId()))
 							Equipment.refreshEquipBonuses(e.getPlayer());
 					} else if (e.getPacket() == ClientPacket.IF_OP4)
 						e.getPlayer().getInventory().sendExamine(e.getSlotId());
 				}
-			}
 		}
 	};
-	
+
 	public static ButtonClickHandler handleEquipmentTabButtons = new ButtonClickHandler(387) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -592,11 +574,13 @@ public final class Equipment {
 				e.getPlayer().stopAll();
 				PriceChecker.openPriceCheck(e.getPlayer());
 				return;
-			} else if (e.getComponentId() == 38) {
+			}
+			if (e.getComponentId() == 38) {
 				openEquipmentBonuses(e.getPlayer(), false);
 				openEquipmentBonuses(e.getPlayer(), false);
 				return;
-			} else if (e.getComponentId() == 41) {
+			}
+			if (e.getComponentId() == 41) {
 				e.getPlayer().stopAll();
 				ItemsKeptOnDeath.openItemsKeptOnDeath(e.getPlayer());
 				return;
@@ -605,13 +589,11 @@ public final class Equipment {
 				return;
 			} else if (e.getComponentId() == 43) {
 				PriceChecker.openPriceCheck(e.getPlayer());
-//				e.getPlayer().sendMessage("Customizations not finished.");
+				//				e.getPlayer().sendMessage("Customizations not finished.");
 				return;
 			}
 			Item item = e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2()));
-			if (item == null)
-				return;
-			if (PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
+			if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
 				return;
 			if (e.getPacket() == ClientPacket.IF_OP10) {
 				e.getPlayer().getEquipment().sendExamine(Equipment.getItemSlot(e.getSlotId2()));
@@ -634,15 +616,14 @@ public final class Equipment {
 					if (weaponId == 15484)
 						e.getPlayer().getInterfaceManager().gazeOrbOfOculus();
 				}
-			} else if (e.getComponentId() == 33) {
+			} else if (e.getComponentId() == 33)
 				if (e.getPacket() == ClientPacket.IF_OP2)
 					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 0, true);
 				else if (e.getPacket() == ClientPacket.IF_OP3)
 					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 1, true);
-			}
 		}
 	};
-	
+
 	public static void sendRemove(Player player, int slotId) {
 		if (slotId >= 15)
 			return;
@@ -703,7 +684,7 @@ public final class Equipment {
 				}
 				player.getEquipment().set(5, null);
 			}
-		} else if (targetSlot == 5) {
+		} else if (targetSlot == 5)
 			if (player.getEquipment().getItem(3) != null && Equipment.isTwoHandedWeapon(player.getEquipment().getItem(3))) {
 				if (!player.getInventory().addItem(player.getEquipment().getItem(3))) {
 					player.getInventory().getItems().set(slotId, item);
@@ -712,8 +693,6 @@ public final class Equipment {
 				}
 				player.getEquipment().set(3, null);
 			}
-
-		}
 		if (player.getEquipment().getItem(targetSlot) != null && (itemId != player.getEquipment().getItem(targetSlot).getId() || !item.getDefinitions().isStackable())) {
 			if (player.getInventory().getItems().get(slotId) == null && !item.getDefinitions().isStackable()) {
 				player.getInventory().getItems().set(slotId, new Item(player.getEquipment().getItem(targetSlot)));
@@ -723,9 +702,8 @@ public final class Equipment {
 			player.getEquipment().set(targetSlot, null);
 		}
 		int oldAmt = 0;
-		if (player.getEquipment().getItem(targetSlot) != null) {
+		if (player.getEquipment().getItem(targetSlot) != null)
 			oldAmt = player.getEquipment().getItem(targetSlot).getAmount();
-		}
 		Item item2 = new Item(itemId, oldAmt + item.getAmount(), item.getMetaData());
 		player.getEquipment().set(targetSlot, item2);
 		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? 5 : targetSlot == 3 ? 0 : 3);
@@ -736,7 +714,7 @@ public final class Equipment {
 			player.getCombatDefinitions().drainSpec(0);
 		return true;
 	}
-	
+
 	private static int getOptionForPacket(ClientPacket packet) {
 		switch(packet) {
 		case IF_OP2:
@@ -761,7 +739,7 @@ public final class Equipment {
 			return -1;
 		}
 	}
-	
+
 	public static void openEquipmentBonuses(final Player player, boolean banking) {
 		player.stopAll();
 		player.getVars().setVarBit(4894, banking ? 1 : 0);
@@ -774,21 +752,15 @@ public final class Equipment {
 		refreshEquipBonuses(player);
 		player.getInterfaceManager().sendInventoryInterface(670);
 		player.getInterfaceManager().sendInterface(667);
-		WorldTasksManager.delay(0, () -> {
+		WorldTasks.delay(0, () -> {
 			player.getPackets().sendRunScript(2319);
 		});
 		if (banking) {
 			player.getTempAttribs().setB("Banking", true);
-			player.setCloseInterfacesEvent(new Runnable() {
-				@Override
-				public void run() {
-					player.getTempAttribs().removeB("Banking");
-				}
-
-			});
+			player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeB("Banking"));
 		}
 	}
-	
+
 	public static void refreshEquipBonuses(Player player) {
 		player.getPackets().setIFText(667, 28, "Stab: " + player.getCombatDefinitions().getBonus(Bonus.STAB_ATT));
 		player.getPackets().setIFText(667, 29, "Slash: " + player.getCombatDefinitions().getBonus(Bonus.SLASH_ATT));
@@ -808,5 +780,9 @@ public final class Equipment {
 		player.getPackets().setIFText(667, 43, "Ranged Str: " + player.getCombatDefinitions().getBonus(Bonus.RANGE_STR));
 		player.getPackets().setIFText(667, 44, "Prayer: " + player.getCombatDefinitions().getBonus(Bonus.PRAYER));
 		player.getPackets().setIFText(667, 45, "Magic Damage: " + player.getCombatDefinitions().getBonus(Bonus.MAGIC_STR) + "%");
+	}
+
+	public boolean wearingRingOfWealth() {
+		return getRingId() != -1 && ItemDefinitions.getDefs(getRingId()).getName().toLowerCase().contains("ring of wealth");
 	}
 }

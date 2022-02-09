@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -29,7 +29,7 @@ import com.rs.game.npc.combat.impl.KalphiteQueenCombat;
 import com.rs.game.npc.dungeoneering.BulwarkBeast;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -51,12 +51,11 @@ public class BulwarkBeastCombat extends CombatScript {
 		if (Utils.random(15) == 0) {
 			List<Entity> targets = npc.getPossibleTargets();
 			npc.setNextAnimation(new Animation(13007));
-			for (Entity t : targets) {
+			for (Entity t : targets)
 				if (WorldUtil.isInRange(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0)) {
 					t.setNextSpotAnim(new SpotAnim(2400));
 					delayHit(npc, 1, t, getRegularHit(npc, 1 + Utils.random((int) (npc.getMaxHit(AttackStyle.MELEE) * 0.7))));
 				}
-			}
 			return npc.getAttackSpeed();
 		}
 
@@ -66,7 +65,7 @@ public class BulwarkBeastCombat extends CombatScript {
 		case 0:
 			npc.setNextAnimation(new Animation(13004));
 			npc.setNextSpotAnim(new SpotAnim(2397));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

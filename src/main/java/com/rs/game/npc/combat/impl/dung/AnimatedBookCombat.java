@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -22,7 +22,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -33,24 +33,18 @@ public class AnimatedBookCombat extends CombatScript {
 	@Override
 	public Object[] getKeys() {
 		return new Object[]
-		{ "Animated book" };
+				{ "Animated book" };
 	}
 
 	@Override
 	public int attack(NPC npc, Entity target) {
 		boolean meleeAttack = Utils.random(2) == 0;
-		if (meleeAttack) { // melee
-			if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
-				magicAttack(npc, target);
-				return npc.getAttackSpeed();
-			} else {
-				meleeAttack(npc, target);
-				return npc.getAttackSpeed();
-			}
-		} else {
+		if (!meleeAttack || !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 			magicAttack(npc, target);
 			return npc.getAttackSpeed();
 		}
+		meleeAttack(npc, target);
+		return npc.getAttackSpeed();
 	}
 
 	private void meleeAttack(NPC npc, Entity target) {
@@ -63,7 +57,7 @@ public class AnimatedBookCombat extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(2728));
 		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
 		World.sendProjectile(npc, target, 2731, 34, 16, 30, 35, 16, 0);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

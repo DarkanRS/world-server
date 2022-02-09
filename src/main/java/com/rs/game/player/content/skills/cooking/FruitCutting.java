@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.cooking;
@@ -34,16 +34,15 @@ public class FruitCutting extends Action {
 		int fruitId;
 		int[] productIds;
 
-		private static Map<Integer, CuttableFruit> items = new HashMap<Integer, CuttableFruit>();
+		private static Map<Integer, CuttableFruit> items = new HashMap<>();
 
 		public static CuttableFruit forId(int itemId) {
 			return items.get(itemId);
 		}
 
 		static {
-			for (CuttableFruit ingredient : CuttableFruit.values()) {
+			for (CuttableFruit ingredient : CuttableFruit.values())
 				items.put(ingredient.getFruitId(), ingredient);
-			}
 		}
 
 		private CuttableFruit(int fruitId, int... productIds) {
@@ -63,7 +62,7 @@ public class FruitCutting extends Action {
 	public FruitCutting(CuttableFruit fruit, int option, int quantity) {
 		this.fruit = fruit;
 		this.option = option;
-		this.amount = quantity;
+		amount = quantity;
 	}
 
 	@Override
@@ -81,13 +80,12 @@ public class FruitCutting extends Action {
 
 	@Override
 	public int processWithDelay(Player player) {
-		if (player.getInventory().containsItem(fruit.getFruitId(), 1)) {
-			player.getInventory().deleteItem(fruit.getFruitId(), 1);
-			player.getInventory().addItem(fruit.getProductIds()[option], 1);
-		} else {
+		if (!player.getInventory().containsItem(fruit.getFruitId(), 1)) {
 			player.sendMessage("You have run out of fruit to cut.");
 			return -1;
 		}
+		player.getInventory().deleteItem(fruit.getFruitId(), 1);
+		player.getInventory().addItem(fruit.getProductIds()[option], 1);
 		return 1;
 	}
 

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -86,7 +86,7 @@ import com.rs.game.player.dialogues.CreationActionD;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.SmugglerD;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -109,9 +109,9 @@ public class DungeonController extends Controller {
 	private int meleeDamage, rangeDamage, mageDamage;
 	private int healedDamage;
 	private boolean showBar;
-	
+
 	public DungeonController(DungeonManager manager) {
-		this.dungeon = manager;
+		dungeon = manager;
 	}
 
 	@Override
@@ -166,12 +166,11 @@ public class DungeonController extends Controller {
 	public boolean canMove(Direction dir) {
 		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
 		WorldTile to = new WorldTile(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
-		if(vr != null && !vr.canMove(player, to)) {
+		if(vr != null && !vr.canMove(player, to))
 			return false;
-		}
 
 		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player));
-		if (room != null) {
+		if (room != null)
 			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FROZEN_FLOORS, 26, 624)) {
 				if (!player.isCantWalk() && World.getObjectWithType(new WorldTile(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
 					player.getAppearance().setBAS(1429);
@@ -190,7 +189,6 @@ public class DungeonController extends Controller {
 					}
 				}
 			}
-		}
 		return dungeon != null && !dungeon.isAtRewardsScreen();
 	}
 
@@ -211,33 +209,28 @@ public class DungeonController extends Controller {
 	public void processOutgoingHit(Hit hit, Entity target) {
 		if (hit.getDamage() <= 0)
 			return;
-		if (hit.getLook() == HitLook.MELEE_DAMAGE) {
+		if (hit.getLook() == HitLook.MELEE_DAMAGE)
 			meleeDamage += hit.getDamage();
-		} else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
+		else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
 			if (player.getDungManager().getActivePerk() == KinshipPerk.KEEN_EYE && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.ACCURATE) {
 				int procChance = (int) (40 + (player.getDungManager().getKinshipTier(KinshipPerk.KEEN_EYE) * 6.5));
-				if (Utils.random(100) < procChance) {
+				if (Utils.random(100) < procChance)
 					if (target instanceof NPC npc)
 						npc.lowerDefense(1);
-				}
 			}
 			rangeDamage += hit.getDamage();
 		} else if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
 			mageDamage += hit.getDamage();
 			if (player.getDungManager().getActivePerk() == KinshipPerk.BLAZER && hit.getData("combatSpell") != null) {
-				if (hit.getData("blazerBleed") != null)
-					return;
-				if (hit.getDamage() < 10)
+				if ((hit.getData("blazerBleed") != null) || (hit.getDamage() < 10))
 					return;
 				int procChance = 5 * player.getDungManager().getKinshipTier(KinshipPerk.BLAZER);
 				int damage = hit.getDamage() / 10;
-				if (Utils.random(100) < procChance) {
-					for (int i = 1;i <= 5;i++) {
-						WorldTasksManager.delay(2*i, () -> {
+				if (Utils.random(100) < procChance)
+					for (int i = 1;i <= 5;i++)
+						WorldTasks.delay(2*i, () -> {
 							target.applyHit(new Hit(player, damage, HitLook.MAGIC_DAMAGE).setData("blazerBleed", true));
 						});
-					}
-				}
 			}
 		}
 	}
@@ -271,10 +264,9 @@ public class DungeonController extends Controller {
 
 	@Override
 	public void processNPCDeath(NPC npc) {
-		if (npc instanceof DungeonBoss) {
+		if (npc instanceof DungeonBoss)
 			if (player.getHitpoints() <= 10)
 				killedBossWithLessThan10HP = true;
-		}
 	}
 
 	@Override
@@ -296,31 +288,29 @@ public class DungeonController extends Controller {
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1) {
 					player.sendMessage("Oh dear, you are dead!");
-					if (dungeon != null) {
+					if (dungeon != null)
 						for (Player p2 : dungeon.getParty().getTeam()) {
 							if (p2 == player)
 								continue;
 							p2.sendMessage(player.getDisplayName() + " has died.");
 						}
-					}
 				} else if (loop == 3) {
 					player.resetReceivedHits();
 					if (dungeon != null && dungeon.getParty().getTeam().contains(player)) {
 						if (dungeon.isAtBossRoom(player, 26, 672, true)) {
 							NPC npc = getNPC(player, "Yk'Lagor the Thunderous");
-							if (npc != null) {
+							if (npc != null)
 								npc.setNextForceTalk(new ForceTalk("Another kill for the Thunderous!"));
-								//npc.playSoundEffect(1928);
-							}
+							//npc.playSoundEffect(1928);
 						}
 						WorldTile startRoom = dungeon.getHomeTile();
 						player.setNextWorldTile(startRoom);
@@ -331,9 +321,8 @@ public class DungeonController extends Controller {
 					player.setNextAnimation(new Animation(-1));
 					player.getAppearance().setBAS(-1);
 					hideBar();
-				} else if (loop == 4) {
+				} else if (loop == 4)
 					stop();
-				}
 				loop++;
 			}
 		}, 0, 1);
@@ -377,21 +366,22 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean canTakeItem(GroundItem item) {
-		for (KeyDoors key : DungeonConstants.KeyDoors.values()) {
+		for (KeyDoors key : DungeonConstants.KeyDoors.values())
 			if (item.getId() == key.getKeyId()) {
 				dungeon.setKey(key, true);
 				World.removeGroundItem(player, item, false);
 				return false;
 			}
-		}
 		if (item.getId() == DungeonConstants.GROUP_GATESTONE) {
 			dungeon.setGroupGatestone(null);
 			return true;
-		} else if (item.getId() == DungeonConstants.GATESTONE) {
+		}
+		if (item.getId() == DungeonConstants.GATESTONE) {
 			if (!item.isPrivate()) {
 				World.removeGroundItem(player, item);
 				return false;
-			} else if (item.getVisibleToId() != player.getUuid()) {
+			}
+			if (item.getVisibleToId() != player.getUuid()) {
 				player.sendMessage("This isn't your gatestone!");
 				return false;
 			}
@@ -441,7 +431,7 @@ public class DungeonController extends Controller {
 			player.setNextSpotAnim(new SpotAnim(fail ? s.getFailGfx() : s.getOpenGfx()));
 		if (s.getOpenObjectAnim() != -1 && !fail)
 			World.sendObjectAnimation(object, new Animation(s.getOpenObjectAnim()));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -477,18 +467,19 @@ public class DungeonController extends Controller {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		VisibleRoom vRoom = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
-		if (vRoom == null || !vRoom.processNPCClick1(player, npc)) {
+		if (vRoom == null || !vRoom.processNPCClick1(player, npc))
 			return false;
-		}
 		if (npc.getId() == DungeonConstants.FISH_SPOT_NPC_ID) {
-            player.faceEntity(npc);
+			player.faceEntity(npc);
 			player.getActionManager().setAction(new DungeoneeringFishing((DungeonFishSpot) npc));
 			return false;
-		} else if (npc.getId() == 10023) {
+		}
+		if (npc.getId() == 10023) {
 			FrozenAdventurer adventurer = (FrozenAdventurer) npc;
 			adventurer.getFrozenPlayer().getAppearance().transformIntoNPC(-1);
 			return false;
-		} else if (npc.getId() == DungeonConstants.SMUGGLER) {
+		}
+		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			npc.faceEntity(player);
 			player.getDialogueManager().execute(new SmugglerD(), dungeon.getParty().getComplexity());
 			return false;
@@ -510,28 +501,28 @@ public class DungeonController extends Controller {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
-		if (room == null)
+		if ((room == null) || !room.processNPCClick2(player, npc))
 			return false;
-		if (!room.processNPCClick2(player, npc)) {
-			return false;
-		}
 		if (npc instanceof Familiar familiar) {
 			if (player.getFamiliar() != familiar) {
 				player.sendMessage("That isn't your familiar.");
 				return false;
-			} else if (familiar.getDefinitions().hasOption("Take")) {
+			}
+			if (familiar.getDefinitions().hasOption("Take")) {
 				familiar.takeBob();
 				return false;
 			}
 			return true;
-		} else if (npc.getDefinitions().hasOption("Mark")) {
+		}
+		if (npc.getDefinitions().hasOption("Mark")) {
 			if (!dungeon.getParty().isLeader(player)) {
 				player.sendMessage("Only your party's leader can mark a target!");
 				return false;
 			}
 			dungeon.setMark(npc, !player.getHintIconsManager().hasHintIcon(6)); //6th slot
 			return false;
-		} else if (npc.getId() == DungeonConstants.SMUGGLER) {
+		}
+		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			DungeonResourceShop.openResourceShop(player, dungeon.getParty().getComplexity());
 			return false;
 		}
@@ -543,37 +534,30 @@ public class DungeonController extends Controller {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
-		if (room == null)
+		if ((room == null) || !room.processNPCClick3(player, npc))
 			return false;
-		if (!room.processNPCClick3(player, npc)) {
-			return false;
-		}
 		return true;
 	}
 
 	public static NPC getNPC(Entity entity, int id) {
 		Set<Integer> npcsIndexes = World.getRegion(entity.getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null) {
+		if (npcsIndexes != null)
 			for (int npcIndex : npcsIndexes) {
 				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getId() == id) {
+				if (npc.getId() == id)
 					return npc;
-				}
 			}
-		}
 		return null;
 	}
 
 	public static NPC getNPC(Entity entity, String name) {
 		Set<Integer> npcsIndexes = World.getRegion(entity.getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null) {
+		if (npcsIndexes != null)
 			for (int npcIndex : npcsIndexes) {
 				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getName().equals(name)) {
+				if (npc.getName().equals(name))
 					return npc;
-				}
 			}
-		}
 		return null;
 	}
 
@@ -586,12 +570,11 @@ public class DungeonController extends Controller {
 		if (vr == null || !vr.processObjectClick1(player, object))
 			return false;
 		int floorType = DungeonUtils.getFloorType(dungeon.getParty().getFloor());
-		for (SkillDoors s : SkillDoors.values()) {
+		for (SkillDoors s : SkillDoors.values())
 			if (s.getClosedObject(floorType) == object.getId()) {
 				openSkillDoor(s, object, room, floorType);
 				return false;
 			}
-		}
 		if (object.getId() >= 54439 && object.getId() <= 54456 && object.getDefinitions().containsOption(0, "Cleanse")) {
 			@SuppressWarnings("deprecation")
 			NPC boss = dungeon.getTemporaryBoss();//getNPC(player, 11708);
@@ -607,12 +590,14 @@ public class DungeonController extends Controller {
 			}
 			((NightGazerKhighorahk) boss).lightPillar(player, object);
 			return false;
-		} else if (object.getId() >= 49274 && object.getId() <= 49279) {
+		}
+		if (object.getId() >= 49274 && object.getId() <= 49279) {
 			NPC boss = getNPC(player, "Stomp");
 			if (boss != null)
 				((Stomp) boss).chargeLodeStone(player, (object.getId() & 0x1));
 			return false;
-		} else if (object.getId() == 49268) {
+		}
+		if (object.getId() == 49268) {
 			DungPickaxe defs = DungPickaxe.getBest(player);
 			if (defs == null) {
 				player.sendMessage("You do not have a pickaxe or do not have the required level to use the pickaxe.");
@@ -620,7 +605,7 @@ public class DungeonController extends Controller {
 			}
 			player.setNextAnimation(defs.getAnimation());
 			player.lock(4);
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -732,147 +717,146 @@ public class DungeonController extends Controller {
 		}
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
-			case "dungeon exit":
-				player.getDialogueManager().execute(new DungeonExit(), this);
-				return false;
-			case "water trough":
-				player.getDialogueManager().execute(new CreateActionD(new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
-				return false;
-			case "salve nettles":
-				DungeoneeringFarming.initHarvest(player, Harvest.SALVE_NETTLES, object);
-				return false;
-			case "wildercress":
-				DungeoneeringFarming.initHarvest(player, Harvest.WILDERCRESS, object);
-				return false;
-			case "blightleaf":
-				DungeoneeringFarming.initHarvest(player, Harvest.BLIGHTLEAF, object);
-				return false;
-			case "roseblood":
-				DungeoneeringFarming.initHarvest(player, Harvest.ROSEBLOOD, object);
-				return false;
-			case "bryll":
-				DungeoneeringFarming.initHarvest(player, Harvest.BRYLL, object);
-				return false;
-			case "duskweed":
-				DungeoneeringFarming.initHarvest(player, Harvest.DUSKWEED, object);
-				return false;
-			case "soulbell":
-				DungeoneeringFarming.initHarvest(player, Harvest.SOULBELL, object);
-				return false;
-			case "ectograss":
-				DungeoneeringFarming.initHarvest(player, Harvest.ECTOGRASS, object);
-				return false;
-			case "runeleaf":
-				DungeoneeringFarming.initHarvest(player, Harvest.RUNELEAF, object);
-				return false;
-			case "spiritbloom":
-				DungeoneeringFarming.initHarvest(player, Harvest.SPIRITBLOOM, object);
-				return false;
-			case "tangle gum tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.TANGLE_GUM_VINE));
-				return false;
-			case "seeping elm tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.SEEPING_ELM_TREE));
-				return false;
-			case "blood spindle tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.BLOOD_SPINDLE_TREE));
-				return false;
-			case "utuku tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.UTUKU_TREE));
-				return false;
-			case "spinebeam tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.SPINEBEAM_TREE));
-				return false;
-			case "bovistrangler tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.BOVISTRANGLER_TREE));
-				return false;
-			case "thigat tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.THIGAT_TREE));
-				return false;
-			case "corpsethorn tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.CORPESTHORN_TREE));
-				return false;
-			case "entgallow tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.ENTGALLOW_TREE));
-				return false;
-			case "grave creeper tree":
-				player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.GRAVE_CREEPER_TREE));
-				return false;
-			case "novite ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.NOVITE_ORE));
-				return false;
-			case "bathus ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.BATHUS_ORE));
-				return false;
-			case "marmaros ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.MARMAROS_ORE));
-				return false;
-			case "kratonite ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.KRATONIUM_ORE));
-				return false;
-			case "fractite ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.FRACTITE_ORE));
-				return false;
-			case "zephyrium ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.ZEPHYRIUM_ORE));
-				return false;
-			case "argonite ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.AGRONITE_ORE));
-				return false;
-			case "katagon ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.KATAGON_ORE));
-				return false;
-			case "gorgonite ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.GORGONITE_ORE));
-				return false;
-			case "promethium ore":
-				player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.PROMETHIUM_ORE));
-				return false;
-			case "furnace":
-				DungeoneeringSmithing.openSmelting(player);
-				return false;
-			case "anvil":
-				for (int i = 17668;i >= 17650;i -= 2) {
-					if (player.containsItem(i)) {
-						DungeoneeringSmithing.openInterface(player, new Item(i));
-						break;
-					}
+		case "dungeon exit":
+			player.getDialogueManager().execute(new DungeonExit(), this);
+			return false;
+		case "water trough":
+			player.getDialogueManager().execute(new CreateActionD(new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
+			return false;
+		case "salve nettles":
+			DungeoneeringFarming.initHarvest(player, Harvest.SALVE_NETTLES, object);
+			return false;
+		case "wildercress":
+			DungeoneeringFarming.initHarvest(player, Harvest.WILDERCRESS, object);
+			return false;
+		case "blightleaf":
+			DungeoneeringFarming.initHarvest(player, Harvest.BLIGHTLEAF, object);
+			return false;
+		case "roseblood":
+			DungeoneeringFarming.initHarvest(player, Harvest.ROSEBLOOD, object);
+			return false;
+		case "bryll":
+			DungeoneeringFarming.initHarvest(player, Harvest.BRYLL, object);
+			return false;
+		case "duskweed":
+			DungeoneeringFarming.initHarvest(player, Harvest.DUSKWEED, object);
+			return false;
+		case "soulbell":
+			DungeoneeringFarming.initHarvest(player, Harvest.SOULBELL, object);
+			return false;
+		case "ectograss":
+			DungeoneeringFarming.initHarvest(player, Harvest.ECTOGRASS, object);
+			return false;
+		case "runeleaf":
+			DungeoneeringFarming.initHarvest(player, Harvest.RUNELEAF, object);
+			return false;
+		case "spiritbloom":
+			DungeoneeringFarming.initHarvest(player, Harvest.SPIRITBLOOM, object);
+			return false;
+		case "tangle gum tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.TANGLE_GUM_VINE));
+			return false;
+		case "seeping elm tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.SEEPING_ELM_TREE));
+			return false;
+		case "blood spindle tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.BLOOD_SPINDLE_TREE));
+			return false;
+		case "utuku tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.UTUKU_TREE));
+			return false;
+		case "spinebeam tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.SPINEBEAM_TREE));
+			return false;
+		case "bovistrangler tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.BOVISTRANGLER_TREE));
+			return false;
+		case "thigat tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.THIGAT_TREE));
+			return false;
+		case "corpsethorn tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.CORPESTHORN_TREE));
+			return false;
+		case "entgallow tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.ENTGALLOW_TREE));
+			return false;
+		case "grave creeper tree":
+			player.getActionManager().setAction(new DungeoneeringWoodcutting(object, DungTree.GRAVE_CREEPER_TREE));
+			return false;
+		case "novite ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.NOVITE_ORE));
+			return false;
+		case "bathus ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.BATHUS_ORE));
+			return false;
+		case "marmaros ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.MARMAROS_ORE));
+			return false;
+		case "kratonite ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.KRATONIUM_ORE));
+			return false;
+		case "fractite ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.FRACTITE_ORE));
+			return false;
+		case "zephyrium ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.ZEPHYRIUM_ORE));
+			return false;
+		case "argonite ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.AGRONITE_ORE));
+			return false;
+		case "katagon ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.KATAGON_ORE));
+			return false;
+		case "gorgonite ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.GORGONITE_ORE));
+			return false;
+		case "promethium ore":
+			player.getActionManager().setAction(new DungeoneeringMining(object, DungeoneeringRocks.PROMETHIUM_ORE));
+			return false;
+		case "furnace":
+			DungeoneeringSmithing.openSmelting(player);
+			return false;
+		case "anvil":
+			for (int i = 17668;i >= 17650;i -= 2)
+				if (player.containsItem(i)) {
+					DungeoneeringSmithing.openInterface(player, new Item(i));
+					break;
 				}
+			return false;
+		case "runecrafting altar":
+			player.getDialogueManager().execute(new DungeoneeringRCD(), 0);
+			return false;
+		case "spinning wheel":
+			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING);
+			if (products == null || products.length <= 0)
 				return false;
-			case "runecrafting altar":
-				player.getDialogueManager().execute(new DungeoneeringRCD(), 0);
+			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, products, 883, 2));
+			return false;
+		case "summoning obelisk":
+			//TODO dung summ
+			return false;
+		case "group gatestone portal":
+			portalGroupStoneTeleport();
+			return false;
+		case "sunken pillar":
+			Blink boss = (Blink) getNPC(player, "Blink");
+			if (boss == null) {
+				player.sendMessage("The mechanism doesn't respond.");
 				return false;
-			case "spinning wheel":
-				ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING);
-				if (products == null || products.length <= 0)
-					return false;
-				player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, products, 883, 2));
+			}
+			if (boss.hasActivePillar()) {
+				player.sendMessage("The mechanism will not respond while the other pillar is raised.");
 				return false;
-			case "summoning obelisk":
-				//TODO dung summ
-				return false;
-			case "group gatestone portal":
-				portalGroupStoneTeleport();
-				return false;
-			case "sunken pillar":
-				Blink boss = (Blink) getNPC(player, "Blink");
-				if (boss == null) {
-					player.sendMessage("The mechanism doesn't respond.");
-					return false;
-				} else if (boss.hasActivePillar()) {
-					player.sendMessage("The mechanism will not respond while the other pillar is raised.");
+			}
+			for (Entity t : boss.getPossibleTargets())
+				if (t.matches(object) || boss.matches(object)) {
+					player.sendMessage("The mechanism cannot be activated while someone is standing there.");
 					return false;
 				}
-				for (Entity t : boss.getPossibleTargets()) {
-					if (t.matches(object) || boss.matches(object)) {
-						player.sendMessage("The mechanism cannot be activated while someone is standing there.");
-						return false;
-					}
-				}
-				boss.raisePillar(object);
-				return false;
-			default:
-				return true;
+			boss.raisePillar(object);
+			return false;
+		default:
+			return true;
 		}
 	}
 
@@ -895,9 +879,9 @@ public class DungeonController extends Controller {
 		}
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
-			case "runecrafting altar":
-				player.getDialogueManager().execute(new DungeoneeringRCD(), 1);
-				return false;
+		case "runecrafting altar":
+			player.getDialogueManager().execute(new DungeoneeringRCD(), 1);
+			return false;
 		}
 		return true;
 	}
@@ -915,25 +899,22 @@ public class DungeonController extends Controller {
 		}
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
-			case "runecrafting altar":
-				player.getDialogueManager().execute(new DungeoneeringRCD(), 2);
-				return false;
+		case "runecrafting altar":
+			player.getDialogueManager().execute(new DungeoneeringRCD(), 2);
+			return false;
 		}
 		return true;
 	}
 
 	@Override
 	public boolean processObjectClick4(final GameObject object) {
-		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
+		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen() || !dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player)).processObjectClick4(player, object))
 			return false;
-		if (!dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player)).processObjectClick4(player, object)) {
-			return false;
-		}
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
-			case "runecrafting altar":
-				player.getDialogueManager().execute(new DungeoneeringRCD(), 3);
-				return false;
+		case "runecrafting altar":
+			player.getDialogueManager().execute(new DungeoneeringRCD(), 3);
+			return false;
 		}
 		return true;
 	}
@@ -947,9 +928,9 @@ public class DungeonController extends Controller {
 			return false;
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
-			case "runecrafting altar":
-				player.getDialogueManager().execute(new DungeoneeringRCD(), 4);
-				return false;
+		case "runecrafting altar":
+			player.getDialogueManager().execute(new DungeoneeringRCD(), 4);
+			return false;
 		}
 		return true;
 	}
@@ -973,28 +954,25 @@ public class DungeonController extends Controller {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
-		if (room == null)
+		if ((room == null) || !room.handleItemOnObject(player, object, item))
 			return false;
-		if (!room.handleItemOnObject(player, object, item)) {
-			return false;
-		}
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
-			case "farming patch":
-				DungeoneeringFarming.plantHarvest(item, player, object, dungeon);
-				return true;
-			case "furnace":
-				DungeoneeringSmithing.openSmelting(player);
-				return true;
-			case "anvil":
-				DungeoneeringSmithing.openInterface(player, item);
-				return true;
-			case "spinning wheel":
-				ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING, item.getId());
-				if (products == null || products.length <= 0)
-					return false;
-				player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, item.getId(), 883, 2));
+		case "farming patch":
+			DungeoneeringFarming.plantHarvest(item, player, object, dungeon);
+			return true;
+		case "furnace":
+			DungeoneeringSmithing.openSmelting(player);
+			return true;
+		case "anvil":
+			DungeoneeringSmithing.openInterface(player, item);
+			return true;
+		case "spinning wheel":
+			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING, item.getId());
+			if (products == null || products.length <= 0)
 				return false;
+			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, item.getId(), 883, 2));
+			return false;
 		}
 		return true;
 	}
@@ -1044,6 +1022,7 @@ public class DungeonController extends Controller {
 	/**
 	 * called once teleport is performed
 	 */
+	@Override
 	public void magicTeleported(int type) {
 		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getNextWorldTile()));
 		hideBar();
@@ -1051,12 +1030,11 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean keepCombating(Entity target) {
-		if (target instanceof DungeonSlayerNPC npc) {
+		if (target instanceof DungeonSlayerNPC npc)
 			if (player.getSkills().getLevel(Constants.SLAYER) < npc.getType().getReq()) {
 				player.sendMessage("You need a Slayer level of " + npc.getType().getReq() + " in order to attack this monster.");
 				return false;
 			}
-		}
 		return true;
 	}
 
@@ -1069,137 +1047,133 @@ public class DungeonController extends Controller {
 			return false;
 
 		if (dungeon.isAtRewardsScreen()) {
-			if (interfaceId == 933) {
-				if (componentId >= 318 && componentId <= 322) {
-					if (packet == ClientPacket.IF_OP2) {
+			if (interfaceId == 933)
+				if (componentId >= 318 && componentId <= 322)
+					if (packet == ClientPacket.IF_OP2)
 						player.getDialogueManager().execute(new DungeonLeave(), this);
-					} else {
+					else {
 						if (voteStage == 2)
 							return false;
 						voteStage = 2;
 						dungeon.ready(player);
 					}
-				}
-			}
 			return false;
-		} else {
-			if ((interfaceId == 548 && componentId == 157) || (interfaceId == 746 && componentId == 200)) {
-				if (player.getInterfaceManager().containsScreenInter() || player.getInterfaceManager().containsInventoryInter()) {
-					player.sendMessage("Please finish what you're doing before opening the dungeon map.");
-					return false;
-				}
-				dungeon.openMap(player);
+		}
+		if ((interfaceId == 548 && componentId == 157) || (interfaceId == 746 && componentId == 200)) {
+			if (player.getInterfaceManager().containsScreenInter() || player.getInterfaceManager().containsInventoryInter()) {
+				player.sendMessage("Please finish what you're doing before opening the dungeon map.");
 				return false;
-			} else if (interfaceId == Inventory.INVENTORY_INTERFACE) {
-				Item item = player.getInventory().getItem(slotId);
-				if (item == null || item.getId() != slotId2)
-					return false;
-				if (packet == ClientPacket.IF_OP1) {
-					for (int index = 0; index < DungeoneeringTraps.ITEM_TRAPS.length; index++) {
-						if (item.getId() == DungeoneeringTraps.ITEM_TRAPS[index]) {
-							DungeoneeringTraps.placeTrap(player, dungeon, index);
+			}
+			dungeon.openMap(player);
+			return false;
+		}
+		if (interfaceId == Inventory.INVENTORY_INTERFACE) {
+			Item item = player.getInventory().getItem(slotId);
+			if (item == null || item.getId() != slotId2)
+				return false;
+			if (packet == ClientPacket.IF_OP1) {
+				for (int index = 0; index < DungeoneeringTraps.ITEM_TRAPS.length; index++)
+					if (item.getId() == DungeoneeringTraps.ITEM_TRAPS[index]) {
+						DungeoneeringTraps.placeTrap(player, dungeon, index);
+						return false;
+					}
+				for (int element : PoltergeistRoom.HERBS)
+					if (item.getId() == element) {
+						VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+						if (room == null)
+							return false;
+						if (!(room instanceof PoltergeistRoom)) {
+							player.sendMessage("You need to be closer to the poltergeist to cleanse this herb.");
 							return false;
 						}
-					}
-					for (int i = 0; i < PoltergeistRoom.HERBS.length; i++) {
-						if (item.getId() == PoltergeistRoom.HERBS[i]) {
-							VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
-							if (room == null)
-								return false;
-							if (!(room instanceof PoltergeistRoom)) {
-								player.sendMessage("You need to be closer to the poltergeist to cleanse this herb.");
-								return false;
-							}
-							((PoltergeistRoom) room).consecrateHerbs(player, item.getId());
-							return false;
-						}
-					}
-				}
-				return true;
-			} else if (interfaceId == 934) {
-				DungeoneeringSmithing.handleButtons(player, packet, componentId);
-			} else if (interfaceId == Summoning.POUCHES_INTERFACE) {
-				//TODO dung summoning
-				return false;
-			} else if (interfaceId == DungeonResourceShop.RESOURCE_SHOP) {
-				if (componentId == 24) {
-					int quantity = -1;
-					if (packet == ClientPacket.IF_OP2)
-						quantity = 1;
-					else if (packet == ClientPacket.IF_OP3)
-						quantity = 5;
-					else if (packet == ClientPacket.IF_OP4)
-						quantity = 10;
-					else if (packet == ClientPacket.IF_OP5)
-						quantity = 50;
-					DungeonResourceShop.handlePurchaseOptions(player, slotId, quantity);
-				}
-				return false;
-			} else if (interfaceId == DungeonResourceShop.RESOURCE_SHOP_INV) {
-				if (componentId == 0) {
-					int quantity = -1;
-					if (packet == ClientPacket.IF_OP2)
-						quantity = 1;
-					else if (packet == ClientPacket.IF_OP3)
-						quantity = 5;
-					else if (packet == ClientPacket.IF_OP4)
-						quantity = 10;
-					else if (packet == ClientPacket.IF_OP5)
-						quantity = 50;
-					DungeonResourceShop.handleSellOptions(player, slotId, slotId2, quantity);
-				}
-				return false;
-			} else if (interfaceId == 950) {
-				if (componentId == 24) {
-					if (dungeon == null || dungeon.getDungeon() == null)
-						return false;
-					if (player.inCombat()) {
-						player.sendMessage("You cannot do that while in combat.");
+						((PoltergeistRoom) room).consecrateHerbs(player, item.getId());
 						return false;
 					}
-					Magic.sendNormalTeleportSpell(player, 0, 0, dungeon.getHomeTile(), null);
-				}
-				if (componentId == 2)
-					player.getCombatDefinitions().switchDefensiveCasting();
-				else if (componentId == 7)
-					player.getCombatDefinitions().switchShowCombatSpells();
-				else if (componentId == 9)
-					player.getCombatDefinitions().switchShowTeleportSkillSpells();
-				else if (componentId == 11)
-					player.getCombatDefinitions().switchShowMiscSpells();
-				else if (componentId == 13)
-					player.getCombatDefinitions().switchShowSkillSpells();
-				else if (componentId >= 15 & componentId <= 17)
-					player.getCombatDefinitions().setSortSpellBook(componentId - 15);
-				else if (componentId == 39 || componentId == 40)
-					stoneTeleport(componentId == 40);
-				else if (componentId == 38) {
-					if (!player.getInventory().hasFreeSlots()) {
-						player.sendMessage("You don't have enough inventory space.");
-						return false;
-					}
-					if (packet == ClientPacket.IF_OP2) {
-						player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
-						if (gatestone != null) {
-							GroundItem item = World.getRegion(gatestone.getRegionId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
-							if (item == null)
-								return false;
-							World.removeGroundItem(player, item, false);
-							setGatestone(null);
-						}
-					}
-					if (!canCreateGatestone())
-						return false;
-					player.getInventory().addItem(DungeonConstants.GATESTONE, 1);
-					player.getSkills().addXp(Constants.MAGIC, 43.5);
-					player.setNextAnimation(new Animation(713));
-					player.setNextSpotAnim(new SpotAnim(113));
-				} else
-					Magic.processDungSpell(player, componentId, packet);
-				return false;
 			}
 			return true;
+		} else if (interfaceId == 934)
+			DungeoneeringSmithing.handleButtons(player, packet, componentId);
+		else if (interfaceId == Summoning.POUCHES_INTERFACE)
+			//TODO dung summoning
+			return false;
+		else if (interfaceId == DungeonResourceShop.RESOURCE_SHOP) {
+			if (componentId == 24) {
+				int quantity = -1;
+				if (packet == ClientPacket.IF_OP2)
+					quantity = 1;
+				else if (packet == ClientPacket.IF_OP3)
+					quantity = 5;
+				else if (packet == ClientPacket.IF_OP4)
+					quantity = 10;
+				else if (packet == ClientPacket.IF_OP5)
+					quantity = 50;
+				DungeonResourceShop.handlePurchaseOptions(player, slotId, quantity);
+			}
+			return false;
+		} else if (interfaceId == DungeonResourceShop.RESOURCE_SHOP_INV) {
+			if (componentId == 0) {
+				int quantity = -1;
+				if (packet == ClientPacket.IF_OP2)
+					quantity = 1;
+				else if (packet == ClientPacket.IF_OP3)
+					quantity = 5;
+				else if (packet == ClientPacket.IF_OP4)
+					quantity = 10;
+				else if (packet == ClientPacket.IF_OP5)
+					quantity = 50;
+				DungeonResourceShop.handleSellOptions(player, slotId, slotId2, quantity);
+			}
+			return false;
+		} else if (interfaceId == 950) {
+			if (componentId == 24) {
+				if (dungeon == null || dungeon.getDungeon() == null)
+					return false;
+				if (player.inCombat()) {
+					player.sendMessage("You cannot do that while in combat.");
+					return false;
+				}
+				Magic.sendNormalTeleportSpell(player, 0, 0, dungeon.getHomeTile(), null);
+			}
+			if (componentId == 2)
+				player.getCombatDefinitions().switchDefensiveCasting();
+			else if (componentId == 7)
+				player.getCombatDefinitions().switchShowCombatSpells();
+			else if (componentId == 9)
+				player.getCombatDefinitions().switchShowTeleportSkillSpells();
+			else if (componentId == 11)
+				player.getCombatDefinitions().switchShowMiscSpells();
+			else if (componentId == 13)
+				player.getCombatDefinitions().switchShowSkillSpells();
+			else if (componentId >= 15 & componentId <= 17)
+				player.getCombatDefinitions().setSortSpellBook(componentId - 15);
+			else if (componentId == 39 || componentId == 40)
+				stoneTeleport(componentId == 40);
+			else if (componentId == 38) {
+				if (!player.getInventory().hasFreeSlots()) {
+					player.sendMessage("You don't have enough inventory space.");
+					return false;
+				}
+				if (packet == ClientPacket.IF_OP2) {
+					player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
+					if (gatestone != null) {
+						GroundItem item = World.getRegion(gatestone.getRegionId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
+						if (item == null)
+							return false;
+						World.removeGroundItem(player, item, false);
+						setGatestone(null);
+					}
+				}
+				if (!canCreateGatestone())
+					return false;
+				player.getInventory().addItem(DungeonConstants.GATESTONE, 1);
+				player.getSkills().addXp(Constants.MAGIC, 43.5);
+				player.setNextAnimation(new Animation(713));
+				player.setNextSpotAnim(new SpotAnim(113));
+			} else
+				Magic.processDungSpell(player, componentId, packet);
+			return false;
 		}
+		return true;
 	}
 
 	@Override
@@ -1208,9 +1182,8 @@ public class DungeonController extends Controller {
 			player.getDialogueManager().execute(new SimpleMessage(), "You cannot destroy that here.");
 			return false;
 		}
-		if (item.getDefinitions().isDestroyItem()) {
+		if (item.getDefinitions().isDestroyItem())
 			return true;
-		}
 		WorldTile currentTile = new WorldTile(player);
 		player.stopAll(false);
 		player.getInventory().deleteItem(item);
@@ -1232,7 +1205,8 @@ public class DungeonController extends Controller {
 		if (dungeon.isAtBossRoom(player, 26, 626, true) || (dungeon.isAtBossRoom(player, 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(new WorldTile(player))))) {
 			player.sendMessage("You can't teleport here.");
 			return;
-		} else if (tile == null) { // Shouldn't happen for group gatestone
+		}
+		if (tile == null) { // Shouldn't happen for group gatestone
 			player.sendMessage("You currently do not have an active gatestone.");
 			return;
 		}
@@ -1251,7 +1225,7 @@ public class DungeonController extends Controller {
 		if (!group) {
 			player.setCantWalk(true);
 			player.getEmotesManager().setNextEmoteEnd(3); //prevents dropping etc
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					player.setCantWalk(false);
@@ -1271,10 +1245,12 @@ public class DungeonController extends Controller {
 		if (player.getInventory().containsItem(DungeonConstants.GATESTONE, 1)) {
 			player.sendMessage("You already have a gatestone in your pack. Making another would be pointless.");
 			return false;
-		} else if (gatestone != null) {
+		}
+		if (gatestone != null) {
 			player.sendMessage("You already have an active gatestone.");
 			return false;
-		} else if (!Magic.checkSpellLevel(player, 32))
+		}
+		if (!Magic.checkSpellLevel(player, 32))
 			return false;
 		else if (!Magic.checkRunes(player, true, new RuneSet(Rune.COSMIC, 3)))
 			return false;
@@ -1308,7 +1284,8 @@ public class DungeonController extends Controller {
 			player.setLocation(new WorldTile(DungeonConstants.OUTSIDE, 2));
 		}
 	}
-	
+
+	@Override
 	public boolean login() {
 		removeController();
 		player.setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));

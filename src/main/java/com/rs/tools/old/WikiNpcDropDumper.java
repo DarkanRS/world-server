@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -30,11 +30,10 @@ public class WikiNpcDropDumper {
 	public static final void main(String[] args) throws IOException {
 		System.out.println("Starting..");
 		//Cache.init();
-		for (int npcId = 0; npcId < Utils.getNPCDefinitionsSize(); npcId++) {
+		for (int npcId = 0; npcId < Utils.getNPCDefinitionsSize(); npcId++)
 			if (NPCDefinitions.getDefs(npcId).hasAttackOption())
 				if (dumpDrops(npcId))
 					System.out.println("DUMPED NPC : " + npcId);
-		}
 	}
 
 	@SuppressWarnings("resource")
@@ -70,15 +69,14 @@ public class WikiNpcDropDumper {
 				/*
 				 * Rarity
 				 */
-				if (line.contains("background:#98FB98") && line.contains("Common")) {
+				if (line.contains("background:#98FB98") && line.contains("Common"))
 					rarity = "COMMON";
-				} else if (line.contains("background:#F0E68C") && line.contains("Uncommon")) {
+				else if (line.contains("background:#F0E68C") && line.contains("Uncommon"))
 					rarity = "UNCOMMON";
-				} else if (line.contains("background:#F4A460") && line.contains("Rare")) {
+				else if (line.contains("background:#F4A460") && line.contains("Rare"))
 					rarity = "RARE";
-				} else if (line.contains("background:#F08080") && line.contains("Very rare")) {
+				else if (line.contains("background:#F08080") && line.contains("Very rare"))
 					rarity = "VERYRARE";
-				}
 
 				/*
 				 * Item name
@@ -103,7 +101,7 @@ public class WikiNpcDropDumper {
 					nextIsAmounts = false;
 				}
 
-				if (!rarity.equals("null") && itemId != 0 && minAmount != 0 && maxAmount != 0) {
+				if (!rarity.equals("null") && itemId != 0 && minAmount != 0 && maxAmount != 0)
 					try {
 						if (noted && ItemDefinitions.getDefs(itemId).getCertId() != -1)
 							itemId = ItemDefinitions.getDefs(itemId).getCertId();
@@ -111,7 +109,6 @@ public class WikiNpcDropDumper {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-				}
 			}
 			writer.newLine();
 			writer.flush();

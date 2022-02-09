@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl;
@@ -23,7 +23,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -34,7 +34,7 @@ public class KetZekCombat extends CombatScript {
 	public Object[] getKeys() {
 		return new Object[] { "Ket-Zek", 15207 };
 	}// anims: DeathEmote: 9257 DefEmote: 9253 AttackAnim: 9252 gfxs: healing:
-		// 444 - healer
+	// 444 - healer
 
 	@Override
 	public int attack(final NPC npc, final Entity target) {
@@ -67,7 +67,7 @@ public class KetZekCombat extends CombatScript {
 		// npc.setNextGraphics(new Graphics(1622, 0, 96 << 16));
 		World.sendProjectile(npc, target, 2984, 34, 16, 30, 2, 16, 0);
 		delayHit(npc, 2, target, getMagicHit(npc, hit));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

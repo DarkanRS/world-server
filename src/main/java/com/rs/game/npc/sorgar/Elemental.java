@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.sorgar;
@@ -46,7 +46,7 @@ public class Elemental extends NPC {
 			{ new WorldTile(2897, 5471, 0), new WorldTile(2899, 5471, 0), new WorldTile(2899, 5478, 0), new WorldTile(2897, 5478, 0) }, { new WorldTile(2896, 5483, 0), new WorldTile(2900, 5483, 0), new WorldTile(2900, 5480, 0), new WorldTile(2897, 5480, 0), new WorldTile(2896, 5482, 0) }, { new WorldTile(2896, 5483, 0), new WorldTile(2896, 5481, 0), new WorldTile(2891, 5481, 0), new WorldTile(2891, 5483, 0) }, { new WorldTile(2889, 5485, 0), new WorldTile(2900, 5485, 0) } };
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 *            NPC id
 	 * @param tile
@@ -62,17 +62,16 @@ public class Elemental extends NPC {
 
 	@Override
 	public List<Entity> getPossibleTargets() {
-		List<Entity> possibleTarget = new ArrayList<Entity>();
+		List<Entity> possibleTarget = new ArrayList<>();
 		for (int regionId : getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null) {
+			if (playerIndexes != null)
 				for (int playerIndex : playerIndexes) {
 					Player player = World.getPlayers().get(playerIndex);
 					if (player == null || player.isDead() || player.getAppearance().isHidden() || player.hasFinished() || player.isLocked() || !lineOfSightTo(player, false))
 						continue;
 					possibleTarget.add(player);
 				}
-			}
 		}
 		return possibleTarget;
 	}
@@ -81,8 +80,8 @@ public class Elemental extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (!beingTeleported) {
-			for (Entity t : getPossibleTargets()) {
+		if (!beingTeleported)
+			for (Entity t : getPossibleTargets())
 				if (withinDistance(t, 2) && Utils.getAngleTo(t.getX() - getX(), t.getY() - getY()) == getFaceAngle()) {
 					final Player player = (Player) t;
 					setNextAnimation(new Animation(5803));
@@ -90,18 +89,13 @@ public class Elemental extends NPC {
 					player.stopAll();
 					player.lock();
 					player.sendMessage("You've been spotted by an elemental and teleported out of its garden.");
-					FadingScreen.fade(player, new Runnable() {
-						@Override
-						public void run() {
-							player.setNextWorldTile(SorceressGardenController.inAutumnGarden(player) ? new WorldTile(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player) ? new WorldTile(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player) ? new WorldTile(2910, 5476, 0) : new WorldTile(2906, 5470, 0))));
-							player.lock(1);
-							beingTeleported = false;
-						}
+					FadingScreen.fade(player, () -> {
+						player.setNextWorldTile(SorceressGardenController.inAutumnGarden(player) ? new WorldTile(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player) ? new WorldTile(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player) ? new WorldTile(2910, 5476, 0) : new WorldTile(2906, 5470, 0))));
+						player.lock(1);
+						beingTeleported = false;
 					});
 					break;
 				}
-			}
-		}
 		int index = getId() - 5533;
 		if (!isForceWalking()) {
 			if (steps >= tiles[index].length)
@@ -112,7 +106,7 @@ public class Elemental extends NPC {
 		}
 		super.processNPC();
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(5533, 5534, 5535, 5536, 5537, 5538, 5539, 5540, 5541, 5542, 5543, 5544, 5545, 5546, 5547, 5548, 5549, 5550, 5551, 5552, 5553, 5554, 5555, 5556, 5557, 5558) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

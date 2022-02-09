@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.pest;
@@ -79,27 +79,28 @@ public class CommendationExchange {// 1875 TODO
 	public static ButtonClickHandler handleButtonOptions = new ButtonClickHandler(1011) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 68) {
+			if (e.getComponentId() == 68)
 				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_ONE);
-			} else if (e.getComponentId() == 86) {
+			else if (e.getComponentId() == 86)
 				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_TEN);
-			} else if (e.getComponentId() == 88) {
+			else if (e.getComponentId() == 88)
 				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
-			} else if (e.getComponentId() == 29) {
+			else if (e.getComponentId() == 29)
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
-			} else if (e.getComponentId() == 75) {
+			else if (e.getComponentId() == 75) {
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, true);
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
-			} else if (e.getComponentId() == 20 || e.getComponentId() == 73) {
+			} else if (e.getComponentId() == 20 || e.getComponentId() == 73)
 				openExchangeShop(e.getPlayer());
-			} else if (e.getComponentId() == 24 || e.getComponentId() == 31) {
+			else if (e.getComponentId() == 24 || e.getComponentId() == 31) {
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, false);
 				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, true);
 			} else if (e.getComponentId() == 291) {
 				if (e.getPlayer().getSkills().getLevelForXp(Constants.HERBLORE) < 25) {
 					e.getPlayer().sendMessage("You need a herblore level of 25 in order to purchase a herblore pack.");
 					return;
-				} else if (!exchangeCommendation(e.getPlayer(), 30))
+				}
+				if (!exchangeCommendation(e.getPlayer(), 30))
 					return;
 				e.getPlayer().getInventory().addItem(Herbs.values()[Utils.random(5)].getHerbId() + 1, Utils.random(4), true);
 				e.getPlayer().getInventory().addItem(Herbs.values()[Herbs.values().length - 1].getHerbId() + 1, Utils.random(2), true);
@@ -108,7 +109,8 @@ public class CommendationExchange {// 1875 TODO
 				if (e.getPlayer().getSkills().getLevelForXp(Constants.MINING) < 25) {
 					e.getPlayer().sendMessage("You need a mining level of 25 in order to purchase a herblore pack.");
 					return;
-				} else if (!exchangeCommendation(e.getPlayer(), 15))
+				}
+				if (!exchangeCommendation(e.getPlayer(), 15))
 					return;
 				e.getPlayer().getInventory().addItem(441, Utils.random(20), true);
 				e.getPlayer().getInventory().addItem(454, Utils.random(30), true);
@@ -117,33 +119,30 @@ public class CommendationExchange {// 1875 TODO
 				if (e.getPlayer().getSkills().getLevelForXp(Constants.FARMING) < 25) {
 					e.getPlayer().sendMessage("You need a farming level of 25 in order to purchase a herblore pack.");
 					return;
-				} else if (!exchangeCommendation(e.getPlayer(), 15))
+				}
+				if (!exchangeCommendation(e.getPlayer(), 15))
 					return;
-				for (int i = 0;i < 6;i++) {
+				for (int i = 0;i < 6;i++)
 					for (Item rew : DropTable.calculateDrops(e.getPlayer(), DropSets.getDropSet("nest_shit_seed")))
 						e.getPlayer().getInventory().addItemDrop(rew);
-				}
 				e.getPlayer().sendMessage("You exchange 15 commendation points for a seed pack.");
 			} else {
 				for (int index = 0; index < SKILL_BASE_COMPONENTS.length; index++) {
 					int skillComponent = SKILL_BASE_COMPONENTS[index];
-					for (int i = 0; i < 6; i += 2) {
+					for (int i = 0; i < 6; i += 2)
 						if (skillComponent + i == e.getComponentId())
 							addXPForSkill(e.getPlayer(), SKILLS[index], getRateForIndex(i / 2));
-					}
 				}
-	
-				for (int index = 0; index < VOID_BASE_COMPONENTS.length; index++) {
+
+				for (int index = 0; index < VOID_BASE_COMPONENTS.length; index++)
 					if (VOID_BASE_COMPONENTS[index] == e.getComponentId())
 						addVoidItem(e.getPlayer(), index);
-				}
-	
+
 				for (int index = 0; index < CHARM_BASE_COMPONENTS.length; index++) {
 					int charmComponent = CHARM_BASE_COMPONENTS[index];
-					for (int i = 0; i < 6; i += 2) {
+					for (int i = 0; i < 6; i += 2)
 						if (charmComponent + i == e.getComponentId())
 							addCharm(e.getPlayer(), CHARMS[index], getRateForIndex(i / 2));
-					}
 				}
 			}
 		}
@@ -152,12 +151,11 @@ public class CommendationExchange {// 1875 TODO
 	private static void addCharm(Player player, int itemId, int rate) {
 		if (rate == 100)
 			rate = player.getInventory().getFreeSlots();
-		for (int i = 0; i < rate; i++) {
+		for (int i = 0; i < rate; i++)
 			if (!exchangeCommendation(player, 2)) {
 				rate = i;
 				break;
 			}
-		}
 		player.getInventory().addItem(itemId, rate, true);
 		player.sendMessage("You exchange " + rate * 2 + " Commendations for a charm.");
 	}
@@ -165,9 +163,9 @@ public class CommendationExchange {// 1875 TODO
 	private static int getRateForIndex(int index) {
 		if (index == 0)
 			return RATE_ONE;
-		else if (index == 1)
+		if (index == 1)
 			return RATE_TEN;
-		else if (index == 2)
+		if (index == 2)
 			return RATE_HUNDRED;
 		return 0;
 	}
@@ -177,12 +175,11 @@ public class CommendationExchange {// 1875 TODO
 			player.sendMessage("You need a " + Constants.SKILL_NAME[skill] + " of at least 25 in order to gain experience.");
 			return;
 		}
-		for (int i = 0; i < rate; i++) {
+		for (int i = 0; i < rate; i++)
 			if (!exchangeCommendation(player, 1)) {
 				rate = i;
 				break;
 			}
-		}
 		double experience = calculateExperience(player, skill) * rate;
 		player.getSkills().addXp(skill, experience / 18);
 		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -29,7 +29,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
@@ -37,7 +37,7 @@ public final class IcyBones extends DungeonBoss {
 
 	public IcyBones(WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10040, 10057), manager.getBossLevel()), tile, manager, reference);
-		spikes = new ArrayList<GameObject>();
+		spikes = new ArrayList<>();
 		setHitpoints(getMaxHitpoints());
 	}
 
@@ -70,7 +70,7 @@ public final class IcyBones extends DungeonBoss {
 		if (!spikes.isEmpty())
 			return false;
 		int size = getSize();
-		for (int x = -1; x < 7; x++) {
+		for (int x = -1; x < 7; x++)
 			for (int y = -1; y < 7; y++) {
 				if (((x != -1 && x != 6) && (y != -1 && y != 6)) || Utils.random(2) != 0)
 					continue;
@@ -81,13 +81,11 @@ public final class IcyBones extends DungeonBoss {
 				GameObject object = new GameObject(52285 + Utils.random(3), ObjectType.SCENERY_INTERACT, Utils.random(4), tile.getX(), tile.getY(), tile.getPlane());
 				spikes.add(object);
 				World.spawnObject(object);
-				for (Player player : getManager().getParty().getTeam()) {
+				for (Player player : getManager().getParty().getTeam())
 					if (player.getX() == object.getX() && player.getY() == object.getY())
 						player.applyHit(new Hit(this, 1 + Utils.random(getMaxHit()), HitLook.TRUE_DAMAGE));
-				}
 			}
-		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {

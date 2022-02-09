@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering;
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;
@@ -43,7 +44,7 @@ public final class Dungeon {
 	private int type;
 	private int complexity;
 	private int size;
-    private long seed;
+	private long seed;
 	private Room[][] map;
 	private int creationCount;
 	private int critCount;
@@ -70,10 +71,10 @@ public final class Dungeon {
 		frame.pack();
 		frame.setSize(600, 800);
 		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		long lastDung = System.currentTimeMillis();
-        test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON);
+		test = new Dungeon(null, 1, 6, DungeonConstants.LARGE_DUNGEON);
 		System.out.println("Generated dungeon in " + (System.currentTimeMillis() - lastDung) + "ms...");
 		frame.repaint();
 	}
@@ -106,8 +107,8 @@ public final class Dungeon {
 		g.setColor(Color.WHITE);
 		g.drawString("White - Key Item", 110, 230);
 
-		for (int y = 0; y < map[0].length; y++) {
-			for (int x = 0; x < map.length; x++) {
+		for (int y = 0; y < map[0].length; y++)
+			for (int x = 0; x < map.length; x++)
 				if (map[x][y] != null) {
 					g.setColor(Color.YELLOW);
 
@@ -128,24 +129,18 @@ public final class Dungeon {
 					}
 
 					g.setColor(Color.green);
-					if (map[x][y].hasNorthDoor()) {
+					if (map[x][y].hasNorthDoor())
 						g.drawLine(x * 20 + 30, (7 - y) * 20 + 50, x * 20 + 30, ((7 - y) - 1) * 20 + 50);
-					}
-					if (map[x][y].hasEastDoor()) {
+					if (map[x][y].hasEastDoor())
 						g.drawLine(x * 20 + 30, (7 - y) * 20 + 50, (x + 1) * 20 + 30, ((7 - y)) * 20 + 50);
-					}
-					if (map[x][y].hasSouthDoor()) {
+					if (map[x][y].hasSouthDoor())
 						g.drawLine(x * 20 + 30, (7 - y) * 20 + 50, x * 20 + 30, ((7 - y) + 1) * 20 + 50);
-					}
-					if (map[x][y].hasWestDoor()) {
+					if (map[x][y].hasWestDoor())
 						g.drawLine(x * 20 + 30, (7 - y) * 20 + 50, (x - 1) * 20 + 30, ((7 - y)) * 20 + 50);
-					}
 				}
-			}
-		}
 
-		for (int y = 0; y < map[0].length; y++) {
-			for (int x = 0; x < map.length; x++) {
+		for (int y = 0; y < map[0].length; y++)
+			for (int x = 0; x < map.length; x++)
 				if (map[x][y] != null) {
 					int key = map[x][y].getDropId();
 					if (key != -1) {
@@ -162,7 +157,7 @@ public final class Dungeon {
 						Door door = map[x][y].getDoor(l);
 						lock0 = door != null && door.getType() == DungeonConstants.KEY_DOOR ? door.getId() : -1;
 						int rotation = (map[x][y].getRoom().getDoorDirections()[l] + map[x][y].getRotation()) & 0x3;
-						if (lock0 >= 0 && lock0 < 64) {
+						if (lock0 >= 0 && lock0 < 64)
 							if (rotation == DungeonConstants.NORTH_DOOR) {
 								g.setFont(new Font("Arial", Font.BOLD, 5));
 								g.setColor(Color.LIGHT_GRAY);
@@ -180,23 +175,17 @@ public final class Dungeon {
 								g.setColor(Color.LIGHT_GRAY);
 								g.drawString(formatName(ItemDefinitions.getDefs(KeyDoors.values()[lock0].getKeyId()).name), x * 20 + 24, (7 - y) * 20 + 52);
 							}
-						}
 
 					}
 				}
-			}
-		}
 	}
 
 	public static String formatName(String key) {
 		char[] arr = key.toUpperCase().toCharArray();
 		String name = "" + arr[0];
-		for (int i = 0; i < arr.length - 1; i++) {
-			if (arr[i] == ' ' && arr[i + 1] != 'K') {
+		for (int i = 0; i < arr.length - 1; i++)
+			if (arr[i] == ' ' && arr[i + 1] != 'K')
 				name += arr[i + 1];
-			}
-
-		}
 		return name;
 	}
 
@@ -204,26 +193,26 @@ public final class Dungeon {
 		return String.format("%1$-" + n + "s", s);
 	}
 
-    public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
-        this.manager = manager;
-        this.type = DungeonUtils.getFloorType(floorId);
-        this.complexity = complexity;
-        this.size = size;
+	public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
+		this.manager = manager;
+		type = DungeonUtils.getFloorType(floorId);
+		this.complexity = complexity;
+		this.size = size;
 
-        this.seed = System.nanoTime();
-        if(manager.getParty().customSeed) {
-            this.seed = manager.getParty().getStartingSeed();
-            manager.getParty().customSeed = false;
-        }
+		seed = System.nanoTime();
+		if(manager.getParty().customSeed) {
+			seed = manager.getParty().getStartingSeed();
+			manager.getParty().customSeed = false;
+		}
 
-        // seed = 3022668148508890112L;
-        Random random = new Random(seed);
-        DungeonStructure structure = new DungeonStructure(size, random, complexity);
-        // map structure to matrix dungeon
-        map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
-        RoomNode base = structure.getBase();
+		// seed = 3022668148508890112L;
+		Random random = new Random(seed);
+		DungeonStructure structure = new DungeonStructure(size, random, complexity);
+		// map structure to matrix dungeon
+		map = new Room[DungeonConstants.DUNGEON_RATIO[size][0]][DungeonConstants.DUNGEON_RATIO[size][1]];
+		RoomNode base = structure.getBase();
 
-        Room[] possibilities;
+		Room[] possibilities;
 		startRoom = new RoomReference(base.x, base.y);
 		List<RoomNode> children = base.getChildrenR();
 		children.add(base);
@@ -232,16 +221,15 @@ public final class Dungeon {
 		for (RoomNode node : children) {
 			creationCount++;
 			boolean puzzle = false;
-			if (node == base) {
+			if (node == base)
 				possibilities = DungeonUtils.selectPossibleRooms(DungeonConstants.START_ROOMS, complexity, type, base.north(), base.east(), base.south(), base.west());
-			} else if (node.isBoss) {
+			else if (node.isBoss)
 				possibilities = DungeonUtils.selectPossibleBossRooms(type, complexity, floorId, node.north(), node.east(), node.south(), node.west(), node.rotation());
-			} else if (node.children.size() > 0 && node.children.stream().allMatch(c -> c.lock == -1) && puzzleChance > random.nextDouble()) {
+			else if (node.children.size() > 0 && node.children.stream().allMatch(c -> c.lock == -1) && puzzleChance > random.nextDouble()) {
 				puzzle = true;
 				possibilities = DungeonUtils.selectPossibleRooms(DungeonConstants.PUZZLE_ROOMS, complexity, type, node.north(), node.east(), node.south(), node.west(), node.rotation());
-			} else {
+			} else
 				possibilities = DungeonUtils.selectPossibleRooms(DungeonConstants.NORMAL_ROOMS, complexity, type, node.north(), node.east(), node.south(), node.west());
-			}
 			map[node.x][node.y] = possibilities[random.nextInt(possibilities.length)];
 			if (node.isCritPath) {
 				critCount++;
@@ -252,31 +240,28 @@ public final class Dungeon {
 			for (int doorDir = 0; doorDir < map[node.x][node.y].getRoom().getDoorDirections().length; doorDir++) {
 				int rotation = (map[node.x][node.y].getRoom().getDoorDirections()[doorDir] + map[node.x][node.y].getRotation()) & 0x3;
 				RoomNode neighbor = structure.getRoom(node.x + Utils.ROTATION_DIR_X[rotation], node.y + Utils.ROTATION_DIR_Y[rotation]);
-				if (neighbor.parent == node) {
-					if (puzzle) {
+				if (neighbor.parent == node)
+					if (puzzle)
 						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.CHALLENGE_DOOR));
-					} else if (neighbor.lock != -1) {
+					else if (neighbor.lock != -1)
 						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.KEY_DOOR, neighbor.lock));
-					} else if (complexity >= 5 && random.nextInt(3) == 0) {
+					else if (complexity >= 5 && random.nextInt(3) == 0) {
 						int doorIndex = random.nextInt(DungeonConstants.SkillDoors.values().length);
 						SkillDoors sd = DungeonConstants.SkillDoors.values()[doorIndex];
 						if (sd.getClosedObject(type) == -1) // some frozen skill doors dont exist
 							continue;
 						int level = manager == null ? 1 : neighbor.isCritPath ? (manager.getParty().getMaxLevel(sd.getSkillId()) - random.nextInt(10)) : random.nextInt(sd.getSkillId() == Constants.SUMMONING || sd.getSkillId() == Constants.PRAYER ? 100 : 106);
 						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.SKILL_DOOR, doorIndex, level < 1 ? 1 : level));
-					} else if (complexity >= 3 && random.nextInt(2) == 0) {
+					} else if (complexity >= 3 && random.nextInt(2) == 0)
 						map[node.x][node.y].setDoor(doorDir, new Door(DungeonConstants.GUARDIAN_DOOR));
-					}
-
-				}
 			}
 		}
 
 	}
 
-    public long getSeed() {
-        return this.seed;
-    }
+	public long getSeed() {
+		return seed;
+	}
 
 	public int getRoomsCount() {
 		return creationCount;

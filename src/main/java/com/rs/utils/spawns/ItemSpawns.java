@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.utils.spawns;
@@ -37,10 +37,10 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 
 @PluginEventHandler
 public final class ItemSpawns {
-	
+
 	private final static String PATH = "data/items/spawns/";
 	final static Charset ENCODING = StandardCharsets.UTF_8;
-	
+
 	private static final Object lock = new Object();
 	private static final ArrayList<ItemSpawn> ALL_SPAWNS = new ArrayList<>();
 	private static final ArrayList<ItemSpawn> ADDED_SPAWNS = new ArrayList<>();
@@ -67,8 +67,8 @@ public final class ItemSpawns {
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {
 			ItemSpawn[] spawns = (ItemSpawn[]) JsonFileManager.loadJsonFile(f, ItemSpawn[].class);
-			if (spawns != null) {
-				for(ItemSpawn spawn : spawns) {
+			if (spawns != null)
+				for(ItemSpawn spawn : spawns)
 					if (spawn != null) {
 						ALL_SPAWNS.add(spawn);
 						List<ItemSpawn> regionSpawns = ITEM_SPAWNS.get(spawn.getTile().getRegionId());
@@ -77,18 +77,14 @@ public final class ItemSpawns {
 						regionSpawns.add(spawn);
 						ITEM_SPAWNS.put(spawn.getTile().getRegionId(), regionSpawns);
 					}
-				}
-			}
 		}
 		Logger.log("ItemSpawns", "Loaded " + ALL_SPAWNS.size() + " item spawns...");
 	}
 
 	public static final void loadItemSpawns(int regionId) {
 		List<ItemSpawn> spawns = ITEM_SPAWNS.get(regionId);
-		if (spawns != null) {
-			for (ItemSpawn spawn : spawns) {
+		if (spawns != null)
+			for (ItemSpawn spawn : spawns)
 				spawn.spawn();
-			}
-		}
 	}
 }

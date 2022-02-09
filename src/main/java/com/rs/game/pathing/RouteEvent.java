@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.pathing;
@@ -56,7 +56,7 @@ public class RouteEvent {
 		RouteStrategy[] strategies = generateStrategies();
 		if (last != null && match(strategies, last) && entity.hasWalkSteps())
 			return false;
-		else if (last != null && match(strategies, last) && !entity.hasWalkSteps()) {
+		if (last != null && match(strategies, last) && !entity.hasWalkSteps()) {
 			for (int i = 0; i < strategies.length; i++) {
 				RouteStrategy strategy = strategies[i];
 				int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
@@ -74,71 +74,65 @@ public class RouteEvent {
 				player.getSession().writeToQueue(new MinimapFlag());
 			}
 			return true;
-		} else {
-			last = strategies;
-
-			for (int i = 0; i < strategies.length; i++) {
-				RouteStrategy strategy = strategies[i];
-				int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
-				if (steps == -1)
-					continue;
-				if ((!RouteFinder.lastIsAlternative() && steps <= 0)) {
-					if (alternative && player != null)
-						player.getSession().writeToQueue(new MinimapFlag());
-					event.run();
-					return true;
-				}
-				int[] bufferX = RouteFinder.getLastPathBufferX();
-				int[] bufferY = RouteFinder.getLastPathBufferY();
-
-				WorldTile last = new WorldTile(bufferX[0], bufferY[0], entity.getPlane());
-				entity.resetWalkSteps();
-				if (player != null)
-					player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
-				if (entity.hasEffect(Effect.FREEZE))
-					return false;
-				if (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e))
-					return false;
-				for (int step = steps - 1; step >= 0; step--) {
-					if (!entity.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
-						break;
-				}
-				return false;
-			}
-			if (player != null) {
-				player.sendMessage("You can't reach that.");
-				player.getSession().writeToQueue(new MinimapFlag());
-			}
-			return true;
 		}
+		last = strategies;
+
+		for (int i = 0; i < strategies.length; i++) {
+			RouteStrategy strategy = strategies[i];
+			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
+			if (steps == -1)
+				continue;
+			if ((!RouteFinder.lastIsAlternative() && steps <= 0)) {
+				if (alternative && player != null)
+					player.getSession().writeToQueue(new MinimapFlag());
+				event.run();
+				return true;
+			}
+			int[] bufferX = RouteFinder.getLastPathBufferX();
+			int[] bufferY = RouteFinder.getLastPathBufferY();
+
+			WorldTile last = new WorldTile(bufferX[0], bufferY[0], entity.getPlane());
+			entity.resetWalkSteps();
+			if (player != null)
+				player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
+			if (entity.hasEffect(Effect.FREEZE) || (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e)))
+				return false;
+			for (int step = steps - 1; step >= 0; step--)
+				if (!entity.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
+					break;
+			return false;
+		}
+		if (player != null) {
+			player.sendMessage("You can't reach that.");
+			player.getSession().writeToQueue(new MinimapFlag());
+		}
+		return true;
 	}
 
 	private boolean simpleCheck(Entity entity) {
-		if (object instanceof Entity e) {
+		if (object instanceof Entity e)
 			return entity.getPlane() == e.getPlane();
-		} else if (object instanceof GameObject e) {
+		if (object instanceof GameObject e)
 			return entity.getPlane() == e.getPlane();
-		} else if (object instanceof GroundItem e) {
+		else if (object instanceof GroundItem e)
 			return entity.getPlane() == e.getTile().getPlane();
-		} else if (object instanceof WorldTile e) {
+		else if (object instanceof WorldTile e)
 			return entity.getPlane() == e.getPlane();
-		} else {
+		else
 			throw new RuntimeException(object + " is not instanceof any reachable entity.");
-		}
 	}
 
 	private RouteStrategy[] generateStrategies() {
-		if (object instanceof Entity e) {
+		if (object instanceof Entity e)
 			return new RouteStrategy[] { new EntityStrategy(e) };
-		} else if (object instanceof GameObject go) {
+		if (object instanceof GameObject go)
 			return new RouteStrategy[] { new ObjectStrategy(go) };
-		} else if (object instanceof WorldTile wt) {
+		if (object instanceof WorldTile wt)
 			return new RouteStrategy[] { new FixedTileStrategy(wt.getX(), wt.getY()), new FloorItemStrategy(wt, true)};
-		} else if (object instanceof GroundItem gi) {
+		else if (object instanceof GroundItem gi)
 			return new RouteStrategy[] { new FixedTileStrategy(gi.getTile().getX(), gi.getTile().getY()), new FloorItemStrategy(gi) };
-		} else {
+		else
 			throw new RuntimeException(object + " is not instanceof any reachable entity.");
-		}
 	}
 
 	private boolean match(RouteStrategy[] a1, RouteStrategy[] a2) {

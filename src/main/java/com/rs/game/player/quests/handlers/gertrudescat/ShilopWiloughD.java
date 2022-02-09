@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.gertrudescat;
@@ -29,9 +29,9 @@ public class ShilopWiloughD extends Conversation {
 
 	public ShilopWiloughD(Player player, NPC npc) {
 		super(player);
-		
+
 		int npcId = npc.getId();
-		
+
 		if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) == 0) {
 			addPlayer(HeadE.NO_EXPRESSION, "Hello youngster.");
 			addNPC(npcId, HeadE.CHILD_UNSURE, "I don't talk to strange old people.");
@@ -44,7 +44,7 @@ public class ShilopWiloughD extends Conversation {
 			addNPC(npcId, HeadE.CHILD_CALM_TALK, "If I told you that, it wouldn't be a secret. What if I need to escape from the law? I need a hideout.");
 			addPlayer(HeadE.NO_EXPRESSION, "From my limited knowledge of the law, they are not usually involved in manhunts for children.");
 			addNPC(npcId, HeadE.CHILD_FRUSTRATED, "Well it's still mine anyway, I need a place to be alone sometimes. Those two little brothers at the house are just such babies.");
-			
+
 			addOptions(new Options() {
 				@Override
 				public void create() {
@@ -54,7 +54,7 @@ public class ShilopWiloughD extends Conversation {
 							.addPlayer(HeadE.ANGRY, "I'm an upstanding citizen!")
 							.addNPC(npcId, HeadE.CHILD_EVIL_LAUGH, "I'm her darling boy and you'd have to forget about her rewarding you. Hop it snitch.")
 							.addSimple("You decide it's best not to aggravate the repulsive boy any more."));
-					
+
 					option("What will make you tell me?", new Dialogue()
 							.addPlayer(HeadE.CONFUSED, "What will make you tell me?")
 							.addNPC(npcId, HeadE.CHILD_UNSURE, "Well...now you ask, I am a bit short on cash.")
@@ -68,7 +68,7 @@ public class ShilopWiloughD extends Conversation {
 								@Override
 								public void create() {
 									Dialogue pay = new Dialogue();
-									if (player.getInventory().containsItem(995, 100)) {
+									if (player.getInventory().containsItem(995, 100))
 										pay.addPlayer(HeadE.NO_EXPRESSION, "Okay then, I'll pay, but I'll want you to tell your mother what a nice person I am.")
 										.addNPC(npcId, HeadE.CHILD_UNSURE, "What?")
 										.addPlayer(HeadE.NO_EXPRESSION, "I'll want you to tell your mother what a nice person I am so she rewards me for this search.")
@@ -82,19 +82,18 @@ public class ShilopWiloughD extends Conversation {
 										.addNPC(npcId, HeadE.CHILD_CALM_TALK, "I hide out at the lumber mill to the north-east. Just beyond the Jolly Boar Inn. I saw Fluffs running around in there. Well, not so much running as plodding lazily, but you get the idea.")
 										.addPlayer(HeadE.NO_EXPRESSION, "Anything else?")
 										.addNPC(npcId, HeadE.CHILD_CALM_TALK, "Well, technically you are trespassing inside there but no-one seems to care. You'll have to find the broken fence to get in. It will be a bit of a squeeze for a grown up but I'm sure you can manage that.");
-									} else {
+									else
 										pay.addPlayer(HeadE.NO_EXPRESSION, "I actually don't have 100 coins with me..")
 										.addNPC(npcId, HeadE.CHILD_UNSURE, "Well it looks like someone else is going to have to find the fleabag then.");
-									}
-									
+
 									option("I'm not paying you a thing.", new Dialogue()
 											.addPlayer(HeadE.ANGRY, "I'm not paying you a thing.")
 											.addNPC(npcId, HeadE.CHILD_DOWN, "Okay then, I'll find another way to make money. You only have yourself to blame if I'm forced into a life of crime."));
-					
+
 									option("Okay then, I'll pay.", pay);
 								}
 							}));
-					
+
 					option("Well, never mind. It's Fluffs' loss.", new Dialogue()
 							.addPlayer(HeadE.ROLL_EYES, "Well, never mind, it's Fluffs' loss.")
 							.addNPC(npcId, HeadE.CHILD_CALM_TALK, "I'm sure my mum will get over it."));
@@ -113,8 +112,8 @@ public class ShilopWiloughD extends Conversation {
 				npc.setNextAnimation(new Animation(12447));
 			});
 		}
-		
+
 		create();
 	}
-	
+
 }

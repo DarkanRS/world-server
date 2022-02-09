@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.combat;
@@ -42,40 +42,40 @@ public enum CombatSpell {
 	WIND_BOLT(17, 13.5, 90, new Animation(10546), new SpotAnim(457), 459, new SpotAnim(2699), new RuneSet(Rune.AIR, 2, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
-			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 120 : this.baseDamage;
+			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 120 : baseDamage;
 		}
 	},
 	WIND_BLAST(41, 25.5, 130, new Animation(10546), new SpotAnim(457), 460, new SpotAnim(2699), new RuneSet(Rune.AIR, 3, Rune.DEATH, 1)),
 	WIND_WAVE(62, 36, 170, new Animation(10546), new SpotAnim(457), 461, new SpotAnim(2700), new RuneSet(Rune.AIR, 5, Rune.BLOOD, 1)),
 	WIND_SURGE(81, 75, 220, new Animation(10546), new SpotAnim(457), 462, new SpotAnim(2700), new RuneSet(Rune.AIR, 7, Rune.BLOOD, 1, Rune.DEATH, 1)),
-	
+
 	WATER_STRIKE(5, 7.5, 40, new Animation(14220), new SpotAnim(2701), 2703, new SpotAnim(2708), new RuneSet(Rune.AIR, 1, Rune.WATER, 1, Rune.MIND, 1)),
 	WATER_BOLT(23, 16.5, 100, new Animation(14220), new SpotAnim(2701), 2704, new SpotAnim(2709), new RuneSet(Rune.AIR, 2, Rune.WATER, 2, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
-			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 130 : this.baseDamage;
+			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 130 : baseDamage;
 		}
 	},
 	WATER_BLAST(47, 28.5, 140, new Animation(14220), new SpotAnim(2701), 2705, new SpotAnim(2710), new RuneSet(Rune.AIR, 3, Rune.WATER, 3, Rune.DEATH, 1)),
 	WATER_WAVE(65, 37.5, 180, new Animation(14220), new SpotAnim(2701), 2706, new SpotAnim(2711), new RuneSet(Rune.AIR, 5, Rune.WATER, 7, Rune.BLOOD, 1)),
 	WATER_SURGE(85, 80, 240, new Animation(14220), new SpotAnim(2701), 2707, new SpotAnim(2712), new RuneSet(Rune.AIR, 7, Rune.WATER, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
-	
+
 	EARTH_STRIKE(9, 9.5, 60, new Animation(14209), new SpotAnim(2713), 2718, new SpotAnim(2723), new RuneSet(Rune.AIR, 1, Rune.EARTH, 2, Rune.MIND, 1)),
 	EARTH_BOLT(29, 19.5, 110, new Animation(14209), new SpotAnim(2714), 2719, new SpotAnim(2724), new RuneSet(Rune.AIR, 2, Rune.EARTH, 3, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
-			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 140 : this.baseDamage;
+			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 140 : baseDamage;
 		}
 	},
 	EARTH_BLAST(53, 31.5, 150, new Animation(14209), new SpotAnim(2715), 2720, new SpotAnim(2725), new RuneSet(Rune.AIR, 3, Rune.EARTH, 4, Rune.DEATH, 1)),
 	EARTH_WAVE(70, 40, 190, new Animation(14209), new SpotAnim(2716), 2721, new SpotAnim(2726), new RuneSet(Rune.AIR, 5, Rune.EARTH, 7, Rune.BLOOD, 1)),
 	EARTH_SURGE(90, 85, 260, new Animation(14209), new SpotAnim(2717), 2722, new SpotAnim(2727), new RuneSet(Rune.AIR, 7, Rune.EARTH, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
-	
+
 	FIRE_STRIKE(13, 11.5, 80, new Animation(2791), new SpotAnim(2728), 2729, new SpotAnim(2737), new RuneSet(Rune.AIR, 2, Rune.FIRE, 3, Rune.MIND, 1)),
 	FIRE_BOLT(35, 22.5, 120, new Animation(2791), new SpotAnim(2728), 2731, new SpotAnim(2738), new RuneSet(Rune.AIR, 3, Rune.FIRE, 4, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
-			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 150 : this.baseDamage;
+			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 150 : baseDamage;
 		}
 	},
 	FIRE_BLAST(59, 34.5, 160, new Animation(2791), new SpotAnim(2728), 2733, new SpotAnim(2739), new RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
@@ -120,7 +120,7 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public int getBaseDamage(Entity caster) {
 			if (caster instanceof Player p)
@@ -137,14 +137,14 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public int getBaseDamage(Entity caster) {
 			if (caster instanceof Player p)
 				return p.isCharged() && p.getEquipment().getCapeId() == 2412 ? 300 : baseDamage;
 			return baseDamage;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p)
@@ -160,23 +160,22 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public int getBaseDamage(Entity caster) {
 			if (caster instanceof Player p)
 				return p.isCharged() && p.getEquipment().getCapeId() == 2413 ? 300 : baseDamage;
 			return baseDamage;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getDefenseLevel() >= npc.getCombatDefinitions().getDefenseLevel())
 					npc.lowerDefense(0.05f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.DEFENSE) >= player.getSkills().getLevelForXp(Constants.DEFENSE))
 					player.getSkills().drainLevel(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) * 0.05));
-			}
 		}
 	},
 	FLAMES_OF_ZAMORAK(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(78, 0, 96), new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
@@ -188,23 +187,22 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public int getBaseDamage(Entity caster) {
 			if (caster instanceof Player p)
 				return p.isCharged() && p.getEquipment().getCapeId() == 2414 ? 300 : baseDamage;
 			return baseDamage;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getMagicLevel() >= npc.getCombatDefinitions().getMagicLevel())
 					npc.lowerMagic(0.05f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.MAGIC) >= player.getSkills().getLevelForXp(Constants.MAGIC))
 					player.getSkills().drainLevel(Constants.MAGIC, (int) (player.getSkills().getLevel(Constants.MAGIC) * 0.05));
-			}
 		}
 	},
 	STORM_OF_ARMADYL(77, 70, 160, new Animation(10546), new SpotAnim(457), 1019, new SpotAnim(1019), new RuneSet(Rune.ARMADYL, 1)) {
@@ -212,14 +210,13 @@ public enum CombatSpell {
 		public int getCombatDelay(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getWeaponId() == 21777 ? 3 : 4;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
+			if (target instanceof NPC npc)
 				npc.lowerAttack(1);
-			} else if (target instanceof Player player) {
+			else if (target instanceof Player player)
 				player.getSkills().drainLevel(Constants.DEFENSE, 1);
-			}
 		}
 	},
 	CONFUSE(3, 13, -1, new Animation(711), new SpotAnim(102, 0, 96), 103, new SpotAnim(104, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
@@ -230,24 +227,22 @@ public enum CombatSpell {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) < player.getSkills().getLevelForXp(Constants.ATTACK)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getAttackLevel() >= npc.getCombatDefinitions().getAttackLevel())
 					npc.lowerAttack(0.05f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) >= player.getSkills().getLevelForXp(Constants.ATTACK))
 					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.05));
-			}
 		}
 	},
 	WEAKEN(11, 21, -1, new Animation(711), new SpotAnim(105, 0, 96), 106, new SpotAnim(107, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
@@ -258,24 +253,22 @@ public enum CombatSpell {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) < player.getSkills().getLevelForXp(Constants.STRENGTH)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getStrengthLevel() >= npc.getCombatDefinitions().getStrengthLevel())
 					npc.lowerStrength(0.05f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
 					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.05));
-			}
 		}
 	},
 	CURSE(19, 29, -1, new Animation(711), new SpotAnim(108, 0, 96), 109, new SpotAnim(110, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 2, Rune.EARTH, 3)) {
@@ -286,24 +279,22 @@ public enum CombatSpell {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) < player.getSkills().getLevelForXp(Constants.STRENGTH)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getDefenseLevel() >= npc.getCombatDefinitions().getDefenseLevel())
 					npc.lowerDefense(0.05f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
 					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.05));
-			}
 		}
 	},
 	VULNERABILITY(66, 76, -1, new Animation(711), new SpotAnim(167, 0, 96), 168, new SpotAnim(169, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 5, Rune.EARTH, 5)) {
@@ -314,24 +305,22 @@ public enum CombatSpell {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) < player.getSkills().getLevelForXp(Constants.STRENGTH)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getDefenseLevel() >= npc.getCombatDefinitions().getDefenseLevel())
 					npc.lowerDefense(0.1f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
 					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.1));
-			}
 		}
 	},
 	ENFEEBLE(73, 83, -1, new Animation(711), new SpotAnim(170, 0, 96), 171, new SpotAnim(172, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 8, Rune.EARTH, 8)) {
@@ -342,24 +331,22 @@ public enum CombatSpell {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) < player.getSkills().getLevelForXp(Constants.STRENGTH)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getStrengthLevel() >= npc.getCombatDefinitions().getStrengthLevel())
 					npc.lowerStrength(0.1f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
 					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.1));
-			}
 		}
 	},
 	STUN(80, 90, -1, new Animation(711), new SpotAnim(173, 0, 96), 174, new SpotAnim(245, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 12, Rune.EARTH, 12)) {
@@ -370,24 +357,22 @@ public enum CombatSpell {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) < player.getSkills().getLevelForXp(Constants.ATTACK)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
-			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof NPC npc) {
 				if (npc.getAttackLevel() >= npc.getCombatDefinitions().getAttackLevel())
 					npc.lowerAttack(0.1f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) >= player.getSkills().getLevelForXp(Constants.ATTACK))
 					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.1));
-			}
 		}
 	},
 	BIND(20, 30, 20, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(181, 0, 96), new RuneSet(Rune.NATURE, 2, Rune.WATER, 3, Rune.EARTH, 3)) {
@@ -419,22 +404,21 @@ public enum CombatSpell {
 				p2.sendMessage("You have been teleport blocked!");
 			}
 		}
-		
+
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
-			if (target instanceof Player player) {
-				if (player.hasEffect(Effect.TELEBLOCK)) {
-					caster.sendMessage("That player is already affected by this spell.");
-					return false;
-				}
-			} else {
+			if (!(target instanceof Player player)) {
 				caster.sendMessage("This spell is only effective against other players.");
+				return false;
+			}
+			if (player.hasEffect(Effect.TELEBLOCK)) {
+				caster.sendMessage("That player is already affected by this spell.");
 				return false;
 			}
 			return true;
 		}
 	},
-	
+
 	SMOKE_RUSH(50, 30, 130, new Animation(1978), null, 384, new SpotAnim(385, 0, 96), new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 2, Rune.FIRE, 1, Rune.AIR, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
@@ -469,10 +453,9 @@ public enum CombatSpell {
 			if (target instanceof NPC npc) {
 				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.9f))
 					npc.lowerAttack(0.1f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.9f))
 					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.1));
-			}
 		}
 	},
 	SHADOW_BURST(64, 37, 180, new Animation(1979), null, -1, new SpotAnim(382), new RuneSet(Rune.SOUL, 2, Rune.DEATH, 2, Rune.CHAOS, 4, Rune.AIR, 1)) {
@@ -481,10 +464,9 @@ public enum CombatSpell {
 			if (target instanceof NPC npc) {
 				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.9f))
 					npc.lowerAttack(0.1f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.9f))
 					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.1));
-			}
 		}
 	},
 	SHADOW_BLITZ(76, 43, 240, new Animation(1978), null, 380, new SpotAnim(381), new RuneSet(Rune.SOUL, 2, Rune.BLOOD, 2, Rune.DEATH, 2, Rune.AIR, 2)) {
@@ -493,10 +475,9 @@ public enum CombatSpell {
 			if (target instanceof NPC npc) {
 				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.85f))
 					npc.lowerAttack(0.15f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.85f))
 					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.15));
-			}
 		}
 	},
 	SHADOW_BARRAGE(88, 48, 280, new Animation(1979), null, -1, new SpotAnim(383), new RuneSet(Rune.SOUL, 3, Rune.BLOOD, 2, Rune.DEATH, 4, Rune.AIR, 4)) {
@@ -505,10 +486,9 @@ public enum CombatSpell {
 			if (target instanceof NPC npc) {
 				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.85f))
 					npc.lowerAttack(0.15f);
-			} else if (target instanceof Player player) {
+			} else if (target instanceof Player player)
 				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.85f))
 					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.15));
-			}
 		}
 	},
 	BLOOD_RUSH(56, 33, 150, new Animation(1978), null, 374, new SpotAnim(373), new RuneSet(Rune.BLOOD, 1, Rune.DEATH, 2, Rune.CHAOS, 2)) {
@@ -568,7 +548,7 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p)
@@ -584,7 +564,7 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p)
@@ -600,7 +580,7 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p)
@@ -616,19 +596,19 @@ public enum CombatSpell {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p)
 				p.refreshMiasmicTimer(Ticks.fromSeconds(48));
 		}
 	};
-	
+
 	private static Map<Integer, Map<Integer, CombatSpell>> SPELL_MAP = new HashMap<>();
-	
+
 	static {
 		Map<Integer, CombatSpell> MODERN = new HashMap<>();
-		
+
 		MODERN.put(98, CombatSpell.WIND_RUSH);
 		MODERN.put(25, CombatSpell.WIND_STRIKE);
 		MODERN.put(26, CombatSpell.CONFUSE);
@@ -667,11 +647,11 @@ public enum CombatSpell {
 		MODERN.put(87, CombatSpell.WATER_SURGE);
 		MODERN.put(89, CombatSpell.EARTH_SURGE);
 		MODERN.put(91, CombatSpell.FIRE_SURGE);
-		
+
 		SPELL_MAP.put(192, MODERN);
-		
+
 		Map<Integer, CombatSpell> ANCIENT = new HashMap<>();
-		
+
 		ANCIENT.put(28, CombatSpell.SMOKE_RUSH);
 		ANCIENT.put(32, CombatSpell.SHADOW_RUSH);
 		ANCIENT.put(24, CombatSpell.BLOOD_RUSH);
@@ -692,14 +672,14 @@ public enum CombatSpell {
 		ANCIENT.put(27, CombatSpell.BLOOD_BARRAGE);
 		ANCIENT.put(23, CombatSpell.ICE_BARRAGE);
 		ANCIENT.put(39, CombatSpell.MIASMIC_BARRAGE);
-		
+
 		SPELL_MAP.put(193, ANCIENT);
-		
+
 		Map<Integer, CombatSpell> LUNAR = new HashMap<>();
 		SPELL_MAP.put(430, LUNAR);
-		
+
 		Map<Integer, CombatSpell> DUNG = new HashMap<>();
-		
+
 		DUNG.put(25, CombatSpell.WIND_STRIKE);
 		DUNG.put(26, CombatSpell.CONFUSE);
 		DUNG.put(27, CombatSpell.WATER_STRIKE);
@@ -729,14 +709,14 @@ public enum CombatSpell {
 		DUNG.put(62, CombatSpell.WATER_SURGE);
 		DUNG.put(63, CombatSpell.EARTH_SURGE);
 		DUNG.put(67, CombatSpell.FIRE_SURGE);
-		
+
 		SPELL_MAP.put(950, DUNG);
 	}
-	
+
 	public static CombatSpell forId(int spellBook, int spellId) {
 		return SPELL_MAP.get(spellBook).get(spellId);
 	}
-	
+
 	protected int req;
 	protected double splashXp;
 	protected int baseDamage;
@@ -756,11 +736,11 @@ public enum CombatSpell {
 		this.hitSpotAnim = hitSpotAnim;
 		this.runes = runes;
 	}
-	
+
 	public int getReq() {
 		return req;
 	}
-	
+
 	public double getSplashXp() {
 		return splashXp;
 	}
@@ -768,7 +748,7 @@ public enum CombatSpell {
 	public RuneSet getRuneSet() {
 		return runes;
 	}
-	
+
 	public Animation getCastAnim(Entity caster) {
 		switch(this) {
 		case EARTH_BLAST:
@@ -789,7 +769,7 @@ public enum CombatSpell {
 		}
 		return castAnim;
 	}
-	
+
 	public boolean isFireSpell() {
 		switch(this) {
 		case FIRE_STRIKE:
@@ -803,74 +783,74 @@ public enum CombatSpell {
 		}
 	}
 
-    public boolean isWaterSpell() {
-        switch(this) {
-            case WATER_STRIKE:
-            case WATER_BOLT:
-            case WATER_BLAST:
-            case WATER_WAVE:
-            case WATER_SURGE:
-                return true;
-            default:
-                return false;
-        }
-    }
+	public boolean isWaterSpell() {
+		switch(this) {
+		case WATER_STRIKE:
+		case WATER_BOLT:
+		case WATER_BLAST:
+		case WATER_WAVE:
+		case WATER_SURGE:
+			return true;
+		default:
+			return false;
+		}
+	}
 
-    public boolean isEarthSpell() {
-        switch(this) {
-            case EARTH_STRIKE:
-            case EARTH_BOLT:
-            case EARTH_BLAST:
-            case EARTH_WAVE:
-            case EARTH_SURGE:
-                return true;
-            default:
-                return false;
-        }
-    }
+	public boolean isEarthSpell() {
+		switch(this) {
+		case EARTH_STRIKE:
+		case EARTH_BOLT:
+		case EARTH_BLAST:
+		case EARTH_WAVE:
+		case EARTH_SURGE:
+			return true;
+		default:
+			return false;
+		}
+	}
 
-    public boolean isAirSpell() {
-        switch(this) {
-            case WIND_STRIKE:
-            case WIND_BOLT:
-            case WIND_BLAST:
-            case WIND_WAVE:
-            case WIND_SURGE:
-                return true;
-            default:
-                return false;
-        }
-    }
+	public boolean isAirSpell() {
+		switch(this) {
+		case WIND_STRIKE:
+		case WIND_BOLT:
+		case WIND_BLAST:
+		case WIND_WAVE:
+		case WIND_SURGE:
+			return true;
+		default:
+			return false;
+		}
+	}
 
-    public boolean isFireBlast() {
-        switch(this) {
-            case FIRE_BLAST -> {return true;}
-            default -> { return false; }
-        }
-    }
+	public boolean isFireBlast() {
+		switch(this) {
+		case FIRE_BLAST -> {return true;}
+		default -> { return false; }
+		}
+	}
 
-    public boolean isWaterBlast() {
-        switch(this) {
-            case WATER_BLAST -> {return true;}
-            default -> { return false; }
-        }
-    }
+	public boolean isWaterBlast() {
+		switch(this) {
+		case WATER_BLAST -> {return true;}
+		default -> { return false; }
+		}
+	}
 
-    public boolean isEarthBlast() {
-        switch(this) {
-            case EARTH_BLAST -> {return true;}
-            default -> { return false; }
-        }
-    }
+	public boolean isEarthBlast() {
+		switch(this) {
+		case EARTH_BLAST -> {return true;}
+		default -> { return false; }
+		}
+	}
 
-    public boolean isAirBlast() {
-        switch(this) {
-            case WIND_BLAST -> {return true;}
-            default -> { return false; }
-        }
-    }
+	public boolean isAirBlast() {
+		switch(this) {
+		case WIND_BLAST -> {return true;}
+		default -> { return false; }
+		}
+	}
 
-	
+
 	public SpotAnim getCastSpotAnim(Entity caster) {
 		switch(this) {
 		case WATER_BLAST:
@@ -892,7 +872,7 @@ public enum CombatSpell {
 	public int getBaseDamage(Entity caster) {
 		return baseDamage;
 	}
-	
+
 	public final int cast(Entity caster, Entity target) {
 		Animation castAnim = getCastAnim(caster);
 		SpotAnim castSpotAnim = getCastSpotAnim(caster);
@@ -903,26 +883,25 @@ public enum CombatSpell {
 		onCast(caster, target);
 		return World.sendProjectile(caster, target, projAnim, castSpotAnim != null && castSpotAnim.getHeight() > 50 ? 20 : 0, 50, 1).getTaskDelay();
 	}
-	
+
 	public void onCast(Entity caster, Entity target) {
-		
+
 	}
-	
+
 	public void onHit(Entity caster, Entity target, Hit hit) {
-		
+
 	}
-	
+
 	public int getCombatDelay(Entity caster) {
-		if (caster instanceof Player player) {
+		if (caster instanceof Player player)
 			if (player.getControllerManager().isIn(DungeonController.class) && player.getDungManager().getActivePerk() == KinshipPerk.BLITZER) {
 				int chance = 10 * player.getDungManager().getKinshipTier(KinshipPerk.BLITZER);
 				if (Utils.random(100) < chance)
 					return 3;
 			}
-		}
 		return 4;
 	}
-	
+
 	public boolean isAOE() {
 		switch(this) {
 		case BLOOD_BARRAGE:
@@ -940,11 +919,11 @@ public enum CombatSpell {
 			return false;
 		}
 	}
-	
+
 	public boolean extraReqs(Player player, Entity target) {
 		return true;
 	}
-	
+
 	public final boolean canCast(Player player, Entity target) {
 		if (player.getSkills().getLevel(Constants.MAGIC) < req) {
 			player.sendMessage("You need a magic level of " + req + " to cast this spell.");

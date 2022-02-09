@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.slayer;
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SlayerMasterD extends Conversation {
-	
+
 	public static NPCClickHandler handleMasters = new NPCClickHandler(8480, 8481, 1597, 1598, 7779, 8466, 9085) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -51,10 +51,10 @@ public class SlayerMasterD extends Conversation {
 			}
 		}
 	};
-	
+
 	public SlayerMasterD(Player player, Master master) {
 		super(player);
-		
+
 		addNPC(master.npcId, HeadE.NO_EXPRESSION, "'Ello, and what are you after then?");
 		addOptions("What would you like to say?", new Options() {
 			@Override

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.mining;
@@ -22,10 +22,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class DepletedOres {
-	
+
 	private static Map<Integer, Integer> ORE_MAP = new HashMap<>();
 	private static Set<Integer> DEPLETED_ORES = new HashSet<>();
-	
+
 	static {
 		ORE_MAP.put(25368, 25371);
 		ORE_MAP.put(61181, 61184);
@@ -376,7 +376,7 @@ public class DepletedOres {
 		ORE_MAP.put(4027, 4029);
 		ORE_MAP.put(4028, 4029);
 		ORE_MAP.put(17962, 17965);
-		
+
 		for (int depleted : ORE_MAP.values())
 			DEPLETED_ORES.add(depleted);
 	}
@@ -386,9 +386,9 @@ public class DepletedOres {
 			return ORE_MAP.get(id);
 		return 11555;
 	}
-	
+
 	public static boolean isDepleted(int id) {
 		return DEPLETED_ORES.contains(id);
 	}
-	
+
 }

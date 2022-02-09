@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -60,14 +60,12 @@ public class DungeonNPC extends NPC {
 
 	public NPC getNPC(int id) {
 		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null) {
+		if (npcsIndexes != null)
 			for (int npcIndex : npcsIndexes) {
 				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getId() == id) {
+				if (npc.getId() == id)
 					return npc;
-				}
 			}
-		}
 		return null;
 	}
 
@@ -97,6 +95,7 @@ public class DungeonNPC extends NPC {
 		return getCombatLevel() * (this instanceof DungeonBoss ? 25 : 8) + 1;
 	}
 
+	@Override
 	public int getMaxHit() {
 		return getCombatLevel();
 	}
@@ -112,7 +111,7 @@ public class DungeonNPC extends NPC {
 	@Override
 	public void drop() {
 		int size = getSize();
-		ArrayList<Item> drops = new ArrayList<Item>();
+		ArrayList<Item> drops = new ArrayList<>();
 		if (getId() != 10831 && getId() != 10821) //nature & ghost
 			drops.add(new Item(getBones()));
 		for (int i = 0; i < 1 + Utils.random(10); i++)

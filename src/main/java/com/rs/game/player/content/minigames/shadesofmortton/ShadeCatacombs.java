@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.shadesofmortton;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class ShadeCatacombs {
-	
+
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 31294, 34947 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -38,7 +38,7 @@ public class ShadeCatacombs {
 			e.getPlayer().useStairs(e.getObjectId() == 31294 ? new WorldTile(3493, 9725, 0) : new WorldTile(3484, 3321, 0));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleDoors = new ObjectClickHandler(new Object[] { 4106, 4107, 4108, 4109 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -74,14 +74,14 @@ public class ShadeCatacombs {
 			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleChestClick = new ObjectClickHandler(new Object[] { 4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 59731 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("The chest is locked.");
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleChests = new ItemOnObjectHandler(new Object[] { 4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 59731 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {

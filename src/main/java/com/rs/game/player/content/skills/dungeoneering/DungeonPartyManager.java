@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering;
@@ -38,7 +38,7 @@ public final class DungeonPartyManager {
 	private DungeonManager dungeon;
 
 	public DungeonPartyManager() {
-		team = new CopyOnWriteArrayList<Player>();
+		team = new CopyOnWriteArrayList<>();
 	}
 
 	public void setDefaults() {
@@ -71,14 +71,13 @@ public final class DungeonPartyManager {
 				dungeon.setDestroyTimer();
 			else
 				dungeon.destroy();
-		} else {
+		} else
 			for (Player p2 : team) {
 				p2.sendMessage(player.getDisplayName() + " has left the party.");
 				if (isLeader(player))
-	                setLeader(p2);
+					setLeader(p2);
 				refreshPartyDetails(p2);
-		}
-	}
+			}
 		player.getDungManager().refresh();
 	}
 
@@ -107,14 +106,13 @@ public final class DungeonPartyManager {
 
 	public void setLeader(Player player) {
 		leader = player.getUsername();
-		if (team.size() > 1) {
-		    if (team.get(0).getUsername() != leader) {
-                Player positionZero = team.get(0);
-                team.remove(player);
-                team.set(0, player);
-                team.add(positionZero);
-            }
-		}
+		if (team.size() > 1)
+			if (team.get(0).getUsername() != leader) {
+				Player positionZero = team.get(0);
+				team.remove(player);
+				team.set(0, player);
+				team.add(positionZero);
+			}
 		player.sendMessage("You have been set as the party leader.");
 		player.getDungManager().refresh();
 	}
@@ -132,18 +130,18 @@ public final class DungeonPartyManager {
 		dungeon = new DungeonManager(this);
 	}
 
-    public long getStartingSeed() {
-        return this.seed;
-    }
+	public long getStartingSeed() {
+		return seed;
+	}
 
-    /**
-     * Creates a seed for a dungeon to run off of
-     * @param seed
-     */
-    public void setStartingSeed(long seed) {
-	    this.customSeed = true;
-        this.seed = seed;
-    }
+	/**
+	 * Creates a seed for a dungeon to run off of
+	 * @param seed
+	 */
+	public void setStartingSeed(long seed) {
+		customSeed = true;
+		this.seed = seed;
+	}
 
 	public int getComplexity() {
 		return complexity;
@@ -162,7 +160,7 @@ public final class DungeonPartyManager {
 	public void setDificulty(int dificulty) {
 		if (dificulty > team.size())
 			dificulty = team.size();
-		this.difficulty = dificulty;
+		difficulty = dificulty;
 	}
 
 	public int getFloor() {
@@ -189,9 +187,8 @@ public final class DungeonPartyManager {
 
 	public void setFloor(int floor) {
 		this.floor = floor;
-		for (Player player : team) {
+		for (Player player : team)
 			player.getDungManager().refresh();
-		}
 	}
 
 	public int getFloorType() {
@@ -213,7 +210,6 @@ public final class DungeonPartyManager {
 		int cb = player.getSkills().getCombatLevelWithSummoning();
 		double diff = Math.abs(cb - average);
 		return (diff > 50 ? ((diff - 50) * 0.01) : 0);
-
 	}
 
 	public int getMaxLevelDiference() {
@@ -237,19 +233,17 @@ public final class DungeonPartyManager {
 
 	public int getMaxFloor() {
 		int floor = 60;
-		for (Player player : team) {
+		for (Player player : team)
 			if (player.getDungManager().getMaxFloor() < floor)
 				floor = player.getDungManager().getMaxFloor();
-		}
 		return floor;
 	}
 
 	public int getMaxComplexity() {
 		int complexity = 6;
-		for (Player player : team) {
+		for (Player player : team)
 			if (player.getDungManager().getMaxComplexity() < complexity)
 				complexity = player.getDungManager().getMaxComplexity();
-		}
 		return complexity;
 	}
 

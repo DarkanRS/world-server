@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.creations;
@@ -30,23 +30,23 @@ import com.rs.lib.util.Utils;
  */
 public class GameArea {
 
-	public static int[] NONE = new int[] { -1, -1 };
-	public static int[] BASE = new int[] { 240, 712 };
-	public static int[] EMPTY = new int[] { 241, 715 };
-	public static int[] RESERVED_1 = new int[] { 240, 713 };
-	public static int[] RESERVED_2 = new int[] { 241, 712 };
-	public static int[] RESERVED_3 = new int[] { 241, 713 };
-	public static int[] KILN = new int[] { 240, 714 };
-	public static int[] ALTAR = new int[] { 241, 714 };
-	public static int[] FOG = new int[] { 240, 715 };
-	public static int[] RIFT = new int[] { 240, 716 };
-	public static int[] WALL = new int[] { 241, 716 };
-	public static int[] ROCK = new int[] { 242, 716 };
+	public static int[] NONE = { -1, -1 };
+	public static int[] BASE = { 240, 712 };
+	public static int[] EMPTY = { 241, 715 };
+	public static int[] RESERVED_1 = { 240, 713 };
+	public static int[] RESERVED_2 = { 241, 712 };
+	public static int[] RESERVED_3 = { 241, 713 };
+	public static int[] KILN = { 240, 714 };
+	public static int[] ALTAR = { 241, 714 };
+	public static int[] FOG = { 240, 715 };
+	public static int[] RIFT = { 240, 716 };
+	public static int[] WALL = { 241, 716 };
+	public static int[] ROCK = { 242, 716 };
 
-	public static int[] SKILL_ROCK = new int[] { 247, 715 };
-	public static int[] SKILL_POOL = new int[] { 247, 714 };
-	public static int[] SKILL_SWARM = new int[] { 247, 713 };
-	public static int[] SKILL_TREE = new int[] { 247, 712 };
+	public static int[] SKILL_ROCK = { 247, 715 };
+	public static int[] SKILL_POOL = { 247, 714 };
+	public static int[] SKILL_SWARM = { 247, 713 };
+	public static int[] SKILL_TREE = { 247, 712 };
 
 	/**
 	 * Contains area flags. 0-3 bits - type 4-7 bits - tier (if any) 8-9 bits -
@@ -69,8 +69,8 @@ public class GameArea {
 	 * Calculate's new random area.
 	 */
 	public void calculate() {
-		for (int i = 0; i < flags.length; i++)
-			Arrays.fill(flags[i], 2); // fill with empty area
+		for (int[] flag : flags)
+			Arrays.fill(flag, 2); // fill with empty area
 
 		set(0, 0, 1, 0, 0); // blue base
 		set(0, 1, 0, 0, 0); // reserved space for blue base
@@ -90,12 +90,11 @@ public class GameArea {
 		// red team
 
 		int total = flags.length * flags.length;
-		int skillPlots = (int) ((float) total * 0.3F);
-		int obstacles = (int) ((float) total * 0.2F);
+		int skillPlots = (int) (total * 0.3F);
+		int obstacles = (int) (total * 0.2F);
 
-		while (skillPlots-- > 0) {
+		while (skillPlots-- > 0)
 			setRandom(100, 0, 0, flags.length, flags.length, Utils.random(4) + 9, skillPlots == 0 ? 5 : Utils.random(5), Utils.random(4), 60);
-		}
 
 		while (obstacles-- > 0) {
 			int type = Utils.random(5) + 3;
@@ -108,13 +107,11 @@ public class GameArea {
 		int kilnsBlue = Utils.random(2) + 1;
 		int kilnsRed = Utils.random(2) + 1;
 
-		while (kilnsBlue-- > 0) {
+		while (kilnsBlue-- > 0)
 			setRandom(100, 0, 0, flags.length / 2, flags.length / 2, 8, 0, Utils.random(4));
-		}
 
-		while (kilnsRed-- > 0) {
+		while (kilnsRed-- > 0)
 			setRandom(100, flags.length / 2, flags.length / 2, flags.length, flags.length, 8, 0, Utils.random(4));
-		}
 	}
 
 	/**
@@ -125,7 +122,7 @@ public class GameArea {
 			throw new RuntimeException("Area already created.");
 		region = new DynamicRegionReference(flags.length, flags.length);
 		region.requestChunkBound(() -> {
-			for (int x = 0; x < flags.length; x++) {
+			for (int x = 0; x < flags.length; x++)
 				for (int y = 0; y < flags.length; y++) {
 					int type = getType(x, y);
 					int rot = getRotation(x, y);
@@ -192,8 +189,7 @@ public class GameArea {
 						copy = EMPTY;
 					region.copyChunk(x, y, 0, copy[0], copy[1], 0, rot, null);
 				}
-			}
-			
+
 			World.executeAfterLoadRegion(region.getRegionId(), () -> {
 				World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P1[0], getMinY() + Helper.BLUE_DOOR_P1[1], 0));
 				World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P2[0], getMinY() + Helper.BLUE_DOOR_P2[1], 0));
@@ -240,15 +236,13 @@ public class GameArea {
 				return true;
 			}
 		}
-		for (int x = minX; x < maxX; x++) {
-			for (int y = minY; y < maxY; y++) {
+		for (int x = minX; x < maxX; x++)
+			for (int y = minY; y < maxY; y++)
 				if (getType(x, y) == 2) {
 					set(x, y, type, tier, rotation);
 					setDegradation(x, y, degradation);
 					return true;
 				}
-			}
-		}
 		return false;
 	}
 

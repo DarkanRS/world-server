@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -35,8 +35,8 @@ public class DungeonBoss extends DungeonNPC {
 
 	public DungeonBoss(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager);
-		this.setReference(reference);
-		this.resetBonuses();
+		setReference(reference);
+		resetBonuses();
 		setForceAgressive(true);
 		setIntelligentRouteFinder(true);
 		setLureDelay(3000);
@@ -47,11 +47,11 @@ public class DungeonBoss extends DungeonNPC {
 		super.sendDeath(source);
 		getManager().openStairs(getReference());
 	}
-	
+
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		this.resetBonuses();
+		resetBonuses();
 	}
 
 	@Override
@@ -70,13 +70,12 @@ public class DungeonBoss extends DungeonNPC {
 		if (players.size() == 0)
 			return;
 		Player killer = players.get(Utils.random(players.size()));
-		if (drop != null) {
+		if (drop != null)
 			for (Item item : drop.toItemArr())
 				sendDrop(killer, item);
-		}
 	}
 
-	
+
 	@Override
 	public void sendDrop(Player player, Item item) {
 		List<Player> players = getManager().getParty().getTeam();

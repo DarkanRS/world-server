@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.utils;
@@ -31,12 +31,12 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 
 @PluginEventHandler
 public class Areas {
-	
+
 	private final static String PATH = "data/areas/";
 	final static Charset ENCODING = StandardCharsets.UTF_8;
-	
+
 	private static HashMap<String, Set<Integer>> AREAS = new HashMap<>();
-	
+
 	@SuppressWarnings("unchecked")
 	@ServerStartupEvent
 	public static final void init() throws JsonIOException, IOException {
@@ -48,7 +48,7 @@ public class Areas {
 		}
 		Logger.log("Areas", "Loaded " + AREAS.size() + " areas...");
 	}
-	
+
 	@SuppressWarnings("unlikely-arg-type")
 	public static boolean withinArea(String name, double chunkId) {
 		Set<Integer> area = AREAS.get(name);
@@ -56,21 +56,21 @@ public class Areas {
 			return AREAS.get(name).contains(chunkId);
 		return false;
 	}
-	
-//	public static void main(String[] args) throws JsonIOException, IOException {
-//		init();
-//		Set<Double> multi = (Set<Double>) JsonFileManager.loadJsonFile(new File("./data/areas/multi.json"), Set.class);
-//		Iterator<Double> i = multi.iterator();
-//		List<Double> toRemove = new ArrayList<>();
-//		while(i.hasNext()) {
-//			Double d = i.next();
-//			if (MapUtils.chunkToRegionId(d.intValue()) == 14231) {
-//				toRemove.add(d);
-//			}
-//		}
-//		for (Double d : toRemove)
-//			multi.remove(d);
-//		JsonFileManager.saveJsonFile(multi, new File("./dumps/multi.json"));
-//	}
+
+	//	public static void main(String[] args) throws JsonIOException, IOException {
+	//		init();
+	//		Set<Double> multi = (Set<Double>) JsonFileManager.loadJsonFile(new File("./data/areas/multi.json"), Set.class);
+	//		Iterator<Double> i = multi.iterator();
+	//		List<Double> toRemove = new ArrayList<>();
+	//		while(i.hasNext()) {
+	//			Double d = i.next();
+	//			if (MapUtils.chunkToRegionId(d.intValue()) == 14231) {
+	//				toRemove.add(d);
+	//			}
+	//		}
+	//		for (Double d : toRemove)
+	//			multi.remove(d);
+	//		JsonFileManager.saveJsonFile(multi, new File("./dumps/multi.json"));
+	//	}
 
 }

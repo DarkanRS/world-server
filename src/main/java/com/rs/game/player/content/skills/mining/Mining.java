@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.mining;
@@ -58,12 +58,12 @@ public class Mining extends Action {
 		}
 	};
 
-    public static ObjectClickHandler handleBlurite = new ObjectClickHandler(new Object[] { "Blurite ore rocks" }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            e.getPlayer().getActionManager().setAction(new Mining(RockType.BLURITE, e.getObject()));
-        }
-    };
+	public static ObjectClickHandler handleBlurite = new ObjectClickHandler(new Object[] { "Blurite ore rocks" }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().getActionManager().setAction(new Mining(RockType.BLURITE, e.getObject()));
+		}
+	};
 
 	public static ObjectClickHandler handleLimestone = new ObjectClickHandler(new Object[] { "Limestone rocks" }) {
 		@Override
@@ -89,10 +89,10 @@ public class Mining extends Action {
 	public static ObjectClickHandler handleGold = new ObjectClickHandler(new Object[] { "Gold ore rocks", "Gold ore vein" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-            if(e.getObject().getRegionId() == 10903)//witchhaven mine
-                e.getPlayer().getActionManager().setAction(new Mining(RockType.PERFECT_GOLD, e.getObject()));
-            else
-			    e.getPlayer().getActionManager().setAction(new Mining(RockType.GOLD, e.getObject()));
+			if(e.getObject().getRegionId() == 10903)//witchhaven mine
+				e.getPlayer().getActionManager().setAction(new Mining(RockType.PERFECT_GOLD, e.getObject()));
+			else
+				e.getPlayer().getActionManager().setAction(new Mining(RockType.GOLD, e.getObject()));
 		}
 	};
 
@@ -172,7 +172,7 @@ public class Mining extends Action {
 			e.getPlayer().getActionManager().setAction(new Mining(RockType.LIVING_MINERALS, e.getNPC(), () -> e.getNPC().getId() - 5));
 		}
 	};
-	
+
 	public static ObjectClickHandler handleRedSandstone = new ObjectClickHandler(new Object[] { 2330 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -198,12 +198,12 @@ public class Mining extends Action {
 
 	public Mining(RockType type, GameObject rock) {
 		this.type = type;
-		this.rockObj = rock;
+		rockObj = rock;
 	}
 
 	public Mining(RockType type, NPC rock, Supplier<Integer> replaceId) {
 		this.type = type;
-		this.rockNPC = rock;
+		rockNPC = rock;
 		this.replaceId = replaceId;
 	}
 
@@ -231,7 +231,7 @@ public class Mining extends Action {
 			level += getSpecialFamiliarBonus(player.getFamiliar().getId());
 		if (type.getOres().size() == 1 && !type.getOres().get(0).checkRequirements(player))
 			return -1;
-		for (Ore ore : type.getOres()) {
+		for (Ore ore : type.getOres())
 			if (ore.checkRequirements(player) && ore.rollSuccess(player, level)) {
 				ore.giveOre(player);
 				success = true;
@@ -239,14 +239,13 @@ public class Mining extends Action {
 					rollForGem(player);
 				break;
 			}
-		}
 		if (success && depleteOre(player)) {
 			player.setNextAnimation(new Animation(-1));
 			return -1;
 		}
 		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
 	}
-	
+
 	public boolean depleteOre(Player player) {
 		if (type.depletes()) {
 			if (rockObj != null)
@@ -299,7 +298,7 @@ public class Mining extends Action {
 	public static int getSpecialFamiliarBonus(int id) {
 		if (id == 7342 || id == 7341)
 			return 10;
-		else if (id == 6832 || id == 6831)
+		if (id == 6832 || id == 6831)
 			return 1;
 		return 0;
 	}
@@ -326,9 +325,8 @@ public class Mining extends Action {
 		// >= 1706 && <= 1712 //charged glory
 		int ring = player.getEquipment().getRingId();
 		int neck = player.getEquipment().getAmuletId();
-		if ((ring >= 20653 && ring <= 20659) || (neck >= 10354 && neck <= 10360) || (neck >= 1706 && neck <= 1712)) {
+		if ((ring >= 20653 && ring <= 20659) || (neck >= 10354 && neck <= 10360) || (neck >= 1706 && neck <= 1712))
 			random = Utils.random(86);
-		}
 		if (random == 0) {
 			random = Utils.random(10);
 			if (random >= 9)

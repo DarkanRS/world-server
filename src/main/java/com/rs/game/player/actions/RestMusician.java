@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.actions;
@@ -25,47 +25,47 @@ import com.rs.lib.util.Utils;
 public class RestMusician extends Action {
 
 	private static int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
-																											// First
-																											// emote
+	// First
+	// emote
 
 	};
 
-    private Map<Integer, Integer> musicListing = Map.ofEntries(
-            Map.entry(5439, 661),//lute
-            Map.entry(8705, 661),//lute
-            Map.entry(8698, 657),//violin
-            Map.entry(29, 661),//lute
-            Map.entry(8709, 660),//double flute
-            Map.entry(8715, 664),//drunk
-            Map.entry(8723, 659),//elven
-            Map.entry(8712, 665),//drum
-            Map.entry(8702, 661),//lute
-            Map.entry(8706, 657),//violin
-            Map.entry(8716, 662),//lyre
-            Map.entry(8703, 661), //lute
-            Map.entry(8704, 657),//violin
-            Map.entry(8717, 662),//lyre
-            Map.entry(8718, 662),//lyre
-            Map.entry(5442, 661),//lute
-            Map.entry(30, 661),//lute
-            Map.entry(8699, 657),//violin
-            Map.entry(3463, 661),//lute
-            Map.entry(8708, 660),//double flute
-            Map.entry(8707, 660),//double flute
-            Map.entry(8701, 657),//violin
-            Map.entry(8700, 657),//violin
-            Map.entry(8713, 656)//ghost
-    );
+	private Map<Integer, Integer> musicListing = Map.ofEntries(
+			Map.entry(5439, 661),//lute
+			Map.entry(8705, 661),//lute
+			Map.entry(8698, 657),//violin
+			Map.entry(29, 661),//lute
+			Map.entry(8709, 660),//double flute
+			Map.entry(8715, 664),//drunk
+			Map.entry(8723, 659),//elven
+			Map.entry(8712, 665),//drum
+			Map.entry(8702, 661),//lute
+			Map.entry(8706, 657),//violin
+			Map.entry(8716, 662),//lyre
+			Map.entry(8703, 661), //lute
+			Map.entry(8704, 657),//violin
+			Map.entry(8717, 662),//lyre
+			Map.entry(8718, 662),//lyre
+			Map.entry(5442, 661),//lute
+			Map.entry(30, 661),//lute
+			Map.entry(8699, 657),//violin
+			Map.entry(3463, 661),//lute
+			Map.entry(8708, 660),//double flute
+			Map.entry(8707, 660),//double flute
+			Map.entry(8701, 657),//violin
+			Map.entry(8700, 657),//violin
+			Map.entry(8713, 656)//ghost
+			);
 
-    private int musicId;
+	private int musicId;
 	private int index;
 
-    public RestMusician(int musicianId) {
-        if(musicListing.containsKey(musicianId))
-            musicId = musicListing.get(musicianId);
-        else
-            musicId = -1;
-    }
+	public RestMusician(int musicianId) {
+		if(musicListing.containsKey(musicianId))
+			musicId = musicListing.get(musicianId);
+		else
+			musicId = -1;
+	}
 
 	@Override
 	public boolean start(Player player) {
@@ -80,8 +80,8 @@ public class RestMusician extends Action {
 
 	@Override
 	public boolean process(Player player) {
-        if(musicId != -1 && !player.getMusicsManager().isPlaying(musicId))
-            player.getPackets().sendMusic(musicId);
+		if(musicId != -1 && !player.getMusicsManager().isPlaying(musicId))
+			player.getPackets().sendMusic(musicId);
 		if (player.getPoison().isPoisoned()) {
 			player.sendMessage("You can't rest while you're poisoned.");
 			return false;
@@ -104,8 +104,8 @@ public class RestMusician extends Action {
 		player.setNextAnimation(new Animation(REST_DEFS[index][2]));
 		player.getEmotesManager().setNextEmoteEnd();
 		player.getAppearance().setBAS(-1);
-        if(musicId != -1)
-            player.getMusicsManager().replayMusic();
+		if(musicId != -1)
+			player.getMusicsManager().nextAmbientSong();
 	}
 
 }

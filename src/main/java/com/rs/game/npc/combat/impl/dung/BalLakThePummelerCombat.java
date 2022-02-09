@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -27,7 +27,7 @@ import com.rs.game.npc.dungeoneering.BalLakThePummeler;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -39,7 +39,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 	@Override
 	public Object[] getKeys() {
 		return new Object[]
-		{ "Bal'lak the Pummeller" };
+				{ "Bal'lak the Pummeller" };
 	}
 
 	@Override
@@ -50,18 +50,17 @@ public class BalLakThePummelerCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 
 		boolean smash = Utils.random(5) == 0 && boss.getPoisionPuddles().size() == 0;
-		for (Player player : manager.getParty().getTeam()) {
+		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
 				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, player)));
 			}
-		}
 		if (smash) {
 			npc.setNextAnimation(new Animation(14384));
 			npc.setNextForceTalk(new ForceTalk("Rrrraargh!"));
 			//npc.playSoundEffect(3038);
 			final WorldTile center = manager.getRoomCenterTile(boss.getReference());
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -79,12 +78,11 @@ public class BalLakThePummelerCombat extends CombatScript {
 					continue;
 				int damage = getMaxHit(npc, AttackStyle.MELEE, t);
 				int damage2 = getMaxHit(npc, AttackStyle.MELEE, t);
-				if (t instanceof Player player) {
+				if (t instanceof Player player)
 					if ((damage > 0 || damage2 > 0)) {
 						player.setProtectionPrayBlock(2);
 						player.sendMessage("You are injured and currently cannot use protection prayers.");
 					}
-				}
 				delayHit(npc, 0, t, getRegularHit(npc, damage));
 				delayHit(npc, 0, t, getRegularHit(npc, damage2));
 			}
@@ -99,7 +97,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			boss.setNextAnimation(new Animation(firstHand ? defs.getAttackEmote() : defs.getAttackEmote() + 1));
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
 			delayHit(npc, 2, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

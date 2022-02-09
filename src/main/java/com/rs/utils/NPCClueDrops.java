@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.utils;
@@ -29,12 +29,12 @@ import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
 public class NPCClueDrops {
-	
+
 	private static Map<String, ClueDrop> EASY = new HashMap<>();
 	private static Map<String, ClueDrop> MEDIUM = new HashMap<>();
 	private static Map<String, ClueDrop> HARD = new HashMap<>();
 	private static Map<String, ClueDrop> ELITE = new HashMap<>();
-	
+
 	static {
 		EASY.put("banshee", new ClueDrop(128));
 		EASY.put("barbarian", new ClueDrop(128));
@@ -66,7 +66,7 @@ public class NPCClueDrops {
 		EASY.put("minotaur", new ClueDrop(101));
 		EASY.put("skeleton", new ClueDrop(128, 21, 22, 25));
 		EASY.put("woman", new ClueDrop(128));
-		
+
 		MEDIUM.put("abyssal guardian", new ClueDrop(256));
 		MEDIUM.put("abyssal leech", new ClueDrop(256));
 		MEDIUM.put("abyssal walker", new ClueDrop(256));
@@ -104,7 +104,7 @@ public class NPCClueDrops {
 		MEDIUM.put("wallasalki", new ClueDrop(128));
 		MEDIUM.put("werewolf", new ClueDrop(512));
 		MEDIUM.put("mummy", new ClueDrop(513));
-		
+
 		HARD.put("aberrant spectre", new ClueDrop(128));
 		HARD.put("abyssal demon", new ClueDrop(128));
 		HARD.put("ankou", new ClueDrop(512));
@@ -192,28 +192,24 @@ public class NPCClueDrops {
 		ELITE.put("ganodermic beast", new ClueDrop(1200));
 		ELITE.put("mithril dragon", new ClueDrop(350));
 	}
-	
+
 	public static DropSet rollClues(int npcId) {
 		List<DropTable> tables = new ArrayList<>();
 		NPCDefinitions defs = NPCDefinitions.getDefs(npcId);
 		String name = defs.getName().toLowerCase();
 		ClueDrop drop;
 		drop = EASY.get(name);
-		if (drop != null && drop.validCombatLevel(defs.combatLevel)) {
+		if (drop != null && drop.validCombatLevel(defs.combatLevel))
 			tables.add(new DropTable(1.0, drop.getWeight(), new Drop(TreasureTrailsManager.SCROLL_BOXES[0])));
-		}
 		drop = MEDIUM.get(name);
-		if (drop != null && drop.validCombatLevel(defs.combatLevel)) {
+		if (drop != null && drop.validCombatLevel(defs.combatLevel))
 			tables.add(new DropTable(1.0, drop.getWeight(), new Drop(TreasureTrailsManager.SCROLL_BOXES[1])));
-		}
 		drop = HARD.get(name);
-		if (drop != null && drop.validCombatLevel(defs.combatLevel)) {
+		if (drop != null && drop.validCombatLevel(defs.combatLevel))
 			tables.add(new DropTable(1.0, drop.getWeight(), new Drop(TreasureTrailsManager.SCROLL_BOXES[2])));
-		}
 		drop = ELITE.get(name);
-		if (drop != null && drop.validCombatLevel(defs.combatLevel)) {
+		if (drop != null && drop.validCombatLevel(defs.combatLevel))
 			tables.add(new DropTable(1.0, drop.getWeight(), new Drop(TreasureTrailsManager.SCROLL_BOXES[3])));
-		}
 		return new DropSet(tables);
 	}
 }

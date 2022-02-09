@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools;
@@ -19,7 +19,6 @@ package com.rs.tools;
 import java.io.File;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,26 +31,26 @@ import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
 public class NPCDropDumper {
-	
-//	private static Set<String> DUMPED = new HashSet<>();
-	
+
+	//	private static Set<String> DUMPED = new HashSet<>();
+
 	public static void main(String[] args) {
 		//Cache.init();
 		dumpNPC("Chaos druid");
-//			for (int npcId = 0;npcId < Utils.getNPCDefinitionsSize();npcId++) {
-//				NPCDefinitions defs = NPCDefinitions.getDefs(npcId);
-//				if (!DUMPED.contains(defs.getName()) && defs.hasAttackOption()) {
-//					DUMPED.add(defs.getName());
-//					if (dumpNPC(defs.getName().replace(" ", " ")))
-//						System.out.println("Successfully dumped " + defs.getName());
-////					else
-////						System.out.println("Failed to dump " + defs.getName());
-//				}
-//			}
+		//			for (int npcId = 0;npcId < Utils.getNPCDefinitionsSize();npcId++) {
+		//				NPCDefinitions defs = NPCDefinitions.getDefs(npcId);
+		//				if (!DUMPED.contains(defs.getName()) && defs.hasAttackOption()) {
+		//					DUMPED.add(defs.getName());
+		//					if (dumpNPC(defs.getName().replace(" ", " ")))
+		//						System.out.println("Successfully dumped " + defs.getName());
+		////					else
+		////						System.out.println("Failed to dump " + defs.getName());
+		//				}
+		//			}
 	}
-	
+
 	private static Map<String, Integer> CUSTOM_NAME_MAP = new HashMap<>();
-	
+
 	static {
 		CUSTOM_NAME_MAP.put("Coins", 995);
 		CUSTOM_NAME_MAP.put("Tinderbox", 590);
@@ -69,11 +68,11 @@ public class NPCDropDumper {
 		CUSTOM_NAME_MAP.put("Mystic boots (light)", 4117);
 		CUSTOM_NAME_MAP.put("Adamantite bar", 2361);
 		CUSTOM_NAME_MAP.put("Runite bar", 2363);
-		
+
 		CUSTOM_NAME_MAP.put("Grimy ranarr weed", 207);
 		CUSTOM_NAME_MAP.put("Seers ring", 6731);
 		CUSTOM_NAME_MAP.put("Archers ring", 6733);
-		
+
 		CUSTOM_NAME_MAP.put("Black cape", 1019);
 		CUSTOM_NAME_MAP.put("Black robe", 581);
 		CUSTOM_NAME_MAP.put("Zamorak monk bottom", 1033);
@@ -87,7 +86,7 @@ public class NPCDropDumper {
 		CUSTOM_NAME_MAP.put("Emerald amulet (u)", 1677);
 		CUSTOM_NAME_MAP.put("Ruby amulet (u)", 1679);
 		CUSTOM_NAME_MAP.put("Diamond amulet (u)", 1681);
-		
+
 		CUSTOM_NAME_MAP.put("Gold amulet", 1692);
 		CUSTOM_NAME_MAP.put("Sapphire amulet", 1694);
 		CUSTOM_NAME_MAP.put("Emerald amulet", 1696);
@@ -112,7 +111,7 @@ public class NPCDropDumper {
 		CUSTOM_NAME_MAP.put("", 00000);
 		CUSTOM_NAME_MAP.put("", 00000);
 		CUSTOM_NAME_MAP.put("", 00000);
-		
+
 		CUSTOM_NAME_MAP.put("Dragon pickaxe", -2);
 		CUSTOM_NAME_MAP.put("Dragon arrowtips", -2);
 		CUSTOM_NAME_MAP.put("Dragon javelin heads", -2);
@@ -149,15 +148,14 @@ public class NPCDropDumper {
 			boolean accurate = false;
 			String lastDesc = "";
 			String subName = "";
-			for (String line : page.getLines()) {
+			for (String line : page.getLines())
 				if (line.contains("DropLogProject"))
 					accurate = true;
-			}
 			if (!accurate)
 				return false;
 			boolean skipping = false;
 			int tableNum = 1;
-			ArrayList<DropTable> drops = new ArrayList<DropTable>();
+			ArrayList<DropTable> drops = new ArrayList<>();
 			for (String line : page.getLines()) {
 				line = line.replace("{", "").replace("}", "");
 				if (line.contains("=="))
@@ -202,14 +200,14 @@ public class NPCDropDumper {
 						drops.add(new DropTable(num, den, "rdt_gem"));
 					else
 						System.out.println("Failed parsing drop: " + name + ", " + itemId + ", " + min + ", " + max + ", " + num + "/" + den);
-				} else if (line.equals("GWDRDT") || line.contains("VariableAllotmentSeedDropTable|") || line.contains("FixedAllotmentSeedDropTable|") || line.contains("HerbDropTable|") || line.contains("GemDropTable|") || line.contains("ManySeedDropTable|") || line.contains("RareSeedDropTable|")) {
+				} else if (line.equals("GWDRDT") || line.contains("VariableAllotmentSeedDropTable|") || line.contains("FixedAllotmentSeedDropTable|") || line.contains("HerbDropTable|") || line.contains("GemDropTable|") || line.contains("ManySeedDropTable|") || line.contains("RareSeedDropTable|"))
 					addDropTable(line, drops);
-				} else if (line.contains("Ensouled") || line.contains("Curved bone") || line.contains("Long bone") || line.contains("Rag and Bone") || line.contains("Clue scroll") || line.contains("Only dropped") || line.contains("f2p=yes") || line.contains("name=\"f2")) {
+				else if (line.contains("Ensouled") || line.contains("Curved bone") || line.contains("Long bone") || line.contains("Rag and Bone") || line.contains("Clue scroll") || line.contains("Only dropped") || line.contains("f2p=yes") || line.contains("name=\"f2"))
 					continue;
-				} else if (line.contains("DropsLine|") && (line.contains("/") || line.toLowerCase().contains("always"))) {
+				else if (line.contains("DropsLine|") && (line.contains("/") || line.toLowerCase().contains("always"))) {
 					String[] memes = line.split("\\|");
-					for (int k = 0;k < memes.length;k++) {
-						String[] key = memes[k].split("=");
+					for (String meme : memes) {
+						String[] key = meme.split("=");
 						if (key[0].equals("Name")) {
 							name = key[1].replace("(", " (").replace("  (", " (");
 							name = name.replace(" axe", " hatchet");
@@ -220,15 +218,13 @@ public class NPCDropDumper {
 							name = name.replace("crossbow (u)", "c'bow (u)");
 							if (name.contains("mix ("))
 								name = name.replace("str.", "strength").replace("Superattack", "Super attack").replace("def.", "defence");
-							for (int i = 0;i < Utils.getItemDefinitionsSize();i++) {
+							for (int i = 0;i < Utils.getItemDefinitionsSize();i++)
 								if (ItemDefinitions.getDefs(i).getName().equalsIgnoreCase(name)) {
 									itemId = i;
 									break;
 								}
-							}
-							if (CUSTOM_NAME_MAP.get(name) != null) {
+							if (CUSTOM_NAME_MAP.get(name) != null)
 								itemId = CUSTOM_NAME_MAP.get(name);
-							}
 						} else if (key[0].equals("Quantity")) {
 							if (key[1].toLowerCase().contains("(noted)")) {
 								key[1] = key[1].toLowerCase().replace(" (noted)", "").replace("(noted)", "");
@@ -258,46 +254,43 @@ public class NPCDropDumper {
 								den = Double.valueOf(frac[1].trim());
 							}
 						} else if (key[0].equals("AltRarity")) {
-								if (key[1].toLowerCase().contains("always")) {
-									num = 0;
-									den = 0;
-								}
-								if (key[1].toLowerCase().contains("/")) {
-									String[] frac = key[1].replace("~", "").replace(" ", "").split("/");
-									num = Double.valueOf(frac[0].trim());
-									den = Double.valueOf(frac[1].trim());
-								}
+							if (key[1].toLowerCase().contains("always")) {
+								num = 0;
+								den = 0;
 							}
+							if (key[1].toLowerCase().contains("/")) {
+								String[] frac = key[1].replace("~", "").replace(" ", "").split("/");
+								num = Double.valueOf(frac[0].trim());
+								den = Double.valueOf(frac[1].trim());
+							}
+						}
 					}
-					if (itemId >= 0 && min != -1 && max != -1 && num != -1 && den != -1) {
+					if (itemId >= 0 && min != -1 && max != -1 && num != -1 && den != -1)
 						drops.add(new DropTable(num, den, itemId, min, max));
-					} else {
-						if (itemId == -1) {
+					else {
+						if (itemId == -1)
 							System.out.println(pageName + " Error -> Unknown item: " + name);
-						}
-						if (min == -1 || max == -1) {
+						if (min == -1 || max == -1)
 							System.out.println(pageName + " Error -> Failed to parse min/max of "+name+": " + min + ", " + max);
-						}
-						if (num == -1 || den == -1) {
+						if (num == -1 || den == -1)
 							System.out.println(pageName + " Error -> Failed to parse rate of "+name+": " + num + ", " + den);
-						}
 					}
 				}
 			}
 			finalizeDrops(pageName, subName.isEmpty() ? pageName : (pageName + "_" + subName), drops);
 			return true;
-		} catch (Exception e) { 
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
+
 	private static void addDropTable(String line, List<DropTable> drops) {
 		try {
 			String[] memes = line.split("\\|");
 			double num = -1, den = -1;
 			String tableName = "";
-			
+
 			if (line.contains("ManySeedDropTable|"))
 				tableName = "common_seeds";
 			else if (line.contains("FixedAllotmentSeedDropTable|"))
@@ -315,7 +308,7 @@ public class NPCDropDumper {
 				drops.add(new DropTable(2, 127, "rdt_gem_gwd"));
 				return;
 			}
-			
+
 			if (memes[1].toLowerCase().contains("/")) {
 				String[] frac = memes[1].replace("~", "").replace(" ", "").split("/");
 				num = Double.valueOf(frac[0].trim());
@@ -332,13 +325,8 @@ public class NPCDropDumper {
 
 	public static void finalizeDrops(String pageName, String name, List<DropTable> drops) {
 		System.out.println("Finalizing drop: " + name + " " + drops.size());
-		drops.sort(new Comparator<DropTable>() {
-			@Override
-			public int compare(DropTable o1, DropTable o2) {
-				return Double.compare(o2.getRate() == 0.0 ? 100.0 : o2.getRate(), o1.getRate() == 0.0 ? 100.0 : o1.getRate());
-			}
-		});
-		
+		drops.sort((o1, o2) -> Double.compare(o2.getRate() == 0.0 ? 100.0 : o2.getRate(), o1.getRate() == 0.0 ? 100.0 : o1.getRate()));
+
 		try {
 			DropTable[] dropArr = new DropTable[drops.size()];
 			for (int i = 0;i < drops.size();i++)

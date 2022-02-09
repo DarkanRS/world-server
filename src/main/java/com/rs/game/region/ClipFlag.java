@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.region;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * BW = Actually blocks a tile when step is processed
  * BP = Blocks projectiles
- * PF = Pathfinder only takes these flags into consideration when generating a path 
+ * PF = Pathfinder only takes these flags into consideration when generating a path
  * PFBW = Blocks tiles for both walk steps and the pathfinder
  * @author trent
  */
@@ -47,7 +47,7 @@ public enum ClipFlag {
 	BP_SW(0x8000), 				// 32768
 	BP_W(0x10000), 				// 65536
 	BP_FULL(0x20000), 			// 131072
-	
+
 	PFBW_GROUND_DECO(0x40000), 	// 262144
 	PFBW_FLOOR(0x200000), 		// 2097152
 
@@ -69,10 +69,9 @@ public enum ClipFlag {
 
 	public static ArrayList<ClipFlag> getFlags(int value) {
 		ArrayList<ClipFlag> flags = new ArrayList<>();
-		for (ClipFlag f : ClipFlag.values()) {
+		for (ClipFlag f : ClipFlag.values())
 			if ((value & f.flag) != 0 && f != ClipFlag.EMPTY)
 				flags.add(f);
-		}
 		return flags;
 	}
 
@@ -82,14 +81,14 @@ public enum ClipFlag {
 			flag |= f.flag;
 		return (value & flag) != 0;
 	}
-	
+
 	public static int or(ClipFlag... flags) {
 		int flag = 0;
 		for (ClipFlag f : flags)
 			flag |= f.flag;
 		return flag;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(getFlags(0x80000));
 	}

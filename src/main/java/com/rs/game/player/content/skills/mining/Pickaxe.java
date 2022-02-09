@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.mining;
@@ -36,17 +36,17 @@ public enum Pickaxe {
 	DRAGON(15259, 61, 12189, 3),
 	DRAGON_G(20786, 61, 250, 3),
 	INFERNO_ADZE(13661, 61, 10222, 3);
-	
+
 	private int itemId, level, ticks;
 	private Animation animation;
-	
+
 	private Pickaxe(int itemId, int level, int animId, int ticks) {
 		this.itemId = itemId;
 		this.level = level;
-		this.animation = new Animation(animId);
+		animation = new Animation(animId);
 		this.ticks = ticks;
 	}
-	
+
 	public int getItemId() {
 		return itemId;
 	}
@@ -62,14 +62,13 @@ public enum Pickaxe {
 	public Animation getAnimation() {
 		return animation;
 	}
-	
+
 	public static Pickaxe getBest(Player player) {
 		for (int i = Pickaxe.values().length-1; i >= 0; i--) {
 			Pickaxe def = Pickaxe.values()[i];
-			if (player.getInventory().containsItem(def.itemId) || player.getEquipment().getWeaponId() == def.itemId) {
+			if (player.getInventory().containsItem(def.itemId) || player.getEquipment().getWeaponId() == def.itemId)
 				if (player.getSkills().getLevel(Constants.MINING) >= def.level)
 					return def;
-			}
 		}
 		return null;
 	}

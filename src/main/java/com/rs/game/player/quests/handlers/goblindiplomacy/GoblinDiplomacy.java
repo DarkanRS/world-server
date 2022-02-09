@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.goblindiplomacy;
@@ -58,7 +58,7 @@ public class GoblinDiplomacy extends QuestOutline {
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:
 			lines.add("I can start this quest by speaking to General Bentnoze or");
@@ -146,7 +146,7 @@ public class GoblinDiplomacy extends QuestOutline {
 				addNPC(BENTNOZE, HeadE.FRUSTRATED, "No no red every time");
 				addNPC(WARTFACE, HeadE.FRUSTRATED, "Go away human,we busy");
 				addNPC(WARTFACE, HeadE.FRUSTRATED, "Oh it you");
-				if (player.getInventory().containsItems(new Item[] { new Item(286, 1) })) {
+				if (player.getInventory().containsItems(new Item(286, 1))) {
 					addPlayer(HeadE.CALM_TALK, "I have some orange armor");
 					addSimple("You give the armor to the goblins");
 					addNPC(WARTFACE, HeadE.FRUSTRATED, "No I don't like that much");
@@ -166,7 +166,7 @@ public class GoblinDiplomacy extends QuestOutline {
 				addNPC(BENTNOZE, HeadE.FRUSTRATED, "No no red every time");
 				addNPC(WARTFACE, HeadE.FRUSTRATED, "Go away human,we busy");
 				addNPC(WARTFACE, HeadE.FRUSTRATED, "Oh it you");
-				if (player.getInventory().containsItems(new Item[] { new Item(287, 1) })) {
+				if (player.getInventory().containsItems(new Item(287, 1))) {
 					addPlayer(HeadE.CALM_TALK, "I have some blue armor");
 					addSimple("You give the armor to the goblins");
 					addNPC(WARTFACE, HeadE.FRUSTRATED, "No I don't like that much");
@@ -186,7 +186,7 @@ public class GoblinDiplomacy extends QuestOutline {
 				addNPC(BENTNOZE, HeadE.FRUSTRATED, "No no red every time");
 				addNPC(WARTFACE, HeadE.FRUSTRATED, "Go away human,we busy");
 				addNPC(WARTFACE, HeadE.FRUSTRATED, "Oh it you");
-				if (player.getInventory().containsItems(new Item[] { new Item(288, 1) })) {
+				if (player.getInventory().containsItems(new Item(288, 1))) {
 					addPlayer(HeadE.CALM_TALK, "I have some brown armor");
 					addSimple("You give the armor to the goblins");
 					addNPC(WARTFACE, HeadE.CALM_TALK, "That color quiet nice. Me can see myself wearing this");
@@ -234,9 +234,9 @@ public class GoblinDiplomacy extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			if (!e.isAtObject())
 				return;
-			if (e.getPlayer().getTempAttribs().getL("goblinMailCrate") == 0) {
+			if (e.getPlayer().getTempAttribs().getL("goblinMailCrate") == 0)
 				e.getPlayer().getTempAttribs().setL("goblinMailCrate", System.currentTimeMillis());
-			} else if ((System.currentTimeMillis() - e.getPlayer().getTempAttribs().getL("goblinMailCrate")) < 900000) {
+			else if ((System.currentTimeMillis() - e.getPlayer().getTempAttribs().getL("goblinMailCrate")) < 900000) {
 				e.getPlayer().sendMessage("You search the crate but find nothing.");
 				return;
 			}

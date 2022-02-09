@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.holidayevents.christmas.christ19;
@@ -27,9 +27,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Santa2019D extends Conversation {
-	
+
 	private static final int SNOW_QUEEN = 8539, SANTA = 8540;
-	
+
 	public static NPCClickHandler handleSantaTalk = new NPCClickHandler(SNOW_QUEEN, SANTA) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -75,9 +75,8 @@ public class Santa2019D extends Conversation {
 				addPlayer(HeadE.CHEERFUL, "Thanks! Sorry for the inconvenience.", () -> {
 					player.getInventory().addItemDrop(14599, 1);
 				});
-			} else {
+			} else
 				addPlayer(HeadE.CHEERFUL, "Alright, I'll get right on that.");
-			}
 			break;
 		case 9:
 			addPlayer(HeadE.HAPPY_TALKING, "We did it! We found all the missing items from the feast!");
@@ -103,7 +102,7 @@ public class Santa2019D extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "It was nothing. All in the spirit of the season!");
 			break;
 		}
-		
+
 		create();
 	}
 

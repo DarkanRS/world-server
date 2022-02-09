@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.holidayevents.easter.easter21;
@@ -19,7 +19,7 @@ package com.rs.game.player.content.holidayevents.easter.easter21;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -44,11 +44,11 @@ import com.rs.utils.spawns.ObjectSpawns;
 
 @PluginEventHandler
 public class Easter2021 {
-	
+
 	public static String STAGE_KEY = "easter2022";
-	
+
 	public static final boolean ENABLED = true;
-	
+
 	@ServerStartupEvent
 	public static void loadSpawns() {
 		if (!ENABLED)
@@ -63,7 +63,7 @@ public class Easter2021 {
 		NPCSpawns.add(new NPCSpawn(3285, new WorldTile(2969, 3428, 0), "Squirrel"));
 		NPCSpawns.add(new NPCSpawn(3285, new WorldTile(2968, 3432, 0), "Squirrel"));
 	}
-	
+
 	public static ObjectClickHandler handleEnterExit = new ObjectClickHandler(new Object[] { 23117, 30074 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -81,7 +81,7 @@ public class Easter2021 {
 			useBunnyHole(e.getPlayer(), e.getObject(), e.getPlayer().transform(0, e.getObjectId() == 30075 ? 7 : -7));
 		}
 	};
-	
+
 	public static ItemClickHandler handleChocCapeEmote = new ItemClickHandler(new Object[] { 12645 }, new String[] { "Emote" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -89,41 +89,40 @@ public class Easter2021 {
 			e.getPlayer().setNextSpotAnim(new SpotAnim(1566));
 		}
 	};
-	
+
 	public static ItemEquipHandler handleEggBasket = new ItemEquipHandler(4565) {
 		@Override
 		public void handle(ItemEquipEvent e) {
-			if (e.dequip()) {
+			if (e.dequip())
 				e.getPlayer().getAppearance().setBAS(-1);
-			} else {
+			else
 				e.getPlayer().getAppearance().setBAS(594);
-			}
 		}
 	};
-	
+
 	public static final int COG = 14719;
 	public static final int PISTON = 14720;
 	public static final int CHIMNEY = 14718;
-	
+
 	private static final WorldTile[] COG_LOCATIONS = {
 			new WorldTile(2469, 5328, 0),
 			new WorldTile(2469, 5321, 0),
 			new WorldTile(2454, 5334, 0),
 			new WorldTile(2448, 5341, 0)
 	};
-	
+
 	private static final WorldTile[] PISTON_LOCATIONS = {
 			new WorldTile(2468, 5324, 0),
 			new WorldTile(2467, 5319, 0),
 			new WorldTile(2454, 5335, 0)
 	};
-	
+
 	private static final WorldTile[] CHIMNEY_LOCATIONS = {
 			new WorldTile(2469, 5323, 0),
 			new WorldTile(2444, 5329, 0),
 			new WorldTile(2449, 5343, 0)
 	};
-	
+
 	public static LoginHandler loginEaster = new LoginHandler() {
 		@Override
 		public void handle(LoginEvent e) {
@@ -139,14 +138,14 @@ public class Easter2021 {
 				e.getPlayer().getVars().setVarBit(6014, 85);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleWaterGrab = new ObjectClickHandler(new Object[] { 30083 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().getInventory().addItem(1929);
 		}
 	};
-	
+
 	public static ObjectClickHandler handleBirdFoods = new ObjectClickHandler(new Object[] { 30089, 30090, 30091, 30092 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -159,7 +158,7 @@ public class Easter2021 {
 			e.getPlayer().getInventory().addItem(food);
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleWaterIntoBirdDish = new ItemOnObjectHandler(new Object[] { 42731 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -179,16 +178,15 @@ public class Easter2021 {
 				e.getPlayer().sendMessage("The bird wakes up and begins eating and drinking!");
 				e.getPlayer().save(Easter2021.STAGE_KEY, 3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
-				WorldTasksManager.delay(10, () -> {
+				WorldTasks.delay(10, () -> {
 					e.getPlayer().getVars().setVarBit(6026, 0);
 					e.getPlayer().getVars().setVarBit(6027, 0);
 				});
-			} else {
+			} else
 				e.getPlayer().sendMessage("The bird still needs the correct food it seems.");
-			}
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleFoodIntoBirdDish = new ItemOnObjectHandler(new Object[] { 42732 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -211,16 +209,15 @@ public class Easter2021 {
 			if (e.getPlayer().getVars().getVarBit(6026) == (e.getPlayer().getNSV().getI("easterBirdFood")+1)) {
 				e.getPlayer().save(Easter2021.STAGE_KEY, 3);
 				e.getPlayer().getVars().setVarBit(6014, 1);
-				WorldTasksManager.delay(10, () -> {
+				WorldTasks.delay(10, () -> {
 					e.getPlayer().getVars().setVarBit(6026, 0);
 					e.getPlayer().getVars().setVarBit(6027, 0);
 				});
-			} else {
+			} else
 				e.getPlayer().sendMessage("That doesn't seem to be the correct food." + e.getPlayer().getNSV().getI("easterBirdFood"));
-			}
 		}
 	};
-	
+
 	public static ObjectClickHandler handleCrates = new ObjectClickHandler(new Object[] { 30100, 30101, 30102, 30103, 30104 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -246,7 +243,7 @@ public class Easter2021 {
 			e.getPlayer().sendMessage("You find nothing interesting.");
 		}
 	};
-	
+
 	public static ItemOnObjectHandler handleFixIncubator = new ItemOnObjectHandler(new Object[] { 42733 }) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
@@ -260,18 +257,16 @@ public class Easter2021 {
 					e.getPlayer().getInventory().deleteItem(e.getItem());
 					e.getPlayer().getVars().setVarBit(6016, 1);
 					e.getPlayer().sendMessage("You attach the cog back into place.");
-				} else {
+				} else
 					e.getPlayer().sendMessage("You already have attached the cog.");
-				}
 				break;
 			case PISTON:
 				if (e.getPlayer().getVars().getVarBit(6016) == 1) {
 					e.getPlayer().getInventory().deleteItem(e.getItem());
 					e.getPlayer().getVars().setVarBit(6016, 2);
 					e.getPlayer().sendMessage("You attach the pistons back into place.");
-				} else {
+				} else
 					e.getPlayer().sendMessage("That part won't fit quite yet.");
-				}
 				break;
 			case CHIMNEY:
 				if (e.getPlayer().getVars().getVarBit(6016) == 2) {
@@ -280,28 +275,27 @@ public class Easter2021 {
 					e.getPlayer().sendMessage("You attach the chimney back into place.");
 					e.getPlayer().sendMessage("You hear the machine whirr as it turns back on.");
 					e.getPlayer().save(Easter2021.STAGE_KEY, 6);
-				} else {
+				} else
 					e.getPlayer().sendMessage("That part won't fit quite yet.");
-				}
 				break;
 			default:
 				break;
 			}
 		}
 	};
-	
+
 	public static void useBunnyHole(Player player, GameObject object, WorldTile toTile) {
 		player.lock();
 		player.faceObject(object);
-		WorldTasksManager.delay(1, () -> {
+		WorldTasks.delay(1, () -> {
 			player.setNextAnimation(new Animation(8901));
 			player.setNextSpotAnim(new SpotAnim(1567));
 		});
-		WorldTasksManager.delay(13, () -> {
+		WorldTasks.delay(13, () -> {
 			player.setNextWorldTile(toTile);
 			player.setNextAnimation(new Animation(8902));
 		});
-		WorldTasksManager.delay(22, () -> {
+		WorldTasks.delay(22, () -> {
 			player.setNextAnimation(new Animation(-1));
 			player.unlock();
 		});

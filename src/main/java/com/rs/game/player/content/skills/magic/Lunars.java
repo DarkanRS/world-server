@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.magic;
@@ -51,7 +51,7 @@ public class Lunars {
 	public static int[] strung = { 1692, 1694, 1696, 1698, 1700, 1702, 1716, 1722, 6581 };
 
 	public static Player[] getNearPlayers(Player player, int distance, int maxTargets) {
-		List<Entity> possibleTargets = new ArrayList<Entity>();
+		List<Entity> possibleTargets = new ArrayList<>();
 		stop: for (int regionId : player.getMapRegionsIds()) {
 			Region region = World.getRegion(regionId);
 			Set<Integer> playerIndexes = region.getPlayerIndexes();
@@ -80,43 +80,39 @@ public class Lunars {
 	}
 
 	public static int getStrungIndex(int ammy) {
-		for (int i = 0; i < unstrung.length; i++) {
+		for (int i = 0; i < unstrung.length; i++)
 			if (unstrung[i] == ammy)
 				return i;
-		}
 		return -1;
 	}
 
 	public static int getPlankIdx(int logId) {
-		for (int i = 0; i < logs.length; i++) {
+		for (int i = 0; i < logs.length; i++)
 			if (logs[i] == logId)
 				return i;
-		}
 		return -1;
 	}
-	
+
 	public static ButtonClickHandler handleRemoteFarmButtons = new ButtonClickHandler(1082) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPacket() == ClientPacket.IF_OP1) {
+			if (e.getPacket() == ClientPacket.IF_OP1)
 				if (e.getPlayer().getTempAttribs().getB("RemoteFarm")) {
-//					int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182, 184, 186, 188 };
-//					for (int i = 0; i < names.length; i++) {
-//						if ((names[i]+1) == e.getComponentId()) {
-//							if (e.getPlayer().getFarming().patches[i] != null) {
-//								if (e.getPlayer().getFarming().patches[i].diseased) {
-//									e.getPlayer().getFarming().patches[i].diseased = false;
-//									refreshRemoteFarm(e.getPlayer());
-//								} else {
-//									e.getPlayer().sendMessage("This patch isn't diseased.");
-//								}
-//							}
-//						}
-//					}
-				} else {
+					//					int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182, 184, 186, 188 };
+					//					for (int i = 0; i < names.length; i++) {
+					//						if ((names[i]+1) == e.getComponentId()) {
+					//							if (e.getPlayer().getFarming().patches[i] != null) {
+					//								if (e.getPlayer().getFarming().patches[i].diseased) {
+					//									e.getPlayer().getFarming().patches[i].diseased = false;
+					//									refreshRemoteFarm(e.getPlayer());
+					//								} else {
+					//									e.getPlayer().sendMessage("This patch isn't diseased.");
+					//								}
+					//							}
+					//						}
+					//					}
+				} else
 					AchievementTitles.handleButtons(e.getPlayer(), e.getComponentId());
-				}
-			}
 		}
 	};
 
@@ -130,66 +126,62 @@ public class Lunars {
 		player.getInterfaceManager().sendInterface(1082);
 		refreshRemoteFarm(player);
 	}
-	
+
 	public static void refreshRemoteFarm(Player player) {
-//		if (!player.getInterfaceManager().containsInterface(1082) || player.getTemporaryAttributes().get("RemoteFarm") == null)
-//			return;
-//		Patch patch = null;
-//		int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
-//				184, 186, 188 };
-//
-//		for (int i = 0; i < names.length; i++) {
-//			if (i < PatchConstants.WorldPatches.values().length) {
-//				player.getPackets().sendIComponentText(1082, names[i], PatchConstants.WorldPatches.values()[i].name().replace("_", " ").toLowerCase());
-//			} else {
-//				player.getPackets().sendIComponentText(1082, names[i], "");
-//			}
-//		}
-//		for (int i = 0; i < names.length; i++) {
-//			if (i < player.getFarming().patches.length) {
-//				patch = player.getFarming().patches[i];
-//				if (patch != null) {
-//					if (!patch.raked) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "Full of weeds");
-//					} else if (patch.dead) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=8f13b5>Is dead!");
-//					} else if (patch.diseased) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=FF0000>Is disased!");
-//					} else if (patch.healthChecked) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=00FF00>Is ready for health check");
-//					} else if (patch.grown && patch.yield > 0) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=00FF00>Is fully grown with produce available");
-//					} else if (patch.grown) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=00FF00>Is fully grown with no produce available");
-//					} else if (patch.currentSeed != -1) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "Is growing healthy.");
-//					} else if (patch.raked) {
-//						player.getPackets().sendIComponentText(1082, names[i] + 1, "Is empty");
-//					}
-//				} else {
-//					player.getPackets().sendIComponentText(1082, names[i] + 1, "");
-//				}
-//			} else {
-//				player.getPackets().sendIComponentText(1082, names[i] + 1, "");
-//			}
-//		}
+		//		if (!player.getInterfaceManager().containsInterface(1082) || player.getTemporaryAttributes().get("RemoteFarm") == null)
+		//			return;
+		//		Patch patch = null;
+		//		int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182,
+		//				184, 186, 188 };
+		//
+		//		for (int i = 0; i < names.length; i++) {
+		//			if (i < PatchConstants.WorldPatches.values().length) {
+		//				player.getPackets().sendIComponentText(1082, names[i], PatchConstants.WorldPatches.values()[i].name().replace("_", " ").toLowerCase());
+		//			} else {
+		//				player.getPackets().sendIComponentText(1082, names[i], "");
+		//			}
+		//		}
+		//		for (int i = 0; i < names.length; i++) {
+		//			if (i < player.getFarming().patches.length) {
+		//				patch = player.getFarming().patches[i];
+		//				if (patch != null) {
+		//					if (!patch.raked) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "Full of weeds");
+		//					} else if (patch.dead) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=8f13b5>Is dead!");
+		//					} else if (patch.diseased) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=FF0000>Is disased!");
+		//					} else if (patch.healthChecked) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=00FF00>Is ready for health check");
+		//					} else if (patch.grown && patch.yield > 0) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=00FF00>Is fully grown with produce available");
+		//					} else if (patch.grown) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "<col=00FF00>Is fully grown with no produce available");
+		//					} else if (patch.currentSeed != -1) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "Is growing healthy.");
+		//					} else if (patch.raked) {
+		//						player.getPackets().sendIComponentText(1082, names[i] + 1, "Is empty");
+		//					}
+		//				} else {
+		//					player.getPackets().sendIComponentText(1082, names[i] + 1, "");
+		//				}
+		//			} else {
+		//				player.getPackets().sendIComponentText(1082, names[i] + 1, "");
+		//			}
+		//		}
 	}
 
 	public static void handlePlankMake(Player player, Item item) {
 		player.getInterfaceManager().openGameTab(Tab.MAGIC);
-		if (!player.canCastSpell()) {
+		if (!player.canCastSpell())
 			return;
-		}
 		int index = getPlankIdx(item.getId());
 		if (index == -1) {
 			player.sendMessage("You can only cast this spell on a log.");
 			return;
 		}
 
-		if (!player.getInventory().containsItem(logs[index], 1))
-			return;
-
-		if (!Magic.checkMagicAndRunes(player, 86, true, new RuneSet(Rune.NATURE, 1, Rune.ASTRAL, 2, Rune.EARTH, 15)))
+		if (!player.getInventory().containsItem(logs[index], 1) || !Magic.checkMagicAndRunes(player, 86, true, new RuneSet(Rune.NATURE, 1, Rune.ASTRAL, 2, Rune.EARTH, 15)))
 			return;
 
 		player.setNextAnimation(new Animation(6298));
@@ -223,9 +215,8 @@ public class Lunars {
 				player.getSkills().addXp(Constants.MAGIC, 65);
 				fillFillables(player);
 			}
-		} else {
+		} else
 			player.sendMessage("You need to have something to humidify before using this spell.");
-		}
 	}
 
 	public static void fillFillables(Player player) {
@@ -233,12 +224,11 @@ public class Lunars {
 			if (item == null)
 				continue;
 			Filler fill = Filler.forId((short) item.getId());
-			if (fill != null) {
+			if (fill != null)
 				if (player.getInventory().containsItem(fill.getEmptyItem().getId(), 1)) {
 					player.getInventory().deleteItem(fill.getEmptyItem());
 					player.getInventory().addItem(fill.getFilledItem());
 				}
-			}
 		}
 	}
 
@@ -247,9 +237,8 @@ public class Lunars {
 			if (item == null)
 				continue;
 			Filler fill = Filler.forId((short) item.getId());
-			if (fill != null) {
+			if (fill != null)
 				return true;
-			}
 		}
 		return false;
 	}
@@ -270,11 +259,10 @@ public class Lunars {
 					}
 				}
 			}
-		} else {
+		} else
 			player.sendMessage("You need to have unstrung jewelry to cast this spell.");
-		}
 	}
-	
+
 	public static void handleFertileSoil(Player player, GameObject object) {
 		PatchLocation loc = PatchLocation.forObject(object.getId());
 		if (loc == null) {
@@ -307,7 +295,7 @@ public class Lunars {
 		player.putPatch(spot);
 		player.lock(3);
 	}
-	
+
 	public static void handleCurePlant(Player player, GameObject object) {
 		PatchLocation loc = PatchLocation.forObject(object.getId());
 		if (loc == null) {
@@ -365,9 +353,8 @@ public class Lunars {
 				player.getSkills().addXp(Constants.MAGIC, 69);
 				player.getPoison().reset();
 			}
-		} else {
+		} else
 			player.sendMessage("You are not poisoned.");
-		}
 	}
 
 	public static void handleHunterKit(Player player) {
@@ -384,13 +371,12 @@ public class Lunars {
 			player.setNextAnimation(new Animation(4411));
 			player.getPoison().reset();
 			player.addSpellDelay(2);
-			for (Player other : getNearPlayers(player, 1, 10)) {
+			for (Player other : getNearPlayers(player, 1, 10))
 				if (other.getPoison().isPoisoned()) {
 					player.setNextSpotAnim(new SpotAnim(729, 0, 100));
 					player.getPoison().reset();
 					player.sendMessage("Your poison has been cured!");
 				}
-			}
 		}
 	}
 

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.construction;
@@ -28,12 +28,11 @@ import com.rs.game.player.content.skills.construction.HouseConstants.Room;
 import com.rs.game.player.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.player.dialogues.SimpleNPCMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
 public class ServantNPC extends NPC {
@@ -42,14 +41,12 @@ public class ServantNPC extends NPC {
 	private Player owner;
 	private House house;
 	private boolean follow, greetGuests;
-	private int[][] checkNearDirs;
 
 	public ServantNPC(House house) {
 		super(house.getServant().getId(), house.getPortal().transform(1, 0, 0), true);
 		servant = house.getServant();
 		owner = house.getPlayer();
 		this.house = house;
-		this.checkNearDirs = Utils.getCoordOffsetsNear(super.getSize());
 		if (owner.getSkills().getLevel(Constants.CONSTRUCTION) < servant.getLevel()) {
 			house.setServantOrdinal((byte) -1);
 			return;
@@ -87,80 +84,77 @@ public class ServantNPC extends NPC {
 		if (kitchen == null) {
 			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a proper kitchen.");
 			return;
-		} else if (diningRoom == null) {
+		}
+		if (diningRoom == null) {
 			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a proper dining room.");
 			return;
-		} else {
-
-			for (Builds build : builds) {
-				if (!kitchen.containsBuild(build)) {
-					owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a " + build.toString().toLowerCase() + ".");
-					return;
-				}
-			}
-
-			if (!diningRoom.containsBuild(HouseConstants.Builds.DINING_TABLE)) {
-				owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a dining table");
+		}
+		for (Builds build : builds)
+			if (!kitchen.containsBuild(build)) {
+				owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a " + build.toString().toLowerCase() + ".");
 				return;
 			}
 
-			final WorldTile kitchenTile = house.getCenterTile(kitchen);
-			final WorldTile diningRoomTile = house.getCenterTile(diningRoom);
+		if (!diningRoom.containsBuild(HouseConstants.Builds.DINING_TABLE)) {
+			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), basicResponse + " a dining table");
+			return;
+		}
 
-			setCantInteract(true);
-			house.incrementPaymentStage();
+		final WorldTile kitchenTile = house.getCenterTile(kitchen);
+		final WorldTile diningRoomTile = house.getCenterTile(diningRoom);
 
-			WorldTasksManager.schedule(new WorldTask() {
+		setCantInteract(true);
+		house.incrementPaymentStage();
 
-				int count = 0, totalCount = 0, index = 0;
+		WorldTasks.schedule(new WorldTask() {
 
-				@Override
-				public void run() {
-					if (!house.isLoaded()) {
+			int count = 0, totalCount = 0, index = 0;
+
+			@Override
+			public void run() {
+				if (!house.isLoaded()) {
+					stop();
+					return;
+				}
+				count++;
+				if (count == 1) {
+					setNextForceTalk(new ForceTalk("I shall return in a moment."));
+					setNextAnimation(new Animation(858));
+					totalCount = (builds.length * 3) + count;
+				} else if (count == 2)
+					setNextWorldTile(new WorldTile(World.getFreeTile(kitchenTile, 2)));
+				else if (totalCount > 0 && index < builds.length) {
+					int calculatedCount = totalCount - count;
+					Builds build = builds[index];
+					if (calculatedCount % 3 == 0) {
+						setNextAnimation(new Animation(build == Builds.STOVE ? 897 : 3659));
+						index++;
+					} else if (calculatedCount % 1 == 0)
+						calcFollow(house.getWorldObjectForBuild(kitchen, build), true);
+				} else if (count == totalCount + 3)
+					setNextWorldTile(World.getFreeTile(diningRoomTile, 2));
+				else if (count == totalCount + 4 || count == totalCount + 5) {
+					WorldTile diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
+					if (count == totalCount + 4)
+						calcFollow(diningTable, true);
+					else {
+						setNextAnimation(new Animation(808));
+						int rotation = kitchen.getRotation();
+						for (int x = 0; x < (rotation == 1 || rotation == 3 ? 2 : 4); x++)
+							for (int y = 0; y < (rotation == 1 || rotation == 3 ? 4 : 2); y++)
+								World.addGroundItem(new Item(builds.length == 6 ? 7736 : builds.length == 5 ? house.getServant().getFoodId() : HouseConstants.BEERS[kitchen.getBuildSlot(Builds.BARRELS)]), diningTable.transform(x, y, 0), null, false, 300);
+						setCantInteract(false);
 						stop();
-						return;
-					}
-					count++;
-					if (count == 1) {
-						setNextForceTalk(new ForceTalk("I shall return in a moment."));
-						setNextAnimation(new Animation(858));
-						totalCount = (builds.length * 3) + count;
-					} else if (count == 2) {
-						setNextWorldTile(new WorldTile(World.getFreeTile(kitchenTile, 2)));
-					} else if (totalCount > 0 && index < builds.length) {
-						int calculatedCount = totalCount - count;
-						Builds build = builds[index];
-						if (calculatedCount % 3 == 0) {
-							setNextAnimation(new Animation(build == Builds.STOVE ? 897 : 3659));
-							index++;
-						} else if (calculatedCount % 1 == 0)
-							calcFollow(house.getWorldObjectForBuild(kitchen, build), true);
-					} else if (count == totalCount + 3) {
-						setNextWorldTile(World.getFreeTile(diningRoomTile, 2));
-					} else if (count == totalCount + 4 || count == totalCount + 5) {
-						WorldTile diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
-						if (count == totalCount + 4)
-							calcFollow(diningTable, true);
-						else {
-							setNextAnimation(new Animation(808));
-							int rotation = kitchen.getRotation();
-							for (int x = 0; x < (rotation == 1 || rotation == 3 ? 2 : 4); x++)
-								for (int y = 0; y < (rotation == 1 || rotation == 3 ? 4 : 2); y++)
-									World.addGroundItem(new Item(builds.length == 6 ? 7736 : builds.length == 5 ? house.getServant().getFoodId() : HouseConstants.BEERS[kitchen.getBuildSlot(Builds.BARRELS)]), diningTable.transform(x, y, 0), null, false, 300);
-							setCantInteract(false);
-							stop();
-						}
 					}
 				}
-			}, 2, 2);
-
-		}
+			}
+		}, 2, 2);
 	}
 
 	/**
 	 * Types : 0 - Take item from bank, 1 - Logs to Plank, 2 - Notes to Item, 3
 	 * - Bank item
-	 * 
+	 *
 	 * @param item
 	 * @param quantity
 	 * @param type
@@ -172,7 +166,8 @@ public class ServantNPC extends NPC {
 		if (!bank.containsItem(defs.isNoted() ? defs.getCertId() : item, 1) && type == 0) {
 			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), "It appears you do not have this item in your bank.");
 			return;
-		} else if (quantity > inventorySize) {
+		}
+		if (quantity > inventorySize) {
 			owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), "I'm sorry. I can only hold " + inventorySize + " items during a trip.");
 			return;
 		}
@@ -213,15 +208,14 @@ public class ServantNPC extends NPC {
 		if (defs.isNoted())
 			item = defs.getCertId();
 		final int finalItem = item;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				setNextNPCTransformation(servant.getId());
 				setCantInteract(false);
 				if (!owner.isRunning() || !house.isLoaded() || !house.getPlayers().contains(owner)) {
-					if (type == 1 || type == 2) {
+					if (type == 1 || type == 2)
 						bank.addItem(new Item(finalItem, completeQuantity), false);
-					}
 					return;
 				}
 				house.incrementPaymentStage();
@@ -230,34 +224,22 @@ public class ServantNPC extends NPC {
 						bank.withdrawItemDel(finalItem, completeQuantity);
 						owner.getInventory().addItem(finalItem, completeQuantity, true);
 					}
-				} else if (type == 1) {
+				} else if (type == 1)
 					owner.getInventory().addItem(plank[0], completeQuantity);
-				} else if (type == 2) {
+				else if (type == 2)
 					owner.getInventory().addItem(finalItem, completeQuantity);
-				} else {
-					for (int i = 0; i < completeQuantity; i++) {
+				else
+					for (int i = 0; i < completeQuantity; i++)
 						bank.depositItem(owner.getInventory().getItems().getThisItemSlot(finalItem), completeQuantity, false);
-					}
-				}
 				owner.getDialogueManager().execute(new SimpleNPCMessage(), getId(), type == 3 ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
 			}
 		}, (int) servant.getBankDelay());
 	}
 
 	public void call() {
-		int size = getSize();
-		WorldTile teleTile = null;
-		for (int dir = 0; dir < checkNearDirs[0].length; dir++) {
-			final WorldTile tile = new WorldTile(new WorldTile(owner.getX() + checkNearDirs[0][dir], owner.getY() + checkNearDirs[1][dir], owner.getPlane()));
-			if (World.floorAndWallsFree(tile, size)) {
-				teleTile = tile;
-				break;
-			}
-		}
-		if (teleTile == null) {
-			return;
-		}
-		setNextWorldTile(teleTile);
+		WorldTile teleTile = owner.getNearestTeleTile(this);
+		if (teleTile != null)
+			setNextWorldTile(teleTile);
 	}
 
 	private void sendFollow() {
@@ -273,9 +255,8 @@ public class ServantNPC extends NPC {
 					resetWalkSteps();
 					if (!addWalkSteps(getX(), owner.getY() + targetSize)) {
 						resetWalkSteps();
-						if (!addWalkSteps(getX(), owner.getY() - size)) {
+						if (!addWalkSteps(getX(), owner.getY() - size))
 							return;
-						}
 					}
 				}
 			}
@@ -288,9 +269,8 @@ public class ServantNPC extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (greetGuests && !withinDistance(getRespawnTile(), 5)) {
+		if (greetGuests && !withinDistance(getRespawnTile(), 5))
 			greetGuests = false;
-		}
 		if (!follow) {
 			super.processNPC();
 			return;

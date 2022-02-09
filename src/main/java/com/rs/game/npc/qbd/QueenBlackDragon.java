@@ -2,22 +2,19 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.qbd;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
@@ -28,7 +25,8 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -37,11 +35,14 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents the Queen Black Dragon.
- * 
+ *
  * @author Emperor
- * 
+ *
  */
 public final class QueenBlackDragon extends NPC {
 
@@ -49,18 +50,18 @@ public final class QueenBlackDragon extends NPC {
 	private static final QueenAttack[] PHASE_2_ATTACKS = { new FireBreathAttack(), new MeleeAttack(), new RangeAttack(), new FireWallAttack(), new ChangeArmour(), new SoulSummonAttack() };
 	private static final QueenAttack[] PHASE_3_ATTACKS = { new FireBreathAttack(), new MeleeAttack(), new RangeAttack(), new FireWallAttack(), new ChangeArmour(), new SoulSummonAttack(), new SoulSiphonAttack() };
 	private static final QueenAttack[] PHASE_4_ATTACKS = {
-			new FireBreathAttack(), 
-			new TimeStopAttack(), 
-			new MeleeAttack(), 
-			new SuperFireAttack(), 
-			new RangeAttack(), 
-			new FireWallAttack(), 
-			new SuperFireAttack(), 
-			new ChangeArmour(), 
-			new SoulSummonAttack(), 
+			new FireBreathAttack(),
+			new TimeStopAttack(),
+			new MeleeAttack(),
+			new SuperFireAttack(),
+			new RangeAttack(),
+			new FireWallAttack(),
+			new SuperFireAttack(),
+			new ChangeArmour(),
+			new SoulSummonAttack(),
 			new SoulSiphonAttack(),
-			new TimeStopAttack() 
-		};
+			new TimeStopAttack()
+	};
 
 	/**
 	 * The waking up animation.
@@ -110,12 +111,12 @@ public final class QueenBlackDragon extends NPC {
 	/**
 	 * The list of tortured souls.
 	 */
-	private final List<TorturedSoul> souls = new ArrayList<TorturedSoul>();
+	private final List<TorturedSoul> souls = new ArrayList<>();
 
 	/**
 	 * The list of worms.
 	 */
-	private final List<NPC> worms = new ArrayList<NPC>();
+	private final List<NPC> worms = new ArrayList<>();
 
 	/**
 	 * If the Queen Black Dragon is spawning worms.
@@ -139,7 +140,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Constructs a new {@code QueenBlackDragon} {@code Object}.
-	 * 
+	 *
 	 * @param attacker
 	 *            The player.
 	 * @param tile
@@ -154,14 +155,14 @@ public final class QueenBlackDragon extends NPC {
 		setCantInteract(true);
 		this.base = base;
 		this.attacker = attacker;
-		this.nextAttack = 40;
+		nextAttack = 40;
 		setHitpoints(getMaxHitpoints());
 		activeArtifact = new GameObject(70776, ObjectType.SCENERY_INTERACT, 0, base.transform(33, 31, 0));
-		this.setPhase(1);
-		this.setCapDamage(1000);
+		setPhase(1);
+		setCapDamage(1000);
 		setIgnoreDocile(true);
 	}
-	
+
 	@Override
 	public boolean ignoreWallsWhenMeleeing() {
 		return true;
@@ -170,9 +171,8 @@ public final class QueenBlackDragon extends NPC {
 	@Override
 	public void setHitpoints(int hitpoints) {
 		super.setHitpoints(hitpoints);
-		if (attacker == null) {
+		if (attacker == null)
 			return;
-		}
 		if (lastHitpoints != hitpoints) {
 			attacker.getPackets().sendVarc(1923, getMaxHitpoints() - hitpoints);
 			lastHitpoints = hitpoints;
@@ -211,10 +211,10 @@ public final class QueenBlackDragon extends NPC {
 		World.spawnObject(activeArtifact);
 		setCantInteract(true);
 		if (phase < 5) {
-			this.setSpawningWorms(true);
+			setSpawningWorms(true);
 			return;
 		}
-		this.switchState(QueenState.DEFAULT);
+		switchState(QueenState.DEFAULT);
 		// TODO: Back to sleep roar
 	}
 
@@ -236,36 +236,33 @@ public final class QueenBlackDragon extends NPC {
 			World.removeObject(new GameObject(70778, ObjectType.SCENERY_INTERACT, 0, base.transform(33, 31, 0)));
 			World.spawnObject(new GameObject(70790, ObjectType.SCENERY_INTERACT, 0, base.transform(31, 29, 0)));
 			World.spawnObject(new GameObject(70775, ObjectType.SCENERY_INTERACT, 0, base.transform(31, 29, -1)));
-		} else if (ticks == -1) {
+		} else if (ticks == -1)
 			return;
-		}
 		ticks++;
 		if (spawningWorms) {
-			if ((ticks % 16) == 0) {
+			if ((ticks % 16) == 0)
 				spawnWorm();
-			}
 			return;
-		} else if (ticks == 5) {
+		}
+		if (ticks == 5)
 			super.setNextAnimation(WAKE_UP_ANIMATION);
-		} else if (ticks == 30) {
+		else if (ticks == 30) {
 			setCantInteract(false);
 			switchState(QueenState.DEFAULT);
 		} else if (ticks == nextAttack) {
 			QueenAttack attack;
 			while (!(attack = attacks[Utils.random(attacks.length)]).canAttack(this, attacker))
 				;
-			this.setNextAttack(attack.attack(this, attacker));
+			setNextAttack(attack.attack(this, attacker));
 		}
 	}
 
 	@Override
 	public void finish() {
-		for (TorturedSoul s : souls) {
+		for (TorturedSoul s : souls)
 			s.finish();
-		}
-		for (NPC worm : worms) {
+		for (NPC worm : worms)
 			worm.finish();
-		}
 		super.finish();
 	}
 
@@ -277,18 +274,16 @@ public final class QueenBlackDragon extends NPC {
 		attacker.sendMessage("Worms burrow through her rotting flesh.");
 		final WorldTile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
 		WorldProjectile p = World.sendProjectile(this, destination, 3141, 128, 0, 60, 1.5, 5, 3);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				if (getPhase() > 4) {
+				if (getPhase() > 4)
 					return;
-				}
-				WorldTasksManager.schedule(new WorldTask() {
+				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						if (getPhase() > 4) {
+						if (getPhase() > 4)
 							return;
-						}
 						NPC worm = new NPC(15464, destination, true);
 						worms.add(worm);
 						worm.setForceMultiArea(true);
@@ -307,7 +302,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the attacker.
-	 * 
+	 *
 	 * @return The attacker.
 	 */
 	public Player getAttacker() {
@@ -316,7 +311,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the state.
-	 * 
+	 *
 	 * @return The state.
 	 */
 	public QueenState getState() {
@@ -325,7 +320,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Switches the queen state.
-	 * 
+	 *
 	 * @param state
 	 *            The state.
 	 */
@@ -333,12 +328,11 @@ public final class QueenBlackDragon extends NPC {
 		this.state = state;
 		if (state.getMessage() != null) {
 			String[] messages = state.getMessage().split("(nl)");
-			for (String message : messages) {
+			for (String message : messages)
 				attacker.sendMessage(message.replace("(", "").replace(")", ""));
-			}
 		}
 		super.transformIntoNPC(state.getNpcId());
-		this.setCapDamage(1000);
+		setCapDamage(1000);
 		switch (state) {
 		case DEFAULT:
 			attacker.getPackets().sendRemoveObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
@@ -361,7 +355,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Opens the reward chest.
-	 * 
+	 *
 	 * @param replace
 	 *            If the chest should be replaced with an opened one.
 	 */
@@ -370,14 +364,22 @@ public final class QueenBlackDragon extends NPC {
 		attacker.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 8, 3, "Take", "Bank", "Discard", "Examine");
 		attacker.getPackets().setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3);
 		attacker.getPackets().sendItems(100, rewards);
-		if (replace) {
-			World.spawnObject(new GameObject(70817, ObjectType.SCENERY_INTERACT, 0, base.transform(30, 28, -1)));
+		for (Item item : rewards.getItems()) {
+			if (item == null)
+				continue;
+			if (yellDrop(item.getId())) {
+				World.broadcastLoot(attacker.getDisplayName() + " has just received a " + item.getName() + " drop from the Queen Black Dragon!");
+				FileManager.writeToFile("droplog.txt", attacker.getDisplayName() + " has just recieved a " + item.getName() + " drop from the Queen Black Dragon!");
+			}
+			attacker.incrementCount(item.getName() + " drops earned", item.getAmount());
 		}
+		if (replace)
+			World.spawnObject(new GameObject(70817, ObjectType.SCENERY_INTERACT, 0, base.transform(30, 28, -1)));
 	}
 
 	/**
 	 * Sets the state.
-	 * 
+	 *
 	 * @param state
 	 *            The state to set.
 	 */
@@ -387,7 +389,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the nextAttack.
-	 * 
+	 *
 	 * @return The nextAttack.
 	 */
 	public int getNextAttack() {
@@ -396,7 +398,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Sets the nextAttack value (current ticks + the given amount).
-	 * 
+	 *
 	 * @param nextAttack
 	 *            The amount.
 	 */
@@ -406,7 +408,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the phase.
-	 * 
+	 *
 	 * @return The phase.
 	 */
 	public int getPhase() {
@@ -415,7 +417,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Sets the phase.
-	 * 
+	 *
 	 * @param phase
 	 *            The phase to set.
 	 */
@@ -423,26 +425,24 @@ public final class QueenBlackDragon extends NPC {
 		this.phase = phase;
 		switch (phase) {
 		case 1:
-			this.attacks = PHASE_1_ATTACKS;
+			attacks = PHASE_1_ATTACKS;
 			break;
 		case 2:
-			this.attacks = PHASE_2_ATTACKS;
+			attacks = PHASE_2_ATTACKS;
 			break;
 		case 3:
-			this.attacks = PHASE_3_ATTACKS;
+			attacks = PHASE_3_ATTACKS;
 			break;
 		case 4:
-			this.attacks = PHASE_4_ATTACKS;
+			attacks = PHASE_4_ATTACKS;
 			break;
 		case 5:
 		case 6:
 			setCantInteract(true);
-			for (TorturedSoul soul : souls) {
+			for (TorturedSoul soul : souls)
 				soul.finish();
-			}
-			for (NPC worm : worms) {
+			for (NPC worm : worms)
 				worm.finish();
-			}
 			ticks = -22;
 			prepareRewards();
 			attacker.setKilledQueenBlackDragon(true);
@@ -454,7 +454,7 @@ public final class QueenBlackDragon extends NPC {
 			break;
 		}
 	}
-	
+
 	public static List<Item> genDrop(Player attacker) {
 		List<Item> drops = new ArrayList<>();
 		Utils.add(drops, DropTable.calculateDrops(attacker, DropSets.getDropSet("QBDMain")));
@@ -476,7 +476,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the base.
-	 * 
+	 *
 	 * @return The base.
 	 */
 	public WorldTile getBase() {
@@ -485,7 +485,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the amount of ticks.
-	 * 
+	 *
 	 * @return The amount of ticks.
 	 */
 	public int getTicks() {
@@ -494,7 +494,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the souls.
-	 * 
+	 *
 	 * @return The souls.
 	 */
 	public List<TorturedSoul> getSouls() {
@@ -503,7 +503,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the spawningWorms.
-	 * 
+	 *
 	 * @return The spawningWorms.
 	 */
 	public boolean isSpawningWorms() {
@@ -512,20 +512,19 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Sets the spawningWorms.
-	 * 
+	 *
 	 * @param spawningWorms
 	 *            The spawningWorms to set.
 	 */
 	public void setSpawningWorms(boolean spawningWorms) {
-		if (!spawningWorms) {
+		if (!spawningWorms)
 			setNextAnimation(new Animation(16748));
-		}
 		this.spawningWorms = spawningWorms;
 	}
 
 	/**
 	 * Gets the worms.
-	 * 
+	 *
 	 * @return The worms.
 	 */
 	public List<NPC> getWorms() {
@@ -534,7 +533,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the activeArtifact.
-	 * 
+	 *
 	 * @return The activeArtifact.
 	 */
 	public GameObject getActiveArtifact() {
@@ -543,7 +542,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Sets the activeArtifact.
-	 * 
+	 *
 	 * @param activeArtifact
 	 *            The activeArtifact to set.
 	 */
@@ -553,7 +552,7 @@ public final class QueenBlackDragon extends NPC {
 
 	/**
 	 * Gets the rewards.
-	 * 
+	 *
 	 * @return The rewards.
 	 */
 	public ItemsContainer<Item> getRewards() {

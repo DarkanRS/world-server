@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.randomevents;
@@ -37,12 +37,12 @@ public class Genie extends OwnedNPC {
 
 	public Genie(Player owner) {
 		super(owner, 3022, new WorldTile(owner), false);
-		this.setRun(true);
-		this.setNextFaceEntity(owner);
+		setRun(true);
+		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);
 		teleToOwner();
 	}
-	
+
 	@Override
 	public void processNPC() {
 		super.processNPC();
@@ -84,11 +84,10 @@ public class Genie extends OwnedNPC {
 		} else if (ticks == 153) {
 			setNextSpotAnim(new SpotAnim(1605));
 			getOwner().setNextAnimation(new Animation(-1));
-		} else if (ticks == 155) {
+		} else if (ticks == 155)
 			finish();
-		}
 	}
-	
+
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(3022) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -102,41 +101,41 @@ public class Genie extends OwnedNPC {
 					return;
 				}
 				if (e.getPlayer().inCombat()) {
-				    if(e.getPlayer().getInventory().hasFreeSlots()) {
-                        e.getPlayer().sendMessage("The genie gives you a lamp!");
-                        e.getPlayer().getInventory().addItem(2528, 1);
-                        npc.forceTalk("Hope that satisfies you!");
-                        npc.claimed = true;
-                    } else {
-                        e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
-                        npc.claimed = true;
-                    }
+					if(e.getPlayer().getInventory().hasFreeSlots()) {
+						e.getPlayer().sendMessage("The genie gives you a lamp!");
+						e.getPlayer().getInventory().addItem(2528, 1);
+						npc.forceTalk("Hope that satisfies you!");
+						npc.claimed = true;
+					} else {
+						e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
+						npc.claimed = true;
+					}
 					npc.ticks = 152;
 					return;
 				}
 				e.getPlayer().startConversation(new Conversation(e.getPlayer())
 						.addNPC(3022, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your with!")
-                        .addOptions(new Options() {
-                            @Override
-                            public void create() {
-                                option("Take the lamp", () -> {
-                                    if(e.getPlayer().getInventory().hasFreeSlots()) {
-                                        e.getPlayer().sendMessage("The genie gives you a lamp!");
-                                        e.getPlayer().getInventory().addItem(2528, 1);
-                                        npc.forceTalk("I hope you're happy with your wish.");
-                                        npc.claimed = true;
-                                    } else {
-                                        e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
-                                        npc.claimed = true;
-                                    }
-                                    npc.ticks = 152;
-                                });
-                                option("Don't take it", () -> {
-                                    npc.claimed = true;
-                                    npc.ticks = 152;
-                                });
-                            }
-                        }));
+						.addOptions(new Options() {
+							@Override
+							public void create() {
+								option("Take the lamp", () -> {
+									if(e.getPlayer().getInventory().hasFreeSlots()) {
+										e.getPlayer().sendMessage("The genie gives you a lamp!");
+										e.getPlayer().getInventory().addItem(2528, 1);
+										npc.forceTalk("I hope you're happy with your wish.");
+										npc.claimed = true;
+									} else {
+										e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
+										npc.claimed = true;
+									}
+									npc.ticks = 152;
+								});
+								option("Don't take it", () -> {
+									npc.claimed = true;
+									npc.ticks = 152;
+								});
+							}
+						}));
 			}
 		}
 	};

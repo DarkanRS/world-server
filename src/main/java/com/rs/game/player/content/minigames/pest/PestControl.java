@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.pest;
@@ -34,7 +34,7 @@ import com.rs.game.player.controllers.PestControlGameController;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
@@ -49,7 +49,7 @@ public class PestControl {
 	private int[] pestCounts = new int[5];
 
 	private List<Player> team;
-	private List<NPC> brawlers = new LinkedList<NPC>();
+	private List<NPC> brawlers = new LinkedList<>();
 	private PestPortal[] portals = new PestPortal[4];
 
 	private PestPortal knight;
@@ -95,7 +95,7 @@ public class PestControl {
 				player.getControllerManager().startController(new PestControlGameController(this));
 			}
 
-			WorldTasksManager.schedule(new PestGameTimer(), 2, 2);
+			WorldTasks.schedule(new PestGameTimer(), 2, 2);
 		});
 		return this;
 	}
@@ -138,13 +138,13 @@ public class PestControl {
 	}
 
 	public void endGame() {
-		final List<Player> team = new LinkedList<Player>();
+		final List<Player> team = new LinkedList<>();
 		team.addAll(this.team);
 		this.team.clear();
 		for (final Player player : team) {
 			final int knightZeal = (int) ((PestControlGameController) player.getControllerManager().getController()).getPoints();
 			player.getControllerManager().forceStop();
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -184,16 +184,16 @@ public class PestControl {
 	public void unlockPortal() {
 		if (portalCount == 0)
 			return;
-		else if (portalCount == 1) {
+		if (portalCount == 1) {
 			portalCount--;
 			return;
 		}
 		final int index = Utils.random(portals.length);
-		if (portals[index] == null || portals[index].isDead()) {
+		if (portals[index] == null || portals[index].isDead())
 			unlockPortal();
-		} else {
+		else {
 			portalCount--;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {

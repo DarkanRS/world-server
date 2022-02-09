@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class DuelController extends Controller {
-	
+
 	public static ButtonClickHandler handleDuelRequest = new ButtonClickHandler(640) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -35,9 +35,8 @@ public class DuelController extends Controller {
 			} else if (e.getComponentId() == 19 || e.getComponentId() == 21) {
 				e.getPlayer().getTempAttribs().setB("WillDuelFriendly", false);
 				e.getPlayer().getVars().setVar(283, 134217728);
-			} else if (e.getComponentId() == 20) {
+			} else if (e.getComponentId() == 20)
 				challenge(e.getPlayer());
-			}
 		}
 	};
 
@@ -102,8 +101,8 @@ public class DuelController extends Controller {
 			target.getTempAttribs().removeO("DuelChallenged");
 			player.setLastDuelRules(new DuelRules(player, target));
 			target.setLastDuelRules(new DuelRules(target, player));
-			player.getControllerManager().startController(new DuelArenaController(target, (boolean) target.getTempAttribs().getB("DuelFriendly")));
-			target.getControllerManager().startController(new DuelArenaController(player, (boolean) target.getTempAttribs().removeB("DuelFriendly")));
+			player.getControllerManager().startController(new DuelArenaController(target, target.getTempAttribs().getB("DuelFriendly")));
+			target.getControllerManager().startController(new DuelArenaController(player, target.getTempAttribs().removeB("DuelFriendly")));
 			return false;
 		}
 		player.getTempAttribs().setO("DuelTarget", target);
@@ -134,9 +133,8 @@ public class DuelController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		if (isAtDuelArena(player)) {
+		if (isAtDuelArena(player))
 			player.getInterfaceManager().setOverlay(638);
-		}
 	}
 
 	public static boolean isAtDuelArena(WorldTile player) {

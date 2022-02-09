@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -27,7 +27,7 @@ import com.rs.game.npc.dungeoneering.HopeDevourer;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -48,12 +48,11 @@ public class HopeDevourerCombat extends CombatScript {
 		final DungeonManager manager = boss.getManager();
 
 		boolean stomp = false;
-		for (Player player : manager.getParty().getTeam()) {
+		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				stomp = true;
 				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, player)));
 			}
-		}
 		if (stomp) {
 			npc.setNextAnimation(new Animation(14459));
 			return 6;
@@ -61,7 +60,7 @@ public class HopeDevourerCombat extends CombatScript {
 
 		if (Utils.random(10) == 0) {
 			npc.setNextForceTalk(new ForceTalk("Grrrrrrrrrroooooooooaaaarrrrr"));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
@@ -93,7 +92,7 @@ public class HopeDevourerCombat extends CombatScript {
 			if (target instanceof Player player)
 				player.getSkills().set(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) - (damage * .05)));
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				private int ticks;
 				private WorldTile tile;
 
@@ -110,7 +109,7 @@ public class HopeDevourerCombat extends CombatScript {
 							tile = new WorldTile(new WorldTile(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
 							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 								break;
-							else if (distance == 0)
+							if (distance == 0)
 								tile = new WorldTile(target);
 						}
 						target.faceEntity(boss);
@@ -126,12 +125,11 @@ public class HopeDevourerCombat extends CombatScript {
 		} else {
 			npc.setNextAnimation(new Animation(14457));
 			int damage = (int) Utils.random(npc.getMaxHit(AttackStyle.MELEE) * .75, npc.getMaxHit(AttackStyle.MELEE));
-			if (target instanceof Player player) {
+			if (target instanceof Player player)
 				if (player.getPrayer().isProtectingMelee()) {
 					player.sendMessage("Your prayer completely negates the attack.", true);
 					damage = 0;
 				}
-			}
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));
 		}
 		return 6;

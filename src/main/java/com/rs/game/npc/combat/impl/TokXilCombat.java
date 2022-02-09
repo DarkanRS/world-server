@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl;
@@ -40,9 +40,8 @@ public class TokXilCombat extends CombatScript {
 		int size = npc.getSize();
 		int hit = 0;
 		int attackStyle = Utils.random(2);
-		if (attackStyle == 0 && (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1)) {
+		if (attackStyle == 0 && (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1))
 			attackStyle = 1;
-		}
 		switch (attackStyle) {
 		case 0:
 			hit = getMaxHit(npc, defs.getMaxHit() - 36, AttackStyle.MELEE, target);

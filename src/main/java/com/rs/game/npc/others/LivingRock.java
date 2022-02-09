@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.others;
@@ -22,7 +22,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
@@ -48,14 +48,14 @@ public class LivingRock extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					drop();
 					reset();
 					transformIntoRemains(source);
@@ -72,15 +72,12 @@ public class LivingRock extends NPC {
 		final int remainsId = getId() + 5;
 		transformIntoNPC(remainsId);
 		setRandomWalk(false);
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					if (remainsId == getId())
-						takeRemains();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				if (remainsId == getId())
+					takeRemains();
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, Ticks.fromMinutes(3));
 
@@ -98,7 +95,7 @@ public class LivingRock extends NPC {
 		if (!isSpawned())
 			setRespawnTask();
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8832, 8833, 8834) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

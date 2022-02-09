@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.combat.impl.dung;
@@ -151,9 +151,8 @@ public class GeomancerCombat extends CombatScript {
 		for (Entity t : npc.getPossibleTargets()) {
 			int damage = getMaxHit(npc, AttackStyle.MAGE, t);
 
-			if (damage > 0) {
-				if (t instanceof Player) {
-					Player player = (Player) t;
+			if (damage > 0)
+				if (t instanceof Player player)
 					if (player.getPrayer().hasPrayersOn()) {
 						if (!hasDrained) {
 							int prayerPoints = (int) player.getPrayer().getPoints();
@@ -168,8 +167,6 @@ public class GeomancerCombat extends CombatScript {
 						player.getPrayer().closeAllPrayers();
 						player.sendMessage("Your prayers have been disabled.");
 					}
-				}
-			}
 			delayHit(npc, 1, t, getMagicHit(npc, (int) (damage * .50)));
 			t.setNextSpotAnim(new SpotAnim(2147));
 			World.sendProjectile(npc, t, 2368, 50, 18, 55, 70, 5, 0);

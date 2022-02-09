@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.pathing;
@@ -30,9 +30,9 @@ public class EntityStrategy extends RouteStrategy {
 	}
 
 	public EntityStrategy(Entity entity, int accessBlockFlag) {
-		this.x = entity.getX();
-		this.y = entity.getY();
-		this.size = entity.getSize();
+		x = entity.getX();
+		y = entity.getY();
+		size = entity.getSize();
 		this.accessBlockFlag = accessBlockFlag;
 	}
 
@@ -63,9 +63,8 @@ public class EntityStrategy extends RouteStrategy {
 
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof EntityStrategy))
+		if (!(other instanceof EntityStrategy strategy))
 			return false;
-		EntityStrategy strategy = (EntityStrategy) other;
 		return x == strategy.x && y == strategy.y && size == strategy.size && accessBlockFlag == strategy.accessBlockFlag;
 	}
 

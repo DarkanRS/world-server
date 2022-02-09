@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.construction;
@@ -28,7 +28,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
 public class TabletMaking {
-	
+
 	public enum Tablet {
 		ONYX_ENCHANT(8021, 87, new RuneSet(Rune.COSMIC, 1, Rune.EARTH, 20, Rune.FIRE, 20), 72.8, 9),
 		LUMBRIDGE_TELEPORT(8008, 31, new RuneSet(Rune.AIR, 3, Rune.EARTH, 1, Rune.LAW, 1), 41, 13),
@@ -45,48 +45,48 @@ public class TabletMaking {
 		VARROCK_TELEPORT(8007, 25, new RuneSet(Rune.AIR, 3, Rune.LAW, 1, Rune.FIRE, 1), 35, 15),
 		CAMELOT_TELEPORT(8010, 45, new RuneSet(Rune.AIR, 5, Rune.LAW, 1), 55.5, 5),
 		BONES_TO_PEACHES(8015, 60, new RuneSet(Rune.WATER, 4, Rune.EARTH, 4, Rune.NATURE, 2), 35.5, 4);
-	
+
 		private static Map<Integer, Tablet> MAP = new HashMap<>();
-		
+
 		static {
 			for (Tablet t : Tablet.values())
 				MAP.put(t.componentId(), t);
 		}
-		
+
 		public static Tablet forId(int componentId) {
 			return MAP.get(componentId);
 		}
-		
+
 		private int id;
 		private int levelReq;
 		private RuneSet runeReq;
 		private double experience;
 		private int componentId;
-		
+
 		private Tablet(int id, int level, RuneSet runes, double experience, int componentId) {
 			this.id = id;
-			this.levelReq = level;
-			this.runeReq = runes;
+			levelReq = level;
+			runeReq = runes;
 			this.experience = experience;
 			this.componentId = componentId;
 		}
-		
+
 		public int id() {
 			return id;
 		}
-		
+
 		public int levelReq() {
 			return levelReq;
 		}
-		
+
 		public RuneSet runeReq() {
 			return runeReq;
 		}
-		
+
 		public double experience() {
 			return experience;
 		}
-		
+
 		public int componentId() {
 			return componentId;
 		}
@@ -107,7 +107,7 @@ public class TabletMaking {
 	public static void handleTabletCreation(final Player player, int componentId, int amount) {
 		player.closeInterfaces();
 		final int index = player.getTempAttribs().getI("tablet_index");
-		for (int enabledSlot : ENABLED_SLOTS[index]) {
+		for (int enabledSlot : ENABLED_SLOTS[index])
 			if (enabledSlot == componentId) {
 				Tablet t = Tablet.forId(componentId);
 				if (player.getSkills().getLevel(Constants.MAGIC) < t.levelReq) {
@@ -134,7 +134,6 @@ public class TabletMaking {
 				player.getTempAttribs().removeI("tablet_index");
 				return;
 			}
-		}
 		player.sendMessage("You cannot create that tablet, please select another.");
 	}
 }

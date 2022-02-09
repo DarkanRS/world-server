@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.others;
@@ -27,7 +27,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -38,7 +38,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public final class TormentedDemon extends NPC {
-	
+
 	private int shieldTimer;
 	private int prayer;
 	private int combatStyleTimer;
@@ -121,13 +121,13 @@ public final class TormentedDemon extends NPC {
 		combatStyle = 0;
 		damageTaken = new int[3];
 		prayer = 0;
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					setNextAnimation(new Animation(defs.getDeathEmote()));
-				} else if (loop >= defs.getDeathDelay()) {
+				else if (loop >= defs.getDeathDelay()) {
 					drop();
 					reset();
 					setLocation(getRespawnTile());
@@ -144,7 +144,7 @@ public final class TormentedDemon extends NPC {
 		WorldTile tile = new WorldTile(getX() + Utils.random(7), getY() + Utils.random(7), getPlane());
 		for (int regionId : getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null) {
+			if (playerIndexes != null)
 				for (int pid : playerIndexes) {
 					Player player = World.getPlayers().get(pid);
 					if (player != null && !player.isDead() && !player.hasFinished() && player.hasStarted() && player.withinDistance(this, 7)) {
@@ -152,15 +152,14 @@ public final class TormentedDemon extends NPC {
 						break;
 					}
 				}
-			}
 		}
 		WorldTile finalTile = tile;
 		setNextAnimation(new Animation(10917));
-		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, 0, () -> {
+		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, 0, p -> {
 			World.sendSpotAnim(this, new SpotAnim(1883), finalTile);
 			for (int regionId : getMapRegionsIds()) {
 				Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-				if (playerIndexes != null) {
+				if (playerIndexes != null)
 					for (int pid : playerIndexes) {
 						Player player = World.getPlayers().get(pid);
 						if (player == null || player.isDead() || player.hasFinished() || !player.hasStarted() || !player.withinDistance(finalTile, 1))
@@ -168,7 +167,6 @@ public final class TormentedDemon extends NPC {
 						player.sendMessage("The demon's magical attack splashes on you.");
 						player.applyHit(new Hit(this, 281, HitLook.MAGIC_DAMAGE, 1));
 					}
-				}
 			}
 		});
 	}
@@ -181,20 +179,17 @@ public final class TormentedDemon extends NPC {
 			finish();
 		}
 		final NPC npc = this;
-		CoresManager.schedule(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					setFinished(false);
-					World.addNPC(npc);
-					npc.setLastRegionId(0);
-					World.updateEntityRegion(npc);
-					loadMapRegions();
-					checkMultiArea();
-					shieldTimer = 0;
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		CoresManager.schedule(() -> {
+			try {
+				setFinished(false);
+				World.addNPC(npc);
+				npc.setLastRegionId(0);
+				World.updateEntityRegion(npc);
+				loadMapRegions();
+				checkMultiArea();
+				shieldTimer = 0;
+			} catch (Throwable e) {
+				Logger.handle(e);
 			}
 		}, getCombatDefinitions().getRespawnDelay());
 	}
@@ -204,7 +199,7 @@ public final class TormentedDemon extends NPC {
 			return true;
 		return false;
 	}
-	
+
 	public int getCombatStyleTimer() {
 		return combatStyleTimer;
 	}
@@ -212,7 +207,7 @@ public final class TormentedDemon extends NPC {
 	public int getCombatStyle() {
 		return combatStyle;
 	}
-	
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8349, 8350, 8351) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {

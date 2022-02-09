@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.npc.dungeoneering;
@@ -48,11 +48,10 @@ public class FleshspoilerSpawn extends DungeonNPC {
 		super.sendDeath(source);
 		boss.removeFleshCreature(this);
 	}
-	
+
 	private static int getId(int bossId) {
 		if (bossId >= 11895 && bossId <= 11909)
 			return bossId + 15;
-		else
-			return bossId - 15;
+		return bossId - 15;
 	}
 }

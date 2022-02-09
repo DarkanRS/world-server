@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.minigames.barrows;
@@ -31,15 +31,15 @@ public class BarrowsPuzzle {
 	private int[] shuffledOptions;
 
 	public BarrowsPuzzle() {
-		this.puzzle = BarrowsPuzzleType.values()[Utils.random(BarrowsPuzzleType.values().length)];
-		this.shuffledOptions = Utils.shuffleIntArray(puzzle.getOptions());
+		puzzle = BarrowsPuzzleType.values()[Utils.random(BarrowsPuzzleType.values().length)];
+		shuffledOptions = Utils.shuffleIntArray(puzzle.getOptions());
 	}
 
 	public BarrowsPuzzle display(Player player) {
 		for (int i = 0; i < 3; i++) {
 			int sequenceModel = puzzle.getSequenceModel(i);
 			player.getPackets().setIFModel(BARROWS_PUZZLE_INTERFACE, SEQUENCE_CHILD_START + i, sequenceModel);
-			
+
 			int optionModel = shuffledOptions[i];
 			player.getPackets().setIFModel(BARROWS_PUZZLE_INTERFACE, OPTIONS_COMPS[i], optionModel);
 		}
@@ -50,12 +50,11 @@ public class BarrowsPuzzle {
 
 	public boolean isCorrect(int componentId) {
 		int idx = 0;
-		for (int i = 0;i < OPTIONS_COMPS.length;i++) {
+		for (int i = 0;i < OPTIONS_COMPS.length;i++)
 			if (OPTIONS_COMPS[i] == componentId) {
 				idx = i;
 				break;
 			}
-		}
 		return shuffledOptions[idx] == puzzle.getAnswer();
 	}
 }

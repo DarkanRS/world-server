@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.tools.old;
@@ -29,13 +29,12 @@ public class RuneWikiExaminesDumper {
 	public static final void main(String[] args) throws IOException {
 		System.out.println("Starting..");
 		//Cache.init();
-		for (int itemId = 0; itemId < Utils.getItemDefinitionsSize(); itemId++) {
+		for (int itemId = 0; itemId < Utils.getItemDefinitionsSize(); itemId++)
 			if (!ItemDefinitions.getDefs(itemId).isNoted())
 				if (dumpItem(itemId))
 					System.out.println("DUMPED ITEM : " + itemId);
 				else
 					System.out.println("FAILED ITEM: " + itemId + ", " + ItemDefinitions.getDefs(itemId).getName());
-		}
 	}
 
 	public static boolean dumpItem(int itemId) {
@@ -56,10 +55,7 @@ public class RuneWikiExaminesDumper {
 			}
 			boolean isNextLine = false;
 			for (String line : page.getLines()) {
-				if (!isNextLine) {
-					if (line.equals("<th nowrap=\"nowrap\"><a href=\"/wiki/Examine\" title=\"Examine\">Examine</a>"))
-						isNextLine = true;
-				} else {
+				if (isNextLine) {
 					String examine = line.replace("</th><td> ", "");
 					examine = examine.replace("</th><td>", "");
 					examine = examine.replace("<i> ", "");
@@ -79,6 +75,8 @@ public class RuneWikiExaminesDumper {
 					}
 					return true;
 				}
+				if (line.equals("<th nowrap=\"nowrap\"><a href=\"/wiki/Examine\" title=\"Examine\">Examine</a>"))
+					isNextLine = true;
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

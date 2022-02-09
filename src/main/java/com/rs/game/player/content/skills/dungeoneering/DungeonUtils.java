@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering;
@@ -72,14 +72,12 @@ public final class DungeonUtils {
 
 	public static int getBindedId(Item item) {
 		String name = item.getName();
-		for (int i = 15775; i <= 16272; i++) {
+		for (int i = 15775; i <= 16272; i++)
 			if (ItemDefinitions.getDefs(i).name.replace(" (b)", "").equals(name))
 				return i;
-		}
-		for (int i = 19865; i <= 19866; i++) {
+		for (int i = 19865; i <= 19866; i++)
 			if (ItemDefinitions.getDefs(i).name.replace(" (b)", "").equals(name))
 				return i;
-		}
 		return -1;
 	}
 
@@ -90,7 +88,7 @@ public final class DungeonUtils {
 				.min(Comparator.comparingInt(i -> Math.abs(NPCDefinitions.getDefs(i).combatLevel - target)))
 				.orElseThrow(() -> new NoSuchElementException("No suitable combat level found"));
 	}
-	
+
 	public static int[] getFloorThemeRange(int floorId) {
 		if (floorId <= 11)
 			return new int[] { 1, 11 };
@@ -118,7 +116,7 @@ public final class DungeonUtils {
 			return DungeonConstants.OCCULT_FLOORS;
 		return DungeonConstants.WARPED_FLOORS;
 	}
-	
+
 	public static String getFloorTypeName(int floorId) {
 		if (floorId <= 11)
 			return "Frozen";
@@ -132,10 +130,9 @@ public final class DungeonUtils {
 			return "Occult";
 		return "Warped";
 	}
-	
+
 	public static String getSizeName(int size) {
-		String[] sizeNames = new String[]
-				{ "Small", "Medium", "Large", "Test" };
+		String[] sizeNames = { "Small", "Medium", "Large", "Test" };
 		return sizeNames[size];
 	}
 
@@ -163,16 +160,13 @@ public final class DungeonUtils {
 	}
 
 	public static Room[] selectPossibleBossRooms(int type, int complexity, int floorId, boolean n, boolean e, boolean s, boolean w, int rotation) {
-		ArrayList<Room> possiblities = new ArrayList<Room>();
+		ArrayList<Room> possiblities = new ArrayList<>();
 		for (BossRoom handledRoom : DungeonConstants.BOSS_ROOMS[type]) {
-			if (!handledRoom.isComplexity(complexity))
-				continue;
-			if (handledRoom.getMinFloor() > floorId)
+			if (!handledRoom.isComplexity(complexity) || (handledRoom.getMinFloor() > floorId))
 				continue;
 			Room room = new Room(handledRoom, rotation);
-			if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w) {
+			if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w)
 				possiblities.add(room);
-			}
 		}
 		//return new Room[] { new Room(DungeonConstants.BOSS_ROOMS[2][4], rotation) };
 		return possiblities.toArray(new Room[possiblities.size()]);
@@ -181,62 +175,48 @@ public final class DungeonUtils {
 	public static boolean theresDoorTo(RoomReference checkRoom, Room[][] map) {
 		if (checkRoom.getRoomX() < 0 || checkRoom.getRoomX() >= map.length || checkRoom.getRoomY() < 0 || checkRoom.getRoomY() >= map[checkRoom.getRoomX()].length)
 			return false;
-		if (checkRoom.getRoomX() != 0 && map[checkRoom.getRoomX() - 1][checkRoom.getRoomY()] != null && map[checkRoom.getRoomX() - 1][checkRoom.getRoomY()].hasEastDoor()) {
+		if (checkRoom.getRoomX() != 0 && map[checkRoom.getRoomX() - 1][checkRoom.getRoomY()] != null && map[checkRoom.getRoomX() - 1][checkRoom.getRoomY()].hasEastDoor())
 			return true;
-		}
-		if (checkRoom.getRoomX() != map.length - 1 && map[checkRoom.getRoomX() + 1][checkRoom.getRoomY()] != null && map[checkRoom.getRoomX() + 1][checkRoom.getRoomY()].hasWestDoor()) {
+		if (checkRoom.getRoomX() != map.length - 1 && map[checkRoom.getRoomX() + 1][checkRoom.getRoomY()] != null && map[checkRoom.getRoomX() + 1][checkRoom.getRoomY()].hasWestDoor())
 			return true;
-		}
-		if (checkRoom.getRoomY() != 0 && map[checkRoom.getRoomX()][checkRoom.getRoomY() - 1] != null && map[checkRoom.getRoomX()][checkRoom.getRoomY() - 1].hasNorthDoor()) {
+		if (checkRoom.getRoomY() != 0 && map[checkRoom.getRoomX()][checkRoom.getRoomY() - 1] != null && map[checkRoom.getRoomX()][checkRoom.getRoomY() - 1].hasNorthDoor())
 			return true;
-		}
-		if (checkRoom.getRoomY() != map[checkRoom.getRoomX()].length - 1 && map[checkRoom.getRoomX()][checkRoom.getRoomY() + 1] != null && map[checkRoom.getRoomX()][checkRoom.getRoomY() + 1].hasSouthDoor()) {
+		if (checkRoom.getRoomY() != map[checkRoom.getRoomX()].length - 1 && map[checkRoom.getRoomX()][checkRoom.getRoomY() + 1] != null && map[checkRoom.getRoomX()][checkRoom.getRoomY() + 1].hasSouthDoor())
 			return true;
-		}
 		return false;
 
 	}
 
 	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, int floorType, boolean n, boolean e, boolean s, boolean w) {
-		ArrayList<Room> possiblities = new ArrayList<Room>();
+		ArrayList<Room> possiblities = new ArrayList<>();
 		for (HandledRoom handledRoom : handledRooms) {
-			if (!handledRoom.isAvailableOnFloorType(floorType))
-				continue;
-			if (!handledRoom.isComplexity(complexity))
+			if (!handledRoom.isAvailableOnFloorType(floorType) || !handledRoom.isComplexity(complexity))
 				continue;
 			for (int rotation = 0; rotation < DungeonConstants.ROTATIONS_COUNT; rotation++) {
 				Room room = new Room(handledRoom, rotation);
-				if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w) {
+				if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w)
 					possiblities.add(room);
-				}
 			}
 		}
 		return possiblities.toArray(new Room[possiblities.size()]);
 	}
 
 	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, int floorType, boolean n, boolean e, boolean s, boolean w, int rotation) {
-		ArrayList<Room> possiblities = new ArrayList<Room>();
+		ArrayList<Room> possiblities = new ArrayList<>();
 		for (HandledRoom handledRoom : handledRooms) {
-			if (!handledRoom.isAvailableOnFloorType(floorType))
-				continue;
-			if (!handledRoom.isComplexity(complexity))
+			if (!handledRoom.isAvailableOnFloorType(floorType) || !handledRoom.isComplexity(complexity))
 				continue;
 			Room room = new Room(handledRoom, rotation);
-			if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w) {
+			if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w)
 				possiblities.add(room);
-			}
 		}
 		return possiblities.toArray(new Room[possiblities.size()]);
 	}
 
 	public static boolean checkDungeonBounds(RoomReference reference, Room[][] map, Room room) {
-		if (reference.getRoomX() == 0 && room.hasWestDoor())
+		if ((reference.getRoomX() == 0 && room.hasWestDoor()) || (reference.getRoomX() == map.length - 1 && room.hasEastDoor()))
 			return false;
-		if (reference.getRoomX() == map.length - 1 && room.hasEastDoor())
-			return false;
-		if (reference.getRoomY() == 0 && room.hasSouthDoor())
-			return false;
-		if (reference.getRoomY() == map[0].length - 1 && room.hasNorthDoor())
+		if ((reference.getRoomY() == 0 && room.hasSouthDoor()) || (reference.getRoomY() == map[0].length - 1 && room.hasNorthDoor()))
 			return false;
 		return true;
 	}
@@ -348,170 +328,170 @@ public final class DungeonUtils {
 
 	public static int getRandomGear(int tier) {
 		switch (Utils.random(29)) {
-			case 0:
-				return getLongbow(tier);
-			case 1:
-				return getShortbow(tier);
-			case 2:
-				return getChaps(tier);
-			case 3:
-				return getLeatherBoots(tier);
-			case 4:
-				return getVambrances(tier);
-			case 5:
-				return getLeatherBody(tier);
-			case 6:
-				return getCoif(tier);
-			case 7:
-				return getRobeTop(tier);
-			case 8:
-				return getElementalStaff(tier);
-			case 9:
-				return getBasicStaff(tier);
-			case 10:
-				return getGloves(tier);
-			case 11:
-				return getShoes(tier);
-			case 12:
-				return getRobeBottom(tier);
-			case 13:
-				return getHood(tier);
-			case 14:
-				return getKiteshield(tier);
-			case 15:
-				return getPlatebody(tier);
-			case 16:
-				return getSpear(tier);
-			case 17:
-				return getWarhammer(tier);
-			case 18:
-				return getRapier(tier);
-			case 19:
-				return get2HSword(tier);
-			case 20:
-				return getDagger(tier);
-			case 21:
-				return getChainbody(tier);
-			case 22:
-				return getFullHelm(tier);
-			case 23:
-				return getPlatelegs(tier, true);
-			case 24:
-				return getMaul(tier);
-			case 25:
-				return getLongsword(tier);
-			case 26:
-				return getBoots(tier);
-			case 27:
-				return getGauntlets(tier);
-			case 28:
-				return getBattleaxe(tier);
+		case 0:
+			return getLongbow(tier);
+		case 1:
+			return getShortbow(tier);
+		case 2:
+			return getChaps(tier);
+		case 3:
+			return getLeatherBoots(tier);
+		case 4:
+			return getVambrances(tier);
+		case 5:
+			return getLeatherBody(tier);
+		case 6:
+			return getCoif(tier);
+		case 7:
+			return getRobeTop(tier);
+		case 8:
+			return getElementalStaff(tier);
+		case 9:
+			return getBasicStaff(tier);
+		case 10:
+			return getGloves(tier);
+		case 11:
+			return getShoes(tier);
+		case 12:
+			return getRobeBottom(tier);
+		case 13:
+			return getHood(tier);
+		case 14:
+			return getKiteshield(tier);
+		case 15:
+			return getPlatebody(tier);
+		case 16:
+			return getSpear(tier);
+		case 17:
+			return getWarhammer(tier);
+		case 18:
+			return getRapier(tier);
+		case 19:
+			return get2HSword(tier);
+		case 20:
+			return getDagger(tier);
+		case 21:
+			return getChainbody(tier);
+		case 22:
+			return getFullHelm(tier);
+		case 23:
+			return getPlatelegs(tier, true);
+		case 24:
+			return getMaul(tier);
+		case 25:
+			return getLongsword(tier);
+		case 26:
+			return getBoots(tier);
+		case 27:
+			return getGauntlets(tier);
+		case 28:
+			return getBattleaxe(tier);
 		}
 		return getHatchet(tier); //shouldnt
 	}
 
 	public static int getRandomRangeGear(int tier) {
 		switch (Utils.random(7)) {
-			case 0:
-				return getLongbow(tier);
-			case 1:
-				return getShortbow(tier);
-			case 2:
-				return getChaps(tier);
-			case 3:
-				return getLeatherBoots(tier);
-			case 4:
-				return getVambrances(tier);
-			case 5:
-				return getLeatherBody(tier);
-			case 6:
-				return getCoif(tier);
+		case 0:
+			return getLongbow(tier);
+		case 1:
+			return getShortbow(tier);
+		case 2:
+			return getChaps(tier);
+		case 3:
+			return getLeatherBoots(tier);
+		case 4:
+			return getVambrances(tier);
+		case 5:
+			return getLeatherBody(tier);
+		case 6:
+			return getCoif(tier);
 		}
 		return getHatchet(tier); //shouldnt
 	}
 
 	public static int getRandomMagicGear(int tier) {
 		switch (Utils.random(7)) {
-			case 0:
-				return getRobeTop(tier);
-			case 1:
-				return getElementalStaff(tier);
-			case 2:
-				return getBasicStaff(tier);
-			case 3:
-				return getGloves(tier);
-			case 4:
-				return getShoes(tier);
-			case 5:
-				return getRobeBottom(tier);
-			case 6:
-				return getHood(tier);
+		case 0:
+			return getRobeTop(tier);
+		case 1:
+			return getElementalStaff(tier);
+		case 2:
+			return getBasicStaff(tier);
+		case 3:
+			return getGloves(tier);
+		case 4:
+			return getShoes(tier);
+		case 5:
+			return getRobeBottom(tier);
+		case 6:
+			return getHood(tier);
 		}
 		return getHatchet(tier); //shouldnt
 	}
 
 	public static int getRandomMeleeGear(int tier) {
 		switch (Utils.random(15)) {
-			case 0:
-				return getKiteshield(tier);
-			case 1:
-				return getPlatebody(tier);
-			case 2:
-				return getSpear(tier);
-			case 3:
-				return getWarhammer(tier);
-			case 4:
-				return getRapier(tier);
-			case 5:
-				return get2HSword(tier);
-			case 6:
-				return getDagger(tier);
-			case 7:
-				return getChainbody(tier);
-			case 8:
-				return getFullHelm(tier);
-			case 9:
-				return getPlatelegs(tier, true);
-			case 10:
-				return getMaul(tier);
-			case 11:
-				return getLongsword(tier);
-			case 12:
-				return getBoots(tier);
-			case 13:
-				return getGauntlets(tier);
-			case 14:
-				return getBattleaxe(tier);
+		case 0:
+			return getKiteshield(tier);
+		case 1:
+			return getPlatebody(tier);
+		case 2:
+			return getSpear(tier);
+		case 3:
+			return getWarhammer(tier);
+		case 4:
+			return getRapier(tier);
+		case 5:
+			return get2HSword(tier);
+		case 6:
+			return getDagger(tier);
+		case 7:
+			return getChainbody(tier);
+		case 8:
+			return getFullHelm(tier);
+		case 9:
+			return getPlatelegs(tier, true);
+		case 10:
+			return getMaul(tier);
+		case 11:
+			return getLongsword(tier);
+		case 12:
+			return getBoots(tier);
+		case 13:
+			return getGauntlets(tier);
+		case 14:
+			return getBattleaxe(tier);
 		}
 		return getHatchet(tier); //shouldnt
 	}
 
 	public static int getRandomWeapon(int tier) {
 		switch (Utils.random(12)) {
-			case 0:
-				return getLongbow(tier);
-			case 1:
-				return getShortbow(tier);
-			case 2:
-				return getElementalStaff(tier);
-			case 3:
-				return getBasicStaff(tier);
-			case 4:
-				return getSpear(tier);
-			case 5:
-				return getWarhammer(tier);
-			case 6:
-				return getRapier(tier);
-			case 7:
-				return get2HSword(tier);
-			case 8:
-				return getDagger(tier);
-			case 9:
-				return getMaul(tier);
-			case 10:
-				return getLongsword(tier);
-			case 11:
-				return getBattleaxe(tier);
+		case 0:
+			return getLongbow(tier);
+		case 1:
+			return getShortbow(tier);
+		case 2:
+			return getElementalStaff(tier);
+		case 3:
+			return getBasicStaff(tier);
+		case 4:
+			return getSpear(tier);
+		case 5:
+			return getWarhammer(tier);
+		case 6:
+			return getRapier(tier);
+		case 7:
+			return get2HSword(tier);
+		case 8:
+			return getDagger(tier);
+		case 9:
+			return getMaul(tier);
+		case 10:
+			return getLongsword(tier);
+		case 11:
+			return getBattleaxe(tier);
 		}
 		return getHatchet(tier); //shouldnt
 	}
@@ -656,14 +636,12 @@ public final class DungeonUtils {
 		}
 		return false;
 	}
-	
+
 	public static List<WorldTile> getRandomOrderCoords(int size) {
 		List<WorldTile> list = new ArrayList<>();
-		for (int x = 2;x < (15-size);x++) {
-			for (int y = 2;y < (15-size);y++) {
+		for (int x = 2;x < (15-size);x++)
+			for (int y = 2;y < (15-size);y++)
 				list.add(new WorldTile(x, y, 0));
-			}
-		}
 		Collections.shuffle(list);
 		return list;
 	}
@@ -673,12 +651,11 @@ public final class DungeonUtils {
 		if (Utils.random(4) == 0)
 			return list;
 		int[] combatLevels = Utils.randSum(numMonsters, combatTotal);
-		
-		for(int i = 0;i < combatLevels.length;i++) {
+
+		for(int i = 0;i < combatLevels.length;i++)
 			if (combatLevels[i] > maxLevel)
 				combatLevels[i] = maxLevel;
-		}
-		
+
 		List<GuardianMonster> possible = new ArrayList<>(GuardianMonster.forFloor(floorType));
 		int atts = 0;
 		for (int i = 0;i < numMonsters;) {

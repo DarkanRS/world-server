@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
@@ -22,7 +22,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -72,21 +72,19 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 		active = new boolean[4];
 		energyTile = new int[4][2];
 		int activeCount = 0;
-		for (int color = 0; color < 4; color++) {
+		for (int color = 0; color < 4; color++)
 			if (Math.random() > 0.66 && activeCount++ != 3) {
 				resetPosition(color);
 				World.spawnObject(new GameObject(LODESTONE_ACTIVE[color][type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_BASE_LODESTONE[0] + color, POS_BASE_LODESTONE[1] + color)));
-			} else {
+			} else
 				World.spawnObject(new GameObject(LODESTONE_INACTIVE[color][type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_BASE_LODESTONE[0] + color, POS_BASE_LODESTONE[1] + color)));
-			}
-		}
 		task = new TileTask();
-		WorldTasksManager.schedule(task, 0, 0);
+		WorldTasks.schedule(task, 0, 0);
 	}
 
 	@Override
 	public boolean processObjectClick1(Player p, GameObject object) {
-		for (int color = 0; color < 4; color++) {
+		for (int color = 0; color < 4; color++)
 			if (object.getId() == LODESTONE_INACTIVE[color][type]) {
 				if (!hasRequirement(p, Constants.MAGIC)) {
 					p.sendMessage("You need a magic level of " + getRequirement(Constants.MAGIC) + " to power this lodestone.");
@@ -100,7 +98,6 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 				p.sendMessage("You reach out and find the lodestone's power source. You spark it into life.");
 				return false;
 			}
-		}
 		return true;
 	}
 
@@ -131,24 +128,22 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 					// ... and nobody is standing on it
 					for (Player player : manager.getParty().getTeam()) {
 						WorldTile last = player;
-						if (player.getLastWorldTile() != null) {
+						if (player.getLastWorldTile() != null)
 							last = player.getLastWorldTile();
-						}
 						WorldTile tile = manager.getTile(reference, POS_PLATE[color][0], POS_PLATE[color][1]);
 						if (tile == null)
 							return;
-						if (last.withinDistance(tile, 0)) {
+						if (last.withinDistance(tile, 0))
 							continue outer;
-						}
 					}
 
 					// Remove current tile
 					World.spawnObject(new GameObject(TILE_INACTIVE[type], ObjectType.GROUND_DECORATION, 0, manager.getTile(reference, energyTile[color][0], energyTile[color][1])));
 
 					// Rewind position if it's in the center
-					if (energyTile[color][0] == POS_CENTER[0] && energyTile[color][1] == POS_CENTER[1]) {
+					if (energyTile[color][0] == POS_CENTER[0] && energyTile[color][1] == POS_CENTER[1])
 						resetPosition(color);
-					} else {
+					else {
 						// Actually move it
 						energyTile[color][0] += POS_DELTA[color][0];
 						energyTile[color][1] += POS_DELTA[color][1];
@@ -159,24 +154,21 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 				// Check if puzzle is complete
 				boolean complete = true;
 				boolean any = false;
-				for (int color = 0; color < 4; color++) {
-					if (energyTile[color][0] != POS_CENTER[0] || energyTile[color][1] != POS_CENTER[1]) {
+				for (int color = 0; color < 4; color++)
+					if (energyTile[color][0] != POS_CENTER[0] || energyTile[color][1] != POS_CENTER[1])
 						complete = false;
-					} else {
+					else
 						any = true;
-					}
-				}
 
 				if (complete) {
 					World.spawnObject(new GameObject(LARGE_CRYSTAL_ON[type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_CENTER[0], POS_CENTER[1])));
 					setComplete();
 					stop();
 					task = null;
-				} else if (any) {
+				} else if (any)
 					World.spawnObject(new GameObject(LARGE_CRYSTAL_FLASH[type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_CENTER[0], POS_CENTER[1])));
-				} else {
+				else
 					World.spawnObject(new GameObject(LARGE_CRYSTAL_OFF[type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_CENTER[0], POS_CENTER[1])));
-				}
 			}
 		}
 

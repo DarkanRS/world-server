@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -27,12 +27,11 @@ import com.rs.game.npc.fightkiln.TokHaarKetDill;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.transportation.FadingScreen;
-import com.rs.game.player.cutscenes.Cutscene;
 import com.rs.game.player.dialogues.FightKilnDialogue;
 import com.rs.game.player.dialogues.TokHaarHok;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -42,6 +41,10 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
+/**
+ * T70+
+ * Copy this: https://www.youtube.com/watch?v=gY0CwX27Css&t=1340s&ab_channel=Smokey9112Films
+ */
 public class FightKilnController extends Controller {
 
 	public static final WorldTile OUTSIDE = new WorldTile(4744, 5172, 0);
@@ -60,47 +63,47 @@ public class FightKilnController extends Controller {
 	 * TokHaar-Tok-Xil - 15205 TokHaar-Yt-Mejkot - 15206 TokHaar-Ket-Zek - 15207
 	 * TokHaar-Jad - 15208 TokHaar-Ket-Dill - 15213
 	 */
-    private int Hur = 15201, Xil = 15202, Mej = 15203,
-            Ket = 15204, Tok_Xil = 15205, Yt_Mejkot = 15206,
-            Ket_Zek = 15207, Jad = 15208, Ket_Dill = 15213;
+	private int Hur = 15201, Xil = 15202, Mej = 15203,
+			Ket = 15204, Tok_Xil = 15205, Yt_Mejkot = 15206,
+			Ket_Zek = 15207, Jad = 15208, Ket_Dill = 15213;
 
 
-    private final int[][] WAVES = { { Xil, Xil, Tok_Xil, Hur, Hur }, // 1
-            { Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 2
-            { Xil, Tok_Xil, Tok_Xil, Tok_Xil, Hur }, // 3
-            { Tok_Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 4
-            { Xil, Tok_Xil, Tok_Xil, Tok_Xil, Ket_Dill }, // 5
-            { Xil, Tok_Xil, Mej, Mej, Tok_Xil, Tok_Xil }, // 6
-            { Mej, Tok_Xil, Tok_Xil, Tok_Xil, Xil, Tok_Xil }, // 7
-            { Ket_Zek, Tok_Xil, Tok_Xil }, // 8
-            { Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 9
-            { Tok_Xil, Jad }, // 10
-            { Mej, Mej, Mej, Mej }, // 11
-            { Mej, Tok_Xil, Tok_Xil, Mej }, // 12
-            { Mej, Ket_Zek, Mej }, // 13
-            { Ket_Zek, Ket_Zek, Mej, Mej }, // 14
-            { Ket_Zek, Ket_Zek, Tok_Xil }, // 15
-            { Ket_Zek, Ket_Zek, Tok_Xil, Mej, Mej }, // 16
-            { Ket_Zek, Ket_Zek, Tok_Xil, Mej, Yt_Mejkot }, // 17
-            { Ket_Zek, Ket_Zek, Tok_Xil, Yt_Mejkot, Tok_Xil, Tok_Xil }, // 18
-            { Mej, Mej, Mej, Mej, Mej, Mej, Mej, Mej, Ket_Dill}, // 19
-            { Ket_Zek, Jad }, // 20
-            { Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur }, // 21
-            { Yt_Mejkot, Hur, Ket, Ket, Hur }, // 22
-            { Yt_Mejkot, Yt_Mejkot, Ket, Hur, Hur }, // 23
-            { Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Tok_Xil, Yt_Mejkot }, // 24
-            { Yt_Mejkot, Yt_Mejkot, Tok_Xil, Tok_Xil, Ket_Zek }, // 25
-            { Yt_Mejkot, Yt_Mejkot, Tok_Xil, Ket_Zek, Ket_Zek }, // 26
-            { Ket_Zek, Ket, Yt_Mejkot, Tok_Xil, Ket, Yt_Mejkot }, // 27
-            { Ket_Dill, Ket_Dill, Ket_Zek, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
-            { Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 29
-            { Yt_Mejkot, Jad, Yt_Mejkot, Yt_Mejkot }, // 30
-            { Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 31
-            { Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 32
-            { Ket_Zek, Ket_Zek, Ket_Zek, Ket_Zek }, // 33
-            { Tok_Xil, Jad, Yt_Mejkot }, // 34
-            { Ket_Zek, Yt_Mejkot, Tok_Xil, Jad }, // 35
-            { Jad, Jad } // 36
+	private final int[][] WAVES = { { Xil, Xil, Tok_Xil, Hur, Hur }, // 1
+			{ Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 2
+			{ Xil, Tok_Xil, Tok_Xil, Tok_Xil, Hur }, // 3
+			{ Tok_Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 4
+			{ Xil, Tok_Xil, Tok_Xil, Tok_Xil, Ket_Dill }, // 5
+			{ Xil, Tok_Xil, Mej, Mej, Tok_Xil, Tok_Xil }, // 6
+			{ Mej, Tok_Xil, Tok_Xil, Tok_Xil, Xil, Tok_Xil }, // 7
+			{ Ket_Zek, Tok_Xil, Tok_Xil }, // 8
+			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 9
+			{ Tok_Xil, Jad }, // 10
+			{ Mej, Mej, Mej, Mej }, // 11
+			{ Mej, Tok_Xil, Tok_Xil, Mej }, // 12
+			{ Mej, Ket_Zek, Mej }, // 13
+			{ Ket_Zek, Ket_Zek, Mej, Mej }, // 14
+			{ Ket_Zek, Ket_Zek, Tok_Xil }, // 15
+			{ Ket_Zek, Ket_Zek, Tok_Xil, Mej, Mej }, // 16
+			{ Ket_Zek, Ket_Zek, Tok_Xil, Mej, Yt_Mejkot }, // 17
+			{ Ket_Zek, Ket_Zek, Tok_Xil, Yt_Mejkot, Tok_Xil, Tok_Xil }, // 18
+			{ Mej, Mej, Mej, Mej, Mej, Mej, Mej, Mej, Ket_Dill}, // 19
+			{ Ket_Zek, Jad }, // 20
+			{ Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur }, // 21
+			{ Yt_Mejkot, Hur, Ket, Ket, Hur }, // 22
+			{ Yt_Mejkot, Yt_Mejkot, Ket, Hur, Hur }, // 23
+			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Tok_Xil, Yt_Mejkot }, // 24
+			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Tok_Xil, Ket_Zek }, // 25
+			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Ket_Zek, Ket_Zek }, // 26
+			{ Ket_Zek, Ket, Yt_Mejkot, Tok_Xil, Ket, Yt_Mejkot }, // 27
+			{ Ket_Dill, Ket_Dill, Ket_Zek, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
+			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 29
+			{ Yt_Mejkot, Jad, Yt_Mejkot, Yt_Mejkot }, // 30
+			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 31
+			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 32
+			{ Ket_Zek, Ket_Zek, Ket_Zek, Ket_Zek }, // 33
+			{ Tok_Xil, Jad, Yt_Mejkot }, // 34
+			{ Ket_Zek, Yt_Mejkot, Tok_Xil, Jad }, // 35
+			{ Jad, Jad } // 36
 	};
 
 	private transient DynamicRegionReference region;
@@ -200,222 +203,219 @@ public class FightKilnController extends Controller {
 		stage = Stages.LOADING;
 		player.lock(); // locks player
 		int currentWave = getCurrentWave();
-		Runnable event = new Runnable() {
-			@Override
-			public void run() {
-				// selects a music
-				selectedMusic = MUSICS[Utils.random(MUSICS.length)];
-				playMusic();
-				player.setForceMultiArea(true);
-				player.stopAll();
-				if (currentWave == 0) { // SCENE 0
-					player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
-					player.setNextWorldTile(getWorldTile(31, 51));
-					tokHaarHok = new NPC(TOKHAAR_HOK, getWorldTile(30, 36), true);
-					tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
-					// 1delay because player cant walk while teleing :p,
-					// + possible issues avoid
-					WorldTasksManager.schedule(new WorldTask() {
-						int count = 0;
-						boolean run;
+		Runnable event = () -> {
+			// selects a music
+			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
+			playMusic();
+			player.setForceMultiArea(true);
+			player.stopAll();
+			if (currentWave == 0) { // SCENE 0
+				player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
+				player.setNextWorldTile(getWorldTile(31, 51));
+				tokHaarHok = new NPC(TOKHAAR_HOK, getWorldTile(30, 36), true);
+				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
+				// 1delay because player cant walk while teleing :p,
+				// + possible issues avoid
+				WorldTasks.schedule(new WorldTask() {
+					int count = 0;
+					boolean run;
 
-						@Override
-						public void run() {
-							if (count == 0) {
-								WorldTile lookTo = getWorldTile(29, 39);
-								player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 3500);
-								WorldTile posTile = getWorldTile(27, 30);
-								player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3500);
-								run = player.getRun();
-								player.setRun(false);
-								WorldTile walkTo = getWorldTile(31, 39);
-								player.addWalkSteps(walkTo.getX(), walkTo.getY(), -1, false);
-							} else if (count == 1)
-								player.getPackets().sendResetCamera();
-							else if (count == 2) {
-								player.getDialogueManager().execute(new TokHaarHok(), 0, TOKHAAR_HOK, FightKilnController.this);
-								player.setRun(run);
-								stage = Stages.RUNNING;
-								player.unlock(); // unlocks player
-								stop();
-							}
-							count++;
+					@Override
+					public void run() {
+						if (count == 0) {
+							WorldTile lookTo = getWorldTile(29, 39);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 3500);
+							WorldTile posTile = getWorldTile(27, 30);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3500);
+							run = player.getRun();
+							player.setRun(false);
+							WorldTile walkTo = getWorldTile(31, 39);
+							player.addWalkSteps(walkTo.getX(), walkTo.getY(), -1, false);
+						} else if (count == 1)
+							player.getPackets().sendResetCamera();
+						else if (count == 2) {
+							player.getDialogueManager().execute(new TokHaarHok(), 0, TOKHAAR_HOK, FightKilnController.this);
+							player.setRun(run);
+							stage = Stages.RUNNING;
+							player.unlock(); // unlocks player
+							stop();
 						}
+						count++;
+					}
 
-					}, 1, 6);
-				} else if (currentWave == 38) { // SCENE 7, WIN
-					player.setNextWorldTile(getWorldTile(38, 25));
-					player.setNextFaceWorldTile(getWorldTile(38, 26));
-					tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(37, 30), true);
-					tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					WorldTasksManager.schedule(new WorldTask() {
+				}, 1, 6);
+			} else if (currentWave == 38) { // SCENE 7, WIN
+				player.setNextWorldTile(getWorldTile(38, 25));
+				player.setNextFaceWorldTile(getWorldTile(38, 26));
+				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(37, 30), true);
+				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				WorldTasks.schedule(new WorldTask() {
 
-						@Override
-						public void run() {
-							WorldTile lookTo = getWorldTile(40, 28);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2200);
-							WorldTile posTile = getWorldTile(29, 28);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 2500);
-							HarAken harAken = new HarAken(15211, getWorldTile(45, 26), FightKilnController.this);
-							harAken.spawn();
-							harAken.sendDeath(player);
-							WorldTasksManager.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									try {
-										player.getDialogueManager().execute(new TokHaarHok(), 6, TOKHAAR_HOK_SCENE, FightKilnController.this);
-									} catch (Throwable e) {
-										Logger.handle(e);
-									}
+					@Override
+					public void run() {
+						WorldTile lookTo = getWorldTile(40, 28);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
+						WorldTile posTile = getWorldTile(29, 28);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
+						HarAken harAken = new HarAken(15211, getWorldTile(45, 26), FightKilnController.this);
+						harAken.spawn();
+						harAken.sendDeath(player);
+						WorldTasks.schedule(new WorldTask() {
+							@Override
+							public void run() {
+								try {
+									player.getDialogueManager().execute(new TokHaarHok(), 6, TOKHAAR_HOK_SCENE, FightKilnController.this);
+								} catch (Throwable e) {
+									Logger.handle(e);
 								}
-							}, Ticks.fromSeconds(5));
-						}
-					}, 1);
-				} else if (currentWave == 37) { // SCENE 6
-					player.setNextWorldTile(getWorldTile(38, 25));
-					player.setNextFaceWorldTile(getWorldTile(38, 26));
-					tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(37, 30), true);
-					tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					WorldTasksManager.schedule(new WorldTask() {
-
-						@Override
-						public void run() {
-							WorldTile lookTo = getWorldTile(40, 28);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2200);
-							WorldTile posTile = getWorldTile(29, 28);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 2500);
-							player.getDialogueManager().execute(new TokHaarHok(), 5, TOKHAAR_HOK_SCENE, FightKilnController.this);
-						}
-
-					}, 1);
-				} else if (currentWave == 34) { // SCENE 5
-					teleportPlayerToMiddle();
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					WorldTasksManager.schedule(new WorldTask() {
-
-						int count = 0;
-
-						@Override
-						public void run() {
-							if (count == 0) {
-								WorldTile lookTo = getWorldTile(32, 41);
-								player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
-								WorldTile posTile = getWorldTile(32, 38);
-								player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 1200);
-							} else if (count == 6) {
-								WorldTile lookTo = getWorldTile(64, 30);
-								player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 3000);
-								WorldTile posTile = getWorldTile(42, 36);
-								player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
-								player.setNextWorldTile(getWorldTile(33, 39));
-								player.setNextFaceWorldTile(getWorldTile(32, 39));
-							} else if (count == 12) {
-								stop();
-								tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(28, 38), true);
-								tokHaarHok.setFaceAngle(Utils.getAngleTo(1, 0));
-
-								WorldTile lookTo = getWorldTile(30, 38);
-								player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2500);
-								WorldTile posTile = getWorldTile(30, 30);
-								player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
-								player.getDialogueManager().execute(new TokHaarHok(), 7, TOKHAAR_HOK_SCENE, FightKilnController.this);
 							}
-							count++;
+						}, Ticks.fromSeconds(5));
+					}
+				}, 1);
+			} else if (currentWave == 37) { // SCENE 6
+				player.setNextWorldTile(getWorldTile(38, 25));
+				player.setNextFaceWorldTile(getWorldTile(38, 26));
+				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(37, 30), true);
+				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				WorldTasks.schedule(new WorldTask() {
 
+					@Override
+					public void run() {
+						WorldTile lookTo = getWorldTile(40, 28);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
+						WorldTile posTile = getWorldTile(29, 28);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
+						player.getDialogueManager().execute(new TokHaarHok(), 5, TOKHAAR_HOK_SCENE, FightKilnController.this);
+					}
+
+				}, 1);
+			} else if (currentWave == 34) { // SCENE 5
+				teleportPlayerToMiddle();
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				WorldTasks.schedule(new WorldTask() {
+
+					int count = 0;
+
+					@Override
+					public void run() {
+						if (count == 0) {
+							WorldTile lookTo = getWorldTile(32, 41);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
+							WorldTile posTile = getWorldTile(32, 38);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 1200);
+						} else if (count == 6) {
+							WorldTile lookTo = getWorldTile(64, 30);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 3000);
+							WorldTile posTile = getWorldTile(42, 36);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+							player.setNextWorldTile(getWorldTile(33, 39));
+							player.setNextFaceWorldTile(getWorldTile(32, 39));
+						} else if (count == 12) {
+							stop();
+							tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(28, 38), true);
+							tokHaarHok.setFaceAngle(Utils.getAngleTo(1, 0));
+
+							WorldTile lookTo = getWorldTile(30, 38);
+							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
+							WorldTile posTile = getWorldTile(30, 30);
+							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+							player.getDialogueManager().execute(new TokHaarHok(), 7, TOKHAAR_HOK_SCENE, FightKilnController.this);
 						}
+						count++;
 
-					}, 1, 0);
-				} else if (currentWave == 31) { // SCENE 4
-					player.setNextWorldTile(getWorldTile(21, 21));
-					player.setNextFaceWorldTile(getWorldTile(20, 20));
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					WorldTasksManager.schedule(new WorldTask() {
+					}
 
-						@Override
-						public void run() {
-							WorldTile lookTo = getWorldTile(20, 17);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2500);
-							WorldTile posTile = getWorldTile(25, 26);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
-							player.getDialogueManager().execute(new TokHaarHok(), 4, TOKHAAR_HOK_SCENE, FightKilnController.this);
-						}
+				}, 1, 0);
+			} else if (currentWave == 31) { // SCENE 4
+				player.setNextWorldTile(getWorldTile(21, 21));
+				player.setNextFaceWorldTile(getWorldTile(20, 20));
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				WorldTasks.schedule(new WorldTask() {
 
-					}, 1);
-				} else if (currentWave == 21) { // SCENE 3
-					tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(30, 43), true);
-					tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
-					teleportPlayerToMiddle();
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					WorldTasksManager.schedule(new WorldTask() {
+					@Override
+					public void run() {
+						WorldTile lookTo = getWorldTile(20, 17);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
+						WorldTile posTile = getWorldTile(25, 26);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+						player.getDialogueManager().execute(new TokHaarHok(), 4, TOKHAAR_HOK_SCENE, FightKilnController.this);
+					}
 
-						@Override
-						public void run() {
-							WorldTile lookTo = getWorldTile(31, 43);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 2500);
-							WorldTile posTile = getWorldTile(31, 34);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 4000);
-							player.getDialogueManager().execute(new TokHaarHok(), 3, TOKHAAR_HOK_SCENE, FightKilnController.this);
-						}
+				}, 1);
+			} else if (currentWave == 21) { // SCENE 3
+				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(30, 43), true);
+				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
+				teleportPlayerToMiddle();
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				WorldTasks.schedule(new WorldTask() {
 
-					}, 1);
-				} else if (currentWave == 11) { // SCENE 2
-					tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(45, 45), true);
-					tokHaarHok.setFaceAngle(Utils.getAngleTo(-1, -1));
-					teleportPlayerToMiddle();
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					WorldTasksManager.schedule(new WorldTask() {
+					@Override
+					public void run() {
+						WorldTile lookTo = getWorldTile(31, 43);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
+						WorldTile posTile = getWorldTile(31, 34);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 4000);
+						player.getDialogueManager().execute(new TokHaarHok(), 3, TOKHAAR_HOK_SCENE, FightKilnController.this);
+					}
 
-						@Override
-						public void run() {
-							WorldTile lookTo = getWorldTile(45, 45);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
-							WorldTile posTile = getWorldTile(38, 37);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
-							player.getDialogueManager().execute(new TokHaarHok(), 2, TOKHAAR_HOK_SCENE, FightKilnController.this);
-						}
+				}, 1);
+			} else if (currentWave == 11) { // SCENE 2
+				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(45, 45), true);
+				tokHaarHok.setFaceAngle(Utils.getAngleTo(-1, -1));
+				teleportPlayerToMiddle();
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				WorldTasks.schedule(new WorldTask() {
 
-					}, 1);
-				} else if (currentWave == 1) { // SCENE 1
-					player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
-					tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(30, 36), true);
-					tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
-					player.setNextWorldTile(getWorldTile(31, 39));
-					player.getPackets().setBlockMinimapState(2);
-					player.getVars().setVar(1241, 1);
-					player.setNextFaceWorldTile(tokHaarHok);
-					WorldTasksManager.schedule(new WorldTask() {
+					@Override
+					public void run() {
+						WorldTile lookTo = getWorldTile(45, 45);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
+						WorldTile posTile = getWorldTile(38, 37);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+						player.getDialogueManager().execute(new TokHaarHok(), 2, TOKHAAR_HOK_SCENE, FightKilnController.this);
+					}
 
-						@Override
-						public void run() {
-							WorldTile lookTo = getWorldTile(31, 40);
-							player.getPackets().sendCameraLook(Cutscene.getX(player, lookTo.getX()), Cutscene.getY(player, lookTo.getY()), 1000);
-							WorldTile posTile = getWorldTile(31, 50);
-							player.getPackets().sendCameraPos(Cutscene.getX(player, posTile.getX()), Cutscene.getY(player, posTile.getY()), 3000);
-							player.getDialogueManager().execute(new TokHaarHok(), 1, TOKHAAR_HOK_SCENE, FightKilnController.this);
-							stage = Stages.RUNNING;
-							player.unlock();
-						}
+				}, 1);
+			} else if (currentWave == 1) { // SCENE 1
+				player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
+				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(30, 36), true);
+				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
+				player.setNextWorldTile(getWorldTile(31, 39));
+				player.getPackets().setBlockMinimapState(2);
+				player.getVars().setVar(1241, 1);
+				player.setNextFaceWorldTile(tokHaarHok);
+				WorldTasks.schedule(new WorldTask() {
 
-					}, 1);
-				} else if (login) { // LOGIN during
-					FightKilnController.this.login = login;
-					WorldTasksManager.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							stage = Stages.RUNNING;
-							teleportPlayerToMiddle();
-							player.unlock();
-						}
-					}, 1);
-				}
+					@Override
+					public void run() {
+						WorldTile lookTo = getWorldTile(31, 40);
+						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
+						WorldTile posTile = getWorldTile(31, 50);
+						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+						player.getDialogueManager().execute(new TokHaarHok(), 1, TOKHAAR_HOK_SCENE, FightKilnController.this);
+						stage = Stages.RUNNING;
+						player.unlock();
+					}
+
+				}, 1);
+			} else if (login) { // LOGIN during
+				FightKilnController.this.login = login;
+				WorldTasks.schedule(new WorldTask() {
+					@Override
+					public void run() {
+						stage = Stages.RUNNING;
+						teleportPlayerToMiddle();
+						player.unlock();
+					}
+				}, 1);
 			}
 		};
 		// finds empty map bounds
@@ -426,13 +426,13 @@ public class FightKilnController extends Controller {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 			});
-		} else if (!login && (currentWave == 11 || currentWave == 21 || currentWave == 31 || currentWave == 34)) {
+		} else if (!login && (currentWave == 11 || currentWave == 21 || currentWave == 31 || currentWave == 34))
 			region.copyMapAllPlanes(getMap()[0], getMap()[1], () -> {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 				event.run();
 			});
-		} else
+		else
 			player.fadeScreen(event);
 	}
 
@@ -521,14 +521,15 @@ public class FightKilnController extends Controller {
 			if (currentWave == 37)
 				aliveNPCSCount = 1;
 			return;
-		} else if (currentWave == 0) {
+		}
+		if (currentWave == 0) {
 			exitCave(1);
 			return;
 		}
 		aliveNPCSCount = WAVES[currentWave - 1].length;
 		for (int i = 0; i < WAVES[currentWave - 1].length; i += 4) {
 			final int next = i;
-			WorldTasksManager.schedule(new WorldTask() {
+			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					try {
@@ -591,11 +592,9 @@ public class FightKilnController extends Controller {
 			return;
 		if (aliveNPCSCount == 1) {
 			int[] crystals = getLavaCrystal();
-			if (crystals != null) {
-				for (int crystal : crystals) {
+			if (crystals != null)
+				for (int crystal : crystals)
 					World.addGroundItem(new Item(crystal), getWorldTile(32, 32));
-				}
-			}
 		}
 	}
 
@@ -619,31 +618,27 @@ public class FightKilnController extends Controller {
 	}
 
 	public void removeScene() {
-		FadingScreen.fade(player, new Runnable() {
-			@Override
-			public void run() {
-				if (stage != Stages.RUNNING)
-					unlockPlayer();
-				removeTokHaarTok();
-				player.getPackets().sendResetCamera();
-				player.getPackets().setBlockMinimapState(0);
-				player.getVars().setVar(1241, 0);
-				if (getCurrentWave() == 38) {
-					int reward = player.getTempAttribs().getI("FightKilnReward");
-					if (reward != -1) {
-						win();
-						for (Player p : World.getPlayers()) {
-							if (p == null || p.hasFinished())
-								continue;
-							p.sendMessage("<img=6><col=ff0000>" + player.getDisplayName() + " has just completed the fight kiln!", true);
-						}
+		FadingScreen.fade(player, () -> {
+			if (stage != Stages.RUNNING)
+				unlockPlayer();
+			removeTokHaarTok();
+			player.getPackets().sendResetCamera();
+			player.getPackets().setBlockMinimapState(0);
+			player.getVars().setVar(1241, 0);
+			if (getCurrentWave() == 38) {
+				int reward = player.getTempAttribs().getI("FightKilnReward");
+				if (reward != -1) {
+					win();
+					for (Player p : World.getPlayers()) {
+						if (p == null || p.hasFinished())
+							continue;
+						p.sendMessage("<img=6><col=ff0000>" + player.getDisplayName() + " has just completed the fight kiln!", true);
 					}
-				} else {
-					teleportPlayerToMiddle();
-					setWaveEvent();
 				}
+			} else {
+				teleportPlayerToMiddle();
+				setWaveEvent();
 			}
-
 		});
 	}
 
@@ -665,7 +660,8 @@ public class FightKilnController extends Controller {
 		if (logoutAtEnd) {
 			player.forceLogout();
 			return;
-		} else if (nextWave == 1 || nextWave == 11 || nextWave == 21 || nextWave == 31 || nextWave == 34 || nextWave == 37 || nextWave == 38) {
+		}
+		if (nextWave == 1 || nextWave == 11 || nextWave == 21 || nextWave == 31 || nextWave == 34 || nextWave == 37 || nextWave == 38) {
 			harAken = null;
 			player.stopAll();
 			loadCave(false);
@@ -675,7 +671,7 @@ public class FightKilnController extends Controller {
 	}
 
 	public void setWaveEvent() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
@@ -694,16 +690,16 @@ public class FightKilnController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("You have been defeated!");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					player.reset();
 					exitCave(1);
 					player.setNextAnimation(new Animation(-1));
@@ -842,16 +838,13 @@ public class FightKilnController extends Controller {
 			player.sendMessage("<col=7E2217>>The power of this crystal makes you invulnerable.");
 			player.getTempAttribs().setB("FightKilnCrystal", true);
 			player.setInvulnerable(true);
-			CoresManager.schedule(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						player.getTempAttribs().removeB("FightKilnCrystal");
-						player.sendMessage("<col=7E2217>The power of the crystal dwindles and you're vulnerable once more.");
-						player.setInvulnerable(false);
-					} catch (Throwable e) {
-						Logger.handle(e);
-					}
+			CoresManager.schedule(() -> {
+				try {
+					player.getTempAttribs().removeB("FightKilnCrystal");
+					player.sendMessage("<col=7E2217>The power of the crystal dwindles and you're vulnerable once more.");
+					player.setInvulnerable(false);
+				} catch (Throwable e) {
+					Logger.handle(e);
 				}
 			}, Ticks.fromSeconds(15));
 			break;
@@ -875,20 +868,15 @@ public class FightKilnController extends Controller {
 			player.getEquipment().refreshConfigs(false);
 			player.heal(player.getSkills().getLevelForXp(Constants.HITPOINTS) * 5);
 			player.sendMessage("<col=7E2217>The power of this crystal improves your Constitution.");
-			CoresManager.schedule(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						player.getTempAttribs().removeB("FightKilnCrystal");
-						player.sendMessage("<col=7E2217>The power of the crystal dwindles and your constitution prowess returns to normal.");
-						player.setHpBoostMultiplier(0);
-						player.getEquipment().refreshConfigs(false);
-					} catch (Throwable e) {
-						Logger.handle(e);
-					}
+			CoresManager.schedule(() -> {
+				try {
+					player.getTempAttribs().removeB("FightKilnCrystal");
+					player.sendMessage("<col=7E2217>The power of the crystal dwindles and your constitution prowess returns to normal.");
+					player.setHpBoostMultiplier(0);
+					player.getEquipment().refreshConfigs(false);
+				} catch (Throwable e) {
+					Logger.handle(e);
 				}
-
 			}, Ticks.fromSeconds(210));
 			break;
 		}
@@ -902,7 +890,7 @@ public class FightKilnController extends Controller {
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Magic prowess, at the expense of your Defence, Strength and Ranged ability.");
 		else if (skill == Constants.STRENGTH)
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Strength prowess, at the expense of your Defence, Ranged and Magical ability.");
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 
 			private int count;
 
@@ -954,7 +942,7 @@ public class FightKilnController extends Controller {
 		harAken.resetTimer();
 		harAken.setCantInteract(true);
 		harAken.setNextAnimation(new Animation(16234));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {

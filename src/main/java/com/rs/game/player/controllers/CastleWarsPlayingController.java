@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.controllers;
@@ -32,7 +32,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.CastleWars;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -41,7 +41,7 @@ import com.rs.lib.net.ClientPacket;
 public class CastleWarsPlayingController extends Controller {
 
 	private int team;
-	
+
 	public CastleWarsPlayingController(int team) {
 		this.team = team;
 	}
@@ -98,7 +98,8 @@ public class CastleWarsPlayingController extends Controller {
 					}
 					CastleWars.addBarricade(team, player);
 					return false;
-				} else if (item.getId() == 4049 || item.getId() == 4050 || item.getId() == 12853 || item.getId() == 14640 || item.getId() == 14648) {
+				}
+				if (item.getId() == 4049 || item.getId() == 4050 || item.getId() == 12853 || item.getId() == 14640 || item.getId() == 14648) {
 					doBandageEffect(item);
 					return false;
 				}
@@ -157,7 +158,8 @@ public class CastleWarsPlayingController extends Controller {
 			if (item.getId() == 590) {
 				barricade.litFire();
 				return false;
-			} else if (item.getId() == 4045) {
+			}
+			if (item.getId() == 4045) {
 				player.getInventory().deleteItem(item);
 				barricade.explode();
 				return false;
@@ -190,16 +192,16 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
-				if (loop == 0) {
+				if (loop == 0)
 					player.setNextAnimation(new Animation(836));
-				} else if (loop == 1) {
+				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
-				} else if (loop == 3) {
+				else if (loop == 3) {
 					int weaponId = player.getEquipment().getWeaponId();
 					if (weaponId == 4037 || weaponId == 4039) {
 						CastleWars.setWeapon(player, null);
@@ -254,21 +256,22 @@ public class CastleWarsPlayingController extends Controller {
 			removeController();
 			leave();
 			return false;
-		} else if ((id == 4469 && team == CastleWars.SARADOMIN) || (id == 4470 && team == CastleWars.ZAMORAK)) {
+		}
+		if ((id == 4469 && team == CastleWars.SARADOMIN) || (id == 4470 && team == CastleWars.ZAMORAK)) {
 			passBarrier(object);
 			return false;
-		} else if (id == 4377 || id == 4378) { // no flag anymore
+		}
+		if (id == 4377 || id == 4378) { // no flag anymore
 			if (id == 4377 && team == CastleWars.SARADOMIN) {
 				if (player.getEquipment().getWeaponId() == 4039) {
 					CastleWars.addScore(player, team, CastleWars.ZAMORAK);
 					return false;
 				}
-			} else if (id == 4378 && team == CastleWars.ZAMORAK) {
+			} else if (id == 4378 && team == CastleWars.ZAMORAK)
 				if (player.getEquipment().getWeaponId() == 4037) {
 					CastleWars.addScore(player, team, CastleWars.SARADOMIN);
 					return false;
 				}
-			}
 			player.sendMessage("You need to bring a flag back here!");
 			return false;
 		} else if (id == 4902 || id == 4903) { // take flag
@@ -284,10 +287,9 @@ public class CastleWarsPlayingController extends Controller {
 					return false;
 				}
 				player.sendMessage("Zamorak won't let you take his flag!");
-			} else {
+			} else
 				// take flag
 				CastleWars.takeFlag(player, team, id == 4902 ? CastleWars.SARADOMIN : CastleWars.ZAMORAK, object, false);
-			}
 			return false;
 		} else if (id == 4900 || id == 4901) { // take dropped flag
 			CastleWars.takeFlag(player, team, id == 4900 ? CastleWars.SARADOMIN : CastleWars.ZAMORAK, object, true);
@@ -383,12 +385,10 @@ public class CastleWarsPlayingController extends Controller {
 		 * RockDefinitions.ROCKS ));
 		 */
 		else if (id == 4448) {
-			for (List<Player> players : CastleWars.getPlaying()) {
-				for (Player player : players) {
+			for (List<Player> players : CastleWars.getPlaying())
+				for (Player player : players)
 					if (player.withinDistance(object, 1))
 						player.applyHit(new Hit(player, player.getHitpoints(), HitLook.TRUE_DAMAGE));
-				}
-			}
 			World.spawnObject(new GameObject(4437, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane()));
 		}
 		return true;
@@ -400,10 +400,12 @@ public class CastleWarsPlayingController extends Controller {
 		if (id == 36579 || id == 36586) {
 			player.getInventory().addItem(new Item(4049, 5));
 			return false;
-		} else if (id == 36575 || id == 36582) {
+		}
+		if (id == 36575 || id == 36582) {
 			player.getInventory().addItem(new Item(4053, 5));
 			return false;
-		} else if (id == 36577 || id == 36584) {
+		}
+		if (id == 36577 || id == 36584) {
 			player.getInventory().addItem(new Item(4045, 5));
 			return false;
 		}

@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content;
@@ -20,14 +20,14 @@ import java.util.Random;
 
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
 public class Dicing {
 
 	public static void handleRoll(final Player player, int itemId, boolean friends) {
-		if (friends) {
+		if (friends)
 			switch (itemId) {
 			case 15086:
 				friendsRoll(player, itemId, 2072, 1, 6);
@@ -54,7 +54,7 @@ public class Dicing {
 				friendsRoll(player, itemId, 2069, 1, 4);
 				break;
 			}
-		} else {
+		else
 			switch (itemId) {
 			case 15086:
 				privateRoll(player, itemId, 2072, 1, 6);
@@ -81,7 +81,6 @@ public class Dicing {
 				privateRoll(player, itemId, 2069, 1, 4);
 				break;
 			}
-		}
 	}
 
 	public static void privateRoll(final Player player, final int itemId, int graphic, final int lowest, final int highest) {
@@ -89,7 +88,7 @@ public class Dicing {
 		player.getInventory().deleteItem(itemId, 1);
 		player.setNextAnimation(new Animation(11900));
 		player.setNextSpotAnim(new SpotAnim(graphic));
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				player.getInventory().addItem(itemId, 1);
@@ -100,50 +99,49 @@ public class Dicing {
 
 	//TODO
 	public static void friendsRoll(final Player player, final int itemId, int graphic, final int lowest, final int highest) {
-//		final FriendChatsManager chat = player.getCurrentFriendChat();
-//		if (chat == null) {
-//			player.sendMessage("You need to be in a friend chat to use this option.");
-//			return;
-//		}
-//		player.lock(2);
-//		player.sendMessage("Rolling...");
-//		player.getInventory().deleteItem(itemId, 1);
-//		player.setNextAnimation(new Animation(11900));
-//		player.setNextSpotAnim(new SpotAnim(graphic));
-//		WorldTasksManager.schedule(new WorldTask() {
-//			@Override
-//			public void run() {
-//				player.getInventory().addItem(itemId, 1);
-//				chat.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + getRandom(lowest, highest) + "</col> on " + diceText(itemId) + " die.");
-//			}
-//		}, 1);
+		//		final FriendChatsManager chat = player.getCurrentFriendChat();
+		//		if (chat == null) {
+		//			player.sendMessage("You need to be in a friend chat to use this option.");
+		//			return;
+		//		}
+		//		player.lock(2);
+		//		player.sendMessage("Rolling...");
+		//		player.getInventory().deleteItem(itemId, 1);
+		//		player.setNextAnimation(new Animation(11900));
+		//		player.setNextSpotAnim(new SpotAnim(graphic));
+		//		WorldTasksManager.schedule(new WorldTask() {
+		//			@Override
+		//			public void run() {
+		//				player.getInventory().addItem(itemId, 1);
+		//				chat.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + getRandom(lowest, highest) + "</col> on " + diceText(itemId) + " die.");
+		//			}
+		//		}, 1);
 	}
 
 	public static void riggedRoll(final Player player, final int itemId, int graphic, final int number) {
-//		final FriendChatsManager chat = player.getCurrentFriendChat();
-//		if (chat == null) {
-//			player.sendMessage("You need to be in a friend chat to use this option.");
-//			return;
-//		}
-//		player.lock(2);
-//		player.sendMessage("Rolling...");
-//		player.getInventory().deleteItem(itemId, 1);
-//		player.setNextAnimation(new Animation(11900));
-//		player.setNextSpotAnim(new SpotAnim(graphic));
-//		WorldTasksManager.schedule(new WorldTask() {
-//			@Override
-//			public void run() {
-//				player.getInventory().addItem(itemId, 1);
-//				chat.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + number + "</col> on " + diceText(itemId) + " die.");
-//			}
-//		}, 1);
+		//		final FriendChatsManager chat = player.getCurrentFriendChat();
+		//		if (chat == null) {
+		//			player.sendMessage("You need to be in a friend chat to use this option.");
+		//			return;
+		//		}
+		//		player.lock(2);
+		//		player.sendMessage("Rolling...");
+		//		player.getInventory().deleteItem(itemId, 1);
+		//		player.setNextAnimation(new Animation(11900));
+		//		player.setNextSpotAnim(new SpotAnim(graphic));
+		//		WorldTasksManager.schedule(new WorldTask() {
+		//			@Override
+		//			public void run() {
+		//				player.getInventory().addItem(itemId, 1);
+		//				chat.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + number + "</col> on " + diceText(itemId) + " die.");
+		//			}
+		//		}, 1);
 	}
 
 	public static int getRandom(int lowest, int highest) {
 		Random r = new Random();
-		if (lowest > highest) {
+		if (lowest > highest)
 			return -1;
-		}
 		long range = (long) highest - (long) lowest + 1;
 		long fraction = (long) (range * r.nextDouble());
 		int numberRolled = (int) (fraction + lowest);

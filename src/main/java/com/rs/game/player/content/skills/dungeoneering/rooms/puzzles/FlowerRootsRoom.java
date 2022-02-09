@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
@@ -28,7 +28,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungHatchet;
 import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasksManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
@@ -44,47 +44,47 @@ public class FlowerRootsRoom extends PuzzleRoom {
 
 
 	private static final int[] DOOR_LEAVES =
-	{ 35838, 35839, 35842, 35847, 35849 };
+		{ 35838, 35839, 35842, 35847, 35849 };
 	private static final int[][][] PLANTS =
-	{
-	{
-		//LARGE
-		{ 35507, 35520 },
-		{ 35523, 35525 },
-		{ 35562, 35568 },
-		{ 35569, 35576 } },
-	{
-		//SMALL 1
-		{ 35577, 35588 },
-		{ 35602, 35604 },
-		{ 35606, 35609 },
-		{ 35611, 35613 } },
-	{
-		//SMALL 2
-		{ 35616, 35625 },
-		{ 35655, 35685 },
-		{ 35689, 35708 },
-		{ 35709, 35712 } },
-	{
-		//SMALL 3
-		{ 35715, 35718 },
-		{ 35719, 35720 },
-		{ 35734, 35739 },
-		{ 35778, 35780 } },
-	{
-		//SMALL 4
-		{ 35799, 35800 },
-		{ 35804, 35808 },
-		{ 35809, 35812 },
-		{ 35830, 35835 } },
+		{
+				{
+					//LARGE
+					{ 35507, 35520 },
+					{ 35523, 35525 },
+					{ 35562, 35568 },
+					{ 35569, 35576 } },
+				{
+						//SMALL 1
+						{ 35577, 35588 },
+						{ 35602, 35604 },
+						{ 35606, 35609 },
+						{ 35611, 35613 } },
+				{
+							//SMALL 2
+							{ 35616, 35625 },
+							{ 35655, 35685 },
+							{ 35689, 35708 },
+							{ 35709, 35712 } },
+				{
+								//SMALL 3
+								{ 35715, 35718 },
+								{ 35719, 35720 },
+								{ 35734, 35739 },
+								{ 35778, 35780 } },
+				{
+									//SMALL 4
+									{ 35799, 35800 },
+									{ 35804, 35808 },
+									{ 35809, 35812 },
+									{ 35830, 35835 } },
 
-	};
-	
+		};
+
 	//TODO: need end animations: tested 14900-15200 14954 could be useable
 	private static final int BIG_FLOWER_DESPAWN = 14954;
 	private static final int SMALL_FLOWER_DESPAWN = 14954;
 	private static final int LEAF_DESPAWN = 14954;
-	
+
 	private Plant[][] plants;
 	private WorldTask colorTask;
 	private WorldTask objectTask;
@@ -94,41 +94,37 @@ public class FlowerRootsRoom extends PuzzleRoom {
 	@Override
 	public void openRoom() {
 		manager.spawnRandomNPCS(reference);
-		leaves = new HashSet<GameObject>();
+		leaves = new HashSet<>();
 		plants = new Plant[16][16];
-		for (int x = 0; x < 16; x++) {
+		for (int x = 0; x < 16; x++)
 			for (int y = 0; y < 16; y++) {
 				GameObject object = manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y);
-				if (object != null) {
+				if (object != null)
 					for (int type = 0; type < 5; type++) {
 						if (object.getId() == DOOR_LEAVES[type]) {
 							leaves.add(object);
 							break;
 						}
-						for (int color = 0; color < 4; color++) {
+						for (int color = 0; color < 4; color++)
 							if (object.getId() == PLANTS[type][color][0]) {
 								plants[x][y] = new Plant();
 								plants[x][y].type = type;
 								plants[x][y].currentColor = color;
-								if (type == 0) {
+								if (type == 0)
 									bigPlant = plants[x][y];
-								}
 							}
-						}
 					}
-				}
 			}
-		}
 		colorTask = new ChangeColorTask();
 		objectTask = new ChangeObjectTask();
-		WorldTasksManager.schedule(colorTask, 0, 6);
-		WorldTasksManager.schedule(objectTask, 4, 6); //color animation is 3 ticks
+		WorldTasks.schedule(colorTask, 0, 6);
+		WorldTasks.schedule(objectTask, 4, 6); //color animation is 3 ticks
 	}
 
 	@Override
 	public boolean processObjectClick1(final Player player, final GameObject object) {
-		for (int type = 0; type < 5; type++) {
-			for (int color = 0; color < 4; color++) {
+		for (int type = 0; type < 5; type++)
+			for (int color = 0; color < 4; color++)
 				if (object.getId() == PLANTS[type][color][0] || object.getId() == PLANTS[type][color][1]) { //[1] is clickable for big plant aswell
 					final int[] coords = manager.getRoomPos(object);
 					if (type == 0) {
@@ -141,76 +137,67 @@ public class FlowerRootsRoom extends PuzzleRoom {
 						player.setNextAnimation(new Animation(3685));
 						setComplete();
 						return false;
-					} else if (plants[coords[0]][coords[1]].currentColor == bigPlant.currentColor) {
-						if (!hasRequirement(player, Constants.WOODCUTTING)) {
-							player.sendMessage("You need a woodcutting level of " + getRequirement(Constants.WOODCUTTING) + " to chop down this plant.");
-							return false;
-						}
-						DungHatchet defs = DungHatchet.getHatchet(player);
-						if (defs == null) {
-							player.sendMessage("You do not have a hatchet or do not have the required level to use the hatchet.");
-							return false;
-						}
-						if (plants[coords[0]][coords[1]].locked) {
-							//already being used by other player
-							return false;
-						}
-						plants[coords[0]][coords[1]].locked = true;
-						player.setNextAnimation(new Animation(defs.getEmoteId()));
-						player.lock(4);
-						for (Player team : manager.getParty().getTeam()) {
-							team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
-						}
-						WorldTasksManager.schedule(new WorldTask() {
-							@Override
-							public void run() {
-								giveXP(player, Constants.WOODCUTTING);
-								player.setNextAnimation(new Animation(-1));
-								plants[coords[0]][coords[1]] = null;
-								manager.spawnObject(reference, -1, ObjectType.SCENERY_INTERACT, 0, coords[0], coords[1]);
-
-							}
-						}, 3);
-						return false;
-					} else {
+					}
+					if (plants[coords[0]][coords[1]].currentColor != bigPlant.currentColor) {
 						player.applyHit(new Hit(player, (int) (player.getMaxHitpoints() * .15), HitLook.TRUE_DAMAGE));
 						return false;
 					}
+					if (!hasRequirement(player, Constants.WOODCUTTING)) {
+						player.sendMessage("You need a woodcutting level of " + getRequirement(Constants.WOODCUTTING) + " to chop down this plant.");
+						return false;
+					}
+					DungHatchet defs = DungHatchet.getHatchet(player);
+					if (defs == null) {
+						player.sendMessage("You do not have a hatchet or do not have the required level to use the hatchet.");
+						return false;
+					}
+					if (plants[coords[0]][coords[1]].locked)
+						//already being used by other player
+						return false;
+					plants[coords[0]][coords[1]].locked = true;
+					player.setNextAnimation(new Animation(defs.getEmoteId()));
+					player.lock(4);
+					for (Player team : manager.getParty().getTeam())
+						team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
+					WorldTasks.schedule(new WorldTask() {
+						@Override
+						public void run() {
+							giveXP(player, Constants.WOODCUTTING);
+							player.setNextAnimation(new Animation(-1));
+							plants[coords[0]][coords[1]] = null;
+							manager.spawnObject(reference, -1, ObjectType.SCENERY_INTERACT, 0, coords[0], coords[1]);
+
+						}
+					}, 3);
+					return false;
 				}
-			}
-		}
 		return true;
 	}
 
 	@Override
 	public void setComplete() {
-		if (manager.isDestroyed()) {
+		if (manager.isDestroyed())
 			return;
-		}
-		
+
 		for (Player team : manager.getParty().getTeam()) {
-			for (int x = 0; x < 16; x++) {
+			for (int x = 0; x < 16; x++)
 				for (int y = 0; y < 16; y++) {
 					Plant p = plants[x][y];
 					if (p != null) {
 						p.locked = true;
-						if (p.type == 0) {
+						if (p.type == 0)
 							team.getPackets().sendObjectAnimation(manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y), new Animation(BIG_FLOWER_DESPAWN));
-						} else {
+						else
 							team.getPackets().sendObjectAnimation(manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y), new Animation(SMALL_FLOWER_DESPAWN));
-
-						}
 					}
 				}
-			}
-			for (GameObject leaf : leaves) {
+			for (GameObject leaf : leaves)
 				team.getPackets().sendObjectAnimation(leaf, new Animation(LEAF_DESPAWN));
-			}
 		}
-		WorldTasksManager.schedule(new WorldTask() {
+		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				for (int x = 0; x < 16; x++) {
+				for (int x = 0; x < 16; x++)
 					for (int y = 0; y < 16; y++) {
 						Plant p = plants[x][y];
 						if (p != null) {
@@ -218,10 +205,8 @@ public class FlowerRootsRoom extends PuzzleRoom {
 							manager.spawnObject(reference, -1, ObjectType.SCENERY_INTERACT, 0, x, y);
 						}
 					}
-				}
-				for (GameObject leaf : leaves) {
+				for (GameObject leaf : leaves)
 					World.removeObject(leaf);
-				}
 
 			}
 		}, 1);
@@ -236,21 +221,18 @@ public class FlowerRootsRoom extends PuzzleRoom {
 		@Override
 		public void run() {
 			synchronized (manager) {
-				if (manager.isDestroyed()) {
+				if (manager.isDestroyed())
 					return;
-				}
-				for (int x = 0; x < 16; x++) {
+				for (int x = 0; x < 16; x++)
 					for (int y = 0; y < 16; y++) {
 						Plant p = plants[x][y];
-						if (p != null && !p.locked) {
+						if (p != null && !p.locked)
 							if (p.type == 0 || odd) {
 								replaceObject(manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y), PLANTS[p.type][p.currentColor][1]);
 								p.currentColor++;
 								p.currentColor &= 0x3;
 							}
-						}
 					}
-				}
 			}
 			odd = !odd;
 		}
@@ -268,16 +250,13 @@ public class FlowerRootsRoom extends PuzzleRoom {
 					stop();
 					return;
 				}
-				for (int x = 0; x < 16; x++) {
+				for (int x = 0; x < 16; x++)
 					for (int y = 0; y < 16; y++) {
 						Plant p = plants[x][y];
-						if (p != null && !p.locked) {
-							if (p.type == 0 || odd) {
+						if (p != null && !p.locked)
+							if (p.type == 0 || odd)
 								replaceObject(manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y), PLANTS[p.type][p.currentColor][0]);
-							}
-						}
 					}
-				}
 			}
 			odd = !odd;
 		}

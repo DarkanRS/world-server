@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.content.skills.magic;
@@ -28,7 +28,7 @@ public class MysticStaves  {
 
 	public static int[] battlestaves = { 1397, 1395, 1399, 1393, 3053, 6562, 11736 };
 	public static int[] mystics = { 1405, 1403, 1407, 1401, 3054, 6563, 11738 };
-	
+
 	static class ThormacD extends Dialogue {
 
 		@Override
@@ -59,18 +59,17 @@ public class MysticStaves  {
 			} else if (stage == 101) {
 				end();
 				player.getInterfaceManager().sendInterface(332);
-			} else {
+			} else
 				end();
-			}
 		}
 
 		@Override
 		public void finish() {
-			
+
 		}
-		
+
 	}
-	
+
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(332) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -79,16 +78,15 @@ public class MysticStaves  {
 				e.getPlayer().getInventory().deleteItem(995, 40000);
 				e.getPlayer().getInventory().deleteItem(battlestaves[staffIdx], 1);
 				e.getPlayer().getInventory().addItem(mystics[staffIdx], 1);
-			} else {
+			} else
 				e.getPlayer().sendMessage("You need 40,000 coins and a battlestaff of the correct type to enchant.");
-			}
 		}
 	};
-	
+
 	public static NPCClickHandler talkOp = new NPCClickHandler("Thormac") {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getDialogueManager().execute(new ThormacD(), new Object[] {});
+			e.getPlayer().getDialogueManager().execute(new ThormacD());
 		}
 	};
 

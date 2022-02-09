@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.gertrudescat;
@@ -22,12 +22,12 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 
 public class GertrudeD extends Conversation {
-	
+
 	private static final int GERTRUDE = 780;
 
 	public GertrudeD(Player player) {
 		super(player);
-		
+
 		switch(player.getQuestManager().getStage(Quest.GERTRUDES_CAT)) {
 		case 0:
 			addPlayer(HeadE.HAPPY_TALKING, "Hello, are you ok?");
@@ -98,11 +98,10 @@ public class GertrudeD extends Conversation {
 		default:
 			if (player.containsItem(1555))
 				addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "Take good care of that kitten!");
-			else {
+			else
 				addNPC(GERTRUDE, HeadE.ANGRY, "You lost your kitten? It found it wandering around outside my door! Take care of it this time..", () -> {
 					player.getInventory().addItem(1555, 1);
 				});
-			}
 			break;
 		}
 		create();

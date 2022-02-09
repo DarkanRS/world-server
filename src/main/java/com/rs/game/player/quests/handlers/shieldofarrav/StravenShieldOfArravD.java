@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers.shieldofarrav;
@@ -31,13 +31,13 @@ public class StravenShieldOfArravD extends Conversation {
     public StravenShieldOfArravD(Player p) {
         super(p);
 
-        if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE) {
+        if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE) {
             conversationOptions(p);
             return;
         }
-        if(ShieldOfArrav.isPhoenixGang(p)) {
+        if (ShieldOfArrav.isPhoenixGang(p))
             addNPC(STRAVEN, HeadE.HAPPY_TALKING, "Greetings, fellow gang member.");
-        } else {
+        else {
             addPlayer(HeadE.TALKING_ALOT, "What's through that door?");
             addNPC(STRAVEN, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of the VTAM Corporation are allowed beyond this point.");
         }
@@ -51,14 +51,14 @@ public class StravenShieldOfArravD extends Conversation {
     }
 
     private void conversationOptions(Player p) {
-        if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE)) {
-            //Something
-        } else if(ShieldOfArrav.isPhoenixGang(p)) {
-
+        if (ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE)) {
+            addNPC(STRAVEN, HeadE.SECRETIVE, "You REALLY shouldn't be in here...");
+            addPlayer(HeadE.FRUSTRATED, "I guess not.");
+        } else if (ShieldOfArrav.isPhoenixGang(p))
             addOptions("Select an option:", new Options() {
                 @Override
                 public void create() {
-                    if(p.getInventory().containsItem(759)) {
+                    if (p.getInventory().containsItem(759))
                         option("I've heard you've got some cool treasures in this place.", new Dialogue()
                                 .addNPC(STRAVEN, HeadE.HAPPY_TALKING, "Oh yeah, we've all stolen some stuff in our time. Those candlesticks down here, for example," +
                                         " were quite a challenge to get out of the palace.")
@@ -73,14 +73,13 @@ public class StravenShieldOfArravD extends Conversation {
                                 .addNext(() -> {
                                     p.startConversation(new StravenShieldOfArravD(p, true).getStart());
                                 }));
-                    } else {
+                    else
                         option("I lost my weapons store key.", new Dialogue()
-                        .addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "I lost my weapons store key.")
-                        .addNPC(STRAVEN, HeadE.SKEPTICAL, "Indeed you have.")
-                        .addSimple("He hands you another key", () -> {
-                            p.getInventory().addItem(759, 1, true);
-                        }));
-                    }
+                                .addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "I lost my weapons store key.")
+                                .addNPC(STRAVEN, HeadE.SKEPTICAL, "Indeed you have.")
+                                .addSimple("He hands you another key", () -> {
+                                    p.getInventory().addItem(759, 1, true);
+                                }));
                     option("Any suggestions for where I can go thieving?", new Dialogue()
                             .addNPC(STRAVEN, HeadE.HAPPY_TALKING, "You can always try the marketplace in Ardougne. LOTS of opportunity there!")
                             .addNext(() -> {
@@ -100,9 +99,9 @@ public class StravenShieldOfArravD extends Conversation {
                     option("Farewell.");
                 }
             });
-        } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE)) {
+        else if (ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE)) {
             addNPC(STRAVEN, HeadE.SECRETIVE, "How's your little mission going?");
-            if(p.getInventory().containsItem(INTEL_REPORT)) {
+            if (p.getInventory().containsItem(INTEL_REPORT)) {
                 addPlayer(HeadE.HAPPY_TALKING, "I have the intelligence report!");
                 addNPC(STRAVEN, HeadE.CALM_TALK, "Let's see it then.");
                 addSimple("You hand over the report. The man reads the report.");
@@ -115,7 +114,7 @@ public class StravenShieldOfArravD extends Conversation {
                     ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX_STAGE, true);
                     p.getInventory().addItem(WEAPONS_KEY, 1);
                 });
-            } else if(p.getBank().containsItem(INTEL_REPORT, 1)) {
+            } else if (p.getBank().containsItem(INTEL_REPORT, 1)) {
                 addPlayer(HeadE.HAPPY_TALKING, "I have the intelligence report!");
                 addNPC(HeadE.CALM_TALK, "Let's see it then.");
                 addPlayer(HeadE.WORRIED, "Oh, its in my bank.");
@@ -125,7 +124,7 @@ public class StravenShieldOfArravD extends Conversation {
                 addNPC(HeadE.SECRETIVE, "You need to kill Jonny the Beard, who should be in the Blue Moon Inn. ...I would guess. Not being a member of " +
                         "the Phoenix Gang and all.");
             }
-        } else if(ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE)) {
+        } else if (ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE))
             addOptions("Choose an option:", new Options() {
                 @Override
                 public void create() {
@@ -176,11 +175,8 @@ public class StravenShieldOfArravD extends Conversation {
                     option("Farewell.");
                 }
             });
-        } else {
-            addNext(() -> {
-                ;
-            });
-        }
+        else
+            ;
     }
 
 }

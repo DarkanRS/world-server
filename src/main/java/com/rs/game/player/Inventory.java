@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player;
@@ -48,9 +48,9 @@ public final class Inventory {
 	public static final int INVENTORY_INTERFACE = 679;
 
 	public Inventory() {
-		items = new ItemsContainer<Item>(28, false);
+		items = new ItemsContainer<>(28, false);
 	}
-	
+
 	public static ButtonClickHandler handleInventoryButtons = new ButtonClickHandler(INVENTORY_INTERFACE) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -81,7 +81,7 @@ public final class Inventory {
 			}
 		}
 	};
-	
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
@@ -93,7 +93,7 @@ public final class Inventory {
 		items.get(slot).setAmount(amount);
 		refresh();
 	}
-	
+
 	public void replace(Item item, Item newItem) {
 		items.set(item.getSlot(), newItem);
 		refresh();
@@ -136,13 +136,11 @@ public final class Inventory {
 		player.getPackets().sendUpdateItems(93, items, slots);
 		refreshConfigs();
 	}
-	
+
 	public boolean hasMaterials(Item[] mats) {
-		for (Item mat : mats) {
-			if (getAmountOf(mat.getId()) < mat.getAmount()) {
+		for (Item mat : mats)
+			if (getAmountOf(mat.getId()) < mat.getAmount())
 				return false;
-			}
-		}
 		return true;
 	}
 
@@ -151,32 +149,29 @@ public final class Inventory {
 	}
 
 	public boolean addItem(int itemId, int amount) {
-		if (itemId < 0 || amount < 0 || !Utils.itemExists(itemId) || !player.getControllerManager().canAddInventoryItem(itemId, amount))
+		Item item = new Item(itemId, amount);
+		PluginManager.handle(new ItemAddedToInventoryEvent(player, item));
+		if (item.getId() < 0 || item.getAmount() < 0 || !Utils.itemExists(item.getId()) || !player.getControllerManager().canAddInventoryItem(item.getId(), item.getAmount()))
 			return false;
-		// if (player.getUsername().equalsIgnoreCase("thieving")) {
-		// player.getBank().addItem(new Item(itemId, amount), true);
-		// return true;
-		// }
 		Item[] itemsBefore = items.getItemsCopy();
-		if (!items.add(new Item(itemId, amount))) {
-			items.add(new Item(itemId, items.getFreeSlots()));
+		if (!items.add(item)) {
+			items.add(new Item(item.getId(), items.getFreeSlots()));
 			player.sendMessage("Not enough space in your inventory.");
 			refreshItems(itemsBefore);
 			return false;
 		}
 		refreshItems(itemsBefore);
-		PluginManager.handle(new ItemAddedToInventoryEvent(player, new Item(itemId, amount)));
 		return true;
 	}
 
 	public int getAmountOf(int itemId) {
-		if (PluginManager.getAmountPlayerHas(player, itemId) != -1) {
+		if (PluginManager.getAmountPlayerHas(player, itemId) != -1)
 			return PluginManager.getAmountPlayerHas(player, itemId);
-		}
 		return items.getNumberOf(itemId);
 	}
 
 	public boolean addItem(Item item) {
+		PluginManager.handle(new ItemAddedToInventoryEvent(player, item));
 		if (item.getId() < 0 || item.getAmount() < 0 || !Utils.itemExists(item.getId()) || !player.getControllerManager().canAddInventoryItem(item.getId(), item.getAmount()))
 			return false;
 		Item[] itemsBefore = items.getItemsCopy();
@@ -188,7 +183,6 @@ public final class Inventory {
 			return false;
 		}
 		refreshItems(itemsBefore);
-		PluginManager.handle(new ItemAddedToInventoryEvent(player, item));
 		return true;
 	}
 
@@ -210,6 +204,14 @@ public final class Inventory {
 		}
 		return true;
 	}
+	
+	public void removeAllItems(int... list) {
+		for (int item : list) {
+			if (!containsItem(item, 1))
+				continue;
+			deleteItem(item, Integer.MAX_VALUE);
+		}
+	}
 
 	public void deleteItem(int itemId, int amount) {
 		if (!player.getControllerManager().canDeleteInventoryItem(itemId, amount))
@@ -220,9 +222,7 @@ public final class Inventory {
 	}
 
 	public void deleteItem(Item item) {
-		if (item == null)
-			return;
-		if (!player.getControllerManager().canDeleteInventoryItem(item.getId(), item.getAmount()))
+		if ((item == null) || !player.getControllerManager().canDeleteInventoryItem(item.getId(), item.getAmount()))
 			return;
 		Item[] itemsBefore = items.getItemsCopy();
 		items.remove(item);
@@ -244,10 +244,9 @@ public final class Inventory {
 	public void refreshItems(Item[] itemsBefore) {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
-		for (int index = 0; index < itemsBefore.length; index++) {
+		for (int index = 0; index < itemsBefore.length; index++)
 			if (itemsBefore[index] != items.getItems()[index])
 				changedSlots[count++] = index;
-		}
 		int[] finalChangedSlots = new int[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
 		refresh(finalChangedSlots);
@@ -264,15 +263,14 @@ public final class Inventory {
 	public int getFreeSlots() {
 		return items.getFreeSlots();
 	}
-	
+
 	public int getNumberOf(int itemId) {
 		return getNumberOf(itemId, true);
 	}
 
 	public int getNumberOf(int itemId, boolean checkToolbelt) {
-		if (PluginManager.getAmountPlayerHas(player, itemId) != -1) {
+		if (PluginManager.getAmountPlayerHas(player, itemId) != -1)
 			return PluginManager.getAmountPlayerHas(player, itemId);
-		}
 		int amount = items.getNumberOf(itemId);
 		if (checkToolbelt && player.containsTool(itemId))
 			amount++;
@@ -282,46 +280,45 @@ public final class Inventory {
 	public Item getItem(int slot) {
 		return items.get(slot);
 	}
-	
+
 	public boolean hasRoomFor(Item... item) {
 		return hasRoomFor(null, item);
 	}
-	
+
 	public boolean hasRoomFor(Item[] deleting, Item... adding) {
 		int freeSlots = getFreeSlots();
 		int freedSlots = 0;
-		if (deleting != null) {
+		if (deleting != null)
 			for (Item i : deleting) {
 				if (i == null)
 					continue;
 				if (!i.getDefinitions().isStackable() || (i.getDefinitions().isStackable() && getNumberOf(i.getId(), false) <= i.getAmount()))
 					freedSlots++;
 			}
-		}
 		freeSlots += freedSlots;
 		int neededSlots = 0;
 		for (Item i : adding) {
+			if (i.getDefinitions().isStackable() && (getNumberOf(i.getId()) + i.getAmount()) <= 0)
+				return false;
 			if (!i.getDefinitions().isStackable() || (i.getDefinitions().isStackable() && getNumberOf(i.getId(), false) <= 0))
 				neededSlots++;
 		}
 		return freeSlots >= neededSlots;
 	}
-	
+
 	public Item getItemById(int id) {
-		for (Item item : items.getItems()) {
+		for (Item item : items.getItems())
 			if (item != null && item.getId() == id)
 				return item;
-		}
 		return null;
 	}
-	
+
 	public boolean hasFreeSlots(Item[] mats, Item product) {
 		boolean allStack = true;
-		for (Item i : mats) {
+		for (Item i : mats)
 			if (i != null)
 				if (!i.getDefinitions().isStackable())
 					allStack = false;
-		}
 		if (hasRoomFor(product) || (mats.length > 0 && !allStack))
 			return true;
 		return false;
@@ -330,20 +327,18 @@ public final class Inventory {
 	public int getItemsContainerSize() {
 		return items.getSize();
 	}
-	
+
 	public boolean containsItem(String name) {
-		for (Item item : items.toArray()) {
-			if (item != null) {
+		for (Item item : items.toArray())
+			if (item != null)
 				if (item.getDefinitions().getName().equalsIgnoreCase(name))
 					return true;
-			}
-		}
 		return false;
 	}
 
 	public boolean containsItems(Item... item) {
-		for (int i = 0; i < item.length; i++)
-			if (!items.contains(item[i]))
+		for (Item element : item)
+			if (!items.contains(element))
 				return false;
 		return true;
 	}
@@ -355,11 +350,11 @@ public final class Inventory {
 				return false;
 		return true;
 	}
-	
+
 	public boolean containsItem(Item item) {
 		return containsItem(item.getId(), item.getAmount(), true);
 	}
-	
+
 	public boolean containsItem(int itemId, int amount) {
 		return containsItem(itemId, amount, true);
 	}
@@ -367,11 +362,9 @@ public final class Inventory {
 	public boolean containsItem(int itemId, int amount, boolean checkToolbelt) {
 		if (PluginManager.getAmountPlayerHas(player, itemId) != -1)
 			return PluginManager.getAmountPlayerHas(player, itemId) >= amount;
-		if (items.contains(new Item(itemId, amount)))
-			return true;
-		if (checkToolbelt && player.containsTool(itemId))
-			return true;
-		return false;
+			if (items.contains(new Item(itemId, amount)) || (checkToolbelt && player.containsTool(itemId)))
+				return true;
+			return false;
 	}
 
 	public boolean missingItems(int... itemIds) {
@@ -392,14 +385,11 @@ public final class Inventory {
 	public boolean containsOneItem(int... itemIds) {
 		return containsOneItem(true, itemIds);
 	}
-	
+
 	public boolean containsOneItem(boolean checkToolbelt, int... itemIds) {
-		for (int itemId : itemIds) {
-			if (items.containsOne(new Item(itemId, 1)))
+		for (int itemId : itemIds)
+			if (items.containsOne(new Item(itemId, 1)) || (checkToolbelt && player.containsTool(itemId)))
 				return true;
-			if (checkToolbelt && player.containsTool(itemId))
-				return true;
-		}
 		return false;
 	}
 
@@ -421,7 +411,7 @@ public final class Inventory {
 		player.getPackets().sendItems(93, items);
 		refreshConfigs();
 	}
-	
+
 	public boolean addItem(int itemId, int amount, boolean dropIfInvFull) {
 		return addItem(new Item(itemId, amount), dropIfInvFull);
 	}
@@ -443,7 +433,7 @@ public final class Inventory {
 		refreshItems(itemsBefore);
 		return true;
 	}
-	
+
 	public void refreshConfigs() {
 		double w = 0;
 		for (Item item : items.getItems()) {
@@ -458,25 +448,22 @@ public final class Inventory {
 	public boolean addItemDrop(int id, int amount) {
 		return addItem(id, amount, true);
 	}
-	
+
 	public boolean addItemDrop(Item item) {
 		return addItem(item, true);
 	}
 
 	public boolean containsItems(List<Item> list) {
-		for (Item item : list) {
-			if (!items.contains(item)) {
+		for (Item item : list)
+			if (!items.contains(item))
 				return false;
-			}
-		}
 		return true;
 	}
-	
+
 	public boolean removeItems(List<Item> list) {
 		for (Item item : list) {
-			if (item == null) {
+			if (item == null)
 				continue;
-			}
 			deleteItem(item);
 		}
 		return true;
@@ -503,6 +490,13 @@ public final class Inventory {
 			deleteItem(itemId, item.getAmount());
 		else
 			deleteItem(notedId, item.getAmount());
+	}
+
+	public int getTotalNumberOf(int... ids) {
+		int count = 0;
+		for (int id : ids)
+			count += getNumberOf(id);
+		return count;
 	}
 
 }

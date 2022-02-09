@@ -2,16 +2,16 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//  Copyright © 2021 Trenton Kress
+//  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
 package com.rs.game.player.quests.handlers;
@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @QuestHandler(Quest.COOKS_ASSISTANT)
 @PluginEventHandler
 public class CooksAssistant extends QuestOutline {
-	
+
 	@Override
 	public int getCompletedStage() {
 		return 2;
@@ -41,7 +41,7 @@ public class CooksAssistant extends QuestOutline {
 
 	@Override
 	public ArrayList<String> getJournalLines(Player player, int stage) {
-		ArrayList<String> lines = new ArrayList<String>();
+		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:
 			lines.add("I can start this quest by speaking to the cook");
@@ -65,7 +65,7 @@ public class CooksAssistant extends QuestOutline {
 		}
 		return lines;
 	}
-	
+
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.COOKING, 300);
@@ -95,9 +95,9 @@ public class CooksAssistant extends QuestOutline {
 				});
 			} else if (player.getQuestManager().getStage(Quest.COOKS_ASSISTANT) == 1) {
 				addNPC(npcId, HeadE.CONFUSED, "How are you getting with finding the ingredients?");
-				if (!player.getInventory().containsItems(new Item[] { new Item(1933, 1), new Item(1944, 1), new Item(1927, 1) })) {
+				if (!player.getInventory().containsItems(new Item(1933, 1), new Item(1944, 1), new Item(1927, 1)))
 					addPlayer(HeadE.WORRIED, "I haven't quite gotten them all yet. I'll be back when I have the rest of them.");
-				} else {
+				else {
 					addPlayer(HeadE.HAPPY_TALKING, "I have all of the items right here!");
 					addNPC(npcId, HeadE.HAPPY_TALKING, "You've brought me everything I need! I am saved! Thank you!");
 					addPlayer(HeadE.CONFUSED, "So, do I get to go to the Duke's party?");
@@ -110,15 +110,14 @@ public class CooksAssistant extends QuestOutline {
 						player.getQuestManager().completeQuest(Quest.COOKS_ASSISTANT);
 					});
 				}
-			} else {
+			} else
 				addNPC(npcId, HeadE.HAPPY_TALKING, "Thank you for the help! Feel free to use my range!");
-			}
 
 			create();
 		}
 
 	}
-	
+
 	public static NPCClickHandler talkCook = new NPCClickHandler(278) {
 		@Override
 		public void handle(NPCClickEvent e) {
