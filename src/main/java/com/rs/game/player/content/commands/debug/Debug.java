@@ -288,6 +288,15 @@ public class Debug {
 			p.delete(args[0]);
 		});
 
+		Commands.add(Rights.PLAYER, "owner", "Makes you owner if your username is the owner.", (p, args) -> {
+			if (p.getUsername().equals(Settings.getConfig().getOwnerName())) {
+				p.setRights(Rights.OWNER);
+				p.sendMessage("You are owner.");
+				return;
+			}
+			p.sendMessage("You are not owner.");
+		});
+
 		Commands.add(Rights.PLAYER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
 			boolean spec = p.getNSV().getB("infSpecialAttack");
 			p.getNSV().setB("infSpecialAttack", !spec);

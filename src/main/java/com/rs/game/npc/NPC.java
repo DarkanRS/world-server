@@ -66,11 +66,13 @@ import com.rs.utils.drop.DropTable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NPC extends Entity {
 
 	private int id;
+	private String uuid;
 	private WorldTile respawnTile;
 	private boolean randomWalk;
 	private int[] levels;
@@ -117,6 +119,7 @@ public class NPC extends Entity {
 	public NPC(int id, WorldTile tile, Direction direction, boolean permaDeath) {
 		super(tile);
 		this.id = id;
+		this.uuid = UUID.randomUUID().toString();
 		respawnTile = new WorldTile(tile);
 		setSpawned(permaDeath);
 		combatLevel = -1;
@@ -1081,7 +1084,7 @@ public class NPC extends Entity {
 
 	@Override
 	public int hashCode() {
-		return getIndex();
+		return uuid.hashCode();
 	}
 
 	@Override
