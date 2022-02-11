@@ -1159,6 +1159,8 @@ public class Player extends Entity {
 				return;
 			}
 		});
+		if (getTile() == null)
+			setTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);

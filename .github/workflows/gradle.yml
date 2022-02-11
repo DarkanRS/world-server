@@ -29,8 +29,8 @@ jobs:
       with:
         repository: DarkanRS/core
         ref: ${{ github.base_ref }}
-        path: 'darkan-core/'
-    - name: Build & Publish darkan-core
+        path: 'core/'
+    - name: Build & Publish core
       uses: gradle/gradle-build-action@v2
       with:
         arguments: publishToMavenLocal

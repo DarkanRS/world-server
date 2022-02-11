@@ -1369,6 +1369,10 @@ public abstract class Entity {
 		return tile;
 	}
 
+	public void setTile(WorldTile tile) {
+		this.tile = tile;
+	}
+
 	public void setLocation(WorldTile tile) {
 		tile.setLocation(tile);
 	}
