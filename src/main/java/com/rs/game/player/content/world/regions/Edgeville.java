@@ -119,7 +119,7 @@ public class Edgeville  {
 			final WorldTile tile = new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() + (isNorth ? -7 : 7), 0);
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(745));
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, tile, 5, isNorth ? Direction.SOUTH : Direction.NORTH));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, tile, 5, isNorth ? Direction.SOUTH : Direction.NORTH));
 			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 

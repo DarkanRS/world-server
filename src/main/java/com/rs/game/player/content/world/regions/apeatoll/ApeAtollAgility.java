@@ -42,7 +42,7 @@ public class ApeAtollAgility {
 		}
 		player.lock();
 		final WorldTile toTile = new WorldTile(2769, 2746, 1);
-		player.setNextForceMovement(new ForceMovement(player, 1, toTile, 7, Direction.NORTH));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 7, Direction.NORTH));
 		player.getAppearance().setBAS(760);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -85,7 +85,7 @@ public class ApeAtollAgility {
 		}
 		player.lock(4);
 		final WorldTile toTile = new WorldTile(2743, 2741, 0);
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 3, Direction.WEST));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 3, Direction.WEST));
 		player.getAppearance().setBAS(739);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -128,7 +128,7 @@ public class ApeAtollAgility {
 		player.lock(4);
 		final WorldTile toTile = new WorldTile(2747, 2741, 0);
 		final WorldTile toTile2 = new WorldTile(2747, 2741, 2);
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile2, 4, Direction.WEST));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile2, 4, Direction.WEST));
 		player.getAppearance().setBAS(744);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -166,7 +166,7 @@ public class ApeAtollAgility {
 						if (Utils.random(5) == 0) {
 							player.setNextAnimation(new Animation(1381));
 							player.applyHit(new Hit(player, Utils.random(200), HitLook.TRUE_DAMAGE));
-							player.setNextForceMovement(new ForceMovement(player, 0, WaterTile, 3, Direction.NORTH));
+							player.setNextForceMovement(new ForceMovement(player.getTile(), 0, WaterTile, 3, Direction.NORTH));
 							player.getAppearance().setBAS(741);
 							WorldTasks.schedule(new WorldTask() {
 
@@ -202,7 +202,7 @@ public class ApeAtollAgility {
 		player.setNextAnimation(new Animation(1392));
 		World.sendObjectAnimation(player, object, new Animation(497));
 		final WorldTile toTile = new WorldTile(2756, 2731, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player, 1, toTile, 3, Direction.EAST));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.EAST));
 		player.getSkills().addXp(Constants.AGILITY, 22);
 		player.getPackets().sendGameMessage("You skilfully swing across.", true);
 		WorldTasks.schedule(new WorldTask() {

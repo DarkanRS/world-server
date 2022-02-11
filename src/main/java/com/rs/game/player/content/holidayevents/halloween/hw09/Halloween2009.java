@@ -16,11 +16,6 @@
 //
 package com.rs.game.player.content.holidayevents.halloween.hw09;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Equipment;
@@ -47,6 +42,11 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.spawns.ObjectSpawn;
 import com.rs.utils.spawns.ObjectSpawns;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 @PluginEventHandler
 public class Halloween2009 {
@@ -144,7 +144,7 @@ public class Halloween2009 {
 	public static ObjectClickHandler handleWebWalks = new ObjectClickHandler(false, WEBS.keySet().toArray()) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			WorldObject curr = World.getClosestObject("Web", e.getPlayer(), 3);
+			WorldObject curr = World.getClosestObject("Web", e.getPlayer().getTile(), 3);
 			if (curr == null) {
 				e.getPlayer().sendMessage("You aren't in a position to walk towards that web!");
 				return;

@@ -312,7 +312,7 @@ public class MiscTest {
 			int radius = args.length > 0 ? Integer.valueOf(args[0]) : 0;
 			List<GameObject> objects = new ArrayList<>();
 			if (radius == 0) {
-				GameObject[] objs = World.getObjects(p);
+				GameObject[] objs = World.getObjects(p.getTile());
 				if (objs != null)
 					for (GameObject obj : objs)
 						if (obj != null)
@@ -355,7 +355,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns an invincible combat test NPC.", (p, args) -> {
-			NPC n = World.spawnNPC(14256, new WorldTile(p), -1, true, true);
+			NPC n = World.spawnNPC(14256, new WorldTile(p.getTile()), -1, true, true);
 			n.setHitpoints(Integer.MAX_VALUE / 2);
 			n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
 		});
@@ -497,13 +497,13 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> {
-			World.spawnNPC(Integer.parseInt(args[0]), new WorldTile(p), -1, true, true, false);
+			World.spawnNPC(Integer.parseInt(args[0]), new WorldTile(p.getTile()), -1, true, true, false);
 		});
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), new WorldTile(p)))
+			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), new WorldTile(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -514,7 +514,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, new WorldTile(p)))
+			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, new WorldTile(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -636,7 +636,7 @@ public class MiscTest {
 			for (NPC npc : World.getNPCs()) {
 				if (npc instanceof Familiar || npc instanceof Pet)
 					continue;
-				if (Utils.getDistance(npc, p) < 9 && npc.getPlane() == p.getPlane())
+				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane())
 					for (int i = 0; i < 100; ++i)
 						npc.applyHit(new Hit(p, 10000, HitLook.TRUE_DAMAGE));
 			}
@@ -646,7 +646,7 @@ public class MiscTest {
 			for (NPC npc : World.getNPCs()) {
 				if (npc instanceof Familiar || npc instanceof Pet)
 					continue;
-				if (Utils.getDistance(npc, p) < 9 && npc.getPlane() == p.getPlane())
+				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane())
 					npc.sendDeath(p);
 			}
 		});
@@ -692,7 +692,7 @@ public class MiscTest {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
-			p.getSession().writeToQueue(new HintTrail(new WorldTile(p), modelId, bufferX, bufferY, steps));
+			p.getSession().writeToQueue(new HintTrail(new WorldTile(p.getTile()), modelId, bufferX, bufferY, steps));
 		});
 
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {
@@ -712,7 +712,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
 			for (NPC npc : World.getNPCs())
 				if (npc.getId() == Integer.valueOf(args[0])) {
-					p.setNextWorldTile(new WorldTile(npc));
+					p.setNextWorldTile(new WorldTile(npc.getTile()));
 					return;
 				}
 			for (NPCSpawn spawns : NPCSpawns.getAllSpawns())

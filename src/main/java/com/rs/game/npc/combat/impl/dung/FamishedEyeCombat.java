@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -32,6 +29,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class FamishedEyeCombat extends CombatScript {
 
@@ -64,7 +64,7 @@ public class FamishedEyeCombat extends CombatScript {
 				cycles++;
 				if (cycles == 1) {
 					tiles = new LinkedList<>();
-					targetTile = new WorldTile(target);
+					targetTile = new WorldTile(target.getTile());
 					World.sendProjectile(eye, targetTile, 2849, 35, 30, 41, 0, 15, 0);
 				} else if (cycles == 2)
 					for (int x = -1; x < 2; x++)

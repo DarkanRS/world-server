@@ -16,14 +16,6 @@
 //
 package com.rs.game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -48,13 +40,8 @@ import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.FileManager;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.*;
 import com.rs.lib.game.GroundItem.GroundItemType;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -68,8 +55,13 @@ import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
+import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 
 
@@ -239,10 +231,10 @@ public final class World {
 	public static void clipNPC(NPC npc) {
 		if (!npc.isBlocksOtherNPCs())
 			return;
-		WorldTile lastTile = npc.getLastWorldTile() == null ? npc : npc.getLastWorldTile();
+		WorldTile lastTile = npc.getLastWorldTile() == null ? npc.getTile() : npc.getLastWorldTile();
 		fillNPCClip(lastTile, npc.getSize(), false);
 		if (!npc.hasFinished())
-			fillNPCClip(npc, npc.getSize(), true);
+			fillNPCClip(npc.getTile(), npc.getSize(), true);
 	}
 
 	public static void fillNPCClip(WorldTile tile, int size, boolean blocks) {
@@ -344,7 +336,7 @@ public final class World {
 	}
 
 	private static void checkControllersAtMove(Player player) {
-		if (DuelController.isAtDuelArena(player))
+		if (DuelController.isAtDuelArena(player.getTile()))
 			player.getControllerManager().startController(new DuelController());
 	}
 
@@ -520,38 +512,36 @@ public final class World {
 		return checkWalkStep(from, to, 1);
 	}
 
-	public static boolean checkMeleeStep(WorldTile from, WorldTile to) {
-		if (from.getPlane() != to.getPlane())
+	public static boolean checkMeleeStep(Object from, int fromSize, Object to, int toSize) {
+		WorldTile fromTile = WorldUtil.targetToTile(from);
+		WorldTile toTile = WorldUtil.targetToTile(to);
+		if (fromTile.getPlane() != toTile.getPlane())
 			return false;
-		if (to instanceof Entity && from instanceof Entity) {
-			WorldTile closestFrom = from;
-			WorldTile closestTo = to;
-			int sizeFrom = ((Entity)from).getSize();
-			int sizeTo = ((Entity)to).getSize();
+			WorldTile closestFrom = fromTile;
+			WorldTile closestTo = toTile;
 			double shortest = 1000.0;
-			for (int x1 = 0; x1 < sizeFrom; x1++)
-				for (int y1 = 0; y1 < sizeFrom; y1++)
-					for (int x2 = 0; x2 < sizeTo; x2++)
-						for (int y2 = 0; y2 < sizeTo; y2++) {
-							double dist = Utils.getDistance(from.transform(x1, y1), to.transform(x2, y2));
+			for (int x1 = 0; x1 < fromSize; x1++)
+				for (int y1 = 0; y1 < fromSize; y1++)
+					for (int x2 = 0; x2 < toSize; x2++)
+						for (int y2 = 0; y2 < toSize; y2++) {
+							double dist = Utils.getDistance(fromTile.transform(x1, y1), toTile.transform(x2, y2));
 							if (dist < shortest) {
-								closestFrom = from.transform(x1, y1);
-								closestTo = to.transform(x2, y2);
+								closestFrom = fromTile.transform(x1, y1);
+								closestTo = toTile.transform(x2, y2);
 								shortest = dist;
 							}
 						}
 			from = closestFrom;
 			to = closestTo;
-		}
 		if (to == null || from == null)
 			return false;
-		if (from.matches(to))
+		if (fromTile.matches(toTile))
 			return true;
-		switch(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY())) {
+		switch(Direction.forDelta(toTile.getX()-fromTile.getX(), toTile.getY()-fromTile.getY())) {
 		case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> { return false; }
 		default -> {}
 		}
-		return checkWalkStep(from, to, 1);
+		return checkWalkStep(fromTile, toTile, 1);
 	}
 
 	public static boolean inRange(int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
@@ -1255,27 +1245,29 @@ public final class World {
 			}
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, int delay, double speed) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, int delay, double speed) {
 		return sendProjectile(from, to, graphicId, angle, delay, speed, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, int delay, double speed, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, int delay, double speed, Consumer<WorldProjectile> task) {
 		return sendProjectile(from, to, graphicId, 28, 28, delay, speed, angle, 0, task);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, double speed) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, double speed) {
 		return sendProjectile(from, to, graphicId, angle, speed, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, double speed, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, double speed, Consumer<WorldProjectile> task) {
 		return sendProjectile(from, to, graphicId, 28, 28, 0, speed, angle, 0, task);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
 		return sendProjectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+		WorldTile fromTile = from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile();
+		WorldTile toTile = to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile();
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
@@ -1297,13 +1289,19 @@ public final class World {
 		} else
 			toSizeX = toSizeY = 1;
 		slope = fromSizeX * 30;
-		WorldProjectile projectile = new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY) : Utils.getProjectileTimeNew(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY, speed)), slope, angle, task);
-		if (graphicId != -1)
-			getRegion(from.getRegionId()).addProjectile(projectile);
+		WorldProjectile projectile = new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
+		if (graphicId != -1) {
+			int regionId = from instanceof WorldTile t ? t.getRegionId() : from instanceof Entity e ? e.getRegionId() : -1;
+			if (regionId == -1)
+				throw new RuntimeException("Invalid source target. Accepts WorldTiles and Entities.");
+			getRegion(regionId).addProjectile(projectile);
+		}
 		return projectile;
 	}
 	
-	public static final WorldProjectile createProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile createProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+		WorldTile fromTile = from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile();
+		WorldTile toTile = to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile();
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
@@ -1325,7 +1323,7 @@ public final class World {
 		} else
 			toSizeX = toSizeY = 1;
 		slope = fromSizeX * 30;
-		return new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY) : Utils.getProjectileTimeNew(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY, speed)), slope, angle, task);
+		return new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 	}
 
 	public static void executeAfterLoadRegion(final int regionId, final Runnable event) {
@@ -1363,7 +1361,7 @@ public final class World {
 	}
 
 	public static boolean isPvpArea(Player player) {
-		return WildernessController.isAtWild(player);
+		return WildernessController.isAtWild(player.getTile());
 	}
 
 	public static GameObject getClosestObject(int objectId, WorldTile tile) {

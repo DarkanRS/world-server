@@ -16,8 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
@@ -30,6 +28,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class YkLagorThunderous extends DungeonBoss {
 
@@ -139,7 +139,7 @@ public class YkLagorThunderous extends DungeonBoss {
 
 	public void playMusic() {
 		for (Player player : getManager().getParty().getTeam()) {
-			if (player.isDead() || !getManager().isAtBossRoom(player))
+			if (player.isDead() || !getManager().isAtBossRoom(player.getTile()))
 				continue;
 			player.getMusicsManager().forcePlayMusic(863);
 		}

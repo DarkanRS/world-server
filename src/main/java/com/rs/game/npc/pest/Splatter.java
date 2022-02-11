@@ -54,7 +54,7 @@ public class Splatter extends PestMonsters {
 					public void run() {
 						finish();
 						for (Entity e : getPossibleTargets())
-							if (e.withinDistance(splatter, 2))
+							if (e.withinDistance(splatter.getTile(), 2))
 								e.applyHit(new Hit(splatter, Utils.getRandomInclusive(400), HitLook.TRUE_DAMAGE));
 					}
 				});

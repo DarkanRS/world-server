@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.managers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
@@ -44,6 +41,9 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class TreasureTrailsManager {
@@ -211,7 +211,7 @@ public class TreasureTrailsManager {
 			// spawn combat npc
 			boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
 			boolean isCoordinateClue = currentClue.details.type == COORDINATE;
-			final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, World.getFreeTile(player, 1));
+			final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, World.getFreeTile(player.getTile(), 1));
 			npc.setNextSpotAnim(new SpotAnim(74));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
@@ -222,7 +222,7 @@ public class TreasureTrailsManager {
 			});
 			cluePhase = 1;
 		} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
-			final NPC npc = new Ugi(player, 5141, World.getFreeTile(player, 1));
+			final NPC npc = new Ugi(player, 5141, World.getFreeTile(player.getTile(), 1));
 			npc.setNextSpotAnim(new SpotAnim(74));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
@@ -589,7 +589,7 @@ public class TreasureTrailsManager {
 			return;
 		}
 		if (componentId == 12) {
-			int[] location = getCoordinates(player);
+			int[] location = getCoordinates(player.getTile());
 			player.sendMessage("The sextant displays:");
 			player.sendMessage((location[0] <= 9 ? "0" : "") + location[0] + " degrees, " + (location[1] <= 9 ? "0" : "") + location[1] + " minutes " + (location[2] == NORTH ? "north" : "south"));
 			player.sendMessage((location[3] <= 9 ? "0" : "") + location[3] + " degrees, " + (location[4] <= 9 ? "0" : "") + location[4] + " minutes " + (location[5] == WEST ? "west" : "east"));

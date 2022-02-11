@@ -63,7 +63,7 @@ public class FrostDragonCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(13155));
 				delayHit(npc, World.sendProjectile(npc, target, 393, 28, 16, 35, 2, 16, 0).getTaskDelay(), target, getRegularHit(npc, damage));
 			}
-		} else if (npc.withinDistance(target, 3) && Utils.random(2) == 0) {
+		} else if (npc.withinDistance(target.getTile(), 3) && Utils.random(2) == 0) {
 			damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));

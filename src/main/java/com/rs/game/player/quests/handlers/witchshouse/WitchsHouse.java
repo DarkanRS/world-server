@@ -1,10 +1,5 @@
 package com.rs.game.player.quests.handlers.witchshouse;
 
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
-
-import java.util.ArrayList;
-
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -22,19 +17,14 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemAddedToInventoryEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.NPCDeathEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCDeathHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(Quest.WITCHS_HOUSE)
 @PluginEventHandler
@@ -106,7 +96,7 @@ public class WitchsHouse extends QuestOutline {
 				e.getPlayer().openBook(new WitchsDiary());;
 				if(e.getOption().equalsIgnoreCase("drop")) {
 					e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-					World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+					World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
 					e.getPlayer().getPackets().sendSound(2739, 0, 1);
 				}
 		}

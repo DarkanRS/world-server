@@ -22,7 +22,6 @@ import com.rs.cores.CoresManager
 import com.rs.game.World
 import com.rs.game.`object`.GameObject
 import com.rs.game.player.Player
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.game.player.actions.Action
 import com.rs.game.player.content.Effect
 import com.rs.lib.Constants
@@ -32,6 +31,7 @@ import com.rs.lib.game.SpotAnim
 import com.rs.lib.game.WorldTile
 import com.rs.lib.util.Logger
 import com.rs.lib.util.Utils
+import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.events.LoginEvent
 import com.rs.plugin.events.ObjectClickEvent
 import com.rs.plugin.handlers.LoginHandler
@@ -245,7 +245,7 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 				if (type.logsId != null) player.incrementCount(ItemDefinitions.getDefs(type.logsId[0]).getName() + " chopped")
 			} else player.incrementCount("Choking ivy chopped")
 			if (Utils.random(256) == 0) {
-				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player), player, true, 30)
+				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player.tile), player, true, 30)
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!")
 			}
 			if (!usingBeaver) player.getSkills().addXp(Constants.WOODCUTTING, type.xp * getLumberjackBonus(player))
@@ -254,7 +254,7 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 				if (random < 11) player.addEffect(Effect.JUJU_WC_BANK, 75)
 			}
 			if (Utils.random(256) == 0) {
-				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player), player, true, 30)
+				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player.tile), player, true, 30)
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!")
 			}
 			//		if (type != TreeType.IVY) {

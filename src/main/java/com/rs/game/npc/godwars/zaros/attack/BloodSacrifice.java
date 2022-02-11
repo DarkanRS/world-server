@@ -43,7 +43,7 @@ public class BloodSacrifice implements NexAttack {
 			@Override
 			public void run() {
 				player.getAppearance().setGlowRed(false);
-				if (Utils.getDistance(nex, player) < 7) {
+				if (Utils.getDistance(nex.getTile(), player.getTile()) < 7) {
 					player.sendMessage("You didn't make it far enough in time - Nex fires a punishing attack!");
 					nex.setNextAnimation(new Animation(6987));
 					for (final Entity t : nex.getPossibleTargets())

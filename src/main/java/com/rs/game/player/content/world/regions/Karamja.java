@@ -156,7 +156,7 @@ public class Karamja  {
 					e.getPlayer().setNextAnimation(new Animation(751));
 					World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(497));
 
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Utils.getAngleTo(toTile.getX() - e.getPlayer().getX(), toTile.getY() - e.getPlayer().getY())));
+					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Utils.getAngleTo(toTile.getX() - e.getPlayer().getX(), toTile.getY() - e.getPlayer().getY())));
 					e.getPlayer().sendMessage("You skillfully swing across the rope.", true);
 					WorldTasks.schedule(new WorldTask() {
 						@Override
@@ -178,7 +178,7 @@ public class Karamja  {
 			if (!Agility.hasLevel(e.getPlayer(), 30))
 				return;
 			e.getPlayer().setNextAnimation(new Animation(741));
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, e.getObject(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {

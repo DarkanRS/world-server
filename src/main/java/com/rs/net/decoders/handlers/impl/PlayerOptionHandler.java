@@ -118,7 +118,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 					player.sendMessage("The other player is busy.");
 					return;
 				}
-				if (!target.withinDistance(player, 14)) {
+				if (!target.withinDistance(player.getTile(), 14)) {
 					player.sendMessage("Unable to find target " + target.getDisplayName());
 					return;
 				}

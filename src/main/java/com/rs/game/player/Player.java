@@ -1159,6 +1159,8 @@ public class Player extends Entity {
 				return;
 			}
 		});
+		if (getTile() == null)
+			setTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);
@@ -1541,7 +1543,7 @@ public class Player extends Entity {
 	public void checkMultiArea() {
 		if (!started)
 			return;
-		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(this);
+		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
 			setAtMultiArea(isAtMultiArea);
 			getPackets().sendVarc(616, 1);
@@ -2078,7 +2080,7 @@ public class Player extends Entity {
 						if (playersIndexes != null)
 							for (int playerIndex : playersIndexes) {
 								Player player = World.getPlayers().get(playerIndex);
-								if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.withinDistance(this, 1) || !player.isCanPvp() || !target.getControllerManager().canHit(player))
+								if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.withinDistance(getTile(), 1) || !player.isCanPvp() || !target.getControllerManager().canHit(player))
 									continue;
 								player.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 							}
@@ -2091,7 +2093,7 @@ public class Player extends Entity {
 								npc.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 							}
 					}
-				else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(this, 1))
+				else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(getTile(), 1))
 					source.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 				WorldTasks.schedule(new WorldTask() {
 					@Override
@@ -2129,7 +2131,7 @@ public class Player extends Entity {
 								if (playersIndexes != null)
 									for (int playerIndex : playersIndexes) {
 										Player player = World.getPlayers().get(playerIndex);
-										if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.isCanPvp() || !player.withinDistance(target, 2) || !target.getControllerManager().canHit(player))
+										if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.isCanPvp() || !player.withinDistance(target.getTile(), 2) || !target.getControllerManager().canHit(player))
 											continue;
 										player.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 									}
@@ -2142,7 +2144,7 @@ public class Player extends Entity {
 										npc.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 									}
 							}
-						else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target, 2))
+						else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target.getTile(), 2))
 							source.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 
 						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 2, getY() + 2, getPlane()));
@@ -2171,7 +2173,7 @@ public class Player extends Entity {
 		stopAll();
 		if (familiar != null)
 			familiar.sendDeath(this);
-		WorldTile lastTile = new WorldTile(this);
+		WorldTile lastTile = new WorldTile(getTile());
 		if (isAtDynamicRegion())
 			lastTile = getRandomGraveyardTile();
 		final WorldTile deathTile = lastTile;
@@ -2206,7 +2208,7 @@ public class Player extends Entity {
 
 	public void sendItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendItemsOnDeath(killer, new WorldTile(this), new WorldTile(this), true, slots);
+		sendItemsOnDeath(killer, new WorldTile(getTile()), new WorldTile(getTile()), true, slots);
 	}
 
 	public void sendItemsOnDeath(Player killer, WorldTile deathTile, WorldTile respawnTile, boolean noGravestone, Integer[][] slots) {

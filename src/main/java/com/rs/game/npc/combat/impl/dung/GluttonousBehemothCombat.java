@@ -49,7 +49,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		DungeonManager manager = boss.getManager();
 		boolean lessThanHalf = npc.getHitpoints() < npc.getMaxHitpoints() * .5;
 		if (lessThanHalf && !npc.getTempAttribs().getB("GLUTTONOUS_HEALING")) {
-			RoomReference reference = manager.getCurrentRoomReference(npc);
+			RoomReference reference = manager.getCurrentRoomReference(npc.getTile());
 			GameObject food1 = manager.getObject(reference, 49283, 0, 11);
 			GameObject food2 = manager.getParty().getTeam().size() <= 1 ? null : manager.getObject(reference, 49283, 11, 11);
 			GameObject food = food1;

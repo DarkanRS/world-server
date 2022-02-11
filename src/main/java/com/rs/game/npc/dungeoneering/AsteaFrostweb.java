@@ -79,7 +79,7 @@ public final class AsteaFrostweb extends DungeonBoss {
 			return;
 		// spawnedSpiders
 		for (int tryI = 0; tryI < 10; tryI++) {
-			WorldTile tile = new WorldTile(this, 2);
+			WorldTile tile = new WorldTile(getTile(), 2);
 			if (World.floorAndWallsFree(tile, 1)) {
 				NPC spider = spiders[spawnedSpiders++] = new NPC(64, tile, true);
 				spider.setForceAgressive(true);

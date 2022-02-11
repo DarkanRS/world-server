@@ -78,7 +78,7 @@ public class TaverlyDungeon {
 						e.getPlayer().setNextFaceWorldTile(e.getObject());
 					else if (ticks == 3) {
 						e.getPlayer().setNextAnimation(new Animation(1995));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
 					} else if (ticks == 4)
 						e.getPlayer().setNextAnimation(new Animation(1603));
 					else if (ticks == 7) {

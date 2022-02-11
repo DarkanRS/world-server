@@ -23,6 +23,7 @@ import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.utils.WorldUtil;
 
 public class FamishedEye extends DungeonNPC {
 
@@ -39,14 +40,14 @@ public class FamishedEye extends DungeonNPC {
 		type = findType(rotationType);
 		setCantFollowUnderCombat(true);
 		setForceAgressive(true);
-		int rotation = manager.getRoom(manager.getCurrentRoomReference(this)).getRotation() + rotationType;
+		int rotation = manager.getRoom(manager.getCurrentRoomReference(getTile())).getRotation() + rotationType;
 		setFaceAngle(Utils.getAngleTo(Utils.ROTATION_DIR_X[(rotation + 1) & 0x3], Utils.ROTATION_DIR_Y[(rotation + 1) & 0x3]));
 	}
 
 	@Override
-	public boolean lineOfSightTo(WorldTile tile, boolean checkClose) {
+	public boolean lineOfSightTo(Object tile, boolean checkClose) {
 		//because npc is under cliped data
-		return getManager().isAtBossRoom(tile);
+		return getManager().isAtBossRoom(WorldUtil.targetToTile(tile));
 	}
 
 	@Override

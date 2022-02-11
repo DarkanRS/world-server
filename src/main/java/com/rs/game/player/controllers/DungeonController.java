@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.controllers;
 
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
@@ -28,18 +26,7 @@ import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.npc.NPC;
-import com.rs.game.npc.dungeoneering.Blink;
-import com.rs.game.npc.dungeoneering.DivineSkinweaver;
-import com.rs.game.npc.dungeoneering.DungeonBoss;
-import com.rs.game.npc.dungeoneering.DungeonFishSpot;
-import com.rs.game.npc.dungeoneering.DungeonSlayerNPC;
-import com.rs.game.npc.dungeoneering.FrozenAdventurer;
-import com.rs.game.npc.dungeoneering.Gravecreeper;
-import com.rs.game.npc.dungeoneering.MastyxTrap;
-import com.rs.game.npc.dungeoneering.NightGazerKhighorahk;
-import com.rs.game.npc.dungeoneering.RuneboundBehemoth;
-import com.rs.game.npc.dungeoneering.Stomp;
-import com.rs.game.npc.dungeoneering.YkLagorThunderous;
+import com.rs.game.npc.dungeoneering.*;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
@@ -47,34 +34,17 @@ import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.combat.AttackType;
 import com.rs.game.player.content.skills.cooking.Foods;
-import com.rs.game.player.content.skills.dungeoneering.Door;
-import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.player.content.skills.dungeoneering.*;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants.SkillDoors;
-import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
-import com.rs.game.player.content.skills.dungeoneering.DungeonResourceShop;
-import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
-import com.rs.game.player.content.skills.dungeoneering.KinshipPerk;
-import com.rs.game.player.content.skills.dungeoneering.Room;
-import com.rs.game.player.content.skills.dungeoneering.RoomReference;
-import com.rs.game.player.content.skills.dungeoneering.VisibleRoom;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonClimbLadder;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonExit;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonLeave;
 import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.content.skills.dungeoneering.rooms.puzzles.PoltergeistRoom;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungHatchet;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungPickaxe;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungTree;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringFarming;
+import com.rs.game.player.content.skills.dungeoneering.skills.*;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringFarming.Harvest;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringFishing;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringMining.DungeoneeringRocks;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringRCD;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringSmithing;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringTraps;
-import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringWoodcutting;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.magic.Rune;
 import com.rs.game.player.content.skills.magic.RuneSet;
@@ -88,14 +58,12 @@ import com.rs.game.player.dialogues.SmugglerD;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.Set;
 
 public class DungeonController extends Controller {
 
@@ -164,12 +132,12 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean canMove(Direction dir) {
-		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		WorldTile to = new WorldTile(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
 		if(vr != null && !vr.canMove(player, to))
 			return false;
 
-		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player));
+		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (room != null)
 			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FROZEN_FLOORS, 26, 624)) {
 				if (!player.isCantWalk() && World.getObjectWithType(new WorldTile(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
@@ -275,15 +243,15 @@ public class DungeonController extends Controller {
 		player.stopAll();
 		player.getPackets().sendMusicEffect(418);
 		if (player.getInventory().containsItem(DungeonConstants.GROUP_GATESTONE, 1)) {
-			WorldTile tile = new WorldTile(player);
-			dungeon.setGroupGatestone(new WorldTile(player));
+			WorldTile tile = new WorldTile(player.getTile());
+			dungeon.setGroupGatestone(new WorldTile(player.getTile()));
 			World.addGroundItem(new Item(DungeonConstants.GROUP_GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GROUP_GATESTONE, 1);
 			player.sendMessage("Your group gatestone drops to the floor as you die.");
 		}
 		if (player.getInventory().containsItem(DungeonConstants.GATESTONE, 1)) {
-			WorldTile tile = new WorldTile(player);
-			setGatestone(new WorldTile(player));
+			WorldTile tile = new WorldTile(player.getTile());
+			setGatestone(new WorldTile(player.getTile()));
 			World.addGroundItem(new Item(DungeonConstants.GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
@@ -306,7 +274,7 @@ public class DungeonController extends Controller {
 				} else if (loop == 3) {
 					player.resetReceivedHits();
 					if (dungeon != null && dungeon.getParty().getTeam().contains(player)) {
-						if (dungeon.isAtBossRoom(player, 26, 672, true)) {
+						if (dungeon.isAtBossRoom(player.getTile(), 26, 672, true)) {
 							NPC npc = getNPC(player, "Yk'Lagor the Thunderous");
 							if (npc != null)
 								npc.setNextForceTalk(new ForceTalk("Another kill for the Thunderous!"));
@@ -466,7 +434,7 @@ public class DungeonController extends Controller {
 	public boolean processNPCClick1(final NPC npc) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		VisibleRoom vRoom = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom vRoom = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (vRoom == null || !vRoom.processNPCClick1(player, npc))
 			return false;
 		if (npc.getId() == DungeonConstants.FISH_SPOT_NPC_ID) {
@@ -500,7 +468,7 @@ public class DungeonController extends Controller {
 	public boolean processNPCClick2(final NPC npc) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if ((room == null) || !room.processNPCClick2(player, npc))
 			return false;
 		if (npc instanceof Familiar familiar) {
@@ -533,7 +501,7 @@ public class DungeonController extends Controller {
 	public boolean processNPCClick3(NPC npc) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if ((room == null) || !room.processNPCClick3(player, npc))
 			return false;
 		return true;
@@ -565,8 +533,8 @@ public class DungeonController extends Controller {
 	public boolean processObjectClick1(final GameObject object) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player));
-		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
+		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (vr == null || !vr.processObjectClick1(player, object))
 			return false;
 		int floorType = DungeonUtils.getFloorType(dungeon.getParty().getFloor());
@@ -672,7 +640,7 @@ public class DungeonController extends Controller {
 				player.sendMessage(((PuzzleRoom) vr).getLockMessage());
 			return false;
 		} else if (object.getId() == DungeonConstants.THIEF_CHEST_LOCKED[floorType]) {
-			room = dungeon.getRoom(dungeon.getCurrentRoomReference(player));
+			room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 			int type = room.getThiefChest();
 			if (type == -1)
 				return false;
@@ -865,7 +833,7 @@ public class DungeonController extends Controller {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 
-		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (vr == null || !vr.processObjectClick2(player, object))
 			return false;
 		if (object.getId() >= DungeonConstants.FARMING_PATCH_BEGINING && object.getId() <= DungeonConstants.FARMING_PATCH_END) {
@@ -890,7 +858,7 @@ public class DungeonController extends Controller {
 	public boolean processObjectClick3(GameObject object) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (vr == null || !vr.processObjectClick4(player, object))
 			return false;
 		if (object.getId() >= DungeonConstants.FARMING_PATCH_BEGINING && object.getId() <= DungeonConstants.FARMING_PATCH_END) {
@@ -908,7 +876,7 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean processObjectClick4(final GameObject object) {
-		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen() || !dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player)).processObjectClick4(player, object))
+		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen() || !dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile())).processObjectClick4(player, object))
 			return false;
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
@@ -923,7 +891,7 @@ public class DungeonController extends Controller {
 	public boolean processObjectClick5(final GameObject object) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (vr == null || !vr.processObjectClick5(player, object))
 			return false;
 		String name = object.getDefinitions().getName().toLowerCase();
@@ -953,7 +921,7 @@ public class DungeonController extends Controller {
 	public boolean processItemOnObject(GameObject object, Item item) {
 		if (dungeon == null || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+		VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if ((room == null) || !room.handleItemOnObject(player, object, item))
 			return false;
 		String name = object.getDefinitions().getName().toLowerCase();
@@ -1014,7 +982,7 @@ public class DungeonController extends Controller {
 	}
 
 	public void openDoor(GameObject object) {
-		RoomReference roomReference = dungeon.getCurrentRoomReference(player);
+		RoomReference roomReference = dungeon.getCurrentRoomReference(player.getTile());
 		if (dungeon.enterRoom(player, roomReference.getRoomX() + Utils.ROTATION_DIR_X[object.getRotation()], roomReference.getRoomY() + Utils.ROTATION_DIR_Y[object.getRotation()]))
 			hideBar();
 	}
@@ -1079,7 +1047,7 @@ public class DungeonController extends Controller {
 					}
 				for (int element : PoltergeistRoom.HERBS)
 					if (item.getId() == element) {
-						VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player));
+						VisibleRoom room = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
 						if (room == null)
 							return false;
 						if (!(room instanceof PoltergeistRoom)) {
@@ -1184,7 +1152,7 @@ public class DungeonController extends Controller {
 		}
 		if (item.getDefinitions().isDestroyItem())
 			return true;
-		WorldTile currentTile = new WorldTile(player);
+		WorldTile currentTile = new WorldTile(player.getTile());
 		player.stopAll(false);
 		player.getInventory().deleteItem(item);
 		if (item.getId() == DungeonConstants.GROUP_GATESTONE)
@@ -1202,7 +1170,7 @@ public class DungeonController extends Controller {
 	private void stoneTeleport(boolean group) {
 		WorldTile tile = group ? dungeon.getGroupGatestone() : gatestone;
 
-		if (dungeon.isAtBossRoom(player, 26, 626, true) || (dungeon.isAtBossRoom(player, 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(new WorldTile(player))))) {
+		if (dungeon.isAtBossRoom(player.getTile(), 26, 626, true) || (dungeon.isAtBossRoom(player.getTile(), 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(new WorldTile(player.getTile()))))) {
 			player.sendMessage("You can't teleport here.");
 			return;
 		}

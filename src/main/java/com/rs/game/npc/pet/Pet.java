@@ -82,7 +82,7 @@ public final class Pet extends NPC {
 		owner.getPetManager().setItemId(itemId);
 		owner.getPetManager().setNpcId(npcId);
 		finish();
-		Pet newPet = new Pet(npcId, itemId, owner, owner, details);
+		Pet newPet = new Pet(npcId, itemId, owner, owner.getTile(), details);
 		newPet.growthRate = growthRate;
 		owner.setPet(newPet);
 		owner.sendMessage("<col=ff0000>Your pet has grown larger.</col>");

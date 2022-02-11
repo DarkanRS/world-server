@@ -1,18 +1,5 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.BLUE_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.GREEN_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.LESSER_DEMON_GREEN_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.MAGENTA_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.MAP_PART1;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.MELZAR_MAZE_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.MELZAR_THE_MAD_MEGENTA_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.ORANGE_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.RED_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.YELLOW_KEY;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.ZOMBIE_BLUE_KEY;
-
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
@@ -27,6 +14,9 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class MelzarsMaze {
@@ -149,7 +139,7 @@ public class MelzarsMaze {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getNPC().getRegionId() == MELZAR_BASEMENT_REGION && e.killedByPlayer())
-				World.addGroundItem(new Item(BLUE_KEY, 1), new WorldTile(e.getNPC()), (Player)e.getKiller());
+				World.addGroundItem(new Item(BLUE_KEY, 1), new WorldTile(e.getNPC().getTile()), (Player)e.getKiller());
 		}
 	};
 
@@ -158,7 +148,7 @@ public class MelzarsMaze {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getNPC().getRegionId() == MELZAR_BASEMENT_REGION && e.killedByPlayer())
-				World.addGroundItem(new Item(GREEN_KEY, 1), new WorldTile(e.getNPC()), (Player)e.getKiller());
+				World.addGroundItem(new Item(GREEN_KEY, 1), new WorldTile(e.getNPC().getTile()), (Player)e.getKiller());
 		}
 	};
 
@@ -167,7 +157,7 @@ public class MelzarsMaze {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getNPC().getRegionId() == MELZAR_BASEMENT_REGION && e.killedByPlayer())
-				World.addGroundItem(new Item(MAGENTA_KEY, 1), new WorldTile(e.getNPC()), (Player)e.getKiller());
+				World.addGroundItem(new Item(MAGENTA_KEY, 1), new WorldTile(e.getNPC().getTile()), (Player)e.getKiller());
 		}
 	};
 

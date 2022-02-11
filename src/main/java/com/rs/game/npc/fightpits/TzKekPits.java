@@ -40,7 +40,7 @@ public class TzKekPits extends FightPitsNPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		final WorldTile tile = this;
+		final WorldTile tile = new WorldTile(getTile());
 		WorldTasks.schedule(new WorldTask() {
 			int loop;
 

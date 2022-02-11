@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.skills.hunter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.ForceTalk;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -37,6 +34,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FlyingEntityHunter {
 
@@ -208,12 +208,12 @@ public class FlyingEntityHunter {
 					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							WorldTile teleTile = npc;
+							WorldTile teleTile = npc.getTile();
 							for (int trycount = 0; trycount < 10; trycount++) {
-								teleTile = new WorldTile(npc, 3);
+								teleTile = new WorldTile(npc.getTile(), 3);
 								if (World.floorAndWallsFree(teleTile, player.getSize()))
 									break;
-								teleTile = npc;
+								teleTile = npc.getTile();
 							}
 							npc.setNextWorldTile(teleTile);
 						}

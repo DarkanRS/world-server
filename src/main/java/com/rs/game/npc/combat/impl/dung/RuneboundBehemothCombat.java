@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.Hit;
@@ -37,6 +34,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class RuneboundBehemothCombat extends CombatScript {
 
@@ -82,7 +82,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 						boss.setNextSpotAnim(new SpotAnim(2771));
 						for (Entity t : boss.getPossibleTargets())
 							tileLoop: for (int i = 0; i < 4; i++) {
-								WorldTile tile = World.getFreeTile(t, 2);
+								WorldTile tile = World.getFreeTile(t.getTile(), 2);
 								if (!manager.isAtBossRoom(tile))
 									continue tileLoop;
 								explosions.add(tile);

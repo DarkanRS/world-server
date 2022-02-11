@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.NPC;
@@ -34,6 +30,10 @@ import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SlidingTilesRoom extends PuzzleRoom {
 
@@ -140,7 +140,7 @@ public class SlidingTilesRoom extends PuzzleRoom {
 		if (!npc.getDefinitions().getName().equals("Sliding block") || player.getControllerManager().getController() == null || !(player.getControllerManager().getController() instanceof DungeonController))
 			return false;
 		DungeonManager manager = player.getDungManager().getParty().getDungeon();
-		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player));
+		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player.getTile()));
 		if ((room == null) || !(room instanceof SlidingTilesRoom puzzle))
 			return false;
 		for (int i = 0; i < puzzle.tiles.length; i++)

@@ -16,12 +16,8 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import com.rs.game.Entity;
-import com.rs.game.ForceMovement;
-import com.rs.game.ForceTalk;
-import com.rs.game.Hit;
+import com.rs.game.*;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
@@ -85,11 +81,11 @@ public class Rammernaut extends DungeonBoss {
 							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && getManager().isAtBossRoom(tile))
 								break;
 							if (distance == 0)
-								tile = new WorldTile(entity);
+								tile = new WorldTile(entity.getTile());
 						}
 						entity.faceEntity(npc);
 						entity.setNextAnimation(new Animation(10070));
-						entity.setNextForceMovement(new ForceMovement(entity, 0, tile, 2, entity.getFaceAngle()));
+						entity.setNextForceMovement(new ForceMovement(entity.getTile(), 0, tile, 2, entity.getFaceAngle()));
 					} else if (ticks == 2) {
 						entity.setNextWorldTile(tile);
 						stop();
@@ -122,7 +118,7 @@ public class Rammernaut extends DungeonBoss {
 				 */
 				calcFollow(chargeTarget, true);
 
-				if (count != 3 && !World.floorAndWallsFree(this, getSize()))
+				if (count != 3 && !World.floorAndWallsFree(getTile(), getSize()))
 					fail();
 				else if (WorldUtil.isInRange(getX(), getY(), getSize(), chargeTarget.getX(), chargeTarget.getY(), chargeTarget.getSize(), 0))
 					sucess();

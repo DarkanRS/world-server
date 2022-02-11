@@ -72,7 +72,7 @@ public class WildernessAgility {
 		player.lock();
 		player.setNextAnimation(new Animation(9908));
 		final WorldTile toTile = new WorldTile(object.getX(), 3931, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 16, Direction.NORTH));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.NORTH));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
@@ -90,7 +90,7 @@ public class WildernessAgility {
 		player.lock();
 		player.setNextAnimation(new Animation(9908));
 		final WorldTile toTile = new WorldTile(object.getX() + 1, 3916, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 16, Direction.SOUTH));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.SOUTH));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
@@ -143,7 +143,7 @@ public class WildernessAgility {
 		player.setNextAnimation(new Animation(751));
 		World.sendObjectAnimation(player, object, new Animation(497));
 		final WorldTile toTile = new WorldTile(object.getX(), 3958, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player, 1, toTile, 3, Direction.NORTH));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.NORTH));
 		player.getSkills().addXp(Constants.AGILITY, 22);
 		player.sendMessage("You skilfully swing across.", true);
 		WorldTasks.schedule(new WorldTask() {

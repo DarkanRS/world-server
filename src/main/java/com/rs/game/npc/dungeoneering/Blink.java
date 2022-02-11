@@ -176,7 +176,7 @@ public class Blink extends DungeonBoss {
 			} else if (rushCount == 11) {
 				setNextSpotAnim(new SpotAnim(2869));
 				for (Player player : getManager().getParty().getTeam()) {
-					if (!getManager().getCurrentRoomReference(this).equals(getManager().getCurrentRoomReference(player)) || !WorldUtil.isInRange(player.getX(), player.getY(), 1, getX(), getY(), 1, 4))
+					if (!getManager().getCurrentRoomReference(getTile()).equals(getManager().getCurrentRoomReference(player.getTile())) || !WorldUtil.isInRange(player.getX(), player.getY(), 1, getX(), getY(), 1, 4))
 						continue;
 					int damage = Utils.random(200, 600);
 					if (player.getPrayer().isProtectingMage() || player.getPrayer().isProtectingRange())

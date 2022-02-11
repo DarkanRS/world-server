@@ -2,7 +2,7 @@
   "names": [
     "Monkey"
   ],
-  "hitpoints": 300,
+  "hitpoints": 60,
   "attackAnim": 220,
   "defenceAnim": 221,
   "deathAnim": 223,

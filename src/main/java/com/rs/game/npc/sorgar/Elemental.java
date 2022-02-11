@@ -16,10 +16,6 @@
 //
 package com.rs.game.npc.sorgar;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -32,6 +28,10 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @PluginEventHandler
 public class Elemental extends NPC {
@@ -82,7 +82,7 @@ public class Elemental extends NPC {
 	public void processNPC() {
 		if (!beingTeleported)
 			for (Entity t : getPossibleTargets())
-				if (withinDistance(t, 2) && Utils.getAngleTo(t.getX() - getX(), t.getY() - getY()) == getFaceAngle()) {
+				if (withinDistance(t.getTile(), 2) && Utils.getAngleTo(t.getX() - getX(), t.getY() - getY()) == getFaceAngle()) {
 					final Player player = (Player) t;
 					setNextAnimation(new Animation(5803));
 					player.setNextSpotAnim(new SpotAnim(110, 0, 100));
@@ -90,7 +90,7 @@ public class Elemental extends NPC {
 					player.lock();
 					player.sendMessage("You've been spotted by an elemental and teleported out of its garden.");
 					FadingScreen.fade(player, () -> {
-						player.setNextWorldTile(SorceressGardenController.inAutumnGarden(player) ? new WorldTile(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player) ? new WorldTile(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player) ? new WorldTile(2910, 5476, 0) : new WorldTile(2906, 5470, 0))));
+						player.setNextWorldTile(SorceressGardenController.inAutumnGarden(player.getTile()) ? new WorldTile(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player.getTile()) ? new WorldTile(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player.getTile()) ? new WorldTile(2910, 5476, 0) : new WorldTile(2906, 5470, 0))));
 						player.lock(1);
 						beingTeleported = false;
 					});

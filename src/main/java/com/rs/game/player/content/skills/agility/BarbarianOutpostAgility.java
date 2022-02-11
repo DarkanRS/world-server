@@ -43,7 +43,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(10580));
 			final WorldTile toTile = new WorldTile(e.getObject().getX(), e.getPlayer().getY() >= 3561 ? 3558 : 3561, e.getObject().getPlane());
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 2, e.getPlayer().getY() >= 3561 ? Direction.SOUTH : Direction.NORTH));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 2, e.getPlayer().getY() >= 3561 ? Direction.SOUTH : Direction.NORTH));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -66,7 +66,7 @@ public class BarbarianOutpostAgility {
 				e.getPlayer().setNextAnimation(new Animation(751));
 				World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(497));
 				final WorldTile toTile = new WorldTile(e.getObject().getX(), 3549, e.getObject().getPlane());
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.SOUTH));
+				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Direction.SOUTH));
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
 				e.getPlayer().sendMessage("You skilfully swing across.", true);
 				WorldTasks.schedule(new WorldTask() {
@@ -170,7 +170,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(4853));
 			final WorldTile toTile = new WorldTile(e.getObject().getX() + 1, e.getObject().getY(), e.getObject().getPlane());
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 2, Direction.EAST));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 2, Direction.EAST));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -208,7 +208,7 @@ public class BarbarianOutpostAgility {
 						e.getPlayer().setNextAnimation(new Animation(10492));
 					else if (stage == 7) {
 						e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, 0, 2));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 1, Direction.NORTH));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 1, Direction.NORTH));
 						e.getPlayer().setNextAnimation(new Animation(10493));
 					} else if (stage == 10) {
 						e.getPlayer().unlock();
@@ -267,7 +267,7 @@ public class BarbarianOutpostAgility {
 						if (stage == 0)
 							e.getPlayer().faceTile(new WorldTile(2531, 3554, 3));
 						else if (stage == 1) {
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.NORTH));
+							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Direction.NORTH));
 							e.getPlayer().setNextAnimation(new Animation(4189));
 							World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(11819));
 						} else if (stage == 4) {
@@ -291,7 +291,7 @@ public class BarbarianOutpostAgility {
 				return;
 			e.getPlayer().lock();
 			final WorldTile toTile = new WorldTile(2536, 3553, 3);
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, toTile, 3, Direction.EAST));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Direction.EAST));
 			e.getPlayer().setNextAnimation(new Animation(16079));
 			e.getPlayer().getAppearance().setBAS(330);
 			WorldTasks.schedule(new WorldTask() {
@@ -341,7 +341,7 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(11792));
 			final WorldTile toTile = new WorldTile(2544, e.getPlayer().getY(), 0);
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 5, Direction.EAST));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 5, Direction.EAST));
 			WorldTasks.schedule(new WorldTask() {
 				int stage;
 

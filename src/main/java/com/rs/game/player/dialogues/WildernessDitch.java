@@ -42,7 +42,7 @@ public class WildernessDitch extends Dialogue {
 			player.lock(4);
 			player.setNextAnimation(new Animation(6132));
 			final WorldTile toTile = new WorldTile(ditch.getRotation() == 3 || ditch.getRotation() == 1 ? ditch.getX() - 1 : player.getX(), ditch.getRotation() == 0 || ditch.getRotation() == 2 ? ditch.getY() + 2 : player.getY(), ditch.getPlane());
-			player.setNextForceMovement(new ForceMovement(new WorldTile(player), 1, toTile, 2, ditch.getRotation() == 0 || ditch.getRotation() == 2 ? Direction.NORTH : Direction.WEST));
+			player.setNextForceMovement(new ForceMovement(new WorldTile(player.getTile()), 1, toTile, 2, ditch.getRotation() == 0 || ditch.getRotation() == 2 ? Direction.NORTH : Direction.WEST));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {

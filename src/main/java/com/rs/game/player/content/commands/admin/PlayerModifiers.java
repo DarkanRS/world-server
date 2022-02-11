@@ -77,7 +77,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				p.setNextWorldTile(target);
+				p.setNextWorldTile(target.getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "teletome [player name]", "Teleports another player to the user without exception.", (p, args) -> {
@@ -85,7 +85,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				target.setNextWorldTile(p);
+				target.setNextWorldTile(p.getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "kick [player name]", "Kicks a player from the game. Will force the player's character out of the game no matter what.", (p, args) -> {

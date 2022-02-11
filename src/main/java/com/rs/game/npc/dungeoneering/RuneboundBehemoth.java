@@ -142,7 +142,7 @@ public class RuneboundBehemoth extends DungeonBoss {
 				cycle = 0;
 			if (message)
 				for (Player p2 : getManager().getParty().getTeam()) {
-					if (getManager().isAtBossRoom(p2))
+					if (getManager().isAtBossRoom(p2.getTile()))
 						continue;
 					p2.sendMessage("The " + ARTIFACT_TYPE[type] + " artifact has been " + (active ? "desactivated" : "re-charged") + "!");
 				}

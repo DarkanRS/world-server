@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
@@ -38,6 +35,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Gravecreeper extends DungeonBoss {
 
@@ -171,7 +171,7 @@ public class Gravecreeper extends DungeonBoss {
 				}, 1);
 			}
 
-		}, Utils.getDistanceI(this, walkTo));
+		}, Utils.getDistanceI(getTile(), walkTo));
 	}
 
 	public WorldTile getNearestPlinch() {
@@ -182,7 +182,7 @@ public class Gravecreeper extends DungeonBoss {
 				GameObject plinth = getManager().getObjectWithType(getReference(), ObjectType.GROUND_DECORATION, 3 + x * 3, 3 + y * 3);
 				if (plinth == null)
 					continue;
-				int d = (int) Utils.getDistance(this, plinth);
+				int d = (int) Utils.getDistance(getTile(), plinth);
 				if (d >= distance)
 					continue;
 				distance = d;

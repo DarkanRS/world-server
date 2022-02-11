@@ -57,7 +57,7 @@ public class MossTitanCombat extends CombatScript {
 	}
 
 	public void sendSpecialAttack(Entity target, NPC npc) {
-		if (target.isAtMultiArea() && WildernessController.isAtWild(target)) {
+		if (target.isAtMultiArea() && WildernessController.isAtWild(target.getTile())) {
 			delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 160, AttackStyle.MAGE, target)));
 			World.sendProjectile(npc, target, 1462, 34, 16, 30, 35, 16, 0);
 			if (Utils.getRandomInclusive(3) == 0)// 1/3 chance of being poisioned
