@@ -73,6 +73,7 @@ public abstract class Entity {
 
 	// transient stuff
 	private transient int index;
+	private String uuid;
 	private transient int sceneBaseChunkId;
 	private transient int lastRegionId; // the last region the entity was at
 	private transient int lastChunkId;
@@ -130,6 +131,7 @@ public abstract class Entity {
 	// creates Entity and saved classes
 	public Entity(WorldTile tile) {
 		this.tile = tile;
+		this.uuid = UUID.randomUUID().toString();
 		poison = new Poison();
 	}
 
@@ -1455,6 +1457,18 @@ public abstract class Entity {
 
 	public int getRegionId() {
 		return tile.getRegionId();
+	}
+
+	@Override
+	public int hashCode() {
+		return uuid.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Entity n)
+			return n.hashCode() == hashCode();
+		return false;
 	}
 
 	public int getRegionHash() {
