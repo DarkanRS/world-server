@@ -583,6 +583,8 @@ public class Player extends Entity {
 	}
 
 	public void init(Session session, Account account, int displayMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
+		if (getTile() == null)
+			setTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 		this.session = session;
 		this.account = account;
 		uuid = getUsername().hashCode();
@@ -1159,8 +1161,6 @@ public class Player extends Entity {
 				return;
 			}
 		});
-		if (getTile() == null)
-			setTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);
