@@ -16,10 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
@@ -40,6 +36,10 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LexicusRunewrightCombat extends CombatScript {
 
@@ -121,7 +121,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
-						WorldTile tile = new WorldTile(entity);
+						WorldTile tile = new WorldTile(entity.getTile());
 						targets.add(tile);
 
 						for (int i = 0; i < 3; i++) {

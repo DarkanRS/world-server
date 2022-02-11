@@ -28,18 +28,12 @@ import com.rs.game.player.actions.FillAction.Filler;
 import com.rs.game.player.content.PlayerLook;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.Options;
-import com.rs.game.player.content.skills.construction.House;
+import com.rs.game.player.content.skills.construction.*;
 import com.rs.game.player.content.skills.construction.House.ObjectReference;
 import com.rs.game.player.content.skills.construction.House.RoomReference;
-import com.rs.game.player.content.skills.construction.HouseConstants;
 import com.rs.game.player.content.skills.construction.HouseConstants.Builds;
 import com.rs.game.player.content.skills.construction.HouseConstants.HObject;
 import com.rs.game.player.content.skills.construction.HouseConstants.POHLocation;
-import com.rs.game.player.content.skills.construction.ItemOnServantD;
-import com.rs.game.player.content.skills.construction.ServantHouseD;
-import com.rs.game.player.content.skills.construction.ServantNPC;
-import com.rs.game.player.content.skills.construction.SitChair;
-import com.rs.game.player.content.skills.construction.TabletMaking;
 import com.rs.game.player.content.skills.cooking.Cooking;
 import com.rs.game.player.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.player.content.skills.magic.Magic;
@@ -343,7 +337,7 @@ public class HouseController extends Controller {
 		player.lock(1);
 		player.setNextAnimation(new Animation(741));
 		final WorldTile toTile = target;
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, direction));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
@@ -424,7 +418,7 @@ public class HouseController extends Controller {
 		player.lock(1);
 		player.setNextAnimation(new Animation(3688));
 		final WorldTile toTile = target;
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, direction));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
@@ -527,7 +521,7 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.setLocation(house.getLocation().getTile());
+		player.getTile().setLocation(house.getLocation().getTile());
 		player.setNextWorldTile(house.getLocation().getTile());
 		house.leaveHouse(player, House.LOGGED_OUT);
 		return false;
@@ -548,7 +542,7 @@ public class HouseController extends Controller {
 	// shouldnt happen
 	@Override
 	public void forceClose() {
-		player.setLocation(house.getLocation().getTile());
+		player.getTile().setLocation(house.getLocation().getTile());
 		player.setNextWorldTile(house.getLocation().getTile());
 		player.removeHouseOnlyItems();
 		house.leaveHouse(player, House.TELEPORTED);

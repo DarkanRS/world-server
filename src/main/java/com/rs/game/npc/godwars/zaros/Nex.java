@@ -16,15 +16,8 @@
 //
 package com.rs.game.npc.godwars.zaros;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.rs.game.Entity;
-import com.rs.game.ForceMovement;
-import com.rs.game.ForceTalk;
-import com.rs.game.Hit;
+import com.rs.game.*;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.godwars.zaros.attack.NexAttack;
@@ -40,6 +33,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public final class Nex extends NPC {
@@ -133,9 +129,9 @@ public final class Nex extends NPC {
 				if (!WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), 5)) {
 					WorldTile tile = target.getNearestTeleTile(this);
 					if (tile == null)
-						tile = new WorldTile(target);
+						tile = new WorldTile(target.getTile());
 					if (World.floorAndWallsFree(tile, getSize())) {
-						setNextForceMovement(new ForceMovement(new WorldTile(this), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
+						setNextForceMovement(new ForceMovement(new WorldTile(this.getTile()), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
 						setNextAnimation(new Animation(6985));
 						setNextWorldTile(tile);
 						return;
@@ -190,7 +186,7 @@ public final class Nex extends NPC {
 
 				if (possibleTargets != null)
 					for (Entity entity : possibleTargets) {
-						if (entity == null || entity.isDead() || entity.hasFinished() || !entity.withinDistance(Nex.this, 5))
+						if (entity == null || entity.isDead() || entity.hasFinished() || !entity.withinDistance(getTile(), 5))
 							continue;
 						entity.applyHit(new Hit(Nex.this, Utils.getRandomInclusive(600), HitLook.TRUE_DAMAGE));
 					}

@@ -29,7 +29,7 @@ public class FightPitsViewingOrb extends Action {
 	public boolean start(Player player) {
 		if (!process(player))
 			return false;
-		tile = new WorldTile(player);
+		tile = new WorldTile(player.getTile());
 		player.getAppearance().switchHidden();
 		player.getPackets().setBlockMinimapState(5);
 		player.setNextWorldTile(ORB_TELEPORTS[0]);

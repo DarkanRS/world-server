@@ -157,7 +157,7 @@ public class GodwarsController extends Controller {
 							//							player.getAppearance().setHidden(true);
 							player.getAppearance().transformIntoNPC(266);
 							projectileTicks = ticks + World.sendProjectile(player, tile, 605, 18, 18, 20, 1, 30, 0).getTaskDelay();
-							player.setNextForceMovement(new ForceMovement(player, 1, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
+							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
 						} else if (ticks == projectileTicks) {
 							//							player.getAppearance().setHidden(false);
 							player.getAppearance().transformIntoNPC(-1);

@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
@@ -36,12 +33,11 @@ import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class FishingFerretRoom extends PuzzleRoom {
 
@@ -85,7 +81,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 					addWalkSteps(tile.getX(), tile.getY(), -1, false);
 				}
 			} else {// Should be fine won't be checked often anyways
-				GameObject o = World.getObjectWithType(this, ObjectType.GROUND_DECORATION);
+				GameObject o = World.getObjectWithType(getTile(), ObjectType.GROUND_DECORATION);
 				if (o != null && o.getDefinitions().getName().equals("Hole")) {
 					setNextAnimation(new Animation(13797));
 					WorldTasks.schedule(new WorldTask() {
@@ -137,7 +133,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		psuedoFishingSpot = new DungeonFishSpot(1957, manager.getRotatedTile(reference, 7, 13), manager, Fish.VILE_FISH);
 		int floorType = manager.getParty().getFloorType();
 		World.spawnObject(new GameObject(PRESSURE_PLATE[floorType], ObjectType.GROUND_DECORATION, 0, pressurePlate));
-		World.spawnObject(new GameObject(EMPTY_PLATE[floorType], ObjectType.GROUND_DECORATION, 0, puzzleNPC));
+		World.spawnObject(new GameObject(EMPTY_PLATE[floorType], ObjectType.GROUND_DECORATION, 0, puzzleNPC.getTile()));
 	}
 
 	@Override
@@ -162,7 +158,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		if ((!object.getDefinitions().getName().equals("Tile") && !object.getDefinitions().getName().equals("Pressure plate")) || item.getId() != VILE_FISH || player.getControllerManager().getController() == null || !(player.getControllerManager().getController() instanceof DungeonController))
 			return false;
 		DungeonManager manager = player.getDungManager().getParty().getDungeon();
-		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player));
+		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player.getTile()));
 		if ((room == null) || !(room instanceof FishingFerretRoom puzzle))
 			return false;
 		if (puzzle.isComplete()) {

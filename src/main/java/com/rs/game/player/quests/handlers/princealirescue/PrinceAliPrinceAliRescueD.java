@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.princealirescue;
 
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.JAIL_REGION_ID;
-
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -30,6 +28,8 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.JAIL_REGION_ID;
 
 @PluginEventHandler
 public class PrinceAliPrinceAliRescueD extends Conversation {
@@ -85,7 +85,7 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 							public void run() {
 								if(tick == 0) {
 									npc.setRespawnTask(50);
-									WorldTile tile = npc;
+									WorldTile tile = npc.getTile();
 									npc.finish();
 									ali2 = World.spawnNPC(PRINCE_ALI2, tile, -1, false, true);
 								}

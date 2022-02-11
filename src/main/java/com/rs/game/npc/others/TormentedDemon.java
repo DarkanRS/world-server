@@ -16,8 +16,6 @@
 //
 package com.rs.game.npc.others;
 
-import java.util.Set;
-
 import com.rs.cores.CoresManager;
 import com.rs.game.Entity;
 import com.rs.game.Hit;
@@ -35,6 +33,8 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.Set;
 
 @PluginEventHandler
 public final class TormentedDemon extends NPC {
@@ -147,8 +147,8 @@ public final class TormentedDemon extends NPC {
 			if (playerIndexes != null)
 				for (int pid : playerIndexes) {
 					Player player = World.getPlayers().get(pid);
-					if (player != null && !player.isDead() && !player.hasFinished() && player.hasStarted() && player.withinDistance(this, 7)) {
-						tile = new WorldTile(player, 2);
+					if (player != null && !player.isDead() && !player.hasFinished() && player.hasStarted() && player.withinDistance(getTile(), 7)) {
+						tile = new WorldTile(player.getTile(), 2);
 						break;
 					}
 				}

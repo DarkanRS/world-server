@@ -342,14 +342,14 @@ public class Debug {
 			for (Item item : p.getEquipment().getItemsCopy()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, new WorldTile(p));
+				World.addGroundItem(item, new WorldTile(p.getTile()));
 			}
 			for (Item item : p.getInventory().getItems().getItems()) {
 				if (item != null)
 					System.out.println(item.getName() + ": " + item.getAmount());
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, new WorldTile(p));
+				World.addGroundItem(item, new WorldTile(p.getTile()));
 			}
 		});
 

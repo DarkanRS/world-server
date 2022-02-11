@@ -95,7 +95,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		player.lock();
 		player.setNextSpotAnim(new SpotAnim(2545));
 		player.getAppearance().transformIntoNPC(10022);
-		FrozenAdventurer npc = new FrozenAdventurer(10023, player, -1, false);
+		FrozenAdventurer npc = new FrozenAdventurer(10023, player.getTile(), -1, false);
 		npc.setPlayer(player);
 		player.sendMessage("You have been frozen solid!");
 		WorldTasks.schedule(new WorldTask() {

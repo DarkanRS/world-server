@@ -28,11 +28,7 @@ import com.rs.game.player.content.skills.magic.Rune;
 import com.rs.game.player.content.skills.magic.RuneSet;
 import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnGroundItem;
 import com.rs.lib.util.Utils;
@@ -83,7 +79,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						return false;
 					if (player.hasEffect(Effect.FREEZE))
 						return true;
-					if (!player.lineOfSightTo(tile, false) || Utils.getDistance(player, tile) > 8) {
+					if (!player.lineOfSightTo(tile, false) || Utils.getDistance(player.getTile(), tile) > 8) {
 						if (player.hasWalkSteps())
 							player.resetWalkSteps();
 						player.calcFollow(tile, 25, true, true);

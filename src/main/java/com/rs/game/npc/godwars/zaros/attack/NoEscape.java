@@ -67,7 +67,7 @@ public class NoEscape implements NexAttack {
 							player.getCutsceneManager().play(new NexCutScene(dir, idx));
 							player.applyHit(new Hit(nex, Utils.getRandomInclusive(650), HitLook.TRUE_DAMAGE));
 							player.setNextAnimation(new Animation(10070));
-							player.setNextForceMovement(new ForceMovement(player, 1, idx == 3 ? Direction.WEST : idx == 2 ? Direction.SOUTH : idx == 1 ? Direction.EAST : Direction.NORTH));
+							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, idx == 3 ? Direction.WEST : idx == 2 ? Direction.SOUTH : idx == 1 ? Direction.EAST : Direction.NORTH));
 						}
 				} else if (count == 3)
 					nex.setNextWorldTile(center);

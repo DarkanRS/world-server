@@ -158,9 +158,9 @@ public class SiphonActionCreatures extends EntityInteractionAction {
 
 			player.setNextAnimation(new Animation(16596));
 			creature.setNextAnimation(new Animation(creatures.getNpcEmoteId()));
-			creature.setNextFaceWorldTile(player);
+			creature.setNextFaceWorldTile(player.getTile());
 			creature.freeze(4);
-			player.setNextFaceWorldTile(creature);
+			player.setNextFaceWorldTile(creature.getTile());
 			WorldProjectile p = World.sendProjectile(creature, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
 			WorldTasks.schedule(new WorldTask() {

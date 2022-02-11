@@ -386,7 +386,7 @@ public class RunecraftingAltar {
 					@Override
 					public void run() {
 						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC());
+						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
 					}
 				}, 2);
 				break;

@@ -16,8 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.List;
-
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringTraps;
 import com.rs.game.tasks.WorldTask;
@@ -26,6 +24,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class DungeonHunterNPC extends DungeonNPC {
 
@@ -43,7 +43,7 @@ public class DungeonHunterNPC extends DungeonNPC {
 			return;
 		final int tier = DungeoneeringTraps.getNPCTier(getId());
 		for (final MastyxTrap trap : traps) {
-			if (!withinDistance(trap, 3) || Utils.getRandomInclusive(3) != 0)
+			if (!withinDistance(trap.getTile(), 3) || Utils.getRandomInclusive(3) != 0)
 				continue;
 			trap.setCantInteract(true);
 			setCantInteract(true);

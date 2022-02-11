@@ -76,7 +76,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 		outer: for (Block block : blocks) {
 			for (int tileColor = 0; tileColor < LOCATIONS.length; tileColor++) {
 				int[] location = LOCATIONS[tileColor];
-				if (manager.getTile(reference, location[0], location[1]).matches(block)) {
+				if (manager.getTile(reference, location[0], location[1]).matches(block.getTile())) {
 					int color = block.getId() - BASE_BLOCKS[type] - 1;
 					if (color == tileColor)
 						continue outer;
@@ -99,8 +99,8 @@ public class ColouredRecessRoom extends PuzzleRoom {
 			//TODO: make sure 2 players can't move 2 statues ontop of eachother in the same tick? although it doesn't really matter
 			boolean pull = !push;
 
-			int[] nPos = manager.getRoomPos(this);
-			int[] pPos = manager.getRoomPos(player);
+			int[] nPos = manager.getRoomPos(getTile());
+			int[] pPos = manager.getRoomPos(player.getTile());
 
 			final int dx = push ? getX() - player.getX() : player.getX() - getX();
 			final int dy = push ? getY() - player.getY() : player.getY() - getY();
@@ -141,7 +141,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 						addWalkSteps(getX() + dx, getY() + dy);
 						WorldTile fromTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
 						player.setNextWorldTile(pTarget);
-						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(Block.this, player)));
+						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
 						player.setNextAnimation(new Animation(push ? 3065 : 3065));
 					} else {
 						checkComplete();
@@ -168,8 +168,8 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 	@Override
 	public boolean canMove(Player player, WorldTile to) {
-		for (WorldTile block : blocks)
-			if (to.matches(block))
+		for (Block block : blocks)
+			if (to.matches(block.getTile()))
 				return false;
 		return true;
 	}

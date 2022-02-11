@@ -16,8 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -29,6 +27,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public final class ShadowForgerIhlakhizan extends DungeonBoss {
 
@@ -53,7 +53,7 @@ public final class ShadowForgerIhlakhizan extends DungeonBoss {
 			return;
 		super.processNPC();
 		for (Player player : getManager().getParty().getTeam()) {
-			if (!getManager().isAtBossRoom(player) || lineOfSightTo(player, false) || player.getTempAttribs().getB("SHADOW_FORGER_SHADOW"))
+			if (!getManager().isAtBossRoom(player.getTile()) || lineOfSightTo(player, false) || player.getTempAttribs().getB("SHADOW_FORGER_SHADOW"))
 				continue;
 			player.setNextSpotAnim(new SpotAnim(2378));
 			player.getTempAttribs().setB("SHADOW_FORGER_SHADOW", true);

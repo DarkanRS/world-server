@@ -400,7 +400,7 @@ public final class DominionTower {
 	public void destroyArena(final boolean logout, int mode) {
 		WorldTile tile = new WorldTile(3744, 6425, 0);
 		if (logout)
-			player.setLocation(tile);
+			player.getTile().setLocation(tile);
 		else {
 			player.getControllerManager().removeControllerWithoutCheck();
 			player.lock();

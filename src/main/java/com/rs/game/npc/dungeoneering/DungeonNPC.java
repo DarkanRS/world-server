@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -29,6 +26,9 @@ import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class DungeonNPC extends NPC {
 
@@ -83,8 +83,8 @@ public class DungeonNPC extends NPC {
 		super.processNPC();
 		if (isUnderCombat()) {
 			Entity target = getCombat().getTarget();
-			RoomReference thisR = getManager().getCurrentRoomReference(this);
-			RoomReference targetR = getManager().getCurrentRoomReference(target);
+			RoomReference thisR = getManager().getCurrentRoomReference(this.getTile());
+			RoomReference targetR = getManager().getCurrentRoomReference(target.getTile());
 			if (!targetR.equals(thisR))
 				getCombat().removeTarget();
 		}

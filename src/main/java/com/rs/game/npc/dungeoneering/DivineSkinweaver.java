@@ -16,10 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
@@ -38,6 +34,10 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 
@@ -79,7 +79,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 				killedCount = 0;
 				setNextForceTalk(new ForceTalk(CLOSE_HOLE_MESSAGES[Utils.random(CLOSE_HOLE_MESSAGES.length)]));
 				for (Player p2 : getManager().getParty().getTeam()) {
-					if (!getManager().isAtBossRoom(p2))
+					if (!getManager().isAtBossRoom(p2.getTile()))
 						continue;
 					p2.sendMessage("Divine skinweaver: <col=99CC66>" + getNextForceTalk().getText());
 				}
@@ -130,12 +130,12 @@ public final class DivineSkinweaver extends DungeonBoss {
 		for (Entity target : targets) {
 			if (target.getHitpoints() >= target.getMaxHitpoints())
 				continue;
-			if (healTarget == null || Utils.getDistance(this, healTarget) > Utils.getDistance(this, target))
+			if (healTarget == null || Utils.getDistance(getTile(), healTarget.getTile()) > Utils.getDistance(getTile(), target.getTile()))
 				healTarget = target;
 		}
 		if (healTarget == null)
 			return;
-		int distance = (int) (4 - Utils.getDistance(this, healTarget));
+		int distance = (int) (4 - Utils.getDistance(getTile(), healTarget.getTile()));
 		if (distance == 4 || distance < 0)
 			return;
 		int maxHeal = (int) (healTarget.getMaxHitpoints() * 0.35);
@@ -161,7 +161,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 			return;
 		setNextForceTalk(new ForceTalk("I see little danger in this room so move on to the next with my thanks."));
 		for (Player p2 : getManager().getParty().getTeam()) {
-			if (!getManager().isAtBossRoom(p2))
+			if (!getManager().isAtBossRoom(p2.getTile()))
 				continue;
 			p2.sendMessage("Divine skinweaver: <col=99CC66>" + getNextForceTalk().getText());
 		}
@@ -191,7 +191,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 	public List<Entity> getPossibleTargets() {
 		ArrayList<Entity> targets = new ArrayList<>();
 		for (Player player : getManager().getParty().getTeam()) {
-			if (player == null || !getManager().isAtBossRoom(player))
+			if (player == null || !getManager().isAtBossRoom(player.getTile()))
 				continue;
 			targets.add(player);
 		}

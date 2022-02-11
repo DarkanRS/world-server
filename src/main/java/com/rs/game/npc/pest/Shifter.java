@@ -35,12 +35,12 @@ public class Shifter extends PestMonsters {
 	public void processNPC() {
 		super.processNPC();
 		Entity target = this.getPossibleTargets().get(0);
-		if (getCombat().process() && !this.withinDistance(target, 10) || Utils.random(15) == 0)
-			teleportSpinner(target);
+		if (getCombat().process() && !this.withinDistance(target.getTile(), 10) || Utils.random(15) == 0)
+			teleportSpinner(target.getTile());
 	}
 
 	private void teleportSpinner(WorldTile tile) { // def 3902, death 3903
-		setNextWorldTile(tile);
+		setNextWorldTile(new WorldTile(tile));
 		setNextAnimation(new Animation(3904));
 		WorldTasks.schedule(new WorldTask() {
 

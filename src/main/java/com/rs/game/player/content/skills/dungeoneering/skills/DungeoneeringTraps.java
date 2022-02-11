@@ -52,7 +52,7 @@ public class DungeoneeringTraps {
 
 			@Override
 			public void run() {
-				manager.addMastyxTrap(new MastyxTrap(player.getDisplayName(), 11076 + index, player, -1, false));
+				manager.addMastyxTrap(new MastyxTrap(player.getDisplayName(), 11076 + index, player.getTile(), -1, false));
 				player.getInventory().deleteItem(new Item(ITEM_TRAPS[index], 1));
 				player.sendMessage("You lay the trap onto the floor.");
 			}

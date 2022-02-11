@@ -294,7 +294,7 @@ public final class QueenBlackDragonController extends Controller {
 			player.getInterfaceManager().removeWindowInterface(1, 3);
 			player.getPackets().sendVarc(184, -1);
 		} else
-			player.setLocation(OUTSIDE);
+			player.getTile().setLocation(OUTSIDE);
 		removeController();
 		if (npc != null)
 			player.getBank().addItems(npc.getRewards().toArray(), false);

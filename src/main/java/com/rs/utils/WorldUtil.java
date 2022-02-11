@@ -22,6 +22,7 @@ import com.rs.game.World;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.social.FCManager;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Vec2;
@@ -86,9 +87,20 @@ public class WorldUtil {
 		return stream.toByteArray();
 	}
 
-	public static Direction getDirectionTo(Entity entity, WorldTile target) {
+	public static WorldTile targetToTile(Object object) {
+		if (object instanceof WorldTile t)
+			return t;
+		else if (object instanceof Entity e)
+			return e.getTile();
+		else if (object instanceof WorldObject w)
+			return w;
+		throw new IllegalArgumentException("Invalid target object passed.");
+	}
+
+	public static Direction getDirectionTo(Entity entity, Object target) {
+		WorldTile targTile = WorldUtil.targetToTile(target);
 		Vec2 from = entity.getMiddleWorldTileAsVector();
-		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2(target);
+		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2(targTile);
 		Vec2 sub = to.sub(from);
 		sub.norm();
 		WorldTile delta = sub.toTile();
@@ -117,7 +129,7 @@ public class WorldUtil {
 	}
 
 	public static boolean collides(WorldTile entity, WorldTile target) {
-		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), entity instanceof Entity e ? e.getSize() : 1, target.getX(), target.getY(), target instanceof Entity e ? e.getSize() : 1);
+		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), 1, target.getX(), target.getY(), 1);
 	}
 
 	public static boolean collides(WorldTile entity, WorldTile target, int s1, int s2) {
@@ -125,7 +137,7 @@ public class WorldUtil {
 	}
 
 	public static boolean isInRange(WorldTile entity, WorldTile target, int rangeRatio) {
-		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), entity instanceof Entity e ? e.getSize() : 1, target.getX(), target.getY(), target instanceof Entity e ? e.getSize() : 1, rangeRatio);
+		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), 1, target.getX(), target.getY(), 1, rangeRatio);
 	}
 
 	public static boolean isInRange(Entity entity, Entity target, int rangeRatio) {

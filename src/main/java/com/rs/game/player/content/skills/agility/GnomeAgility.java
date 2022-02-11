@@ -50,7 +50,7 @@ public class GnomeAgility {
 							e.getPlayer().faceObject(e.getObject());
 						else if (stage == 1) {
 							e.getPlayer().setNextAnimation(new Animation(11784));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, new WorldTile(x, 3421, 3), 1));
+							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, new WorldTile(x, 3421, 3), 1));
 						} else if (stage == 2) {
 							e.getPlayer().setNextAnimation(new Animation(11785));
 							e.getPlayer().setNextWorldTile(new WorldTile(x, 3421, 3));
@@ -86,7 +86,7 @@ public class GnomeAgility {
 			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(2476, 3418, 3), () -> {
 				e.getPlayer().lock();
 				e.getPlayer().setNextAnimation(new Animation(2922));
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, new WorldTile(2484, 3418, 3), 3, Direction.EAST));
+				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, new WorldTile(2484, 3418, 3), 3, Direction.EAST));
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
 				e.getPlayer().sendMessage("You skillfully run across the board", true);
 				WorldTasks.schedule(new WorldTask() {
@@ -126,7 +126,7 @@ public class GnomeAgility {
 				@Override
 				public void run() {
 					if (tick == 0) {
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 1, new WorldTile(2485, 3434, 3), 2));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, new WorldTile(2485, 3434, 3), 2));
 						e.getPlayer().setNextAnimation(new Animation(2923));
 					} else if (tick == 3) {
 						e.getPlayer().setNextWorldTile(new WorldTile(2485, 3436, 0));
