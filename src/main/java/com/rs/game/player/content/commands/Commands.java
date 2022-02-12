@@ -26,7 +26,6 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.Dicing;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.GroundItem.GroundItemType;
@@ -234,10 +233,6 @@ public final class Commands {
 
 		case "house":
 			p.getHouse().enterMyHouse();
-			return true;
-
-		case "rigroll":
-			Dicing.riggedRoll(p, 15098, 2075, Integer.valueOf(args[1]));
 			return true;
 
 		case "hintgame":
