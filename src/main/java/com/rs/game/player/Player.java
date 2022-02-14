@@ -539,7 +539,7 @@ public class Player extends Entity {
 
 	// creates Player and saved classes
 	public Player(Account account) {
-		super(Settings.getConfig().getPlayerStartTile());
+		super(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 		this.account = account;
 		username = account.getUsername();
 		setHitpoints(100);
