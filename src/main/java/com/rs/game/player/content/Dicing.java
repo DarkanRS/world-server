@@ -16,13 +16,13 @@
 //
 package com.rs.game.player.content;
 
-import java.util.Random;
-
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+
+import java.util.Random;
 
 public class Dicing {
 
@@ -99,43 +99,19 @@ public class Dicing {
 
 	//TODO
 	public static void friendsRoll(final Player player, final int itemId, int graphic, final int lowest, final int highest) {
-		//		final FriendChatsManager chat = player.getCurrentFriendChat();
-		//		if (chat == null) {
-		//			player.sendMessage("You need to be in a friend chat to use this option.");
-		//			return;
-		//		}
-		//		player.lock(2);
-		//		player.sendMessage("Rolling...");
-		//		player.getInventory().deleteItem(itemId, 1);
-		//		player.setNextAnimation(new Animation(11900));
-		//		player.setNextSpotAnim(new SpotAnim(graphic));
-		//		WorldTasksManager.schedule(new WorldTask() {
-		//			@Override
-		//			public void run() {
-		//				player.getInventory().addItem(itemId, 1);
-		//				chat.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + getRandom(lowest, highest) + "</col> on " + diceText(itemId) + " die.");
-		//			}
-		//		}, 1);
-	}
-
-	public static void riggedRoll(final Player player, final int itemId, int graphic, final int number) {
-		//		final FriendChatsManager chat = player.getCurrentFriendChat();
-		//		if (chat == null) {
-		//			player.sendMessage("You need to be in a friend chat to use this option.");
-		//			return;
-		//		}
-		//		player.lock(2);
-		//		player.sendMessage("Rolling...");
-		//		player.getInventory().deleteItem(itemId, 1);
-		//		player.setNextAnimation(new Animation(11900));
-		//		player.setNextSpotAnim(new SpotAnim(graphic));
-		//		WorldTasksManager.schedule(new WorldTask() {
-		//			@Override
-		//			public void run() {
-		//				player.getInventory().addItem(itemId, 1);
-		//				chat.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + number + "</col> on " + diceText(itemId) + " die.");
-		//			}
-		//		}, 1);
+//				if (player.getAccount().getSocial().getCurrentFriendsChat() == null) {
+//					player.sendMessage("You need to be in a friend chat to use this option.");
+//					return;
+//				}
+//				player.lock(2);
+//				player.sendMessage("Rolling...");
+//				player.getInventory().deleteItem(itemId, 1);
+//				player.setNextAnimation(new Animation(11900));
+//				player.setNextSpotAnim(new SpotAnim(graphic));
+//				WorldTasks.schedule(1, () -> {
+//					player.getInventory().addItem(itemId, 1);
+//					player.sendDiceMessage(player, "Friends Chat channel-mate <col=db3535>" + player.getDisplayName() + "</col> rolled <col=db3535>" + getRandom(lowest, highest) + "</col> on " + diceText(itemId) + " die.");
+//				});
 	}
 
 	public static int getRandom(int lowest, int highest) {
