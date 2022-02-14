@@ -175,11 +175,11 @@ public final class Settings {
 	}
 
 	public WorldTile getPlayerStartTile() {
-		return playerStartTile != null ? playerStartTile : DEFAULTS.playerStartTile;
+		return new WorldTile(playerStartTile != null ? playerStartTile : DEFAULTS.playerStartTile);
 	}
 
 	public WorldTile getPlayerRespawnTile() {
-		return playerRespawnTile != null ? playerRespawnTile : DEFAULTS.playerRespawnTile;
+		return new WorldTile(playerRespawnTile != null ? playerRespawnTile : DEFAULTS.playerRespawnTile);
 	}
 
 	public int getXpRate() {
