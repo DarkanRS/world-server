@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.authors = "trenton.kress@gmail.com"
 
 # Install packages
 RUN apt-get update
-#RUN apt-get upgrade -y
+RUN apt-get upgrade -y
 RUN apt-get install -y \
 		apt-transport-https \
 		ca-certificates \
