@@ -26,13 +26,10 @@ The world server for Darkan that integrates with the lobby server.
 - Git clone the following repositories into it with these console commands:
 ```
 git clone git@github.com:DarkanRS/cache.git
-git clone git@github.com:DarkanRS/core.git
 git clone git@github.com:DarkanRS/world-server.git
 git clone git@github.com:DarkanRS/client.git
 ```
 - Run the command `git lfs pull` within the darkan-cache project to get the packed information data file.
-- Within the core repository, run `./gradlew publishToMavenLocal`. You will have to do this again if a new version of
-  darkan-core is released.
 
 ### Running and Testing
 - (Optional if not using the test-lobby-db) Make sure you have a MongoDB server running on your local machine or somewhere else (the connection URL for the Mongo server can be configured through the serverConfig.json file that gets generated after trying to run the world server once)
