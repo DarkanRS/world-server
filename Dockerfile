@@ -38,10 +38,7 @@ EXPOSE 27017
 # Clone repositories
 RUN mkdir /darkan && cd /darkan && \
 		git clone https://github.com/DarkanRS/cache.git && \
-		git clone https://github.com/DarkanRS/core.git && \
-		git clone https://github.com/DarkanRS/world-server.git && \
-		cd ./core && \
-		./gradlew publishToMavenLocal
+		git clone https://github.com/DarkanRS/world-server.git
 
 RUN cd /darkan/world-server && ./gradlew build
 
