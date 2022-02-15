@@ -24,17 +24,6 @@ jobs:
         java-version: '17'
         distribution: 'zulu'
         cache: gradle
-    - name: Clone core
-      uses: sudosubin/git-clone-action@v1.0.1
-      with:
-        repository: DarkanRS/core
-        ref: ${{ github.base_ref }}
-        path: 'core/'
-    - name: Build & Publish core
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: publishToMavenLocal
-        build-root-directory: 'core/'
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
