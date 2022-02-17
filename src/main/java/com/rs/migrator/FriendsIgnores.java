@@ -7,12 +7,12 @@ import java.util.Set;
 public class FriendsIgnores {
 	private String chatName;
 	private HashMap<String, Integer> friendsChatRanks;
-	private byte whoCanEnterChat;
-	private byte whoCanTalkOnChat;
-	private byte whoCanKickOnChat;
-	private byte whoCanShareloot;
-	private boolean coinshare;
-	private byte friendsChatStatus;
+	public byte whoCanEnterChat;
+	public byte whoCanTalkOnChat;
+	public byte whoCanKickOnChat;
+	public byte whoCanShareloot;
+	public boolean coinshare;
+	public byte friendsChatStatus;
 
 	private Set<String> friends;
 	private Set<String> ignores;

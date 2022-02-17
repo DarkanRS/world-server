@@ -306,8 +306,8 @@ public class LegacyPlayer extends Entity {
 
 	private int[] pouches;
 	private boolean[] pouchesType;
-	private long muted;
-	private long banned;
+	public long muted;
+	public long banned;
 	private boolean filterGame;
 	private boolean xpLocked;
 	private boolean yellOff;
