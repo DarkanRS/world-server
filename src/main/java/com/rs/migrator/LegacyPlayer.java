@@ -120,8 +120,6 @@ public class LegacyPlayer extends Entity {
 	private int temporaryMovementType;
 	private boolean updateMovementType;
 
-	private Map<Effect, Long> effects = new HashMap<>();
-
 	private HabitatFeature habitatFeature;
 
 	private String password;
@@ -2402,49 +2400,7 @@ public class LegacyPlayer extends Entity {
 	}
 
 	public void processEffects() {
-		if (effects == null)
-			return;
-		Set<Effect> expired = new HashSet<>();
-		for (Effect effect : effects.keySet()) {
-			long time = effects.get(effect);
-			time--;
-			effect.tick(this, time);
-			if (time == 50 && effect.sendWarnings())
-				sendMessage(effect.get30SecWarning());
-			if (time <= 0) {
-				if (effect.sendWarnings())
-					sendMessage(effect.getExpiryMessage());
-				expired.add(effect);
-			} else
-				effects.put(effect, time);
-		}
-		for (Effect e : expired) {
-			effects.remove(e);
-			e.expire(this);
-		}
-	}
 
-	public void clearEffects() {
-		effects = new HashMap<>();
-	}
-
-	public boolean hasEffect(Effect effect) {
-		return effects != null && effects.containsKey(effect);
-	}
-
-	public void addEffect(Effect effect, long ticks) {
-		if (effects == null)
-			effects = new HashMap<>();
-		effects.put(effect, ticks);
-		effect.apply(this);
-		effect.tick(this, ticks);
-	}
-
-	public void removeEffect(Effect effect) {
-		if (effect.sendWarnings())
-			sendMessage(effect.getExpiryMessage());
-		effects.remove(effect);
-		effect.expire(this);
 	}
 
 	public boolean hasRights(Rights rights) {

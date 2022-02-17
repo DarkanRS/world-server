@@ -1,30 +1,62 @@
 package com.rs.migrator;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.db.WorldDB;
+import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
+import com.rs.game.player.controllers.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.json.DateAdapter;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.FriendsChat;
+import com.rs.lib.net.packets.Packet;
+import com.rs.lib.net.packets.PacketEncoder;
+import com.rs.lib.util.PacketAdapter;
+import com.rs.lib.util.PacketEncoderAdapter;
+import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.lib.util.Utils;
 import com.rs.migrator.legacyge.Offer;
+import com.rs.utils.json.ControllerAdapter;
+import com.rs.utils.json.FamiliarAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Migrate {
 
-	private final static String PATH = "dumps/migration/";
+	private final static String PATH = "./dumps/migration";
 
 	private static final Set<String> PARSED_EMAILS = new HashSet<>();
+	private static WorldDB DB;
 
 	public static void main(String[] args) throws IOException {
-		Cache.init("../darkan-cache/");
-		File[] playerFiles = new File(PATH + "/legacy/").listFiles();
+		JsonFileManager.setGSON(new GsonBuilder()
+				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
+				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+				.registerTypeAdapter(Date.class, new DateAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
+				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+				.disableHtmlEscaping()
+				.setPrettyPrinting()
+				.create());
+		Settings.loadConfig();
+		Cache.init(Settings.getConfig().getCachePath());
+		DB = new WorldDB();
+		DB.init();
+		File[] playerFiles = new File(PATH + "/legacy").listFiles();
+		if (playerFiles == null) {
+			System.err.println("No player files found!");
+			return;
+		}
 		for (File f : playerFiles) {
 			try {
 				processPlayer(f);
@@ -46,6 +78,7 @@ public class Migrate {
 		try {
 			Player player = migratePlayer(legacy, username);
 			JsonFileManager.saveJsonFile(player, new File(PATH + "/players/" + username + ".json"));
+			WorldDB.getPlayers().saveSync(player);
 		} catch (Exception e) {
 			System.err.println("Failed to migrate player: " + username);
 		}
@@ -59,7 +92,6 @@ public class Migrate {
 			for (Offer offer : legacy.getOfferSet().offers) {
 				if (offer == null)
 					continue;
-				System.out.println("Processing offer: " + offer.getOwner() + " " + offer.getItemId());
 				if (offer.getOfferType() == Offer.OfferType.BUY) {
 					if (offer.getCashToClaim() > 0)
 						player.getBank().addItem(new Item(995, offer.getCashToClaim()), false);
