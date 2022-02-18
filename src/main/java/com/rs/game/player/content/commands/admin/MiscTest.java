@@ -492,6 +492,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
 			p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.valueOf(args[0])));
 		});
+
 		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> {
 			World.safeShutdown(Integer.valueOf(args[0]));
 		});

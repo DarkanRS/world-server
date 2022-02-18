@@ -72,6 +72,7 @@ public class Migrate {
 		try {
 			Account account = migrateAccount(legacy, username);
 			JsonFileManager.saveJsonFile(account, new File(PATH + "/accounts/" + username + ".json"));
+			WorldDB.getAccounts().saveSync(account);
 		} catch (Exception e) {
 			System.err.println("Failed to migrate account: " + username);
 		}
@@ -115,9 +116,11 @@ public class Migrate {
 	private static Account migrateAccount(LegacyPlayer player, String username) {
 		Account account = new Account(username);
 		if (PARSED_EMAILS.contains(player.getEmail())) {
+			account.setEmail(username + "@darkan.org");
 			account.setRecoveryEmail(player.getEmail());
 		} else {
 			account.setEmail(player.getEmail());
+			account.setRecoveryEmail(player.getEmail());
 			PARSED_EMAILS.add(player.getEmail());
 		}
 		account.setLegacyPass(player.getPassword());
