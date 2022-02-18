@@ -3,7 +3,7 @@ The world server for Darkan that integrates with the lobby server.
 
 [![discord][discord-badge]][discord-link] [![license][license-badge]][gnu-gpl-link] [![open-bugs][bug-badge]][bug-link] [![darkan](https://snapcraft.io/darkan/badge.svg)](https://snapcraft.io/darkan)
 
-[discord-link]: https://discord.gg/p8qqZrWC
+[discord-link]: https://discord.gg/Z32ggEB
 [discord-badge]: https://img.shields.io/discord/118102728026095623?label=discord&logo=discord
 
 [gnu-gpl-link]: https://www.gnu.org/licenses/gpl-3.0.en.html
