@@ -67,6 +67,7 @@ public class PyramidPlunder {
 			e.getPlayer().lock();
 			int varbitValue = e.getPlayer().getVars().getVarBit(e.getObject().getDefinitions().varpBit);
 			if (varbitValue == 1) {
+				e.getPlayer().unlock();
 				e.getPlayer().sendMessage("The urn is empty.");
 				return;
 			}

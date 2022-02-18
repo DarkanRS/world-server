@@ -62,7 +62,10 @@ public abstract class EntityInteraction extends Interaction {
 	}
 
 	public boolean isWithinDistance(Player player, Entity target) {
-		if (!player.lineOfSightTo(target, distance == 0) || !WorldUtil.isInRange(player, target, distance + (target.hasWalkSteps() ? 1 : 0)) || WorldUtil.collides(player, target))
+		boolean los = player.lineOfSightTo(target, distance == 0);
+		boolean inRange = WorldUtil.isInRange(player, target, distance + (target.hasWalkSteps() ? 1 : 0));
+		boolean collides = WorldUtil.collides(player, target);
+		if (!los || !inRange || collides)
 			return false;
 		return true;
 	}
