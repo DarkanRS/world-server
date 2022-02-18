@@ -705,7 +705,7 @@ public abstract class Entity {
 		if (target instanceof Stomp stomp)
 			return stomp.getManager().isAtBossRoom(this.getTile());
 		if (melee && !(target instanceof Entity e ? e.ignoreWallsWhenMeleeing() : false))
-			return World.checkMeleeStep(this, this.getSize(), tile, targSize) && World.hasLineOfSight(getMiddleWorldTile(), target instanceof Entity e ? e.getMiddleWorldTile() : tile);
+			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleWorldTile(), target instanceof Entity e ? e.getMiddleWorldTile() : tile);
 		return World.hasLineOfSight(getMiddleWorldTile(), target instanceof Entity e ? e.getMiddleWorldTile() : tile);
 	}
 
