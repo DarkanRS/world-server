@@ -1202,12 +1202,6 @@ public final class ObjectHandler {
 				player.getDialogueManager().execute(new WildernessDitch(), object);
 			else if (id == 42611)
 				player.getDialogueManager().execute(new MagicPortal());
-			else if (object.getDefinitions(player).getName().equalsIgnoreCase("Obelisk") && object.getY() > 3525)
-				// Who the fuck removed the controller class and the code
-				// from SONIC!!!!!!!!!!
-				// That was an hour of collecting coords :fp: Now ima kill
-				// myself.
-				WildernessObelisk.activateObelisk(object.getId(), player);
 			else if (id >= 8958 && id <= 8960)
 				//						List<Integer> pIndex = World.getRegion(object.getRegionId()).getPlayerIndexes();
 				//						if (pIndex != null) {
