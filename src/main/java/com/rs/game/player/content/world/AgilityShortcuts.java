@@ -34,7 +34,7 @@ public class AgilityShortcuts {
 
 	public static void forceMovement(Player player, WorldTile tile, int animation, int useDelay, int delay) {
 		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player, 1, tile, delay+1+useDelay));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, delay+1+useDelay));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -47,7 +47,7 @@ public class AgilityShortcuts {
 
 	public static void forceMovement(Player player, WorldTile tile, int animation, int useDelay, int delay, Direction direction) {
 		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player, 1, tile, delay+1+useDelay, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, delay+1+useDelay, direction));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -64,7 +64,7 @@ public class AgilityShortcuts {
 
 	public static void forceMovementInstant(Player player, WorldTile tile, int animation, int useDelay, int delay) {
 		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player, 0, tile, delay+1+useDelay));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, delay+1+useDelay));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -77,7 +77,7 @@ public class AgilityShortcuts {
 
 	public static void forceMovementInstant(Player player, WorldTile tile, int animation, int useDelay, int delay, Direction direction) {
 		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player, 0, tile, delay+1+useDelay, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, delay+1+useDelay, direction));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -104,7 +104,7 @@ public class AgilityShortcuts {
 			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(animId));
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -124,7 +124,7 @@ public class AgilityShortcuts {
 				ticks++;
 				if (ticks == 1) {
 					player.setNextAnimation(new Animation(3844));
-					player.setNextForceMovement(new ForceMovement(player, 0, toTile, 3, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
+					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 3, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
 				} else if (ticks == 4) {
 					player.setNextWorldTile(toTile);
 					player.unlock();
@@ -144,7 +144,7 @@ public class AgilityShortcuts {
 				ticks++;
 				if (ticks == 1) {
 					player.setNextAnimation(new Animation(2589));
-					player.setNextForceMovement(new ForceMovement(player, 0, toTile, 4, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
+					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
 				} else if (ticks == 4) {
 					player.setNextAnimation(new Animation(2591));
 					player.setNextWorldTile(toTile);

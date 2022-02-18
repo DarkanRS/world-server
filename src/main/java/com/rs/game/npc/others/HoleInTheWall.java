@@ -49,7 +49,7 @@ public class HoleInTheWall extends NPC {
 		if (getId() == 2058) {
 			if (!hasGrabbed)
 				for (Entity entity : getPossibleTargets()) {
-					if (entity == null || entity.isDead() || !withinDistance(entity, 1))
+					if (entity == null || entity.isDead() || !withinDistance(entity.getTile(), 1))
 						continue;
 					if (entity instanceof Player player) {
 						player.resetWalkSteps();

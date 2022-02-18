@@ -33,19 +33,11 @@ import com.rs.game.player.content.combat.AttackStyle;
 import com.rs.game.player.content.minigames.creations.GameArea;
 import com.rs.game.player.content.minigames.creations.Helper;
 import com.rs.game.player.content.minigames.creations.Score;
-import com.rs.game.player.dialogues.SimpleMessage;
-import com.rs.game.player.dialogues.StealingCreationClay;
-import com.rs.game.player.dialogues.StealingCreationMagic;
-import com.rs.game.player.dialogues.StealingCreationManagerD;
-import com.rs.game.player.dialogues.StealingCreationRange;
+import com.rs.game.player.dialogues.*;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -67,7 +59,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.setLocation(Helper.EXIT);
+		player.getTile().setLocation(Helper.EXIT);
 		Helper.reset(player);
 		return true;
 	}
@@ -184,7 +176,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean processItemOnPlayer(Player target, Item item, int slot) {
-		if (player.withinDistance(target, 3)) {
+		if (player.withinDistance(target.getTile(), 3)) {
 			if (target.isDead() || player.isDead())
 				return false;
 			if (target.getEquipment().getCapeId() != player.getEquipment().getCapeId()) {
@@ -547,7 +539,7 @@ public class StealingCreationController extends Controller {
 			if (isWall)
 				nextForceMovement = new ForceMovement(toTile, 2, direction);
 			else
-				nextForceMovement = new ForceMovement(player, 0, toTile, 2, direction);
+				nextForceMovement = new ForceMovement(player.getTile(), 0, toTile, 2, direction);
 			player.setNextForceMovement(nextForceMovement);
 			player.setNextAnimation(new Animation(object.getId() == 39602 ? 6132 : 10590));
 			final Direction finalDirection = direction;

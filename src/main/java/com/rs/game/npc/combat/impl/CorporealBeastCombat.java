@@ -16,8 +16,6 @@
 //
 package com.rs.game.npc.combat.impl;
 
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -33,6 +31,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class CorporealBeastCombat extends CombatScript {
 
@@ -87,7 +87,7 @@ public class CorporealBeastCombat extends CombatScript {
 				}, delay);
 		} else if (attackStyle == 4) {
 			npc.setNextAnimation(new Animation(10410));
-			final WorldTile tile = new WorldTile(target);
+			final WorldTile tile = new WorldTile(target.getTile());
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {

@@ -53,7 +53,7 @@ public class UnholyCursebearerCombat extends CombatScript {
 				@Override
 				public void run() {
 					int value = target.getTempAttribs().getI("UNHOLY_CURSEBEARER_ROT");
-					if (player.hasFinished() || npc.hasFinished() || !((DungeonBoss) npc).getManager().isAtBossRoom(player) || value == -1) {
+					if (player.hasFinished() || npc.hasFinished() || !((DungeonBoss) npc).getManager().isAtBossRoom(player.getTile()) || value == -1) {
 						target.getTempAttribs().removeI("UNHOLY_CURSEBEARER_ROT");
 						stop();
 						return;

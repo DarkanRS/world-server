@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.tribaltotem;
 
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
@@ -43,6 +39,10 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.TRIBAL_TOTEM)
 @PluginEventHandler
@@ -153,7 +153,7 @@ public class TribalTotem extends QuestOutline {
                 e.getPlayer().openBook(new RealEstateGuideBook());
             if(e.getOption().equalsIgnoreCase("drop")) {
                 e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
                 e.getPlayer().getPackets().sendSound(2739, 0, 1);
             }
         }

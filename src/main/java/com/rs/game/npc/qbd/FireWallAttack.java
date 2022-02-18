@@ -16,10 +16,6 @@
 //
 package com.rs.game.npc.qbd;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.WorldProjectile;
@@ -29,6 +25,10 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents the Queen Black Dragon's fire wall attack.
@@ -74,7 +74,7 @@ public final class FireWallAttack implements QueenAttack {
 									int y = 37 + (second ? 1 : 0);
 									@Override
 									public void run() {
-										if (npc == null || npc.getPhase() >= 5 || npc.hasFinished() || !npc.withinDistance(victim) || npc.isDead())
+										if (npc == null || npc.getPhase() >= 5 || npc.hasFinished() || !npc.withinDistance(victim.getTile()) || npc.isDead())
 											return;
 										if (!((wallId == 3158 && victim.getX() == npc.getBase().getX() + 28) || (wallId == 3159 && victim.getX() == npc.getBase().getX() + 37) || (wallId == 3160 && victim.getX() == npc.getBase().getX() + 32)))
 											if (victim.getY() == npc.getBase().getY() + y) {

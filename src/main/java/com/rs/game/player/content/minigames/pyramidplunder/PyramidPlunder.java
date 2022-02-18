@@ -128,7 +128,7 @@ public class PyramidPlunder {
 				return;
 			}
 			if(Utils.randomInclusive(0, 4) == 1) {
-				OwnedNPC swarm = new OwnedNPC(e.getPlayer(), 2001, e.getPlayer(), false);
+				OwnedNPC swarm = new OwnedNPC(e.getPlayer(), 2001, new WorldTile(e.getPlayer().getTile()), false);
 				swarm.setTarget(e.getPlayer());
 			}
 			ctrl.updateObject(e.getObject(), 1);
@@ -162,7 +162,7 @@ public class PyramidPlunder {
 						case 6 -> {
 							if (success) {
 								if (Utils.randomInclusive(0, 4) == 1) {
-									OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
+									OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer().getTile()), false);
 									mummy.setTarget(e.getPlayer());
 								}
 								e.getPlayer().getSkills().addXp(Constants.STRENGTH, getRoomBaseXP(ctrl.getCurrentRoom()));
@@ -196,7 +196,7 @@ public class PyramidPlunder {
 
 			if (e.getOption().equals("Open")) {
 				if (Utils.randomInclusive(0, 4) == 1) {
-					OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer()), false);
+					OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, new WorldTile(e.getPlayer().getTile()), false);
 					mummy.setTarget(e.getPlayer());
 				}
 				ctrl.updateObject(e.getObject(), 1);

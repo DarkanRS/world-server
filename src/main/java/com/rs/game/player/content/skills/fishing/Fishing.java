@@ -111,7 +111,7 @@ public class Fishing extends Action {
     public Fishing(FishingSpot spot, NPC npc) {
         this.spot = spot;
         this.npc = npc;
-        tile = new WorldTile(npc);
+        tile = new WorldTile(npc.getTile());
     }
 
     @Override

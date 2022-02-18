@@ -53,7 +53,7 @@ public class SnowballAction extends EntityInteractionAction {
 
 	@Override
 	public int loopWithDelay(Player player) {
-		player.setNextFaceWorldTile(target);
+		player.setNextFaceWorldTile(target.getTile());
 		if (player.getInventory().containsItem(11951, 1))
 			player.getInventory().deleteItem(11951, 1);
 		else {

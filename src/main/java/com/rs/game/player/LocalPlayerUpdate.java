@@ -16,8 +16,6 @@
 //
 package com.rs.game.player;
 
-import java.security.MessageDigest;
-
 import com.rs.Settings;
 import com.rs.game.Hit;
 import com.rs.game.HitBar;
@@ -25,6 +23,8 @@ import com.rs.game.World;
 import com.rs.lib.Constants;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
+
+import java.security.MessageDigest;
 
 public final class LocalPlayerUpdate {
 
@@ -88,11 +88,11 @@ public final class LocalPlayerUpdate {
 	}
 
 	private boolean needsRemove(Player p) {
-		return (p.hasFinished() || !player.withinDistance(p, player.hasLargeSceneView() ? 126 : 14));
+		return (p.hasFinished() || !player.withinDistance(p.getTile(), player.hasLargeSceneView() ? 126 : 14));
 	}
 
 	private boolean needsAdd(Player p) {
-		return p != null && !p.hasFinished() && player.withinDistance(p, player.hasLargeSceneView() ? 126 : 14) && localAddedPlayers < MAX_PLAYER_ADD;
+		return p != null && !p.hasFinished() && player.withinDistance(p.getTile(), player.hasLargeSceneView() ? 126 : 14) && localAddedPlayers < MAX_PLAYER_ADD;
 	}
 
 	private void updateRegionHash(OutputStream stream, int lastRegionHash, int currentRegionHash) {

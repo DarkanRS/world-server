@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.managers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.ForceTalk;
@@ -36,6 +33,9 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @PluginEventHandler
 public final class EmotesManager {
@@ -638,7 +638,7 @@ public final class EmotesManager {
 					break;
 				case 20769:
 				case 20771: // Compl cape
-					if (!World.floorAndWallsFree(player, 3)) {
+					if (!World.floorAndWallsFree(player.getTile(), 3)) {
 						player.sendMessage("Need more space to perform this skillcape emote.");
 						return;
 					}

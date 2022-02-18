@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.content.skills.magic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
@@ -41,6 +37,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @PluginEventHandler
 public class Lunars {
 
@@ -59,7 +59,7 @@ public class Lunars {
 				continue;
 			for (int playerIndex : playerIndexes) {
 				Player p2 = World.getPlayers().get(playerIndex);
-				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.withinDistance(player, distance))
+				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.withinDistance(player.getTile(), distance))
 					continue;
 				possibleTargets.add(p2);
 				if (possibleTargets.size() == maxTargets)

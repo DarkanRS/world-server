@@ -63,10 +63,10 @@ public class Spiritspider extends Familiar {
 		setNextAnimation(new Animation(8267));
 		player.setNextAnimation(new Animation(7660));
 		player.setNextSpotAnim(new SpotAnim(1316));
-		WorldTile tile = this;
+		WorldTile tile = this.getTile();
 		// attemps to randomize tile by 4x4 area
 		for (int trycount = 0; trycount < Utils.getRandomInclusive(10); trycount++) {
-			tile = new WorldTile(this, 2);
+			tile = new WorldTile(this.getTile(), 2);
 			if (World.floorAndWallsFree(tile, player.getSize()))
 				return true;
 			for (Entity entity : this.getPossibleTargets()) {

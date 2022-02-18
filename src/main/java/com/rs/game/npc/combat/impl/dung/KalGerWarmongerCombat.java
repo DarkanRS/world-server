@@ -59,10 +59,10 @@ public class KalGerWarmongerCombat extends CombatScript {
 				boss.setNextAnimation(new Animation(14968));
 				boss.setNextSpotAnim(new SpotAnim(2867));
 				for (Player player : manager.getParty().getTeam()) {
-					if (!manager.isAtBossRoom(player))
+					if (!manager.isAtBossRoom(player.getTile()))
 						continue;
 					player.getPackets().sendCameraShake(3, 25, 50, 25, 50);// everyone's camera shakes
-					if (Utils.inCircle(player, boss, 5))// 5 square radius (imperfect circle)
+					if (Utils.inCircle(player.getTile(), boss.getTile(), 5))// 5 square radius (imperfect circle)
 						player.applyHit(new Hit(boss, Utils.random(300, boss.getMaxHit()), HitLook.TRUE_DAMAGE));
 				}
 				WorldTasks.schedule(new WorldTask() {

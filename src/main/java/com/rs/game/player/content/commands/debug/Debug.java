@@ -288,6 +288,15 @@ public class Debug {
 			p.delete(args[0]);
 		});
 
+		Commands.add(Rights.PLAYER, "owner", "Makes you owner if your username is the owner.", (p, args) -> {
+			if (p.getUsername().equals(Settings.getConfig().getOwnerName())) {
+				p.setRights(Rights.OWNER);
+				p.sendMessage("You are owner.");
+				return;
+			}
+			p.sendMessage("You are not owner.");
+		});
+
 		Commands.add(Rights.PLAYER, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
 			boolean spec = p.getNSV().getB("infSpecialAttack");
 			p.getNSV().setB("infSpecialAttack", !spec);
@@ -333,14 +342,14 @@ public class Debug {
 			for (Item item : p.getEquipment().getItemsCopy()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, new WorldTile(p));
+				World.addGroundItem(item, new WorldTile(p.getTile()));
 			}
 			for (Item item : p.getInventory().getItems().getItems()) {
 				if (item != null)
 					System.out.println(item.getName() + ": " + item.getAmount());
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, new WorldTile(p));
+				World.addGroundItem(item, new WorldTile(p.getTile()));
 			}
 		});
 

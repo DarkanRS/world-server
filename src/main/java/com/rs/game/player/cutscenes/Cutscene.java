@@ -16,12 +16,6 @@
 //
 package com.rs.game.player.cutscenes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.Entity.MoveType;
 import com.rs.game.World;
@@ -31,33 +25,19 @@ import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.cutscenes.actions.ConstructMapAction;
-import com.rs.game.player.cutscenes.actions.CreateNPCAction;
-import com.rs.game.player.cutscenes.actions.CutsceneAction;
-import com.rs.game.player.cutscenes.actions.CutsceneCodeAction;
-import com.rs.game.player.cutscenes.actions.DelayAction;
-import com.rs.game.player.cutscenes.actions.DestroyCachedObjectAction;
-import com.rs.game.player.cutscenes.actions.DialogueAction;
-import com.rs.game.player.cutscenes.actions.LookCameraAction;
-import com.rs.game.player.cutscenes.actions.MoveNPCAction;
-import com.rs.game.player.cutscenes.actions.MovePlayerAction;
-import com.rs.game.player.cutscenes.actions.NPCAnimationAction;
-import com.rs.game.player.cutscenes.actions.NPCFaceTileAction;
-import com.rs.game.player.cutscenes.actions.NPCForceTalkAction;
-import com.rs.game.player.cutscenes.actions.NPCGraphicAction;
-import com.rs.game.player.cutscenes.actions.PlayerAnimationAction;
-import com.rs.game.player.cutscenes.actions.PlayerFaceEntityAction;
-import com.rs.game.player.cutscenes.actions.PlayerFaceTileAction;
-import com.rs.game.player.cutscenes.actions.PlayerForceTalkAction;
-import com.rs.game.player.cutscenes.actions.PlayerGraphicAction;
-import com.rs.game.player.cutscenes.actions.PlayerMusicEffectAction;
-import com.rs.game.player.cutscenes.actions.PosCameraAction;
+import com.rs.game.player.cutscenes.actions.*;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class Cutscene {
 	private Player player;
@@ -98,7 +78,7 @@ public abstract class Cutscene {
 		player.setLargeSceneView(true);
 		player.lock();
 		player.stopAll(true, false);
-		WorldTile tile = new WorldTile(player);
+		WorldTile tile = new WorldTile(player.getTile());
 		player.save("cutsceneManagerStartTileX", tile.getX());
 		player.save("cutsceneManagerStartTileY", tile.getY());
 		player.save("cutsceneManagerStartTileZ", tile.getPlane());
@@ -165,7 +145,7 @@ public abstract class Cutscene {
 	}
 
 	public final void createObjectMap() {
-		endTile = new WorldTile(player);
+		endTile = new WorldTile(player.getTile());
 		objects.put("cutscene", this);
 	}
 

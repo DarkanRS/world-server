@@ -82,7 +82,7 @@ public class StrykewyrmCombat extends CombatScript {
 						target.getPoison().makePoisoned(88);
 				}
 		} else if (attackStyle == 10) { // bury
-			final WorldTile tile = new WorldTile(target);
+			final WorldTile tile = new WorldTile(target.getTile());
 			tile.moveLocation(-1, -1, 0);
 			npc.setNextAnimation(new Animation(12796));
 			npc.setCantInteract(true);

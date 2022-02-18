@@ -61,9 +61,9 @@ public class BorkController extends Controller {
 				sendInterfaces();
 				bork.setCantInteract(true);
 			} else if (stage == 14) {
-				World.spawnNPC(7135, new WorldTile(bork, 1), -1, true, true);
-				World.spawnNPC(7135, new WorldTile(bork, 1), -1, true, true);
-				World.spawnNPC(7135, new WorldTile(bork, 1), -1, true, true);
+				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true);
+				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true);
+				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true);
 				player.getInterfaceManager().removeOverlay();
 				bork.setCantInteract(false);
 				bork.setNextForceTalk(new ForceTalk("Destroy the intruder, my Legions!"));

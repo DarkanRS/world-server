@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
@@ -35,6 +32,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class LuminscentIcefiend extends DungeonBoss {
 
@@ -121,7 +121,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 					if (player == null || player.isDead() || player.hasFinished())
 						continue;
 
-					WorldTile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? new WorldTile(player) : player.getLastWorldTile();
+					WorldTile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? new WorldTile(player.getTile()) : player.getLastWorldTile();
 					tileLoop: for (int i = 0; i < icicles.size(); i++) {
 						WorldTile tile = icicles.remove(i);
 						player.getPackets().sendSpotAnim(ICE_SHARDS, tile);
@@ -141,7 +141,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 						if (player.getTempAttribs().getB("FIEND_FLAGGED"))
 							continue entityLoop;
 
-						WorldTile nextTile = World.getFreeTile(player, 1);
+						WorldTile nextTile = World.getFreeTile(player.getTile(), 1);
 
 						if (!player.isCantWalk())
 							player.setCantWalk(true);

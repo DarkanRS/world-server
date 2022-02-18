@@ -56,7 +56,7 @@ public class PlayerFollow extends Action {
 		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 			return false;
 		int lastFaceEntity = target.getLastFaceEntity();
-		WorldTile toTile = target.getTileBehind() != null && Utils.getDistance(target, target.getTileBehind()) <= 3 ? target.getTileBehind() : target.getBackfacingTile();
+		WorldTile toTile = target.getTileBehind() != null && Utils.getDistance(target.getTile(), target.getTileBehind()) <= 3 ? target.getTileBehind() : target.getBackfacingTile();
 		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof PlayerFollow)
 			player.addWalkSteps(toTile.getX(), toTile.getY());
 		else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {

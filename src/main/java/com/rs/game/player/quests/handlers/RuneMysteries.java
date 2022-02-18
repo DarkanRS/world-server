@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers;
 
-import java.util.ArrayList;
-
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.player.Player;
@@ -36,6 +34,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.RUNE_MYSTERIES)
 @PluginEventHandler
@@ -253,7 +253,7 @@ public class RuneMysteries extends QuestOutline {
 					@Override
 					public void run() {
 						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC());
+						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
 					}
 				}, 2);
 			}
@@ -273,7 +273,7 @@ public class RuneMysteries extends QuestOutline {
 					@Override
 					public void run() {
 						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC());
+						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
 					}
 				}, 2);
 				break;
@@ -355,7 +355,7 @@ public class RuneMysteries extends QuestOutline {
 											@Override
 											public void run() {
 												e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-												e.getPlayer().lastEssTele = new WorldTile(e.getNPC());
+												e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
 											}
 										}, 2);
 									});

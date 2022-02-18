@@ -71,7 +71,7 @@ public class AgilityPyramidController extends Controller {
 	@Override
 	public void process() {
 		for (RollingBlock block : RollingBlock.values())
-			if (WorldUtil.collides(player, block.tile, 1, 2) && !player.hasWalkSteps() && !player.isLocked()) {
+			if (WorldUtil.collides(player.getTile(), block.tile, 1, 2) && !player.hasWalkSteps() && !player.isLocked()) {
 				jumpRoller(block, false); //TODO fail calc
 				return;
 			}
@@ -282,7 +282,7 @@ public class AgilityPyramidController extends Controller {
 		} else {
 			final WorldTile toTile = player.transform(4, 0, 0);
 			player.setNextAnimation(new Animation(740));
-			player.setNextForceMovement(new ForceMovement(player, 0, toTile, 4, Direction.WEST));
+			player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4, Direction.WEST));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -339,7 +339,7 @@ public class AgilityPyramidController extends Controller {
 			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(3067));
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -373,7 +373,7 @@ public class AgilityPyramidController extends Controller {
 			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(1560));
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 2, direction));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -415,7 +415,7 @@ public class AgilityPyramidController extends Controller {
 			player.lock();
 			player.getVars().setVarBit(block.configId, 1);
 			player.setNextAnimation(new Animation(3064));
-			player.setNextForceMovement(new ForceMovement(player, 0, Utils.getDistance(player, toTile) > 50 ? player.transform(2, 0, -1) : toTile, 2, Direction.forDelta(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
+			player.setNextForceMovement(new ForceMovement(player.getTile(), 0, Utils.getDistance(player.getTile(), toTile) > 50 ? player.transform(2, 0, -1) : toTile, 2, Direction.forDelta(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -431,7 +431,7 @@ public class AgilityPyramidController extends Controller {
 		player.lock();
 		player.getVars().setVarBit(block.configId, 1);
 		player.setNextAnimation(new Animation(1115));
-		player.setNextForceMovement(new ForceMovement(player, 0, toTile, 1, WorldUtil.getFaceDirection(toTile, player)));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, WorldUtil.getFaceDirection(toTile, player)));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {

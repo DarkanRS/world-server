@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.controllers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.game.ForceTalk;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -36,6 +32,10 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SorceressGardenController extends Controller {
 
@@ -202,7 +202,7 @@ public class SorceressGardenController extends Controller {
 		} else if (object.getDefinitions().getName().toLowerCase().contains("gate")) {
 			final Gate gate = Gate.forId(object.getId());
 			if (gate != null) {
-				Gate.handleGates(player, gate.getObjectId(), gate.getLeveLReq(), inGardens(player) ? gate.getOutsideTile() : gate.getInsideTile(), gate.musicId);
+				Gate.handleGates(player, gate.getObjectId(), gate.getLeveLReq(), inGardens(player.getTile()) ? gate.getOutsideTile() : gate.getInsideTile(), gate.musicId);
 				return false;
 			}
 		} else if (object.getDefinitions().getName().toLowerCase().equals("herbs")) {
@@ -211,7 +211,7 @@ public class SorceressGardenController extends Controller {
 			List<Herbs> herbs = HerbCleaning.getHerbs();
 			player.getInventory().addItem(herbs.get(Utils.random(herbs.size())).getHerbId(), 1);
 			player.getInventory().addItem(herbs.get(Utils.random(herbs.size())).getHerbId(), 1);
-			player.getSkills().addXp(Constants.FARMING, SorceressGardenController.inAutumnGarden(player) ? 50 : (SorceressGardenController.inSpringGarden(player) ? 40 : (SorceressGardenController.inSummerGarden(player) ? 60 : 30)));
+			player.getSkills().addXp(Constants.FARMING, SorceressGardenController.inAutumnGarden(player.getTile()) ? 50 : (SorceressGardenController.inSpringGarden(player.getTile()) ? 40 : (SorceressGardenController.inSummerGarden(player.getTile()) ? 60 : 30)));
 			teleMiddle();
 			return false;
 		}

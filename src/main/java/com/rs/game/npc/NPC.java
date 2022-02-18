@@ -262,7 +262,7 @@ public class NPC extends Entity {
 							moveY = -moveY;
 						resetWalkSteps();
 						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
-						if (Utils.getDistance(this, respawnTile) > 3 && !getDefinitions().hasAttackOption())
+						if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
 							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
 					}
 				}
@@ -386,7 +386,7 @@ public class NPC extends Entity {
 	public void setRespawnTask(int time) {
 		if (!hasFinished()) {
 			reset();
-			setLocation(respawnTile);
+			getTile().setLocation(respawnTile);
 			finish();
 		}
 		CoresManager.schedule(() -> spawn(), time < 0 ? getCombatDefinitions().getRespawnDelay() : time);
@@ -460,7 +460,7 @@ public class NPC extends Entity {
 						player.getControllerManager().processNPCDeath(NPC.this);
 					drop();
 					reset();
-					setLocation(respawnTile);
+					getTile().setLocation(respawnTile);
 					finish();
 					if (!isSpawned())
 						setRespawnTask();
@@ -931,7 +931,7 @@ public class NPC extends Entity {
 							|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
 							|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
 							|| !lineOfSightTo(player, false)
-							|| (!forceAgressive && !WildernessController.isAtWild(this) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
+							|| (!forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
 						continue;
 					possibleTarget.add(player);
 				}
@@ -1079,18 +1079,6 @@ public class NPC extends Entity {
 		changedName = true;
 	}
 
-	@Override
-	public int hashCode() {
-		return getIndex();
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof NPC n)
-			return n.hashCode() == hashCode();
-		return false;
-	}
-
 	public int getCustomCombatLevel() {
 		return combatLevel;
 	}
@@ -1137,7 +1125,7 @@ public class NPC extends Entity {
 	}
 
 	public boolean withinDistance(Player tile, int distance) {
-		return super.withinDistance(tile, distance);
+		return super.withinDistance(tile.getTile(), distance);
 	}
 
 	/**

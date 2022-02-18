@@ -82,7 +82,7 @@ public class DuelController extends Controller {
 
 	@Override
 	public void moved() {
-		if (!isAtDuelArena(player)) {
+		if (!isAtDuelArena(player.getTile())) {
 			removeController();
 			remove();
 		}
@@ -115,7 +115,7 @@ public class DuelController extends Controller {
 	public static void challenge(Player player) {
 		player.closeInterfaces();
 		Player target = player.getTempAttribs().getO("DuelTarget");
-		if (target == null || target.hasFinished() || !target.withinDistance(player, 14) || !(target.getControllerManager().getController() instanceof DuelController)) {
+		if (target == null || target.hasFinished() || !target.withinDistance(player.getTile(), 14) || !(target.getControllerManager().getController() instanceof DuelController)) {
 			player.sendMessage("Unable to find " + (target == null ? "your target" : target.getDisplayName()));
 			return;
 		}
@@ -133,7 +133,7 @@ public class DuelController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		if (isAtDuelArena(player))
+		if (isAtDuelArena(player.getTile()))
 			player.getInterfaceManager().setOverlay(638);
 	}
 

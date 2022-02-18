@@ -77,8 +77,8 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 							continue while_;
 					if (active.transform(0, 7, 0).matches(inactive))
 						continue while_;
-					statues[index] = manager.spawnNPC(STATUES_INACTIVE[type][index], 0, inactive, reference, DungeonConstants.NORMAL_NPC);
-					statues[index + 4] = new Statue(STATUES_ACTIVE[type][index], active, STATUE_LOCATIONS[i + 2][0], STATUE_LOCATIONS[i + 2][1]);
+					statues[index] = manager.spawnNPC(STATUES_INACTIVE[type][index], 0, inactive, reference, DungeonConstants.NORMAL_NPC).getTile();
+					statues[index + 4] = new Statue(STATUES_ACTIVE[type][index], active, STATUE_LOCATIONS[i + 2][0], STATUE_LOCATIONS[i + 2][1]).getTile();
 					index++;
 					break;
 				}
@@ -131,7 +131,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 						addWalkSteps(getX() + dx, getY() + dy);
 						WorldTile fromTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
 						player.setNextWorldTile(pTarget);
-						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(Statue.this, player)));
+						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
 						player.setNextAnimation(new Animation(push ? 3065 : 3065));
 					} else {
 						checkComplete();

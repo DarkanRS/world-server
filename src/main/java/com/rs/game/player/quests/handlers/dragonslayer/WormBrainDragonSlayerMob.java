@@ -1,9 +1,5 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.MAP_PART2;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.WORM_BRAIN;
-
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -22,6 +18,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class WormBrainDragonSlayerMob extends Conversation {
@@ -100,7 +98,7 @@ public class WormBrainDragonSlayerMob extends Conversation {
 			if(e.killedByPlayer()) {
 				Player p = (Player) e.getKiller();
 				if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR && !p.getInventory().containsItem(MAP_PART2, 1))
-					World.addGroundItem(new Item(MAP_PART2, 1), new WorldTile(e.getNPC()), (Player) e.getKiller());
+					World.addGroundItem(new Item(MAP_PART2, 1), new WorldTile(e.getNPC().getTile()), (Player) e.getKiller());
 			}
 		}
 	};

@@ -16,14 +16,8 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.List;
-
-import com.rs.game.Entity;
-import com.rs.game.ForceMovement;
-import com.rs.game.ForceTalk;
-import com.rs.game.Hit;
+import com.rs.game.*;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
@@ -37,6 +31,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.List;
 
 public class YkLagorThunderousCombat extends CombatScript {
 
@@ -67,7 +63,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 							List<Entity> targets = boss.getPossibleTargets();
 							boolean recovered = false;
 							for (Player player : boss.getManager().getParty().getTeam()) {
-								if (player.isDead() || !boss.getManager().isAtBossRoom(player))
+								if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
 									continue;
 								if (targets.contains(player)) {
 									sendPullAttack(boss.transform(2, 2, 0), player, true);
@@ -101,7 +97,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 							boss.setNextAnimation(new Animation(14384));
 							boss.setNextSpotAnim(new SpotAnim(2776));
 							for (Player player : boss.getManager().getParty().getTeam()) {
-								if (player.isDead() || !boss.getManager().isAtBossRoom(player))
+								if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
 									continue;
 								player.getPackets().sendCameraShake(3, 25, 50, 25, 50);
 							}
@@ -111,7 +107,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 							boss.sendBrokenFloor();
 						} else if (cycles == 7) {
 							for (Player player : boss.getManager().getParty().getTeam()) {
-								if (player.isDead() || !boss.getManager().isAtBossRoom(player))
+								if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
 									continue;
 								player.getPackets().sendStopCameraShake();
 							}
@@ -157,7 +153,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 		player.resetWalkSteps();
 		player.setNextAnimation(new Animation(14388));
 		player.setNextSpotAnim(new SpotAnim(2767));
-		player.setNextForceMovement(new ForceMovement(player, 0, tile, 2, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
+		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, 2, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
@@ -184,7 +180,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 		///////// npc.playSoundEffect(1927);
 		if (npc.getPossibleTargets().size() > 0)
 			for (Player player : npc.getManager().getParty().getTeam()) {
-				if (player.isDead() || !npc.getManager().isAtBossRoom(player))
+				if (player.isDead() || !npc.getManager().isAtBossRoom(player.getTile()))
 					continue;
 				World.sendProjectile(npc, player, 2733, 75, 50, 20, 0, 20, 0);
 				delayHit(npc, 1, player, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, player)));

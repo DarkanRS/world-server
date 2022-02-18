@@ -35,7 +35,7 @@ public class TrollheimGuardTroll extends NPC {
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		if (Utils.getDistance(this, getRespawnTile()) > 2)
+		if (Utils.getDistance(this.getTile(), getRespawnTile()) > 2)
 			DumbRouteFinder.addDumbPathfinderSteps(this, getRespawnTile(), 5, getClipType());
 	}
 

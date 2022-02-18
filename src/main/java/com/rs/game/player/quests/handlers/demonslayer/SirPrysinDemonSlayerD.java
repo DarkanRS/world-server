@@ -271,7 +271,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 					public void run() {
 						if (tick == 0) {
 							p.lock();
-							playerTile = p;
+							playerTile = p.getTile();
 							p.setNextWorldTile(new WorldTile(3204, 3471, 0));
 							p.faceEntity(dummy);
 						} else if (tick == 1) {

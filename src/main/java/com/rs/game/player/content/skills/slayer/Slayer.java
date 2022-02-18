@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.content.skills.slayer;
 
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -28,12 +26,15 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.List;
 
 @PluginEventHandler
 public class Slayer {
@@ -315,13 +316,13 @@ public class Slayer {
 		if (objects == null)
 			return false;
 		for (final GameObject object : objects) {
-			if (!object.withinDistance(player, 3) || object.getId() != 22545)
+			if (!object.withinDistance(player.getTile(), 3) || object.getId() != 22545)
 				continue;
 			player.sendMessage("The bell re-sounds loudly throughout the cavern.");
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					NPC npc = World.spawnNPC(5751, player, -1, true);
+					NPC npc = World.spawnNPC(5751, new WorldTile(player.getTile()), -1, true);
 					npc.getCombat().setTarget(player);
 					GameObject o = new GameObject(object);
 					o.setId(22544);

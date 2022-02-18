@@ -44,7 +44,7 @@ public class Spinner extends PestMonsters {
 		}
 		if (!portal.isLocked) {
 			healTicks++;
-			if (!withinDistance(portal, 1))
+			if (!withinDistance(portal.getTile(), 1))
 				this.addWalkSteps(portal.getX(), portal.getY());
 			else if (healTicks % 6 == 0)
 				healPortal(portal);

@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.skills.magic;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.World;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
@@ -31,6 +28,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class TeleportTabs {
@@ -100,7 +100,7 @@ public class TeleportTabs {
 		public void handle(ItemClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("drop")) {
 				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
 				e.getPlayer().getPackets().sendSound(2739, 0, 1);
 			}
 			if (e.getOption().equalsIgnoreCase("break")) {

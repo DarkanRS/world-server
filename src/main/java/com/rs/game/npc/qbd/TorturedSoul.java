@@ -146,7 +146,7 @@ public final class TorturedSoul extends NPC {
 					offsetX = getX() - victim.getX() < 0 ? -1 : 1;
 				else
 					offsetY = getY() - victim.getY() < 0 ? -1 : 1;
-				if (victim.transform(offsetX, offsetY, 0).matches(TorturedSoul.this)) {
+				if (victim.transform(offsetX, offsetY, 0).matches(getTile())) {
 					offsetX = -offsetX;
 					offsetY = -offsetY;
 				}

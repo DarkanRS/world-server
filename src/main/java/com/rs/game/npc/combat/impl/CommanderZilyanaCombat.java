@@ -82,7 +82,7 @@ public class CommanderZilyanaCombat extends CombatScript {
 		if (Utils.getRandomInclusive(1) == 0) { // mage magical attack
 			npc.setNextAnimation(new Animation(6967));
 			for (Entity t : npc.getPossibleTargets()) {
-				if (!t.withinDistance(npc, 3))
+				if (!t.withinDistance(npc.getTile(), 3))
 					continue;
 				int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, t);
 				if (damage > 0) {

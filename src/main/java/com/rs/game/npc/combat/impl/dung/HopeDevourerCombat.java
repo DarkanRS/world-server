@@ -110,11 +110,11 @@ public class HopeDevourerCombat extends CombatScript {
 							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 								break;
 							if (distance == 0)
-								tile = new WorldTile(target);
+								tile = new WorldTile(target.getTile());
 						}
 						target.faceEntity(boss);
 						target.setNextAnimation(new Animation(10070));
-						target.setNextForceMovement(new ForceMovement(target, 0, tile, 2, target.getFaceAngle()));
+						target.setNextForceMovement(new ForceMovement(target.getTile(), 0, tile, 2, target.getFaceAngle()));
 					} else if (ticks == 2) {
 						target.setNextWorldTile(tile);
 						stop();

@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
@@ -35,13 +32,13 @@ import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Stomp extends DungeonBoss {
 
@@ -68,7 +65,7 @@ public final class Stomp extends DungeonBoss {
 
 	@Override
 	public WorldTile getMiddleWorldTile() {
-		return this;
+		return this.getTile();
 	}
 
 	@Override
@@ -260,9 +257,9 @@ public final class Stomp extends DungeonBoss {
 	}
 
 	@Override
-	public boolean lineOfSightTo(WorldTile tile, boolean checkClose) {
+	public boolean lineOfSightTo(Object tile, boolean checkClose) {
 		// because npc is under cliped data
-		return getManager().isAtBossRoom(tile);
+		return getManager().isAtBossRoom(WorldUtil.targetToTile(tile));
 	}
 
 	public int getStage() {

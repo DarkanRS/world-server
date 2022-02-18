@@ -49,7 +49,7 @@ public final class SuperFireAttack implements QueenAttack {
 		npc.setNextAnimation(ANIMATION);
 		npc.setNextSpotAnim(GRAPHIC);
 		victim.sendMessage("<col=FFCC00>The Queen Black Dragon gathers her strength to breath extremely hot flames.</col>");
-		if (Utils.getDistance(npc.getBase().transform(33, 31, 0), victim) <= 4)
+		if (Utils.getDistance(npc.getBase().transform(33, 31, 0), victim.getTile()) <= 4)
 			victim.getTempAttribs().setB("canBrandish", true);
 		WorldTasks.schedule(new WorldTask() {
 			int count = 0;
@@ -65,7 +65,7 @@ public final class SuperFireAttack implements QueenAttack {
 					hit = Utils.random(300, 310);
 				else
 					hit = Utils.random(500, 800);
-				int distance = (int) Utils.getDistance(npc.getBase().transform(33, 31, 0), victim);
+				int distance = (int) Utils.getDistance(npc.getBase().transform(33, 31, 0), victim.getTile());
 				if (distance <= 4)
 					victim.getTempAttribs().setB("canBrandish", true);
 				hit /= (distance / 3) + 1;

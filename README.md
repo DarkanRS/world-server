@@ -1,7 +1,7 @@
 # Darkan World Server
 The world server for Darkan that integrates with the lobby server.
 
-[![discord][discord-badge]][discord-link] [![license][license-badge]][gnu-gpl-link] [![open-bugs][bug-badge]][bug-link]
+[![discord][discord-badge]][discord-link] [![license][license-badge]][gnu-gpl-link] [![open-bugs][bug-badge]][bug-link] [![darkan](https://snapcraft.io/darkan/badge.svg)](https://snapcraft.io/darkan)
 
 [discord-link]: https://discord.gg/p8qqZrWC
 [discord-badge]: https://img.shields.io/discord/118102728026095623?label=discord&logo=discord
@@ -26,13 +26,10 @@ The world server for Darkan that integrates with the lobby server.
 - Git clone the following repositories into it with these console commands:
 ```
 git clone git@github.com:DarkanRS/cache.git
-git clone git@github.com:DarkanRS/core.git
 git clone git@github.com:DarkanRS/world-server.git
-git clone git@github.com:DarkanRS/client.git
 ```
 - Run the command `git lfs pull` within the darkan-cache project to get the packed information data file.
-- Within the core repository, run `./gradlew publishToMavenLocal`. You will have to do this again if a new version of
-  darkan-core is released.
+- You can optionally clone `git clone git@github.com:DarkanRS/client.git` too if you don't want to use the client loader.
 
 ### Running and Testing
 - (Optional if not using the test-lobby-db) Make sure you have a MongoDB server running on your local machine or somewhere else (the connection URL for the Mongo server can be configured through the serverConfig.json file that gets generated after trying to run the world server once)

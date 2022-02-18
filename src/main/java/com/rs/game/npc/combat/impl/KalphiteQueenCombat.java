@@ -16,11 +16,6 @@
 //
 package com.rs.game.npc.combat.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -35,6 +30,11 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 public class KalphiteQueenCombat extends CombatScript {
 
 	@Override
@@ -43,7 +43,7 @@ public class KalphiteQueenCombat extends CombatScript {
 	}
 
 	public static void attackMageTarget(final List<Player> arrayList, Entity fromEntity, final NPC startTile, Entity t, final int projectile, final int gfx) {
-		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile) : t;
+		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile.getTile()) : t;
 		if (fromEntity instanceof NPC npc) {
 			if (target == null)
 				return;
@@ -63,7 +63,7 @@ public class KalphiteQueenCombat extends CombatScript {
 	}
 
 	private void attackMageTarget(final List<Player> arrayList, Entity fromEntity, final NPC startTile, Entity t) {
-		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile) : t;
+		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile.getTile()) : t;
 		if (target == null)
 			return;
 		if (target instanceof Player player)
@@ -90,7 +90,7 @@ public class KalphiteQueenCombat extends CombatScript {
 				continue;
 			for (Integer playerIndex : playersIndexes) {
 				Player player = World.getPlayers().get(playerIndex);
-				if (player == null || list.contains(player) || !player.withinDistance(fromEntity) || !player.withinDistance(startTile))
+				if (player == null || list.contains(player) || !player.withinDistance(fromEntity.getTile()) || !player.withinDistance(startTile))
 					continue;
 				added.add(player);
 			}
@@ -102,9 +102,9 @@ public class KalphiteQueenCombat extends CombatScript {
 				return 1;
 			if (o2 == null)
 				return -1;
-			if (Utils.getDistance(o1, fromEntity) > Utils.getDistance(o2, fromEntity))
+			if (Utils.getDistance(o1.getTile(), fromEntity.getTile()) > Utils.getDistance(o2.getTile(), fromEntity.getTile()))
 				return 1;
-			if (Utils.getDistance(o1, fromEntity) < Utils.getDistance(o2, fromEntity))
+			if (Utils.getDistance(o1.getTile(), fromEntity.getTile()) < Utils.getDistance(o2.getTile(), fromEntity.getTile()))
 				return -1;
 			return 0;
 		});

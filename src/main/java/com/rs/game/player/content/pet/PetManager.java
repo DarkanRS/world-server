@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.pet;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.ForceTalk;
 import com.rs.game.npc.pet.Pet;
@@ -26,6 +23,9 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The pet manager.
@@ -101,7 +101,7 @@ public final class PetManager {
 		}
 		int npcId = pets.getNpcId(details.getStage());
 		if (npcId > 0) {
-			Pet pet = new Pet(npcId, itemId, player, player, pets.getGrownNpcId() == -1 && pets.getOvergrownNpcId() == -1 ? null : details);
+			Pet pet = new Pet(npcId, itemId, player, player.getTile(), pets.getGrownNpcId() == -1 && pets.getOvergrownNpcId() == -1 ? null : details);
 			this.npcId = npcId;
 			this.itemId = itemId;
 			pet.setGrowthRate(pets.getGrowthRate());

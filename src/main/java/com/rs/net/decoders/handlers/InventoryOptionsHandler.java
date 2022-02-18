@@ -67,38 +67,21 @@ import com.rs.game.player.content.world.LightSource;
 import com.rs.game.player.controllers.BarrowsController;
 import com.rs.game.player.controllers.FightKilnController;
 import com.rs.game.player.controllers.SorceressGardenController;
-import com.rs.game.player.dialogues.AncientEffigiesD;
-import com.rs.game.player.dialogues.FletchingD;
-import com.rs.game.player.dialogues.FlowerPickup;
-import com.rs.game.player.dialogues.ItemMessage;
-import com.rs.game.player.dialogues.LeatherCraftingD;
-import com.rs.game.player.dialogues.SimplePlayerMessage;
+import com.rs.game.player.dialogues.*;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.DropItemEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCInteractionDistanceEvent;
+import com.rs.plugin.events.*;
 import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
-import com.rs.utils.drop.Drop;
-import com.rs.utils.drop.DropSet;
-import com.rs.utils.drop.DropTable;
-import com.rs.utils.drop.WeightedSet;
-import com.rs.utils.drop.WeightedTable;
+import com.rs.utils.drop.*;
 
 public class InventoryOptionsHandler {
 
@@ -134,7 +117,7 @@ public class InventoryOptionsHandler {
 					player.sendMessage("You seem to have dropped down into a network of mole tunnels.");
 					return;
 				}
-				if (Utils.getDistance(player, new WorldTile(2749, 3734, 0)) < 3) {
+				if (Utils.getDistance(player.getTile(), new WorldTile(2749, 3734, 0)) < 3) {
 					player.useStairs(-1, new WorldTile(2690, 10124, 0), 0, 1);
 					return;
 				}
@@ -229,13 +212,13 @@ public class InventoryOptionsHandler {
 		if (itemId == 299) {
 			if (player.isLocked())
 				return;
-			if (World.getObject(new WorldTile(player), ObjectType.SCENERY_INTERACT) != null) {
+			if (World.getObject(new WorldTile(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
 				player.sendMessage("You cannot plant flowers here..");
 				return;
 			}
 			final Player thisman = player;
 			final double random = Utils.random(100.0);
-			final WorldTile tile = new WorldTile(player);
+			final WorldTile tile = new WorldTile(player.getTile());
 			int flower = Utils.random(2980, 2987);
 			if (random < 0.2)
 				flower = Utils.random(2987, 2989);
@@ -637,7 +620,7 @@ public class InventoryOptionsHandler {
 		if (event.dropCancelled())
 			return;
 		player.getInventory().deleteItem(slotId, item);
-		World.addGroundItem(item, new WorldTile(player), player);
+		World.addGroundItem(item, new WorldTile(player.getTile()), player);
 		player.getPackets().sendSound(2739, 0, 1);
 	}
 
@@ -750,7 +733,7 @@ public class InventoryOptionsHandler {
 		}
 		if (!player.getControllerManager().processItemOnPlayer(other, item, slotId))
 			return;
-		player.setNextFaceWorldTile(other);
+		player.setNextFaceWorldTile(other.getTile());
 		switch (item.getId()) {
 		//		case 4155:
 		//			if (other.getCoopSlayerPartner() != null) {
@@ -778,7 +761,7 @@ public class InventoryOptionsHandler {
 				}
 
 				int random = Utils.random(1000);
-				other.setNextFaceWorldTile(player);
+				other.setNextFaceWorldTile(player.getTile());
 				player.setNextAnimation(new Animation(15152));
 				other.setNextAnimation(new Animation(15153));
 				player.setNextSpotAnim(new SpotAnim(2952));

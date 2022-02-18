@@ -36,7 +36,7 @@ public class Genie extends OwnedNPC {
 	private boolean claimed = false;
 
 	public Genie(Player owner) {
-		super(owner, 3022, new WorldTile(owner), false);
+		super(owner, 3022, new WorldTile(owner.getTile()), false);
 		setRun(true);
 		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);

@@ -79,7 +79,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 						player.sendMessage("You should finish the clue you are currently doing first.");
 						return;
 					}
-				if (!World.checkWalkStep(player, item1.getTile())) {
+				if (!World.checkWalkStep(player.getTile(), item1.getTile())) {
 					player.setNextAnimation(new Animation(833));
 					player.setNextFaceWorldTile(item1.getTile());
 					player.lock(1);

@@ -99,7 +99,7 @@ public class Agility {
 			player.faceObject(object);
 			player.setNextAnimation(new Animation(751));
 			World.sendObjectAnimation(player, object, new Animation(497));
-			player.setNextForceMovement(new ForceMovement(player, 1, endTile, 3, Utils.getAngleTo(endTile.getX()-player.getX(), endTile.getY()-player.getY())));
+			player.setNextForceMovement(new ForceMovement(player.getTile(), 1, endTile, 3, Utils.getAngleTo(endTile.getX()-player.getX(), endTile.getY()-player.getY())));
 			player.sendMessage("You skillfully swing across the rope.", true);
 			WorldTasks.schedule(new WorldTask() {
 				@Override

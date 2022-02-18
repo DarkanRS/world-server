@@ -16,9 +16,6 @@
 //
 package com.rs.game.player;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.player.content.Effect;
@@ -37,6 +34,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.XPGainEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @PluginEventHandler
 public final class Skills {
@@ -1288,7 +1288,7 @@ public final class Skills {
 	}
 
 	public static int[] allExcept(int... exclude) {
-		int[] skills = new int[Constants.SKILL_NAME.length-exclude.length];
+		int[] skills = new int[1+Constants.SKILL_NAME.length-exclude.length];
 		int idx = 0;
 		for (int i = 0;i < Constants.SKILL_NAME.length;i++) {
 			for (int ex : exclude)

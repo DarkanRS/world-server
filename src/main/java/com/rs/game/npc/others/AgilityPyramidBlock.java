@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.others;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -33,6 +30,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class AgilityPyramidBlock extends NPC {
@@ -87,7 +87,7 @@ public class AgilityPyramidBlock extends NPC {
 		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
 			if (player.getPlane() != getPlane() || player.isLocked())
 				continue;
-			if (WorldUtil.collides(player, dangerTile, 1, 2))
+			if (WorldUtil.collides(player.getTile(), dangerTile, 1, 2))
 				players.add(player);
 		}
 		return players;

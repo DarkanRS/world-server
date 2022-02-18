@@ -134,7 +134,7 @@ public class Glacor extends NPC {
 			setCapDamage(-1);
 		}
 
-		if (lastAttacked != null && (!lastAttacked.withinDistance(this, 40) || lastAttacked.isDead())) {
+		if (lastAttacked != null && (!lastAttacked.withinDistance(getTile(), 40) || lastAttacked.isDead())) {
 			resetNpcs();
 			return;
 		}

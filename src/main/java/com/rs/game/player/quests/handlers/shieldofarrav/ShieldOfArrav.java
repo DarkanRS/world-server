@@ -436,7 +436,7 @@ public class ShieldOfArrav extends QuestOutline {
                 BookShieldOfArrav.openBook(e.getPlayer());
             if (e.getOption().equalsIgnoreCase("drop")) {
                 e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
                 e.getPlayer().getPackets().sendSound(2739, 0, 1);
             }
         }
@@ -613,7 +613,7 @@ public class ShieldOfArrav extends QuestOutline {
                     }
                     npc.faceEntity(p);
                     p.getInventory().deleteItem(e.getItem());
-                    World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                    World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
                 }
         }
     };
