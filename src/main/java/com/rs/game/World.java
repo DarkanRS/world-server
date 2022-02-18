@@ -517,22 +517,22 @@ public final class World {
 		WorldTile toTile = WorldUtil.targetToTile(to);
 		if (fromTile.getPlane() != toTile.getPlane())
 			return false;
-			WorldTile closestFrom = fromTile;
-			WorldTile closestTo = toTile;
-			double shortest = 1000.0;
-			for (int x1 = 0; x1 < fromSize; x1++)
-				for (int y1 = 0; y1 < fromSize; y1++)
-					for (int x2 = 0; x2 < toSize; x2++)
-						for (int y2 = 0; y2 < toSize; y2++) {
-							double dist = Utils.getDistance(fromTile.transform(x1, y1), toTile.transform(x2, y2));
-							if (dist < shortest) {
-								closestFrom = fromTile.transform(x1, y1);
-								closestTo = toTile.transform(x2, y2);
-								shortest = dist;
-							}
+		WorldTile closestFrom = fromTile;
+		WorldTile closestTo = toTile;
+		double shortest = 1000.0;
+		for (int x1 = 0; x1 < fromSize; x1++)
+			for (int y1 = 0; y1 < fromSize; y1++)
+				for (int x2 = 0; x2 < toSize; x2++)
+					for (int y2 = 0; y2 < toSize; y2++) {
+						double dist = Utils.getDistance(fromTile.transform(x1, y1), toTile.transform(x2, y2));
+						if (dist < shortest) {
+							closestFrom = fromTile.transform(x1, y1);
+							closestTo = toTile.transform(x2, y2);
+							shortest = dist;
 						}
-			from = closestFrom;
-			to = closestTo;
+					}
+		fromTile = closestFrom;
+		toTile = closestTo;
 		if (to == null || from == null)
 			return false;
 		if (fromTile.matches(toTile))
