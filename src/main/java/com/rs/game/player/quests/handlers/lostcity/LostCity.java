@@ -83,7 +83,7 @@ public class LostCity extends QuestOutline {
 		case FIND_ZANARIS:
 			lines.add("Now that I have a dramen branch I should turn it into a staff and");
 			lines.add("head to Lumbridge Swamp where I can find a shed. If I enter it with");
-			lines.add("the staff in head, I should be able to get to Zanaris...");
+			lines.add("the staff in hand, I should be able to get to Zanaris...");
 			lines.add("");
 			break;
 		case QUEST_COMPLETE:
@@ -115,11 +115,13 @@ public class LostCity extends QuestOutline {
 							if(tick == 1) {
 								p.sendMessage("The world starts to shimmer...");
 								FairyRings.sendTeleport(p, new WorldTile(2452, 4473, 0));
-								p.lock(3);
+								p.lock(4);
 							}
 							if(tick == 4)
-								if(!p.getQuestManager().isComplete(Quest.LOST_CITY))
+								if(!p.getQuestManager().isComplete(Quest.LOST_CITY)) {
+									p.lock(3);//so players dont cancel it out by accident and not see it...
 									p.getQuestManager().completeQuest(Quest.LOST_CITY);
+								}
 							if(tick == 5)
 								stop();
 							tick++;
