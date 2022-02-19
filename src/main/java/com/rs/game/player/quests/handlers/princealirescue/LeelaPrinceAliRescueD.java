@@ -96,7 +96,7 @@ public class LeelaPrinceAliRescueD extends Conversation {
 										"they see the prince out so we need a disguise good enough to fool them at a distance.")
 								.addNPC(LEELA, HeadE.CALM_TALK, "You need a wig, maybe made from wool. If you find someone who can work with wool ask " +
 										"them about it. There's a witch nearby may be able to help you dye it.")
-								.addNPC(LEELA, HeadE.CALM_TALK, "You also need a skirt to match Lady Keli's cothing.")
+								.addNPC(LEELA, HeadE.CALM_TALK, "We will need a skirt like hers, a pink one should be fine.")
 								.addNPC(LEELA, HeadE.CALM_TALK, "We still need something to colour the Prince's skin lighter. There's a witch close to here. " +
 										"She knows about many things. She may know some way to make the skin lighter.")
 								.addNPC(LEELA, HeadE.CALM_TALK, "You have rope I see, to tie up Keli. That will be the most dangerous part of the plan."));
