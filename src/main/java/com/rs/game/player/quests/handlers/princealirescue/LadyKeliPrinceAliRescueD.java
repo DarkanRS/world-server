@@ -31,7 +31,6 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 	public final static int LADY_KELI = 919;
 	final int ORIGINAL_OPTIONS = 0;
 	final int LATEST_PLAN_OPTIONS = 1;
-	final int CONVO3 = 2;
 
 	public LadyKeliPrinceAliRescueD(Player p) {
 		super(p);
@@ -49,17 +48,13 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 		this.p = p;
 
 		switch(convoID) {
-		case ORIGINAL_OPTIONS:
-			originalOptions(p, isFirst);
-			break;
-		case LATEST_PLAN_OPTIONS:
-			latestPlanOptions(p, isFirst);
-			break;
-		case CONVO3:
-			convo3(p);
-			break;
+			case ORIGINAL_OPTIONS:
+				originalOptions(p, isFirst);
+				break;
+			case LATEST_PLAN_OPTIONS:
+				latestPlanOptions(p, isFirst);
+				break;
 		}
-
 	}
 
 	private void originalOptions(Player p, boolean isFirst) {
@@ -235,9 +230,6 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 		});
 	}
 
-	private void convo3(Player p) {
-
-	}
 
 	public static NPCClickHandler handleLadyKeli = new NPCClickHandler(LADY_KELI) {
 		@Override

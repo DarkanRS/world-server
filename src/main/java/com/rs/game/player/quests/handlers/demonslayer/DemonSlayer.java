@@ -18,7 +18,10 @@ package com.rs.game.player.quests.handlers.demonslayer;
 
 import java.util.ArrayList;
 
+import com.rs.game.World;
+import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.EnchantedHeadwear;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.controllers.DemonSlayer_PlayerVSDelrith;
@@ -26,15 +29,10 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.EnterChunkHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
 
 @QuestHandler(Quest.DEMON_SLAYER)
@@ -205,10 +203,19 @@ public class DemonSlayer extends QuestOutline {
 					create();
 				}
 			});
+		}
+	};
 
-
-
-
+	public static ItemClickHandler handleDarklightQuestRequirement = new ItemClickHandler(new Object[]{6746}, new String[]{"Wield"}) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if (e.getPlayer().isEquipDisabled())
+				return;
+			if (!e.getPlayer().getQuestManager().isComplete(Quest.DEMON_SLAYER)) {
+				e.getPlayer().sendMessage("You must complete the Demon Slayer quest to use this item...");
+				return;
+			}
+			Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
 		}
 	};
 
