@@ -24,7 +24,7 @@ public class BrotherCedricMonksFriendD extends Conversation {
 						addNPC(NPC, HeadE.CALM_TALK, "Could you help and bring me logs?");
 						addPlayer(HeadE.HAPPY_TALKING, "I have some right here...");
 						addSimple("You give him the logs", () -> {
-							p.getInventory().removeItems(new Item(1522, 1));
+							p.getInventory().removeItems(new Item(1511, 1));
 							p.getQuestManager().setStage(Quest.MONKS_FRIEND, RETURN_TO_OMAD);
 						});
 						addNPC(NPC, HeadE.CALM_TALK, "Well done! Now I'll fix this cart. You head back to Brother Omad and tell him I'll be there soon.");
@@ -45,6 +45,7 @@ public class BrotherCedricMonksFriendD extends Conversation {
 						addPlayer(HeadE.HAPPY_TALKING, "Cedric! Here, drink! I have some water.");
 						addNPC(NPC, HeadE.CALM_TALK, "Good stuff, my head's spinning!");
 						addNPC(NPC, HeadE.CALM_TALK, "Aah! That's better!", () -> {
+							p.getInventory().removeItems(new Item(1937, 1));
 							p.getQuestManager().getAttribs(Quest.MONKS_FRIEND).setB("cedric_drank_water", true);
 						});
 						addNPC(NPC, HeadE.CALM_TALK, "Now I just need to fix this cart and we can go party.");
