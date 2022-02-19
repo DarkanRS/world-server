@@ -353,7 +353,7 @@ public final class BarrowsController extends Controller {
 				else if (target != null || player.getKilledBarrowBrothers()[sarcoId])
 					player.sendMessage("You found nothing.");
 				else
-					sendTarget(2025 + sarcoId, player.getTile());
+					sendTarget(2025 + sarcoId, new WorldTile(player.getTile()));
 				return false;
 			}
 		}
