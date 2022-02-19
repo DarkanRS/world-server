@@ -1161,6 +1161,10 @@ public class Player extends Entity {
 				return;
 			}
 		});
+		if (getAccount().getRights() == null) {
+			setRights(Rights.PLAYER);
+			LobbyCommunicator.updateRights(this);
+		}
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);
