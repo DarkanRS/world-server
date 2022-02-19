@@ -357,9 +357,8 @@ public class Varrock {
 						addOptions("What would you like to say?", new Options() {
 							@Override
 							public void create() {
-								if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-									option("About Shield Of Arrav...", new MuseumCuratorArravD(player).getStart());
-								option("Farewell.");
+								option("About Shield Of Arrav...", new MuseumCuratorArravD(player).getStart());
+								option("Farewell.", new Dialogue());
 							}
 						});
 						create();
