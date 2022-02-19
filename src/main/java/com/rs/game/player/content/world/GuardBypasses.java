@@ -157,10 +157,26 @@ public class GuardBypasses {
 		}
 	};
 
-	public static ObjectClickHandler uselessDoors = new ObjectClickHandler(new Object[] { 45853, 45854, 45855, 45856, 45857, 45858, 45859 }) {
+	public static ObjectClickHandler uselessDoors = new ObjectClickHandler(new Object[] {  45854, 45856, 45857, 45858, 45859 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 
+		}
+	};
+
+	public static ObjectClickHandler eastDoorClick = new ObjectClickHandler(new Object[] { 45853, 45855 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			GameObject gate1 = World.getObjectWithId(new WorldTile(3273, 3429, 0), 45853);
+			GameObject gate2 = World.getObjectWithId(new WorldTile(3273, 3428, 0), 45855);
+			if (gate1 != null && gate2 != null) {
+				World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
+				World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+				World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.transform(1, 0, 0)), 3, true);
+				World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.transform(1, 0, 0)), 3, true);
+			}
+			e.getPlayer().lock(2);
+			e.getPlayer().addWalkSteps(e.getPlayer().getX() > e.getObject().getX() ? e.getObject().transform(-1, 0) : e.getObject().transform(1, 0), 3, false);
 		}
 	};
 
