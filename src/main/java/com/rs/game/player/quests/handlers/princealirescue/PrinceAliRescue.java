@@ -214,6 +214,7 @@ public class PrinceAliRescue extends QuestOutline {
 			if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk") && p.getInventory().containsItem(BRONZE_KEY, 1) &&
 					p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&
 					p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1)) {
+				p.getInventory().removeItems(new Item(ROPE, 1));
 				e.getNPC().setRespawnTask(90);
 				e.getNPC().finish();
 			} else

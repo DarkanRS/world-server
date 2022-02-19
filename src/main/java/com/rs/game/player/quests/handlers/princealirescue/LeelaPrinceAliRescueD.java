@@ -96,7 +96,7 @@ public class LeelaPrinceAliRescueD extends Conversation {
 										"they see the prince out so we need a disguise good enough to fool them at a distance.")
 								.addNPC(LEELA, HeadE.CALM_TALK, "You need a wig, maybe made from wool. If you find someone who can work with wool ask " +
 										"them about it. There's a witch nearby may be able to help you dye it.")
-								.addNPC(LEELA, HeadE.CALM_TALK, "You have got the skirt, good.")
+								.addNPC(LEELA, HeadE.CALM_TALK, "You also need a skirt to match Lady Keli's cothing.")
 								.addNPC(LEELA, HeadE.CALM_TALK, "We still need something to colour the Prince's skin lighter. There's a witch close to here. " +
 										"She knows about many things. She may know some way to make the skin lighter.")
 								.addNPC(LEELA, HeadE.CALM_TALK, "You have rope I see, to tie up Keli. That will be the most dangerous part of the plan."));
@@ -119,36 +119,6 @@ public class LeelaPrinceAliRescueD extends Conversation {
 		if(p.getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
 			addNPC(LEELA, HeadE.HAPPY_TALKING, "Thank you, Al-Kharid will forever owe you for your help. I think that if there is ever anything that " +
 					"needs to be done, you will be someone they can rely on.");
-
-	}
-
-	public LeelaPrinceAliRescueD(Player p, int convoID) {
-		super(p);
-		this.p = p;
-
-		switch(convoID) {
-		case CONVO1:
-			convo1(p);
-			break;
-		case CONVO2:
-			convo2(p);
-			break;
-		case CONVO3:
-			convo3(p);
-			break;
-		}
-
-	}
-
-	private void convo1(Player p) {
-
-	}
-
-	private void convo2(Player p) {
-
-	}
-
-	private void convo3(Player p) {
 
 	}
 
