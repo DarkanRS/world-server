@@ -50,7 +50,7 @@ public class ItemWeights {
 			return 0;
 		if (weight < 0.0) {
 			if (equipped)
-				return -weight;
+				return weight;
 			return 0;
 		}
 		return weight;

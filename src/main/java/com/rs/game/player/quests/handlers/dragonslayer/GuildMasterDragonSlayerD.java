@@ -38,8 +38,6 @@ public class GuildMasterDragonSlayerD extends Conversation {
 	private final int DRAGON_BREATH = 6;
 
 
-
-
 	public GuildMasterDragonSlayerD(Player p) {
 		super(p);
 		switch(p.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {

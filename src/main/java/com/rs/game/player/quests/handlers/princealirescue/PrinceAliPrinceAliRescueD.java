@@ -24,6 +24,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -70,12 +71,13 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 			addNPC(PRINCE_ALI, HeadE.CALM_TALK, "I owe you my life for that escape. You cannot help me this time, they know who you are. Go in peace, " +
 					"friend of Al-Kharid.");
 		else if(p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&
-				p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1)){
+				p.getInventory().containsItem(PINK_SKIRT, 1)){
 			addPlayer(HeadE.SECRETIVE, "Prince, I come to rescue you.");
 			addNPC(PRINCE_ALI, HeadE.HAPPY_TALKING, "That is very very kind of you, how do I get out?");
 			addPlayer(HeadE.SECRETIVE, "With a disguise. I have removed the Lady Keli. She is tied up, but will not stay tied up for long.");
 			addPlayer(HeadE.SECRETIVE, "Take this disguise, and this key.");
 			addSimple("You hand over the disguise and key over to Prince Ali.", ()-> {
+				p.getInventory().removeItems(new Item(PASTE, 1), new Item(PINK_SKIRT, 1), new Item(BLONDE_WIG, 1));
 				for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
 					if(npc.getId() == PRINCE_ALI)
 						WorldTasks.schedule(new WorldTask() {//deletes all ali2s when region is loaded.
