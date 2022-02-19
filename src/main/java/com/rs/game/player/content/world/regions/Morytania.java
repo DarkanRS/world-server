@@ -402,7 +402,7 @@ public class Morytania  {
 		}
 	};
 
-	public static ObjectClickHandler handlePickBloomed = new ObjectClickHandler(new Object[] { 3509, 3511, 3513 }) {
+	public static ObjectClickHandler handlePickBloomed = new ObjectClickHandler(new Object[] { 3509, 3511, 3513, 50736 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			final BloomResource product = BloomResource.forObject(e.getObjectId());
@@ -452,10 +452,14 @@ public class Morytania  {
 						if (object == null)
 							continue;
 						switch (object.getId()) {
-						case 3512:
+						case 3512://other
 						case 3510:
-						case 3508:
 							object.setIdTemporary(object.getId()+1, Ticks.fromSeconds(30));
+							break;
+						case 3508://fungi
+						case 50718:
+						case 50746:
+							object.setIdTemporary(3509, Ticks.fromSeconds(30));
 							break;
 						}
 					}

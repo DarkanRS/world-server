@@ -96,7 +96,7 @@ public class PyramidPlunder {
 						case 3 -> {
 							if (rollUrnSuccess(e.getPlayer(), ctrl.getCurrentRoom(), varbitValue)) {
 								e.getPlayer().setNextAnimation(new Animation(4342));
-								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom() * (varbitValue == 0 ? 3 : 2)));
+								e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom())* (varbitValue == 0 ? 3 : 2));
 								ctrl.updateObject(e.getObject(), 1);
 								loot(e.getPlayer(), "pp_urn", ctrl.getCurrentRoom());
 							} else {

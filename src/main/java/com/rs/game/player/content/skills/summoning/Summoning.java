@@ -325,7 +325,7 @@ public class Summoning {
 
 	public static Familiar createFamiliar(Player player, Pouches pouch) {
 		try {
-			return (Familiar) Class.forName("com.rs.game.npc.familiar." + (NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId()))).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")).getConstructor(Player.class, Pouches.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, player, -1, true);
+			return (Familiar) Class.forName("com.rs.game.npc.familiar." + (NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId()))).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")).getConstructor(Player.class, Pouches.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, player.getTile(), -1, true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return null;
