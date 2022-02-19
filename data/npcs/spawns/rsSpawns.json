@@ -1,5 +1,32 @@
 [
   {
+    "comment": "Giant bat added by jazneta",
+    "npcId": 78,
+    "tile": {
+      "x": 2762,
+      "y": 3401,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by jazneta",
+    "npcId": 78,
+    "tile": {
+      "x": 2749,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by jazneta",
+    "npcId": 78,
+    "tile": {
+      "x": 2755,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Thief added by jazneta",
     "npcId": 282,
     "tile": {
