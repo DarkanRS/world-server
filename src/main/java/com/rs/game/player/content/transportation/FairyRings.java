@@ -17,6 +17,8 @@
 package com.rs.game.player.content.transportation;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.world.regions.dungeons.AncientCavern;
 import com.rs.game.player.quests.Quest;
@@ -184,7 +186,16 @@ public class FairyRings {
 	public static ObjectClickHandler handleRings = new ObjectClickHandler(new Object[] { "Fairy ring", 27331 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			FairyRings.openRingInterface(e.getPlayer(), e.getObject(), e.getObjectId() == 12128);
+			if (e.getObjectId() == 12094) {//Fairy ring by evil chicken
+				sendTeleport(e.getPlayer(), new WorldTile(3202, 3169, 0));
+				return;
+			}
+			if(e.getPlayer().getQuestManager().isComplete(Quest.LOST_CITY)) {
+				FairyRings.openRingInterface(e.getPlayer(), e.getObject(), e.getObjectId() == 12128);
+				return;
+			}
+			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "I don't know what's supposed to be happening here..."));
+			e.getPlayer().sendMessage("You require The Lost City quest");
 		}
 	};
 
