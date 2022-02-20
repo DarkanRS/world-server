@@ -843,7 +843,7 @@ public class NPC extends Entity {
 	}
 
 	protected void setRespawnTile(WorldTile respawnTile) {
-		this.respawnTile = respawnTile;
+		this.respawnTile = new WorldTile(respawnTile);
 	}
 
 	public boolean isUnderCombat() {
