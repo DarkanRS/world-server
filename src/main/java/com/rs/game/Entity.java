@@ -121,7 +121,7 @@ public abstract class Entity {
 
 	// saving stuff
 	private int hitpoints;
-	private WorldTile tile;
+	private final WorldTile tile;
 	private RegionSize regionSize;
 
 	private boolean run;
@@ -130,7 +130,7 @@ public abstract class Entity {
 
 	// creates Entity and saved classes
 	public Entity(WorldTile tile) {
-		this.tile = tile;
+		this.tile = new WorldTile(tile);
 		this.uuid = UUID.randomUUID().toString();
 		poison = new Poison();
 	}
@@ -1372,7 +1372,7 @@ public abstract class Entity {
 	}
 
 	public void setTile(WorldTile tile) {
-		this.tile = tile;
+		this.tile.setLocation(tile);
 	}
 
 	public void setLocation(WorldTile tile) {
