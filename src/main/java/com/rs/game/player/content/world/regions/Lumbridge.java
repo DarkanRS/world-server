@@ -97,6 +97,11 @@ public class Lumbridge {
 							@Override
 							public void create() {
 								option("What do you have for sale?", () -> ShopsHandler.openShop(player, "bobs_brilliant_axes"));
+								option("Can you repair my items?", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "Can you repair my items?")
+										.addNPC(519, HeadE.CALM_TALK, "Sure just give me the item.")
+										.addSimple("(Use the item on Bob)")
+								);
 								option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING).getStart());
 							}
 						});
