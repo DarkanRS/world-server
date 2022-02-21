@@ -2,6 +2,7 @@ package com.rs.game.player.quests.handlers.familycrest;
 
 import java.util.ArrayList;
 
+import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -14,8 +15,10 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
@@ -204,5 +207,18 @@ public class FamilyCrest extends QuestOutline {
 			player.getInventory().addItem(FAMILY_GAUNTLETS, 1);
 		getQuest().sendQuestCompleteInterface(player, 778, "Family gauntlets");
 	}
+
+	public static ItemClickHandler handleFamilyGauntletsQuestRequirement = new ItemClickHandler(new Object[]{775, 776, 777}, new String[]{"Wear"}) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if (e.getPlayer().isEquipDisabled())
+				return;
+			if (!e.getPlayer().getQuestManager().isComplete(Quest.FAMILY_CREST)) {
+				e.getPlayer().sendMessage("You must complete the Family Crest quest to use this item...");
+				return;
+			}
+			Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
+		}
+	};
 
 }
