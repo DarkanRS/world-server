@@ -19,6 +19,7 @@ package com.rs.game.player.content.skills.hunter.traps;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
 import com.rs.game.object.GameObject;
@@ -79,7 +80,7 @@ public class NetTrap extends BoxStyleTrap {
 			this.tree = new OwnedObject(player, tree);
 			treeType = TreeType.fromBase(tree.getId());
 			if (treeType == null)
-				FileManager.logError("Tree type null: " + tree);
+				WorldDB.getLogs().logError("Tree type null: " + tree);
 			setIdNoRefresh(treeType.net);
 			setRotation(tree.getRotation());
 		}

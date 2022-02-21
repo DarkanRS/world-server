@@ -17,6 +17,7 @@
 package com.rs.game.ge;
 
 import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.db.WorldDB;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.Player;
 import com.rs.lib.file.FileManager;
@@ -125,7 +126,7 @@ public class Offer {
 		completedAmount += num;
 		if (completedAmount >= amount) {
 			if (completedAmount > amount)
-				FileManager.logError("GRAND EXCHANGE COMPLETED AMOUNT HIGHER THAN SALE AMOUNT");
+				WorldDB.getLogs().logError("GE completed amount higher than sale amount: " + this.toString());
 			state = State.FINISHED;
 		}
 	}
