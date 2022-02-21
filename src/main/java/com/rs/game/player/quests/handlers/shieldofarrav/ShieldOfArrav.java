@@ -369,17 +369,19 @@ public class ShieldOfArrav extends QuestOutline {
     }
 
     public static boolean hasGang(Player p) {
-        if (isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE) || isStageInPlayerSave(p, JOINED_PHOENIX_STAGE))
-            return true;
-        return false;
+		if(isPhoenixGang(p))
+        	return true;
+		if(isBlackArmGang(p))
+			return true;
+		return false;
     }
 
     public static boolean isPhoenixGang(Player p) {
-        return isStageInPlayerSave(p, JOINED_PHOENIX_STAGE);
+        return ((String)p.getO("ThievingGang")).equalsIgnoreCase("Phoenix");
     }
 
     public static boolean isBlackArmGang(Player p) {
-        return isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE);
+        return ((String)p.getO("ThievingGang")).equalsIgnoreCase("Black");
     }
 
     public static void setStage(Player p, int questStage) {
@@ -392,20 +394,12 @@ public class ShieldOfArrav extends QuestOutline {
         saveStageToPlayerSave(p, questStage);
     }
 
-    public static void setPhoenixGang(Player p) {
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_PHOENIX_ATTR, true);
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_BLACK_ARM_ATTR, false);
-    }
-
-    public static void setBlackArmGang(Player p) {
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_PHOENIX_ATTR, false);
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_BLACK_ARM_ATTR, true);
+    public static void setGang(Player p, String gang) {//"Phoenix", "Black", "None"
+		p.save("ThievingGang", gang);
     }
 
     @Override
     public void complete(Player player) {
-        if (!hasGang(player))
-            setPhoenixGang(player);
         player.getInventory().addItem(995, 1200, true);
         getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
     }
@@ -637,12 +631,20 @@ public class ShieldOfArrav extends QuestOutline {
 
     /**
      * When the player logs in, the Shield Of Arrav display case is updated based on quest completion.
+	 * Also if the player does not have a gang upon completion they must be assigned one
      */
     public static LoginHandler onLogin = new LoginHandler() {
         @Override
         public void handle(LoginEvent e) {
-            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-                e.getPlayer().getVars().setVarBit(5394, 1);
+            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV)) {
+				e.getPlayer().getVars().setVarBit(5394, 1);
+				if(!ShieldOfArrav.hasGang(e.getPlayer())) {
+					if (Utils.randomInclusive(0, 1) == 1)
+						ShieldOfArrav.setGang(e.getPlayer(), "Phoenix");
+					else
+						ShieldOfArrav.setGang(e.getPlayer(), "Black");
+				}
+			}
             else
                 e.getPlayer().getVars().setVarBit(5394, 0);
         }
