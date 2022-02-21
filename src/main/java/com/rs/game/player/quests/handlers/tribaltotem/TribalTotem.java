@@ -237,22 +237,22 @@ public class TribalTotem extends QuestOutline {
 
 			//RIGHT
 			case 11 -> {
-				if(indexFirst + 1 <= 27)
+				if(indexFirst + 1 < LETTERS.length())
 					indexFirst++;
 				p.getPackets().setIFText(e.getInterfaceId(), FIRST_LETTER_COMP, ""+LETTERS.charAt(indexFirst));
 			}
 			case 13 -> {
-				if(indexSecond + 1 <= 27)
+				if(indexSecond + 1 < LETTERS.length())
 					indexSecond++;
 				p.getPackets().setIFText(e.getInterfaceId(), SECOND_LETTER_COMP, ""+LETTERS.charAt(indexSecond));
 			}
 			case 15 -> {
-				if(indexThird + 1 <= 27)
+				if(indexThird + 1 < LETTERS.length())
 					indexThird++;
 				p.getPackets().setIFText(e.getInterfaceId(), THIRD_LETTER_COMP, ""+LETTERS.charAt(indexThird));
 			}
 			case 17 -> {
-				if(indexFourth + 1 <= 27)
+				if(indexFourth + 1 < LETTERS.length())
 					indexFourth++;
 				p.getPackets().setIFText(e.getInterfaceId(), FOURTH_LETTER_COMP, ""+LETTERS.charAt(indexFourth));
 			}

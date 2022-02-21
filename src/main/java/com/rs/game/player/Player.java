@@ -935,108 +935,112 @@ public class Player extends Entity {
 
 	@Override
 	public void processEntity() {
-		if (getSession().isClosed())
-			finish(0);
-		processPackets();
-		processForinthry();
-		cutsceneManager.process();
-		super.processEntity();
-		if (hasStarted() && isIdle())
-			if (!hasRights(Rights.ADMIN))
-				if (getActionManager().getAction() instanceof PlayerCombat combat) {
-					if (!(combat.getTarget() instanceof Player))
-						idleLog();
-				} else
-					logout(true);
-		if (disconnected && !finishing)
-			finish(0);
-		timePlayed = getTimePlayed() + 1;
-		timeLoggedOut = System.currentTimeMillis();
-		if (!isDead()) {
-			if (getTickCounter() % 50 == 0)
-				getCombatDefinitions().restoreSpecialAttack();
+		try {
+			if (getSession().isClosed())
+				finish(0);
+			processPackets();
+			processForinthry();
+			cutsceneManager.process();
+			super.processEntity();
+			if (hasStarted() && isIdle())
+				if (!hasRights(Rights.ADMIN))
+					if (getActionManager().getAction() instanceof PlayerCombat combat) {
+						if (!(combat.getTarget() instanceof Player))
+							idleLog();
+					} else
+						logout(true);
+			if (disconnected && !finishing)
+				finish(0);
+			timePlayed = getTimePlayed() + 1;
+			timeLoggedOut = System.currentTimeMillis();
+			if (!isDead()) {
+				if (getTickCounter() % 50 == 0)
+					getCombatDefinitions().restoreSpecialAttack();
 
-			//Restore skilling stats
-			if (getTickCounter() % 100 == 0) {
-				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-				Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+				//Restore skilling stats
+				if (getTickCounter() % 100 == 0) {
+					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+					Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+				}
+
+				//Restore combat stats
+				if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
+					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+					Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
+				}
+			}
+			if (getNextRunDirection() == null) {
+				double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
+				if (isResting()) {
+					energy = 1.68;
+					if (Musician.isNearby(this))
+						energy = 2.28;
+				}
+				restoreRunEnergy(energy);
 			}
 
-			//Restore combat stats
-			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
-				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
-			}
-		}
-		if (getNextRunDirection() == null) {
-			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
-			if (isResting()) {
-				energy = 1.68;
-				if (Musician.isNearby(this))
-					energy = 2.28;
-			}
-			restoreRunEnergy(energy);
-		}
+			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
+				tickFarming();
 
-		if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
-			tickFarming();
+			processMusic();
 
-		processMusic();
+			if (inCombat() || isAttacking())
+				for (int i = 0; i < Equipment.SIZE; i++) {
+					Item item = getEquipment().getItem(i);
+					if (item == null)
+						continue;
+					for (ItemDegrade d : ItemDegrade.values())
+						if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
+							getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
+							getEquipment().refresh(i);
+							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
+							break;
+						}
+					if (item.getMetaData("combatCharges") != null) {
+						item.addMetaData("combatCharges", item.getMetaDataI("combatCharges") - 1);
+						if (item.getMetaDataI("combatCharges") <= 0) {
+							ItemDegrade deg = null;
+							for (ItemDegrade d : ItemDegrade.values())
+								if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
+									deg = d;
+									break;
+								}
+							if (deg != null) {
+								if (deg.getBrokenId() == 4207) {
 
-		if (inCombat() || isAttacking())
-			for (int i = 0;i < Equipment.SIZE;i++) {
-				Item item = getEquipment().getItem(i);
-				if (item == null)
-					continue;
-				for (ItemDegrade d : ItemDegrade.values())
-					if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
-						getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
-						getEquipment().refresh(i);
-						sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
-						break;
-					}
-				if (item.getMetaData("combatCharges") != null) {
-					item.addMetaData("combatCharges", item.getMetaDataI("combatCharges")-1);
-					if (item.getMetaDataI("combatCharges") <= 0) {
-						ItemDegrade deg = null;
-						for (ItemDegrade d : ItemDegrade.values())
-							if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
-								deg = d;
-								break;
-							}
-						if (deg != null) {
-							if (deg.getBrokenId() == 4207) {
-
+									getEquipment().set(i, null);
+									getEquipment().refresh(i);
+									getAppearance().generateAppearanceData();
+									if (getInventory().hasFreeSlots()) {
+										getInventory().addItem(4207, 1);
+										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
+									} else {
+										World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
+										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
+									}
+									break;
+								}
+								getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
+								getEquipment().refresh(i);
+								getAppearance().generateAppearanceData();
+								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
+							} else {
 								getEquipment().set(i, null);
 								getEquipment().refresh(i);
 								getAppearance().generateAppearanceData();
-								if (getInventory().hasFreeSlots()) {
-									getInventory().addItem(4207, 1);
-									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
-								} else {
-									World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
-									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
-								}
-								break;
+								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
 							}
-							getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
-							getEquipment().refresh(i);
-							getAppearance().generateAppearanceData();
-							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
-						} else {
-							getEquipment().set(i, null);
-							getEquipment().refresh(i);
-							getAppearance().generateAppearanceData();
-							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
 						}
 					}
 				}
-			}
-		auraManager.process();
-		interactionManager.process();
-		actionManager.process();
-		prayer.processPrayer();
-		controllerManager.process();
+			auraManager.process();
+			interactionManager.process();
+			actionManager.process();
+			prayer.processPrayer();
+			controllerManager.process();
+		} catch (Throwable e) {
+			WorldDB.getLogs().logError(e);
+		}
 	}
 
 	private void processMusic() {

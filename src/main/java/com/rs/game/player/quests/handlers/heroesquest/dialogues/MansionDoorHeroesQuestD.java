@@ -19,7 +19,8 @@ public class MansionDoorHeroesQuestD extends Conversation {
 	public MansionDoorHeroesQuestD(Player p, ObjectClickEvent e) {
 		super(p);
 		Dialogue intro = new Dialogue().addNPC(NPC, HeadE.FRUSTRATED, "Oi! Where do you think you're going pal?");
-		Dialogue reportDuty = new Dialogue().addPlayer(HeadE.CALM_TALK, "Hi, I'm Hartigen. I've come to work here.").addNPC(NPC, HeadE.CALM_TALK, "I assume you have your I.D. papers then?");
+		Dialogue reportDuty = new Dialogue().addPlayer(HeadE.CALM_TALK, "Hi, I'm Hartigen. I've come to work here.")
+				.addNPC(NPC, HeadE.CALM_TALK, "I assume you have your I.D. papers then?");
 		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
 				if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("mansion_open_phoenix")) {
@@ -65,7 +66,7 @@ public class MansionDoorHeroesQuestD extends Conversation {
 						addPlayer(HeadE.HAPPY_TALKING, "I'll need some money to bribe him...");
 			}
 			default -> {
-				addNext(intro.addPlayer(HeadE.CALM_TALK, "No where special."));
+				addNext(intro.addPlayer(HeadE.CALM_TALK, "Nowhere special."));
 			}
 		}
 	}
