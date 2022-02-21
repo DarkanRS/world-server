@@ -885,13 +885,10 @@ public final class World {
 			result.accept(player);
 			return;
 		}
-		LobbyCommunicator.getAccount(username, acc -> {
-			WorldDB.getPlayers().get(Utils.formatPlayerNameForProtocol(username), p -> {
-				if (acc == null || p == null)
-					result.accept(null);
-				p.setAccount(acc);
-				result.accept(p);
-			});
+		WorldDB.getPlayers().get(Utils.formatPlayerNameForProtocol(username), p -> {
+			if (p == null)
+				result.accept(null);
+			result.accept(p);
 		});
 	}
 

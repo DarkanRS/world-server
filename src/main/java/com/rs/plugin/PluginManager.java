@@ -24,6 +24,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+import com.rs.db.WorldDB;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.smithing.ArtisansWorkshop;
 import com.rs.lib.file.FileManager;
@@ -198,7 +199,7 @@ public class PluginManager {
 		try {
 			return (boolean) method.invoke(null, event);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			FileManager.logError(e);
+			WorldDB.getLogs().logError(e);
 		}
 		return false;
 	}

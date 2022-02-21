@@ -83,8 +83,7 @@ public class Conversation {
 			}
 			return false;
 		} catch(Exception e) {
-			FileManager.logError("Error creating dialogue!");
-			throw new RuntimeException("Error creating dialogue");
+			throw new RuntimeException("Error creating dialogue: " + getClass().getSimpleName() + " - " + e.getMessage());
 		}
 	}
 
@@ -96,8 +95,7 @@ public class Conversation {
 		try {
 			return current.getHead();
 		} catch(Exception e) {
-			FileManager.logError("Error creating dialogue!");
-			throw new RuntimeException("Error creating dialogue");
+			throw new RuntimeException("Error creating dialogue: " + getClass().getSimpleName() + " - " + e.getMessage());
 		}
 	}
 
