@@ -92,6 +92,7 @@ public class KatrineShieldOfArravD extends Conversation {
 				p.getInventory().deleteItem(PHOENIX_CROSSBOW, 1);
 				p.getInventory().deleteItem(PHOENIX_CROSSBOW, 1);
 				ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE);
+				ShieldOfArrav.setGang(p, "Black");
 			});
 			addNPC(HeadE.HAPPY_TALKING, "You're now a Black Arm Gang member. Feel free to enter any of the rooms of the ganghouse.");
 		} else if(p.getInventory().containsItem(PHOENIX_CROSSBOW, 1)) {
