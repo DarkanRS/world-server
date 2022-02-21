@@ -110,8 +110,8 @@ public class StravenShieldOfArravD extends Conversation {
                 addNPC(STRAVEN, HeadE.HAPPY_TALKING, "You now have access to the inner sanctum of our subterranean hideout, and our weapons supply depot round the " +
                         "front of this building.", () -> {
                     p.getInventory().deleteItem(INTEL_REPORT, 1);
-                    p.save("ShieldOfArravGang", "Phoenix");
                     ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX_STAGE, true);
+					ShieldOfArrav.setGang(p, "Phoenix");
                     p.getInventory().addItem(WEAPONS_KEY, 1);
                 });
             } else if (p.getBank().containsItem(INTEL_REPORT, 1)) {

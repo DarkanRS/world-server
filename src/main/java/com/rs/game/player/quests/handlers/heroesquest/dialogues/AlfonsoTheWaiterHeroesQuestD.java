@@ -25,17 +25,17 @@ public class AlfonsoTheWaiterHeroesQuestD extends Conversation {
 		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
 				if (ShieldOfArrav.isPhoenixGang(p))
-					p.startConversation(new Dialogue()
+					addNext(new Dialogue()
 							.addNPC(NPC, HeadE.CALM_TALK, "Welcome to the Shrimp and Parrot. Would you like to order, sir?")
 							.addPlayer(HeadE.HAPPY_TALKING, "Do you sell Gherkins?")
 							.addNPC(NPC, HeadE.CALM_TALK, "Hmmmm Gherkins eh? Ask Charlie the cook, round the back. He may have some 'gherkins' for you!")
 							.addSimple("Alfonse winks at you.")
 					);
 				else
-					p.startConversation(shop);
+					addNext(shop);
 			}
 			default -> {
-				p.startConversation(shop);
+				addNext(shop);
 			}
 		}
 	}
