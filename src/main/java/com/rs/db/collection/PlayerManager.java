@@ -16,13 +16,6 @@
 //
 package com.rs.db.collection;
 
-import static com.mongodb.client.model.Filters.eq;
-
-import java.io.IOException;
-import java.util.function.Consumer;
-
-import org.bson.Document;
-
 import com.google.gson.JsonIOException;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
@@ -31,6 +24,12 @@ import com.rs.game.player.Player;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
+import org.bson.Document;
+
+import java.io.IOException;
+import java.util.function.Consumer;
+
+import static com.mongodb.client.model.Filters.eq;
 
 public class PlayerManager extends DBItemManager {
 
@@ -43,9 +42,15 @@ public class PlayerManager extends DBItemManager {
 		getDocs().createIndex(Indexes.text("username"));
 	}
 
-	public void get(String username, Consumer<Player> func) {
+	public void getByUsername(String username, Consumer<Player> func) {
 		execute(() -> {
-			func.accept(getSync(username));
+			func.accept(getSyncUsername(username));
+		});
+	}
+
+	public void getByDisplayName(String displayName, Consumer<Player> func) {
+		execute(() -> {
+			func.accept(getSyncDisplayName(displayName));
 		});
 	}
 
@@ -65,8 +70,8 @@ public class PlayerManager extends DBItemManager {
 		getDocs().findOneAndReplace(eq("username", account.getUsername()), Document.parse(JsonFileManager.toJson(account)), new FindOneAndReplaceOptions().upsert(true));
 	}
 
-	public Player getSync(String username) {
-		Player loggedIn = World.getPlayer(username);
+	public Player getSyncUsername(String username) {
+		Player loggedIn = World.getPlayerByUsername(username);
 		if (loggedIn != null)
 			return loggedIn;
 		Document accDoc = getDocs().find(eq("username", username)).first();
@@ -80,8 +85,23 @@ public class PlayerManager extends DBItemManager {
 		}
 	}
 
-	public boolean exists(String username) {
-		return getSync(username) == null;
+	public Player getSyncDisplayName(String displayName) {
+		Player loggedIn = World.getPlayerByDisplay(displayName);
+		if (loggedIn != null)
+			return loggedIn;
+		Document accDoc = getDocs().find(eq("displayName", displayName)).first();
+		if (accDoc == null)
+			return null;
+		try {
+			return JsonFileManager.fromJSONString(JsonFileManager.toJson(accDoc), Player.class);
+		} catch (JsonIOException | IOException e) {
+			Logger.handle(e);
+			return null;
+		}
+	}
+
+	public boolean usernameExists(String username) {
+		return getSyncUsername(username) == null;
 	}
 
 }
