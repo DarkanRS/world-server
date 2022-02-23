@@ -57,7 +57,7 @@ public class WorldUtil {
 					int total = 0;
 					int count = 0;
 					for (String username : fc.getUsernames()) {
-						Player p = World.getPlayer(username);
+						Player p = World.getPlayerByUsername(username);
 						if (p != null) {
 							count++;
 							total += p.getSkills().getCombatLevelWithSummoning();
@@ -73,7 +73,7 @@ public class WorldUtil {
 				else {
 					int count = 0;
 					for (String username : fc.getUsernames()) {
-						Player p = World.getPlayer(username);
+						Player p = World.getPlayerByUsername(username);
 						if (p != null)
 							count++;
 					}

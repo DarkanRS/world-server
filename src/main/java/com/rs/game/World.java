@@ -46,7 +46,6 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
-import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -72,7 +71,8 @@ public final class World {
 	public static long SYSTEM_UPDATE_START;
 
 	private static final EntityList<Player> PLAYERS = new EntityList<>(Settings.PLAYERS_LIMIT);
-	private static final Map<String, Player> PLAYER_MAP = new ConcurrentHashMap<>();
+	private static final Map<String, Player> PLAYER_MAP_USERNAME = new ConcurrentHashMap<>();
+	private static final Map<String, Player> PLAYER_MAP_DISPLAYNAME = new ConcurrentHashMap<>();
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Region> REGIONS = new HashMap<>();
@@ -176,14 +176,16 @@ public final class World {
 
 	public static final void addPlayer(Player player) {
 		PLAYERS.add(player);
-		PLAYER_MAP.put(player.getUsername(), player);
+		PLAYER_MAP_USERNAME.put(player.getUsername(), player);
+		PLAYER_MAP_DISPLAYNAME.put(player.getDisplayName(), player);
 		if (player.getSession() != null)
 			AntiFlood.add(player.getSession().getIP());
 	}
 
 	public static void removePlayer(Player player) {
 		PLAYERS.remove(player);
-		PLAYER_MAP.remove(player.getUsername(), player);
+		PLAYER_MAP_USERNAME.remove(player.getUsername(), player);
+		PLAYER_MAP_DISPLAYNAME.remove(player.getDisplayName(), player);
 		AntiFlood.remove(player.getSession().getIP());
 	}
 
@@ -875,17 +877,22 @@ public final class World {
 		return center;
 	}
 
-	public static Player getPlayer(String username) {
-		return PLAYER_MAP.get(username);
+	public static Player getPlayerByUsername(String username) {
+		return PLAYER_MAP_USERNAME.get(username);
 	}
 
-	public static void forceGetPlayer(String username, Consumer<Player> result) {
-		Player player = getPlayer(username);
+	public static Player getPlayerByDisplay(String displayName) {
+		return PLAYER_MAP_DISPLAYNAME.get(Utils.formatPlayerNameForDisplay(displayName));
+	}
+
+	public static void forceGetPlayerByDisplay(String displayName, Consumer<Player> result) {
+		displayName = Utils.formatPlayerNameForDisplay(displayName);
+		Player player = getPlayerByDisplay(displayName);
 		if (player != null) {
 			result.accept(player);
 			return;
 		}
-		WorldDB.getPlayers().get(Utils.formatPlayerNameForProtocol(username), p -> {
+		WorldDB.getPlayers().getByDisplayName(displayName, p -> {
 			if (p == null)
 				result.accept(null);
 			result.accept(p);

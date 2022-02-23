@@ -798,7 +798,7 @@ public class House {
 	}
 
 	public static void enterHouse(Player player, String username) {
-		Player owner = World.getPlayer(username); //TODO
+		Player owner = World.getPlayerByDisplay(username); //TODO
 		if (owner == null || !owner.isRunning() /*|| !player.getFriendsIgnores().onlineTo(owner)*/ || owner.getHouse() == null || owner.getHouse().locked) {
 			player.sendMessage("That player is offline, or has privacy mode enabled.");
 			return;

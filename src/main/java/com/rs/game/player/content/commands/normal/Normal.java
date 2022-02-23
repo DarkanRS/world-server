@@ -95,7 +95,7 @@ public class Normal {
         });
 
         Commands.add(Rights.PLAYER, "checkbank [player name]", "Displays the contents of another player's bank.", (p, args) -> {
-            World.forceGetPlayer(Utils.concat(args), target -> {
+            World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
                 p.getBank().openBankOther(target == null ? p : target);
             });
         });
