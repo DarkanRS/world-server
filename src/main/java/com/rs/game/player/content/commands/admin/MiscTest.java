@@ -1057,7 +1057,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "checkclient [player name]", "Verifies the user's client.", (p, args) -> {
-			Player target = World.getPlayer(args[0]);
+			Player target = World.getPlayerByDisplay(args[0]);
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
@@ -1065,7 +1065,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {
-			World.forceGetPlayer(Utils.concat(args), target -> {
+			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
 				if (target == null)
 					p.sendMessage("Couldn't find player.");
 				else {
@@ -1077,7 +1077,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
-			Player target = World.getPlayer(Utils.concat(args));
+			Player target = World.getPlayerByDisplay(Utils.concat(args));
 			if (target == null) {
 				p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
 				return;

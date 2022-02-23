@@ -913,8 +913,8 @@ public class Region {
 		if (item.getDefinitions().isStackable() && existing != null) {
 			int oldAmount = existing.getAmount();
 			existing.setAmount(existing.getAmount() + item.getAmount());
-			if (World.getPlayer(existing.getCreatorUsername()) != null)
-				World.getPlayer(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
+			if (World.getPlayerByUsername(existing.getCreatorUsername()) != null)
+				World.getPlayerByUsername(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
 			else
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
 					if (player.hasStarted() && !player.hasFinished())
@@ -923,8 +923,8 @@ public class Region {
 		}
 		groundItemList.add(item);
 		items.add(item);
-		if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
-			World.getPlayer(item.getCreatorUsername()).getPackets().sendGroundItem(item);
+		if (item.isPrivate() && World.getPlayerByUsername(item.getCreatorUsername()) != null)
+			World.getPlayerByUsername(item.getCreatorUsername()).getPackets().sendGroundItem(item);
 		else
 			for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
 				if (player.hasStarted() && !player.hasFinished())
@@ -948,8 +948,8 @@ public class Region {
 				tileMap.remove(tileHash);
 			if (tileMap.isEmpty())
 				groundItems.remove(item.getVisibleToId());
-			if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
-				World.getPlayer(item.getCreatorUsername()).getPackets().removeGroundItem(item);
+			if (item.isPrivate() && World.getPlayerByUsername(item.getCreatorUsername()) != null)
+				World.getPlayerByUsername(item.getCreatorUsername()).getPackets().removeGroundItem(item);
 			else
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
 					if (player.hasStarted() && !player.hasFinished())
