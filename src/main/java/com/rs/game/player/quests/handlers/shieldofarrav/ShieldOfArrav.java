@@ -377,11 +377,11 @@ public class ShieldOfArrav extends QuestOutline {
     }
 
     public static boolean isPhoenixGang(Player p) {
-        return ((String)p.getO("ThievingGang")).equalsIgnoreCase("Phoenix");
+        return p.getO("ThievingGang") != null && ((String)p.getO("ThievingGang")).equalsIgnoreCase("Phoenix");
     }
 
     public static boolean isBlackArmGang(Player p) {
-        return ((String)p.getO("ThievingGang")).equalsIgnoreCase("Black");
+        return p.getO("ThievingGang") != null && ((String)p.getO("ThievingGang")).equalsIgnoreCase("Black");
     }
 
     public static void setStage(Player p, int questStage) {
@@ -632,22 +632,16 @@ public class ShieldOfArrav extends QuestOutline {
     /**
      * When the player logs in, the Shield Of Arrav display case is updated based on quest completion.
 	 * Also if the player does not have a gang upon completion they must be assigned one
+	 * --Do this with Minas--
      */
-    public static LoginHandler onLogin = new LoginHandler() {
-        @Override
-        public void handle(LoginEvent e) {
-            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV)) {
-				e.getPlayer().getVars().setVarBit(5394, 1);
-				if(!ShieldOfArrav.hasGang(e.getPlayer())) {
-					if (Utils.randomInclusive(0, 1) == 1)
-						ShieldOfArrav.setGang(e.getPlayer(), "Phoenix");
-					else
-						ShieldOfArrav.setGang(e.getPlayer(), "Black");
-				}
-			}
-            else
-                e.getPlayer().getVars().setVarBit(5394, 0);
-        }
-    };
+//    public static LoginHandler onLogin = new LoginHandler() {
+//        @Override
+//        public void handle(LoginEvent e) {
+//            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+//				e.getPlayer().getVars().setVarBit(5394, 1);
+//            else
+//                e.getPlayer().getVars().setVarBit(5394, 0);
+//        }
+//    };
 
 }
