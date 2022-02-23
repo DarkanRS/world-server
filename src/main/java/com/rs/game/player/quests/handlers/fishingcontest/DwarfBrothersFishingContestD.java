@@ -1,13 +1,5 @@
 package com.rs.game.player.quests.handlers.fishingcontest;
 
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.DO_ROUNDS;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.ENTER_COMPETITION;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.FISHING_PASS;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.FISHING_TROPHY;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.GIVE_TROPHY;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.NOT_STARTED;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.QUEST_COMPLETE;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -19,6 +11,8 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.*;
 
 @PluginEventHandler
 public class DwarfBrothersFishingContestD extends Conversation {
@@ -62,7 +56,7 @@ public class DwarfBrothersFishingContestD extends Conversation {
 															.addPlayer(HeadE.HAPPY_TALKING, "Oh, sorry, I hadn't realised it was private")
 															.addNPC(NPC, HeadE.CALM_TALK, "Well, it is.")
 															);
-													if(p.getSkills().getLevel(Constants.FISHING) > 10)
+													if(p.getSkills().getLevel(Constants.FISHING) >= 10)
 														option("If you were my friend I wouldn't mind it.", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "If you were my friend I wouldn't mind it.")
 																.addNPC(NPC, HeadE.CALM_TALK, "Yes, but I don't even know you.")
