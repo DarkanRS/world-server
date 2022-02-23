@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.Settings;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.SetReward;
@@ -33,6 +30,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class ItemConstants {
@@ -327,7 +327,7 @@ public class ItemConstants {
 				player.sendMessage("You need to have completed all quests to wear this.");
 				return false;
 			}
-		Quest quest = Quest.forId(item.getDefinitions().getWieldQuestReq());
+		Quest quest = Quest.forSlot(item.getDefinitions().getWieldQuestReq());
 		if (quest != null) {
 			if (!player.getQuestManager().isComplete(quest)) {
 				if (player.getSession() != null)
