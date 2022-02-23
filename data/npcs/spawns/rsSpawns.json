@@ -1,5 +1,23 @@
 [
   {
+    "comment": "Mobilizing Armies: Banker added by jazneta",
+    "npcId": 8948,
+    "tile": {
+      "x": 2402,
+      "y": 2842,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fist Of Guthix: Banker added by jazneta",
+    "npcId": 7605,
+    "tile": {
+      "x": 1699,
+      "y": 5599,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Giant bat added by jazneta",
     "npcId": 78,
     "tile": {

@@ -17,11 +17,15 @@
 package com.rs.game.player.content.world.regions;
 
 import com.rs.game.ForceMovement;
+import com.rs.game.ge.GE;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.content.world.npcs.Banker;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -29,8 +33,11 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Piscatoris {
@@ -39,6 +46,20 @@ public class Piscatoris {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Doors.handleDoubleDoors.handle(e);
+		}
+	};
+
+	public static NPCClickHandler handleArnoldPiscatorisBanker = new NPCClickHandler(3824) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getOption().equalsIgnoreCase("Talk-to"))
+				e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
+			if(e.getOption().equalsIgnoreCase("Trade"))
+				ShopsHandler.openShop(e.getPlayer(), "arnolds_eclectic_supplies");
+			if(e.getOption().equalsIgnoreCase("Bank"))
+				e.getPlayer().getBank().open();
+			if(e.getOption().equalsIgnoreCase("Collect"))
+				GE.openCollection(e.getPlayer());
 		}
 	};
 
