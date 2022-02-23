@@ -16,10 +16,6 @@
 //
 package com.rs.net.encoders;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.DynamicRegion;
 import com.rs.game.World;
@@ -29,97 +25,38 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.region.Region;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.HintIcon;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.PublicChatMessage;
-import com.rs.lib.game.QuickChatMessage;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.net.Encoder;
 import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.Session;
-import com.rs.lib.net.packets.encoders.BlockMinimapState;
-import com.rs.lib.net.packets.encoders.ChatFilterSettings;
-import com.rs.lib.net.packets.encoders.ChatFilterSettingsPriv;
-import com.rs.lib.net.packets.encoders.Cutscene;
-import com.rs.lib.net.packets.encoders.DrawOrder;
-import com.rs.lib.net.packets.encoders.DynamicMapRegion;
-import com.rs.lib.net.packets.encoders.ExecuteCS2;
-import com.rs.lib.net.packets.encoders.HintArrow;
-import com.rs.lib.net.packets.encoders.MapRegion;
-import com.rs.lib.net.packets.encoders.NPCUpdate;
-import com.rs.lib.net.packets.encoders.OpenURL;
-import com.rs.lib.net.packets.encoders.PlayerOption;
-import com.rs.lib.net.packets.encoders.PlayerUpdate;
-import com.rs.lib.net.packets.encoders.RunEnergy;
-import com.rs.lib.net.packets.encoders.RunWeight;
-import com.rs.lib.net.packets.encoders.SetCursor;
-import com.rs.lib.net.packets.encoders.SystemUpdateTimer;
-import com.rs.lib.net.packets.encoders.UpdateGESlot;
-import com.rs.lib.net.packets.encoders.UpdateItemContainer;
-import com.rs.lib.net.packets.encoders.UpdateStat;
+import com.rs.lib.net.packets.encoders.*;
 import com.rs.lib.net.packets.encoders.camera.CamLookAt;
 import com.rs.lib.net.packets.encoders.camera.CamMoveTo;
 import com.rs.lib.net.packets.encoders.camera.CamShake;
-import com.rs.lib.net.packets.encoders.interfaces.IFCloseSub;
-import com.rs.lib.net.packets.encoders.interfaces.IFOpenTop;
-import com.rs.lib.net.packets.encoders.interfaces.IFResetTargetParams;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetAngle;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetAnimation;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetGraphic;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetHide;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetItem;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetModel;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetNPCHead;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetPlayerHead;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetPosition;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetTargetParam;
-import com.rs.lib.net.packets.encoders.interfaces.IFSetText;
-import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSub;
-import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveGroundItem;
-import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveNPC;
-import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveObject;
-import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActivePlayer;
-import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
-import com.rs.lib.net.packets.encoders.social.MessageClan;
-import com.rs.lib.net.packets.encoders.social.MessageFriendsChat;
-import com.rs.lib.net.packets.encoders.social.MessageGame;
+import com.rs.lib.net.packets.encoders.interfaces.*;
+import com.rs.lib.net.packets.encoders.interfaces.opensub.*;
+import com.rs.lib.net.packets.encoders.social.*;
 import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
-import com.rs.lib.net.packets.encoders.social.MessagePrivate;
-import com.rs.lib.net.packets.encoders.social.MessagePrivateEcho;
-import com.rs.lib.net.packets.encoders.social.MessagePublic;
-import com.rs.lib.net.packets.encoders.social.QuickChatClan;
-import com.rs.lib.net.packets.encoders.social.QuickChatFriendsChat;
-import com.rs.lib.net.packets.encoders.social.QuickChatPrivate;
-import com.rs.lib.net.packets.encoders.social.QuickChatPrivateEcho;
 import com.rs.lib.net.packets.encoders.sound.MusicEffect;
 import com.rs.lib.net.packets.encoders.sound.MusicTrack;
 import com.rs.lib.net.packets.encoders.sound.SoundSynth;
 import com.rs.lib.net.packets.encoders.sound.SoundVorbisSpeech;
-import com.rs.lib.net.packets.encoders.updatezone.AddObject;
-import com.rs.lib.net.packets.encoders.updatezone.CreateGroundItem;
-import com.rs.lib.net.packets.encoders.updatezone.CustomizeObject;
-import com.rs.lib.net.packets.encoders.updatezone.ObjectAnim;
-import com.rs.lib.net.packets.encoders.updatezone.ProjAnim;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveGroundItem;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
-import com.rs.lib.net.packets.encoders.updatezone.SetGroundItemAmount;
-import com.rs.lib.net.packets.encoders.updatezone.TileMessage;
-import com.rs.lib.net.packets.encoders.updatezone.UpdateZoneFullFollows;
+import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.net.packets.encoders.vars.Varc;
 import com.rs.lib.net.packets.encoders.vars.VarcString;
 import com.rs.lib.net.packets.encoders.vars.Varp;
 import com.rs.lib.net.packets.encoders.vars.VarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
 import com.rs.lib.util.Utils;
-
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class WorldEncoder extends Encoder {
 
@@ -413,7 +350,7 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendChatFilterSettingsPrivateChat() {
-		session.writeToQueue(new ChatFilterSettingsPriv(player.getPrivateChatSetup()));
+		session.writeToQueue(new ChatFilterSettingsPriv(player.getAccount().getSocial().getStatus()));
 	}
 
 	public void sendDynamicMapRegion(boolean sendLSWP) {
@@ -614,7 +551,7 @@ public class WorldEncoder extends Encoder {
 		sendVar(1054, player.getClanStatus());
 		sendVar(1055, player.getAssistStatus());
 		sendVar(1056, player.isFilterGame() ? 1 : 0);
-		sendVar(2159, player.getAccount().getSocial().getStatus());
+		sendVar(2159, player.getAccount().getSocial().getFcStatus());
 		sendChatFilterSettings();
 		sendChatFilterSettingsPrivateChat();
 	}

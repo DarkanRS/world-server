@@ -20,6 +20,7 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cores.CoresManager;
+import com.rs.db.WorldDB;
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -288,8 +289,12 @@ public class NPC extends Entity {
 
 	@Override
 	public void processEntity() {
-		super.processEntity();
-		processNPC();
+		try {
+			super.processEntity();
+			processNPC();
+		} catch (Throwable e) {
+			WorldDB.getLogs().logError(e);
+		}
 	}
 
 	public int getRespawnDirection() {

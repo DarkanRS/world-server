@@ -18,15 +18,25 @@ package com.rs.game.player.content.skills.runecrafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.utils.drop.Drop;
+import com.rs.utils.drop.DropList;
+import com.rs.utils.drop.DropSet;
+import com.rs.utils.drop.DropTable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @PluginEventHandler
 public class Runecrafting {
@@ -126,6 +136,64 @@ public class Runecrafting {
 		});
 	}
 
+	private enum ZMIRune {
+		AIR(5.0, 556, 		new double[] { 50.0, 15.0, 12.0, 7.0, 6.0, 5.0, 4.5, 3.0, 2.0, 1.0, 1.0 }),
+		MIND(5.5, 558, 		new double[] { 25.0, 18.0, 13.0, 8.0, 6.5, 5.5, 5.0, 3.0, 2.0, 1.0, 1.0 }),
+		WATER(6.0, 555, 		new double[] { 12.0, 21.0, 13.5, 9.0, 7.0, 6.0, 5.5, 3.0, 3.0, 2.0, 2.0 }),
+		EARTH(6.5, 557, 		new double[] { 6.0, 24.0, 14.0, 11.0, 7.5, 6.5, 6.0, 4.0, 4.0, 3.0, 3.0 }),
+		FIRE(7.0, 554, 		new double[] { 3.0, 12.0, 15.0, 12.0, 8.0, 7.0, 7.0, 4.0, 5.0, 4.0, 3.0 }),
+		BODY(7.5, 559, 		new double[] { 1.5, 6.0, 16.0, 13.0, 10.0, 7.5, 7.5, 5.0, 6.0, 5.0, 4.0 }),
+		COSMIC(8.0, 564, 	new double[] { 0.85, 1.75, 8.0, 20.0, 15.0, 10.0, 9.5, 7.0, 7.0, 6.0, 5.0 }),
+		CHAOS(8.5, 562, 		new double[] { 0.6, 0.8, 4.2, 10.0, 20.0, 11.0, 10.5, 9.0, 8.0, 7.0, 6.0 }),
+		ASTRAL(8.7, 9075, 	new double[] { 0.45, 0.6, 2.1, 5.0, 10.0, 15.0, 14.0, 12.0, 10.5, 10.0, 9.5 }),
+		NATURE(9.0, 561, 	new double[] { 0.3, 0.4, 1.1, 2.5, 5.0, 13.5, 15.5, 15.0, 13.5, 13.5, 13.5 }),
+		LAW(9.5, 563, 		new double[] { 0.15, 0.24, 0.55, 1.3, 2.6, 7.0, 8.0, 18.0, 14.5, 14.5, 14.5 }),
+		DEATH(10.0, 560, 	new double[] { 0.08, 0.12, 0.32, 0.6, 1.2, 3.5, 4.0, 10.0, 14.5, 16.5, 15.5 }),
+		BLOOD(10.5, 565, 	new double[] { 0.05, 0.06, 0.15, 0.4, 0.8, 1.7, 2.0, 5.0, 6.0, 10.0, 13.0 }),
+		SOUL(12.0, 566, 		new double[] { 0.02, 0.03, 0.08, 0.2, 0.4, 0.8, 1.0, 2.0, 4.0, 6.5, 9.0 });
+
+		private double xp;
+		private int id;
+		private double[] chances;
+
+		private static Map<Integer, DropList> CHANCES = new HashMap<>();
+		private static Map<Integer, ZMIRune> BY_ID = new HashMap<>();
+
+		static {
+			for (ZMIRune r : ZMIRune.values())
+				BY_ID.put(r.id, r);
+			for (int i = 0;i < ZMIRune.AIR.chances.length;i++) {
+				DropTable[] tables = new DropTable[ZMIRune.values().length];
+				for (ZMIRune rune : ZMIRune.values())
+					tables[rune.ordinal()] = new DropTable(rune.chances[i], 100.0, new Drop(rune.id));
+				CHANCES.put(i, new DropSet(tables).getDropList());
+			}
+		}
+
+		public static ZMIRune calculate(int threshhold) {
+			DropList chances = CHANCES.get(threshhold);
+			List<Item> rune = chances.genDrop();
+			if (rune.isEmpty())
+				return ZMIRune.AIR;
+			return BY_ID.get(rune.get(0).getId());
+		}
+
+		ZMIRune(double xp, int id, double[] chances) {
+			assert(chances.length == 11);
+			this.xp = xp;
+			this.id = id;
+			this.chances = chances;
+		}
+
+		public double getXP() {
+			return 1.7 * xp;
+		}
+	}
+
+	public static ZMIRune rollZMIRune(Player player) {
+		return ZMIRune.calculate(Utils.clampI(player.getSkills().getLevel(Skills.RUNECRAFTING) >= 99 ? 10 : player.getSkills().getLevel(Skills.RUNECRAFTING) / 10, 0, 10));
+	}
+
 	public static void craftZMIAltar(Player player) {
 		int level = player.getSkills().getLevel(Constants.RUNECRAFTING);
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
@@ -135,30 +203,22 @@ public class Runecrafting {
 				break;
 			length++;
 		}
-		RCRune[] possibleRunes = new RCRune[length];
 		double xp = 0;
 		int craftedSoFar = 0;
 		if (runes == 0) {
 			player.getDialogueManager().execute(new SimpleMessage(), "You don't have pure essence.");
 			return;
 		}
-		for (int i = 0; i < RCRune.values().length; i++) {
-			if (RCRune.values()[i].req > level)
-				break;
-			possibleRunes[i] = RCRune.values()[i];
-		}
 		player.getInventory().deleteItem(PURE_ESS, runes);
 		for (int i = 0; i < runes; i++) {
-			if (i >= possibleRunes.length)
-				i = 0;
 			craftedSoFar++;
 			if (craftedSoFar >= runes)
 				break;
-			RCRune rune = possibleRunes[Utils.random(possibleRunes.length)];
+			ZMIRune rune = rollZMIRune(player);
 			int amt = Utils.random(1, 3);
-			player.incrementCount(ItemDefinitions.getDefs(rune.runeId).getName() + " runecrafted", amt);
-			player.getInventory().addItem(rune.runeId, amt);
-			xp += rune.xp;
+			player.incrementCount(ItemDefinitions.getDefs(rune.id).getName() + " runecrafted", amt);
+			player.getInventory().addItem(rune.id, amt);
+			xp += rune.getXP();
 		}
 		if (hasRcingSuit(player))
 			xp *= 1.025;
