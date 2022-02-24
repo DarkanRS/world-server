@@ -83,12 +83,12 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 					player.setNextAnimation(new Animation(833));
 					player.setNextFaceWorldTile(item1.getTile());
 					player.lock(1);
-					PickupItemEvent e1 = new PickupItemEvent(player, item1);
+					PickupItemEvent e1 = new PickupItemEvent(player, item1, false);
 					PluginManager.handle(e1);
 					if (!e1.isCancelPickup())
 						World.removeGroundItem(player, item1, true);
 				} else {
-					PickupItemEvent e2 = new PickupItemEvent(player, item1);
+					PickupItemEvent e2 = new PickupItemEvent(player, item1, false);
 					PluginManager.handle(e2);
 					if (!e2.isCancelPickup())
 						World.removeGroundItem(player, item1, true);

@@ -52,6 +52,7 @@ import com.rs.utils.WorldUtil;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Function;
 
 public abstract class Entity {
 
@@ -1242,6 +1243,23 @@ public abstract class Entity {
 
 	public GenericAttribMap getTempAttribs() {
 		return temporaryAttributes;
+	}
+
+	/**
+	 * ONLY use this check in non-expensive cases. Checking outside region only is relatively expensive.
+	 * @param regionOnly Whether the NPC should be found in the entitie's region only
+	 * @return List of nearby NPCs
+	 */
+	public List<NPC> getNearbyNPCs(boolean regionOnly, Function<NPC, Boolean> predicate) {
+		List<NPC> startList = regionOnly ? World.getNPCsInRegion(this.getRegionId()) : World.getNPCsInRegionRange(this.getRegionId());
+		List<NPC> list = new ArrayList<NPC>();
+		for (NPC npc : startList) {
+			if (npc.hasFinished())
+				continue;
+			if (predicate == null || predicate.apply(npc))
+				list.add(npc);
+		}
+		return list;
 	}
 
 	public GenericAttribMap getNSV() {
