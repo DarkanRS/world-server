@@ -1412,6 +1412,17 @@ public class Player extends Entity {
 		return (int) (val instanceof Integer ? (int) val : (double) val);
 	}
 
+	public long getL(String key) {
+		return getL(key, -1L);
+	}
+
+	public long getL(String key, long def) {
+		Object val = get(key);
+		if (val == Boolean.FALSE)
+			return def;
+		return (val instanceof Long ? (long) val : ((Double) val).longValue());
+	}
+
 	public boolean getBool(String key) {
 		Object val = get(key);
 		if (val == Boolean.FALSE)

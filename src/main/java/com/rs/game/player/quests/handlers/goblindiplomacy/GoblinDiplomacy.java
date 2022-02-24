@@ -234,15 +234,13 @@ public class GoblinDiplomacy extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			if (!e.isAtObject())
 				return;
-			if (e.getPlayer().getTempAttribs().getL("goblinMailCrate") == 0)
-				e.getPlayer().getTempAttribs().setL("goblinMailCrate", System.currentTimeMillis());
-			else if ((System.currentTimeMillis() - e.getPlayer().getTempAttribs().getL("goblinMailCrate")) < 900000) {
-				e.getPlayer().sendMessage("You search the crate but find nothing.");
+			if ((System.currentTimeMillis() - e.getPlayer().getL("goblinMailCrate")) > 1000*60*60*4) {//4 hours
+				e.getPlayer().save("goblinMailCrate", System.currentTimeMillis());
+				e.getPlayer().getInventory().addItem(288, 1);
+				e.getPlayer().startConversation(new Dialogue().addItem(288, "You find goblin mail."));
 				return;
 			}
-
-			e.getPlayer().getInventory().addItem(288, 1);
-			e.getPlayer().startConversation(new Dialogue().addItem(288, "You find goblin mail."));
+			e.getPlayer().sendMessage("You search the crate but find nothing.");
 		}
 	};
 
