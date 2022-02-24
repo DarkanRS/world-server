@@ -709,7 +709,7 @@ public class MiscTest {
 			int i = 0;
 			for (GameObject obj : objs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
-			if(args[1] == null) {
+			if(args.length == 1) {
 				p.setNextWorldTile(objs.get(0));
 				return;
 			}

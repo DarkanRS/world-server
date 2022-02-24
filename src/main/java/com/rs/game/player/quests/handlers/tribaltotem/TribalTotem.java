@@ -21,6 +21,7 @@ import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
@@ -75,6 +76,9 @@ public class TribalTotem extends QuestOutline {
 			lines.add("artefacts. A recent addition to his private collection is");
 			lines.add("a strange looking totem from Karamja. The Rantuki Tribe ");
 			lines.add("are not happy about the recent disappearance of their totem.");
+			lines.add("");
+			lines.add("I can start this quest by speaking to Kangai Mau at The");
+			lines.add("Shrimp And Parrot Inn.");
 			lines.add("");
 			lines.add("~~Requirements~~");
 			lines.add("21 Thieving");
@@ -273,8 +277,11 @@ public class TribalTotem extends QuestOutline {
 				GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
 				p.faceObject(openedChest);
 				World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-				if(!p.getInventory().containsItem(TOTEM, 1) && !p.getQuestManager().isComplete(Quest.TRIBAL_TOTEM))
+				if(!p.getInventory().containsItem(TOTEM, 1) && !p.getQuestManager().isComplete(Quest.TRIBAL_TOTEM)) {
+					p.startConversation(new Dialogue().addPlayer(HeadE.SECRETIVE, "This looks like the Totem. Now back to Brimhaven, I gotta" +
+							" get this to Kangai Mau..."));
 					p.getInventory().addItem(new Item(TOTEM, 1));
+				}
 				else
 					p.sendMessage("The chest is empty...");
 			}
