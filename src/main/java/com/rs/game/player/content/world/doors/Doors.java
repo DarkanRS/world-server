@@ -90,13 +90,6 @@ public class Doors {
 		}
 	};
 
-	public static ObjectClickHandler handleClosedDoors = new ObjectClickHandler(new Object[] { 1240 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			handleClosedDoor(e.getPlayer(), e.getObject());
-		}
-	};
-
 	public static ObjectClickHandler handleInPlaceSingleDoors = new ObjectClickHandler(new Object[] { 4250, 4251, 5887, 5888, 5889, 5890, 5891, 5893, 64833, 64834, 65365, 65367, 65386, 65387, 65573, 65574, 68977, 68978, 68983 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
