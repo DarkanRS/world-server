@@ -201,7 +201,7 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 
-		WorldDB.getPlayers().get(account.getUsername(), player -> {
+		WorldDB.getPlayers().getByUsername(account.getUsername(), player -> {
 			if (player == null)
 				player = new Player(account);
 

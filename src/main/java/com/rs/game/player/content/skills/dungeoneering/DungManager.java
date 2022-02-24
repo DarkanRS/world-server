@@ -16,22 +16,13 @@
 //
 package com.rs.game.player.content.skills.dungeoneering;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonDifficulty;
-import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonLeaveParty;
-import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonPartyStart;
-import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeonSize;
-import com.rs.game.player.content.skills.dungeoneering.dialogues.PrestigeReset;
+import com.rs.game.player.content.skills.dungeoneering.dialogues.*;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.DungeonController;
@@ -50,6 +41,11 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class DungManager {
@@ -819,7 +815,7 @@ public class DungManager {
 	public void invite(String name) {
 		player.stopAll();
 		if (party == null) {
-			final Player p2 = World.getPlayer(name);
+			final Player p2 = World.getPlayerByDisplay(name);
 			if (p2 == null) {
 				player.sendMessage("Unable to find " + name);
 				return;
@@ -854,7 +850,7 @@ public class DungManager {
 				player.sendMessage("Your party is full.");
 				return;
 			}
-			Player p2 = World.getPlayer(name);
+			Player p2 = World.getPlayerByDisplay(name);
 			if (p2 == null) {
 				player.sendMessage("That player is offline, or has privacy mode enabled.");
 				return;

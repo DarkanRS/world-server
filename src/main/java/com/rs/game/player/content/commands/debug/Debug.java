@@ -198,7 +198,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
-			Player target = World.getPlayer(Utils.concat(args));
+			Player target = World.getPlayerByDisplay(Utils.concat(args));
 			if (target == null) {
 				p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
 				return;

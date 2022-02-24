@@ -384,7 +384,7 @@ public class GE {
 	}
 
 	public static void updateOffers(String username) {
-		Player player = World.getPlayer(username);
+		Player player = World.getPlayerByUsername(username);
 		if (player != null)
 			WorldDB.getGE().get(username, offers -> {
 				boolean diff = false;

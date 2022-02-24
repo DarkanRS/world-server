@@ -58,7 +58,7 @@ public class ReportsManager {
 	public static void report(Player player, String displayName, int type, boolean mute) {
 		if (mute && !player.hasRights(Rights.MOD))
 			return;
-		Player reported = World.getPlayer(displayName);
+		Player reported = World.getPlayerByUsername(displayName);
 		if (reported == null)
 			return;
 		if (mute) {
