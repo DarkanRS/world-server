@@ -72,7 +72,7 @@ public class Karamja  {
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("Talk-to")) {
 				int NPC = e.getNPCId();
-				if(System.currentTimeMillis() - e.getPlayer().getL("time_paid_brimhaven_entrance_fee") < 1000*60*60*12) {
+				if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {
 					e.getPlayer().startConversation(new Dialogue().addNPC(NPC, HeadE.HAPPY_TALKING, "Thank you for your payment, bwana."));
 					return;
 				}
@@ -92,7 +92,7 @@ public class Karamja  {
 														.addPlayer(HeadE.CALM_TALK, "Ok, here's 875 coins")
 														.addItem(6964, "You give SaniBoch 875 coins.", ()->{
 															e.getPlayer().getInventory().removeItems(new Item(995, 875));
-															e.getPlayer().save("time_paid_brimhaven_entrance_fee", System.currentTimeMillis());
+															e.getPlayer().getTempAttribs().setB("paid_brimhaven_entrance_fee", true);
 														})
 														.addNPC(NPC, HeadE.HAPPY_TALKING, "Many thanks. You may now pass the door. May your death be a glorious one!")
 												);
@@ -139,14 +139,14 @@ public class Karamja  {
 				);
 			}
 			if(e.getOption().equalsIgnoreCase("pay")) {
-				if(System.currentTimeMillis() - e.getPlayer().getL("time_paid_brimhaven_entrance_fee") < 1000*60*60*12) {
+				if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {
 					e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "You already paid, bwana."));
 					return;
 				}
 				e.getPlayer().startConversation(new Dialogue()
 						.addItem(6964, "You give SaniBoch 875 coins.", ()->{
 							e.getPlayer().getInventory().removeItems(new Item(995, 875));
-							e.getPlayer().save("time_paid_brimhaven_entrance_fee", System.currentTimeMillis());
+							e.getPlayer().getTempAttribs().setB("paid_brimhaven_entrance_fee", true);
 						})
 						.addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Many thanks. You may now pass the door. May your death be a glorious one!")
 				);
@@ -209,7 +209,7 @@ public class Karamja  {
 	public static ObjectClickHandler handleBrimhavenDungeonEntrance = new ObjectClickHandler(new Object[] { 5083 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(System.currentTimeMillis() - e.getPlayer().getL("time_paid_brimhaven_entrance_fee") < 1000*60*60*12) {//12 hours
+			if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {//12 hours
 				e.getPlayer().setNextWorldTile(new WorldTile(2713, 9564, 0));
 				return;
 			}

@@ -27,6 +27,8 @@ import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -36,6 +38,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
 
 @QuestHandler(Quest.GOBLIN_DIPLOMACY)
 @PluginEventHandler
@@ -234,8 +237,8 @@ public class GoblinDiplomacy extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			if (!e.isAtObject())
 				return;
-			if ((System.currentTimeMillis() - e.getPlayer().getL("goblinMailCrate")) > 1000*60*60*4) {//4 hours
-				e.getPlayer().save("goblinMailCrate", System.currentTimeMillis());
+			if(!e.getPlayer().getQuestManager().getAttribs(Quest.GOBLIN_DIPLOMACY).getB("isGoblinMateCrateBlocked")) {
+				e.getPlayer().getQuestManager().getAttribs(Quest.GOBLIN_DIPLOMACY).setB("isGoblinMateCrateBlocked", true);
 				e.getPlayer().getInventory().addItem(288, 1);
 				e.getPlayer().startConversation(new Dialogue().addItem(288, "You find goblin mail."));
 				return;
