@@ -21,6 +21,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -66,6 +67,10 @@ public class TanningD extends Dialogue {
 
 			@Override
 			public boolean start(final Player player) {
+				if(player.getInventory().getNumberOf(995) == 0) {
+					player.sendMessage("You don't have enough gold!");
+					return false;
+				}
 				int leatherAmount = player.getInventory().getAmountOf(INGREDIENT[componentIndex]);
 				if (leatherAmount == 0) {
 					end();

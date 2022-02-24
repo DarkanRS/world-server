@@ -58,10 +58,13 @@ public class ScorpionCatcher extends QuestOutline {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED -> {
-			lines.add("Thormac the Sorcerer has a hobby involving scorpions.");
+			lines.add("Thormac The Sorcerer has a hobby involving scorpions.");
 			lines.add("Unfortunately, three of them have escaped and managed to run");
 			lines.add("far away. If you manage to find them all, he may just be able");
 			lines.add("to perform an important service for you.");
+			lines.add("");
+			lines.add("I can start this quest by speaking to Thormac The Sorcerer at the");
+			lines.add("top of his tower southwest of Seer's Village");
 			lines.add("");
 			lines.add("~~~Requirements~~~");
 			lines.add("31 prayer");
