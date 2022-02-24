@@ -16,24 +16,30 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.player.Player;
 import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.WorldTile;
+import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PickupItemEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static Map<Object, Map<Integer, List<PickupItemHandler>>> HANDLERS = new HashMap<>();
 
 	private Player player;
 	private GroundItem item;
 	private boolean cancelPickup;
+	private boolean telegrabbed;
 
-	public PickupItemEvent(Player player, GroundItem item) {
+	public PickupItemEvent(Player player, GroundItem item, boolean telegrabbed) {
 		this.player = player;
 		this.item = item;
+		this.telegrabbed = telegrabbed;
 	}
 
 	public Player getPlayer() {
@@ -44,21 +50,52 @@ public class PickupItemEvent implements PluginEvent {
 		return item;
 	}
 
+	public boolean isTelegrabbed() {
+		return telegrabbed;
+	}
+
 	@Override
-	public PluginHandler<? extends PluginEvent> getMethod() {
-		PluginHandler<? extends PluginEvent> method = HANDLERS.get(item.getId());
-		if (method == null)
-			method = HANDLERS.get(item.getDefinitions().getName());
-		if (method == null)
+	public List<PluginHandler<? extends PluginEvent>> getMethods() {
+		List<PluginHandler<? extends PluginEvent>> valids = new ArrayList<>();
+		Map<Integer, List<PickupItemHandler>> methodMapping = HANDLERS.get(getItem().getId());
+		if (methodMapping == null)
+			methodMapping = HANDLERS.get(getItem().getName());
+		if (methodMapping == null)
 			return null;
-		return method;
+		List<PickupItemHandler> methods = methodMapping.get(getItem().getTile().getTileHash());
+		if (methods == null)
+			methods = methodMapping.get(-getItem().getId());
+		if (methods == null)
+			methods = methodMapping.get(0);
+		if (methods == null)
+			return null;
+		for (PickupItemHandler method : methods)
+			valids.add(method);
+		return valids;
 	}
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
-		for (Object key : method.keys()) {
-			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, method);
-			if (old != null)
-				System.err.println("ERROR: Duplicate ItemEquip methods for key: " + key);
+		PickupItemHandler handler = (PickupItemHandler) method;
+		for (Object key : handler.keys()) {
+			Map<Integer, List<PickupItemHandler>> locMap = HANDLERS.get(key);
+			if (locMap == null) {
+				locMap = new HashMap<>();
+				HANDLERS.put(key, locMap);
+			}
+			if (handler.getTiles() == null || handler.getTiles().length <= 0) {
+				List<PickupItemHandler> methods = locMap.get(0);
+				if (methods == null)
+					methods = new ArrayList<>();
+				methods.add(handler);
+				locMap.put(0, methods);
+			} else
+				for (WorldTile tile : handler.getTiles()) {
+					List<PickupItemHandler> methods = locMap.get(tile.getTileHash());
+					if (methods == null)
+						methods = new ArrayList<>();
+					methods.add(handler);
+					locMap.put(tile.getTileHash(), methods);
+				}
 		}
 	}
 
@@ -66,7 +103,7 @@ public class PickupItemEvent implements PluginEvent {
 		return cancelPickup;
 	}
 
-	public void setCancelPickup(boolean cancelPickup) {
-		this.cancelPickup = cancelPickup;
+	public void cancelPickup() {
+		this.cancelPickup = true;
 	}
 }

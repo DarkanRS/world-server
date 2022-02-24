@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.Hit;
+import com.rs.game.npc.NPC;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -24,12 +26,17 @@ import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.dialogues.TanningD;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.heroesquest.dialogues.AchiettiesHeroesQuestD;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PickupItemEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.List;
 
 @PluginEventHandler
 public class Taverly {
@@ -364,4 +371,21 @@ public class Taverly {
 				ShopsHandler.openShop(e.getPlayer(), "carwens_rune_shop");
 		}
 	};
+
+	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new WorldTile(2946, 3474, 0), new WorldTile(2946, 3473, 0)) {
+		@Override
+		public void handle(PickupItemEvent e) {
+			if (!e.isTelegrabbed()) {
+				e.getPlayer().applyHit(new Hit(e.getPlayer(), 50, Hit.HitLook.TRUE_DAMAGE));
+				List<NPC> npcs = e.getPlayer().getNearbyNPCs(true, n -> n.getId() == 189);
+				for (NPC n : npcs) {
+					if (n.isDead())
+						continue;
+					n.forceTalk("Hands off Zamorak's wine!");
+					n.setTarget(e.getPlayer());
+				}
+				e.cancelPickup();
+			}
+		}
+	;};
 }

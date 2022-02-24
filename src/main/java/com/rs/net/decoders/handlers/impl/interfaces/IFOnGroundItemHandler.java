@@ -32,6 +32,8 @@ import com.rs.lib.game.*;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnGroundItem;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.PluginManager;
+import com.rs.plugin.events.PickupItemEvent;
 
 public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundItem> {
 
@@ -104,7 +106,10 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 								return;
 							}
 							World.sendSpotAnim(null, new SpotAnim(144), tile);
-							World.removeGroundItem(player, gItem, true);
+							PickupItemEvent e2 = new PickupItemEvent(player, gItem, true);
+							PluginManager.handle(e2);
+							if (!e2.isCancelPickup())
+								World.removeGroundItem(player, gItem, true);
 						});
 					}
 					return false;
