@@ -700,14 +700,21 @@ public class MiscTest {
 			p.sendMessage("Max hit: " + PlayerCombat.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(p), 1.0));
 		});
 
-		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.valueOf(args[0]));
-			if (objs.isEmpty())
+			if (objs.isEmpty()) {
 				p.sendMessage("Nothing found for " + args[0]);
-			for (GameObject obj : objs) {
-				p.setNextWorldTile(obj);
-				p.getPackets().sendDevConsoleMessage(obj.toString());
+				return;
 			}
+			int i = 0;
+			for (GameObject obj : objs)
+				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
+			if(args[1] == null) {
+				p.setNextWorldTile(objs.get(0));
+				return;
+			}
+			p.setNextWorldTile(objs.get(Integer.valueOf(args[1])));
+
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
