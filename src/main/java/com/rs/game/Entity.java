@@ -457,7 +457,7 @@ public abstract class Entity {
 			if (steps == -1)
 				return false;
 			if (steps == 0)
-				return true;
+				return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
 			for (int step = steps - 1; step >= 0; step--)
