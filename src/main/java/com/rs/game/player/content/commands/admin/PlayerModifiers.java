@@ -269,7 +269,7 @@ public class PlayerModifiers {
 
         Commands.add(Rights.ADMIN, "setgang [player_name gang]", "Sets Player Gang", (p, args) -> {
             Player player = World.getPlayerByDisplay(args[0]);
-			ShieldOfArrav.setGang(p, args[1].toLowerCase());
+			ShieldOfArrav.setGang(player, args[1].toLowerCase());
 			p.sendMessage("Set " + player.getDisplayName() + "'s gang to " + args[1].toLowerCase());
 
         });
