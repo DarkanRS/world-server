@@ -1792,7 +1792,13 @@ public class Player extends Entity {
 	public void sendInputInteger(String question, InputIntegerEvent e) {
 		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginInteger"));
+		setCloseInterfacesEvent(() -> {
+			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().containsInterface(11)) {
+				getInterfaceManager().sendTabs(InterfaceManager.Tab.INVENTORY, InterfaceManager.Tab.EQUIPMENT);
+				getTempAttribs().setB("viewingDepositBox", false);
+			}
+			getTempAttribs().removeO("pluginInteger");
+		});
 	}
 
 	public void sendInputHSL(InputIntegerEvent e) {

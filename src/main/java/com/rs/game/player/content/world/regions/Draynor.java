@@ -387,6 +387,13 @@ public class Draynor {
 		}
 	};
 
+	public static ObjectClickHandler handleMorgansChest = new ObjectClickHandler(new Object[] { 46243 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().sendMessage("The chest is locked...");
+		}
+	};
+
 	public static ObjectClickHandler handleExitsDraynorSewers = new ObjectClickHandler(new Object[] { 26518, 32015 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

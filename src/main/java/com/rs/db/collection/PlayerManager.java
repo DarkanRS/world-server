@@ -48,12 +48,6 @@ public class PlayerManager extends DBItemManager {
 		});
 	}
 
-	public void getByDisplayName(String displayName, Consumer<Player> func) {
-		execute(() -> {
-			func.accept(getSyncDisplayName(displayName));
-		});
-	}
-
 	public void save(Player player) {
 		save(player, null);
 	}
@@ -75,21 +69,6 @@ public class PlayerManager extends DBItemManager {
 		if (loggedIn != null)
 			return loggedIn;
 		Document accDoc = getDocs().find(eq("username", username)).first();
-		if (accDoc == null)
-			return null;
-		try {
-			return JsonFileManager.fromJSONString(JsonFileManager.toJson(accDoc), Player.class);
-		} catch (JsonIOException | IOException e) {
-			Logger.handle(e);
-			return null;
-		}
-	}
-
-	public Player getSyncDisplayName(String displayName) {
-		Player loggedIn = World.getPlayerByDisplay(displayName);
-		if (loggedIn != null)
-			return loggedIn;
-		Document accDoc = getDocs().find(eq("displayName", displayName)).first();
 		if (accDoc == null)
 			return null;
 		try {

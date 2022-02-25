@@ -584,14 +584,11 @@ public class ShieldOfArrav extends QuestOutline {
         }
     };
 
-    public static ItemAddedToInventoryHandler handlePhoenixBowsPickup = new ItemAddedToInventoryHandler(PHOENIX_CROSSBOW) {
+    public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] {PHOENIX_CROSSBOW},
+			new WorldTile(3245, 3385, 1)) {
         @Override
-        public void handle(ItemAddedToInventoryEvent e) {
-            Player p = e.getPlayer();
-            if (!p.matches(new WorldTile(3245, 3385, 1)))
-                return;
-
-            List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+        public void handle(PickupItemEvent e) {
+            List<NPC> npcs = World.getNPCsInRegion(e.getPlayer().getRegionId());
             for (NPC npc : npcs)
                 if (npc.getId() == 643) {
                     switch (Utils.random(1, 4)) {
@@ -605,9 +602,8 @@ public class ShieldOfArrav extends QuestOutline {
                             npc.forceTalk("Hey, that's Phoenix Gang property!");
                             break;
                     }
-                    npc.faceEntity(p);
-                    p.getInventory().deleteItem(e.getItem());
-                    World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+                    npc.faceEntity(e.getPlayer());
+                    e.cancelPickup();
                 }
         }
     };
