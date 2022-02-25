@@ -1456,8 +1456,11 @@ public final class World {
 		}
 	}
 
-	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
+	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
 
+	}
+
+	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
 		//Checks outward - Northeast
 		for (int x = 0; x <= dist; x++)
 			for (int y = 0; y <= dist; y++)
@@ -1482,7 +1485,7 @@ public final class World {
 				if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
 					return tile.transform(x, y, 0);
 
-		return tile.transform(0, 0, 1);
+		return tile.transform(0, 0, 0);
 	}
 
 	public static long getServerTicks() {

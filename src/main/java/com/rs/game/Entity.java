@@ -1374,15 +1374,7 @@ public abstract class Entity {
 	}
 
 	public WorldTile getNearestTeleTile(int size) {
-		WorldTile teleTile = null;
-		for (int att = 0; att < 10; att++) {
-			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
-			if (World.checkWalkStep(getPlane(), getX(), getY(), dir, size)) {
-				teleTile = transform(dir.getDx(), dir.getDy(), 0);
-				break;
-			}
-		}
-		return teleTile;
+		return World.findRandomAdjacentTile(this.getTile(), size);
 	}
 
 	public WorldTile getTile() {
