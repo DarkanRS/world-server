@@ -892,11 +892,7 @@ public final class World {
 			result.accept(player);
 			return;
 		}
-		WorldDB.getPlayers().getByDisplayName(displayName, p -> {
-			if (p == null)
-				result.accept(null);
-			result.accept(p);
-		});
+		WorldDB.getPlayers().getByUsername(Utils.formatPlayerNameForProtocol(displayName), p -> result.accept(p));
 	}
 
 	public static final EntityList<Player> getPlayers() {

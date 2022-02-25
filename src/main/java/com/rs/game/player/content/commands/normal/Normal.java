@@ -95,8 +95,16 @@ public class Normal {
         });
 
         Commands.add(Rights.PLAYER, "checkbank [player name]", "Displays the contents of another player's bank.", (p, args) -> {
+            if (args.length == 0) {
+                p.getBank().openBankOther(p);
+                return;
+            }
             World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
-                p.getBank().openBankOther(target == null ? p : target);
+                if (target == null) {
+                    p.sendMessage("Could not find player " + Utils.concat(args) + ".");
+                    return;
+                }
+                p.getBank().openBankOther(target);
             });
         });
 
