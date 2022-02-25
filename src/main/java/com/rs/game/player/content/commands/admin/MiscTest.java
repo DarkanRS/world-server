@@ -886,7 +886,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "overlay [interfaceId]", "Opens an interface as a walkable overlay.", (p, args) -> {
-			p.getInterfaceManager().setOverlay(428);
+			p.getInterfaceManager().setOverlay(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId", "Sends an interface to the window specified component.", (p, args) -> {
