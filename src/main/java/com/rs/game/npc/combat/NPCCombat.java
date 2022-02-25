@@ -78,7 +78,10 @@ public final class NPCCombat {
 		int maxDistance = npc.getCombatDefinitions().getAttackRange();
 		if (!(npc instanceof Nex) && !npc.lineOfSightTo(target, maxDistance == 0))
 			return npc.getAttackSpeed();
-		if (!npc.lineOfSightTo(target, maxDistance == 0) || !WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0)) || (!npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target)))
+		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
+		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
+		boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
+		if (!los || !inRange || collidesCheck)
 			return 0;
 		addAttackedByDelay(target);
 		return CombatScriptsHandler.attack(npc, target);
@@ -166,7 +169,9 @@ public final class NPCCombat {
 
 			maxDistance = npc.isForceFollowClose() ? 0 : npc.getCombatDefinitions().getAttackRange();
 			npc.resetWalkSteps();
-			if ((!npc.lineOfSightTo(target, maxDistance == 0)) || !WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance)) {
+			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
+			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);
+			if (!los || !inRange) {
 				npc.calcFollow(target, npc.getRun() ? 2 : 1, true, npc.isIntelligentRouteFinder());
 				return true;
 			}
