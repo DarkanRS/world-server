@@ -2427,6 +2427,11 @@ public class Player extends Entity {
 		return lockDelay >= World.getServerTicks();
 	}
 
+	/**
+	 * You are invincible & cannot use your character until unlocked.
+	 * All hits are processed after unlocking.
+	 * If you use resetRecievedHits you lose those hits.
+	 */
 	public void lock() {
 		lockDelay = Long.MAX_VALUE;
 	}
