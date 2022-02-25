@@ -74,7 +74,9 @@ public enum Skillcapes {
 	}
 
 	public Dialogue getOffer99CapeDialogue(Player player, int npcId) {
-		Dialogue start = new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, "Ah, this is a Skillcape of " + name() + ". I have mastered the art of " + name().toLowerCase() + " and wear it proudly to show others."))
+		Dialogue start = new Dialogue()
+				.addNPC(npcId, HeadE.CHEERFUL, "Ah, this is a Skillcape of " + name() + ". I have mastered the art of " + name().toLowerCase()
+						+ " and wear it proudly to show others.")
 				.addPlayer(HeadE.SKEPTICAL, "Hmm, interesting.");
 		if (player.getSkills().getLevelForXp(ordinal()) >= 99)
 			start.addNPC(npcId, HeadE.NO_EXPRESSION, "Ah, but I see you are already "+verb+", perhaps you have come to me to purchase a Skillcape of "+name()+", and thus join the elite few who have mastered this exacting skill?")
@@ -83,7 +85,20 @@ public enum Skillcapes {
 				public void create() {
 					option("Yes, I'd like to buy one please.", new Dialogue()
 							.addNPC(npcId, HeadE.NO_EXPRESSION, "Most certainly; unfortunately being such a prestigious item, they are appropriately expensive. I'm afraid I must ask you for 99,000 gold.")
-							.addOption("Choose an option:", "99,000 coins? That's much too expensive.", "I think I have the money right here, actually."));
+							.addOptions("Choose an option:", new Options() {
+								@Override
+								public void create() {
+									option("99,000 coins? That's much too expensive.", new Dialogue()
+											.addPlayer(HeadE.HAPPY_TALKING, "99,000 coins? That's much too expensive.")
+											.addNPC(npcId, HeadE.CALM_TALK, "...")
+									);
+									option("I think I have the money right here, actually.", new Dialogue()
+											.addPlayer(HeadE.HAPPY_TALKING, "I think I have the money right here, actually.")
+											.addNext(getGiveCapeDialogue(player, npcId, false))
+									);
+
+								}
+							}));
 					if (player.getSkills().is120(Skillcapes.this.ordinal()))
 						option("I've mastered this skill. Is there anything else?", new Dialogue()
 								.addNPC(npcId, HeadE.AMAZED, "I've been saving this master cape for someone truly " + verb + ". Is that really you?")
@@ -96,9 +111,20 @@ public enum Skillcapes {
 				}
 			});
 		else
-			start.addOption("Select an option", "Please tell me more about skillcapes.", "Bye.")
-			.addPlayer(HeadE.CONFUSED, "Please tell me more about skillcapes.")
-			.addNPC(npcId, HeadE.NO_EXPRESSION, "Of course. Skillcapes are a symbol of achievement. Only people who have mastered a skill and reached level 99 can get their hands on them and gain the benefits they carry.");
+			start.addOptions("Choose an option:", new Options() {
+				@Override
+				public void create() {
+					option("Please tell me more about skillcapes.", new Dialogue()
+							.addPlayer(HeadE.HAPPY_TALKING, "Please tell me more about skillcapes.")
+							.addNPC(npcId, HeadE.CALM_TALK, "Of course. Skillcapes are a symbol of achievement. Only people who have mastered a skill and " +
+									"reached level 99 can get their hands on them and gain the benefits they carry.")
+					);
+					option("Bye.", new Dialogue()
+							.addPlayer(HeadE.HAPPY_TALKING, "Bye.")
+							.addNPC(npcId, HeadE.CALM_TALK, "Bye.")
+					);
+				}
+			});
 		return start.finish();
 	}
 }
