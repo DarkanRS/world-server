@@ -6,6 +6,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
@@ -22,6 +23,7 @@ import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
@@ -218,33 +220,33 @@ public class WitchsHouse extends QuestOutline {
 		}
 	};
 
-	public static ItemAddedToInventoryHandler handleBallPickup = new ItemAddedToInventoryHandler(BALL) {
+	public static PickupItemHandler handleBallPickup = new PickupItemHandler(new Object[] { BALL },
+			new WorldTile(2927, 3360, 0)) {
 		@Override
-		public void handle(ItemAddedToInventoryEvent e) {
+		public void handle(PickupItemEvent e) {
 			Player p = e.getPlayer();
-			if(!p.withinDistance(new WorldTile(2927, 3361, 0), 2))
-				return;
-            if(p.getInventory().containsItem(BALL)) {
-                p.getInventory().removeItems(new Item(BALL, 1));
-                World.addGroundItem(e.getItem(), new WorldTile(2927, 3360, 0));
-            }
 			if(p.getQuestManager().getStage(Quest.WITCHS_HOUSE) != FIND_BALL) {
-				p.getInventory().removeItems(new Item(BALL, 1));
-				World.addGroundItem(e.getItem(), new WorldTile(2927, 3360, 0));
-				p.startConversation(new Conversation(e.getPlayer()) {
-					{
-						addSimple("I better not touch it...");
-						create();
-					}
-				});
+				e.cancelPickup();
+				p.startConversation(new Dialogue().addSimple("I better not touch it..."));
+				return;
 			}
-			if(p.getQuestManager().getStage(Quest.WITCHS_HOUSE) == FIND_BALL)
-				if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
-					for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-						if(npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
-							npc.setTarget(p);
-					p.getInventory().removeItems(new Item(BALL, 1));
-					World.addGroundItem(e.getItem(), new WorldTile(2927, 3360, 0));
+			if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
+				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+					if(npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
+						npc.setTarget(p);
+				e.cancelPickup();
+				p.sendMessage("The experiment won't let you pick up the ball");
+			}
+		}
+	};
+
+	public static PlayerStepHandler handleCheesePrompt = new PlayerStepHandler(new WorldTile(2894, 3367, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.WITCHS_HOUSE) == FIND_BALL && e.getPlayer().containsItem(1985))
+				if(!e.getPlayer().getTempAttribs().getB("MousePuzzleKnownWitchsHouse")) {
+					e.getPlayer().sendMessage("You hear a hungry mouse in this room, must be the cheese...");
+					e.getPlayer().getTempAttribs().setB("MousePuzzleKnownWitchsHouse", true);
 				}
 		}
 	};
@@ -345,7 +347,7 @@ public class WitchsHouse extends QuestOutline {
 				e.getPlayer().useLadder(new WorldTile(2898, 3376, 0));
 		}
 	};
-	public static ObjectClickHandler handleWitchHouseElectricGate = new ObjectClickHandler(new Object[] { 2866 }) {
+	public static ObjectClickHandler handleWitchHouseElectricGate = new ObjectClickHandler(new Object[] { 2866, 2865 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
