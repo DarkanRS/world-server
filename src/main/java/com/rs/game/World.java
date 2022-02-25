@@ -454,12 +454,12 @@ public final class World {
 			while (xTile != x2) {
 				xTile += xInc;
 				int yTile = y >>> 16;
-			if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
-				return false;
-			y += slope;
-			int newYTile = y >>> 16;
-		if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
-			return false;
+				if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
+					return false;
+				y += slope;
+				int newYTile = y >>> 16;
+				if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
+					return false;
 			}
 		} else {
 			int yTile = y1;
@@ -497,12 +497,12 @@ public final class World {
 				while (yTile != y2) {
 					yTile += yInc;
 					int xTile = x >>> 16;
-			if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
-				return false;
-			x += slope;
-			int newXTile = x >>> 16;
-		if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
-			return false;
+					if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
+						return false;
+					x += slope;
+					int newXTile = x >>> 16;
+					if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
+						return false;
 				}
 		}
 		return true;
@@ -539,9 +539,14 @@ public final class World {
 			return false;
 		if (fromTile.matches(toTile))
 			return true;
-		switch(Direction.forDelta(toTile.getX()-fromTile.getX(), toTile.getY()-fromTile.getY())) {
-		case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> { return false; }
-		default -> {}
+		if (fromSize <= 1 && toSize <= 1) {
+			switch (Direction.forDelta(toTile.getX() - fromTile.getX(), toTile.getY() - fromTile.getY())) {
+				case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> {
+					return false;
+				}
+				default -> {
+				}
+			}
 		}
 		return checkWalkStep(fromTile, toTile, 1);
 	}
@@ -929,6 +934,7 @@ public final class World {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
+					player.logout(true);
 					player.realFinish();
 				}
 				PartyRoom.save();
