@@ -1457,7 +1457,25 @@ public final class World {
 	}
 
 	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
-
+		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
+		WorldTile finalTile = null;
+		while(!unchecked.isEmpty()) {
+			boolean failed = false;
+			Direction curr = unchecked.get(Utils.random(unchecked.size()));
+			WorldTile startTile = tile.transform(curr.getDx()-(size-1), curr.getDy()-(size-1));
+			for (int i = 0;i < size;i++) {
+				if (!checkWalkStep(startTile.transform(curr.getDx()*i, curr.getDy()*i), curr, size)) {
+					failed = true;
+					break;
+				}
+			}
+			if (!failed) {
+				finalTile = tile.transform(curr.getDx(), curr.getDy());
+				break;
+			}
+			unchecked.remove(curr);
+		}
+		return finalTile;
 	}
 
 	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {

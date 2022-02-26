@@ -128,6 +128,8 @@ public class Conversation {
 	}
 
 	public Dialogue addNext(String stageName, Statement statement) {
+		if (markedStages == null)
+			throw new RuntimeException("Do not call builder functions outside the constructor.");
 		Dialogue dialogue = new Dialogue(statement);
 		if (stageName != null)
 			markedStages.put(stageName, dialogue);
