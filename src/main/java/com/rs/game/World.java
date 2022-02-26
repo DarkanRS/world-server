@@ -1456,8 +1456,29 @@ public final class World {
 		}
 	}
 
-	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
+	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
+		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
+		WorldTile finalTile = null;
+		while(!unchecked.isEmpty()) {
+			boolean failed = false;
+			Direction curr = unchecked.get(Utils.random(unchecked.size()));
+			WorldTile startTile = tile.transform(curr.getDx()-(size-1), curr.getDy()-(size-1));
+			for (int i = 0;i < size;i++) {
+				if (!checkWalkStep(startTile.transform(curr.getDx()*i, curr.getDy()*i), curr, size)) {
+					failed = true;
+					break;
+				}
+			}
+			if (!failed) {
+				finalTile = tile.transform(curr.getDx(), curr.getDy());
+				break;
+			}
+			unchecked.remove(curr);
+		}
+		return finalTile;
+	}
 
+	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
 		//Checks outward - Northeast
 		for (int x = 0; x <= dist; x++)
 			for (int y = 0; y <= dist; y++)
@@ -1482,7 +1503,7 @@ public final class World {
 				if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
 					return tile.transform(x, y, 0);
 
-		return tile.transform(0, 0, 1);
+		return tile.transform(0, 0, 0);
 	}
 
 	public static long getServerTicks() {

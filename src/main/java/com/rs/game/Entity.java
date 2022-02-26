@@ -457,7 +457,7 @@ public abstract class Entity {
 			if (steps == -1)
 				return false;
 			if (steps == 0)
-				return true;
+				return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
 			for (int step = steps - 1; step >= 0; step--)
@@ -1374,15 +1374,7 @@ public abstract class Entity {
 	}
 
 	public WorldTile getNearestTeleTile(int size) {
-		WorldTile teleTile = null;
-		for (int att = 0; att < 10; att++) {
-			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
-			if (World.checkWalkStep(getPlane(), getX(), getY(), dir, size)) {
-				teleTile = transform(dir.getDx(), dir.getDy(), 0);
-				break;
-			}
-		}
-		return teleTile;
+		return World.findRandomAdjacentTile(this.getTile(), size);
 	}
 
 	public WorldTile getTile() {
