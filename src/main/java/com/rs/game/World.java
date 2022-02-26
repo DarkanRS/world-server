@@ -934,7 +934,7 @@ public final class World {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
-					player.logout(true);
+					player.getPackets().sendLogout(player, true);
 					player.realFinish();
 				}
 				PartyRoom.save();

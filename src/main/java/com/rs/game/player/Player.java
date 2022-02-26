@@ -1570,7 +1570,6 @@ public class Player extends Entity {
 	public void logout(boolean lobby) {
 		if (!running)
 			return;
-		long currentTime = System.currentTimeMillis();
 		if (inCombat(10000)) {
 			sendMessage("You can't log out until 10 seconds after the end of combat.");
 			return;
@@ -1579,7 +1578,7 @@ public class Player extends Entity {
 			sendMessage("You can't log out while performing an emote.");
 			return;
 		}
-		if (lockDelay >= currentTime) {
+		if (isLocked()) {
 			sendMessage("You can't log out while performing an action.");
 			return;
 		}
