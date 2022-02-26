@@ -986,6 +986,8 @@ public final class World {
 	}
 
 	public static final boolean removeObjectTemporary(final GameObject object, int ticks) {
+		if (object == null)
+			return false;
 		removeObject(object);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -1456,21 +1458,40 @@ public final class World {
 		}
 	}
 
+	/**
+	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
+	 */
 	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
 		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
 		WorldTile finalTile = null;
 		while(!unchecked.isEmpty()) {
 			boolean failed = false;
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
-			WorldTile startTile = tile.transform(curr.getDx()-(size-1), curr.getDy()-(size-1));
-			for (int i = 0;i < size;i++) {
-				if (!checkWalkStep(startTile.transform(curr.getDx()*i, curr.getDy()*i), curr, size)) {
-					failed = true;
-					break;
+			Direction offset = Direction.forDelta(curr.getDx() != 0 ? 0 : 1 * curr.getDy(), curr.getDy() != 0 ? 0 : 1 * curr.getDx());
+			WorldTile startTile = tile.transform(0, 0);
+			for (int i = 0;i <= size;i++) {
+				for (int row = 0; row < size; row++) {
+					WorldTile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
+					if (Settings.getConfig().isDebug()) {
+						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
+							case NORTH -> 2000;
+							case SOUTH -> 2001;
+							case EAST -> 2017;
+							default -> 1999;
+						}), from);
+					}
+					if (!checkWalkStep(from, curr, 1) || (size > 1 && row < (size-1) && !checkWalkStep(from, offset, 1))) {
+						failed = true;
+						break;
+					}
 				}
 			}
 			if (!failed) {
-				finalTile = tile.transform(curr.getDx(), curr.getDy());
+				finalTile = startTile.transform(curr.getDx(), curr.getDy());
+				if (curr.getDx() < 0 || curr.getDy() < 0)
+					finalTile = finalTile.transform(-size+1, -size+1);
+				if (Settings.getConfig().isDebug())
+					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
 				break;
 			}
 			unchecked.remove(curr);

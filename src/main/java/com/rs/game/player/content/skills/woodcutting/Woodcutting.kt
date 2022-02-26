@@ -105,21 +105,15 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 	}
 
 	open fun fellTree() {
-		if (!World.isSpawnedObject(treeObj) && treeObj.plane < 3 && type != TreeType.IVY) {
-			var obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-			if (obj == null) {
-				obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-				if (obj == null) {
-					obj = World.getObject(WorldTile(treeObj.x, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-					if (obj == null) {
-						obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-						if (obj == null) obj = World.getObject(WorldTile(treeObj.x, treeObj.y, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-					}
-				}
+		if (World.isSpawnedObject(treeObj) || treeObj.plane >= 3 || type == TreeType.IVY)
+			return
+		for (x in -1..1) {
+			for (y in -1..1) {
+				World.removeObjectTemporary(World.getObject(treeObj.transform(x, y, 1), ObjectType.SCENERY_INTERACT), type.respawnDelay)
+				World.removeObjectTemporary(World.getObject(treeObj.transform(x, y, 1), ObjectType.GROUND_INTERACT), type.respawnDelay)
 			}
-			if (obj != null) World.removeObjectTemporary(obj, type.respawnDelay)
 		}
-		if (!World.isSpawnedObject(treeObj)) World.spawnObjectTemporary(GameObject(TreeStumps.getStumpId(treeObj.id), treeObj.getType(), treeObj.getRotation(), treeObj.getX(), treeObj.getY(), treeObj.getPlane()), type.respawnDelay)
+		World.spawnObjectTemporary(GameObject(TreeStumps.getStumpId(treeObj.id), treeObj.type, treeObj.rotation, treeObj.x, treeObj.y, treeObj.plane), type.respawnDelay)
 	}
 
 	open fun checkTree(): Boolean {
