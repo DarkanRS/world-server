@@ -36,12 +36,11 @@ public class SandwichLady extends OwnedNPC {
 	private int ticks = 0;
 	private boolean claimed = false;
 
-	public SandwichLady(Player owner) {
-		super(owner, 8629, new WorldTile(owner.getTile()), false);
+	public SandwichLady(Player owner, WorldTile tile) {
+		super(owner, 8629, tile, false);
 		setRun(true);
 		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);
-		teleToOwner();
 	}
 
 	@Override
