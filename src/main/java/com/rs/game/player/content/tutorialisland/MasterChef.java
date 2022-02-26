@@ -44,11 +44,11 @@ public class MasterChef extends Conversation {
 		} else
 			addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "Hello again."));
 		if (player.getInventory().missingItems(1929, 1933))
-			addNext(new LegacyItemStatement(1929, 1933, "", "The Cooking Guide gives you a <col=0000FF>bucket of water</col> and a,", "<col=0000FF>pot of flour!</col>"), () -> {
+			addNext(new Dialogue(new LegacyItemStatement(1929, 1933, "", "The Cooking Guide gives you a <col=0000FF>bucket of water</col> and a,", "<col=0000FF>pot of flour!</col>"), () -> {
 				player.getInventory().addItem(1929, 1);
 				player.getInventory().addItem(1933, 1);
 				ctrl.nextStage(Stage.MAKE_DOUGH);
-			});
+			}));
 		if (ctrl.pastStage(Stage.MAKE_DOUGH)) {
 			addNext("Recap", new OptionStatement("What would you like to hear more about?", "Making dough.", "Range cooking.", "Music.", "Nothing, thanks."));
 
