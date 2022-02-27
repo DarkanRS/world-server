@@ -1,28 +1,11 @@
 package com.rs.game.player.content.minigames.trawler;
 
-import com.google.gson.GsonBuilder;
-import com.rs.Settings;
-import com.rs.cache.Cache;
 import com.rs.game.item.ItemsContainer;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.content.skills.fishing.Fish;
-import com.rs.game.player.controllers.Controller;
-import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
-import com.rs.lib.json.DateAdapter;
-import com.rs.lib.net.packets.Packet;
-import com.rs.lib.net.packets.PacketEncoder;
-import com.rs.lib.util.PacketAdapter;
-import com.rs.lib.util.PacketEncoderAdapter;
-import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.lib.util.Utils;
 import com.rs.utils.drop.DropList;
 import com.rs.utils.drop.DropTable;
-import com.rs.utils.json.ControllerAdapter;
-import com.rs.utils.json.FamiliarAdapter;
-
-import java.io.IOException;
-import java.util.Date;
 
 public class Rewards {
 	private enum Rate {
@@ -36,26 +19,6 @@ public class Rewards {
 		Rate(int low, int high) {
 			this.low = low;
 			this.high = high;
-		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
-				.registerTypeAdapter(Controller.class, new ControllerAdapter())
-				.registerTypeAdapter(Date.class, new DateAdapter())
-				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
-				.registerTypeAdapter(Packet.class, new PacketAdapter())
-				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
-				.disableHtmlEscaping()
-				.setPrettyPrinting()
-				.create());
-		Cache.init(Settings.getConfig().getCachePath());
-		ItemsContainer<Item> rewards = generateRewards(99, 500_000);
-		for (Item item : rewards.getItems()) {
-			if (item == null)
-				continue;
-			System.out.println(item.getName() + ": " + item.getAmount() + " (" + (item.getAmount() / 500_000.0D * 100.0) + "%)");
 		}
 	}
 
