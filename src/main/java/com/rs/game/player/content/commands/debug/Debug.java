@@ -351,7 +351,7 @@ public class Debug {
         });
 
         Commands.add(Rights.PLAYER, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
-            Player target = World.getPlayer(Utils.concat(args));
+            Player target = World.getPlayerByDisplay(Utils.concat(args));
             if (target == null) {
                 p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
                 return;
@@ -486,14 +486,14 @@ public class Debug {
             for (Item item : p.getEquipment().getItemsCopy()) {
                 if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
                     continue;
-                World.addGroundItem(item, new WorldTile(p));
+                World.addGroundItem(item, new WorldTile(p.getTile()));
             }
             for (Item item : p.getInventory().getItems().getItems()) {
                 if (item != null)
                     System.out.println(item.getName() + ": " + item.getAmount());
                 if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
                     continue;
-                World.addGroundItem(item, new WorldTile(p));
+                World.addGroundItem(item, new WorldTile(p.getTile()));
             }
         });
 
