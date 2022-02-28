@@ -454,12 +454,12 @@ public final class World {
 			while (xTile != x2) {
 				xTile += xInc;
 				int yTile = y >>> 16;
-			if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
-				return false;
-			y += slope;
-			int newYTile = y >>> 16;
-		if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
-			return false;
+				if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
+					return false;
+				y += slope;
+				int newYTile = y >>> 16;
+				if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
+					return false;
 			}
 		} else {
 			int yTile = y1;
@@ -497,12 +497,12 @@ public final class World {
 				while (yTile != y2) {
 					yTile += yInc;
 					int xTile = x >>> 16;
-			if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
-				return false;
-			x += slope;
-			int newXTile = x >>> 16;
-		if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
-			return false;
+					if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
+						return false;
+					x += slope;
+					int newXTile = x >>> 16;
+					if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
+						return false;
 				}
 		}
 		return true;
@@ -539,9 +539,14 @@ public final class World {
 			return false;
 		if (fromTile.matches(toTile))
 			return true;
-		switch(Direction.forDelta(toTile.getX()-fromTile.getX(), toTile.getY()-fromTile.getY())) {
-		case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> { return false; }
-		default -> {}
+		if (fromSize <= 1 && toSize <= 1) {
+			switch (Direction.forDelta(toTile.getX() - fromTile.getX(), toTile.getY() - fromTile.getY())) {
+				case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> {
+					return false;
+				}
+				default -> {
+				}
+			}
 		}
 		return checkWalkStep(fromTile, toTile, 1);
 	}
@@ -929,6 +934,7 @@ public final class World {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
+					player.getPackets().sendLogout(player, true);
 					player.realFinish();
 				}
 				PartyRoom.save();
@@ -980,6 +986,8 @@ public final class World {
 	}
 
 	public static final boolean removeObjectTemporary(final GameObject object, int ticks) {
+		if (object == null)
+			return false;
 		removeObject(object);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -1450,8 +1458,48 @@ public final class World {
 		}
 	}
 
-	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
+	/**
+	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
+	 */
+	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
+		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
+		WorldTile finalTile = null;
+		while(!unchecked.isEmpty()) {
+			boolean failed = false;
+			Direction curr = unchecked.get(Utils.random(unchecked.size()));
+			Direction offset = Direction.forDelta(curr.getDx() != 0 ? 0 : 1 * curr.getDy(), curr.getDy() != 0 ? 0 : 1 * curr.getDx());
+			WorldTile startTile = tile.transform(0, 0);
+			for (int i = 0;i <= size;i++) {
+				for (int row = 0; row < size; row++) {
+					WorldTile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
+					if (Settings.getConfig().isDebug()) {
+						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
+							case NORTH -> 2000;
+							case SOUTH -> 2001;
+							case EAST -> 2017;
+							default -> 1999;
+						}), from);
+					}
+					if (!checkWalkStep(from, curr, 1) || (size > 1 && row < (size-1) && !checkWalkStep(from, offset, 1))) {
+						failed = true;
+						break;
+					}
+				}
+			}
+			if (!failed) {
+				finalTile = startTile.transform(curr.getDx(), curr.getDy());
+				if (curr.getDx() < 0 || curr.getDy() < 0)
+					finalTile = finalTile.transform(-size+1, -size+1);
+				if (Settings.getConfig().isDebug())
+					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
+				break;
+			}
+			unchecked.remove(curr);
+		}
+		return finalTile;
+	}
 
+	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
 		//Checks outward - Northeast
 		for (int x = 0; x <= dist; x++)
 			for (int y = 0; y <= dist; y++)
@@ -1476,7 +1524,7 @@ public final class World {
 				if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
 					return tile.transform(x, y, 0);
 
-		return tile.transform(0, 0, 1);
+		return tile.transform(0, 0, 0);
 	}
 
 	public static long getServerTicks() {

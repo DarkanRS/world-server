@@ -17,12 +17,14 @@
 package com.rs.game.player.content.pet;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.ForceTalk;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.ItemConstants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,7 +103,12 @@ public final class PetManager {
 		}
 		int npcId = pets.getNpcId(details.getStage());
 		if (npcId > 0) {
-			Pet pet = new Pet(npcId, itemId, player, player.getTile(), pets.getGrownNpcId() == -1 && pets.getOvergrownNpcId() == -1 ? null : details);
+			WorldTile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(npcId, player.getVars()).size);
+			if (spawnTile == null) {
+				player.sendMessage("There's no space to summon your pet.");
+				return true;
+			}
+			Pet pet = new Pet(npcId, itemId, player, spawnTile, pets.getGrownNpcId() == -1 && pets.getOvergrownNpcId() == -1 ? null : details);
 			this.npcId = npcId;
 			this.itemId = itemId;
 			pet.setGrowthRate(pets.getGrowthRate());

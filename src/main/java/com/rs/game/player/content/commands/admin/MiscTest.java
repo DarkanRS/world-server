@@ -525,13 +525,13 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			p.getTempAttribs().setB("infSpecialAttack", !p.getTempAttribs().getB("infSpecialAttack"));
-			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getTempAttribs().getB("infSpecialAttack"));
+			p.getNSV().setB("infSpecialAttack", !p.getNSV().getB("infSpecialAttack"));
+			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getNSV().getB("infSpecialAttack"));
 		});
 
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
-			p.getNSV().setB("infPrayer", !p.getTempAttribs().getB("infPrayer"));
-			p.sendMessage("INFINITE PRAYER: " + p.getTempAttribs().getB("infPrayer"));
+			p.getNSV().setB("infPrayer", !p.getNSV().getB("infPrayer"));
+			p.sendMessage("INFINITE PRAYER: " + p.getNSV().getB("infPrayer"));
 		});
 
 		Commands.add(Rights.ADMIN, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
