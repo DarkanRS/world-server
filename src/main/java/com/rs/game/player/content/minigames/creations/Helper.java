@@ -125,7 +125,7 @@ public class Helper {
 		player.setForceMultiArea(true);
 		player.useStairs(-1, tile, 0, 1); // player will unlock itself 600ms
 		// after teleing
-		player.getMusicsManager().playMusic(578);
+		player.getMusicsManager().playSongAndUnlock(578);
 	}
 
 	public static int[] findNearestBase(GameArea area, Player player, boolean team) {

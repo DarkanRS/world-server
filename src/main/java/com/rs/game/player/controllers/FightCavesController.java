@@ -47,7 +47,7 @@ public class FightCavesController extends Controller {
 	private static final int[] MUSICS = { 1088, 1082, 1086 };
 
 	public void playMusic() {
-		player.getMusicsManager().playMusic(selectedMusic);
+		player.getMusicsManager().playSongAndUnlock(selectedMusic);
 	}
 
 	private final int[][] WAVES = { { 2734 }, { 2734, 2734 }, { 2736 }, { 2736, 2734 }, { 2736, 2734, 2734 }, { 2736, 2736 }, { 2739 }, { 2739, 2734 }, { 2739, 2734, 2734 }, { 2739, 2736 }, { 2739, 2736, 2734 }, { 2739, 2736, 2734, 2734 }, { 2739, 2736, 2736 }, { 2739, 2739 }, { 2741 }, { 2741, 2734 }, { 2741, 2734, 2734 }, { 2741, 2736 }, { 2741, 2736, 2734 }, { 2741, 2736, 2734, 2734 }, { 2741, 2736, 2736 }, { 2741, 2739 }, { 2741, 2739, 2734 }, { 2741, 2739, 2734, 2734 },

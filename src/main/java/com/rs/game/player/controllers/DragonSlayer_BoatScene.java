@@ -34,7 +34,7 @@ public class DragonSlayer_BoatScene extends Controller {
 	int ANIM_PLAYER_GET_UP = 4191;
 
     @Override
-    public boolean playMusicOnRegionEnter() {
+    public boolean playAmbientOnControllerRegionEnter() {
         return false;
     }
 
