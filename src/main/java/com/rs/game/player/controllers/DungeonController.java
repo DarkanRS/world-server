@@ -62,6 +62,8 @@ import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 import java.util.Set;
 
@@ -87,6 +89,26 @@ public class DungeonController extends Controller {
 		showDeaths();
 		refreshDeaths();
 		player.setForceMultiArea(true);
+	}
+
+	@Override
+	public Genre getGenre() {
+		return Music.getGenreByName("Ambient Dungeoneering");
+	}
+
+
+	@Override
+	public boolean playAmbientOnControllerRegionEnter() {
+		return false;
+	}
+
+	/**
+	 * No unlocks, we can play and unlock room music in the Room class in a later commit...
+	 * @return
+	 */
+	@Override
+	public boolean playAmbientStrictlyBackgroundMusic() {
+		return true;
 	}
 
 	public void showDeaths() {

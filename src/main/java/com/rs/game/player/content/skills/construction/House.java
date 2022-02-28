@@ -938,7 +938,7 @@ public class House {
 	public void sendStartInterface(Player player) {
 		player.lock();
 		player.getInterfaceManager().setTopInterface(399, false);
-		player.getMusicsManager().playMusic(454);
+		player.getMusicsManager().playSongAndUnlock(454);
 		player.getPackets().sendMusicEffect(22);
 	}
 

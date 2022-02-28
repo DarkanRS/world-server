@@ -20,6 +20,7 @@ import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
+import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.magic.Magic;
@@ -27,7 +28,7 @@ import com.rs.game.player.dialogues.DagonHai;
 import com.rs.lib.game.WorldTile;
 
 public class BorkController extends Controller {
-
+	int stage = 0;
 	public transient int borkStage;
 	public transient NPC bork;
 
@@ -41,19 +42,32 @@ public class BorkController extends Controller {
 		process();
 	}
 
-	int stage = 0;
-
 	@Override
 	public void process() {
 		if (borkStage == 0) {
-			if (stage == 0)
-				Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3114, 5528, 0));
-			if (stage == 5)
+			if(player.getTempAttribs().getB("justSawBorkCutscene")) {
+				player.setNextWorldTile(new WorldTile(3115, 5528, 0));
+				removeController();
+				return;
+			}
+			if (stage == 0) {
+				player.getPackets().setBlockMinimapState(2);
+				player.lock();
+				player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
+				player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(115);
+			}
+			if (stage == 5) {
+				player.setNextWorldTile(new WorldTile(3115, 5528, 0));
 				sendInterfaces();
+			}
 			if (stage == 18) {
-				player.getInterfaceManager().removeOverlay();
+				player.getInterfaceManager().closeInterfacesOverGameWindow();
 				player.getDialogueManager().execute(new DagonHai(), 7137, player, -1);
-				player.sendMessage("The choas teleporter transports you to an unknown portal.");
+				player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
+				player.resetReceivedHits();
+				player.unlock();
+				player.getPackets().setBlockMinimapState(0);
+				player.getTempAttribs().setB("justSawBorkCutscene", true);
 				removeController();
 			}
 		} else if (borkStage == 1)
@@ -61,10 +75,10 @@ public class BorkController extends Controller {
 				sendInterfaces();
 				bork.setCantInteract(true);
 			} else if (stage == 14) {
-				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true);
-				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true);
-				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true);
-				player.getInterfaceManager().removeOverlay();
+				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				player.getInterfaceManager().closeInterfacesOverGameWindow();
 				bork.setCantInteract(false);
 				bork.setNextForceTalk(new ForceTalk("Destroy the intruder, my Legions!"));
 				removeController();
@@ -75,16 +89,23 @@ public class BorkController extends Controller {
 	@Override
 	public void sendInterfaces() {
 		if (borkStage == 0)
-			player.getInterfaceManager().setOverlay(692);
+			player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(692);
 		else if (borkStage == 1)
 			for (Entity t : bork.getPossibleTargets()) {
 				Player pl = (Player) t;
-				pl.getInterfaceManager().setOverlay(691);
+				pl.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(691);
 			}
 	}
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
+		return true;
+	}
+
+	@Override
+	public boolean processObjectClick1(GameObject object) {
+		if (object.getId() == 29537)
+			removeController();
 		return true;
 	}
 

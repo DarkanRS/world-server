@@ -54,7 +54,7 @@ public class FightKilnController extends Controller {
 	private static final int[] MUSICS = { 1088, 1082, 1086 };
 
 	public void playMusic() {
-		player.getMusicsManager().playMusic(selectedMusic);
+		player.getMusicsManager().playSongAndUnlock(selectedMusic);
 	}
 
 	/*

@@ -169,7 +169,7 @@ public class DeathOfficeController extends Controller {
 			player.setNextWorldTile(region.getLocalTile(10, 6));
 			WorldTasks.delay(1, () -> {
 				player.setNextAnimation(new Animation(-1));
-				player.getMusicsManager().playMusic(683);
+				player.getMusicsManager().playSongAndUnlock(683);
 				player.getPackets().setBlockMinimapState(2);
 				sendInterfaces();
 				player.unlock();

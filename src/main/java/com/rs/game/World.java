@@ -313,7 +313,7 @@ public final class World {
                         || !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(regionId)))) {//tested, looks good.
                     if (player.getControllerManager().getController() == null) {
                         player.getMusicsManager().nextAmbientSong();
-                    } else if (player.getControllerManager().getController().playMusicOnRegionEnter()) {//This has to be tested on a large dynamic region like dungeoneering...
+                    } else if (player.getControllerManager().getController().playAmbientOnControllerRegionEnter() && !player.getDungManager().isInsideDungeon()) { //if we start the dungeon controller before the region enter we can get rid of that inside dungeon thing.
                         if(player.getMusicsManager().getPlayingGenre() == null || !player.getMusicsManager().getPlayingGenre().matches(player.getControllerManager().getController().getGenre())) {
                             player.getMusicsManager().nextAmbientSong();
                         }
