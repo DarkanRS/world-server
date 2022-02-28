@@ -1004,7 +1004,7 @@ public class HouseConstants {
 
 		POLLNIVNEACH(new WorldTile(3340, 3003, 0), 20, 7500),
 
-		RELLEKA(new WorldTile(2670, 3631, 0), 30, 10000),
+		RELLEKKA(new WorldTile(2670, 3631, 0), 30, 10000),
 
 		BRIMHAVEN(new WorldTile(2757, 3178, 0), 40, 15000),
 

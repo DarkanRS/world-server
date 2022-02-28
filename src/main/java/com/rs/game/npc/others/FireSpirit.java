@@ -17,7 +17,6 @@
 package com.rs.game.npc.others;
 
 import com.rs.game.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -50,19 +49,15 @@ public class FireSpirit extends OwnedNPC {
 			return;
 		player.lock();
 		player.setNextAnimation(new Animation(16705));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.unlock();
-				player.incrementCount("Fire spirits set free");
-				drop(player, false);
-				for (int i = 0;i < 5;i++)
-					if (Utils.random(100) < 50)
-						drop(player, false);
-				player.sendMessage("The fire spirit gives you a reward to say thank you for freeing it, before disappearing.");
-				finish();
-
-			}
-		}, 2);
+		WorldTasks.schedule(2, () -> {
+			player.unlock();
+			player.incrementCount("Fire spirits set free");
+			drop(player, false);
+			for (int i = 0;i < 5;i++)
+				if (Utils.random(100) < 50)
+					drop(player, false);
+			player.sendMessage("The fire spirit gives you a reward to say thank you for freeing it, before disappearing.");
+			finish();
+		});
 	}
 }
