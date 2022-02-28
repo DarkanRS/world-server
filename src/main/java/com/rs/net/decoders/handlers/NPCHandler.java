@@ -17,6 +17,7 @@
 package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
+import com.rs.game.Entity;
 import com.rs.game.ge.GE;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
@@ -297,13 +298,14 @@ public class NPCHandler {
 			}));
 			return;
 		}
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> player.faceEntity(npc)));
 		if (npc instanceof Familiar familiar) {
 			if (familiar == player.getFamiliar()) {
 				player.sendMessage("You can't attack your own familiar.");
 				return;
 			}
 			if (!familiar.canAttack(player)) {
-				player.sendMessage("You can't attack this npc.");
+				player.sendMessage("You can't attack that.");
 				return;
 			}
 		}  else if (npc instanceof DoorSupport door) {
@@ -311,17 +313,19 @@ public class NPCHandler {
 				player.sendMessage("You cannot see a way to open this door...");
 				return;
 			}
-		} else if (!npc.isForceMultiAttacked())
+		} else if (!npc.isForceMultiAttacked()) {
 			if (!npc.isAtMultiArea() || !player.isAtMultiArea()) {
-				if (player.getAttackedBy() != npc && player.inCombat()) {
+				Entity attackedBy = player.getAttackedBy();
+				if (attackedBy != npc && player.inCombat()) {
 					player.sendMessage("You are already in combat.");
 					return;
 				}
 				if (npc.getAttackedBy() != player && npc.inCombat()) {
-					player.sendMessage("This npc is already in combat.");
+					player.sendMessage("Someone else is fighting that.");
 					return;
 				}
 			}
+		}
 		player.setLastNpcInteractedName(npc.getDefinitions().getName());
 		player.stopAll(true);
 		player.getActionManager().setAction(new PlayerCombat(npc));

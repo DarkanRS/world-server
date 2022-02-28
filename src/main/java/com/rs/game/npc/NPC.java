@@ -450,6 +450,8 @@ public class NPC extends Entity {
 	public void sendDeath(final Entity source) {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
+		if (combat.getTarget() != null)
+			combat.getTarget().setAttackedByDelay(0);
 		combat.removeTarget();
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
