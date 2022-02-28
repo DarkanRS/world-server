@@ -539,7 +539,7 @@ public class Player extends Entity {
 
 	// creates Player and saved classes
 	public Player(Account account) {
-		super(Settings.getConfig().getPlayerStartTile());
+		super(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 		this.account = account;
 		username = account.getUsername();
 		setHitpoints(100);
@@ -583,6 +583,8 @@ public class Player extends Entity {
 	}
 
 	public void init(Session session, Account account, int displayMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
+		if (getTile() == null)
+			setTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 		this.session = session;
 		this.account = account;
 		uuid = getUsername().hashCode();
@@ -933,108 +935,112 @@ public class Player extends Entity {
 
 	@Override
 	public void processEntity() {
-		if (getSession().isClosed())
-			finish(0);
-		processPackets();
-		processForinthry();
-		cutsceneManager.process();
-		super.processEntity();
-		if (hasStarted() && isIdle())
-			if (!hasRights(Rights.ADMIN))
-				if (getActionManager().getAction() instanceof PlayerCombat combat) {
-					if (!(combat.getTarget() instanceof Player))
-						idleLog();
-				} else
-					logout(true);
-		if (disconnected && !finishing)
-			finish(0);
-		timePlayed = getTimePlayed() + 1;
-		timeLoggedOut = System.currentTimeMillis();
-		if (!isDead()) {
-			if (getTickCounter() % 50 == 0)
-				getCombatDefinitions().restoreSpecialAttack();
+		try {
+			if (getSession().isClosed())
+				finish(0);
+			processPackets();
+			processForinthry();
+			cutsceneManager.process();
+			super.processEntity();
+			if (hasStarted() && isIdle())
+				if (!hasRights(Rights.ADMIN))
+					if (getActionManager().getAction() instanceof PlayerCombat combat) {
+						if (!(combat.getTarget() instanceof Player))
+							idleLog();
+					} else
+						logout(true);
+			if (disconnected && !finishing)
+				finish(0);
+			timePlayed = getTimePlayed() + 1;
+			timeLoggedOut = System.currentTimeMillis();
+			if (!isDead()) {
+				if (getTickCounter() % 50 == 0)
+					getCombatDefinitions().restoreSpecialAttack();
 
-			//Restore skilling stats
-			if (getTickCounter() % 100 == 0) {
-				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-				Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+				//Restore skilling stats
+				if (getTickCounter() % 100 == 0) {
+					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+					Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+				}
+
+				//Restore combat stats
+				if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
+					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+					Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
+				}
+			}
+			if (getNextRunDirection() == null) {
+				double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
+				if (isResting()) {
+					energy = 1.68;
+					if (Musician.isNearby(this))
+						energy = 2.28;
+				}
+				restoreRunEnergy(energy);
 			}
 
-			//Restore combat stats
-			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
-				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
-			}
-		}
-		if (getNextRunDirection() == null) {
-			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
-			if (isResting()) {
-				energy = 1.68;
-				if (Musician.isNearby(this))
-					energy = 2.28;
-			}
-			restoreRunEnergy(energy);
-		}
+			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
+				tickFarming();
 
-		if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
-			tickFarming();
+			processMusic();
 
-		processMusic();
+			if (inCombat() || isAttacking())
+				for (int i = 0; i < Equipment.SIZE; i++) {
+					Item item = getEquipment().getItem(i);
+					if (item == null)
+						continue;
+					for (ItemDegrade d : ItemDegrade.values())
+						if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
+							getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
+							getEquipment().refresh(i);
+							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
+							break;
+						}
+					if (item.getMetaData("combatCharges") != null) {
+						item.addMetaData("combatCharges", item.getMetaDataI("combatCharges") - 1);
+						if (item.getMetaDataI("combatCharges") <= 0) {
+							ItemDegrade deg = null;
+							for (ItemDegrade d : ItemDegrade.values())
+								if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
+									deg = d;
+									break;
+								}
+							if (deg != null) {
+								if (deg.getBrokenId() == 4207) {
 
-		if (inCombat() || isAttacking())
-			for (int i = 0;i < Equipment.SIZE;i++) {
-				Item item = getEquipment().getItem(i);
-				if (item == null)
-					continue;
-				for (ItemDegrade d : ItemDegrade.values())
-					if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
-						getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
-						getEquipment().refresh(i);
-						sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
-						break;
-					}
-				if (item.getMetaData("combatCharges") != null) {
-					item.addMetaData("combatCharges", item.getMetaDataI("combatCharges")-1);
-					if (item.getMetaDataI("combatCharges") <= 0) {
-						ItemDegrade deg = null;
-						for (ItemDegrade d : ItemDegrade.values())
-							if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
-								deg = d;
-								break;
-							}
-						if (deg != null) {
-							if (deg.getBrokenId() == 4207) {
-
+									getEquipment().set(i, null);
+									getEquipment().refresh(i);
+									getAppearance().generateAppearanceData();
+									if (getInventory().hasFreeSlots()) {
+										getInventory().addItem(4207, 1);
+										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
+									} else {
+										World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
+										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
+									}
+									break;
+								}
+								getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
+								getEquipment().refresh(i);
+								getAppearance().generateAppearanceData();
+								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
+							} else {
 								getEquipment().set(i, null);
 								getEquipment().refresh(i);
 								getAppearance().generateAppearanceData();
-								if (getInventory().hasFreeSlots()) {
-									getInventory().addItem(4207, 1);
-									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
-								} else {
-									World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
-									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
-								}
-								break;
+								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
 							}
-							getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
-							getEquipment().refresh(i);
-							getAppearance().generateAppearanceData();
-							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
-						} else {
-							getEquipment().set(i, null);
-							getEquipment().refresh(i);
-							getAppearance().generateAppearanceData();
-							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
 						}
 					}
 				}
-			}
-		auraManager.process();
-		interactionManager.process();
-		actionManager.process();
-		prayer.processPrayer();
-		controllerManager.process();
+			auraManager.process();
+			interactionManager.process();
+			actionManager.process();
+			prayer.processPrayer();
+			controllerManager.process();
+		} catch (Throwable e) {
+			WorldDB.getLogs().logError(e);
+		}
 	}
 
 	private void processMusic() {
@@ -1159,6 +1165,10 @@ public class Player extends Entity {
 				return;
 			}
 		});
+		if (getAccount().getRights() == null) {
+			setRights(Rights.PLAYER);
+			LobbyCommunicator.updateRights(this);
+		}
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);
@@ -1402,6 +1412,17 @@ public class Player extends Entity {
 		return (int) (val instanceof Integer ? (int) val : (double) val);
 	}
 
+	public long getL(String key) {
+		return getL(key, -1L);
+	}
+
+	public long getL(String key, long def) {
+		Object val = get(key);
+		if (val == Boolean.FALSE)
+			return def;
+		return (val instanceof Long ? (long) val : ((Double) val).longValue());
+	}
+
 	public boolean getBool(String key) {
 		Object val = get(key);
 		if (val == Boolean.FALSE)
@@ -1541,7 +1562,7 @@ public class Player extends Entity {
 	public void checkMultiArea() {
 		if (!started)
 			return;
-		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(this);
+		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
 			setAtMultiArea(isAtMultiArea);
 			getPackets().sendVarc(616, 1);
@@ -1560,7 +1581,6 @@ public class Player extends Entity {
 	public void logout(boolean lobby) {
 		if (!running)
 			return;
-		long currentTime = System.currentTimeMillis();
 		if (inCombat(10000)) {
 			sendMessage("You can't log out until 10 seconds after the end of combat.");
 			return;
@@ -1569,7 +1589,7 @@ public class Player extends Entity {
 			sendMessage("You can't log out while performing an emote.");
 			return;
 		}
-		if (lockDelay >= currentTime) {
+		if (isLocked()) {
 			sendMessage("You can't log out while performing an action.");
 			return;
 		}
@@ -1771,7 +1791,13 @@ public class Player extends Entity {
 	public void sendInputInteger(String question, InputIntegerEvent e) {
 		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginInteger"));
+		setCloseInterfacesEvent(() -> {
+			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().containsInterface(11)) {
+				getInterfaceManager().sendTabs(InterfaceManager.Tab.INVENTORY, InterfaceManager.Tab.EQUIPMENT);
+				getTempAttribs().setB("viewingDepositBox", false);
+			}
+			getTempAttribs().removeO("pluginInteger");
+		});
 	}
 
 	public void sendInputHSL(InputIntegerEvent e) {
@@ -2078,7 +2104,7 @@ public class Player extends Entity {
 						if (playersIndexes != null)
 							for (int playerIndex : playersIndexes) {
 								Player player = World.getPlayers().get(playerIndex);
-								if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.withinDistance(this, 1) || !player.isCanPvp() || !target.getControllerManager().canHit(player))
+								if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.withinDistance(getTile(), 1) || !player.isCanPvp() || !target.getControllerManager().canHit(player))
 									continue;
 								player.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 							}
@@ -2091,7 +2117,7 @@ public class Player extends Entity {
 								npc.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 							}
 					}
-				else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(this, 1))
+				else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(getTile(), 1))
 					source.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 				WorldTasks.schedule(new WorldTask() {
 					@Override
@@ -2129,7 +2155,7 @@ public class Player extends Entity {
 								if (playersIndexes != null)
 									for (int playerIndex : playersIndexes) {
 										Player player = World.getPlayers().get(playerIndex);
-										if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.isCanPvp() || !player.withinDistance(target, 2) || !target.getControllerManager().canHit(player))
+										if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.isCanPvp() || !player.withinDistance(target.getTile(), 2) || !target.getControllerManager().canHit(player))
 											continue;
 										player.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 									}
@@ -2142,7 +2168,7 @@ public class Player extends Entity {
 										npc.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 									}
 							}
-						else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target, 2))
+						else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target.getTile(), 2))
 							source.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 
 						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 2, getY() + 2, getPlane()));
@@ -2171,7 +2197,7 @@ public class Player extends Entity {
 		stopAll();
 		if (familiar != null)
 			familiar.sendDeath(this);
-		WorldTile lastTile = new WorldTile(this);
+		WorldTile lastTile = new WorldTile(getTile());
 		if (isAtDynamicRegion())
 			lastTile = getRandomGraveyardTile();
 		final WorldTile deathTile = lastTile;
@@ -2206,7 +2232,7 @@ public class Player extends Entity {
 
 	public void sendItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendItemsOnDeath(killer, new WorldTile(this), new WorldTile(this), true, slots);
+		sendItemsOnDeath(killer, new WorldTile(getTile()), new WorldTile(getTile()), true, slots);
 	}
 
 	public void sendItemsOnDeath(Player killer, WorldTile deathTile, WorldTile respawnTile, boolean noGravestone, Integer[][] slots) {
@@ -2400,6 +2426,11 @@ public class Player extends Entity {
 		return lockDelay >= World.getServerTicks();
 	}
 
+	/**
+	 * You are invincible & cannot use your character until unlocked.
+	 * All hits are processed after unlocking.
+	 * If you use resetRecievedHits you lose those hits.
+	 */
 	public void lock() {
 		lockDelay = Long.MAX_VALUE;
 	}

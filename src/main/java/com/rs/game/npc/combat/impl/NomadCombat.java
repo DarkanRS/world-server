@@ -93,7 +93,7 @@ public class NomadCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(12701));
 				Dialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9842, "Let's make things interesting!");
 				player.getPackets().sendVoice(8039);
-				final WorldTile middle = new WorldTile(player);
+				final WorldTile middle = new WorldTile(player.getTile());
 				WorldTasks.schedule(new WorldTask() {
 					int count;
 

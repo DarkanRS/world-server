@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -33,6 +30,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class WarpedGulegaCombat extends CombatScript {
 
@@ -54,7 +54,7 @@ public class WarpedGulegaCombat extends CombatScript {
 
 			final List<WorldTile> attackTiles = new LinkedList<>();
 			for (Entity t : boss.getPossibleTargets(true))
-				attackTiles.add(new WorldTile(t));
+				attackTiles.add(new WorldTile(t.getTile()));
 			WorldTasks.schedule(new WorldTask() {
 
 				@Override
@@ -99,7 +99,7 @@ public class WarpedGulegaCombat extends CombatScript {
 					cycles++;
 
 					if (cycles == 1) {
-						center = new WorldTile(target);
+						center = new WorldTile(target.getTile());
 						sendTenticals(boss, center, 2);
 					} else if (cycles == 3)
 						sendTenticals(boss, center, 1);

@@ -25,6 +25,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
 public class Drag implements NexAttack {
@@ -46,14 +47,14 @@ public class Drag implements NexAttack {
 			player.lock(3);
 			player.setNextAnimation(new Animation(14386));
 			player.setNextSpotAnim(new SpotAnim(2767));
-			player.setNextForceMovement(new ForceMovement(nex, 2, Direction.forDelta(nex.getCoordFaceX(player.getSize()) - player.getX(), nex.getCoordFaceY(player.getSize()) - player.getY())));
+			player.setNextForceMovement(new ForceMovement(nex.getTile(), 2, Direction.forDelta(nex.getCoordFaceX(player.getSize()) - player.getX(), nex.getCoordFaceY(player.getSize()) - player.getY())));
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					player.setNextWorldTile(nex);
+					player.setNextWorldTile(new WorldTile(nex.getTile()));
 					player.sendMessage("You've been injured and you can't use protective prayers!");
 					player.setProtectionPrayBlock(12);
 					player.sendMessage("You're stunned.");

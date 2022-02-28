@@ -16,11 +16,6 @@
 //
 package com.rs.game.player.actions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -36,13 +31,7 @@ import com.rs.game.pathing.Direction;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
-import com.rs.game.player.content.combat.AmmoType;
-import com.rs.game.player.content.combat.AttackStyle;
-import com.rs.game.player.content.combat.AttackType;
-import com.rs.game.player.content.combat.CombatSpell;
-import com.rs.game.player.content.combat.PolyporeStaff;
-import com.rs.game.player.content.combat.RangedWeapon;
-import com.rs.game.player.content.combat.XPType;
+import com.rs.game.player.content.combat.*;
 import com.rs.game.player.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.managers.AuraManager.Aura;
@@ -61,6 +50,11 @@ import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 @PluginEventHandler
 public class PlayerCombat extends Action {
@@ -196,7 +190,7 @@ public class PlayerCombat extends Action {
 			RangedWeapon weapon = RangedWeapon.forId(player.getEquipment().getWeaponId());
 			if (weapon.properAmmo(player, true))
 				return (int) (rangeAttack(player) * multiplier);
-			player.faceTile(target);
+			player.faceTile(target.getTile());
 			return -1;
 		} else
 			return (int) (meleeAttack(player) * multiplier);
@@ -232,7 +226,7 @@ public class PlayerCombat extends Action {
 						continue;
 					for (int playerIndex : playerIndexes) {
 						Player p2 = World.getPlayers().get(playerIndex);
-						if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target, maxDistance)
+						if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target.getTile(), maxDistance)
 								|| !player.getControllerManager().canHit(p2))
 							continue;
 						possibleTargets.add(p2);
@@ -245,7 +239,7 @@ public class PlayerCombat extends Action {
 						continue;
 					for (int npcIndex : npcIndexes) {
 						NPC n = World.getNPCs().get(npcIndex);
-						if (n == null || n == target || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(target, maxDistance) || !n.getDefinitions().hasAttackOption()
+						if (n == null || n == target || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(target.getTile(), maxDistance) || !n.getDefinitions().hasAttackOption()
 								|| !player.getControllerManager().canHit(n))
 							continue;
 						possibleTargets.add(n);
@@ -884,7 +878,7 @@ public class PlayerCombat extends Action {
 							if (target == null || target.hasFinished() || player == null || player.hasFinished())
 								stop();
 							World.sendSpotAnim(player, new SpotAnim(478), tile);
-							if (Utils.getDistance(target, tile) <= 1)
+							if (Utils.getDistance(target.getTile(), tile) <= 1)
 								target.applyHit(new Hit(player, Utils.getRandomInclusive(specHits), HitLook.MELEE_DAMAGE));
 						}
 					}, i * 5);

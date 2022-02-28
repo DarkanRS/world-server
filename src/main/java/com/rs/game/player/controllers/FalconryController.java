@@ -145,7 +145,7 @@ public class FalconryController extends Controller {
 										}
 									});
 								}
-							}, Utils.getDistance(player, npc) > 3 ? 2 : 1);
+							}, Utils.getDistance(player.getTile(), npc.getTile()) > 3 ? 2 : 1);
 						}
 					});
 				}

@@ -369,17 +369,19 @@ public class ShieldOfArrav extends QuestOutline {
     }
 
     public static boolean hasGang(Player p) {
-        if (isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE) || isStageInPlayerSave(p, JOINED_PHOENIX_STAGE))
-            return true;
-        return false;
+		if(isPhoenixGang(p))
+        	return true;
+		if(isBlackArmGang(p))
+			return true;
+		return false;
     }
 
     public static boolean isPhoenixGang(Player p) {
-        return isStageInPlayerSave(p, JOINED_PHOENIX_STAGE);
+        return p.getO("ThievingGang") != null && ((String)p.getO("ThievingGang")).equalsIgnoreCase("Phoenix");
     }
 
     public static boolean isBlackArmGang(Player p) {
-        return isStageInPlayerSave(p, JOINED_BLACK_ARM_STAGE);
+        return p.getO("ThievingGang") != null && ((String)p.getO("ThievingGang")).equalsIgnoreCase("Black");
     }
 
     public static void setStage(Player p, int questStage) {
@@ -392,20 +394,12 @@ public class ShieldOfArrav extends QuestOutline {
         saveStageToPlayerSave(p, questStage);
     }
 
-    public static void setPhoenixGang(Player p) {
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_PHOENIX_ATTR, true);
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_BLACK_ARM_ATTR, false);
-    }
-
-    public static void setBlackArmGang(Player p) {
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_PHOENIX_ATTR, false);
-        p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV).setB(JOINED_BLACK_ARM_ATTR, true);
+    public static void setGang(Player p, String gang) {//"Phoenix", "Black", "None"
+		p.save("ThievingGang", gang);
     }
 
     @Override
     public void complete(Player player) {
-        if (!hasGang(player))
-            setPhoenixGang(player);
         player.getInventory().addItem(995, 1200, true);
         getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
     }
@@ -436,7 +430,7 @@ public class ShieldOfArrav extends QuestOutline {
                 BookShieldOfArrav.openBook(e.getPlayer());
             if (e.getOption().equalsIgnoreCase("drop")) {
                 e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
                 e.getPlayer().getPackets().sendSound(2739, 0, 1);
             }
         }
@@ -590,14 +584,11 @@ public class ShieldOfArrav extends QuestOutline {
         }
     };
 
-    public static ItemAddedToInventoryHandler handlePhoenixBowsPickup = new ItemAddedToInventoryHandler(PHOENIX_CROSSBOW) {
+    public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] {PHOENIX_CROSSBOW},
+			new WorldTile(3245, 3385, 1)) {
         @Override
-        public void handle(ItemAddedToInventoryEvent e) {
-            Player p = e.getPlayer();
-            if (!p.matches(new WorldTile(3245, 3385, 1)))
-                return;
-
-            List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+        public void handle(PickupItemEvent e) {
+            List<NPC> npcs = World.getNPCsInRegion(e.getPlayer().getRegionId());
             for (NPC npc : npcs)
                 if (npc.getId() == 643) {
                     switch (Utils.random(1, 4)) {
@@ -611,9 +602,8 @@ public class ShieldOfArrav extends QuestOutline {
                             npc.forceTalk("Hey, that's Phoenix Gang property!");
                             break;
                     }
-                    npc.faceEntity(p);
-                    p.getInventory().deleteItem(e.getItem());
-                    World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                    npc.faceEntity(e.getPlayer());
+                    e.cancelPickup();
                 }
         }
     };
@@ -637,15 +627,17 @@ public class ShieldOfArrav extends QuestOutline {
 
     /**
      * When the player logs in, the Shield Of Arrav display case is updated based on quest completion.
+	 * Also if the player does not have a gang upon completion they must be assigned one
+	 * --Do this with Minas--
      */
-    public static LoginHandler onLogin = new LoginHandler() {
-        @Override
-        public void handle(LoginEvent e) {
-            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-                e.getPlayer().getVars().setVarBit(5394, 1);
-            else
-                e.getPlayer().getVars().setVarBit(5394, 0);
-        }
-    };
+//    public static LoginHandler onLogin = new LoginHandler() {
+//        @Override
+//        public void handle(LoginEvent e) {
+//            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+//				e.getPlayer().getVars().setVarBit(5394, 1);
+//            else
+//                e.getPlayer().getVars().setVarBit(5394, 0);
+//        }
+//    };
 
 }

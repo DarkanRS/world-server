@@ -43,6 +43,7 @@ import com.rs.game.player.quests.handlers.heroesquest.dialogues.KatrineHeroesQue
 import com.rs.game.player.quests.handlers.heroesquest.dialogues.StravenHeroesQuestD;
 import com.rs.game.player.quests.handlers.knightssword.KnightsSword;
 import com.rs.game.player.quests.handlers.knightssword.ReldoKnightsSwordD;
+import com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.player.quests.handlers.shieldofarrav.*;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -132,6 +133,46 @@ public class Varrock {
 				});
 
 			}, false));
+		}
+	};
+
+	public static NPCClickHandler handlePeskaBarbarianVillage = new NPCClickHandler(538) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			int NPC= e.getNPCId();
+			if(e.getOption().equalsIgnoreCase("talk-to")) {
+				e.getPlayer().startConversation(new Dialogue()
+						.addNPC(NPC, HeadE.CALM_TALK, "Are you interested in buying or selling a helmet?")
+						.addOptions("Choose an option:", new Options() {
+							@Override
+							public void create() {
+								option("I could be, yes.", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "I could be, yes.")
+										.addNPC(NPC, HeadE.CALM_TALK, "Let me show you my inventory then...")
+										.addNext(()->{ShopsHandler.openShop(e.getPlayer(), "helmet_shop");})
+								);
+								option("No, I'll pass on that.", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "No, I'll pass on that.")
+										.addNPC(NPC, HeadE.CALM_TALK, "Well, alright.")
+								);
+								if(e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS
+									&& e.getPlayer().getQuestManager().getAttribs(Quest.SCORPION_CATCHER).getB("scorp2LocKnown"))
+									option("I've heard you have a small scorpion in your possession.", new Dialogue()
+											.addPlayer(HeadE.HAPPY_TALKING, "I've heard you have a small scorpion in your possession.")
+											.addNPC(NPC, HeadE.CALM_TALK, "Now how could you know about that, I wonder? Mind you, I don't have it anymore.")
+											.addNPC(NPC, HeadE.CALM_TALK, "I gave it as a present to my brother Ivor when I visited our outpost northwest of Camelot.")
+											.addNPC(NPC, HeadE.CALM_TALK, "Well, actually I hid it in his bed so it would nip him. It was a bit of a surprise gift.")
+											.addPlayer(HeadE.HAPPY_TALKING, "Okay ill look at the barbarian outpost, perhaps you mean the barbarian agility area?")
+											.addNPC(NPC, HeadE.SECRETIVE, "Perhaps...")
+									);
+							}
+						})
+				);
+
+
+			}
+			if(e.getOption().equalsIgnoreCase("trade"))
+				ShopsHandler.openShop(e.getPlayer(), "helmet_shop");
 		}
 	};
 
@@ -316,9 +357,8 @@ public class Varrock {
 						addOptions("What would you like to say?", new Options() {
 							@Override
 							public void create() {
-								if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-									option("About Shield Of Arrav...", new MuseumCuratorArravD(player).getStart());
-								option("Farewell.");
+								option("About Shield Of Arrav...", new MuseumCuratorArravD(player).getStart());
+								option("Farewell.", new Dialogue());
 							}
 						});
 						create();
@@ -599,6 +639,37 @@ public class Varrock {
 				p.getDialogueManager().execute(new SimpleNPCMessage(), 198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
 			} else
 				Doors.handleDoor(p, obj);
+		}
+	};
+
+	public static NPCClickHandler handleValaineChampsGuild = new NPCClickHandler(new Object[] { 536 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			int NPC = e.getNPCId();
+			if(e.getOption().equalsIgnoreCase("talk-to"))
+				e.getPlayer().startConversation(new Dialogue()
+						.addNPC(NPC, HeadE.CALM_TALK, "Hello there. Want to have a look at what we're selling today?")
+						.addOptions("Choose an option:", new Options() {
+						@Override
+						public void create() {
+							option("Yes, please.", new Dialogue()
+									.addPlayer(HeadE.HAPPY_TALKING, "Yes, please.")
+									.addNext(()->{ShopsHandler.openShop(e.getPlayer(), "valaines_shop_of_champions");})
+							);
+							option("How should I use your shop?", new Dialogue()
+									.addPlayer(HeadE.HAPPY_TALKING, "How should I use your shop?")
+									.addNPC(NPC, HeadE.CALM_TALK, "I'm glad you ask! You can buy as many of the items stocked as you wish. You can also sell most items to the shop.")
+									.addNext(()->{ShopsHandler.openShop(e.getPlayer(), "valaines_shop_of_champions");})
+							);
+							option("No, thank you.", new Dialogue()
+									.addPlayer(HeadE.HAPPY_TALKING, "No, thank you.")
+									.addNPC(NPC, HeadE.CALM_TALK, "Well, alright.")
+							);
+						}
+					})
+				);
+			if(e.getOption().equalsIgnoreCase("trade"))
+				ShopsHandler.openShop(e.getPlayer(), "valaines_shop_of_champions");
 		}
 	};
 

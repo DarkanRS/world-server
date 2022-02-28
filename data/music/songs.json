@@ -168,8 +168,8 @@
   {
     "name": "Scape Main",
     "hint": "automatically.",
-    "comment": "",
-    "allowAmbient": true,
+    "comment": "Login Music",
+    "allowAmbient": false,
     "id": 16,
     "regionIds": []
   },
@@ -3853,8 +3853,8 @@
   {
     "name": "Scape Original",
     "hint": "automatically.",
-    "comment": "",
-    "allowAmbient": true,
+    "comment": "Login Music",
+    "allowAmbient": false,
     "id": 400,
     "regionIds": []
   },
@@ -4349,12 +4349,10 @@
   {
     "name": "Scape Summon",
     "hint": "automatically.",
-    "comment": "Taverly...",
-    "allowAmbient": true,
+    "comment": "Login Music",
+    "allowAmbient": false,
     "id": 457,
-    "regionIds": [
-      11573
-    ]
+    "regionIds": []
   },
   {
     "name": "",
@@ -6324,7 +6322,7 @@
   {
     "name": "Scape Theme",
     "hint": "automatically.",
-    "comment": "Overplayed",
+    "comment": "Login Music",
     "allowAmbient": false,
     "id": 679,
     "regionIds": []

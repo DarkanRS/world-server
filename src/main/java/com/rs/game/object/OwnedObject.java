@@ -57,7 +57,7 @@ public class OwnedObject extends GameObject {
 	}
 
 	public Player getOwner() {
-		return World.getPlayer(owner);
+		return World.getPlayerByUsername(owner);
 	}
 
 	public boolean ownedBy(Player player) {
@@ -71,7 +71,7 @@ public class OwnedObject extends GameObject {
 			OwnedObject o = OBJECTS.get(key);
 			if (o == null || o.destroyed)
 				continue;
-			o.tick(World.getPlayer(o.owner));
+			o.tick(World.getPlayerByUsername(o.owner));
 		}
 	}
 

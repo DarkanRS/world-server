@@ -41,7 +41,7 @@ public class BrutalDragonCombat extends CombatScript {
 		int damage;
 		switch (Utils.getRandomInclusive(3)) {
 		case 0: // Melee
-			if (npc.withinDistance(target, 3)) {
+			if (npc.withinDistance(target.getTile(), 3)) {
 				damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 				delayHit(npc, 0, target, getMeleeHit(npc, damage));
@@ -58,7 +58,7 @@ public class BrutalDragonCombat extends CombatScript {
 			}
 			break;
 		case 1: // Dragon breath
-			if (npc.withinDistance(target, 3)) {
+			if (npc.withinDistance(target.getTile(), 3)) {
 				damage = Utils.getRandomInclusive(650);
 				int protection = PlayerCombat.getAntifireLevel(target, true);
 				if (protection == 1)

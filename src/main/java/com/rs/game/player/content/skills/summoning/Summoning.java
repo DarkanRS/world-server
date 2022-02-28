@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.content.skills.summoning;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -35,6 +31,10 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @PluginEventHandler
 public class Summoning {
@@ -313,7 +313,12 @@ public class Summoning {
 			player.sendMessage("You need a summoning level of " + levelReq + " in order to use this pouch.");
 			return;
 		}
-		final Familiar npc = createFamiliar(player, pouch);
+		WorldTile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId()), player.getVars()).size);
+		if (spawnTile == null) {
+			player.sendMessage("Theres not enough space to summon your familiar here.");
+			return;
+		}
+		final Familiar npc = createFamiliar(player, spawnTile, pouch);
 		if (npc == null) {
 			player.sendMessage("This familiar is not added yet.");
 			return;
@@ -323,9 +328,9 @@ public class Summoning {
 		player.setFamiliar(npc);
 	}
 
-	public static Familiar createFamiliar(Player player, Pouches pouch) {
+	public static Familiar createFamiliar(Player player, WorldTile tile, Pouches pouch) {
 		try {
-			return (Familiar) Class.forName("com.rs.game.npc.familiar." + (NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId()))).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")).getConstructor(Player.class, Pouches.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, player, -1, true);
+			return (Familiar) Class.forName("com.rs.game.npc.familiar." + (NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId()))).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")).getConstructor(Player.class, Pouches.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, tile, -1, true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return null;

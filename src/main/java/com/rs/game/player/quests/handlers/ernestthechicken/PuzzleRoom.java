@@ -147,7 +147,7 @@ public class PuzzleRoom {
 			GameObject obj = e.getObject();
 
 			e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
-				if (!WorldUtil.isInRange(e.getPlayer(), e.getObject(), 2))
+				if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject(), 2))
 					return;
 				if(obj.getId() == DOOR1 || obj.getId() == DOOR3 || obj.getId() == DOOR8 || obj.getId() == DOOR5)
 					handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);

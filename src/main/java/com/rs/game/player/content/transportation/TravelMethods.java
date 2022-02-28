@@ -234,7 +234,7 @@ public class TravelMethods {
 		}
 		final WorldTile tile = returning ? ship.getOrigon() : ship.getDestination();
 		player.lock();
-		player.getMusicsManager().playMusic(550);
+		player.getMusicsManager().playSongWithoutUnlocking(550);
 		player.getTempAttribs().setB("using_carrier", true);
 
 		if(getComponentForMap(ship, returning) == -1)

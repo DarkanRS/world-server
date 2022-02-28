@@ -32,6 +32,22 @@ public class MuseumCuratorArravD extends Conversation {
 		super(p);
 		addPlayer(HeadE.HAPPY_TALKING, "Hello.");
 		addNPC(CURATOR, HeadE.CALM_TALK, "Hi.");
+		if(player.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV)) {
+			addPlayer(HeadE.HAPPY_TALKING, "Can I have another half of my certificate?");
+			addNPC(CURATOR, HeadE.CALM_TALK, "Sure, though I don't see why you want one...");
+			addSimple("He scribbles on a piece of paper and tears it in half.");
+			addItem(ShieldOfArrav.CERTIFICATE_LEFT, "He hands you the certificate...", ()->{
+				if(!ShieldOfArrav.hasGang(p)) {
+					p.sendMessage("You should talk to an admin, you don't have a gang!");
+					return;
+				}
+				if(ShieldOfArrav.isBlackArmGang(p))
+					p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_LEFT, 1);
+				if(ShieldOfArrav.isPhoenixGang(p))
+					p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_RIGHT, 1);
+			});
+			return;
+		}
 		if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING_STAGE)
 			tradeShield(p);
 		else {

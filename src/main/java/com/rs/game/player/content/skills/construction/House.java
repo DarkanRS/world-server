@@ -16,10 +16,6 @@
 //
 package com.rs.game.player.content.skills.construction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
@@ -30,11 +26,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.pet.Pets;
-import com.rs.game.player.content.skills.construction.HouseConstants.Builds;
-import com.rs.game.player.content.skills.construction.HouseConstants.HObject;
-import com.rs.game.player.content.skills.construction.HouseConstants.POHLocation;
-import com.rs.game.player.content.skills.construction.HouseConstants.Room;
-import com.rs.game.player.content.skills.construction.HouseConstants.Servant;
+import com.rs.game.player.content.skills.construction.HouseConstants.*;
 import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.HouseController;
 import com.rs.game.player.dialogues.SimpleMessage;
@@ -54,6 +46,10 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.RegionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @PluginEventHandler
 public class House {
@@ -802,7 +798,7 @@ public class House {
 	}
 
 	public static void enterHouse(Player player, String username) {
-		Player owner = World.getPlayer(username); //TODO
+		Player owner = World.getPlayerByDisplay(username); //TODO
 		if (owner == null || !owner.isRunning() /*|| !player.getFriendsIgnores().onlineTo(owner)*/ || owner.getHouse() == null || owner.getHouse().locked) {
 			player.sendMessage("That player is offline, or has privacy mode enabled.");
 			return;
@@ -862,7 +858,7 @@ public class House {
 		player.removeHouseOnlyItems();
 		player.getControllerManager().removeControllerWithoutCheck();
 		if (type == LOGGED_OUT)
-			player.setLocation(location.getTile());
+			player.getTile().setLocation(location.getTile());
 		else if (type == KICKED)
 			player.useStairs(-1, location.getTile(), 0, 1);
 		if (players != null && players.contains(player))
@@ -910,7 +906,7 @@ public class House {
 			player.sendMessage("The house has no servant.");
 		else {
 			servantInstance.setFollowing(true);
-			servantInstance.setNextWorldTile(World.getFreeTile(player, 1));
+			servantInstance.setNextWorldTile(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
 			player.getDialogueManager().execute(new ServantDialogue(), servantInstance);
 		}
@@ -942,7 +938,7 @@ public class House {
 	public void sendStartInterface(Player player) {
 		player.lock();
 		player.getInterfaceManager().setTopInterface(399, false);
-		player.getMusicsManager().playMusic(454);
+		player.getMusicsManager().playSongAndUnlock(454);
 		player.getPackets().sendMusicEffect(22);
 	}
 

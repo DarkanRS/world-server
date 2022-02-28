@@ -22,7 +22,6 @@ import com.rs.cores.CoresManager
 import com.rs.game.World
 import com.rs.game.`object`.GameObject
 import com.rs.game.player.Player
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.game.player.actions.Action
 import com.rs.game.player.content.Effect
 import com.rs.lib.Constants
@@ -32,6 +31,7 @@ import com.rs.lib.game.SpotAnim
 import com.rs.lib.game.WorldTile
 import com.rs.lib.util.Logger
 import com.rs.lib.util.Utils
+import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.events.LoginEvent
 import com.rs.plugin.events.ObjectClickEvent
 import com.rs.plugin.handlers.LoginHandler
@@ -105,21 +105,15 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 	}
 
 	open fun fellTree() {
-		if (!World.isSpawnedObject(treeObj) && treeObj.plane < 3 && type != TreeType.IVY) {
-			var obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-			if (obj == null) {
-				obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-				if (obj == null) {
-					obj = World.getObject(WorldTile(treeObj.x, treeObj.y - 1, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-					if (obj == null) {
-						obj = World.getObject(WorldTile(treeObj.x - 1, treeObj.y, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-						if (obj == null) obj = World.getObject(WorldTile(treeObj.x, treeObj.y, treeObj.plane + 1), ObjectType.SCENERY_INTERACT)
-					}
-				}
+		if (World.isSpawnedObject(treeObj) || treeObj.plane >= 3 || type == TreeType.IVY)
+			return
+		for (x in -1..1) {
+			for (y in -1..1) {
+				World.removeObjectTemporary(World.getObject(treeObj.transform(x, y, 1), ObjectType.SCENERY_INTERACT), type.respawnDelay)
+				World.removeObjectTemporary(World.getObject(treeObj.transform(x, y, 1), ObjectType.GROUND_INTERACT), type.respawnDelay)
 			}
-			if (obj != null) World.removeObjectTemporary(obj, type.respawnDelay)
 		}
-		if (!World.isSpawnedObject(treeObj)) World.spawnObjectTemporary(GameObject(TreeStumps.getStumpId(treeObj.id), treeObj.getType(), treeObj.getRotation(), treeObj.getX(), treeObj.getY(), treeObj.getPlane()), type.respawnDelay)
+		World.spawnObjectTemporary(GameObject(TreeStumps.getStumpId(treeObj.id), treeObj.type, treeObj.rotation, treeObj.x, treeObj.y, treeObj.plane), type.respawnDelay)
 	}
 
 	open fun checkTree(): Boolean {
@@ -245,7 +239,7 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 				if (type.logsId != null) player.incrementCount(ItemDefinitions.getDefs(type.logsId[0]).getName() + " chopped")
 			} else player.incrementCount("Choking ivy chopped")
 			if (Utils.random(256) == 0) {
-				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player), player, true, 30)
+				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player.tile), player, true, 30)
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!")
 			}
 			if (!usingBeaver) player.getSkills().addXp(Constants.WOODCUTTING, type.xp * getLumberjackBonus(player))
@@ -254,7 +248,7 @@ open class Woodcutting(treeObj: GameObject, type: TreeType) : Action() {
 				if (random < 11) player.addEffect(Effect.JUJU_WC_BANK, 75)
 			}
 			if (Utils.random(256) == 0) {
-				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player), player, true, 30)
+				for (rew in DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop"))) World.addGroundItem(rew, WorldTile(player.tile), player, true, 30)
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!")
 			}
 			//		if (type != TreeType.IVY) {

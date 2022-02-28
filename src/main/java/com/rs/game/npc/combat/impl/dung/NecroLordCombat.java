@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -34,6 +31,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class NecroLordCombat extends CombatScript {
 
@@ -84,7 +84,7 @@ public class NecroLordCombat extends CombatScript {
 			break;
 		case 2:
 		case 3:
-			final WorldTile tile = new WorldTile(target);
+			final WorldTile tile = new WorldTile(target.getTile());
 			npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
 			npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
 			World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);

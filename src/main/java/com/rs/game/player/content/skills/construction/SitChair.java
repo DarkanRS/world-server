@@ -32,9 +32,9 @@ public class SitChair extends Action {
 
 	public SitChair(Player player, GameObject object) {
 		animation = HouseConstants.getSitAnimation(object.getId());
-		originalTile = new WorldTile(player);
+		originalTile = new WorldTile(player.getTile());
 		chairTile = object;
-		WorldTile face = new WorldTile(player);
+		WorldTile face = new WorldTile(player.getTile());
 		if (object.getType() == ObjectType.SCENERY_INTERACT) {
 			if (object.getRotation() == 0)
 				face.moveLocation(0, -1, 0);

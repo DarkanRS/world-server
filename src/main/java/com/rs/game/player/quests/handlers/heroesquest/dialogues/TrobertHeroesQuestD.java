@@ -33,7 +33,7 @@ public class TrobertHeroesQuestD extends Conversation {
 						);
 						return;
 					}
-					p.startConversation(intro
+					addNext(intro
 							.addPlayer(HeadE.HAPPY_TALKING, "So can you help me get Scarface Pete's candlesticks?")
 							.addNPC(NPC, HeadE.CALM_TALK, "Well, we have made some progress there. We know that one of the only keys to Pete's treasure " +
 									"room is carried by Grip, the head guard, so we thought it might be good to get close to him somehow")
@@ -60,10 +60,10 @@ public class TrobertHeroesQuestD extends Conversation {
 							})
 					);
 				} else
-					p.startConversation(intro);
+					addNext(intro);
 			}
 			default -> {
-				p.startConversation(intro);
+				addNext(intro);
 			}
 		}
 	}

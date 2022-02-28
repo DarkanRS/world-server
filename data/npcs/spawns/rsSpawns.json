@@ -1,5 +1,50 @@
 [
   {
+    "comment": "Mobilizing Armies: Banker added by jazneta",
+    "npcId": 8948,
+    "tile": {
+      "x": 2402,
+      "y": 2842,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fist Of Guthix: Banker added by jazneta",
+    "npcId": 7605,
+    "tile": {
+      "x": 1699,
+      "y": 5599,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by jazneta",
+    "npcId": 78,
+    "tile": {
+      "x": 2762,
+      "y": 3401,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by jazneta",
+    "npcId": 78,
+    "tile": {
+      "x": 2749,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by jazneta",
+    "npcId": 78,
+    "tile": {
+      "x": 2755,
+      "y": 3398,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Thief added by jazneta",
     "npcId": 282,
     "tile": {
@@ -75008,8 +75053,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2351,
-      "y": 3161
+      "x": 2352,
+      "y": 3166
     },
     "comment": "Banker",
     "npcId": 2354
@@ -75017,8 +75062,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2353,
-      "y": 3161
+      "x": 2354,
+      "y": 3166
     },
     "comment": "Banker",
     "npcId": 2355
@@ -115649,7 +115694,7 @@
     "tile": {
       "plane": 0,
       "x": 2949,
-      "y": 3476
+      "y": 3474
     },
     "comment": "Monk of Zamorak",
     "npcId": 189
@@ -115658,7 +115703,7 @@
     "tile": {
       "plane": 0,
       "x": 2950,
-      "y": 3475
+      "y": 3473
     },
     "comment": "Monk of Zamorak",
     "npcId": 188
@@ -115667,7 +115712,7 @@
     "tile": {
       "plane": 0,
       "x": 2950,
-      "y": 3476
+      "y": 3474
     },
     "comment": "Monk of Zamorak",
     "npcId": 189
@@ -115676,7 +115721,7 @@
     "tile": {
       "plane": 0,
       "x": 2951,
-      "y": 3475
+      "y": 3473
     },
     "comment": "Monk of Zamorak",
     "npcId": 188
@@ -115685,7 +115730,7 @@
     "tile": {
       "plane": 0,
       "x": 2951,
-      "y": 3476
+      "y": 3474
     },
     "comment": "Monk of Zamorak",
     "npcId": 189
@@ -115694,7 +115739,7 @@
     "tile": {
       "plane": 0,
       "x": 2952,
-      "y": 3476
+      "y": 3474
     },
     "comment": "Monk of Zamorak",
     "npcId": 189

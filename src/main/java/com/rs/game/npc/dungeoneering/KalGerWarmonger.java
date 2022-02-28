@@ -16,15 +16,9 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
-import com.rs.game.Entity;
-import com.rs.game.ForceMovement;
-import com.rs.game.ForceTalk;
-import com.rs.game.Hit;
+import com.rs.game.*;
 import com.rs.game.Hit.HitLook;
-import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.combat.impl.dung.YkLagorThunderousCombat;
@@ -40,6 +34,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class KalGerWarmonger extends DungeonBoss {
 
@@ -146,7 +142,7 @@ public class KalGerWarmonger extends DungeonBoss {
 			@Override
 			public void run() {
 				for (Entity t : getPossibleTargets())
-					if (Utils.inCircle(t, boss, 8))
+					if (Utils.inCircle(t.getTile(), boss.getTile(), 8))
 						t.applyHit(new Hit(boss, Utils.random(300, 990), HitLook.TRUE_DAMAGE));
 			}
 		}, 2);
@@ -186,7 +182,7 @@ public class KalGerWarmonger extends DungeonBoss {
 			setNextSpotAnim(new SpotAnim(2870));
 			final int[] FLY_LOCATION = FLY_COORDINATES[type - 1];
 			nextFlyTile = getManager().getTile(getReference(), FLY_LOCATION[0], FLY_LOCATION[1], SIZE, SIZE);
-			setNextForceMovement(new ForceMovement(this, 1, nextFlyTile, 5, Utils.getAngleTo(nextFlyTile.getX() - getX(), nextFlyTile.getY() - getY())));
+			setNextForceMovement(new ForceMovement(getTile(), 1, nextFlyTile, 5, Utils.getAngleTo(nextFlyTile.getX() - getX(), nextFlyTile.getY() - getY())));
 		} else if (typeTicks == 6) {
 			setNextSpotAnim(new SpotAnim(2870));
 			setNextWorldTile(nextFlyTile);
@@ -245,13 +241,13 @@ public class KalGerWarmonger extends DungeonBoss {
 						}
 				} else if (ticks == 10) {
 					for (Entity t : getPossibleTargets())
-						t.setNextWorldTile(boss);
+						t.setNextWorldTile(new WorldTile(boss.getTile()));
 					stop();
 					pullTicks = 0;
 					return;
 				} else if (ticks > 3)
 					for (Entity t : possibleTargets) {
-						if (!getManager().isAtBossRoom(t))
+						if (!getManager().isAtBossRoom(t.getTile()))
 							continue;
 						((Player) t).setCantWalk(false);
 						if (Utils.random(5) == 0)
@@ -270,7 +266,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		//playSoundEffect(3029);
 		setNextForceTalk(new ForceTalk("Your gods can't help you now!"));
 		for (Player player : getManager().getParty().getTeam()) {
-			if (!getManager().getCurrentRoomReference(player).equals(getReference()))
+			if (!getManager().getCurrentRoomReference(player.getTile()).equals(getReference()))
 				continue;
 			boolean usingPiety = player.getPrayer().active(Prayer.PIETY);
 			boolean usingTurmoil = player.getPrayer().active(Prayer.TURMOIL);

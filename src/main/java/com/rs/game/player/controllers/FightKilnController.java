@@ -54,7 +54,7 @@ public class FightKilnController extends Controller {
 	private static final int[] MUSICS = { 1088, 1082, 1086 };
 
 	public void playMusic() {
-		player.getMusicsManager().playMusic(selectedMusic);
+		player.getMusicsManager().playSongAndUnlock(selectedMusic);
 	}
 
 	/*
@@ -391,7 +391,7 @@ public class FightKilnController extends Controller {
 				player.setNextWorldTile(getWorldTile(31, 39));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				player.setNextFaceWorldTile(tokHaarHok);
+				player.setNextFaceWorldTile(tokHaarHok.getMiddleWorldTile());
 				WorldTasks.schedule(new WorldTask() {
 
 					@Override
@@ -725,11 +725,11 @@ public class FightKilnController extends Controller {
 		stage = Stages.DESTROYING;
 		WorldTile outside = new WorldTile(OUTSIDE, 2); // radomizes alil
 		if (type == 0) {
-			player.setLocation(outside);
+			player.getTile().setLocation(outside);
 			if (getCurrentWave() == 0) // leaves if didnt start
 				removeController();
 		} else if (type == 2) {
-			player.setLocation(outside);
+			player.getTile().setLocation(outside);
 			removeController();
 		} else {
 			player.setForceMultiArea(false);
@@ -742,7 +742,7 @@ public class FightKilnController extends Controller {
 					int reward = player.getTempAttribs().getI("FightKilnReward");
 					int itemId = reward != -1 && reward == 1 ? 6571 : 23659;
 					if (!player.getInventory().addItem(itemId, 1))
-						World.addGroundItem(new Item(itemId, 1), new WorldTile(player), player, true, 180);
+						World.addGroundItem(new Item(itemId, 1), new WorldTile(player.getTile()), player, true, 180);
 					player.reset();
 				}
 			}
@@ -810,15 +810,15 @@ public class FightKilnController extends Controller {
 				return;
 			switch (Utils.random(3)) {
 			case 0:
-				harAken.setLocation(getWorldTile(29, 17));
+				harAken.getTile().setLocation(getWorldTile(29, 17));
 				harAken.setFaceAngle(Utils.getAngleTo(0, 1));
 				break;
 			case 1:
-				harAken.setLocation(getWorldTile(17, 30));
+				harAken.getTile().setLocation(getWorldTile(17, 30));
 				harAken.setFaceAngle(Utils.getAngleTo(1, 0));
 				break;
 			case 2:
-				harAken.setLocation(getWorldTile(42, 30));
+				harAken.getTile().setLocation(getWorldTile(42, 30));
 				harAken.setFaceAngle(Utils.getAngleTo(-1, 0));
 				break;
 			}

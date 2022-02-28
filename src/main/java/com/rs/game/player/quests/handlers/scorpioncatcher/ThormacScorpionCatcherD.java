@@ -34,8 +34,7 @@ public class ThormacScorpionCatcherD extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "What's in it for me?")
 								.addNPC(NPC, HeadE.CALM_TALK, "Well I suppose I can aid you with my skills as a staff sorcerer. Most battlestaffs around here" +
 										" are a bit puny.")
-								.addNPC(NPC, HeadE.CALM_TALK, "I can beef them up for you a bit. If you go up to the village of Seers, to the North of here, " +
-										"one of them will be able to tell you where the scorpions are now.")
+								.addNPC(NPC, HeadE.SECRETIVE, "I can beef them up for you a bit.")
 								.addOptions("Start Scorption Catcher?", new Options() {
 									@Override
 									public void create() {

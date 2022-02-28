@@ -127,7 +127,7 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 						continue;
 					// ... and nobody is standing on it
 					for (Player player : manager.getParty().getTeam()) {
-						WorldTile last = player;
+						WorldTile last = player.getTile();
 						if (player.getLastWorldTile() != null)
 							last = player.getLastWorldTile();
 						WorldTile tile = manager.getTile(reference, POS_PLATE[color][0], POS_PLATE[color][1]);

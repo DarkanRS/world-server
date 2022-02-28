@@ -194,7 +194,7 @@ public final class DominionTower {
 		player.getControllerManager().startController(new DomTowerController(mode));
 		player.unlock();
 		player.setNextWorldTile(new WorldTile(getBaseX() + 10, getBaseY() + 29, 2));
-		player.getMusicsManager().playMusic(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
+		player.getMusicsManager().playSongAndUnlock(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
 	}
 
 	public String getStartFightText(int message) {
@@ -400,7 +400,7 @@ public final class DominionTower {
 	public void destroyArena(final boolean logout, int mode) {
 		WorldTile tile = new WorldTile(3744, 6425, 0);
 		if (logout)
-			player.setLocation(tile);
+			player.getTile().setLocation(tile);
 		else {
 			player.getControllerManager().removeControllerWithoutCheck();
 			player.lock();

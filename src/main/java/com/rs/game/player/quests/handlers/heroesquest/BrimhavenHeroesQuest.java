@@ -27,7 +27,7 @@ public class BrimhavenHeroesQuest {
 			if (e.getPlayer().getY() > e.getObject().getY())
 				handleDoor(e.getPlayer(), e.getObject());
 			else
-				e.getPlayer().startConversation(new MansionDoorHeroesQuestD(e.getPlayer(), e).getStart());
+				e.getPlayer().startConversation(new MansionDoorHeroesQuestD(e.getPlayer(), e));
 		}
 	};
 

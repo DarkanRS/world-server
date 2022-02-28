@@ -410,6 +410,7 @@ public class Bank {
 
 	public void openDepositBox() {
 		player.getTempAttribs().setB("viewingOtherBank", false);
+		player.getTempAttribs().setB("viewingDepositBox", true);
 		player.getInterfaceManager().sendInterface(11);
 		player.getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.EQUIPMENT);
 		player.getInterfaceManager().openGameTab(Tab.FRIENDS);
@@ -418,6 +419,7 @@ public class Bank {
 		player.setCloseInterfacesEvent(() -> {
 			player.getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.EQUIPMENT);
 			player.getInterfaceManager().openGameTab(Tab.INVENTORY);
+			player.getTempAttribs().setB("viewingDepositBox", false);
 		});
 	}
 

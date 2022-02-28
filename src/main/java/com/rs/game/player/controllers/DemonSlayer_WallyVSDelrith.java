@@ -47,7 +47,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
     }
 
     @Override
-    public boolean playMusicOnRegionEnter() {
+    public boolean playAmbientOnControllerRegionEnter() {
         return false;
     }
 

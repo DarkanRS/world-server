@@ -16,11 +16,6 @@
 //
 package com.rs.game.player.content.minigames;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.npc.others.CastleWarBarricade;
@@ -39,6 +34,11 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 @PluginEventHandler
 public final class CastleWars {
@@ -111,7 +111,7 @@ public final class CastleWars {
 		setHood(player, new Item(team == ZAMORAK ? 4515 : 4513));
 		player.getControllerManager().startController(new CastleWarsWaitingController(team));
 		player.setNextWorldTile(new WorldTile(team == ZAMORAK ? ZAMO_WAITING : SARA_WAITING, 1));
-		player.getMusicsManager().playMusic(318); // 5 players to start a game
+		player.getMusicsManager().playSongAndUnlock(318); // 5 players to start a game
 		if (playingGame == null && waiting[team].size() >= 5)
 			createPlayingGame();
 		else
@@ -256,7 +256,7 @@ public final class CastleWars {
 				refreshTimeLeft(player);
 		for (int i = 0; i < playing.length; i++)
 			for (Player player : playing[i]) {
-				player.getMusicsManager().playMusic(i == ZAMORAK ? 845 : 314);
+				player.getMusicsManager().playSongAndUnlock(i == ZAMORAK ? 845 : 314);
 				refreshTimeLeft(player);
 			}
 	}
@@ -360,7 +360,7 @@ public final class CastleWars {
 			}
 			player.getInventory().deleteItem(new Item(4053, 1));
 			barricadesCount[team]++;
-			barricades.add(new CastleWarBarricade(team, new WorldTile(player)));
+			barricades.add(new CastleWarBarricade(team, new WorldTile(player.getTile())));
 		}
 
 		public void removeBarricade(int team, CastleWarBarricade npc) {

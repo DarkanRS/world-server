@@ -232,6 +232,16 @@ public class Falador {
 		}
 	};
 
+	public static ObjectClickHandler handleFistOfGuthixEntrance = new ObjectClickHandler(new Object[] { 20608, 30203 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if(e.getObjectId() == 20608)
+				e.getPlayer().useStairs(-1, new WorldTile(1677, 5598, 0), 1, 1);
+			if(e.getObjectId() == 30203)
+				e.getPlayer().useStairs(-1, new WorldTile(2969, 9672, 0), 1, 1);
+		}
+	};
+
 	public static ObjectClickHandler handleCrumblingWallShortcut = new ObjectClickHandler(new Object[] { 11844 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

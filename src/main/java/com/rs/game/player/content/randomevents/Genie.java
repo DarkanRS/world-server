@@ -35,12 +35,11 @@ public class Genie extends OwnedNPC {
 	private int ticks = 0;
 	private boolean claimed = false;
 
-	public Genie(Player owner) {
-		super(owner, 3022, new WorldTile(owner), false);
+	public Genie(Player owner, WorldTile tile) {
+		super(owner, 3022, tile, false);
 		setRun(true);
 		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);
-		teleToOwner();
 	}
 
 	@Override

@@ -126,7 +126,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	}
 
 	private Player getPlayer() {
-		return World.getPlayer(username);
+		return World.getPlayerByUsername(username);
 	}
 
 	public void decrementGrave(int stage, String message) {

@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
@@ -37,6 +34,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class NightGazerKhighorahkCombat extends CombatScript {
 
@@ -112,12 +112,12 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 										if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 											break distanceLoop;
 										if (distance == 0)
-											tile = new WorldTile(t);
+											tile = new WorldTile(t.getTile());
 									}
 									tiles.add(tile);
 									t.faceEntity(gazer);
 									t.setNextAnimation(new Animation(10070));
-									t.setNextForceMovement(new ForceMovement(t, 0, tile, 2, t.getFaceAngle()));
+									t.setNextForceMovement(new ForceMovement(t.getTile(), 0, tile, 2, t.getFaceAngle()));
 								}
 						} else if (ticks == 4) {
 							for (int index = 0; index < tiles.size(); index++) {

@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.content;
 
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -40,6 +38,8 @@ import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.Set;
 
 @PluginEventHandler
 public class DwarfMultiCannon extends OwnedObject {

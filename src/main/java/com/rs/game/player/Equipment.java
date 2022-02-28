@@ -621,6 +621,10 @@ public final class Equipment {
 					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 0, true);
 				else if (e.getPacket() == ClientPacket.IF_OP3)
 					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 1, true);
+				else if (e.getPacket() == ClientPacket.IF_OP4)
+					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 2, true);
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 3, true);
 		}
 	};
 

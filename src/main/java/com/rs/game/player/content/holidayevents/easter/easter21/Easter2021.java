@@ -27,16 +27,8 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemEquipHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawn;
@@ -47,7 +39,7 @@ public class Easter2021 {
 
 	public static String STAGE_KEY = "easter2022";
 
-	public static final boolean ENABLED = true;
+	public static final boolean ENABLED = false;
 
 	@ServerStartupEvent
 	public static void loadSpawns() {

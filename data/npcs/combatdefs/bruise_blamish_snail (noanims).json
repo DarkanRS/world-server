@@ -3,9 +3,9 @@
     "Bruise Blamish Snail"
   ],
   "hitpoints": 120,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 8143,
+  "defenceAnim": 8145,
+  "deathAnim": 8144,
   "deathDelay": 3,
   "respawnDelay": 60,
   "maxHit": 40,
@@ -16,7 +16,7 @@
   "aggroDistance": -1,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1,
-  "attackRange": -1,
+  "attackRange": 0,
   "levels": [
     0,
     40,

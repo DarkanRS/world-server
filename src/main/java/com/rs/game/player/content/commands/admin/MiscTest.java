@@ -312,7 +312,7 @@ public class MiscTest {
 			int radius = args.length > 0 ? Integer.valueOf(args[0]) : 0;
 			List<GameObject> objects = new ArrayList<>();
 			if (radius == 0) {
-				GameObject[] objs = World.getObjects(p);
+				GameObject[] objs = World.getObjects(p.getTile());
 				if (objs != null)
 					for (GameObject obj : objs)
 						if (obj != null)
@@ -355,7 +355,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns an invincible combat test NPC.", (p, args) -> {
-			NPC n = World.spawnNPC(14256, new WorldTile(p), -1, true, true);
+			NPC n = World.spawnNPC(14256, new WorldTile(p.getTile()), -1, true, true);
 			n.setHitpoints(Integer.MAX_VALUE / 2);
 			n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
 		});
@@ -432,7 +432,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
-			p.getMusicsManager().playAmbientSong(Integer.valueOf(args[0]));
+			p.getMusicsManager().playSongWithoutUnlocking(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
@@ -492,18 +492,19 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
 			p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.valueOf(args[0])));
 		});
+
 		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> {
 			World.safeShutdown(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> {
-			World.spawnNPC(Integer.parseInt(args[0]), new WorldTile(p), -1, true, true, false);
+			World.spawnNPC(Integer.parseInt(args[0]), new WorldTile(p.getTile()), -1, true, true, false);
 		});
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), new WorldTile(p)))
+			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), new WorldTile(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -514,7 +515,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, new WorldTile(p)))
+			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, new WorldTile(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -524,13 +525,13 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
-			p.getTempAttribs().setB("infSpecialAttack", !p.getTempAttribs().getB("infSpecialAttack"));
-			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getTempAttribs().getB("infSpecialAttack"));
+			p.getNSV().setB("infSpecialAttack", !p.getNSV().getB("infSpecialAttack"));
+			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getNSV().getB("infSpecialAttack"));
 		});
 
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
-			p.getNSV().setB("infPrayer", !p.getTempAttribs().getB("infPrayer"));
-			p.sendMessage("INFINITE PRAYER: " + p.getTempAttribs().getB("infPrayer"));
+			p.getNSV().setB("infPrayer", !p.getNSV().getB("infPrayer"));
+			p.sendMessage("INFINITE PRAYER: " + p.getNSV().getB("infPrayer"));
 		});
 
 		Commands.add(Rights.ADMIN, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
@@ -636,7 +637,7 @@ public class MiscTest {
 			for (NPC npc : World.getNPCs()) {
 				if (npc instanceof Familiar || npc instanceof Pet)
 					continue;
-				if (Utils.getDistance(npc, p) < 9 && npc.getPlane() == p.getPlane())
+				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane())
 					for (int i = 0; i < 100; ++i)
 						npc.applyHit(new Hit(p, 10000, HitLook.TRUE_DAMAGE));
 			}
@@ -646,7 +647,7 @@ public class MiscTest {
 			for (NPC npc : World.getNPCs()) {
 				if (npc instanceof Familiar || npc instanceof Pet)
 					continue;
-				if (Utils.getDistance(npc, p) < 9 && npc.getPlane() == p.getPlane())
+				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane())
 					npc.sendDeath(p);
 			}
 		});
@@ -692,27 +693,34 @@ public class MiscTest {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
-			p.getSession().writeToQueue(new HintTrail(new WorldTile(p), modelId, bufferX, bufferY, steps));
+			p.getSession().writeToQueue(new HintTrail(new WorldTile(p.getTile()), modelId, bufferX, bufferY, steps));
 		});
 
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {
 			p.sendMessage("Max hit: " + PlayerCombat.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(p), 1.0));
 		});
 
-		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.valueOf(args[0]));
-			if (objs.isEmpty())
+			if (objs.isEmpty()) {
 				p.sendMessage("Nothing found for " + args[0]);
-			for (GameObject obj : objs) {
-				p.setNextWorldTile(obj);
-				p.getPackets().sendDevConsoleMessage(obj.toString());
+				return;
 			}
+			int i = 0;
+			for (GameObject obj : objs)
+				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
+			if(args.length == 1) {
+				p.setNextWorldTile(objs.get(0));
+				return;
+			}
+			p.setNextWorldTile(objs.get(Integer.valueOf(args[1])));
+
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
 			for (NPC npc : World.getNPCs())
 				if (npc.getId() == Integer.valueOf(args[0])) {
-					p.setNextWorldTile(new WorldTile(npc));
+					p.setNextWorldTile(new WorldTile(npc.getTile()));
 					return;
 				}
 			for (NPCSpawn spawns : NPCSpawns.getAllSpawns())
@@ -878,7 +886,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "overlay [interfaceId]", "Opens an interface as a walkable overlay.", (p, args) -> {
-			p.getInterfaceManager().setOverlay(428);
+			p.getInterfaceManager().setOverlay(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId", "Sends an interface to the window specified component.", (p, args) -> {
@@ -1056,7 +1064,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "checkclient [player name]", "Verifies the user's client.", (p, args) -> {
-			Player target = World.getPlayer(args[0]);
+			Player target = World.getPlayerByDisplay(args[0]);
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
@@ -1064,7 +1072,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {
-			World.forceGetPlayer(Utils.concat(args), target -> {
+			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
 				if (target == null)
 					p.sendMessage("Couldn't find player.");
 				else {
@@ -1076,7 +1084,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
-			Player target = World.getPlayer(Utils.concat(args));
+			Player target = World.getPlayerByDisplay(Utils.concat(args));
 			if (target == null) {
 				p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
 				return;

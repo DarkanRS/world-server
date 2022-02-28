@@ -16,11 +16,6 @@
 //
 package com.rs.game.player.content.holidayevents.halloween.hw07;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
@@ -48,6 +43,11 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 import com.rs.utils.spawns.ObjectSpawn;
 import com.rs.utils.spawns.ObjectSpawns;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class Halloween2007 {
@@ -566,7 +566,7 @@ public class Halloween2007 {
 						e.getPlayer().setNextAnimation(new Animation(7274));
 					else if (stage == 9) {
 						e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, -1, 0));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, new WorldTile(1642, 4819, 0), 2));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, new WorldTile(1642, 4819, 0), 2));
 					} else if (stage == 12) {
 						e.getPlayer().setNextWorldTile(new WorldTile(1642, 4819, 0));
 						e.getPlayer().unlock();
@@ -599,7 +599,7 @@ public class Halloween2007 {
 							e.getPlayer().getAppearance().setBAS(616);
 							e.getPlayer().blockRun();
 						}
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, toTile, 1));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 1));
 					} else if (stage == 2) {
 						e.getPlayer().setNextWorldTile(toTile);
 						e.getPlayer().unlock();
@@ -623,7 +623,7 @@ public class Halloween2007 {
 						e.getPlayer().faceObject(e.getObject());
 					else if (stage == 1) {
 						e.getPlayer().setNextAnimation(new Animation(7273));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer(), 0, e.getPlayer().transform(0, 2, 0), 5));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getPlayer().transform(0, 2, 0), 5));
 						e.getPlayer().getAppearance().setBAS(-1);
 					} else if (stage == 6) {
 						e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, 2, 0));
@@ -771,7 +771,7 @@ public class Halloween2007 {
 				if (stage == 0)
 					player.faceObject(object);
 				else if (stage == 1) {
-					player.setNextForceMovement(new ForceMovement(player, 0, toTile, 4));
+					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4));
 					player.setNextAnimation(WEB_PASS_PANIM);
 					object.animate(WEB_PASS_ANIM);
 				} else if (stage == 5) {

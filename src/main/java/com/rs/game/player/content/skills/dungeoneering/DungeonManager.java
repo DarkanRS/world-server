@@ -16,15 +16,6 @@
 //
 package com.rs.game.player.content.skills.dungeoneering;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -34,44 +25,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
-import com.rs.game.npc.dungeoneering.AsteaFrostweb;
-import com.rs.game.npc.dungeoneering.BalLakThePummeler;
-import com.rs.game.npc.dungeoneering.Blink;
-import com.rs.game.npc.dungeoneering.BulwarkBeast;
-import com.rs.game.npc.dungeoneering.DivineSkinweaver;
-import com.rs.game.npc.dungeoneering.Dreadnaut;
-import com.rs.game.npc.dungeoneering.DungeonBoss;
-import com.rs.game.npc.dungeoneering.DungeonFishSpot;
-import com.rs.game.npc.dungeoneering.DungeonHunterNPC;
-import com.rs.game.npc.dungeoneering.DungeonNPC;
-import com.rs.game.npc.dungeoneering.DungeonSkeletonBoss;
-import com.rs.game.npc.dungeoneering.DungeonSlayerNPC;
-import com.rs.game.npc.dungeoneering.FleshspoilerHaasghenahk;
-import com.rs.game.npc.dungeoneering.ForgottenWarrior;
-import com.rs.game.npc.dungeoneering.GluttonousBehemoth;
-import com.rs.game.npc.dungeoneering.Gravecreeper;
-import com.rs.game.npc.dungeoneering.Guardian;
-import com.rs.game.npc.dungeoneering.HobgoblinGeomancer;
-import com.rs.game.npc.dungeoneering.HopeDevourer;
-import com.rs.game.npc.dungeoneering.IcyBones;
-import com.rs.game.npc.dungeoneering.KalGerWarmonger;
-import com.rs.game.npc.dungeoneering.LakkTheRiftSplitter;
-import com.rs.game.npc.dungeoneering.LexicusRunewright;
-import com.rs.game.npc.dungeoneering.LuminscentIcefiend;
-import com.rs.game.npc.dungeoneering.MastyxTrap;
-import com.rs.game.npc.dungeoneering.NecroLord;
-import com.rs.game.npc.dungeoneering.NightGazerKhighorahk;
-import com.rs.game.npc.dungeoneering.Rammernaut;
-import com.rs.game.npc.dungeoneering.RuneboundBehemoth;
-import com.rs.game.npc.dungeoneering.Sagittare;
-import com.rs.game.npc.dungeoneering.ShadowForgerIhlakhizan;
-import com.rs.game.npc.dungeoneering.SkeletalAdventurer;
-import com.rs.game.npc.dungeoneering.Stomp;
-import com.rs.game.npc.dungeoneering.ToKashBloodChiller;
-import com.rs.game.npc.dungeoneering.UnholyCrossbearer;
-import com.rs.game.npc.dungeoneering.WarpedGulega;
-import com.rs.game.npc.dungeoneering.WorldGorgerShukarhazh;
-import com.rs.game.npc.dungeoneering.YkLagorThunderous;
+import com.rs.game.npc.dungeoneering.*;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Equipment;
@@ -99,6 +53,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 
@@ -249,7 +208,7 @@ public class DungeonManager {
 	public boolean enterRoom(Player player, int x, int y) {
 		if (x < 0 || y < 0 || x >= visibleMap.length || y >= visibleMap[0].length)
 			return false;
-		RoomReference roomReference = getCurrentRoomReference(player);
+		RoomReference roomReference = getCurrentRoomReference(player.getTile());
 		player.lock(0);
 		if (visibleMap[x][y] == null) {
 			loadRoom(x, y);
@@ -643,14 +602,14 @@ public class DungeonManager {
 			for (Item item : player.getEquipment().getItemsCopy()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, new WorldTile(player));
+				World.addGroundItem(item, new WorldTile(player.getTile()));
 			}
 			for (Item item : player.getInventory().getItems().getItems()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, new WorldTile(player));
+				World.addGroundItem(item, new WorldTile(player.getTile()));
 				if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
-					setGroupGatestone(new WorldTile(player));
+					setGroupGatestone(new WorldTile(player.getTile()));
 			}
 		}
 		player.getEquipment().reset();
@@ -968,7 +927,7 @@ public class DungeonManager {
 		if (visibleMap[reference.getRoomX()][reference.getRoomY()].removeGuardians()) {
 			getRoom(reference).removeGuardianDoors();
 			for (Player player : party.getTeam()) {
-				RoomReference playerReference = getCurrentRoomReference(player);
+				RoomReference playerReference = getCurrentRoomReference(player.getTile());
 				if (playerReference.getRoomX() == reference.getRoomX() && playerReference.getRoomY() == reference.getRoomY())
 					playMusic(player, reference);
 			}
@@ -1365,7 +1324,7 @@ public class DungeonManager {
 		if (groupGatestone == null) {
 			Player player = party.getGateStonePlayer();
 			if (player != null)
-				return new WorldTile(player);
+				return new WorldTile(player.getTile());
 		}
 		return groupGatestone;
 	}
@@ -1546,7 +1505,7 @@ public class DungeonManager {
 				}
 		int index = 1;
 		for (Player p2 : party.getTeam()) {
-			RoomReference reference = getCurrentRoomReference(p2);
+			RoomReference reference = getCurrentRoomReference(p2.getTile());
 			player.getPackets().sendRunScriptReverse(3279, p2.getDisplayName(), protocol, index++, reference.getRoomY(), reference.getRoomX());
 		}
 	}
@@ -1588,7 +1547,7 @@ public class DungeonManager {
 		spawnObject(reference, DungeonConstants.LADDERS[party.getFloorType()], ObjectType.SCENERY_INTERACT, (type == 2 || type == 3) ? 0 : 3, type == 4 ? 11 : type == 3 ? 15 : type == 2 ? 14 : 7, type == 5 ? 14 : (type == 3 || type == 2) ? 3 : type == 1 ? 11 : 15);
 		getVisibleRoom(reference).setNoMusic();
 		for (Player player : party.getTeam()) {
-			if (!isAtBossRoom(player))
+			if (!isAtBossRoom(player.getTile()))
 				continue;
 			player.getPackets().sendMusicEffect(415);
 			playMusic(player, reference);
@@ -1614,13 +1573,13 @@ public class DungeonManager {
 
 	public void message(RoomReference reference, String message) {
 		for (Player player : party.getTeam())
-			if (reference.equals(getCurrentRoomReference(player)))
+			if (reference.equals(getCurrentRoomReference(player.getTile())))
 				player.sendMessage(message);
 	}
 
 	public void showBar(RoomReference reference, String name, int percentage) {
 		for (Player player : party.getTeam()) {
-			RoomReference current = getCurrentRoomReference(player);
+			RoomReference current = getCurrentRoomReference(player.getTile());
 			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController ctrl) {
 				ctrl.showBar(true, name);
 				ctrl.sendBarPercentage(percentage);
@@ -1630,7 +1589,7 @@ public class DungeonManager {
 
 	public void hideBar(RoomReference reference) {
 		for (Player player : party.getTeam()) {
-			RoomReference current = getCurrentRoomReference(player);
+			RoomReference current = getCurrentRoomReference(player.getTile());
 			if (reference.getRoomX() == current.getRoomX() && reference.getRoomY() == current.getRoomY() && player.getControllerManager().getController() instanceof DungeonController ctrl)
 				ctrl.showBar(false, null);
 		}

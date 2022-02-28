@@ -48,7 +48,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class AchievementSetRewards {
 
 	private static final WorldTile ARDY_FARM = new WorldTile(2664, 3375, 0);
-	private static final WorldTile KANDARIN_MONASTERY = new WorldTile(2606, 3222, 0);
+	private static final WorldTile KANDARIN_MONASTERY = new WorldTile(2607, 3222, 0);
 	
 	public static NPCDropHandler handleNotingDagBones = new NPCDropHandler(new Object[] { 2881, 2882, 2883 }, new Object[] { 6729 }) {
 		@Override

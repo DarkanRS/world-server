@@ -92,7 +92,7 @@ public class WildernessController extends Controller {
 		if (target instanceof Player opp)
 			if (!player.attackedBy(opp.getUsername()))
 				player.setWildernessSkull();
-		if (player.getCombatDefinitions().getSpell() == null && Utils.inCircle(new WorldTile(3105, 3933, 0), target, 24)) {
+		if (player.getCombatDefinitions().getSpell() == null && Utils.inCircle(new WorldTile(3105, 3933, 0), target.getTile(), 24)) {
 			player.sendMessage("You can only use magic in the arena.");
 			return false;
 		}
@@ -176,7 +176,7 @@ public class WildernessController extends Controller {
 			final WorldTile toTile = new WorldTile(object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(),
 					object.getPlane());
 
-			player.setNextForceMovement(new ForceMovement(new WorldTile(player), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.SOUTH : Direction.EAST));
+			player.setNextForceMovement(new ForceMovement(new WorldTile(player.getTile()), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.SOUTH : Direction.EAST));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -208,7 +208,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		if (isAtWild(player))
+		if (isAtWild(player.getTile()))
 			showSkull();
 	}
 
@@ -252,7 +252,7 @@ public class WildernessController extends Controller {
 
 	@Override
 	public void moved() {
-		boolean isAtWild = isAtWild(player);
+		boolean isAtWild = isAtWild(player.getTile());
 		boolean isAtWildSafe = isAtWildSafe();
 		if (!isAtWildSafe && !isAtWild) {
 			player.setCanPvp(false);

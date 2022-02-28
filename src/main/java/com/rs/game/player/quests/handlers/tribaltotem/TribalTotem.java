@@ -16,15 +16,12 @@
 //
 package com.rs.game.player.quests.handlers.tribaltotem;
 
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
@@ -43,6 +40,10 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.TRIBAL_TOTEM)
 @PluginEventHandler
@@ -75,6 +76,9 @@ public class TribalTotem extends QuestOutline {
 			lines.add("artefacts. A recent addition to his private collection is");
 			lines.add("a strange looking totem from Karamja. The Rantuki Tribe ");
 			lines.add("are not happy about the recent disappearance of their totem.");
+			lines.add("");
+			lines.add("I can start this quest by speaking to Kangai Mau at The");
+			lines.add("Shrimp And Parrot Inn.");
 			lines.add("");
 			lines.add("~~Requirements~~");
 			lines.add("21 Thieving");
@@ -153,7 +157,7 @@ public class TribalTotem extends QuestOutline {
                 e.getPlayer().openBook(new RealEstateGuideBook());
             if(e.getOption().equalsIgnoreCase("drop")) {
                 e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer()), e.getPlayer());
+                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
                 e.getPlayer().getPackets().sendSound(2739, 0, 1);
             }
         }
@@ -237,22 +241,22 @@ public class TribalTotem extends QuestOutline {
 
 			//RIGHT
 			case 11 -> {
-				if(indexFirst + 1 <= 27)
+				if(indexFirst + 1 < LETTERS.length())
 					indexFirst++;
 				p.getPackets().setIFText(e.getInterfaceId(), FIRST_LETTER_COMP, ""+LETTERS.charAt(indexFirst));
 			}
 			case 13 -> {
-				if(indexSecond + 1 <= 27)
+				if(indexSecond + 1 < LETTERS.length())
 					indexSecond++;
 				p.getPackets().setIFText(e.getInterfaceId(), SECOND_LETTER_COMP, ""+LETTERS.charAt(indexSecond));
 			}
 			case 15 -> {
-				if(indexThird + 1 <= 27)
+				if(indexThird + 1 < LETTERS.length())
 					indexThird++;
 				p.getPackets().setIFText(e.getInterfaceId(), THIRD_LETTER_COMP, ""+LETTERS.charAt(indexThird));
 			}
 			case 17 -> {
-				if(indexFourth + 1 <= 27)
+				if(indexFourth + 1 < LETTERS.length())
 					indexFourth++;
 				p.getPackets().setIFText(e.getInterfaceId(), FOURTH_LETTER_COMP, ""+LETTERS.charAt(indexFourth));
 			}
@@ -273,8 +277,11 @@ public class TribalTotem extends QuestOutline {
 				GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
 				p.faceObject(openedChest);
 				World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-				if(!p.getInventory().containsItem(TOTEM, 1) && !p.getQuestManager().isComplete(Quest.TRIBAL_TOTEM))
+				if(!p.getInventory().containsItem(TOTEM, 1) && !p.getQuestManager().isComplete(Quest.TRIBAL_TOTEM)) {
+					p.startConversation(new Dialogue().addPlayer(HeadE.SECRETIVE, "This looks like the Totem. Now back to Brimhaven, I gotta" +
+							" get this to Kangai Mau..."));
 					p.getInventory().addItem(new Item(TOTEM, 1));
+				}
 				else
 					p.sendMessage("The chest is empty...");
 			}

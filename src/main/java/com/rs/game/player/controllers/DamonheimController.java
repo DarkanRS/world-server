@@ -34,7 +34,7 @@ public class DamonheimController extends Controller {
 
 	@Override
 	public boolean canPlayerOption1(Player target) {
-		player.setNextFaceWorldTile(target);
+		player.setNextFaceWorldTile(target.getTile());
 		player.getDungManager().invite(target.getDisplayName());
 		return false;
 	}
@@ -95,7 +95,7 @@ public class DamonheimController extends Controller {
 	public void moved() {
 		if (player.getDungManager().isInsideDungeon())
 			return;
-		if (!isAtKalaboss(player)) {
+		if (!isAtKalaboss(player.getTile())) {
 			setInviteOption(false);
 			player.getDungManager().leaveParty();
 			removeController();

@@ -23,11 +23,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.dungeoneering.HobgoblinGeomancer;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
-import com.rs.game.player.content.skills.dungeoneering.DungeonUtils;
-import com.rs.game.player.content.skills.dungeoneering.Room;
-import com.rs.game.player.content.skills.dungeoneering.RoomReference;
+import com.rs.game.player.content.skills.dungeoneering.*;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -49,7 +45,7 @@ public class GeomancerCombat extends CombatScript {
 		boolean atDistance = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 
 		if (Utils.random(boss.getManager().getParty().getTeam().size() > 1 ? 6 : 8) == 0 && !boss.isCantInteract()) {
-			WorldTile tile = new WorldTile(target);
+			WorldTile tile = new WorldTile(target.getTile());
 			DungeonManager dungeon = boss.getManager();
 			RoomReference rRef = dungeon.getCurrentRoomReference(tile);
 			Room room = dungeon.getRoom(rRef);

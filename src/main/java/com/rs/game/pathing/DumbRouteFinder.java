@@ -16,23 +16,24 @@
 //
 package com.rs.game.pathing;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.lib.game.WorldTile;
+import com.rs.utils.WorldUtil;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public final class DumbRouteFinder {
 
-	public static boolean addDumbPathfinderSteps(Entity entity, WorldTile target, ClipType type) {
+	public static boolean addDumbPathfinderSteps(Entity entity, Object target, ClipType type) {
 		return addDumbPathfinderSteps(entity, target, 25, type);
 	}
 
-	public static boolean addDumbPathfinderSteps(Entity entity, WorldTile target, int maxSize, ClipType type) {
+	public static boolean addDumbPathfinderSteps(Entity entity, Object target, int maxSize, ClipType type) {
 		Deque<WorldTile> tiles = find(entity, target, maxSize, type);
 		if (tiles.size() > 0) {
-			WorldTile last = new WorldTile(entity);
+			WorldTile last = new WorldTile(entity.getTile());
 			//World.sendSpotAnim(null, new SpotAnim(2000), last);
 			for (WorldTile t : tiles) {
 				//World.sendSpotAnim(null, new SpotAnim(2000), t);
@@ -44,11 +45,13 @@ public final class DumbRouteFinder {
 		return false;
 	}
 
-	private static Deque<WorldTile> find(WorldTile origin, WorldTile target, int maxSize, ClipType type) {
+	private static Deque<WorldTile> find(Object origin, Object target, int maxSize, ClipType type) {
+		WorldTile originTile = WorldUtil.targetToTile(origin);
+		WorldTile targetTile = WorldUtil.targetToTile(target);
 		int size = origin instanceof Entity e ? e.getSize() : 1;
-		WorldTile real = new WorldTile(origin);
-		WorldTile curr = origin instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(origin);
-		WorldTile targ = target instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(target);
+		WorldTile real = new WorldTile(originTile);
+		WorldTile curr = origin instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(originTile);
+		WorldTile targ = target instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(targetTile);
 		Deque<WorldTile> positions = new ArrayDeque<>(maxSize);
 		while (true) {
 			WorldTile from = new WorldTile(curr);

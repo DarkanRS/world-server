@@ -19,6 +19,7 @@ package com.rs.net.decoders.handlers.impl.chat;
 import com.rs.game.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.chat.ChatSetFilter;
+import com.rs.net.LobbyCommunicator;
 
 public class ChatSetFilterHandler implements PacketHandler<Player, ChatSetFilter> {
 
@@ -27,5 +28,6 @@ public class ChatSetFilterHandler implements PacketHandler<Player, ChatSetFilter
 		player.setPublicStatus(packet.getPublicFilter());
 		player.getAccount().getSocial().setStatus(packet.getPrivateFilter());
 		player.setTradeStatus(packet.getTradeFilter());
+		LobbyCommunicator.updateSocial(player);
 	}
 }

@@ -20,9 +20,12 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.RuneMysteries;
+import com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -35,6 +38,8 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
 
 @PluginEventHandler
 public class Lumbridge {
@@ -92,6 +97,11 @@ public class Lumbridge {
 							@Override
 							public void create() {
 								option("What do you have for sale?", () -> ShopsHandler.openShop(player, "bobs_brilliant_axes"));
+								option("Can you repair my items?", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "Can you repair my items?")
+										.addNPC(519, HeadE.CALM_TALK, "Sure just give me the item.")
+										.addSimple("(Use the item on Bob)")
+								);
 								option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING).getStart());
 							}
 						});
@@ -129,25 +139,49 @@ public class Lumbridge {
 	public static NPCClickHandler handleDukeHoratio = new NPCClickHandler(741) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					{
-						addNPC(e.getNPCId(), HeadE.CALM, "Greetings. Welcome to my castle.");
-						addOptions(new Options() {
+			if (e.getOption().equalsIgnoreCase("talk-to")) {
+				int NPC = e.getNPCId();
+				e.getPlayer().startConversation(new Dialogue()
+						.addNPC(NPC, HeadE.CALM_TALK, "Greetings. Welcome to my castle.")
+						.addOptions("Choose an option:", new Options() {
 							@Override
 							public void create() {
-								option("I would like an anti-dragon shield", () -> {
-									player.getInventory().addItem(1540, 1);
-								});
+								if(e.getPlayer().getQuestManager().getStage(Quest.DRAGON_SLAYER) == DragonSlayer.PREPARE_FOR_CRANDOR
+										&& e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(KNOWS_ABOUT_DRAGON_BREATH_ATTR))
+									option("I seek a shield that will protect me from dragonbreath.", new Dialogue()
+											.addPlayer(HeadE.HAPPY_TALKING, "I seek a shield that will protect me from dragonbreath.")
+											.addNPC(NPC, HeadE.SKEPTICAL_THINKING, "Interesting, how do you know I have a shield?")
+											.addPlayer(HeadE.SECRETIVE, "The Champions' Guild, er, guildmaster, told me...")
+											.addNPC(NPC, HeadE.HAPPY_TALKING, "The guildmaster eh? What dragon do you intend to slay?")
+											.addPlayer(HeadE.HAPPY_TALKING, "Elvarg...")
+											.addNPC(NPC, HeadE.AMAZED, "ELVARG!?")
+											.addNPC(NPC, HeadE.LAUGH, "He has not given you an easy task has he?")
+											.addPlayer(HeadE.CALM, "...")
+											.addNPC(NPC, HeadE.CALM_TALK, "Okay, for this specific purpose I can give you a shield.")
+											.addSimple("The duke hands you the shield.", ()->{
+												e.getPlayer().getInventory().addItem(1540, 1);
+											})
+									);
+								if(e.getPlayer().getQuestManager().getStage(Quest.DRAGON_SLAYER) >= DragonSlayer.REPORT_TO_OZIACH)
+									option("I seek a shield that will protect me from dragonbreath.", new Dialogue()
+											.addPlayer(HeadE.HAPPY_TALKING, "I seek a shield that will protect me from dragonbreath.")
+											.addNPC(NPC, HeadE.CALM_TALK, "A knight going on a dragon quest, hmm? What dragon do you intend to slay?")
+											.addNPC(NPC, HeadE.CALM_TALK, "Ah, well, nvm. Of course, now you've slain Elvarg, you've earned the right to it!")
+											.addSimple("The duke hands you the shield.", ()->{
+												e.getPlayer().getInventory().addItem(1540, 1);
+											})
+									);
 								option("About Rune Mysteries", new RuneMysteries.DukeHoracioRuneMysteriesD(e.getPlayer()).getCurrent());
-								option("Farewell", () -> {
-
-								});
+								option("Where can I find money?", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "Where can I find money?")
+										.addNPC(NPC, HeadE.CALM_TALK, "I hear many of the local people earn money by learning a skill. Many people get by in" +
+												" life by becoming accomplished smiths, cooks, miners and woodcutters.")
+								);
+								option("Farewell", new Dialogue());
 							}
-						});
-						create();
-					}
-				});
+						})
+				);
+			}
 		}
 	};
 

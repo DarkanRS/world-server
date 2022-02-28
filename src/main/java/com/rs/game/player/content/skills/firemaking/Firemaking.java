@@ -129,7 +129,7 @@ public class Firemaking extends Action {
 		player.sendMessage("You attempt to light the logs.", true);
 		if (groundItem == null) {
 			player.getInventory().deleteItem(fire.getLogId(), 1);
-			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(player), player, true, 180);
+			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(player.getTile()), player, true, 180);
 		}
 		boolean quickFire = player.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
 		setActionDelay(player, quickFire ? 1 : 2);
@@ -169,7 +169,7 @@ public class Firemaking extends Action {
 			player.sendMessage("You do not have the required level to light this.");
 			return false;
 		}
-		if (!World.canLightFire(player.getPlane(), player.getX(), player.getY()) || World.getRegion(player.getRegionId()).getSpawnedObject(player) != null || player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController) { // contains
+		if (!World.canLightFire(player.getPlane(), player.getX(), player.getY()) || World.getRegion(player.getRegionId()).getSpawnedObject(player.getTile()) != null || player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController) { // contains
 			player.sendMessage("You can't light a fire here.");
 			return false;
 		}
@@ -191,7 +191,7 @@ public class Firemaking extends Action {
 
 	@Override
 	public int processWithDelay(final Player player) {
-		final WorldTile tile = new WorldTile(player);
+		final WorldTile tile = new WorldTile(player.getTile());
 		if (!player.addWalkSteps(player.getX() - 1, player.getY(), 1))
 			if (!player.addWalkSteps(player.getX() + 1, player.getY(), 1))
 				if (!player.addWalkSteps(player.getX(), player.getY() + 1, 1))

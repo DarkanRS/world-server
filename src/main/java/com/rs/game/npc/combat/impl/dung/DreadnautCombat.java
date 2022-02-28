@@ -62,13 +62,13 @@ public class DreadnautCombat extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(2856));
 
 			for (Entity t : boss.getPossibleTargets()) {
-				if (!t.withinDistance(target, 2))
+				if (!t.withinDistance(target.getTile(), 2))
 					continue;
 				int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MELEE, t);
 				World.sendProjectile(boss, t, 2857, 30, 30, 25, 35, 15, 1);
 				if (damage > 0) {
 					sendReductionEffect(boss, t, damage);
-					boss.addSpot(new WorldTile(t));
+					boss.addSpot(new WorldTile(t.getTile()));
 				} else
 					t.setNextSpotAnim(new SpotAnim(2858, 75, 0));
 				delayHit(npc, 1, t, getMeleeHit(npc, damage));

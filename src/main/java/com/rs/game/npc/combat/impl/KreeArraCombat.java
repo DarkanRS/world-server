@@ -56,7 +56,7 @@ public class KreeArraCombat extends CombatScript {
 				CoresManager.schedule(() -> {
 					Direction dir = WorldUtil.getDirectionTo(npc, target);
 					if (dir != null)
-						if (World.checkWalkStep(target, dir, target.getSize())) {
+						if (World.checkWalkStep(target.getTile(), dir, target.getSize())) {
 							target.resetWalkSteps();
 							target.setNextWorldTile(target.transform(dir.getDx(), dir.getDy()));
 						}

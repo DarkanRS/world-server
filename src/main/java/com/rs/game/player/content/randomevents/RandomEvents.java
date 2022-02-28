@@ -16,14 +16,14 @@
 //
 package com.rs.game.player.content.randomevents;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RandomEvents {
 
@@ -47,13 +47,15 @@ public class RandomEvents {
 	public static void attemptSpawnRandom(Player player, boolean force) {
 		if ((!force && (World.getServerTicks() - player.getNSV().getL("lastRandom") < 3000)) || (player.getControllerManager().getController() != null && !(player.getControllerManager().getController() instanceof DamonheimController)))
 			return;
+		WorldTile spawnTile = player.getNearestTeleTile(1);
+		if (spawnTile == null)
+			return;
 		player.getNSV().setL("lastRandom", World.getServerTicks());
-
 		int random = Utils.random(0, 100);
 		if(random < 90)//90% chance
-			new SandwichLady(player);
+			new SandwichLady(player, spawnTile);
 		else
-			new Genie(player);
+			new Genie(player, spawnTile);
 		//TODO add more than this rofl.
 	}
 

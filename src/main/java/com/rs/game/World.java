@@ -45,7 +45,6 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
-import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -54,6 +53,7 @@ import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
+import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -70,7 +70,8 @@ public final class World {
 	public static long SYSTEM_UPDATE_START;
 
 	private static final EntityList<Player> PLAYERS = new EntityList<>(Settings.PLAYERS_LIMIT);
-	private static final Map<String, Player> PLAYER_MAP = new ConcurrentHashMap<>();
+	private static final Map<String, Player> PLAYER_MAP_USERNAME = new ConcurrentHashMap<>();
+	private static final Map<String, Player> PLAYER_MAP_DISPLAYNAME = new ConcurrentHashMap<>();
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Region> REGIONS = new HashMap<>();
@@ -173,14 +174,16 @@ public final class World {
 
 	public static final void addPlayer(Player player) {
 		PLAYERS.add(player);
-		PLAYER_MAP.put(player.getUsername(), player);
+		PLAYER_MAP_USERNAME.put(player.getUsername(), player);
+		PLAYER_MAP_DISPLAYNAME.put(player.getDisplayName(), player);
 		if (player.getSession() != null)
 			AntiFlood.add(player.getSession().getIP());
 	}
 
 	public static void removePlayer(Player player) {
 		PLAYERS.remove(player);
-		PLAYER_MAP.remove(player.getUsername(), player);
+		PLAYER_MAP_USERNAME.remove(player.getUsername(), player);
+		PLAYER_MAP_DISPLAYNAME.remove(player.getDisplayName(), player);
 		AntiFlood.remove(player.getSession().getIP());
 	}
 
@@ -228,10 +231,10 @@ public final class World {
 	public static void clipNPC(NPC npc) {
 		if (!npc.isBlocksOtherNPCs())
 			return;
-		WorldTile lastTile = npc.getLastWorldTile() == null ? npc : npc.getLastWorldTile();
+		WorldTile lastTile = npc.getLastWorldTile() == null ? npc.getTile() : npc.getLastWorldTile();
 		fillNPCClip(lastTile, npc.getSize(), false);
 		if (!npc.hasFinished())
-			fillNPCClip(npc, npc.getSize(), true);
+			fillNPCClip(npc.getTile(), npc.getSize(), true);
 	}
 
 	public static void fillNPCClip(WorldTile tile, int size, boolean blocks) {
@@ -314,7 +317,6 @@ public final class World {
 						}
 					}
 				}
-
 				player.getControllerManager().moved();
 				if (player.hasStarted())
 					checkControllersAtMove(player);
@@ -333,7 +335,7 @@ public final class World {
 	}
 
 	private static void checkControllersAtMove(Player player) {
-		if (DuelController.isAtDuelArena(player))
+		if (DuelController.isAtDuelArena(player.getTile()))
 			player.getControllerManager().startController(new DuelController());
 	}
 
@@ -449,12 +451,12 @@ public final class World {
 			while (xTile != x2) {
 				xTile += xInc;
 				int yTile = y >>> 16;
-			if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
-				return false;
-			y += slope;
-			int newYTile = y >>> 16;
-		if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
-			return false;
+				if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
+					return false;
+				y += slope;
+				int newYTile = y >>> 16;
+				if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
+					return false;
 			}
 		} else {
 			int yTile = y1;
@@ -492,12 +494,12 @@ public final class World {
 				while (yTile != y2) {
 					yTile += yInc;
 					int xTile = x >>> 16;
-			if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
-				return false;
-			x += slope;
-			int newXTile = x >>> 16;
-		if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
-			return false;
+					if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
+						return false;
+					x += slope;
+					int newXTile = x >>> 16;
+					if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
+						return false;
 				}
 		}
 		return true;
@@ -509,38 +511,41 @@ public final class World {
 		return checkWalkStep(from, to, 1);
 	}
 
-	public static boolean checkMeleeStep(WorldTile from, WorldTile to) {
-		if (from.getPlane() != to.getPlane())
+	public static boolean checkMeleeStep(Object from, int fromSize, Object to, int toSize) {
+		WorldTile fromTile = WorldUtil.targetToTile(from);
+		WorldTile toTile = WorldUtil.targetToTile(to);
+		if (fromTile.getPlane() != toTile.getPlane())
 			return false;
-		if (to instanceof Entity && from instanceof Entity) {
-			WorldTile closestFrom = from;
-			WorldTile closestTo = to;
-			int sizeFrom = ((Entity)from).getSize();
-			int sizeTo = ((Entity)to).getSize();
-			double shortest = 1000.0;
-			for (int x1 = 0; x1 < sizeFrom; x1++)
-				for (int y1 = 0; y1 < sizeFrom; y1++)
-					for (int x2 = 0; x2 < sizeTo; x2++)
-						for (int y2 = 0; y2 < sizeTo; y2++) {
-							double dist = Utils.getDistance(from.transform(x1, y1), to.transform(x2, y2));
-							if (dist < shortest) {
-								closestFrom = from.transform(x1, y1);
-								closestTo = to.transform(x2, y2);
-								shortest = dist;
-							}
+		WorldTile closestFrom = fromTile;
+		WorldTile closestTo = toTile;
+		double shortest = 1000.0;
+		for (int x1 = 0; x1 < fromSize; x1++)
+			for (int y1 = 0; y1 < fromSize; y1++)
+				for (int x2 = 0; x2 < toSize; x2++)
+					for (int y2 = 0; y2 < toSize; y2++) {
+						double dist = Utils.getDistance(fromTile.transform(x1, y1), toTile.transform(x2, y2));
+						if (dist < shortest) {
+							closestFrom = fromTile.transform(x1, y1);
+							closestTo = toTile.transform(x2, y2);
+							shortest = dist;
 						}
-			from = closestFrom;
-			to = closestTo;
-		}
+					}
+		fromTile = closestFrom;
+		toTile = closestTo;
 		if (to == null || from == null)
 			return false;
-		if (from.matches(to))
+		if (fromTile.matches(toTile))
 			return true;
-		switch(Direction.forDelta(to.getX()-from.getX(), to.getY()-from.getY())) {
-		case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> { return false; }
-		default -> {}
+		if (fromSize <= 1 && toSize <= 1) {
+			switch (Direction.forDelta(toTile.getX() - fromTile.getX(), toTile.getY() - fromTile.getY())) {
+				case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> {
+					return false;
+				}
+				default -> {
+				}
+			}
 		}
-		return checkWalkStep(from, to, 1);
+		return checkWalkStep(fromTile, toTile, 1);
 	}
 
 	public static boolean inRange(int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
@@ -874,24 +879,22 @@ public final class World {
 		return center;
 	}
 
-	public static Player getPlayer(String username) {
-		return PLAYER_MAP.get(username);
+	public static Player getPlayerByUsername(String username) {
+		return PLAYER_MAP_USERNAME.get(username);
 	}
 
-	public static void forceGetPlayer(String username, Consumer<Player> result) {
-		Player player = getPlayer(username);
+	public static Player getPlayerByDisplay(String displayName) {
+		return PLAYER_MAP_DISPLAYNAME.get(Utils.formatPlayerNameForDisplay(displayName));
+	}
+
+	public static void forceGetPlayerByDisplay(String displayName, Consumer<Player> result) {
+		displayName = Utils.formatPlayerNameForDisplay(displayName);
+		Player player = getPlayerByDisplay(displayName);
 		if (player != null) {
 			result.accept(player);
 			return;
 		}
-		LobbyCommunicator.getAccount(username, acc -> {
-			WorldDB.getPlayers().get(Utils.formatPlayerNameForProtocol(username), p -> {
-				if (acc == null || p == null)
-					result.accept(null);
-				p.setAccount(acc);
-				result.accept(p);
-			});
-		});
+		WorldDB.getPlayers().getByUsername(Utils.formatPlayerNameForProtocol(displayName), p -> result.accept(p));
 	}
 
 	public static final EntityList<Player> getPlayers() {
@@ -928,6 +931,7 @@ public final class World {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
+					player.getPackets().sendLogout(player, true);
 					player.realFinish();
 				}
 				PartyRoom.save();
@@ -979,6 +983,8 @@ public final class World {
 	}
 
 	public static final boolean removeObjectTemporary(final GameObject object, int ticks) {
+		if (object == null)
+			return false;
 		removeObject(object);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -1244,27 +1250,29 @@ public final class World {
 			}
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, int delay, double speed) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, int delay, double speed) {
 		return sendProjectile(from, to, graphicId, angle, delay, speed, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, int delay, double speed, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, int delay, double speed, Consumer<WorldProjectile> task) {
 		return sendProjectile(from, to, graphicId, 28, 28, delay, speed, angle, 0, task);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, double speed) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, double speed) {
 		return sendProjectile(from, to, graphicId, angle, speed, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int angle, double speed, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, double speed, Consumer<WorldProjectile> task) {
 		return sendProjectile(from, to, graphicId, 28, 28, 0, speed, angle, 0, task);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
 		return sendProjectile(from, to, graphicId, startHeight, endHeight, startTime, speed, angle, slope, null);
 	}
 
-	public static final WorldProjectile sendProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+		WorldTile fromTile = from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile();
+		WorldTile toTile = to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile();
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
@@ -1286,13 +1294,19 @@ public final class World {
 		} else
 			toSizeX = toSizeY = 1;
 		slope = fromSizeX * 30;
-		WorldProjectile projectile = new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY) : Utils.getProjectileTimeNew(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY, speed)), slope, angle, task);
-		if (graphicId != -1)
-			getRegion(from.getRegionId()).addProjectile(projectile);
+		WorldProjectile projectile = new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
+		if (graphicId != -1) {
+			int regionId = from instanceof WorldTile t ? t.getRegionId() : from instanceof Entity e ? e.getRegionId() : -1;
+			if (regionId == -1)
+				throw new RuntimeException("Invalid source target. Accepts WorldTiles and Entities.");
+			getRegion(regionId).addProjectile(projectile);
+		}
 		return projectile;
 	}
 	
-	public static final WorldProjectile createProjectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+	public static final WorldProjectile createProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
+		WorldTile fromTile = from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile();
+		WorldTile toTile = to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile();
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
@@ -1314,7 +1328,7 @@ public final class World {
 		} else
 			toSizeX = toSizeY = 1;
 		slope = fromSizeX * 30;
-		return new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY) : Utils.getProjectileTimeNew(from, fromSizeX, fromSizeY, to, toSizeX, toSizeY, speed)), slope, angle, task);
+		return new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 	}
 
 	public static void executeAfterLoadRegion(final int regionId, final Runnable event) {
@@ -1352,7 +1366,7 @@ public final class World {
 	}
 
 	public static boolean isPvpArea(Player player) {
-		return WildernessController.isAtWild(player);
+		return WildernessController.isAtWild(player.getTile());
 	}
 
 	public static GameObject getClosestObject(int objectId, WorldTile tile) {
@@ -1441,8 +1455,48 @@ public final class World {
 		}
 	}
 
-	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
+	/**
+	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
+	 */
+	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
+		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
+		WorldTile finalTile = null;
+		while(!unchecked.isEmpty()) {
+			boolean failed = false;
+			Direction curr = unchecked.get(Utils.random(unchecked.size()));
+			Direction offset = Direction.forDelta(curr.getDx() != 0 ? 0 : 1 * curr.getDy(), curr.getDy() != 0 ? 0 : 1 * curr.getDx());
+			WorldTile startTile = tile.transform(0, 0);
+			for (int i = 0;i <= size;i++) {
+				for (int row = 0; row < size; row++) {
+					WorldTile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
+					if (Settings.getConfig().isDebug()) {
+						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
+							case NORTH -> 2000;
+							case SOUTH -> 2001;
+							case EAST -> 2017;
+							default -> 1999;
+						}), from);
+					}
+					if (!checkWalkStep(from, curr, 1) || (size > 1 && row < (size-1) && !checkWalkStep(from, offset, 1))) {
+						failed = true;
+						break;
+					}
+				}
+			}
+			if (!failed) {
+				finalTile = startTile.transform(curr.getDx(), curr.getDy());
+				if (curr.getDx() < 0 || curr.getDy() < 0)
+					finalTile = finalTile.transform(-size+1, -size+1);
+				if (Settings.getConfig().isDebug())
+					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
+				break;
+			}
+			unchecked.remove(curr);
+		}
+		return finalTile;
+	}
 
+	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
 		//Checks outward - Northeast
 		for (int x = 0; x <= dist; x++)
 			for (int y = 0; y <= dist; y++)
@@ -1467,7 +1521,7 @@ public final class World {
 				if (World.floorFree(tile.getPlane(), tile.getX() + x, tile.getY() + y))
 					return tile.transform(x, y, 0);
 
-		return tile.transform(0, 0, 1);
+		return tile.transform(0, 0, 0);
 	}
 
 	public static long getServerTicks() {

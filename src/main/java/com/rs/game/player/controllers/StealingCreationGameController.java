@@ -125,9 +125,9 @@ public class StealingCreationGameController {
 
 	public void playMusic() {
 		for (Player player : blueTeam)
-			player.getMusicsManager().playMusic(578);
+			player.getMusicsManager().playSongAndUnlock(578);
 		for (Player player : redTeam)
-			player.getMusicsManager().playMusic(578);
+			player.getMusicsManager().playSongAndUnlock(578);
 	}
 
 	/**

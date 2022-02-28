@@ -16,11 +16,6 @@
 //
 package com.rs.game.player.content.commands;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
@@ -31,7 +26,6 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.Dicing;
 import com.rs.lib.file.FileManager;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.GroundItem.GroundItemType;
@@ -40,6 +34,11 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.events.DialogueOptionEvent;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public final class Commands {
 
@@ -236,10 +235,6 @@ public final class Commands {
 			p.getHouse().enterMyHouse();
 			return true;
 
-		case "rigroll":
-			Dicing.riggedRoll(p, 15098, 2075, Integer.valueOf(args[1]));
-			return true;
-
 		case "hintgame":
 			for (Player players : World.getPlayers())
 				players.getHintIconsManager().addHintIcon(p.getX(), p.getY(), 0, 0, 2, 0, -1, true);
@@ -264,7 +259,7 @@ public final class Commands {
 				for (NPC npc : World.getNPCs()) {
 					if (npc instanceof Familiar || npc instanceof Pet)
 						continue;
-					if (Utils.getDistance(npc, p) < 9)
+					if (Utils.getDistance(npc.getTile(), p.getTile()) < 9)
 						npc.sendDeath(p);
 				}
 			return true;

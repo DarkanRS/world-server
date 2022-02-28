@@ -16,14 +16,14 @@
 //
 package com.rs.game.player.dialogues;
 
-import java.util.Set;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
+
+import java.util.Set;
 
 public final class MiningGuildDwarf extends Dialogue {
 
@@ -183,7 +183,7 @@ public final class MiningGuildDwarf extends Dialogue {
 					NPC npc = World.getNPCs().get(npcIndex);
 					if (npc == null || npc.isDead() || npc.hasFinished() || !npc.getName().equals("Dwarf"))
 						continue;
-					int newDistance = (int) Utils.getDistance(player, npc);
+					int newDistance = (int) Utils.getDistance(player.getTile(), npc.getTile());
 					if (distance == -1 || distance > newDistance) {
 						distance = newDistance;
 						npcId = npc.getId();

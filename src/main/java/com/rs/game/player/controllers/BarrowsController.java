@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
@@ -49,6 +46,9 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BarrowsController extends Controller {
 
@@ -291,7 +291,7 @@ public final class BarrowsController extends Controller {
 				return false;
 			}
 			if (!player.getKilledBarrowBrothers()[player.getHiddenBrother()])
-				sendTarget(2025 + player.getHiddenBrother(), new WorldTile(player));
+				sendTarget(2025 + player.getHiddenBrother(), new WorldTile(player.getTile()));
 			if (object.getDefinitions(player).getOption(1).equals("Search")) {
 				player.incrementCount("Barrows chests looted");
 				sendReward();
@@ -332,7 +332,7 @@ public final class BarrowsController extends Controller {
 						if (player.getHiddenBrother() != -1) {
 							int brother = getRandomBrother();
 							if (brother != -1)
-								sendTarget(2025 + brother, new WorldTile(player));
+								sendTarget(2025 + brother, new WorldTile(player.getTile()));
 						}
 					}
 				}, 0);
@@ -353,7 +353,7 @@ public final class BarrowsController extends Controller {
 				else if (target != null || player.getKilledBarrowBrothers()[sarcoId])
 					player.sendMessage("You found nothing.");
 				else
-					sendTarget(2025 + sarcoId, player);
+					sendTarget(2025 + sarcoId, new WorldTile(player.getTile()));
 				return false;
 			}
 		}

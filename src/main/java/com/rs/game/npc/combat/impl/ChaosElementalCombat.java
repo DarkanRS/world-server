@@ -55,7 +55,7 @@ public class ChaosElementalCombat extends CombatScript {
 						}
 					}
 				}
-			}, Utils.getDistanceI(npc, target)/3);
+			}, Utils.getDistanceI(npc.getTile(), target.getTile())/3);
 		} else if (atk <= 18) {
 			World.sendProjectile(npc, target, 310, 30, 30, 45, 30, 15, 0);
 			if (target instanceof Player player)
@@ -87,7 +87,7 @@ public class ChaosElementalCombat extends CombatScript {
 							player.getAppearance().generateAppearanceData();
 						}
 					}
-				}, Utils.getDistanceI(npc, target)/3);
+				}, Utils.getDistanceI(npc.getTile(), target.getTile())/3);
 		} else {
 			int damage = getMaxHit(npc, 300, AttackStyle.MAGE, target);
 			Hit hit = getMagicHit(npc, damage);
@@ -100,7 +100,7 @@ public class ChaosElementalCombat extends CombatScript {
 				hit = getMeleeHit(npc, damage);
 			}
 			World.sendProjectile(npc, target, 1279, 30, 30, 45, 30, 15, 0);
-			delayHit(npc, Utils.getDistanceI(npc, target)/3, target, hit);
+			delayHit(npc, Utils.getDistanceI(npc.getTile(), target.getTile())/3, target, hit);
 		}
 		return 4;
 	}

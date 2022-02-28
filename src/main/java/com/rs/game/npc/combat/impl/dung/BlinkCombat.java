@@ -16,9 +16,6 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
 import com.rs.game.Hit;
@@ -37,6 +34,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class BlinkCombat extends CombatScript {
 
@@ -99,7 +99,7 @@ public class BlinkCombat extends CombatScript {
 						if (cycles == 1) {
 							knifeTargets = new LinkedList<>();
 							for (Entity t : boss.getPossibleTargets()) {
-								WorldTile center = new WorldTile(t);
+								WorldTile center = new WorldTile(t.getTile());
 								for (int i = 0; i < 3; i++)
 									knifeTargets.add(i == 0 ? center : World.getFreeTile(center, 1));
 							}

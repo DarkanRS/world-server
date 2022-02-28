@@ -68,7 +68,7 @@ public final class QueenBlackDragonController extends Controller {
 				player.getPackets().sendVarc(1924, 0);
 				player.getPackets().sendVarc(1925, 0);
 				player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 1 : 3, 1285);
-				player.getMusicsManager().playMusic(1119); // AWOKEN
+				player.getMusicsManager().playSongAndUnlock(1119); // AWOKEN
 			});
 		});
 	}
@@ -121,7 +121,7 @@ public final class QueenBlackDragonController extends Controller {
 			return false;
 		}
 		if (object.getId() == npc.getActiveArtifact().getId()) {
-			player.getMusicsManager().playMusic(1118); // QUEEN BLACK DRAGON
+			player.getMusicsManager().playSongAndUnlock(1118); // QUEEN BLACK DRAGON
 			npc.setSpawningWorms(false);
 			npc.setNextAttack(20);
 			npc.setActiveArtifact(new GameObject(object.getId() + 1, ObjectType.SCENERY_INTERACT, 0, object));
@@ -294,7 +294,7 @@ public final class QueenBlackDragonController extends Controller {
 			player.getInterfaceManager().removeWindowInterface(1, 3);
 			player.getPackets().sendVarc(184, -1);
 		} else
-			player.setLocation(OUTSIDE);
+			player.getTile().setLocation(OUTSIDE);
 		removeController();
 		if (npc != null)
 			player.getBank().addItems(npc.getRewards().toArray(), false);

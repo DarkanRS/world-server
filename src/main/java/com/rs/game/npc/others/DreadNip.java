@@ -44,7 +44,7 @@ public class DreadNip extends NPC {
 			finish(0);
 			return;
 		}
-		if (Utils.getDistance(owner, this) >= 10) {
+		if (Utils.getDistance(owner.getTile(), getTile()) >= 10) {
 			finish(1);
 			return;
 		} else if (ticks++ == 33) {

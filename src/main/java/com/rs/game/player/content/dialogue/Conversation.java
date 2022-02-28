@@ -38,6 +38,7 @@ public class Conversation {
 	public static String DEFAULT_OPTIONS_TITLE = "Choose an option";
 
 	private HashMap<String, Dialogue> markedStages;
+	private Dialogue firstDialogue;
 	protected Player player;
 	protected Dialogue current;
 	private int npcId;
@@ -78,13 +79,12 @@ public class Conversation {
 	public boolean create() {
 		try {
 			if (current != null) {
-				setFirst(current.getHead());
+				setFirst(firstDialogue);
 				return true;
 			}
 			return false;
 		} catch(Exception e) {
-			FileManager.logError("Error creating dialogue!");
-			throw new RuntimeException("Error creating dialogue");
+			throw new RuntimeException("Error creating dialogue: " + getClass().getSimpleName() + " - " + e.getMessage());
 		}
 	}
 
@@ -96,8 +96,7 @@ public class Conversation {
 		try {
 			return current.getHead();
 		} catch(Exception e) {
-			FileManager.logError("Error creating dialogue!");
-			throw new RuntimeException("Error creating dialogue");
+			throw new RuntimeException("Error creating dialogue: " + getClass().getSimpleName() + " - " + e.getMessage());
 		}
 	}
 
@@ -110,6 +109,8 @@ public class Conversation {
 	}
 
 	public Dialogue addNext(String stageName, Dialogue dialogue) {
+		if (firstDialogue == null)
+			firstDialogue = dialogue;
 		if (markedStages == null)
 			throw new RuntimeException("Do not call builder functions outside the constructor.");
 		if (stageName != null)
@@ -130,7 +131,11 @@ public class Conversation {
 	}
 
 	public Dialogue addNext(String stageName, Statement statement) {
+		if (markedStages == null)
+			throw new RuntimeException("Do not call builder functions outside the constructor.");
 		Dialogue dialogue = new Dialogue(statement);
+		if (firstDialogue == null)
+			firstDialogue = dialogue;
 		if (stageName != null)
 			markedStages.put(stageName, dialogue);
 		if (current == null)

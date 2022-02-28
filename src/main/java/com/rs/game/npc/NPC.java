@@ -20,6 +20,7 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cores.CoresManager;
+import com.rs.db.WorldDB;
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -258,7 +259,7 @@ public class NPC extends Entity {
 							moveY = -moveY;
 						resetWalkSteps();
 						DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile.transform(moveX, moveY, 0), getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
-						if (Utils.getDistance(this, respawnTile) > 3 && !getDefinitions().hasAttackOption())
+						if (Utils.getDistance(this.getTile(), respawnTile) > 3 && !getDefinitions().hasAttackOption())
 							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
 					}
 				}
@@ -284,8 +285,12 @@ public class NPC extends Entity {
 
 	@Override
 	public void processEntity() {
-		super.processEntity();
-		processNPC();
+		try {
+			super.processEntity();
+			processNPC();
+		} catch (Throwable e) {
+			WorldDB.getLogs().logError(e);
+		}
 	}
 
 	public int getRespawnDirection() {
@@ -382,7 +387,20 @@ public class NPC extends Entity {
 				}
 				tick++;
 			}
+<<<<<<< HEAD
 		}, 0, 0);
+=======
+		}, 0, 1);
+	}
+
+	public void setRespawnTask(int time) {
+		if (!hasFinished()) {
+			reset();
+			getTile().setLocation(respawnTile);
+			finish();
+		}
+		CoresManager.schedule(() -> spawn(), time < 0 ? getCombatDefinitions().getRespawnDelay() : time);
+>>>>>>> f7115a811aff9687b03181b10ba18a3c95dfa904
 	}
 
 	public void deserialize() {
@@ -457,7 +475,7 @@ public class NPC extends Entity {
 						player.getControllerManager().processNPCDeath(NPC.this);
 					drop();
 					reset();
-					setLocation(respawnTile);
+					getTile().setLocation(respawnTile);
 					finish();
 					if (!isSpawned())
 						setRespawnTask();
@@ -840,7 +858,7 @@ public class NPC extends Entity {
 	}
 
 	protected void setRespawnTile(WorldTile respawnTile) {
-		this.respawnTile = respawnTile;
+		this.respawnTile = new WorldTile(respawnTile);
 	}
 
 	public boolean isUnderCombat() {
@@ -928,7 +946,7 @@ public class NPC extends Entity {
 							|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
 							|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
 							|| !lineOfSightTo(player, false)
-							|| (!forceAgressive && !WildernessController.isAtWild(this) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
+							|| (!forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
 						continue;
 					possibleTarget.add(player);
 				}
@@ -1076,18 +1094,6 @@ public class NPC extends Entity {
 		changedName = true;
 	}
 
-	@Override
-	public int hashCode() {
-		return getIndex();
-	}
-
-	@Override
-	public boolean equals(Object other) {
-		if (other instanceof NPC n)
-			return n.hashCode() == hashCode();
-		return false;
-	}
-
 	public int getCustomCombatLevel() {
 		return combatLevel;
 	}
@@ -1134,7 +1140,7 @@ public class NPC extends Entity {
 	}
 
 	public boolean withinDistance(Player tile, int distance) {
-		return super.withinDistance(tile, distance);
+		return super.withinDistance(tile.getTile(), distance);
 	}
 
 	/**

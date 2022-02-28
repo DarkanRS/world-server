@@ -141,9 +141,9 @@ public enum Direction {
 			return Direction.NORTH;
 	}
 
-	public static Direction getDirectionTo(Entity entity, WorldTile target) {
+	public static Direction getDirectionTo(Entity entity, Object target) {
 		Vec2 from = entity.getMiddleWorldTileAsVector();
-		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2(target);
+		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2((WorldTile) target);
 		Vec2 sub = to.sub(from);
 		sub.norm();
 		WorldTile delta = sub.toTile();

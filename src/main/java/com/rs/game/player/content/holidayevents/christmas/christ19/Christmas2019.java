@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.holidayevents.christmas.christ19;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.ForceTalk;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.pet.Pets;
@@ -36,6 +33,9 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Christmas2019 {
@@ -147,7 +147,7 @@ public class Christmas2019 {
 					} else {
 						if (p.getPet() != null) {
 							int prevDist = p.getTempAttribs().getI("christ19LocDist");
-							int currDist = (int) Utils.getDistance(p, loc.loc);
+							int currDist = (int) Utils.getDistance(p.getTile(), loc.loc);
 							if (prevDist != 0)
 								if (currDist > prevDist)
 									p.getPet().setNextForceTalk(new ForceTalk("Yer headin the wrong way, guv!"));

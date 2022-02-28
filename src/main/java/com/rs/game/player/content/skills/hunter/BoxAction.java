@@ -60,20 +60,20 @@ public class BoxAction extends Action {
 	@Override
 	public boolean start(Player player) {
 		player.resetWalkSteps();
-		tile = new WorldTile(player);
+		tile = new WorldTile(player.getTile());
 		if (type == BoxTrapType.MARASAMAW_PLANT)
-			trap = new MarasamawPlant(player, new WorldTile(player));
+			trap = new MarasamawPlant(player, new WorldTile(player.getTile()));
 		else if (type == BoxTrapType.TREE_NET)
-			trap = new NetTrap(player, new WorldTile(player), obj);
+			trap = new NetTrap(player, new WorldTile(player.getTile()), obj);
 		else if (type == BoxTrapType.DEAD_FALL)
 			trap = new DeadfallTrap(player, obj);
 		else
-			trap = new BoxStyleTrap(player, type, new WorldTile(player));
+			trap = new BoxStyleTrap(player, type, new WorldTile(player.getTile()));
 		if (!checkAll(player))
 			return false;
 		if (groundItem == null && type != BoxTrapType.TREE_NET) {
 			player.getInventory().deleteItem(type.getId(), 1);
-			World.addGroundItem(new Item(type.getId(), 1), new WorldTile(player), player, true, 180);
+			World.addGroundItem(new Item(type.getId(), 1), new WorldTile(player.getTile()), player, true, 180);
 		}
 		player.sendMessage("You start setting up the trap..");
 		player.setNextAnimation(type == BoxTrapType.TREE_NET ? new Animation(5215) : new Animation(5208));

@@ -160,7 +160,6 @@ public class SirPrysinDemonSlayerD extends Conversation {
 	}
 
 	private void soGiveKeysDialogue(Player p) {
-		addPlayer(HeadE.AMAZED_MILD, "So give me the keys!");
 		addNPC(SIR_PRYSIN, HeadE.NERVOUS, "Um, well, it's not so easy");
 		addNPC(SIR_PRYSIN, HeadE.NERVOUS, "I kept one of the keys. I gave the other two to other people for safe keeping.");
 		addNPC(SIR_PRYSIN, HeadE.NERVOUS, "One I gave to Rovin, the captain of the palace guard.");
@@ -177,10 +176,10 @@ public class SirPrysinDemonSlayerD extends Conversation {
 			@Override
 			public void create() {
 				option("So give me the keys!", new Dialogue()
+						.addPlayer(HeadE.AMAZED_MILD, "So give me the keys!")
 						.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, GIVE_KEYS_DIALOGUE).getStart());}));
 				option("And why is this a problem?", new Dialogue()
 						.addPlayer(HeadE.FRUSTRATED, "And why is this a problem?")
-						.addNPC(SIR_PRYSIN, HeadE.SAD_MILD, "I kept one of the keys. I gave the other two to other people for safe keeping.")
 						.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, GIVE_KEYS_DIALOGUE).getStart());}));
 			}
 		});
@@ -271,7 +270,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 					public void run() {
 						if (tick == 0) {
 							p.lock();
-							playerTile = p;
+							playerTile = p.getTile();
 							p.setNextWorldTile(new WorldTile(3204, 3471, 0));
 							p.faceEntity(dummy);
 						} else if (tick == 1) {

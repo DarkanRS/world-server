@@ -49,7 +49,7 @@ public class WorldAPI extends WebAPI {
 					return;
 				}
 				APIUtil.readJSON(ex, Account.class, account -> {
-					Player player = World.getPlayer(account.getUsername());
+					Player player = World.getPlayerByUsername(account.getUsername());
 					if (player == null || player.getSession() == null)
 						return;
 					player.getAccount().setSocial(account.getSocial());
@@ -78,7 +78,7 @@ public class WorldAPI extends WebAPI {
 					return;
 				}
 				APIUtil.readJSON(ex, PacketEncoderDto.class, request -> {
-					Player player = World.getPlayer(request.username());
+					Player player = World.getPlayerByUsername(request.username());
 					if (player == null || player.getSession() == null)
 						return;
 					player.getSession().writeToQueue(request.encoders());
@@ -94,7 +94,7 @@ public class WorldAPI extends WebAPI {
 					return;
 				}
 				APIUtil.readJSON(ex, PacketDto.class, packet -> {
-					Player player = World.getPlayer(packet.username());
+					Player player = World.getPlayerByUsername(packet.username());
 					if (player == null)
 						return;
 					for (Packet p : packet.packets())

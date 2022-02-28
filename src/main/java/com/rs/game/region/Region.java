@@ -16,13 +16,6 @@
 //
 package com.rs.game.region;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
@@ -44,6 +37,13 @@ import com.rs.utils.music.Music;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawns;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Region {
 
@@ -549,10 +549,10 @@ public class Region {
 		npcsIndexes.add(index);
 	}
 
-	public void removePlayerIndex(Integer index) {
+	public boolean removePlayerIndex(Integer index) {
 		if (playersIndexes == null) // removed region example cons or dung
-			return;
-		playersIndexes.remove(index);
+			return false;
+		return playersIndexes.remove(index);
 	}
 
 	public boolean removeNPCIndex(Object index) {
@@ -913,8 +913,8 @@ public class Region {
 		if (item.getDefinitions().isStackable() && existing != null) {
 			int oldAmount = existing.getAmount();
 			existing.setAmount(existing.getAmount() + item.getAmount());
-			if (World.getPlayer(existing.getCreatorUsername()) != null)
-				World.getPlayer(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
+			if (World.getPlayerByUsername(existing.getCreatorUsername()) != null)
+				World.getPlayerByUsername(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
 			else
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
 					if (player.hasStarted() && !player.hasFinished())
@@ -923,8 +923,8 @@ public class Region {
 		}
 		groundItemList.add(item);
 		items.add(item);
-		if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
-			World.getPlayer(item.getCreatorUsername()).getPackets().sendGroundItem(item);
+		if (item.isPrivate() && World.getPlayerByUsername(item.getCreatorUsername()) != null)
+			World.getPlayerByUsername(item.getCreatorUsername()).getPackets().sendGroundItem(item);
 		else
 			for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
 				if (player.hasStarted() && !player.hasFinished())
@@ -948,8 +948,8 @@ public class Region {
 				tileMap.remove(tileHash);
 			if (tileMap.isEmpty())
 				groundItems.remove(item.getVisibleToId());
-			if (item.isPrivate() && World.getPlayer(item.getCreatorUsername()) != null)
-				World.getPlayer(item.getCreatorUsername()).getPackets().removeGroundItem(item);
+			if (item.isPrivate() && World.getPlayerByUsername(item.getCreatorUsername()) != null)
+				World.getPlayerByUsername(item.getCreatorUsername()).getPackets().removeGroundItem(item);
 			else
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
 					if (player.hasStarted() && !player.hasFinished())

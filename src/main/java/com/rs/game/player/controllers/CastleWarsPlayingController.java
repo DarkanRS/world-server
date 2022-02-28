@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.controllers;
 
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -37,6 +35,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
+
+import java.util.List;
 
 public class CastleWarsPlayingController extends Controller {
 
@@ -92,7 +92,7 @@ public class CastleWarsPlayingController extends Controller {
 			if (item != null) {
 				if (item.getId() == 4053) {
 					if (player.getX() == 2422 && player.getY() == 3076 || player.getX() == 2426 && player.getY() == 3080 || player.getX() == 2423 && player.getY() == 3076 || player.getX() == 2426 && player.getY() == 3081 || player.getX() == 2373
-							&& player.getY() == 3127 || player.getX() == 2373 && player.getY() == 3126 || player.getX() == 2376 && player.getY() == 3131 || player.getX() == 2377 && player.getY() == 3131 || !CastleWars.isBarricadeAt(player)) {
+							&& player.getY() == 3127 || player.getX() == 2373 && player.getY() == 3126 || player.getX() == 2376 && player.getY() == 3131 || player.getX() == 2377 && player.getY() == 3131 || !CastleWars.isBarricadeAt(player.getTile())) {
 						player.sendMessage("You cannot place a barracade here!");
 						return false;
 					}
@@ -205,7 +205,7 @@ public class CastleWarsPlayingController extends Controller {
 					int weaponId = player.getEquipment().getWeaponId();
 					if (weaponId == 4037 || weaponId == 4039) {
 						CastleWars.setWeapon(player, null);
-						CastleWars.dropFlag(player, weaponId == 4037 ? CastleWars.SARADOMIN : CastleWars.ZAMORAK);
+						CastleWars.dropFlag(player.getTile(), weaponId == 4037 ? CastleWars.SARADOMIN : CastleWars.ZAMORAK);
 					} else {
 						Player killer = player.getMostDamageReceivedSourcePlayer();
 						if (killer != null)
@@ -227,7 +227,7 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.setLocation(new WorldTile(CastleWars.LOBBY, 2));
+		player.getTile().setLocation(new WorldTile(CastleWars.LOBBY, 2));
 		return true;
 	}
 
