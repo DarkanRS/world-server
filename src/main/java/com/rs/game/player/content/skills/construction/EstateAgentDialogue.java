@@ -17,10 +17,14 @@
 package com.rs.game.player.content.skills.construction;
 
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.Skillcapes;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.dialogues.Dialogue;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.quests.Quest;
 import com.rs.lib.Constants;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -28,74 +32,73 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
-public class EstateAgentDialogue extends Dialogue {
+public class EstateAgentDialogue extends Conversation {
 
 	public static NPCClickHandler handleEstateAgent = new NPCClickHandler("Estate agent") {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getDialogueManager().execute(new EstateAgentDialogue());
+			e.getPlayer().startConversation(new EstateAgentDialogue(e.getPlayer(), e.getNPCId()));
 		}
 	};
 
-	@Override
-	public void start() {
-		stage = 0;
-		sendOptionsDialogue(player, "What would you like to do?", "Open shop", "Ask about changing house styling", "What's that cape you are wearing?");
+	public EstateAgentDialogue(Player player, int npcId) {
+		super(player);
+
+		addOptions("What would you like to do?", new Options() {
+			@Override
+			public void create() {
+				option("Open shop", new Dialogue().addNext(() -> ShopsHandler.openShop(player, "construction_goods")));
+				option("Can I move my house?", new Dialogue().addOptions("Which town would you like your house moved to?", new Options() {
+					@Override
+					public void create() {
+						for (HouseConstants.POHLocation loc : HouseConstants.POHLocation.values()) {
+							if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= loc.getLevelRequired())
+								option(Utils.formatPlayerNameForDisplay(loc.name()), new Dialogue().addNext(() -> promptHouseLocation(Utils.formatPlayerNameForDisplay(loc.name()), loc, loc.getLevelRequired(), loc.getCost())));
+						}
+					}
+				}));
+				option("Ask about changing house styling.", new Dialogue().addOptions("Which kind of house style would you like?", new Options() {
+					@Override
+					public void create() {
+						option("Basic wood - 2,500 coins", new Dialogue().addNext(() -> promptHouseChange("basic wood", 0, 1, 2500)));
+						if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= 10)
+							option("Basic stone - 10,000 coins", new Dialogue().addNext(() -> promptHouseChange("basic stone", 1, 10, 10000)));
+						if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= 20)
+							option("Whitewashed stone - 15,000 coins", new Dialogue().addNext(() -> promptHouseChange("whitewashed stone", 2, 20, 15000)));
+						if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= 30)
+							option("Fremennik-style wood - 25,000 coins", new Dialogue().addNext(() -> promptHouseChange("fremennik-style wood", 3, 30, 20000)));
+						if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= 40)
+							option("Tropical wood - 50,000 coins", new Dialogue().addNext(() -> promptHouseChange("tropical wood", 4, 40, 50000)));
+						if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= 50)
+							option("Fancy stone - 100,000 coins", new Dialogue().addNext(() -> promptHouseChange("fancy stone", 5, 50, 100000)));
+						if (Quest.LOVE_STORY.meetsRequirements(player, "to have a dark stone themed house."))
+							option("Dark stone - 500,000 coins", new Dialogue().addNext(() -> promptHouseChange("dark stone", 6, 80, 500000)));
+					}
+				}));
+				option("What's that cape you are wearing?", Skillcapes.Construction.getOffer99CapeDialogue(player, npcId));
+			}
+		});
 	}
 
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 0) {
-			if (componentId == OPTION_1) {
-				ShopsHandler.openShop(player, "construction_goods");
-				end();
-			} else if (componentId == OPTION_2) {
-				stage = 1;
-				sendOptionsDialogue(player, "Which kind of house style would you like?",
-						"(Level 1) Basic wood - 2,500 coins",
-						"(Level 10) Basic stone - 10,000 coins",
-						"(Level 20) Whitewashed stone - 15,000 coins",
-						"(Level 30) Fremennik-style wood - 25,000 coins",
-						"More...");
-			} else if (componentId == OPTION_3) {
-				end();
-				player.startConversation(new Conversation(player, Skillcapes.Construction.getOffer99CapeDialogue(player, 6715)));
+	public void promptHouseLocation(final String name, final HouseConstants.POHLocation loc, int level, final int cost) {
+		if (player.getSkills().getLevelForXp(Constants.CONSTRUCTION) >= level) {
+			if (player.getInventory().containsItem(995, cost))
+				player.sendOptionDialogue("Are you sure?", new String[] {"Yes", "No, that's too much money."}, new DialogueOptionEvent() {
+					@Override
+					public void run(Player player) {
+						if (option == 1) {
+							player.getInventory().deleteItem(995, cost);
+							player.getHouse().setLocation(loc);
+							player.sendMessage("Your house location been set to "+name+".");
+						}
+					}
+				});
+			else {
+				player.sendMessage("You don't have enough money.");
 			}
-		} else if (stage == 1) {
-			if (componentId == OPTION_1)
-				promptHouseChange("basic wood", 0, 1, 2500);
-			else if (componentId == OPTION_2)
-				promptHouseChange("basic stone", 1, 10, 10000);
-			else if (componentId == OPTION_3)
-				promptHouseChange("whitewashed stone", 2, 20, 15000);
-			else if (componentId == OPTION_4)
-				promptHouseChange("fremennik-style wood", 3, 30, 20000);
-			else if (componentId == OPTION_5) {
-				stage = 2;
-				sendOptionsDialogue(player, "Which kind of house style would you like?",
-						"(Level 40) Tropical wood - 50,000 coins",
-						"(Level 50) Fancy stone - 100,000 coins",
-						"(Level 80) Dark stone - 500,000 coins",
-						"Back...");
-			}
-		} else if (stage == 2) {
-			if (componentId == OPTION_1)
-				promptHouseChange("tropical wood", 4, 40, 50000);
-			else if (componentId == OPTION_2)
-				promptHouseChange("fancy stone", 5, 50, 100000);
-			else if (componentId == OPTION_3)
-				promptHouseChange("dark stone", 6, 80, 500000);
-			else if (componentId == OPTION_4) {
-				stage = 1;
-				sendOptionsDialogue(player, "Which kind of house style would you like?",
-						"(Level 1) Basic wood - 2,500 coins",
-						"(Level 10) Basic stone - 10,000 coins",
-						"(Level 20) Whitewashed stone - 15,000 coins",
-						"(Level 30) Fremennik-style wood - 25,000 coins",
-						"More...");
-			}
-		} else
-			end();
+		} else {
+			player.sendMessage("You don't have the construction level required.");
+		}
 	}
 
 	public void promptHouseChange(final String name, final int look, int level, final int cost) {
@@ -112,18 +115,10 @@ public class EstateAgentDialogue extends Dialogue {
 					}
 				});
 			else {
-				end();
 				player.sendMessage("You don't have enough money.");
 			}
 		} else {
-			end();
 			player.sendMessage("You don't have the construction level required.");
 		}
 	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }
