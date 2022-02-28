@@ -61,15 +61,37 @@ public abstract class Controller {
 
 	}
 
+	/**
+	 * Should there be ambient music at all?
+	 * @return
+	 */
     public boolean playAmbientMusic() {
         return true;
     }
 
+	/**
+	 * No unlocks and no music outside of genre.
+	 * @return
+	 */
+	public boolean playAmbientStrictlyBackgroundMusic() {
+		return false;
+	}
+
+	/**
+	 * Genre of controller
+	 * @return
+	 */
     public Genre getGenre() {
         return Music.getGenre(player.getRegionId());
     }
 
-    public boolean playMusicOnRegionEnter() {
+	/**
+	 * After starting the controller if you enter a new region should you play the controller genre, true or false?
+	 * Also, if you enter a region then start the controller you wont get the genre change.
+	 * After first time music doesn't play on region enter.
+	 * @return
+	 */
+    public boolean playAmbientOnControllerRegionEnter() {
         return true;
     }
 

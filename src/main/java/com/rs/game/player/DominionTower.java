@@ -194,7 +194,7 @@ public final class DominionTower {
 		player.getControllerManager().startController(new DomTowerController(mode));
 		player.unlock();
 		player.setNextWorldTile(new WorldTile(getBaseX() + 10, getBaseY() + 29, 2));
-		player.getMusicsManager().playMusic(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
+		player.getMusicsManager().playSongAndUnlock(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
 	}
 
 	public String getStartFightText(int message) {

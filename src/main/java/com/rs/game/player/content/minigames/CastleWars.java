@@ -111,7 +111,7 @@ public final class CastleWars {
 		setHood(player, new Item(team == ZAMORAK ? 4515 : 4513));
 		player.getControllerManager().startController(new CastleWarsWaitingController(team));
 		player.setNextWorldTile(new WorldTile(team == ZAMORAK ? ZAMO_WAITING : SARA_WAITING, 1));
-		player.getMusicsManager().playMusic(318); // 5 players to start a game
+		player.getMusicsManager().playSongAndUnlock(318); // 5 players to start a game
 		if (playingGame == null && waiting[team].size() >= 5)
 			createPlayingGame();
 		else
@@ -256,7 +256,7 @@ public final class CastleWars {
 				refreshTimeLeft(player);
 		for (int i = 0; i < playing.length; i++)
 			for (Player player : playing[i]) {
-				player.getMusicsManager().playMusic(i == ZAMORAK ? 845 : 314);
+				player.getMusicsManager().playSongAndUnlock(i == ZAMORAK ? 845 : 314);
 				refreshTimeLeft(player);
 			}
 	}

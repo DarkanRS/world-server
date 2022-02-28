@@ -432,7 +432,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
-			p.getMusicsManager().playAmbientSong(Integer.valueOf(args[0]));
+			p.getMusicsManager().playSongWithoutUnlocking(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {

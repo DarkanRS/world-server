@@ -615,6 +615,13 @@
     ]
   },
   {
+    "genre": "Ambient Dungeoneering",
+    "parent": "Dungeoneering",
+    "comment": "Called for dynamic room",
+    "regionIds": [],
+    "songs": []
+  },
+  {
     "genre": "Safe Room, Dungeoneering",
     "parent": "Dungeoneering",
     "comment": "Called when in dynamic safe room, appended to ambient",

@@ -126,8 +126,12 @@ public class Bonfire extends Action {
 	public boolean process(Player player) {
 		if (checkAll(player)) {
 			if (Utils.random(500) == 0) {
-				new FireSpirit(new WorldTile(object, 1), player);
-				player.sendMessage("<col=ff0000>A fire spirit emerges from the bonfire.");
+				WorldTile tile = player.getNearestTeleTile(1);
+				if (tile != null) {
+					new FireSpirit(tile, player);
+					player.sendMessage("<col=ff0000>A fire spirit emerges from the bonfire.");
+				} else
+					player.sendMessage("<col=ff0000>A fire spirit struggles to escape the bonfire. Try moving elsewhere.");
 			}
 			return true;
 		}

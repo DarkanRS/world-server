@@ -18,6 +18,7 @@ package com.rs.game.npc.others;
 
 import com.rs.cores.CoresManager;
 import com.rs.game.Entity;
+import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.dialogues.DagonHai;
@@ -43,12 +44,15 @@ public class Bork extends NPC {
 
 	@Override
 	public void sendDeath(Entity source) {
+		for(NPC npc : World.getNPCsInRegion(source.getRegionId()))
+			if(npc.getId() == 7135)
+				npc.sendDeath(source);
 		deadTime = System.currentTimeMillis() + (1000 * 60 * 60);
 		resetWalkSteps();
 		for (Entity e : getPossibleTargets())
 			if (e instanceof Player player) {
-				player.getInterfaceManager().sendInterface(693);
-				player.getDialogueManager().execute(new DagonHai(), 7137, player, 1);
+//				player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(693);
+//				player.getDialogueManager().execute(new DagonHai(), 7137, player, 1);
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {

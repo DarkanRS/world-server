@@ -85,7 +85,7 @@ public class SorceressGardenController extends Controller {
 				return;
 			}
 			player.useStairs(-1, toTile, 0, 1);
-			player.getMusicsManager().playMusic(musicId);
+			player.getMusicsManager().playSongAndUnlock(musicId);
 		}
 
 		public static Gate forId(int id) {
