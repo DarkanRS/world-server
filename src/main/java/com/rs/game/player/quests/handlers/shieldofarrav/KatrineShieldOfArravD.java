@@ -37,7 +37,7 @@ public class KatrineShieldOfArravD extends Conversation {
 			introductoryConversations(p);
 			return;
 		}
-		if(!ShieldOfArrav.hasGang(p) && ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE))
+		if(!ShieldOfArrav.hasGang(p))
 			checkAboutCrossbowsConversation(p);
 		else if(ShieldOfArrav.isBlackArmGang(p)) {
 			addPlayer(HeadE.HAPPY_TALKING, "Hey.");
