@@ -346,7 +346,7 @@ public final class MusicsManager {
         if (!player.hasStarted())
             return;
         playingMusicDelay = System.currentTimeMillis();
-        if (musicId == -2) {
+        if (musicId == -2 || Music.getSong(musicId) == null) {
             playingMusic = musicId;
             player.getPackets().sendMusic(-1);
             player.getPackets().setIFText(187, 4, "");
