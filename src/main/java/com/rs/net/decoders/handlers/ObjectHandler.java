@@ -52,10 +52,8 @@ import com.rs.game.player.content.skills.crafting.Silver;
 import com.rs.game.player.content.skills.dungeoneering.rooms.puzzles.FishingFerretRoom;
 import com.rs.game.player.content.skills.firemaking.Bonfire;
 import com.rs.game.player.content.skills.magic.Magic;
-import com.rs.game.player.content.skills.runecrafting.Abyss;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting.RCRune;
-import com.rs.game.player.content.skills.runecrafting.RunecraftingAltar.Altar;
 import com.rs.game.player.content.skills.smithing.ForgingInterface;
 import com.rs.game.player.content.skills.smithing.Smithing.ForgingBar;
 import com.rs.game.player.content.skills.summoning.Summoning;
@@ -336,49 +334,7 @@ public final class ObjectHandler {
 						player.useStairs(3303, new WorldTile((isTravelingWest ? -2 : 2) + player.getX(), player.getY(), 0), 2, 3, null, true);
 					}
 				});
-			} else if (id == 7143 || id == 7153)
-				Abyss.clearRocks(player, object);
-			else if (id == 7152 || id == 7144)
-				Abyss.clearTendrills(player, object, new WorldTile(id == 7144 ? 3028 : 3051, 4824, 0));
-			else if (id == 7150 || id == 7146)
-				Abyss.clearEyes(player, object, new WorldTile(object.getX() == 3021 ? 3028 : 3050, 4839, 0));
-			else if (id == 7147)
-				Abyss.clearGap(player, object, new WorldTile(3030, 4843, 0), false);
-			else if (id == 7148)
-				Abyss.clearGap(player, object, new WorldTile(3040, 4845, 0), true);
-			else if (id == 7149)
-				Abyss.clearGap(player, object, new WorldTile(3048, 4842, 0), false);
-			else if (id == 7151)
-				Abyss.burnGout(player, object, new WorldTile(3053, 4831, 0));
-			else if (id == 7145)
-				Abyss.burnGout(player, object, new WorldTile(3024, 4834, 0));
-			else if (id == 7137)
-				player.setNextWorldTile(Altar.WATER.getInside());
-			else if (id == 7139)
-				player.setNextWorldTile(Altar.AIR.getInside());
-			else if (id == 7140)
-				player.setNextWorldTile(Altar.MIND.getInside());
-			else if (id == 7131)
-				player.setNextWorldTile(Altar.BODY.getInside());
-			else if (id == 7130)
-				player.setNextWorldTile(Altar.EARTH.getInside());
-			else if (id == 7129)
-				player.setNextWorldTile(Altar.FIRE.getInside());
-			else if (id == 7136)
-				player.setNextWorldTile(Altar.DEATH.getInside());
-			else if (id == 7135)
-				player.setNextWorldTile(Altar.LAW.getInside());
-			else if (id == 7133)
-				player.setNextWorldTile(Altar.NATURE.getInside());
-			else if (id == 7132)
-				player.setNextWorldTile(Altar.COSMIC.getInside());
-			else if (id == 7141)
-				player.setNextWorldTile(Altar.BLOOD.getInside());
-			else if (id == 7134)
-				player.setNextWorldTile(Altar.CHAOS.getInside());
-			else if (id == 7138)
-				player.sendMessage("A strange power blocks your exit..");
-			else if (id == 65371) { // Chaos altar (armored zombie)
+			} else if (id == 65371) { // Chaos altar (armored zombie)
 				final int maxPrayer1 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
 				if (player.getPrayer().getPoints() < maxPrayer1) {
 					player.lock(5);
