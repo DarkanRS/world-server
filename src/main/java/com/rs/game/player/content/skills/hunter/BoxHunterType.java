@@ -16,21 +16,24 @@
 //
 package com.rs.game.player.content.skills.hunter;
 
+import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.utils.DropSets;
+import com.rs.utils.drop.DropTable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public enum BoxHunterType {
 
-	CHINCHOMPA(5079, new Item[] { new Item(10033, 1) }, 53, 198.5, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185), 145, 268),
+	CHINCHOMPA(5079, "hunter_chin", 53, 198.5, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185), 145, 268),
 
-	CARNIVOROUS_CHINCHOMPA(5080, new Item[] { new Item(10034, 1) }, 63, 265, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185), 115, 228),
+	CARNIVOROUS_CHINCHOMPA(5080, "hunter_red_chin", 63, 265, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185), 115, 228),
 
-	GRENWALL(7010, 12535, new Item[] { new Item(12539, 18) }, 77, 1100, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(8602), new Animation(8602)),
+	GRENWALL(7010, 12535, "hunter_grenwall", 77, 1100, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(8602), new Animation(8602), 15, 130),
 
-	PAWYA(7012, 5972, new Item[] { new Item(526, 1), new Item(12535, 1) }, 66, 400, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(8615), new Animation(8611)),
+	PAWYA(7012, 5972, "hunter_pawya", 400, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(8615), new Animation(8611), 100, 215),
 
 	WILD_KEBBIT(5089, new Item[] { new Item(526, 1), new Item(10113) }, 23, 128, BoxTrapType.DEAD_FALL, 19207, 19215, 19206, new Animation(5275), new Animation(5277)),
 
@@ -89,10 +92,10 @@ public enum BoxHunterType {
 	ZAMORAK_JADINKO(13165, new Item[] { new Item(19983, 1) }, 81, 600, BoxTrapType.MARASAMAW_PLANT, 56839, 56828, 56818, new Animation(3293), new Animation(3293));
 
 	private int npcId, baitId, level, objectCatch, objectSuccess, objectFail, rate1, rate99;
-	private Item[] item;
 	private double xp;
 	private BoxTrapType hunter;
 	private Animation animSuccess, animFail;
+	private String dropTable;
 
 	public static final Map<Integer, BoxHunterType> ID_MAP = new HashMap<>();
 	public static final Map<Integer, BoxHunterType> OBJECTID_MAP = new HashMap<>();
@@ -112,14 +115,14 @@ public enum BoxHunterType {
 		return OBJECTID_MAP.get(id);
 	}
 
-	private BoxHunterType(int npcId, Item[] item, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail, int rate1, int rate99) {
-		this(npcId, -1, item, level, xp, hunter, objectCatch, objectSuccess, objectFail, animSuccess, animFail, rate1, rate99);
+	private BoxHunterType(int npcId, String dropTable, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail, int rate1, int rate99) {
+		this(npcId, -1, dropTable, level, xp, hunter, objectCatch, objectSuccess, objectFail, animSuccess, animFail, rate1, rate99);
 	}
 
-	private BoxHunterType(int npcId, int baitId, Item[] item, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail, int rate1, int rate99) {
+	private BoxHunterType(int npcId, int baitId, String dropTable, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail, int rate1, int rate99) {
 		this.npcId = npcId;
 		this.baitId = baitId;
-		this.item = item;
+		this.dropTable = dropTable;
 		this.level = level;
 		this.xp = xp;
 		this.hunter = hunter;
@@ -152,8 +155,8 @@ public enum BoxHunterType {
 		return xp;
 	}
 
-	public Item[] getItems() {
-		return item;
+	public Item[] getItems(Player player) {
+		return DropTable.calculateDrops(player, DropSets.getDropSet(dropTable));
 	}
 
 	public BoxTrapType getTrap() {
