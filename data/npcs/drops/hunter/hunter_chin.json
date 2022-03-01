@@ -1,0 +1,14 @@
+{
+    "names": [
+      "hunter_chin"
+    ],
+    "tables": [
+      {
+        "chance": 0.0,
+        "outOf": 0.0,
+        "drops": [
+          { "id": 10033, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

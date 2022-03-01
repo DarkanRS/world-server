@@ -19,6 +19,7 @@ package com.rs.game.player.content.skills.hunter.traps;
 import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.hunter.BoxHunterType;
 import com.rs.game.player.content.skills.hunter.BoxTrapType;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -33,12 +34,15 @@ public class MarasamawPlant extends BoxStyleTrap {
 
 	@Override
 	public void handleCatch(BoxHunterNPC npc, boolean success) {
+		BoxHunterType npcType = npc.getType(getOwner());
+		if (npcType == null)
+			return;
 		if (success) {
-			setId(npc.getType().getObjectCatch());
+			setId(npcType.getObjectCatch());
 			npc.setNextAnimation(new Animation(-1));
 			npc.setRespawnTask();
 		} else
-			setId(npc.getType().getObjectFail());
+			setId(npcType.getObjectFail());
 		setStatus(Status.CATCHING);
 		if (success)
 			WorldTasks.schedule(new WorldTask() {
@@ -51,8 +55,8 @@ public class MarasamawPlant extends BoxStyleTrap {
 			@Override
 			public void run() {
 				if (success)
-					setId(npc.getType().getObjectSuccess());
-				setNpcTrapped(npc.getType());
+					setId(npcType.getObjectSuccess());
+				setNpcTrapped(npcType);
 				setStatus(success ? Status.SUCCESS : Status.FAIL);
 			}
 		}, 3);

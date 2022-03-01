@@ -129,8 +129,7 @@ public class Christmas2019 {
 		public void handle(EnterChunkEvent e) {
 			if (!ACTIVE)
 				return;
-			if (e.getEntity() instanceof Player) {
-				Player p = (Player) e.getEntity();
+			if (e.getEntity() instanceof Player p) {
 				if (p.getChrist19Loc() == null) {
 					p.getVars().setVarBit(6928, 1);
 					p.getVars().setVarBit(6929, 1);

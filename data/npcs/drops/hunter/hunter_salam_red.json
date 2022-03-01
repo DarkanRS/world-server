@@ -1,0 +1,14 @@
+{
+    "names": [
+      "hunter_salam_red"
+    ],
+    "tables": [
+      {
+        "chance": 0.0,
+        "outOf": 0.0,
+        "drops": [
+          { "id": 10147, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

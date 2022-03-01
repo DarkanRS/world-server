@@ -1,0 +1,28 @@
+{
+    "names": [
+      "hunter_copperlong"
+    ],
+    "tables": [
+      {
+        "chance": 0.0,
+        "outOf": 0.0,
+        "drops": [
+          { "id": 526, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 0.0,
+        "outOf": 0.0,
+        "drops": [
+          { "id": 9978, "min": 1, "max": 1 }
+        ]
+      },
+      {
+        "chance": 0.0,
+        "outOf": 0.0,
+        "drops": [
+          { "id": 10091, "min": 5, "max": 10 }
+        ]
+      }
+    ]
+  }
