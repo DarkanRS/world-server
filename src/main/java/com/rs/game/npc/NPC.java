@@ -36,10 +36,7 @@ import com.rs.game.player.Bank;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.combat.PolyporeStaff;
-import com.rs.game.player.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.player.content.skills.hunter.BoxHunterType;
-import com.rs.game.player.content.skills.prayer.Burying;
-import com.rs.game.player.content.skills.prayer.Burying.Bone;
 import com.rs.game.player.content.skills.slayer.SlayerMonsters;
 import com.rs.game.player.content.world.regions.dungeons.TzHaar;
 import com.rs.game.player.controllers.GodwarsController;
@@ -642,27 +639,6 @@ public class NPC extends Entity {
 		if (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId()))
 			player.sendMessage("<col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName()); //
 		//player.getPackets().sendTileMessage("<shad=000000>"+item.getDefinitions().getName() + " (" + item.getAmount() + ")", tile, 20000, 50, 0xFF0000);
-
-		switch (item.getId()) {
-		case 12158:
-		case 12159:
-		case 12160:
-		case 12161:
-		case 12162:
-		case 12163:
-		case 12168:
-			if (dropTo.getInventory().containsItem(25350, 1) && dropTo.getInventory().hasRoomFor(item)) {
-				dropTo.getInventory().addItem(item);
-				return;
-			}
-			break;
-		case 995:
-			if (dropTo.getInventory().containsItem(25351, 1) && dropTo.getInventory().hasRoomFor(item)) {
-				dropTo.getInventory().addItem(item);
-				return;
-			}
-			break;
-		}
 
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);

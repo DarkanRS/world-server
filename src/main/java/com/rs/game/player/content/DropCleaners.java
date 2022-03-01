@@ -30,6 +30,28 @@ public class DropCleaners {
 		}
 	};
 
+	public static NPCDropHandler charmingImp = new NPCDropHandler(null, new Object[] { 12158, 12159, 12160, 12161, 12162, 12163, 12168 }) {
+		@Override
+		public void handle(NPCDropEvent e) {
+			if (e.getPlayer().getInventory().containsItem(25350, 1) && e.getPlayer().getInventory().hasRoomFor(e.getItem())) {
+				e.getPlayer().getInventory().addItem(new Item(e.getItem()));
+				e.deleteItem();
+				return;
+			}
+		}
+	};
+
+	public static NPCDropHandler goldAccumulator = new NPCDropHandler(null, new Object[] { 995 }) {
+		@Override
+		public void handle(NPCDropEvent e) {
+			if (e.getPlayer().getInventory().containsItem(25351, 1) && e.getPlayer().getInventory().hasRoomFor(e.getItem())) {
+				e.getPlayer().getInventory().addItem(new Item(e.getItem()));
+				e.deleteItem();
+				return;
+			}
+		}
+	};
+
 	public static boolean herbicide(Player player, Item item) {
 		if (!player.getInventory().containsItem(19675, 1))
 			return false;
