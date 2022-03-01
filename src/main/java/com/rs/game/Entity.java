@@ -112,8 +112,7 @@ public abstract class Entity {
 	private transient int nextFaceEntity;
 	private transient int lastFaceEntity;
 	private transient Entity attackedBy; // whos attacking you, used for single
-	protected transient long attackedByDelay; // delay till someone else can
-	// attack you
+	protected transient long attackedByDelay; // delay till someone else can attack you
 	private transient boolean multiArea;
 	private transient boolean isAtDynamicRegion;
 	private transient long lastAnimationEnd;

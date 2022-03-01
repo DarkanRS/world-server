@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.content.skills.hunter.traps;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
@@ -25,6 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.DropCleaners;
 import com.rs.game.player.content.skills.hunter.BoxHunterType;
 import com.rs.game.player.content.skills.hunter.BoxTrapType;
 import com.rs.game.tasks.WorldTask;
@@ -33,6 +32,8 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+
+import java.util.Arrays;
 
 public class BoxStyleTrap extends OwnedObject {
 
@@ -75,12 +76,15 @@ public class BoxStyleTrap extends OwnedObject {
 	}
 
 	public void handleCatch(BoxHunterNPC npc, boolean success) {
+		BoxHunterType npcType = npc.getType(getOwner());
+		if (npcType == null)
+			return;
 		if (type == BoxTrapType.BIRD_SNARE)
-			setId(success ? npc.getType().getObjectCatch() : 19176);
+			setId(success ? npcType.getObjectCatch() : 19176);
 		else if (type == BoxTrapType.DEAD_FALL)
-			setId(success ? npc.getType().getObjectCatch() : 19219);
+			setId(success ? npcType.getObjectCatch() : 19219);
 		else
-			setId(npc.getType().getObjectCatch());
+			setId(npcType.getObjectCatch());
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -88,8 +92,8 @@ public class BoxStyleTrap extends OwnedObject {
 					destroy();
 					return;
 				}
-				setNpcTrapped(npc.getType());
-				setId(success ? npc.getType().getObjectSuccess() : npc.getType().getObjectFail());
+				setNpcTrapped(npcType);
+				setId(success ? npcType.getObjectSuccess() : npcType.getObjectFail());
 				setStatus(success ? Status.SUCCESS : Status.FAIL);
 				if (success) {
 					npc.setNextAnimation(new Animation(-1));
@@ -113,8 +117,11 @@ public class BoxStyleTrap extends OwnedObject {
 		destroy();
 		player.incrementCount(NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName()+" trapped");
 		player.setNextAnimation(getTrapType().getPickUpAnimation());
-		for (Item i : getNpcTrapped().getItems())
+		for (Item i : getNpcTrapped().getItems(player)) {
+			if (i == null || DropCleaners.bonecrush(player, i) || DropCleaners.herbicide(player, i))
+				continue;
 			player.getInventory().addItemDrop(i);
+		}
 		if (getTrapType() != BoxTrapType.MAGIC_BOX && getTrapType() != BoxTrapType.DEAD_FALL)
 			player.getInventory().addItemDrop(getTrapType().getId(), 1);
 		if (getTrapType() == BoxTrapType.TREE_NET)

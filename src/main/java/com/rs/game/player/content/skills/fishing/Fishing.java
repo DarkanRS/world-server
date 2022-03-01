@@ -19,6 +19,7 @@ package com.rs.game.player.content.skills.fishing;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.actions.Action;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
@@ -93,14 +94,22 @@ public class Fishing extends Action {
                 e.getPlayer().sendMessage("You need a knife to gut fish.");
                 return;
             }
+            int chance1 = fish.getId() == 11328 ? 2 : 4;
+            int chance99 = fish.getId() == 11328 ? 169 : 317;
+
             e.getPlayer().setNextAnimation(new Animation(6702));
             e.getPlayer().getInventory().deleteItem(fish);
-            if (Utils.getRandomInclusive(100) > 70) {
+            if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.COOKING), chance1, chance99)) {
+                double offcutChance = switch(fish.getId()) {
+                  default -> 0.5;
+                  case 11330 -> 0.75;
+                  case 11332 -> 0.83333;
+                };
                 e.getPlayer().getInventory().addItemDrop(fish.getId() == 11332 ? 11326 : 11324, 1);
                 e.getPlayer().getSkills().addXp(Constants.COOKING, fish.getId() == 11332 ? 15 : 10);
+                if (Math.random() < offcutChance)
+                    e.getPlayer().getInventory().addItemDrop(11334, 1);
             }
-            if (Utils.getRandomInclusive(100) > 70)
-                e.getPlayer().getInventory().addItemDrop(11334, 1);
         }
     };
 

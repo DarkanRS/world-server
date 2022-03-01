@@ -16,22 +16,22 @@
 //
 package com.rs.game.player.content.skills.hunter.traps;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.skills.hunter.BoxHunterType;
 import com.rs.game.player.content.skills.hunter.BoxTrapType;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NetTrap extends BoxStyleTrap {
 
@@ -111,6 +111,9 @@ public class NetTrap extends BoxStyleTrap {
 
 	@Override
 	public void handleCatch(BoxHunterNPC npc, boolean success) {
+		BoxHunterType npcType = npc.getType(getOwner());
+		if (npcType == null)
+			return;
 		destroy();
 		NetTrap compTrap = new NetTrap(getOwner(), tree.transform(rotation == 3 ? -1 : 0, rotation == 2 ? -1 : 0, 0), null);
 		compTrap.setRouteType(RouteType.NORMAL);
@@ -124,7 +127,7 @@ public class NetTrap extends BoxStyleTrap {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				compTrap.setNpcTrapped(npc.getType());
+				compTrap.setNpcTrapped(npcType);
 				compTrap.setId(success ? treeType.caught : treeType.failed);
 				compTrap.setStatus(success ? Status.SUCCESS : Status.FAIL);
 			}

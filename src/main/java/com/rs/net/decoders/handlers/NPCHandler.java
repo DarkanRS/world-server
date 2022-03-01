@@ -17,14 +17,11 @@
 package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
+import com.rs.game.Entity;
 import com.rs.game.ge.GE;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.others.ConditionalDeath;
-import com.rs.game.npc.others.DoorSupport;
-import com.rs.game.npc.others.FireSpirit;
-import com.rs.game.npc.others.GraveStone;
-import com.rs.game.npc.others.MutatedZygomite;
+import com.rs.game.npc.others.*;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.Player;
@@ -53,23 +50,7 @@ import com.rs.game.player.content.skills.thieving.PickPocketAction;
 import com.rs.game.player.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.player.content.transportation.TravelMethods;
 import com.rs.game.player.content.transportation.TravelMethods.Carrier;
-import com.rs.game.player.dialogues.BoatingDialogue;
-import com.rs.game.player.dialogues.ClanCloak;
-import com.rs.game.player.dialogues.ClanVex;
-import com.rs.game.player.dialogues.DrogoDwarf;
-import com.rs.game.player.dialogues.FatherAereck;
-import com.rs.game.player.dialogues.FremennikShipmaster;
-import com.rs.game.player.dialogues.GeneralStore;
-import com.rs.game.player.dialogues.Jossik;
-import com.rs.game.player.dialogues.MamboJamboD;
-import com.rs.game.player.dialogues.Max;
-import com.rs.game.player.dialogues.MiningGuildDwarf;
-import com.rs.game.player.dialogues.Nurmof;
-import com.rs.game.player.dialogues.SorceressGardenNPCs;
-import com.rs.game.player.dialogues.TanningD;
-import com.rs.game.player.dialogues.TzHaarMejJal;
-import com.rs.game.player.dialogues.TzHaarMejKah;
-import com.rs.game.player.dialogues.UgiDialogue;
+import com.rs.game.player.dialogues.*;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
@@ -262,7 +243,7 @@ public class NPCHandler {
 			else if (npc.getId() == 2618)
 				player.getDialogueManager().execute(new TzHaarMejKah(), npc.getId());
 			else if (npc.getId() == 6715 || npc.getId() == 14862)
-				player.getDialogueManager().execute(new EstateAgentDialogue(), npc.getId());
+				player.startConversation(new EstateAgentDialogue(player, npc.getId()));
 			else if (npc.getId() == 3344 || npc.getId() == 3345)
 				MutatedZygomite.transform(player, npc);
 			else if (npc.getId() == 4236 || npc.getId() == 4238 || npc.getId() == 4240 || npc.getId() == 4242 || npc.getId() == 4244)
@@ -315,13 +296,14 @@ public class NPCHandler {
 			}));
 			return;
 		}
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> player.faceEntity(npc)));
 		if (npc instanceof Familiar familiar) {
 			if (familiar == player.getFamiliar()) {
 				player.sendMessage("You can't attack your own familiar.");
 				return;
 			}
 			if (!familiar.canAttack(player)) {
-				player.sendMessage("You can't attack this npc.");
+				player.sendMessage("You can't attack that.");
 				return;
 			}
 		}  else if (npc instanceof DoorSupport door) {
@@ -329,17 +311,19 @@ public class NPCHandler {
 				player.sendMessage("You cannot see a way to open this door...");
 				return;
 			}
-		} else if (!npc.isForceMultiAttacked())
+		} else if (!npc.isForceMultiAttacked()) {
 			if (!npc.isAtMultiArea() || !player.isAtMultiArea()) {
-				if (player.getAttackedBy() != npc && player.inCombat()) {
+				Entity attackedBy = player.getAttackedBy();
+				if (attackedBy != npc && player.inCombat()) {
 					player.sendMessage("You are already in combat.");
 					return;
 				}
 				if (npc.getAttackedBy() != player && npc.inCombat()) {
-					player.sendMessage("This npc is already in combat.");
+					player.sendMessage("Someone else is fighting that.");
 					return;
 				}
 			}
+		}
 		player.setLastNpcInteractedName(npc.getDefinitions().getName());
 		player.stopAll(true);
 		player.getActionManager().setAction(new PlayerCombat(npc));

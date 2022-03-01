@@ -36,10 +36,7 @@ import com.rs.game.player.Bank;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.combat.PolyporeStaff;
-import com.rs.game.player.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.player.content.skills.hunter.BoxHunterType;
-import com.rs.game.player.content.skills.prayer.Burying;
-import com.rs.game.player.content.skills.prayer.Burying.Bone;
 import com.rs.game.player.content.skills.slayer.SlayerMonsters;
 import com.rs.game.player.content.world.regions.dungeons.TzHaar;
 import com.rs.game.player.controllers.GodwarsController;
@@ -460,6 +457,8 @@ public class NPC extends Entity {
 	public void sendDeath(final Entity source) {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
+		if (combat.getTarget() != null)
+			combat.getTarget().setAttackedByDelay(0);
 		combat.removeTarget();
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
@@ -638,15 +637,6 @@ public class NPC extends Entity {
 
 		final int size = getSize();
 
-		if (dropTo.getInventory().containsItem(18337, 1)) {
-			Bone bone = Bone.forId(item.getId());
-			if (bone != null && bone != Bone.ACCURSED_ASHES && bone != Bone.IMPIOUS_ASHES && bone != Bone.INFERNAL_ASHES) {
-				dropTo.getSkills().addXp(Constants.PRAYER, bone.getExperience());
-				Burying.handleNecklaces(dropTo, bone.getId());
-				return;
-			}
-		}
-
 		if (dropTo.getNSV().getB("sendingDropsToBank")) {
 			if (item.getDefinitions().isNoted())
 				item.setId(item.getDefinitions().certId);
@@ -659,34 +649,6 @@ public class NPC extends Entity {
 		if (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId()))
 			player.sendMessage("<col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName()); //
 		//player.getPackets().sendTileMessage("<shad=000000>"+item.getDefinitions().getName() + " (" + item.getAmount() + ")", tile, 20000, 50, 0xFF0000);
-
-		switch (item.getId()) {
-		case 12158:
-		case 12159:
-		case 12160:
-		case 12161:
-		case 12162:
-		case 12163:
-		case 12168:
-			if (dropTo.getInventory().containsItem(25350, 1) && dropTo.getInventory().hasRoomFor(item)) {
-				dropTo.getInventory().addItem(item);
-				return;
-			}
-			break;
-		case 995:
-			if (dropTo.getInventory().containsItem(25351, 1) && dropTo.getInventory().hasRoomFor(item)) {
-				dropTo.getInventory().addItem(item);
-				return;
-			}
-			break;
-		}
-
-		if (dropTo.getInventory().containsItem(19675, 1))
-			for (HerbicideSetting setting : dropTo.herbicideSettings)
-				if (item.getId() == setting.getHerb().getHerbId() && (dropTo.getSkills().getLevel(Constants.HERBLORE) >= setting.getHerb().getLevel())) {
-					dropTo.getSkills().addXp(Constants.HERBLORE, setting.getHerb().getExperience() * 2);
-					return;
-				}
 
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);

@@ -22,7 +22,7 @@ import com.rs.game.player.content.skills.farming.PatchLocation;
 import com.rs.game.player.content.skills.farming.ProduceType;
 
 public enum JadinkoType {
-	COMMON(13108, 8415, 1, false, null, ProduceType.Torstol, ProduceType.Torstol, ProduceType.Torstol),
+	COMMON(13108, 8415, 1, false, null, ProduceType.Torstol, null, null),
 	SHADOW(-1, -1, -1, false, HabitatFeature.Abandoned_house, ProduceType.Red_blossom, ProduceType.Torstol, ProduceType.Torstol),
 	IGNEOUS(13132, 8435, 2, false, HabitatFeature.Thermal_vent, ProduceType.Blue_blossom, ProduceType.Lergberry, ProduceType.Orange),
 	CANNIBAL(13144, 8445, 2, true, HabitatFeature.Tall_grass, ProduceType.Green_blossom, ProduceType.Kalferberry, ProduceType.Torstol),
@@ -85,6 +85,8 @@ public enum JadinkoType {
 	}
 
 	private static boolean checkProduce(Player player, ProduceType type, PatchLocation location) {
+		if (type == null)
+			return true;
 		if (type == ProduceType.Torstol) {
 			if (player.isGrowing(location, null))
 				return false;

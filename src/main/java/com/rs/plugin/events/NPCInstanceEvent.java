@@ -16,13 +16,13 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NPCInstanceEvent implements PluginEvent {
 
@@ -64,7 +64,7 @@ public class NPCInstanceEvent implements PluginEvent {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCInstanceHandler) method);
 			if (old != null)
-				System.err.println("ERROR: Duplicate ItemOnNPC methods for key: " + key);
+				System.err.println("ERROR: Duplicate NPC instance methods for key: " + key);
 		}
 	}
 }
