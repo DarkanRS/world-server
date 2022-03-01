@@ -114,23 +114,21 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 		@Override
 		public void handle(EnterChunkEvent e) {
 			Player p = e.getPlayer();
-			if(MUMMY_CHUNKS.contains(e.getChunkId()))
-				spawnDespawnMummy(p);
+			if(MUMMY_CHUNKS.contains(e.getChunkId())) {
+				if(p == null)
+					return;
+				moveMummy(p);
+			}
 		}
 	};
 
-	private static void spawnDespawnMummy(Player p) {
+	private static void moveMummy(Player p) {
 		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))//If mummy is correct dont do anything
 			if(npc.getId() == 4476)
-				if(npc.withinDistance(MUMMY_LOCATIONS[MUMMY_ROOM]))
+				if(npc.withinDistance(MUMMY_LOCATIONS[MUMMY_ROOM], 5))
 					return;
 		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))//else finish
 			if(npc.getId() == 4476)
-				npc.finish();
-		if(p.withinDistance(MUMMY_LOCATIONS[MUMMY_ROOM]))//Lastly respawn
-			World.spawnNPC(4476, MUMMY_LOCATIONS[MUMMY_ROOM], -1, false, true);//mummy
-
-
-
+				npc.setNextWorldTile(MUMMY_LOCATIONS[MUMMY_ROOM]);
 	}
 }
