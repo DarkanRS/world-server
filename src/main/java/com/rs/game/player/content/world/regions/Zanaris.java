@@ -78,7 +78,7 @@ public class Zanaris {
 	};
 
 
-	public static NPCClickHandler handleLunderwin = new NPCClickHandler(565) {
+	public static NPCClickHandler handleLunderwin = new NPCClickHandler(new Object[] { 565 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int cabbageCount = e.getPlayer().getInventory().getAmountOf(1965);

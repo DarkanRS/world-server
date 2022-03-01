@@ -85,7 +85,7 @@ public class WormBrainDragonSlayerMob extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleWormBrain = new NPCClickHandler(WORM_BRAIN) {
+	public static NPCClickHandler handleWormBrain = new NPCClickHandler(new Object[] { WORM_BRAIN }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new WormBrainDragonSlayerMob(e.getPlayer()).getStart());

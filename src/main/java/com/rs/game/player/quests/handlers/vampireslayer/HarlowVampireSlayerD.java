@@ -133,7 +133,7 @@ public class HarlowVampireSlayerD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleHarlow = new NPCClickHandler(HARLOW) {
+	public static NPCClickHandler handleHarlow = new NPCClickHandler(new Object[] { HARLOW }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new HarlowVampireSlayerD(e.getPlayer()).getStart());

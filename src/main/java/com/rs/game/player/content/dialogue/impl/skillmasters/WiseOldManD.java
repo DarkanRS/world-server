@@ -52,7 +52,7 @@ public class WiseOldManD extends Conversation {
 		create();
 	}
 
-	public static NPCClickHandler handleTalk = new NPCClickHandler(3820) {
+	public static NPCClickHandler handleTalk = new NPCClickHandler(new Object[] { 3820 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new WiseOldManD(e.getPlayer()));

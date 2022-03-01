@@ -88,7 +88,7 @@ public class SandwichLady extends OwnedNPC {
 			finish();
 	}
 
-	public static NPCClickHandler handleTalkTo = new NPCClickHandler(8629) {
+	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 8629 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getNPC() instanceof SandwichLady) {

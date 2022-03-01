@@ -127,7 +127,7 @@ public class FishingContest extends QuestOutline {
 		}
 	};
 
-	public static NPCClickHandler handlePlayerFishingSpot = new NPCClickHandler(true, new Object[] { 233 }) {
+	public static NPCClickHandler handlePlayerFishingSpot = new NPCClickHandler(new Object[] { 233 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();

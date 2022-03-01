@@ -146,7 +146,7 @@ public class TravelMethods {
 	 * * 44: sarim -> crandor(short)
 	 */
 
-	public static NPCClickHandler handleCharterShips = new NPCClickHandler("Trader Crewmember", "Trader crewmember") {
+	public static NPCClickHandler handleCharterShips = new NPCClickHandler(new Object[] { "Trader Crewmember", "Trader crewmember" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 3)

@@ -49,7 +49,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Karamja  {
 
-	public static NPCClickHandler handlePirateJackieFruit = new NPCClickHandler(1055) {
+	public static NPCClickHandler handlePirateJackieFruit = new NPCClickHandler(new Object[] { 1055 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -67,7 +67,7 @@ public class Karamja  {
 		}
 	};
 
-	public static NPCClickHandler handleSaniBoch = new NPCClickHandler(1595) {
+	public static NPCClickHandler handleSaniBoch = new NPCClickHandler(new Object[] { 1595 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("Talk-to")) {
@@ -154,7 +154,7 @@ public class Karamja  {
 		}
 	};
 
-    public static NPCClickHandler handleRumDealer = new NPCClickHandler(568) {
+    public static NPCClickHandler handleRumDealer = new NPCClickHandler(new Object[] { 568 }) {
         @Override
         public void handle(NPCClickEvent e) {
             if(e.getOption().equalsIgnoreCase("talk-to"))
@@ -170,7 +170,7 @@ public class Karamja  {
         }
     };
 
-	public static NPCClickHandler handleKalebParamaya = new NPCClickHandler(512) {
+	public static NPCClickHandler handleKalebParamaya = new NPCClickHandler(new Object[] { 512 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -188,7 +188,7 @@ public class Karamja  {
 		}
 	};
 
-	public static NPCClickHandler handleJungleForesters = new NPCClickHandler(401, 402) {
+	public static NPCClickHandler handleJungleForesters = new NPCClickHandler(new Object[] { 401, 402 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

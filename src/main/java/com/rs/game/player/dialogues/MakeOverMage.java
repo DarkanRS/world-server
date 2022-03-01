@@ -101,7 +101,7 @@ public class MakeOverMage extends Dialogue {
 		}
 	}
 
-	public static NPCClickHandler makeoverMageHandler = new NPCClickHandler(2676, 599) {
+	public static NPCClickHandler makeoverMageHandler = new NPCClickHandler(new Object[] { 2676, 599 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.isAtNPC()) {

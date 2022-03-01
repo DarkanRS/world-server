@@ -26,10 +26,16 @@ public abstract class EntityInteraction extends Interaction {
 
 	protected Entity target;
 	private int distance;
+	private boolean stopFaceOnReached = true;
 
 	public EntityInteraction(Entity target, int distance) {
 		this.target = target;
 		this.distance = distance;
+	}
+
+	public EntityInteraction keepFacing() {
+		stopFaceOnReached = false;
+		return this;
 	}
 
 	public abstract boolean canStart(Player player);
@@ -53,7 +59,8 @@ public abstract class EntityInteraction extends Interaction {
 		if (checkDistance(player) && checkAll(player)) {
 			if (isWithinDistance(player, target)) {
 				interact(player);
-				player.setNextFaceEntity(null);
+				if (stopFaceOnReached)
+					player.setNextFaceEntity(null);
 				stop(player);
 			}
 			return true;

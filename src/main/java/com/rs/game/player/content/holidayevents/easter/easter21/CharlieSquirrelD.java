@@ -28,7 +28,7 @@ public class CharlieSquirrelD extends Conversation {
 
 	private static final int CHARLIE = 9686;
 
-	public static NPCClickHandler handleCharlieTalk = new NPCClickHandler(CHARLIE) {
+	public static NPCClickHandler handleCharlieTalk = new NPCClickHandler(new Object[] { CHARLIE }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new CharlieSquirrelD(e.getPlayer()));

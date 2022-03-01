@@ -1,12 +1,5 @@
 package com.rs.game.player.quests.handlers.lostcity;
 
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.WIZARD;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -14,6 +7,8 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.*;
 
 @PluginEventHandler
 public class WizardLostCityD extends Conversation {
@@ -38,7 +33,7 @@ public class WizardLostCityD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleWizardDialogue = new NPCClickHandler(WIZARD) {
+	public static NPCClickHandler handleWizardDialogue = new NPCClickHandler(new Object[] { WIZARD }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new WizardLostCityD(e.getPlayer()).getStart());

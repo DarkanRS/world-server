@@ -42,7 +42,7 @@ public class SawmillOperator  {
 		}
 	};
 
-	public static NPCClickHandler handleOps = new NPCClickHandler(4250) {
+	public static NPCClickHandler handleOps = new NPCClickHandler(new Object[] { 4250 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1)

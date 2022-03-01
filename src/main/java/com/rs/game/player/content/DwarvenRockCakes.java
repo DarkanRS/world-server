@@ -50,7 +50,7 @@ public class DwarvenRockCakes {
 		}
 	};
 
-	public static NPCClickHandler clickRohak = new NPCClickHandler("Rohak") {
+	public static NPCClickHandler clickRohak = new NPCClickHandler(new Object[] { "Rohak" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Dialogue().addOptions(new Options() {

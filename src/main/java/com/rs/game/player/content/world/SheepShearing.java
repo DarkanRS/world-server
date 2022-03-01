@@ -52,7 +52,7 @@ public class SheepShearing {
 		}
 	};
 
-	public static NPCClickHandler handleShearOption = new NPCClickHandler(5157, 1765, 43, 5160, 5161, 5156) {
+	public static NPCClickHandler handleShearOption = new NPCClickHandler(new Object[] { 5157, 1765, 43, 5160, 5161, 5156 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			final int npcId = e.getNPC().getId();

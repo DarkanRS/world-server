@@ -31,7 +31,7 @@ public class BrimhavenHeroesQuest {
 		}
 	};
 
-	public static NPCClickHandler garvTalk = new NPCClickHandler(788) {
+	public static NPCClickHandler garvTalk = new NPCClickHandler(new Object[] { 788 }) {
 		int NPC = 788;
 
 		@Override
@@ -95,7 +95,7 @@ public class BrimhavenHeroesQuest {
 		}
 	};
 
-	public static NPCClickHandler gruborTalk = new NPCClickHandler(789) {
+	public static NPCClickHandler gruborTalk = new NPCClickHandler(new Object[] { 789 }) {
 		int NPC = 789;
 
 		@Override
@@ -108,7 +108,7 @@ public class BrimhavenHeroesQuest {
 		}
 	};
 
-	public static NPCClickHandler trobertTalk = new NPCClickHandler(1884) {
+	public static NPCClickHandler trobertTalk = new NPCClickHandler(new Object[] { 1884 }) {
 		int NPC = 1884;
 
 		@Override
@@ -118,7 +118,7 @@ public class BrimhavenHeroesQuest {
 		}
 	};
 
-	public static NPCClickHandler handleAlfonseWaiter = new NPCClickHandler(793) {
+	public static NPCClickHandler handleAlfonseWaiter = new NPCClickHandler(new Object[] { 793 }) {
 		int NPC = 793;
 
 		@Override
@@ -131,7 +131,7 @@ public class BrimhavenHeroesQuest {
 		}
 	};
 
-	public static NPCClickHandler handleCharlieCook = new NPCClickHandler(794) {
+	public static NPCClickHandler handleCharlieCook = new NPCClickHandler(new Object[] { 794 }) {
 		int NPC = 794;
 
 		@Override

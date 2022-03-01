@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers;
 
-import java.util.ArrayList;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -31,6 +29,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.IMP_CATCHER)
 @PluginEventHandler
@@ -146,7 +146,7 @@ public class ImpCatcher extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler mizgogHandler = new NPCClickHandler(WIZARD_MIZGOG) {
+	public static NPCClickHandler mizgogHandler = new NPCClickHandler(new Object[] { WIZARD_MIZGOG }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))

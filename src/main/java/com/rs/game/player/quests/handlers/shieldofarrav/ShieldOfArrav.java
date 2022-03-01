@@ -608,7 +608,7 @@ public class ShieldOfArrav extends QuestOutline {
         }
     };
 
-    public static NPCClickHandler handleWeaponsMaster = new NPCClickHandler(643) {
+    public static NPCClickHandler handleWeaponsMaster = new NPCClickHandler(new Object[] { 643 }) {
         @Override
         public void handle(NPCClickEvent e) {
             e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

@@ -32,7 +32,7 @@ public class Santa2020D extends Conversation {
 
 	private static final int SNOW_QUEEN = 9398, SANTA = 9400;
 
-	public static NPCClickHandler handleSantaTalk = new NPCClickHandler(SNOW_QUEEN, SANTA) {
+	public static NPCClickHandler handleSantaTalk = new NPCClickHandler(new Object[] { SNOW_QUEEN, SANTA }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Santa2020D(e.getPlayer()));

@@ -41,7 +41,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Falador {
 
-	public static NPCClickHandler handleRedBeardFrank = new NPCClickHandler(375) {
+	public static NPCClickHandler handleRedBeardFrank = new NPCClickHandler(new Object[] { 375 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -67,7 +67,7 @@ public class Falador {
 		}
 	};
 
-	public static NPCClickHandler handleChemist = new NPCClickHandler(367) {
+	public static NPCClickHandler handleChemist = new NPCClickHandler(new Object[] { 367 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -86,7 +86,7 @@ public class Falador {
 		}
 	};
 
-	public static NPCClickHandler handleSquireAsrol = new NPCClickHandler(606) {
+	public static NPCClickHandler handleSquireAsrol = new NPCClickHandler(new Object[] { 606 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -116,14 +116,14 @@ public class Falador {
 		}
 	};
 
-	public static NPCClickHandler handleQuarterMaster = new NPCClickHandler(1208) {
+	public static NPCClickHandler handleQuarterMaster = new NPCClickHandler(new Object[] { 1208 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			ShopsHandler.openShop(e.getPlayer(), "quartermasters_stores");
 		}
 	};
 
-	public static NPCClickHandler handleWysonTheGardener = new NPCClickHandler(36) {
+	public static NPCClickHandler handleWysonTheGardener = new NPCClickHandler(new Object[] { 36 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
