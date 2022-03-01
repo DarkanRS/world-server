@@ -1,13 +1,5 @@
 package com.rs.game.player.quests.handlers.fishingcontest;
 
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.DO_ROUNDS;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.ENTER_COMPETITION;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.FISHING_TROPHY;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.GIVE_TROPHY;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.NOT_STARTED;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.PIPE_HAS_GARLIC;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.QUEST_COMPLETE;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -18,6 +10,8 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.*;
 
 @PluginEventHandler
 public class BonzoFishingContestD extends Conversation {
@@ -111,7 +105,7 @@ public class BonzoFishingContestD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(NPC) {
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new BonzoFishingContestD(e.getPlayer()).getStart());

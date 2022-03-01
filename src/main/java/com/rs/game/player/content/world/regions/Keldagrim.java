@@ -29,7 +29,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Keldagrim {
 
-	public static NPCClickHandler handleHirko = new NPCClickHandler(4558) {
+	public static NPCClickHandler handleHirko = new NPCClickHandler(new Object[] { 4558 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -48,7 +48,7 @@ public class Keldagrim {
 		}
 	};
 
-	public static NPCClickHandler handleNolar = new NPCClickHandler(2158) {
+	public static NPCClickHandler handleNolar = new NPCClickHandler(new Object[] { 2158 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();

@@ -29,7 +29,7 @@ public class GuardD extends Conversation {
 
 	private static final int GUARD = 206;
 
-	public static NPCClickHandler talkToLawgof = new NPCClickHandler(GUARD) {
+	public static NPCClickHandler talkToLawgof = new NPCClickHandler(new Object[] { GUARD }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new GuardD(e.getPlayer()));

@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.gertrudescat;
 
-import java.util.ArrayList;
-
 import com.rs.game.ForceTalk;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -38,6 +36,8 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.GERTRUDES_CAT)
 @PluginEventHandler
@@ -153,7 +153,7 @@ public class GertrudesCat extends QuestOutline {
 	 * NPC id 759 is spawned at the Lumber Yard upstairs.
 	 * NPC id 7744 is spawned in Gertrude's home.
 	 *
-	 * @param PlayerDao to update Fluffs for.
+	 * @param Player to update Fluffs for.
 	 */
 	public static void updateFluffs(Player player) {
 		if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 2 && player.getQuestManager().getStage(Quest.GERTRUDES_CAT) < 8)
@@ -168,7 +168,7 @@ public class GertrudesCat extends QuestOutline {
 	 *
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleFluffsOptions = new NPCClickHandler(759) {
+	public static NPCClickHandler handleFluffsOptions = new NPCClickHandler(new Object[] { 759 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equals("Pick-up"))
@@ -196,7 +196,7 @@ public class GertrudesCat extends QuestOutline {
 	 * Handles when the player clicks on the shaking crates in the Lumber Yard.
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleShakingCrate = new NPCClickHandler(7740) {
+	public static NPCClickHandler handleShakingCrate = new NPCClickHandler(new Object[] { 7740 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 7) {
@@ -214,7 +214,7 @@ public class GertrudesCat extends QuestOutline {
 	 * Handles starting Gertrude's dialogue.
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleGertrude = new NPCClickHandler(780) {
+	public static NPCClickHandler handleGertrude = new NPCClickHandler(new Object[] { 780 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new GertrudeD(e.getPlayer()));
@@ -225,7 +225,7 @@ public class GertrudesCat extends QuestOutline {
 	 * Handles starting Shilop and Wilough's dialogue.
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleShilopWilough = new NPCClickHandler(781, 783) {
+	public static NPCClickHandler handleShilopWilough = new NPCClickHandler(new Object[] { 781, 783 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new ShilopWiloughD(e.getPlayer(), e.getNPC()));

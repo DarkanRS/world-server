@@ -16,12 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.witchshouse;
 
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.BALL;
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.BOY;
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.FIND_BALL;
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.NOT_STARTED;
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.QUEST_COMPLETE;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -32,6 +26,8 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.*;
 
 @PluginEventHandler
 public class BoyWitchsHouseD extends Conversation {
@@ -91,7 +87,7 @@ public class BoyWitchsHouseD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleBoyDialogue = new NPCClickHandler(BOY) {
+	public static NPCClickHandler handleBoyDialogue = new NPCClickHandler(new Object[] { BOY }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new BoyWitchsHouseD(e.getPlayer()).getStart());

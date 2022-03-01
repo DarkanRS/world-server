@@ -49,7 +49,7 @@ public class Mortton {
 		}
 	};
 
-	public static NPCClickHandler handleRazmire = new NPCClickHandler(7899) {
+	public static NPCClickHandler handleRazmire = new NPCClickHandler(new Object[] { 7899 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

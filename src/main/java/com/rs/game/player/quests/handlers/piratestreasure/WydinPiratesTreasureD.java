@@ -1,8 +1,5 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
-
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -17,6 +14,9 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class WydinPiratesTreasureD extends Conversation {
@@ -161,7 +161,7 @@ public class WydinPiratesTreasureD extends Conversation {
 		}
 	};
 
-	public static NPCClickHandler handleWydin = new NPCClickHandler(WYDIN) {
+	public static NPCClickHandler handleWydin = new NPCClickHandler(new Object[] { WYDIN }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("talk-to"))

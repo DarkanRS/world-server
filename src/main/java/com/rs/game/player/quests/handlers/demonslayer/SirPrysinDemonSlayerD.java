@@ -308,7 +308,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 			}
 	}
 
-	public static NPCClickHandler handleSirPrysin = new NPCClickHandler(883) {
+	public static NPCClickHandler handleSirPrysin = new NPCClickHandler(new Object[] { 883 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new SirPrysinDemonSlayerD(e.getPlayer()).getStart());

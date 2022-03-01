@@ -64,7 +64,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Varrock {
 
-	public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(733) {
+	public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(new Object[] { 733 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();
@@ -136,7 +136,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handlePeskaBarbarianVillage = new NPCClickHandler(538) {
+	public static NPCClickHandler handlePeskaBarbarianVillage = new NPCClickHandler(new Object[] { 538 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int NPC= e.getNPCId();
@@ -237,7 +237,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleReldo = new NPCClickHandler(647) {
+	public static NPCClickHandler handleReldo = new NPCClickHandler(new Object[] { 647 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -271,7 +271,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleBaraek = new NPCClickHandler(547) {
+	public static NPCClickHandler handleBaraek = new NPCClickHandler(new Object[] { 547 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
@@ -281,7 +281,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleCharlie = new NPCClickHandler(641) {
+	public static NPCClickHandler handleCharlie = new NPCClickHandler(new Object[] { 641 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
@@ -291,7 +291,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleKatrine = new NPCClickHandler(642) {
+	public static NPCClickHandler handleKatrine = new NPCClickHandler(new Object[] { 642 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
             Player p = e.getPlayer();
@@ -303,7 +303,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleStraven = new NPCClickHandler(644) {
+	public static NPCClickHandler handleStraven = new NPCClickHandler(new Object[] { 644 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
             Player p = e.getPlayer();
@@ -315,7 +315,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleJohnnyTheBeard = new NPCClickHandler(645) {
+	public static NPCClickHandler handleJohnnyTheBeard = new NPCClickHandler(new Object[] { 645 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("talk-to"))
@@ -323,7 +323,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleKingRoald = new NPCClickHandler(648) {
+	public static NPCClickHandler handleKingRoald = new NPCClickHandler(new Object[] { 648 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("talk-to"))
@@ -348,7 +348,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleMuseumCurator = new NPCClickHandler(646) {
+	public static NPCClickHandler handleMuseumCurator = new NPCClickHandler(new Object[] { 646 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("talk-to"))
@@ -367,7 +367,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleHistorianMinas = new NPCClickHandler(5931) {
+	public static NPCClickHandler handleHistorianMinas = new NPCClickHandler(new Object[] { 5931 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("talk-to"))
@@ -400,7 +400,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleRatBurgiss = new NPCClickHandler(5833) {
+	public static NPCClickHandler handleRatBurgiss = new NPCClickHandler(new Object[] { 5833 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -419,7 +419,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleNaff = new NPCClickHandler(359) {
+	public static NPCClickHandler handleNaff = new NPCClickHandler(new Object[] { 359 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int max = 8;
@@ -471,7 +471,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleDealga = new NPCClickHandler(11475) {
+	public static NPCClickHandler handleDealga = new NPCClickHandler(new Object[] { 11475 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			ShopsHandler.openShop(e.getPlayer(), "dealgas_scimitar_emporium");
@@ -586,7 +586,7 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleGuildMaster = new NPCClickHandler(198) {
+	public static NPCClickHandler handleGuildMaster = new NPCClickHandler(new Object[] { 198 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getPlayer().getQuestManager().getQuestPoints() <= 31) {

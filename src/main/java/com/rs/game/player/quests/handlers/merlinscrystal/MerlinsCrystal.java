@@ -110,7 +110,7 @@ public class MerlinsCrystal extends QuestOutline {
 
 
 
-	public static NPCClickHandler handleCandleMakerDialogue = new NPCClickHandler(562) {
+	public static NPCClickHandler handleCandleMakerDialogue = new NPCClickHandler(new Object[] { 562 }) {
 		final int NPC=562;
 		final int UNLIT_BLACK_CANDLE = 38;
 		final int BUCKET_WAX = 30;

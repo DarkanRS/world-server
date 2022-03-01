@@ -94,7 +94,7 @@ public class MorganVampireSlayerD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleMorgan = new NPCClickHandler(MORGAN) {
+	public static NPCClickHandler handleMorgan = new NPCClickHandler(new Object[] { MORGAN }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new MorganVampireSlayerD(e.getPlayer()).getStart());

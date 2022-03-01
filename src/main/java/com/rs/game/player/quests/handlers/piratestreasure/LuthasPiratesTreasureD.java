@@ -1,14 +1,5 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.BANANA;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.BANANA_COUNT_ATTR;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.LUTHAS;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.LUTHAS_EMPLOYMENT_ATTR;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_KARAMJA_CRATE_ATTR;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_SARIM_CRATE_ATTR;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -21,6 +12,8 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class LuthasPiratesTreasureD extends Conversation {
@@ -131,7 +124,7 @@ public class LuthasPiratesTreasureD extends Conversation {
 		}
 	};
 
-	public static NPCClickHandler handleLuthas = new NPCClickHandler(LUTHAS) {
+	public static NPCClickHandler handleLuthas = new NPCClickHandler(new Object[] { LUTHAS }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new LuthasPiratesTreasureD(e.getPlayer()).getStart());

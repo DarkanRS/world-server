@@ -59,7 +59,7 @@ public class HoracioTribalTotemD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(NPC) {
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new HoracioTribalTotemD(e.getPlayer()).getStart());

@@ -48,7 +48,7 @@ public abstract class CombatScript {
 				target.setNextSpotAnim(new SpotAnim(gfx));
 				if (target instanceof Player player) {
 					player.closeInterfaces();
-					if (player.getCombatDefinitions().isAutoRelatie() && !player.getActionManager().hasSkillWorking() && !player.hasWalkSteps())
+					if (player.getCombatDefinitions().isAutoRetaliate() && !player.getActionManager().hasSkillWorking() && player.getInteractionManager().getInteraction() == null && !player.hasWalkSteps())
 						player.getActionManager().setAction(new PlayerCombat(npc));
 				} else {
 					NPC n = (NPC) target;
@@ -73,7 +73,7 @@ public abstract class CombatScript {
 			npc.getCombat().doDefenceEmote(target);
 			if (target instanceof Player player) {
 				player.closeInterfaces();
-				if (player.getCombatDefinitions().isAutoRelatie() && !player.getActionManager().hasSkillWorking() && !player.hasWalkSteps())
+				if (player.getCombatDefinitions().isAutoRetaliate() && !player.getActionManager().hasSkillWorking() && player.getInteractionManager().getInteraction() == null && !player.hasWalkSteps())
 					player.getActionManager().setAction(new PlayerCombat(npc));
 			} else {
 				NPC n = (NPC) target;

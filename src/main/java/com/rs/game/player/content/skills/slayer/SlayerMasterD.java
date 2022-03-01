@@ -31,7 +31,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class SlayerMasterD extends Conversation {
 
-	public static NPCClickHandler handleMasters = new NPCClickHandler(8480, 8481, 1597, 1598, 7779, 8466, 9085) {
+	public static NPCClickHandler handleMasters = new NPCClickHandler(new Object[] { 8480, 8481, 1597, 1598, 7779, 8466, 9085 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Master master = Master.getMasterForId(e.getNPC().getId());

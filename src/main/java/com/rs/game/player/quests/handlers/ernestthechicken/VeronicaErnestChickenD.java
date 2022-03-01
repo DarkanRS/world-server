@@ -106,7 +106,7 @@ public class VeronicaErnestChickenD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleVeronica = new NPCClickHandler(VERONICA) {
+	public static NPCClickHandler handleVeronica = new NPCClickHandler(new Object[] { VERONICA }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new VeronicaErnestChickenD(e.getPlayer()).getStart());

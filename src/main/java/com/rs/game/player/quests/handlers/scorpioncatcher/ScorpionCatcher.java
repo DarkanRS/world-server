@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.scorpioncatcher;
 
-import java.util.ArrayList;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
@@ -26,6 +24,8 @@ import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.ArrayList;
 
 /**
  * How this is written: Each seer prophecy/premonition allows you to spawn a
@@ -105,7 +105,7 @@ public class ScorpionCatcher extends QuestOutline {
 		return lines;
 	}
 
-	public static NPCClickHandler handleScorpCatches = new NPCClickHandler(SCORP_1, SCORP_2, SCORP_3) {
+	public static NPCClickHandler handleScorpCatches = new NPCClickHandler(new Object[] { SCORP_1, SCORP_2, SCORP_3 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) != LOOK_FOR_SCORPIONS)

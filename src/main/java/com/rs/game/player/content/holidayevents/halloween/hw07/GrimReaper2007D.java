@@ -34,7 +34,7 @@ public class GrimReaper2007D extends Conversation {
 
 	private static int[] HWEEN_MASKS = { 1053, 1055, 1057 };
 
-	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(6390) {
+	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 6390 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getNPC().resetDirection();

@@ -30,7 +30,7 @@ public class SnowImpD extends Conversation {
 
 	private static final int IMP = 8536, IMP_HEAD = 9364;
 
-	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(IMP) {
+	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(new Object[] { IMP }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getPlayer().getPet() == e.getNPC())

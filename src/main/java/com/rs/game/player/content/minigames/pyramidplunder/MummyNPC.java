@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class MummyNPC {
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(4476) {
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { 4476 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();
