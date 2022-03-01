@@ -117,7 +117,7 @@ public class BoxStyleTrap extends OwnedObject {
 		destroy();
 		player.incrementCount(NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName()+" trapped");
 		player.setNextAnimation(getTrapType().getPickUpAnimation());
-		for (Item i : getNpcTrapped().getItems()) {
+		for (Item i : getNpcTrapped().getItems(player)) {
 			if (i == null || DropCleaners.bonecrush(player, i) || DropCleaners.herbicide(player, i))
 				continue;
 			player.getInventory().addItemDrop(i);

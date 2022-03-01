@@ -1,0 +1,25 @@
+{
+  "names": [
+    "hunter_jadinko_carrion"
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "drops": [
+        { "id": 19974, "min": 1, "max": 1 }
+      ]
+    },
+    {
+      "chance": 30.0, "outOf": 256.0,
+      "dropOne": true,
+      "drops": [
+        { "id": 19897, "min": 1, "max": 1 },
+        { "id": 19902, "min": 1, "max": 1 },
+        { "id": 19907, "min": 1, "max": 1 },
+        { "id": 19912, "min": 1, "max": 1 },
+        { "id": 19917, "min": 1, "max": 1 }
+      ]
+    }
+  ]
+}
