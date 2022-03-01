@@ -231,7 +231,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleLadyKeli = new NPCClickHandler(LADY_KELI) {
+	public static NPCClickHandler handleLadyKeli = new NPCClickHandler(new Object[] { LADY_KELI }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new LadyKeliPrinceAliRescueD(e.getPlayer()).getStart());

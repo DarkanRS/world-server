@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers;
 
-import java.util.ArrayList;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -34,6 +32,8 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.DORICS_QUEST)
 @PluginEventHandler
@@ -180,7 +180,7 @@ public class DoricsQuest extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler doricHandler = new NPCClickHandler(DORIC) {
+	public static NPCClickHandler doricHandler = new NPCClickHandler(new Object[] { DORIC }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.isAtNPC())

@@ -34,7 +34,7 @@ public class ManDialogue  {
 		return POSSIBLE_MESSAGES[Utils.getRandomInclusive(POSSIBLE_MESSAGES.length - 1)];
 	}
 
-	public static NPCClickHandler handleTalkTo = new NPCClickHandler("Man") {
+	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { "Man" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1) {

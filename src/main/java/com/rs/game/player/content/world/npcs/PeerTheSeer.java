@@ -24,7 +24,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class PeerTheSeer {
 
-	public static NPCClickHandler handler = new NPCClickHandler("Peer the Seer") {
+	public static NPCClickHandler handler = new NPCClickHandler(new Object[] { "Peer the Seer" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

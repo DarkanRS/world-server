@@ -118,7 +118,7 @@ public class PuroPuroController extends Controller {
 		}, 6);
 	}
 
-	public static NPCClickHandler handleElnock = new NPCClickHandler(6070) {
+	public static NPCClickHandler handleElnock = new NPCClickHandler(new Object[] { 6070 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			PuroPuroController.openPuroInterface(e.getPlayer());

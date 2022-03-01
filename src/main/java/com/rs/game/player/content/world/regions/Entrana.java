@@ -53,7 +53,7 @@ public class Entrana {
 		}
 	};
 
-	public static NPCClickHandler handleCaveMonkDialogue = new NPCClickHandler(656) {
+	public static NPCClickHandler handleCaveMonkDialogue = new NPCClickHandler(new Object[] { 656 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

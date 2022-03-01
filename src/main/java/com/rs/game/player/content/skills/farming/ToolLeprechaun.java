@@ -56,7 +56,7 @@ public class ToolLeprechaun {
 		player.takeLeprechaunItem(item, amount);
 	}
 
-	public static NPCClickHandler handleToolLeprechaun = new NPCClickHandler("Tool leprechaun", "Tool Leprechaun") {
+	public static NPCClickHandler handleToolLeprechaun = new NPCClickHandler(new Object[] { "Tool leprechaun", "Tool Leprechaun" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

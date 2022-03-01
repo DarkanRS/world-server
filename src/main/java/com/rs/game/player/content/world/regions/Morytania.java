@@ -43,11 +43,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.*;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -91,7 +87,7 @@ public class Morytania  {
 		}
 	}
 
-	public static NPCClickHandler handleHiylikMyna = new NPCClickHandler(1514) {
+	public static NPCClickHandler handleHiylikMyna = new NPCClickHandler(new Object[] { 1514 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -108,7 +104,7 @@ public class Morytania  {
 		}
 	};
 
-	public static NPCClickHandler handleRobin = new NPCClickHandler(1694) {
+	public static NPCClickHandler handleRobin = new NPCClickHandler(new Object[] { 1694 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -125,7 +121,7 @@ public class Morytania  {
 		}
 	};
 
-	public static NPCClickHandler handleStrangeOldManBarrows = new NPCClickHandler(2024) {
+	public static NPCClickHandler handleStrangeOldManBarrows = new NPCClickHandler(new Object[] { 2024 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -142,7 +138,7 @@ public class Morytania  {
 		}
 	};
 
-	public static NPCClickHandler handleOldManRal = new NPCClickHandler(4708) {
+	public static NPCClickHandler handleOldManRal = new NPCClickHandler(new Object[] { 4708 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

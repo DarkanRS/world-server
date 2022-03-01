@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class PartygoerD extends Conversation {
 
-	public static NPCClickHandler handle = new NPCClickHandler(9386, 9389, 9392) {
+	public static NPCClickHandler handle = new NPCClickHandler(new Object[] { 9386, 9389, 9392 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new PartygoerD(e.getPlayer(), e.getNPC()));

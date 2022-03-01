@@ -64,7 +64,7 @@ public class HassanPrinceAliRescueD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleHassan = new NPCClickHandler(HASSAN) {
+	public static NPCClickHandler handleHassan = new NPCClickHandler(new Object[] { HASSAN }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new HassanPrinceAliRescueD(e.getPlayer()).getStart());

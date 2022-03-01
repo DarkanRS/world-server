@@ -25,7 +25,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PortKhazard {
-	public static NPCClickHandler handleKhazardShopkeeper = new NPCClickHandler(555) {
+	public static NPCClickHandler handleKhazardShopkeeper = new NPCClickHandler(new Object[] { 555 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();

@@ -46,7 +46,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class SeersVillage {
 
-	public static NPCClickHandler handleStankers = new NPCClickHandler(383) {
+	public static NPCClickHandler handleStankers = new NPCClickHandler(new Object[] { 383 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -105,7 +105,7 @@ public class SeersVillage {
 		}
 	};
 
-	public static NPCClickHandler handleSeer = new NPCClickHandler(388) {
+	public static NPCClickHandler handleSeer = new NPCClickHandler(new Object[] { 388 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -125,7 +125,7 @@ public class SeersVillage {
 		}
 	};
 
-	public static NPCClickHandler handleThormacDialogue = new NPCClickHandler(389) {
+	public static NPCClickHandler handleThormacDialogue = new NPCClickHandler(new Object[] { 389 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int NPC= e.getNPCId();
@@ -148,7 +148,7 @@ public class SeersVillage {
 		}
 	};
 
-	public static NPCClickHandler handleSirKay = new NPCClickHandler(241) {
+	public static NPCClickHandler handleSirKay = new NPCClickHandler(new Object[] { 241 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

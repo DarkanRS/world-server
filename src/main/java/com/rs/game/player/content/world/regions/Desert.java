@@ -25,11 +25,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.*;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -66,7 +62,7 @@ public class Desert  {
 		}
 	}
 
-	public static NPCClickHandler handleCarpetMerchants = new NPCClickHandler(2291, 2292, 2293, 2294, 2295, 2297, 2299, 3020, 13237) {
+	public static NPCClickHandler handleCarpetMerchants = new NPCClickHandler(new Object[] { 2291, 2292, 2293, 2294, 2295, 2297, 2299, 3020, 13237 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			CarpetLocation loc = CarpetLocation.forId(e.getNPC().getId());
@@ -172,14 +168,14 @@ public class Desert  {
 		}
 	};
 
-	public static NPCClickHandler handleBanditBartender = new NPCClickHandler(1921) {
+	public static NPCClickHandler handleBanditBartender = new NPCClickHandler(new Object[] { 1921 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			ShopsHandler.openShop(e.getPlayer(), "the_big_heist_lodge");
 		}
 	};
 
-	public static NPCClickHandler aliSnakeCharmer = new NPCClickHandler(1872) {
+	public static NPCClickHandler aliSnakeCharmer = new NPCClickHandler(new Object[] { 1872 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();

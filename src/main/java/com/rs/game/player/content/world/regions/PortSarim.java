@@ -70,7 +70,7 @@ public class PortSarim {
 		}
 	};
 
-	public static NPCClickHandler handleThurgo = new NPCClickHandler(604) {
+	public static NPCClickHandler handleThurgo = new NPCClickHandler(new Object[] { 604 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -96,7 +96,7 @@ public class PortSarim {
 		}
 	};
 
-	public static NPCClickHandler handleGerrantFishingShop = new NPCClickHandler(558) {
+	public static NPCClickHandler handleGerrantFishingShop = new NPCClickHandler(new Object[] { 558 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("Trade"))

@@ -33,7 +33,6 @@ import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.player.content.world.npcs.Banker;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.lib.Constants;
@@ -55,21 +54,21 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Ardougne  {
 
-	public static NPCClickHandler handleBrotherOmad = new NPCClickHandler(279) {
+	public static NPCClickHandler handleBrotherOmad = new NPCClickHandler(new Object[] { 279 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new BrotherOmadMonksFriendD(e.getPlayer()).getStart());
 		}
 	};
 
-	public static NPCClickHandler handleBrotherCedric = new NPCClickHandler(280) {
+	public static NPCClickHandler handleBrotherCedric = new NPCClickHandler(new Object[] { 280 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new BrotherCedricMonksFriendD(e.getPlayer()).getStart());
 		}
 	};
 
-	public static NPCClickHandler handleTownCrier = new NPCClickHandler(6138) {
+	public static NPCClickHandler handleTownCrier = new NPCClickHandler(new Object[] { 6138 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -87,7 +86,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static NPCClickHandler handleZMIBanker = new NPCClickHandler(6362) {
+	public static NPCClickHandler handleZMIBanker = new NPCClickHandler(new Object[] { 6362 }) {
 		private void bank(Player p) {
 			if(!p.getBank().checkPin())
 				return;
@@ -173,7 +172,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static NPCClickHandler handleDrOrbon = new NPCClickHandler(290) {
+	public static NPCClickHandler handleDrOrbon = new NPCClickHandler(new Object[] { 290 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -191,7 +190,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static NPCClickHandler handleAleck = new NPCClickHandler(5110) {
+	public static NPCClickHandler handleAleck = new NPCClickHandler(new Object[] { 5110 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1)
@@ -295,7 +294,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static NPCClickHandler handleDarkMage = new NPCClickHandler(1001) {
+	public static NPCClickHandler handleDarkMage = new NPCClickHandler(new Object[] { 1001 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().sendOptionDialogue("Buy an Iban's staff for 100,000 gold?", new String[] { "Yes, I'll pay 100,000 gold for a staff.", "No, that's too much." }, new DialogueOptionEvent() {
@@ -312,7 +311,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static NPCClickHandler handleAemad = new NPCClickHandler(590) {
+	public static NPCClickHandler handleAemad = new NPCClickHandler(new Object[] { 590 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 3)
@@ -320,7 +319,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static NPCClickHandler handleSilkTrader = new NPCClickHandler(574) {
+	public static NPCClickHandler handleSilkTrader = new NPCClickHandler(new Object[] { 574 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 3)

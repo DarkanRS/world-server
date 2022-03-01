@@ -227,7 +227,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleGypsyAris = new NPCClickHandler(882) {
+	public static NPCClickHandler handleGypsyAris = new NPCClickHandler(new Object[] { 882 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new GypsyArisDemonSlayerD(e.getPlayer()).getStart());

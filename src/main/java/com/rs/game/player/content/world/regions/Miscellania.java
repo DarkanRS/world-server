@@ -31,7 +31,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Miscellania {
 
-	public static NPCClickHandler handleAdvisorGhrim = new NPCClickHandler(1375) {
+	public static NPCClickHandler handleAdvisorGhrim = new NPCClickHandler(new Object[] { 1375 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

@@ -87,7 +87,7 @@ public class Genie extends OwnedNPC {
 			finish();
 	}
 
-	public static NPCClickHandler handleTalkTo = new NPCClickHandler(3022) {
+	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 3022 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getNPC() instanceof Genie) {

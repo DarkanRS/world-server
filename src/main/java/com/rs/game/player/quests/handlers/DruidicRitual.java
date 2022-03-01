@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers;
 
-import java.util.ArrayList;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.Skillcapes;
@@ -34,6 +32,8 @@ import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.DRUIDIC_RITUAL)
 @PluginEventHandler
@@ -287,7 +287,7 @@ public class DruidicRitual extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler kaqemeexHandler = new NPCClickHandler(KAQEMEEX) {
+	public static NPCClickHandler kaqemeexHandler = new NPCClickHandler(new Object[] { KAQEMEEX }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))
@@ -295,7 +295,7 @@ public class DruidicRitual extends QuestOutline {
 		}
 	};
 
-	public static NPCClickHandler sanfewHandler = new NPCClickHandler(SANFEW) {
+	public static NPCClickHandler sanfewHandler = new NPCClickHandler(new Object[] { SANFEW }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))

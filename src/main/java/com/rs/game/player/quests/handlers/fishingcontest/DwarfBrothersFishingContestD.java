@@ -157,14 +157,14 @@ public class DwarfBrothersFishingContestD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleAustriDialogue = new NPCClickHandler(232) {
+	public static NPCClickHandler handleAustriDialogue = new NPCClickHandler(new Object[] { 232 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new DwarfBrothersFishingContestD(e.getPlayer(), 232).getStart());
 		}
 	};
 
-	public static NPCClickHandler handleVestriDialogue = new NPCClickHandler(3679) {
+	public static NPCClickHandler handleVestriDialogue = new NPCClickHandler(new Object[] { 3679 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new DwarfBrothersFishingContestD(e.getPlayer(), 3679).getStart());

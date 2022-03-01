@@ -1,12 +1,5 @@
 package com.rs.game.player.quests.handlers.lostcity;
 
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.ARCHER;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -14,6 +7,8 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.*;
 
 @PluginEventHandler
 public class ArcherLostCityD extends Conversation {
@@ -41,7 +36,7 @@ public class ArcherLostCityD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleArcherDialogue = new NPCClickHandler(ARCHER) {
+	public static NPCClickHandler handleArcherDialogue = new NPCClickHandler(new Object[] { ARCHER }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new ArcherLostCityD(e.getPlayer()).getStart());
