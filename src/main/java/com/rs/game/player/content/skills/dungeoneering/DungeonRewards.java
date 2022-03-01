@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.skills.dungeoneering;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.player.Player;
@@ -30,6 +27,9 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class DungeonRewards {
@@ -52,6 +52,17 @@ public class DungeonRewards {
 		DWARF_WEED(Herbs.DWARF_WEED, 46),
 		FELLSTALK(Herbs.FELLSTALK, 47),
 		TORSTOL(Herbs.TORSTOL, 50);
+
+		private static Map<Integer, HerbicideSetting> BY_GRIMY = new HashMap<>();
+
+		static {
+			for (HerbicideSetting setting : values())
+				BY_GRIMY.put(setting.getHerb().getHerbId(), setting);
+		}
+
+		public static HerbicideSetting forGrimy(int herbId) {
+			return BY_GRIMY.get(herbId);
+		}
 
 		private Herbs herb;
 		private int buttonId;
