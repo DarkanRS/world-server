@@ -16,17 +16,17 @@
 //
 package com.rs.game.player.content.skills.hunter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum BoxHunterType {
 
-	CHINCHOMPA(5079, new Item[] { new Item(10033, 1) }, 53, 198.5, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185)),
+	CHINCHOMPA(5079, new Item[] { new Item(10033, 1) }, 53, 198.5, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185), 145, 268),
 
-	CARNIVOROUS_CHINCHOMPA(5080, new Item[] { new Item(10034, 1) }, 63, 265, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185)),
+	CARNIVOROUS_CHINCHOMPA(5080, new Item[] { new Item(10034, 1) }, 63, 265, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(5184), new Animation(5185), 115, 228),
 
 	GRENWALL(7010, 12535, new Item[] { new Item(12539, 18) }, 77, 1100, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(8602), new Animation(8602)),
 
@@ -54,19 +54,19 @@ public enum BoxHunterType {
 
 	BLACK_SALAMANDER(5116, new Item[] { new Item(10148) }, 67, 319.2, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1)),
 
-	CRIMSON_SWIFT(5073, new Item[] { new Item(10088), new Item(526, 1), new Item(9978, 1) }, 1, 34, BoxTrapType.BIRD_SNARE, 19179, 19180, 19174, new Animation(6775), new Animation(6774)),
+	CRIMSON_SWIFT(5073, new Item[] { new Item(10088), new Item(526, 1), new Item(9978, 1) }, 1, 34, BoxTrapType.BIRD_SNARE, 19179, 19180, 19174, new Animation(6775), new Animation(6774), 100, 420),
 
-	GOLDEN_WARBLER(5075, new Item[] { new Item(1583), new Item(526, 1), new Item(9978, 1) }, 5, 48, BoxTrapType.BIRD_SNARE, 19183, 19184, 19174, new Animation(6775), new Animation(6774)),
+	GOLDEN_WARBLER(5075, new Item[] { new Item(1583), new Item(526, 1), new Item(9978, 1) }, 5, 48, BoxTrapType.BIRD_SNARE, 19183, 19184, 19174, new Animation(6775), new Animation(6774), 92, 402),
 
-	COPPER_LONGTAIL(5076, new Item[] { new Item(10091), new Item(526, 1), new Item(9978, 1) }, 9, 61, BoxTrapType.BIRD_SNARE, 19185, 19186, 19174, new Animation(6775), new Animation(6774)),
+	COPPER_LONGTAIL(5076, new Item[] { new Item(10091), new Item(526, 1), new Item(9978, 1) }, 9, 61, BoxTrapType.BIRD_SNARE, 19185, 19186, 19174, new Animation(6775), new Animation(6774), 84, 389),
 
-	CERULEAN_TWITCH(5074, new Item[] { new Item(10089), new Item(526, 1), new Item(9978, 1) }, 11, 64.67, BoxTrapType.BIRD_SNARE, 19181, 19182, 19174, new Animation(6775), new Animation(6774)),
+	CERULEAN_TWITCH(5074, new Item[] { new Item(10089), new Item(526, 1), new Item(9978, 1) }, 11, 64.67, BoxTrapType.BIRD_SNARE, 19181, 19182, 19174, new Animation(6775), new Animation(6774), 82, 381),
 
-	TROPICAL_WAGTAIL(5072, new Item[] { new Item(10087), new Item(526, 1), new Item(9978, 1) }, 19, 95.2, BoxTrapType.BIRD_SNARE, 19177, 19178, 19174, new Animation(6775), new Animation(6774)),
+	TROPICAL_WAGTAIL(5072, new Item[] { new Item(10087), new Item(526, 1), new Item(9978, 1) }, 19, 95.2, BoxTrapType.BIRD_SNARE, 19177, 19178, 19174, new Animation(6775), new Animation(6774), 74, 368),
 
-	WIMPY_BIRD(7031, new Item[] { new Item(11525, 1), new Item(526, 1), new Item(9978, 1) }, 39, 167, BoxTrapType.BIRD_SNARE, 29164, 29165, 19174, new Animation(6775), new Animation(6774)),
+	WIMPY_BIRD(7031, new Item[] { new Item(11525, 1), new Item(526, 1), new Item(9978, 1) }, 39, 167, BoxTrapType.BIRD_SNARE, 29164, 29165, 19174, new Animation(6775), new Animation(6774), 60, 321),
 
-	IMP(708,new Item[] { new Item(10027) }, 71, 450, BoxTrapType.MAGIC_BOX, 19225, 19226, 19224, new Animation(5218), new Animation(5285)),
+	IMP(708, new Item[] { new Item(10027) }, 71, 450, BoxTrapType.MAGIC_BOX, 19225, 19226, 19224, new Animation(5218), new Animation(5285)),
 
 	COMMON_JADINKO(13119, new Item[] { new Item(19971, 1) }, 70, 350, BoxTrapType.MARASAMAW_PLANT, 56830, 56819, 56813, new Animation(3293), new Animation(3293)),
 
@@ -88,7 +88,7 @@ public enum BoxHunterType {
 
 	ZAMORAK_JADINKO(13165, new Item[] { new Item(19983, 1) }, 81, 600, BoxTrapType.MARASAMAW_PLANT, 56839, 56828, 56818, new Animation(3293), new Animation(3293));
 
-	private int npcId, baitId, level, objectCatch, objectSuccess, objectFail;
+	private int npcId, baitId, level, objectCatch, objectSuccess, objectFail, rate1, rate99;
 	private Item[] item;
 	private double xp;
 	private BoxTrapType hunter;
@@ -112,11 +112,11 @@ public enum BoxHunterType {
 		return OBJECTID_MAP.get(id);
 	}
 
-	private BoxHunterType(int npcId, Item[] item, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail) {
-		this(npcId, -1, item, level, xp, hunter, objectCatch, objectSuccess, objectFail, animSuccess, animFail);
+	private BoxHunterType(int npcId, Item[] item, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail, int rate1, int rate99) {
+		this(npcId, -1, item, level, xp, hunter, objectCatch, objectSuccess, objectFail, animSuccess, animFail, rate1, rate99);
 	}
 
-	private BoxHunterType(int npcId, int baitId, Item[] item, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail) {
+	private BoxHunterType(int npcId, int baitId, Item[] item, int level, double xp, BoxTrapType hunter, int objectCatch, int objectSuccess, int objectFail, Animation animSuccess, Animation animFail, int rate1, int rate99) {
 		this.npcId = npcId;
 		this.baitId = baitId;
 		this.item = item;
@@ -128,6 +128,8 @@ public enum BoxHunterType {
 		this.objectFail = objectFail;
 		this.animSuccess = animSuccess;
 		this.animFail = animFail;
+		this.rate1 = rate1;
+		this.rate99 = rate99;
 	}
 
 	public int getRate1() {
