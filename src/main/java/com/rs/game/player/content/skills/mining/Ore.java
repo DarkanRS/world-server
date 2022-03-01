@@ -26,20 +26,20 @@ import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
 
 public enum Ore {
-	CLAY(434, 1, 5, 60, 400, 0),
+	CLAY(434, 1, 5, 128, 402, 0),
 	COPPER(436, 1, 17.5, 60, 220, 1),
 	TIN(438, 1, 17.5, 60, 220, 1),
 	BLURITE(668, 10, 17.5, 60, 140, 1),
-	LIMESTONE(3211, 10, 26.5, 50, 130, 0),
-	IRON(440, 15, 35, 150, 245, 1),
+	LIMESTONE(3211, 10, 26.5, 97, 350, 0),
+	IRON(440, 15, 35, 145, 326, 1),
 	DAEYALT(9632, 20, 10, 50, 130, 0),
 	ELEMENTAL(2892, 1, 1, 50, 130, 0),
-	SILVER(442, 20, 40, 30, 130, 1),
-	COAL(453, 30, 50, 30, 130, 1),
-	GOLD(444, 40, 65, 30, 100, 1),
-	PERFECT_GOLD(446, 40, 65, 30, 100, 1),
+	SILVER(442, 20, 40, 26, 201, 1),
+	COAL(453, 30, 50, 16, 100, 1),
+	GOLD(444, 40, 65, 7, 76, 1),
+	PERFECT_GOLD(446, 40, 65, 7, 76, 1),
 	LUNAR(9076, 60, 25, 50, 130, 0),
-	MITHRIL(447, 55, 80, 10, 40, 1),
+	MITHRIL(447, 55, 80, 4, 50, 1),
 	GRANITE_500G(6979, 45, 50, 16, 100, 0),
 	GRANITE_2KG(6981, 45, 60, 8, 75, 0),
 	GRANITE_5KG(6983, 45, 75, 6, 64, 0),
@@ -47,8 +47,8 @@ public enum Ore {
 	SANDSTONE_2KG(6973, 35, 40, 8, 75, 0),
 	SANDSTONE_5KG(6975, 35, 50, 6, 64, 0),
 	SANDSTONE_10KG(6977, 35, 60, 3, 30, 0),
-	ADAMANT(449, 70, 95, 5, 20, 1),
-	RUNE(451, 85, 125, -20, 10, 0),
+	ADAMANT(449, 70, 95, 2, 25, 1),
+	RUNE(451, 85, 125, 11, 19, 0),
 	RUNE_ESSENCE(1436, 1, 5, 180, 380, 0) {
 		@Override
 		public boolean checkRequirements(Player player) {
@@ -61,7 +61,14 @@ public enum Ore {
 			return player.getSkills().getLevel(Constants.MINING) >= 30;
 		}
 	},
-	GEM(-1, 40, 65, 40, 110, 0) {
+	GEM(-1, 40, 65, 26, 71, 0) {
+		@Override
+		public boolean rollSuccess(Player player, int level) {
+			int neck = player.getEquipment().getAmuletId();
+			boolean charged = (neck >= 10354 && neck <= 10360) || (neck >= 1706 && neck <= 1712);
+			return Utils.skillSuccess(level, player.getAuraManager().getMiningMul(), charged ? 83 : 26, charged ? 211 : 71);
+		}
+
 		@Override
 		public void giveOre(Player player) {
 			double totalXp = getXp() * Mining.getXPMultiplier(player);
@@ -84,8 +91,8 @@ public enum Ore {
 			player.incrementCount(item.getDefinitions().getName()+" mined", item.getAmount());
 		}
 	},
-	CONCENTRATED_COAL(453, 77, 50, 45, 145, 1),
-	CONCENTRATED_GOLD(444, 80, 65, 30, 145, 1),
+	CONCENTRATED_COAL(453, 77, 50, 16, 100, 1),
+	CONCENTRATED_GOLD(444, 80, 65, 7, 76, 1),
 	RED_SANDSTONE(23194, 81, 70, 30, 145, 0) {
 		@Override
 		public boolean checkRequirements(Player player) {

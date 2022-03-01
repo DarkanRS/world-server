@@ -52,34 +52,27 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-			int ticks = 0;
-
-			@Override
-			public void run() {
-				ticks++;
-				if (ticks == 1)
-					player.faceObject(object);
-				else if (ticks == 2)
-					player.setNextAnimation(pick.getAnimation());
-				else if (ticks == 4) {
-					if (!isSuccessFul(player, Constants.MINING)) {
-						player.unlock();
-						player.setNextAnimation(new Animation(-1));
-						stop();
-						return;
-					}
-				} else if (ticks >= 5 && ticks <= 7)
-					demolishObstical(7158 + (ticks - 5), object);
-				else if (ticks == 9) {
-					player.setNextWorldTile(new WorldTile(object.getX(), object.getY() + 13, 0));
+		WorldTasks.scheduleTimer(1, ticks -> {
+			if (ticks == 1)
+				player.faceObject(object);
+			else if (ticks == 2)
+				player.setNextAnimation(pick.getAnimation());
+			else if (ticks == 4) {
+				if (!isSuccessFul(player, Constants.MINING)) {
 					player.unlock();
-					stop();
-					return;
+					player.setNextAnimation(new Animation(-1));
+					return false;
 				}
+			} else if (ticks >= 5 && ticks <= 7)
+				demolishObstical(7158 + (ticks - 5), object);
+			else if (ticks == 9) {
+				player.setNextWorldTile(new WorldTile(object.getX(), object.getY() + 13, 0));
+				player.resetReceivedHits();
+				player.unlock();
+				return false;
 			}
-		}, 1, 1);
-		return;
+			return true;
+		});
 	}
 
 	public static void clearTendrills(final Player player, final GameObject object, final WorldTile tile) {
@@ -225,7 +218,7 @@ public class Abyss {
 	}
 
 	private static boolean isSuccessFul(Player player, int requestedSkill) {
-		if ((player.getSkills().getLevel(requestedSkill) / 99) > Math.random())
+		if (((double) player.getSkills().getLevel(requestedSkill) / 99.0) > Math.random())
 			return true;
 		return false;
 	}
