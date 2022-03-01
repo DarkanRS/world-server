@@ -36,6 +36,13 @@ public class FalconryController extends Controller {
 	public int[] furRewards = { 10125, 10115, 10127 };
 	public int[] levels = { 43, 57, 69 };
 
+	/**
+	 * Success rates:
+	 * Spotted: 26/256 - 310/256
+	 * Dark: 0/256 - 253/256
+	 * Dashing: 0/256 - 205/256
+	 */
+
 	public static void beginFalconry(Player player) {
 		if (!player.hasRights(Rights.DEVELOPER)) {
 			player.sendMessage("Falconry is temporarily closed.");
