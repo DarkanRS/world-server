@@ -23,6 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.DropCleaners;
 import com.rs.game.player.content.skills.hunter.BoxHunterType;
 import com.rs.game.player.content.skills.hunter.BoxTrapType;
 import com.rs.game.tasks.WorldTask;
@@ -116,8 +117,11 @@ public class BoxStyleTrap extends OwnedObject {
 		destroy();
 		player.incrementCount(NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName()+" trapped");
 		player.setNextAnimation(getTrapType().getPickUpAnimation());
-		for (Item i : getNpcTrapped().getItems())
+		for (Item i : getNpcTrapped().getItems()) {
+			if (i == null || DropCleaners.bonecrush(player, i) || DropCleaners.herbicide(player, i))
+				continue;
 			player.getInventory().addItemDrop(i);
+		}
 		if (getTrapType() != BoxTrapType.MAGIC_BOX && getTrapType() != BoxTrapType.DEAD_FALL)
 			player.getInventory().addItemDrop(getTrapType().getId(), 1);
 		if (getTrapType() == BoxTrapType.TREE_NET)

@@ -630,15 +630,6 @@ public class NPC extends Entity {
 
 		final int size = getSize();
 
-		if (dropTo.getInventory().containsItem(18337, 1)) {
-			Bone bone = Bone.forId(item.getId());
-			if (bone != null && bone != Bone.ACCURSED_ASHES && bone != Bone.IMPIOUS_ASHES && bone != Bone.INFERNAL_ASHES) {
-				dropTo.getSkills().addXp(Constants.PRAYER, bone.getExperience());
-				Burying.handleNecklaces(dropTo, bone.getId());
-				return;
-			}
-		}
-
 		if (dropTo.getNSV().getB("sendingDropsToBank")) {
 			if (item.getDefinitions().isNoted())
 				item.setId(item.getDefinitions().certId);
@@ -672,13 +663,6 @@ public class NPC extends Entity {
 			}
 			break;
 		}
-
-		if (dropTo.getInventory().containsItem(19675, 1))
-			for (HerbicideSetting setting : dropTo.herbicideSettings)
-				if (item.getId() == setting.getHerb().getHerbId() && (dropTo.getSkills().getLevel(Constants.HERBLORE) >= setting.getHerb().getLevel())) {
-					dropTo.getSkills().addXp(Constants.HERBLORE, setting.getHerb().getExperience() * 2);
-					return;
-				}
 
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
