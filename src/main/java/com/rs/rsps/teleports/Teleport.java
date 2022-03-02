@@ -33,7 +33,7 @@ public class Teleport {
 	
 	public void teleport(Player player) {
 		if (Magic.sendNormalTeleportSpell(player, tile) && onTeleport != null)
-			WorldTasks.delay(5, () -> onTeleport.accept(player));
+			WorldTasks.delay(4, () -> onTeleport.accept(player));
 	}
 
 }

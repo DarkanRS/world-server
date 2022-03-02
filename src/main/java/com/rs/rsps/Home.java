@@ -11,9 +11,7 @@ import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.rsps.teleports.SlayerTeleport;
 import com.rs.rsps.teleports.Teleport;
@@ -24,11 +22,6 @@ public class Home {
 	
 	@ServerStartupEvent
 	public static void spawnNPCs() {
-		/* Combat shops */
-		spawnNPC(14868, new WorldTile(3090, 3499, 0), "Melee shop", Direction.WEST, false);
-		spawnNPC(9457, new WorldTile(3090, 3498, 0), "Range shop", Direction.WEST, false);
-		spawnNPC(8029, new WorldTile(3090, 3497, 0), "Magic shop", Direction.WEST, false);
-		
 		/* Task master */
 		//spawnNPC(14858, new WorldTile(3090, 3494, 0), "Cadet Cassandra", Direction.WEST, false);
 		
@@ -48,14 +41,17 @@ public class Home {
 		spawnObject(2640, new WorldTile(3086, 3483, 0));
 	}
 
-	public static NPCClickHandler handleShops = new NPCClickHandler(new Object[] { 14868, 9457, 8029 }) {
+	public static ObjectClickHandler handleShops = new ObjectClickHandler(new Object[] { 18789 }, new WorldTile(3095, 3499, 0)) {
 		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getNPCId()) {
-				case 14868 -> ShopsHandler.openShop(e.getPlayer(), "gear_shop_melee");
-				case 9457 -> ShopsHandler.openShop(e.getPlayer(), "gear_shop_range");
-				case 8029 -> ShopsHandler.openShop(e.getPlayer(), "gear_shop_magic");
-			}
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().startConversation(new Dialogue().addOptions("Which shop would you like to see?", new Options() {
+				@Override
+				public void create() {
+					option("Melee shop", () -> ShopsHandler.openShop(e.getPlayer(), "gear_shop_melee"));
+					option("Range shop", () -> ShopsHandler.openShop(e.getPlayer(), "gear_shop_range"));
+					option("Magic shop", () -> ShopsHandler.openShop(e.getPlayer(), "gear_shop_magic"));
+				}
+			}));
 		}
 	};
 
