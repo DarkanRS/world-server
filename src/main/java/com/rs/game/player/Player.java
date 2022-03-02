@@ -2216,6 +2216,8 @@ public class Player extends Entity {
 						setNextWorldTile(Settings.getConfig().getPlayerRespawnTile());
 					else
 						controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
+				} else if (loop == 3) {
+					setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					getPackets().sendMusicEffect(90);
 					unlock();
