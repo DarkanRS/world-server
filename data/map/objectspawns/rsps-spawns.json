@@ -1,0 +1,35 @@
+[
+  {
+    "comment": "TODO portal",
+    "objectId": 46935,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 3093,
+      "y": 3506,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Boss portal",
+    "objectId": 46933,
+    "type": 10,
+    "rotation": 3,
+    "tile": {
+      "x": 3083,
+      "y": 3492,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Slayer portal",
+    "objectId": 46934,
+    "type": 10,
+    "rotation": 2,
+    "tile": {
+      "x": 3095,
+      "y": 3483,
+      "plane": 0
+    }
+  }
+]
