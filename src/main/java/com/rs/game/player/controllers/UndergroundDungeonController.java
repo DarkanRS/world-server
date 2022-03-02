@@ -174,6 +174,14 @@ public class UndergroundDungeonController extends Controller {
 	}
 
 	@Override
+	public boolean sendDeath() {
+		player.getPackets().setBlockMinimapState(0);
+		player.getInterfaceManager().removeOverlay(true);
+		removeController();
+		return true;
+	}
+
+	@Override
 	public boolean login() {
 		init();
 		return false;
