@@ -101,9 +101,6 @@ public class NPCClickEvent implements PluginEvent {
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		NPCClickHandler handler = (NPCClickHandler) method;
-		if (handler.getOptions() != null) {
-			System.err.println("Registering NPCClick method for options: " + handler.getOptions());
-		}
 		if (handler.getOptions() == null || handler.getOptions().isEmpty()) {
 			for (Object key : handler.keys()) {
 				Map<String, NPCClickHandler> map = HANDLERS.get(key);
