@@ -72,14 +72,14 @@ public class Neitiznot  {
 		}
 	};
 
-	public static NPCClickHandler handleMawnis = new NPCClickHandler(5503) {
+	public static NPCClickHandler handleMawnis = new NPCClickHandler(new Object[] { 5503 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new MawnisBurowgarD(e.getPlayer()));
 		}
 	};
 
-	public static NPCClickHandler handleShops = new NPCClickHandler(5509, 5487, 5484, 5486, 5485, 5483, 5495) {
+	public static NPCClickHandler handleShops = new NPCClickHandler(new Object[] { 5509, 5487, 5484, 5486, 5485, 5483, 5495 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getNPC().getId()) {
@@ -108,7 +108,7 @@ public class Neitiznot  {
 		}
 	};
 
-	public static NPCClickHandler handleCureHide = new NPCClickHandler(5506) {
+	public static NPCClickHandler handleCureHide = new NPCClickHandler(new Object[] { 5506 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().sendOptionDialogue("What can I help you with?", new String[] {"Cure my yak-hide, please.", "Nothing, thanks."}, new DialogueOptionEvent() {
@@ -125,21 +125,21 @@ public class Neitiznot  {
 		}
 	};
 
-	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(5507, 5508) {
+	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? new WorldTile(2644, 3709, 0) : new WorldTile(2310, 3781, 0));
 		}
 	};
 
-	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(5482, 5481) {
+	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? new WorldTile(2644, 3709, 0) : new WorldTile(2420, 3781, 0));
 		}
 	};
 
-	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(5488) {
+	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getBank().open();

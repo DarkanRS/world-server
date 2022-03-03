@@ -28,7 +28,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class TitleShop {
 
-	public static NPCClickHandler onNPCClick = new NPCClickHandler(13727) {
+	public static NPCClickHandler onNPCClick = new NPCClickHandler(new Object[] { 13727 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch (e.getOpNum()) {

@@ -65,7 +65,7 @@ public class TzHaar {
 		}
 	};
 
-	public static NPCClickHandler handleTzhaarMejJeh = new NPCClickHandler(15166) {
+	public static NPCClickHandler handleTzhaarMejJeh = new NPCClickHandler(new Object[] { 15166 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

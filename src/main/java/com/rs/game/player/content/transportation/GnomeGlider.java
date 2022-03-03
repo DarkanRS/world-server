@@ -76,7 +76,7 @@ public class GnomeGlider {
 		}
 	};
 
-	public static NPCClickHandler openInterface = new NPCClickHandler(1800, 3809, 3810, 3811, 3812, 6563) {
+	public static NPCClickHandler openInterface = new NPCClickHandler(new Object[] { 1800, 3809, 3810, 3811, 3812, 6563 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch (e.getNPCId()) {

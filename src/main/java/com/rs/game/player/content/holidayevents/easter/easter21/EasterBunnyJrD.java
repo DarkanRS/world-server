@@ -28,7 +28,7 @@ public class EasterBunnyJrD extends Conversation {
 
 	private static final int EASTER_BUNNY_JR = 7411;
 
-	public static NPCClickHandler handleEasterBunnyJrTalk = new NPCClickHandler(EASTER_BUNNY_JR) {
+	public static NPCClickHandler handleEasterBunnyJrTalk = new NPCClickHandler(new Object[] { EASTER_BUNNY_JR }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new EasterBunnyJrD(e.getPlayer()));

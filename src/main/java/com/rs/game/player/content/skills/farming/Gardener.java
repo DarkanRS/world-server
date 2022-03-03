@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.skills.farming;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -30,6 +27,9 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public enum Gardener {
@@ -88,7 +88,7 @@ public enum Gardener {
 		this.locations = locations;
 	}
 
-	public static NPCClickHandler handleGardeners = new NPCClickHandler(871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101) {
+	public static NPCClickHandler handleGardeners = new NPCClickHandler(new Object[] {  871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Gardener gardener = Gardener.forNPC(e.getNPCId());

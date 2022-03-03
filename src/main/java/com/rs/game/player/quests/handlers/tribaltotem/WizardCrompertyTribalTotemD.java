@@ -1,9 +1,5 @@
 package com.rs.game.player.quests.handlers.tribaltotem;
 
-import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.GET_TOTEM;
-import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
-import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.TALK_TO_WIZARD;
-
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -19,6 +15,8 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.*;
 
 @PluginEventHandler
 public class WizardCrompertyTribalTotemD extends Conversation {
@@ -116,7 +114,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 
 
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(NPC) {
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new WizardCrompertyTribalTotemD(e.getPlayer()).getStart());

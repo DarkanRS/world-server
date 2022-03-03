@@ -20,8 +20,6 @@ import com.rs.game.ForceMovement;
 import com.rs.game.ge.GE;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
@@ -49,7 +47,7 @@ public class Piscatoris {
 		}
 	};
 
-	public static NPCClickHandler handleArnoldPiscatorisBanker = new NPCClickHandler(3824) {
+	public static NPCClickHandler handleArnoldPiscatorisBanker = new NPCClickHandler(new Object[] { 3824 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("Talk-to"))

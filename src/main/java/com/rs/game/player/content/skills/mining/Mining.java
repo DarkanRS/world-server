@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.content.skills.mining;
 
-import java.util.function.Supplier;
-
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -33,6 +31,8 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.function.Supplier;
 
 @PluginEventHandler
 public class Mining extends Action {
@@ -166,7 +166,7 @@ public class Mining extends Action {
 		}
 	};
 
-	public static NPCClickHandler handleLRCMinerals = new NPCClickHandler(8837, 8838, 8839) {
+	public static NPCClickHandler handleLRCMinerals = new NPCClickHandler(new Object[] { 8837, 8838, 8839 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getActionManager().setAction(new Mining(RockType.LIVING_MINERALS, e.getNPC(), () -> e.getNPC().getId() - 5));
@@ -320,12 +320,10 @@ public class Mining extends Action {
 
 	public static void rollForGem(Player player) {
 		int random = Utils.random(256);
-		// >= 20653 && <= 20659 //charged ring of wealth
 		// >= 10354 && <= 10360 //charged trimmed glory
 		// >= 1706 && <= 1712 //charged glory
-		int ring = player.getEquipment().getRingId();
 		int neck = player.getEquipment().getAmuletId();
-		if ((ring >= 20653 && ring <= 20659) || (neck >= 10354 && neck <= 10360) || (neck >= 1706 && neck <= 1712))
+		if ((neck >= 10354 && neck <= 10360) || (neck >= 1706 && neck <= 1712))
 			random = Utils.random(86);
 		if (random == 0) {
 			random = Utils.random(10);

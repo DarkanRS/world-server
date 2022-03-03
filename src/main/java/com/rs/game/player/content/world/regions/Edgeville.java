@@ -158,7 +158,7 @@ public class Edgeville  {
 		}
 	};
 
-	public static NPCClickHandler handleOziachDialogue = new NPCClickHandler(747) {
+	public static NPCClickHandler handleOziachDialogue = new NPCClickHandler(new Object[] { 747 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("trade"))
@@ -218,7 +218,7 @@ public class Edgeville  {
 		}
 	};
 
-	public static NPCClickHandler handleAbbotLangleyDialogue = new NPCClickHandler(801) {
+	public static NPCClickHandler handleAbbotLangleyDialogue = new NPCClickHandler(new Object[] { 801 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();

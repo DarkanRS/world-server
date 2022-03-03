@@ -28,7 +28,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class GrimReaper2009D extends Conversation {
 
-	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(8977) {
+	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 8977 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getNPC().resetDirection();

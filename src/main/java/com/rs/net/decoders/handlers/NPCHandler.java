@@ -20,11 +20,13 @@ import com.rs.Settings;
 import com.rs.game.ge.GE;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.others.*;
+import com.rs.game.npc.others.ConditionalDeath;
+import com.rs.game.npc.others.FireSpirit;
+import com.rs.game.npc.others.GraveStone;
+import com.rs.game.npc.others.MutatedZygomite;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.npc.slayer.Strykewyrm;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.actions.interactions.StandardEntityInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.PlayerLook;
@@ -53,7 +55,6 @@ import com.rs.game.player.dialogues.*;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -97,7 +98,8 @@ public class NPCHandler {
 		if (SiphonActionCreatures.siphon(player, npc))
 			return;
 
-		PluginManager.handle(new NPCClickEvent(player, npc, 1, false));
+		if (PluginManager.handle(new NPCClickEvent(player, npc, 1, false)))
+			return;
 
 		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
 		int distance = 0;
@@ -277,55 +279,11 @@ public class NPCHandler {
 	}
 
 	public static void handleOption2(Player player, NPC npc) {
-		if (!npc.getDefinitions().hasAttackOption())
+		if (PluginManager.handle(new NPCClickEvent(player, npc, 2, false)))
 			return;
-		if (npc.getId() == 7891) {
-			player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> {
-				if (!player.getControllerManager().canAttack(npc))
-					return;
-				npc.resetWalkSteps();
-				player.faceEntity(npc);
-				npc.faceEntity(player);
-				if (player.getSkills().getLevelForXp(Constants.ATTACK) < 5) {
-					if (player.getActionManager().getActionDelay() < 1) {
-						player.getActionManager().setActionDelay(4);
-						player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
-						player.getSkills().addXp(Constants.ATTACK, 15);
-					}
-				} else
-					player.sendMessage("You have nothing more you can learn from this.");
-			}));
-			return;
-		}
-		if (npc instanceof Familiar familiar) {
-			if (familiar == player.getFamiliar()) {
-				player.sendMessage("You can't attack your own familiar.");
-				return;
-			}
-			if (!familiar.canAttack(player)) {
-				player.sendMessage("You can't attack this npc.");
-				return;
-			}
-		}  else if (npc instanceof DoorSupport door) {
-			if (!door.canDestroy(player)) {
-				player.sendMessage("You cannot see a way to open this door...");
-				return;
-			}
-		} else if (!npc.isForceMultiAttacked())
-			if (!npc.isAtMultiArea() || !player.isAtMultiArea()) {
-				if (player.getAttackedBy() != npc && player.inCombat()) {
-					player.sendMessage("You are already in combat.");
-					return;
-				}
-				if (npc.getAttackedBy() != player && npc.inCombat()) {
-					player.sendMessage("This npc is already in combat.");
-					return;
-				}
-			}
-		player.setLastNpcInteractedName(npc.getDefinitions().getName());
-		player.stopAll(true);
-		player.getActionManager().setAction(new PlayerCombat(npc));
-		PluginManager.handle(new NPCClickEvent(player, npc, 2, false));
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> {
+			PluginManager.handle(new NPCClickEvent(player, npc, 2, true));
+		}));
 	}
 
 	public static void handleOption3(final Player player, final NPC npc) {
@@ -333,7 +291,8 @@ public class NPCHandler {
 			return;
 		player.stopAll(true);
 
-		PluginManager.handle(new NPCClickEvent(player, npc, 3, false));
+		if (PluginManager.handle(new NPCClickEvent(player, npc, 3, false)))
+			return;
 
 		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
 		int distance = 0;
@@ -458,7 +417,8 @@ public class NPCHandler {
 	public static void handleOption4(final Player player, final NPC npc) {
 		player.stopAll(true);
 
-		PluginManager.handle(new NPCClickEvent(player, npc, 4, false));
+		if (PluginManager.handle(new NPCClickEvent(player, npc, 4, false)))
+			return;
 
 		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
 		int distance = 0;

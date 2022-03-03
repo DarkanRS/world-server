@@ -40,7 +40,7 @@ import java.util.List;
 
 @PluginEventHandler
 public class Taverly {
-	public static NPCClickHandler handleAchietties = new NPCClickHandler(796) {
+	public static NPCClickHandler handleAchietties = new NPCClickHandler(new Object[] { 796 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST)) {
@@ -60,7 +60,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleHeadFarmerJones = new NPCClickHandler(14860) {
+	public static NPCClickHandler handleHeadFarmerJones = new NPCClickHandler(new Object[] { 14860 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))
@@ -99,7 +99,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleNicholasAngle = new NPCClickHandler(14879) {
+	public static NPCClickHandler handleNicholasAngle = new NPCClickHandler(new Object[] { 14879 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -129,7 +129,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleAylethHunterShop = new NPCClickHandler(14864) {
+	public static NPCClickHandler handleAylethHunterShop = new NPCClickHandler(new Object[] { 14864 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -155,7 +155,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleFetchShop = new NPCClickHandler(14858) {
+	public static NPCClickHandler handleFetchShop = new NPCClickHandler(new Object[] { 14858 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -180,7 +180,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleWoodCuttingShop = new NPCClickHandler(14885) {
+	public static NPCClickHandler handleWoodCuttingShop = new NPCClickHandler(new Object[] { 14885 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -205,7 +205,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleFiremakingShop = new NPCClickHandler(14883) {
+	public static NPCClickHandler handleFiremakingShop = new NPCClickHandler(new Object[] { 14883 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -230,7 +230,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleHerbloreShop = new NPCClickHandler(14854) {
+	public static NPCClickHandler handleHerbloreShop = new NPCClickHandler(new Object[] { 14854 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -255,7 +255,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleSmithingShop = new NPCClickHandler(14874) {
+	public static NPCClickHandler handleSmithingShop = new NPCClickHandler(new Object[] { 14874 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -280,7 +280,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleCraftingShop = new NPCClickHandler(14877) {
+	public static NPCClickHandler handleCraftingShop = new NPCClickHandler(new Object[] { 14877 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();
@@ -311,7 +311,7 @@ public class Taverly {
 		}
 	};
 
-	public static NPCClickHandler handleMiningShop = new NPCClickHandler(14870) {
+	public static NPCClickHandler handleMiningShop = new NPCClickHandler(new Object[] { 14870 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			int option = e.getOpNum();

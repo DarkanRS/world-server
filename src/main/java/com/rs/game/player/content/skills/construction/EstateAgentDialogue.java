@@ -34,7 +34,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class EstateAgentDialogue extends Conversation {
 
-	public static NPCClickHandler handleEstateAgent = new NPCClickHandler("Estate agent") {
+	public static NPCClickHandler handleEstateAgent = new NPCClickHandler(new Object[] { "Estate agent" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new EstateAgentDialogue(e.getPlayer(), e.getNPCId()));

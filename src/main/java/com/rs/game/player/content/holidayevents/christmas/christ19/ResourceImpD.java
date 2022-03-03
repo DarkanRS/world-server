@@ -30,7 +30,7 @@ public class ResourceImpD extends Conversation {
 
 	private static final int IMP_HEAD = 9364;
 
-	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(9372, 9373, 9374, 9375) {
+	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(new Object[] { 9372, 9373, 9374, 9375 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			String noun = "";

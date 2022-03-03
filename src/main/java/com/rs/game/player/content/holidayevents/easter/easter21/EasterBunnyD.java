@@ -30,7 +30,7 @@ public class EasterBunnyD extends Conversation {
 
 	private static final int EASTER_BUNNY = 9687;
 
-	public static NPCClickHandler handleEasterBunnyTalk = new NPCClickHandler(EASTER_BUNNY) {
+	public static NPCClickHandler handleEasterBunnyTalk = new NPCClickHandler(new Object[] { EASTER_BUNNY }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new EasterBunnyD(e.getPlayer()));

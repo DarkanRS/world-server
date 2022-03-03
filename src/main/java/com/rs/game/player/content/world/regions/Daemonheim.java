@@ -35,7 +35,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Daemonheim {
-	public static NPCClickHandler handleFremmyBanker = new NPCClickHandler(9710) {
+	public static NPCClickHandler handleFremmyBanker = new NPCClickHandler(new Object[] { 9710 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();
@@ -62,7 +62,7 @@ public class Daemonheim {
 		}
 	};
 
-	public static NPCClickHandler handleRewardsTrader = new NPCClickHandler(9711) {
+	public static NPCClickHandler handleRewardsTrader = new NPCClickHandler(new Object[] { 9711 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();

@@ -60,7 +60,7 @@ public class Yanille {
 		}
 	};
 
-	public static NPCClickHandler handleMagicGuildArmorShop = new NPCClickHandler(1658) {
+	public static NPCClickHandler handleMagicGuildArmorShop = new NPCClickHandler(new Object[] { 1658 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 3)
@@ -68,7 +68,7 @@ public class Yanille {
 		}
 	};
 
-	public static NPCClickHandler handleElkoy = new NPCClickHandler(473, 474) {
+	public static NPCClickHandler handleElkoy = new NPCClickHandler(new Object[] { 473, 474 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 3)

@@ -527,12 +527,12 @@ public final class CombatDefinitions {
 		return style.getAttackType().getDefenseBonus(player);
 	}
 
-	public boolean isAutoRelatie() {
+	public boolean isAutoRetaliate() {
 		return autoRetaliate;
 	}
 
-	public void setAutoRelatie(boolean autoRelatie) {
-		autoRetaliate = autoRelatie;
+	public void setAutoRetaliate(boolean autoRetaliate) {
+		this.autoRetaliate = autoRetaliate;
 	}
 
 	public boolean isDungeonneringSpellBook() {

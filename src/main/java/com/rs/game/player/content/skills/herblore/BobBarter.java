@@ -16,9 +16,6 @@
 //
 package com.rs.game.player.content.skills.herblore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Potions.Potion;
@@ -28,10 +25,13 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 @PluginEventHandler
 public class BobBarter {
 
-	public static NPCClickHandler handleBobBarter = new NPCClickHandler(6524) {
+	public static NPCClickHandler handleBobBarter = new NPCClickHandler(new Object[] { 6524 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("decant"))

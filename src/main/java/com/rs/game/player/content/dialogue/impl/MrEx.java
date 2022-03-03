@@ -65,7 +65,7 @@ public class MrEx extends Conversation {
 		create();
 	}
 
-	public static NPCClickHandler handleTalk = new NPCClickHandler(MREX) {
+	public static NPCClickHandler handleTalk = new NPCClickHandler(new Object[] { MREX }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new MrEx(e.getPlayer()));
