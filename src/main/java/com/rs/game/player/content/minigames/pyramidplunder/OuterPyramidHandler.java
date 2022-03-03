@@ -110,7 +110,6 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	}
 
 	public static EnterChunkHandler handleMummySpawn = new EnterChunkHandler() {
-
 		@Override
 		public void handle(EnterChunkEvent e) {
 			Player p = e.getPlayer();
