@@ -17,61 +17,83 @@
 package com.rs.utils;
 
 import com.rs.game.player.Player;
+import com.rs.lib.io.InputStream;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class MachineInformation {
 
-	private int hashCode;
-	private int os;
-	private boolean x64Arch;
-	private int osVersion;
-	private int osVendor;
-	private int javaVersion;
-	private int javaVersionBuild;
-	private int javaVersionBuild2;
-	private boolean hasApplet;
-	private int heap;
-	private int availableProcessors;
-	private int ram;
-	private int cpuClockFrequency;
-	private int cpuInfo3;
-	private int cpuInfo4;
-	private int cpuInfo5;
+	public int operatingSystem;
+	public boolean x64os;
+	public int osVendor;
+	public int javaVersion;
+	public int javaSubBuild;
+	public int javaBuild;
+	public int javaUpdate;
+	public int ram;
+	public transient String aString8157;
+	public transient String aString8160;
+	public transient String aString8159;
+	public transient String aString8153;
+	public int[] rawCPUInformationData = new int[3];
+	public transient boolean idk;
+	public int maxMem;
+	public int processors;
+	public int cpuCores;
+	public int cpuClock;
+	public String cpuType;
+	public int rawCPUInformation2;
+	public int rawCPUInformation;
+	public String cpuData;
+	public int dxDriverMonth;
+	public int dxDriverYear;
 
-	public MachineInformation(int os, boolean x64Arch, int osVersion, int osVendor, int javaVersion, int javaVersionBuild, int javaVersionBuild2, boolean hasApplet, int heap, int availableProcessor, int ram, int cpuClockFrequency, int cpuInfo3,
-			int cpuInfo4, int cpuInfo5) {
-		this.os = os;
-		this.x64Arch = x64Arch;
-		this.osVersion = osVersion;
-		this.javaVersion = javaVersion;
-		this.javaVersionBuild = javaVersionBuild;
-		this.javaVersionBuild2 = javaVersionBuild2;
-		this.hasApplet = hasApplet;
-		this.heap = heap;
-		availableProcessors = availableProcessor;
-		this.ram = ram;
-		this.cpuClockFrequency = cpuClockFrequency;
-		this.cpuInfo3 = cpuInfo3;
-		this.cpuInfo4 = cpuInfo4;
-		this.cpuInfo5 = cpuInfo5;
-		this.hashCode = hashCode();
+	public static MachineInformation parse(InputStream stream) {
+		MachineInformation info = new MachineInformation();
+		info.operatingSystem = stream.readUnsignedByte();
+		info.x64os = stream.readUnsignedByte() == 1;
+		info.osVendor = stream.readUnsignedByte();
+		info.javaVersion = stream.readUnsignedByte();
+		info.javaBuild = stream.readUnsignedByte();
+		info.javaSubBuild = stream.readUnsignedByte();
+		info.javaUpdate = stream.readUnsignedByte();
+		info.idk = stream.readUnsignedByte() == 1;
+		info.maxMem = stream.readUnsignedShort();
+		info.processors = stream.readUnsignedByte();
+		info.ram = stream.read24BitInt();
+		info.cpuClock = stream.readUnsignedShort();
+		info.aString8157 = stream.readJagString();
+		info.aString8160 = stream.readJagString();
+		info.aString8159 = stream.readJagString();
+		info.aString8153 = stream.readJagString();
+		info.dxDriverMonth = stream.readUnsignedByte();
+		info.dxDriverYear = stream.readUnsignedShort();
+		info.cpuType = stream.readJagString();
+		info.cpuData = stream.readJagString();
+		info.cpuCores = stream.readUnsignedByte();
+		for (int i = 0;i < info.rawCPUInformationData.length;i++)
+			info.rawCPUInformationData[i] = stream.readInt();
+		info.rawCPUInformation2 = stream.readInt();
+		return info;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(os, x64Arch, osVersion, osVendor, javaVersion, javaVersionBuild, javaVersionBuild2, hasApplet, heap, availableProcessors, ram, cpuClockFrequency, cpuInfo3, cpuInfo4, cpuInfo5);
+		int result = Objects.hash(operatingSystem, x64os, osVendor, javaVersion, javaSubBuild, javaBuild, javaUpdate, ram, aString8157, aString8160, aString8159, aString8153, idk, maxMem, processors, cpuCores, cpuClock, cpuType, rawCPUInformation2, rawCPUInformation, cpuData, dxDriverMonth, dxDriverYear);
+		result = 31 * result + Arrays.hashCode(rawCPUInformationData);
+		return result;
 	}
 
 	public String getVersion() {
-		return javaVersion + "." + javaVersionBuild + "." + javaVersionBuild2;
+		return javaBuild + "." + javaVersion + "." + javaSubBuild;
 	}
 
 	public void sendSuggestions(Player player) {
 		String suggestion = null;
 		String title = null;
-		if (javaVersion < 6) {
+		if (javaBuild < 6) {
 			title = "Client Issues";
 			suggestion = "You seem to be using java version: " + getVersion() + ".<br>You should update to jre6.";
 		}/*
