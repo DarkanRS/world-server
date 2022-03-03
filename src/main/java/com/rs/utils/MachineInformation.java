@@ -18,9 +18,12 @@ package com.rs.utils;
 
 import com.rs.game.player.Player;
 
+import java.util.Objects;
+
 @SuppressWarnings("unused")
 public class MachineInformation {
 
+	private int hashCode;
 	private int os;
 	private boolean x64Arch;
 	private int osVersion;
@@ -53,6 +56,12 @@ public class MachineInformation {
 		this.cpuInfo3 = cpuInfo3;
 		this.cpuInfo4 = cpuInfo4;
 		this.cpuInfo5 = cpuInfo5;
+		this.hashCode = hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(os, x64Arch, osVersion, osVendor, javaVersion, javaVersionBuild, javaVersionBuild2, hasApplet, heap, availableProcessors, ram, cpuClockFrequency, cpuInfo3, cpuInfo4, cpuInfo5);
 	}
 
 	public String getVersion() {
