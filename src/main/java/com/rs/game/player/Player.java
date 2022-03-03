@@ -498,7 +498,8 @@ public class Player extends Entity {
 	private String recovAnswer;
 
 	// Used for storing recent ips
-	private ArrayList<String> ipList = new ArrayList<>();
+	private Set<String> ipList = new HashSet<>();
+	private Map<Integer, MachineInformation> machineMap = new HashMap<>();
 
 	// honor
 	private int killCount, deathCount;
@@ -577,7 +578,8 @@ public class Player extends Entity {
 		SkillCapeCustomizer.resetSkillCapes(this);
 		prayerBook = new boolean[PrayerBooks.BOOKS.length];
 		herbicideSettings = new HashSet<>();
-		ipList = new ArrayList<>();
+		ipList = new HashSet<>();
+		machineMap = new HashMap<>();
 		creationDate = System.currentTimeMillis();
 		resetLodestones();
 	}
@@ -655,8 +657,21 @@ public class Player extends Entity {
 		if (prayerBook == null)
 			prayerBook = new boolean[PrayerBooks.BOOKS.length];
 		if (ipList == null)
-			ipList = new ArrayList<>();
-		updateIPnPass();
+			ipList = new HashSet<>();
+		if (machineMap == null)
+			machineMap = new HashMap<>();
+		updateMachineIPs();
+	}
+
+	public void updateMachineIPs() {
+		if (ipList.size() > 50)
+			ipList.remove(new ArrayList(ipList).get(Utils.random(ipList.size())));
+		ipList.add(getLastIP());
+		if (machineMap.size() > 15)
+			machineMap.remove(new ArrayList(machineMap.keySet()).get(Utils.random(machineMap.keySet().size())));
+		if (machineInformation != null)
+			machineMap.put(machineInformation.hashCode(), machineInformation);
+		return;
 	}
 
 	public boolean[] getPrayerBook() {
@@ -1506,14 +1521,6 @@ public class Player extends Entity {
 		npcKills.put(string, npcKills.getOrDefault(string, 0) + 1);
 	}
 
-	public void updateIPnPass() {
-		if (getIPList().size() > 50)
-			getIPList().clear();
-		if (!getIPList().contains(getLastIP()))
-			getIPList().add(getLastIP());
-		return;
-	}
-
 	public void sendDefaultPlayersOptions() {
 		setPlayerOption("Follow", 2);
 		setPlayerOption("Trade with", 4);
@@ -1727,7 +1734,7 @@ public class Player extends Entity {
 		return username;
 	}
 
-	public ArrayList<String> getIPList() {
+	public Set<String> getIPList() {
 		return ipList;
 	}
 

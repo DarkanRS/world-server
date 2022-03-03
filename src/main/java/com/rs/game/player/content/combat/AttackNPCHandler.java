@@ -16,7 +16,7 @@ public class AttackNPCHandler {
 	public static NPCClickHandler attack = new NPCClickHandler(false, null, new String[]{"Attack"}) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), PlayerCombat.getAttackRange(e.getPlayer()), () -> {
+			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), PlayerCombat.getAttackRange(e.getPlayer())+1, () -> {
 				if (!e.getPlayer().getControllerManager().canAttack(e.getNPC()))
 					return;
 				if (e.getNPC() instanceof Familiar familiar) {
@@ -26,11 +26,6 @@ public class AttackNPCHandler {
 					}
 					if (!familiar.canAttack(e.getPlayer())) {
 						e.getPlayer().sendMessage("You can't attack that.");
-						return;
-					}
-				} else if (e.getNPC() instanceof DoorSupport door) {
-					if (!door.canDestroy(e.getPlayer())) {
-						e.getPlayer().sendMessage("You cannot see a way to open this door...");
 						return;
 					}
 				} else if (!e.getNPC().isForceMultiAttacked()) {
@@ -50,6 +45,18 @@ public class AttackNPCHandler {
 				e.getPlayer().stopAll(true);
 				e.getPlayer().getActionManager().setAction(new PlayerCombat(e.getNPC()));
 			}).keepFacing());
+		}
+	};
+
+	public static NPCClickHandler dagDoorSupports = new NPCClickHandler(false, new Object[]{2440, 2443, 2446}, new String[]{"Attack"}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (e.getNPC() instanceof DoorSupport door) {
+				if (!door.canDestroy(e.getPlayer())) {
+					e.getPlayer().sendMessage("You cannot see a way to open this door...");
+					return;
+				}
+			}
 		}
 	};
 

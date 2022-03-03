@@ -101,9 +101,6 @@ public class NPCClickEvent implements PluginEvent {
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		NPCClickHandler handler = (NPCClickHandler) method;
-		if (handler.getOptions() != null) {
-			System.err.println("Registering NPCClick method for options: " + handler.getOptions());
-		}
 		if (handler.getOptions() == null || handler.getOptions().isEmpty()) {
 			for (Object key : handler.keys()) {
 				Map<String, NPCClickHandler> map = HANDLERS.get(key);
@@ -126,13 +123,13 @@ public class NPCClickEvent implements PluginEvent {
 						System.err.println("ERROR: Duplicate global NPCClick option methods for key: " + option);
 				} else {
 					for (Object key : handler.keys()) {
-						Map<String, NPCClickHandler> map = HANDLERS.get(option);
+						Map<String, NPCClickHandler> map = HANDLERS.get(key);
 						if (map == null)
 							map = new HashMap<>();
 						NPCClickHandler old = map.put(option, handler);
 						HANDLERS.put(key, map);
 						if (old != null)
-							System.err.println("ERROR: Duplicate NPCClick option methods for key: " + key + " option: " + option);
+							System.err.println("ERROR: Duplicate NPCClick option methods for key: " + key + " option: " + option + " method: " + method);
 					}
 				}
 			}
