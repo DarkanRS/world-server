@@ -103,7 +103,6 @@ public class PlayerCombat extends Action {
 
 	@Override
 	public boolean start(Player player) {
-		player.getInteractionManager().forceStop();
 		player.setNextFaceEntity(target);
 		if (checkAll(player)) {
 			if (target instanceof Player opp)
@@ -2073,6 +2072,8 @@ public class PlayerCombat extends Action {
 	}
 
 	public boolean checkAll(Player player) {
+		player.getInteractionManager().forceStop();
+		player.setNextFaceEntity(target);
 		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
 			return false;
 		int distanceX = player.getX() - target.getX();
