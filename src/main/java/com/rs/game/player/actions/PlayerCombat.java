@@ -103,6 +103,7 @@ public class PlayerCombat extends Action {
 
 	@Override
 	public boolean start(Player player) {
+		player.getInteractionManager().forceStop();
 		player.setNextFaceEntity(target);
 		if (checkAll(player)) {
 			if (target instanceof Player opp)
