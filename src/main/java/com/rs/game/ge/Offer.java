@@ -20,7 +20,6 @@ import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.db.WorldDB;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.Player;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 
 public class Offer {
@@ -151,6 +150,8 @@ public class Offer {
 			return false;
 		int numTransact = Math.min(amountLeft(), other.amountLeft());
 		int finalPrice = numTransact * other.price;
+
+		WorldDB.getLogs().logGE(this, other, numTransact, price);
 
 		addCompleted(numTransact);
 		totalGold += finalPrice;
