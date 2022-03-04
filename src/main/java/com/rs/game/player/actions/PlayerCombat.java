@@ -1734,6 +1734,12 @@ public class PlayerCombat extends Action {
 			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
 			if (weaponName.contains("dart") || weaponName.contains("blisterwood stake") || weaponName.contains("knife"))
 				return 2707;
+			if(weaponName.contains("crossbow"))
+				return (Utils.randomInclusive(0, 1) == 1 ? 2695 : 2696);
+			if(weaponName.contains("longbow"))
+				return (Utils.randomInclusive(0, 1) == 1 ? 2699 : 2700);
+			if(weaponName.contains("shortbow"))
+				return (Utils.randomInclusive(0, 1) == 1 ? 2693 : 2699);
 		}
 		return -1;
 	}
