@@ -72,7 +72,7 @@ public class Agility {
 				});
 				addNPC(162, HeadE.HAPPY_TALKING, "There you go. Enjoy!");
 			} else
-				addNPC(162, HeadE.HAPPY_TALKING, "Well, you've still got work to do. Your lap count is  " + player.getCounterValue("Barbarian advanced laps") + ". It's 250 successful laps for the reward!");
+				addNPC(162, HeadE.HAPPY_TALKING, "Well, you've still got work to do. Your lap count is  " + player.getCounterValue("Gnome advanced laps") + ". It's 250 successful laps for the reward!");
 
 			create();
 		}
