@@ -324,7 +324,7 @@ public class RunespanController extends Controller {
 		return 3063;
 	}
 
-	public static NPCClickHandler handleWizardFinix = new NPCClickHandler("Wizard Finix") {
+	public static NPCClickHandler handleWizardFinix = new NPCClickHandler(new Object[] { "Wizard Finix" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

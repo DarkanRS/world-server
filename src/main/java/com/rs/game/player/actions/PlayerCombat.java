@@ -1709,7 +1709,7 @@ public class PlayerCombat extends Action {
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
-				if (p2.getCombatDefinitions().isAutoRelatie() && !p2.getActionManager().hasSkillWorking() && !p2.hasWalkSteps())
+				if (p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())
 					p2.getActionManager().setAction(new PlayerCombat(player));
 			} else {
 				NPC n = (NPC) target;
@@ -2072,6 +2072,8 @@ public class PlayerCombat extends Action {
 	}
 
 	public boolean checkAll(Player player) {
+		player.getInteractionManager().forceStop();
+		player.setNextFaceEntity(target);
 		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
 			return false;
 		int distanceX = player.getX() - target.getX();

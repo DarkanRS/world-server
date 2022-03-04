@@ -47,7 +47,7 @@ public class Lumbridge {
 	public static final String WHEAT_DEPOSITED = "wheatInMill";
 	public static final String WHEAT_GRINDED = "wheatGrinded";
 
-	public static NPCClickHandler handleExplorerJack = new NPCClickHandler(7969) {
+	public static NPCClickHandler handleExplorerJack = new NPCClickHandler(new Object[] { 7969 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -64,7 +64,7 @@ public class Lumbridge {
 		}
 	};
 
-	public static NPCClickHandler handleLachtopher = new NPCClickHandler(7870) {
+	public static NPCClickHandler handleLachtopher = new NPCClickHandler(new Object[] { 7870 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -86,7 +86,7 @@ public class Lumbridge {
 		}
 	};
 
-	public static NPCClickHandler handleBob = new NPCClickHandler(519) {
+	public static NPCClickHandler handleBob = new NPCClickHandler(new Object[] { 519 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1)
@@ -136,7 +136,7 @@ public class Lumbridge {
 		}
 	};
 
-	public static NPCClickHandler handleDukeHoratio = new NPCClickHandler(741) {
+	public static NPCClickHandler handleDukeHoratio = new NPCClickHandler(new Object[] { 741 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to")) {

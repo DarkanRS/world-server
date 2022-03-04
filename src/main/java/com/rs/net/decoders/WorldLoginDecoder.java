@@ -115,36 +115,10 @@ public final class WorldLoginDecoder extends Decoder {
 			prefs[i] = stream.readUnsignedByte();
 		//System.out.println(i+": " + prefs[i]);
 
-		MachineInformation mInformation = null;
 		int success = stream.readUnsignedByte();
 		if (success != 6)
 			System.out.println("Failed to parse machine info");
-		int os = stream.readUnsignedByte();
-		boolean x64OS = stream.readUnsignedByte() == 1;
-		stream.readUnsignedByte();
-		int osVendor = stream.readUnsignedByte();
-		int javaVersion = stream.readUnsignedByte();
-		int javaBuild = stream.readUnsignedByte();
-		int javasubBuild = stream.readUnsignedByte();
-		stream.readUnsignedByte();
-		int maxMem = stream.readUnsignedShort();
-		int processors = stream.readUnsignedByte();
-		int ram = stream.read24BitInt();
-		int cpuClock = stream.readUnsignedShort();
-		stream.readJagString();
-		stream.readJagString();
-		stream.readJagString();
-		stream.readJagString();
-		int directXDriverDateMonth = stream.readUnsignedByte();
-		int directXDriverDateYear = stream.readUnsignedShort();
-		String cpuType = stream.readJagString();
-		String cpuData = stream.readJagString();
-		int cpuCores = stream.readUnsignedByte();
-		int rawCPUInformation = stream.readUnsignedByte();
-		int[] rawCPUInformationData = new int[3];
-		for (int i = 0;i < rawCPUInformationData.length;i++)
-			rawCPUInformationData[i] = stream.readInt();
-		int rawCPUInformation2 = stream.readInt();
+		MachineInformation mInformation = MachineInformation.parse(stream);
 		stream.readInt();
 		stream.readLong();
 		stream.readString();

@@ -1,9 +1,5 @@
 package com.rs.game.player.quests.handlers.fishingcontest;
 
-import static com.rs.game.player.content.world.doors.Doors.handleGate;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.FISHING_PASS;
-import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.NOT_STARTED;
-
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -15,6 +11,10 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import static com.rs.game.player.content.world.doors.Doors.handleGate;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.FISHING_PASS;
+import static com.rs.game.player.quests.handlers.fishingcontest.FishingContest.NOT_STARTED;
+
 @PluginEventHandler
 public class MorrisFishingContestD extends Conversation {
 	private static final int NPC = 227;
@@ -23,7 +23,7 @@ public class MorrisFishingContestD extends Conversation {
 		super(p);
 	}
 
-	public static NPCClickHandler handleAustriDialogue = new NPCClickHandler(NPC) {
+	public static NPCClickHandler handleAustriDialogue = new NPCClickHandler(new Object[] { NPC }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new MorrisFishingContestD(e.getPlayer()).getStart());

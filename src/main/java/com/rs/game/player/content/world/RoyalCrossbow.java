@@ -82,7 +82,7 @@ public class RoyalCrossbow {
 		}
 	};
 
-	public static NPCClickHandler talkToCerebrum = new NPCClickHandler(15460) {
+	public static NPCClickHandler talkToCerebrum = new NPCClickHandler(new Object[] { 15460 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

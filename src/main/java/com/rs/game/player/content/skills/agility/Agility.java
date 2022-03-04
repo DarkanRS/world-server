@@ -52,7 +52,7 @@ public class Agility {
 		}
 	}
 
-	public static NPCClickHandler handleGunnjorn = new NPCClickHandler(607) {
+	public static NPCClickHandler handleGunnjorn = new NPCClickHandler(new Object[] { 607 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new GunnjornD(e.getPlayer()));
@@ -78,7 +78,7 @@ public class Agility {
 		}
 	}
 
-	public static NPCClickHandler handleGnomeTrainer = new NPCClickHandler(162) {
+	public static NPCClickHandler handleGnomeTrainer = new NPCClickHandler(new Object[] { 162 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new GnomeTrainerD(e.getPlayer()));

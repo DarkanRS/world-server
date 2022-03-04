@@ -1,11 +1,5 @@
 package com.rs.game.player.quests.handlers.blackknightsfortress;
 
-import static com.rs.game.player.quests.handlers.blackknightsfortress.BlackKnightsFortress.HEARD_PLAN;
-import static com.rs.game.player.quests.handlers.blackknightsfortress.BlackKnightsFortress.NOT_STARTED;
-import static com.rs.game.player.quests.handlers.blackknightsfortress.BlackKnightsFortress.RUINED_CAULDRON;
-import static com.rs.game.player.quests.handlers.blackknightsfortress.BlackKnightsFortress.SIR_AMIK_VARZE;
-import static com.rs.game.player.quests.handlers.blackknightsfortress.BlackKnightsFortress.STARTED;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -15,6 +9,8 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.blackknightsfortress.BlackKnightsFortress.*;
 
 @PluginEventHandler
 public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
@@ -133,7 +129,7 @@ public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleSirAmik = new NPCClickHandler(SIR_AMIK_VARZE) {
+	public static NPCClickHandler handleSirAmik = new NPCClickHandler(new Object[] { SIR_AMIK_VARZE }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new SirAmikVarzeBlackKnightsFortressD(e.getPlayer()).getStart());

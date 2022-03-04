@@ -166,7 +166,7 @@ public class Mining extends Action {
 		}
 	};
 
-	public static NPCClickHandler handleLRCMinerals = new NPCClickHandler(8837, 8838, 8839) {
+	public static NPCClickHandler handleLRCMinerals = new NPCClickHandler(new Object[] { 8837, 8838, 8839 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getActionManager().setAction(new Mining(RockType.LIVING_MINERALS, e.getNPC(), () -> e.getNPC().getId() - 5));

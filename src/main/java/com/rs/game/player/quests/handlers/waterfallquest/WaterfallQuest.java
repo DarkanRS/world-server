@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.waterfallquest;
 
-import java.util.ArrayList;
-
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.player.Player;
@@ -37,6 +35,8 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.WATERFALL_QUEST)
 @PluginEventHandler
@@ -128,14 +128,14 @@ public class WaterfallQuest extends QuestOutline {
 		}
 	};
 
-	public static NPCClickHandler handleAlmera = new NPCClickHandler(304) {
+	public static NPCClickHandler handleAlmera = new NPCClickHandler(new Object[] { 304 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getDialogueManager().execute(new AlmeraD(), e.getNPC());
 		}
 	};
 
-	public static NPCClickHandler handleGolrie = new NPCClickHandler(306) {
+	public static NPCClickHandler handleGolrie = new NPCClickHandler(new Object[] { 306 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().getDialogueManager().execute(new GolrieD(), e.getNPC());

@@ -41,7 +41,7 @@ public class PortPhasmatys {
 		}
 	};
 
-	public static NPCClickHandler handleVelorina = new NPCClickHandler(1683) {
+	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

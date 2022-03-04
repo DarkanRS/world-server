@@ -167,7 +167,7 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleCaptainRovin = new NPCClickHandler(884) {
+	public static NPCClickHandler handleCaptainRovin = new NPCClickHandler(new Object[] { 884 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new CaptainRovinDemonSlayerD(e.getPlayer()).getStart());

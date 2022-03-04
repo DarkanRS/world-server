@@ -361,7 +361,7 @@ public class RunecraftingAltar {
 		}
 	};
 
-	public static NPCClickHandler handleMageOfZamorak = new NPCClickHandler(2257) {
+	public static NPCClickHandler handleMageOfZamorak = new NPCClickHandler(new Object[] { 2257 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
@@ -375,7 +375,7 @@ public class RunecraftingAltar {
 		}
 	};
 
-	public static NPCClickHandler handleOthers = new NPCClickHandler(462) {
+	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 462 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

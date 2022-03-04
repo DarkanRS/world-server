@@ -16,17 +16,17 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NPCClickEvent implements PluginEvent {
 
-	private static Map<Object, NPCClickHandler> HANDLERS = new HashMap<>();
+	private static Map<Object, Map<String, NPCClickHandler>> HANDLERS = new HashMap<>();
 
 	private Player player;
 	private NPC npc;
@@ -68,21 +68,71 @@ public class NPCClickEvent implements PluginEvent {
 
 	@Override
 	public PluginHandler<? extends PluginEvent> getMethod() {
-		NPCClickHandler method = HANDLERS.get(getNPC().getId());
+		Map<String, NPCClickHandler> options = HANDLERS.get(getNPC().getId());
+		if (options == null)
+			options = HANDLERS.get(getNPC().getDefinitions().getName(getPlayer().getVars()));
+		if (options == null) {
+			options = HANDLERS.get(getOption());
+			if (options != null) {
+				NPCClickHandler globalOption = options.get("global");
+				if (globalOption == null)
+					throw new RuntimeException("No global NPCClick method for option: " + getOption());
+				if (!isAtNPC() && globalOption.isCheckDistance())
+					return null;
+				return globalOption;
+			}
+		}
+		if (options == null)
+			return null;
+		NPCClickHandler method = options.get(getOption());
 		if (method == null)
-			method = HANDLERS.get(getNPC().getDefinitions().getName(getPlayer().getVars()));
-		if (method == null)
-			method = HANDLERS.get(getOption());
+			method = options.get("global");
+		if (method == null) {
+			options = HANDLERS.get(getOption());
+			if (options != null) {
+				NPCClickHandler globalOption = options.get("global");
+				method = globalOption;
+			}
+		}
 		if ((method == null) || (!isAtNPC() && method.isCheckDistance()))
 			return null;
 		return method;
 	}
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
-		for (Object key : method.keys()) {
-			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, (NPCClickHandler) method);
-			if (old != null)
-				System.err.println("ERROR: Duplicate NPCClick methods for key: " + key);
+		NPCClickHandler handler = (NPCClickHandler) method;
+		if (handler.getOptions() == null || handler.getOptions().isEmpty()) {
+			for (Object key : handler.keys()) {
+				Map<String, NPCClickHandler> map = HANDLERS.get(key);
+				if (map == null)
+					map = new HashMap<>();
+				NPCClickHandler old = map.put("global", handler);
+				HANDLERS.put(key, map);
+				if (old != null)
+					System.err.println("ERROR: Duplicate global NPCClick methods for key: " + key);
+			}
+		} else {
+			for (String option : handler.getOptions()) {
+				if (handler.keys() == null || handler.keys().length == 0 || handler.keys()[0] == null) {
+					Map<String, NPCClickHandler> map = HANDLERS.get(option);
+					if (map == null)
+						map = new HashMap<>();
+					NPCClickHandler old = map.put("global", handler);
+					HANDLERS.put(option, map);
+					if (old != null)
+						System.err.println("ERROR: Duplicate global NPCClick option methods for key: " + option);
+				} else {
+					for (Object key : handler.keys()) {
+						Map<String, NPCClickHandler> map = HANDLERS.get(key);
+						if (map == null)
+							map = new HashMap<>();
+						NPCClickHandler old = map.put(option, handler);
+						HANDLERS.put(key, map);
+						if (old != null)
+							System.err.println("ERROR: Duplicate NPCClick option methods for key: " + key + " option: " + option + " method: " + method);
+					}
+				}
+			}
 		}
 	}
 

@@ -16,8 +16,6 @@
 //
 package com.rs.game.player.quests.handlers.princealirescue;
 
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.BEER;
-
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -27,6 +25,8 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.BEER;
 
 @PluginEventHandler
 public class JoePrinceAliRescueD extends Conversation {
@@ -151,7 +151,7 @@ public class JoePrinceAliRescueD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleJoe = new NPCClickHandler(JOE) {
+	public static NPCClickHandler handleJoe = new NPCClickHandler(new Object[] { JOE }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new JoePrinceAliRescueD(e.getPlayer()).getStart());

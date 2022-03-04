@@ -29,7 +29,7 @@ public class CaptainLawgofD extends Conversation {
 
 	public static final int CAPTAIN_LAWGOF = 208;
 
-	public static NPCClickHandler talkToLawgof = new NPCClickHandler(208) {
+	public static NPCClickHandler talkToLawgof = new NPCClickHandler(new Object[] { 208 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new CaptainLawgofD(e.getPlayer()));

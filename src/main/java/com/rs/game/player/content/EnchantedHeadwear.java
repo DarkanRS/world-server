@@ -121,7 +121,7 @@ public class EnchantedHeadwear {
 		}
 	};
 
-	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(6988) {
+	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(new Object[] { 6988 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1)

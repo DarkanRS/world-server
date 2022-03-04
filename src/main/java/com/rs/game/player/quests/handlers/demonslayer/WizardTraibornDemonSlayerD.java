@@ -265,7 +265,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 
 
 
-	public static NPCClickHandler handleWizardTraiborn = new NPCClickHandler(881) {
+	public static NPCClickHandler handleWizardTraiborn = new NPCClickHandler(new Object[] { 881 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new WizardTraibornDemonSlayerD(e.getPlayer()).getStart());

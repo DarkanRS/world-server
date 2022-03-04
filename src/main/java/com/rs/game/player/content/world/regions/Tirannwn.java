@@ -286,7 +286,7 @@ public class Tirannwn {
 		}
 	};
 
-	public static NPCClickHandler handleArianwynCampTalk = new NPCClickHandler("Arianwyn") {
+	public static NPCClickHandler handleArianwynCampTalk = new NPCClickHandler(new Object[] { "Arianwyn" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (!Quest.REGICIDE.meetsRequirements(e.getPlayer(), "to talk to Arianwyn about teleport seeds and crystal weaponry."))

@@ -16,17 +16,6 @@
 //
 package com.rs.game.player.content.world.regions;
 
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.AGGIE;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.ASHES;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.BALL_WOOL;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.GEAR_CHECK;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.NED;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.PASTE;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.POT_OF_FLOUR;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.REDBERRY;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.WATER_BUCKET;
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.WIG;
-
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Inventory;
@@ -54,10 +43,12 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.*;
+
 @PluginEventHandler
 public class Draynor {
 
-	public static NPCClickHandler handleNed = new NPCClickHandler(918) {
+	public static NPCClickHandler handleNed = new NPCClickHandler(new Object[] { 918 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -159,7 +150,7 @@ public class Draynor {
 		}
 	};
 
-	public static NPCClickHandler handleAggie = new NPCClickHandler(922) {
+	public static NPCClickHandler handleAggie = new NPCClickHandler(new Object[] { 922 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -294,7 +285,7 @@ public class Draynor {
 		}
 	};
 
-	public static NPCClickHandler handleAva = new NPCClickHandler(5199) {
+	public static NPCClickHandler handleAva = new NPCClickHandler(new Object[] { 5199 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (!Quest.ANIMAL_MAGNETISM.meetsRequirements(e.getPlayer(), "to enter this area."))

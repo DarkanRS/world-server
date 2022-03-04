@@ -142,7 +142,7 @@ public class RuneMysteries extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler handleSedridor= new NPCClickHandler(300) {
+	public static NPCClickHandler handleSedridor= new NPCClickHandler(new Object[] { 300 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))
@@ -259,7 +259,7 @@ public class RuneMysteries extends QuestOutline {
 			}
 		}
 	};
-	public static NPCClickHandler handleAubury= new NPCClickHandler(5913) {
+	public static NPCClickHandler handleAubury= new NPCClickHandler(new Object[] { 5913 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {

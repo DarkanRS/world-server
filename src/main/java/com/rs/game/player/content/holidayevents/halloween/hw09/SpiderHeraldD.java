@@ -28,7 +28,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class SpiderHeraldD extends Conversation {
 
-	public static NPCClickHandler handleSpiderTalk = new NPCClickHandler(8976) {
+	public static NPCClickHandler handleSpiderTalk = new NPCClickHandler(new Object[] { 8976 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getNPC().resetDirection();

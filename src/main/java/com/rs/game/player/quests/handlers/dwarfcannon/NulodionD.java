@@ -36,7 +36,7 @@ public class NulodionD extends Conversation {
 	private static final int AMMO_MOULD = 4;
 	private static final int NULODIONS_NOTES = 3;
 
-	public static NPCClickHandler talkToNulodion = new NPCClickHandler(NULODION) {
+	public static NPCClickHandler talkToNulodion = new NPCClickHandler(new Object[] { NULODION }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equals("Talk-to"))

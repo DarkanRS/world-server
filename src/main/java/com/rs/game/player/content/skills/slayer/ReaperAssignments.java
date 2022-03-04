@@ -134,7 +134,7 @@ public class ReaperAssignments  {
 		}
 	};
 
-	public static NPCClickHandler handleDeath = new NPCClickHandler(15661) {
+	public static NPCClickHandler handleDeath = new NPCClickHandler(new Object[] { 15661 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOpNum()) {
