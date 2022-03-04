@@ -913,7 +913,7 @@ public class Region {
 		if (item.getDefinitions().isStackable() && existing != null) {
 			int oldAmount = existing.getAmount();
 			existing.setAmount(existing.getAmount() + item.getAmount());
-			if (World.getPlayerByUsername(existing.getCreatorUsername()) != null)
+			if (existing.getCreatorUsername() != null && World.getPlayerByUsername(existing.getCreatorUsername()) != null)
 				World.getPlayerByUsername(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
 			else
 				for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
