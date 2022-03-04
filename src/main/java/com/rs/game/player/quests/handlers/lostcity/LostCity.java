@@ -24,28 +24,14 @@ public class LostCity extends QuestOutline {
 	public final static int CHOP_DRAMEN_TREE = 2;
 	public final static int FIND_ZANARIS = 3;
 	public final static int QUEST_COMPLETE = 4;
-
-
-	//Attributes
-
-
-	//items
-
-
-	//NPCs
 	protected final static int ARCHER = 649;
 	protected final static int WARRIOR = 650;
 	protected final static int MONK = 651;
 	protected final static int WIZARD = 652;
 	protected final static int LEPRACAUN = 654;
 	protected final static int TREE_SPIRIT = 655;
-
-	//Objects
 	protected final static int LEPRACAUN_TREE = 2409;
-	//    protected final static int
 	protected final static int DRAMEN_STAFF = 772;
-
-
 
 	@Override
 	public int getCompletedStage() {
@@ -118,12 +104,8 @@ public class LostCity extends QuestOutline {
 								p.lock(4);
 							}
 							if(tick == 4)
-<<<<<<< HEAD
-								if(!p.getQuestManager().isComplete(Quest.LOST_CITY) && p.getQuestManager().getStage(Quest.LOST_CITY) == 10)
-=======
 								if(!p.getQuestManager().isComplete(Quest.LOST_CITY)) {
 									p.lock(3);//so players dont cancel it out by accident and not see it...
->>>>>>> f7115a811aff9687b03181b10ba18a3c95dfa904
 									p.getQuestManager().completeQuest(Quest.LOST_CITY);
 								}
 							if(tick == 5)
@@ -133,7 +115,6 @@ public class LostCity extends QuestOutline {
 					}, 0, 1);
 		}
 	};
-
 
 	@Override
 	public void complete(Player player) {

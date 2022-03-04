@@ -375,6 +375,7 @@ public class NPC extends Entity {
 	public void finishAfterTicks(final int ticks) {
 		WorldTasks.schedule(new WorldTask() {
 			int tick;
+
 			@Override
 			public void run() {
 				if (tick == ticks) {
@@ -384,21 +385,9 @@ public class NPC extends Entity {
 				}
 				tick++;
 			}
-<<<<<<< HEAD
 		}, 0, 0);
-=======
-		}, 0, 1);
 	}
 
-	public void setRespawnTask(int time) {
-		if (!hasFinished()) {
-			reset();
-			getTile().setLocation(respawnTile);
-			finish();
-		}
-		CoresManager.schedule(() -> spawn(), time < 0 ? getCombatDefinitions().getRespawnDelay() : time);
->>>>>>> f7115a811aff9687b03181b10ba18a3c95dfa904
-	}
 
 	public void deserialize() {
 		if (combat == null)
