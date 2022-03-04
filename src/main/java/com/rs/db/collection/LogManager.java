@@ -19,6 +19,8 @@ package com.rs.db.collection;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
 import com.rs.Settings;
+import com.rs.game.ge.GELog;
+import com.rs.game.ge.Offer;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import org.bson.Document;
@@ -76,5 +78,10 @@ public class LogManager extends DBItemManager {
 		if (Settings.getConfig().isDebug())
 			System.err.println(error);
 		save(new LogEntry(LogEntry.LogType.ERROR, error.hashCode(), error));
+	}
+
+	public void logGE(Offer offer, Offer other, int num, int price) {
+		GELog log = new GELog(offer, other, num, price);
+		save(new LogEntry(LogEntry.LogType.GE, log.hashCode(), log));
 	}
 }

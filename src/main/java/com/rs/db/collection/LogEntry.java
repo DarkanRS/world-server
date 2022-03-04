@@ -6,7 +6,7 @@ public class LogEntry {
 
     public enum LogType {
         ERROR,
-        TRADE
+		GE, TRADE
     }
 
     private Date date;
