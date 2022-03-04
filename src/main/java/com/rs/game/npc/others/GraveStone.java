@@ -16,19 +16,13 @@
 //
 package com.rs.game.npc.others;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.cache.loaders.EnumDefinitions;
+import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
@@ -36,6 +30,8 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.utils.Ticks;
+
+import java.util.*;
 
 public class GraveStone extends NPC {// 652 - gravestone selection interface
 
@@ -110,6 +106,10 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 			}
 	}
 
+	public List<GroundItem> getItems() {
+		return floorItems;
+	}
+
 	@Override
 	public void finish() {
 		synchronized (GRAVESTONES) {
@@ -137,7 +137,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		}
 		if (stage == -1) {
 			addLeftTime(true);
-			logGraveData();
+			WorldDB.getLogs().logGrave(username, this);
 			finish();
 		} else
 			transformIntoNPC(getNPCId(graveStone) + stage);
@@ -336,12 +336,5 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 
 	public static int getNPCId(int currentGrave) {
 		return EnumDefinitions.getEnum(1098).getIntValue(currentGrave);
-	}
-
-	public void logGraveData() {
-		String log = "";
-		for (GroundItem item : floorItems)
-			log += item.getDefinitions().getName() + ":" + item.getAmount() + "\n";
-		FileManager.writeToFile("graveLog.txt", "---" + username + "---\n" + log + "\n\n");
 	}
 }
