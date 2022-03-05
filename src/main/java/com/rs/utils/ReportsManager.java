@@ -16,7 +16,6 @@
 //
 package com.rs.utils;
 
-import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.lib.game.Rights;
@@ -58,9 +57,9 @@ public class ReportsManager {
 		}
 		player.sendMessage("Thank-you, your abuse report has been received.");
 		try {
-			Rule rule = Rule.forId(type);
-			if (rule != null)
-				WorldDB.getLogs().logReport(player, reported, rule);
+//			Rule rule = Rule.forId(type);
+//			if (rule != null)
+//				WorldDB.getLogs().logReport(player, reported, rule);
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}
