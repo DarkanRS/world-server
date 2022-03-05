@@ -43,6 +43,8 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
 @PluginEventHandler
 public class SeersVillage {
 
@@ -102,6 +104,17 @@ public class SeersVillage {
 						tick++;
 					}
 				}, 0, 1);
+		}
+	};
+
+	public static ObjectClickHandler grubersShedDoor = new ObjectClickHandler(new Object[] { 99 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if(e.getPlayer().getInventory().containsItem(85) || e.getPlayer().getY() <= 3496) {
+				handleDoor(e.getPlayer(), e.getObject());
+				return;
+			}
+			e.getPlayer().sendMessage("It is locked...");
 		}
 	};
 
@@ -172,6 +185,13 @@ public class SeersVillage {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().ladder(e.getPlayer().transform(0, 0, e.getObjectId() == 26118 ? 2 : -2));
+		}
+	};
+
+	public static ObjectClickHandler handleIkovTrapDoor = new ObjectClickHandler(new Object[] { 6278 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().sendMessage("It appears locked from the inside...");
 		}
 	};
 
