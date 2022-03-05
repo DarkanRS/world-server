@@ -21,7 +21,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.statements.LegacyItemStatement;
+import com.rs.game.player.content.dialogue.statements.ItemStatement;
 import com.rs.game.player.content.dialogue.statements.NPCStatement;
 import com.rs.game.player.content.dialogue.statements.OptionStatement;
 import com.rs.game.player.content.dialogue.statements.PlayerStatement;
@@ -50,12 +50,12 @@ public class MiningInstructor extends Conversation {
 		} else
 			addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Hello again."));
 		if (player.getInventory().missingItems(1265) && ctrl.pastStage(Stage.TALK_TO_MINING_GUIDE_2))
-			addNext(new Dialogue(new LegacyItemStatement(1265, "", "Dezzick gives you a <col=0000FF>bronze pickaxe</col>!"), () -> {
+			addNext(new Dialogue(new ItemStatement(1265, "Dezzick gives you a <col=0000FF>bronze pickaxe</col>!"), () -> {
 				player.getInventory().addItem(1265, 1);
 				ctrl.nextStage(Stage.MINING_TIN);
 			}));
 		if (player.getInventory().missingItems(2347) && ctrl.pastStage(Stage.TALK_TO_MINING_GUIDE_3))
-			addNext(new Dialogue(new LegacyItemStatement(2347, "", "Dezzick gives you a <col=0000FF>hammer</col>!"), () -> {
+			addNext(new Dialogue(new ItemStatement(2347, "Dezzick gives you a <col=0000FF>hammer</col>!"), () -> {
 				player.getInventory().addItem(2347, 1);
 				ctrl.nextStage(Stage.CLICK_ANVIL);
 			}));

@@ -17,9 +17,9 @@
 package com.rs.game.player;
 
 import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.db.WorldDB;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.content.ItemConstants;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
@@ -36,6 +36,7 @@ public class Trade {
 	private ItemsContainer<Item> items;
 	private boolean tradeModified;
 	private boolean accepted;
+	private boolean logged = false;
 
 	public Trade(Player player) {
 		this.player = player; // player reference
@@ -386,15 +387,10 @@ public class Trade {
 					items.clear();
 				} else {
 					player.sendMessage("Accepted trade.");
-					String recieved = "";
-					for (Item i : oldTarget.getTrade().items.toArray())
-						if (i != null)
-							recieved += i.getAmount() + " " + i.getDefinitions().name + "("+i.getId()+")\r\n";
-					String given = "";
-					for (Item i : items.toArray())
-						if (i != null)
-							given += i.getAmount() + " " + i.getDefinitions().name + "("+i.getId()+")\r\n";
-					FileManager.writeToFile("/trade/"+player.getUsername()+".txt", "Trade with "+oldTarget.getUsername()+":\r\nRecieved:\r\n"+recieved + "Given:\r\n" + given+"\r\n");
+					if (!logged) {
+						WorldDB.getLogs().logTrade(player, oldTarget.getTrade().items.toArray(), oldTarget, items.toArray());
+						logged = true;
+					}
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);
 					player.getInventory().init();
 					oldTarget.getTrade().items.clear();

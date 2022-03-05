@@ -30,7 +30,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.impl.SimonTempletonD;
-import com.rs.game.player.content.dialogue.statements.LegacyItemStatement;
+import com.rs.game.player.content.dialogue.statements.ItemStatement;
 import com.rs.game.player.content.dialogue.statements.PlayerStatement;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.tasks.WorldTask;
@@ -176,7 +176,7 @@ public class AgilityPyramidController extends Controller {
 					player.getInventory().addItemDrop(6970, 1);
 					grabbedTop = true;
 					updateTop();
-					player.startConversation(new Conversation(player, new Dialogue(new LegacyItemStatement(6970, "You find a pyramid top!"))));
+					player.startConversation(new Conversation(player, new Dialogue(new ItemStatement(6970, "You find a pyramid top!"))));
 					player.unlock();
 					stop();
 				}
