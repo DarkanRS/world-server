@@ -38,7 +38,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Doors {
 
-	public static ObjectClickHandler handleDoors = new ObjectClickHandler(new Object[] { 39, 1531, "Door", "Throne Room Door", "Magic door", "Doorway", "Sturdy door", "Bamboo Door", "Long hall door", "Castle door", "Heavy door", "Gate", "Large door", "Metal door", "City gate", "Red door", "Orange door", "Yellow door", "Cell door", "Cell Door", "Wall", "Storeroom Door", "Solid bronze door", "Solid steel door", "Solid black door", "Solid silver door" }) {
+	public static ObjectClickHandler handleDoors = new ObjectClickHandler(new Object[] { 1531, "Door", "Throne Room Door", "Magic door", "Doorway", "Sturdy door", "Bamboo Door", "Long hall door", "Castle door", "Heavy door", "Gate", "Large door", "Metal door", "City gate", "Red door", "Orange door", "Yellow door", "Cell door", "Cell Door", "Wall", "Storeroom Door", "Solid bronze door", "Solid steel door", "Solid black door", "Solid silver door" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			handleDoor(e.getPlayer(), e.getObject());
@@ -138,14 +138,15 @@ public class Doors {
 
 	public static boolean isTempMove(ObjectDefinitions defs) {
 		switch(defs.id) {
-		case 2267:
-		case 3437:
-		case 45856:
-		case 45857:
-		case 45858:
-		case 45859:
-		case 24815:
-			return true;
+			case 39:
+			case 2267:
+			case 3437:
+			case 45856:
+			case 45857:
+			case 45858:
+			case 45859:
+			case 24815:
+				return true;
 		}
 		return !((defs.containsOption("Open") || defs.containsOption("Close")) && defs.interactable != 0);
 	}
