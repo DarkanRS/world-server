@@ -23,6 +23,7 @@ import com.rs.Settings;
 import com.rs.game.ge.Offer;
 import com.rs.game.npc.others.GraveStone;
 import com.rs.game.player.Player;
+import com.rs.game.player.Trade;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.GroundItem;
@@ -32,6 +33,8 @@ import org.bson.Document;
 
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -92,9 +95,19 @@ public class LogManager extends DBItemManager {
 		save(new LogEntry(LogEntry.LogType.GE, log.hashCode(), log));
 	}
 
-	public void logTrade(Player player1, Item[] p1Items, Player p2, Item[] p2Items) {
-		TradeLog log = new TradeLog(player1, p1Items, p2, p2Items);
-		save(new LogEntry(LogEntry.LogType.TRADE, log.hashCode(), log));
+	public void logTrade(Player player1, Trade p1Trade, Player p2, Trade p2Trade) {
+		List<Item> p1Items = new ArrayList<>();
+		List<Item> p2Items = new ArrayList<>();
+		for (Item item : p1Trade.getItems().getItems())
+			if (item != null)
+				p1Items.add(item);
+		for (Item item : p2Trade.getItems().getItems())
+			if (item != null)
+				p2Items.add(item);
+		if (p1Items.size() > 0 || p2Items.size() > 0) {
+			TradeLog log = new TradeLog(player1, p1Items, p2, p2Items);
+			save(new LogEntry(LogEntry.LogType.TRADE, log.hashCode(), log));
+		}
 	}
 
 	public void logPickup(Player player, GroundItem item) {
