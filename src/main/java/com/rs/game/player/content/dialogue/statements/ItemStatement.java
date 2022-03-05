@@ -17,22 +17,34 @@
 package com.rs.game.player.content.dialogue.statements;
 
 import com.rs.game.player.Player;
+import com.rs.lib.util.Utils;
 
 public class ItemStatement implements Statement {
 
-	private int itemId;
-	private String text;
+	private int[] itemIds;
+	private String[] text;
 
-	public ItemStatement(int itemId, String text) {
-		this.itemId =  itemId;
+	public ItemStatement(int itemId, String... text) {
+		this.itemIds =  new int[] { itemId };
+		this.text = text;
+	}
+
+	public ItemStatement(int itemId1, int itemId2, String... text) {
+		this.itemIds = new int[] { itemId1, itemId2 };
 		this.text = text;
 	}
 
 	@Override
 	public void send(Player player) {
+		String text = "";
+		for (String s : this.text)
+			text += s + "<br>";
+		Utils.interfaceIdFromHash(77922305);
 		player.getInterfaceManager().sendChatBoxInterface(1189);
-		player.getPackets().setIFItem(1189, 1, itemId, 1);
+		player.getPackets().sendRunScript(3449, itemIds[0], 500);
 		player.getPackets().setIFText(1189, 4, text);
+		if (itemIds.length > 1)
+			player.getPackets().setIFItem(1189, 3, itemIds[1], 1);
 	}
 
 	@Override
