@@ -29,6 +29,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
 import com.rs.utils.ItemExamines;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginEventHandler
 public class Trade {
 
@@ -370,6 +373,10 @@ public class Trade {
 		return wealth;
 	}
 
+	public ItemsContainer<Item> getItems() {
+		return items;
+	}
+
 	private static enum CloseTradeStage {
 		CANCEL, NO_SPACE, DONE
 	}
@@ -387,8 +394,8 @@ public class Trade {
 					items.clear();
 				} else {
 					player.sendMessage("Accepted trade.");
-					if (!logged) {
-						WorldDB.getLogs().logTrade(player, oldTarget.getTrade().items.toArray(), oldTarget, items.toArray());
+					if (!logged && !oldTarget.getTrade().logged) {
+						WorldDB.getLogs().logTrade(player, this, oldTarget, oldTarget.getTrade());
 						logged = true;
 					}
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);

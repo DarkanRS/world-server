@@ -4,17 +4,18 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.Item;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class TradeLog {
 	private String uuid;
 	private String player1;
-	private Item[] p1Items;
+	private List<Item> p1Items;
 	private String player2;
-	private Item[] p2Items;
+	private List<Item> p2Items;
 
-	public TradeLog(Player p1, Item[] p1Items, Player p2, Item[] p2Items) {
+	public TradeLog(Player p1, List<Item> p1Items, Player p2, List<Item> p2Items) {
 		this.player1 = p1.getUsername();
 		this.p1Items = p1Items;
 		this.player2 = p2.getUsername();
@@ -27,14 +28,12 @@ public class TradeLog {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		TradeLog tradeLog = (TradeLog) o;
-		return Objects.equals(uuid, tradeLog.uuid) && Objects.equals(player1, tradeLog.player1) && Arrays.equals(p1Items, tradeLog.p1Items) && Objects.equals(player2, tradeLog.player2) && Arrays.equals(p2Items, tradeLog.p2Items);
+		return Objects.equals(uuid, tradeLog.uuid) && Objects.equals(player1, tradeLog.player1) && Objects.equals(p1Items, tradeLog.p1Items) && Objects.equals(player2, tradeLog.player2) && Objects.equals(p2Items, tradeLog.p2Items);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(uuid, player1, player2);
-		result = 31 * result + Arrays.hashCode(p1Items);
-		result = 31 * result + Arrays.hashCode(p2Items);
+		int result = Objects.hash(uuid, player1, player2, p1Items, p2Items);
 		return result;
 	}
 }
