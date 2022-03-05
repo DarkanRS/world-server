@@ -12,7 +12,6 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 public class ImpDefender extends NPC {
 
     //Add logic for catching nearby players
-    //Fix clipping
     //Add imp repellent protection
 
     public ImpDefender(int id, WorldTile tile) {
@@ -23,13 +22,6 @@ public class ImpDefender extends NPC {
     public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6074 }) {
         @Override
         public NPC getNPC(int npcId, WorldTile tile) { return new ImpDefender(npcId, tile); }
-    };
-
-    public static NPCClickHandler testImp = new NPCClickHandler(6074) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().sendMessage("clip type: " + e.getNPC().getClipType() + ", randomWalk: " + e.getNPC().shouldRandomWalk());
-        }
     };
 }
 
