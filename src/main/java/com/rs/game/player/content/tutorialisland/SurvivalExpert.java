@@ -22,10 +22,7 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.content.dialogue.statements.LegacyItemStatement;
-import com.rs.game.player.content.dialogue.statements.NPCStatement;
-import com.rs.game.player.content.dialogue.statements.OptionStatement;
-import com.rs.game.player.content.dialogue.statements.PlayerStatement;
+import com.rs.game.player.content.dialogue.statements.*;
 import com.rs.game.player.controllers.TutorialIslandController;
 import com.rs.game.player.controllers.TutorialIslandController.Stage;
 
@@ -49,7 +46,7 @@ public class SurvivalExpert extends Conversation {
 				ctrl.nextStage(Stage.OPEN_INVENTORY);
 			}));
 		if (player.getInventory().missingItems(303) && ctrl.pastStage(Stage.TALK_TO_SURVIVAL_EXPERT_2))
-			addNext(new Dialogue(new LegacyItemStatement(303, "", "The Survival Guide gives you a <col=0000FF>net</col>!"), () -> {
+			addNext(new Dialogue(new ItemStatement(303, "The Survival Guide gives you a <col=0000FF>net</col>!"), () -> {
 				player.getInventory().addItem(303, 1);
 				ctrl.nextStage(Stage.CATCH_SHRIMP);
 			}));

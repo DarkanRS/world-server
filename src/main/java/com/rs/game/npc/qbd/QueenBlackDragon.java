@@ -26,7 +26,6 @@ import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -367,10 +366,8 @@ public final class QueenBlackDragon extends NPC {
 		for (Item item : rewards.getItems()) {
 			if (item == null)
 				continue;
-			if (yellDrop(item.getId())) {
+			if (yellDrop(item.getId()))
 				World.broadcastLoot(attacker.getDisplayName() + " has just received a " + item.getName() + " drop from the Queen Black Dragon!");
-				FileManager.writeToFile("droplog.txt", attacker.getDisplayName() + " has just recieved a " + item.getName() + " drop from the Queen Black Dragon!");
-			}
 			attacker.incrementCount(item.getName() + " drops earned", item.getAmount());
 		}
 		if (replace)

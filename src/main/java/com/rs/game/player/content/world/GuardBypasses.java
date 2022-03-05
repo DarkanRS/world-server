@@ -116,8 +116,8 @@ public class GuardBypasses {
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
 			WorldTasks.delay(3, () -> {
-			e.getPlayer().setRunHidden(true);
-		});
+				e.getPlayer().setRunHidden(true);
+			});
 		}
 	};
 

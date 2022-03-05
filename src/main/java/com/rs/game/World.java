@@ -1191,7 +1191,7 @@ public final class World {
 				if (!player.getInventory().addItem(new Item(groundItem.getId(), groundItem.getAmount(), groundItem.getMetaData())))
 					return false;
 				if (groundItem.getSourceId() != 0 && groundItem.getSourceId() != player.getUuid())
-					FileManager.writeToFile("/pickup/" + player.getUsername() + ".txt", "Picked up " + groundItem.getAmount() + " " + groundItem.getDefinitions().name + "(" + groundItem.getId() + ") from " + (groundItem.getCreatorUsername() != null ? groundItem.getCreatorUsername() : "nobody.") + " at " + groundItem);
+					WorldDB.getLogs().logPickup(player, groundItem);
 			}
 			if (groundItem.isRespawn())
 				CoresManager.schedule(() -> {

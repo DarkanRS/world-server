@@ -213,7 +213,7 @@ public class MiscTest {
 		//				}
 		//			});
 		//		});
-		
+
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
 		});
@@ -370,9 +370,11 @@ public class MiscTest {
 			});
 		});
 
-		Commands.add(Rights.DEVELOPER, "exec [command to execute]", "Executes a command-line command on the remote server.", (p, args) -> {
-			Launcher.executeCommand(p, Utils.concat(args));
-		});
+		if (!Settings.getConfig().isDebug()) {
+			Commands.add(Rights.DEVELOPER, "exec [command to execute]", "Executes a command-line command on the remote server.", (p, args) -> {
+				Launcher.executeCommand(p, Utils.concat(args));
+			});
+		}
 
 		Commands.add(Rights.DEVELOPER, "shop [name]", "Opens a shop container of specified id.", (p, args) -> {
 			ShopsHandler.openShop(p, args[0]);

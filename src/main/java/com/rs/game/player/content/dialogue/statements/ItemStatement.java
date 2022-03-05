@@ -21,17 +21,27 @@ import com.rs.game.player.Player;
 public class ItemStatement implements Statement {
 
 	private int itemId;
-	private String text;
+	private int zoom = 500;
+	private String[] text;
 
-	public ItemStatement(int itemId, String text) {
+	public ItemStatement(int itemId, String... text) {
 		this.itemId =  itemId;
 		this.text = text;
 	}
 
+	public ItemStatement(int itemId, int zoom, String... text) {
+		this.itemId =  itemId;
+		this.text = text;
+		this.zoom = zoom;
+	}
+
 	@Override
 	public void send(Player player) {
+		String text = "";
+		for (String s : this.text)
+			text += s + "<br>";
 		player.getInterfaceManager().sendChatBoxInterface(1189);
-		player.getPackets().setIFItem(1189, 1, itemId, 1);
+		player.getPackets().sendRunScript(3449, itemId, zoom);
 		player.getPackets().setIFText(1189, 4, text);
 	}
 
