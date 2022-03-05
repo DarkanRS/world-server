@@ -373,6 +373,10 @@ public class Trade {
 		return wealth;
 	}
 
+	public ItemsContainer<Item> getItems() {
+		return items;
+	}
+
 	private static enum CloseTradeStage {
 		CANCEL, NO_SPACE, DONE
 	}
@@ -391,16 +395,7 @@ public class Trade {
 				} else {
 					player.sendMessage("Accepted trade.");
 					if (!logged) {
-						List<Item> p1Items = new ArrayList<>();
-						List<Item> p2Items = new ArrayList<>();
-						for (Item item : items.getItems())
-							if (item != null)
-								p1Items.add(item);
-						for (Item item : oldTarget.getTrade().items.getItems())
-							if (item != null)
-								p2Items.add(item);
-						if (p1Items.size() > 0 || p2Items.size() > 0)
-							WorldDB.getLogs().logTrade(player, p1Items, oldTarget, p2Items);
+						WorldDB.getLogs().logTrade(player, this, oldTarget, oldTarget.getTrade());
 						logged = true;
 					}
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);
