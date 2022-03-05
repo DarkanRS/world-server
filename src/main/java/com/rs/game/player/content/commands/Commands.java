@@ -19,6 +19,7 @@ package com.rs.game.player.content.commands;
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.db.WorldDB;
 import com.rs.game.BodyGlow;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -26,7 +27,6 @@ import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.GroundItem.GroundItemType;
 import com.rs.lib.game.Item;
@@ -98,7 +98,7 @@ public final class Commands {
 				continue;
 			if (executeCommand(Rights.values()[i], player, cmd[0].toLowerCase(), args)) {
 				if (Rights.values()[i] != Rights.PLAYER)
-					FileManager.writeToFile(player.getDisplayName() + "/"+Rights.values()[i].name().toLowerCase()+"commandlog.txt", player.getDisplayName() + ": " + commandStr);
+					WorldDB.getLogs().logCommand(player.getUsername(), commandStr);
 				return true;
 			}
 		}

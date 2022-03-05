@@ -19,7 +19,7 @@ package com.rs.db;
 import com.rs.Settings;
 import com.rs.db.collection.GEManager;
 import com.rs.db.collection.HighscoresManager;
-import com.rs.db.collection.LogManager;
+import com.rs.db.collection.logs.LogManager;
 import com.rs.db.collection.PlayerManager;
 import com.rs.lib.db.DBConnection;
 

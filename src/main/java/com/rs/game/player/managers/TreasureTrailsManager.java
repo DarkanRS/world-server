@@ -31,7 +31,6 @@ import com.rs.game.player.dialogues.SimpleItemMessage;
 import com.rs.game.player.managers.EmotesManager.Emote;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
@@ -569,10 +568,8 @@ public class TreasureTrailsManager {
 				player.getBank().addItem(item, true);
 				banked = true;
 			}
-			if ((item.getId() >= 10330 && item.getId() <= 10353) || (item.getId() >= 19308 && item.getId() <= 19322)) {
+			if ((item.getId() >= 10330 && item.getId() <= 10353) || (item.getId() >= 19308 && item.getId() <= 19322))
 				World.sendWorldMessage("<img=4><shad=000000><col=00FF00>" + player.getDisplayName() + " has just recieved a " + item.getDefinitions().getName() + " drop from a clue scroll!", false);
-				FileManager.writeToFile("droplog.txt", player.getDisplayName() + " has just recieved a " + item.getDefinitions().getName() + " drop from a clue scroll!");
-			}
 		}
 		if (banked)
 			player.sendMessage("As you had no space in your inventory, the items were sent to your bank.", true);
