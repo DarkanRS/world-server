@@ -394,7 +394,7 @@ public class Trade {
 					items.clear();
 				} else {
 					player.sendMessage("Accepted trade.");
-					if (!logged) {
+					if (!logged && !oldTarget.getTrade().logged) {
 						WorldDB.getLogs().logTrade(player, this, oldTarget, oldTarget.getTrade());
 						logged = true;
 					}
