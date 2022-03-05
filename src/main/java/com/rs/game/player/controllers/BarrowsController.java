@@ -38,7 +38,6 @@ import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
@@ -155,10 +154,8 @@ public final class BarrowsController extends Controller {
 		if (items == null || items.length <= 0)
 			return;
 		for (Item item : items) {
-			if (NPC.yellDrop(item.getId())) {
+			if (NPC.yellDrop(item.getId()))
 				World.sendWorldMessage("<img=4><shad=000000><col=00FF00>" + player.getDisplayName() + " has just recieved " + item.getName() + " as drop from Barrows!", false);
-				FileManager.writeToFile("droplog.txt", player.getDisplayName() + " has just recieved a " + item.getName() + " drop from Barrows!");
-			}
 			player.getInventory().addItem(item.getId(), item.getAmount(), true);
 			player.incrementCount(ItemDefinitions.getDefs(item.getId()).getName()+" drops earned", item.getAmount());
 		}

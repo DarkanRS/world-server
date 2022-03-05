@@ -16,27 +16,16 @@
 //
 package com.rs.utils;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Logger;
-import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ReportsManager {
-
-	private static BufferedWriter reports;
-
-	static {
-		try {
-			reports = new BufferedWriter(new FileWriter("data/reports.txt", true));
-		} catch (Throwable e) {
-			Logger.handle(e);
-		}
-	}
 
 	public static void report(Player player) {
 		report(player, null);
@@ -68,46 +57,49 @@ public class ReportsManager {
 		}
 		player.sendMessage("Thank-you, your abuse report has been received.");
 		try {
-			reports.write(Utils.getFormatedDate() + " Report by " + player.getUsername() + " - Offender: " + reported.getUsername() + " Offense: " + getType(type));
-			reports.newLine();
-			reports.flush();
+//			Rule rule = Rule.forId(type);
+//			if (rule != null)
+//				WorldDB.getLogs().logReport(player, reported, rule);
 		} catch (Throwable e) {
 			Logger.handle(e);
 		}
 	}
 
-	private static String getType(int id) {
-		switch (id) {
-		case 6:
-			return "Buying or selling account";
-		case 9:
-			return "Encouraging rule breaking";
-		case 5:
-			return "Staff impersonation";
-		case 7:
-			return "Macroing or use of bots";
-		case 15:
-			return "Scamming";
-		case 4:
-			return "Exploiting a bug";
-		case 16:
-			return "Seriously offensive language";
-		case 17:
-			return "Solicitation";
-		case 18:
-			return "Disruptive behaviour";
-		case 19:
-			return "Offensive account name";
-		case 20:
-			return "Real-life threats";
-		case 13:
-			return "Asking for or providing contact information";
-		case 21:
-			return "Breaking real-world laws";
-		case 11:
-			return "Advertising websites";
+	public enum Rule {
+		BUG_EXPLOITATION(4),
+		STAFF_IMPERSONATION(5),
+		REAL_WORLD_TRADING(6, 17),
+		MACROING(7),
+		ENCOURAGING_RULE_BREAKING(9),
+		SCAMMING(15),
+		OFFENSIVE_LANGUAGE(16),
+		DISRUPTIVE_BEHAVIOR(18),
+		OFFENSIVE_NAME(19),
+		REAL_WORLD_OFFENSE(20, 21, 13),
+		ADVERTISING(11);
+
+		private static Map<Integer, Rule> MAPPING = new HashMap<>();
+
+		static {
+			for (Rule rule : Rule.values()) {
+				for (int id : rule.ids)
+					MAPPING.put(id, rule);
+			}
 		}
-		return "Unknown";
+
+		public static Rule forId(int id) {
+			return MAPPING.get(id);
+		}
+
+		private int[] ids;
+
+		private Rule(int... ids) {
+			this.ids = ids;
+		}
+
+		public int[] getIds() {
+			return ids;
+		}
 	}
 
 }

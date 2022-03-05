@@ -1,4 +1,4 @@
-package com.rs.db.collection;
+package com.rs.db.collection.logs;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ public class LogEntry {
 
     public enum LogType {
         ERROR,
-		GE, TRADE
+		GE, PICKUP, GRAVE, COMMAND, REPORT, TRADE
     }
 
     private Date date;

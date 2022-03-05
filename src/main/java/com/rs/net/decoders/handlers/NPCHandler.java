@@ -277,6 +277,7 @@ public class NPCHandler {
 	}
 
 	public static void handleOption2(Player player, NPC npc) {
+		player.stopAll(true);
 		if (PluginManager.handle(new NPCClickEvent(player, npc, 2, false)))
 			return;
 		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> {

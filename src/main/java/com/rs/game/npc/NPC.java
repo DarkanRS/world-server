@@ -45,7 +45,6 @@ import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -619,10 +618,9 @@ public class NPC extends Entity {
 		}
 
 		dropTo.incrementCount(item.getName()+" drops earned", item.getAmount());
-		if (yellDrop(item.getId())) {
+
+		if (yellDrop(item.getId()))
 			World.broadcastLoot(dropTo.getDisplayName() + " has just received a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
-			FileManager.writeToFile("droplog.txt", dropTo.getDisplayName() + " has just recieved a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
-		}
 
 		final int size = getSize();
 

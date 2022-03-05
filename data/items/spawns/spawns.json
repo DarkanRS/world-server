@@ -1,5 +1,35 @@
 [
   {
+    "comment": "Lever in Temple Of Ikov",
+    "itemId": 83,
+    "amount": 1,
+    "tile": {
+      "x": 2637,
+      "y": 9819,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Staff of Armadyl in Temple Of Ikov",
+    "itemId": 84,
+    "amount": 1,
+    "tile": {
+      "x": 2638,
+      "y": 9906,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Shiny key in Temple Of Ikov",
+    "itemId": 85,
+    "amount": 1,
+    "tile": {
+      "x": 2631,
+      "y": 9859,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Blanket in Clock Tower Dungeon: Monk's friend",
     "itemId": 90,
     "amount": 1,

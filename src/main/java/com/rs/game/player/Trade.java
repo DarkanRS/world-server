@@ -17,9 +17,9 @@
 package com.rs.game.player;
 
 import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.db.WorldDB;
 import com.rs.game.item.ItemsContainer;
 import com.rs.game.player.content.ItemConstants;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
@@ -29,6 +29,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
 import com.rs.utils.ItemExamines;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginEventHandler
 public class Trade {
 
@@ -36,6 +39,7 @@ public class Trade {
 	private ItemsContainer<Item> items;
 	private boolean tradeModified;
 	private boolean accepted;
+	private boolean logged = false;
 
 	public Trade(Player player) {
 		this.player = player; // player reference
@@ -369,6 +373,10 @@ public class Trade {
 		return wealth;
 	}
 
+	public ItemsContainer<Item> getItems() {
+		return items;
+	}
+
 	private static enum CloseTradeStage {
 		CANCEL, NO_SPACE, DONE
 	}
@@ -386,15 +394,10 @@ public class Trade {
 					items.clear();
 				} else {
 					player.sendMessage("Accepted trade.");
-					String recieved = "";
-					for (Item i : oldTarget.getTrade().items.toArray())
-						if (i != null)
-							recieved += i.getAmount() + " " + i.getDefinitions().name + "("+i.getId()+")\r\n";
-					String given = "";
-					for (Item i : items.toArray())
-						if (i != null)
-							given += i.getAmount() + " " + i.getDefinitions().name + "("+i.getId()+")\r\n";
-					FileManager.writeToFile("/trade/"+player.getUsername()+".txt", "Trade with "+oldTarget.getUsername()+":\r\nRecieved:\r\n"+recieved + "Given:\r\n" + given+"\r\n");
+					if (!logged && !oldTarget.getTrade().logged) {
+						WorldDB.getLogs().logTrade(player, this, oldTarget, oldTarget.getTrade());
+						logged = true;
+					}
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);
 					player.getInventory().init();
 					oldTarget.getTrade().items.clear();

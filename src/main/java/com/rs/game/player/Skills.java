@@ -805,7 +805,7 @@ public final class Skills {
 
 	private void sendLevelUp(int skill) {
 		int level = getLevelForXp(skill);
-		player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 46 : 28, 1216);
+		player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 44 : 28, 1216);
 		player.getPackets().sendVarc(1756, Skills.getTargetIdBySkillId(skill));
 		switchFlash(player, skill, true);
 		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
