@@ -29,6 +29,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
 import com.rs.utils.ItemExamines;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginEventHandler
 public class Trade {
 
@@ -388,7 +391,16 @@ public class Trade {
 				} else {
 					player.sendMessage("Accepted trade.");
 					if (!logged) {
-						WorldDB.getLogs().logTrade(player, oldTarget.getTrade().items.toArray(), oldTarget, items.toArray());
+						List<Item> p1Items = new ArrayList<>();
+						List<Item> p2Items = new ArrayList<>();
+						for (Item item : items.getItems())
+							if (item != null)
+								p1Items.add(item);
+						for (Item item : oldTarget.getTrade().items.getItems())
+							if (item != null)
+								p2Items.add(item);
+						if (p1Items.size() > 0 || p2Items.size() > 0)
+							WorldDB.getLogs().logTrade(player, p1Items, oldTarget, p2Items);
 						logged = true;
 					}
 					player.getInventory().getItems().addAll(oldTarget.getTrade().items);

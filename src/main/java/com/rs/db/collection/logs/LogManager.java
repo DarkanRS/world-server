@@ -32,6 +32,7 @@ import org.bson.Document;
 
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -92,7 +93,7 @@ public class LogManager extends DBItemManager {
 		save(new LogEntry(LogEntry.LogType.GE, log.hashCode(), log));
 	}
 
-	public void logTrade(Player player1, Item[] p1Items, Player p2, Item[] p2Items) {
+	public void logTrade(Player player1, List<Item> p1Items, Player p2, List<Item> p2Items) {
 		TradeLog log = new TradeLog(player1, p1Items, p2, p2Items);
 		save(new LogEntry(LogEntry.LogType.TRADE, log.hashCode(), log));
 	}
