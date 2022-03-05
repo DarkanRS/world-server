@@ -41,8 +41,6 @@ import com.rs.game.player.Skills;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.achievements.Achievement;
 import com.rs.game.player.content.commands.Commands;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.statements.ItemStatement;
 import com.rs.game.player.content.randomevents.RandomEvents;
 import com.rs.game.player.content.world.doors.Doors;
 import com.rs.game.player.controllers.BarrowsController;
@@ -215,10 +213,6 @@ public class MiscTest {
 		//				}
 		//			});
 		//		});
-
-		Commands.add(Rights.DEVELOPER, "cockdick", "", (p, args) -> {
-			p.startConversation(new Dialogue().addNext(new ItemStatement(4151, 1050, "memes")));
-		});
 
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
