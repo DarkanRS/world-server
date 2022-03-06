@@ -1,5 +1,55 @@
 [
   {
+    "comment": "White Cog in Clock Tower Dungeon",
+    "itemId": 20,
+    "amount": 1,
+    "tile": {
+      "x": 2578,
+      "y": 9658,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Black Cog in Clock Tower Dungeon",
+    "itemId": 21,
+    "amount": 1,
+    "tile": {
+      "x": 2613,
+      "y": 9639,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Blue Cog in Clock Tower Dungeon",
+    "itemId": 22,
+    "amount": 1,
+    "tile": {
+      "x": 2574,
+      "y": 9633,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red Cog in Clock Tower Dungeon",
+    "itemId": 23,
+    "amount": 1,
+    "tile": {
+      "x": 2583,
+      "y": 9614,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Red Cog in Clock Tower Dungeon",
+    "itemId": 24,
+    "amount": 1,
+    "tile": {
+      "x": 2565,
+      "y": 9662,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Lever in Temple Of Ikov",
     "itemId": 83,
     "amount": 1,

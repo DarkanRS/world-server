@@ -232,6 +232,26 @@ public class Ardougne  {
 		}
 	};
 
+	public static ObjectClickHandler handleClockTowerDungeonEntrances = new ObjectClickHandler(new Object[] { 1754, 1756 },
+			new WorldTile(2566, 3242, 0), new WorldTile(2566, 3231, 0), new WorldTile(2569, 3231, 0),
+			new WorldTile(2566, 3227, 0), new WorldTile(2569, 3227, 0), new WorldTile(2572, 3227, 0),
+			new WorldTile(2621, 3261, 0)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useLadder(new WorldTile(e.getObject().getX(), e.getObject().getY()+6399, 0));
+		}
+	};
+
+	public static ObjectClickHandler handleClockTowerDungeonExits = new ObjectClickHandler(new Object[] { 32015 },
+			new WorldTile(2566, 9642, 0), new WorldTile(2572, 9631, 0), new WorldTile(2566, 9631, 0),
+			new WorldTile(2566, 9627, 0), new WorldTile(2569, 9627, 0), new WorldTile(2572, 9627, 0),
+			new WorldTile(2576, 9655, 0), new WorldTile(2621, 9661, 0)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useLadder(new WorldTile(e.getObject().getX(), e.getObject().getY()-6399, 0));
+		}
+	};
+
 	public static ObjectClickHandler handleArdougneSewerEntrance = new ObjectClickHandler(new Object[] { "Manhole" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
