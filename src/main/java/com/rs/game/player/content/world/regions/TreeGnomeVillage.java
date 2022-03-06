@@ -59,4 +59,15 @@ public class TreeGnomeVillage {
 				e.getPlayer().useStairs(oppObj.transform(2, 1));
 		}
 	};
+
+	public static ObjectClickHandler handleSpecialStair = new ObjectClickHandler(new Object[] { 69549, 69550 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if(e.getPlayer().getPlane() == 1) {
+				e.getPlayer().useStairs(new WorldTile(2485, 3463, 2));
+				return;
+			}
+			e.getPlayer().useStairs(new WorldTile(2483, 3463, 1));
+		}
+	};
 }
