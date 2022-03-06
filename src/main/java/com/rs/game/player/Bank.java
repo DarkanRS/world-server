@@ -27,6 +27,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
 import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -668,6 +669,8 @@ public class Bank {
 		}
 		removeItem(bankSlot, item.getAmount(), true, false);
 		player.getInventory().addItem(item);
+		if (item.getId() == Runecrafting.RUNE_ESS || item.getId() == Runecrafting.PURE_ESS)
+			Runecrafting.fillPouchesFromBank(player, item.getId());
 	}
 
 	public void sendExamine(int fakeSlot) {

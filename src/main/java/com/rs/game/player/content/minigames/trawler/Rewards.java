@@ -14,7 +14,7 @@ public class Rewards {
 		MEDIUM(63, 43),
 		HIGH(150, 201);
 
-		private int low, high;
+		private final int low, high;
 
 		Rate(int low, int high) {
 			this.low = low;
@@ -53,6 +53,6 @@ public class Rewards {
 			return FISH_ORDER[2 + tier];
 		if (level >= 16)
 			return FISH_ORDER[1 + tier];
-		return FISH_ORDER[0 + tier];
+		return FISH_ORDER[tier];
 	}
 }

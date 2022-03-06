@@ -240,6 +240,35 @@ public class Runecrafting {
 			return;
 		}
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
+		int pEssToAdd = 0;
+		int regEssToAdd = 0;
+
+		if (!span) {
+			for (Item i : player.getInventory().getItems().getItems()) {
+				if (i == null)
+					continue;
+
+				int pouch = switch (i.getId()) {
+					case 5509 -> 0;
+					case 5510 -> 1;
+					case 5512 -> 2;
+					case 5514 -> 3;
+					default -> -1;
+				};
+
+				if (pouch == -1)
+					continue;
+
+				if (player.getPouchesType()[pouch]) {
+					runes += player.getPouches()[pouch];
+					player.getPouches()[pouch] = 0;
+				} else if (!rune.isPureEss()){
+					runes += player.getPouches()[pouch];
+					player.getPouches()[pouch] = 0;
+				}
+			}
+		}
+
 		if (runes > 0) {
 			if (span)
 				runes = 1;
@@ -247,6 +276,7 @@ public class Runecrafting {
 		}
 		if (!rune.pureEss) {
 			int normalEss = player.getInventory().getItems().getNumberOf(RUNE_ESS);
+
 			if (span)
 				normalEss = 1;
 			if (runes > 0 && span)
@@ -334,7 +364,7 @@ public class Runecrafting {
 	public static void checkPouch(Player p, int i) {
 		if (i < 0)
 			return;
-		p.sendMessage("This pouch has " + p.getPouches()[i] + (p.getPouchesType()[i] ? " pure" : " rune")+ " essences in it.", false);
+		p.sendMessage("This pouch has " + p.getPouches()[i] + (p.getPouchesType()[i] ? " pure" : " rune")+ " essence in it.", false);
 	}
 
 	public static final int[] POUCH_SIZE = { 3, 6, 9, 12 };
@@ -372,6 +402,48 @@ public class Runecrafting {
 				p.sendMessage("Your pouch is full.", false);
 				return;
 			}
+	}
+
+	public static void fillPouchesFromBank(Player p, int essence) {
+		for (Item i : p.getInventory().getItems().getItems()) {
+
+			if (i == null)
+				continue;
+
+			int pouch = switch (i.getId()) {
+				case 5509 -> 0;
+				case 5510 -> 1;
+				case 5512 -> 2;
+				case 5514 -> 3;
+				default -> -1;
+			};
+
+			if (pouch == -1)
+				continue;
+
+			if (p.getPouchesType()[pouch] != (essence == PURE_ESS))
+				continue;
+
+			if (p.getSkills().getLevel(Skills.RUNECRAFTING) >= LEVEL_REQ[pouch]) {
+				if (p.getBank().containsItem(essence, 1)) {
+					int essenceToAdd = POUCH_SIZE[pouch] - p.getPouches()[pouch];
+					if (essenceToAdd == POUCH_SIZE[pouch])
+						p.getPouchesType()[pouch] = p.getBank().getItem(essence).getAmount() > 0;
+					if (essenceToAdd > p.getBank().getItem(essence).getAmount())
+						essenceToAdd = p.getBank().getItem(essence).getAmount();
+					if (essenceToAdd > POUCH_SIZE[pouch] - p.getPouches()[pouch])
+						essenceToAdd = POUCH_SIZE[pouch] - p.getPouches()[pouch];
+					if (essenceToAdd > 0) {
+						p.getBank().removeItem(p.getBank().getSlot(essence), essenceToAdd, true, false);
+						p.getPouches()[pouch] += essenceToAdd;
+					}
+					if (essenceToAdd != 0) {
+						p.sendMessage(essenceToAdd + " " + ItemDefinitions.getDefs(essence).getName() + " has been placed into your " + i.getName().toLowerCase() + ".");
+						p.getPouchesType()[pouch] = (essence == PURE_ESS ? true : false);
+					}
+				}
+			}
+		}
 	}
 
 	public static void emptyPouch(Player p, int i) {

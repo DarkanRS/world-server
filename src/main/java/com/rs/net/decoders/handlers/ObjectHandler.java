@@ -847,21 +847,6 @@ public final class ObjectHandler {
 				player.useStairs(-1, player.transform(object.getRotation() == 3 ? -3 : 3, 0, 1), 1, 1);
 			else if (id == 34568)
 				player.useStairs(-1, player.transform(object.getRotation() == 3 ? 3 : -3, 0, -1), 1, 1);
-			else if (id == 69505)
-				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, 0, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(1, 0, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, 0, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(-1, 0, 1), 1, 1);
-					break;
-				}
 			else if (id == 34498)
 				switch(object.getRotation()) {
 				case 0:

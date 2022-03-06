@@ -16,6 +16,7 @@
 //
 package com.rs.utils;
 
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
 /*
@@ -143,6 +144,10 @@ public class RegionUtils {
 			return structure;
 		}
 
+		public WorldTile getRandomTile() {
+			return new WorldTile(x + Utils.random(width), y + Utils.random(height), 0);
+		}
+
 		@Override
 		public int hashCode() {
 			return structure.encode(x, y, 0);
@@ -152,6 +157,10 @@ public class RegionUtils {
 		public String toString() {
 			return "Structure: "+structure.toString() + ", x: " + x + ", y: " + y + ", width: " + width + ", height: " + height;
 		}
+	}
+
+	public static Area getArea(WorldTile min, WorldTile max) {
+		return getArea(Structure.TILE, min.getX(), min.getY(), max.getX(), max.getY());
 	}
 
 	public static Area getArea(int minX, int minY, int maxX, int maxY) {

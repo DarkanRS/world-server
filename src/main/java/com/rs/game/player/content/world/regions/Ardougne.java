@@ -33,6 +33,7 @@ import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
+import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.lib.Constants;
@@ -48,6 +49,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -227,6 +229,26 @@ public class Ardougne  {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			p.setNextWorldTile(new WorldTile(2696, 9683, 0));
+		}
+	};
+
+	public static ObjectClickHandler handleClockTowerDungeonEntrances = new ObjectClickHandler(new Object[] { 1754, 1756 },
+			new WorldTile(2566, 3242, 0), new WorldTile(2566, 3231, 0), new WorldTile(2569, 3231, 0),
+			new WorldTile(2566, 3227, 0), new WorldTile(2569, 3227, 0), new WorldTile(2572, 3227, 0),
+			new WorldTile(2621, 3261, 0)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useLadder(new WorldTile(e.getObject().getX(), e.getObject().getY()+6399, 0));
+		}
+	};
+
+	public static ObjectClickHandler handleClockTowerDungeonExits = new ObjectClickHandler(new Object[] { 32015 },
+			new WorldTile(2566, 9642, 0), new WorldTile(2572, 9631, 0), new WorldTile(2566, 9631, 0),
+			new WorldTile(2566, 9627, 0), new WorldTile(2569, 9627, 0), new WorldTile(2572, 9627, 0),
+			new WorldTile(2576, 9655, 0), new WorldTile(2621, 9661, 0)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useLadder(new WorldTile(e.getObject().getX(), e.getObject().getY()-6399, 0));
 		}
 	};
 
@@ -458,8 +480,9 @@ public class Ardougne  {
 	public static ObjectClickHandler handle50CoinChests = new ObjectClickHandler(new Object[] { 2566 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getOpNum() == ClientPacket.OBJECT_OP2)
+			if (e.getOpNum() == ClientPacket.OBJECT_OP2) {
 				Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 2574, 43, 50, 125, new Item(995, 50));
+			}
 		}
 	};
 
