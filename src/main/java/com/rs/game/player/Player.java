@@ -340,6 +340,8 @@ public class Player extends Entity {
 
 	private boolean runBlocked;
 
+	private ItemsContainer<Item> trawlerRewards;
+
 	// ectofuntus
 	public int boneType;
 	public boolean bonesGrinded;
@@ -2686,6 +2688,14 @@ public class Player extends Entity {
 		hiddenBrother = -1;
 		killedBarrowBrothers = new boolean[7];
 		barrowsKillCount = 0;
+	}
+
+	public ItemsContainer<Item> getTrawlerRewards() {
+		return trawlerRewards;
+	}
+
+	public void setTrawlerRewards(ItemsContainer<Item> trawlerRewards) {
+		this.trawlerRewards = trawlerRewards;
 	}
 
 	public int getVotes() {
