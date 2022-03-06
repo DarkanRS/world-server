@@ -217,6 +217,13 @@ public class Karamja  {
 		}
 	};
 
+	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, new WorldTile(2847, 3235, 1)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useStairs(e.getPlayer().transform(0, 0, -1));
+		}
+	};
+
 	public static ObjectClickHandler handleBrimhavenDungeonExit = new ObjectClickHandler(new Object[] { 5084 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
