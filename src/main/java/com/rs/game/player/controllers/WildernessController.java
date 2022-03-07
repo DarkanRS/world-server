@@ -23,6 +23,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.tasks.WorldTask;
@@ -200,6 +201,14 @@ public class WildernessController extends Controller {
 	@Override
 	public boolean processObjectClick2(final GameObject object) {
 		if (object.getId() == 2557 || object.getId() == 65717) {
+			if (player.getSkills().getLevel(Skills.THIEVING) < 23) {
+				player.sendMessage("You need at least 23 thieving to pick this lock.");
+				return false;
+			}
+			if (!player.getInventory().containsItem(1523, 1)) {
+				player.sendMessage("You cannot seem to pick this lock. Perhaps a lock pick would help.");
+				return false;
+			}
 			Thieving.pickDoor(player, object);
 			return false;
 		}
