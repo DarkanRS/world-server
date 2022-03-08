@@ -15,6 +15,8 @@ import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.events.ItemEquipEvent;
+import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.utils.Ticks;
 
 import java.time.Instant;
@@ -138,6 +140,7 @@ public class Easter2022 {
         World.spawnObjectTemporary(new GameObject(42651, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3200,3442,0)), ticksToEnd);  //Random easter eggs
         World.spawnObjectTemporary(new GameObject(42651, ObjectType.SCENERY_INTERACT, 1, new WorldTile(3199,3441,0)), ticksToEnd);  //Random easter eggs
     }
+
 
     /*
      *
