@@ -17,28 +17,33 @@
 package com.rs.game.player.content;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
+import com.rs.game.WorldProjectile;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
+import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Vec2;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @PluginEventHandler
@@ -51,7 +56,51 @@ public class DwarfMultiCannon extends OwnedObject {
 	private int type;
 	private int balls = 0;
 	private int decay = 0;
-	private int spinRot = 0;
+	private Direction spinRot = Direction.NORTH;
+
+	private enum BannedArea {
+		ABYSS(12108, 12109),
+		ANCIENT_CAVERN(6995, 6994, 6738, 6482),
+		AL_KHARID_PALACE(13105),
+		BLACK_GUARD("It is not permitted to set up a cannon this close to the Dwarf Black Guard.", 11830, 11829, 12085, 12086),
+		DWARVEN_MINE(11929, 12185, 12184),
+		ENCHANTED_VALLEY(12102),
+		ENTRANA(11060, 11316),
+		FREM_SLAYER_DUNG("The air is too dank for you to set up a cannon here.", 11164, 10908, 10907),
+		FELDIP_HILLS(10029),
+		GRAND_EXCHANGE("The Grand Exchange staff prefer not to have heavy artillery operated around their premises.", 12598),
+		KILLERWATT_PLANE("The electricity bursting through this plane would render the cannon useless.", 10577),
+		TARNS_LAIR("This temple is ancient and would probably collapse if you started firing a cannon.", 12615, 12616),
+		MORT_MYRE_SWAMP(13621, 13877, 14133, 13620, 13876, 13619, 13875, 13874, 13618, 13363, 14131, 14130),
+		OURIANA_ALTAR(13131),
+		SLAYER_TOWER(13623),
+		REVENANT_CAVE(12446),
+		WARRIORS_GUILD(11319),
+		WYVERN_CAVE(12181),
+		KALPHITE_QUEEN(13972),
+		KING_BLACK_DRAGON(9033);
+
+		private static Map<Integer, BannedArea> MAP = new HashMap<>();
+
+		static {
+			for (BannedArea area : values()) {
+				for (int regionId : area.regionIds)
+					MAP.put(regionId, area);
+			}
+		}
+
+		private String message;
+		private int[] regionIds;
+
+		BannedArea(String message, int... regionIds) {
+			this.message = message == null ? "It is not permitted to set up a cannon here." : message;
+			this.regionIds = regionIds;
+		}
+
+		BannedArea(int... regionIds) {
+			this(null, regionIds);
+		}
+	}
 
 	public DwarfMultiCannon(Player player, WorldTile tile, int type) {
 		super(player, CANNON_OBJECTS[type][0], ObjectType.SCENERY_INTERACT, 0, tile);
@@ -83,6 +132,11 @@ public class DwarfMultiCannon extends OwnedObject {
 			player.sendMessage("You can't place your cannon here.");
 			return;
 		}
+		BannedArea area = BannedArea.MAP.get(player.getRegionId());
+		if (area != null) {
+			player.sendMessage(area.message);
+			return;
+		}
 		int count = 0;
 		for (int item : CANNON_PIECES[type]) {
 			if (!player.getInventory().containsItem(item, 1))
@@ -101,37 +155,31 @@ public class DwarfMultiCannon extends OwnedObject {
 		player.lock();
 		player.setNextFaceWorldTile(pos);
 		DwarfMultiCannon cannon = new DwarfMultiCannon(player, pos, type);
-		WorldTasks.schedule(new WorldTask() {
-			int stage = 0;
-
-			@Override
-			public void run() {
-				player.setNextAnimation(new Animation(827));
-				if (stage == 0) {
-					player.sendMessage("You place the cannon base on the ground.");
-					cannon.createNoReplace();
-					player.getInventory().deleteItem(CANNON_PIECES[type][0], 1);
-				} else if (stage == 2) {
-					player.sendMessage("You add the stand.");
-					cannon.setId(CANNON_OBJECTS[type][1]);
-					player.getInventory().deleteItem(CANNON_PIECES[type][1], 1);
-				} else if (stage == 4) {
-					player.sendMessage("You add the barrels.");
-					cannon.setId(CANNON_OBJECTS[type][2]);
-					player.getInventory().deleteItem(CANNON_PIECES[type][2], 1);
-				} else if (stage == 6) {
-					player.sendMessage("You add the furnance.");
-					cannon.setId(CANNON_OBJECTS[type][3]);
-					player.getInventory().deleteItem(CANNON_PIECES[type][3], 1);
-					player.setPlacedCannon(type+1);
-				} else if (stage == 8) {
-					player.unlock();
-					stop();
-					return;
-				}
-				stage++;
+		WorldTasks.scheduleTimer(0, 0, stage -> {
+			player.setNextAnimation(new Animation(827));
+			if (stage == 0) {
+				player.sendMessage("You place the cannon base on the ground.");
+				cannon.createNoReplace();
+				player.getInventory().deleteItem(CANNON_PIECES[type][0], 1);
+			} else if (stage == 2) {
+				player.sendMessage("You add the stand.");
+				cannon.setId(CANNON_OBJECTS[type][1]);
+				player.getInventory().deleteItem(CANNON_PIECES[type][1], 1);
+			} else if (stage == 4) {
+				player.sendMessage("You add the barrels.");
+				cannon.setId(CANNON_OBJECTS[type][2]);
+				player.getInventory().deleteItem(CANNON_PIECES[type][2], 1);
+			} else if (stage == 6) {
+				player.sendMessage("You add the furnance.");
+				cannon.setId(CANNON_OBJECTS[type][3]);
+				player.getInventory().deleteItem(CANNON_PIECES[type][3], 1);
+				player.setPlacedCannon(type+1);
+			} else if (stage == 8) {
+				player.unlock();
+				return false;
 			}
-		}, 0, 0);
+			return true;
+		});
 	}
 
 	public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] { "Dwarf multicannon", "Gold dwarf multicannon", "Royale dwarf multicannon" }) {
@@ -199,67 +247,28 @@ public class DwarfMultiCannon extends OwnedObject {
 		}
 		if (id != CANNON_OBJECTS[type][3] || balls == 0)
 			return;
-		spinRot++;
-		if (spinRot == CANNON_EMOTES.length)
-			spinRot = 0;
-		World.sendObjectAnimation(null, this, new Animation(CANNON_EMOTES[spinRot]));
+		if (spinRot.ordinal() + 1 == Direction.values().length)
+			spinRot = Direction.NORTH;
+		else
+			spinRot = Direction.values()[spinRot.ordinal() + 1];
+		World.sendObjectAnimation(null, this, new Animation(CANNON_EMOTES[spinRot.ordinal()]));
 		Set<Integer> npcIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
 		if (npcIndexes == null)
 			return;
+		WorldTile cannonTile = this.transform(1, 1, 0);
 		for (int npcIndex : npcIndexes) {
 			NPC npc = World.getNPCs().get(npcIndex);
 			if (npc == null || npc == owner.getFamiliar() || npc.isDead() || npc.hasFinished() || !npc.getDefinitions().hasAttackOption() || !owner.getControllerManager().canHit(npc))
 				continue;
-			if (!owner.lineOfSightTo(npc, true) || (!owner.isAtMultiArea() && owner.inCombat() && owner.getAttackedBy() != npc))
+			if (!npc.lineOfSightTo(cannonTile, false) || (!owner.isAtMultiArea() && owner.inCombat() && owner.getAttackedBy() != npc))
 				continue;
 			if (!owner.isAtMultiArea() && npc.getAttackedBy() != owner && npc.inCombat())
 				continue;
-			int distanceX = npc.getX() - getX() + 1;
-			int distanceY = npc.getY() - getY() + 1;
 
-			boolean hit = false;
-			switch (spinRot) {
-			case 0: // North
-				if ((distanceY <= 8 && distanceY >= 0) && (distanceX >= -1 && distanceX <= 1))
-					hit = true;
-				break;
-			case 1: // North East
-				if ((distanceY <= 8 && distanceY >= 0) && (distanceX <= 8 && distanceX >= 0))
-					hit = true;
-				break;
-			case 2: // East
-				if ((distanceY <= 1 && distanceY >= -1) && (distanceX <= 8 && distanceX >= 0))
-					hit = true;
-				break;
-			case 3: // South East
-				if ((distanceY >= -8 && distanceY <= 0) && (distanceX <= 8 && distanceX >= 0))
-					hit = true;
-				break;
-			case 4: // South
-				if ((distanceY >= -8 && distanceY <= 0) && (distanceX <= 1 && distanceX >= -1))
-					hit = true;
-				break;
-			case 5: // South West
-				if ((distanceY >= -8 && distanceY <= 0) && (distanceX >= -8 && distanceX <= 0))
-					hit = true;
-				break;
-			case 6: // West
-				if ((distanceY >= -1 && distanceY <= 1) && (distanceX >= -8 && distanceX <= 0))
-					hit = true;
-				break;
-			case 7: // North West
-				if ((distanceY <= 8 && distanceY >= 0) && (distanceX >= -8 && distanceX <= 0))
-					hit = true;
-				break;
-			default:
-				hit = false;
-				break;
-			}
-
-			if (hit) {
+			if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
 				int damage = PlayerCombat.getRandomMaxHit(owner, npc, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
-				World.sendProjectile(new WorldTile(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
-				npc.applyHit(new Hit(owner, damage, HitLook.CANNON_DAMAGE));
+				WorldProjectile proj = World.sendProjectile(new WorldTile(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
+				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, damage, HitLook.CANNON_DAMAGE)));
 				owner.getSkills().addXp(Constants.RANGE, damage / 5);
 				balls--;
 				npc.setTarget(owner);
@@ -267,5 +276,14 @@ public class DwarfMultiCannon extends OwnedObject {
 				break;
 			}
 		}
+	}
+
+	public Direction getDirectionTo(Entity entity) {
+		Vec2 to = entity.getMiddleWorldTileAsVector();
+		Vec2 from = new Vec2(transform(1, 1, 0));
+		Vec2 sub = to.sub(from);
+		sub.norm();
+		WorldTile delta = sub.toTile();
+		return Direction.forDelta(delta.getX(), delta.getY());
 	}
 }
