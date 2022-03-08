@@ -37,7 +37,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 @PluginEventHandler
 public class Easter2021 {
 
-	public static String STAGE_KEY = "easter2022";
+	public static String STAGE_KEY = "easter2021";
 
 	public static final boolean ENABLED = false;
 

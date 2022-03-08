@@ -17,6 +17,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ItemEquipHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
 import java.time.Instant;
@@ -25,6 +26,28 @@ import java.util.List;
 
 @PluginEventHandler
 public class Easter2022 {
+
+    public static String STAGE_KEY = "easter2022";
+    public static final int EGGSTERMINATOR = 24145;
+    public static final int PERMANENT_EGGSTERMINATOR = 24146;
+
+    public static final int XP_LAMP = 2528;
+
+    public static final int UNCRACKED_EGG = 70103;
+    public static final int CRACKED_EGG = 70104;
+    public static final int POSSIBLE_EGG = 70105;
+
+    public static final int CHOCOCHICK = 15270;
+    public static final int CHICK = 15271;
+
+    public static final int EVIL_CHICKEN = 15262;
+    public static final int CHOCATRICE = 15259;
+
+    List<String> completedEgg1 = new ArrayList<String>();
+    List<String> completedEgg2 = new ArrayList<String>();
+    List<String> completedEgg3 = new ArrayList<String>();
+    List<String> completedEgg4 = new ArrayList<String>();
+    List<String> completedEgg5 = new ArrayList<String>();
 
     /*
      *   Runescape 2012 Easter event - Chocatrice vs Evil Chicken.
@@ -59,6 +82,10 @@ public class Easter2022 {
 //                //Reset players hunt progress
 //            }, 0, Ticks.fromHours(2));
 //        });
+    }
+
+    public static void crackEgg(GameObject egg) {
+
     }
 
     public static void initEasterSpawns(int ticksToEnd) {
@@ -115,9 +142,11 @@ public class Easter2022 {
         World.spawnObjectTemporary(new GameObject(70116, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3200,3427,1)), ticksToEnd); //Varrock west path banner
         World.spawnObjectTemporary(new GameObject(70119, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3200,3426,0)), ticksToEnd); //Varrock west path pole
 
+        //TODO - FIX THIS SPAWN https://youtu.be/sbTo1HMvHas?t=133
         World.spawnObjectTemporary(new GameObject(70117, ObjectType.SCENERY_INTERACT, 2, new WorldTile(3232,3428,1)), ticksToEnd); //Varrock east path banner
         World.spawnObjectTemporary(new GameObject(70129, ObjectType.WALL_STRAIGHT_CORNER, 2, new WorldTile(3232,3431,0)), ticksToEnd); //Varrock east path pole
-        World.spawnObjectTemporary(new GameObject(70123, ObjectType.GROUND_INTERACT, 1, new WorldTile(3229,3428,0)), ticksToEnd); //Varrock east path pole
+
+        World.spawnObjectTemporary(new GameObject(70123, ObjectType.GROUND_INTERACT, 1, new WorldTile(3229,3428,0)), ticksToEnd); //Varrock east path standing banner
 
 
         World.spawnObjectTemporary(new GameObject(70123, ObjectType.SCENERY_INTERACT, 3, new WorldTile(3205,3431,0)), ticksToEnd); //Zaffs shop standing banner
@@ -140,7 +169,6 @@ public class Easter2022 {
         World.spawnObjectTemporary(new GameObject(42651, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3200,3442,0)), ticksToEnd);  //Random easter eggs
         World.spawnObjectTemporary(new GameObject(42651, ObjectType.SCENERY_INTERACT, 1, new WorldTile(3199,3441,0)), ticksToEnd);  //Random easter eggs
     }
-
 
     /*
      *
@@ -172,45 +200,5 @@ public class Easter2022 {
      *    70127 - null [0] [null, null, null, null, null]                          (SOUTH FOUNTAIN EVIL EGG)
      *    70128 - null [3] [null, null, null, null, null]                          (BANNER POLE NORTH OF TILE)
      *    70129 - null [3] [null, null, null, null, null]                          (BANNER POLE SOUTH OF TILE)
-     *
-     *
-     * Possible spawn locations
-     *    Near Burthorpe Lodestone /South of Burthorpe Castle.
-     *    In Burthorpe Agility Course Area.
-     *    Inside Taverley Mine.
-     *    In Taverley, near and a bit north of the entrance closest to Falador.
-     *    East side of White Wolf Mountain.
-     *    Inside Taverley Dungeon.
-     *    North of the Witch's House/south of Taverley, near the wheat field.
-     *    Northwest of the Dark Wizards' Tower/south of the Witch's House.
-     *    West of the Exam Centre.
-     *    West of the Varrock Dig Site.
-     *    In Silvarea, the mountain path between Varrock and Morytania.
-     *    In Brimhaven, near the fishing spots in the South.
-     *    A little way in front of the gate leading to the Mage Training Arena.
-     *   Between the Crafting Guild and the Clan Camp
-     *   South-west area of Rimmington
-     *   In the banana plantation on Musa Point
-     *   Between Karamja Volcano and Musa Point, near the agility shortcut to the south
-     *   West of Gamers' Grotto (near Falador Lodestone)
-     *   South of the Goblin Village near Falador
-     *   Directly between the Captured Temple and Ice Mountain
-     *   In Draynor Village (Near Ned's house)
-     *   East of Draynor Manor, in the place that used to be Gnomecopter Tours
-     *   Between the walls of Falador and Draynor Manor
-     *   In the sheep's pen east of the Champions' Guild
-     *   South of Varrock, next to the Stone circle
-     *   Near the Cooks' Guild, south of Gertrude's house
-     *   East of Barbarian Village, near the unicorns
-     *   West of the Grand Exchange, near the Outlaw Camp
-     *   Around Lumbridge Castle
-     *   West of Lumbridge Swamp mining spot, behind Father Urhney's house
-     *   West of Edgeville Monastery
-     *   On top of Ice Mountain
-     *   East of Varrock, near the Saradomin statue South-West of Lumber Yard
-     *   Directly in front of Lumber Yard, southern part
-     *   Around the back of Daemonheim castle
-     *   South of the Fremennik Camp on the Daemonheim Peninsula
-     *   In the centre of Mudskipper Point
      */
 }
