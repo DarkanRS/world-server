@@ -1527,6 +1527,9 @@ public class PlayerCombat extends Action {
 		if (weaponId == -2)
 			str += 82;
 		double baseDamage = 5 + lvl * (str + 64) / 64;
+
+		//int multiplier = PluginManager.handle()
+
 		switch(weaponId) {
 		case 11694:
 		case 23679:

@@ -130,7 +130,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "showhitchance", "Toggles the display of your hit chance when attacking opponents.", (p, args) -> {
-			p.getNSV().setB("hitChance", p.getNSV().getB("hitChance"));
+			p.getNSV().setB("hitChance", !p.getNSV().getB("hitChance"));
 			p.sendMessage("Hit chance display: " + p.getNSV().getB("hitChance"));
 		});
 
