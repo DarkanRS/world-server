@@ -47,10 +47,6 @@ public class DelrithBoss extends NPC {
 		p = World.getPlayersInRegion(getRegionId()).get(0);
 	}
 
-	private DelrithBoss getSelf() {
-		return this;
-	}
-
 	@Override
 	public void sendDeath(Entity source) {
 		setNextAnimation(new Animation(STUNNED));
@@ -74,7 +70,7 @@ public class DelrithBoss extends NPC {
 					conversating = true;
 					tick = -10;
 					p.faceTile(new WorldTile(getX(), getY(), getPlane()));
-					p.startConversation(new EncantationOptionsD(p, getSelf()).getStart());
+					p.startConversation(new EncantationOptionsD(p, DelrithBoss.this).getStart());
 				} else
 					tick++;
 			}
