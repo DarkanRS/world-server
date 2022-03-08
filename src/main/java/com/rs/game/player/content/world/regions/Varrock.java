@@ -315,36 +315,34 @@ public class Varrock {
 		}
 	};
 
-	public static NPCClickHandler handleJohnnyTheBeard = new NPCClickHandler(new Object[] { 645 }) {
+	public static NPCClickHandler handleJohnnyTheBeard = new NPCClickHandler(new Object[] { 645 }, new String[] { "Talk-to" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().sendMessage("Johnny the beard is not interested in talking.");
+			e.getPlayer().sendMessage("Johnny the beard is not interested in talking.");
 		}
 	};
 
-	public static NPCClickHandler handleKingRoald = new NPCClickHandler(new Object[] { 648 }) {
+	public static NPCClickHandler handleKingRoald = new NPCClickHandler(new Object[] { 648 }, new String[] { "Talk-to" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					{
-						addPlayer(HeadE.CHEERFUL, "Hello.");
-						if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
-							addOptions("What would you like to say?", new Options() {
-								@Override
-								public void create() {
-									option("About Shield Of Arrav...", new KingRoaldShieldOfArravD(player).getStart());
-									option("Farewell.");
-								}
-							});
-						else {
-							addNPC(648, HeadE.HAPPY_TALKING, "Thank you for your good work adventurer!");
-							addPlayer(HeadE.HAPPY_TALKING, "You are welcome.");
-						}
-						create();
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+				{
+					addPlayer(HeadE.CHEERFUL, "Hello.");
+					if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+						addOptions("What would you like to say?", new Options() {
+							@Override
+							public void create() {
+								option("About Shield Of Arrav...", new KingRoaldShieldOfArravD(player).getStart());
+								option("Farewell.");
+							}
+						});
+					else {
+						addNPC(648, HeadE.HAPPY_TALKING, "Thank you for your good work adventurer!");
+						addPlayer(HeadE.HAPPY_TALKING, "You are welcome.");
 					}
-				});
+					create();
+				}
+			});
 		}
 	};
 

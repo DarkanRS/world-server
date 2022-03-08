@@ -474,7 +474,7 @@ public final class CombatDefinitions {
 	public void drainSpec(int amount) {
 		usingSpecialAttack = false;
 		refreshUsingSpecialAttack();
-		if (player.getTempAttribs().getB("infSpecialAttack"))
+		if (player.getNSV().getB("infSpecialAttack"))
 			amount = 0;
 		if (amount > 0) {
 			specialAttackPercentage -= amount;
