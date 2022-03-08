@@ -81,6 +81,14 @@ public class EvilChickenD extends Conversation {
                     addNPC(EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Report in, soldier. *bwaaak*");
                     addNext(getStage("startHuntOps"));
                 }
+            } else {
+                addNPC(EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Report in, soldier. *bwaaak*");
+                if (player.getInventory().containsItem(24148, 5)) {
+                    addNPC(CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
+                    addNPC(CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes.");
+                    //TODO - offer to buy mask
+
+                }
             }
         }
 
