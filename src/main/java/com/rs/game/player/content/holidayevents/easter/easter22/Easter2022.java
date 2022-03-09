@@ -1,32 +1,22 @@
 package com.rs.game.player.content.holidayevents.easter.easter22;
 
-import com.google.errorprone.annotations.Var;
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.commands.Commands;
-import com.rs.game.player.content.holidayevents.easter.EasterEggSpawning;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.handlers.ItemEquipHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
-import java.sql.Array;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @PluginEventHandler
 public class Easter2022 {
@@ -75,31 +65,36 @@ public class Easter2022 {
 
 //    @ServerStartupEvent
     public static void EasterEvent2022() {
-        if (!ENABLED)
-            return;
-
-        long currentDate = Instant.now().getEpochSecond();
+        AtomicLong currentDate = new AtomicLong(Instant.now().getEpochSecond());
         long startDate = 1648771200; //April 1st - 00:00
         long endDate = 1649635200; //April 11th - 00:00
 
-        if (currentDate >= endDate)
+        if (!ENABLED || currentDate.get() >= endDate)
             return;
 
         //Start 10 ticks after startup, or schedule a task to start on April 1st at 00:00.
-        int ticksToStart = Settings.getConfig().isDebug() ? 10 : (currentDate >= startDate) ? 50 : Ticks.fromSeconds((int)(startDate - currentDate));
-        int ticksToEnd = Ticks.fromSeconds((int)(endDate - currentDate));
+        int ticksToStart = (Settings.getConfig().isDebug() || currentDate.get() >= startDate) ? 10 : Ticks.fromSeconds((int)(startDate - currentDate.get()));
+        int ticksToEnd = Ticks.fromSeconds((int)(endDate - currentDate.get()));
 
-        initEasterSpawns(ticksToEnd);
-        shuffleEggSpawns();
-
-        //TODO - Clear temp attributes "talkedWithEvilChicken" && "talkedWithChocatrice" for online players if a new hunt starts.
-//        WorldTasks.schedule(ticksToStart, () -> {
-//            CoresManager.schedule(() -> {
-//                World.sendWorldMessage("<col=ff0000>News: A new Easter Egg Hunt has begun! Speak with the Evil Chicken or Chocatrice in Varrock Square to start it", false);
-//                //Start a new hunt - Rotate egg spawns
-//                //Reset players hunt progress
-//            }, 0, Ticks.fromHours(2));
-//        });
+        WorldTasks.scheduleTimer(ticksToStart, Ticks.fromHours(2), (interval) -> {
+            if (currentDate.get() >= endDate) {
+                return false;
+            }
+            if (interval == 0)
+                initEasterSpawns(ticksToEnd);
+            shuffleEggSpawns();
+            completedEgg1 = new ArrayList<String>();
+            completedEgg2 = new ArrayList<String>();
+            completedEgg3 = new ArrayList<String>();
+            completedEgg4 = new ArrayList<String>();
+            completedEgg5 = new ArrayList<String>();
+            for (Player p : World.getPlayers()) {
+                p.getTempAttribs().removeB("talkedWithEvilChicken");
+                p.getTempAttribs().removeB("talkedWithChocatrice");
+            }
+            World.sendWorldMessage("<col=ff0000>News: A new Easter Egg Hunt has begun! Speak with the Evil Chicken or Chocatrice in Varrock Square to start it.", false);
+            return true;
+        });
     }
 
     private static void shuffleEggSpawns() {

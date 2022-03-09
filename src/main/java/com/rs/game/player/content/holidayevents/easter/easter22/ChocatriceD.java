@@ -19,21 +19,38 @@ public class ChocatriceD extends Conversation {
         super(player);
         if (player.getTempAttribs().getB("talkedWithEvilChicken") && !player.getTempAttribs().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "You already spoke to that Evil Chicken! What lies has he told you? Forget them - trust only Chocatrice!");
-            addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Chocatrice is hosting this year's Easter hunt. No more annoying bunnies or pesky, nasty little squirrels.");
-            addPlayer(HeadE.CALM_TALK, "Shouldn't the Easter bunny be hosting it?");
         } else if (!player.getTempAttribs().getB("talkedWithEvilChicken") && !player.getTempAttribs().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Good - you haven't spoken to that Evil Chicken yet. Nasty, lying chicken, that one. " +
                     "Think he's better than Chocatrice because he's made of flesh and feathers. You talk with Chocatrice; you trust Chocatrice.");
             addPlayer(HeadE.CALM_TALK, "What are you two doing here?");
-            addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Chocatrice is hosting this year's Easter hunt. No more annoying bunnies or pesky, nasty little squirrels.");
             player.getTempAttribs().setB("talkedWithChocatrice", true);
-        } else if (!player.getTempAttribs().getB("talkedWithEvilChicken") && player.getTempAttribs().getB("talkedWithChocatrice")) {
+        } else if (player.getTempAttribs().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hello again, " + player.getDisplayName());
 
             if (Easter2022.hasCompletedHunt(player)) {
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes.");
             }
+
+            if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
+                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Good work, you must enjoy smashing those eggs. Seeing you've been so helpfully destructive I can enchant your Eggsterminator so that it will last after Easter. " +
+                        "Want me to do that for you?");
+                addOptions(new Options("unlockPermanent", ChocatriceD.this) {
+                    @Override
+                    public void create() {
+                        option("Yes", new Dialogue()
+                                .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
+                                .addNext(() -> {
+                                    player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
+                                    player.getInventory().addItemDrop(Easter2022.PERMANENT_EGGSTERMINATOR, 1);
+                                })
+                                .addGotoStage("huntOps", ChocatriceD.this)
+                        );
+                        option("No", new Dialogue().addGotoStage("continued", ChocatriceD.this));
+                    }
+                });
+            }
+            create("continued");
 
             if (player.getInventory().containsItem(Easter2022.CHOCOTREAT, 3) && !player.getDiangoReclaim().contains(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK)) {
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Excellent! Three delicious chocotreats for me. May I have them?");
@@ -55,6 +72,7 @@ public class ChocatriceD extends Conversation {
             addNext(new StageSelectDialogue("huntOps", this));
         }
 
+        addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Chocatrice is hosting this year's Easter hunt. No more annoying bunnies or pesky, nasty little squirrels.");
         addPlayer(HeadE.CALM_TALK, "Shouldn't the Easter bunny be hosting it?");
         addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Oh, you not heard? Easter Bunny had an accident. Poor Easter Bunny fell down White Wolf Mountain with a boulder tied to his feet. " +
                 "Poor, poor Easter Bunny. So sad. Chocatrice saw the whole thing. Most messy.");
@@ -98,7 +116,7 @@ public class ChocatriceD extends Conversation {
                             .addNext(() -> {
                                 player.getInventory().addItem(Easter2022.EGGSTERMINATOR, 1);
                             })
-                            .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
+                            .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
                             .addSimple("These eggs can be found around Runescape. You can search for them yourself or with your friends.") //Information can also be found on the Runescape official forums.
                             .addSimple("Finding all 5 eggs in a single hunt will unlock additional rewards.")); //Some eggs only appear in members parts of the world, so only members gain these additional benefits.
                 } else {
@@ -128,11 +146,11 @@ public class ChocatriceD extends Conversation {
                         option("Mask rewards", new Dialogue()
                                 .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "If you gather 3 scrumptious chocotreats for me I'll trade them for a chocolate egg on face mask."));
                         option("Eggsterminator (permanent)", new Dialogue()
-                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Complete 3 hunts to be rewarded with a permanent Eggsterminator."));
+                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The Eggsterminator you have will melt after the Easter period as it's made of chocolate. If you find all five eggs in a single hunt, and do this three times " +
+                                        "I'll see if I can go about enchanting it."));
                         option("Treats and XP lamps", new Dialogue()
                                 .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Every time you turn a chocochick into a chocotreat you can either eat it, or keep it. If you gather 3 scrumptious chocotreats for me I'll trade them for a chocolate egg on face mask.")
                                 .addItem(Easter2022.XP_LAMP, "Players will also gain an experience lamp if they find all five eggs in a single hunt."));
-                        //TODO THIS STATEMENT IS NOT GOING BACK TO HUNTOPS
                         option("Talk about something else.", new Dialogue()
                                 .addGotoStage("huntOps", ChocatriceD.this));
                     }
