@@ -16,32 +16,36 @@
 //
 package com.rs.game.tasks;
 
+import com.rs.lib.util.Logger;
+
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
-
-import com.rs.lib.util.Logger;
 
 public class WorldTasks {
 
 	private static final List<WorldTaskInformation> TASKS = Collections.synchronizedList(new LinkedList<>());
 
 	public static void processTasks() {
-		for (WorldTaskInformation task : TASKS.toArray(new WorldTaskInformation[TASKS.size()]))
+		Iterator<WorldTaskInformation> iterator = TASKS.iterator();
+		while (iterator.hasNext()) {
+			WorldTaskInformation task = iterator.next();
+			if (task.currDelay > 0) {
+				task.currDelay--;
+				continue;
+			}
 			try {
-				if (task.currDelay > 0) {
-					task.currDelay--;
-					continue;
-				}
 				task.task.run();
-				if (task.task.needRemove)
-					TASKS.remove(task);
-				else
-					task.currDelay = task.loopDelay;
 			} catch (Throwable e) {
 				Logger.handle(e);
 			}
+			if (task.task.needRemove)
+				iterator.remove();
+			else
+				task.currDelay = task.loopDelay;
+		}
 	}
 
 	public static void schedule(WorldTask task, int startDelay, int loopDelay) {
