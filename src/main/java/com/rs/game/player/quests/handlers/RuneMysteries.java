@@ -23,6 +23,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
@@ -247,15 +248,11 @@ public class RuneMysteries extends QuestOutline {
 					}
 				});
 			if (e.getOption().equalsIgnoreCase("teleport")) {
-				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
-					}
-				}, 2);
+				if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+					e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
+					return;
+				}
+				RunecraftingAltar.handleEssTele(e.getPlayer(), e.getNPC());
 			}
 		}
 	};
@@ -267,15 +264,11 @@ public class RuneMysteries extends QuestOutline {
 				ShopsHandler.openShop(e.getPlayer(), "auburys_rune_shop");
 				break;
 			case "Teleport":
-				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
-					}
-				}, 2);
+				if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+					e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
+					return;
+				}
+				RunecraftingAltar.handleEssTele(e.getPlayer(), e.getNPC());
 				break;
 			case "Talk-to":
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -348,17 +341,15 @@ public class RuneMysteries extends QuestOutline {
 									option("No thanks", () -> {
 
 									});
-									option("Can you teleport me to the rune essence?", () -> {
-										e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-										World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-										WorldTasks.schedule(new WorldTask() {
-											@Override
-											public void run() {
-												e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-												e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
+									if (e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+										option("Can you teleport me to the rune essence?", () -> {
+											if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+												e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
+												return;
 											}
-										}, 2);
-									});
+											RunecraftingAltar.handleEssTele(e.getPlayer(), e.getNPC());
+										});
+									}
 								}
 							});
 							break;

@@ -76,6 +76,7 @@ import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StartDialogue;
 import com.rs.game.player.managers.*;
+import com.rs.game.player.miniquests.MiniquestManager;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestManager;
 import com.rs.game.player.social.FCManager;
@@ -319,6 +320,7 @@ public class Player extends Entity {
 	private PetManager petManager;
 	private BossTask bossTask;
 	private QuestManager questManager;
+	private MiniquestManager miniquestManager;
 	private TreasureTrailsManager treasureTrailsManager;
 	private Map<Integer, Offer> geOffers = new HashMap<>();
 
@@ -565,6 +567,7 @@ public class Player extends Entity {
 		petManager = new PetManager();
 		treasureTrailsManager = new TreasureTrailsManager();
 		questManager = new QuestManager();
+		miniquestManager = new MiniquestManager();
 		dungManager = new DungManager(this);
 		pouchesType = new boolean[4];
 		runEnergy = 100;
@@ -627,6 +630,9 @@ public class Player extends Entity {
 		appearence.setPlayer(this);
 		treasureTrailsManager.setPlayer(this);
 		questManager.setPlayer(this);
+		if (miniquestManager == null)
+			miniquestManager = new MiniquestManager();
+		miniquestManager.setPlayer(this);
 		inventory.setPlayer(this);
 		equipment.setPlayer(this);
 		skills.setPlayer(this);
@@ -1227,6 +1233,7 @@ public class Player extends Entity {
 		Toolbelt.refreshToolbelt(this);
 		questManager.unlockQuestTabOptions();
 		questManager.updateAllQuestStages();
+		miniquestManager.updateAllStages();
 		getPackets().sendGameBarStages(this);
 		musicsManager.init();
 		emotesManager.refreshListConfigs();
@@ -3392,8 +3399,8 @@ public class Player extends Entity {
 		return questManager;
 	}
 
-	public void setQuestManager(QuestManager questManager) {
-		this.questManager = questManager;
+	public MiniquestManager getMiniquestManager() {
+		return miniquestManager;
 	}
 
 	public boolean isSlayerHelmCreation() {

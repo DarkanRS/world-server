@@ -18,9 +18,13 @@ package com.rs.game.player.content.skills.runecrafting;
 
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
+import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.Dialogue;
+import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.controllers.WildernessController;
+import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
@@ -361,36 +365,26 @@ public class RunecraftingAltar {
 		}
 	};
 
-	public static NPCClickHandler handleMageOfZamorak = new NPCClickHandler(new Object[] { 2257 }) {
+	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 462 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Trade":
-				ShopsHandler.openShop(e.getPlayer(), "zamorak_mage_shop");
-				break;
-			case "Talk-to":
-				Abyss.teleport(e.getPlayer(), e.getNPC());
-				break;
+			if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+				e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
+				return;
 			}
+			handleEssTele(e.getPlayer(), e.getNPC());
 		}
 	};
 
-	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 462 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Teleport":
-				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
-					}
-				}, 2);
-				break;
+	public static void handleEssTele(Player player, NPC npc) {
+		npc.setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
+		World.sendProjectile(npc, player, 50, 5, 5, 5, 1, 5, 0);
+		WorldTasks.schedule(new WorldTask() {
+			@Override
+			public void run() {
+				player.setNextWorldTile(new WorldTile(2911, 4832, 0));
+				player.lastEssTele = new WorldTile(npc.getTile());
 			}
-		}
-	};
+		}, 2);
+	}
 }
