@@ -210,7 +210,8 @@ public enum Quest {
 	LET_THEM_EAT_PIE(200, 188),
 	ELDER_KILN(201, 190),
 	FIREMAKERS_CURSE(199, 191),
-	SONG_FROM_DEPTHS(202, 192);
+	SONG_FROM_DEPTHS(202, 192)
+	;
 
 	private static HashMap<Integer, Quest> QUESTS_BY_ID = new HashMap<>();
 	private static HashMap<Integer, Quest> QUESTS_BY_SLOTID = new HashMap<>();
