@@ -388,7 +388,7 @@ public class RunecraftingAltar {
 		WorldTasks.scheduleTimer(0, 0, tick -> {
 			switch(tick) {
 				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5, 0);
-				case 1 -> player.setNextSpotAnim(new SpotAnim(110, 30, 96));
+				case 1 -> player.setNextSpotAnim(new SpotAnim(110, 35, 96));
 				case 3 -> {
 					if (player.getInventory().containsItem(5519, 1)) {
 						Item item = player.getInventory().getItemById(5519);
