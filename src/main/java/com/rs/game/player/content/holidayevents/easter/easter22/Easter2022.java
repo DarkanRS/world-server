@@ -7,12 +7,15 @@ import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
+import com.rs.game.player.Player;
 import com.rs.game.player.content.commands.Commands;
+import com.rs.game.player.content.holidayevents.easter.EasterEggSpawning;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.ItemEquipEvent;
@@ -20,6 +23,7 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
+import java.sql.Array;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +32,14 @@ import java.util.List;
 public class Easter2022 {
 
     public static String STAGE_KEY = "easter2022";
+
     public static final int EGGSTERMINATOR = 24145;
     public static final int PERMANENT_EGGSTERMINATOR = 24146;
+
+    public static final int CHOCOTREAT = 24148;
+    public static final int EVIL_DRUMSTICK = 24147;
+    public static final int EGG_ON_FACE_MASK = 24149;
+    public static final int CHOCOLATE_EGG_ON_FACE_MASK = 24150;
 
     public static final int XP_LAMP = 2528;
 
@@ -43,11 +53,13 @@ public class Easter2022 {
     public static final int EVIL_CHICKEN = 15262;
     public static final int CHOCATRICE = 15259;
 
-    List<String> completedEgg1 = new ArrayList<String>();
-    List<String> completedEgg2 = new ArrayList<String>();
-    List<String> completedEgg3 = new ArrayList<String>();
-    List<String> completedEgg4 = new ArrayList<String>();
-    List<String> completedEgg5 = new ArrayList<String>();
+    public static List<EasterEgg.Spawns> currentEggs = new ArrayList<EasterEgg.Spawns>();
+
+    private static List<String> completedEgg1 = new ArrayList<String>();
+    private static List<String> completedEgg2 = new ArrayList<String>();
+    private static List<String> completedEgg3 = new ArrayList<String>();
+    private static List<String> completedEgg4 = new ArrayList<String>();
+    private static List<String> completedEgg5 = new ArrayList<String>();
 
     /*
      *   Runescape 2012 Easter event - Chocatrice vs Evil Chicken.
@@ -74,7 +86,9 @@ public class Easter2022 {
         int ticksToEnd = Ticks.fromSeconds((int)(endDate - currentDate));
 
         initEasterSpawns(ticksToEnd);
+        shuffleEggSpawns();
 
+        //TODO - Clear temp attributes "talkedWithEvilChicken" && "talkedWithChocatrice" for online players if a new hunt starts.
 //        WorldTasks.schedule(ticksToStart, () -> {
 //            CoresManager.schedule(() -> {
 //                World.sendWorldMessage("<col=ff0000>News: A new Easter Egg Hunt has begun! Speak with the Evil Chicken or Chocatrice in Varrock Square to start it", false);
@@ -84,8 +98,55 @@ public class Easter2022 {
 //        });
     }
 
-    public static void crackEgg(GameObject egg) {
+    private static void shuffleEggSpawns() {
+        if (!currentEggs.isEmpty()) {
+            for (int i = 0; i < currentEggs.size(); i++) {
+                currentEggs.remove(i);
+            }
+        }
 
+        int counter = 0;
+        while (currentEggs.size() < 5 || counter < 25) {
+            counter++;
+            int random = Utils.random(EasterEgg.Spawns.values().length);
+            if (!currentEggs.contains(EasterEgg.Spawns.values()[random]))
+                currentEggs.add(EasterEgg.Spawns.values()[random]);
+        }
+    }
+
+    public static void foundEgg(Player p, GameObject o) {
+        EasterEgg.Spawns loc = EasterEgg.Spawns.isLocation(o.getX(), o.getY(), o.getPlane());
+        if (loc == null)
+            return;
+        if (currentEggs.contains(loc)) {
+            switch (currentEggs.indexOf(loc)) {
+                case 0 -> completedEgg1.add(p.getUsername());
+                case 1 -> completedEgg2.add(p.getUsername());
+                case 2 -> completedEgg3.add(p.getUsername());
+                case 3 -> completedEgg4.add(p.getUsername());
+                case 4 -> completedEgg5.add(p.getUsername());
+            }
+        }
+    }
+
+    public static boolean hasFoundHintEgg(Player p) {
+        if (completedEgg1.contains(p.getUsername()))
+            return true;
+        return false;
+    }
+
+    public static boolean hasCompletedHunt(Player p) {
+        if (!completedEgg1.contains(p.getUsername()))
+            return false;
+        if (!completedEgg2.contains(p.getUsername()))
+            return false;
+        if (!completedEgg3.contains(p.getUsername()))
+            return false;
+        if (!completedEgg4.contains(p.getUsername()))
+            return false;
+        if (!completedEgg5.contains(p.getUsername()))
+            return false;
+        return true;
     }
 
     public static void initEasterSpawns(int ticksToEnd) {

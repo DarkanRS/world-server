@@ -2,8 +2,13 @@ package com.rs.game.player.content.holidayevents.easter.easter22;
 
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
+import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 
 public class EvilChickenD extends Conversation {
 
@@ -78,11 +83,27 @@ public class EvilChickenD extends Conversation {
                 }
             } else {
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Report in, soldier. *bwaaak*");
-                if (player.getInventory().containsItem(24148, 5)) {
-                    addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
-                    addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes.");
-                    //TODO - offer to buy mask
 
+                //TODO - Check if the player has completed this hunt
+                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
+                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes.");
+
+                if (player.getInventory().containsItem(Easter2022.EVIL_DRUMSTICK, 3)) {
+                    addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You have three succulent drumsticks on you. May I have them?");
+                    addOptions(new Options("buyMask", this) {
+                        @Override
+                        public void create() {
+                            option("Yes", () -> {
+                                player.getInventory().deleteItem(Easter2022.EVIL_DRUMSTICK, 3);
+                                player.addDiangoReclaimItem(Easter2022.EGG_ON_FACE_MASK);
+                                player.getInventory().addItemDrop(Easter2022.EGG_ON_FACE_MASK, 1);
+                                addItem(Easter2022.EGG_ON_FACE_MASK, "You receive the egg on face mask.").addGotoStage("rewardOps", EvilChickenD.this);
+                            });
+                            option("No", () -> {
+                                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "*bwaaak*").addGotoStage("rewardOps", EvilChickenD.this);
+                            });
+                        }
+                    });
                 }
             }
         }
@@ -102,4 +123,27 @@ public class EvilChickenD extends Conversation {
         addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Deep-fry it with the cannon! *bwaaak* *bwaaak* *bwaaak*");
         addOptions(eventDetailsOps);
     }
+
+    public static NPCClickHandler handleEvilChicken = new NPCClickHandler(new Object[] { Easter2022.EVIL_CHICKEN }) {
+        @Override
+        public void handle(NPCClickEvent e) {
+            if (e.getOption().equals("Talk to")) {
+                e.getPlayer().startConversation(new ChocatriceD(e.getPlayer()));
+            }
+        }
+    };
+
+    public static ItemOnNPCHandler handleItemOnEvilChicken= new ItemOnNPCHandler(new Object[] { Easter2022.CHOCATRICE }) {
+        @Override
+        public void handle(ItemOnNPCEvent e) {
+            if (e.getItem().getId() == Easter2022.CHOCOLATE_EGG_ON_FACE_MASK)
+                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "That mask is unflattering and makes you look fat."));
+            if (e.getItem().getId() == Easter2022.EGG_ON_FACE_MASK)
+                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "That mask is *entirely* homemade. *bwaaak*"));
+            if (e.getItem().getId() == Easter2022.CHOCOTREAT)
+                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Eurgh - disgusting! Do you know that chocolate is my one weakness?"));
+            if (e.getItem().getId() == Easter2022.EVIL_DRUMSTICK)
+                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Tasty."));
+        }
+    };
 }

@@ -1,16 +1,5 @@
 package com.rs.game.player.content.holidayevents.easter.easter22;
 
-import com.rs.game.Entity;
-import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.object.GameObject;
-import com.rs.game.player.Player;
-import com.rs.game.player.actions.EntityInteractionAction;
-import com.rs.game.player.content.combat.AttackStyle;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.NPCClickEvent;

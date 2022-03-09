@@ -94,7 +94,7 @@ public class EasterEgg {
             return hint;
         }
 
-        public Spawns isLocation(int x, int y, int plane) {
+        public static Spawns isLocation(int x, int y, int plane) {
             for (Spawns spawn : Spawns.values()) {
                 if (spawn.getTile().getX() == x && spawn.getTile().getY() == y && spawn.getTile().getPlane() == plane)
                     return spawn;
