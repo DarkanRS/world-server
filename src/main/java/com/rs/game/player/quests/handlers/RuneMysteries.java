@@ -23,6 +23,7 @@ import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
+import com.rs.game.player.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
@@ -142,140 +143,120 @@ public class RuneMysteries extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler handleSedridor= new NPCClickHandler(new Object[] { 300 }) {
+	public static NPCClickHandler handleSedridor = new NPCClickHandler(new Object[]{300}, new String[]{"Talk-to"}) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					{
-						addNPC(e.getNPCId(), HeadE.CALM, "Welcome, adventurer, to the world-renowned Wizard's Tower. How may I help you?");
-						addOptions(new Options() {
-							@Override
-							public void create() {
-								if(player.getQuestManager().getStage(Quest.RUNE_MYSTERIES) == 1)
-									if(player.getInventory().containsItem(15361))
-										option(" I'm looking for the head wizard.", new Dialogue()
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "That's me, but why would you be doing that?")
-												.addPlayer(HeadE.CALM_TALK, "The Duke of Lumbridge sent me to find him...er, you. I have a weird talisman that the " +
-														"Duke found. He said the head wizard would be interested in it.")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Did he now? Well, that IS interesting, Hand it over, then, adventurer – let me see what " +
-														"all the hubbub is about. Just some crude amulet, I'll wager.")
-												.addPlayer(HeadE.CALM_TALK, "Okay, here you go.")
-												.addSimple("You give the talisman to the wizard.")
-												.addNPC(SEDRIDOR, HeadE.AMAZED, "Wow! This is incredible! Th-this talisman you brought me...it is the last piece of the " +
-														"puzzle. Finally!")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "I require a specialist to investigate the talisman. Will you take it to him?")
-												.addOptions(new Options() {
-													@Override
-													public void create() {
-														option("Yes, certainly", new Dialogue()
-																.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Take this package to Varrock, the large city north of Lumbridge. " +
-																		"Aubury's rune shop is in the south-east quarter. ")
-																.addNPC(SEDRIDOR, HeadE.CALM_TALK, "He will give you a special item. Bring it back to me and I will " +
-																		"show you the mystery of runes.")
-																.addSimple("The head wizard gives you a research package.")
-																.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Best of luck with your quest")
-																.addNext(()->{
-																	player.getInventory().deleteItem(15361, 1);
-																	player.getInventory().addItem(new Item(290, 1), true);
-																	player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 2, true);
-																}));
-														option("No, i'm busy", ()->{});
-													}
-												}));
-									else
-										option(" I'm looking for the head wizard.", new Dialogue()
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "That's me, but why would you be doing that?")
-												.addPlayer(HeadE.CALM_TALK, "The Duke of Lumbridge sent me to find him...er, you. I have a weird talisman that the " +
-														"Duke found. He said the head wizard would be interested in it.")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Did he now? Well, that IS interesting, Hand it over, then, adventurer – let me see what " +
-														"all the hubbub is about. Just some crude amulet, I'll wager.")
-												.addPlayer(HeadE.CALM_TALK, "Darn, I don't have it")
-												.addNPC(SEDRIDOR, HeadE.SKEPTICAL_THINKING, "...")
-												.addPlayer(HeadE.NO_EXPRESSION, "... ..."));
-								if(player.getQuestManager().getStage(Quest.RUNE_MYSTERIES) == 2)
-									if(!player.getInventory().containsItem(290))
-										option("About that package...", new Dialogue()
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "You lost it?")
-												.addPlayer(HeadE.SAD, "Yes...")
-												.addSimple("The head wizard gives you a research package.")
-												.addNext(()->{
-													player.getInventory().addItem(new Item(290, 1), true);
-												}));
-								if(player.getQuestManager().getStage(Quest.RUNE_MYSTERIES) == 3)
-									if(player.getInventory().containsItem(291))
-										option("About Aubury's research notes", new Dialogue()
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "What did Aubury say?")
-												.addPlayer(HeadE.SAD, "He gave me some research notes to pass on to you.")
-												.addSimple("You give him the notes")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "You have been nothing but helpful, adventurer. In return, I can let you " +
-														"in on the secret of our research. ")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "we are developing a way to create runes from raw material")
-												.addPlayer(HeadE.HAPPY_TALKING, "Oh neat-o!")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Yes, we are the only ones to know where the materials are")
-												.addPlayer(HeadE.CALM_TALK, "Does that mean that you are the only once who know the teleport spell?")
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Yes, also, i'm willing to take you there")
-												.addSimple("He hands you a air talisman")
-												.addNext(()->{
-													player.getInventory().deleteItem(291, 1);
-													player.getInventory().addItem(1438, 1);
-													player.getQuestManager().completeQuest(Quest.RUNE_MYSTERIES);
-												})
-												);
-									else
-										option("About Aubury's research notes", new Dialogue()
-												.addNPC(SEDRIDOR, HeadE.CALM_TALK, "What did Aubury say?")
-												.addPlayer(HeadE.SAD, "He said to bring research notes but I lost them...")
-												.addNPC(SEDRIDOR, HeadE.NO_EXPRESSION, "..."));
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+				{
+					addNPC(e.getNPCId(), HeadE.CALM, "Welcome, adventurer, to the world-renowned Wizard's Tower. How may I help you?");
+					addOptions(new Options() {
+						@Override
+						public void create() {
+							if (player.getQuestManager().getStage(Quest.RUNE_MYSTERIES) == 1)
+								if (player.getInventory().containsItem(15361))
+									option(" I'm looking for the head wizard.", new Dialogue()
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "That's me, but why would you be doing that?")
+											.addPlayer(HeadE.CALM_TALK, "The Duke of Lumbridge sent me to find him...er, you. I have a weird talisman that the " +
+													"Duke found. He said the head wizard would be interested in it.")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Did he now? Well, that IS interesting, Hand it over, then, adventurer – let me see what " +
+													"all the hubbub is about. Just some crude amulet, I'll wager.")
+											.addPlayer(HeadE.CALM_TALK, "Okay, here you go.")
+											.addSimple("You give the talisman to the wizard.")
+											.addNPC(SEDRIDOR, HeadE.AMAZED, "Wow! This is incredible! Th-this talisman you brought me...it is the last piece of the " +
+													"puzzle. Finally!")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "I require a specialist to investigate the talisman. Will you take it to him?")
+											.addOptions(new Options() {
+												@Override
+												public void create() {
+													option("Yes, certainly", new Dialogue()
+															.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Take this package to Varrock, the large city north of Lumbridge. " +
+																	"Aubury's rune shop is in the south-east quarter. ")
+															.addNPC(SEDRIDOR, HeadE.CALM_TALK, "He will give you a special item. Bring it back to me and I will " +
+																	"show you the mystery of runes.")
+															.addSimple("The head wizard gives you a research package.")
+															.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Best of luck with your quest")
+															.addNext(() -> {
+																player.getInventory().deleteItem(15361, 1);
+																player.getInventory().addItem(new Item(290, 1), true);
+																player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 2, true);
+															}));
+													option("No, i'm busy", () -> {
+													});
+												}
+											}));
+								else
+									option(" I'm looking for the head wizard.", new Dialogue()
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "That's me, but why would you be doing that?")
+											.addPlayer(HeadE.CALM_TALK, "The Duke of Lumbridge sent me to find him...er, you. I have a weird talisman that the " +
+													"Duke found. He said the head wizard would be interested in it.")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Did he now? Well, that IS interesting, Hand it over, then, adventurer – let me see what " +
+													"all the hubbub is about. Just some crude amulet, I'll wager.")
+											.addPlayer(HeadE.CALM_TALK, "Darn, I don't have it")
+											.addNPC(SEDRIDOR, HeadE.SKEPTICAL_THINKING, "...")
+											.addPlayer(HeadE.NO_EXPRESSION, "... ..."));
+							if (player.getQuestManager().getStage(Quest.RUNE_MYSTERIES) == 2)
+								if (!player.getInventory().containsItem(290))
+									option("About that package...", new Dialogue()
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "You lost it?")
+											.addPlayer(HeadE.SAD, "Yes...")
+											.addSimple("The head wizard gives you a research package.")
+											.addNext(() -> {
+												player.getInventory().addItem(new Item(290, 1), true);
+											}));
+							if (player.getQuestManager().getStage(Quest.RUNE_MYSTERIES) == 3)
+								if (player.getInventory().containsItem(291))
+									option("About Aubury's research notes", new Dialogue()
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "What did Aubury say?")
+											.addPlayer(HeadE.SAD, "He gave me some research notes to pass on to you.")
+											.addSimple("You give him the notes")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "You have been nothing but helpful, adventurer. In return, I can let you " +
+													"in on the secret of our research. ")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "we are developing a way to create runes from raw material")
+											.addPlayer(HeadE.HAPPY_TALKING, "Oh neat-o!")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Yes, we are the only ones to know where the materials are")
+											.addPlayer(HeadE.CALM_TALK, "Does that mean that you are the only once who know the teleport spell?")
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "Yes, also, i'm willing to take you there")
+											.addSimple("He hands you a air talisman")
+											.addNext(() -> {
+												player.getInventory().deleteItem(291, 1);
+												player.getInventory().addItem(1438, 1);
+												player.getQuestManager().completeQuest(Quest.RUNE_MYSTERIES);
+											})
+									);
+								else
+									option("About Aubury's research notes", new Dialogue()
+											.addNPC(SEDRIDOR, HeadE.CALM_TALK, "What did Aubury say?")
+											.addPlayer(HeadE.SAD, "He said to bring research notes but I lost them...")
+											.addNPC(SEDRIDOR, HeadE.NO_EXPRESSION, "..."));
 
-								option("What are you doing down here?", new Dialogue()
-										.addNPC(SEDRIDOR, HeadE.CALM_TALK, "That is, indeed, a good question. Here in the cellar of the Wizard's Tower " +
-												"you find the remains of the old Wizards' Tower,")
-										.addNPC(SEDRIDOR, HeadE.CALM_TALK, "destroyed by fire many years past by the treachery of the Zamorakians. " +
-												"Many mysteries were lost, which we are trying to rediscover.")
-										.addNPC(SEDRIDOR, HeadE.CALM_TALK, " By building this tower on the remains of the old, we seek to show the world " +
-												"our dedication to the mysteries of magic.")
-										.addNPC(SEDRIDOR, HeadE.CALM_TALK, " I am here sifting through fragments for knowledge of artefacts of our past.")
-										.addPlayer(HeadE.CALM_TALK, "Have you found anything useful?")
-										.addNPC(SEDRIDOR, HeadE.CALM_TALK, " Ah, that would be telling, adventurer. Anything I have found I cannot speak " +
-												"freely of, for fear of the treachery we have already seen once in the past.")
-										.addPlayer(HeadE.CALM_TALK, "Okay, well, I'll leave you to it"));
-								option("Nothing, thanks. I'm just looking around", () -> {});
-							}
-						});
-						create();
-					}
-				});
-			if (e.getOption().equalsIgnoreCase("teleport")) {
-				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
-					}
-				}, 2);
-			}
+							option("What are you doing down here?", new Dialogue()
+									.addNPC(SEDRIDOR, HeadE.CALM_TALK, "That is, indeed, a good question. Here in the cellar of the Wizard's Tower " +
+											"you find the remains of the old Wizards' Tower,")
+									.addNPC(SEDRIDOR, HeadE.CALM_TALK, "destroyed by fire many years past by the treachery of the Zamorakians. " +
+											"Many mysteries were lost, which we are trying to rediscover.")
+									.addNPC(SEDRIDOR, HeadE.CALM_TALK, " By building this tower on the remains of the old, we seek to show the world " +
+											"our dedication to the mysteries of magic.")
+									.addNPC(SEDRIDOR, HeadE.CALM_TALK, " I am here sifting through fragments for knowledge of artefacts of our past.")
+									.addPlayer(HeadE.CALM_TALK, "Have you found anything useful?")
+									.addNPC(SEDRIDOR, HeadE.CALM_TALK, " Ah, that would be telling, adventurer. Anything I have found I cannot speak " +
+											"freely of, for fear of the treachery we have already seen once in the past.")
+									.addPlayer(HeadE.CALM_TALK, "Okay, well, I'll leave you to it"));
+							option("Nothing, thanks. I'm just looking around", () -> {
+							});
+						}
+					});
+					create();
+				}
+			});
 		}
 	};
-	public static NPCClickHandler handleAubury= new NPCClickHandler(new Object[] { 5913 }) {
+
+	public static NPCClickHandler handleAubury= new NPCClickHandler(new Object[] { 5913 }, new String[] { "Talk-to", "Trade" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
 			case "Trade":
 				ShopsHandler.openShop(e.getPlayer(), "auburys_rune_shop");
-				break;
-			case "Teleport":
-				e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-				World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-						e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
-					}
-				}, 2);
 				break;
 			case "Talk-to":
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -348,17 +329,15 @@ public class RuneMysteries extends QuestOutline {
 									option("No thanks", () -> {
 
 									});
-									option("Can you teleport me to the rune essence?", () -> {
-										e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-										World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
-										WorldTasks.schedule(new WorldTask() {
-											@Override
-											public void run() {
-												e.getPlayer().setNextWorldTile(new WorldTile(2911, 4832, 0));
-												e.getPlayer().lastEssTele = new WorldTile(e.getNPC().getTile());
+									if (e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+										option("Can you teleport me to the rune essence?", () -> {
+											if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+												e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
+												return;
 											}
-										}, 2);
-									});
+											RunecraftingAltar.handleEssTele(e.getPlayer(), e.getNPC());
+										});
+									}
 								}
 							});
 							break;
