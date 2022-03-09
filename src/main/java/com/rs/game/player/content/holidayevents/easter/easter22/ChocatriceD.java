@@ -145,6 +145,8 @@ public class ChocatriceD extends Conversation {
     public static NPCClickHandler handleChocatrice = new NPCClickHandler(new Object[] { Easter2022.CHOCATRICE }) {
         @Override
         public void handle(NPCClickEvent e) {
+            if (!Easter2022.ENABLED)
+                return;
             if (e.getOption().equals("Talk to")) {
                 e.getPlayer().startConversation(new ChocatriceD(e.getPlayer()));
             }
@@ -154,6 +156,8 @@ public class ChocatriceD extends Conversation {
     public static ItemOnNPCHandler handleItemOnChocatrice = new ItemOnNPCHandler(new Object[] { Easter2022.CHOCATRICE }) {
         @Override
         public void handle(ItemOnNPCEvent e) {
+            if (!Easter2022.ENABLED)
+                return;
             if (e.getItem().getId() == Easter2022.CHOCOLATE_EGG_ON_FACE_MASK)
                 e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "In that mask, you look scrumptious. Truly delicious."));
             if (e.getItem().getId() == Easter2022.EGG_ON_FACE_MASK)

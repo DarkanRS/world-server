@@ -32,6 +32,7 @@ import java.util.List;
 public class Easter2022 {
 
     public static String STAGE_KEY = "easter2022";
+    public static Boolean ENABLED = false;
 
     public static final int EGGSTERMINATOR = 24145;
     public static final int PERMANENT_EGGSTERMINATOR = 24146;
@@ -72,8 +73,11 @@ public class Easter2022 {
      *       3 chocolate treats given to the chocatrice -> Chocolate egg on face mask
      */
 
-    @ServerStartupEvent
+//    @ServerStartupEvent
     public static void EasterEvent2022() {
+        if (!ENABLED)
+            return;
+
         long currentDate = Instant.now().getEpochSecond();
         long startDate = 1648771200; //April 1st - 00:00
         long endDate = 1649635200; //April 11th - 00:00
