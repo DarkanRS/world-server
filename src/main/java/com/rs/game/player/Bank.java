@@ -596,9 +596,11 @@ public class Bank {
 		sendItemsOther(other);
 		unlockButtons();
 		player.getPackets().sendItems(93, other.getInventory().getItems());
+		player.getPackets().sendItems(94, other.getEquipment().getItemsCopy());
 		player.getTempAttribs().setB("viewingOtherBank", true);
 		player.setCloseInterfacesEvent(() -> {
 			player.getInventory().refresh();
+			player.getEquipment().refresh();
 		});
 	}
 
