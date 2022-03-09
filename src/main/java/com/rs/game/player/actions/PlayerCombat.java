@@ -2014,7 +2014,7 @@ public class PlayerCombat extends Action {
 					default:
 						return 11979;
 					}
-				if (weaponName.contains("greataxe"))
+				if (weaponName.contains("greataxe") || weaponName.contains("balmung"))
 					switch (attackStyle.getIndex()) {
 					case 2:
 						return 12003;

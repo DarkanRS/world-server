@@ -45,11 +45,26 @@ public class Fishing extends Action {
 
     static {
         FISHING_SPOTS.put(312, new FishingSpot[]{FishingSpot.LOBSTER, FishingSpot.TUNA_SWORDFISH});
+        FISHING_SPOTS.put(1332, new FishingSpot[]{FishingSpot.LOBSTER, FishingSpot.TUNA_SWORDFISH});
+        FISHING_SPOTS.put(5470, new FishingSpot[]{FishingSpot.LOBSTER, FishingSpot.TUNA_SWORDFISH});
+        FISHING_SPOTS.put(7046, new FishingSpot[]{FishingSpot.LOBSTER, FishingSpot.TUNA_SWORDFISH});
         FISHING_SPOTS.put(313, new FishingSpot[]{FishingSpot.BIG_NET, FishingSpot.SHARK});
+        FISHING_SPOTS.put(1333, new FishingSpot[]{FishingSpot.BIG_NET, FishingSpot.SHARK});
+        FISHING_SPOTS.put(5471, new FishingSpot[]{FishingSpot.BIG_NET, FishingSpot.SHARK});
+        FISHING_SPOTS.put(3574, new FishingSpot[]{FishingSpot.BIG_NET, FishingSpot.SHARK});
+        FISHING_SPOTS.put(3575, new FishingSpot[]{FishingSpot.BIG_NET, FishingSpot.SHARK});
+        FISHING_SPOTS.put(7044, new FishingSpot[]{FishingSpot.BIG_NET, FishingSpot.SHARK});
         FISHING_SPOTS.put(317, new FishingSpot[]{FishingSpot.FLY_FISHING, FishingSpot.PIKE});
+        FISHING_SPOTS.put(315, new FishingSpot[]{FishingSpot.FLY_FISHING, FishingSpot.PIKE});
+        FISHING_SPOTS.put(309, new FishingSpot[]{FishingSpot.FLY_FISHING, FishingSpot.PIKE});
+        FISHING_SPOTS.put(326, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
         FISHING_SPOTS.put(323, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
+        FISHING_SPOTS.put(7045, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
         FISHING_SPOTS.put(324, new FishingSpot[]{FishingSpot.LOBSTER, FishingSpot.TUNA_SWORDFISH});
+        FISHING_SPOTS.put(3804, new FishingSpot[]{FishingSpot.LOBSTER, FishingSpot.TUNA_SWORDFISH});
         FISHING_SPOTS.put(325, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
+        FISHING_SPOTS.put(2724, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
+        FISHING_SPOTS.put(1331, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
         FISHING_SPOTS.put(327, new FishingSpot[]{FishingSpot.SHRIMP, FishingSpot.SEA_BAIT});
         FISHING_SPOTS.put(328, new FishingSpot[]{FishingSpot.FLY_FISHING, FishingSpot.PIKE});
         FISHING_SPOTS.put(329, new FishingSpot[]{FishingSpot.FLY_FISHING, FishingSpot.PIKE});
@@ -63,6 +78,7 @@ public class Fishing extends Action {
         FISHING_SPOTS.put(8841, new FishingSpot[]{FishingSpot.CAVEFISH});
         FISHING_SPOTS.put(8842, new FishingSpot[]{FishingSpot.ROCKTAIL});
         FISHING_SPOTS.put(14907, new FishingSpot[]{FishingSpot.CRAYFISH});
+        FISHING_SPOTS.put(7862, new FishingSpot[]{FishingSpot.CRAYFISH});
         FISHING_SPOTS.put(15020, new FishingSpot[]{FishingSpot.LAVA_EEL});
     }
 

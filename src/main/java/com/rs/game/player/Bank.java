@@ -16,11 +16,6 @@
 //
 package com.rs.game.player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -36,6 +31,11 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemExamines;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class Bank {
@@ -725,6 +725,8 @@ public class Bank {
 			for (int i = 0; i < space; i++) {
 				if (items[i] == null)
 					continue;
+				if (items[i].getDefinitions().isNoted() && items[i].getDefinitions().getCertId() != -1)
+					items[i].setId(items[i].getDefinitions().getCertId());
 				addItem(items[i], false);
 			}
 			if (refresh) {
