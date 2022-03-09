@@ -20,13 +20,14 @@ import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -37,7 +38,8 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
 
 @PluginEventHandler
 public class RunecraftingAltar {
@@ -365,7 +367,7 @@ public class RunecraftingAltar {
 		}
 	};
 
-	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 462 }, new String[] { "Teleport" }) {
+	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 171, 300, 462, 844, 5913 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
@@ -378,13 +380,41 @@ public class RunecraftingAltar {
 
 	public static void handleEssTele(Player player, NPC npc) {
 		npc.setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-		World.sendProjectile(npc, player, 50, 5, 5, 5, 1, 5, 0);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextWorldTile(new WorldTile(2911, 4832, 0));
-				player.lastEssTele = new WorldTile(npc.getTile());
+		npc.resetWalkSteps();
+		npc.faceEntity(player);
+		npc.setNextAnimation(new Animation(722));
+		npc.setNextSpotAnim(new SpotAnim(108, 0, 96));
+		player.lock();
+		WorldTasks.scheduleTimer(0, 0, tick -> {
+			switch(tick) {
+				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5, 0);
+				case 1 -> player.setNextSpotAnim(new SpotAnim(110, 30, 96));
+				case 3 -> {
+					if (player.getInventory().containsItem(5519, 1)) {
+						Item item = player.getInventory().getItemById(5519);
+						if (item != null) {
+							ArrayList<Double> visited = item.getMetaDataO("visited");
+							if (visited == null)
+								visited = new ArrayList<>();
+							if (!visited.contains((double) npc.getId()))
+								visited.add((double) npc.getId());
+							item.setMetaDataO("visited", visited);
+							player.sendMessage("The orb in your inventory glows as it absorbs the teleport information. It contains " + visited.size() + " locations.");
+							if (visited.size() >= 3) {
+								item.setId(5518);
+								item.deleteMetaData();
+								player.getInventory().refresh();
+								player.sendMessage("The orb in your inventory glows brightly. It looks like it's gathered enough information.");
+							}
+						}
+					}
+					player.unlock();
+					player.setNextWorldTile(new WorldTile(2911, 4832, 0));
+					player.lastEssTele = new WorldTile(npc.getTile());
+					return false;
+				}
 			}
-		}, 2);
+			return true;
+		});
 	}
 }
