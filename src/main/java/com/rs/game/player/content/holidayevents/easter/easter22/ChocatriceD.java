@@ -46,9 +46,9 @@ public class ChocatriceD extends Conversation {
                             player.getInventory().addItemDrop(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, 1);
                             addItem(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, "You receive the chocolate egg on face mask.").addGotoStage("huntOps", ChocatriceD.this);
                         });
-                        option("No", () -> {
-                            addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "*bwaaak*").addGotoStage("huntOps", ChocatriceD.this);
-                        });
+                        option("No", new Dialogue()
+                                .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "*bwaaak*")
+                                .addGotoStage("huntOps", ChocatriceD.this));
                     }
                 });
             }
@@ -80,8 +80,9 @@ public class ChocatriceD extends Conversation {
                public void create() {
                    option("Chocolate does sound better.",
                            new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Yes... Delicious, scrummy, tasty chocolate.").addGotoStage("declareWar", ChocatriceD.this));
-                   option("I'm more of a friend chicken kind of " + (player.getAppearance().isMale() ? "guy." : "gal."),
-                           new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "No! Why deep-fry when you can smother in chocolate and marshmallow? Death by chocolate!").addGotoStage("declareWar", ChocatriceD.this));
+                   option("I'm more of a friend chicken kind of " + (player.getAppearance().isMale() ? "guy." : "gal."), new Dialogue()
+                           .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "No! Why deep-fry when you can smother in chocolate and marshmallow? Death by chocolate!")
+                           .addGotoStage("declareWar", ChocatriceD.this));
                }
         });
 
@@ -132,9 +133,8 @@ public class ChocatriceD extends Conversation {
                                 .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Every time you turn a chocochick into a chocotreat you can either eat it, or keep it. If you gather 3 scrumptious chocotreats for me I'll trade them for a chocolate egg on face mask.")
                                 .addItem(Easter2022.XP_LAMP, "Players will also gain an experience lamp if they find all five eggs in a single hunt."));
                         //TODO THIS STATEMENT IS NOT GOING BACK TO HUNTOPS
-                        option("Talk about something else.",
-//                                new Dialogue().addGotoStage("huntOps", ChocatriceD.this));
-                                addNext(new StageSelectDialogue("huntOps", ChocatriceD.this)));
+                        option("Talk about something else.", new Dialogue()
+                                .addGotoStage("huntOps", ChocatriceD.this));
                     }
                 }));
             }
