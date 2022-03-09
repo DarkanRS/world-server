@@ -18,114 +18,85 @@ package com.rs.game.tasks;
 
 import com.rs.lib.util.Logger;
 
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 public class WorldTasks {
 
-	private static final List<WorldTaskInformation> TASKS = Collections.synchronizedList(new LinkedList<>());
+	private static final List<WorldTaskInformation> TASKS = new CopyOnWriteArrayList<>();
 
 	public static void processTasks() {
-		synchronized (TASKS) {
-			Iterator<WorldTaskInformation> iterator = TASKS.iterator();
-			while (iterator.hasNext()) {
-				WorldTaskInformation task = iterator.next();
-				if (task.currDelay > 0) {
-					task.currDelay--;
-					continue;
-				}
-				try {
-					task.task.run();
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-				if (task.task.needRemove)
-					iterator.remove();
-				else
-					task.currDelay = task.loopDelay;
+		for (WorldTaskInformation task : TASKS) {
+			if (task.currDelay > 0) {
+				task.currDelay--;
+				continue;
 			}
+			try {
+				task.task.run();
+			} catch (Throwable e) {
+				Logger.handle(e);
+			}
+			if (task.task.needRemove)
+				TASKS.remove(task);
+			else
+				task.currDelay = task.loopDelay;
 		}
 	}
 
 	public static void schedule(WorldTask task, int startDelay, int loopDelay) {
-		synchronized (TASKS) {
-			if (task == null || startDelay < 0 || loopDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(task, startDelay, loopDelay));
-		}
+		if (task == null || startDelay < 0 || loopDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(task, startDelay, loopDelay));
 	}
 
 	public static void schedule(WorldTask task, int delayCount) {
-		synchronized (TASKS) {
-			if (task == null || delayCount < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(task, delayCount, -1));
-		}
+		if (task == null || delayCount < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(task, delayCount, -1));
 	}
 
 	public static void schedule(WorldTask task) {
-		synchronized (TASKS) {
-			if (task == null)
-				return;
-			TASKS.add(new WorldTaskInformation(task, 0, -1));
-		}
+		if (task == null)
+			return;
+		TASKS.add(new WorldTaskInformation(task, 0, -1));
 	}
 
 	public static void schedule(int startDelay, int loopDelay, Runnable task) {
-		synchronized (TASKS) {
-			if (task == null || startDelay < 0 || loopDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay));
-		}
+		if (task == null || startDelay < 0 || loopDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay));
 	}
 
 	public static void schedule(int startDelay, Runnable task) {
-		synchronized (TASKS) {
-			if (task == null || startDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1));
-		}
+		if (task == null || startDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1));
 	}
 
 	public static void schedule(Runnable task) {
-		synchronized (TASKS) {
-			if (task == null)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), 0, -1));
-		}
+		if (task == null)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskLambda(task), 0, -1));
 	}
 
 	public static void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
-		synchronized (TASKS) {
-			if (task == null || startDelay < 0 || loopDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
-		}
+		if (task == null || startDelay < 0 || loopDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
 	}
 
 	public static void scheduleTimer(Function<Integer, Boolean> task) {
-		synchronized (TASKS) {
-			if (task == null)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
-		}
+		if (task == null)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
 	}
 
 	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
-		synchronized (TASKS) {
-			if (task == null || startDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
-		}
-	}
-
-	public static int getTasksCount() {
-		synchronized (TASKS) {
-			return TASKS.size();
-		}
+		if (task == null || startDelay < 0)
+			return;
+		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
 	}
 
 	private WorldTasks() {
