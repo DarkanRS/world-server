@@ -102,46 +102,34 @@ public class PlayerCombat extends Action {
 
 	@Override
 	public boolean start(Player player) {
+		player.getActionManager().forceStop();
 		player.setNextFaceEntity(target);
 		if (!player.getControllerManager().canAttack(target))
 			return false;
+		if (target instanceof Player p2) {
+			if (!player.isCanPvp() || !p2.isCanPvp()) {
+				player.sendMessage("You can only attack players in a player-vs-player area.");
+				return false;
+			}
+		}
 		if (target instanceof Familiar familiar) {
 			if (familiar == player.getFamiliar()) {
 				player.sendMessage("You can't attack your own familiar.");
 				return false;
 			}
 			if (!familiar.canAttack(player)) {
-				player.sendMessage("You can't attack that.");
+				player.sendMessage("You can't attack them.");
 				return false;
 			}
-		} else {
-			if (target instanceof NPC n && n.isForceMultiAttacked()) {
-
-			} else {
-				if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
-					Entity attackedBy = player.getAttackedBy();
-					if (attackedBy != target && player.inCombat()) {
-						player.sendMessage("You are already in combat.");
-						return false;
-					}
-					if (target.getAttackedBy() != player && target.inCombat()) {
-						player.sendMessage("Someone else is fighting that.");
-						return false;
-					}
-				}
-			}
-			if (target instanceof NPC n)
-				player.setLastNpcInteractedName(n.getDefinitions().getName());
-
 		}
-		if (checkAll(player)) {
-			if (target instanceof Player opp)
-				if ((!opp.attackedBy(player.getUsername())) && (!player.attackedBy(opp.getUsername())))
-					opp.addToAttackedBy(player.getUsername());
-			return true;
-		}
+		if (!player.checkInCombat(target))
+			return false;
+		if (!checkAll(player))
+			return false;
+		if (target instanceof NPC n)
+			player.setLastNpcInteractedName(n.getDefinitions().getName());
 		player.setNextFaceEntity(null);
-		return false;
+		return true;
 	}
 
 	@Override
@@ -151,6 +139,10 @@ public class PlayerCombat extends Action {
 
 	@Override
 	public int processWithDelay(Player player) {
+		if (target instanceof Player opp)
+			if ((!opp.attackedBy(player.getUsername())) && (!player.attackedBy(opp.getUsername())))
+				opp.addToAttackedBy(player.getUsername());
+
 		double multiplier = 1.0;
 		if (player.hasEffect(Effect.MIASMIC_SLOWDOWN))
 			multiplier = 1.5;
@@ -275,7 +267,7 @@ public class PlayerCombat extends Action {
 	public int mageAttack(final Player player, CombatSpell spell, boolean autoCast) {
 		if (!autoCast) {
 			player.getCombatDefinitions().resetSpells(false);
-			player.getActionManager().forceStop();
+			player.stopAll(false);
 		}
 		if (spell == null)
 			return -1;
@@ -2099,6 +2091,7 @@ public class PlayerCombat extends Action {
 	public void stop(Player player) {
 		player.setNextFaceEntity(null);
 		player.getInteractionManager().forceStop();
+		player.getActionManager().forceStop();
 		player.getTempAttribs().removeO("combatTarget");
 	}
 

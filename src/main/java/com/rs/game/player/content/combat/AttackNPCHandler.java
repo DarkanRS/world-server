@@ -6,6 +6,7 @@ import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.actions.interactions.StandardEntityInteraction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -16,6 +17,7 @@ public class AttackNPCHandler {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().stopAll(true);
+			e.getPlayer().setNextFaceWorldTile(new WorldTile(e.getNPC().getCoordFaceX(e.getNPC().getSize()), e.getNPC().getCoordFaceY(e.getNPC().getSize()), e.getNPC().getPlane()));
 			e.getPlayer().getInteractionManager().setInteraction(new PlayerCombatInteraction(e.getPlayer(), e.getNPC()));
 		}
 	};
