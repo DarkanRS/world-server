@@ -55,7 +55,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
 
 public abstract class Entity {
-
 	public enum MoveType {
 		WALK(1),
 		RUN(2),
@@ -136,7 +135,14 @@ public abstract class Entity {
 	}
 
 	public void clearEffects() {
-		effects = new HashMap<>();
+		if (effects == null)
+			return;
+		Map<Effect, Long> persisted = new HashMap<>();
+		for (Effect effect : effects.keySet()) {
+			if (!effect.isRemoveOnDeath())
+				persisted.put(effect, effects.get(effect));
+		}
+		effects = persisted;
 	}
 
 	public boolean hasEffect(Effect effect) {
@@ -152,6 +158,8 @@ public abstract class Entity {
 	}
 
 	public void removeEffect(Effect effect) {
+		if (effects == null)
+			return;
 		if (effect.sendWarnings() && this instanceof Player p)
 			p.sendMessage(effect.getExpiryMessage());
 		effects.remove(effect);
@@ -289,6 +297,7 @@ public abstract class Entity {
 		walkSteps.clear();
 		poison.reset();
 		resetReceivedDamage();
+		clearEffects();
 		if (attributes)
 			temporaryAttributes.clear();
 	}
@@ -626,7 +635,7 @@ public abstract class Entity {
 			loadMapRegions();
 	}
 
-	private WalkStep previewNextWalkStep() {
+	public WalkStep previewNextWalkStep() {
 		WalkStep step = walkSteps.peek();
 		if (step == null)
 			return null;
@@ -834,7 +843,6 @@ public abstract class Entity {
 		if (routeEvent != null && routeEvent.processEvent(this))
 			routeEvent = null;
 		poison.processPoison();
-		processMovement();
 		processReceivedHits();
 		processReceivedDamage();
 		if (!isDead())
@@ -1530,5 +1538,25 @@ public abstract class Entity {
 
 	public boolean withinArea(int a, int b, int c, int d) {
 		return tile.withinArea(a, b, c, d);
+	}
+
+	public boolean checkInCombat(Entity target) {
+		if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
+			if (!target.isAtMultiArea() || !isAtMultiArea()) {
+				if (getAttackedBy() != target && inCombat()) {
+					if (this instanceof Player p)
+						p.sendMessage("You are already in combat.");
+					return false;
+				}
+				if (target.getAttackedBy() != this && target.inCombat()) {
+					if (!(target.getAttackedBy() instanceof NPC)) {
+						if (this instanceof Player p)
+							p.sendMessage("They are already in combat.");
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

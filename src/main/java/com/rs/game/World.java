@@ -39,7 +39,6 @@ import com.rs.game.region.Region;
 import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.file.FileManager;
 import com.rs.lib.game.*;
 import com.rs.lib.game.GroundItem.GroundItemType;
 import com.rs.lib.util.Logger;
@@ -539,15 +538,6 @@ public final class World {
 			return false;
 		if (fromTile.matches(toTile))
 			return true;
-		if (fromSize <= 1 && toSize <= 1) {
-			switch (Direction.forDelta(toTile.getX() - fromTile.getX(), toTile.getY() - fromTile.getY())) {
-				case NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST -> {
-					return false;
-				}
-				default -> {
-				}
-			}
-		}
 		return checkWalkStep(fromTile, toTile, 1);
 	}
 

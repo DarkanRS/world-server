@@ -885,7 +885,7 @@ public class NPC extends Entity {
 			if (playerIndexes != null)
 				for (int playerIndex : playerIndexes) {
 					Player player = World.getPlayers().get(playerIndex);
-					if (isRevenant() && player.isRevenantAggroImmune())
+					if (isRevenant() && player.hasEffect(Effect.REV_AGGRO_IMMUNE))
 						continue;
 					if (player == null
 							|| player.isDead()

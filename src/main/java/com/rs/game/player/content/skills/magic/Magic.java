@@ -16,14 +16,12 @@
 //
 package com.rs.game.player.content.skills.magic;
 
-import java.util.List;
-
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.combat.CombatSpell;
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.GodwarsController;
@@ -32,15 +30,13 @@ import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.List;
 
 @PluginEventHandler
 public class Magic {
@@ -104,21 +100,8 @@ public class Magic {
 					player.sendMessage("You can't attack them.");
 					return;
 				}
-			} else if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked())
-				if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
-					if (player.getAttackedBy() != target && player.inCombat()) {
-						player.sendMessage("You are already in combat.");
-						return;
-					}
-					if (target.getAttackedBy() != player && target.inCombat()) {
-						if (!(target.getAttackedBy() instanceof NPC)) {
-							player.sendMessage("They are already in combat.");
-							return;
-						}
-						target.setAttackedBy(player);
-					}
-				}
-			player.getActionManager().setAction(new PlayerCombat(target));
+			} else if (!player.checkInCombat(target))
+				player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
 		}
 	}
 

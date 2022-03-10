@@ -23,6 +23,7 @@ import com.rs.game.npc.combat.CombatScript;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.player.Player;
+import com.rs.game.player.content.Effect;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -132,7 +133,7 @@ public class RevenantCombat extends CombatScript {
 		switch (attackStyle) {
 		case 0: // magic
 			int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target);
-			if (target instanceof Player player && player.isRevenantImmune())
+			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16, 0);
@@ -153,7 +154,7 @@ public class RevenantCombat extends CombatScript {
 			break;
 		case 1: // range
 			int damage2 = getMaxHit(npc, defs.getMaxHit(), AttackStyle.RANGE, target);
-			if (target instanceof Player player && player.isRevenantImmune())
+			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 2, target, getRangeHit(npc, damage2));
 			World.sendProjectile(npc, target, 1278, 34, 16, 30, 35, 16, 0);
@@ -161,7 +162,7 @@ public class RevenantCombat extends CombatScript {
 			break;
 		case 2: // melee
 			int damage3 = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
-			if (target instanceof Player player && player.isRevenantImmune())
+			if (target instanceof Player player && player.hasEffect(Effect.REV_IMMUNE))
 				damage = 0;
 			delayHit(npc, 0, target, getMeleeHit(npc, damage3));
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));

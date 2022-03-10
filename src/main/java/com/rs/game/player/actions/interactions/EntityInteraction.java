@@ -17,9 +17,12 @@
 package com.rs.game.player.actions.interactions;
 
 import com.rs.game.Entity;
+import com.rs.game.World;
 import com.rs.game.pathing.Direction;
+import com.rs.game.pathing.WalkStep;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
+import com.rs.lib.game.SpotAnim;
 import com.rs.utils.WorldUtil;
 
 public abstract class EntityInteraction extends Interaction {
@@ -27,6 +30,7 @@ public abstract class EntityInteraction extends Interaction {
 	protected Entity target;
 	private int distance;
 	private boolean stopFaceOnReached = true;
+	private boolean stopWhenReached = true;
 
 	public EntityInteraction(Entity target, int distance) {
 		this.target = target;
@@ -35,6 +39,11 @@ public abstract class EntityInteraction extends Interaction {
 
 	public EntityInteraction keepFacing() {
 		stopFaceOnReached = false;
+		return this;
+	}
+
+	public EntityInteraction continueAfterReached() {
+		stopWhenReached = false;
 		return this;
 	}
 
@@ -57,20 +66,23 @@ public abstract class EntityInteraction extends Interaction {
 	@Override
 	public final boolean process(Player player) {
 		if (checkDistance(player) && checkAll(player)) {
-			if (isWithinDistance(player, target)) {
+			if (isWithinDistance(player, target, true)) {
 				interact(player);
 				if (stopFaceOnReached)
 					player.setNextFaceEntity(null);
-				stop(player);
+				if (stopWhenReached)
+					stop(player);
 			}
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isWithinDistance(Player player, Entity target) {
+	public boolean isWithinDistance(Player player, Entity target, boolean addRunSteps) {
 		boolean los = player.lineOfSightTo(target, distance == 0);
-		boolean inRange = WorldUtil.isInRange(player, target, distance + (target.hasWalkSteps() ? 1 : 0));
+		boolean inRange = WorldUtil.isInRange(player, target, distance + (addRunSteps ? (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0) : 0));
+		World.sendSpotAnim(player, new SpotAnim(2000), player.getTile());
+		World.sendSpotAnim(player, new SpotAnim(2000), target.getTile());
 		boolean collides = WorldUtil.collides(player, target);
 		if (!los || !inRange || collides)
 			return false;
@@ -107,13 +119,19 @@ public abstract class EntityInteraction extends Interaction {
 					return true;
 				}
 		}
-		if (!WorldUtil.isInRange(player, target, distance) || !player.lineOfSightTo(target, distance == 0)) {
+		if (!isWithinDistance(player, target, false)) {
 			if (!player.hasWalkSteps() || target.hasWalkSteps()) {
 				player.resetWalkSteps();
 				player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
 			}
-		} else
+		} else {
 			player.resetWalkSteps();
+			if (target.getRun() == player.getRun() && target.hasWalkSteps()) {
+				WalkStep step = target.previewNextWalkStep();
+				if (step != null)
+					player.calcFollow(target.transform(step.getDir().getDx(), step.getDir().getDy()), player.getRun() ? 2 : 1, true, true);
+			}
+		}
 		return true;
 	}
 
