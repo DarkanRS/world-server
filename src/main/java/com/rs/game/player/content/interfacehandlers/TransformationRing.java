@@ -35,7 +35,7 @@ public class TransformationRing {
 	public static ItemClickHandler handleItemOption = new ItemClickHandler(new Object[] { "Ring of stone", "Easter ring", "Bone brooch" }, new String[] { "Wear" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (e.getPlayer().inCombat(10000)) {
+			if (e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
 				e.getPlayer().sendMessage("You wouldn't want to use that right now.");
 				return;
 			}

@@ -17,12 +17,10 @@
 package com.rs.game.player.actions.interactions;
 
 import com.rs.game.Entity;
-import com.rs.game.World;
 import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.WalkStep;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
-import com.rs.lib.game.SpotAnim;
 import com.rs.utils.WorldUtil;
 
 public abstract class EntityInteraction extends Interaction {
@@ -81,8 +79,6 @@ public abstract class EntityInteraction extends Interaction {
 	public boolean isWithinDistance(Player player, Entity target, boolean addRunSteps) {
 		boolean los = player.lineOfSightTo(target, distance == 0);
 		boolean inRange = WorldUtil.isInRange(player, target, distance + (addRunSteps ? (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0) : 0));
-		World.sendSpotAnim(player, new SpotAnim(2000), player.getTile());
-		World.sendSpotAnim(player, new SpotAnim(2000), target.getTile());
 		boolean collides = WorldUtil.collides(player, target);
 		if (!los || !inRange || collides)
 			return false;
@@ -135,4 +131,7 @@ public abstract class EntityInteraction extends Interaction {
 		return true;
 	}
 
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 }

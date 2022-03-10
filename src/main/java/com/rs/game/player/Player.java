@@ -1593,7 +1593,7 @@ public class Player extends Entity {
 	public void logout(boolean lobby) {
 		if (!running)
 			return;
-		if (inCombat(10000)) {
+		if (inCombat(10000) || hasBeenHit(10000)) {
 			sendMessage("You can't log out until 10 seconds after the end of combat.");
 			return;
 		}
@@ -1642,7 +1642,7 @@ public class Player extends Entity {
 		if (hasFinished())
 			return;
 		stopAll(false, true, !(actionManager.getAction() instanceof PlayerCombat));
-		if ((inCombat(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
+		if ((inCombat(10000) || hasBeenHit(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
 			CoresManager.schedule(() -> {
 				try {
 					finishing = false;
@@ -2285,11 +2285,6 @@ public class Player extends Entity {
 					World.addGroundItem(item, deathTile, killer == null ? this : killer, true, 210, (killer == null || killer == this) ? DropMethod.NORMAL : DropMethod.TURN_UNTRADEABLES_TO_COINS);
 			else
 				new GraveStone(this, deathTile, items[1]);
-	}
-
-	@Override
-	public boolean inCombat() {
-		return attackedByDelay > System.currentTimeMillis();
 	}
 
 	public void sendItemsOnDeath(Player killer) {

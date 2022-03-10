@@ -17,6 +17,7 @@ public class PlayerCombatInteraction extends EntityInteractionAction {
 
 	@Override
 	public boolean checkAll(Player player) {
+		setDistance(PlayerCombat.getAttackRange(player));
 		player.setNextFaceEntity(target);
 		return true;
 	}

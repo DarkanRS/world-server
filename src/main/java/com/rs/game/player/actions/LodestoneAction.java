@@ -179,7 +179,7 @@ public class LodestoneAction extends Action {
 
 	@Override
 	public boolean process(Player player) {
-		if (player.inCombat(10000)) {
+		if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 			player.sendMessage("You can't home teleport until 10 seconds after the end of combat.");
 			return false;
 		}

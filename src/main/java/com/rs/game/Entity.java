@@ -29,7 +29,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.pathing.*;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.prayer.Prayer;
@@ -112,6 +112,7 @@ public abstract class Entity {
 	private transient int lastFaceEntity;
 	private transient Entity attackedBy; // whos attacking you, used for single
 	protected transient long attackedByDelay; // delay till someone else can attack you
+	protected transient long timeLastHit;
 	private transient boolean multiArea;
 	private transient boolean isAtDynamicRegion;
 	private transient long lastAnimationEnd;
@@ -347,6 +348,8 @@ public abstract class Entity {
 	protected void processHit(Hit hit) {
 		if (isDead())
 			return;
+		if (hit.getSource() != this)
+			refreshTimeLastHit();
 		removeHitpoints(hit);
 		nextHits.add(hit);
 		if (nextHitBars.isEmpty())
@@ -1108,6 +1111,14 @@ public abstract class Entity {
 		this.attackedBy = attackedBy;
 	}
 
+	public boolean hasBeenHit(int time) {
+		return (timeLastHit + time) > System.currentTimeMillis();
+	}
+
+	public void refreshTimeLastHit() {
+		timeLastHit = System.currentTimeMillis();
+	}
+
 	public boolean inCombat(int time) {
 		return (attackedByDelay + time) > System.currentTimeMillis();
 	}
@@ -1118,7 +1129,7 @@ public abstract class Entity {
 
 	public boolean isAttacking() {
 		if (this instanceof Player p)
-			return p.getActionManager().doingAction(PlayerCombat.class);
+			return p.getInteractionManager().doingInteraction(PlayerCombatInteraction.class);
 		if (this instanceof NPC n)
 			return n.getCombat().hasTarget();
 		return false;
