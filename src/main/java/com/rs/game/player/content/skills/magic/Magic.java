@@ -80,7 +80,6 @@ public class Magic {
 	}
 
 	public static final void manualCast(Player player, Entity target, CombatSpell spell) {
-		player.setNextFaceWorldTile(new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
 		if (checkCombatSpell(player, spell, 1, false))
 			player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
 	}
