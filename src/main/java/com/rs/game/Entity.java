@@ -29,7 +29,7 @@ import com.rs.game.object.GameObject;
 import com.rs.game.pathing.*;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.prayer.Prayer;
@@ -55,7 +55,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
 
 public abstract class Entity {
-
 	public enum MoveType {
 		WALK(1),
 		RUN(2),
@@ -113,6 +112,7 @@ public abstract class Entity {
 	private transient int lastFaceEntity;
 	private transient Entity attackedBy; // whos attacking you, used for single
 	protected transient long attackedByDelay; // delay till someone else can attack you
+	protected transient long timeLastHit;
 	private transient boolean multiArea;
 	private transient boolean isAtDynamicRegion;
 	private transient long lastAnimationEnd;
@@ -136,7 +136,14 @@ public abstract class Entity {
 	}
 
 	public void clearEffects() {
-		effects = new HashMap<>();
+		if (effects == null)
+			return;
+		Map<Effect, Long> persisted = new HashMap<>();
+		for (Effect effect : effects.keySet()) {
+			if (!effect.isRemoveOnDeath())
+				persisted.put(effect, effects.get(effect));
+		}
+		effects = persisted;
 	}
 
 	public boolean hasEffect(Effect effect) {
@@ -152,6 +159,8 @@ public abstract class Entity {
 	}
 
 	public void removeEffect(Effect effect) {
+		if (effects == null)
+			return;
 		if (effect.sendWarnings() && this instanceof Player p)
 			p.sendMessage(effect.getExpiryMessage());
 		effects.remove(effect);
@@ -289,6 +298,7 @@ public abstract class Entity {
 		walkSteps.clear();
 		poison.reset();
 		resetReceivedDamage();
+		clearEffects();
 		if (attributes)
 			temporaryAttributes.clear();
 	}
@@ -338,6 +348,8 @@ public abstract class Entity {
 	protected void processHit(Hit hit) {
 		if (isDead())
 			return;
+		if (hit.getSource() != this)
+			refreshTimeLastHit();
 		removeHitpoints(hit);
 		nextHits.add(hit);
 		if (nextHitBars.isEmpty())
@@ -626,7 +638,7 @@ public abstract class Entity {
 			loadMapRegions();
 	}
 
-	private WalkStep previewNextWalkStep() {
+	public WalkStep previewNextWalkStep() {
 		WalkStep step = walkSteps.peek();
 		if (step == null)
 			return null;
@@ -834,7 +846,6 @@ public abstract class Entity {
 		if (routeEvent != null && routeEvent.processEvent(this))
 			routeEvent = null;
 		poison.processPoison();
-		processMovement();
 		processReceivedHits();
 		processReceivedDamage();
 		if (!isDead())
@@ -1100,6 +1111,14 @@ public abstract class Entity {
 		this.attackedBy = attackedBy;
 	}
 
+	public boolean hasBeenHit(int time) {
+		return (timeLastHit + time) > System.currentTimeMillis();
+	}
+
+	public void refreshTimeLastHit() {
+		timeLastHit = System.currentTimeMillis();
+	}
+
 	public boolean inCombat(int time) {
 		return (attackedByDelay + time) > System.currentTimeMillis();
 	}
@@ -1110,7 +1129,7 @@ public abstract class Entity {
 
 	public boolean isAttacking() {
 		if (this instanceof Player p)
-			return p.getActionManager().doingAction(PlayerCombat.class);
+			return p.getInteractionManager().doingInteraction(PlayerCombatInteraction.class);
 		if (this instanceof NPC n)
 			return n.getCombat().hasTarget();
 		return false;
@@ -1530,5 +1549,25 @@ public abstract class Entity {
 
 	public boolean withinArea(int a, int b, int c, int d) {
 		return tile.withinArea(a, b, c, d);
+	}
+
+	public boolean checkInCombat(Entity target) {
+		if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
+			if (!target.isAtMultiArea() || !isAtMultiArea()) {
+				if (getAttackedBy() != target && inCombat()) {
+					if (this instanceof Player p)
+						p.sendMessage("You are already in combat.");
+					return false;
+				}
+				if (target.getAttackedBy() != this && target.inCombat()) {
+					if (!(target.getAttackedBy() instanceof NPC)) {
+						if (this instanceof Player p)
+							p.sendMessage("They are already in combat.");
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

@@ -27,9 +27,9 @@ import com.rs.game.WorldProjectile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.familiar.Steeltitan;
-import com.rs.game.pathing.Direction;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.combat.*;
 import com.rs.game.player.content.skills.dungeoneering.KinshipPerk;
@@ -49,7 +49,6 @@ import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
-import com.rs.utils.WorldUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,15 +102,34 @@ public class PlayerCombat extends Action {
 
 	@Override
 	public boolean start(Player player) {
+		player.getActionManager().forceStop();
 		player.setNextFaceEntity(target);
-		if (checkAll(player)) {
-			if (target instanceof Player opp)
-				if ((!opp.attackedBy(player.getUsername())) && (!player.attackedBy(opp.getUsername())))
-					opp.addToAttackedBy(player.getUsername());
-			return true;
+		if (!player.getControllerManager().canAttack(target))
+			return false;
+		if (target instanceof Player p2) {
+			if (!player.isCanPvp() || !p2.isCanPvp()) {
+				player.sendMessage("You can only attack players in a player-vs-player area.");
+				return false;
+			}
 		}
+		if (target instanceof Familiar familiar) {
+			if (familiar == player.getFamiliar()) {
+				player.sendMessage("You can't attack your own familiar.");
+				return false;
+			}
+			if (!familiar.canAttack(player)) {
+				player.sendMessage("You can't attack them.");
+				return false;
+			}
+		}
+		if (!player.checkInCombat(target))
+			return false;
+		if (!checkAll(player))
+			return false;
+		if (target instanceof NPC n)
+			player.setLastNpcInteractedName(n.getDefinitions().getName());
 		player.setNextFaceEntity(null);
-		return false;
+		return true;
 	}
 
 	@Override
@@ -119,20 +137,15 @@ public class PlayerCombat extends Action {
 		return checkAll(player);
 	}
 
-	public static boolean isWithinDistance(Player player, Entity target) {
-		int attackRange = getAttackRange(player);
-		if (!player.lineOfSightTo(target, attackRange <= 0 || isMeleeing(player)) || !WorldUtil.isInRange(player, target, attackRange + (player.hasWalkSteps() && target.hasWalkSteps() ? (player.getRun() && target.getRun() ? 2 : 1) : 0)) || WorldUtil.collides(player, target)) // doesnt let u attack when u
-			return false;
-		return true;
-	}
-
 	@Override
 	public int processWithDelay(Player player) {
+		if (target instanceof Player opp)
+			if ((!opp.attackedBy(player.getUsername())) && (!player.attackedBy(opp.getUsername())))
+				opp.addToAttackedBy(player.getUsername());
+
 		double multiplier = 1.0;
-		if (player.isMiasmicEffectActive())
+		if (player.hasEffect(Effect.MIASMIC_SLOWDOWN))
 			multiplier = 1.5;
-		if (!isWithinDistance(player, target))
-			return 0;
 		if (!player.getControllerManager().keepCombating(target))
 			return -1;
 		addAttackedByDelay(player);
@@ -254,7 +267,7 @@ public class PlayerCombat extends Action {
 	public int mageAttack(final Player player, CombatSpell spell, boolean autoCast) {
 		if (!autoCast) {
 			player.getCombatDefinitions().resetSpells(false);
-			player.getActionManager().forceStop();
+			player.stopAll(false);
 		}
 		if (spell == null)
 			return -1;
@@ -1713,7 +1726,7 @@ public class PlayerCombat extends Action {
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (!p2.isLocked() && p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())
-					p2.getActionManager().setAction(new PlayerCombat(player));
+					p2.getInteractionManager().setInteraction(new PlayerCombatInteraction(p2, player));
 			} else {
 				NPC n = (NPC) target;
 				if (!n.isUnderCombat() || n.canBeAutoRetaliated())
@@ -2077,20 +2090,12 @@ public class PlayerCombat extends Action {
 	@Override
 	public void stop(Player player) {
 		player.setNextFaceEntity(null);
+		player.getInteractionManager().forceStop();
+		player.getActionManager().forceStop();
 		player.getTempAttribs().removeO("combatTarget");
 	}
 
 	public boolean checkAll(Player player) {
-		player.getInteractionManager().forceStop();
-		player.setNextFaceEntity(target);
-		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
-			return false;
-		int distanceX = player.getX() - target.getX();
-		int distanceY = player.getY() - target.getY();
-		int size = target.getSize();
-		int maxDistance = 16;
-		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
-			return false;
 		if (target instanceof Player p2) {
 			if (!player.isCanPvp() || !p2.isCanPvp())
 				return false;
@@ -2104,53 +2109,9 @@ public class PlayerCombat extends Action {
 			} else if (isAttackExeption(player, n))
 				return false;
 		}
-		if (!(target instanceof NPC n && n.isForceMultiAttacked()))
-			if (!target.isAtMultiArea() || !player.isAtMultiArea())
-				if ((player.getAttackedBy() != target && player.inCombat()) || (target.getAttackedBy() != player && target.inCombat()))
-					return false;
-		if (player.hasEffect(Effect.FREEZE)) {
-			if (isMeleeing(player) && target.getSize() == 1) {
-				Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
-				if (dir != null)
-					switch(dir) {
-					case NORTH:
-					case SOUTH:
-					case EAST:
-					case WEST:
-						break;
-					default:
-						player.faceEntity(target);
-						return false;
-					}
-			}
-			return !WorldUtil.collides(player, target);
-		}
-		if (WorldUtil.collides(player, target) && !target.hasWalkSteps()) {
-			player.resetWalkSteps();
-			return player.calcFollow(target, true); //might be double fixed and cause issues?.. check on this
-		}
-		int attackRange = getAttackRange(player);
-		if (!WorldUtil.isInRange(player, target, attackRange) || !player.lineOfSightTo(target, attackRange <= 0 || isMeleeing(player))) {
-			if (!player.hasWalkSteps() || target.hasWalkSteps()) {
-				player.resetWalkSteps();
-				player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
-			}
-		} else
-			player.resetWalkSteps();
-		if (isMeleeing(player) && target.getSize() == 1) {
-			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
-			if (dir != null)
-				switch(dir) {
-				case NORTH:
-				case SOUTH:
-				case EAST:
-				case WEST:
-					break;
-				default:
-					player.resetWalkSteps();
-					player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
-					return true;
-				}
+		if ((!(target instanceof NPC n && n.isForceMultiAttacked()) && !target.isAtMultiArea() || !player.isAtMultiArea()) && ((player.getAttackedBy() != target && player.inCombat()) || (target.getAttackedBy() != player) && target.inCombat())) {
+			//TODO possibly print here
+			return false;
 		}
 		if (player.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
 			player.getTempAttribs().setL("SOL_SPEC", 0);
