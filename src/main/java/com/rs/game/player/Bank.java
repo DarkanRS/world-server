@@ -22,6 +22,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
 import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.player.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.lib.game.Item;
@@ -725,6 +726,10 @@ public class Bank {
 			for (int i = 0; i < space; i++) {
 				if (items[i] == null)
 					continue;
+				if (items[i].getId() == Easter2022.EGGSTERMINATOR) {
+					player.sendMessage("The banker drops the Eggsterminator as you hand it to them. You can obtain a new one from the Easter event, completing three hunts will unlock a more sturdy enchanted version.");
+					continue;
+				}
 				if (items[i].getDefinitions().isNoted() && items[i].getDefinitions().getCertId() != -1)
 					items[i].setId(items[i].getDefinitions().getCertId());
 				addItem(items[i], false);

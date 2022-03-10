@@ -6,12 +6,16 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
+import com.rs.game.player.managers.EmotesManager;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
+import com.rs.utils.music.Music;
+import com.rs.utils.music.Song;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,28 +25,37 @@ import java.util.concurrent.atomic.AtomicLong;
 @PluginEventHandler
 public class Easter2022 {
 
+    //Event configs
     public static String STAGE_KEY = "easter2022";
-    public static Boolean ENABLED = false;
+    public static Boolean ENABLED = true;
 
-    public static final int EGGSTERMINATOR = 24145;
+    //Rewards
     public static final int PERMANENT_EGGSTERMINATOR = 24146;
-
-    public static final int CHOCOTREAT = 24148;
-    public static final int EVIL_DRUMSTICK = 24147;
+    public static final int XP_LAMP = 2528;
     public static final int EGG_ON_FACE_MASK = 24149;
     public static final int CHOCOLATE_EGG_ON_FACE_MASK = 24150;
+    public static final Song EASTER_TRACK = Music.getSong(273); //Easter Jigg
+    public static final EmotesManager.Emote EASTER_EMOTE = EmotesManager.Emote.AROUND_THE_WORLD;
 
-    public static final int XP_LAMP = 2528;
+    //Event Items
+    public static final int EGGSTERMINATOR = 24145;
+    public static final int CHOCOTREAT = 24148;
+    public static final int EVIL_DRUMSTICK = 24147;
 
+    //Event Objects
     public static final int UNCRACKED_EGG = 70103;
     public static final int CRACKED_EGG = 70104;
     public static final int POSSIBLE_EGG = 70105;
 
+    //Event NPCs
     public static final int CHOCOCHICK = 15270;
     public static final int CHICK = 15271;
-
     public static final int EVIL_CHICKEN = 15262;
     public static final int CHOCATRICE = 15259;
+    public static final int EVIL_CHICKEN_MEDIUM = 15263;
+    public static final int CHOCATRICE_MEDIUM = 15260;
+    public static final int EVIL_CHICKEN_LARGE = 15264;
+    public static final int CHOCATRICE_LARGE = 15261;
 
     public static List<EasterEgg.Spawns> currentEggs = new ArrayList<EasterEgg.Spawns>();
 
@@ -63,7 +76,7 @@ public class Easter2022 {
      *       3 chocolate treats given to the chocatrice -> Chocolate egg on face mask
      */
 
-//    @ServerStartupEvent
+    @ServerStartupEvent
     public static void EasterEvent2022() {
         AtomicLong currentDate = new AtomicLong(Instant.now().getEpochSecond());
         long startDate = 1648771200; //April 1st - 00:00
@@ -89,8 +102,8 @@ public class Easter2022 {
             completedEgg4 = new ArrayList<String>();
             completedEgg5 = new ArrayList<String>();
             for (Player p : World.getPlayers()) {
-                p.getTempAttribs().removeB("talkedWithEvilChicken");
-                p.getTempAttribs().removeB("talkedWithChocatrice");
+                p.getNSV().removeB("talkedWithEvilChicken");
+                p.getNSV().removeB("talkedWithChocatrice");
             }
             World.sendWorldMessage("<col=ff0000>News: A new Easter Egg Hunt has begun! Speak with the Evil Chicken or Chocatrice in Varrock Square to start it.", false);
             return true;
