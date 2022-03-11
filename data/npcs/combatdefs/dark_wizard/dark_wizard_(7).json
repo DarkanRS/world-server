@@ -17,10 +17,10 @@
   "attackGfx": 2701,
   "attackProjectile": 2703,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 5,
   "deAggroDistance": 13,
   "maxDistFromSpawn": 7,
-  "attackRange": -1,
+  "attackRange": 10,
   "levels": [
     5,
     5,
