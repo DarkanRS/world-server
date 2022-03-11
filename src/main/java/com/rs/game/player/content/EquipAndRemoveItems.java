@@ -17,9 +17,12 @@
 package com.rs.game.player.content;
 
 import com.rs.game.player.Equipment;
+import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemEquipHandler;
 
 @PluginEventHandler
 public class EquipAndRemoveItems  {
@@ -41,4 +44,31 @@ public class EquipAndRemoveItems  {
 		}
 	};
 
+	public static ItemEquipHandler handleElementalShields = new ItemEquipHandler(2890, 9731, 18691, 20436, 20438) {
+		@Override
+		public void handle(ItemEquipEvent e) {
+			if (e.equip()) {
+				switch(e.getItem().getId()) {
+				case 2890 -> e.getPlayer().setNextSpotAnim(new SpotAnim(244, 0, 96));
+				case 9731 -> e.getPlayer().setNextSpotAnim(new SpotAnim(809, 0, 96));
+				case 18691 -> e.getPlayer().setNextSpotAnim(new SpotAnim(2683, 0, 96));
+				case 20436 -> e.getPlayer().setNextSpotAnim(new SpotAnim(2023, 0, 96));
+				case 20438 -> e.getPlayer().setNextSpotAnim(new SpotAnim(2022, 0, 96));
+				}
+			}
+		}
+	};
+
+	public static ItemEquipHandler handleElementalHelmets = new ItemEquipHandler(9733) {
+		@Override
+		public void handle(ItemEquipEvent e) {
+			if (e.equip()) {
+				switch(e.getItem().getId()) {
+					case 9733 -> e.getPlayer().setNextSpotAnim(new SpotAnim(810, 0, 96));
+					//811 elemental helmet
+
+				}
+			}
+		}
+	};
 }

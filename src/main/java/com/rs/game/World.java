@@ -1286,8 +1286,8 @@ public final class World {
 			toSizeY = defs.getSizeY();
 		} else
 			toSizeX = toSizeY = 1;
-		slope = fromSizeX * 30;
-		WorldProjectile projectile = new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
+		slope = fromSizeX * 32;
+		WorldProjectile projectile = new WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 		if (graphicId != -1) {
 			int regionId = from instanceof WorldTile t ? t.getRegionId() : from instanceof Entity e ? e.getRegionId() : -1;
 			if (regionId == -1)
@@ -1295,33 +1295,6 @@ public final class World {
 			getRegion(regionId).addProjectile(projectile);
 		}
 		return projectile;
-	}
-	
-	public static final WorldProjectile createProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		WorldTile fromTile = from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile();
-		WorldTile toTile = to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile();
-		if (speed > 20.0)
-			speed = speed / 50.0;
-		int fromSizeX, fromSizeY;
-		if (from instanceof Entity e)
-			fromSizeX = fromSizeY = e.getSize();
-		else if (from instanceof GameObject go) {
-			ObjectDefinitions defs = go.getDefinitions();
-			fromSizeX = defs.getSizeX();
-			fromSizeY = defs.getSizeY();
-		} else
-			fromSizeX = fromSizeY = 1;
-		int toSizeX, toSizeY;
-		if (to instanceof Entity e)
-			toSizeX = toSizeY = e.getSize();
-		else if (to instanceof GameObject go) {
-			ObjectDefinitions defs = go.getDefinitions();
-			toSizeX = defs.getSizeX();
-			toSizeY = defs.getSizeY();
-		} else
-			toSizeX = toSizeY = 1;
-		slope = fromSizeX * 30;
-		return new WorldProjectile(from, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 	}
 
 	public static void executeAfterLoadRegion(final int regionId, final Runnable event) {

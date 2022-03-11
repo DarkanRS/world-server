@@ -130,7 +130,7 @@ public enum RangedWeapon {
 	ADAMANT_KNIFE(new Animation(929), 3, true, new int[] { 867, 875, 5659, 5666 }, 217),
 	RUNE_KNIFE(new Animation(929), 3, true, new int[] { 868, 876, 5660, 5667 }, 218),
 
-	HOLY_WATER(new Animation(9055), 4, true, new int[] { 732 }, 51, 52),
+	HOLY_WATER(new Animation(9055), 4, true, new int[] { 732 }, 192, 193), //52/53 white holy water?
 
 	TOKTZ_XIL_UL(new Animation(10501), 4, true, new int[] { 6522 }, 442),
 

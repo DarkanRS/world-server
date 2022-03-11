@@ -39,19 +39,19 @@ public class WorldProjectile extends Projectile {
 			WorldTasks.schedule(getTaskDelay(), () -> task.accept(WorldProjectile.this));
 
 		if (from instanceof Entity e)
-			fromSizeX = fromSizeY = e.getSize() / 2;
+			fromSizeX = fromSizeY = e.getSize();
 		else if (from instanceof GameObject go) {
 			ObjectDefinitions defs = go.getDefinitions();
-			fromSizeX = defs.getSizeX() / 2;
-			fromSizeY = defs.getSizeY() / 2;
+			fromSizeX = defs.getSizeX();
+			fromSizeY = defs.getSizeY();
 		} else
 			fromSizeX = fromSizeY = 1;
 		if (to instanceof Entity e)
-			toSizeX = toSizeY = e.getSize() / 2;
+			toSizeX = toSizeY = e.getSize();
 		else if (to instanceof GameObject go) {
 			ObjectDefinitions defs = go.getDefinitions();
-			toSizeX = defs.getSizeX() / 2;
-			toSizeY = defs.getSizeY() / 2;
+			toSizeX = defs.getSizeX();
+			toSizeY = defs.getSizeY();
 		} else
 			toSizeX = toSizeY = 1;
 		fromSizeX -= 1;

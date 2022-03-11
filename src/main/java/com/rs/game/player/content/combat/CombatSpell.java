@@ -527,7 +527,7 @@ public enum CombatSpell {
 			target.freeze(Ticks.fromSeconds(10), true);
 		}
 	},
-	ICE_BLITZ(82, 46, 260, new Animation(1978), new SpotAnim(366, 0, 96), -1, new SpotAnim(367), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.WATER, 3)) {
+	ICE_BLITZ(82, 46, 260, new Animation(1978), new SpotAnim(366, 0, 96), 362, new SpotAnim(367), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.WATER, 3)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(15), true);
