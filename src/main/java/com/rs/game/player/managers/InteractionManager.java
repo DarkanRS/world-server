@@ -52,4 +52,10 @@ public final class InteractionManager {
 	public Interaction getInteraction() {
 		return interaction;
 	}
+
+	public boolean doingInteraction(Class<?> type) {
+		if (interaction == null)
+			return false;
+		return type.isInstance(interaction);
+	}
 }

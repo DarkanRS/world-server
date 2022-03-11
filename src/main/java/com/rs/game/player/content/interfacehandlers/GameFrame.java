@@ -183,7 +183,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if ((e.getInterfaceId() == 548 && e.getComponentId() == 167) || (e.getInterfaceId() == 746 && e.getComponentId() == 208)) {
-				if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().inCombat(10000)) {
+				if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
 					e.getPlayer().sendMessage("Please finish what you're doing before opening the price checker.");
 					return;
 				}

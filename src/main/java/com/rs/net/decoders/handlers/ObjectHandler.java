@@ -1479,7 +1479,7 @@ public final class ObjectHandler {
 				player.getDialogueManager().execute(new PartyRoomLever());
 			//start chaos tunnels
 			else if (id == 65203) {
-				if (player.inCombat(10000)) {
+				if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 					player.sendMessage("You cannot enter the rift while you're under attack.");
 					return;
 				}

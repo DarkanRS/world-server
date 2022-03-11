@@ -185,7 +185,7 @@ public abstract class Familiar extends NPC {
 		}
 		resetWalkSteps();
 		if (!lineOfSightTo(owner, true) || !WorldUtil.isInRange(getX(), getY(), size, owner.getX(), owner.getY(), targetSize, 0))
-			calcFollow(owner, 2, true, false);
+			calcFollow(owner, 2, false);
 	}
 
 	@Override
