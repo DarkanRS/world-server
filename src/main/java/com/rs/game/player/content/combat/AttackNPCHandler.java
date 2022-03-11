@@ -1,9 +1,8 @@
 package com.rs.game.player.content.combat;
 
-import com.rs.game.Entity;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.others.DoorSupport;
 import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.actions.interactions.StandardEntityInteraction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -16,35 +15,8 @@ public class AttackNPCHandler {
 	public static NPCClickHandler attack = new NPCClickHandler(false, null, new String[]{"Attack"}) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), PlayerCombat.getAttackRange(e.getPlayer())+1, () -> {
-				if (!e.getPlayer().getControllerManager().canAttack(e.getNPC()))
-					return;
-				if (e.getNPC() instanceof Familiar familiar) {
-					if (familiar == e.getPlayer().getFamiliar()) {
-						e.getPlayer().sendMessage("You can't attack your own familiar.");
-						return;
-					}
-					if (!familiar.canAttack(e.getPlayer())) {
-						e.getPlayer().sendMessage("You can't attack that.");
-						return;
-					}
-				} else if (!e.getNPC().isForceMultiAttacked()) {
-					if (!e.getNPC().isAtMultiArea() || !e.getPlayer().isAtMultiArea()) {
-						Entity attackedBy = e.getPlayer().getAttackedBy();
-						if (attackedBy != e.getNPC() && e.getPlayer().inCombat()) {
-							e.getPlayer().sendMessage("You are already in combat.");
-							return;
-						}
-						if (e.getNPC().getAttackedBy() != e.getPlayer() && e.getNPC().inCombat()) {
-							e.getPlayer().sendMessage("Someone else is fighting that.");
-							return;
-						}
-					}
-				}
-				e.getPlayer().setLastNpcInteractedName(e.getNPC().getDefinitions().getName());
-				e.getPlayer().stopAll(true);
-				e.getPlayer().getActionManager().setAction(new PlayerCombat(e.getNPC()));
-			}).keepFacing());
+			e.getPlayer().stopAll(true);
+			e.getPlayer().getInteractionManager().setInteraction(new PlayerCombatInteraction(e.getPlayer(), e.getNPC()));
 		}
 	};
 

@@ -343,10 +343,10 @@ public final class Inventory {
 		return true;
 	}
 
-	public boolean containsItems(int[] itemIds, int[] ammounts) {
-		int size = itemIds.length > ammounts.length ? ammounts.length : itemIds.length;
+	public boolean containsItems(int[] itemIds, int[] amounts) {
+		int size = itemIds.length > amounts.length ? amounts.length : itemIds.length;
 		for (int i = 0; i < size; i++)
-			if (!items.contains(new Item(itemIds[i], ammounts[i])))
+			if (!items.contains(new Item(itemIds[i], amounts[i])))
 				return false;
 		return true;
 	}

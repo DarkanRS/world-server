@@ -1,0 +1,139 @@
+{
+  "names": [
+    "magic_axe_hut_chest"
+  ],
+  "tables": [
+    {
+      "chance": 838.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2297,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 2206.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 995,
+          "min": 200,
+          "max": 200
+        }
+      ]
+    },
+    {
+      "chance": 499.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1365,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 508.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1353,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 250.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1369,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 250.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1355,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 197.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 991,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 172.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1371,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 154.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1357,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 69.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1373,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 35.0,
+      "outOf": 5178.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1359,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

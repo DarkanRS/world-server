@@ -46,7 +46,6 @@ import com.rs.game.player.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.player.content.skills.construction.ServantDialogue;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeoneeringTutor;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.player.content.skills.runecrafting.runespan.SiphonActionCreatures;
 import com.rs.game.player.content.skills.thieving.PickPocketAction;
 import com.rs.game.player.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.player.content.transportation.TravelMethods;
@@ -94,10 +93,6 @@ public class NPCHandler {
 
 	public static void handleOption1(final Player player, final NPC npc) {
 		player.stopAll(true);
-
-		if (SiphonActionCreatures.siphon(player, npc))
-			return;
-
 		if (PluginManager.handle(new NPCClickEvent(player, npc, 1, false)))
 			return;
 

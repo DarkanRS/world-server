@@ -41,6 +41,7 @@ import com.rs.game.pathing.RouteEvent;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.actions.LodestoneAction.Lodestone;
 import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.*;
 import com.rs.game.player.content.ItemConstants.ItemDegrade;
 import com.rs.game.player.content.Toolbelt.Tools;
@@ -76,6 +77,7 @@ import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StartDialogue;
 import com.rs.game.player.managers.*;
+import com.rs.game.player.miniquests.MiniquestManager;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestManager;
 import com.rs.game.player.social.FCManager;
@@ -157,23 +159,15 @@ public class Player extends Entity {
 	private int hw07Stage;
 
 	public void refreshChargeTimer() {
-		getTempAttribs().setL("chargeTimer", World.getServerTicks()+600);
-	}
-
-	public boolean isCharged() {
-		return World.getServerTicks() < getTempAttribs().getL("chargeTimer");
+		addEffect(Effect.CHARGED, 600);
 	}
 
 	public void refreshMiasmicTimer(int ticks) {
-		if (World.getServerTicks() < getTempAttribs().getL("miasmicImmune"))
+		if (hasEffect(Effect.MIASMIC_BLOCK))
 			return;
 		sendMessage("You feel slowed down.");
-		getTempAttribs().setL("miasmicImmune", World.getServerTicks()+ticks+15);
-		getTempAttribs().setL("miasmicEffect", World.getServerTicks()+ticks);
-	}
-
-	public boolean isMiasmicEffectActive() {
-		return World.getServerTicks() < getTempAttribs().getL("miasmicEffect");
+		addEffect(Effect.MIASMIC_BLOCK, ticks+15);
+		addEffect(Effect.MIASMIC_SLOWDOWN, ticks);
 	}
 
 	public void addSpellDelay(int ticks) {
@@ -319,6 +313,7 @@ public class Player extends Entity {
 	private PetManager petManager;
 	private BossTask bossTask;
 	private QuestManager questManager;
+	private MiniquestManager miniquestManager;
 	private TreasureTrailsManager treasureTrailsManager;
 	private Map<Integer, Offer> geOffers = new HashMap<>();
 
@@ -335,10 +330,9 @@ public class Player extends Entity {
 
 	private int graveStone;
 
-	private int revenantImmune;
-	private int revenantAggro;
-
 	private boolean runBlocked;
+
+	private ItemsContainer<Item> trawlerRewards;
 
 	// ectofuntus
 	public int boneType;
@@ -563,6 +557,7 @@ public class Player extends Entity {
 		petManager = new PetManager();
 		treasureTrailsManager = new TreasureTrailsManager();
 		questManager = new QuestManager();
+		miniquestManager = new MiniquestManager();
 		dungManager = new DungManager(this);
 		pouchesType = new boolean[4];
 		runEnergy = 100;
@@ -625,6 +620,9 @@ public class Player extends Entity {
 		appearence.setPlayer(this);
 		treasureTrailsManager.setPlayer(this);
 		questManager.setPlayer(this);
+		if (miniquestManager == null)
+			miniquestManager = new MiniquestManager();
+		miniquestManager.setPlayer(this);
 		inventory.setPlayer(this);
 		equipment.setPlayer(this);
 		skills.setPlayer(this);
@@ -887,7 +885,6 @@ public class Player extends Entity {
 		potionDelay = 0;
 		castedVeng = false;
 		castedMagicImbue = false;
-		clearEffects();
 		setRunEnergy(100);
 		appearence.generateAppearanceData();
 	}
@@ -954,100 +951,26 @@ public class Player extends Entity {
 			if (getSession().isClosed())
 				finish(0);
 			processPackets();
-			processForinthry();
 			cutsceneManager.process();
 			super.processEntity();
-			if (hasStarted() && isIdle())
-				if (!hasRights(Rights.ADMIN))
-					if (getActionManager().getAction() instanceof PlayerCombat combat) {
-						if (!(combat.getTarget() instanceof Player))
-							idleLog();
-					} else
-						logout(true);
+			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN)) {
+				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
+					if (!(combat.getAction().getTarget() instanceof Player))
+						idleLog();
+				} else
+					logout(true);
+			}
 			if (disconnected && !finishing)
 				finish(0);
 			timePlayed = getTimePlayed() + 1;
 			timeLoggedOut = System.currentTimeMillis();
-			if (!isDead()) {
-				if (getTickCounter() % 50 == 0)
-					getCombatDefinitions().restoreSpecialAttack();
-
-				//Restore skilling stats
-				if (getTickCounter() % 100 == 0) {
-					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-					Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
-				}
-
-				//Restore combat stats
-				if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
-					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-					Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
-				}
-			}
-			if (getNextRunDirection() == null) {
-				double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
-				if (isResting()) {
-					energy = 1.68;
-					if (Musician.isNearby(this))
-						energy = 2.28;
-				}
-				restoreRunEnergy(energy);
-			}
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 				tickFarming();
 
+			processTimedRestorations();
 			processMusic();
-
-			if (inCombat() || isAttacking())
-				for (int i = 0; i < Equipment.SIZE; i++) {
-					Item item = getEquipment().getItem(i);
-					if (item == null)
-						continue;
-					for (ItemDegrade d : ItemDegrade.values())
-						if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
-							getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
-							getEquipment().refresh(i);
-							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
-							break;
-						}
-					if (item.getMetaData("combatCharges") != null) {
-						item.addMetaData("combatCharges", item.getMetaDataI("combatCharges") - 1);
-						if (item.getMetaDataI("combatCharges") <= 0) {
-							ItemDegrade deg = null;
-							for (ItemDegrade d : ItemDegrade.values())
-								if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
-									deg = d;
-									break;
-								}
-							if (deg != null) {
-								if (deg.getBrokenId() == 4207) {
-
-									getEquipment().set(i, null);
-									getEquipment().refresh(i);
-									getAppearance().generateAppearanceData();
-									if (getInventory().hasFreeSlots()) {
-										getInventory().addItem(4207, 1);
-										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
-									} else {
-										World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
-										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
-									}
-									break;
-								}
-								getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
-								getEquipment().refresh(i);
-								getAppearance().generateAppearanceData();
-								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
-							} else {
-								getEquipment().set(i, null);
-								getEquipment().refresh(i);
-								getAppearance().generateAppearanceData();
-								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
-							}
-						}
-					}
-				}
+			processItemDegrades();
 			auraManager.process();
 			interactionManager.process();
 			actionManager.process();
@@ -1055,6 +978,87 @@ public class Player extends Entity {
 			controllerManager.process();
 		} catch (Throwable e) {
 			WorldDB.getLogs().logError(e);
+		}
+	}
+
+	private void processTimedRestorations() {
+		if (getNextRunDirection() == null) {
+			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
+			if (isResting()) {
+				energy = 1.68;
+				if (Musician.isNearby(this))
+					energy = 2.28;
+			}
+			restoreRunEnergy(energy);
+		}
+		if (!isDead()) {
+			if (getTickCounter() % 50 == 0)
+				getCombatDefinitions().restoreSpecialAttack();
+
+			//Restore skilling stats
+			if (getTickCounter() % 100 == 0) {
+				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+				Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+			}
+
+			//Restore combat stats
+			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
+				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
+			}
+		}
+	}
+
+	private void processItemDegrades() {
+		if (inCombat() || isAttacking()) {
+			for (int i = 0; i < Equipment.SIZE; i++) {
+				Item item = getEquipment().getItem(i);
+				if (item == null)
+					continue;
+				for (ItemDegrade d : ItemDegrade.values())
+					if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
+						getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
+						getEquipment().refresh(i);
+						sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
+						break;
+					}
+				if (item.getMetaData("combatCharges") != null) {
+					item.addMetaData("combatCharges", item.getMetaDataI("combatCharges") - 1);
+					if (item.getMetaDataI("combatCharges") <= 0) {
+						ItemDegrade deg = null;
+						for (ItemDegrade d : ItemDegrade.values())
+							if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
+								deg = d;
+								break;
+							}
+						if (deg != null) {
+							if (deg.getBrokenId() == 4207) {
+
+								getEquipment().set(i, null);
+								getEquipment().refresh(i);
+								getAppearance().generateAppearanceData();
+								if (getInventory().hasFreeSlots()) {
+									getInventory().addItem(4207, 1);
+									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
+								} else {
+									World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
+									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
+								}
+								break;
+							}
+							getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
+							getEquipment().refresh(i);
+							getAppearance().generateAppearanceData();
+							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
+						} else {
+							getEquipment().set(i, null);
+							getEquipment().refresh(i);
+							getAppearance().generateAppearanceData();
+							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -1225,6 +1229,7 @@ public class Player extends Entity {
 		Toolbelt.refreshToolbelt(this);
 		questManager.unlockQuestTabOptions();
 		questManager.updateAllQuestStages();
+		miniquestManager.updateAllStages();
 		getPackets().sendGameBarStages(this);
 		musicsManager.init();
 		emotesManager.refreshListConfigs();
@@ -1588,7 +1593,7 @@ public class Player extends Entity {
 	public void logout(boolean lobby) {
 		if (!running)
 			return;
-		if (inCombat(10000)) {
+		if (inCombat(10000) || hasBeenHit(10000)) {
 			sendMessage("You can't log out until 10 seconds after the end of combat.");
 			return;
 		}
@@ -1636,8 +1641,8 @@ public class Player extends Entity {
 		disconnected = true;
 		if (hasFinished())
 			return;
-		stopAll(false, true, !(actionManager.getAction() instanceof PlayerCombat));
-		if ((inCombat(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
+		stopAll(false, true, !(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction));
+		if ((inCombat(10000) || hasBeenHit(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
 			CoresManager.schedule(() -> {
 				try {
 					finishing = false;
@@ -2282,11 +2287,6 @@ public class Player extends Entity {
 				new GraveStone(this, deathTile, items[1]);
 	}
 
-	@Override
-	public boolean inCombat() {
-		return attackedByDelay > System.currentTimeMillis();
-	}
-
 	public void sendItemsOnDeath(Player killer) {
 		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
 			return;
@@ -2503,7 +2503,7 @@ public class Player extends Entity {
 			setNextAnimation(new Animation(emoteId));
 		if (useDelay == 0)
 			setNextWorldTile(dest);
-		else
+		else {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -2516,6 +2516,7 @@ public class Player extends Entity {
 						sendMessage(message);
 				}
 			}, useDelay - 1);
+		}
 	}
 
 	public Bank getBank() {
@@ -2686,6 +2687,14 @@ public class Player extends Entity {
 		hiddenBrother = -1;
 		killedBarrowBrothers = new boolean[7];
 		barrowsKillCount = 0;
+	}
+
+	public ItemsContainer<Item> getTrawlerRewards() {
+		return trawlerRewards;
+	}
+
+	public void setTrawlerRewards(ItemsContainer<Item> trawlerRewards) {
+		this.trawlerRewards = trawlerRewards;
 	}
 
 	public int getVotes() {
@@ -2886,15 +2895,19 @@ public class Player extends Entity {
 		case 4153:
 		case 14679:
 			combatDefinitions.switchUsingSpecialAttack();
-			Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : getTempAttribs().getO("last_target");
+			Entity target = (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) ? combat.getAction().getTarget() : getTempAttribs().getO("last_target");
 			if (target != null) {
 				if (!(target instanceof NPC n && n.isForceMultiAttacked()))
 					if (!target.isAtMultiArea() || !isAtMultiArea())
 						if ((getAttackedBy() != target && inCombat()) || (target.getAttackedBy() != this && target.inCombat()))
 							return;
-				if (!(getActionManager().getAction() instanceof PlayerCombat combat) || combat.getTarget() != target)
-					getActionManager().setAction(new PlayerCombat(target));
-				PlayerCombat pcb = (PlayerCombat) getActionManager().getAction();
+				if (target.isDead() || target.hasFinished())
+					return;
+				if (!(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) || combat.getAction().getTarget() != target) {
+					resetWalkSteps();
+					getInteractionManager().setInteraction(new PlayerCombatInteraction(this, target));
+				}
+				PlayerCombat pcb = ((PlayerCombatInteraction) getInteractionManager().getInteraction()).getAction();
 				if (pcb == null ||!inMeleeRange(target) || !PlayerCombat.specialExecute(this))
 					return;
 				setNextAnimation(new Animation(weaponId == 4153 ? 1667 : 10505));
@@ -3261,29 +3274,10 @@ public class Player extends Entity {
 	}
 
 	public void refreshForinthry() {
-		revenantImmune = 100; // 1 minute
-		revenantAggro = 6000; // 1 hour
+		addEffect(Effect.REV_IMMUNE, 100);
+		addEffect(Effect.REV_AGGRO_IMMUNE, 6000);
 		sendMessage("<col=FF0000>You will not be harmed by revenants for 1 minute.");
 		sendMessage("<col=FF0000>Revenants will have no aggression towards you for one hour.");
-	}
-
-	public void processForinthry() {
-		if (revenantImmune == 50)
-			sendMessage("<col=FF0000>Your immunity to revenants will expire in 30 seconds!");
-		if (revenantAggro == 50)
-			sendMessage("<col=FF0000>Revenants will become aggressive to you again in 30 seconds!");
-		if (revenantImmune > 0)
-			revenantImmune--;
-		if (revenantAggro > 0)
-			revenantAggro--;
-	}
-
-	public boolean isRevenantImmune() {
-		return revenantImmune > 0;
-	}
-
-	public boolean isRevenantAggroImmune() {
-		return revenantAggro > 0;
 	}
 
 	public long getTimeSinceLastClick() {
@@ -3382,8 +3376,8 @@ public class Player extends Entity {
 		return questManager;
 	}
 
-	public void setQuestManager(QuestManager questManager) {
-		this.questManager = questManager;
+	public MiniquestManager getMiniquestManager() {
+		return miniquestManager;
 	}
 
 	public boolean isSlayerHelmCreation() {

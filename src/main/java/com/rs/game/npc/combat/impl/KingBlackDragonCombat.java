@@ -50,7 +50,8 @@ public class KingBlackDragonCombat extends CombatScript {
 				return npc.getAttackSpeed();
 			}
 			attackStyle = Utils.getRandomInclusive(4) + 1;
-		} else if (attackStyle == 1 || attackStyle == 2) {
+		}
+		if (attackStyle == 1 || attackStyle == 2) {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
 			int protection = PlayerCombat.getAntifireLevel(player, true);

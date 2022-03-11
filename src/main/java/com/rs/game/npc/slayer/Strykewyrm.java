@@ -121,19 +121,8 @@ public class Strykewyrm extends NPC {
 	public static void handleStomping(final Player player, final NPC npc) {
 		if (npc.isCantInteract())
 			return;
-		if (!npc.isAtMultiArea() || !player.isAtMultiArea()) {
-			if (player.getAttackedBy() != npc && player.inCombat()) {
-				player.sendMessage("You are already in combat.");
-				return;
-			}
-			if (npc.getAttackedBy() != player && npc.inCombat()) {
-				if (!(npc.getAttackedBy() instanceof NPC)) {
-					player.sendMessage("That npc is already in combat.");
-					return;
-				}
-				npc.setAttackedBy(player);
-			}
-		}
+		if (!player.checkInCombat(npc))
+			return;
 		switch (npc.getId()) {
 		case 9462:
 			if (player.getSkills().getLevel(18) < 93) {
@@ -168,6 +157,7 @@ public class Strykewyrm extends NPC {
 		default:
 			return;
 		}
+		npc.setAttackedBy(player);
 		player.setNextAnimation(new Animation(4278));
 		player.lock(2);
 		npc.setCantInteract(true);

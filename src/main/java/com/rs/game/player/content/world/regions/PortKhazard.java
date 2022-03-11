@@ -18,6 +18,11 @@ package com.rs.game.player.content.world.regions;
 
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
+import com.rs.game.player.content.minigames.trawler.FishingTrawler;
+import com.rs.game.player.content.minigames.trawler.MontyConversation;
+import com.rs.game.player.content.minigames.trawler.MontyGameConversation;
+import com.rs.game.player.controllers.Controller;
+import com.rs.game.player.controllers.FishingTrawlerGameController;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -25,6 +30,19 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PortKhazard {
+
+	public static NPCClickHandler handleMontyClick = new NPCClickHandler(new Object[] { 463 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			Controller controller = e.getPlayer().getControllerManager().getController();
+			if((controller instanceof FishingTrawlerGameController) && FishingTrawler.getInstance().isTrawlerMonty(e.getNPC())) {
+				e.getPlayer().startConversation(new MontyGameConversation(e.getPlayer()));
+				return;
+			}
+			e.getPlayer().startConversation(new MontyConversation(e.getPlayer()));
+		}
+	};
+
 	public static NPCClickHandler handleKhazardShopkeeper = new NPCClickHandler(new Object[] { 555 }) {
 		@Override
 		public void handle(NPCClickEvent e) {

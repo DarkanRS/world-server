@@ -16,27 +16,44 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
+import com.rs.game.player.Skills;
 import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.magic.Magic;
+import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.controllers.BorkController;
 import com.rs.game.player.controllers.WildernessController;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.DropSets;
 
 @PluginEventHandler
 public class Wilderness {
 
-	/* Magic axe hut if I decide to add it back
-	 * Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 2574, 32, 14, 7.5, new DropTable(Rarity.COMMON, 995, 200), new DropTable(Rarity.COMMON, 2297, 1), new DropTable(Rarity.COMMON, 1365, 1), new DropTable(Rarity.COMMON, 1353, 1), new DropTable(Rarity.UNCOMMON, 991, 1), new DropTable(Rarity.UNCOMMON, 1369, 1), new DropTable(Rarity.UNCOMMON, 1355, 1), new DropTable(Rarity.RARE, 1371, 1), new DropTable(Rarity.RARE, 1357, 1), new DropTable(Rarity.RARE, 1373, 1), new DropTable(Rarity.RARE, 1359, 1));
-	 */
+	public static ObjectClickHandler handleMagicAxeHutChests = new ObjectClickHandler(new Object[] { 2566 }, new WorldTile(3188, 3962, 0), new WorldTile(3189, 3962, 0), new WorldTile(3193, 3962, 0)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			switch(e.getOpNum()) {
+				case OBJECT_OP1 -> {
+					e.getPlayer().sendMessage("You attempt to open the chest without disarming the traps.");
+					e.getPlayer().applyHit(new Hit((int) (e.getPlayer().getSkills().getLevel(Skills.HITPOINTS) + 20), Hit.HitLook.TRUE_DAMAGE));
+				}
+				case OBJECT_OP2 -> {
+					Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 2574, 32, 14, 7.5, DropSets.getDropSet("magic_axe_hut_chest"));
+				}
+			}
+		};
+	};
 
 	public static ObjectClickHandler handleKBDEnterLadder = new ObjectClickHandler(new Object[] { 1765 }, new WorldTile(3017, 3849, 0)) {
 		@Override

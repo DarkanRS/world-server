@@ -22,6 +22,8 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
@@ -75,13 +77,21 @@ public class ConditionalDeath extends NPC {
 		setHitpoints(1);
 	}
 
+	public static NPCClickHandler gargSmash = new NPCClickHandler(new Object[] {1610}, new String[]{"Smash"}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (e.getNPC() instanceof ConditionalDeath cd)
+				cd.useHammer(e.getPlayer());
+		}
+	};
+
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1610, 1631, 1632, 2803, 2804, 2805, 2806, 2807, 2808, 14849) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {
 			if (npcId == 1631 || npcId == 1632)
 				return new ConditionalDeath(4161, "The rockslug shrivels and dies.", true, npcId, tile);
 			if (npcId == 1610)
-				return new ConditionalDeath(4162, "The gargoyle breaks into peices as you slam the hammer onto its head.", false, npcId, tile);
+				return new ConditionalDeath(4162, "The gargoyle breaks into pieces as you slam the hammer onto its head.", false, npcId, tile);
 			if (npcId == 14849)
 				return new ConditionalDeath(23035, null, false, npcId, tile);
 			else

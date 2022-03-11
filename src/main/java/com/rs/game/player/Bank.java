@@ -16,17 +16,13 @@
 //
 package com.rs.game.player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
 import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -35,6 +31,11 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemExamines;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class Bank {
@@ -594,7 +595,13 @@ public class Bank {
 		refreshTabs(other);
 		sendItemsOther(other);
 		unlockButtons();
+		player.getPackets().sendItems(93, other.getInventory().getItems());
+		player.getPackets().sendItems(94, other.getEquipment().getItemsCopy());
 		player.getTempAttribs().setB("viewingOtherBank", true);
+		player.setCloseInterfacesEvent(() -> {
+			player.getInventory().refresh();
+			player.getEquipment().refresh();
+		});
 	}
 
 	public void refreshLastX() {
@@ -668,6 +675,8 @@ public class Bank {
 		}
 		removeItem(bankSlot, item.getAmount(), true, false);
 		player.getInventory().addItem(item);
+		if (item.getId() == Runecrafting.RUNE_ESS || item.getId() == Runecrafting.PURE_ESS)
+			Runecrafting.fillPouchesFromBank(player, item.getId());
 	}
 
 	public void sendExamine(int fakeSlot) {
@@ -722,6 +731,8 @@ public class Bank {
 			for (int i = 0; i < space; i++) {
 				if (items[i] == null)
 					continue;
+				if (items[i].getDefinitions().isNoted() && items[i].getDefinitions().getCertId() != -1)
+					items[i].setId(items[i].getDefinitions().getCertId());
 				addItem(items[i], false);
 			}
 			if (refresh) {
