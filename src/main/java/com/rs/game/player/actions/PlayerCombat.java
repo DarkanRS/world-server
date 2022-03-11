@@ -186,7 +186,7 @@ public class PlayerCombat extends Action {
 					playSound(227, player, target);
 				}
 			}, null, null);
-			return 3;
+			return 4;
 		}
 		if (spell != null) {
 			boolean manualCast = player.getCombatDefinitions().hasManualCastQueued();
