@@ -78,8 +78,8 @@ public abstract class EntityInteraction extends Interaction {
 	public boolean isWithinDistance(Player player, Entity target, boolean addRunSteps) {
 		boolean los = player.lineOfSightTo(target, distance == 0);
 		boolean inRange = WorldUtil.isInRange(player, target, distance + (addRunSteps ? (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0) : 0));
-		boolean collides = WorldUtil.collides(player, target);
-		if (!los || !inRange || collides)
+		//boolean collides = WorldUtil.collides(player, target);
+		if (!los || !inRange)
 			return false;
 		return true;
 	}
@@ -95,9 +95,12 @@ public abstract class EntityInteraction extends Interaction {
 			return false;
 		if (player.hasEffect(Effect.FREEZE))
 			return !WorldUtil.collides(player, target);
-		if (WorldUtil.collides(player, target) && !target.hasWalkSteps()) {
-			player.resetWalkSteps();
-			return player.calcFollow(target, true);
+		if (WorldUtil.collides(player, target)) {
+			if (!target.hasWalkSteps() && !player.hasWalkSteps()) {
+				player.resetWalkSteps();
+				return player.calcFollow(target, true);
+			}
+			return target instanceof Player ? true : player.calcFollow(target, true);
 		}
 		if (distance == 0 && !target.hasWalkSteps() && target.getSize() == 1) {
 			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
@@ -121,7 +124,7 @@ public abstract class EntityInteraction extends Interaction {
 			}
 		} else {
 			player.resetWalkSteps();
-			if (target.getRun() == player.getRun() && target.hasWalkSteps()) {
+			if (distance == 0 && target.getRun() == player.getRun() && target.hasWalkSteps()) {
 				WalkStep step = target.previewNextWalkStep();
 				if (step != null)
 					player.calcFollow(target.transform(step.getDir().getDx(), step.getDir().getDy()), player.getRun() ? 2 : 1, true);
