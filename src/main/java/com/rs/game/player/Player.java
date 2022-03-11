@@ -954,8 +954,8 @@ public class Player extends Entity {
 			cutsceneManager.process();
 			super.processEntity();
 			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN)) {
-				if (getActionManager().getAction() instanceof PlayerCombat combat) {
-					if (!(combat.getTarget() instanceof Player))
+				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
+					if (!(combat.getAction().getTarget() instanceof Player))
 						idleLog();
 				} else
 					logout(true);
@@ -1641,7 +1641,7 @@ public class Player extends Entity {
 		disconnected = true;
 		if (hasFinished())
 			return;
-		stopAll(false, true, !(actionManager.getAction() instanceof PlayerCombat));
+		stopAll(false, true, !(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction));
 		if ((inCombat(10000) || hasBeenHit(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
 			CoresManager.schedule(() -> {
 				try {
@@ -2895,15 +2895,19 @@ public class Player extends Entity {
 		case 4153:
 		case 14679:
 			combatDefinitions.switchUsingSpecialAttack();
-			Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : getTempAttribs().getO("last_target");
+			Entity target = (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) ? combat.getAction().getTarget() : getTempAttribs().getO("last_target");
 			if (target != null) {
 				if (!(target instanceof NPC n && n.isForceMultiAttacked()))
 					if (!target.isAtMultiArea() || !isAtMultiArea())
 						if ((getAttackedBy() != target && inCombat()) || (target.getAttackedBy() != this && target.inCombat()))
 							return;
-				if (!(getActionManager().getAction() instanceof PlayerCombat combat) || combat.getTarget() != target)
+				if (target.isDead() || target.hasFinished())
+					return;
+				if (!(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) || combat.getAction().getTarget() != target) {
+					resetWalkSteps();
 					getInteractionManager().setInteraction(new PlayerCombatInteraction(this, target));
-				PlayerCombat pcb = (PlayerCombat) getActionManager().getAction();
+				}
+				PlayerCombat pcb = ((PlayerCombatInteraction) getInteractionManager().getInteraction()).getAction();
 				if (pcb == null ||!inMeleeRange(target) || !PlayerCombat.specialExecute(this))
 					return;
 				setNextAnimation(new Animation(weaponId == 4153 ? 1667 : 10505));

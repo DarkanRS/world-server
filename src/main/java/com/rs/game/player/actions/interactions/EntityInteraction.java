@@ -57,7 +57,6 @@ public abstract class EntityInteraction extends Interaction {
 			return false;
 		if (checkDistance(player) && checkAll(player))
 			return true;
-		player.setNextFaceEntity(null);
 		return false;
 	}
 

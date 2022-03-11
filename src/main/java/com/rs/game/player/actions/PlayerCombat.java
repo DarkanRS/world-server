@@ -128,7 +128,6 @@ public class PlayerCombat extends Action {
 			return false;
 		if (target instanceof NPC n)
 			player.setLastNpcInteractedName(n.getDefinitions().getName());
-		player.setNextFaceEntity(null);
 		return true;
 	}
 

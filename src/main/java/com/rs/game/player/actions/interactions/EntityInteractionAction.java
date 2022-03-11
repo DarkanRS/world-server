@@ -4,12 +4,12 @@ import com.rs.game.Entity;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.Action;
 
-public abstract class EntityInteractionAction extends EntityInteraction {
+public abstract class EntityInteractionAction<T extends Action> extends EntityInteraction {
 
-	private Action action;
+	private T action;
 	private boolean started = false;
 
-	public EntityInteractionAction(Entity target, Action action, int distance) {
+	public EntityInteractionAction(Entity target, T action, int distance) {
 		super(target, distance);
 		continueAfterReached();
 		keepFacing();
@@ -33,6 +33,10 @@ public abstract class EntityInteractionAction extends EntityInteraction {
 			return;
 		}
 		player.getActionManager().setActionDelay(newDelay);
+	}
+
+	public T getAction() {
+		return action;
 	}
 
 	@Override
