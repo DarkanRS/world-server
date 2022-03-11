@@ -146,16 +146,17 @@ public final class NPCCombat {
 					return false;
 		if (!npc.isCantFollowUnderCombat()) {
 			int targetSize = target.getSize();
-			if (!target.hasWalkSteps() && WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize)) {
+			if (!target.hasWalkSteps() && !npc.hasWalkSteps() && WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize)) {
 				npc.resetWalkSteps();
-				if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) {
+				if (!npc.addWalkSteps(target.getX() - size, npc.getY())) { //check west
 					npc.resetWalkSteps();
-					if (!npc.addWalkSteps(target.getX() - size, npc.getY())) {
+					if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) { //check east
 						npc.resetWalkSteps();
-						if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) {
+						if (!npc.addWalkSteps(npc.getX(), target.getY() - size)) { //check south
 							npc.resetWalkSteps();
-							if (!npc.addWalkSteps(npc.getX(), target.getY() - size))
+							if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) { //check north
 								return true;
+							}
 						}
 					}
 				}
@@ -172,7 +173,7 @@ public final class NPCCombat {
 			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);
 			if (!los || !inRange) {
-				npc.calcFollow(target, npc.getRun() ? 2 : 1, true, npc.isIntelligentRouteFinder());
+				npc.calcFollow(target, npc.getRun() ? 2 : 1, npc.isIntelligentRouteFinder());
 				return true;
 			}
 		}

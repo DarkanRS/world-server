@@ -264,7 +264,7 @@ public class ServantNPC extends NPC {
 		}
 		resetWalkSteps();
 		if (!lineOfSightTo(owner, true) || !WorldUtil.isInRange(getX(), getY(), size, owner.getX(), owner.getY(), targetSize, 0))
-			calcFollow(owner, 2, true, true);
+			calcFollow(owner, 2, true);
 	}
 
 	@Override

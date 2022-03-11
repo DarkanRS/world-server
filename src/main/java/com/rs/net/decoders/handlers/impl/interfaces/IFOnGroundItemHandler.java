@@ -84,7 +84,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 					if (!player.lineOfSightTo(tile, false) || Utils.getDistance(player.getTile(), tile) > 8) {
 						if (player.hasWalkSteps())
 							player.resetWalkSteps();
-						player.calcFollow(tile, 25, true, true);
+						player.calcFollow(tile, 25, true);
 						return true;
 					}
 					if (TreasureTrailsManager.isScroll(item.getId()))

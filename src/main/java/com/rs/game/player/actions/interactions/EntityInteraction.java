@@ -110,21 +110,21 @@ public abstract class EntityInteraction extends Interaction {
 					break;
 				default:
 					player.resetWalkSteps();
-					player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
+					player.calcFollow(target, player.getRun() ? 2 : 1, true);
 					return true;
 				}
 		}
 		if (!isWithinDistance(player, target, false)) {
 			if (!player.hasWalkSteps() || target.hasWalkSteps()) {
 				player.resetWalkSteps();
-				player.calcFollow(target, player.getRun() ? 2 : 1, true, true);
+				player.calcFollow(target, player.getRun() ? 2 : 1, true);
 			}
 		} else {
 			player.resetWalkSteps();
 			if (target.getRun() == player.getRun() && target.hasWalkSteps()) {
 				WalkStep step = target.previewNextWalkStep();
 				if (step != null)
-					player.calcFollow(target.transform(step.getDir().getDx(), step.getDir().getDy()), player.getRun() ? 2 : 1, true, true);
+					player.calcFollow(target.transform(step.getDir().getDx(), step.getDir().getDy()), player.getRun() ? 2 : 1, true);
 			}
 		}
 		return true;

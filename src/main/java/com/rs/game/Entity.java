@@ -446,14 +446,14 @@ public abstract class Entity {
 		if (!WorldUtil.isInRange(this, target, distance) || !lineOfSightTo(target, distance == 0)) {
 			if (!hasWalkSteps() || target.hasWalkSteps()) {
 				resetWalkSteps();
-				calcFollow(target, getRun() ? 2 : 1, true, true);
+				calcFollow(target, getRun() ? 2 : 1, true);
 			}
 		} else
 			resetWalkSteps();
 	}
 
 	public boolean calcFollow(Object target, boolean inteligent) {
-		return calcFollow(target, -1, true, inteligent);
+		return calcFollow(target, -1, inteligent);
 	}
 
 	public abstract boolean canMove(Direction dir);
@@ -462,7 +462,7 @@ public abstract class Entity {
 
 	}
 
-	public boolean calcFollow(Object target, int maxStepsCount, boolean calculate, boolean intelligent) {
+	public boolean calcFollow(Object target, int maxStepsCount, boolean intelligent) {
 		if (intelligent) {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), target instanceof GameObject go ? new ObjectStrategy(go) : target instanceof Entity e ? new EntityStrategy(e) : new FixedTileStrategy(((WorldTile) target).getX(), ((WorldTile) target).getY()), true);
 			if (steps == -1)
@@ -472,7 +472,7 @@ public abstract class Entity {
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
 			for (int step = steps - 1; step >= 0; step--)
-				if (!addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
+				if (!addWalkSteps(bufferX[step], bufferY[step], maxStepsCount, true, true))
 					break;
 			return true;
 		}
