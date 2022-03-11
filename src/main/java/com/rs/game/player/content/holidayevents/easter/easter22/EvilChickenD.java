@@ -20,7 +20,7 @@ public class EvilChickenD extends Conversation {
     public EvilChickenD(Player player) {
         super(player);
         if (!player.getNSV().getB("talkedWithEvilChicken") && player.getNSV().getB("talkedWithChocatrice")) {
-            addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You already spoke to that chocolate bar on legs! *bwaaak*");
+            addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You shouldn't have spoken to that Chocatrice. He's *bwaaak* *bwaaak* mad.");
         } else if (!player.getNSV().getB("talkedWithEvilChicken") && !player.getNSV().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "I'm glad you spoke with me first and not that chocolate bar on legs.");
             player.getNSV().setB("talkedWithEvilChicken", true);
@@ -84,11 +84,9 @@ public class EvilChickenD extends Conversation {
                             player.getInventory().deleteItem(Easter2022.EVIL_DRUMSTICK, 3);
                             player.addDiangoReclaimItem(Easter2022.EGG_ON_FACE_MASK);
                             player.getInventory().addItemDrop(Easter2022.EGG_ON_FACE_MASK, 1);
-                            addItem(Easter2022.EGG_ON_FACE_MASK, "You receive the egg on face mask.").addGotoStage("rewardOps", EvilChickenD.this);
+                            addItem(Easter2022.EGG_ON_FACE_MASK, "You receive the egg on face mask.").addGotoStage("huntOps", EvilChickenD.this);
                         });
-                        option("No", () -> {
-                            addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "*bwaaak*").addGotoStage("rewardOps", EvilChickenD.this);
-                        });
+                        option("No", new Dialogue().addGotoStage("huntOps", EvilChickenD.this));
                     }
                 });
             }
@@ -160,8 +158,8 @@ public class EvilChickenD extends Conversation {
                     option("How do I hunt the eggs?", new Dialogue()
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The Easter Bunny has hidden magical eggs across Runescape. Unfortunate, the Easter Bunny is temporarily...indisposed...and so is unable to perform his duties as huntmaster. " +
                                     "I am now in charge of the hunt.")
-                            .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "No, you aren't. I am!")
-                            .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Be quiet.")
+                            .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "No, you aren't. I'm the huntmaster!")
+                            .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Quiet, you.")
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Every two hours, a new hunt will begin. Hunt down the five eggs, smash them open using the Eggsterminator and then shoot at the chick that emerges with the Eggsterminator. " +
                                     "This will turn the chick into a tasty treat."));
                     option("Can I have a hint?", (Easter2022.hasFoundHintEgg(player) ?
@@ -170,14 +168,16 @@ public class EvilChickenD extends Conversation {
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well, the Chocatrice and I have a gentlefowl's agreement not to tell our seekers the locations of any of the eggs. But between you and me...")
                                     .addOption("Listen to the hint?", "Yes", "No")
-                                    .addSimple("The bird lowers its voice.")
+                                    .addSimple("The chicken lowers its voice.")
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "One egg can be found " + Easter2022.currentEggs.get(0).getHint())));
                 }
                 //TODO THIS NEEDS TO BE FOUND
                 option("Who are you?", new Dialogue()
-                        .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "I was born from an egg dipped in chocolate. The others insulted me, even the cockatrices.")
-                        .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "So I turned them all into chocolate! Now they no longer insult me!")
-                        .addSimple("You get the impression that this bird is quite mad."));
+                        .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "But surely everybody has heard of the Evil Chicken.")
+                        .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Some say I came from the Abyss. Others say I was just a normal chicken, who grew angry at human domination over my species. But do you want to know where I really came from?")
+                        .addSimple("The Evil Chicken lowers its voice. You lean in.")
+                        .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "*Bwaaak* *Bwaaak* *Bwaaak*")
+                        .addSimple("You get the impression that this chicken is quite mad."));
                 option("Talk about rewards.", new Dialogue().addOptions(new Options() {
                     @Override
                     public void create() {

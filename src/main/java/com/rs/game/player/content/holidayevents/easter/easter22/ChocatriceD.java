@@ -87,9 +87,7 @@ public class ChocatriceD extends Conversation {
                             player.getInventory().addItemDrop(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, 1);
                             addItem(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, "You receive the chocolate egg on face mask.").addGotoStage("huntOps", ChocatriceD.this);
                         });
-                        option("No", new Dialogue()
-                                .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "*bwaaak*")
-                                .addGotoStage("huntOps", ChocatriceD.this));
+                        option("No", new Dialogue().addGotoStage("huntOps", ChocatriceD.this));
                     }
                 });
             }
@@ -164,7 +162,7 @@ public class ChocatriceD extends Conversation {
                                 .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Nasty chicken and I agreed not to help the hunters find any of the eggs, but...")
                                 .addOption("Listen to the hint?", "Yes", "No")
                                 .addSimple("The bird lowers its voice.")
-                                .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "One egg can be found " + Easter2022.currentEggs.get(0).getHint())));
+                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "One egg can be found " + Easter2022.currentEggs.get(0).getHint())));
                 }
                 option("Who are you?", new Dialogue()
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION,"I was born from an egg dipped in chocolate. The others insulted me, even the cockatrices.")
