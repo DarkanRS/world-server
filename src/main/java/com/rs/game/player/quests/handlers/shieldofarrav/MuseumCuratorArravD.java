@@ -58,6 +58,8 @@ public class MuseumCuratorArravD extends Conversation {
 
 	public MuseumCuratorArravD(Player p, boolean restartConversation) {
 		super(p);
+		addPlayer(HeadE.HAPPY_TALKING, "Hello.");
+		addNPC(CURATOR, HeadE.CALM_TALK, "Hi.");
 		if(p.getInventory().containsItem("Broken shield") && p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.SPOKE_TO_KING_STAGE)
 			tradeShield(p);
 	}
