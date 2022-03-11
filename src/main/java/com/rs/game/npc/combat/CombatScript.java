@@ -25,7 +25,7 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.familiar.Steeltitan;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.combat.AttackType;
 import com.rs.game.player.content.combat.XPType;
 import com.rs.lib.Constants;
@@ -49,7 +49,7 @@ public abstract class CombatScript {
 				if (target instanceof Player player) {
 					player.closeInterfaces();
 					if (!player.isLocked() && player.getCombatDefinitions().isAutoRetaliate() && !player.getActionManager().hasSkillWorking() && player.getInteractionManager().getInteraction() == null && !player.hasWalkSteps())
-						player.getActionManager().setAction(new PlayerCombat(npc));
+						player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, npc));
 				} else {
 					NPC n = (NPC) target;
 					if (!n.isUnderCombat() || n.canBeAutoRetaliated())
@@ -74,7 +74,7 @@ public abstract class CombatScript {
 			if (target instanceof Player player) {
 				player.closeInterfaces();
 				if (!player.isLocked() && player.getCombatDefinitions().isAutoRetaliate() && !player.getActionManager().hasSkillWorking() && player.getInteractionManager().getInteraction() == null && !player.hasWalkSteps())
-					player.getActionManager().setAction(new PlayerCombat(npc));
+					player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, npc));
 			} else {
 				NPC n = (NPC) target;
 				if (!n.isUnderCombat() || n.canBeAutoRetaliated())

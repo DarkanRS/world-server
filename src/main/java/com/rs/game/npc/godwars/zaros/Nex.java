@@ -137,7 +137,7 @@ public final class Nex extends NPC {
 						return;
 					}
 				} else
-					calcFollow(target, 2, true, true);
+					calcFollow(target, 2, true);
 				return;
 			}
 			resetWalkSteps();

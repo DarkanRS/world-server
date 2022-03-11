@@ -266,7 +266,7 @@ public final class EmotesManager {
 	};
 
 	public void useBookEmote(Emote emote) {
-		if (player.inCombat(10000)) {
+		if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 			player.sendMessage("You can't do this while you're under combat.");
 			return;
 		}

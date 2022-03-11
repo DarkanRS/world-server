@@ -47,7 +47,7 @@ public class Rest extends Action {
 			player.sendMessage("You can't rest while you're poisoned.");
 			return false;
 		}
-		if (player.inCombat(10000)) {
+		if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 			player.sendMessage("You can't rest until 10 seconds after the end of combat.");
 			return false;
 		}
