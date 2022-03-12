@@ -21,7 +21,7 @@ import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -31,7 +31,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.drop.DropTable;
 
-public class PickPocketAction extends Action {
+public class PickPocketAction extends PlayerAction {
 
 	private NPC npc;
 	private PickPocketableNPC npcData;

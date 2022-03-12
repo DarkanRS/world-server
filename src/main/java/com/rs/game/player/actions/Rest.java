@@ -20,7 +20,7 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-public class Rest extends Action {
+public class Rest extends PlayerAction {
 
 	private static int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
 	// First

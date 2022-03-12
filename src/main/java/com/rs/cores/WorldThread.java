@@ -16,6 +16,10 @@
 //
 package com.rs.cores;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import com.rs.Settings;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
@@ -27,10 +31,6 @@ import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.web.Telemetry;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @PluginEventHandler
 public final class WorldThread extends Thread {

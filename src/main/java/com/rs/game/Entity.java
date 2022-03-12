@@ -16,6 +16,17 @@
 //
 package com.rs.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Function;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
@@ -26,13 +37,23 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.dungeoneering.Stomp;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
-import com.rs.game.pathing.*;
+import com.rs.game.pathing.ClipType;
+import com.rs.game.pathing.Direction;
+import com.rs.game.pathing.DumbRouteFinder;
+import com.rs.game.pathing.EntityStrategy;
+import com.rs.game.pathing.FixedTileStrategy;
+import com.rs.game.pathing.ObjectStrategy;
+import com.rs.game.pathing.RouteEvent;
+import com.rs.game.pathing.RouteFinder;
+import com.rs.game.pathing.WalkStep;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.prayer.Prayer;
+import com.rs.game.player.managers.ActionManager;
+import com.rs.game.player.managers.InteractionManager;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -48,11 +69,6 @@ import com.rs.lib.util.Vec2;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.WorldUtil;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.function.Function;
 
 public abstract class Entity {
 	public enum MoveType {
@@ -91,6 +107,8 @@ public abstract class Entity {
 	private transient boolean teleported;
 	private transient ConcurrentLinkedQueue<WalkStep> walkSteps;
 	protected transient RouteEvent routeEvent;
+	private transient ActionManager actionManager;
+	private transient InteractionManager interactionManager;
 	private transient ClipType clipType = ClipType.NORMAL;
 
 	private transient BodyGlow nextBodyGlow;
@@ -242,6 +260,8 @@ public abstract class Entity {
 		nonsavingVars = new GenericAttribMap();
 		nextHits = new ArrayList<>();
 		nextHitBars = new ArrayList<>();
+		actionManager = new ActionManager(this);
+		interactionManager = new InteractionManager(this);
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
 		nextFaceEntity = -2;
@@ -852,6 +872,8 @@ public abstract class Entity {
 			if (tickCounter % 10 == 0)
 				restoreHitPoints();
 		processEffects();
+		interactionManager.process();
+		actionManager.process();
 	}
 
 	public void loadMapRegions() {
@@ -1569,5 +1591,13 @@ public abstract class Entity {
 			}
 		}
 		return true;
+	}
+
+	public InteractionManager getInteractionManager() {
+		return interactionManager;
+	}
+	
+	public ActionManager getActionManager() {
+		return actionManager;
 	}
 }

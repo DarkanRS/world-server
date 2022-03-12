@@ -16,15 +16,15 @@
 //
 package com.rs.game.player.managers;
 
-import com.rs.game.player.Player;
+import com.rs.game.Entity;
 import com.rs.game.player.actions.interactions.Interaction;
 
 public final class InteractionManager {
 
-	private Player player;
+	private Entity player;
 	private Interaction interaction;
 
-	public InteractionManager(Player player) {
+	public InteractionManager(Entity player) {
 		this.player = player;
 	}
 

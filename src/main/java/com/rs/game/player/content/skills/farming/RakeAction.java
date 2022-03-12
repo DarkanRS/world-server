@@ -17,11 +17,11 @@
 package com.rs.game.player.content.skills.farming;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
-public class RakeAction extends Action {
+public class RakeAction extends PlayerAction {
 
 	private FarmPatch patch;
 

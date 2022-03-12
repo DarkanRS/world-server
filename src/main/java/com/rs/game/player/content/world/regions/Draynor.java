@@ -16,6 +16,17 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.AGGIE;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.ASHES;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.BALL_WOOL;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.GEAR_CHECK;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.NED;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.PASTE;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.POT_OF_FLOUR;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.REDBERRY;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.WATER_BUCKET;
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.WIG;
+
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Inventory;
@@ -42,8 +53,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.*;
 
 @PluginEventHandler
 public class Draynor {

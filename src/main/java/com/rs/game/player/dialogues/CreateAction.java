@@ -17,12 +17,12 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class CreateAction extends Action {
+public class CreateAction extends PlayerAction {
 
 	private int[] anims;
 	private Item[][] materials;

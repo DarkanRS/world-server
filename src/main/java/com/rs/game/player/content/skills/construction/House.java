@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.skills.construction;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
@@ -26,7 +30,11 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.pet.Pets;
-import com.rs.game.player.content.skills.construction.HouseConstants.*;
+import com.rs.game.player.content.skills.construction.HouseConstants.Builds;
+import com.rs.game.player.content.skills.construction.HouseConstants.HObject;
+import com.rs.game.player.content.skills.construction.HouseConstants.POHLocation;
+import com.rs.game.player.content.skills.construction.HouseConstants.Room;
+import com.rs.game.player.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.HouseController;
 import com.rs.game.player.dialogues.SimpleMessage;
@@ -46,10 +54,6 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.RegionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @PluginEventHandler
 public class House {

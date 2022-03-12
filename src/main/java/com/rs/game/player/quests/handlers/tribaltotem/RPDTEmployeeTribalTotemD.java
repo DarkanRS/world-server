@@ -1,5 +1,9 @@
 package com.rs.game.player.quests.handlers.tribaltotem;
 
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.CHANGED_CRATE_ATTR;
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.GET_TOTEM;
+import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -7,8 +11,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.tribaltotem.TribalTotem.*;
 
 @PluginEventHandler
 public class RPDTEmployeeTribalTotemD extends Conversation {

@@ -1,11 +1,13 @@
 package com.rs.game.player.quests.handlers.templeofikov.dialogues;
 
+import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.HELP_LUCIEN;
+import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.QUEST_COMPLETE;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.*;
 
 @PluginEventHandler
 public class DialogueTemplate extends Conversation {

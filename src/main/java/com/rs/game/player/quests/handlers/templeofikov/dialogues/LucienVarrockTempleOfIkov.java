@@ -1,29 +1,21 @@
 package com.rs.game.player.quests.handlers.templeofikov.dialogues;
 
-import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.object.GameObject;
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.HELP_LUCIEN;
+import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.QUEST_COMPLETE;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
-import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.merlinscrystal.MordredMob;
 import com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.Ticks;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.*;
 
 @PluginEventHandler
 public class LucienVarrockTempleOfIkov extends Conversation {

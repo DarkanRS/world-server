@@ -1,5 +1,13 @@
 package com.rs.game.player.quests.handlers.lostcity;
 
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.CHOP_DRAMEN_TREE;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.FIND_ZANARIS;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.LEPRACAUN;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.LEPRACAUN_TREE;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.lostcity.LostCity.TALK_TO_LEPRAUCAN;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -19,8 +27,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import static com.rs.game.player.quests.handlers.lostcity.LostCity.*;
 
 @PluginEventHandler
 public class LeprecaunLostCityD extends Conversation {

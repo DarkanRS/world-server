@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.princealirescue;
 
+import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.JAIL_REGION_ID;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -29,8 +31,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.princealirescue.PrinceAliRescue.JAIL_REGION_ID;
 
 @PluginEventHandler
 public class PrinceAliPrinceAliRescueD extends Conversation {

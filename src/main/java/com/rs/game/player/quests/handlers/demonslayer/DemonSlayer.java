@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.demonslayer;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -26,11 +28,17 @@ import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.EnterChunkEvent;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.EnterChunkHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Areas;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler

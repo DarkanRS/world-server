@@ -16,36 +16,32 @@
 //
 package com.rs.game.player.managers;
 
-import com.rs.game.player.Player;
+import com.rs.game.Entity;
 import com.rs.game.player.actions.Action;
-import com.rs.game.player.content.randomevents.RandomEvents;
-import com.rs.lib.util.Utils;
 
 public final class ActionManager {
 
-	private Player player;
+	private Entity entity;
 	private Action action;
 	private int actionDelay;
 
-	public ActionManager(Player player) {
-		this.player = player;
+	public ActionManager(Entity entity) {
+		this.entity = entity;
 	}
 
 	public void process() {
 		if (action != null)
-			if (player.isDead())
+			if (entity.isDead())
 				forceStop();
-			else if (!action.process(player))
+			else if (!action.process(entity))
 				forceStop();
 		if (actionDelay > 0) {
 			actionDelay--;
 			return;
 		}
-		if (action == null || player == null)
+		if (action == null || entity == null)
 			return;
-		if (!action.isNoRandoms() && Utils.random(2000) == 0)
-			RandomEvents.attemptSpawnRandom(player);
-		int delay = action.processWithDelay(player);
+		int delay = action.processWithDelay(entity);
 		if (delay == -1) {
 			forceStop();
 			return;
@@ -55,7 +51,7 @@ public final class ActionManager {
 
 	public boolean setAction(Action skill) {
 		forceStop();
-		if (!skill.start(player))
+		if (!skill.start(entity))
 			return false;
 		action = skill;
 		return true;
@@ -64,7 +60,7 @@ public final class ActionManager {
 	public void forceStop() {
 		if (action == null)
 			return;
-		action.stop(player);
+		action.stop(entity);
 		action = null;
 	}
 
@@ -88,7 +84,7 @@ public final class ActionManager {
 		return action;
 	}
 
-	public boolean doingAction(Class<?> type) {
+	public boolean doingAction(Class<? extends Action> type) {
 		if (action == null)
 			return false;
 		return type.isInstance(action);

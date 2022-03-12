@@ -1,5 +1,14 @@
 package com.rs.game.player.quests.handlers.monksfriend.dialogues;
 
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.ASK_ABOUT_PARTY;
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.GET_BLANKET;
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.HELP_CEDRIC;
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.RETURN_TO_OMAD;
+
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -18,10 +27,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-
-import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.*;
 
 @PluginEventHandler
 public class BrotherOmadMonksFriendD extends Conversation {

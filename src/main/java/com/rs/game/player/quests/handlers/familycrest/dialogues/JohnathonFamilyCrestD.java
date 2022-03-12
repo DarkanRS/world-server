@@ -1,5 +1,12 @@
 package com.rs.game.player.quests.handlers.familycrest.dialogues;
 
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.CHAOS_GAUNTLETS;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.FAMILY_GAUNTLETS;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.JOHNATHAN_CREST;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.KILL_CHRONOZON;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.TALK_TO_JOHNATHAN;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -12,8 +19,6 @@ import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.*;
 
 @PluginEventHandler
 public class JohnathonFamilyCrestD extends Conversation {

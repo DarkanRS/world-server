@@ -17,7 +17,6 @@
 package com.rs.game.player.actions.interactions;
 
 import com.rs.game.Entity;
-import com.rs.game.player.Player;
 
 public class StandardEntityInteraction extends EntityInteraction {
 
@@ -29,22 +28,22 @@ public class StandardEntityInteraction extends EntityInteraction {
 	}
 
 	@Override
-	public boolean canStart(Player player) {
+	public boolean canStart(Entity player) {
 		return true;
 	}
 
 	@Override
-	public boolean checkAll(Player player) {
+	public boolean checkAll(Entity player) {
 		return true;
 	}
 
 	@Override
-	public void interact(Player player) {
+	public void interact(Entity player) {
 		onReached.run();
 	}
 
 	@Override
-	public void onStop(Player player) {
+	public void onStop(Entity player) {
 
 	}
 

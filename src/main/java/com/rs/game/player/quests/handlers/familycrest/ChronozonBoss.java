@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.familycrest;
 
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.JOHNATHAN_CREST;
+import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.KILL_CHRONOZON;
+
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.World;
@@ -13,9 +16,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCDeathEvent;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.JOHNATHAN_CREST;
-import static com.rs.game.player.quests.handlers.familycrest.FamilyCrest.KILL_CHRONOZON;
 
 @PluginEventHandler
 public class ChronozonBoss extends NPC {

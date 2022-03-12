@@ -16,13 +16,13 @@
 //
 package com.rs.game.player.actions;
 
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-import java.util.Map;
-
-public class RestMusician extends Action {
+public class RestMusician extends PlayerAction {
 
 	private static int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
 	// First

@@ -16,11 +16,13 @@
 //
 package com.rs.game.player.content.skills.mining;
 
+import java.util.function.Supplier;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -32,10 +34,8 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-import java.util.function.Supplier;
-
 @PluginEventHandler
-public class Mining extends Action {
+public class Mining extends PlayerAction {
 
 	public static ObjectClickHandler handleClay = new ObjectClickHandler(new Object[] { "Clay rocks", "Clay vein" }) {
 		@Override

@@ -16,6 +16,10 @@
 //
 package com.rs.game.npc.dungeoneering;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
@@ -34,10 +38,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 

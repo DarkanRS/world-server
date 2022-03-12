@@ -16,11 +16,14 @@
 //
 package com.rs.game.player.content.skills.fishing;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -35,11 +38,8 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @PluginEventHandler
-public class Fishing extends Action {
+public class Fishing extends PlayerAction {
 
     private static Map<Integer, FishingSpot[]> FISHING_SPOTS = new HashMap<>();
 

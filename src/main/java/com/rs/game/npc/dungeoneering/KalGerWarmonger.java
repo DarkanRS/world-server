@@ -16,9 +16,15 @@
 //
 package com.rs.game.npc.dungeoneering;
 
+import java.util.List;
+
 import com.rs.cache.loaders.ObjectType;
-import com.rs.game.*;
+import com.rs.game.Entity;
+import com.rs.game.ForceMovement;
+import com.rs.game.ForceTalk;
+import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.combat.impl.dung.YkLagorThunderousCombat;
@@ -34,8 +40,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.List;
 
 public class KalGerWarmonger extends DungeonBoss {
 

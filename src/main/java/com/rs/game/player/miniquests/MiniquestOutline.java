@@ -16,9 +16,9 @@
 //
 package com.rs.game.player.miniquests;
 
-import com.rs.game.player.Player;
-
 import java.util.ArrayList;
+
+import com.rs.game.player.Player;
 
 public abstract class MiniquestOutline {
 

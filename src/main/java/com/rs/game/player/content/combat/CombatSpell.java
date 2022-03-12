@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.combat;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.World;
@@ -32,9 +35,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public enum CombatSpell {
 	WIND_RUSH(1, 2.7, 10, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(463), new RuneSet(Rune.AIR, 2)),

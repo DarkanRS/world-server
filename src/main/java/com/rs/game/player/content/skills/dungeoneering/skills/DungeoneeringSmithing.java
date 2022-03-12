@@ -17,7 +17,7 @@
 package com.rs.game.player.content.skills.dungeoneering.skills;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -25,7 +25,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 
-public class DungeoneeringSmithing extends Action {
+public class DungeoneeringSmithing extends PlayerAction {
 
 	private static Item[][] materials = { { new Item(17630) }, { new Item(17632) }, { new Item(17634) }, { new Item(17636) }, { new Item(17638) }, { new Item(17640) }, { new Item(17642) }, { new Item(17644) }, { new Item(17646) }, { new Item(17648) } };
 	private static Item[][] products = { { new Item(17650) }, { new Item(17652) }, { new Item(17654) }, { new Item(17656) }, { new Item(17658) }, { new Item(17660) }, { new Item(17662) }, { new Item(17664) }, { new Item(17666) }, { new Item(17668) } };

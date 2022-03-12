@@ -16,12 +16,12 @@
 //
 package com.rs.game.player.miniquests;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.game.player.Player;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @PluginEventHandler
 public class MiniquestManager {

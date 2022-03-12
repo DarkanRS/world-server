@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.rs.game.ForceTalk;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -32,10 +36,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SorceressGardenController extends Controller {
 

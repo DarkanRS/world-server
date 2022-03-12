@@ -1,5 +1,10 @@
 package com.rs.game.player.content.minigames.trawler;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.ForceTalk;
@@ -33,8 +38,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
 import com.rs.utils.Ticks;
-
-import java.util.*;
 
 @PluginEventHandler
 public class FishingTrawler {

@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.achievements.AchievementSystemDialogue;
 import com.rs.game.player.content.achievements.SetReward;
@@ -38,8 +40,6 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import static com.rs.game.player.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
 
 @PluginEventHandler
 public class Lumbridge {

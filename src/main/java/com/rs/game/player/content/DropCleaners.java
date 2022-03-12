@@ -1,5 +1,7 @@
 package com.rs.game.player.content;
 
+import java.util.Arrays;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonRewards;
 import com.rs.game.player.content.skills.prayer.Burying;
@@ -8,8 +10,6 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCDropEvent;
 import com.rs.plugin.handlers.NPCDropHandler;
-
-import java.util.Arrays;
 
 @PluginEventHandler
 public class DropCleaners {

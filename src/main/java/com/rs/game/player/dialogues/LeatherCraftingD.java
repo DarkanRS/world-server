@@ -17,7 +17,7 @@
 package com.rs.game.player.dialogues;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
 import com.rs.lib.Constants;
@@ -109,7 +109,7 @@ public class LeatherCraftingD extends Dialogue {
 			end();
 			return;
 		}
-		player.getActionManager().setAction(new Action() {
+		player.getActionManager().setAction(new PlayerAction() {
 
 			int ticks;
 
