@@ -24,13 +24,12 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
-public class PlayerFollow extends Action {
+public class PlayerFollow extends PlayerAction {
 
 	private Player target;
 
 	public PlayerFollow(Player target) {
 		this.target = target;
-		setNoRandoms(true);
 	}
 
 	@Override

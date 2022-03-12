@@ -16,11 +16,11 @@
 //
 package com.rs.utils;
 
-import com.rs.game.player.Player;
-import com.rs.lib.io.InputStream;
-
 import java.util.Arrays;
 import java.util.Objects;
+
+import com.rs.game.player.Player;
+import com.rs.lib.io.InputStream;
 
 @SuppressWarnings("unused")
 public class MachineInformation {

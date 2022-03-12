@@ -16,6 +16,8 @@
 //
 package com.rs.game;
 
+import java.util.function.Consumer;
+
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
@@ -24,12 +26,10 @@ import com.rs.lib.game.Projectile;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
-import java.util.function.Consumer;
-
 public class WorldProjectile extends Projectile {
 
 	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startTime, int endTime, int slope, int angle, Consumer<WorldProjectile> task) {
-		super(from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile(), from instanceof Entity e ? e.getIndex() : -1, to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile(), to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
+		super(from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getTile(), from instanceof Entity e ? e.getIndex() : -1, to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getTile(), to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
 		Entity fromE = from instanceof Entity e ? e : null;
 		sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
 		Entity toE = to instanceof Entity e ? e : null;

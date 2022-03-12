@@ -19,8 +19,7 @@ package com.rs.game.player.content.holidayevents.christmas;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.EntityInteractionAction;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.player.interactions.PlayerEntityInteraction;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -31,11 +30,7 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.PlayerClickHandler;
 
 @PluginEventHandler
-public class SnowballAction extends EntityInteractionAction {
-
-	public SnowballAction(Entity target) {
-		super(target, 7);
-	}
+public class SnowballInteraction extends PlayerEntityInteraction {
 
 	public static ItemEquipHandler handleSnowballWield = new ItemEquipHandler(11951) {
 		@Override
@@ -47,12 +42,16 @@ public class SnowballAction extends EntityInteractionAction {
 	public static PlayerClickHandler handlePelt = new PlayerClickHandler(false, "Pelt") {
 		@Override
 		public void handle(PlayerClickEvent e) {
-			e.getPlayer().getActionManager().setAction(new SnowballAction(e.getTarget()));
+			e.getPlayer().getInteractionManager().setInteraction(new SnowballInteraction(e.getTarget()));
 		}
 	};
 
+	public SnowballInteraction(Entity target) {
+		super(target, 7);
+	}
+
 	@Override
-	public int loopWithDelay(Player player) {
+	public void interact(Player player) {
 		player.setNextFaceWorldTile(target.getTile());
 		if (player.getInventory().containsItem(11951, 1))
 			player.getInventory().deleteItem(11951, 1);
@@ -63,23 +62,8 @@ public class SnowballAction extends EntityInteractionAction {
 		if (target instanceof Player)
 			player.sendMessage("You pelt " + ((Player)target).getDisplayName() + " with a snowball.");
 		player.setNextAnimation(new Animation(7530));
-		player.lock(3);
 		player.resetWalkSteps();
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, 0, p -> {
-					target.setNextSpotAnim(new SpotAnim(862));
-				});
-			}
-		}, 1);
-		player.getActionManager().setActionDelay(3);
-		return -1;
-	}
-
-	@Override
-	public boolean checkAll(Player player) {
-		return true;
+		WorldTasks.schedule(1, () -> World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, 0, p -> target.setNextSpotAnim(new SpotAnim(862))));
 	}
 
 	@Override
@@ -88,8 +72,12 @@ public class SnowballAction extends EntityInteractionAction {
 	}
 
 	@Override
+	public boolean checkAll(Player player) {
+		return true;
+	}
+
+	@Override
 	public void onStop(Player player) {
 
 	}
-
 }

@@ -19,14 +19,14 @@ package com.rs.game.player.dialogues;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.util.ReqItem;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 
-public class CreationAction extends Action {
+public class CreationAction extends PlayerAction {
 
 	private Item[] mats;
 	private Item product;

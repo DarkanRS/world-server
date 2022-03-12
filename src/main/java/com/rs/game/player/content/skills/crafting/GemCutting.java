@@ -18,7 +18,7 @@ package com.rs.game.player.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.GemCuttingD;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
@@ -26,7 +26,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 
-public class GemCutting extends Action {
+public class GemCutting extends PlayerAction {
 
 	public enum Gem {
 		OPAL(1625, 1609, 15.0, 1, 886),

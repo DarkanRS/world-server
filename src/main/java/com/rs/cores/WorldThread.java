@@ -16,6 +16,10 @@
 //
 package com.rs.cores;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import com.rs.Settings;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
@@ -27,10 +31,6 @@ import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.web.Telemetry;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @PluginEventHandler
 public final class WorldThread extends Thread {
@@ -60,11 +60,6 @@ public final class WorldThread extends Thread {
 			OwnedObject.process();
 			World.processRegions();
 			NAMES.clear();
-			for (NPC npc : World.getNPCs()) {
-				if (npc == null || npc.hasFinished())
-					continue;
-				npc.processEntity();
-			}
 			for (Player player : World.getPlayers()) {
 				if (player != null && player.getTempAttribs().getB("realFinished"))
 					player.realFinish();
@@ -75,6 +70,21 @@ public final class WorldThread extends Thread {
 				else
 					NAMES.add(player.getUsername());
 				player.processEntity();
+			}
+			for (NPC npc : World.getNPCs()) {
+				if (npc == null || npc.hasFinished())
+					continue;
+				npc.processEntity();
+			}
+			for (Player player : World.getPlayers()) {
+				if (player == null || !player.hasStarted() || player.hasFinished())
+					continue;
+				player.processMovement();
+			}
+			for (NPC npc : World.getNPCs()) {
+				if (npc == null || npc.hasFinished())
+					continue;
+				npc.processMovement();
 			}
 			for (Player player : World.getPlayers()) {
 				if (player == null)

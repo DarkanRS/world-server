@@ -16,6 +16,17 @@
 //
 package com.rs.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Function;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
@@ -26,13 +37,23 @@ import com.rs.game.npc.NPC;
 import com.rs.game.npc.dungeoneering.Stomp;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
-import com.rs.game.pathing.*;
+import com.rs.game.pathing.ClipType;
+import com.rs.game.pathing.Direction;
+import com.rs.game.pathing.DumbRouteFinder;
+import com.rs.game.pathing.EntityStrategy;
+import com.rs.game.pathing.FixedTileStrategy;
+import com.rs.game.pathing.ObjectStrategy;
+import com.rs.game.pathing.RouteEvent;
+import com.rs.game.pathing.RouteFinder;
+import com.rs.game.pathing.WalkStep;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.content.skills.prayer.Prayer;
+import com.rs.game.player.managers.ActionManager;
+import com.rs.game.player.managers.InteractionManager;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -49,13 +70,7 @@ import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.WorldUtil;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.function.Function;
-
 public abstract class Entity {
-
 	public enum MoveType {
 		WALK(1),
 		RUN(2),
@@ -92,6 +107,8 @@ public abstract class Entity {
 	private transient boolean teleported;
 	private transient ConcurrentLinkedQueue<WalkStep> walkSteps;
 	protected transient RouteEvent routeEvent;
+	private transient ActionManager actionManager;
+	private transient InteractionManager interactionManager;
 	private transient ClipType clipType = ClipType.NORMAL;
 
 	private transient BodyGlow nextBodyGlow;
@@ -113,6 +130,7 @@ public abstract class Entity {
 	private transient int lastFaceEntity;
 	private transient Entity attackedBy; // whos attacking you, used for single
 	protected transient long attackedByDelay; // delay till someone else can attack you
+	protected transient long timeLastHit;
 	private transient boolean multiArea;
 	private transient boolean isAtDynamicRegion;
 	private transient long lastAnimationEnd;
@@ -136,7 +154,14 @@ public abstract class Entity {
 	}
 
 	public void clearEffects() {
-		effects = new HashMap<>();
+		if (effects == null)
+			return;
+		Map<Effect, Long> persisted = new HashMap<>();
+		for (Effect effect : effects.keySet()) {
+			if (!effect.isRemoveOnDeath())
+				persisted.put(effect, effects.get(effect));
+		}
+		effects = persisted;
 	}
 
 	public boolean hasEffect(Effect effect) {
@@ -152,6 +177,8 @@ public abstract class Entity {
 	}
 
 	public void removeEffect(Effect effect) {
+		if (effects == null)
+			return;
 		if (effect.sendWarnings() && this instanceof Player p)
 			p.sendMessage(effect.getExpiryMessage());
 		effects.remove(effect);
@@ -233,6 +260,8 @@ public abstract class Entity {
 		nonsavingVars = new GenericAttribMap();
 		nextHits = new ArrayList<>();
 		nextHitBars = new ArrayList<>();
+		actionManager = new ActionManager(this);
+		interactionManager = new InteractionManager(this);
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
 		nextFaceEntity = -2;
@@ -289,6 +318,7 @@ public abstract class Entity {
 		walkSteps.clear();
 		poison.reset();
 		resetReceivedDamage();
+		clearEffects();
 		if (attributes)
 			temporaryAttributes.clear();
 	}
@@ -338,6 +368,8 @@ public abstract class Entity {
 	protected void processHit(Hit hit) {
 		if (isDead())
 			return;
+		if (hit.getSource() != this)
+			refreshTimeLastHit();
 		removeHitpoints(hit);
 		nextHits.add(hit);
 		if (nextHitBars.isEmpty())
@@ -434,14 +466,14 @@ public abstract class Entity {
 		if (!WorldUtil.isInRange(this, target, distance) || !lineOfSightTo(target, distance == 0)) {
 			if (!hasWalkSteps() || target.hasWalkSteps()) {
 				resetWalkSteps();
-				calcFollow(target, getRun() ? 2 : 1, true, true);
+				calcFollow(target, getRun() ? 2 : 1, true);
 			}
 		} else
 			resetWalkSteps();
 	}
 
 	public boolean calcFollow(Object target, boolean inteligent) {
-		return calcFollow(target, -1, true, inteligent);
+		return calcFollow(target, -1, inteligent);
 	}
 
 	public abstract boolean canMove(Direction dir);
@@ -450,7 +482,7 @@ public abstract class Entity {
 
 	}
 
-	public boolean calcFollow(Object target, int maxStepsCount, boolean calculate, boolean intelligent) {
+	public boolean calcFollow(Object target, int maxStepsCount, boolean intelligent) {
 		if (intelligent) {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), target instanceof GameObject go ? new ObjectStrategy(go) : target instanceof Entity e ? new EntityStrategy(e) : new FixedTileStrategy(((WorldTile) target).getX(), ((WorldTile) target).getY()), true);
 			if (steps == -1)
@@ -460,7 +492,7 @@ public abstract class Entity {
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
 			for (int step = steps - 1; step >= 0; step--)
-				if (!addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
+				if (!addWalkSteps(bufferX[step], bufferY[step], maxStepsCount, true, true))
 					break;
 			return true;
 		}
@@ -626,7 +658,7 @@ public abstract class Entity {
 			loadMapRegions();
 	}
 
-	private WalkStep previewNextWalkStep() {
+	public WalkStep previewNextWalkStep() {
 		WalkStep step = walkSteps.peek();
 		if (step == null)
 			return null;
@@ -834,13 +866,14 @@ public abstract class Entity {
 		if (routeEvent != null && routeEvent.processEvent(this))
 			routeEvent = null;
 		poison.processPoison();
-		processMovement();
 		processReceivedHits();
 		processReceivedDamage();
 		if (!isDead())
 			if (tickCounter % 10 == 0)
 				restoreHitPoints();
 		processEffects();
+		interactionManager.process();
+		actionManager.process();
 	}
 
 	public void loadMapRegions() {
@@ -1100,6 +1133,14 @@ public abstract class Entity {
 		this.attackedBy = attackedBy;
 	}
 
+	public boolean hasBeenHit(int time) {
+		return (timeLastHit + time) > System.currentTimeMillis();
+	}
+
+	public void refreshTimeLastHit() {
+		timeLastHit = System.currentTimeMillis();
+	}
+
 	public boolean inCombat(int time) {
 		return (attackedByDelay + time) > System.currentTimeMillis();
 	}
@@ -1110,7 +1151,7 @@ public abstract class Entity {
 
 	public boolean isAttacking() {
 		if (this instanceof Player p)
-			return p.getActionManager().doingAction(PlayerCombat.class);
+			return p.getInteractionManager().doingInteraction(PlayerCombatInteraction.class);
 		if (this instanceof NPC n)
 			return n.getCombat().hasTarget();
 		return false;
@@ -1530,5 +1571,33 @@ public abstract class Entity {
 
 	public boolean withinArea(int a, int b, int c, int d) {
 		return tile.withinArea(a, b, c, d);
+	}
+
+	public boolean checkInCombat(Entity target) {
+		if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
+			if (!target.isAtMultiArea() || !isAtMultiArea()) {
+				if (getAttackedBy() != target && inCombat()) {
+					if (this instanceof Player p)
+						p.sendMessage("You are already in combat.");
+					return false;
+				}
+				if (target.getAttackedBy() != this && target.inCombat()) {
+					if (!(target.getAttackedBy() instanceof NPC)) {
+						if (this instanceof Player p)
+							p.sendMessage("They are already in combat.");
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	public InteractionManager getInteractionManager() {
+		return interactionManager;
+	}
+	
+	public ActionManager getActionManager() {
+		return actionManager;
 	}
 }

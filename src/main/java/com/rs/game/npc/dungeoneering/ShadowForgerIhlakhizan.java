@@ -16,6 +16,8 @@
 //
 package com.rs.game.npc.dungeoneering;
 
+import java.util.List;
+
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -27,8 +29,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.List;
 
 public final class ShadowForgerIhlakhizan extends DungeonBoss {
 

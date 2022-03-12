@@ -21,13 +21,13 @@ import java.util.Map;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class Fletching extends Action {
+public class Fletching extends PlayerAction {
 
 	public static final int KNIFE = 946;
 	public static final int CHISLE = 1755;

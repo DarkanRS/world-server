@@ -268,8 +268,8 @@ public class Abyss {
 	public static void teleport(final Player player, NPC npc) {
 		player.lock(2);
 		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
-		npc.setNextSpotAnim(new SpotAnim(108));
-		player.setNextSpotAnim(new SpotAnim(110));
+		npc.setNextSpotAnim(new SpotAnim(343));
+		player.setNextSpotAnim(new SpotAnim(342));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {

@@ -18,13 +18,13 @@ package com.rs.game.player.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.crafting.Jewelry.Bling;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class JewelryAction extends Action {
+public class JewelryAction extends PlayerAction {
 
 	Bling bling;
 	int numberToMake;

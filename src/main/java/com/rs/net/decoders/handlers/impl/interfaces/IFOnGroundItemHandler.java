@@ -19,7 +19,7 @@ package com.rs.net.decoders.handlers.impl.interfaces;
 import com.rs.game.World;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.skills.firemaking.Firemaking;
 import com.rs.game.player.content.skills.firemaking.Firemaking.Fire;
@@ -28,7 +28,11 @@ import com.rs.game.player.content.skills.magic.Rune;
 import com.rs.game.player.content.skills.magic.RuneSet;
 import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnGroundItem;
 import com.rs.lib.util.Utils;
@@ -67,7 +71,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 				}
 			}));
 		} else if (packet.getInterfaceId() == 192 && packet.getComponentId() == 44)
-			player.getActionManager().setAction(new Action() {
+			player.getActionManager().setAction(new PlayerAction() {
 				@Override
 				public boolean start(Player player) {
 					return true;
@@ -84,7 +88,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 					if (!player.lineOfSightTo(tile, false) || Utils.getDistance(player.getTile(), tile) > 8) {
 						if (player.hasWalkSteps())
 							player.resetWalkSteps();
-						player.calcFollow(tile, 25, true, true);
+						player.calcFollow(tile, 25, true);
 						return true;
 					}
 					if (TreasureTrailsManager.isScroll(item.getId()))

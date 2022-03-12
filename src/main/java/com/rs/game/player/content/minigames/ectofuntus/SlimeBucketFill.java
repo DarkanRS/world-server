@@ -17,10 +17,10 @@
 package com.rs.game.player.content.minigames.ectofuntus;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
 
-public class SlimeBucketFill extends Action {
+public class SlimeBucketFill extends PlayerAction {
 
 	public SlimeBucketFill() {
 	}

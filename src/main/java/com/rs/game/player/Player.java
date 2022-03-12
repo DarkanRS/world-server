@@ -16,6 +16,21 @@
 //
 package com.rs.game.player;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.EnumDefinitions;
@@ -23,9 +38,13 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
-import com.rs.game.*;
+import com.rs.game.Entity;
+import com.rs.game.ForceTalk;
+import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.World.DropMethod;
+import com.rs.game.WorldProjectile;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.item.ItemsContainer;
@@ -41,8 +60,14 @@ import com.rs.game.pathing.RouteEvent;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.actions.LodestoneAction.Lodestone;
 import com.rs.game.player.actions.PlayerCombat;
-import com.rs.game.player.content.*;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
+import com.rs.game.player.content.Effect;
+import com.rs.game.player.content.ItemConstants;
 import com.rs.game.player.content.ItemConstants.ItemDegrade;
+import com.rs.game.player.content.Notes;
+import com.rs.game.player.content.PlayerLook;
+import com.rs.game.player.content.SkillCapeCustomizer;
+import com.rs.game.player.content.Toolbelt;
 import com.rs.game.player.content.Toolbelt.Tools;
 import com.rs.game.player.content.achievements.AchievementInterface;
 import com.rs.game.player.content.books.Book;
@@ -71,11 +96,24 @@ import com.rs.game.player.content.skills.slayer.SlayerTaskManager;
 import com.rs.game.player.content.skills.slayer.TaskMonster;
 import com.rs.game.player.content.transportation.FadingScreen;
 import com.rs.game.player.content.world.Musician;
-import com.rs.game.player.controllers.*;
+import com.rs.game.player.controllers.Controller;
+import com.rs.game.player.controllers.DeathOfficeController;
+import com.rs.game.player.controllers.GodwarsController;
+import com.rs.game.player.controllers.TutorialIslandController;
+import com.rs.game.player.controllers.WarriorsGuild;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.player.dialogues.StartDialogue;
-import com.rs.game.player.managers.*;
+import com.rs.game.player.managers.AuraManager;
+import com.rs.game.player.managers.ControllerManager;
+import com.rs.game.player.managers.CutsceneManager;
+import com.rs.game.player.managers.DialogueManager;
+import com.rs.game.player.managers.EmotesManager;
+import com.rs.game.player.managers.HintIconsManager;
+import com.rs.game.player.managers.InterfaceManager;
+import com.rs.game.player.managers.MusicsManager;
+import com.rs.game.player.managers.PrayerManager;
+import com.rs.game.player.managers.TreasureTrailsManager;
 import com.rs.game.player.miniquests.MiniquestManager;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestManager;
@@ -84,7 +122,14 @@ import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.PublicChatMessage;
+import com.rs.lib.game.Rights;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.VarManager;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.model.Social;
@@ -105,16 +150,15 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.*;
+import com.rs.plugin.events.DialogueOptionEvent;
+import com.rs.plugin.events.EnterChunkEvent;
+import com.rs.plugin.events.InputIntegerEvent;
+import com.rs.plugin.events.InputStringEvent;
+import com.rs.plugin.events.ItemEquipEvent;
+import com.rs.plugin.events.LoginEvent;
 import com.rs.utils.Click;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends Entity {
 
@@ -158,23 +202,15 @@ public class Player extends Entity {
 	private int hw07Stage;
 
 	public void refreshChargeTimer() {
-		getTempAttribs().setL("chargeTimer", World.getServerTicks()+600);
-	}
-
-	public boolean isCharged() {
-		return World.getServerTicks() < getTempAttribs().getL("chargeTimer");
+		addEffect(Effect.CHARGED, 600);
 	}
 
 	public void refreshMiasmicTimer(int ticks) {
-		if (World.getServerTicks() < getTempAttribs().getL("miasmicImmune"))
+		if (hasEffect(Effect.MIASMIC_BLOCK))
 			return;
 		sendMessage("You feel slowed down.");
-		getTempAttribs().setL("miasmicImmune", World.getServerTicks()+ticks+15);
-		getTempAttribs().setL("miasmicEffect", World.getServerTicks()+ticks);
-	}
-
-	public boolean isMiasmicEffectActive() {
-		return World.getServerTicks() < getTempAttribs().getL("miasmicEffect");
+		addEffect(Effect.MIASMIC_BLOCK, ticks+15);
+		addEffect(Effect.MIASMIC_SLOWDOWN, ticks);
 	}
 
 	public void addSpellDelay(int ticks) {
@@ -211,8 +247,6 @@ public class Player extends Entity {
 	private transient InterfaceManager interfaceManager;
 	private transient DialogueManager dialogueManager;
 	private transient HintIconsManager hintIconsManager;
-	private transient ActionManager actionManager;
-	private transient InteractionManager interactionManager;
 	private transient CutsceneManager cutsceneManager;
 	private transient Trade trade;
 	private transient DuelRules lastDuelRules;
@@ -336,9 +370,6 @@ public class Player extends Entity {
 	private Map<StorableItem, Item> leprechaunStorage;
 
 	private int graveStone;
-
-	private int revenantImmune;
-	private int revenantAggro;
 
 	private boolean runBlocked;
 
@@ -619,8 +650,6 @@ public class Player extends Entity {
 		hintIconsManager = new HintIconsManager(this);
 		localPlayerUpdate = new LocalPlayerUpdate(this);
 		localNPCUpdate = new LocalNPCUpdate(this);
-		actionManager = new ActionManager(this);
-		interactionManager = new InteractionManager(this);
 		if (varManager == null)
 			varManager = new VarManager();
 		varManager.setSession(session);
@@ -673,10 +702,10 @@ public class Player extends Entity {
 
 	public void updateMachineIPs() {
 		if (ipList.size() > 50)
-			ipList.remove(new ArrayList(ipList).get(Utils.random(ipList.size())));
+			ipList.remove(new ArrayList<>(ipList).get(Utils.random(ipList.size())));
 		ipList.add(getLastIP());
 		if (machineMap.size() > 15)
-			machineMap.remove(new ArrayList(machineMap.keySet()).get(Utils.random(machineMap.keySet().size())));
+			machineMap.remove(new ArrayList<>(machineMap.keySet()).get(Utils.random(machineMap.keySet().size())));
 		if (machineInformation != null)
 			machineMap.put(machineInformation.hashCode(), machineInformation);
 		return;
@@ -871,13 +900,13 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
-		interactionManager.forceStop();
+		getInteractionManager().forceStop();
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
 			resetWalkSteps();
 		if (stopActions)
-			actionManager.forceStop();
+			getActionManager().forceStop();
 		combatDefinitions.resetSpells(false);
 	}
 
@@ -895,7 +924,6 @@ public class Player extends Entity {
 		potionDelay = 0;
 		castedVeng = false;
 		castedMagicImbue = false;
-		clearEffects();
 		setRunEnergy(100);
 		appearence.generateAppearanceData();
 	}
@@ -962,107 +990,112 @@ public class Player extends Entity {
 			if (getSession().isClosed())
 				finish(0);
 			processPackets();
-			processForinthry();
 			cutsceneManager.process();
 			super.processEntity();
-			if (hasStarted() && isIdle())
-				if (!hasRights(Rights.ADMIN))
-					if (getActionManager().getAction() instanceof PlayerCombat combat) {
-						if (!(combat.getTarget() instanceof Player))
-							idleLog();
-					} else
-						logout(true);
+			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN)) {
+				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
+					if (!(combat.getAction().getTarget() instanceof Player))
+						idleLog();
+				} else
+					logout(true);
+			}
 			if (disconnected && !finishing)
 				finish(0);
 			timePlayed = getTimePlayed() + 1;
 			timeLoggedOut = System.currentTimeMillis();
-			if (!isDead()) {
-				if (getTickCounter() % 50 == 0)
-					getCombatDefinitions().restoreSpecialAttack();
-
-				//Restore skilling stats
-				if (getTickCounter() % 100 == 0) {
-					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-					Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
-				}
-
-				//Restore combat stats
-				if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
-					final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
-					Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
-				}
-			}
-			if (getNextRunDirection() == null) {
-				double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
-				if (isResting()) {
-					energy = 1.68;
-					if (Musician.isNearby(this))
-						energy = 2.28;
-				}
-				restoreRunEnergy(energy);
-			}
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 				tickFarming();
 
+			processTimedRestorations();
 			processMusic();
-
-			if (inCombat() || isAttacking())
-				for (int i = 0; i < Equipment.SIZE; i++) {
-					Item item = getEquipment().getItem(i);
-					if (item == null)
-						continue;
-					for (ItemDegrade d : ItemDegrade.values())
-						if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
-							getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
-							getEquipment().refresh(i);
-							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
-							break;
-						}
-					if (item.getMetaData("combatCharges") != null) {
-						item.addMetaData("combatCharges", item.getMetaDataI("combatCharges") - 1);
-						if (item.getMetaDataI("combatCharges") <= 0) {
-							ItemDegrade deg = null;
-							for (ItemDegrade d : ItemDegrade.values())
-								if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
-									deg = d;
-									break;
-								}
-							if (deg != null) {
-								if (deg.getBrokenId() == 4207) {
-
-									getEquipment().set(i, null);
-									getEquipment().refresh(i);
-									getAppearance().generateAppearanceData();
-									if (getInventory().hasFreeSlots()) {
-										getInventory().addItem(4207, 1);
-										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
-									} else {
-										World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
-										sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
-									}
-									break;
-								}
-								getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
-								getEquipment().refresh(i);
-								getAppearance().generateAppearanceData();
-								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
-							} else {
-								getEquipment().set(i, null);
-								getEquipment().refresh(i);
-								getAppearance().generateAppearanceData();
-								sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
-							}
-						}
-					}
-				}
+			processItemDegrades();
 			auraManager.process();
-			interactionManager.process();
-			actionManager.process();
 			prayer.processPrayer();
 			controllerManager.process();
 		} catch (Throwable e) {
 			WorldDB.getLogs().logError(e);
+		}
+	}
+
+	private void processTimedRestorations() {
+		if (getNextRunDirection() == null) {
+			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
+			if (isResting()) {
+				energy = 1.68;
+				if (Musician.isNearby(this))
+					energy = 2.28;
+			}
+			restoreRunEnergy(energy);
+		}
+		if (!isDead()) {
+			if (getTickCounter() % 50 == 0)
+				getCombatDefinitions().restoreSpecialAttack();
+
+			//Restore skilling stats
+			if (getTickCounter() % 100 == 0) {
+				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+				Arrays.stream(Skills.SKILLING).forEach(skill -> restoreTick(skill, amount));
+			}
+
+			//Restore combat stats
+			if (getTickCounter() % (getPrayer().active(Prayer.BERSERKER) ? 115 : 100) == 0) {
+				final int amount = (getPrayer().active(Prayer.RAPID_RESTORE) ? 2 : 1) + (isResting() ? 1 : 0);
+				Arrays.stream(Skills.COMBAT).forEach(skill -> restoreTick(skill, amount));
+			}
+		}
+	}
+
+	private void processItemDegrades() {
+		if (inCombat() || isAttacking()) {
+			for (int i = 0; i < Equipment.SIZE; i++) {
+				Item item = getEquipment().getItem(i);
+				if (item == null)
+					continue;
+				for (ItemDegrade d : ItemDegrade.values())
+					if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
+						getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
+						getEquipment().refresh(i);
+						sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
+						break;
+					}
+				if (item.getMetaData("combatCharges") != null) {
+					item.addMetaData("combatCharges", item.getMetaDataI("combatCharges") - 1);
+					if (item.getMetaDataI("combatCharges") <= 0) {
+						ItemDegrade deg = null;
+						for (ItemDegrade d : ItemDegrade.values())
+							if (d.getItemId() == item.getId() || d.getDegradedId() == item.getId() && d.getBrokenId() != -1) {
+								deg = d;
+								break;
+							}
+						if (deg != null) {
+							if (deg.getBrokenId() == 4207) {
+
+								getEquipment().set(i, null);
+								getEquipment().refresh(i);
+								getAppearance().generateAppearanceData();
+								if (getInventory().hasFreeSlots()) {
+									getInventory().addItem(4207, 1);
+									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
+								} else {
+									World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
+									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
+								}
+								break;
+							}
+							getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
+							getEquipment().refresh(i);
+							getAppearance().generateAppearanceData();
+							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
+						} else {
+							getEquipment().set(i, null);
+							getEquipment().refresh(i);
+							getAppearance().generateAppearanceData();
+							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -1597,7 +1630,7 @@ public class Player extends Entity {
 	public void logout(boolean lobby) {
 		if (!running)
 			return;
-		if (inCombat(10000)) {
+		if (inCombat(10000) || hasBeenHit(10000)) {
 			sendMessage("You can't log out until 10 seconds after the end of combat.");
 			return;
 		}
@@ -1645,8 +1678,8 @@ public class Player extends Entity {
 		disconnected = true;
 		if (hasFinished())
 			return;
-		stopAll(false, true, !(actionManager.getAction() instanceof PlayerCombat));
-		if ((inCombat(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
+		stopAll(false, true, !(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction));
+		if ((inCombat(10000) || hasBeenHit(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
 			CoresManager.schedule(() -> {
 				try {
 					finishing = false;
@@ -1934,10 +1967,6 @@ public class Player extends Entity {
 	public void setResting(boolean resting) {
 		this.resting = resting;
 		sendRunButtonConfig();
-	}
-
-	public ActionManager getActionManager() {
-		return actionManager;
 	}
 
 	public DialogueManager getDialogueManager() {
@@ -2291,11 +2320,6 @@ public class Player extends Entity {
 				new GraveStone(this, deathTile, items[1]);
 	}
 
-	@Override
-	public boolean inCombat() {
-		return attackedByDelay > System.currentTimeMillis();
-	}
-
 	public void sendItemsOnDeath(Player killer) {
 		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
 			return;
@@ -2512,7 +2536,7 @@ public class Player extends Entity {
 			setNextAnimation(new Animation(emoteId));
 		if (useDelay == 0)
 			setNextWorldTile(dest);
-		else
+		else {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -2525,6 +2549,7 @@ public class Player extends Entity {
 						sendMessage(message);
 				}
 			}, useDelay - 1);
+		}
 	}
 
 	public Bank getBank() {
@@ -2903,15 +2928,19 @@ public class Player extends Entity {
 		case 4153:
 		case 14679:
 			combatDefinitions.switchUsingSpecialAttack();
-			Entity target = (getActionManager().getAction() instanceof PlayerCombat combat) ? combat.getTarget() : getTempAttribs().getO("last_target");
+			Entity target = (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) ? combat.getAction().getTarget() : getTempAttribs().getO("last_target");
 			if (target != null) {
 				if (!(target instanceof NPC n && n.isForceMultiAttacked()))
 					if (!target.isAtMultiArea() || !isAtMultiArea())
 						if ((getAttackedBy() != target && inCombat()) || (target.getAttackedBy() != this && target.inCombat()))
 							return;
-				if (!(getActionManager().getAction() instanceof PlayerCombat combat) || combat.getTarget() != target)
-					getActionManager().setAction(new PlayerCombat(target));
-				PlayerCombat pcb = (PlayerCombat) getActionManager().getAction();
+				if (target.isDead() || target.hasFinished())
+					return;
+				if (!(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) || combat.getAction().getTarget() != target) {
+					resetWalkSteps();
+					getInteractionManager().setInteraction(new PlayerCombatInteraction(this, target));
+				}
+				PlayerCombat pcb = ((PlayerCombatInteraction) getInteractionManager().getInteraction()).getAction();
 				if (pcb == null ||!inMeleeRange(target) || !PlayerCombat.specialExecute(this))
 					return;
 				setNextAnimation(new Animation(weaponId == 4153 ? 1667 : 10505));
@@ -3278,29 +3307,10 @@ public class Player extends Entity {
 	}
 
 	public void refreshForinthry() {
-		revenantImmune = 100; // 1 minute
-		revenantAggro = 6000; // 1 hour
+		addEffect(Effect.REV_IMMUNE, 100);
+		addEffect(Effect.REV_AGGRO_IMMUNE, 6000);
 		sendMessage("<col=FF0000>You will not be harmed by revenants for 1 minute.");
 		sendMessage("<col=FF0000>Revenants will have no aggression towards you for one hour.");
-	}
-
-	public void processForinthry() {
-		if (revenantImmune == 50)
-			sendMessage("<col=FF0000>Your immunity to revenants will expire in 30 seconds!");
-		if (revenantAggro == 50)
-			sendMessage("<col=FF0000>Revenants will become aggressive to you again in 30 seconds!");
-		if (revenantImmune > 0)
-			revenantImmune--;
-		if (revenantAggro > 0)
-			revenantAggro--;
-	}
-
-	public boolean isRevenantImmune() {
-		return revenantImmune > 0;
-	}
-
-	public boolean isRevenantAggroImmune() {
-		return revenantAggro > 0;
 	}
 
 	public long getTimeSinceLastClick() {
@@ -4113,10 +4123,6 @@ public class Player extends Entity {
 		else
 			leprechaunStorage.put(item, curr);
 		item.updateVars(this);
-	}
-
-	public InteractionManager getInteractionManager() {
-		return interactionManager;
 	}
 
 	public int getUuid() {

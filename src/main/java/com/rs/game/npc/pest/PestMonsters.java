@@ -16,6 +16,10 @@
 //
 package com.rs.game.npc.pest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -23,10 +27,6 @@ import com.rs.game.player.Player;
 import com.rs.game.player.content.minigames.pest.PestControl;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class PestMonsters extends NPC {
 

@@ -23,7 +23,7 @@ import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.skills.prayer.Leech;
 import com.rs.game.player.content.skills.prayer.Prayer;
 import com.rs.game.player.content.skills.prayer.Sap;
@@ -380,11 +380,11 @@ public class PrayerManager {
 				closeAllPrayers();
 		}
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
-			if (player.getActionManager().getAction() instanceof PlayerCombat combat)
+			if (player.getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat)
 				if (active(Prayer.TURMOIL))
-					processTurmoil(combat.getTarget());
+					processTurmoil(combat.getAction().getTarget());
 				else
-					processLeeches(combat.getTarget());
+					processLeeches(combat.getAction().getTarget());
 	}
 
 	private void processTurmoil(Entity target) {

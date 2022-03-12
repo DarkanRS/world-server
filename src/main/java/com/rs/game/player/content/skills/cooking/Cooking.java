@@ -22,13 +22,13 @@ import java.util.Map;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class Cooking extends Action {
+public class Cooking extends PlayerAction {
 
 	public enum Cookables {
 		RAW_MEAT(new Item(2132, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),

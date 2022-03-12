@@ -16,6 +16,11 @@
 //
 package com.rs.game.player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -32,11 +37,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemExamines;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class Bank {
@@ -596,7 +596,13 @@ public class Bank {
 		refreshTabs(other);
 		sendItemsOther(other);
 		unlockButtons();
+		player.getPackets().sendItems(93, other.getInventory().getItems());
+		player.getPackets().sendItems(94, other.getEquipment().getItemsCopy());
 		player.getTempAttribs().setB("viewingOtherBank", true);
+		player.setCloseInterfacesEvent(() -> {
+			player.getInventory().refresh();
+			player.getEquipment().refresh();
+		});
 	}
 
 	public void refreshLastX() {

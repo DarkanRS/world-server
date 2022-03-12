@@ -22,7 +22,7 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-public class RestMusician extends Action {
+public class RestMusician extends PlayerAction {
 
 	private static int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
 	// First
@@ -86,7 +86,7 @@ public class RestMusician extends Action {
 			player.sendMessage("You can't rest while you're poisoned.");
 			return false;
 		}
-		if (player.inCombat(10000)) {
+		if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 			player.sendMessage("You can't rest until 10 seconds after the end of combat.");
 			return false;
 		}

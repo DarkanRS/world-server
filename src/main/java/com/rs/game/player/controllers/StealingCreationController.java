@@ -26,18 +26,26 @@ import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Inventory;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.content.combat.AttackStyle;
 import com.rs.game.player.content.minigames.creations.GameArea;
 import com.rs.game.player.content.minigames.creations.Helper;
 import com.rs.game.player.content.minigames.creations.Score;
-import com.rs.game.player.dialogues.*;
+import com.rs.game.player.dialogues.SimpleMessage;
+import com.rs.game.player.dialogues.StealingCreationClay;
+import com.rs.game.player.dialogues.StealingCreationMagic;
+import com.rs.game.player.dialogues.StealingCreationManagerD;
+import com.rs.game.player.dialogues.StealingCreationRange;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -556,7 +564,7 @@ public class StealingCreationController extends Controller {
 			final int clayQuality = Integer.parseInt(name.substring(name.indexOf("(class")).replace("(class ", "").replace(")", "")) - 1;
 			final CreationChunks skill = CreationChunks.valueOf(name.replace(" (class " + (clayQuality + 1) + ")", "").toUpperCase());
 
-			player.getActionManager().setAction(new Action() {
+			player.getActionManager().setAction(new PlayerAction() {
 
 				Item bestItem;
 				int itemTier;

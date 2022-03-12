@@ -1,12 +1,11 @@
 package com.rs.db.collection.logs;
 
-import com.rs.game.player.Player;
-import com.rs.lib.game.Item;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import com.rs.game.player.Player;
+import com.rs.lib.game.Item;
 
 public class TradeLog {
 	private String uuid;

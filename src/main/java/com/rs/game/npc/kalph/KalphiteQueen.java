@@ -32,6 +32,7 @@ public class KalphiteQueen extends NPC {
 
 	public KalphiteQueen(int id, WorldTile tile, boolean spawned) {
 		super(id, tile, spawned);
+		setIgnoreNPCClipping(true);
 		setLureDelay(0);
 		setForceAgressive(true);
 		setIgnoreDocile(true);

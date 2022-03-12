@@ -29,9 +29,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
 import com.rs.utils.ItemExamines;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @PluginEventHandler
 public class Trade {
 

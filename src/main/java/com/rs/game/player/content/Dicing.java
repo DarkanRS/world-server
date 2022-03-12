@@ -16,13 +16,13 @@
 //
 package com.rs.game.player.content;
 
+import java.util.Random;
+
 import com.rs.game.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-
-import java.util.Random;
 
 public class Dicing {
 

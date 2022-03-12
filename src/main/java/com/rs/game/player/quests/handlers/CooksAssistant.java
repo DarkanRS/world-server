@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -27,8 +29,6 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.COOKS_ASSISTANT)
 @PluginEventHandler

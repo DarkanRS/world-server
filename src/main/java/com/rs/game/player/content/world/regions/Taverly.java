@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import java.util.List;
+
 import com.rs.game.Hit;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -35,8 +37,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import java.util.List;
 
 @PluginEventHandler
 public class Taverly {

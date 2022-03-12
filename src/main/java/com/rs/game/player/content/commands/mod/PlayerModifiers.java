@@ -31,6 +31,20 @@ public class PlayerModifiers {
 
 	@ServerStartupEvent
 	public static void loadCommands() {
+		Commands.add(Rights.MOD, "checkbank [player name]", "Displays the contents of another player's bank.", (p, args) -> {
+			if (args.length == 0) {
+				p.getBank().openBankOther(p);
+				return;
+			}
+			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
+				if (target == null) {
+					p.sendMessage("Could not find player " + Utils.concat(args) + ".");
+					return;
+				}
+				p.getBank().openBankOther(target);
+			});
+		});
+
 		Commands.add(Rights.MOD, "kick [player name]", "Kicks a player from the game. Will not kick through combat.", (p, args) -> {
 			Player target = World.getPlayerByDisplay(Utils.concat(args));
 			if (target == null) {

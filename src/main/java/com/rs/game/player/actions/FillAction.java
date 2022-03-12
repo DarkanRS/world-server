@@ -28,7 +28,7 @@ import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
-public class FillAction extends Action {
+public class FillAction extends PlayerAction {
 
 	private int amount;
 	private Animation FILLING = new Animation(883);

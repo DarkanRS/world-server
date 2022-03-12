@@ -17,7 +17,7 @@
 package com.rs.game.player.content.skills.cooking;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -64,7 +64,7 @@ public class DoughMaking  {
 
 	}
 
-	static class DoughMakeAction extends Action {
+	static class DoughMakeAction extends PlayerAction {
 
 		private int[] doughs = { 2307, 1953, 2283, 1863 };
 		private int type;

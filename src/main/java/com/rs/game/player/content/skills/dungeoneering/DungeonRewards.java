@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.dungeoneering;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.game.player.Player;
@@ -27,9 +30,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @PluginEventHandler
 public class DungeonRewards {

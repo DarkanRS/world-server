@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.hunter.traps;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
@@ -30,16 +33,14 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class NetTrap extends BoxStyleTrap {
 
 	private enum TreeType {
 		SWAMP(19679, 19681, 19678, 19676, 19677, 19674, 19675),
 		DESERT(19652, 19651, 19650, 19657, 19656, 19655, 19654),
 		LAVA(19663, 19665, 19662, 19660, 19661, 19658, 19659),
-		WILDY(19671, 19673, 19670, 19668, 19669, 19666, 19667);
+		WILDY(19671, 19673, 19670, 19668, 19669, 19666, 19667),
+		SQUIRRELS(28564, 28566, 28563, 28561, 28562, 28750, 28751);
 
 		private int base;
 		private int net;

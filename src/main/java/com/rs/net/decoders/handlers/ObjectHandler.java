@@ -61,14 +61,46 @@ import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.transportation.SpiritTree;
 import com.rs.game.player.content.transportation.WildernessObelisk;
 import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.player.controllers.*;
+import com.rs.game.player.controllers.AgilityPyramidController;
+import com.rs.game.player.controllers.DamonheimController;
+import com.rs.game.player.controllers.DungeonController;
+import com.rs.game.player.controllers.FalconryController;
+import com.rs.game.player.controllers.FightCavesController;
+import com.rs.game.player.controllers.FightKilnController;
+import com.rs.game.player.controllers.PestControlLobbyController;
+import com.rs.game.player.controllers.PuroPuroController;
+import com.rs.game.player.controllers.StealingCreationLobbyController;
+import com.rs.game.player.controllers.UndergroundDungeonController;
+import com.rs.game.player.controllers.WarriorsGuild;
+import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.cutscenes.DTPreview;
-import com.rs.game.player.dialogues.*;
+import com.rs.game.player.dialogues.AncientAltar;
+import com.rs.game.player.dialogues.ClimbEmoteStairs;
+import com.rs.game.player.dialogues.ClimbNoEmoteStairs;
+import com.rs.game.player.dialogues.CookingD;
+import com.rs.game.player.dialogues.DTClaimRewards;
+import com.rs.game.player.dialogues.GrotwormLairD;
+import com.rs.game.player.dialogues.LunarAltar;
+import com.rs.game.player.dialogues.MagicPortal;
+import com.rs.game.player.dialogues.MiningGuildDwarf;
+import com.rs.game.player.dialogues.PartyRoomLever;
+import com.rs.game.player.dialogues.RunespanPortalD;
+import com.rs.game.player.dialogues.SimpleMessage;
+import com.rs.game.player.dialogues.SimpleNPCMessage;
+import com.rs.game.player.dialogues.SimplePlayerMessage;
+import com.rs.game.player.dialogues.SmeltingD;
+import com.rs.game.player.dialogues.SpiritTreeD;
+import com.rs.game.player.dialogues.WildernessDitch;
+import com.rs.game.player.dialogues.ZarosAltar;
 import com.rs.game.player.managers.EmotesManager.Emote;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Rights;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -1479,7 +1511,7 @@ public final class ObjectHandler {
 				player.getDialogueManager().execute(new PartyRoomLever());
 			//start chaos tunnels
 			else if (id == 65203) {
-				if (player.inCombat(10000)) {
+				if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 					player.sendMessage("You cannot enter the rift while you're under attack.");
 					return;
 				}

@@ -16,17 +16,14 @@
 //
 package com.rs.game.player.quests.handlers.clocktower;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
-import com.rs.game.player.Skills;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
 import com.rs.game.player.quests.QuestOutline;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import java.util.ArrayList;
 
 
 @QuestHandler(Quest.CLOCK_TOWER)

@@ -17,13 +17,13 @@
 package com.rs.game.player.content.skills.dungeoneering.skills;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class DungeoneeringStaves extends Action {
+public class DungeoneeringStaves extends PlayerAction {
 
 	private static final int[] EMPTY_STAVES = { 16977, 16979, 16981, 16983, 16985, 16987, 16989, 16991, 16993, 16995 };
 	private static final int[] LEVELS = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 99 };

@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.farming;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -27,9 +30,6 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @PluginEventHandler
 public enum Gardener {

@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.commands.admin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.cache.ArchiveType;
@@ -34,6 +38,7 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.pet.Pet;
 import com.rs.game.object.GameObject;
+import com.rs.game.pathing.Direction;
 import com.rs.game.pathing.FixedTileStrategy;
 import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Player;
@@ -52,7 +57,11 @@ import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Rights;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
@@ -69,10 +78,6 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @PluginEventHandler
 public class MiscTest {
@@ -334,6 +339,14 @@ public class MiscTest {
 				System.out.println(o);
 				System.out.println("vb: " + o.getDefinitions().varpBit);
 			}
+		});
+
+		Commands.add(Rights.DEVELOPER, "testnpc", "spawn npc walking dir", (player, args) -> {
+			Direction dir = Arrays.stream(Direction.values()).filter(n -> n.name().equalsIgnoreCase(args[0])).findFirst().get();
+			if (dir == null)
+				return;
+			NPC npc = World.spawnNPC(1, player.getTile(), true, false, null);
+			npc.addWalkSteps(player.getTile().getX() + (dir.getDx() * 20), player.getTile().getY() + (dir.getDy() * 20));
 		});
 
 		Commands.add(Rights.DEVELOPER, "headicon", "Set custom headicon.", (player, args) -> {

@@ -16,6 +16,10 @@
 //
 package com.rs.game.npc.sorgar;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -28,10 +32,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @PluginEventHandler
 public class Elemental extends NPC {

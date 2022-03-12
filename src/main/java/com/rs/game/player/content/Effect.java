@@ -44,8 +44,10 @@ public enum Effect {
 	STUN,
 	FREEZE,
 	FREEZE_BLOCK,
+	MIASMIC_SLOWDOWN,
+	MIASMIC_BLOCK,
 	TELEBLOCK("teleblock"),
-	DOUBLE_XP("double xp"),
+	DOUBLE_XP("double xp", false),
 	ANTIFIRE("antifire"),
 	SUPER_ANTIFIRE("super-antifire"),
 	PRAYER_RENEWAL("prayer renewal") {
@@ -59,19 +61,24 @@ public enum Effect {
 				}
 		}
 	},
-	JUJU_MINING("juju mining potion"),
+	JUJU_MINING("juju mining potion", false),
 	JUJU_MINE_BANK,
-	JUJU_WOODCUTTING("juju woodcutting potion"),
+	JUJU_WOODCUTTING("juju woodcutting potion", false),
 	JUJU_WC_BANK,
-	JUJU_FARMING("juju farming potion"),
-	JUJU_FISHING("juju fishing potion"),
-	SCENTLESS("scentless potion"),
-	JUJU_HUNTER("juju hunter potion"),
-	SARA_BLESSING("Saradomin's blessing"),
-	GUTHIX_GIFT("Guthix's gift"),
-	ZAMMY_FAVOR("Zamorak's favour"),
+	JUJU_FARMING("juju farming potion", false),
+	JUJU_FISHING("juju fishing potion", false),
+	SCENTLESS("scentless potion", false),
+	JUJU_HUNTER("juju hunter potion", false),
+	SARA_BLESSING("Saradomin's blessing", false),
+	GUTHIX_GIFT("Guthix's gift", false),
+	ZAMMY_FAVOR("Zamorak's favour", false),
 
-	BONFIRE("bonfire boost") {
+	REV_IMMUNE("immunity to revenants", false),
+	REV_AGGRO_IMMUNE("revenant aggression immunity", false),
+
+	CHARGED("god charge", false),
+
+	BONFIRE("bonfire boost", false) {
 		@Override
 		public void apply(Entity entity) {
 			if (entity instanceof Player player)
@@ -131,14 +138,27 @@ public enum Effect {
 
 	;
 
+	private boolean removeOnDeath = true;
 	private String name;
 
-	private Effect(String name) {
+	private Effect(String name, boolean removeOnDeath) {
 		this.name = name;
 	}
 
+	private Effect(String name) {
+		this(name, true);
+	}
+
+	private Effect(boolean removeOnDeath) {
+		this(null, removeOnDeath);
+	}
+
 	private Effect() {
-		name = null;
+		this(null, true);
+	}
+
+	public boolean isRemoveOnDeath() {
+		return removeOnDeath;
 	}
 
 	public void apply(Entity player) {

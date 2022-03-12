@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.merlinscrystal;
 
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.THE_BLACK_CANDLE;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -11,9 +14,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.THE_BLACK_CANDLE;
 
 @PluginEventHandler
 public class MorganMerlinsCrystalD extends Conversation {

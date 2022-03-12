@@ -17,7 +17,7 @@
 package com.rs.game.player.content.skills.dungeoneering.skills;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
@@ -25,7 +25,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 
-public class DungeoneeringRunecrafting extends Action {
+public class DungeoneeringRunecrafting extends PlayerAction {
 
 	private final int runeId;
 	private final int levelRequirement;

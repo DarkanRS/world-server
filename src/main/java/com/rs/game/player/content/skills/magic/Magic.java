@@ -20,10 +20,8 @@ import java.util.List;
 
 import com.rs.game.Entity;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.combat.CombatSpell;
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.game.player.controllers.GodwarsController;
@@ -86,40 +84,8 @@ public class Magic {
 	}
 
 	public static final void manualCast(Player player, Entity target, CombatSpell spell) {
-		if (checkCombatSpell(player, spell, 1, false)) {
-			player.setNextFaceWorldTile(new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()));
-			if (!player.getControllerManager().canAttack(target))
-				return;
-			if (target instanceof Player p2)
-				if (!player.isCanPvp() || !p2.isCanPvp()) {
-					player.sendMessage("You can only attack players in a player-vs-player area.");
-					return;
-				}
-			if (target instanceof Familiar familiar) {
-				if (familiar == player.getFamiliar()) {
-					player.sendMessage("You can't attack your own familiar.");
-					return;
-				}
-				if (!familiar.canAttack(player)) {
-					player.sendMessage("You can't attack them.");
-					return;
-				}
-			} else if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked())
-				if (!target.isAtMultiArea() || !player.isAtMultiArea()) {
-					if (player.getAttackedBy() != target && player.inCombat()) {
-						player.sendMessage("You are already in combat.");
-						return;
-					}
-					if (target.getAttackedBy() != player && target.inCombat()) {
-						if (!(target.getAttackedBy() instanceof NPC)) {
-							player.sendMessage("They are already in combat.");
-							return;
-						}
-						target.setAttackedBy(player);
-					}
-				}
-			player.getActionManager().setAction(new PlayerCombat(target));
-		}
+		if (checkCombatSpell(player, spell, 1, false))
+			player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
 	}
 
 	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192) {

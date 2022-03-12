@@ -19,7 +19,6 @@ package com.rs.game.player.content.commands.normal;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.db.WorldDB;
-import com.rs.game.World;
 import com.rs.game.ge.Offer;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.content.commands.Command;
@@ -94,20 +93,6 @@ public class Normal {
             });
         });
 
-        Commands.add(Rights.PLAYER, "checkbank [player name]", "Displays the contents of another player's bank.", (p, args) -> {
-            if (args.length == 0) {
-                p.getBank().openBankOther(p);
-                return;
-            }
-            World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
-                if (target == null) {
-                    p.sendMessage("Could not find player " + Utils.concat(args) + ".");
-                    return;
-                }
-                p.getBank().openBankOther(target);
-            });
-        });
-
         Commands.add(Rights.PLAYER, "searchnpc,searchn,findnpc,getnpcid [npc name]", "Displays all NPC ids containing the query searched.", (p, args) -> {
             p.getPackets().sendDevConsoleMessage("Searching for npcs containing name: " + Utils.concat(args));
             for (int i = 0; i < Utils.getNPCDefinitionsSize(); i++)
@@ -115,14 +100,14 @@ public class Normal {
                     p.getPackets().sendDevConsoleMessage("Result found: " + i + " - " + NPCDefinitions.getDefs(i).getName() + " (" + NPCDefinitions.getDefs(i).combatLevel + ")");
         });
 
-        //		Commands.add(Rights.PLAYER, "yell,shout [text]", "Will broadcast your message to the whole server.", (p, args) -> {
-        //			Commands.sendYell(p, Utils.fixChatMessage(Utils.concat(args)), false);
-        //		});
-
-        Commands.add(Rights.PLAYER, "hideyell", "Hides yell from your chat box.", (p, args) -> {
-            p.setYellOff(!p.isYellOff());
-            p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
-        });
+//        Commands.add(Rights.PLAYER, "yell,shout [text]", "Will broadcast your message to the whole server.", (p, args) -> {
+//            Commands.sendYell(p, Utils.fixChatMessage(Utils.concat(args)), false);
+//        });
+//
+//        Commands.add(Rights.PLAYER, "hideyell", "Hides yell from your chat box.", (p, args) -> {
+//            p.setYellOff(!p.isYellOff());
+//            p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
+//        });
 
         Commands.add(Rights.PLAYER, "ping", "Checks your ping if you have gotten it recently.", (p, args) -> {
             p.sendMessage("Ping: " + p.getNSV().getI("ping", -1));

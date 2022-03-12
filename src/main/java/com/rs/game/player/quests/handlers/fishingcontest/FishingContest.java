@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.fishingcontest;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -42,8 +44,6 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.FISHING_CONTEST)
 @PluginEventHandler

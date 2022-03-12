@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.minigames;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.World;
@@ -37,10 +41,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @PluginEventHandler
 public final class FightPits {

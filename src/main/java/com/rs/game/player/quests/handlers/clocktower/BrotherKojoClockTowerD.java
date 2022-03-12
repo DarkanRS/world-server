@@ -1,5 +1,9 @@
 package com.rs.game.player.quests.handlers.clocktower;
 
+import static com.rs.game.player.quests.handlers.clocktower.ClockTower.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.clocktower.ClockTower.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.clocktower.ClockTower.REPAIR_CLOCK_TOWER;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,8 +13,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.clocktower.ClockTower.*;
 
 @PluginEventHandler
 public class BrotherKojoClockTowerD extends Conversation {

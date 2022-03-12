@@ -21,13 +21,13 @@ import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.dungeoneering.DungeonFishSpot;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-public class DungeoneeringFishing extends Action {
+public class DungeoneeringFishing extends PlayerAction {
 
 	public enum Fish {
 

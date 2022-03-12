@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.heroesquest.dialogues;
 
+import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.GET_ITEMS;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -8,8 +10,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.GET_ITEMS;
 
 @PluginEventHandler
 public class AlfonsoTheWaiterHeroesQuestD extends Conversation {

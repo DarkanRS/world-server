@@ -17,11 +17,11 @@
 package com.rs.game.player.content.skills.crafting;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.lib.game.Animation;
 
-public class SandBucketFill extends Action {
+public class SandBucketFill extends PlayerAction {
 
 	public SandBucketFill() {
 	}

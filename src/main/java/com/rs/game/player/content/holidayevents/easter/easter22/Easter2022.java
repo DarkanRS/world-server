@@ -1,5 +1,8 @@
 package com.rs.game.player.content.holidayevents.easter.easter22;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -16,10 +19,6 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @PluginEventHandler

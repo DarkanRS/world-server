@@ -16,6 +16,9 @@
 //
 package com.rs.game.player;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.player.content.Effect;
@@ -34,9 +37,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.XPGainEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @PluginEventHandler
 public final class Skills {

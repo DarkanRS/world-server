@@ -197,7 +197,7 @@ public class FalconryController extends Controller {
 		int maxDistance = 16;
 		player.resetWalkSteps();
 		if ((!player.lineOfSightTo(target, maxDistance == 0)) || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
-			if (!player.calcFollow(target, 2, true, true))
+			if (!player.calcFollow(target, 2, true))
 				return true;
 		return true;
 	}

@@ -81,7 +81,8 @@ public final class NPCCombat {
 		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
 		boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
-		if (!los || !inRange || collidesCheck)
+		//add collision check here to enable jagex's cancer NPC walking mechanic
+		if (!los || !inRange)
 			return 0;
 		addAttackedByDelay(target);
 		return CombatScriptsHandler.attack(npc, target);
@@ -144,18 +145,20 @@ public final class NPCCombat {
 			if (!target.isAtMultiArea() || !npc.isAtMultiArea())
 				if ((npc.getAttackedBy() != target && npc.inCombat()) || (target.getAttackedBy() != npc && target.inCombat()))
 					return false;
+		int targetSize = target.getSize();
+		boolean colliding = WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize);
 		if (!npc.isCantFollowUnderCombat()) {
-			int targetSize = target.getSize();
-			if (!target.hasWalkSteps() && WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize)) {
+			if (!npc.hasWalkSteps() && colliding) {
 				npc.resetWalkSteps();
-				if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) {
+				if (!npc.addWalkSteps(target.getX() - size, npc.getY())) { //check west
 					npc.resetWalkSteps();
-					if (!npc.addWalkSteps(target.getX() - size, npc.getY())) {
+					if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) { //check east
 						npc.resetWalkSteps();
-						if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) {
+						if (!npc.addWalkSteps(npc.getX(), target.getY() - size)) { //check south
 							npc.resetWalkSteps();
-							if (!npc.addWalkSteps(npc.getX(), target.getY() - size))
+							if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) { //check north
 								return true;
+							}
 						}
 					}
 				}
@@ -168,11 +171,12 @@ public final class NPCCombat {
 			}
 
 			maxDistance = npc.isForceFollowClose() ? 0 : npc.getCombatDefinitions().getAttackRange();
-			npc.resetWalkSteps();
+			if (!colliding)
+				npc.resetWalkSteps();
 			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);
 			if (!los || !inRange) {
-				npc.calcFollow(target, npc.getRun() ? 2 : 1, true, npc.isIntelligentRouteFinder());
+				npc.calcFollow(target, npc.getRun() ? 2 : 1, npc.isIntelligentRouteFinder());
 				return true;
 			}
 		}

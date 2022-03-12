@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.quests.handlers.tribaltotem;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
+import java.util.ArrayList;
+
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
@@ -40,10 +44,6 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.TRIBAL_TOTEM)
 @PluginEventHandler

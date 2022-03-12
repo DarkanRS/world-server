@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.heroesquest.dialogues;
 
+import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.GET_ITEMS;
+import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.QUEST_COMPLETE;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -7,9 +10,6 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.GET_ITEMS;
-import static com.rs.game.player.quests.handlers.heroesquest.HeroesQuest.QUEST_COMPLETE;
 
 @PluginEventHandler
 public class StravenHeroesQuestD extends Conversation {

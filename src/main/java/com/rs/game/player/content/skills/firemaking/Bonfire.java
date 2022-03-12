@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.npc.others.FireSpirit;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.dialogues.BonfireD;
 import com.rs.game.player.dialogues.SimpleMessage;
@@ -36,7 +36,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
-public class Bonfire extends Action {
+public class Bonfire extends PlayerAction {
 
 	public static enum Log {
 		LOG(1511, 3098, 1, 50, 6),

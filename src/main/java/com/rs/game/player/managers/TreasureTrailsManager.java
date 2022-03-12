@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.managers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
@@ -40,9 +43,6 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PluginEventHandler
 public class TreasureTrailsManager {

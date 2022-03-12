@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.skills.magic;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
@@ -36,10 +40,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @PluginEventHandler
 public class Lunars {

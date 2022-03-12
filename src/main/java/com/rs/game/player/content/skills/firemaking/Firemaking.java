@@ -21,7 +21,7 @@ import com.rs.game.World;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.player.controllers.DuelArenaController;
 import com.rs.game.player.controllers.DuelController;
@@ -34,7 +34,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 
-public class Firemaking extends Action {
+public class Firemaking extends PlayerAction {
 
 	public static enum Fire {
 		NORMAL(1511, 1, 300, 70755, 40, 20),

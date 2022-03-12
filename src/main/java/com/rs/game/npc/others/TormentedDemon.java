@@ -16,6 +16,8 @@
 //
 package com.rs.game.npc.others;
 
+import java.util.Set;
+
 import com.rs.cores.CoresManager;
 import com.rs.game.Entity;
 import com.rs.game.Hit;
@@ -33,8 +35,6 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import java.util.Set;
 
 @PluginEventHandler
 public final class TormentedDemon extends NPC {

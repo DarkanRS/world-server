@@ -46,12 +46,27 @@ import com.rs.game.player.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.player.content.skills.construction.ServantDialogue;
 import com.rs.game.player.content.skills.dungeoneering.dialogues.DungeoneeringTutor;
 import com.rs.game.player.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.player.content.skills.runecrafting.runespan.SiphonActionCreatures;
 import com.rs.game.player.content.skills.thieving.PickPocketAction;
 import com.rs.game.player.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.player.content.transportation.TravelMethods;
 import com.rs.game.player.content.transportation.TravelMethods.Carrier;
-import com.rs.game.player.dialogues.*;
+import com.rs.game.player.dialogues.BoatingDialogue;
+import com.rs.game.player.dialogues.ClanCloak;
+import com.rs.game.player.dialogues.ClanVex;
+import com.rs.game.player.dialogues.DrogoDwarf;
+import com.rs.game.player.dialogues.FatherAereck;
+import com.rs.game.player.dialogues.FremennikShipmaster;
+import com.rs.game.player.dialogues.GeneralStore;
+import com.rs.game.player.dialogues.Jossik;
+import com.rs.game.player.dialogues.MamboJamboD;
+import com.rs.game.player.dialogues.Max;
+import com.rs.game.player.dialogues.MiningGuildDwarf;
+import com.rs.game.player.dialogues.Nurmof;
+import com.rs.game.player.dialogues.SorceressGardenNPCs;
+import com.rs.game.player.dialogues.TanningD;
+import com.rs.game.player.dialogues.TzHaarMejJal;
+import com.rs.game.player.dialogues.TzHaarMejKah;
+import com.rs.game.player.dialogues.UgiDialogue;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure;
@@ -94,10 +109,6 @@ public class NPCHandler {
 
 	public static void handleOption1(final Player player, final NPC npc) {
 		player.stopAll(true);
-
-		if (SiphonActionCreatures.siphon(player, npc))
-			return;
-
 		if (PluginManager.handle(new NPCClickEvent(player, npc, 1, false)))
 			return;
 

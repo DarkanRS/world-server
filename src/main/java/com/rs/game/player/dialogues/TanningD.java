@@ -18,10 +18,9 @@ package com.rs.game.player.dialogues;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.game.player.content.SkillsDialogue.ItemNameFilter;
-import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -61,7 +60,7 @@ public class TanningD extends Dialogue {
 			end();
 			return;
 		}
-		player.getActionManager().setAction(new Action() {
+		player.getActionManager().setAction(new PlayerAction() {
 
 			int ticks, price = TANNING_PRICES[isCanfis ? 1 : 0][componentIndex];
 

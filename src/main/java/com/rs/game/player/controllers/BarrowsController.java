@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.Entity;
 import com.rs.game.ForceTalk;
@@ -45,9 +48,6 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class BarrowsController extends Controller {
 

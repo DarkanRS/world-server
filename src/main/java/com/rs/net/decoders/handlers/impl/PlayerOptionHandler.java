@@ -20,8 +20,8 @@ import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.pathing.RouteEvent;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.actions.PlayerFollow;
+import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.PlayerOp;
 import com.rs.plugin.PluginManager;
@@ -74,7 +74,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 				}
 			}
 			player.stopAll(true);
-			player.getActionManager().setAction(new PlayerCombat(target));
+			player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
 			break;
 		case PLAYER_OP2:
 			if (!player.getControllerManager().canPlayerOption2(target))

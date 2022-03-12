@@ -16,8 +16,15 @@
 //
 package com.rs.game.npc.godwars.zaros;
 
-import com.rs.game.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rs.game.Entity;
+import com.rs.game.ForceMovement;
+import com.rs.game.ForceTalk;
+import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.godwars.zaros.attack.NexAttack;
@@ -33,9 +40,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @PluginEventHandler
 public final class Nex extends NPC {
@@ -137,7 +141,7 @@ public final class Nex extends NPC {
 						return;
 					}
 				} else
-					calcFollow(target, 2, true, true);
+					calcFollow(target, 2, true);
 				return;
 			}
 			resetWalkSteps();

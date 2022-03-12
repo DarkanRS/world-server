@@ -16,6 +16,13 @@
 //
 package com.rs.game.player.managers;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
 import com.rs.game.player.Player;
@@ -29,9 +36,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @PluginEventHandler
 public final class MusicsManager {

@@ -2070,7 +2070,7 @@
     "name": "Undead Dungeon",
     "hint": "in Tarn's Lair.",
     "comment": "Lock with haunted mine quest",
-    "allowAmbient": true,
+    "allowAmbient": false,
     "id": 214,
     "regionIds": [
       12615

@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
+
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
@@ -23,8 +25,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
 
 @PluginEventHandler
 public class Burthorpe {
