@@ -16,6 +16,11 @@
 //
 package com.rs.game.player.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -27,11 +32,18 @@ import com.rs.game.WorldProjectile;
 import com.rs.game.npc.NPC;
 import com.rs.game.npc.familiar.Familiar;
 import com.rs.game.npc.familiar.Steeltitan;
+import com.rs.game.pathing.Direction;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
 import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.Effect;
-import com.rs.game.player.content.combat.*;
+import com.rs.game.player.content.combat.AmmoType;
+import com.rs.game.player.content.combat.AttackStyle;
+import com.rs.game.player.content.combat.AttackType;
+import com.rs.game.player.content.combat.CombatSpell;
+import com.rs.game.player.content.combat.PolyporeStaff;
+import com.rs.game.player.content.combat.RangedWeapon;
+import com.rs.game.player.content.combat.XPType;
 import com.rs.game.player.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.player.managers.AuraManager.Aura;
@@ -50,13 +62,8 @@ import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 @PluginEventHandler
-public class PlayerCombat extends Action {
+public class PlayerCombat extends PlayerAction {
 
 	private Entity target;
 	private int max_hit;
@@ -866,6 +873,19 @@ public class PlayerCombat extends Action {
 	}
 
 	private int meleeAttack(final Player player) {
+		if (player.hasEffect(Effect.FREEZE)) {
+			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
+			if (dir != null)
+				switch (dir) {
+					case NORTH:
+					case SOUTH:
+					case EAST:
+					case WEST:
+						break;
+					default:
+						return 0;
+				}
+		}
 		int weaponId = player.getEquipment().getWeaponId();
 		AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
 		int combatDelay = getMeleeCombatDelay(player, weaponId);

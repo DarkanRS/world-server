@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.skills.magic;
 
+import java.util.List;
+
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.player.Player;
@@ -28,13 +30,15 @@ import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Rights;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-
-import java.util.List;
 
 @PluginEventHandler
 public class Magic {

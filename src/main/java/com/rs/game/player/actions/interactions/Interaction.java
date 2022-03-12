@@ -16,13 +16,13 @@
 //
 package com.rs.game.player.actions.interactions;
 
-import com.rs.game.player.Player;
+import com.rs.game.Entity;
 
 public abstract class Interaction {
 	private boolean stopped = false;
-	public abstract boolean start(Player player);
-	public abstract boolean process(Player player);
-	public void stop(Player player) {
+	public abstract boolean start(Entity player);
+	public abstract boolean process(Entity player);
+	public void stop(Entity player) {
 		stopped = true;
 	}
 

@@ -17,10 +17,10 @@
 package com.rs.game.player.content.skills.farming;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.game.Item;
 
-public class FillCompostBin extends Action {
+public class FillCompostBin extends PlayerAction {
 
 	private FarmPatch patch;
 	private Item item;

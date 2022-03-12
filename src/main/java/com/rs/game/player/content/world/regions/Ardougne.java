@@ -33,7 +33,6 @@ import com.rs.game.player.content.skills.agility.Agility;
 import com.rs.game.player.content.skills.thieving.Thieving;
 import com.rs.game.player.content.world.AgilityShortcuts;
 import com.rs.game.player.content.world.doors.Doors;
-import com.rs.game.player.controllers.WildernessController;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.player.quests.handlers.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.lib.Constants;
@@ -49,7 +48,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.shop.ShopsHandler;
 

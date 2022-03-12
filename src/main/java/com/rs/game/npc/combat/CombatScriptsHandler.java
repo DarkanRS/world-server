@@ -16,7 +16,6 @@
 //
 package com.rs.game.npc.combat;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

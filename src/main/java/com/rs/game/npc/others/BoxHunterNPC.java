@@ -16,6 +16,10 @@
 //
 package com.rs.game.npc.others;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
@@ -30,10 +34,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
 
 @PluginEventHandler
 public class BoxHunterNPC extends NPC {

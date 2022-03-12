@@ -18,7 +18,6 @@ package com.rs.game.player.actions.interactions;
 
 import com.rs.game.Entity;
 import com.rs.game.pathing.Direction;
-import com.rs.game.pathing.WalkStep;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
 import com.rs.utils.WorldUtil;
@@ -45,23 +44,23 @@ public abstract class EntityInteraction extends Interaction {
 		return this;
 	}
 
-	public abstract boolean canStart(Player player);
-	public abstract boolean checkAll(Player player);
-	public abstract void interact(Player player);
-	public abstract void onStop(Player player);
+	public abstract boolean canStart(Entity entity);
+	public abstract boolean checkAll(Entity entity);
+	public abstract void interact(Entity entity);
+	public abstract void onStop(Entity entity);
 
 	@Override
-	public final boolean start(Player player) {
-		player.setNextFaceEntity(target);
-		if (!canStart(player))
+	public final boolean start(Entity entity) {
+		entity.setNextFaceEntity(target);
+		if (!canStart(entity))
 			return false;
-		if (checkDistance(player) && checkAll(player))
+		if (checkDistance(entity) && checkAll(entity))
 			return true;
 		return false;
 	}
 
 	@Override
-	public final boolean process(Player player) {
+	public final boolean process(Entity player) {
 		if (checkDistance(player) && checkAll(player)) {
 			if (isWithinDistance(player, target, true)) {
 				interact(player);
@@ -75,32 +74,35 @@ public abstract class EntityInteraction extends Interaction {
 		return false;
 	}
 
-	public boolean isWithinDistance(Player player, Entity target, boolean addRunSteps) {
-		boolean los = player.lineOfSightTo(target, distance == 0);
-		boolean inRange = WorldUtil.isInRange(player, target, distance + (addRunSteps ? (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0) : 0));
-		boolean collides = WorldUtil.collides(player, target);
-		if (!los || !inRange || collides)
+	public boolean isWithinDistance(Entity entity, Entity target, boolean addRunSteps) {
+		boolean los = entity.lineOfSightTo(target, distance == 0);
+		boolean inRange = WorldUtil.isInRange(entity, target, distance + (addRunSteps ? (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0) : 0));
+		//boolean collides = WorldUtil.collides(player, target);
+		if (!los || !inRange)
 			return false;
 		return true;
 	}
 
-	public final boolean checkDistance(Player player) {
-		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
+	public final boolean checkDistance(Entity entity) {
+		if (entity.isDead() || entity.hasFinished() || target.isDead() || target.hasFinished())
 			return false;
-		int distanceX = player.getX() - target.getX();
-		int distanceY = player.getY() - target.getY();
+		int distanceX = entity.getX() - target.getX();
+		int distanceY = entity.getY() - target.getY();
 		int size = target.getSize();
 		int maxDistance = 16;
-		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
+		if (entity.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 			return false;
-		if (player.hasEffect(Effect.FREEZE))
-			return !WorldUtil.collides(player, target);
-		if (WorldUtil.collides(player, target) && !target.hasWalkSteps()) {
-			player.resetWalkSteps();
-			return player.calcFollow(target, true);
+		if (entity.hasEffect(Effect.FREEZE))
+			return !WorldUtil.collides(entity, target);
+		if (WorldUtil.collides(entity, target)) {
+			if (!target.hasWalkSteps() && !entity.hasWalkSteps()) {
+				entity.resetWalkSteps();
+				return entity.calcFollow(target, true);
+			}
+			return target instanceof Player ? true : entity.calcFollow(target, true);
 		}
 		if (distance == 0 && !target.hasWalkSteps() && target.getSize() == 1) {
-			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
+			Direction dir = Direction.forDelta(target.getX() - entity.getX(), target.getY() - entity.getY());
 			if (dir != null)
 				switch(dir) {
 				case NORTH:
@@ -109,23 +111,20 @@ public abstract class EntityInteraction extends Interaction {
 				case WEST:
 					break;
 				default:
-					player.resetWalkSteps();
-					player.calcFollow(target, player.getRun() ? 2 : 1, true);
+					entity.resetWalkSteps();
+					entity.calcFollow(target, entity.getRun() ? 2 : 1, true);
 					return true;
 				}
 		}
-		if (!isWithinDistance(player, target, false)) {
-			if (!player.hasWalkSteps() || target.hasWalkSteps()) {
-				player.resetWalkSteps();
-				player.calcFollow(target, player.getRun() ? 2 : 1, true);
+		if (!isWithinDistance(entity, target, false)) {
+			if (!entity.hasWalkSteps() || target.hasWalkSteps()) {
+				entity.resetWalkSteps();
+				entity.calcFollow(target, entity.getRun() ? 2 : 1, true);
 			}
 		} else {
-			player.resetWalkSteps();
-			if (target.getRun() == player.getRun() && target.hasWalkSteps()) {
-				WalkStep step = target.previewNextWalkStep();
-				if (step != null)
-					player.calcFollow(target.transform(step.getDir().getDx(), step.getDir().getDy()), player.getRun() ? 2 : 1, true);
-			}
+			entity.resetWalkSteps();
+			if (distance == 0 && target.getRun() == entity.getRun() && target.hasWalkSteps())
+				entity.calcFollow(target, entity.getRun() ? 2 : 1, true);
 		}
 		return true;
 	}

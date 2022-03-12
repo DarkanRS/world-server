@@ -16,14 +16,14 @@
 //
 package com.rs.game.player.content.randomevents;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.controllers.DamonheimController;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RandomEvents {
 

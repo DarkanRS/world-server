@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.transportation;
 
+import java.util.Set;
+
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
@@ -27,8 +29,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.Set;
 
 public class WildernessObelisk {
 

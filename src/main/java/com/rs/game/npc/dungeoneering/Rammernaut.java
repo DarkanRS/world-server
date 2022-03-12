@@ -16,8 +16,12 @@
 //
 package com.rs.game.npc.dungeoneering;
 
-import com.rs.game.*;
+import com.rs.game.Entity;
+import com.rs.game.ForceMovement;
+import com.rs.game.ForceTalk;
+import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
+import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;

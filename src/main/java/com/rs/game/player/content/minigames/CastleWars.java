@@ -16,6 +16,11 @@
 //
 package com.rs.game.player.content.minigames;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.npc.others.CastleWarBarricade;
@@ -34,11 +39,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 @PluginEventHandler
 public final class CastleWars {

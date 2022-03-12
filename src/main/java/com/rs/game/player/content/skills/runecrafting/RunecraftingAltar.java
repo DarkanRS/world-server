@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.skills.runecrafting;
 
+import java.util.ArrayList;
+
 import com.rs.game.ForceTalk;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -38,8 +40,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import java.util.ArrayList;
 
 @PluginEventHandler
 public class RunecraftingAltar {

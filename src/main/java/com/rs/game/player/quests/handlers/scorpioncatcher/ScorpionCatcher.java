@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.scorpioncatcher;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
@@ -24,8 +26,6 @@ import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.ArrayList;
 
 /**
  * How this is written: Each seer prophecy/premonition allows you to spawn a

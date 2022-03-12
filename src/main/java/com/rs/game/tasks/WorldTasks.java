@@ -16,12 +16,11 @@
 //
 package com.rs.game.tasks;
 
-import com.rs.lib.util.Logger;
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+
+import com.rs.lib.util.Logger;
 
 public class WorldTasks {
 

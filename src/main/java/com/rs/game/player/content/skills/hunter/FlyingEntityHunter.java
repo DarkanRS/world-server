@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.hunter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.game.ForceTalk;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -34,9 +37,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class FlyingEntityHunter {
 

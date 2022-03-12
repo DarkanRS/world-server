@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.monksfriend;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.quests.Quest;
 import com.rs.game.player.quests.QuestHandler;
@@ -11,8 +13,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.MONKS_FRIEND)
 @PluginEventHandler

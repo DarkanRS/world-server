@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.dragonslayer;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
@@ -16,11 +18,17 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.DRAGON_SLAYER)
 @PluginEventHandler

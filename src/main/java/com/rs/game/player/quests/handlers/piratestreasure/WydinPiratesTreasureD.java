@@ -1,5 +1,18 @@
 package com.rs.game.player.quests.handlers.piratestreasure;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.APRON;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.GET_TREASURE;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.HAS_SMUGGLED_RUM_ATTR;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.NOT_STARTED;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.QUEST_COMPLETE;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_KARAMJA_CRATE_ATTR;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.RUM_IN_SARIM_CRATE_ATTR;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.WYDIN;
+import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.WYDIN_EMPLOYMENT_ATTR;
+
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -14,9 +27,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.quests.handlers.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class WydinPiratesTreasureD extends Conversation {

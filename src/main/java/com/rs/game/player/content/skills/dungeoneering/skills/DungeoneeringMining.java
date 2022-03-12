@@ -20,12 +20,12 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-public class DungeoneeringMining extends Action {
+public class DungeoneeringMining extends PlayerAction {
 
 	public static enum DungeoneeringRocks {
 		NOVITE_ORE(1, 15, 17630, 10, 1),

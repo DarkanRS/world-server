@@ -17,9 +17,9 @@
 package com.rs.game.player.content.minigames.ectofuntus;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 
-public class EctoBones extends Action {
+public class EctoBones extends PlayerAction {
 
 	public EctoBones(int itemId) {
 		this.itemId = itemId;

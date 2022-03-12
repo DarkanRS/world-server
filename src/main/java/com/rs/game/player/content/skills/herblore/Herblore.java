@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.statements.MakeXStatement;
 import com.rs.game.player.dialogues.SimpleMessage;
@@ -34,7 +34,7 @@ import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
-public class Herblore extends Action {
+public class Herblore extends PlayerAction {
 
 	private CraftablePotion potion;
 	private int ticks;

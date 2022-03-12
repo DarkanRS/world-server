@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 
-public class Smithing extends Action {
+public class Smithing extends PlayerAction {
 
 	public enum ForgingBar {
 

@@ -16,6 +16,8 @@
 //
 package com.rs.game.npc.combat.impl.dung;
 
+import java.util.List;
+
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -30,8 +32,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
-
-import java.util.List;
 
 public class AsteaFrostwebCombat extends CombatScript {
 

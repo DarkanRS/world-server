@@ -16,6 +16,8 @@
 //
 package com.rs.game.player;
 
+import java.util.List;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
@@ -34,8 +36,6 @@ import com.rs.plugin.events.ItemAddedToInventoryEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.ItemWeights;
-
-import java.util.List;
 
 @PluginEventHandler
 public final class Inventory {

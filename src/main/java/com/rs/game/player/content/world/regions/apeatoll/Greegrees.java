@@ -16,23 +16,7 @@
 //
 package com.rs.game.player.content.world.regions.apeatoll;
 
-import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.player.Equipment;
-import com.rs.game.player.Player;
-import com.rs.game.player.content.EnchantedHeadwear;
-import com.rs.game.player.quests.Quest;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.handlers.EnterChunkHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemEquipHandler;
-import com.rs.utils.Areas;
 
 @PluginEventHandler
 public class Greegrees {

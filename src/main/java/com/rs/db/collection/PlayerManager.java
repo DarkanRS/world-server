@@ -16,6 +16,13 @@
 //
 package com.rs.db.collection;
 
+import static com.mongodb.client.model.Filters.eq;
+
+import java.io.IOException;
+import java.util.function.Consumer;
+
+import org.bson.Document;
+
 import com.google.gson.JsonIOException;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
@@ -24,12 +31,6 @@ import com.rs.game.player.Player;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
-import org.bson.Document;
-
-import java.io.IOException;
-import java.util.function.Consumer;
-
-import static com.mongodb.client.model.Filters.eq;
 
 public class PlayerManager extends DBItemManager {
 

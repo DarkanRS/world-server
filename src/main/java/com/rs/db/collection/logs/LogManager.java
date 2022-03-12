@@ -16,6 +16,16 @@
 //
 package com.rs.db.collection.logs;
 
+import static com.mongodb.client.model.Filters.eq;
+
+import java.io.CharArrayWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.bson.Document;
+
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
@@ -29,15 +39,6 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.utils.ReportsManager;
-import org.bson.Document;
-
-import java.io.CharArrayWriter;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static com.mongodb.client.model.Filters.eq;
 
 public class LogManager extends DBItemManager {
 

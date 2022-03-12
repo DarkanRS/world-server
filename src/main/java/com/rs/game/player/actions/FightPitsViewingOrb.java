@@ -19,7 +19,7 @@ package com.rs.game.player.actions;
 import com.rs.game.player.Player;
 import com.rs.lib.game.WorldTile;
 
-public class FightPitsViewingOrb extends Action {
+public class FightPitsViewingOrb extends PlayerAction {
 
 	public static final WorldTile[] ORB_TELEPORTS = { new WorldTile(4571, 5092, 0), new WorldTile(4571, 5107, 0), new WorldTile(4590, 5092, 0), new WorldTile(4571, 5077, 0), new WorldTile(4557, 5092, 0) };
 

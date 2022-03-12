@@ -16,18 +16,19 @@
 //
 package com.rs.game.player.content.skills.runecrafting.runespan;
 
+import java.util.Arrays;
+
+import com.rs.game.Entity;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.interactions.EntityInteractionAction;
+import com.rs.game.player.interactions.PlayerEntityInteractionAction;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
-import java.util.Arrays;
-
 @PluginEventHandler
-public class SiphonCreaturesInteraction extends EntityInteractionAction {
+public class SiphonCreaturesInteraction extends PlayerEntityInteractionAction<SiphonAction> {
 
 	public static NPCClickHandler clickHandler = new NPCClickHandler(false, Arrays.stream(Creature.values()).map(c -> c.npcId).toArray(), new String[] { "Siphon", "Chip off" }) {
 		@Override
@@ -69,7 +70,7 @@ public class SiphonCreaturesInteraction extends EntityInteractionAction {
 	}
 
 	@Override
-	public void onStop(Player player) {
+	public void onStop(Entity player) {
 		player.setNextAnimation(new Animation(16599));
 		player.getActionManager().setActionDelay(3);
 	}

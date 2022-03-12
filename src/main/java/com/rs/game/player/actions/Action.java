@@ -16,29 +16,16 @@
 //
 package com.rs.game.player.actions;
 
-import com.rs.game.player.Player;
+import com.rs.game.Entity;
 
 public abstract class Action {
+	public abstract boolean start(Entity entity);
+	public abstract boolean process(Entity entity);
+	public abstract int processWithDelay(Entity entity);
+	public abstract void stop(Entity entity);
+	
 
-	private boolean noRandoms;
-
-	public abstract boolean start(Player player);
-
-	public abstract boolean process(Player player);
-
-	public abstract int processWithDelay(Player player);
-
-	public abstract void stop(Player player);
-
-	protected final void setActionDelay(Player player, int delay) {
-		player.getActionManager().setActionDelay(delay);
-	}
-
-	public boolean isNoRandoms() {
-		return noRandoms;
-	}
-
-	public void setNoRandoms(boolean noRandoms) {
-		this.noRandoms = noRandoms;
+	public void setActionDelay(Entity entity, int delay) {
+		entity.getActionManager().setActionDelay(delay);
 	}
 }

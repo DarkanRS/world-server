@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.commands.debug;
 
+import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
+
+import java.util.Arrays;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
@@ -39,10 +43,6 @@ import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
-
-import java.util.Arrays;
-
-import static com.rs.game.player.content.randomevents.RandomEvents.attemptSpawnRandom;
 
 
 @PluginEventHandler

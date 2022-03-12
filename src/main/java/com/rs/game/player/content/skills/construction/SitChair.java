@@ -19,11 +19,11 @@ package com.rs.game.player.content.skills.construction;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 
-public class SitChair extends Action {
+public class SitChair extends PlayerAction {
 
 	private WorldTile originalTile;
 	private WorldTile chairTile;

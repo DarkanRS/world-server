@@ -16,6 +16,13 @@
 //
 package com.rs.game.region;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
@@ -37,13 +44,6 @@ import com.rs.utils.music.Music;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawns;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Region {
 

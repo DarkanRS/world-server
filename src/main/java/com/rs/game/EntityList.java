@@ -16,12 +16,12 @@
 //
 package com.rs.game;
 
-import com.rs.Settings;
-
 import java.util.AbstractCollection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import com.rs.Settings;
 
 public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	public Object[] entities;

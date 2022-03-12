@@ -1,5 +1,7 @@
 package com.rs.game.player.miniquests.handlers.abyss;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -12,8 +14,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import java.util.ArrayList;
 
 @MiniquestHandler(Miniquest.ENTER_THE_ABYSS)
 @PluginEventHandler

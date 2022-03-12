@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.controllers;
 
+import java.util.Set;
+
 import com.rs.game.World;
 import com.rs.game.npc.fightcaves.FightCavesNPC;
 import com.rs.game.npc.fightcaves.TzKekCaves;
@@ -35,8 +37,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
-
-import java.util.Set;
 
 public class FightCavesController extends Controller {
 

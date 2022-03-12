@@ -23,7 +23,6 @@ import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerCombat;
 import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
 import com.rs.game.player.content.skills.prayer.Leech;
 import com.rs.game.player.content.skills.prayer.Prayer;

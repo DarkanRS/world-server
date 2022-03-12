@@ -1,7 +1,5 @@
 package com.rs.game.player.controllers;
 
-import com.rs.game.player.content.minigames.trawler.FishingTrawler;
-
 public class FishingTrawlerCrashedController extends Controller {
 
 	@Override

@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.heroesquest;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
@@ -16,8 +18,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class BrimhavenHeroesQuest {

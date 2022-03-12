@@ -20,7 +20,7 @@ import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.hunter.traps.BoxStyleTrap;
 import com.rs.game.player.content.skills.hunter.traps.DeadfallTrap;
 import com.rs.game.player.content.skills.hunter.traps.MarasamawPlant;
@@ -31,7 +31,7 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 
-public class BoxAction extends Action {
+public class BoxAction extends PlayerAction {
 
 	private BoxTrapType type;
 	private BoxStyleTrap trap;

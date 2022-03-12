@@ -1,5 +1,8 @@
 package com.rs.game.player.quests.handlers.merlinscrystal;
 
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.EXCALIBUR;
+import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.LADY_LAKE_TEST_ATTR;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.Dialogue;
@@ -9,9 +12,6 @@ import com.rs.game.player.quests.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.EXCALIBUR;
-import static com.rs.game.player.quests.handlers.merlinscrystal.MerlinsCrystal.LADY_LAKE_TEST_ATTR;
 
 @PluginEventHandler
 public class LadyOfLakeMerlinsCrystalD extends Conversation {

@@ -17,7 +17,7 @@
 package com.rs.game.player.content.skills.magic;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -89,7 +89,7 @@ public class BoltEnchanting  {
 		}
 	}
 
-	static class BoltEnchantingAction extends Action {
+	static class BoltEnchantingAction extends PlayerAction {
 
 		private Bolt bolt;
 		private int amount;

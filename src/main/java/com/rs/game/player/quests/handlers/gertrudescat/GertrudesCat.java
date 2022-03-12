@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.gertrudescat;
 
+import java.util.ArrayList;
+
 import com.rs.game.ForceTalk;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
@@ -36,8 +38,6 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.GERTRUDES_CAT)
 @PluginEventHandler

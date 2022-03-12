@@ -16,6 +16,8 @@
 //
 package com.rs.game.npc.dungeoneering;
 
+import java.util.List;
+
 import com.rs.game.player.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.player.content.skills.dungeoneering.skills.DungeoneeringTraps;
 import com.rs.game.tasks.WorldTask;
@@ -24,8 +26,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.List;
 
 public class DungeonHunterNPC extends DungeonNPC {
 

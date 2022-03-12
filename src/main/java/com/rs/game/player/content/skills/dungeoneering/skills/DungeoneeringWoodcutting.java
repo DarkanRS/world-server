@@ -19,12 +19,12 @@ package com.rs.game.player.content.skills.dungeoneering.skills;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-public final class DungeoneeringWoodcutting extends Action {
+public final class DungeoneeringWoodcutting extends PlayerAction {
 
 	private GameObject treeObj;
 	private DungTree type;

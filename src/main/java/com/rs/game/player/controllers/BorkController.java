@@ -23,7 +23,6 @@ import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.dialogues.DagonHai;
 import com.rs.lib.game.WorldTile;
 
