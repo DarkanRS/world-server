@@ -1,4 +1,4 @@
-package com.rs.game.player.content.holidayevents.easter.easter22;
+package com.rs.game.player.content.holidayevents.easter.easter22.npcs;
 
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
@@ -7,6 +7,7 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.dialogue.impl.StageSelectDialogue;
+import com.rs.game.player.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemOnNPCEvent;
@@ -39,7 +40,7 @@ public class ChocatriceD extends Conversation {
                     player.sendMessage("you have unlocked an Easter track, " + Easter2022.EASTER_TRACK.getName());
                 }
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
-                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes.");
+                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes."); //TODO timer
             }
 
             if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {

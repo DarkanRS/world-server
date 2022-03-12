@@ -126,7 +126,7 @@ public class Easter2022 {
     }
 
     public static void foundEgg(Player p, GameObject o) {
-        EasterEgg.Spawns loc = EasterEgg.Spawns.isLocation(o.getX(), o.getY(), o.getPlane());
+        EasterEgg.Spawns loc = EasterEgg.Spawns.getEggByLocation(o.getX(), o.getY(), o.getPlane());
         if (loc == null)
             return;
         if (currentEggs.contains(loc)) {
