@@ -1,5 +1,10 @@
 package com.rs.game.player.quests.handlers.witchshouse;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
+
+import java.util.ArrayList;
+
 import com.rs.game.Hit;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -18,15 +23,21 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.ItemOnObjectEvent;
+import com.rs.plugin.events.NPCDeathEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PickupItemEvent;
+import com.rs.plugin.events.PlayerStepEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PickupItemHandler;
+import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
-import static com.rs.game.player.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(Quest.WITCHS_HOUSE)
 @PluginEventHandler

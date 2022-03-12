@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.skills.runecrafting;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
@@ -33,10 +37,6 @@ import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropList;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @PluginEventHandler
 public class Runecrafting {

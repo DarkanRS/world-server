@@ -1,14 +1,14 @@
 package com.rs.game.player.quests.handlers.monksfriend.dialogues;
 
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.HELP_CEDRIC;
+import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.RETURN_TO_OMAD;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.content.dialogue.Conversation;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.quests.Quest;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.HELP_CEDRIC;
-import static com.rs.game.player.quests.handlers.monksfriend.MonksFriend.RETURN_TO_OMAD;
 
 @PluginEventHandler
 public class BrotherCedricMonksFriendD extends Conversation {

@@ -1,5 +1,7 @@
 package com.rs.game.player.quests.handlers.heroesquest;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.player.Player;
 import com.rs.game.player.Skills;
@@ -20,8 +22,6 @@ import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.HEROES_QUEST)
 @PluginEventHandler

@@ -16,6 +16,15 @@
 //
 package com.rs.game.player.content.skills.dungeoneering;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -25,7 +34,44 @@ import com.rs.cores.CoresManager;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.combat.NPCCombatDefinitions;
-import com.rs.game.npc.dungeoneering.*;
+import com.rs.game.npc.dungeoneering.AsteaFrostweb;
+import com.rs.game.npc.dungeoneering.BalLakThePummeler;
+import com.rs.game.npc.dungeoneering.Blink;
+import com.rs.game.npc.dungeoneering.BulwarkBeast;
+import com.rs.game.npc.dungeoneering.DivineSkinweaver;
+import com.rs.game.npc.dungeoneering.Dreadnaut;
+import com.rs.game.npc.dungeoneering.DungeonBoss;
+import com.rs.game.npc.dungeoneering.DungeonFishSpot;
+import com.rs.game.npc.dungeoneering.DungeonHunterNPC;
+import com.rs.game.npc.dungeoneering.DungeonNPC;
+import com.rs.game.npc.dungeoneering.DungeonSkeletonBoss;
+import com.rs.game.npc.dungeoneering.DungeonSlayerNPC;
+import com.rs.game.npc.dungeoneering.FleshspoilerHaasghenahk;
+import com.rs.game.npc.dungeoneering.ForgottenWarrior;
+import com.rs.game.npc.dungeoneering.GluttonousBehemoth;
+import com.rs.game.npc.dungeoneering.Gravecreeper;
+import com.rs.game.npc.dungeoneering.Guardian;
+import com.rs.game.npc.dungeoneering.HobgoblinGeomancer;
+import com.rs.game.npc.dungeoneering.HopeDevourer;
+import com.rs.game.npc.dungeoneering.IcyBones;
+import com.rs.game.npc.dungeoneering.KalGerWarmonger;
+import com.rs.game.npc.dungeoneering.LakkTheRiftSplitter;
+import com.rs.game.npc.dungeoneering.LexicusRunewright;
+import com.rs.game.npc.dungeoneering.LuminscentIcefiend;
+import com.rs.game.npc.dungeoneering.MastyxTrap;
+import com.rs.game.npc.dungeoneering.NecroLord;
+import com.rs.game.npc.dungeoneering.NightGazerKhighorahk;
+import com.rs.game.npc.dungeoneering.Rammernaut;
+import com.rs.game.npc.dungeoneering.RuneboundBehemoth;
+import com.rs.game.npc.dungeoneering.Sagittare;
+import com.rs.game.npc.dungeoneering.ShadowForgerIhlakhizan;
+import com.rs.game.npc.dungeoneering.SkeletalAdventurer;
+import com.rs.game.npc.dungeoneering.Stomp;
+import com.rs.game.npc.dungeoneering.ToKashBloodChiller;
+import com.rs.game.npc.dungeoneering.UnholyCrossbearer;
+import com.rs.game.npc.dungeoneering.WarpedGulega;
+import com.rs.game.npc.dungeoneering.WorldGorgerShukarhazh;
+import com.rs.game.npc.dungeoneering.YkLagorThunderous;
 import com.rs.game.object.GameObject;
 import com.rs.game.object.OwnedObject;
 import com.rs.game.player.Equipment;
@@ -53,11 +99,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 
 
 

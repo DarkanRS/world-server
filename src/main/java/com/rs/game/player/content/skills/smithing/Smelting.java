@@ -22,7 +22,7 @@ import java.util.Map;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Equipment;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -33,7 +33,7 @@ import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
-public class Smelting extends Action {
+public class Smelting extends PlayerAction {
 
 	public enum SmeltingBar {
 

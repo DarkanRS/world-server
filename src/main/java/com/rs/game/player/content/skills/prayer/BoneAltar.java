@@ -20,7 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.prayer.Burying.Bone;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -61,7 +61,7 @@ public class BoneAltar  {
 		}
 	}
 
-	static class BoneAction extends Action {
+	static class BoneAction extends PlayerAction {
 
 		private Altar altar;
 		private Bone bone;

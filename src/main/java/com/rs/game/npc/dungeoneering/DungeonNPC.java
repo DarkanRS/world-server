@@ -16,6 +16,9 @@
 //
 package com.rs.game.npc.dungeoneering;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -26,9 +29,6 @@ import com.rs.game.player.content.skills.dungeoneering.RoomReference;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Set;
 
 public class DungeonNPC extends NPC {
 

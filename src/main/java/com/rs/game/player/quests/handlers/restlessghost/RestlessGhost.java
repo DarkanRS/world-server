@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.restlessghost;
 
+import java.util.ArrayList;
+
 import com.rs.game.player.Player;
 import com.rs.game.player.dialogues.Dialogue;
 import com.rs.game.player.quests.Quest;
@@ -29,8 +31,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.RESTLESS_GHOST)
 @PluginEventHandler

@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.pet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.ForceTalk;
@@ -25,9 +28,6 @@ import com.rs.game.player.content.ItemConstants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The pet manager.

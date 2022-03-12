@@ -17,13 +17,13 @@
 package com.rs.game.player.content.skills.prayer.cremation;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.Potions;
 import com.rs.game.player.content.SkillsDialogue;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 
-public class CraftPyreLogs extends Action {
+public class CraftPyreLogs extends PlayerAction {
 
 	private static final int DOSE_4 = 3430, DOSE_3 = 3432, DOSE_2 = 3434, DOSE_1 = 3436;
 

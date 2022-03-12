@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.hunter.traps;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.npc.others.BoxHunterNPC;
@@ -29,9 +32,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class NetTrap extends BoxStyleTrap {
 

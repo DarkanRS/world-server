@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.holidayevents.christmas.christ19;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.rs.game.ForceTalk;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.pet.Pets;
@@ -33,9 +36,6 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @PluginEventHandler
 public class Christmas2019 {

@@ -16,14 +16,14 @@
 //
 package com.rs.game.player.dialogues;
 
+import java.util.Set;
+
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
-
-import java.util.Set;
 
 public final class MiningGuildDwarf extends Dialogue {
 

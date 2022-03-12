@@ -8,8 +8,6 @@ import com.rs.game.player.content.dialogue.Dialogue;
 import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.skills.magic.Magic;
-import com.rs.game.player.quests.Quest;
-import com.rs.game.player.quests.handlers.templeofikov.FireWarrior;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -18,8 +16,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.player.quests.handlers.templeofikov.TempleOfIkov.*;
 
 @PluginEventHandler
 public class WineldaWitchTempleOfIkov extends Conversation {

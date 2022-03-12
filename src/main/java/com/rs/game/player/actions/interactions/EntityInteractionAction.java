@@ -17,22 +17,22 @@ public abstract class EntityInteractionAction<T extends Action> extends EntityIn
 	}
 
 	@Override
-	public void interact(Player player) {
+	public void interact(Entity entity) {
 		if (!started) {
-			if (!action.start(player)) {
-				stop(player);
+			if (!action.start(entity)) {
+				stop(entity);
 				return;
 			}
 			started = true;
 		}
-		if (player.getActionManager().getActionDelay() > 0)
+		if (entity.getActionManager().getActionDelay() > 0)
 			return;
-		int newDelay = action.processWithDelay(player) + 1;
+		int newDelay = action.processWithDelay(entity) + 1;
 		if (newDelay == -1) {
-			stop(player);
+			stop(entity);
 			return;
 		}
-		player.getActionManager().setActionDelay(newDelay);
+		entity.getActionManager().setActionDelay(newDelay);
 	}
 
 	public T getAction() {
@@ -40,7 +40,9 @@ public abstract class EntityInteractionAction<T extends Action> extends EntityIn
 	}
 
 	@Override
-	public void onStop(Player player) {
+	public void onStop(Entity entity) {
+		if (!(entity instanceof Player player))
+			return;
 		action.stop(player);
 	}
 }

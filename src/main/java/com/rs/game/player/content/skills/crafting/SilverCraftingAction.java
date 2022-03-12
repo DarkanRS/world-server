@@ -18,12 +18,12 @@ package com.rs.game.player.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.crafting.Silver.SilverItems;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
-public class SilverCraftingAction extends Action {
+public class SilverCraftingAction extends PlayerAction {
 
 	SilverItems itemToMake;
 	int numberToMake;

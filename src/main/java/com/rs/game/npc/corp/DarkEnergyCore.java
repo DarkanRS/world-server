@@ -16,6 +16,8 @@
 //
 package com.rs.game.npc.corp;
 
+import java.util.List;
+
 import com.rs.game.Entity;
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
@@ -25,8 +27,6 @@ import com.rs.game.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
-
-import java.util.List;
 
 public class DarkEnergyCore extends NPC {
 

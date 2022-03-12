@@ -16,16 +16,21 @@
 //
 package com.rs.game.player.content.dialogue;
 
-import com.rs.game.player.Player;
-import com.rs.game.player.content.dialogue.impl.StageSelectDialogue;
-import com.rs.game.player.content.dialogue.statements.*;
-import com.rs.lib.game.Item;
-import com.rs.lib.util.Utils;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.rs.game.player.Player;
+import com.rs.game.player.content.dialogue.impl.StageSelectDialogue;
+import com.rs.game.player.content.dialogue.statements.ItemStatement;
+import com.rs.game.player.content.dialogue.statements.NPCStatement;
+import com.rs.game.player.content.dialogue.statements.OptionStatement;
+import com.rs.game.player.content.dialogue.statements.PlayerStatement;
+import com.rs.game.player.content.dialogue.statements.SimpleStatement;
+import com.rs.game.player.content.dialogue.statements.Statement;
+import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
 
 public class Dialogue {
 

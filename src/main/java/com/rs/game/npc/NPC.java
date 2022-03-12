@@ -16,6 +16,11 @@
 //
 package com.rs.game.npc;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
@@ -31,7 +36,12 @@ import com.rs.game.npc.combat.NPCCombatDefinitions;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.pathing.*;
+import com.rs.game.pathing.ClipType;
+import com.rs.game.pathing.Direction;
+import com.rs.game.pathing.DumbRouteFinder;
+import com.rs.game.pathing.FixedTileStrategy;
+import com.rs.game.pathing.RouteEvent;
+import com.rs.game.pathing.RouteFinder;
 import com.rs.game.player.Bank;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Effect;
@@ -59,11 +69,6 @@ import com.rs.utils.NPCClueDrops;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropTable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class NPC extends Entity {
 
@@ -346,6 +351,7 @@ public class NPC extends Entity {
 	@Override
 	public void reset() {
 		super.reset();
+		getInteractionManager().forceStop();
 		setFaceAngle(getRespawnDirection());
 		combat.reset();
 		levels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
@@ -446,6 +452,7 @@ public class NPC extends Entity {
 	@Override
 	public void sendDeath(final Entity source) {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
+		getInteractionManager().forceStop();
 		resetWalkSteps();
 		if (combat.getTarget() != null)
 			combat.getTarget().setAttackedByDelay(0);

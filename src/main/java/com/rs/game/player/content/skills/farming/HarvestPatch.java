@@ -18,14 +18,14 @@ package com.rs.game.player.content.skills.farming;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.Effect;
 import com.rs.game.player.managers.AuraManager.Aura;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 
-public class HarvestPatch extends Action {
+public class HarvestPatch extends PlayerAction {
 
 	private FarmPatch patch;
 	private int tool = -1;

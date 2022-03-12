@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.controllers;
 
+import java.util.Arrays;
+
 import com.rs.game.npc.others.GraveStone;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
@@ -23,11 +25,13 @@ import com.rs.game.player.content.skills.magic.Magic;
 import com.rs.game.player.managers.InterfaceManager.Tab;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Rights;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
-
-import java.util.Arrays;
 
 public class DeathOfficeController extends Controller {
 

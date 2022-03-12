@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.npc.NPC;
@@ -30,10 +34,6 @@ import com.rs.game.player.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.player.controllers.DungeonController;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class SlidingTilesRoom extends PuzzleRoom {
 

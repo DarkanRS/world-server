@@ -16,6 +16,10 @@
 //
 package com.rs.game.player.quests.handlers.witchshouse;
 
+import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.WITCH;
+
+import java.util.Set;
+
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
@@ -29,10 +33,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
-
-import java.util.Set;
-
-import static com.rs.game.player.quests.handlers.witchshouse.WitchsHouse.WITCH;
 
 @PluginEventHandler
 public class WitchSentry extends NPC {

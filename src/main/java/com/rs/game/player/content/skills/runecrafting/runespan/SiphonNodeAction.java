@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.WorldProjectile;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.dialogues.SimpleMessage;
 import com.rs.game.tasks.WorldTask;
@@ -37,7 +37,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class SiphonNodeAction extends Action {
+public class SiphonNodeAction extends PlayerAction {
 	Node nodes;
 	GameObject node;
 	private boolean started;

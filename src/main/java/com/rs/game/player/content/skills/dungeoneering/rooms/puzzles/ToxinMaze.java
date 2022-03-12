@@ -16,6 +16,12 @@
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.ForceMovement;
 import com.rs.game.Hit;
@@ -32,8 +38,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
-
-import java.util.*;
 
 public class ToxinMaze extends PuzzleRoom {
 

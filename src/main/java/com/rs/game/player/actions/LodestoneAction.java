@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class LodestoneAction extends Action {
+public class LodestoneAction extends PlayerAction {
 
 	private final int HOME_ANIMATION = 16385, HOME_GRAPHIC = 3017;
 

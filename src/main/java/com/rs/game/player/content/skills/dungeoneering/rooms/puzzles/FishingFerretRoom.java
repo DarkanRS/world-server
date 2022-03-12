@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.dungeoneering.rooms.puzzles;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
@@ -33,11 +36,12 @@ import com.rs.game.player.controllers.DungeonController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.*;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class FishingFerretRoom extends PuzzleRoom {
 

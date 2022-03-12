@@ -1,32 +1,21 @@
 package com.rs.game.player.content.holidayevents.easter.easter22;
 
-import com.google.errorprone.annotations.Var;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.content.commands.Commands;
-import com.rs.game.player.content.holidayevents.easter.EasterEggSpawning;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.handlers.ItemEquipHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
-
-import java.sql.Array;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @PluginEventHandler
 public class Easter2022 {

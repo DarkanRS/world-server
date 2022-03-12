@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.content.world.regions;
 
+import static com.rs.game.player.content.world.doors.Doors.handleDoor;
+
 import com.rs.game.ForceMovement;
 import com.rs.game.object.GameObject;
 import com.rs.game.pathing.Direction;
@@ -42,8 +44,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import static com.rs.game.player.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class SeersVillage {

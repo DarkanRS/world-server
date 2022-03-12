@@ -17,12 +17,12 @@
 package com.rs.game.player.content.skills.cooking;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.dialogues.GrilleGoatsDialogue;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class CowMilkingAction extends Action {
+public class CowMilkingAction extends PlayerAction {
 
 	public static final int EMPTY_BUCKET = 1925;
 

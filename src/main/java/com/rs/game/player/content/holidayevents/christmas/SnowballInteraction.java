@@ -19,7 +19,7 @@ package com.rs.game.player.content.holidayevents.christmas;
 import com.rs.game.Entity;
 import com.rs.game.World;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.interactions.EntityInteraction;
+import com.rs.game.player.interactions.PlayerEntityInteraction;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.PlayerClickHandler;
 
 @PluginEventHandler
-public class SnowballInteraction extends EntityInteraction {
+public class SnowballInteraction extends PlayerEntityInteraction {
 
 	public static ItemEquipHandler handleSnowballWield = new ItemEquipHandler(11951) {
 		@Override

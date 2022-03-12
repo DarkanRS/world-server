@@ -4,7 +4,7 @@ import com.rs.game.World;
 import com.rs.game.WorldProjectile;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.player.content.skills.runecrafting.Runecrafting;
 import com.rs.game.player.controllers.Controller;
 import com.rs.game.player.controllers.RunespanController;
@@ -16,7 +16,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
-public class SiphonAction extends Action {
+public class SiphonAction extends PlayerAction {
 	private Creature creatures;
 	private NPC creature;
 	private boolean started;

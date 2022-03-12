@@ -16,6 +16,9 @@
 //
 package com.rs.net.decoders;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.db.WorldDB;
@@ -34,9 +37,6 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.utils.AntiFlood;
 import com.rs.utils.MachineInformation;
-
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 public final class WorldLoginDecoder extends Decoder {
 

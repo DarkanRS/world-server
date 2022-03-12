@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.rs.game.World;
 import com.rs.game.object.GameObject;
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -236,7 +236,7 @@ public class ShadesOfMortton {
 	public static ObjectClickHandler handleWallRepairs = new ObjectClickHandler(new Object[] { 4068, 4069, 4070, 4071, 4072, 4073, 4074, 4075, 4076, 4077, 4078, 4079, 4080, 4081, 4082, 4083, 4084, 4085, 4086, 4087, 4088, 4089 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().getActionManager().setAction(new Action() {
+			e.getPlayer().getActionManager().setAction(new PlayerAction() {
 
 				@Override
 				public boolean start(Player player) {

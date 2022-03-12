@@ -44,7 +44,14 @@ import com.rs.game.player.quests.handlers.heroesquest.dialogues.StravenHeroesQue
 import com.rs.game.player.quests.handlers.knightssword.KnightsSword;
 import com.rs.game.player.quests.handlers.knightssword.ReldoKnightsSwordD;
 import com.rs.game.player.quests.handlers.scorpioncatcher.ScorpionCatcher;
-import com.rs.game.player.quests.handlers.shieldofarrav.*;
+import com.rs.game.player.quests.handlers.shieldofarrav.BaraekShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.CharlieTheTrampArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.KatrineShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.KingRoaldShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.MuseumCuratorArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.ReldoShieldOfArravD;
+import com.rs.game.player.quests.handlers.shieldofarrav.ShieldOfArrav;
+import com.rs.game.player.quests.handlers.shieldofarrav.StravenShieldOfArravD;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;

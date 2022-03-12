@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.waterfallquest;
 
+import java.util.ArrayList;
+
 import com.rs.game.Hit;
 import com.rs.game.Hit.HitLook;
 import com.rs.game.player.Player;
@@ -35,8 +37,6 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.WATERFALL_QUEST)
 @PluginEventHandler

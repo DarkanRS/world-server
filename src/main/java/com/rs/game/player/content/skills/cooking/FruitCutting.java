@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 
-public class FruitCutting extends Action {
+public class FruitCutting extends PlayerAction {
 
 	CuttableFruit fruit;
 	int option;

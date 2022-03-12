@@ -16,6 +16,8 @@
 //
 package com.rs.game.player.quests.handlers.ernestthechicken;
 
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.npc.NPC;
 import com.rs.game.player.Player;
@@ -30,8 +32,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
-
-import java.util.List;
 
 @PluginEventHandler
 public class OddensteinErnestChickenD extends Conversation {

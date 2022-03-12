@@ -17,7 +17,7 @@
 package com.rs.game.player.content.skills.magic;
 
 import com.rs.game.player.Player;
-import com.rs.game.player.actions.Action;
+import com.rs.game.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -84,7 +84,7 @@ public class OrbImbuing {
 		}
 	}
 
-	static class OrbChargingAction extends Action {
+	static class OrbChargingAction extends PlayerAction {
 
 		private Orbs orb;
 		private WorldTile tile;

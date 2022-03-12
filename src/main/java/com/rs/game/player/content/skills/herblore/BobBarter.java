@@ -16,6 +16,9 @@
 //
 package com.rs.game.player.content.skills.herblore;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.player.Player;
 import com.rs.game.player.content.Potions.Potion;
@@ -24,9 +27,6 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 @PluginEventHandler
 public class BobBarter {
