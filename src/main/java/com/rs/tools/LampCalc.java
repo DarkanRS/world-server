@@ -16,7 +16,7 @@
 //
 package com.rs.tools;
 
-import com.rs.game.player.Skills;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 
 public class LampCalc {

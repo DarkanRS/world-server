@@ -17,7 +17,7 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.World;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse;
 import com.rs.lib.util.ReflectionCheck;

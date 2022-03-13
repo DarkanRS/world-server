@@ -23,7 +23,7 @@ import java.util.Map;
 
 import com.google.gson.JsonIOException;
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 

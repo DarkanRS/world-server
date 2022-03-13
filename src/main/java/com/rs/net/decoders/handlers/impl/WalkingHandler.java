@@ -16,10 +16,10 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
-import com.rs.game.pathing.FixedTileStrategy;
-import com.rs.game.pathing.RouteFinder;
-import com.rs.game.player.Player;
-import com.rs.game.player.content.Effect;
+import com.rs.game.content.Effect;
+import com.rs.game.model.entity.pathing.FixedTileStrategy;
+import com.rs.game.model.entity.pathing.RouteFinder;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.Walk;

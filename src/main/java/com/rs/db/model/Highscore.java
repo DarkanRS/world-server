@@ -16,7 +16,7 @@
 //
 package com.rs.db.model;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 
 public class Highscore {
 

@@ -18,7 +18,7 @@ package com.rs.tools;
 
 import java.util.Arrays;
 
-import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 
 public class CalculateStats {
 

@@ -16,12 +16,12 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
-import com.rs.game.npc.familiar.Familiar.SpecialAttack;
-import com.rs.game.player.Inventory;
-import com.rs.game.player.Player;
-import com.rs.game.player.content.skills.magic.Alchemy;
-import com.rs.game.player.content.skills.magic.Enchanting;
-import com.rs.game.player.content.skills.magic.Lunars;
+import com.rs.game.content.skills.magic.Alchemy;
+import com.rs.game.content.skills.magic.Enchanting;
+import com.rs.game.content.skills.magic.Lunars;
+import com.rs.game.model.entity.npc.familiar.Familiar.SpecialAttack;
+import com.rs.game.model.entity.player.Inventory;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.packets.PacketHandler;

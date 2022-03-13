@@ -17,13 +17,13 @@
 package com.rs.net.decoders.handlers.impl.interfaces;
 
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.npc.familiar.Familiar;
-import com.rs.game.npc.familiar.Familiar.SpecialAttack;
-import com.rs.game.player.Inventory;
-import com.rs.game.player.Player;
-import com.rs.game.player.content.combat.CombatSpell;
-import com.rs.game.player.content.skills.magic.Magic;
+import com.rs.game.content.combat.CombatSpell;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.model.entity.npc.familiar.Familiar.SpecialAttack;
+import com.rs.game.model.entity.player.Inventory;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnNPC;

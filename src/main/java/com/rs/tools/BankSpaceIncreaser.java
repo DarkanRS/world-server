@@ -24,7 +24,7 @@ import com.rs.cache.IndexType;
 import com.rs.cache.loaders.InventoryDefinitions;
 import com.rs.cache.loaders.cs2.CS2Definitions;
 import com.rs.cache.loaders.cs2.CS2Script;
-import com.rs.game.player.Bank;
+import com.rs.game.model.entity.player.Bank;
 
 public class BankSpaceIncreaser {
 

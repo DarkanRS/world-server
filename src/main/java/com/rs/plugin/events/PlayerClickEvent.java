@@ -19,7 +19,7 @@ package com.rs.plugin.events;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.handlers.PlayerClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 

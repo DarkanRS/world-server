@@ -1,1 +1,0 @@
-package com.rs.game.player.miniquests.handlers;
