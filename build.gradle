@@ -42,4 +42,6 @@ dependencies {
 	implementation group: 'org.mongodb', name: 'mongodb-driver-core', version: '4.4.0'
 	implementation group: 'io.netty', name: 'netty-all', version: '4.1.72.Final'
 	implementation group: 'io.undertow', name: 'undertow-core', version: '2.2.8.Final'
+	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
+	implementation group: 'com.trivago', name: 'fastutil-concurrent-wrapper', version: '0.1.0'
 }
