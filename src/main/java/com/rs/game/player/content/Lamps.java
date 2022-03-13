@@ -49,7 +49,7 @@ public class Lamps {
             {LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE}, {LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE}, {LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE}, {LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE},
             {LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE}, {LAMP_SMALL, LAMP_MEDIUM, LAMP_BIG, LAMP_HUGE},};
 
-    public static final int[] OTHER_SELECTABLE_LAMPS = {2528, 4447}; // 2528:random event genie lamp, 4447: Shield Of Arrav Lamp
+    public static final int[] OTHER_SELECTABLE_LAMPS = {2528, 4447, 24151}; // 2528:random event genie lamp, 4447: Shield Of Arrav Lamp
 
     private static final int[] DIALOGUE_INTERFACE_C2S = {Skills.ATTACK, Skills.MAGIC, Skills.MINING, Skills.WOODCUTTING, Skills.AGILITY, Skills.FLETCHING, Skills.THIEVING, Skills.STRENGTH, Skills.RANGE, Skills.SMITHING, Skills.FIREMAKING,
             Skills.HERBLORE, Skills.SLAYER, Skills.CONSTRUCTION, Skills.DEFENSE, Skills.PRAYER, Skills.FISHING, Skills.CRAFTING, Skills.FARMING, Skills.HUNTER, Skills.SUMMONING, Skills.HITPOINTS, Skills.DUNGEONEERING, Skills.COOKING,

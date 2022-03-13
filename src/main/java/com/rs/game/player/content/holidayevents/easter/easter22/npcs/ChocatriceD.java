@@ -8,6 +8,7 @@ import com.rs.game.player.content.dialogue.HeadE;
 import com.rs.game.player.content.dialogue.Options;
 import com.rs.game.player.content.dialogue.impl.StageSelectDialogue;
 import com.rs.game.player.content.holidayevents.easter.easter22.Easter2022;
+import com.rs.game.player.content.holidayevents.easter.easter22.EggHunt;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemOnNPCEvent;
@@ -30,7 +31,7 @@ public class ChocatriceD extends Conversation {
         } else if (player.getNSV().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hello again, " + player.getDisplayName());
 
-            if (Easter2022.hasCompletedHunt(player)) {
+            if (EggHunt.isFinished(player)) {
                 if (!player.getEmotesManager().unlockedEmote(Easter2022.EASTER_EMOTE)) {
                     player.getEmotesManager().unlockEmote(Easter2022.EASTER_EMOTE);
                     player.sendMessage("You have unlocked an Easter emote, " + Easter2022.EASTER_EMOTE.name());
@@ -156,14 +157,14 @@ public class ChocatriceD extends Conversation {
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Quiet, you.")
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Every two hours, a new hunt will begin. Hunt down the five eggs, smash them open using the Eggsterminator and then shoot at the chick that emerges with the Eggsterminator. " +
                                     "This will turn the chick into a tasty treat."));
-                    option("Can I have a hint?", (Easter2022.hasFoundHintEgg(player) ?
+                    option("Can I have a hint?", (EggHunt.hasFoundHintEgg(player) ?
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You've already found the egg I have information on.") :
                             new Dialogue()
                                 .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Nasty chicken and I agreed not to help the hunters find any of the eggs, but...")
                                 .addOption("Listen to the hint?", "Yes", "No")
                                 .addSimple("The bird lowers its voice.")
-                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "One egg can be found " + Easter2022.currentEggs.get(0).getHint())));
+                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint())));
                 }
                 option("Who are you?", new Dialogue()
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION,"I was born from an egg dipped in chocolate. The others insulted me, even the cockatrices.")

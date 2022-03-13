@@ -14,6 +14,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.LoginEvent;
@@ -39,7 +40,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
 
         if (target instanceof NPC) {
             NPC npc = ((NPC) target);
-            if (Easter2022.hasCompletedHunt(player) && (npc.getId() == Easter2022.CHOCOCHICK || npc.getId() == Easter2022.CHICK)) {
+            if (EggHunt.isFinished(player) && (npc.getId() == Easter2022.CHOCOCHICK || npc.getId() == Easter2022.CHICK)) {
                 player.sendMessage("You have already completed this hunt.");
                 return;
             }
@@ -47,9 +48,10 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
             player.setNextSpotAnim(new SpotAnim(2138));
             WorldTasks.schedule(delay, () -> {
                 Item reward = new Item(attackStyle == 0 ? Easter2022.CHOCOTREAT : Easter2022.EVIL_DRUMSTICK);
+                if (attackStyle == 0) EggHunt.incrementChocatriceScore(); else EggHunt.incrementEvilChickenScore();
                 player.sendMessage("You turn the " + npc.getName().toLowerCase() + " into a " + reward.getName().toLowerCase() + " The shattered remains of the egg disappear.");
                 player.getInventory().addItemDrop(reward);
-                if (Easter2022.hasCompletedHunt(player)) {
+                if (EggHunt.isFinished(player)) {
                     player.getInventory().addItem(Easter2022.XP_LAMP);
                     player.sendMessage("You are rewarded with an XP lamp for finding 5 eggs in a single hunt.");
 
@@ -70,19 +72,13 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
     }
 
     @Override
-    public boolean canStart(Player player) {
-        return true;
-    }
+    public boolean canStart(Player player) { return true; }
 
     @Override
-    public boolean checkAll(Player player) {
-        return true;
-    }
+    public boolean checkAll(Player player) { return true; }
 
     @Override
-    public void onStop(Player player) {
-
-    }
+    public void onStop(Player player) {}
 
     public static PlayerClickHandler handleSplatter = new PlayerClickHandler(false, "Splatter") {
         @Override
@@ -98,31 +94,28 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
                 e.getPlayer().sendMessage("You need the Eggsterminator to crack open this egg. Speak with the Evil Chicken or the Chocatrice in Varrock Square.");
                 return;
             }
-            EasterEgg.Spawns spawn = EasterEgg.Spawns.getEggByLocation(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-            if (spawn == null)
-                return;
+            if (e.getOption().equals("Crack")) {
+                int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
+                int delay = World.sendProjectile(e.getPlayer(), new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()),
+                        (attackStyle == 0 ? 3034 : 3035), 35, 0, 60, 1, 0, 0).getTaskDelay();
 
-            int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
-            int delay = World.sendProjectile(e.getPlayer(), spawn.getTile(), (attackStyle == 0 ? 3034 : 3035), 35, 0, 60, 1, 0, 0).getTaskDelay();
-
-            WorldTasks.scheduleTimer(delay, (loops) -> {
-                switch (loops) {
-                    case 0 -> {} //send object animation?
-                    case 3 -> {
-                        EasterChick npc = new EasterChick(e.getPlayer(), (attackStyle == 0 ? Easter2022.CHOCOCHICK : Easter2022.CHICK), World.getFreeTile(spawn.getTile(), 2));
-                        npc.setEasterEggSpawn(spawn);
-                        e.getPlayer().startConversation(new Dialogue().addNPC(npc.getId(), HeadE.CALM, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
-                        e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
-                        return false;
+                WorldTasks.scheduleTimer(delay, (loops) -> {
+                    switch (loops) {
+                        case 0 -> { } //TODO - send object animation
+                        case 3 -> {
+                            EasterChick npc = new EasterChick(e.getPlayer(), (attackStyle == 0 ? Easter2022.CHOCOCHICK : Easter2022.CHICK),
+                                    World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2));
+                            EggHunt.updateEgg(e.getPlayer(), e.getObject(), 1);
+                            e.getPlayer().startConversation(new Dialogue().addNPC(npc.getId(), HeadE.CALM, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
+                            e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
+                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", -1) != EggHunt.getHunt())
+                                e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
+                            return false;
+                        }
                     }
-                }
-                return true;
-            });
-
-
-
-//    "You are x/3 of the way to claiming a permanent version of the Eggsterminator, for finding 5 eggs this hunt."
-//    There seems to be some sort of news/announcement event for the first person to crack an egg in a specicific location?
+                    return true;
+                });
+            }
         }
     };
 
