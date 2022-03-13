@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.util.Utils;
 import com.rs.tools.old.WebPage;
 

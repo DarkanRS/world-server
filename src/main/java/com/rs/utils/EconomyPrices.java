@@ -17,7 +17,7 @@
 package com.rs.utils;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.player.content.ItemConstants;
+import com.rs.game.content.ItemConstants;
 import com.rs.lib.game.Item;
 
 public final class EconomyPrices {

@@ -19,8 +19,8 @@ package com.rs.plugin.events;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.object.GameObject;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.plugin.handlers.InterfaceOnObjectHandler;
 import com.rs.plugin.handlers.PluginHandler;
 

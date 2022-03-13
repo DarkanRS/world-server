@@ -19,7 +19,7 @@ package com.rs.utils;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.io.InputStream;
 
 @SuppressWarnings("unused")

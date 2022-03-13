@@ -20,10 +20,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.rs.cores.CoresManager;
-import com.rs.game.DynamicRegion;
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 

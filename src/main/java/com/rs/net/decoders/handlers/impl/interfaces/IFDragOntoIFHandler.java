@@ -16,9 +16,9 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
-import com.rs.game.player.Inventory;
-import com.rs.game.player.Player;
-import com.rs.game.player.content.Shop;
+import com.rs.game.content.Shop;
+import com.rs.game.model.entity.player.Inventory;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFDragOntoIF;
 import com.rs.lib.util.Utils;

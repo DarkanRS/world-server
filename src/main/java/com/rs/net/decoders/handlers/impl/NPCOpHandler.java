@@ -17,8 +17,8 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.NPCOp;

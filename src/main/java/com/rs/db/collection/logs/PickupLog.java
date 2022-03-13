@@ -3,7 +3,7 @@ package com.rs.db.collection.logs;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;

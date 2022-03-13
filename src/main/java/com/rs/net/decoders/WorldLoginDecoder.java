@@ -23,7 +23,7 @@ import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.io.IsaacKeyPair;

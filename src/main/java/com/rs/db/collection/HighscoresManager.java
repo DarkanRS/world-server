@@ -30,7 +30,7 @@ import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.Sorts;
 import com.rs.db.model.Highscore;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Rights;

@@ -16,7 +16,7 @@
 //
 package com.rs.plugin.events;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 
 public abstract class DialogueOptionEvent {
 
