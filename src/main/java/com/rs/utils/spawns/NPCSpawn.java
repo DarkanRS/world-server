@@ -17,7 +17,7 @@
 package com.rs.utils.spawns;
 
 import com.rs.game.World;
-import com.rs.game.pathing.Direction;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.lib.game.WorldTile;
 
 public class NPCSpawn {

@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 import com.rs.Settings;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.model.FriendsChat;

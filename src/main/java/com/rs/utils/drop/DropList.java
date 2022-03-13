@@ -22,7 +22,7 @@ import java.util.List;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Rational;
 import com.rs.lib.util.Utils;

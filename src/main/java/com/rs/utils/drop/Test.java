@@ -18,8 +18,8 @@ package com.rs.utils.drop;
 
 import java.io.IOException;
 
-import com.rs.game.item.ItemsContainer;
-import com.rs.game.player.controllers.BarrowsController;
+import com.rs.game.model.entity.player.controllers.BarrowsController;
+import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;

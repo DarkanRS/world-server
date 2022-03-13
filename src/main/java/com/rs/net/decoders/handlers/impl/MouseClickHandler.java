@@ -16,7 +16,7 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.MouseClick;
 import com.rs.utils.Click;

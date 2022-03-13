@@ -18,8 +18,8 @@ package com.rs.game.ge;
 
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.db.WorldDB;
-import com.rs.game.item.ItemsContainer;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 
 public class Offer {

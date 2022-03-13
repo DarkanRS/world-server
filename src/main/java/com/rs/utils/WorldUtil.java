@@ -17,11 +17,11 @@
 package com.rs.utils;
 
 import com.rs.cache.loaders.QCMesDefinitions;
-import com.rs.game.Entity;
 import com.rs.game.World;
-import com.rs.game.pathing.Direction;
-import com.rs.game.player.Player;
-import com.rs.game.player.social.FCManager;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.OutputStream;

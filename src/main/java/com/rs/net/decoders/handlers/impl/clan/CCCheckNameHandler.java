@@ -16,8 +16,8 @@
 //
 package com.rs.net.decoders.handlers.impl.clan;
 
-import com.rs.game.player.Player;
-import com.rs.game.player.content.clans.ClansManager;
+import com.rs.game.content.clans.ClansManager;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 

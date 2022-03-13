@@ -26,7 +26,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.rs.game.npc.familiar.Familiar;
+import com.rs.game.model.entity.npc.familiar.Familiar;
 
 public class FamiliarAdapter implements JsonSerializer<Familiar>, JsonDeserializer<Familiar> {
 
@@ -45,7 +45,7 @@ public class FamiliarAdapter implements JsonSerializer<Familiar>, JsonDeserializ
 		JsonElement element = jsonObject.get("properties");
 
 		try {
-			String thePackage = "com.rs.game.npc.familiar.";
+			String thePackage = "com.rs.game.entity.npc.familiar.";
 			return context.deserialize(element, Class.forName(thePackage + type));
 		} catch (ClassNotFoundException cnfe) {
 			throw new JsonParseException("Unknown element type: " + type, cnfe);

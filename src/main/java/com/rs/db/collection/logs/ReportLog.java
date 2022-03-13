@@ -1,6 +1,6 @@
 package com.rs.db.collection.logs;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.utils.ReportsManager;
 
 public class ReportLog {
