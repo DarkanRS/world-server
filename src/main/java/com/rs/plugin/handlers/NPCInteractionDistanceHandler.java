@@ -16,8 +16,8 @@
 //
 package com.rs.plugin.handlers;
 
-import com.rs.game.npc.NPC;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
 
 public abstract class NPCInteractionDistanceHandler extends PluginHandler<NPCInteractionDistanceEvent> {

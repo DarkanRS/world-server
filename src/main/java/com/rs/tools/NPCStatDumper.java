@@ -28,7 +28,7 @@ import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Utils;
 import com.rs.tools.old.WebPage;

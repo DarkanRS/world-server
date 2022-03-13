@@ -17,11 +17,11 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.World;
-import com.rs.game.npc.NPC;
-import com.rs.game.pathing.RouteEvent;
-import com.rs.game.player.Player;
-import com.rs.game.player.actions.PlayerFollow;
-import com.rs.game.player.actions.interactions.PlayerCombatInteraction;
+import com.rs.game.model.entity.actions.PlayerFollow;
+import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.PlayerOp;
 import com.rs.plugin.PluginManager;

@@ -19,9 +19,9 @@ package com.rs.plugin.events;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rs.game.Entity;
-import com.rs.game.npc.NPC;
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class EnterChunkEvent implements PluginEvent {

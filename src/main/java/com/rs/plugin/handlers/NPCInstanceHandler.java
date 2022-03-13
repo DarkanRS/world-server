@@ -16,7 +16,7 @@
 //
 package com.rs.plugin.handlers;
 
-import com.rs.game.npc.NPC;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.events.NPCInstanceEvent;
 

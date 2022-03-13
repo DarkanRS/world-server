@@ -19,7 +19,7 @@ package com.rs.plugin.events;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rs.game.player.Player;
+import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class LoginEvent implements PluginEvent {

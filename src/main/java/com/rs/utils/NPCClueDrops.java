@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.player.managers.TreasureTrailsManager;
+import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.utils.drop.ClueDrop;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;

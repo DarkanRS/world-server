@@ -37,7 +37,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.OverlayDefinitions;
 import com.rs.cache.loaders.SpriteDefinitions;
 import com.rs.cache.loaders.UnderlayDefinitions;
-import com.rs.game.object.GameObject;
+import com.rs.game.model.object.GameObject;
 import com.rs.game.region.Region;
 import com.rs.lib.util.MapXTEAs;
 import com.rs.utils.BigBufferedImage;

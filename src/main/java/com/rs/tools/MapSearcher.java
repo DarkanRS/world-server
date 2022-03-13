@@ -24,7 +24,7 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.object.GameObject;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
 

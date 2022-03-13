@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.rs.db.WorldDB;
-import com.rs.game.player.Player;
-import com.rs.game.player.content.skills.smithing.ArtisansWorkshop;
+import com.rs.game.content.skills.smithing.ArtisansWorkshop;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;

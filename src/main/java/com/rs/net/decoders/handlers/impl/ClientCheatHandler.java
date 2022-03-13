@@ -16,8 +16,8 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
-import com.rs.game.player.Player;
-import com.rs.game.player.content.commands.Commands;
+import com.rs.game.content.commands.Commands;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ClientCheat;
 
