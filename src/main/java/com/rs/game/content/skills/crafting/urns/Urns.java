@@ -50,7 +50,7 @@ public class Urns {
 		@Override
 		public void handle(ItemClickEvent e) {
 			Urn urn = Urn.forFillId(e.getItem().getId());
-			e.getPlayer().sendMessage("The urn is filled " + Utils.formatDouble(e.getItem().getMetaDataD("xp") / urn.getFillXp() * 100) + "%.");
+			e.getPlayer().sendMessage("The urn is filled " + Utils.formatDouble(e.getItem().getMetaDataD("xp") / urn.getFillXp() * 100.0) + "%.");
 		}
 	};
 

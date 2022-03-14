@@ -139,7 +139,7 @@ public class DungManager {
 				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getX() == 4695 && e.getObject().getY() == 5626 ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT);
 			else
 				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getId() == dung.insideId ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT);
-			if (e.getPlayer().getDungManager().gainedXp(dung)) {
+			if (!e.getPlayer().getDungManager().gainedXp(dung)) {
 				e.getPlayer().getDungManager().addGainedXp(dung);
 				e.getPlayer().getSkills().addXp(Constants.DUNGEONEERING, dung.xp);
 			}
