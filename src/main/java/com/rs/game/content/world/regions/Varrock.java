@@ -182,6 +182,13 @@ public class Varrock {
 				ShopsHandler.openShop(e.getPlayer(), "helmet_shop");
 		}
 	};
+	
+	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useStairs(-1, new WorldTile(e.getObject().getX()-2, e.getPlayer().getY(), 0), 1, 2);
+		}
+	};
 
 	public static ObjectClickHandler handleVariousStaircases = new ObjectClickHandler(new Object[] { 24356 }) {
 		@Override

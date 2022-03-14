@@ -44,6 +44,16 @@ public class AncientCavern {
 				e.getPlayer().sendMessage("You need 5 bittercap mushrooms to repair the fairy ring.");
 		}
 	};
+	
+	public static ObjectClickHandler handleRoughSteps = new ObjectClickHandler(new Object[] { 25337, 39468 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			switch(e.getObjectId()) {
+			case 25337 -> e.getPlayer().setNextWorldTile(new WorldTile(1744, 5321, 1));
+			case 39468 -> e.getPlayer().setNextWorldTile(new WorldTile(1745, 5325, 0));
+			}
+		}
+	};
 
 	public static ObjectClickHandler handleMithrilDoor = new ObjectClickHandler(new Object[] { 25341, 40208 }) {
 		@Override

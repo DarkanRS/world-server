@@ -23,9 +23,7 @@ import com.rs.game.content.EnchantedHeadwear;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
-import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.transportation.ItemTeleports;
-import com.rs.game.model.entity.BodyGlow;
 import com.rs.game.model.entity.player.managers.PriceChecker;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.tasks.WorldTasks;
@@ -635,13 +633,9 @@ public final class Equipment {
 		Item item = player.getEquipment().getItem(slotId);
 		if (item == null || !player.getInventory().addItem(item))
 			return;
-		if (item.getId() == 4657)
-			player.setNextBodyGlow(new BodyGlow(1, 0, 0, 0, 128));
 		player.getEquipment().set(slotId, null);
 		player.getEquipment().refresh(slotId);
 		player.getAppearance().generateAppearanceData();
-		if (Runecrafting.isTiara(item.getId()))
-			player.getVars().setVar(491, 0);
 		if (slotId == 3)
 			player.getCombatDefinitions().drainSpec(0);
 	}

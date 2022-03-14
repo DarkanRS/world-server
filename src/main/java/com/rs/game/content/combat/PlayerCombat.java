@@ -750,12 +750,7 @@ public class PlayerCombat extends PlayerAction {
 					}
 					if (getRandomMaxHit(player, weaponId, attackStyle, true) > 0) {
 						target.freeze(delay, true);
-						WorldTasks.schedule(new WorldTask() {
-							@Override
-							public void run() {
-								target.setNextSpotAnim(new SpotAnim(469, 0, 96));
-							}
-						}, 2);
+						WorldTasks.schedule(2, () -> target.setNextSpotAnim(new SpotAnim(469, 0, 96)));
 					}
 					playSound(soundId, player, target);
 					player.getEquipment().removeAmmo(Equipment.WEAPON, 1);

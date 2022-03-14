@@ -17,16 +17,32 @@
 package com.rs.game.model.entity.player.controllers;
 
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
+import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
-
-
+@PluginEventHandler
 public class DamonheimController extends Controller {
 
 	private boolean showingOption;
-
+	
+	public static ObjectClickHandler handleJumpDownExit = new ObjectClickHandler(new Object[] { 50552 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (e.getPlayer().getControllerManager().getController() instanceof DungeonController)
+				e.getPlayer().getControllerManager().removeControllerWithoutCheck();
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, Direction.NORTH));
+			e.getPlayer().getPackets().sendVarc(234, 0);// Party Config Interface
+			e.getPlayer().getControllerManager().startController(new DamonheimController());
+			e.getPlayer().useStairs(13760, new WorldTile(3454, 3725, 0), 2, 3);
+		}
+	};
+	
 	@Override
 	public void start() {
 		setInviteOption(true);

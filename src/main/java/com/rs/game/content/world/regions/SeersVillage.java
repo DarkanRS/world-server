@@ -32,10 +32,12 @@ import com.rs.game.content.quests.handlers.scorpioncatcher.ThormacScorpionCatche
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.model.entity.ForceMovement;
+import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -51,59 +53,67 @@ public class SeersVillage {
 	public static NPCClickHandler handleStankers = new NPCClickHandler(new Object[] { 383 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				{
-					addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
-					addOptions("What would you like to say?", new Options() {
-						@Override
-						public void create() {
-							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
-						}
-					});
-				}
-			});
+			e.getPlayer().startConversation(new Dialogue()
+					.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?")
+					.addOptions("What would you like to say?", ops -> {
+						ops.add("About the Achievement System...", new AchievementSystemDialogue(e.getPlayer(), e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+					}));
 		}
 	};
+	
+	public static ObjectClickHandler beehives = new ObjectClickHandler(new Object[] { 68 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (e.getPlayer().getInventory().containsItem(28)) {
+				if (e.getPlayer().getInventory().containsItem(1925)) {
+					e.getPlayer().setNextAnimation(new Animation(833));
+					e.getPlayer().lock(1);
+					e.getPlayer().getInventory().deleteItem(1925, 1);
+					e.getPlayer().getInventory().addItem(30, 1);
+				} else
+					e.getPlayer().sendMessage("You need a bucket to gather the wax into.");
+			} else {
+				e.getPlayer().setNextAnimation(new Animation(833));
+				e.getPlayer().lock(1);
+				e.getPlayer().setNextForceTalk(new ForceTalk("Ouch!"));
+				e.getPlayer().applyHit(new Hit(10, HitLook.TRUE_DAMAGE));
+				e.getPlayer().sendMessage("The bees sting your hands as you reach inside!");
+			}
+		}
+	};
+	
 
 	public static ObjectClickHandler grubersWoodFence = new ObjectClickHandler(new Object[] { 51 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if(p.getX() < obj.getX())
-				WorldTasks.schedule(new WorldTask() {
-					int tick = 0;
-
-					@Override
-					public void run() {
-						if(tick == 0) {
-							p.setNextForceMovement(new ForceMovement(new WorldTile(2662, 3500, 0), 1, Direction.EAST));
-							p.setNextAnimation(new Animation(3844));
-						}
-						if (tick == 1) {
-							p.setNextWorldTile(new WorldTile(2662, 3500, 0));
-							stop();
-						}
-						tick++;
+			p.lock(3);
+			if(p.getX() < obj.getX()) {
+				WorldTasks.scheduleTimer(0, tick -> {
+					if (tick == 0) {
+						p.setNextForceMovement(new ForceMovement(new WorldTile(2662, 3500, 0), 1, Direction.EAST));
+						p.setNextAnimation(new Animation(3844));
 					}
-				}, 0, 1);
-			else
-				WorldTasks.schedule(new WorldTask() {
-					int tick = 0;
-
-					@Override
-					public void run() {
-						if(tick == 0) {
-							p.setNextForceMovement(new ForceMovement(new WorldTile(2661, 3500, 0), 1, Direction.WEST));
-							p.setNextAnimation(new Animation(3844));
-						}
-						if (tick == 1) {
-							p.setNextWorldTile(new WorldTile(2661, 3500, 0));
-							stop();
-						}
-						tick++;
+					if (tick == 2) {
+						p.setNextWorldTile(new WorldTile(2662, 3500, 0));
+						return false;
 					}
-				}, 0, 1);
+					return true;
+				});
+			} else {
+				WorldTasks.scheduleTimer(0, tick -> {
+					if (tick == 0) {
+						p.setNextForceMovement(new ForceMovement(new WorldTile(2661, 3500, 0), 1, Direction.WEST));
+						p.setNextAnimation(new Animation(3844));
+					}
+					if (tick == 2) {
+						p.setNextWorldTile(new WorldTile(2661, 3500, 0));
+						return false;
+					}
+					return true;
+				});
+			}
 		}
 	};
 
