@@ -148,16 +148,17 @@ public final class NPCCombat {
 		int targetSize = target.getSize();
 		boolean colliding = WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize);
 		if (!npc.isCantFollowUnderCombat()) {
-			if (!npc.hasWalkSteps() && colliding) {
-				npc.resetWalkSteps();
-				if (!npc.addWalkSteps(target.getX() - size, npc.getY())) { //check west
-					npc.resetWalkSteps();
-					if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) { //check east
+			if (colliding) {
+				if (!npc.hasWalkSteps() && !target.hasWalkSteps()) {
+					if (!npc.addWalkSteps(target.getX() - size, npc.getY())) { //check west
 						npc.resetWalkSteps();
-						if (!npc.addWalkSteps(npc.getX(), target.getY() - size)) { //check south
+						if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) { //check east
 							npc.resetWalkSteps();
-							if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) { //check north
-								return true;
+							if (!npc.addWalkSteps(npc.getX(), target.getY() - size)) { //check south
+								npc.resetWalkSteps();
+								if (!npc.addWalkSteps(npc.getX(), target.getY() + targetSize)) { //check north
+									return true;
+								}
 							}
 						}
 					}
@@ -171,8 +172,7 @@ public final class NPCCombat {
 			}
 
 			maxDistance = npc.isForceFollowClose() ? 0 : npc.getCombatDefinitions().getAttackRange();
-			if (!colliding)
-				npc.resetWalkSteps();
+			npc.resetWalkSteps();
 			boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 			boolean inRange = WorldUtil.isInRange(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize, maxDistance);
 			if (!los || !inRange) {
