@@ -149,7 +149,7 @@ public final class NPCCombat {
 		boolean colliding = WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize);
 		if (!npc.isCantFollowUnderCombat()) {
 			if (colliding) {
-				if (!npc.hasWalkSteps()) {
+				if (!npc.hasWalkSteps() && !target.hasWalkSteps()) {
 					if (!npc.addWalkSteps(target.getX() - size, npc.getY())) { //check west
 						npc.resetWalkSteps();
 						if (!npc.addWalkSteps(target.getX() + targetSize, npc.getY())) { //check east
