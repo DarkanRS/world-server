@@ -26,6 +26,8 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.statements.Statement;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
@@ -439,6 +441,7 @@ public class Bank {
 	public void openPinSettings() {
 		if (!checkPin())
 			return;
+		player.endConversation();
 		player.getTempAttribs().setB("settingPin", false);
 		player.getTempAttribs().setB("cancellingPin", false);
 		player.getTempAttribs().setB("changingPin", false);
