@@ -53,7 +53,6 @@ public class PluginManager {
 		UNMAPPED_HANDLERS.put(type, methods);
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void loadPlugins() {
 		try {
 			long start = System.currentTimeMillis();
@@ -106,6 +105,7 @@ public class PluginManager {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static int processKotlinCompanionGetter(Method method, List<Class<?>> eventTypes, Object companion) throws IllegalAccessException, InvocationTargetException {
 		int found = 0;
 		for (Class<?> eventType : eventTypes) {
@@ -131,6 +131,7 @@ public class PluginManager {
 		return found;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static int processField(Field field, List<Class<?>> eventTypes) throws IllegalAccessException {
 		int found = 0;
 		for (Class<?> eventType : eventTypes) {

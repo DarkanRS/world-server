@@ -303,6 +303,7 @@ public class Bank {
 				break;
 			}
 		}
+		player.getAppearance().generateAppearanceData();
 	}
 
 	public void collapse(int tabId) {
