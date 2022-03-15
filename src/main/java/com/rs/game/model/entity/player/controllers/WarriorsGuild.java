@@ -232,7 +232,7 @@ public class WarriorsGuild extends Controller {
 			if (object.getId() == 15647)
 				if (!inLobby)
 					if (player.getEquipment().getShieldId() == 8856) {
-						Equipment.sendRemove(player, Equipment.SHIELD);
+						Equipment.remove(player, Equipment.SHIELD);
 						closeShieldInterfaces();
 					}
 			player.addWalkSteps(object.getX(), inLobby ? object.getY() + (object.getId() == 15647 ? 1 : -1) : object.getY(), 1, false);
@@ -567,7 +567,7 @@ public class WarriorsGuild extends Controller {
 					player.getAppearance().setBAS(2671);
 				kegCount++;
 				player.getVars().setVarBit(object.getDefinitions().varpBit, 1);
-				player.getEquipment().set(Equipment.HEAD, new Item(8859 + kegCount));
+				player.getEquipment().setSlot(Equipment.HEAD, new Item(8859 + kegCount));
 				player.getEquipment().refresh(Equipment.HEAD);
 				player.getAppearance().generateAppearanceData();
 			}
@@ -590,7 +590,7 @@ public class WarriorsGuild extends Controller {
 
 	private void resetKegBalance() {
 		if (kegCount >= 1) {
-			player.getEquipment().set(Equipment.HEAD, null);
+			player.getEquipment().setSlot(Equipment.HEAD, null);
 			player.getEquipment().refresh(Equipment.HEAD);
 			player.getAppearance().generateAppearanceData();
 			player.getAppearance().setBAS(-1);

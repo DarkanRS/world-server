@@ -136,7 +136,7 @@ public final class Skills {
 		if (checkMulti99s())
 			for (Skillcapes cape : Skillcapes.values()) {
 				if (player.getEquipment().getCapeId() == cape.untrimmed) {
-					player.getEquipment().set(Equipment.CAPE, new Item(cape.trimmed, 1));
+					player.getEquipment().setSlot(Equipment.CAPE, new Item(cape.trimmed, 1));
 					player.getAppearance().generateAppearanceData();
 				}
 				for(int i = 0;i < player.getInventory().getItems().getSize();i++) {
@@ -1135,7 +1135,7 @@ public final class Skills {
 			charges--;
 		gloves.addMetaData("brawlerCharges", charges);
 		if (charges <= 0) {
-			player.getEquipment().set(Equipment.HANDS, null);
+			player.getEquipment().setSlot(Equipment.HANDS, null);
 			player.sendMessage("Your brawling gloves have degraded.");
 		}
 		if (player.getControllerManager().getController() != null && player.getControllerManager().getController() instanceof WildernessController)

@@ -327,10 +327,10 @@ public class DuelArenaController extends Controller {
 		for (int i = 10; i < 23; i++) {
 			if (i == 14)
 				if (player.getEquipment().hasTwoHandedWeapon())
-					Equipment.sendRemove(target, 3);
+					Equipment.remove(target, 3);
 			if (player.getLastDuelRules().getRule(i)) {
 				slot = i - 10;
-				Equipment.sendRemove(player, slot);
+				Equipment.remove(player, slot);
 			}
 		}
 	}

@@ -266,15 +266,8 @@ public class FishingTrawler {
 		player.setNextWorldTile(CRASHED_SHIP.getRandomTile());
 		player.getControllerManager().forceStop();
 		player.getControllerManager().startController(new FishingTrawlerCrashedController());
-		if((player.getEquipment().getWeaponId() != -1 || player.getEquipment().getShieldId() != -1) && player.getInventory().getFreeSlots() > 0) {
-			player.getInventory().addItem(player.getEquipment().getItem(Equipment.WEAPON));
-			player.getEquipment().set(Equipment.WEAPON, null);
-			if(player.getEquipment().getShieldId() != -1 && player.getInventory().getFreeSlots() > 0) {
-				player.getInventory().addItem(player.getEquipment().getItem(Equipment.SHIELD));
-				player.getEquipment().set(Equipment.SHIELD, null);
-			}
-			player.getEquipment().refresh(Equipment.WEAPON, Equipment.SHIELD);
-		}
+		Equipment.remove(player, Equipment.WEAPON);
+		Equipment.remove(player, Equipment.SHIELD);
 		player.getAppearance().setBAS(152);
 	}
 

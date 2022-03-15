@@ -120,19 +120,19 @@ public final class CastleWars {
 	}
 
 	public static void setHood(Player player, Item hood) {
-		player.getEquipment().set(Equipment.HEAD, hood);
+		player.getEquipment().setSlot(Equipment.HEAD, hood);
 		player.getEquipment().refresh(Equipment.HEAD);
 		player.getAppearance().generateAppearanceData();
 	}
 
 	public static void setCape(Player player, Item cape) {
-		player.getEquipment().set(Equipment.CAPE, cape);
+		player.getEquipment().setSlot(Equipment.CAPE, cape);
 		player.getEquipment().refresh(Equipment.CAPE);
 		player.getAppearance().generateAppearanceData();
 	}
 
 	public static void setWeapon(Player player, Item weapon) {
-		player.getEquipment().set(Equipment.WEAPON, weapon);
+		player.getEquipment().setSlot(Equipment.WEAPON, weapon);
 		player.getEquipment().refresh(Equipment.WEAPON);
 		player.getAppearance().generateAppearanceData();
 	}

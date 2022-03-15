@@ -20,6 +20,7 @@ import com.rs.game.World;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -68,8 +69,7 @@ public class FalconryController extends Controller {
 				player.setNextWorldTile(new WorldTile(2371, 3619, 0));
 			}
 		});
-		player.getEquipment().set(3, new Item(10024, 1));
-		player.getEquipment().refresh(3);
+		player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
 		player.getAppearance().generateAppearanceData();
 		player.getDialogueManager().execute(new SimpleMessage(), "Simply click on the target and try your luck.");
 	}
@@ -88,8 +88,7 @@ public class FalconryController extends Controller {
 
 	@Override
 	public void forceClose() {
-		player.getEquipment().set(3, new Item(-1, 1));
-		player.getEquipment().refresh(3);
+		player.getEquipment().deleteSlot(Equipment.WEAPON);
 		player.getInventory().deleteItem(10024, Integer.MAX_VALUE);
 		player.getAppearance().generateAppearanceData();
 	}
@@ -113,8 +112,7 @@ public class FalconryController extends Controller {
 						return 3;
 					return 1;
 				})) {
-					player.getEquipment().set(3, new Item(10023, 1));
-					player.getEquipment().refresh(3);
+					player.getEquipment().setSlot(Equipment.WEAPON, new Item(10023, 1));
 					player.getAppearance().generateAppearanceData();
 					player.getTempAttribs().setB("falconReleased", true);
 					WorldTasks.schedule(new WorldTask() {
@@ -133,8 +131,7 @@ public class FalconryController extends Controller {
 						}
 					});
 				} else {
-					player.getEquipment().set(3, new Item(10023, 1));
-					player.getEquipment().refresh(3);
+					player.getEquipment().setSlot(Equipment.WEAPON, new Item(10023, 1));
 					player.getAppearance().generateAppearanceData();
 					player.getTempAttribs().setB("falconReleased", true);
 					WorldTasks.schedule(new WorldTask() {
@@ -148,8 +145,7 @@ public class FalconryController extends Controller {
 									WorldTasks.schedule(new WorldTask() {
 										@Override
 										public void run() {
-											player.getEquipment().set(3, new Item(10024, 1));
-											player.getEquipment().refresh(3);
+											player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
 											player.getAppearance().generateAppearanceData();
 											player.getTempAttribs().removeB("falconReleased");
 											player.sendMessage("The falcon swoops down on the kebbit, but just barely misses catching it.");
@@ -180,8 +176,7 @@ public class FalconryController extends Controller {
 			// 5094)]);
 			player.sendMessage("You retreive the falcon as well as the fur of the dead kebbit.");
 			player.getHintIconsManager().removeUnsavedHintIcon();
-			player.getEquipment().set(3, new Item(10024, 1));
-			player.getEquipment().refresh(3);
+			player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
 			player.getAppearance().generateAppearanceData();
 			player.getTempAttribs().removeO("ownedFalcon");
 			player.getTempAttribs().removeB("falconReleased");
