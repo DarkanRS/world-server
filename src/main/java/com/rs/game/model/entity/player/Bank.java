@@ -294,16 +294,14 @@ public class Bank {
 	public void depositAllEquipment(boolean banking) {
 		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
-		int space = addItems(player.getEquipment().getItemsCopy(), banking);
-		if (space != 0) {
-			for (int i = 0; i < space; i++)
-				player.getEquipment().set(i, null);
-			player.getEquipment().init();
-			player.getAppearance().generateAppearanceData();
-		}
-		if (space < Equipment.SIZE) {
-			player.sendMessage("Not enough space in your bank.");
-			return;
+		for (int i = 0;i < Equipment.SIZE;i++) {
+			Item prev = player.getEquipment().setSlot(i, null);
+			if (prev == null || prev.getId() == -1)
+				continue;
+			if (addItems(new Item[] { prev }, banking) <= 0) {
+				player.sendMessage("Not enough space in your bank.");
+				break;
+			}
 		}
 	}
 

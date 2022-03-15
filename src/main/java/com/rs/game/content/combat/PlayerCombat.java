@@ -714,8 +714,7 @@ public class PlayerCombat extends PlayerAction {
 				case HAND_CANNON:
 					if (Utils.getRandomInclusive(player.getSkills().getLevel(Constants.FIREMAKING) << 1) == 0) {
 						player.setNextSpotAnim(new SpotAnim(2140));
-						player.getEquipment().set(3, null);
-						player.getEquipment().refresh(3);
+						player.getEquipment().deleteSlot(Equipment.WEAPON);
 						player.getAppearance().generateAppearanceData();
 						player.applyHit(new Hit(player, Utils.getRandomInclusive(150) + 10, HitLook.TRUE_DAMAGE));
 						player.setNextAnimation(new Animation(12175));

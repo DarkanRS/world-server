@@ -1054,8 +1054,7 @@ public class Player extends Entity {
 					continue;
 				for (ItemDegrade d : ItemDegrade.values())
 					if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
-						getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
-						getEquipment().refresh(i);
+						getEquipment().setSlot(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
 						sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
 						break;
 					}
@@ -1070,9 +1069,7 @@ public class Player extends Entity {
 							}
 						if (deg != null) {
 							if (deg.getBrokenId() == 4207) {
-
-								getEquipment().set(i, null);
-								getEquipment().refresh(i);
+								getEquipment().deleteSlot(i);
 								getAppearance().generateAppearanceData();
 								if (getInventory().hasFreeSlots()) {
 									getInventory().addItem(4207, 1);
@@ -1083,13 +1080,11 @@ public class Player extends Entity {
 								}
 								break;
 							}
-							getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
-							getEquipment().refresh(i);
+							getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
 						} else {
-							getEquipment().set(i, null);
-							getEquipment().refresh(i);
+							getEquipment().deleteSlot(i);
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
 						}

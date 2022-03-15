@@ -1108,9 +1108,7 @@ public class MiscTest {
 			for (int i = 0; i < equip.length; i++) {
 				if (equip[i] == null)
 					continue;
-
-				p.getEquipment().set(i, new Item(equip[i]));
-				p.getEquipment().refresh(i);
+				p.getEquipment().setSlot(i, new Item(equip[i]));
 			}
 			Item[] inv = target.getInventory().getItems().getItemsCopy();
 			for (int i = 0; i < inv.length; i++) {
