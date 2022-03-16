@@ -41,7 +41,7 @@ public class Easter2022 {
     //Event Objects
     public static final int UNCRACKED_EGG = 70103;
     public static final int CRACKED_EGG = 70104;
-    public static final int POSSIBLE_EGG = 70105;
+    public static final int POSSIBLE_EGG = 69753;
 
     //Event NPCs
     public static final int CHOCOCHICK = 15270;
@@ -71,21 +71,22 @@ public class Easter2022 {
 
     @ServerStartupEvent
     public static void EasterEvent2022() {
-
         if (!ENABLED || currentTime.get() >= endDate)
             return;
 
         int ticksToStart = (Settings.getConfig().isDebug() || currentTime.get() >= startDate) ? 10 : Ticks.fromSeconds((int)(startDate - currentTime.get()));
         int ticksToEnd = Ticks.fromSeconds((int)(endDate - currentTime.get()));
 
-        WorldTasks.scheduleTimer(ticksToStart, Ticks.fromHours(2), (interval) -> {
+        WorldTasks.scheduleTimer(ticksToStart, Ticks.fromMinutes((Settings.getConfig().isDebug() ? 7 : 120)), (interval) -> {
             currentTime = new AtomicLong(Instant.now().getEpochSecond());
             if (currentTime.get() >= endDate) {
                 World.sendWorldMessage("<col=ff0000>News: The Easter event is now over! Thanks for participating!", false);
                 return false;
             }
+            
             if (interval == 0)
                 initEasterSpawns(ticksToEnd);
+            
             event.start();
             return true;
         });

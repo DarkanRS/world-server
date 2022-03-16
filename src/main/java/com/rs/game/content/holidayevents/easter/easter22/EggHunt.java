@@ -1,5 +1,6 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
+import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -19,14 +20,14 @@ public class EggHunt {
     public enum Spawns {
         BURTHORPE_LODESTONE(new WorldTile(2906,3549,0), "near Burthorpe Lodestone/South of the Burthorpe castle."),
         BURTHORPE_AGILITY(new WorldTile(2920,3569,0), "in the Burthorpe agility course area."),
-        TAVERLEY_MINE(new WorldTile(0,0,0), "inside the Taverley mine."),
+//        TAVERLEY_MINE(new WorldTile(0,0,0), "inside the Taverley mine."),
         TAVERLEY_GATE(new WorldTile(2932,3461,0), "in Taverley, near and a bit north of the entrance closest to Falador."),
         WHITE_WOLF_MOUNTAIN(new WorldTile(2856,3457,0), "on the east side of White Wolf Mountain."),
         TAVERLEY_DUNGEON(new WorldTile(2884, 9813,0), "inside Taverley Dungeon."),
         WITCHES_HOUSE(new WorldTile(2903,3383,0), "north of the Witch's House/south of Taverley, near the wheat field."),
         DARK_WIZARDS_TOWER(new WorldTile(2895,3351,0), "Northwest of the Dark Wizards' Tower/south of the Witch's House."),
         EXAM_CENTRE(new WorldTile(3326,3336,0), "west of the Exam Centre."),
-        DIG_SITE(new WorldTile(0,0,0), "west of the Varrock Dig Site."),
+//        DIG_SITE(new WorldTile(0,0,0), "west of the Varrock Dig Site."),
         SILVAREA(new WorldTile(3339,3482,0), "in Silvarea, the mountain path between Varrock and Morytania."),
         BRIMHAVEN_FISHING(new WorldTile(2776,3175,0), "in Brimhaven, near the fishing spots in the South."),
         MAGE_TRAINING_ARENA(new WorldTile(3348,3291,0), "a little way in front of the gate leading to the Mage Training Arena."),
@@ -41,18 +42,18 @@ public class EggHunt {
         EAST_DRAYNOR_MANOR(new WorldTile(3160,3338,0), "east of Draynor Manor, in the place that used to be Gnomecopter Tours"),
         WEST_DRAYNOR_MANOR(new WorldTile(3072,3352,0), "between the walls of Falador and Draynor Manor"),
         CHAMPIONS_GUILD(new WorldTile(3236,3344,0), "in the sheep's pen east of the Champions' Guild"),
-        SOUTH_VARROCK(new WorldTile(0,0,0), "south of Varrock, next to the Stone circle"),
+//        SOUTH_VARROCK(new WorldTile(0,0,0), "south of Varrock, next to the Stone circle"),
         GERTRUDES_HOUSE(new WorldTile(3154,3390,0), "near the Cooks' Guild, south of Gertrude's house"),
         BARBARIAN_VILLAGE(new WorldTile(3094,3450,0), "east of Barbarian Village, near the unicorns"),
         WEST_GRANDE_EXCHANGE(new WorldTile(3112,3483,0), "west of the Grand Exchange, near the Outlaw Camp"),
         LUMBRIDGE_CASTLE(new WorldTile(3208,3204,0), "around Lumbridge Castle"),
         LUMBRIDGE_SWAMP(new WorldTile(3206,3143,0), "west of Lumbridge Swamp mining spot, behind Father Urhney's house"),
         EDGEVILLE_MONASTERY(new WorldTile(3036,3488,0), "west of Edgeville Monastery"),
-        ICE_MOUNTAIN(new WorldTile(0,0,0), "on top of Ice Mountain"),
+//        ICE_MOUNTAIN(new WorldTile(0,0,0), "on top of Ice Mountain"),
         VARROCK_LUMBER_YARD(new WorldTile(3275, 3457, 0), "east of Varrock, near the Saradomin statue South-West of Lumber Yard"),
         VARROCK_EAST_STATUE(new WorldTile(3308,3490,0), "directly in front of Lumber Yard, southern part"),
         DAEMONHEIM(new WorldTile(3428, 3743,0), "around the back of Daemonheim castle"),
-        FREMENNIK_CAMP_DAEMONHEIM(new WorldTile(3463,34677,0), "south of the Fremennik Camp on the Daemonheim Peninsula"),
+        FREMENNIK_CAMP_DAEMONHEIM(new WorldTile(3463,3677,0), "south of the Fremennik Camp on the Daemonheim Peninsula"),
         MUDSKIPPER_POINT(new WorldTile(2996,3118,0), "in the centre of Mudskipper Point");
 
         private WorldTile tile;
@@ -80,49 +81,12 @@ public class EggHunt {
         }
     }
 
-//   70106 - null - transforms into with vb10954:
-//   [0: 70103 (Easter egg)],
-//   [1: 70104 (Easter egg (cracked))],
-//   [2: 70105 (Easter Egg (Cracked))],
-//   [3: 69753 (Rubble)],
-//   [4: INVISIBLE],
-//
-//   70107 - null - transforms into with vb11014:
-//   [0: 70103 (Easter egg)],
-//   [1: 70104 (Easter egg (cracked))],
-//   [2: 70105 (Easter Egg (Cracked))],
-//   [3: 69753 (Rubble)],
-//   [4: INVISIBLE],
-//
-//   70108 - null - transforms into with vb11015:
-//   [0: 70103 (Easter egg)],
-//   [1: 70104 (Easter egg (cracked))],
-//   [2: 70105 (Easter Egg (Cracked))],
-//   [3: 69753 (Rubble)],
-//   [4: INVISIBLE],
-//
-//   70109 - null - transforms into with vb11016:
-//   [0: 70103 (Easter egg)],
-//   [1: 70104 (Easter egg (cracked))],
-//   [2: 70105 (Easter Egg (Cracked))],
-//   [3: 69753 (Rubble)],
-//   [4: INVISIBLE],
-//
-//   70110 - null - transforms into with vb11017:
-//   [0: 70103 (Easter egg)],
-//   [1: 70104 (Easter egg (cracked))],
-//   [2: 70105 (Easter Egg (Cracked))],
-//   [3: 69753 (Rubble)],
-//   [4: INVISIBLE],
-
-
-    private static int[] vars = new int[] { 10954, 11014, 11015, 11016, 11017 };
-    private static List<Spawns> eggs = new ArrayList<Spawns>();
+    private static int[] varbits = new int[] { 10954, 11014, 11015, 11016, 11017 };
+    private static List<Integer> eggs = new ArrayList<Integer>();
     private static boolean[] hasBeenFound = new boolean[5];
     private static int hunt = 0;
     private static int chocatriceScore = 0;
     private static int evilChickenScore = 0;
-    private static boolean ended = false;
 
     public EggHunt() { }
 
@@ -132,79 +96,90 @@ public class EggHunt {
             if (!Easter2022.ENABLED)
                 return;
             if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", -1) != hunt)
-                for (int idx = 0; idx < 5; idx++)
-                    e.getPlayer().getVars().saveVar(vars[idx], 0);
+                for (int idx = 0; idx < 5; idx++) {
+                    e.getPlayer().getVars().saveVarBit(varbits[idx], 0);
+                    System.out.println("On login - setting varbit " + varbits[idx] + "back to 0 for " + e.getPlayer().getDisplayName() + ". Current hunt " + hunt + ", last hunt " + e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", -1));
+                }
         }
     };
 
-    public static void start() {
+    public void start() {
         hunt++;
-        long endOfHunt = World.getServerTicks() + Ticks.fromMinutes(115);
         while (eggs.size() < 5) {
-            int random = Utils.random(EggHunt.Spawns.values().length);
-            if (!eggs.contains(EggHunt.Spawns.values()[random])) {
-                eggs.add(EggHunt.Spawns.values()[random]);
-                GameObject easterEgg = World.getObject(EggHunt.Spawns.values()[random].getTile());
-                if (easterEgg != null)
-                    easterEgg.setId(70105 + eggs.size());
+        	Spawns spawn = Spawns.values()[Utils.random(EggHunt.Spawns.values().length)];
+            if (!eggs.contains(spawn.ordinal())) {
+                eggs.add(spawn.ordinal());
+                GameObject egg = World.getObject(EggHunt.Spawns.values()[spawn.ordinal()].getTile());
+                if (egg != null) {
+                    egg.setId(70105 + eggs.size());
+                    if (Settings.getConfig().isDebug()) { System.out.println("Setting " + egg.getX() + ", " + egg.getY() + " to egg " + (70105 + eggs.size())); }
+                }
             }
         }
-        WorldTasks.schedule(Ticks.fromMinutes(115), () -> {
+        for (Player p : World.getPlayers()) {
+	        updateVarbits(p, 0, new int[] { 1, 2, 3, 4, 5 });
+            if (Settings.getConfig().isDebug()) { System.out.println("Setting varbits to display uncracked eggs for " + p.getDisplayName()); }
+        } 
+        WorldTasks.schedule(Ticks.fromMinutes((Settings.getConfig().isDebug() ? 5 : 115)), () -> {
             World.sendWorldMessage("<col=ff0000>News: The Easter Egg Hunt has ended! A new one will commence shortly.", false);
             reset();
-            ended = true;
-        });
+        });  
         World.sendWorldMessage("<col=ff0000>News: A new Easter Egg Hunt has begun! Speak with the Evil Chicken or Chocatrice in Varrock Square to start it.", false);
     }
 
-    public static void reset() {
+    public void reset() {
         chocatriceScore = 0;
         evilChickenScore = 0;
-        eggs = new ArrayList<Spawns>();
+        eggs = new ArrayList<Integer>();
         hasBeenFound = new boolean[] { false, false, false, false ,false };
-        ended = false;
         for (Player p : World.getPlayers()) {
             p.getNSV().removeB("talkedWithEvilChicken");
             p.getNSV().removeB("talkedWithChocatrice");
-            for (int idx = 0; idx < 5; idx++)
-                p.getVars().saveVar(vars[idx], 0);
+            updateVarbits(p, 3, new int[] { 1, 2, 3, 4, 5 });
+            if (Settings.getConfig().isDebug()) { System.out.println("Setting varbits to display rubble for " + p.getDisplayName()); }
         }
         for (Spawns s : Spawns.values()) {
             GameObject egg = World.getObject(s.getTile());
-            if (egg != null)
+            if (egg != null) {
                 egg.setId(69753);
-        }
-    }
-
-    public static void updateEgg(Player p, GameObject o, int varValue) {
-        Spawns loc = Spawns.getEggByLocation(o.getX(), o.getY(), o.getPlane());
-        if (loc != null) {
-            int idx = Arrays.asList(eggs).indexOf(loc.ordinal());
-            if (idx > -1 && idx < 5) {
-                if (!hasBeenFound[idx] && varValue == 1) {
-                    World.sendWorldMessage("<col=ffff00>" + p.getDisplayName() + " has found an egg " + loc.getHint(), false);
-                    hasBeenFound[idx] = true;
-                }
-                p.getVars().saveVar(vars[idx], varValue);
+                if (Settings.getConfig().isDebug()) { System.out.println("Setting " + egg.getX() + ", " + egg.getY() + " back to rubble object id."); }
             }
         }
     }
-
+    
+    public static void updateVarbits(Player p, int value, int... idxs) {
+    	if (idxs.length <= 0)
+			return; 	
+    	for (int idx : idxs) {
+    		p.getVars().saveVar(varbits[idx], value);
+    		if (!hasBeenFound[idx] && value == 1) {
+				World.sendWorldMessage("<col=ffff00>" + p.getDisplayName() + " has found an egg " + Spawns.values()[eggs.get(idx)], false);
+				hasBeenFound[idx] = true;
+    		}
+    	}
+    }
+    
     public static boolean hasFoundHintEgg(Player p) {
-        if (p.getVars().getVar(vars[0]) == 3)
+        if (p.getVars().getVarBit(varbits[0]) == 3)
             return true;
         return false;
+    }
+    
+    public static int getEggIdx(int ordinal) {
+    	if (eggs.size() <= 0)
+    		return -1;
+    	return eggs.indexOf(ordinal);
     }
 
     public static String getHint() {
         if (eggs.size() < 1 )
             return "";
-        return eggs.get(0).getHint();
+        return Spawns.values()[(eggs.get(0))].getHint();
     }
 
     public static boolean isFinished(Player p) {
         for (int idx = 0; idx < 5; idx++)
-            if (vars[idx] != 3)
+            if (varbits[idx] != 3)
                 return false;
         return true;
     }
@@ -227,9 +202,5 @@ public class EggHunt {
 
     public static int getHunt() {
         return hunt;
-    }
-
-    public static boolean hasEnded() {
-        return ended;
     }
 }

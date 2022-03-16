@@ -210,7 +210,7 @@ public class EvilChickenD extends Conversation {
         }
     };
 
-    public static ItemOnNPCHandler handleItemOnEvilChicken= new ItemOnNPCHandler(new Object[] { Easter2022.EVIL_CHICKEN, Easter2022.EVIL_CHICKEN_MEDIUM, Easter2022.EVIL_CHICKEN_LARGE }) {
+    public static ItemOnNPCHandler handleItemOnEvilChicken= new ItemOnNPCHandler(Easter2022.EVIL_CHICKEN, Easter2022.EVIL_CHICKEN_MEDIUM, Easter2022.EVIL_CHICKEN_LARGE) {
         @Override
         public void handle(ItemOnNPCEvent e) {
             if (!Easter2022.ENABLED)

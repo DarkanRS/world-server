@@ -1,9 +1,11 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
+import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
+import com.rs.game.content.holidayevents.easter.easter22.EggHunt.Spawns;
 import com.rs.game.content.holidayevents.easter.easter22.npcs.EasterChick;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -18,10 +20,12 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerClickEvent;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.LoginHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerClickHandler;
 
@@ -80,20 +84,34 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
     @Override
     public void onStop(Player player) {}
 
-    public static PlayerClickHandler handleSplatter = new PlayerClickHandler(false, "Splatter") {
+    public static PlayerClickHandler handlePlayerSplatter = new PlayerClickHandler(false, "Splatter") {
         @Override
         public void handle(PlayerClickEvent e) {
             e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getTarget()));
         }
     };
+    
 
-    public static ObjectClickHandler crackEgg = new ObjectClickHandler(new Object[ Easter2022.UNCRACKED_EGG ]) {
+    public static NPCClickHandler handleNPCSplatter = new NPCClickHandler(new Object[] { Easter2022.CHOCOCHICK, Easter2022.CHICK }, new String[] { "Splatter" }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+            e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getNPC()));
+		}
+    };
+
+    public static ObjectClickHandler crackEgg = new ObjectClickHandler(new Object[] { 70106, 70107, 70108, 70109, 70110 }) {
         @Override
         public void handle(ObjectClickEvent e) {
-            if (e.getPlayer().getEquipment().getWeaponId() != Easter2022.EGGSTERMINATOR || e.getPlayer().getEquipment().getWeaponId() != Easter2022.PERMANENT_EGGSTERMINATOR) {
+            if (e.getPlayer().getEquipment().getWeaponId() != Easter2022.EGGSTERMINATOR && e.getPlayer().getEquipment().getWeaponId() != Easter2022.PERMANENT_EGGSTERMINATOR) {
                 e.getPlayer().sendMessage("You need the Eggsterminator to crack open this egg. Speak with the Evil Chicken or the Chocatrice in Varrock Square.");
                 return;
-            }
+            }   
+        	Spawns spawn = Spawns.getEggByLocation(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+        	if (spawn == null)
+        		return; //Failed to get a spawn location based on the object coordinates. This should never happen.
+        	int idx = EggHunt.getEggIdx(spawn.ordinal());
+        	if (idx == -1)
+        		return; //Not a part of this hunt. This should only happen if varbits arent being set correctly somewhere.  
             if (e.getOption().equals("Crack")) {
                 int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
                 int delay = World.sendProjectile(e.getPlayer(), new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()),
@@ -101,15 +119,19 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
 
                 WorldTasks.scheduleTimer(delay, (loops) -> {
                     switch (loops) {
-                        case 0 -> { } //TODO - send object animation
+                        case 0 -> { 
+                        	EggHunt.updateVarbits(e.getPlayer(), 1, idx);
+                        } //TODO - send object animation
                         case 3 -> {
-                            EasterChick npc = new EasterChick(e.getPlayer(), (attackStyle == 0 ? Easter2022.CHOCOCHICK : Easter2022.CHICK),
-                                    World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2));
-                            EggHunt.updateEgg(e.getPlayer(), e.getObject(), 1);
+                        	int npcId = (attackStyle == 0 ? Easter2022.CHOCOCHICK : Easter2022.CHICK);
+                            EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2));
+                        	EggHunt.updateVarbits(e.getPlayer(), 3, idx);
                             e.getPlayer().startConversation(new Dialogue().addNPC(npc.getId(), HeadE.CALM, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
                             e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
-                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", -1) != EggHunt.getHunt())
+                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", -1) != EggHunt.getHunt()) {
                                 e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
+                                if (Settings.getConfig().isDebug()) { System.out.println("Current hunt updated to " + EggHunt.getHunt() + " for " + e.getPlayer().getDisplayName()); }
+                            }
                             return false;
                         }
                     }
