@@ -725,7 +725,9 @@ public class PlayerCombat extends PlayerAction {
 					break;
 				case SAGAIE:
 					double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleWorldTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
-					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod)));
+					damage = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
+					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, damage));
+					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, damage, p);
 					dropAmmo(player, Equipment.WEAPON, 1);
 					break;
 				case BOLAS:
@@ -2116,6 +2118,8 @@ public class PlayerCombat extends PlayerAction {
 	}
 
 	public boolean checkAll(Player player) {
+		if (target.isDead())
+			return false;
 		if (target instanceof Player p2) {
 			if (!player.isCanPvp() || !p2.isCanPvp())
 				return false;

@@ -99,7 +99,7 @@ public class House {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 19)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
+				e.getPlayer().getInterfaceManager().sendTabOverlay(Tab.SETTINGS);
 			else if (e.getComponentId() == 15 || e.getComponentId() == 1)
 				e.getPlayer().getHouse().setBuildMode(e.getComponentId() == 15);
 			else if (e.getComponentId() == 25 || e.getComponentId() == 26)

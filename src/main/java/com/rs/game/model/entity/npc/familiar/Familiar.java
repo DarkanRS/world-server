@@ -27,6 +27,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -311,6 +312,7 @@ public abstract class Familiar extends NPC {
 
 	public static void selectLeftOption(Player player) {
 		boolean res = player.getInterfaceManager().hasRezizableScreen();
+		player.getInterfaceManager().sendSubOverlay(Tab.MISC, 880);
 		player.getInterfaceManager().setInterface(true, res ? 746 : 548, res ? 120 : 184, 880);
 		sendLeftClickOption(player);
 		player.getPackets().sendVarc(168, 8);// tab id
@@ -318,7 +320,7 @@ public abstract class Familiar extends NPC {
 
 	public static void confirmLeftOption(Player player) {
 		player.getPackets().sendVarc(168, 4);// inv tab id
-		player.getInterfaceManager().removeWindowInterface(120, 184);
+		player.getInterfaceManager().closeTab(Tab.MISC);
 	}
 
 	public static void setLeftclickOption(Player player, int summoningLeftClickOption) {
@@ -397,7 +399,7 @@ public abstract class Familiar extends NPC {
 		if (!logged && !isFinished()) {
 			setFinished(true);
 			switchOrb(false);
-			owner.getInterfaceManager().removeWindowInterface(98, 212);
+			owner.getInterfaceManager().closeTab(Tab.SUMM);
 			owner.getPackets().setIFTargetParamsDefault(747, 18, 0, 0);
 			if (bob != null)
 				bob.dropBob();

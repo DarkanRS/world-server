@@ -89,7 +89,7 @@ public enum RangedWeapon {
 	GUTHIX_BOW(new Animation(426), 6, new int[] { 19146, 19148 }, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS),
 	ZAMORAK_BOW(new Animation(426), 6, new int[] { 19149, 19151 }, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS),
 
-	DECIMATION(new Animation(426), 4, new int[] { 24456 }, 1066, 250), //3191 spec gfx
+	DECIMATION(new Animation(426), 4, new int[] { 24456 }, 1066, 2962), //3191 spec gfx
 	BOOGIE_BOW(new Animation(426), 4, new int[] { 24474 }, 3196, 3195),
 	CRYSTAL_BOW(new Animation(426), 5, new int[] { 4212, 4214, 4215, 4216, 4217, 4218, 4219, 4220, 4221, 4222, 4223 }, 249, 250),
 	SLING(new Animation(3128), 4, new int[] { 19830, 15597 }, 32, -1),
@@ -137,7 +137,7 @@ public enum RangedWeapon {
 	CHINCHOMPA(new Animation(2779), 4, true, new int[] { 10033 }, 908),
 	RED_CHINCHOMPA(new Animation(2779), 4, true, new int[] { 10034 }, 909),
 
-	SAGAIE(new Animation(10501), 6, true, new int[] { 21364 }, 466),
+	SAGAIE(new Animation(3236), 6, true, new int[] { 21364 }, 466),
 	BOLAS(new Animation(3128), 6, true, new int[] { 21365 }, 468),
 
 	HAND_CANNON(new Animation(12174), 7, new int[] { 15241 }, AmmoType.HAND_CANNON_SHOT),
@@ -255,31 +255,38 @@ public enum RangedWeapon {
 
 	public SpotAnim getAttackSpotAnim(Player player) {
 		switch(this) {
-		case DARK_BOW:
+		case DARK_BOW -> {
 			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			return new SpotAnim(ammo.getDoubleDrawbackSpotAnim(player.getEquipment().getAmmoId()), 0, 100);
-		default:
+		}
+		case HAND_CANNON -> {
+			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
+			return new SpotAnim(ammo.getDrawbackSpotAnim(player.getEquipment().getAmmoId()));
+		}
+		default -> {
 			if (thrown || ammos == null)
 				return new SpotAnim(drawbackSpotAnim, 0, 100);
-			ammo = AmmoType.forId(player.getEquipment().getAmmoId());
+			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			if (ammo != null)
 				return new SpotAnim(ammo.getDrawbackSpotAnim(player.getEquipment().getAmmoId()), 0, 100);
+		}
 		}
 		return null;
 	}
 
 	public WorldProjectile getProjectile(Player player, Entity target) {
-		switch(this) {
-		case SLING:
-			return World.sendProjectile(player, target, projAnim, 20, 30, 1.5);
-		default:
-			if (thrown)
-				return World.sendProjectile(player, target, projAnim, 20, 5 + (attackSpeed * 5), 2);
-			if (ammos == null)
-				return World.sendProjectile(player, target, projAnim, 20, 35, 2);
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
-			return World.sendProjectile(player, target, ammo.getProjAnim(player.getEquipment().getAmmoId()), 20, 40, 2);
-		}
+		double speed = 8.0 / ((double) attackSpeed);
+		return switch(this) {
+			case SLING -> World.sendProjectile(player, target, projAnim, 20, 30, speed);
+			default -> {
+				if (thrown)
+					yield World.sendProjectile(player, target, projAnim, 20, 5 + (attackSpeed * 5), speed);
+				if (ammos == null)
+					yield World.sendProjectile(player, target, projAnim, 20, 35, speed);
+				AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
+				yield World.sendProjectile(player, target, ammo.getProjAnim(player.getEquipment().getAmmoId()), 20, 40, speed);
+			}
+		};
 	}
 
 	public boolean isThrown() {

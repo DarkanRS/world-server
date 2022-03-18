@@ -16,6 +16,7 @@
 //
 package com.rs.game.model.entity.player.managers;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -28,26 +29,40 @@ import com.rs.lib.util.Utils;
 public class InterfaceManager {
 
 	public static final int FIXED_TOP = 548;
-	public static final int FIXED_CENTRAL_SUB = 44;
-	public static final int FIXED_INVENTORY_SUB = 172;
-	public static final int FIXED_OVERLAY_SUB = 3;
+	public static final int FIXED_FADING_INTERFACE = 15;
 
 	public static final int RESIZEABLE_TOP = 746;
-	public static final int RESIZEABLE_CENTRAL_SUB = 29;
-	public static final int RESIZEABLE_OVERLAY_SUB = 12;
-	public static final int FULL_SCREEN_OVERLAY_SUB = 11;
-	public static final int RESIZEABLE_INVENTORY_SUB = 109;
+	public static final int RESIZEABLE_FADING_INTERFACE = 13;
 
 	public static final int CHATBOX_WINDOW = 752;
 	public static final int REAL_CHATBOX_TAB = 11;
 	public static final int CHATBOX_TAB = 13;
-
 	private Player player;
 
-	private final ConcurrentHashMap<Integer, Integer> openedInterfaces = new ConcurrentHashMap<>();
+	private final Map<Sub, Integer> openedInterfaces = new ConcurrentHashMap<>();
 
 	private boolean resizableScreen;
 	private int top;
+	
+	public enum Sub {
+		CENTRAL(29, 44),
+		OVERLAY(12, 3),
+		
+		SUMM(98, 212);
+		
+		private int resizeable, fixed;
+		private int defaultInterfaceId = -1;
+		
+		Sub(int resizeable, int fixed) {
+			this.resizeable = resizeable;
+			this.fixed = fixed;
+		}
+		
+		Sub(int resizeable, int fixed, int defaultInterfaceId) {
+			this(resizeable, fixed);
+			this.defaultInterfaceId = defaultInterfaceId;
+		}
+	}
 
 	public enum Tab {
 		COMBAT(112, 176, 884, p -> p.getCombatDefinitions().sendUnlockAttackStylesButtons()),
@@ -128,39 +143,49 @@ public class InterfaceManager {
 		return tab.isClicked(interfaceId, componentId);
 	}
 
-	public void sendTab(Tab tab) {
-		sendTab(tab, tab.defaultInterfaceId);
+	public void sendTabOverlay(Tab tab) {
+		sendSubOverlay(tab.sub, tab.defaultInterfaceId);
 		tab.defaultProcedure.accept(player);
 	}
 
-	public void sendTab(Tab tab, int interfaceId) {
+	public void sendSubOverlay(Sub tab, int interfaceId) {
 		if (interfaceId == -1)
 			return;
-		setWindowInterface(tab.resizable, tab.fixed, interfaceId);
+		setWindowInterface(tab.resizeable, tab.fixed, interfaceId);
+	}
+	
+	public void sendSub(Tab tab, int interfaceId) {
+		if (interfaceId == -1)
+			return;
+		setWindowInterfaceNoOverlay(tab.resizable, tab.fixed, interfaceId);
 	}
 
-	public void sendTabs(Tab... tabs) {
+	public void sendTabDefaults(Tab... tabs) {
 		for (Tab tab : tabs)
-			sendTab(tab);
+			sendTabOverlay(tab);
 	}
 
-	public void setWindowInterface(int resizable, int fixed, int interfaceId) {
+	private void setWindowInterface(int resizable, int fixed, int interfaceId) {
 		setInterface(true, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizable : fixed, interfaceId);
 	}
 
-	public void setWindowInterface(int componentId, int interfaceId) {
+	private void setWindowInterface(int componentId, int interfaceId) {
 		setInterface(true, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId, interfaceId);
 	}
+	
+	private void setWindowInterfaceNoOverlay(int resizable, int fixed, int interfaceId) {
+		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizable : fixed, interfaceId);
+	}
 
-	public void setWindowInterfaceNoOverlay(int componentId, int interfaceId) {
+	private void setWindowInterfaceNoOverlay(int componentId, int interfaceId) {
 		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId, interfaceId);
 	}
 
-	public void removeWindowInterface(int resizableComponentId, int fixedComponentId) {
+	private void removeWindowInterface(int resizableComponentId, int fixedComponentId) {
 		removeInterfaceByParent(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizableComponentId : fixedComponentId);
 	}
 
-	public void removeWindowInterface(int componentId) {
+	private void removeWindowInterface(int componentId) {
 		removeInterfaceByParent(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId);
 	}
 
@@ -246,7 +271,7 @@ public class InterfaceManager {
 	}
 
 	public void sendInventoryInterface(int interfaceId) {
-		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? RESIZEABLE_INVENTORY_SUB : FIXED_INVENTORY_SUB, interfaceId);
+		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, Tab.INVENTORY.getComponent(this), interfaceId);
 	}
 
 	public final void sendInterfaces() {
@@ -263,7 +288,7 @@ public class InterfaceManager {
 			player.getFamiliar().unlock();
 
 		for (Tab tab : Tab.values())
-			sendTab(tab);
+			sendTabOverlay(tab);
 		player.getControllerManager().sendInterfaces();
 	}
 
@@ -309,12 +334,12 @@ public class InterfaceManager {
 	public void sendResizeableInterfaces() {
 		setDefaultTopInterface();
 		setWindowInterface(22, CHATBOX_WINDOW);
-		setWindowInterface(23, 751);
-		setWindowInterface(16, 745);
-		setWindowInterface(25, 754);
-		setWindowInterface(196, 748);
-		setWindowInterface(197, 749);
-		setWindowInterface(199, 747);
+		setWindowInterface(23, 751); //chat-bar settings
+		setWindowInterface(16, 745); //multicombat indicator
+		setWindowInterface(25, 754); //system update
+		setWindowInterface(196, 748); //hp orb
+		setWindowInterface(197, 749); //prayer orb
+		setWindowInterface(199, 747); //summoning orb
 		setWindowInterface(130, 182); //logout
 
 		player.getPackets().setIFHidden(RESIZEABLE_TOP, 208, true); //money pouch
@@ -354,7 +379,7 @@ public class InterfaceManager {
 		removeWindowInterface(28, 29);
 	}
 
-	public void setInterface(boolean overlay, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
+	private void setInterface(boolean overlay, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
 		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
 		getInterfaceParentId(interfaceId);
 
@@ -388,11 +413,11 @@ public class InterfaceManager {
 	}
 
 	public boolean containsInventoryInter() {
-		return containsWindowInterfaceAtParent(resizableScreen ? RESIZEABLE_INVENTORY_SUB : FIXED_INVENTORY_SUB);
+		return containsWindowInterfaceAtParent(Tab.INVENTORY.getComponent(this));
 	}
 
 	public void removeInventoryInterface() {
-		removeWindowInterface(RESIZEABLE_INVENTORY_SUB, FIXED_INVENTORY_SUB);
+		this.closeTab(Tab.INVENTORY);
 	}
 
 	public boolean removeTab(int tabId) {
@@ -443,11 +468,11 @@ public class InterfaceManager {
 	 * Fading interface is a misnomer, just means under inventory/chat/map
 	 */
 	public void setFadingInterface(int backgroundInterface) {
-		setWindowInterface(hasRezizableScreen() ? 13 : 15, backgroundInterface);
+		setWindowInterface(hasRezizableScreen() ? RESIZEABLE_FADING_INTERFACE : FIXED_FADING_INTERFACE, backgroundInterface);
 	}
 
 	public void closeFadingInterface() {
-		removeWindowInterface(hasRezizableScreen() ? 13 : 15);
+		removeWindowInterface(hasRezizableScreen() ? RESIZEABLE_FADING_INTERFACE : FIXED_FADING_INTERFACE);
 	}
 
 	public void removeScreenInterface() {

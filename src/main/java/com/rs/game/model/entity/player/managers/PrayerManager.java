@@ -510,7 +510,7 @@ public class PrayerManager {
 	public void setPrayerBook(boolean curses) {
 		closeAllPrayers();
 		this.curses = curses;
-		player.getInterfaceManager().sendTab(Tab.PRAYER);
+		player.getInterfaceManager().sendTabOverlay(Tab.PRAYER);
 		refresh();
 		unlockPrayerBookButtons();
 	}

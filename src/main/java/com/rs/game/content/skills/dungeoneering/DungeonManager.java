@@ -610,7 +610,7 @@ public class DungeonManager {
 			setWorldMap(player, true);
 		}
 		player.getPackets().sendVarc(234, 3);
-		player.getInterfaceManager().sendTab(InterfaceManager.Tab.QUEST, 939);
+		player.getInterfaceManager().sendSubOverlay(InterfaceManager.Tab.QUEST, 939);
 		player.getDungManager().refresh();
 		sendRing(player);
 		sendBindItems(player);

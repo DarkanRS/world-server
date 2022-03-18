@@ -64,7 +64,7 @@ public class MagicInstructor extends Conversation {
 				World.sendWorldMessage("<img=5><col=FF0000>"+player.getDisplayName()+" has just joined "+Settings.getConfig().getServerName()+"!</col>", false);
 				player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 				player.getControllerManager().forceStop();
-				player.getInterfaceManager().sendTabs(InterfaceManager.Tab.values());
+				player.getInterfaceManager().sendTabDefaults(InterfaceManager.Tab.values());
 				player.giveStarter();
 				player.getInterfaceManager().sendAchievementComplete(Achievement.THE_JOURNEY_BEGINS_3521);
 			}));

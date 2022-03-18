@@ -256,7 +256,7 @@ public final class CombatDefinitions {
 		else
 			spellBook = (byte) id;
 		refreshSpellbook();
-		player.getInterfaceManager().sendTab(Tab.MAGIC);
+		player.getInterfaceManager().sendTabOverlay(Tab.MAGIC);
 	}
 
 	public int getSpellbookId() {
@@ -542,7 +542,7 @@ public final class CombatDefinitions {
 	public void removeDungeonneringBook() {
 		if (dungSpellBook) {
 			dungSpellBook = false;
-			player.getInterfaceManager().sendTab(Tab.MAGIC);
+			player.getInterfaceManager().sendTabOverlay(Tab.MAGIC);
 		}
 	}
 

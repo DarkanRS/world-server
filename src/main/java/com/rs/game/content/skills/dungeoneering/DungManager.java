@@ -536,7 +536,7 @@ public class DungManager {
 			else if (e.getComponentId() == 94)
 				e.getPlayer().getDungManager().switchGuideMode();
 			else if (e.getComponentId() == 112)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.QUEST);
+				e.getPlayer().getInterfaceManager().sendTabOverlay(Tab.QUEST);
 		}
 	};
 
@@ -590,7 +590,7 @@ public class DungManager {
 	};
 
 	public void openPartyInterface() {
-		player.getInterfaceManager().sendTab(Tab.QUEST, 939);
+		player.getInterfaceManager().sendSubOverlay(Tab.QUEST, 939);
 		player.getInterfaceManager().openGameTab(Tab.QUEST);
 		player.getPackets().sendVarc(234, 3);// Party Config Interface
 		refresh();
@@ -715,7 +715,7 @@ public class DungManager {
 	private void inspectPlayer(Player p) {
 		player.setCloseInterfacesEvent(() -> openPartyInterface());
 
-		player.getInterfaceManager().sendTab(Tab.QUEST, 936);
+		player.getInterfaceManager().sendSubOverlay(Tab.QUEST, 936);
 		String name = p.getUsername();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		player.getPackets().setIFText(936, 132, name);

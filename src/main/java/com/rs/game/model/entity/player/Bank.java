@@ -419,7 +419,7 @@ public class Bank {
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
 		player.setCloseInterfacesEvent(() -> {
-			player.getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.EQUIPMENT);
+			player.getInterfaceManager().sendTabDefaults(Tab.INVENTORY, Tab.EQUIPMENT);
 			player.getInterfaceManager().openGameTab(Tab.INVENTORY);
 			player.getTempAttribs().setB("viewingDepositBox", false);
 		});

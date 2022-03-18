@@ -70,7 +70,7 @@ public class TransformationRing {
 		player.stopAll(true, true, true);
 		player.lock();
 		player.getAppearance().transformIntoNPC(npcId);
-		player.getInterfaceManager().sendTab(Tab.INVENTORY, 375);
+		player.getInterfaceManager().sendSubOverlay(Tab.INVENTORY, 375);
 		player.getTempAttribs().setB("TransformationRing", true);
 	}
 
@@ -79,7 +79,7 @@ public class TransformationRing {
 		player.unlock();
 		player.setNextAnimation(new Animation(14884));
 		player.getAppearance().transformIntoNPC(-1);
-		player.getInterfaceManager().sendTab(Tab.INVENTORY);
+		player.getInterfaceManager().sendTabOverlay(Tab.INVENTORY);
 	}
 
 	public static void triggerDeactivation(Player player) {

@@ -322,7 +322,7 @@ public class BarbarianOutpostAgility {
 				@Override
 				public void run() {
 					e.getPlayer().unlock();
-					e.getPlayer().getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.MAGIC, Tab.EMOTES, Tab.EQUIPMENT, Tab.PRAYER);
+					e.getPlayer().getInterfaceManager().sendTabDefaults(Tab.INVENTORY, Tab.MAGIC, Tab.EMOTES, Tab.EQUIPMENT, Tab.PRAYER);
 					e.getPlayer().setNextWorldTile(new WorldTile(2538, 3553, 2));
 					e.getPlayer().setNextAnimation(new Animation(2588));
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);

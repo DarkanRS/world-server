@@ -72,7 +72,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 18)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
+				e.getPlayer().getInterfaceManager().sendTabOverlay(Tab.SETTINGS);
 		}
 	};
 
@@ -80,7 +80,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 5)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
+				e.getPlayer().getInterfaceManager().sendTabOverlay(Tab.SETTINGS);
 			else if (e.getComponentId() == 41)
 				e.getPlayer().setPrivateChatSetup(e.getPlayer().getPrivateChatSetup() == 0 ? 1 : 0);
 			else if (e.getComponentId() >= 17 && e.getComponentId() <= 36)
@@ -109,13 +109,13 @@ public class GameFrame {
 			} else if (e.getComponentId() == 12)
 				e.getPlayer().switchAllowChatEffects();
 			else if (e.getComponentId() == 13)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 982);
+				e.getPlayer().getInterfaceManager().sendSubOverlay(Tab.SETTINGS, 982);
 			else if (e.getComponentId() == 14)
 				e.getPlayer().switchMouseButtons();
 			else if (e.getComponentId() == 24) // audio options
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 429);
+				e.getPlayer().getInterfaceManager().sendSubOverlay(Tab.SETTINGS, 429);
 			else if (e.getComponentId() == 16) // house options
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 398);
+				e.getPlayer().getInterfaceManager().sendSubOverlay(Tab.SETTINGS, 398);
 		}
 	};
 

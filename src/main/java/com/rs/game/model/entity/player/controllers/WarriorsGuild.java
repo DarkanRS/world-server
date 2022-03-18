@@ -466,11 +466,11 @@ public class WarriorsGuild extends Controller {
 	}
 
 	private void closeShieldInterfaces() {
-		player.getInterfaceManager().sendTabs(Tab.values());
+		player.getInterfaceManager().sendTabDefaults(Tab.values());
 	}
 
 	private void sendShieldInterfaces() {
-		player.getInterfaceManager().sendTab(Tab.QUEST, 411);
+		player.getInterfaceManager().sendSubOverlay(Tab.QUEST, 411);
 		player.getInterfaceManager().closeTabs(Tab.COMBAT, Tab.ACHIEVEMENT, Tab.SKILLS, Tab.PRAYER, Tab.MAGIC, Tab.EMOTES);
 		player.getInterfaceManager().openGameTab(Tab.QUEST);
 	}

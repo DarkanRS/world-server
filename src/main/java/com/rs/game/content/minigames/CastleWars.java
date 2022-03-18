@@ -237,7 +237,7 @@ public final class CastleWars {
 		playingGame.refresh(player);
 		waiting[team].remove(player);
 		player.getControllerManager().removeControllerWithoutCheck();
-		player.getInterfaceManager().removeWindowInterface(34, 0);
+		player.getInterfaceManager().removeOverlay();
 		playing[team].add(player);
 		player.setCanPvp(true);
 		player.getControllerManager().startController(new CastleWarsPlayingController(team));

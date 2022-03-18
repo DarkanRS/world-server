@@ -315,7 +315,7 @@ public class DeathOfficeController extends Controller {
 	public void magicTeleported(int type) {
 		destroyRoom();
 		player.getPackets().setBlockMinimapState(0);
-		player.getInterfaceManager().sendTabs(Tab.COMBAT, Tab.ACHIEVEMENT, Tab.SKILLS, Tab.INVENTORY, Tab.EQUIPMENT, Tab.PRAYER, Tab.MAGIC, Tab.EMOTES);
+		player.getInterfaceManager().sendTabDefaults(Tab.COMBAT, Tab.ACHIEVEMENT, Tab.SKILLS, Tab.INVENTORY, Tab.EQUIPMENT, Tab.PRAYER, Tab.MAGIC, Tab.EMOTES);
 		removeController();
 	}
 

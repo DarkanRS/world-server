@@ -99,7 +99,7 @@ public final class TutorialIslandController extends Controller {
 				"Please click on the flashing spanner icon found at the bottom",
 				"right of your screen. This will display your player controls."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.SETTINGS);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.SETTINGS);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.SETTINGS);
@@ -152,7 +152,7 @@ public final class TutorialIslandController extends Controller {
 				"the main window to view your inventory. Your inventory is a list",
 				"of everything you have in your backpack."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.INVENTORY);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.INVENTORY);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.INVENTORY);
@@ -190,7 +190,7 @@ public final class TutorialIslandController extends Controller {
 				"Click on the flashing bar graph icon near the inventory button",
 				"to see your skill stats."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.SKILLS);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.SKILLS);
 		}, ctrl -> {
 			ctrl.player.getInterfaceManager().flashTab(Tab.SKILLS);
 		}),
@@ -312,7 +312,7 @@ public final class TutorialIslandController extends Controller {
 				"move on. Click on the flashing icon in the bottom right to see",
 				"the jukebox."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.MUSIC);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.MUSIC);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.MUSIC);
@@ -339,7 +339,7 @@ public final class TutorialIslandController extends Controller {
 				"icon in the shape of a person. Click on that to access your",
 				"emotes."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.EMOTES);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.EMOTES);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.EMOTES);
@@ -366,7 +366,7 @@ public final class TutorialIslandController extends Controller {
 				"on the boot icon next to your minimap or by holding",
 				"down your control key while clicking your destination."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.RUN);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.RUN);
 		}, ctrl -> {
 			ctrl.player.getInterfaceManager().flashTab(Tab.RUN);
 			ctrl.getPlayer().setRun(false);
@@ -406,7 +406,7 @@ public final class TutorialIslandController extends Controller {
 				"Click on the flashing icon next to your inventory.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.QUEST);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.QUEST);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.QUEST);
@@ -599,7 +599,7 @@ public final class TutorialIslandController extends Controller {
 				"icon of a man, the one to the right of your backpack icon.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.EQUIPMENT);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.EQUIPMENT);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.EQUIPMENT);
@@ -662,7 +662,7 @@ public final class TutorialIslandController extends Controller {
 				"interface.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.COMBAT);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.COMBAT);
 		}, ctrl -> {
 			ctrl.player.getInterfaceManager().flashTab(Tab.COMBAT);
 		}),
@@ -818,7 +818,7 @@ public final class TutorialIslandController extends Controller {
 				"",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.PRAYER);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.PRAYER);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.PRAYER);
@@ -844,7 +844,7 @@ public final class TutorialIslandController extends Controller {
 				"smiling face to open your friends list.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.FRIENDS);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.FRIENDS);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.FRIENDS);
@@ -907,7 +907,7 @@ public final class TutorialIslandController extends Controller {
 				"to the Prayer button you just learned about.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTab(Tab.MAGIC);
+			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.MAGIC);
 		}, ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Tab.MAGIC);

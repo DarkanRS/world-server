@@ -51,6 +51,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.controllers.BarrowsController;
 import com.rs.game.model.entity.player.controllers.RunespanController;
+import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.ClipFlag;
 import com.rs.game.region.RenderFlag;
@@ -905,7 +906,12 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId", "Sends an interface to the window specified component.", (p, args) -> {
-			p.getInterfaceManager().setWindowInterfaceNoOverlay(Integer.valueOf(args[1]), Integer.valueOf(args[0]));
+			if (Integer.valueOf(args[1]) > Utils.getInterfaceDefinitionsComponentsSize(p.getInterfaceManager().hasRezizableScreen() ? InterfaceManager.RESIZEABLE_TOP : InterfaceManager.FIXED_TOP))
+				return;
+			if (p.getNSV().getI("prevWinterCmd", -1) != -1)
+				p.getInterfaceManager().removeWindowInterface(p.getNSV().getI("prevWinterCmd", -1));
+			p.getNSV().setI("prevWinterCmd", Integer.valueOf(args[1]));
+			p.getInterfaceManager().setWindowInterface(Integer.valueOf(args[1]), Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.ADMIN, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {

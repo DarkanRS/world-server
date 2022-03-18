@@ -22,6 +22,7 @@ import com.rs.game.content.pet.Pets;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.WorldUtil;
 
@@ -96,7 +97,7 @@ public final class Pet extends NPC {
 			owner.getPetManager().setNpcId(-1);
 			owner.getPetManager().setItemId(-1);
 			switchOrb(false);
-			owner.getInterfaceManager().removeWindowInterface(98, 212);
+			owner.getInterfaceManager().closeTab(Tab.SUMM);
 			owner.getPackets().setIFTargetParamsDefault(747, 17, 0, 0);
 			finish();
 		} else
