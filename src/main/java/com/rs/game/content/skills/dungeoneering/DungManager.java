@@ -35,7 +35,7 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.DamonheimController;
 import com.rs.game.model.entity.player.controllers.DungeonController;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -536,7 +536,7 @@ public class DungManager {
 			else if (e.getComponentId() == 94)
 				e.getPlayer().getDungManager().switchGuideMode();
 			else if (e.getComponentId() == 112)
-				e.getPlayer().getInterfaceManager().sendTabOverlay(Tab.QUEST);
+				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_QUEST);
 		}
 	};
 
@@ -590,8 +590,8 @@ public class DungManager {
 	};
 
 	public void openPartyInterface() {
-		player.getInterfaceManager().sendSubOverlay(Tab.QUEST, 939);
-		player.getInterfaceManager().openGameTab(Tab.QUEST);
+		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 939);
+		player.getInterfaceManager().openTab(Sub.TAB_QUEST);
 		player.getPackets().sendVarc(234, 3);// Party Config Interface
 		refresh();
 	}
@@ -715,7 +715,7 @@ public class DungManager {
 	private void inspectPlayer(Player p) {
 		player.setCloseInterfacesEvent(() -> openPartyInterface());
 
-		player.getInterfaceManager().sendSubOverlay(Tab.QUEST, 936);
+		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 936);
 		String name = p.getUsername();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		player.getPackets().setIFText(936, 132, name);

@@ -174,7 +174,7 @@ public class InterfaceManager {
 		return isSubOpen(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId);
 	}
 	
-	private void sendSubSpecific(boolean clickThrough, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
+	public void sendSubSpecific(boolean clickThrough, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
 		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
 		getInterfaceParentId(interfaceId);
 
@@ -414,13 +414,9 @@ public class InterfaceManager {
 
 	public void setScreenInterface(int backgroundInterface, int interfaceId) {
 		removeScreenInterface();
-		sendSubSpecific(false, hasRezizableScreen() ? RESIZEABLE_TOP : FIXED_TOP, hasRezizableScreen() ? 44 : 249, backgroundInterface);
-		sendSubSpecific(false, hasRezizableScreen() ? RESIZEABLE_TOP : FIXED_TOP, hasRezizableScreen() ? 45 : 204, interfaceId);
-
-		player.setCloseInterfacesEvent(() -> {
-			removeSubSpecific(hasRezizableScreen() ? 44 : 249);
-			removeSubSpecific(hasRezizableScreen() ? 45 : 204);
-		});
+		sendSub(Sub.FULLSCREEN_BG, backgroundInterface, false);
+		sendSub(Sub.FULLSCREEN_BG_FG, interfaceId, false);
+		player.setCloseInterfacesEvent(() -> removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG_FG));
 	}
 
 	public boolean hasRezizableScreen() {

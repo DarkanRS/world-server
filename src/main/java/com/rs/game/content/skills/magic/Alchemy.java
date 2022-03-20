@@ -22,7 +22,7 @@ import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -32,7 +32,7 @@ public class Alchemy {
 
 	public static boolean handleSuperheat(Player player, Item item, boolean useRunes) {
 		if (useRunes)
-			player.getInterfaceManager().openGameTab(Tab.MAGIC);
+			player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
 		if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 43, true, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null))
 			return false;
 		player.stopAll(false, false, true);
@@ -81,7 +81,7 @@ public class Alchemy {
 
 	public static boolean handleAlchemy(Player player, Item item, boolean lowAlch, boolean useRunes) {
 		if (useRunes)
-			player.getInterfaceManager().openGameTab(Tab.MAGIC);
+			player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
 		if (!player.canCastSpell())
 			return false;
 		if ((!ItemConstants.isTradeable(item)) || item.getId() == 995) {

@@ -89,6 +89,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.DamonheimController;
 import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
@@ -610,7 +611,7 @@ public class DungeonManager {
 			setWorldMap(player, true);
 		}
 		player.getPackets().sendVarc(234, 3);
-		player.getInterfaceManager().sendSubOverlay(InterfaceManager.Tab.QUEST, 939);
+		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 939);
 		player.getDungManager().refresh();
 		sendRing(player);
 		sendBindItems(player);

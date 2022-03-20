@@ -115,6 +115,7 @@ import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.MusicsManager;
 import com.rs.game.model.entity.player.managers.PrayerManager;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
@@ -1837,7 +1838,7 @@ public class Player extends Entity {
 		getPackets().sendInputIntegerScript(question);
 		setCloseInterfacesEvent(() -> {
 			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().topOpen(11)) {
-				getInterfaceManager().sendTabDefaults(InterfaceManager.Tab.INVENTORY, InterfaceManager.Tab.EQUIPMENT);
+				getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 				getTempAttribs().setB("viewingDepositBox", false);
 			}
 			getTempAttribs().removeO("pluginInteger");

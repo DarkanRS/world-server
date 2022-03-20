@@ -32,7 +32,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.TutorialIslandController;
 import com.rs.game.model.entity.player.controllers.TutorialIslandController.Stage;
-import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.WorldTile;
 
 public class MagicInstructor extends Conversation {
@@ -64,7 +64,7 @@ public class MagicInstructor extends Conversation {
 				World.sendWorldMessage("<img=5><col=FF0000>"+player.getDisplayName()+" has just joined "+Settings.getConfig().getServerName()+"!</col>", false);
 				player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 				player.getControllerManager().forceStop();
-				player.getInterfaceManager().sendTabDefaults(InterfaceManager.Tab.values());
+				player.getInterfaceManager().sendSubDefaults(Sub.ALL_GAME_TABS);
 				player.giveStarter();
 				player.getInterfaceManager().sendAchievementComplete(Achievement.THE_JOURNEY_BEGINS_3521);
 			}));

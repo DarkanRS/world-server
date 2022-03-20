@@ -27,7 +27,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -447,7 +447,7 @@ public class PrayerManager {
 		refreshSettingQuickPrayers();
 		unlockPrayerBookButtons();
 		if (settingQuickPrayers)
-			player.getInterfaceManager().openGameTab(Tab.PRAYER);
+			player.getInterfaceManager().openTab(Sub.TAB_PRAYER);
 	}
 
 	public void switchQuickPrayers() {
@@ -510,7 +510,7 @@ public class PrayerManager {
 	public void setPrayerBook(boolean curses) {
 		closeAllPrayers();
 		this.curses = curses;
-		player.getInterfaceManager().sendTabOverlay(Tab.PRAYER);
+		player.getInterfaceManager().sendSubDefault(Sub.TAB_PRAYER);
 		refresh();
 		unlockPrayerBookButtons();
 	}

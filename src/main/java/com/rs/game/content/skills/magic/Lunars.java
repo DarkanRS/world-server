@@ -28,7 +28,7 @@ import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.FillAction.Filler;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.Region;
 import com.rs.lib.Constants;
@@ -172,7 +172,7 @@ public class Lunars {
 	}
 
 	public static void handlePlankMake(Player player, Item item) {
-		player.getInterfaceManager().openGameTab(Tab.MAGIC);
+		player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
 		if (!player.canCastSpell())
 			return;
 		int index = getPlankIdx(item.getId());
