@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 
 public class DismissD extends MatrixDialogue {
 
@@ -40,7 +40,7 @@ public class DismissD extends MatrixDialogue {
 			player.getPetManager().setItemId(-1);
 			player.getPetManager().removeDetails(player.getPet().getItemId());
 			player.getPet().switchOrb(false);
-			player.getInterfaceManager().closeTab(Tab.SUMM);
+			player.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
 			player.getPackets().setIFTargetParamsDefault(747, 17, 0, 0);
 			player.getPet().finish();
 			player.setPet(null);

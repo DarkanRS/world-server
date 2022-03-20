@@ -1836,7 +1836,7 @@ public class Player extends Entity {
 		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
 		setCloseInterfacesEvent(() -> {
-			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().containsInterface(11)) {
+			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().topOpen(11)) {
 				getInterfaceManager().sendTabDefaults(InterfaceManager.Tab.INVENTORY, InterfaceManager.Tab.EQUIPMENT);
 				getTempAttribs().setB("viewingDepositBox", false);
 			}

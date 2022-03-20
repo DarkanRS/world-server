@@ -22,7 +22,7 @@ import com.rs.game.content.pet.Pets;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.WorldUtil;
 
@@ -97,7 +97,7 @@ public final class Pet extends NPC {
 			owner.getPetManager().setNpcId(-1);
 			owner.getPetManager().setItemId(-1);
 			switchOrb(false);
-			owner.getInterfaceManager().closeTab(Tab.SUMM);
+			owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
 			owner.getPackets().setIFTargetParamsDefault(747, 17, 0, 0);
 			finish();
 		} else
@@ -150,10 +150,9 @@ public final class Pet extends NPC {
 			return;
 		owner.getVars().setVarBit(4285, (int) details.getGrowth());
 		owner.getVars().setVarBit(4286, (int) details.getHunger());
-		boolean res = owner.getInterfaceManager().hasRezizableScreen();
-		owner.getInterfaceManager().setInterface(true, res ? 746 : 548, res ? 120 : 184, 662);
+		owner.getInterfaceManager().sendSub(Sub.TAB_FOLLOWER, 662);
 		unlock();
-		owner.getPackets().sendVarc(168, 8);// tab id
+		owner.getInterfaceManager().openTab(Sub.TAB_FOLLOWER);
 	}
 
 	public void switchOrb(boolean enable) {

@@ -289,7 +289,7 @@ public class DungManager {
 		for (KinshipPerk p : KinshipPerk.values())
 			player.getVars().setVarBit(p.getVarbit(), getKinshipTier(p));
 		player.getVars().setVarBit(8065, activeRingPerk == null ? 0 : activeRingPerk.ordinal() + 1);
-		if (player.getInterfaceManager().containsInterface(993))
+		if (player.getInterfaceManager().topOpen(993))
 			player.getPackets().sendRunScriptBlank(3494);
 		refreshKinshipStrings();
 	}
@@ -607,7 +607,7 @@ public class DungManager {
 	}
 
 	public void refreshPartyGuideModeComponent() {
-		if (!player.getInterfaceManager().containsInterface(939))
+		if (!player.getInterfaceManager().topOpen(939))
 			return;
 		player.getPackets().setIFHidden(939, 93, party == null || !party.getGuideMode());
 	}
@@ -616,7 +616,7 @@ public class DungManager {
 	 * called aswell when player added/removed to party
 	 */
 	public void refreshPartyDetailsComponents() {
-		if (!player.getInterfaceManager().containsInterface(939))
+		if (!player.getInterfaceManager().topOpen(939))
 			return;
 		if (party != null) {
 			if (party.isLeader(player)) { // party leader stuff here
@@ -1247,7 +1247,7 @@ public class DungManager {
 	}
 
 	public void formParty() {
-		if (!player.getInterfaceManager().containsInterface(939))
+		if (!player.getInterfaceManager().topOpen(939))
 			openPartyInterface();
 		if (party != null)
 			return;

@@ -103,130 +103,8 @@ public class MiscTest {
 		//
 		//		});
 
-		//		Commands.add(Rights.DEVELOPER, "resetitems", "Clears all of specific items from player accounts.", (p, args) -> {
-		//			int[] items = { 19760, 19748, 4251, 21576, 23643, 6127, 6099, 6100, 6101, 6102, 775, 776, 10498, 10499 };
-		//
-		//			if (!Settings.isOwner(p.getUsername()))
-		//				return;
-		//			p.sendOptionDialogue("ARE YOU SURE YOU WANT TO DO THIS?", new String[] { "YES I AM SURE", "NO, THIS WAS AN ACCIDENT" }, new DialogueOptionEvent() {
-		//				@Override
-		//				public void run(Player player) {
-		//					File[] chars = new File("data/characters").listFiles();
-		//					for (Player targ : World.getPlayers()) {
-		//						if (targ == null)
-		//							continue;
-		//						for (int itemId : items) {
-		//							for (int i : items) {
-		//								if (targ.getBank() != null && targ.getBank().getItem(i) != null) {
-		//									if (targ.getBank().getItem(i).getId() == itemId && !targ.getBank().getItem(i).containsMetaData()) {
-		//										targ.getBank().getItem(i).setId(995);
-		//										targ.getBank().refreshItems();
-		//										player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from bank: " + targ.getUsername());
-		//									}
-		//								}
-		//							}
-		//							for (int i = 0; i < Equipment.SIZE; i++) {
-		//								if (targ.getEquipment() != null && targ.getEquipment().getItem(i) != null) {
-		//									if (targ.getEquipment().getItem(i).getId() == itemId && !targ.getEquipment().getItem(i).containsMetaData()) {
-		//										targ.getEquipment().getItem(i).setId(995);
-		//										targ.getEquipment().refresh(i);
-		//										player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from equipment: " + targ.getUsername());
-		//									}
-		//								}
-		//							}
-		//							for (int i = 0; i < targ.getInventory().getItems().getSize(); i++) {
-		//								if (targ.getInventory() != null && targ.getInventory().getItem(i) != null) {
-		//									if (targ.getInventory().getItem(i).getId() == itemId && !targ.getInventory().getItem(i).containsMetaData()) {
-		//										targ.getInventory().getItem(i).setId(995);
-		//										targ.getInventory().refresh(i);
-		//										player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from inventory: " + targ.getUsername());
-		//									}
-		//								}
-		//							}
-		//						}
-		//					}
-		//					for (File acc : chars) {
-		//						try {
-		//							Player targ = World.getPlayer(acc.getName().replace(".json", ""));
-		//							if (targ != null) {
-		//								for (int itemId : items) {
-		//									for (int i : items) {
-		//										if (targ.getBank() != null && targ.getBank().getItem(i) != null) {
-		//											if (targ.getBank().getItem(i).getId() == itemId && !targ.getBank().getItem(i).containsMetaData()) {
-		//												targ.getBank().getItem(i).setId(995);
-		//												targ.getBank().refreshItems();
-		//												player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from bank: " + targ.getUsername());
-		//											}
-		//										}
-		//									}
-		//									for (int i = 0; i < Equipment.SIZE; i++) {
-		//										if (targ.getEquipment() != null && targ.getEquipment().getItem(i) != null) {
-		//											if (targ.getEquipment().getItem(i).getId() == itemId && !targ.getEquipment().getItem(i).containsMetaData()) {
-		//												targ.getEquipment().getItem(i).setId(995);
-		//												targ.getEquipment().refresh(i);
-		//												player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from equipment: " + targ.getUsername());
-		//											}
-		//										}
-		//									}
-		//									for (int i = 0; i < targ.getInventory().getItems().getSize(); i++) {
-		//										if (targ.getInventory() != null && targ.getInventory().getItem(i) != null) {
-		//											if (targ.getInventory().getItem(i).getId() == itemId && !targ.getInventory().getItem(i).containsMetaData()) {
-		//												targ.getInventory().getItem(i).setId(995);
-		//												targ.getInventory().refresh(i);
-		//												player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from inventory: " + targ.getUsername());
-		//											}
-		//										}
-		//									}
-		//								}
-		//							} else {
-		//								targ = (Player) JsonFileManager.loadJsonFile(acc, Player.class);
-		//								targ.setUsername(acc.getName().replace(".json", ""));
-		//
-		//								for (int itemId : items) {
-		//									for (int i = 0; i < 50000; i++) {
-		//										if (targ.getBank() != null && targ.getBank().getItem(i) != null) {
-		//											if (targ.getBank().getItem(i).getId() == itemId && !targ.getBank().getItem(i).containsMetaData()) {
-		//												targ.getBank().getItem(i).setId(995);
-		//												player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from bank: " + targ.getUsername());
-		//											}
-		//										}
-		//									}
-		//									for (int i = 0; i < Equipment.SIZE; i++) {
-		//										if (targ.getEquipment() != null && targ.getEquipment().getItem(i) != null) {
-		//											if (targ.getEquipment().getItem(i).getId() == itemId && !targ.getEquipment().getItem(i).containsMetaData()) {
-		//												targ.getEquipment().getItem(i).setId(995);
-		//												player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from equipment: " + targ.getUsername());
-		//											}
-		//										}
-		//									}
-		//									for (int i = 0; i < targ.getInventory().getItems().getSize(); i++) {
-		//										if (targ.getInventory() != null && targ.getInventory().getItem(i) != null) {
-		//											if (targ.getInventory().getItem(i).getId() == itemId && !targ.getInventory().getItem(i).containsMetaData()) {
-		//												targ.getInventory().getItem(i).setId(995);
-		//												player.getPackets().sendPanelBoxMessage("Removed " + ItemDefinitions.getDefs(itemId).getName() + " from inventory: " + targ.getUsername());
-		//											}
-		//										}
-		//									}
-		//								}
-		//
-		//								Players.save(targ, () -> p.sendMessage("Successfully removed items."));
-		//							}
-		//						} catch (Throwable e) {
-		//							e.printStackTrace();
-		//							player.getPackets().sendPanelBoxMessage("Failed: " + acc.getName());
-		//						}
-		//					}
-		//				}
-		//			});
-		//		});
-
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
-		});
-
-		Commands.add(Rights.DEVELOPER, "levelup", "Levelup", (p, args) -> {
-			p.getInterfaceManager().setWindowInterface(Integer.valueOf(args[0]), 1216);
-			p.getPackets().sendVarc(1756, Skills.getTargetIdBySkillId(0));
 		});
 
 		Commands.add(Rights.DEVELOPER, "bonusxp [amount]", "Sets your bonus XP rate.", (p, args) -> {
@@ -901,17 +779,14 @@ public class MiscTest {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "overlay [interfaceId]", "Opens an interface as a walkable overlay.", (p, args) -> {
-			p.getInterfaceManager().setOverlay(Integer.valueOf(args[0]));
-		});
-
-		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId", "Sends an interface to the window specified component.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId]", "Sends an interface to the window specified component.", (p, args) -> {
 			if (Integer.valueOf(args[1]) > Utils.getInterfaceDefinitionsComponentsSize(p.getInterfaceManager().hasRezizableScreen() ? InterfaceManager.RESIZEABLE_TOP : InterfaceManager.FIXED_TOP))
 				return;
 			if (p.getNSV().getI("prevWinterCmd", -1) != -1)
-				p.getInterfaceManager().removeWindowInterface(p.getNSV().getI("prevWinterCmd", -1));
+				p.getInterfaceManager().removeGameWindowSub(Integer.valueOf(args[1]), Integer.valueOf(args[1]));
+			//inter 115 to test well
 			p.getNSV().setI("prevWinterCmd", Integer.valueOf(args[1]));
-			p.getInterfaceManager().setWindowInterface(Integer.valueOf(args[1]), Integer.valueOf(args[0]));
+			p.getInterfaceManager().sendGameWindowSub(Integer.valueOf(args[1]), Integer.valueOf(args[1]), Integer.valueOf(args[0]), true);
 		});
 
 		Commands.add(Rights.ADMIN, "istrings [interfaceId]", "Debugs an interface's text components.", (p, args) -> {

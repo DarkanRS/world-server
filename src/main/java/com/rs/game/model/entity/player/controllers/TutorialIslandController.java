@@ -50,7 +50,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.Region;
 import com.rs.lib.Constants;
@@ -89,7 +89,7 @@ public final class TutorialIslandController extends Controller {
 				"yellow arrow above his head. If you can't see him, use your",
 				"keyboard's arrow keys to rotate the view."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().closeTabs(Tab.values());
+			ctrl.player.getInterfaceManager().removeSubs(Sub.ALL_GAME_TABS);
 		}, ctrl -> {
 			ctrl.hintNPC(RUNESCAPE_GUIDE);
 		}),
@@ -99,10 +99,10 @@ public final class TutorialIslandController extends Controller {
 				"Please click on the flashing spanner icon found at the bottom",
 				"right of your screen. This will display your player controls."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.SETTINGS);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.SETTINGS);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_SETTINGS);
 		}),
 
 		TALK_TO_GUIDE_2(new String[] {
@@ -116,7 +116,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.hintNPC(RUNESCAPE_GUIDE);
 		}),
 
@@ -152,10 +152,10 @@ public final class TutorialIslandController extends Controller {
 				"the main window to view your inventory. Your inventory is a list",
 				"of everything you have in your backpack."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.INVENTORY);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_INVENTORY);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.INVENTORY);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_INVENTORY);
 		}),
 
 		CHOP_TREE(new String[] {
@@ -167,7 +167,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.removeHint();
 			ctrl.hintLocation(3099, 3095, 150);
 		}),
@@ -190,9 +190,9 @@ public final class TutorialIslandController extends Controller {
 				"Click on the flashing bar graph icon near the inventory button",
 				"to see your skill stats."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.SKILLS);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_SKILLS);
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.SKILLS);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_SKILLS);
 		}),
 
 		TALK_TO_SURVIVAL_EXPERT_2(new String[] {
@@ -205,7 +205,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.hintNPC(SURVIVAL_EXPERT);
 		}),
 
@@ -312,10 +312,10 @@ public final class TutorialIslandController extends Controller {
 				"move on. Click on the flashing icon in the bottom right to see",
 				"the jukebox."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.MUSIC);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_MUSIC);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.MUSIC);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_MUSIC);
 		}),
 
 		LEAVE_CHEF_HOUSE(new String[] {
@@ -329,7 +329,7 @@ public final class TutorialIslandController extends Controller {
 
 		}, ctrl -> {
 			ctrl.hintLocation(3072, 3090, 125);
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 		}),
 
 		OPEN_EMOTES(new String[] {
@@ -339,10 +339,10 @@ public final class TutorialIslandController extends Controller {
 				"icon in the shape of a person. Click on that to access your",
 				"emotes."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.EMOTES);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_EMOTES);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.EMOTES);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_EMOTES);
 		}),
 
 		USE_EMOTE(new String[] {
@@ -356,7 +356,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 		}),
 
 		RUN(new String[] {
@@ -366,9 +366,9 @@ public final class TutorialIslandController extends Controller {
 				"on the boot icon next to your minimap or by holding",
 				"down your control key while clicking your destination."
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.RUN);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.ORB_RUN);
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.RUN);
+			ctrl.player.getInterfaceManager().flashTab(Sub.ORB_RUN);
 			ctrl.getPlayer().setRun(false);
 		}),
 
@@ -382,7 +382,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.hintLocation(3086, 3126, 125);
 		}),
 
@@ -406,10 +406,10 @@ public final class TutorialIslandController extends Controller {
 				"Click on the flashing icon next to your inventory.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.QUEST);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_QUEST);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.QUEST);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_QUEST);
 		}),
 
 		TALK_TO_QUEST_GUIDE_2(new String[] {
@@ -421,7 +421,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.hintNPC(QUEST_GUIDE);
 		}),
 
@@ -599,10 +599,10 @@ public final class TutorialIslandController extends Controller {
 				"icon of a man, the one to the right of your backpack icon.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.EQUIPMENT);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_EQUIPMENT);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.EQUIPMENT);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_EQUIPMENT);
 		}),
 
 		OPEN_EQUIPMENT_SCREEN(new String[] {
@@ -614,7 +614,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 		}),
 
 		WIELD_DAGGER(new String[] {
@@ -662,9 +662,9 @@ public final class TutorialIslandController extends Controller {
 				"interface.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.COMBAT);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_COMBAT);
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.COMBAT);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_COMBAT);
 		}),
 
 		ENTER_RAT_CAGE(new String[] {
@@ -678,7 +678,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.hintLocation(3111, 9518, 125);
 		}),
 
@@ -818,10 +818,10 @@ public final class TutorialIslandController extends Controller {
 				"",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.PRAYER);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_PRAYER);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.PRAYER);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_PRAYER);
 		}),
 
 		TALK_TO_BROTHER_BRACE_2(new String[] {
@@ -833,7 +833,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.hintNPC(BROTHER_BRACE);
 		}),
 
@@ -844,10 +844,10 @@ public final class TutorialIslandController extends Controller {
 				"smiling face to open your friends list.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.FRIENDS);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_FRIENDS);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.FRIENDS);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_FRIENDS);
 		}),
 
 		OPEN_IGNORE_LIST(new String[] {
@@ -859,7 +859,7 @@ public final class TutorialIslandController extends Controller {
 		}, ctrl -> {
 
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 		}),
 
 		TALK_TO_BROTHER_BRACE_3(new String[] {
@@ -907,10 +907,10 @@ public final class TutorialIslandController extends Controller {
 				"to the Prayer button you just learned about.",
 				""
 		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendTabOverlay(Tab.MAGIC);
+			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_MAGIC);
 		}, ctrl -> {
 			ctrl.removeHint();
-			ctrl.player.getInterfaceManager().flashTab(Tab.MAGIC);
+			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_MAGIC);
 		}),
 
 		TALK_TO_MAGIC_INSTRUCTOR_2(new String[] {
@@ -923,7 +923,7 @@ public final class TutorialIslandController extends Controller {
 
 		}, ctrl -> {
 			ctrl.hintNPC(MAGIC_INSTRUCTOR);
-			ctrl.player.getInterfaceManager().flashTab(Tab.NONE);
+			ctrl.player.getInterfaceManager().flashTabOff();
 			ctrl.player.startConversation(new MagicInstructor(ctrl.player, ctrl.getNPC(MAGIC_INSTRUCTOR), ctrl));
 		}),
 
@@ -993,35 +993,35 @@ public final class TutorialIslandController extends Controller {
 			if (item != null && item.getId() == 1511)
 				sendText(true, "Please wait.", "", "Your character is now attempting to light the fire.", "This should only take a few seconds.");
 		}
-		if (getStage() == Stage.OPEN_SETTINGS && player.getInterfaceManager().isTabClick(Tab.SETTINGS, interfaceId, componentId))
+		if (getStage() == Stage.OPEN_SETTINGS && player.getInterfaceManager().isSubClick(Sub.TAB_SETTINGS, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_GUIDE_2);
-		else if (getStage() == Stage.OPEN_INVENTORY && player.getInterfaceManager().isTabClick(Tab.INVENTORY, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_INVENTORY && player.getInterfaceManager().isSubClick(Sub.TAB_INVENTORY, interfaceId, componentId))
 			nextStage(Stage.CHOP_TREE);
-		else if (getStage() == Stage.OPEN_SKILLS && player.getInterfaceManager().isTabClick(Tab.SKILLS, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_SKILLS && player.getInterfaceManager().isSubClick(Sub.TAB_SKILLS, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_SURVIVAL_EXPERT_2);
-		else if (getStage() == Stage.OPEN_MUSIC && player.getInterfaceManager().isTabClick(Tab.MUSIC, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_MUSIC && player.getInterfaceManager().isSubClick(Sub.TAB_MUSIC, interfaceId, componentId))
 			nextStage(Stage.LEAVE_CHEF_HOUSE);
-		else if (getStage() == Stage.OPEN_EMOTES && player.getInterfaceManager().isTabClick(Tab.EMOTES, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_EMOTES && player.getInterfaceManager().isSubClick(Sub.TAB_EMOTES, interfaceId, componentId))
 			nextStage(Stage.USE_EMOTE);
 		else if (getStage() == Stage.USE_EMOTE && interfaceId == 590 && componentId == 8)
 			nextStage(Stage.RUN);
 		else if (getStage() == Stage.RUN && interfaceId == 750 && componentId == 4)
 			nextStage(Stage.ENTER_QUEST_GUIDE_HOUSE);
-		else if (getStage() == Stage.OPEN_QUEST_TAB && player.getInterfaceManager().isTabClick(Tab.QUEST, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_QUEST_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_QUEST, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_QUEST_GUIDE_2);
-		else if (getStage() == Stage.OPEN_EQUIPMENT_TAB && player.getInterfaceManager().isTabClick(Tab.EQUIPMENT, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_EQUIPMENT_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_EQUIPMENT, interfaceId, componentId))
 			nextStage(Stage.OPEN_EQUIPMENT_SCREEN);
 		else if (getStage() == Stage.OPEN_EQUIPMENT_SCREEN && interfaceId == 387 && componentId == 38)
 			nextStage(Stage.WIELD_DAGGER);
-		else if (getStage() == Stage.OPEN_COMBAT_TAB && player.getInterfaceManager().isTabClick(Tab.COMBAT, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_COMBAT_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_COMBAT, interfaceId, componentId))
 			nextStage(Stage.ENTER_RAT_CAGE);
-		else if (getStage() == Stage.OPEN_PRAYER_TAB && player.getInterfaceManager().isTabClick(Tab.PRAYER, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_PRAYER_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_PRAYER, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_BROTHER_BRACE_2);
-		else if (getStage() == Stage.OPEN_FRIENDS_TAB && player.getInterfaceManager().isTabClick(Tab.FRIENDS, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_FRIENDS_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_FRIENDS, interfaceId, componentId))
 			nextStage(Stage.OPEN_IGNORE_LIST);
 		else if (getStage() == Stage.OPEN_IGNORE_LIST && interfaceId == 550 && componentId == 48)
 			nextStage(Stage.TALK_TO_BROTHER_BRACE_3);
-		else if (getStage() == Stage.OPEN_MAGIC_TAB && player.getInterfaceManager().isTabClick(Tab.MAGIC, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_MAGIC_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_MAGIC, interfaceId, componentId))
 			nextStage(Stage.TALK_TO_MAGIC_INSTRUCTOR_2);
 		return true;
 	}
@@ -1287,7 +1287,7 @@ public final class TutorialIslandController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 25 : 42, 371);
+		player.getInterfaceManager().sendSub(Sub.ABOVE_CHATBOX, 371);
 		getStage().loadAllUpTo(this);
 	}
 
@@ -1312,7 +1312,7 @@ public final class TutorialIslandController extends Controller {
 
 	@Override
 	public void forceClose() {
-		player.getInterfaceManager().removeWindowInterface(25, 42);
+		player.getInterfaceManager().removeSub(Sub.ABOVE_CHATBOX);
 		player.getInterfaceManager().closeReplacedRealChatBoxInterface();
 	}
 
