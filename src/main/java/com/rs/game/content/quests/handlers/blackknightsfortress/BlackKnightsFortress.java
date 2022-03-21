@@ -222,7 +222,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					addNPC(WITCH, HeadE.HAPPY_TALKING, "The soil there is slightly magical and it gives the cabbages slight magical properties...");
 					addNPC(WITCH, HeadE.HAPPY_TALKING, "...not to mention the trees!");
 					addNPC(WITCH, HeadE.AMAZED_MILD, "Now, remember, Greldo, only a Draynor Manor cabbage will do! Don't get lazy and bring any old cabbage. THAT" + " would ENITERELY wreck the potion!");
-					addNPC(GRELDO, HeadE.CALM_TALK, "Yeth, mithtreth");
+					addNPC(GRELDO, HeadE.CHILD_CALM_TALK, "Yeth, mithtreth");
 					addNext(() -> {
 						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN, true);
 						p.setNextAnimation(new Animation(FINISH_LISTEN_GRILL));
