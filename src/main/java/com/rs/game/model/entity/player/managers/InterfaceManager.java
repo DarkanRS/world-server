@@ -16,6 +16,8 @@
 //
 package com.rs.game.model.entity.player.managers;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -28,377 +30,207 @@ import com.rs.lib.util.Utils;
 public class InterfaceManager {
 
 	public static final int FIXED_TOP = 548;
-	public static final int FIXED_CENTRAL_SUB = 44;
-	public static final int FIXED_INVENTORY_SUB = 172;
-	public static final int FIXED_OVERLAY_SUB = 3;
-
 	public static final int RESIZEABLE_TOP = 746;
-	public static final int RESIZEABLE_CENTRAL_SUB = 29;
-	public static final int RESIZEABLE_OVERLAY_SUB = 12;
-	public static final int FULL_SCREEN_OVERLAY_SUB = 11;
-	public static final int RESIZEABLE_INVENTORY_SUB = 109;
-
-	public static final int CHATBOX_WINDOW = 752;
-	public static final int REAL_CHATBOX_TAB = 11;
-	public static final int CHATBOX_TAB = 13;
-
+	public static final int CHATBOX_TOP = 752;
+	public static final int CHATBOX_SUB = 13;
+	
 	private Player player;
-
-	private final ConcurrentHashMap<Integer, Integer> openedInterfaces = new ConcurrentHashMap<>();
-
-	private boolean resizableScreen;
 	private int top;
 
-	public enum Tab {
-		COMBAT(112, 176, 884, p -> p.getCombatDefinitions().sendUnlockAttackStylesButtons()),
-		ACHIEVEMENT(113, 177, 1056, p -> AchievementInterface.init(p)),
-		SKILLS(114, 178, 320),
-		QUEST(115, 179, 190, p -> p.getQuestManager().unlockQuestTabOptions()),
-		INVENTORY(116, 180, Inventory.INVENTORY_INTERFACE, p -> p.getInventory().unlockInventoryOptions()),
-		EQUIPMENT(117, 181, 387),
-		PRAYER(118, 182, 271, p -> p.getPrayer().unlockPrayerBookButtons()),
-		MAGIC(119, 183, -1, p -> {
-			p.getInterfaceManager().setWindowInterface(119, 183, p.getCombatDefinitions().getSpellBook());
-		}),
-		MISC(120, 184, -1),
-		FRIENDS(121, 185, 550),
-		FRIENDS_CHAT(122, 186, 1109),
-		CLAN_CHAT(123, 187, 1110),
-		SETTINGS(124, 188, 261),
-		EMOTES(125, 189, 590, p -> p.getEmotesManager().unlockEmotesBook()),
-		MUSIC(126, 190, 187, p -> p.getMusicsManager().unlockMusicPlayer()),
-		NOTES(127, 191, 34),
-		RUN(198, 162, 750, p -> p.sendRunButtonConfig()),
-		NONE(-1, -1, -1);
-
-		private int resizable;
-		private int fixed;
-		private int defaultInterfaceId;
-		private Consumer<Player> defaultProcedure;
-
-		Tab(int resizable, int fixed, int defaultInterfaceId, Consumer<Player> defaultProcedure) {
-			this.resizable = resizable;
+	private final Map<Integer, Integer> openedInterfaces = new ConcurrentHashMap<>();
+	
+	public enum ScreenMode {
+		FULLSCREEN,
+		FIXED,
+		RESIZEABLE,
+		FULLSCREEN2MAYBE;
+		
+		public static ScreenMode forId(int id) {
+			if (id < 0 || id >= ScreenMode.values().length)
+				return null;
+			return ScreenMode.values()[id];
+		}
+		
+		public boolean resizeable() {
+			return this == RESIZEABLE || this == FULLSCREEN;
+		}
+	}
+	
+	public enum Sub {
+						/* GAME WINDOWS */
+						CENTRAL(29, 44),
+						//CENTRAL_SMALL(10, 44),
+						
+						FULL_GAMESPACE_BG(2, 28),
+						FULL_GAMESPACE_BG2(11, 29),
+						MINIGAME_HUD(12, 47),
+						
+						FADING(13, 48),
+						
+						ABOVE_CHATBOX(27, 43),
+						
+						LEVEL_UP(35, 46),
+						ACHIEVEMENT_NOTIF(41, 271),
+						
+						FULLSCREEN_BG(42, 15),
+						FULLSCREEN_BG2(44, 17),
+						
+						FULLSCREEN_FG(45, 18),
+						FULLSCREEN_FG2(46, 204),
+								
+						/* HUD */
+						CHATBOX(22, 168, CHATBOX_TOP),
+						CHATBAR_SETTINGS(23, 53, 751, p -> p.getInterfaceManager().sendChatBoxInterface(9, 137)),
+						MULTICOMBAT_SIGN(16, 40, 745),
+						SYSTEM_UPDATE(25, 42, 754),
+						LOGOUT(130, 194, 182),
+						XP_DROPS(39, 16, 1213, p -> p.getPackets().setIFHidden(p.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, p.resizeable() ? 39 : 16, !p.getSkills().xpDropsActive())),
+						XP_COUNTER(202, 50, 1215),
+		
+						/* TABS */
+		/* CONFIRMED */	ORB_HP(196, 160, 748),
+		/* CONFIRMED */	ORB_PRAYER(197, 161, 749),
+		/* CONFIRMED */	ORB_SUMMONING(199, 164, 747),
+		/* CONFIRMED */	ORB_RUN(198, 162, 750, p -> p.sendRunButtonConfig()),
+		/* CONFIRMED */	ORB_MONEYPOUCH(208, 167),
+		
+		/* CONFIRMED */ INVENTORY_OVERLAY(109, 172),
+		
+		/* CONFIRMED */	TAB_COMBAT(112, 176, 884, p -> p.getCombatDefinitions().sendUnlockAttackStylesButtons()),
+		/* CONFIRMED */	TAB_ACHIEVEMENT(113, 177, 1056, p -> AchievementInterface.init(p)),
+		/* CONFIRMED */	TAB_SKILLS(114, 178, 320),
+		/* CONFIRMED */	TAB_QUEST(115, 179, 190, p -> p.getQuestManager().unlockQuestTabOptions()),
+		/* CONFIRMED */	TAB_INVENTORY(116, 180, Inventory.INVENTORY_INTERFACE, p -> p.getInventory().unlockInventoryOptions()),
+		/* CONFIRMED */	TAB_EQUIPMENT(117, 181, 387),
+		/* CONFIRMED */	TAB_PRAYER(118, 182, 271, p -> p.getPrayer().unlockPrayerBookButtons()),
+		/* CONFIRMED */	TAB_MAGIC(119, 183) {
+							@Override
+							public int getDefaultInterfaceId(Player p) {
+								return p.getCombatDefinitions().getSpellBook();
+							}
+						},
+		/* CONFIRMED */	TAB_FOLLOWER(120, 184),
+		/* CONFIRMED */	TAB_FRIENDS(121, 185, 550),
+		/* CONFIRMED */	TAB_FRIENDS_CHAT(122, 186, 1109),
+		/* CONFIRMED */	TAB_CLAN_CHAT(123, 187, 1110),
+		/* CONFIRMED */	TAB_SETTINGS(124, 188, 261),
+		/* CONFIRMED */	TAB_EMOTES(125, 189, 590, p -> p.getEmotesManager().unlockEmotesBook()),
+		/* CONFIRMED */	TAB_MUSIC(126, 190, 187, p -> p.getMusicsManager().unlockMusicPlayer()),
+		/* CONFIRMED */	TAB_NOTES(127, 191, 34);
+		
+		public static final Sub[] ALL_GAME_TABS = { Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_QUEST, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_FOLLOWER, Sub.TAB_FRIENDS, Sub.TAB_FRIENDS_CHAT, Sub.TAB_CLAN_CHAT, Sub.TAB_SETTINGS, Sub.TAB_EMOTES, Sub.TAB_MUSIC, Sub.TAB_NOTES, Sub.ORB_RUN };
+		private static Map<Integer, Sub> BY_HASH = new HashMap<>();
+		
+		static {
+			for (Sub sub : Sub.values()) {
+				if (BY_HASH.put(Utils.toInterfaceHash(FIXED_TOP, sub.fixed), sub) != null)
+					System.err.println("Duplicate fixed hash for: " + sub + " - " + sub.fixed);
+				if (BY_HASH.put(Utils.toInterfaceHash(RESIZEABLE_TOP, sub.resizeable), sub) != null)
+					System.err.println("Duplicate resizeable hash for: " + sub + " - " + sub.resizeable);
+			}
+		}
+		
+		public static Sub forHash(int hash) {
+			return BY_HASH.get(hash);
+		}
+		
+		private int resizeable, fixed;
+		private int defaultInter = -1;
+		private Consumer<Player> defaultProcedure = p -> {};
+		
+		Sub(int resizeable, int fixed) {
+			this.resizeable = resizeable;
 			this.fixed = fixed;
-			this.defaultInterfaceId = defaultInterfaceId;
+		}
+		
+		Sub(int resizeable, int fixed, int defaultInter) {
+			this(resizeable, fixed);
+			this.defaultInter = defaultInter;
+		}
+		
+		Sub(int resizeable, int fixed, int defaultInterfaceId, Consumer<Player> defaultProcedure) {
+			this(resizeable, fixed, defaultInterfaceId);
 			this.defaultProcedure = defaultProcedure;
 		}
-
-		Tab(int resizable, int fixed, int defaultInterfaceId) {
-			this(resizable, fixed, defaultInterfaceId, (p) -> {});
+		
+		public int getComponent(boolean resizeableScreen) {
+			return resizeableScreen ? resizeable : fixed;
 		}
-
+		
 		public boolean isClicked(int interfaceId, int componentId) {
-			if (interfaceId == RESIZEABLE_TOP && (componentId-75) == ordinal())
-				return true;
-			if (interfaceId == FIXED_TOP)
-				if (componentId >= 112 && componentId <= 119)
-					return (componentId-112) == ordinal();
-				else if (componentId >= 83 && componentId <= 90)
-					return (componentId-75) == ordinal();
-			return false;
+			return (interfaceId == RESIZEABLE_TOP && componentId == resizeable) || (interfaceId == FIXED_TOP && componentId == fixed);
 		}
 
-		public int getComponent(InterfaceManager mgr) {
-			return mgr.hasRezizableScreen() ? resizable : fixed;
+		public int getDefaultInterfaceId(Player player) {
+			return defaultInter;
+		}
+
+		public int getHash(ScreenMode oldMode) {
+			return Utils.toInterfaceHash(oldMode.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, oldMode.resizeable() ? resizeable : fixed);
 		}
 	}
 
 	public InterfaceManager(Player player) {
 		this.player = player;
 	}
-
-	public boolean containsInterfaceAtParent(int parentInterfaceId, int parentInterfaceComponentId) {
-		return openedInterfaces.containsKey(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
+	
+	public void sendGameWindowSub(int resizable, int fixed, int interfaceId, boolean clickThrough) {
+		sendSubSpecific(clickThrough, player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, player.resizeable() ? resizable : fixed, interfaceId);
 	}
 
-	public void closeTabs(Tab... tabs) {
-		for (Tab tab : tabs)
-			closeTab(tab);
-	}
-
-	public void closeTab(Tab tab) {
-		removeWindowInterface(tab.resizable, tab.fixed);
-	}
-
-	public void flashTab(Tab tab) {
-		player.getVars().setVar(1021, tab == Tab.NONE ? 0 : (tab.ordinal()+1));
-	}
-
-	public boolean isTabClick(Tab tab, int interfaceId, int componentId) {
-		return tab.isClicked(interfaceId, componentId);
-	}
-
-	public void sendTab(Tab tab) {
-		sendTab(tab, tab.defaultInterfaceId);
-		tab.defaultProcedure.accept(player);
-	}
-
-	public void sendTab(Tab tab, int interfaceId) {
-		if (interfaceId == -1)
-			return;
-		setWindowInterface(tab.resizable, tab.fixed, interfaceId);
-	}
-
-	public void sendTabs(Tab... tabs) {
-		for (Tab tab : tabs)
-			sendTab(tab);
-	}
-
-	public void setWindowInterface(int resizable, int fixed, int interfaceId) {
-		setInterface(true, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizable : fixed, interfaceId);
-	}
-
-	public void setWindowInterface(int componentId, int interfaceId) {
-		setInterface(true, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId, interfaceId);
-	}
-
-	public void setWindowInterfaceNoOverlay(int componentId, int interfaceId) {
-		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId, interfaceId);
-	}
-
-	public void removeWindowInterface(int resizableComponentId, int fixedComponentId) {
-		removeInterfaceByParent(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizableComponentId : fixedComponentId);
-	}
-
-	public void removeWindowInterface(int componentId) {
-		removeInterfaceByParent(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId);
+	public void removeGameWindowSub(int resizableComponentId, int fixedComponentId) {
+		removeSubSpecific(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, player.resizeable() ? resizableComponentId : fixedComponentId);
 	}
 
 	public void sendChatBoxInterface(int interfaceId) {
-		setInterface(true, CHATBOX_WINDOW, CHATBOX_TAB, interfaceId);
+		sendSubSpecific(true, CHATBOX_TOP, CHATBOX_SUB, interfaceId);
 	}
 
 	public void sendChatBoxInterface(int componentId, int interfaceId) {
-		setInterface(true, CHATBOX_WINDOW, componentId, interfaceId);
+		sendSubSpecific(true, CHATBOX_TOP, componentId, interfaceId);
 	}
 
 	public void closeChatBoxInterface() {
-		removeInterfaceByParent(CHATBOX_WINDOW, CHATBOX_TAB);
+		removeSubSpecific(CHATBOX_TOP, CHATBOX_SUB);
 	}
 
 	public boolean containsChatBoxInter() {
-		return containsInterfaceAtParent(CHATBOX_WINDOW, CHATBOX_TAB);
+		return isSubOpen(CHATBOX_TOP, CHATBOX_SUB);
 	}
 
-	public void setOverlay(int interfaceId) {
-		setOverlay(interfaceId, false);
+	public boolean isSubOpen(int parentInterfaceId, int parentInterfaceComponentId) {
+		return openedInterfaces.containsKey(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
 	}
-
-	public void setOverlay(int interfaceId, boolean fullScreen) {
-		setWindowInterface(resizableScreen ? fullScreen ? FULL_SCREEN_OVERLAY_SUB : RESIZEABLE_OVERLAY_SUB : FIXED_OVERLAY_SUB, interfaceId);
+	
+	public boolean isSubOpenWindow(int componentId) {
+		return isSubOpen(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, componentId);
 	}
-
-	/**
-	 * Plays over the window, despite screen type.
-	 * @param interfaceId
-	 */
-	public void sendBackgroundInterfaceOverGameWindow(int interfaceId) {
-		if(player.getInterfaceManager().hasRezizableScreen())
-			setFadingInterface(interfaceId);
-		else
-			sendInterface(interfaceId);
-	}
-
-	/**
-	 * Plays over the window, despite screen type.
-	 * @param interfaceId
-	 */
-	public void sendForegroundInterfaceOverGameWindow(int interfaceId) {
-		if(player.getInterfaceManager().hasRezizableScreen())
-			sendInterface(interfaceId);
-		else
-			setOverlay(interfaceId);
-	}
-
-	/**
-	 * Closes over the window, despite screen type.
-	 */
-	public void closeInterfacesOverGameWindow() {
-		if(player.getInterfaceManager().hasRezizableScreen()) {
-			player.closeInterfaces();
-			closeFadingInterface();
-		}
-		else {
-			removeOverlay();
-			removeWindowInterface(44);
-			removeWindowInterface(3);
-		}
-	}
-
-	public void removeOverlay() {
-		removeOverlay(false);
-	}
-
-	public void removeOverlay(boolean fullScreen) {
-		removeWindowInterface(resizableScreen ? fullScreen ? FULL_SCREEN_OVERLAY_SUB : RESIZEABLE_OVERLAY_SUB : FIXED_OVERLAY_SUB);
-	}
-
-	public void sendInterface(int interfaceId) {
-		if (interfaceId > Utils.getInterfaceDefinitionsSize())
-			return;
-		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? RESIZEABLE_CENTRAL_SUB : FIXED_CENTRAL_SUB, interfaceId);
-	}
-
-	public void sendInterface(int interfaceId, boolean overlay) {
-		if (interfaceId > Utils.getInterfaceDefinitionsSize())
-			return;
-		setInterface(overlay, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? RESIZEABLE_CENTRAL_SUB : FIXED_CENTRAL_SUB, interfaceId);
-	}
-
-	public void sendInventoryInterface(int interfaceId) {
-		setInterface(false, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? RESIZEABLE_INVENTORY_SUB : FIXED_INVENTORY_SUB, interfaceId);
-	}
-
-	public final void sendInterfaces() {
-		if (player.getDisplayMode() == 2 || player.getDisplayMode() == 3) {
-			resizableScreen = true;
-			sendResizeableInterfaces();
-		} else {
-			resizableScreen = false;
-			sendFixedInterfaces();
-		}
-		sendChatBoxInterface(9, 137);
-		player.getSkills().sendInterfaces();
-		if (player.getFamiliar() != null && player.isRunning())
-			player.getFamiliar().unlock();
-
-		for (Tab tab : Tab.values())
-			sendTab(tab);
-		player.getControllerManager().sendInterfaces();
-	}
-
-	public boolean containsReplacedChatBoxInter() {
-		return containsInterfaceAtParent(752, 11);
-	}
-
-	public void replaceRealChatBoxInterface(int interfaceId) {
-		setInterface(true, 752, 11, interfaceId);
-	}
-
-	public void closeReplacedRealChatBoxInterface() {
-		removeInterfaceByParent(752, 11);
-	}
-
-	public void setDefaultTopInterface() {
-		setTopInterface(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, false);
-	}
-
-	/**
-	 * On top of even inventory
-	 */
-	public void setTopInterface(int rootInterface, boolean gc) {
-		top = rootInterface;
-		player.getPackets().sendWindowsPane(rootInterface, gc ? 3 : 0);
-	}
-
-	public void setWindowsPane(int windowsPane) {
-		top = windowsPane;
-		player.getPackets().sendWindowsPane(top, 2);
-	}
-
-	public void sendAchievementComplete(Achievement achievement) {
-		if (achievement == null)
-			return;
-		if (resizableScreen)
-			setWindowInterface(13, 1055);
-		else
-			setWindowInterface(271, 1055);
-		player.getPackets().sendVarc(1425, achievement.getId());
-	}
-
-	public void sendResizeableInterfaces() {
-		setDefaultTopInterface();
-		setWindowInterface(22, CHATBOX_WINDOW);
-		setWindowInterface(23, 751);
-		setWindowInterface(16, 745);
-		setWindowInterface(25, 754);
-		setWindowInterface(196, 748);
-		setWindowInterface(197, 749);
-		setWindowInterface(199, 747);
-		setWindowInterface(130, 182); //logout
-
-		player.getPackets().setIFHidden(RESIZEABLE_TOP, 208, true); //money pouch
-	}
-
-	public void sendFixedInterfaces() {
-		setDefaultTopInterface();
-		setWindowInterface(168, CHATBOX_WINDOW);
-		setWindowInterface(53, 751);
-		setWindowInterface(40, 745); //multicombat indicator
-		setWindowInterface(42, 754); //system update
-		setWindowInterface(164, 747);
-		setWindowInterface(160, 748);
-		setWindowInterface(161, 749);
-		setWindowInterface(194, 182); //logout
-
-		player.getPackets().setIFHidden(FIXED_TOP, 167, true); //money pouch
-	}
-
-	public void sendXPPopup() {
-		setWindowInterface(resizableScreen ? 39 : 16, 1213); // xp
-	}
-
-	public void sendXPDisplay() {
-		sendXPDisplay(1215); // xp counter
-	}
-
-	public void sendXPDisplay(int interfaceId) {
-		setWindowInterface(resizableScreen ? 28 : 29, interfaceId); // xp counter
-	}
-
-	public void closeXPPopup() {
-		removeWindowInterface(39, 16);
-	}
-
-	public void closeXPDisplay() {
-		removeWindowInterface(28, 29);
-	}
-
-	public void setInterface(boolean overlay, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
+	
+	public void sendSubSpecific(boolean clickThrough, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
+		//System.out.println(parentInterfaceId + " - " + parentInterfaceComponentId + " - " + interfaceId + " - " + clickThrough);
 		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
-		getInterfaceParentId(interfaceId);
+		//int parentId = getInterfaceParentId(interfaceId);
 
 		Integer oldInterface = openedInterfaces.get(parentComponentUID);
 		if (oldInterface != null)
 			clearChilds(oldInterface);
 
 		openedInterfaces.put(parentComponentUID, interfaceId);
-		player.getPackets().sendInterface(overlay, parentInterfaceId, parentInterfaceComponentId, interfaceId);
+		player.getPackets().sendInterface(clickThrough, parentInterfaceId, parentInterfaceComponentId, interfaceId);
+	}
+	
+	public void removeSubSpecific(int parentInterfaceId, int parentInterfaceComponentId) {
+		removeInterfaceByParent(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
 	}
 
-	public boolean containsInterface(int interfaceId) {
-		if (interfaceId == top)
-			return true;
-		for (int value : openedInterfaces.values())
-			if (value == interfaceId)
-				return true;
-		return false;
+	public void removeInterfaceByParent(int parentUID) {
+		Integer removedInterface = openedInterfaces.remove(parentUID);
+		if (removedInterface != null) {
+			clearChilds(removedInterface);
+			player.getPackets().closeInterface(parentUID);
+		}
 	}
-
-	public void removeAll() {
-		openedInterfaces.clear();
-	}
-
-	public boolean containsWindowInterfaceAtParent(int componentId) {
-		return containsInterfaceAtParent(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId);
-	}
-
-	public boolean containsScreenInter() {
-		return containsWindowInterfaceAtParent(resizableScreen ? RESIZEABLE_CENTRAL_SUB : FIXED_CENTRAL_SUB);
-	}
-
-	public boolean containsInventoryInter() {
-		return containsWindowInterfaceAtParent(resizableScreen ? RESIZEABLE_INVENTORY_SUB : FIXED_INVENTORY_SUB);
-	}
-
-	public void removeInventoryInterface() {
-		removeWindowInterface(RESIZEABLE_INVENTORY_SUB, FIXED_INVENTORY_SUB);
-	}
-
-	public boolean removeTab(int tabId) {
-		return openedInterfaces.remove(tabId) != null;
-	}
-
+	
 	public static int getComponentUId(int interfaceId, int componentId) {
 		return interfaceId << 16 | componentId;
 	}
@@ -414,18 +246,6 @@ public class InterfaceManager {
 		return -1;
 	}
 
-	public void removeInterfaceByParent(int parentInterfaceId, int parentInterfaceComponentId) {
-		removeInterfaceByParent(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
-	}
-
-	public void removeInterfaceByParent(int parentUID) {
-		Integer removedInterface = openedInterfaces.remove(parentUID);
-		if (removedInterface != null) {
-			clearChilds(removedInterface);
-			player.getPackets().closeInterface(parentUID);
-		}
-	}
-
 	private void clearChilds(int parentInterfaceId) {
 		for (int key : openedInterfaces.keySet())
 			if (key >> 16 == parentInterfaceId)
@@ -439,34 +259,213 @@ public class InterfaceManager {
 		removeInterfaceByParent(parentUID);
 	}
 
-	/**
-	 * Fading interface is a misnomer, just means under inventory/chat/map
-	 */
-	public void setFadingInterface(int backgroundInterface) {
-		setWindowInterface(hasRezizableScreen() ? 13 : 15, backgroundInterface);
+	public boolean topOpen(int interfaceId) {
+		if (interfaceId == top)
+			return true;
+		for (int value : openedInterfaces.values())
+			if (value == interfaceId)
+				return true;
+		return false;
+	}
+
+	public void sendSub(Sub sub, int interfaceId, boolean clickThrough) {
+		if (interfaceId == -1)
+			return;
+		sendGameWindowSub(sub.resizeable, sub.fixed, interfaceId, clickThrough);
+	}
+	
+	public void sendSub(Sub sub, int interfaceId) {
+		sendSub(sub, interfaceId, true);
+	}
+
+	public void removeSubs(Sub... subs) {
+		for (Sub tab : subs)
+			removeSub(tab);
+	}
+
+	public void removeSub(Sub sub) {
+		removeGameWindowSub(sub.resizeable, sub.fixed);
+	}
+
+	public void sendSubDefault(Sub sub) {
+		sendSub(sub, sub.getDefaultInterfaceId(player), true);
+		if (sub.defaultProcedure != null)
+			sub.defaultProcedure.accept(player);
+	}
+	
+	public void sendSubDefaults(Sub... subs) {
+		for (Sub sub : subs)
+			sendSubDefault(sub);
+	}
+	
+	public boolean isSubClick(Sub sub, int interfaceId, int componentId) {
+		return sub.isClicked(interfaceId, componentId);
+	}
+
+	public void flashTab(Sub tab) {
+		int tabId = switch(tab) {
+			case TAB_COMBAT -> 1;
+			case TAB_ACHIEVEMENT -> 2;
+			case TAB_SKILLS -> 3;
+			case TAB_QUEST -> 4;
+			case TAB_INVENTORY -> 5;
+			case TAB_EQUIPMENT -> 6;
+			case TAB_PRAYER -> 7;
+			case TAB_MAGIC -> 8;
+			case TAB_FOLLOWER -> 9;
+			case TAB_FRIENDS -> 10;
+			case TAB_FRIENDS_CHAT -> 11;
+			case TAB_CLAN_CHAT -> 12;
+			case TAB_SETTINGS -> 13;
+			case TAB_EMOTES -> 14;
+			case TAB_MUSIC -> 15;
+			case TAB_NOTES -> 16;
+			case ORB_RUN -> 17;
+			default -> 0;
+		};
+		player.getVars().setVar(1021, tabId);
+	}
+	
+	public void openTab(Sub tab) {
+		int tabId = switch(tab) {
+			case TAB_COMBAT -> 0;
+			case TAB_ACHIEVEMENT -> 1;
+			case TAB_SKILLS -> 2;
+			case TAB_QUEST -> 3;
+			case TAB_INVENTORY -> 4;
+			case TAB_EQUIPMENT -> 5;
+			case TAB_PRAYER -> 6;
+			case TAB_MAGIC -> 7;
+			case TAB_FOLLOWER -> 8;
+			case TAB_FRIENDS -> 9;
+			case TAB_FRIENDS_CHAT -> 10;
+			case TAB_CLAN_CHAT -> 11;
+			case TAB_SETTINGS -> 12;
+			case TAB_EMOTES -> 13;
+			case TAB_MUSIC -> 14;
+			case TAB_NOTES -> 15;
+			case ORB_RUN -> 16;
+			default -> 0;
+		};
+		player.getPackets().sendVarc(168, tabId);
+	}
+	
+	public void flashTabOff() {
+		player.getVars().setVar(1021, 0);
+	}
+	
+	public final void sendInterfaces() {
+		if (openedInterfaces != null)
+			openedInterfaces.clear();
+		setDefaultTopInterface();
+		if (player.getFamiliar() != null && player.isRunning())
+			player.getFamiliar().unlock();
+		for (Sub sub : Sub.values())
+			sendSubDefault(sub);
+		player.getControllerManager().sendInterfaces();
+	}
+	
+	public final void switchDisplayModes(ScreenMode screenMode) {
+		if (player.getScreenMode() == screenMode)
+			return;
+		Map<Integer, Integer> old = new HashMap<>(openedInterfaces);
+		for (int parentUid : old.keySet()) {
+			Sub sub = Sub.forHash(parentUid);
+			if (sub != null)
+				removeSub(sub);
+		}
+		ScreenMode oldMode = player.getScreenMode();
+		player.setScreenMode(screenMode);
+		openedInterfaces.clear();
+		setDefaultTopInterface();
+		if (player.getFamiliar() != null && player.isRunning())
+			player.getFamiliar().unlock();
+		for (Sub sub : Sub.values()) {
+			sendSubDefault(sub);
+			Integer prev = old.get(sub.getHash(oldMode));
+			if (prev != null && prev != sub.defaultInter)
+				sendSub(sub, prev, sub == Sub.CENTRAL ? false : true);
+		}
+	}
+
+	public void sendInterface(int interfaceId) {
+		if (interfaceId > Utils.getInterfaceDefinitionsSize())
+			return;
+		sendSub(Sub.CENTRAL, interfaceId, false);
+	}
+
+	public void sendInterface(int interfaceId, boolean clickThrough) {
+		if (interfaceId > Utils.getInterfaceDefinitionsSize())
+			return;
+		sendSub(Sub.CENTRAL, interfaceId, clickThrough);
+	}
+
+	public void sendInventoryInterface(int interfaceId) {
+		sendSub(Sub.INVENTORY_OVERLAY, interfaceId, false);
+	}
+
+	public boolean containsReplacedChatBoxInter() {
+		return isSubOpen(CHATBOX_TOP, 11);
+	}
+
+	public void replaceRealChatBoxInterface(int interfaceId) {
+		sendSubSpecific(true, CHATBOX_TOP, 11, interfaceId);
+	}
+
+	public void closeReplacedRealChatBoxInterface() {
+		removeSubSpecific(CHATBOX_TOP, 11);
+	}
+
+	public void setDefaultTopInterface() {
+		setTopInterface(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, false);
+	}
+
+	public void setTopInterface(int rootInterface, boolean gc) {
+		top = rootInterface;
+		player.getPackets().sendWindowsPane(rootInterface, gc ? 3 : 0);
+	}
+
+	public void setWindowsPane(int windowsPane) {
+		top = windowsPane;
+		player.getPackets().sendWindowsPane(top, 2);
+	}
+
+	public void sendAchievementComplete(Achievement achievement) {
+		if (achievement == null)
+			return;
+		sendSub(Sub.ACHIEVEMENT_NOTIF, 1055);
+		player.getPackets().sendVarc(1425, achievement.getId());
+	}
+
+	public boolean containsScreenInter() {
+		return isSubOpenWindow(player.resizeable() ? Sub.CENTRAL.resizeable : Sub.CENTRAL.fixed);
+	}
+
+	public boolean containsInventoryInter() {
+		return isSubOpenWindow(Sub.INVENTORY_OVERLAY.getComponent(player.resizeable()));
+	}
+
+	public void removeInventoryInterface() {
+		this.removeSub(Sub.INVENTORY_OVERLAY);
+	}
+
+	public void setFadingInterface(int interfaceId) {
+		sendSub(Sub.FADING, interfaceId);
 	}
 
 	public void closeFadingInterface() {
-		removeWindowInterface(hasRezizableScreen() ? 13 : 15);
+		removeSub(Sub.FADING);
 	}
 
-	public void removeScreenInterface() {
-		removeWindowInterface(resizableScreen ? RESIZEABLE_CENTRAL_SUB : FIXED_CENTRAL_SUB);
+	public void removeCentralInterface() {
+		removeSub(Sub.CENTRAL);
 	}
 
-	public void setScreenInterface(int backgroundInterface, int interfaceId) {
-		removeScreenInterface();
-		setInterface(false, hasRezizableScreen() ? RESIZEABLE_TOP : FIXED_TOP, hasRezizableScreen() ? 44 : 249, backgroundInterface);
-		setInterface(false, hasRezizableScreen() ? RESIZEABLE_TOP : FIXED_TOP, hasRezizableScreen() ? 45 : 204, interfaceId);
-
-		player.setCloseInterfacesEvent(() -> {
-			removeWindowInterface(hasRezizableScreen() ? 44 : 249);
-			removeWindowInterface(hasRezizableScreen() ? 45 : 204);
-		});
-	}
-
-	public boolean hasRezizableScreen() {
-		return resizableScreen;
+	public void setFullscreenInterface(int backgroundInterface, int interfaceId) {
+		removeCentralInterface();
+		sendSub(Sub.FULLSCREEN_BG, backgroundInterface, false);
+		sendSub(Sub.FULLSCREEN_BG2, interfaceId, false);
+		player.setCloseInterfacesEvent(() -> removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG2));
 	}
 
 	public int getTopInterface() {
@@ -475,18 +474,12 @@ public class InterfaceManager {
 
 	public void gazeOrbOfOculus() {
 		setTopInterface(475, false);
-		setInterface(true, 475, 57, 751);
-		setInterface(true, 475, 55, 752);
+		sendSubSpecific(true, 475, 57, 751);
+		sendSubSpecific(true, 475, 55, 752);
 		player.setCloseInterfacesEvent(() -> {
 			setDefaultTopInterface();
 			player.getPackets().sendResetCamera();
 		});
-	}
-
-	public void openGameTab(Tab tab) {
-		if (tab == null)
-			return;
-		player.getPackets().sendVarc(168, tab.ordinal());
 	}
 
 	public void fadeIn() {
@@ -504,5 +497,32 @@ public class InterfaceManager {
 	public void fadeOutBG() {
 		sendBackgroundInterfaceOverGameWindow(170);
 	}
+	
+	public void sendBackgroundInterfaceOverGameWindow(int id) {
+		sendSub(Sub.FULLSCREEN_BG, id);
+	}
 
+	public void sendForegroundInterfaceOverGameWindow(int id) {
+		sendSub(Sub.FULLSCREEN_BG2, id);
+	}
+	
+	public void closeInterfacesOverGameWindow() {
+		removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG2);
+	}
+
+	public void removeOverlay(boolean fullGameWindow) {
+		removeSub(fullGameWindow ? Sub.FULL_GAMESPACE_BG2 : Sub.MINIGAME_HUD);
+	}
+
+	public void removeOverlay() {
+		removeOverlay(false);
+	}
+
+	public void setOverlay(int id, boolean fullGameWindow) {
+		sendSub(fullGameWindow ? Sub.FULL_GAMESPACE_BG2 : Sub.MINIGAME_HUD, id);
+	}
+
+	public void setOverlay(int id) {
+		setOverlay(id, false);
+	}
 }

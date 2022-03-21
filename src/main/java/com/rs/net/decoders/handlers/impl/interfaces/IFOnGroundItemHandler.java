@@ -43,7 +43,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 
 	@Override
 	public void handle(Player player, IFOnGroundItem packet) {
-		if ((Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) || player.isDead() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
+		if ((Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) || player.isDead() || !player.getInterfaceManager().topOpen(packet.getInterfaceId()))
 			return;
 
 		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())

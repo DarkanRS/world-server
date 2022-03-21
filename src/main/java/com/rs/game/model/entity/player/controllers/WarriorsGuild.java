@@ -40,7 +40,8 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -232,7 +233,7 @@ public class WarriorsGuild extends Controller {
 			if (object.getId() == 15647)
 				if (!inLobby)
 					if (player.getEquipment().getShieldId() == 8856) {
-						Equipment.sendRemove(player, Equipment.SHIELD);
+						Equipment.remove(player, Equipment.SHIELD);
 						closeShieldInterfaces();
 					}
 			player.addWalkSteps(object.getX(), inLobby ? object.getY() + (object.getId() == 15647 ? 1 : -1) : object.getY(), 1, false);
@@ -466,13 +467,13 @@ public class WarriorsGuild extends Controller {
 	}
 
 	private void closeShieldInterfaces() {
-		player.getInterfaceManager().sendTabs(Tab.values());
+		player.getInterfaceManager().sendSubDefaults(Sub.ALL_GAME_TABS);
 	}
 
 	private void sendShieldInterfaces() {
-		player.getInterfaceManager().sendTab(Tab.QUEST, 411);
-		player.getInterfaceManager().closeTabs(Tab.COMBAT, Tab.ACHIEVEMENT, Tab.SKILLS, Tab.PRAYER, Tab.MAGIC, Tab.EMOTES);
-		player.getInterfaceManager().openGameTab(Tab.QUEST);
+		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 411);
+		player.getInterfaceManager().removeSubs(Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_EMOTES);
+		player.getInterfaceManager().openTab(Sub.TAB_QUEST);
 	}
 
 	public static boolean inCatapultArea(Player player) {
@@ -567,7 +568,7 @@ public class WarriorsGuild extends Controller {
 					player.getAppearance().setBAS(2671);
 				kegCount++;
 				player.getVars().setVarBit(object.getDefinitions().varpBit, 1);
-				player.getEquipment().set(Equipment.HEAD, new Item(8859 + kegCount));
+				player.getEquipment().setSlot(Equipment.HEAD, new Item(8859 + kegCount));
 				player.getEquipment().refresh(Equipment.HEAD);
 				player.getAppearance().generateAppearanceData();
 			}
@@ -590,7 +591,7 @@ public class WarriorsGuild extends Controller {
 
 	private void resetKegBalance() {
 		if (kegCount >= 1) {
-			player.getEquipment().set(Equipment.HEAD, null);
+			player.getEquipment().setSlot(Equipment.HEAD, null);
 			player.getEquipment().refresh(Equipment.HEAD);
 			player.getAppearance().generateAppearanceData();
 			player.getAppearance().setBAS(-1);

@@ -45,7 +45,7 @@ public class FamiliarAdapter implements JsonSerializer<Familiar>, JsonDeserializ
 		JsonElement element = jsonObject.get("properties");
 
 		try {
-			String thePackage = "com.rs.game.entity.npc.familiar.";
+			String thePackage = "com.rs.game.model.entity.npc.familiar.";
 			return context.deserialize(element, Class.forName(thePackage + type));
 		} catch (ClassNotFoundException cnfe) {
 			throw new JsonParseException("Unknown element type: " + type, cnfe);

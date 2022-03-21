@@ -263,7 +263,7 @@ public class Helper {
 	}
 
 	public static void giveCape(Player player, boolean team) {
-		player.getEquipment().set(Equipment.CAPE, new Item(team ? RED_CAPE : BLUE_CAPE));
+		player.getEquipment().setSlot(Equipment.CAPE, new Item(team ? RED_CAPE : BLUE_CAPE));
 		player.getEquipment().refresh(Equipment.CAPE);
 		player.getAppearance().generateAppearanceData();
 	}

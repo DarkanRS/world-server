@@ -210,7 +210,7 @@ public class Debug {
 				if (equip[i] == null)
 					continue;
 
-				p.getEquipment().set(i, new Item(equip[i]));
+				p.getEquipment().setSlot(i, new Item(equip[i]));
 				p.getEquipment().refresh(i);
 			}
 			Item[] inv = target.getInventory().getItems().getItemsCopy();

@@ -51,7 +51,7 @@ public class NexController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(601);
+		player.getInterfaceManager().setFadingInterface(601);
 		player.getPackets().sendRunScriptReverse(1171);
 	}
 
@@ -75,6 +75,6 @@ public class NexController extends Controller {
 
 	public void remove() {
 		arena.removePlayer(player);
-		player.getInterfaceManager().removeOverlay();
+		player.getInterfaceManager().closeFadingInterface();
 	}
 }

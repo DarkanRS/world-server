@@ -174,7 +174,7 @@ public class GE {
 		resetVars(player);
 		if (player.getInterfaceManager().containsInventoryInter())
 			player.getInterfaceManager().removeInventoryInterface();
-		if (!player.getInterfaceManager().containsInterface(OFFER_SELECTION))
+		if (!player.getInterfaceManager().topOpen(OFFER_SELECTION))
 			player.getInterfaceManager().sendInterface(OFFER_SELECTION);
 	}
 

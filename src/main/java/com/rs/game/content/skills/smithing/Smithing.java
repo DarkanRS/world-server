@@ -135,7 +135,7 @@ public class Smithing extends PlayerAction {
 			return false;
 		}
 		if (player.getInterfaceManager().containsScreenInter()) {
-			player.getInterfaceManager().removeScreenInterface();
+			player.getInterfaceManager().removeCentralInterface();
 			return true;
 		}
 		return true;

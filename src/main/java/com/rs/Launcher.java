@@ -116,6 +116,27 @@ public final class Launcher {
 		});
 		addAccountsSavingTask();
 		addCleanMemoryTask();
+//		Runtime.getRuntime().addShutdownHook(new Thread() {
+//			@Override
+//			public void run() {
+//				try {
+//					for (Player player : World.getPlayers()) {
+//						if (player == null || !player.hasStarted())
+//							continue;
+//						try {
+//							player.getPackets().sendLogout(player, true);
+//							player.realFinish();
+//						} catch(Throwable e) {
+//							
+//						}
+//					}
+//					PartyRoom.save();
+//					Launcher.shutdown();
+//				} catch (Throwable e) {
+//					Logger.handle(e);
+//				}
+//			}
+//		});
 	}
 
 	private static void addCleanMemoryTask() {

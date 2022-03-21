@@ -454,9 +454,11 @@ public class NPC extends Entity {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		getInteractionManager().forceStop();
 		resetWalkSteps();
-		if (combat.getTarget() != null)
-			combat.getTarget().setAttackedByDelay(0);
 		combat.removeTarget();
+		if (source.getAttackedBy() == NPC.this) {
+			source.setAttackedBy(null);
+			source.setFindTargetDelay(0);
+		}
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
 		WorldTasks.schedule(new WorldTask() {
@@ -475,11 +477,6 @@ public class NPC extends Entity {
 					finish();
 					if (!isSpawned())
 						setRespawnTask();
-					if (source.getAttackedBy() == NPC.this) { //no need to wait after u kill
-						source.setAttackedByDelay(0);
-						source.setAttackedBy(null);
-						source.setFindTargetDelay(0);
-					}
 					stop();
 				}
 				loop++;

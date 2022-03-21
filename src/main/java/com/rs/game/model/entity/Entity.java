@@ -429,7 +429,7 @@ public abstract class Entity {
 			}
 			if (player.getHitpoints() <= (player.getMaxHitpoints() * 0.1) && player.getEquipment().getRingId() == 2570)
 				if (Magic.sendItemTeleportSpell(player, true, 9603, 1684, 4, Settings.getConfig().getPlayerRespawnTile())) {
-					player.getEquipment().set(Equipment.RING, null);
+					player.getEquipment().deleteSlot(Equipment.RING);
 					player.getEquipment().refresh(Equipment.RING);
 					player.sendMessage("Your ring of life saves you and is destroyed in the process.");
 				}

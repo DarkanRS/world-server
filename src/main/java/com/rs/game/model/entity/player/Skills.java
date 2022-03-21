@@ -26,6 +26,7 @@ import com.rs.game.content.Skillcapes;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -136,7 +137,7 @@ public final class Skills {
 		if (checkMulti99s())
 			for (Skillcapes cape : Skillcapes.values()) {
 				if (player.getEquipment().getCapeId() == cape.untrimmed) {
-					player.getEquipment().set(Equipment.CAPE, new Item(cape.trimmed, 1));
+					player.getEquipment().setSlot(Equipment.CAPE, new Item(cape.trimmed, 1));
 					player.getAppearance().generateAppearanceData();
 				}
 				for(int i = 0;i < player.getInventory().getItems().getSize();i++) {
@@ -457,11 +458,12 @@ public final class Skills {
 		return -1;
 	}
 
+	@Deprecated
 	public static ButtonClickHandler handleSkillGuideButtons = new ButtonClickHandler(1218) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if ((e.getComponentId() >= 33 && e.getComponentId() <= 55) || e.getComponentId() == 120 || e.getComponentId() == 151 || e.getComponentId() == 189)
-				e.getPlayer().getInterfaceManager().setInterface(false, 1218, 1, 1217);
+//			if ((e.getComponentId() >= 33 && e.getComponentId() <= 55) || e.getComponentId() == 120 || e.getComponentId() == 151 || e.getComponentId() == 189)
+//				e.getPlayer().getInterfaceManager().setInterface(false, 1218, 1, 1217);
 		}
 	};
 
@@ -529,7 +531,7 @@ public final class Skills {
 	}
 
 	public void setupXPCounter() {
-		player.getInterfaceManager().sendXPDisplay(1214);
+		player.getInterfaceManager().sendInterface(1214);
 	}
 
 	public void refreshCurrentCounter() {
@@ -568,7 +570,7 @@ public final class Skills {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 18)
-				e.getPlayer().getInterfaceManager().sendXPDisplay();
+				e.getPlayer().closeInterfaces();
 			else if (e.getComponentId() >= 22 && e.getComponentId() <= 24)
 				e.getPlayer().getSkills().setCurrentCounter(e.getComponentId() - 22);
 			else if (e.getComponentId() == 27)
@@ -591,28 +593,17 @@ public final class Skills {
 		}
 	};
 
-	public void sendInterfaces() {
-		if (xpDisplay)
-			player.getInterfaceManager().sendXPDisplay();
-		if (xpPopup)
-			player.getInterfaceManager().sendXPPopup();
-	}
-
 	public void switchXPDisplay() {
 		xpDisplay = !xpDisplay;
-		if (xpDisplay)
-			player.getInterfaceManager().sendXPDisplay();
-		else
-			player.getInterfaceManager().closeXPDisplay();
 	}
 
 	public void switchXPPopup() {
 		xpPopup = !xpPopup;
 		player.sendMessage("XP pop-ups are now " + (xpPopup ? "en" : "dis") + "abled.");
 		if (xpPopup)
-			player.getInterfaceManager().sendXPPopup();
+			player.getInterfaceManager().sendSub(Sub.XP_DROPS, 1213);
 		else
-			player.getInterfaceManager().closeXPPopup();
+			player.getInterfaceManager().removeSub(Sub.XP_DROPS);
 	}
 
 	public void restoreSkills() {
@@ -805,7 +796,7 @@ public final class Skills {
 
 	private void sendLevelUp(int skill) {
 		int level = getLevelForXp(skill);
-		player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 44 : 28, 1216);
+		player.getInterfaceManager().sendSub(Sub.LEVEL_UP, 1216);
 		player.getPackets().sendVarc(1756, Skills.getTargetIdBySkillId(skill));
 		switchFlash(player, skill, true);
 		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
@@ -1135,7 +1126,7 @@ public final class Skills {
 			charges--;
 		gloves.addMetaData("brawlerCharges", charges);
 		if (charges <= 0) {
-			player.getEquipment().set(Equipment.HANDS, null);
+			player.getEquipment().setSlot(Equipment.HANDS, null);
 			player.sendMessage("Your brawling gloves have degraded.");
 		}
 		if (player.getControllerManager().getController() != null && player.getControllerManager().getController() instanceof WildernessController)
@@ -1297,5 +1288,13 @@ public final class Skills {
 			skills[idx++] = i;
 		}
 		return skills;
+	}
+	
+	public boolean xpCounterOpen() {
+		return xpDisplay;
+	}
+	
+	public boolean xpDropsActive() {
+		return xpPopup;
 	}
 }

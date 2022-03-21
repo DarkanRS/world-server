@@ -24,6 +24,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.qbd.QueenBlackDragon;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
@@ -67,7 +68,7 @@ public final class QueenBlackDragonController extends Controller {
 				player.getPackets().sendVarc(184, 150);
 				player.getPackets().sendVarc(1924, 0);
 				player.getPackets().sendVarc(1925, 0);
-				player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 1 : 3, 1285);
+				player.getInterfaceManager().sendSub(Sub.FULL_GAMESPACE_BG, 1285);
 				player.getMusicsManager().playSongAndUnlock(1119); // AWOKEN
 			});
 		});
@@ -97,7 +98,7 @@ public final class QueenBlackDragonController extends Controller {
 					player.setNextWorldTile(base.transform(31, 36, -1));
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
-					player.getInterfaceManager().removeWindowInterface(1, 3);
+					player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
 					player.unlock();
 					old.destroy();
 				});
@@ -291,7 +292,7 @@ public final class QueenBlackDragonController extends Controller {
 		player.setForceMultiArea(false);
 		player.setLargeSceneView(false);
 		if (type == 0) {
-			player.getInterfaceManager().removeWindowInterface(1, 3);
+			player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
 			player.getPackets().sendVarc(184, -1);
 		} else
 			player.getTile().setLocation(OUTSIDE);

@@ -32,7 +32,9 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropList;
 import com.rs.utils.drop.DropSet;
@@ -106,11 +108,13 @@ public class Runecrafting {
 			e.getPlayer().stopAll(false);
 		}
 	};
-
-	public static boolean isTiara(int id) {
-		return id == AIR_TIARA || id == MIND_TIARA || id == WATER_TIARA || id == BODY_TIARA || id == EARTH_TIARA || id == FIRE_TIARA || id == COSMIC_TIARA || id == NATURE_TIARA || id == CHAOS_TIARA || id == LAW_TIARA || id == DEATH_TIARA
-				|| id == BLOOD_TIARA || id == SOUL_TIARA || id == ASTRAL_TIARA || id == OMNI_TIARA;
-	}
+	
+	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA) {
+		@Override
+		public void handle(ItemEquipEvent e) {
+			e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0);
+		}
+	};
 
 	public static void craftTalisman(Player player, int talisman, int tiara, int staff, double xp) {
 		player.sendOptionDialogue("What would you like to imbue?", new String[] {"Tiara", "Staff"}, new DialogueOptionEvent() {
@@ -197,11 +201,9 @@ public class Runecrafting {
 	public static void craftZMIAltar(Player player) {
 		int level = player.getSkills().getLevel(Constants.RUNECRAFTING);
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
-		int length = 0;
 		for (int i = 0; i < RCRune.values().length; i++) {
 			if (RCRune.values()[i].req > level)
 				break;
-			length++;
 		}
 		double xp = 0;
 		int craftedSoFar = 0;
@@ -240,9 +242,6 @@ public class Runecrafting {
 			return;
 		}
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
-		int pEssToAdd = 0;
-		int regEssToAdd = 0;
-
 		if (!span) {
 			for (Item i : player.getInventory().getItems().getItems()) {
 				if (i == null)

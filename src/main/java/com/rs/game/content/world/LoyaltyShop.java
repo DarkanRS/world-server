@@ -55,7 +55,7 @@ public class LoyaltyShop {
 	}
 
 	public static void open(Player player) {
-		player.getInterfaceManager().setScreenInterface(317, 1143);
+		player.getInterfaceManager().setFullscreenInterface(317, 1143);
 		refresh(player);
 	}
 
