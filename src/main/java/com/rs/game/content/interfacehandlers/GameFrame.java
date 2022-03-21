@@ -171,7 +171,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 44)
-				e.getPlayer().getInterfaceManager().setWindowsPane(e.getPlayer().getInterfaceManager().hasRezizableScreen() ? 746 : 548);
+				e.getPlayer().getInterfaceManager().setWindowsPane(e.getPlayer().resizeable() ? 746 : 548);
 			else if (e.getComponentId() == 42) {
 				e.getPlayer().getHintIconsManager().removeAll(); //TODO find hintIcon index
 				e.getPlayer().getVars().setVar(1159, 1);

@@ -1193,7 +1193,7 @@ public class DungeonManager {
 			player.getAppearance().generateAppearanceData();
 			player.stopAll();
 			double multiplier = 1;
-			if (!player.getInterfaceManager().hasRezizableScreen())
+			if (!player.resizeable())
 				player.getInterfaceManager().sendInterface(933);
 			else
 				player.getInterfaceManager().setOverlay(933, true);
@@ -1460,7 +1460,7 @@ public class DungeonManager {
 		for (Player player : party.getTeam()) {
 			player.getDungManager().setRejoinKey(key);
 			player.getInterfaceManager().removeOverlay(true);
-			player.getInterfaceManager().removeScreenInterface();
+			player.getInterfaceManager().removeCentralInterface();
 		}
 	}
 

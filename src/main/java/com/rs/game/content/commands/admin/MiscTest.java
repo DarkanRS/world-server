@@ -780,7 +780,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId]", "Sends an interface to the window specified component.", (p, args) -> {
-			if (Integer.valueOf(args[1]) > Utils.getInterfaceDefinitionsComponentsSize(p.getInterfaceManager().hasRezizableScreen() ? InterfaceManager.RESIZEABLE_TOP : InterfaceManager.FIXED_TOP))
+			if (Integer.valueOf(args[1]) > Utils.getInterfaceDefinitionsComponentsSize(p.resizeable() ? InterfaceManager.RESIZEABLE_TOP : InterfaceManager.FIXED_TOP))
 				return;
 			if (p.getNSV().getI("prevWinterCmd", -1) != -1)
 				p.getInterfaceManager().removeGameWindowSub(Integer.valueOf(args[1]), Integer.valueOf(args[1]));

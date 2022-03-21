@@ -532,6 +532,7 @@ public final class Skills {
 
 	public void setupXPCounter() {
 		player.getInterfaceManager().sendSub(Sub.XP_COUNTER, 1214);
+		xpDisplay = true;
 	}
 
 	public void refreshCurrentCounter() {

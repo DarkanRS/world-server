@@ -16,6 +16,7 @@
 //
 package com.rs.game.model.entity.player.managers;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -34,11 +35,26 @@ public class InterfaceManager {
 	public static final int CHATBOX_SUB = 13;
 	
 	private Player player;
+	private int top;
 
 	private final Map<Integer, Integer> openedInterfaces = new ConcurrentHashMap<>();
-
-	private boolean resizableScreen;
-	private int top;
+	
+	public enum ScreenMode {
+		FULLSCREEN,
+		FIXED,
+		RESIZEABLE,
+		FULLSCREEN2MAYBE;
+		
+		public static ScreenMode forId(int id) {
+			if (id < 0 || id >= ScreenMode.values().length)
+				return null;
+			return ScreenMode.values()[id];
+		}
+		
+		public boolean resizeable() {
+			return this == RESIZEABLE || this == FULLSCREEN;
+		}
+	}
 	
 	public enum Sub {
 						/* GAME WINDOWS */
@@ -57,11 +73,11 @@ public class InterfaceManager {
 						ACHIEVEMENT_NOTIF(13, 271), //TODO conflict FADING
 		
 						/* HUD */
-						CHATBOX(168, 22, CHATBOX_TOP),
-						CHATBAR_SETTINGS(53, 23, 751),
-						MULTICOMBAT_SIGN(40, 16, 745),
-						SYSTEM_UPDATE(42, 25, 754),
-						LOGOUT(194, 130, 182),
+						CHATBOX(22, 168, CHATBOX_TOP),
+						CHATBAR_SETTINGS(23, 53, 751, p -> p.getInterfaceManager().sendChatBoxInterface(9, 137)),
+						MULTICOMBAT_SIGN(16, 40, 745),
+						SYSTEM_UPDATE(25, 42, 754),
+						LOGOUT(130, 194, 182),
 						XP_DROPS(39, 16) {
 							@Override
 							public int getDefaultInterfaceId(Player p) {
@@ -76,11 +92,13 @@ public class InterfaceManager {
 						},
 		
 						/* TABS */
-		/* CONFIRMED */	ORB_HP(160, 196, 748),
-		/* CONFIRMED */	ORB_PRAYER(161, 197, 749),
-		/* CONFIRMED */	ORB_SUMMONING(164, 199, 747),
+		/* CONFIRMED */	ORB_HP(196, 160, 748),
+		/* CONFIRMED */	ORB_PRAYER(197, 161, 749),
+		/* CONFIRMED */	ORB_SUMMONING(199, 164, 747),
 		/* CONFIRMED */	ORB_RUN(198, 162, 750, p -> p.sendRunButtonConfig()),
-		/* CONFIRMED */	ORB_MONEYPOUCH(167, 208),
+		/* CONFIRMED */	ORB_MONEYPOUCH(208, 167),
+		
+		/* CONFIRMED */ INVENTORY_OVERLAY(109, 172),
 		
 		/* CONFIRMED */	TAB_COMBAT(112, 176, 884, p -> p.getCombatDefinitions().sendUnlockAttackStylesButtons()),
 		/* CONFIRMED */	TAB_ACHIEVEMENT(113, 177, 1056, p -> AchievementInterface.init(p)),
@@ -105,6 +123,18 @@ public class InterfaceManager {
 		/* CONFIRMED */	TAB_NOTES(127, 191, 34);
 		
 		public static final Sub[] ALL_GAME_TABS = { Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_QUEST, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_FOLLOWER, Sub.TAB_FRIENDS, Sub.TAB_FRIENDS_CHAT, Sub.TAB_CLAN_CHAT, Sub.TAB_SETTINGS, Sub.TAB_EMOTES, Sub.TAB_MUSIC, Sub.TAB_NOTES, Sub.ORB_RUN };
+		private static Map<Integer, Sub> BY_HASH = new HashMap<>();
+		
+		static {
+			for (Sub sub : Sub.values()) {
+				BY_HASH.put(Utils.toInterfaceHash(FIXED_TOP, sub.fixed), sub);
+				BY_HASH.put(Utils.toInterfaceHash(RESIZEABLE_TOP, sub.resizeable), sub);
+			}
+		}
+		
+		public static Sub forHash(int hash) {
+			return BY_HASH.get(hash);
+		}
 		
 		private int resizeable, fixed;
 		private int defaultInter = -1;
@@ -125,8 +155,8 @@ public class InterfaceManager {
 			this.defaultProcedure = defaultProcedure;
 		}
 		
-		public int getComponent(InterfaceManager mgr) {
-			return mgr.hasRezizableScreen() ? resizeable : fixed;
+		public int getComponent(boolean resizeableScreen) {
+			return resizeableScreen ? resizeable : fixed;
 		}
 		
 		public boolean isClicked(int interfaceId, int componentId) {
@@ -143,11 +173,11 @@ public class InterfaceManager {
 	}
 	
 	public void sendGameWindowSub(int resizable, int fixed, int interfaceId, boolean clickThrough) {
-		sendSubSpecific(clickThrough, resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizable : fixed, interfaceId);
+		sendSubSpecific(clickThrough, player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, player.resizeable() ? resizable : fixed, interfaceId);
 	}
 
 	public void removeGameWindowSub(int resizableComponentId, int fixedComponentId) {
-		removeSubSpecific(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, resizableScreen ? resizableComponentId : fixedComponentId);
+		removeSubSpecific(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, player.resizeable() ? resizableComponentId : fixedComponentId);
 	}
 
 	public void sendChatBoxInterface(int interfaceId) {
@@ -171,10 +201,11 @@ public class InterfaceManager {
 	}
 	
 	public boolean isSubOpenWindow(int componentId) {
-		return isSubOpen(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, componentId);
+		return isSubOpen(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, componentId);
 	}
 	
 	public void sendSubSpecific(boolean clickThrough, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
+		System.out.println(parentInterfaceId + " - " + parentInterfaceComponentId + " - " + interfaceId + " - " + clickThrough);
 		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
 		getInterfaceParentId(interfaceId);
 
@@ -184,6 +215,46 @@ public class InterfaceManager {
 
 		openedInterfaces.put(parentComponentUID, interfaceId);
 		player.getPackets().sendInterface(clickThrough, parentInterfaceId, parentInterfaceComponentId, interfaceId);
+	}
+	
+	public static int getComponentUId(int interfaceId, int componentId) {
+		return interfaceId << 16 | componentId;
+	}
+
+	public int getInterfaceParentId(int interfaceId) {
+		if (interfaceId == top)
+			return -1;
+		for (int key : openedInterfaces.keySet()) {
+			int value = openedInterfaces.get(key);
+			if (value == interfaceId)
+				return key;
+		}
+		return -1;
+	}
+
+	public void removeSubSpecific(int parentInterfaceId, int parentInterfaceComponentId) {
+		removeInterfaceByParent(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
+	}
+
+	public void removeInterfaceByParent(int parentUID) {
+		Integer removedInterface = openedInterfaces.remove(parentUID);
+		if (removedInterface != null) {
+			clearChilds(removedInterface);
+			player.getPackets().closeInterface(parentUID);
+		}
+	}
+
+	private void clearChilds(int parentInterfaceId) {
+		for (int key : openedInterfaces.keySet())
+			if (key >> 16 == parentInterfaceId)
+				openedInterfaces.remove(key);
+	}
+
+	public void removeInterface(int interfaceId) {
+		int parentUID = getInterfaceParentId(interfaceId);
+		if (parentUID == -1)
+			return;
+		removeInterfaceByParent(parentUID);
 	}
 
 	public boolean topOpen(int interfaceId) {
@@ -195,10 +266,6 @@ public class InterfaceManager {
 		return false;
 	}
 
-	public void removeAll() {
-		openedInterfaces.clear();
-	}
-	
 	public void sendSub(Sub sub, int interfaceId, boolean clickThrough) {
 		if (interfaceId == -1)
 			return;
@@ -286,13 +353,31 @@ public class InterfaceManager {
 	}
 	
 	public final void sendInterfaces() {
+		if (openedInterfaces != null)
+			openedInterfaces.clear();
 		setDefaultTopInterface();
-		sendChatBoxInterface(9, 137);
 		if (player.getFamiliar() != null && player.isRunning())
 			player.getFamiliar().unlock();
 		for (Sub sub : Sub.values())
 			sendSubDefault(sub);
 		player.getControllerManager().sendInterfaces();
+	}
+	
+	public final void switchDisplayModes(ScreenMode screenMode) {
+		if (player.getScreenMode() == screenMode)
+			return;
+		player.setScreenMode(screenMode);
+		Map<Integer, Integer> old = new HashMap<>(openedInterfaces);
+		openedInterfaces.clear();
+		setDefaultTopInterface();
+		sendChatBoxInterface(9, 137);
+		if (player.getFamiliar() != null && player.isRunning())
+			player.getFamiliar().unlock();
+		for (int parentUid : old.keySet()) {
+			Sub sub = Sub.forHash(parentUid);
+			if (sub != null)
+				sendSub(sub, old.get(parentUid));
+		}
 	}
 
 	public void sendInterface(int interfaceId) {
@@ -308,23 +393,24 @@ public class InterfaceManager {
 	}
 
 	public void sendInventoryInterface(int interfaceId) {
-		sendSub(Sub.TAB_INVENTORY, interfaceId, false);
+		sendSub(Sub.INVENTORY_OVERLAY, interfaceId, false);
 	}
 
 	public boolean containsReplacedChatBoxInter() {
-		return isSubOpen(752, 11);
+		return isSubOpen(CHATBOX_TOP, 11);
 	}
 
 	public void replaceRealChatBoxInterface(int interfaceId) {
-		sendSubSpecific(true, 752, 11, interfaceId);
+		sendSubSpecific(true, CHATBOX_TOP, 11, interfaceId);
 	}
 
 	public void closeReplacedRealChatBoxInterface() {
-		removeSubSpecific(752, 11);
+		removeSubSpecific(CHATBOX_TOP, 11);
 	}
 
 	public void setDefaultTopInterface() {
-		setTopInterface(resizableScreen ? RESIZEABLE_TOP : FIXED_TOP, false);
+		System.out.println(player.resizeable());
+		setTopInterface(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, false);
 	}
 
 	public void setTopInterface(int rootInterface, boolean gc) {
@@ -345,82 +431,34 @@ public class InterfaceManager {
 	}
 
 	public boolean containsScreenInter() {
-		return isSubOpenWindow(resizableScreen ? Sub.CENTRAL.resizeable : Sub.CENTRAL.fixed);
+		return isSubOpenWindow(player.resizeable() ? Sub.CENTRAL.resizeable : Sub.CENTRAL.fixed);
 	}
 
 	public boolean containsInventoryInter() {
-		return isSubOpenWindow(Sub.TAB_INVENTORY.getComponent(this));
+		return isSubOpenWindow(Sub.INVENTORY_OVERLAY.getComponent(player.resizeable()));
 	}
 
 	public void removeInventoryInterface() {
-		this.removeSub(Sub.TAB_INVENTORY);
+		this.removeSub(Sub.INVENTORY_OVERLAY);
 	}
 
-	public boolean removeTab(int tabId) {
-		return openedInterfaces.remove(tabId) != null;
-	}
-
-	public static int getComponentUId(int interfaceId, int componentId) {
-		return interfaceId << 16 | componentId;
-	}
-
-	public int getInterfaceParentId(int interfaceId) {
-		if (interfaceId == top)
-			return -1;
-		for (int key : openedInterfaces.keySet()) {
-			int value = openedInterfaces.get(key);
-			if (value == interfaceId)
-				return key;
-		}
-		return -1;
-	}
-
-	public void removeSubSpecific(int parentInterfaceId, int parentInterfaceComponentId) {
-		removeInterfaceByParent(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
-	}
-
-	public void removeInterfaceByParent(int parentUID) {
-		Integer removedInterface = openedInterfaces.remove(parentUID);
-		if (removedInterface != null) {
-			clearChilds(removedInterface);
-			player.getPackets().closeInterface(parentUID);
-		}
-	}
-
-	private void clearChilds(int parentInterfaceId) {
-		for (int key : openedInterfaces.keySet())
-			if (key >> 16 == parentInterfaceId)
-				openedInterfaces.remove(key);
-	}
-
-	public void removeInterface(int interfaceId) {
-		int parentUID = getInterfaceParentId(interfaceId);
-		if (parentUID == -1)
-			return;
-		removeInterfaceByParent(parentUID);
-	}
-
-	public void setFadingInterface(int backgroundInterface) {
-		setSubSpecific(hasRezizableScreen() ? RESIZEABLE_FADING_INTERFACE : FIXED_FADING_INTERFACE, backgroundInterface);
+	public void setFadingInterface(int interfaceId) {
+		sendSub(Sub.FADING, interfaceId);
 	}
 
 	public void closeFadingInterface() {
-		removeSubSpecific(hasRezizableScreen() ? RESIZEABLE_FADING_INTERFACE : FIXED_FADING_INTERFACE);
+		removeSub(Sub.FADING);
 	}
 
-	public void removeScreenInterface() {
-		removeSubSpecific(resizableScreen ? RESIZEABLE_CENTRAL_SUB : FIXED_CENTRAL_SUB);
+	public void removeCentralInterface() {
+		removeSub(Sub.CENTRAL);
 	}
 
-	public void setScreenInterface(int backgroundInterface, int interfaceId) {
-		removeScreenInterface();
+	public void setFullscreenInterface(int backgroundInterface, int interfaceId) {
+		removeCentralInterface();
 		sendSub(Sub.FULLSCREEN_BG, backgroundInterface, false);
 		sendSub(Sub.FULLSCREEN_BG_FG, interfaceId, false);
 		player.setCloseInterfacesEvent(() -> removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG_FG));
-	}
-
-	public boolean hasRezizableScreen() {
-		return resizableScreen;
 	}
 
 	public int getTopInterface() {
@@ -452,5 +490,32 @@ public class InterfaceManager {
 	public void fadeOutBG() {
 		sendBackgroundInterfaceOverGameWindow(170);
 	}
+	
+	public void sendBackgroundInterfaceOverGameWindow(int id) {
+		// TODO Auto-generated method stub
+	}
 
+	public void sendForegroundInterfaceOverGameWindow(int id) {
+		// TODO Auto-generated method stub
+	}
+	
+	public void closeInterfacesOverGameWindow() {
+		// TODO Auto-generated method stub
+	}
+
+	public void removeOverlay(boolean fullGameWindow) {
+		// TODO Auto-generated method stub
+	}
+
+	public void removeOverlay() {
+		removeOverlay(false);
+	}
+
+	public void setOverlay(int id, boolean fullGameWindow) {
+		// TODO Auto-generated method stub
+	}
+
+	public void setOverlay(int id) {
+		setOverlay(id, false);
+	}
 }
