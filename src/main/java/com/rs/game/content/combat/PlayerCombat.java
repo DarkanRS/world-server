@@ -1107,7 +1107,7 @@ public class PlayerCombat extends PlayerAction {
 				case 10887: // anchor
 					player.setNextAnimation(new Animation(5870));
 					player.setNextSpotAnim(new SpotAnim(1027));
-					Hit hitt = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 2.0, 1.1));
+					Hit hitt = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 2.0, 1.1));
 					delayNormalHit(weaponId, attackStyle, hitt);
 					if (target instanceof Player other)
 						other.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
@@ -1124,9 +1124,9 @@ public class PlayerCombat extends PlayerAction {
 						target.setNextSpotAnim(new SpotAnim(254, 0, 100));
 						target.setNextSpotAnim(new SpotAnim(80));
 					}
-					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 1.0, 1.1)));
+					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.1)));
 					if (target.getSize() > 1)
-						delayHit(1, weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 1.0, 1.1)));
+						delayHit(1, weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.1)));
 					break;
 				case 4587: // dragon sci
 					player.setNextAnimation(new Animation(12031));

@@ -479,6 +479,9 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "reloadcombat", "Reloads the NPC combat definitions files.", (p, args) -> {
 			NPCCombatDefinitions.reload();
+			for (NPC npc : World.getNPCs())
+				if (npc != null)
+					npc.resetLevels();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloaddrops", "Reloads the drop table files.", (p, args) -> {
