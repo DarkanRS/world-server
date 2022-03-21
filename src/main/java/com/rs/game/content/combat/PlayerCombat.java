@@ -2346,7 +2346,7 @@ public class PlayerCombat extends PlayerAction {
 			return protection;
 		}
 		int shieldId = p2.getEquipment().getShieldId();
-		if (shieldId == 1540 || shieldId == 11283 || shieldId == 11284 || shieldId == 16933) {
+		if (shieldId == 1540 || shieldId == 11283 || shieldId == 11284 || shieldId == 16079 || shieldId == 16933) {
 			protection++;
 			p2.sendMessage("Your shield manages to block some of the dragon's breath.", true);
 		}
