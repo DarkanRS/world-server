@@ -51,6 +51,7 @@ public final class Settings {
 	private int mongoPort;
 	private String mongoUser;
 	private String mongoPass;
+	private String mongoDbName;
 	private String lobbyIp;
 	private String lobbyApiKey;
 	private WorldInfo worldInfo;
@@ -71,6 +72,7 @@ public final class Settings {
 		mongoPort = 27017;
 		mongoUser = "";
 		mongoPass = "";
+		mongoDbName = "darkan-server";
 		lobbyApiKey = "TEST_API_KEY";
 		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, true, true);
 		loginMessage = "";
@@ -213,6 +215,10 @@ public final class Settings {
 	public String getLobbyApiKey() {
 		return lobbyApiKey;
 	}
+	
+	public String getMongoDBName() {
+		return mongoDbName;
+	}
 
 	public String getMongoDb() {
 		String db = "mongodb://";
@@ -221,7 +227,7 @@ public final class Settings {
 		db += mongoUrl;
 		if (mongoPort > 0)
 			db += ":" + mongoPort;
-		db += "/darkan-server?retryWrites=true&w=majority";
+		db += "/"+mongoDbName+"?retryWrites=true&w=majority";
 		return db;
 	}
 }

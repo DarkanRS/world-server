@@ -29,9 +29,9 @@ public class KeyPressHandler implements PacketHandler<Player, KeyPress> {
 		case 13 -> {
 			if(!player.getTempAttribs().getB("CUTSCENE_INTERFACE_CLOSE_DISABLED"))
 				player.closeInterfaces();
-			if (player.getInterfaceManager().containsInterface(755)) {//World map
+			if (player.getInterfaceManager().topOpen(755)) {//World map
 				//Send window pane
-				player.getPackets().sendWindowsPane(player.getInterfaceManager().hasRezizableScreen() ? 746 : 548, 2);
+				player.getPackets().sendWindowsPane(player.resizeable() ? 746 : 548, 2);
 
 				//Reset top of interface stack on client
 				player.getInterfaceManager().setDefaultTopInterface();

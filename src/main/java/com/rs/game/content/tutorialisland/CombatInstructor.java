@@ -28,7 +28,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.TutorialIslandController;
 import com.rs.game.model.entity.player.controllers.TutorialIslandController.Stage;
-import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 
 public class CombatInstructor extends Conversation {
 
@@ -64,7 +64,7 @@ public class CombatInstructor extends Conversation {
 			addNext("Recap", new OptionStatement("What would you like to hear more about?", "Tell me about combat stats.", "Tell me about melee combat again.", "Tell me about ranged combat again.", "Tell me about the Wilderness.", "Nope, I'm ready to move on!"));
 
 			getStage("Recap").addNext(new PlayerStatement(HeadE.NO_EXPRESSION, "Tell me about combat stats again."))
-			.addNext(new Dialogue(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Certainly. You have three main combat stats: Strength", "Defence and Attack."), () -> player.getInterfaceManager().openGameTab(InterfaceManager.Tab.SKILLS)))
+			.addNext(new Dialogue(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Certainly. You have three main combat stats: Strength", "Defence and Attack."), () -> player.getInterfaceManager().openTab(Sub.TAB_SKILLS)))
 			.addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Strength determines the maximum hit you will be able", "to deal with your blows, Defence determines the amount", "of damage you will be able to defend and Attack", "determines the accuracy of your blows."))
 			.addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "Other stats are used in combat such as Prayer,", "Hitpoints, Magic and Ranged. All of these stats can go", "towards determining your combat level, which is shown", "near the top of your combat interface screen."))
 			.addNext(new NPCStatement(npc.getId(), HeadE.NO_EXPRESSION, "You will find out on the mainland that certain items can", "also affect your stats. There are potions that can be", "drunk that can alter your stats temporarily, such as", "raising Strength."))

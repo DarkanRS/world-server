@@ -115,6 +115,8 @@ import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.MusicsManager;
 import com.rs.game.model.entity.player.managers.PrayerManager;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
@@ -240,7 +242,7 @@ public class Player extends Entity {
 	// transient stuff
 	private transient Session session;
 	private transient long clientLoadedMapRegion;
-	private transient int displayMode;
+	private transient ScreenMode screenMode;
 	private transient int screenWidth;
 	private transient int screenHeight;
 	private transient Conversation conversation;
@@ -620,13 +622,13 @@ public class Player extends Entity {
 		resetLodestones();
 	}
 
-	public void init(Session session, Account account, int displayMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
+	public void init(Session session, Account account, int screenMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
 		if (getTile() == null)
 			setTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 		this.session = session;
 		this.account = account;
 		uuid = getUsername().hashCode();
-		this.displayMode = displayMode;
+		this.screenMode = ScreenMode.forId(screenMode);
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.machineInformation = machineInformation;
@@ -935,7 +937,7 @@ public class Player extends Entity {
 
 	public void closeInterfaces() {
 		if (interfaceManager.containsScreenInter())
-			interfaceManager.removeScreenInterface();
+			interfaceManager.removeCentralInterface();
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.removeInventoryInterface();
 		endConversation();
@@ -1836,8 +1838,8 @@ public class Player extends Entity {
 		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
 		setCloseInterfacesEvent(() -> {
-			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().containsInterface(11)) {
-				getInterfaceManager().sendTabs(InterfaceManager.Tab.INVENTORY, InterfaceManager.Tab.EQUIPMENT);
+			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().topOpen(11)) {
+				getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 				getTempAttribs().setB("viewingDepositBox", false);
 			}
 			getTempAttribs().removeO("pluginInteger");
@@ -1890,8 +1892,16 @@ public class Player extends Entity {
 		return localNPCUpdate;
 	}
 
-	public int getDisplayMode() {
-		return displayMode;
+	public ScreenMode getScreenMode() {
+		return screenMode;
+	}
+	
+	public void setScreenMode(ScreenMode mode) {
+		this.screenMode = mode;
+	}
+	
+	public boolean resizeable() {
+		return screenMode.resizeable();
 	}
 
 	public InterfaceManager getInterfaceManager() {
@@ -1928,10 +1938,6 @@ public class Player extends Entity {
 
 	public boolean clientHasLoadedMapRegionFinished() {
 		return clientLoadedMapRegion == -1;
-	}
-
-	public void setDisplayMode(int displayMode) {
-		this.displayMode = displayMode;
 	}
 
 	public Inventory getInventory() {

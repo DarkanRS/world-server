@@ -110,7 +110,7 @@ public class DungeoneeringSmithing extends PlayerAction {
 		}
 
 		if (player.getInterfaceManager().containsScreenInter()) {
-			player.getInterfaceManager().removeScreenInterface();
+			player.getInterfaceManager().removeCentralInterface();
 			return true;
 		}
 		return true;

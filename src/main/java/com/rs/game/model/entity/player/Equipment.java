@@ -361,6 +361,21 @@ public final class Equipment {
 			return -1;
 		return item.getId();
 	}
+	
+	public int getIdInSlot(int slot) {
+		Item item = items.get(slot);
+		if (item == null)
+			return -1;
+		return item.getId();
+	}
+	
+	public boolean wearingSlot(int slot, int... items) {
+		int id = getIdInSlot(slot);
+		for (int check : items)
+			if (id == check)
+				return true;
+		return false;
+	}
 
 	public Item get(int slot) {
 		return items.get(slot);

@@ -18,7 +18,7 @@ package com.rs.game.content.combat;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
@@ -256,7 +256,7 @@ public final class CombatDefinitions {
 		else
 			spellBook = (byte) id;
 		refreshSpellbook();
-		player.getInterfaceManager().sendTab(Tab.MAGIC);
+		player.getInterfaceManager().sendSubDefault(Sub.TAB_MAGIC);
 	}
 
 	public int getSpellbookId() {
@@ -542,7 +542,7 @@ public final class CombatDefinitions {
 	public void removeDungeonneringBook() {
 		if (dungSpellBook) {
 			dungSpellBook = false;
-			player.getInterfaceManager().sendTab(Tab.MAGIC);
+			player.getInterfaceManager().sendSubDefault(Sub.TAB_MAGIC);
 		}
 	}
 

@@ -35,7 +35,7 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.DamonheimController;
 import com.rs.game.model.entity.player.controllers.DungeonController;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -289,7 +289,7 @@ public class DungManager {
 		for (KinshipPerk p : KinshipPerk.values())
 			player.getVars().setVarBit(p.getVarbit(), getKinshipTier(p));
 		player.getVars().setVarBit(8065, activeRingPerk == null ? 0 : activeRingPerk.ordinal() + 1);
-		if (player.getInterfaceManager().containsInterface(993))
+		if (player.getInterfaceManager().topOpen(993))
 			player.getPackets().sendRunScriptBlank(3494);
 		refreshKinshipStrings();
 	}
@@ -536,7 +536,7 @@ public class DungManager {
 			else if (e.getComponentId() == 94)
 				e.getPlayer().getDungManager().switchGuideMode();
 			else if (e.getComponentId() == 112)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.QUEST);
+				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_QUEST);
 		}
 	};
 
@@ -590,8 +590,8 @@ public class DungManager {
 	};
 
 	public void openPartyInterface() {
-		player.getInterfaceManager().sendTab(Tab.QUEST, 939);
-		player.getInterfaceManager().openGameTab(Tab.QUEST);
+		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 939);
+		player.getInterfaceManager().openTab(Sub.TAB_QUEST);
 		player.getPackets().sendVarc(234, 3);// Party Config Interface
 		refresh();
 	}
@@ -607,7 +607,7 @@ public class DungManager {
 	}
 
 	public void refreshPartyGuideModeComponent() {
-		if (!player.getInterfaceManager().containsInterface(939))
+		if (!player.getInterfaceManager().topOpen(939))
 			return;
 		player.getPackets().setIFHidden(939, 93, party == null || !party.getGuideMode());
 	}
@@ -616,7 +616,7 @@ public class DungManager {
 	 * called aswell when player added/removed to party
 	 */
 	public void refreshPartyDetailsComponents() {
-		if (!player.getInterfaceManager().containsInterface(939))
+		if (!player.getInterfaceManager().topOpen(939))
 			return;
 		if (party != null) {
 			if (party.isLeader(player)) { // party leader stuff here
@@ -715,7 +715,7 @@ public class DungManager {
 	private void inspectPlayer(Player p) {
 		player.setCloseInterfacesEvent(() -> openPartyInterface());
 
-		player.getInterfaceManager().sendTab(Tab.QUEST, 936);
+		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 936);
 		String name = p.getUsername();
 		name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		player.getPackets().setIFText(936, 132, name);
@@ -1247,7 +1247,7 @@ public class DungManager {
 	}
 
 	public void formParty() {
-		if (!player.getInterfaceManager().containsInterface(939))
+		if (!player.getInterfaceManager().topOpen(939))
 			openPartyInterface();
 		if (party != null)
 			return;

@@ -31,7 +31,7 @@ public class WorldDB extends DBConnection {
 	private static LogManager LOGS = new LogManager();
 
 	public WorldDB() {
-		super(Settings.getConfig().getMongoDb());
+		super(Settings.getConfig().getMongoDb(), Settings.getConfig().getMongoDBName());
 		addItemManager(PLAYERS);
 		addItemManager(HIGHSCORES);
 		addItemManager(GE);

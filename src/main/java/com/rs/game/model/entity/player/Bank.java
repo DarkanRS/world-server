@@ -26,11 +26,9 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFTargetParams;
 import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.statements.Statement;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.entity.npc.familiar.Familiar;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
@@ -161,7 +159,7 @@ public class Bank {
 							return;
 						e.getPlayer().getBank().setLastX(amount);
 						e.getPlayer().getBank().refreshLastX();
-						e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().containsInterface(11) ? false : true);
+						e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().topOpen(11) ? false : true);
 					});
 				else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, true);
@@ -414,13 +412,13 @@ public class Bank {
 		player.getTempAttribs().setB("viewingOtherBank", false);
 		player.getTempAttribs().setB("viewingDepositBox", true);
 		player.getInterfaceManager().sendInterface(11);
-		player.getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.EQUIPMENT);
-		player.getInterfaceManager().openGameTab(Tab.FRIENDS);
+		player.getInterfaceManager().removeSubs(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
+		player.getInterfaceManager().openTab(Sub.TAB_FRIENDS);
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
 		player.setCloseInterfacesEvent(() -> {
-			player.getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.EQUIPMENT);
-			player.getInterfaceManager().openGameTab(Tab.INVENTORY);
+			player.getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
+			player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
 			player.getTempAttribs().setB("viewingDepositBox", false);
 		});
 	}
@@ -479,7 +477,7 @@ public class Bank {
 		player.getTempAttribs().setI("prevPin", -1);
 		player.getPackets().setIFText(13, 27, "Bank of " + Settings.getConfig().getServerName());
 		player.getInterfaceManager().sendInterface(13);
-		player.getInterfaceManager().setInterface(false, 13, 5, 759);
+		player.getInterfaceManager().sendSubSpecific(false, 13, 5, 759);
 		player.getPackets().sendVarc(98, bankPin == 0 ? 0 : 1);
 		player.getVars().setVarBit(1010, 1, true);
 		player.getVars().syncVarsToClient();
