@@ -51,7 +51,7 @@ public class DungeoneeringRCD extends MatrixDialogue {
 			int quantity = SkillsDialogue.getQuantity(player);
 			if (stage == 2) {
 				if (option == 0)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 1, .10, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 88, 9, 99, 10));
+					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 1, .10, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10));
 				else if (option == 1)
 					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 5, .12, 19, 2, 38, 3, 57, 4, 76, 5, 95, 6));
 				else if (option == 2)
