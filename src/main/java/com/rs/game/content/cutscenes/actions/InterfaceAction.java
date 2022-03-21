@@ -35,7 +35,7 @@ public final class InterfaceAction extends CutsceneAction {
 	@Override
 	public void process(final Player player, Map<String, Object> objects) {
 		player.getInterfaceManager().sendInterface(interfaceId);
-		WorldTasks.schedule(delay, () -> player.getInterfaceManager().removeScreenInterface());
+		WorldTasks.schedule(delay, () -> player.getInterfaceManager().removeCentralInterface());
 	}
 
 }

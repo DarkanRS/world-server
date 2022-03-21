@@ -19,6 +19,8 @@ public class PlayerCombatInteraction extends PlayerEntityInteractionAction<Playe
 
 	@Override
 	public boolean checkAll(Player player) {
+		if (target.isDead())
+			return false;
 		setDistance(PlayerCombat.getAttackRange(player));
 		player.setNextFaceEntity(target);
 		return true;

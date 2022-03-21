@@ -19,7 +19,7 @@ package com.rs.game.content.interfacehandlers;
 import com.rs.game.model.entity.actions.Rest;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.PriceChecker;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.net.ClientPacket;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -72,7 +72,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 18)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
+				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
 		}
 	};
 
@@ -80,7 +80,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 5)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
+				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
 			else if (e.getComponentId() == 41)
 				e.getPlayer().setPrivateChatSetup(e.getPlayer().getPrivateChatSetup() == 0 ? 1 : 0);
 			else if (e.getComponentId() >= 17 && e.getComponentId() <= 36)
@@ -109,13 +109,13 @@ public class GameFrame {
 			} else if (e.getComponentId() == 12)
 				e.getPlayer().switchAllowChatEffects();
 			else if (e.getComponentId() == 13)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 982);
+				e.getPlayer().getInterfaceManager().sendSub(Sub.TAB_SETTINGS, 982);
 			else if (e.getComponentId() == 14)
 				e.getPlayer().switchMouseButtons();
 			else if (e.getComponentId() == 24) // audio options
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 429);
+				e.getPlayer().getInterfaceManager().sendSub(Sub.TAB_SETTINGS, 429);
 			else if (e.getComponentId() == 16) // house options
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS, 398);
+				e.getPlayer().getInterfaceManager().sendSub(Sub.TAB_SETTINGS, 398);
 		}
 	};
 
@@ -171,7 +171,7 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 44)
-				e.getPlayer().getInterfaceManager().setWindowsPane(e.getPlayer().getInterfaceManager().hasRezizableScreen() ? 746 : 548);
+				e.getPlayer().getInterfaceManager().setWindowsPane(e.getPlayer().resizeable() ? 746 : 548);
 			else if (e.getComponentId() == 42) {
 				e.getPlayer().getHintIconsManager().removeAll(); //TODO find hintIcon index
 				e.getPlayer().getVars().setVar(1159, 1);
@@ -210,8 +210,13 @@ public class GameFrame {
 					e.getPlayer().getSkills().switchXPDisplay();
 				else if (e.getPacket() == ClientPacket.IF_OP2)
 					e.getPlayer().getSkills().switchXPPopup();
-				else if (e.getPacket() == ClientPacket.IF_OP3)
+				else if (e.getPacket() == ClientPacket.IF_OP3) {
+					if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().getInterfaceManager().containsInventoryInter() || e.getPlayer().inCombat(10000)) {
+						e.getPlayer().sendMessage("Please finish what you're doing before opening the XP counter customizer.");
+						return;
+					}
 					e.getPlayer().getSkills().setupXPCounter();
+				}
 			} else if ((e.getInterfaceId() == 746 && e.getComponentId() == 207) || (e.getInterfaceId() == 548 && e.getComponentId() == 159))
 				if (e.getPacket() == ClientPacket.IF_OP4) {
 					if (e.getPlayer().getInterfaceManager().containsScreenInter()) {

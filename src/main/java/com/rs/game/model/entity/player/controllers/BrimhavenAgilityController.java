@@ -43,7 +43,7 @@ public final class BrimhavenAgilityController extends Controller {
 		player.getHintIconsManager().removeUnsavedHintIcon();
 		if (player.getTempAttribs().removeI("BrimhavenAgility") != -1)
 			player.getVars().setVarBit(4456, 0);
-		player.getInterfaceManager().removeWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 1 : 11);
+		player.getInterfaceManager().removeOverlay();
 	}
 
 	private void addPlayer(Player player) {
@@ -178,6 +178,6 @@ public final class BrimhavenAgilityController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setWindowInterface(player.getInterfaceManager().hasRezizableScreen() ? 1 : 11, 5);
+		player.getInterfaceManager().setOverlay(5);
 	}
 }

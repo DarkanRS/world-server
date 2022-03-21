@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.rs.game.content.dialogue.impl.StageSelectDialogue;
 import com.rs.game.content.dialogue.statements.ItemStatement;
@@ -137,9 +138,29 @@ public class Dialogue {
 			player.getInventory().addItem(item);
 		});
 	}
+	
+	public Dialogue addOptions(Consumer<Options> create) {
+		Options options = new Options() {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(null, options);
+	}
 
 	public Dialogue addOptions(Options options) {
 		return addOptions(null, options);
+	}
+	
+	public Dialogue addOptions(String title, Consumer<Options> create) {
+		Options options = new Options() {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(title, options);
 	}
 
 	public Dialogue addOptions(String title, Options options) {

@@ -200,8 +200,7 @@ public class Smelting extends PlayerAction {
 				return Utils.random(100) <= (player.getSkills().getLevel(Constants.SMITHING) >= 45 ? 80 : 50);
 			player.ringOfForgingCharges--;
 			if (player.ringOfForgingCharges <= 0) {
-				player.getEquipment().set(Equipment.RING, null);
-				player.getEquipment().refresh(Equipment.RING);
+				player.getEquipment().deleteSlot(Equipment.RING);
 				player.sendMessage("Your ring of forging disintegrates with all of the heat.");
 				player.ringOfForgingCharges = 140;
 			}

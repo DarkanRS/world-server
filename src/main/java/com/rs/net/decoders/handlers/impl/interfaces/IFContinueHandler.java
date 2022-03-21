@@ -29,7 +29,7 @@ public class IFContinueHandler implements PacketHandler<Player, IFContinue> {
 
 	@Override
 	public void handle(Player player, IFContinue packet) {
-		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || !player.isRunning() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
+		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || !player.isRunning() || !player.getInterfaceManager().topOpen(packet.getInterfaceId()))
 			return;
 		if (player.getTempAttribs().getO("pluginOption") != null && player.getTempAttribs().removeO("pluginOption") instanceof DialogueOptionEvent doe) {
 			doe.setOption(packet.getComponentId() == 11 ? 1 : packet.getComponentId()-11);

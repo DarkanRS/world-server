@@ -293,7 +293,11 @@ public class Conversation {
 	}
 
 	public void process(int interfaceId, int componentId) {
-		current = current.getNext(current.getStatement() != null ? current.getStatement().getOptionId(componentId) : 0);
+		process(current.getStatement() != null ? current.getStatement().getOptionId(componentId) : 0);
+	}
+	
+	public void process(int opIndex) {
+		current = current.getNext(opIndex);
 		if (current == null) {
 			player.endConversation();
 			return;

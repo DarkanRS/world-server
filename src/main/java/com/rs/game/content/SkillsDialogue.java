@@ -73,7 +73,7 @@ public final class SkillsDialogue {
 		setMaxQuantity(player, maxQuantity);
 		setQuantity(player, maxQuantity);
 		player.getInterfaceManager().sendChatBoxInterface(905);
-		player.getInterfaceManager().setInterface(true, 905, 4, 916);
+		player.getInterfaceManager().sendSubSpecific(true, 905, 4, 916);
 	}
 
 	public static ButtonClickHandler handleSetQuantityButtons = new ButtonClickHandler(916) {

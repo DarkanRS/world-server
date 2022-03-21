@@ -27,6 +27,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -268,10 +269,7 @@ public abstract class Familiar extends NPC {
 
 	public void sendMainConfigs() {
 		switchOrb(true);
-		owner.getVars().setVar(448, pouch.getRealPouchId());// configures
-		// familiar type
-		// based on
-		// pouch?
+		owner.getVars().setVar(448, pouch.getRealPouchId());// configures familiar type
 		owner.getVars().setVar(1160, 243269632); // sets npc emote
 		refreshSpecialEnergy();
 		sendTimeRemaining();
@@ -283,8 +281,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public void sendFollowerDetails() {
-		boolean res = owner.getInterfaceManager().hasRezizableScreen();
-		owner.getInterfaceManager().setInterface(true, res ? 746 : 548, res ? 120 : 184, 662);
+		owner.getInterfaceManager().sendSub(Sub.TAB_FOLLOWER, 662);
 		owner.getPackets().setIFHidden(662, 44, true);
 		owner.getPackets().setIFHidden(662, 45, true);
 		owner.getPackets().setIFHidden(662, 46, true);
@@ -293,7 +290,7 @@ public abstract class Familiar extends NPC {
 		owner.getPackets().setIFHidden(662, 71, false);
 		owner.getPackets().setIFHidden(662, 72, false);
 		unlock();
-		owner.getPackets().sendVarc(168, 8);// tab id
+		owner.getInterfaceManager().openTab(Sub.TAB_FOLLOWER);
 	}
 
 	public void switchOrb(boolean on) {
@@ -310,15 +307,14 @@ public abstract class Familiar extends NPC {
 	}
 
 	public static void selectLeftOption(Player player) {
-		boolean res = player.getInterfaceManager().hasRezizableScreen();
-		player.getInterfaceManager().setInterface(true, res ? 746 : 548, res ? 120 : 184, 880);
+		player.getInterfaceManager().sendSub(Sub.TAB_FOLLOWER, 880);
 		sendLeftClickOption(player);
-		player.getPackets().sendVarc(168, 8);// tab id
+		player.getInterfaceManager().openTab(Sub.TAB_FOLLOWER);
 	}
 
 	public static void confirmLeftOption(Player player) {
-		player.getPackets().sendVarc(168, 4);// inv tab id
-		player.getInterfaceManager().removeWindowInterface(120, 184);
+		player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
+		player.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
 	}
 
 	public static void setLeftclickOption(Player player, int summoningLeftClickOption) {
@@ -397,7 +393,7 @@ public abstract class Familiar extends NPC {
 		if (!logged && !isFinished()) {
 			setFinished(true);
 			switchOrb(false);
-			owner.getInterfaceManager().removeWindowInterface(98, 212);
+			owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
 			owner.getPackets().setIFTargetParamsDefault(747, 18, 0, 0);
 			if (bob != null)
 				bob.dropBob();

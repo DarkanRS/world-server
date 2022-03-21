@@ -139,6 +139,7 @@ public class QuestManager {
 	public void unlockQuestTabOptions() {
 		player.getPackets().setIFRightClickOps(190, 15, 0, 201, 0, 1, 2, 3);
 		player.getPackets().setIFTargetParams(new IFTargetParams(190, 38, 0, 3).enableRightClickOption(0));
+		player.getPackets().sendVarc(234, 0);
 		updateOptions();
 	}
 

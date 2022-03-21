@@ -343,7 +343,7 @@ public class RunespanController extends Controller {
 
 	private static void openRewards(Player player) {
 		refreshPoints(player);
-		player.getInterfaceManager().setScreenInterface(317, 1273);
+		player.getInterfaceManager().setFullscreenInterface(317, 1273);
 		player.getPackets().setIFTargetParams(new IFTargetParams(1273, 14, 0, 60).enableRightClickOptions(0, 1, 2, 3, 4));
 	}
 

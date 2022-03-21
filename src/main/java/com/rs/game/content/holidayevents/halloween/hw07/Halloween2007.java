@@ -155,7 +155,7 @@ public class Halloween2007 {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(new WorldTile(1639, 4835, 0));
-			if (e.getPlayer().getInterfaceManager().hasRezizableScreen())
+			if (e.getPlayer().resizeable())
 				e.getPlayer().getPackets().sendRunScript(2582, 2858, 0, 0); //Set bloom to false for upstairs resizeable
 		}
 	};

@@ -43,6 +43,11 @@ public final class RegionBuilder {
 			this.height = height;
 			destroyed = false;
 		}
+		
+		@Deprecated
+		public void setBase(int[] base) {
+			this.base = base;
+		}
 
 		public void requestChunkBound(Runnable callback) {
 			destroyed = false;

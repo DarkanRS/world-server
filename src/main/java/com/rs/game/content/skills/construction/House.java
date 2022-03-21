@@ -36,7 +36,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.Controller;
 import com.rs.game.model.entity.player.controllers.HouseController;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.DynamicRegion;
 import com.rs.game.region.Region;
@@ -99,7 +99,7 @@ public class House {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 19)
-				e.getPlayer().getInterfaceManager().sendTab(Tab.SETTINGS);
+				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
 			else if (e.getComponentId() == 15 || e.getComponentId() == 1)
 				e.getPlayer().getHouse().setBuildMode(e.getComponentId() == 15);
 			else if (e.getComponentId() == 25 || e.getComponentId() == 26)

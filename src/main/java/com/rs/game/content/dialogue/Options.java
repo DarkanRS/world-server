@@ -53,6 +53,22 @@ public abstract class Options {
 	public void option(String name) {
 		option(name, () -> {});
 	}
+	
+	public void add(String name, Dialogue dialogue) {
+		options.put(name, new Option(dialogue.getHead()));
+	}
+
+	public void add(String name, Runnable consumer) {
+		options.put(name, new Option(new Dialogue(null, consumer)));
+	}
+
+	public void add(Supplier<Boolean> constraint, String name, Dialogue dialogue) {
+		options.put(name, new Option(constraint, dialogue.getHead()));
+	}
+
+	public void add(String name) {
+		option(name, () -> {});
+	}
 
 	public Map<String, Option> getOptions() {
 		return options;

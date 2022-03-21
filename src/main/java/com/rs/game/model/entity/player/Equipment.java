@@ -23,9 +23,7 @@ import com.rs.game.content.EnchantedHeadwear;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
-import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.transportation.ItemTeleports;
-import com.rs.game.model.entity.BodyGlow;
 import com.rs.game.model.entity.player.managers.PriceChecker;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.tasks.WorldTasks;
@@ -44,7 +42,6 @@ import com.rs.utils.ItemWeights;
 
 @PluginEventHandler
 public final class Equipment {
-
 	public static final byte
 	HEAD = 0,
 	CAPE = 1,
@@ -364,23 +361,58 @@ public final class Equipment {
 			return -1;
 		return item.getId();
 	}
+	
+	public int getIdInSlot(int slot) {
+		Item item = items.get(slot);
+		if (item == null)
+			return -1;
+		return item.getId();
+	}
+	
+	public boolean wearingSlot(int slot, int... items) {
+		int id = getIdInSlot(slot);
+		for (int check : items)
+			if (id == check)
+				return true;
+		return false;
+	}
 
 	public Item get(int slot) {
 		return items.get(slot);
 	}
 
-	public void set(int slot, Item item) {
-		if (items.get(slot) != null)
-			PluginManager.handle(new ItemEquipEvent(player, items.get(slot), false));
-		if (item != null)
-			PluginManager.handle(new ItemEquipEvent(player, item, true));
-		items.set(slot, item);
+	public Item setSlot(int slot, Item item) {
+		Item prev = items.get(slot);
+		if (item == null && items.get(slot) == null)
+			return null;
+		if (prev != null) {
+			ItemEquipEvent dequip = new ItemEquipEvent(player, prev, false);
+			PluginManager.handle(dequip);
+			if (!dequip.isCancelled()) {
+				if (item == null) {
+					items.set(slot, null);
+					refresh(slot);
+					return prev;
+				}
+			} else
+				return new Item(-1, -1);
+		}
+		ItemEquipEvent equip = new ItemEquipEvent(player, item, true);
+		PluginManager.handle(equip);
+		if (!equip.isCancelled()) {
+			items.set(slot, item);
+			refresh(slot);
+			return prev;
+		} else
+			return new Item(-1, -1);
 	}
 
-	public void remove(int slot, Item item) {
-		if (items.get(slot) != null)
-			PluginManager.handle(new ItemEquipEvent(player, items.get(slot), false));
-		items.remove(slot, item);
+	public boolean deleteSlot(int slot) {
+		Item prev = setSlot(slot, null);
+		if (prev != null && prev.getId() == -1)
+			return false;
+		refresh(slot);
+		return true;
 	}
 
 	public void setNoPluginTrigger(int slot, Item item) {
@@ -538,7 +570,7 @@ public final class Equipment {
 						if (item.getMetaData("combatCharges") != null)
 							e.getPlayer().sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
 					} else if (e.getPacket() == ClientPacket.IF_OP1) {
-						sendRemove(e.getPlayer(), e.getSlotId());
+						remove(e.getPlayer(), e.getSlotId());
 						Equipment.refreshEquipBonuses(e.getPlayer());
 					}
 				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().removeB("Banking"))
@@ -628,22 +660,24 @@ public final class Equipment {
 		}
 	};
 
-	public static void sendRemove(Player player, int slotId) {
+	public static void remove(Player player, int slotId, boolean stopAll) {
 		if (slotId >= 15)
 			return;
 		player.stopAll(false, false);
 		Item item = player.getEquipment().getItem(slotId);
-		if (item == null || !player.getInventory().addItem(item))
+		if (item == null || !player.getInventory().hasRoomFor(item))
 			return;
-		if (item.getId() == 4657)
-			player.setNextBodyGlow(new BodyGlow(1, 0, 0, 0, 128));
-		player.getEquipment().set(slotId, null);
+		if (!player.getEquipment().deleteSlot(slotId))
+			return;
+		player.getInventory().addItem(item);
 		player.getEquipment().refresh(slotId);
 		player.getAppearance().generateAppearanceData();
-		if (Runecrafting.isTiara(item.getId()))
-			player.getVars().setVar(491, 0);
 		if (slotId == 3)
 			player.getCombatDefinitions().drainSpec(0);
+	}
+	
+	public static void remove(Player player, int slotId) {
+		remove(player, slotId, true);
 	}
 
 	public static boolean sendWear(Player player, int slotId, int itemId) {
@@ -664,13 +698,13 @@ public final class Equipment {
 			return true;
 		}
 		int targetSlot = Equipment.getItemSlot(itemId);
-		if (targetSlot == -1) {
+		if (targetSlot <= -1 || targetSlot >= Equipment.SIZE) {
 			player.sendMessage("You can't wear that.");
 			return true;
 		}
 		if (!ItemConstants.canWear(item, player))
 			return true;
-		boolean isTwoHandedWeapon = targetSlot == 3 && Equipment.isTwoHandedWeapon(item);
+		boolean isTwoHandedWeapon = targetSlot == WEAPON && Equipment.isTwoHandedWeapon(item);
 		if (isTwoHandedWeapon && !player.getInventory().hasFreeSlots() && player.getEquipment().hasShield()) {
 			player.sendMessage("Not enough free space in your inventory.");
 			return true;
@@ -678,44 +712,64 @@ public final class Equipment {
 		if (!player.getControllerManager().canEquip(targetSlot, itemId))
 			return false;
 		player.stopAll(false, false);
+		
+		if (!fireEvent(player, item, true))
+			return false;
+		if (player.getEquipment().get(targetSlot) != null && !fireEvent(player, player.getEquipment().get(targetSlot), false))
+			return false;
+		boolean dequipShield = targetSlot == WEAPON && isTwoHandedWeapon && player.getEquipment().getItem(SHIELD) != null;
+		if (dequipShield && !fireEvent(player, player.getEquipment().getItem(SHIELD), false))
+			return false;
+		boolean dequipWeapon = targetSlot == SHIELD && player.getEquipment().getItem(WEAPON) != null && Equipment.isTwoHandedWeapon(player.getEquipment().getItem(WEAPON));
+		if (dequipWeapon && !fireEvent(player, player.getEquipment().getItem(WEAPON), false))
+			return false;
+		
 		player.getInventory().deleteItem(slotId, item);
-		if (targetSlot == 3) {
-			if (isTwoHandedWeapon && player.getEquipment().getItem(5) != null) {
-				if (!player.getInventory().addItem(player.getEquipment().getItem(5))) {
-					player.getInventory().getItems().set(slotId, item);
-					player.getInventory().refresh(slotId);
-					return true;
-				}
-				player.getEquipment().set(5, null);
+		
+		if (dequipShield) {
+			if (!player.getInventory().addItem(player.getEquipment().getItem(SHIELD))) {
+				player.getInventory().getItems().set(slotId, item);
+				player.getInventory().refresh(slotId);
+				return true;
 			}
-		} else if (targetSlot == 5)
-			if (player.getEquipment().getItem(3) != null && Equipment.isTwoHandedWeapon(player.getEquipment().getItem(3))) {
-				if (!player.getInventory().addItem(player.getEquipment().getItem(3))) {
-					player.getInventory().getItems().set(slotId, item);
-					player.getInventory().refresh(slotId);
-					return true;
-				}
-				player.getEquipment().set(3, null);
+			player.getEquipment().setNoPluginTrigger(SHIELD, null);
+		} else if (dequipWeapon) {
+			if (!player.getInventory().addItem(player.getEquipment().getItem(WEAPON))) {
+				player.getInventory().getItems().set(slotId, item);
+				player.getInventory().refresh(slotId);
+				return true;
 			}
+			player.getEquipment().setNoPluginTrigger(WEAPON, null);
+		}
+		
 		if (player.getEquipment().getItem(targetSlot) != null && (itemId != player.getEquipment().getItem(targetSlot).getId() || !item.getDefinitions().isStackable())) {
 			if (player.getInventory().getItems().get(slotId) == null && !item.getDefinitions().isStackable()) {
 				player.getInventory().getItems().set(slotId, new Item(player.getEquipment().getItem(targetSlot)));
 				player.getInventory().refresh(slotId);
 			} else
 				player.getInventory().addItem(new Item(player.getEquipment().getItem(targetSlot)));
-			player.getEquipment().set(targetSlot, null);
+			player.getEquipment().setNoPluginTrigger(targetSlot, null);
 		}
 		int oldAmt = 0;
 		if (player.getEquipment().getItem(targetSlot) != null)
 			oldAmt = player.getEquipment().getItem(targetSlot).getAmount();
 		Item item2 = new Item(itemId, oldAmt + item.getAmount(), item.getMetaData());
-		player.getEquipment().set(targetSlot, item2);
-		player.getEquipment().refresh(targetSlot, targetSlot == 3 ? 5 : targetSlot == 3 ? 0 : 3);
+		player.getEquipment().setNoPluginTrigger(targetSlot, item2);
+		player.getEquipment().refresh(targetSlot, targetSlot == WEAPON ? SHIELD : targetSlot == WEAPON ? 0 : WEAPON);
+		
 		player.getAppearance().generateAppearanceData();
 		player.getPackets().sendVarc(779, player.getAppearance().getRenderEmote());
 		player.getPackets().sendSound(2240, 0, 1);
-		if (targetSlot == 3)
+		if (targetSlot == WEAPON)
 			player.getCombatDefinitions().drainSpec(0);
+		return true;
+	}
+
+	private static boolean fireEvent(Player player, Item item, boolean equip) {
+		ItemEquipEvent wear = new ItemEquipEvent(player, item, equip);
+		PluginManager.handle(wear);
+		if (wear.isCancelled())
+			return false;
 		return true;
 	}
 

@@ -47,7 +47,7 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 		if (mapObject == null || mapObject.getId() != packet.getObjectId())
 			return;
 		final GameObject object = mapObject;
-		if (player.isDead() || Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || player.isLocked() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
+		if (player.isDead() || Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || player.isLocked() || !player.getInterfaceManager().topOpen(packet.getInterfaceId()))
 			return;
 		player.stopAll();
 		if (packet.isForceRun())

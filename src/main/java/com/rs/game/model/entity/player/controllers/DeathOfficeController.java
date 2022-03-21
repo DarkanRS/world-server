@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.others.GraveStone;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTasks;
@@ -158,7 +158,7 @@ public class DeathOfficeController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().closeTabs(Tab.COMBAT, Tab.ACHIEVEMENT, Tab.SKILLS, Tab.INVENTORY, Tab.EQUIPMENT, Tab.PRAYER, Tab.MAGIC, Tab.EMOTES);
+		player.getInterfaceManager().removeSubs(Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_EMOTES);
 	}
 
 	public void loadRoom() {
@@ -315,7 +315,7 @@ public class DeathOfficeController extends Controller {
 	public void magicTeleported(int type) {
 		destroyRoom();
 		player.getPackets().setBlockMinimapState(0);
-		player.getInterfaceManager().sendTabs(Tab.COMBAT, Tab.ACHIEVEMENT, Tab.SKILLS, Tab.INVENTORY, Tab.EQUIPMENT, Tab.PRAYER, Tab.MAGIC, Tab.EMOTES);
+		player.getInterfaceManager().sendSubDefaults(Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_EMOTES);
 		removeController();
 	}
 

@@ -17,6 +17,7 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.SetScreenSize;
 
@@ -26,12 +27,14 @@ public class SetScreenSizeHandler implements PacketHandler<Player, SetScreenSize
 	public void handle(Player player, SetScreenSize packet) {
 		player.setScreenWidth(packet.getWidth());
 		player.setScreenHeight(packet.getHeight());
-		if (!player.hasStarted() || player.hasFinished() || packet.getDisplayMode() == player.getDisplayMode() || !player.getInterfaceManager().containsInterface(742))
+		if (!player.hasStarted() || player.hasFinished() || !player.getInterfaceManager().topOpen(742))
 			return;
-		player.setDisplayMode(packet.getDisplayMode());
-		player.getInterfaceManager().removeAll();
-		player.getInterfaceManager().sendInterfaces();
-		player.getInterfaceManager().sendInterface(742);
+		ScreenMode mode = ScreenMode.forId(packet.getDisplayMode());
+		if (mode == null) {
+			player.sendMessage("Invalid screen mode: " + packet.getDisplayMode());
+			return;
+		}
+		player.getInterfaceManager().switchDisplayModes(mode);
 	}
 
 }
