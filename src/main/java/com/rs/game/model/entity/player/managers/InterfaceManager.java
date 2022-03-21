@@ -59,37 +59,33 @@ public class InterfaceManager {
 	public enum Sub {
 						/* GAME WINDOWS */
 						CENTRAL(29, 44),
-						FULL_GAMESPACE2(1, 3),
-						FULL_GAMESPACE(12, 3), //TODO conflict FULL_GAMESPACE
-						FADING(13, 15), 
+						//CENTRAL_SMALL(10, 44),
 						
-						ABOVE_CHATBOX(25, 42), //Tutorial island
+						FULL_GAMESPACE_BG(2, 28),
+						FULL_GAMESPACE_BG2(11, 29),
+						MINIGAME_HUD(12, 47),
 						
-						LEVEL_UP(44, 28),
-						FULLSCREEN_BG(44, 249), //TODO conflict LEVEL_UP
-						FULLSCREEN_BG_FG(45, 204),
+						FADING(13, 48),
 						
+						ABOVE_CHATBOX(27, 43),
 						
-						ACHIEVEMENT_NOTIF(13, 271), //TODO conflict FADING
-		
+						LEVEL_UP(35, 46),
+						ACHIEVEMENT_NOTIF(41, 271),
+						
+						FULLSCREEN_BG(42, 15),
+						FULLSCREEN_BG2(44, 17),
+						
+						FULLSCREEN_FG(45, 18),
+						FULLSCREEN_FG2(46, 204),
+								
 						/* HUD */
 						CHATBOX(22, 168, CHATBOX_TOP),
 						CHATBAR_SETTINGS(23, 53, 751, p -> p.getInterfaceManager().sendChatBoxInterface(9, 137)),
 						MULTICOMBAT_SIGN(16, 40, 745),
 						SYSTEM_UPDATE(25, 42, 754),
 						LOGOUT(130, 194, 182),
-						XP_DROPS(39, 16) {
-							@Override
-							public int getDefaultInterfaceId(Player p) {
-								return p.getSkills().xpDropsActive() ? 1213 : -1;
-							}
-						},
-						XP_COUNTER(28, 29) {
-							@Override
-							public int getDefaultInterfaceId(Player p) {
-								return p.getSkills().xpCounterOpen() ? 1215 : -1;
-							}
-						},
+						XP_DROPS(39, 16, 1213, p -> p.getPackets().setIFHidden(p.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, p.resizeable() ? 39 : 16, !p.getSkills().xpDropsActive())),
+						XP_COUNTER(202, 50, 1215),
 		
 						/* TABS */
 		/* CONFIRMED */	ORB_HP(196, 160, 748),
@@ -127,8 +123,10 @@ public class InterfaceManager {
 		
 		static {
 			for (Sub sub : Sub.values()) {
-				BY_HASH.put(Utils.toInterfaceHash(FIXED_TOP, sub.fixed), sub);
-				BY_HASH.put(Utils.toInterfaceHash(RESIZEABLE_TOP, sub.resizeable), sub);
+				if (BY_HASH.put(Utils.toInterfaceHash(FIXED_TOP, sub.fixed), sub) != null)
+					System.err.println("Duplicate fixed hash for: " + sub + " - " + sub.fixed);
+				if (BY_HASH.put(Utils.toInterfaceHash(RESIZEABLE_TOP, sub.resizeable), sub) != null)
+					System.err.println("Duplicate resizeable hash for: " + sub + " - " + sub.resizeable);
 			}
 		}
 		
@@ -165,6 +163,10 @@ public class InterfaceManager {
 
 		public int getDefaultInterfaceId(Player player) {
 			return defaultInter;
+		}
+
+		public int getHash(ScreenMode oldMode) {
+			return Utils.toInterfaceHash(oldMode.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, oldMode.resizeable() ? resizeable : fixed);
 		}
 	}
 
@@ -205,9 +207,9 @@ public class InterfaceManager {
 	}
 	
 	public void sendSubSpecific(boolean clickThrough, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
-		System.out.println(parentInterfaceId + " - " + parentInterfaceComponentId + " - " + interfaceId + " - " + clickThrough);
+		//System.out.println(parentInterfaceId + " - " + parentInterfaceComponentId + " - " + interfaceId + " - " + clickThrough);
 		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
-		getInterfaceParentId(interfaceId);
+		//int parentId = getInterfaceParentId(interfaceId);
 
 		Integer oldInterface = openedInterfaces.get(parentComponentUID);
 		if (oldInterface != null)
@@ -215,6 +217,18 @@ public class InterfaceManager {
 
 		openedInterfaces.put(parentComponentUID, interfaceId);
 		player.getPackets().sendInterface(clickThrough, parentInterfaceId, parentInterfaceComponentId, interfaceId);
+	}
+	
+	public void removeSubSpecific(int parentInterfaceId, int parentInterfaceComponentId) {
+		removeInterfaceByParent(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
+	}
+
+	public void removeInterfaceByParent(int parentUID) {
+		Integer removedInterface = openedInterfaces.remove(parentUID);
+		if (removedInterface != null) {
+			clearChilds(removedInterface);
+			player.getPackets().closeInterface(parentUID);
+		}
 	}
 	
 	public static int getComponentUId(int interfaceId, int componentId) {
@@ -230,18 +244,6 @@ public class InterfaceManager {
 				return key;
 		}
 		return -1;
-	}
-
-	public void removeSubSpecific(int parentInterfaceId, int parentInterfaceComponentId) {
-		removeInterfaceByParent(getComponentUId(parentInterfaceId, parentInterfaceComponentId));
-	}
-
-	public void removeInterfaceByParent(int parentUID) {
-		Integer removedInterface = openedInterfaces.remove(parentUID);
-		if (removedInterface != null) {
-			clearChilds(removedInterface);
-			player.getPackets().closeInterface(parentUID);
-		}
 	}
 
 	private void clearChilds(int parentInterfaceId) {
@@ -366,17 +368,23 @@ public class InterfaceManager {
 	public final void switchDisplayModes(ScreenMode screenMode) {
 		if (player.getScreenMode() == screenMode)
 			return;
-		player.setScreenMode(screenMode);
 		Map<Integer, Integer> old = new HashMap<>(openedInterfaces);
-		openedInterfaces.clear();
-		setDefaultTopInterface();
-		sendChatBoxInterface(9, 137);
-		if (player.getFamiliar() != null && player.isRunning())
-			player.getFamiliar().unlock();
 		for (int parentUid : old.keySet()) {
 			Sub sub = Sub.forHash(parentUid);
 			if (sub != null)
-				sendSub(sub, old.get(parentUid));
+				removeSub(sub);
+		}
+		ScreenMode oldMode = player.getScreenMode();
+		player.setScreenMode(screenMode);
+		openedInterfaces.clear();
+		setDefaultTopInterface();
+		if (player.getFamiliar() != null && player.isRunning())
+			player.getFamiliar().unlock();
+		for (Sub sub : Sub.values()) {
+			sendSubDefault(sub);
+			Integer prev = old.get(sub.getHash(oldMode));
+			if (prev != null && prev != sub.defaultInter)
+				sendSub(sub, prev, sub == Sub.CENTRAL ? false : true);
 		}
 	}
 
@@ -409,7 +417,6 @@ public class InterfaceManager {
 	}
 
 	public void setDefaultTopInterface() {
-		System.out.println(player.resizeable());
 		setTopInterface(player.resizeable() ? RESIZEABLE_TOP : FIXED_TOP, false);
 	}
 
@@ -457,8 +464,8 @@ public class InterfaceManager {
 	public void setFullscreenInterface(int backgroundInterface, int interfaceId) {
 		removeCentralInterface();
 		sendSub(Sub.FULLSCREEN_BG, backgroundInterface, false);
-		sendSub(Sub.FULLSCREEN_BG_FG, interfaceId, false);
-		player.setCloseInterfacesEvent(() -> removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG_FG));
+		sendSub(Sub.FULLSCREEN_BG2, interfaceId, false);
+		player.setCloseInterfacesEvent(() -> removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG2));
 	}
 
 	public int getTopInterface() {
@@ -492,19 +499,19 @@ public class InterfaceManager {
 	}
 	
 	public void sendBackgroundInterfaceOverGameWindow(int id) {
-		// TODO Auto-generated method stub
+		sendSub(Sub.FULLSCREEN_BG, id);
 	}
 
 	public void sendForegroundInterfaceOverGameWindow(int id) {
-		// TODO Auto-generated method stub
+		sendSub(Sub.FULLSCREEN_BG2, id);
 	}
 	
 	public void closeInterfacesOverGameWindow() {
-		// TODO Auto-generated method stub
+		removeSubs(Sub.FULLSCREEN_BG, Sub.FULLSCREEN_BG2);
 	}
 
 	public void removeOverlay(boolean fullGameWindow) {
-		// TODO Auto-generated method stub
+		removeSub(fullGameWindow ? Sub.FULL_GAMESPACE_BG2 : Sub.MINIGAME_HUD);
 	}
 
 	public void removeOverlay() {
@@ -512,7 +519,7 @@ public class InterfaceManager {
 	}
 
 	public void setOverlay(int id, boolean fullGameWindow) {
-		// TODO Auto-generated method stub
+		sendSub(fullGameWindow ? Sub.FULL_GAMESPACE_BG2 : Sub.MINIGAME_HUD, id);
 	}
 
 	public void setOverlay(int id) {

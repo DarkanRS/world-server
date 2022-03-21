@@ -629,7 +629,6 @@ public class Player extends Entity {
 		this.account = account;
 		uuid = getUsername().hashCode();
 		this.screenMode = ScreenMode.forId(screenMode);
-		System.out.println(this.screenMode);
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.machineInformation = machineInformation;

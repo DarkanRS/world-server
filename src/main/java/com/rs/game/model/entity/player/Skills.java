@@ -531,8 +531,7 @@ public final class Skills {
 	}
 
 	public void setupXPCounter() {
-		player.getInterfaceManager().sendSub(Sub.XP_COUNTER, 1214);
-		xpDisplay = true;
+		player.getInterfaceManager().sendInterface(1214);
 	}
 
 	public void refreshCurrentCounter() {
@@ -571,7 +570,7 @@ public final class Skills {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 18)
-				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.XP_COUNTER);
+				e.getPlayer().closeInterfaces();
 			else if (e.getComponentId() >= 22 && e.getComponentId() <= 24)
 				e.getPlayer().getSkills().setCurrentCounter(e.getComponentId() - 22);
 			else if (e.getComponentId() == 27)
@@ -596,10 +595,6 @@ public final class Skills {
 
 	public void switchXPDisplay() {
 		xpDisplay = !xpDisplay;
-		if (xpDisplay)
-			player.getInterfaceManager().sendSub(Sub.XP_COUNTER, 1215);
-		else
-			player.getInterfaceManager().removeSub(Sub.XP_COUNTER);
 	}
 
 	public void switchXPPopup() {

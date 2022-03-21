@@ -68,7 +68,7 @@ public final class QueenBlackDragonController extends Controller {
 				player.getPackets().sendVarc(184, 150);
 				player.getPackets().sendVarc(1924, 0);
 				player.getPackets().sendVarc(1925, 0);
-				player.getInterfaceManager().sendSub(Sub.FULL_GAMESPACE2, 1285);
+				player.getInterfaceManager().sendSub(Sub.FULL_GAMESPACE_BG, 1285);
 				player.getMusicsManager().playSongAndUnlock(1119); // AWOKEN
 			});
 		});
@@ -98,7 +98,7 @@ public final class QueenBlackDragonController extends Controller {
 					player.setNextWorldTile(base.transform(31, 36, -1));
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
-					player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE2);
+					player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
 					player.unlock();
 					old.destroy();
 				});
@@ -292,7 +292,7 @@ public final class QueenBlackDragonController extends Controller {
 		player.setForceMultiArea(false);
 		player.setLargeSceneView(false);
 		if (type == 0) {
-			player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE2);
+			player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
 			player.getPackets().sendVarc(184, -1);
 		} else
 			player.getTile().setLocation(OUTSIDE);

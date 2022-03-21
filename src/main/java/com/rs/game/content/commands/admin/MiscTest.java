@@ -783,7 +783,7 @@ public class MiscTest {
 			if (Integer.valueOf(args[1]) > Utils.getInterfaceDefinitionsComponentsSize(p.resizeable() ? InterfaceManager.RESIZEABLE_TOP : InterfaceManager.FIXED_TOP))
 				return;
 			if (p.getNSV().getI("prevWinterCmd", -1) != -1)
-				p.getInterfaceManager().removeGameWindowSub(Integer.valueOf(args[1]), Integer.valueOf(args[1]));
+				p.getInterfaceManager().removeGameWindowSub(p.getNSV().getI("prevWinterCmd", -1), p.getNSV().getI("prevWinterCmd", -1));
 			//inter 115 to test well
 			p.getNSV().setI("prevWinterCmd", Integer.valueOf(args[1]));
 			p.getInterfaceManager().sendGameWindowSub(Integer.valueOf(args[1]), Integer.valueOf(args[1]), Integer.valueOf(args[0]), true);
