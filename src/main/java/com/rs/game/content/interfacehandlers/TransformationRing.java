@@ -17,7 +17,7 @@
 package com.rs.game.content.interfacehandlers;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -70,7 +70,7 @@ public class TransformationRing {
 		player.stopAll(true, true, true);
 		player.lock();
 		player.getAppearance().transformIntoNPC(npcId);
-		player.getInterfaceManager().sendTab(Tab.INVENTORY, 375);
+		player.getInterfaceManager().sendSub(Sub.TAB_INVENTORY, 375);
 		player.getTempAttribs().setB("TransformationRing", true);
 	}
 
@@ -79,7 +79,7 @@ public class TransformationRing {
 		player.unlock();
 		player.setNextAnimation(new Animation(14884));
 		player.getAppearance().transformIntoNPC(-1);
-		player.getInterfaceManager().sendTab(Tab.INVENTORY);
+		player.getInterfaceManager().sendSubDefault(Sub.TAB_INVENTORY);
 	}
 
 	public static void triggerDeactivation(Player player) {

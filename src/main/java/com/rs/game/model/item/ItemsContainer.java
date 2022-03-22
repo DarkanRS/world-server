@@ -219,7 +219,7 @@ public final class ItemsContainer<T extends Item> {
 		return count;
 	}
 
-	public Item[] getItems() {
+	public Item[] array() {
 		return data;
 	}
 

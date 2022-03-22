@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -221,7 +221,7 @@ public class Enchanting {
 	}
 
 	public static void handleEnchanting(Player player, Item item, int comp1) {
-		player.getInterfaceManager().openGameTab(Tab.MAGIC);
+		player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
 		if (!player.canCastSpell())
 			return;
 		switch (comp1) {

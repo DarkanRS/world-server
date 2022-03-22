@@ -30,7 +30,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -318,17 +317,15 @@ public class FarmPatch {
 	}
 
 	public void promptClear(Player player) {
-		player.sendOptionDialogue("Do you really want to clear the patch?", new String[] { "Yes, I'd like to clear it.", "No thanks." }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				if (option == 1) {
-					player.setNextAnimation(SPADE_ANIMATION);
-					if (seed != null && seed.type == PatchType.TREE && lives == -1)
-						player.getInventory().addItemDrop(seed.productId.getId(), 1);
-					empty();
-					updateVars(player);
-				}
-			}
+		player.sendOptionDialogue("Do you really want to clear the patch?", ops -> {
+			ops.add("Yes, I'd like to clear it.", () -> {
+				player.setNextAnimation(SPADE_ANIMATION);
+				if (seed != null && seed.type == PatchType.TREE && lives == -1)
+					player.getInventory().addItemDrop(seed.productId.getId(), 1);
+				empty();
+				updateVars(player);
+			});
+			ops.add("No thanks.");
 		});
 	}
 

@@ -142,8 +142,7 @@ public class RunecraftingCombinations {
 							if (e.getPlayer().getEquipment().getAmuletId() == BINDING_NECKLACE) {
 								e.getPlayer().bindingNecklaceCharges--;
 								if (e.getPlayer().bindingNecklaceCharges <= 0) {
-									e.getPlayer().getEquipment().set(Equipment.NECK, null);
-									e.getPlayer().getEquipment().refresh(Equipment.NECK);
+									e.getPlayer().getEquipment().deleteSlot(Equipment.NECK);
 									e.getPlayer().sendMessage("Your binding necklace disintegrates.");
 									e.getPlayer().bindingNecklaceCharges = 15;
 								};

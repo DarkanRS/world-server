@@ -245,7 +245,7 @@ public final class Inventory {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++)
-			if (itemsBefore[index] != items.getItems()[index])
+			if (itemsBefore[index] != items.array()[index])
 				changedSlots[count++] = index;
 		int[] finalChangedSlots = new int[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);
@@ -298,6 +298,8 @@ public final class Inventory {
 		freeSlots += freedSlots;
 		int neededSlots = 0;
 		for (Item i : adding) {
+			if (i == null)
+				continue;
 			if (i.getDefinitions().isStackable() && (getNumberOf(i.getId()) + i.getAmount()) <= 0)
 				return false;
 			if (!i.getDefinitions().isStackable() || (i.getDefinitions().isStackable() && getNumberOf(i.getId(), false) <= 0))
@@ -307,7 +309,7 @@ public final class Inventory {
 	}
 
 	public Item getItemById(int id) {
-		for (Item item : items.getItems())
+		for (Item item : items.array())
 			if (item != null && item.getId() == id)
 				return item;
 		return null;
@@ -370,7 +372,7 @@ public final class Inventory {
 	public boolean missingItems(int... itemIds) {
 		for (int itemId : itemIds) {
 			boolean found = false;
-			for (Item item : items.getItems()) {
+			for (Item item : items.array()) {
 				if (item == null)
 					continue;
 				if (item.getId() == itemId)
@@ -436,7 +438,7 @@ public final class Inventory {
 
 	public void refreshConfigs() {
 		double w = 0;
-		for (Item item : items.getItems()) {
+		for (Item item : items.array()) {
 			if (item == null)
 				continue;
 			w += ItemWeights.getWeight(item, false);

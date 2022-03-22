@@ -25,7 +25,7 @@ public class LightSource {
 	private static final int[][] LIGHT_SOURCES = { { 596, 36, 38, 4529, 4522, 4537, 7051, 4548, 5014, 4701 }, { 594, 33, 32, 4534, 4524, 4539, 7053, 4550, 5013, 4702 } };
 
 	public static boolean hasExplosiveSource(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			int slot = getSlot(item.getId(), false);
@@ -38,7 +38,7 @@ public class LightSource {
 	public static boolean hasPermenantSource(Player player) {
 		if (player.getInventory().containsOneItem(14631, 14662, 14663, 19763) || player.getEquipment().containsOneItem(14631, 14662, 14663, 19763))
 			return true;
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			int slot = getSlot(item.getId(), false);

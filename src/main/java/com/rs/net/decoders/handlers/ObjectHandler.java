@@ -54,8 +54,8 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.construction.EnterHouse;
 import com.rs.game.content.skills.cooking.Cooking;
-import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
+import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.content.skills.crafting.Jewelry;
 import com.rs.game.content.skills.crafting.SandBucketFill;
 import com.rs.game.content.skills.crafting.Silver;
@@ -80,8 +80,6 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.AgilityPyramidController;
-import com.rs.game.model.entity.player.controllers.DamonheimController;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.game.model.entity.player.controllers.FalconryController;
 import com.rs.game.model.entity.player.controllers.FightCavesController;
 import com.rs.game.model.entity.player.controllers.FightKilnController;
@@ -128,60 +126,14 @@ public final class ObjectHandler {
 
 			if (!player.getControllerManager().processObjectClick1(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
-			//				if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, false)))
-			//					return;
 
-
-			if (object.getId() == 29355) {
-				player.useStairs(828, new WorldTile(player.getX(), player.getY() - 6400, 0), 1, 2);
-				return;
-			}
-			if(object.getId() == 37117) {
-				player.useStairs(-1, new WorldTile(object.getX()-2, player.getY(), 0), 1, 2);
-				return;
-			}
-			if (object.getId() == 7434) {
-				player.useStairs(828, new WorldTile(3682, 9961, 0), 1, 2);
-				return;
-			} else if (object.getId() == 7433) {
-				player.useStairs(828, new WorldTile(3681, 3497, 0), 1, 2);
-				return;
-			} else if (object.getId() == 25337) {
-				player.setNextWorldTile(new WorldTile(1744, 5321, 1));
-				return;
-			} else if (object.getId() == 39468) {
-				player.setNextWorldTile(new WorldTile(1745, 5325, 0));
-				return;
-			} else if (id == 50552) {
-				if (player.getControllerManager().getController() instanceof DungeonController)
-					player.getControllerManager().removeControllerWithoutCheck();
-				player.setNextForceMovement(new ForceMovement(object, 1, Direction.NORTH));
-				player.getPackets().sendVarc(234, 0);// Party Config Interface
-				player.getControllerManager().startController(new DamonheimController());
-				player.useStairs(13760, new WorldTile(3454, 3725, 0), 2, 3);
-			} else if (object.getId() == 68) {
-				if (player.getInventory().containsItem(28)) {
-					if (player.getInventory().containsItem(1925)) {
-						player.setNextAnimation(new Animation(833));
-						player.lock(1);
-						player.getInventory().deleteItem(1925, 1);
-						player.getInventory().addItem(30, 1);
-					} else
-						player.sendMessage("You need a bucket to gather the wax into.");
-				} else {
-					player.setNextAnimation(new Animation(833));
-					player.lock(1);
-					player.setNextForceTalk(new ForceTalk("Ouch!"));
-					player.applyHit(new Hit(10, HitLook.TRUE_DAMAGE));
-					player.sendMessage("The bees sting your hands as you reach inside!");
-				}
-			} else if (object.getId() == 5259) {
+			if (object.getId() == 5259) {
 				if (player.getY() == 3507)
 					player.setNextWorldTile(new WorldTile(player.getX(), player.getY() + 2, 0));
 				else if (player.getY() == 3509)
 					player.setNextWorldTile(new WorldTile(player.getX(), player.getY() - 2, 0));
 				return;
-			}else if (object.getId() == 29099) {
+			} else if (object.getId() == 29099) {
 				if (player.getY() > object.getY())
 					player.setNextWorldTile(object.transform(1, -1, 0));
 				else
@@ -264,12 +216,6 @@ public final class ObjectHandler {
 			}
 
 			if (object.getId() == 48496)
-				//					if (player.getInventory().getFreeSlots() == 28 && !player.getEquipment().wearingArmour() && !player.hasFamiliar()) {
-				//						player.getDialogueManager().execute(new DungFloorSelectD", player);
-				//					} else {
-				//						player.sendMessage("You cannot bring familiars, armour, or items into dungeoneering.");
-				//					}
-				//					return;
 				player.getDungManager().enterDungeon(true);
 			else if (id == 31149) {
 				boolean isEntering = player.getX() <= 3295;
@@ -1546,24 +1492,6 @@ public final class ObjectHandler {
 				return;
 			else
 				switch (objectDef.getName().toLowerCase()) {
-				case "obelisk":
-					if (objectDef.getOption(1).equalsIgnoreCase("Renew-points")) {
-						if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
-							player.sendMessage("You touch the obelisk", true);
-							player.setNextAnimation(new Animation(8502));
-							World.sendSpotAnim(null, new SpotAnim(1308), object);
-							WorldTasks.schedule(new WorldTask() {
-
-								@Override
-								public void run() {
-									player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
-									player.sendMessage("...and recharge your summoning points.", true);
-								}
-							}, 2);
-						}
-						return;
-					}
-					break;
 				case "trapdoor":
 				case "closed chest":
 					if (objectDef.containsOption(0, "Open")) {
@@ -1813,7 +1741,7 @@ public final class ObjectHandler {
 			case "bank table":
 			case "counter":
 				if (def.containsOption(2, "Collect") || def.containsOption(2, "Use")) {
-					//						player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, new DialogueOptionEvent() {
+					//						player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, ops -> {
 					//							@Override
 					//							public void run(Player player) {
 					//								if (option == 1) {

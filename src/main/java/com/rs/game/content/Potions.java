@@ -836,6 +836,10 @@ public class Potions {
 				player.sendMessage("You drink some of your " + ItemDefinitions.getDefs(itemId).name.toLowerCase().replace(" (1)", "").replace(" (2)", "").replace(" (3)", "").replace(" (4)", "").replace(" (5)", "").replace(" (6)", "") + ".", true);
 			}
 		}
+		
+		public Consumer<Player> getEffect() {
+			return effect;
+		}
 
 		public int[] getIds() {
 			return ids;

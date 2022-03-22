@@ -474,7 +474,7 @@ public class StealingCreationController extends Controller {
 			return false;
 		}
 		if (object.getId() == 39533) {
-			for (Item item : player.getInventory().getItems().getItems()) {
+			for (Item item : player.getInventory().getItems().array()) {
 				if (item == null)
 					continue;
 				game.sendItemToBase(player, item, getTeam(), false, true);
@@ -858,7 +858,7 @@ public class StealingCreationController extends Controller {
 							killer.sendMessage("You have killed " + player.getDisplayName() + ", you now have " + killerScore.getKilled() + " kills.");
 						player.sendMessage("You have been killed by " + killer.getDisplayName());
 					}
-					player.getEquipment().set(Equipment.CAPE, null);
+					player.getEquipment().deleteSlot(Equipment.CAPE);
 					player.sendItemsOnDeath(killer, true);
 					player.setNextWorldTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
 					player.stopAll();

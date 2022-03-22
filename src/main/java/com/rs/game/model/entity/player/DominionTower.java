@@ -446,7 +446,7 @@ public final class DominionTower {
 
 	public void openEnduranceMode() {
 		selectBoss();
-		player.getInterfaceManager().setScreenInterface(96, 1173);
+		player.getInterfaceManager().setFullscreenInterface(96, 1173);
 		player.getPackets().setIFText(1173, 25, BOSSES[getNextBossIndex()].name); // current
 		player.getPackets().setIFText(1173, 38, String.valueOf(progress + 1)); // current
 		player.getPackets().setIFText(1173, 52, "None. Good luck :o."); // current

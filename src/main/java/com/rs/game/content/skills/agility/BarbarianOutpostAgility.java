@@ -22,7 +22,7 @@ import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -298,7 +298,7 @@ public class BarbarianOutpostAgility {
 				@Override
 				public void run() {
 					e.getPlayer().stopAll();
-					e.getPlayer().getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.MAGIC, Tab.EMOTES, Tab.EQUIPMENT, Tab.PRAYER);
+					e.getPlayer().getInterfaceManager().removeSubs(Sub.TAB_INVENTORY, Sub.TAB_MAGIC, Sub.TAB_EMOTES, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER);
 					e.getPlayer().unlock();
 					e.getPlayer().setNextWorldTile(toTile);
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
@@ -322,7 +322,7 @@ public class BarbarianOutpostAgility {
 				@Override
 				public void run() {
 					e.getPlayer().unlock();
-					e.getPlayer().getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.MAGIC, Tab.EMOTES, Tab.EQUIPMENT, Tab.PRAYER);
+					e.getPlayer().getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_MAGIC, Sub.TAB_EMOTES, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER);
 					e.getPlayer().setNextWorldTile(new WorldTile(2538, 3553, 2));
 					e.getPlayer().setNextAnimation(new Animation(2588));
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);

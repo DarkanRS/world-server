@@ -64,25 +64,20 @@ public class ChaosElementalCombat extends CombatScript {
 					public void run() {
 						int num = player.getInventory().getFreeSlots();
 						if (num > 0) {
-							if (player.getEquipment().getWeaponId() != -1) {
-								player.getInventory().addItem(player.getEquipment().getItem(Equipment.WEAPON).getId(), player.getEquipment().getItem(Equipment.WEAPON).getAmount(), true);
-								player.getEquipment().set(Equipment.WEAPON, null);
-								player.getEquipment().refresh(Equipment.WEAPON);
+							if (player.getEquipment().getWeaponId() != -1)
+								Equipment.remove(player, Equipment.WEAPON, false);
+							if (num <= 1) {
+								player.getAppearance().generateAppearanceData();
+								return;
 							}
-							if (num > 1) {
-								int i = -1;
-								while(i < Equipment.SIZE && player.getInventory().hasFreeSlots()) {
-									i++;
-									if (i == 3)
-										continue;
-									if (player.getInventory().getFreeSlots() <= 0)
-										break;
-									if (player.getEquipment().getItem(i) != null) {
-										player.getInventory().addItem(player.getEquipment().getItem(i).getId(), player.getEquipment().getItem(i).getAmount(), true);
-										player.getEquipment().set(i, null);
-										player.getEquipment().refresh(i);
-									}
-								}
+							int i = -1;
+							while (i < Equipment.SIZE && player.getInventory().hasFreeSlots()) {
+								i++;
+								if (i == 3)
+									continue;
+								if (player.getInventory().getFreeSlots() <= 0)
+									break;
+								Equipment.remove(player, i, false);
 							}
 							player.getAppearance().generateAppearanceData();
 						}

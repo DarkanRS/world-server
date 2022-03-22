@@ -21,7 +21,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
@@ -33,7 +32,6 @@ public class PrayerBooks {
 	private static final int[] PAGE_BASE = { 3827, 3831, 3835, 19600, 19604, 19608 };
 
 	private static final String[][] CHANTS = {
-
 			{ "In the name of Saradomin, protector of us all, I now join you in the eyes of Saradomin.", "Thy cause was false, thy skills did lack; see you in Lumbridge when you get back.", "Go in peace in the name of Saradomin; may his glory shine upon you like the sun.", "Protect your self, protect your friends. Mine is the glory that never ends. This is Saradomin's wisdom.", "The darkness in life may be avoided, by the light of wisdom shining. This is Saradomin's wisdom.", "Show love to your friends, and mercy to your enemies, and know that the wisdom of Saradomin will follow. This is Saradomin's wisdom.", "A fight begun, when the cause is just, will prevail over all others. This is Saradomin's wisdom." },
 
 			{ "Two great warriors, joined by hand, to spread destruction across the land. In Zamorak's name, now two are one.", "The weak deserve to die, so the strong may flourish. This is the will of Zamorak.", "May your bloodthirst never be sated, and may all your battles be glorious. Zamorak bring you strength.", "Battles are not lost and won; They simply remove the weak from the equation. Zamorak give me strength!", "Those who fight, then run away, shame Zamorak with their cowardice. Zamorak give me strength!", "Battle is my calling, and death shall be my rest. Zamorak give me strength!", "Strike fast, strike hard, strike true: The strength of Zamorak will be with you. Zamorak give me strength!", "There is no opinion that cannot be proven true, by crushing those who choose to disagree with it. Zamorak give me strength!", },
@@ -82,23 +80,38 @@ public class PrayerBooks {
 
 	public static void handleSermon(Player player, final int bookId) {
 		final int god = (bookId - (bookId > 5000 ? BOOKS[3] - 6 : BOOKS[0])) / 2;
-		player.sendOptionDialogue("Select a relevant passage.", new String[] { "Wedding Ceremony", "Last Rites", "Blessings", "Preach" }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				option--;
-				if (option < 0 || option > 3)
-					return;
-				String[] passages = CHANTS[god];
-				String message = passages[option];
-
-				if (option == 3)
-					if (passages.length > 3)
-						message = passages[3 + Utils.random(passages.length - 3)];
+		final String[] passages = CHANTS[god];
+		player.sendOptionDialogue("Select a relevant passage.", ops -> {
+			ops.add("Wedding Ceremony", () -> {
+				String message = passages[0];
 				int animation = ANIMATIONS[god];
 				if (animation != -1)
 					player.setNextAnimation(new Animation(animation));
 				player.setNextForceTalk(new ForceTalk(message));
-			}
+			});
+			ops.add("Last Rites", () -> {
+				String message = passages[0];
+				int animation = ANIMATIONS[god];
+				if (animation != -1)
+					player.setNextAnimation(new Animation(animation));
+				player.setNextForceTalk(new ForceTalk(message));
+			});
+			ops.add("Blessings", () -> {
+				String message = passages[0];
+				int animation = ANIMATIONS[god];
+				if (animation != -1)
+					player.setNextAnimation(new Animation(animation));
+				player.setNextForceTalk(new ForceTalk(message));
+			});
+			ops.add("Preach", () -> {
+				String message = passages[0];
+				if (passages.length > 3)
+					message = passages[3 + Utils.random(passages.length - 3)];
+				int animation = ANIMATIONS[god];
+				if (animation != -1)
+					player.setNextAnimation(new Animation(animation));
+				player.setNextForceTalk(new ForceTalk(message));
+			});
 		});
 	}
 }

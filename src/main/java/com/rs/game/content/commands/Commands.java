@@ -38,7 +38,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-import com.rs.plugin.events.DialogueOptionEvent;
+
 
 public final class Commands {
 
@@ -136,12 +136,9 @@ public final class Commands {
 			return true;
 
 		case "resethouse":
-			p.sendOptionDialogue("Delete your house?", new String[] { "Yes", "No fuck that shit" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						player.getHouse().reset();
-				}
+			p.sendOptionDialogue("Delete your house?", ops -> {
+				ops.add("Yes", () -> p.getHouse().reset());
+				ops.add("No");
 			});
 			return true;
 

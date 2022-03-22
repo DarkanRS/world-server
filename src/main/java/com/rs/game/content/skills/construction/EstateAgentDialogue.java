@@ -26,7 +26,6 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -83,15 +82,13 @@ public class EstateAgentDialogue extends Conversation {
 	public void promptHouseLocation(final String name, final HouseConstants.POHLocation loc, int level, final int cost) {
 		if (player.getSkills().getLevelForXp(Constants.CONSTRUCTION) >= level) {
 			if (player.getInventory().containsItem(995, cost))
-				player.sendOptionDialogue("Are you sure?", new String[] {"Yes", "No, that's too much money."}, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1) {
-							player.getInventory().deleteItem(995, cost);
-							player.getHouse().setLocation(loc);
-							player.sendMessage("Your house location been set to "+name+".");
-						}
-					}
+				player.sendOptionDialogue("Are you sure?", ops -> {
+					ops.add("Yes", () -> {
+						player.getInventory().deleteItem(995, cost);
+						player.getHouse().setLocation(loc);
+						player.sendMessage("Your house location been set to "+name+".");
+					});
+					ops.add("No, that's too much money.");
 				});
 			else {
 				player.sendMessage("You don't have enough money.");
@@ -104,15 +101,13 @@ public class EstateAgentDialogue extends Conversation {
 	public void promptHouseChange(final String name, final int look, int level, final int cost) {
 		if (player.getSkills().getLevelForXp(Constants.CONSTRUCTION) >= level) {
 			if (player.getInventory().containsItem(995, cost))
-				player.sendOptionDialogue("Are you sure?", new String[] {"Yes", "No, that's too much money."}, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1) {
-							player.getInventory().deleteItem(995, cost);
-							player.getHouse().changeLook(look);
-							player.sendMessage("Your house has been set to "+name+".");
-						}
-					}
+				player.sendOptionDialogue("Are you sure?", ops -> {
+					ops.add("Yes", () -> {
+						player.getInventory().deleteItem(995, cost);
+						player.getHouse().changeLook(look);
+						player.sendMessage("Your house has been set to "+name+".");
+					});
+					ops.add("No, that's too much money.");
 				});
 			else {
 				player.sendMessage("You don't have enough money.");

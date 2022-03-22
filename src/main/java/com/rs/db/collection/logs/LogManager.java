@@ -99,10 +99,10 @@ public class LogManager extends DBItemManager {
 	public void logTrade(Player player1, Trade p1Trade, Player p2, Trade p2Trade) {
 		List<Item> p1Items = new ArrayList<>();
 		List<Item> p2Items = new ArrayList<>();
-		for (Item item : p1Trade.getItems().getItems())
+		for (Item item : p1Trade.getItems().array())
 			if (item != null)
 				p1Items.add(item);
-		for (Item item : p2Trade.getItems().getItems())
+		for (Item item : p2Trade.getItems().array())
 			if (item != null)
 				p2Items.add(item);
 		if (p1Items.size() > 0 || p2Items.size() > 0) {

@@ -132,7 +132,7 @@ public class Offer {
 
 	public void sendItems(Player player) {
 		player.getPackets().sendItems(523+box, processedItems);
-		if (player.getInterfaceManager().containsInterface(105)) {
+		if (player.getInterfaceManager().topOpen(105)) {
 			player.getPackets().setIFTargetParams(new IFTargetParams(105, 206, -1, 0).enableRightClickOptions(0,1));
 			player.getPackets().setIFTargetParams(new IFTargetParams(105, 208, -1, 0).enableRightClickOptions(0,1));
 		}

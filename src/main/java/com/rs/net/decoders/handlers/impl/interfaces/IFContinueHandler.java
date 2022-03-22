@@ -23,21 +23,13 @@ import com.rs.lib.net.packets.decoders.interfaces.IFContinue;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 
 public class IFContinueHandler implements PacketHandler<Player, IFContinue> {
 
 	@Override
 	public void handle(Player player, IFContinue packet) {
-		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || !player.isRunning() || !player.getInterfaceManager().containsInterface(packet.getInterfaceId()))
+		if (Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId() || !player.isRunning() || !player.getInterfaceManager().topOpen(packet.getInterfaceId()))
 			return;
-		if (player.getTempAttribs().getO("pluginOption") != null && player.getTempAttribs().removeO("pluginOption") instanceof DialogueOptionEvent doe) {
-			doe.setOption(packet.getComponentId() == 11 ? 1 : packet.getComponentId()-11);
-			if (player.getInterfaceManager().containsChatBoxInter())
-				player.getInterfaceManager().closeChatBoxInterface();
-			doe.run(player);
-			return;
-		}
 		if (player.getConversation() != null) {
 			player.getConversation().process(packet.getInterfaceId(), packet.getComponentId());
 			return;

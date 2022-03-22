@@ -37,10 +37,9 @@ public class KuradalDungeonController extends Controller {
 		public void handle(ItemClickEvent e) {
 			if (Magic.sendItemTeleportSpell(e.getPlayer(), true, 9603, 1684, 3, new WorldTile(1739, 5312, 1)))
 				if (e.getItem().getId() == 15402) {
-					if (e.isEquipped()) {
-						e.getPlayer().getEquipment().set(Equipment.RING, null);
-						e.getPlayer().getEquipment().refresh(Equipment.RING);
-					} else
+					if (e.isEquipped())
+						e.getPlayer().getEquipment().deleteSlot(Equipment.RING);
+					else
 						e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
 				} else {
 					e.getItem().setId(e.getItem().getId()+1);

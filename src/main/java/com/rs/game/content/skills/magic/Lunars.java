@@ -28,7 +28,7 @@ import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.FillAction.Filler;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.Region;
 import com.rs.lib.Constants;
@@ -70,7 +70,7 @@ public class Lunars {
 	}
 
 	public static boolean hasUnstrungs(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			if (getStrungIndex(item.getId()) != -1)
@@ -172,7 +172,7 @@ public class Lunars {
 	}
 
 	public static void handlePlankMake(Player player, Item item) {
-		player.getInterfaceManager().openGameTab(Tab.MAGIC);
+		player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
 		if (!player.canCastSpell())
 			return;
 		int index = getPlankIdx(item.getId());
@@ -220,7 +220,7 @@ public class Lunars {
 	}
 
 	public static void fillFillables(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			Filler fill = Filler.forId((short) item.getId());
@@ -233,7 +233,7 @@ public class Lunars {
 	}
 
 	public static boolean hasFillables(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			Filler fill = Filler.forId((short) item.getId());
@@ -249,7 +249,7 @@ public class Lunars {
 				player.setNextSpotAnim(new SpotAnim(728, 0, 100));
 				player.setNextAnimation(new Animation(4412));
 				player.getSkills().addXp(Constants.MAGIC, 87);
-				for (Item item : player.getInventory().getItems().getItems()) {
+				for (Item item : player.getInventory().getItems().array()) {
 					if (item == null)
 						continue;
 					int strungId = getStrungIndex(item.getId());

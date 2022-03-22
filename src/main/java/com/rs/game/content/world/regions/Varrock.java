@@ -18,10 +18,10 @@ package com.rs.game.content.world.regions;
 
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementDef;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
-import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
+import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.dialogue.Conversation;
@@ -59,7 +59,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -180,6 +179,13 @@ public class Varrock {
 			}
 			if(e.getOption().equalsIgnoreCase("trade"))
 				ShopsHandler.openShop(e.getPlayer(), "helmet_shop");
+		}
+	};
+	
+	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useStairs(-1, new WorldTile(e.getObject().getX()-2, e.getPlayer().getY(), 0), 1, 2);
 		}
 	};
 
@@ -458,11 +464,8 @@ public class Varrock {
 				}
 				final int finalAmount = amount;
 				final int cost = 7000 * amount;
-				e.getPlayer().sendOptionDialogue("Buy " + amount + " battlestaves for " + Utils.formatNumber(cost) + " coins?", new String[] { "Yes", "No thanks." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 2)
-							return;
+				e.getPlayer().sendOptionDialogue("Buy " + amount + " battlestaves for " + Utils.formatNumber(cost) + " coins?", ops -> {
+					ops.add("Yes", () -> {
 						if (!e.getPlayer().getInventory().containsItem(995, cost)) {
 							e.getPlayer().sendMessage("You don't have enough money for that.");
 							return;
@@ -470,7 +473,8 @@ public class Varrock {
 						e.getPlayer().getInventory().deleteItem(995, cost);
 						e.getPlayer().getInventory().addItemDrop(1392, finalAmount);
 						e.getPlayer().setDailyI("naffStavesBought", e.getPlayer().getDailyI("naffStavesBought") + finalAmount);
-					}
+					});
+					ops.add("Not thanks.");
 				});
 			});
 		}

@@ -30,6 +30,7 @@ public class ItemEquipEvent implements PluginEvent {
 	private Player player;
 	private Item item;
 	private boolean equipping;
+	private boolean cancelled = false;
 
 	public ItemEquipEvent(Player player, Item item, boolean equipping) {
 		this.player = player;
@@ -43,6 +44,10 @@ public class ItemEquipEvent implements PluginEvent {
 
 	public Item getItem() {
 		return item;
+	}
+	
+	public void cancel() {
+		cancelled = true;
 	}
 
 	public boolean equip() {
@@ -69,5 +74,9 @@ public class ItemEquipEvent implements PluginEvent {
 			if (old != null)
 				System.err.println("ERROR: Duplicate ItemEquip methods for key: " + key);
 		}
+	}
+
+	public boolean isCancelled() {
+		return cancelled;
 	}
 }

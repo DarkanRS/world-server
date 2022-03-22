@@ -32,7 +32,7 @@ public class EquipAndRemoveItems  {
 		public void handle(ItemClickEvent e) {
 			switch(e.getOption()) {
 			case "Remove":
-				Equipment.sendRemove(e.getPlayer(), Equipment.getItemSlot(e.getItem().getId()));
+				Equipment.remove(e.getPlayer(), Equipment.getItemSlot(e.getItem().getId()));
 				break;
 			case "Wear":
 			case "Wield":

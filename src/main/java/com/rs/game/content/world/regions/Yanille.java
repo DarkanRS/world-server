@@ -27,7 +27,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -84,30 +83,21 @@ public class Yanille {
 		public void handle(ObjectClickEvent e) {
 			switch(e.getObjectId()) {
 			case 2518:
-				e.getPlayer().sendOptionDialogue("Teleport to Thormac's Tower?", new String[] { "Yes, teleport me to Thormac's Tower.", "Not right now." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(new WorldTile(2702, 3403, 0));
-					}
+				e.getPlayer().sendOptionDialogue("Teleport to Thormac's Tower?", ops -> {
+					ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().setNextWorldTile(new WorldTile(2702, 3403, 0)));
+					ops.add("Not right now.");
 				});
 				break;
 			case 2156:
-				e.getPlayer().sendOptionDialogue("Teleport to the Wizard's Tower?", new String[] { "Yes, teleport me to the Wizard's Tower.", "Not right now." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(new WorldTile(3109, 3164, 0));
-					}
+				e.getPlayer().sendOptionDialogue("Teleport to the Wizard's Tower?", ops -> {
+					ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(new WorldTile(3109, 3164, 0)));
+					ops.add("Not right now.");
 				});
 				break;
 			case 2157:
-				e.getPlayer().sendOptionDialogue("Teleport to the Dark Wizard's Tower?", new String[] { "Yes, teleport me to the Dark Wizard's Tower.", "Not right now." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(new WorldTile(2906, 3334, 0));
-					}
+				e.getPlayer().sendOptionDialogue("Teleport to the Dark Wizard's Tower?", ops -> {
+					ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(new WorldTile(2906, 3334, 0)));
+					ops.add("Not right now.");
 				});
 				break;
 			}

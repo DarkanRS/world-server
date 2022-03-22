@@ -239,7 +239,7 @@ public class FishingTrawler {
 			player.getControllerManager().forceStop();
 			player.sendMessage("Murphy turns the boat towards shore.");
 			ItemsContainer<Item> items = Rewards.generateRewards(player.getSkills().getLevel(Skills.FISHING), fishCaught);
-			for(Item item : items.getItems()) {
+			for(Item item : items.array()) {
 				if(item == null) continue;
 				if(player.getTrawlerRewards() == null)
 					player.setTrawlerRewards(new ItemsContainer<>(28, true));
@@ -266,15 +266,8 @@ public class FishingTrawler {
 		player.setNextWorldTile(CRASHED_SHIP.getRandomTile());
 		player.getControllerManager().forceStop();
 		player.getControllerManager().startController(new FishingTrawlerCrashedController());
-		if((player.getEquipment().getWeaponId() != -1 || player.getEquipment().getShieldId() != -1) && player.getInventory().getFreeSlots() > 0) {
-			player.getInventory().addItem(player.getEquipment().getItem(Equipment.WEAPON));
-			player.getEquipment().set(Equipment.WEAPON, null);
-			if(player.getEquipment().getShieldId() != -1 && player.getInventory().getFreeSlots() > 0) {
-				player.getInventory().addItem(player.getEquipment().getItem(Equipment.SHIELD));
-				player.getEquipment().set(Equipment.SHIELD, null);
-			}
-			player.getEquipment().refresh(Equipment.WEAPON, Equipment.SHIELD);
-		}
+		Equipment.remove(player, Equipment.WEAPON);
+		Equipment.remove(player, Equipment.SHIELD);
 		player.getAppearance().setBAS(152);
 	}
 
@@ -468,11 +461,11 @@ public class FishingTrawler {
 			int amount = e.getPacket() == ClientPacket.IF_OP1 ? 1 : -1;
 			if(e.getPacket() == ClientPacket.IF_OP3) {
 				e.getPlayer().getTrawlerRewards().set(e.getSlotId(), null);
-				e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().getItems());
+				e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().array());
 				return;
 			}
 			e.getPlayer().getTrawlerRewards().set(e.getSlotId(), amount == -1 ? null : new Item(item.getId(), item.getAmount() -  1));
-			e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().getItems());
+			e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().array());
 			e.getPlayer().getInventory().addItem(item.getId(), amount == -1 ? item.getAmount() : amount);
 		}
 	};
@@ -492,7 +485,7 @@ public class FishingTrawler {
 			e.getPlayer().getPackets().setIFTargetParams(params);
 			e.getPlayer().getPackets().sendInterSetItemsOptionsScript(REWARDS_INTERFACE, REWARDS_CONTAINER, REWARDS_KEY, 4, 7, "Withdraw-1", "Withdraw-all", "Discard-all", "Examine");
 			e.getPlayer().setCloseInterfacesEvent(() -> {
-				for(final Item item : e.getPlayer().getTrawlerRewards().getItems()) {
+				for(final Item item : e.getPlayer().getTrawlerRewards().array()) {
 					if(item == null) continue;
 					World.addGroundItem(item, new WorldTile(e.getPlayer().getTile()), e.getPlayer(), false, 180);
 				}

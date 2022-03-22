@@ -38,7 +38,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -155,7 +154,7 @@ public class Halloween2007 {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(new WorldTile(1639, 4835, 0));
-			if (e.getPlayer().getInterfaceManager().hasRezizableScreen())
+			if (e.getPlayer().resizeable())
 				e.getPlayer().getPackets().sendRunScript(2582, 2858, 0, 0); //Set bloom to false for upstairs resizeable
 		}
 	};
@@ -385,30 +384,23 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleCouch = new ObjectClickHandler(new Object[] { 27252 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().sendOptionDialogue("Where do you want to search?", new String[] { "Under the sofa", "Under the cushions" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1) {
-						player.lock();
-						WorldTasks.schedule(new WorldTask() {
-							int stage = 0;
-							@Override
-							public void run() {
-								if (stage == 0)
-									player.setNextAnimation(new Animation(7271));
-								else if (stage == 1)
-									World.sendSpotAnim(null, new SpotAnim(1244, 0, 0, 2), e.getPlayer().transform(-1, 0, 0));
-								else if (stage == 4) {
-									player.startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
-									player.unlock();
-									stop();
-								}
-								stage++;
-							}
-						}, 0, 0);
-					} else
-						searchItem(e.getPlayer(), HUMAN_EYE, "You found someone's eye.");
-				}
+			e.getPlayer().sendOptionDialogue("Where do you want to search?", ops -> {
+				ops.add("Under the sofa", () -> {
+					e.getPlayer().lock();
+					WorldTasks.scheduleTimer(stage -> {
+						if (stage == 0)
+							e.getPlayer().setNextAnimation(new Animation(7271));
+						else if (stage == 1)
+							World.sendSpotAnim(null, new SpotAnim(1244, 0, 0, 2), e.getPlayer().transform(-1, 0, 0));
+						else if (stage == 4) {
+							e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
+							e.getPlayer().unlock();
+							return false;
+						}
+						return true;
+					});
+				});
+				ops.add("Under the cushions", () -> searchItem(e.getPlayer(), HUMAN_EYE, "You found someone's eye."));
 			});
 		}
 	};
@@ -430,28 +422,21 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleFishTank = new ObjectClickHandler(new Object[] { 27253 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().sendOptionDialogue("Where do you want to search?", new String[] { "To the left", "To the right" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1) {
-						player.lock();
-						WorldTasks.schedule(new WorldTask() {
-							int stage = 0;
-							@Override
-							public void run() {
-								if (stage == 0)
-									player.setNextAnimation(new Animation(7271));
-								else if (stage == 4) {
-									player.startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
-									player.unlock();
-									stop();
-								}
-								stage++;
-							}
-						}, 0, 0);
-					} else
-						searchItem(e.getPlayer(), HUMAN_BONES, "You found some bones. They look decidedly human.");
-				}
+			e.getPlayer().sendOptionDialogue("Where do you want to search?", ops -> {
+				ops.add("To the left", () -> {
+					e.getPlayer().lock();
+					WorldTasks.scheduleTimer(stage -> {
+						if (stage == 0)
+							e.getPlayer().setNextAnimation(new Animation(7271));
+						else if (stage == 4) {
+							e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
+							e.getPlayer().unlock();
+							return false;
+						}
+						return true;
+					});
+				});
+				ops.add("To the right", () -> searchItem(e.getPlayer(), HUMAN_BONES, "You found some bones. They look decidedly human."));
 			});
 		}
 	};
@@ -505,14 +490,12 @@ public class Halloween2007 {
 							handlePassGargoyleEntry(e.getPlayer(), e.getObject());
 							return;
 						}
-						e.getPlayer().sendOptionDialogue("If you leave, the items will be returned to where you found them. Leave?", new String[] { "Yes", "No, I'll finish first." }, new DialogueOptionEvent() {
-							@Override
-							public void run(Player player) {
-								if (option == 1) {
-									ctrl.removeItems();
-									ctrl.resetReturnedItems();
-								}
-							}
+						e.getPlayer().sendOptionDialogue("If you leave, the items will be returned to where you found them. Leave?", ops -> {
+							ops.add("Yes", () -> {
+								ctrl.removeItems();
+								ctrl.resetReturnedItems();
+							});
+							ops.add("No, I'll finish first.");
 						});
 					}
 				} else
@@ -552,31 +535,27 @@ public class Halloween2007 {
 				e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 			Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
 			e.getPlayer().lock();
-			WorldTasks.schedule(new WorldTask() {
-				int stage = 0;
-				@Override
-				public void run() {
-					if (stage == 0) {
-						e.getPlayer().faceObject(e.getObject());
-						e.getPlayer().addWalkSteps(e.getPlayer().transform(0, -1, 0), 1, false);
-						WorldTile camTile = new WorldTile(1638, 4827, 0);
-						e.getPlayer().getPackets().sendCameraPos(e.getPlayer(), camTile, 2000);
-						e.getPlayer().getPackets().sendCameraLook(e.getPlayer(), e.getPlayer().transform(-2, 0, 0), 2000);
-					} else if (stage == 1)
-						e.getPlayer().setNextAnimation(new Animation(7274));
-					else if (stage == 9) {
-						e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, -1, 0));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, new WorldTile(1642, 4819, 0), 2));
-					} else if (stage == 12) {
-						e.getPlayer().setNextWorldTile(new WorldTile(1642, 4819, 0));
-						e.getPlayer().unlock();
-						e.getPlayer().getPackets().sendResetCamera();
-						ctrl.setRodeSlide(true);
-						stop();
-					}
-					stage++;
+			WorldTasks.scheduleTimer(stage -> {
+				if (stage == 0) {
+					e.getPlayer().faceObject(e.getObject());
+					e.getPlayer().addWalkSteps(e.getPlayer().transform(0, -1, 0), 1, false);
+					WorldTile camTile = new WorldTile(1638, 4827, 0);
+					e.getPlayer().getPackets().sendCameraPos(e.getPlayer(), camTile, 2000);
+					e.getPlayer().getPackets().sendCameraLook(e.getPlayer(), e.getPlayer().transform(-2, 0, 0), 2000);
+				} else if (stage == 1)
+					e.getPlayer().setNextAnimation(new Animation(7274));
+				else if (stage == 9) {
+					e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, -1, 0));
+					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, new WorldTile(1642, 4819, 0), 2));
+				} else if (stage == 12) {
+					e.getPlayer().setNextWorldTile(new WorldTile(1642, 4819, 0));
+					e.getPlayer().unlock();
+					e.getPlayer().getPackets().sendResetCamera();
+					ctrl.setRodeSlide(true);
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 		}
 	};
 
@@ -586,28 +565,24 @@ public class Halloween2007 {
 			WorldTile toTile = new WorldTile(SPRINGBOARD_PAIRS.get(e.getObject().getTileHash()));
 			boolean toSlime = e.getObject().isAt(1624, 4822);
 			e.getPlayer().lock();
-			WorldTasks.schedule(new WorldTask() {
-				int stage = 0;
-				@Override
-				public void run() {
-					if (stage == 0)
-						e.getPlayer().addWalkSteps(e.getObject(), 1, false);
-					else if (stage == 1) {
-						World.sendObjectAnimation(e.getObject(), new Animation(7268));
-						e.getPlayer().setNextAnimation(new Animation(toSlime ? 7269 : 7268));
-						if (toSlime) {
-							e.getPlayer().getAppearance().setBAS(616);
-							e.getPlayer().blockRun();
-						}
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 1));
-					} else if (stage == 2) {
-						e.getPlayer().setNextWorldTile(toTile);
-						e.getPlayer().unlock();
-						stop();
+			WorldTasks.scheduleTimer(stage -> {
+				if (stage == 0)
+					e.getPlayer().addWalkSteps(e.getObject(), 1, false);
+				else if (stage == 1) {
+					World.sendObjectAnimation(e.getObject(), new Animation(7268));
+					e.getPlayer().setNextAnimation(new Animation(toSlime ? 7269 : 7268));
+					if (toSlime) {
+						e.getPlayer().getAppearance().setBAS(616);
+						e.getPlayer().blockRun();
 					}
-					stage++;
+					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 1));
+				} else if (stage == 2) {
+					e.getPlayer().setNextWorldTile(toTile);
+					e.getPlayer().unlock();
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 		}
 	};
 
@@ -615,25 +590,21 @@ public class Halloween2007 {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().lock();
-			WorldTasks.schedule(new WorldTask() {
-				int stage = 0;
-				@Override
-				public void run() {
-					if (stage == 0)
-						e.getPlayer().faceObject(e.getObject());
-					else if (stage == 1) {
-						e.getPlayer().setNextAnimation(new Animation(7273));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getPlayer().transform(0, 2, 0), 5));
-						e.getPlayer().getAppearance().setBAS(-1);
-					} else if (stage == 6) {
-						e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, 2, 0));
-						e.getPlayer().unlock();
-						e.getPlayer().unblockRun();
-						stop();
-					}
-					stage++;
+			WorldTasks.scheduleTimer(stage -> {
+				if (stage == 0)
+					e.getPlayer().faceObject(e.getObject());
+				else if (stage == 1) {
+					e.getPlayer().setNextAnimation(new Animation(7273));
+					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getPlayer().transform(0, 2, 0), 5));
+					e.getPlayer().getAppearance().setBAS(-1);
+				} else if (stage == 6) {
+					e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, 2, 0));
+					e.getPlayer().unlock();
+					e.getPlayer().unblockRun();
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 		}
 	};
 
@@ -679,25 +650,21 @@ public class Halloween2007 {
 			player.getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) player.getControllerManager().getController();
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-			int stage = 0;
-			@Override
-			public void run() {
-				if (stage == 0)
-					player.setNextAnimation(TAKE_ITEM);
-				else if (stage == 2) {
-					player.unlock();
-					if (itemId == -1 || player.getInventory().containsItem(itemId) || ctrl.isItemReturned(itemId))
-						player.startConversation(new Dialogue().addSimple(findText));
-					else {
-						player.getInventory().addItem(itemId, 1);
-						player.startConversation(new Dialogue().addItem(itemId, findText));
-					}
-					stop();
+		WorldTasks.scheduleTimer(stage -> {
+			if (stage == 0)
+				player.setNextAnimation(TAKE_ITEM);
+			else if (stage == 2) {
+				player.unlock();
+				if (itemId == -1 || player.getInventory().containsItem(itemId) || ctrl.isItemReturned(itemId))
+					player.startConversation(new Dialogue().addSimple(findText));
+				else {
+					player.getInventory().addItem(itemId, 1);
+					player.startConversation(new Dialogue().addItem(itemId, findText));
 				}
-				stage++;
+				return false;
 			}
-		}, 0, 0);
+			return true;
+		});
 	}
 
 	public static void handlePassGargoyleEntry(Player player, GameObject object) {

@@ -17,17 +17,17 @@
 package com.rs.game.model.entity.npc.dungeoneering;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
-import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -38,8 +38,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-
 
 public final class DivineSkinweaver extends DungeonBoss {
 
@@ -65,7 +63,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 	public DivineSkinweaver(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager, reference);
 		holeClosed = new boolean[5];
-		skeletons = Collections.synchronizedList(new ArrayList<DungeonSkeletonBoss>());
+		skeletons = new CopyOnWriteArrayList<>();
 		setIgnoreDocile(true);
 		setForceAgressive(true);
 	}

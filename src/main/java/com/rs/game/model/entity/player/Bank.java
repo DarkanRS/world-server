@@ -29,7 +29,7 @@ import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
 import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.entity.npc.familiar.Familiar;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Tab;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
@@ -160,7 +160,7 @@ public class Bank {
 							return;
 						e.getPlayer().getBank().setLastX(amount);
 						e.getPlayer().getBank().refreshLastX();
-						e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().containsInterface(11) ? false : true);
+						e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().topOpen(11) ? false : true);
 					});
 				else if (e.getPacket() == ClientPacket.IF_OP6)
 					e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, true);
@@ -280,7 +280,7 @@ public class Bank {
 		Familiar familiar = player.getFamiliar();
 		if (familiar == null || familiar.getBob() == null)
 			return;
-		int space = addItems(familiar.getBob().getBeastItems().getItems(), banking);
+		int space = addItems(familiar.getBob().getBeastItems().array(), banking);
 		if (space != 0) {
 			for (int i = 0; i < space; i++)
 				familiar.getBob().getBeastItems().set(i, null);
@@ -295,17 +295,16 @@ public class Bank {
 	public void depositAllEquipment(boolean banking) {
 		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
-		int space = addItems(player.getEquipment().getItemsCopy(), banking);
-		if (space != 0) {
-			for (int i = 0; i < space; i++)
-				player.getEquipment().set(i, null);
-			player.getEquipment().init();
-			player.getAppearance().generateAppearanceData();
+		for (int i = 0;i < Equipment.SIZE;i++) {
+			Item prev = player.getEquipment().setSlot(i, null);
+			if (prev == null || prev.getId() == -1)
+				continue;
+			if (addItems(new Item[] { prev }, banking) <= 0) {
+				player.sendMessage("Not enough space in your bank.");
+				break;
+			}
 		}
-		if (space < Equipment.SIZE) {
-			player.sendMessage("Not enough space in your bank.");
-			return;
-		}
+		player.getAppearance().generateAppearanceData();
 	}
 
 	public void collapse(int tabId) {
@@ -414,13 +413,13 @@ public class Bank {
 		player.getTempAttribs().setB("viewingOtherBank", false);
 		player.getTempAttribs().setB("viewingDepositBox", true);
 		player.getInterfaceManager().sendInterface(11);
-		player.getInterfaceManager().closeTabs(Tab.INVENTORY, Tab.EQUIPMENT);
-		player.getInterfaceManager().openGameTab(Tab.FRIENDS);
+		player.getInterfaceManager().removeSubs(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
+		player.getInterfaceManager().openTab(Sub.TAB_FRIENDS);
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
 		player.setCloseInterfacesEvent(() -> {
-			player.getInterfaceManager().sendTabs(Tab.INVENTORY, Tab.EQUIPMENT);
-			player.getInterfaceManager().openGameTab(Tab.INVENTORY);
+			player.getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
+			player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
 			player.getTempAttribs().setB("viewingDepositBox", false);
 		});
 	}
@@ -441,6 +440,7 @@ public class Bank {
 	public void openPinSettings() {
 		if (!checkPin())
 			return;
+		player.endConversation();
 		player.getTempAttribs().setB("settingPin", false);
 		player.getTempAttribs().setB("cancellingPin", false);
 		player.getTempAttribs().setB("changingPin", false);
@@ -478,7 +478,7 @@ public class Bank {
 		player.getTempAttribs().setI("prevPin", -1);
 		player.getPackets().setIFText(13, 27, "Bank of " + Settings.getConfig().getServerName());
 		player.getInterfaceManager().sendInterface(13);
-		player.getInterfaceManager().setInterface(false, 13, 5, 759);
+		player.getInterfaceManager().sendSubSpecific(false, 13, 5, 759);
 		player.getPackets().sendVarc(98, bankPin == 0 ? 0 : 1);
 		player.getVars().setVarBit(1010, 1, true);
 		player.getVars().syncVarsToClient();

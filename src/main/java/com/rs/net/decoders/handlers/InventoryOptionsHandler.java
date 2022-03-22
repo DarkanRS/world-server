@@ -38,11 +38,11 @@ import com.rs.game.content.skills.Fletching;
 import com.rs.game.content.skills.Fletching.Fletch;
 import com.rs.game.content.skills.cooking.CookingCombos;
 import com.rs.game.content.skills.cooking.Foods;
-import com.rs.game.content.skills.cooking.FruitCuttingD;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
+import com.rs.game.content.skills.cooking.FruitCuttingD;
 import com.rs.game.content.skills.crafting.GemCutting;
-import com.rs.game.content.skills.crafting.GemTipCutting;
 import com.rs.game.content.skills.crafting.GemCutting.Gem;
+import com.rs.game.content.skills.crafting.GemTipCutting;
 import com.rs.game.content.skills.crafting.GemTipCutting.GemTips;
 import com.rs.game.content.skills.dungeoneering.DungeonRewards;
 import com.rs.game.content.skills.farming.TreeSaplings;
@@ -54,8 +54,8 @@ import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.content.skills.magic.Lunars;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.prayer.Burying.Bone;
+import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.smithing.GodSwordCreation;
@@ -667,7 +667,7 @@ public class InventoryOptionsHandler {
 			if (npc instanceof Familiar) {
 				if (npc.getId() == 7339 || npc.getId() == 7339)
 					if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {
-						for (Item i : player.getInventory().getItems().getItems()) {
+						for (Item i : player.getInventory().getItems().array()) {
 							if (i == null)
 								continue;
 							if (i.getId() >= 1704 && i.getId() <= 1710 && i.getId() % 2 == 0)

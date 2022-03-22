@@ -30,6 +30,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
@@ -42,19 +43,20 @@ import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.ItemConstants.ItemDegrade;
 import com.rs.game.content.Notes;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.Toolbelt;
-import com.rs.game.content.ItemConstants.ItemDegrade;
 import com.rs.game.content.Toolbelt.Tools;
 import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.content.books.Book;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.dialogues_matrix.StartDialogue;
 import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
@@ -112,6 +114,8 @@ import com.rs.game.model.entity.player.managers.DialogueManager;
 import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.game.model.entity.player.managers.HintIconsManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.managers.MusicsManager;
 import com.rs.game.model.entity.player.managers.PrayerManager;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
@@ -150,7 +154,6 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
@@ -240,7 +243,7 @@ public class Player extends Entity {
 	// transient stuff
 	private transient Session session;
 	private transient long clientLoadedMapRegion;
-	private transient int displayMode;
+	private transient ScreenMode screenMode;
 	private transient int screenWidth;
 	private transient int screenHeight;
 	private transient Conversation conversation;
@@ -620,13 +623,13 @@ public class Player extends Entity {
 		resetLodestones();
 	}
 
-	public void init(Session session, Account account, int displayMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
+	public void init(Session session, Account account, int screenMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
 		if (getTile() == null)
 			setTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
 		this.session = session;
 		this.account = account;
 		uuid = getUsername().hashCode();
-		this.displayMode = displayMode;
+		this.screenMode = ScreenMode.forId(screenMode);
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.machineInformation = machineInformation;
@@ -788,11 +791,11 @@ public class Player extends Entity {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
 				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().getItems())
+					for (Item item : getFamiliar().getBob().getBeastItems().array())
 						if (item != null)
 							if (ItemConstants.isDungItem(item.getId()))
 								getFamiliar().getBob().getBeastItems().remove(item);
-		for (Item item : getInventory().getItems().getItems())
+		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isDungItem(item.getId()))
 					getInventory().deleteItem(item);
@@ -811,11 +814,11 @@ public class Player extends Entity {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
 				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().getItems())
+					for (Item item : getFamiliar().getBob().getBeastItems().array())
 						if (item != null)
 							if (ItemConstants.isHouseOnlyItem(item.getId()))
 								getFamiliar().getBob().getBeastItems().remove(item);
-		for (Item item : getInventory().getItems().getItems())
+		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isHouseOnlyItem(item.getId()))
 					getInventory().deleteItem(item);
@@ -935,7 +938,7 @@ public class Player extends Entity {
 
 	public void closeInterfaces() {
 		if (interfaceManager.containsScreenInter())
-			interfaceManager.removeScreenInterface();
+			interfaceManager.removeCentralInterface();
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.removeInventoryInterface();
 		endConversation();
@@ -1054,8 +1057,7 @@ public class Player extends Entity {
 					continue;
 				for (ItemDegrade d : ItemDegrade.values())
 					if ((d.getItemId() == item.getId() || d.getDegradedId() == item.getId()) && item.getMetaData() == null) {
-						getEquipment().set(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
-						getEquipment().refresh(i);
+						getEquipment().setSlot(i, new Item(d.getDegradedId() != -1 ? d.getDegradedId() : d.getItemId(), item.getAmount()).addMetaData("combatCharges", d.getDefaultCharges()));
 						sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has slightly degraded!");
 						break;
 					}
@@ -1070,9 +1072,7 @@ public class Player extends Entity {
 							}
 						if (deg != null) {
 							if (deg.getBrokenId() == 4207) {
-
-								getEquipment().set(i, null);
-								getEquipment().refresh(i);
+								getEquipment().deleteSlot(i);
 								getAppearance().generateAppearanceData();
 								if (getInventory().hasFreeSlots()) {
 									getInventory().addItem(4207, 1);
@@ -1083,13 +1083,11 @@ public class Player extends Entity {
 								}
 								break;
 							}
-							getEquipment().set(i, new Item(deg.getBrokenId(), item.getAmount()));
-							getEquipment().refresh(i);
+							getEquipment().setSlot(i, new Item(deg.getBrokenId(), item.getAmount()));
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has fully degraded!");
 						} else {
-							getEquipment().set(i, null);
-							getEquipment().refresh(i);
+							getEquipment().deleteSlot(i);
 							getAppearance().generateAppearanceData();
 							sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(item.getId()).getName() + " has degraded to dust!");
 						}
@@ -1812,11 +1810,8 @@ public class Player extends Entity {
 			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
 	}
 
-	public void sendOptionDialogue(String question, String[] options, DialogueOptionEvent e) {
-		e.setOptions(options);
-		getTempAttribs().setO("pluginOption", e);
-		MatrixDialogue.sendOptionsDialogue(this, question, options);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginOption"));
+	public void sendOptionDialogue(String question, Consumer<Options> options) {
+		startConversation(new Dialogue().addOptions(question, options));
 	}
 
 	public void sendInputName(String question, InputStringEvent e) {
@@ -1841,8 +1836,8 @@ public class Player extends Entity {
 		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
 		setCloseInterfacesEvent(() -> {
-			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().containsInterface(11)) {
-				getInterfaceManager().sendTabs(InterfaceManager.Tab.INVENTORY, InterfaceManager.Tab.EQUIPMENT);
+			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().topOpen(11)) {
+				getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 				getTempAttribs().setB("viewingDepositBox", false);
 			}
 			getTempAttribs().removeO("pluginInteger");
@@ -1895,8 +1890,16 @@ public class Player extends Entity {
 		return localNPCUpdate;
 	}
 
-	public int getDisplayMode() {
-		return displayMode;
+	public ScreenMode getScreenMode() {
+		return screenMode;
+	}
+	
+	public void setScreenMode(ScreenMode mode) {
+		this.screenMode = mode;
+	}
+	
+	public boolean resizeable() {
+		return screenMode.resizeable();
 	}
 
 	public InterfaceManager getInterfaceManager() {
@@ -1933,10 +1936,6 @@ public class Player extends Entity {
 
 	public boolean clientHasLoadedMapRegionFinished() {
 		return clientLoadedMapRegion == -1;
-	}
-
-	public void setDisplayMode(int displayMode) {
-		this.displayMode = displayMode;
 	}
 
 	public Inventory getInventory() {

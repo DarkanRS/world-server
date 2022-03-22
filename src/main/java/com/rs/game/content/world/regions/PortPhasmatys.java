@@ -26,8 +26,10 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class PortPhasmatys {
@@ -75,6 +77,16 @@ public class PortPhasmatys {
 					create();
 				}
 			});
+		}
+	};
+	
+	public static ObjectClickHandler barTrapdoor = new ObjectClickHandler(new Object[] { 7433, 7434 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			switch(e.getObjectId()) {
+			case 7433 -> e.getPlayer().useStairs(828, new WorldTile(3681, 3497, 0), 1, 2);
+			case 7434 -> e.getPlayer().useStairs(828, new WorldTile(3682, 9961, 0), 1, 2);
+			}
 		}
 	};
 }
