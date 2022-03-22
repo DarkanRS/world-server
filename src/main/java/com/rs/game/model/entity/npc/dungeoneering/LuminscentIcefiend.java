@@ -135,7 +135,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 				if (count < 5)
 					return;
 
-				for (WorldTile tile : icicles)
+				for (WorldTile tile : icicles) {
 					entityLoop: for (Entity t : getPossibleTargets()) {
 						Player player = (Player) t;
 						if (player.getTempAttribs().getB("FIEND_FLAGGED"))
@@ -158,6 +158,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 							damage = damageCap;
 						player.applyHit(new Hit(icefiend, damage, HitLook.TRUE_DAMAGE));
 					}
+				}
 			}
 		}, 0, 0);
 	}

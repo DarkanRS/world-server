@@ -152,7 +152,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 	public boolean processObjectClick1(final Player player, final GameObject object) {
 		if (object.getId() == RUBBLE_PIECE[type] || object.getId() == RUBBLE_PIECE_FLOW[type]) {
 			if (!hasRequirement(player, Constants.MINING)) {
-				player.sendMessage("You need a mining level of " + getRequirement(Constants.MINING) + " to min this rock.");
+				player.sendMessage("You need a mining level of " + getRequirement(Constants.MINING) + " to mine this rock.");
 				return false;
 			}
 			DungPickaxe pick = DungPickaxe.getBest(player);
