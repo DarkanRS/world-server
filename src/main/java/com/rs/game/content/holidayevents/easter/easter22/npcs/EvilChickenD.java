@@ -54,9 +54,10 @@ public class EvilChickenD extends Conversation {
                                 .addNext(() -> {
                                     player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
                                     if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-                                        player.getEquipment().set(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR));
-                                        player.getEquipment().refresh(Equipment.WEAPON);
-                                        player.getAppearance().generateAppearanceData();
+                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
+//                                        player.getEquipment().set(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR));
+//                                        player.getEquipment().refresh(Equipment.WEAPON);
+//                                        player.getAppearance().generateAppearanceData();
                                         player.sendMessage("The Evil Chicken waves his feathers over your hands... That's it? Did that actually enchant anything?");
                                     }
                                     if (player.getBank().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
@@ -149,9 +150,10 @@ public class EvilChickenD extends Conversation {
                             new Dialogue()
                                     .addItem(Easter2022.EGGSTERMINATOR, "You're handed (or 'winged') the Eggsterminator.")
                                     .addNext(() -> {
-                                        player.getEquipment().set(Equipment.WEAPON, new Item(Easter2022.EGGSTERMINATOR));
-                                        player.getEquipment().refresh(Equipment.WEAPON);
-                                        player.getAppearance().generateAppearanceData();
+                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.EGGSTERMINATOR);
+//                                        player.getEquipment().set(Equipment.WEAPON, new Item(Easter2022.EGGSTERMINATOR));
+//                                        player.getEquipment().refresh(Equipment.WEAPON);
+//                                        player.getAppearance().generateAppearanceData();
                                     })
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
                                     .addSimple("These eggs can be found around Runescape. You can search for them yourself or with your friends.") //Information can also be found on the Runescape official forums.

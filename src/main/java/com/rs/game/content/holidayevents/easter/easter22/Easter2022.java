@@ -41,7 +41,7 @@ public class Easter2022 {
     //Event Objects
     public static final int UNCRACKED_EGG = 70103;
     public static final int CRACKED_EGG = 70104;
-    public static final int POSSIBLE_EGG = 69753;
+    public static final int RUBBLE = 69753;
 
     //Event NPCs
     public static final int CHOCOCHICK = 15270;
@@ -111,18 +111,14 @@ public class Easter2022 {
         World.addNPC(Chocatrice);
         World.addNPC(EvilChicken);
 
-        for (EggHunt.Spawns spawn : EggHunt.Spawns.values()) {
-            World.spawnObject(new GameObject(Easter2022.POSSIBLE_EGG, ObjectType.SCENERY_INTERACT, 0, spawn.getTile()));
-        }
+        for (EggHunt.Spawns spawn : EggHunt.Spawns.values())
+            World.spawnObject(spawn.getEgg());
 
         WorldTasks.schedule(ticksToEnd, () -> {
             World.removeNPC(Chocatrice);
             World.removeNPC(EvilChicken);
-            for (EggHunt.Spawns spawn : EggHunt.Spawns.values()) {
-                GameObject egg = World.getObject(spawn.getTile());
-                if (egg != null)
-                    World.removeObject(egg);
-            }
+            for (EggHunt.Spawns spawn : EggHunt.Spawns.values())
+            	World.removeObject(spawn.getEgg());
         });
 
         World.spawnObjectTemporary(new GameObject(70111, ObjectType.SCENERY_INTERACT, 1, new WorldTile(3210,3426,0)), ticksToEnd); //Southwest fountain corner

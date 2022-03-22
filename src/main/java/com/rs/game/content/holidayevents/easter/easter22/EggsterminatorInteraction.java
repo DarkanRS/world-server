@@ -106,7 +106,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
                 e.getPlayer().sendMessage("You need the Eggsterminator to crack open this egg. Speak with the Evil Chicken or the Chocatrice in Varrock Square.");
                 return;
             }   
-        	Spawns spawn = Spawns.getEggByLocation(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+        	Spawns spawn = Spawns.getSpawnByObject(e.getObject());
         	if (spawn == null)
         		return; //Failed to get a spawn location based on the object coordinates. This should never happen.
         	int idx = EggHunt.getEggIdx(spawn.ordinal());
@@ -128,7 +128,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
                         	EggHunt.updateVarbits(e.getPlayer(), 3, idx);
                             e.getPlayer().startConversation(new Dialogue().addNPC(npc.getId(), HeadE.CALM, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
                             e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
-                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", -1) != EggHunt.getHunt()) {
+                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt()) {
                                 e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
                                 if (Settings.getConfig().isDebug()) { System.out.println("Current hunt updated to " + EggHunt.getHunt() + " for " + e.getPlayer().getDisplayName()); }
                             }
