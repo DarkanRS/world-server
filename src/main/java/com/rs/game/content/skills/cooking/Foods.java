@@ -579,6 +579,7 @@ public class Foods {
 			public void effect(Object object) {
 				Player player = (Player) object;
 				player.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
+				player.removeEffect(com.rs.game.content.Effect.AGGRESSION_POTION);
 			}
 		},
 
