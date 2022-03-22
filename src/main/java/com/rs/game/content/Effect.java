@@ -77,6 +77,8 @@ public enum Effect {
 	REV_AGGRO_IMMUNE("revenant aggression immunity", false),
 
 	CHARGED("god charge", false),
+	
+	AGGRESSION_POTION("aggression potion", false),
 
 	BONFIRE("bonfire boost", false) {
 		@Override

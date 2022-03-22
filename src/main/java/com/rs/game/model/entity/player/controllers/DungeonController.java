@@ -30,6 +30,7 @@ import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.dialogues_matrix.SmugglerD;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.dungeoneering.Door;
+import com.rs.game.content.skills.dungeoneering.DungManager;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.SkillDoors;
@@ -1298,8 +1299,19 @@ public class DungeonController extends Controller {
 		if (dungeon != null)
 			dungeon.getParty().leaveParty(player, false);
 		else {
-			player.getInventory().reset();
-			player.getEquipment().reset();
+			for (Item item : player.getInventory().getItems().array()) {
+				if (DungManager.isBannedDungItem(item))
+					player.getInventory().deleteItem(item);
+			}
+			for (Item item : player.getEquipment().getItemsCopy()) {
+				if (DungManager.isBannedDungItem(item))
+					player.getEquipment().deleteItem(item.getId(), item.getAmount());
+			}
+			if (player.getInventory().containsItem(15707))
+				player.getInventory().deleteItem(15707, 27);
+			if (player.getEquipment().containsOneItem(15707))
+				player.getEquipment().deleteItem(15707, 27);
+			player.getInterfaceManager().removeOverlay();
 			player.setForceMultiArea(false);
 			if (player.getFamiliar() != null)
 				player.getFamiliar().sendDeath(player);

@@ -886,6 +886,7 @@ public class NPC extends Entity {
 	}
 
 	public List<Entity> getPossibleTargets(boolean includeNpcs) {
+		boolean isNormallyPassive = !forceAgressive && getCombatDefinitions().getAgressivenessType() == AggressiveType.PASSIVE;
 		ArrayList<Entity> possibleTarget = new ArrayList<>();
 		for (int regionId : getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
@@ -899,16 +900,17 @@ public class NPC extends Entity {
 							|| player.hasFinished()
 							|| !player.isRunning()
 							|| !canAggroPlayer(player)
-							|| (player.isDocile() && !ignoreDocile)
+							|| (isNormallyPassive && !player.hasEffect(Effect.AGGRESSION_POTION))
+							|| (!player.hasEffect(Effect.AGGRESSION_POTION) && player.isDocile() && !ignoreDocile)
 							|| player.getAppearance().isHidden()
 							|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
 							|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
 							|| !lineOfSightTo(player, false)
-							|| (!forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
+							|| (!player.hasEffect(Effect.AGGRESSION_POTION) && !forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
 						continue;
 					possibleTarget.add(player);
 				}
-			if (includeNpcs) {
+			if (includeNpcs && !isNormallyPassive) {
 				Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
 				if (npcsIndexes != null)
 					for (int npcIndex : npcsIndexes) {
@@ -943,17 +945,14 @@ public class NPC extends Entity {
 	}
 
 	public boolean checkAggressivity() {
-		if (!forceAgressive) {
-			NPCCombatDefinitions defs = getCombatDefinitions();
-			if (defs.getAgressivenessType() == AggressiveType.PASSIVE)
-				return false;
-		}
+		if (this instanceof Familiar || !getDefinitions().hasAttackOption())
+			return false;
 		List<Entity> possibleTarget = getPossibleTargets();
 		if (!possibleTarget.isEmpty()) {
 			Entity target = possibleTarget.get(Utils.random(possibleTarget.size()));
 			setTarget(target);
 			target.setAttackedBy(target);
-			target.setFindTargetDelay(System.currentTimeMillis() + 10000);
+			//target.setFindTargetDelay(System.currentTimeMillis() + 10000); //TODO makes everything possible aggro to you
 			return true;
 		}
 		return false;
