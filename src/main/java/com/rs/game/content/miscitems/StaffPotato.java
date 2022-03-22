@@ -42,7 +42,6 @@ public class StaffPotato {
 				Potion.ANTIPOISONPP.getEffect().accept(e.getPlayer());
 				Potion.JUJU_FARMING_POTION.getEffect().accept(e.getPlayer());
 				Potion.JUJU_WOODCUTTING_POTION.getEffect().accept(e.getPlayer());
-				Potion.JUJU_COOKING_POTION.getEffect().accept(e.getPlayer());
 				Potion.JUJU_FISHING_POTION.getEffect().accept(e.getPlayer());
 				Potion.JUJU_MINING_POTION.getEffect().accept(e.getPlayer());
 				Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
