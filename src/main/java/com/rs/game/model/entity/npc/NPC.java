@@ -758,7 +758,10 @@ public class NPC extends Entity {
 	}
 
 	public int getBonus(Bonus bonus) {
-		return NPCDefinitions.getDefs(id).getBonus(bonus);
+		if (NPCCombatDefinitions.getDefs(id).hasOverriddenBonuses())
+			return NPCCombatDefinitions.getDefs(id).getBonus(bonus);
+		else
+			return NPCDefinitions.getDefs(id).getBonus(bonus);
 	}
 
 	public void resetHP() {

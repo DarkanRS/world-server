@@ -44,7 +44,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -266,22 +265,20 @@ public class DungManager {
 			player.sendMessage("You have no kinship resets left.");
 			return;
 		}
-		player.sendOptionDialogue("Would you like to reset your ring? You have " + kinshipResets + " resets left.", new String[] { "Yes, reset my ring.", "Nevermind." }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				if (option == 1) {
-					int tokensToRefund = 0;
-					for (int kinshipTier : kinshipTiers)
-						for (int lvl = 0; lvl <= kinshipTier; lvl++)
-							if (lvl > 0)
-								tokensToRefund += UPGRADE_COSTS[lvl - 1];
-					tokens += tokensToRefund;
-					kinshipTiers = new int[KinshipPerk.values().length];
-					kinshipResets--;
-					refreshKinship();
-					player.sendMessage("You reset the ring, and are refunded " + Utils.formatNumber(tokensToRefund) + " dungeoneering tokens.");
-				}
-			}
+		player.sendOptionDialogue("Would you like to reset your ring? You have " + kinshipResets + " resets left.", ops -> {
+			ops.add("Yes, reset my ring.", () -> {
+				int tokensToRefund = 0;
+				for (int kinshipTier : kinshipTiers)
+					for (int lvl = 0; lvl <= kinshipTier; lvl++)
+						if (lvl > 0)
+							tokensToRefund += UPGRADE_COSTS[lvl - 1];
+				tokens += tokensToRefund;
+				kinshipTiers = new int[KinshipPerk.values().length];
+				kinshipResets--;
+				refreshKinship();
+				player.sendMessage("You reset the ring, and are refunded " + Utils.formatNumber(tokensToRefund) + " dungeoneering tokens.");
+			});
+			ops.add("Nevermind.");
 		});
 	}
 
@@ -1150,7 +1147,7 @@ public class DungManager {
 			party.setSize(DungeonConstants.SMALL_DUNGEON);
 		}
 		for (Player p2 : party.getTeam()) {
-			for (Item item : p2.getInventory().getItems().getItems())
+			for (Item item : p2.getInventory().getItems().array())
 				if (item != null && item.getId() != 15707) {
 					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;

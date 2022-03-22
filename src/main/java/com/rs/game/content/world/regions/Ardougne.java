@@ -42,7 +42,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -317,16 +316,15 @@ public class Ardougne  {
 	public static NPCClickHandler handleDarkMage = new NPCClickHandler(new Object[] { 1001 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().sendOptionDialogue("Buy an Iban's staff for 100,000 gold?", new String[] { "Yes, I'll pay 100,000 gold for a staff.", "No, that's too much." }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1)
-						if (player.getInventory().containsItem(995, 100000)) {
-							player.getInventory().deleteItem(995, 100000);
-							player.getInventory().addItem(1409, 1);
-						} else
-							player.sendMessage("You don't have enough money.");
-				}
+			e.getPlayer().sendOptionDialogue("Buy an Iban's staff for 100,000 gold?", ops -> {
+				ops.add("Yes, I'll pay 100,000 gold for a staff.", () -> {
+					if (e.getPlayer().getInventory().containsItem(995, 100000)) {
+						e.getPlayer().getInventory().deleteItem(995, 100000);
+						e.getPlayer().getInventory().addItem(1409, 1);
+					} else
+						e.getPlayer().sendMessage("You don't have enough money.");
+				});
+				ops.add("No, that's too much.");
 			});
 		}
 	};
@@ -342,17 +340,16 @@ public class Ardougne  {
 	public static NPCClickHandler handleSilkTrader = new NPCClickHandler(new Object[] { 574 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 3)
-				e.getPlayer().sendOptionDialogue("Exchange your silk for 20gp each?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1) {
-							int number = player.getInventory().getAmountOf(950);
-							player.getInventory().deleteItem(950, number);
-							player.getInventory().addItem(995, 20 * number);
-						}
-					}
+			if (e.getOpNum() == 3) {
+				e.getPlayer().sendOptionDialogue("Exchange your silk for 20gp each?", ops -> {
+					ops.add("Yes", () -> {
+						int number = e.getPlayer().getInventory().getAmountOf(950);
+						e.getPlayer().getInventory().deleteItem(950, number);
+						e.getPlayer().getInventory().addItem(995, 20 * number);
+					});
+					ops.add("No");
 				});
+			}
 		}
 	};
 

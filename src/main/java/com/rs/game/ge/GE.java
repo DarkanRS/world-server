@@ -33,7 +33,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -482,13 +481,9 @@ public class GE {
 		public void handle(NPCClickEvent e) {
 			switch (e.getOption()) {
 			case "Talk-to":
-				e.getPlayer().sendOptionDialogue("What would you like to do?",
-						new String[] { "Open Grand Exchange", "Nothing" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (getOption() == 1)
-							GE.open(player);
-					}
+				e.getPlayer().sendOptionDialogue("What would you like to do?", ops -> {
+					ops.add("Open the Grand Exchange", () -> GE.open(e.getPlayer()));
+					ops.add("Nevermind.");
 				});
 				break;
 			case "Exchange":

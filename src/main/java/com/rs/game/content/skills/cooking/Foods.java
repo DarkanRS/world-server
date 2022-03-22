@@ -602,7 +602,7 @@ public class Foods {
 		}
 	}
 
-	private static final Animation EAT_ANIM = new Animation(829);
+	public static final Animation EAT_ANIM = new Animation(829);
 
 	public static boolean eat(final Player player, Item item, int slot) {
 		return eat(player, item, slot, null);

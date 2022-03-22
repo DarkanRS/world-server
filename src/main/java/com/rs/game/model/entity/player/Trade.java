@@ -207,7 +207,7 @@ public class Trade {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
-			Item item = items.getItems()[index];
+			Item item = items.array()[index];
 			if (itemsBefore[index] != item) {
 				if (itemsBefore[index] != null && (item == null || item.getId() != itemsBefore[index].getId() || item.getAmount() < itemsBefore[index].getAmount()))
 					sendFlash(index);
@@ -248,7 +248,7 @@ public class Trade {
 
 	public void refresh(int... slots) {
 		player.getPackets().sendUpdateItems(90, items, slots);
-		target.getPackets().sendUpdateItems(90, true, items.getItems(), slots);
+		target.getPackets().sendUpdateItems(90, true, items.array(), slots);
 	}
 
 	public void accept(boolean firstStage) {
@@ -362,7 +362,7 @@ public class Trade {
 
 	public int getTradeWealth() {
 		int wealth = 0;
-		for (Item item : items.getItems()) {
+		for (Item item : items.array()) {
 			if (item == null)
 				continue;
 			wealth += EconomyPrices.getPrice(item.getId()) * item.getAmount();

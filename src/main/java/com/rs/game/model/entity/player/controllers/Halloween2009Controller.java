@@ -29,7 +29,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
-import com.rs.plugin.events.DialogueOptionEvent;
+
 
 public class Halloween2009Controller extends Controller {
 
@@ -80,14 +80,12 @@ public class Halloween2009Controller extends Controller {
 	public boolean processObjectClick1(GameObject object) {
 		switch(object.getId()) {
 		case 46935:
-			player.sendOptionDialogue("Are you sure you want to leave? Any maze/webbing progress will be reset!", new String[] { "Yes, I understand.", "Nevermind." }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1) {
-						player.getControllerManager().forceStop();
-						player.useStairs(new WorldTile(3211, 3424, 0));
-					}
-				}
+			player.sendOptionDialogue("Are you sure you want to leave? Any maze/webbing progress will be reset!", ops -> {
+				ops.add("Yes, I understand.", () -> {
+					player.getControllerManager().forceStop();
+					player.useStairs(new WorldTile(3211, 3424, 0));
+				});
+				ops.add("Nevermind.");
 			});
 			break;
 		}

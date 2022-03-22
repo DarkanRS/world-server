@@ -65,7 +65,7 @@ public class CraftPyreLogs extends PlayerAction {
 	}
 
 	private static void deleteDoses(Player player, int doses) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			if (doses <= 0) {
@@ -122,7 +122,7 @@ public class CraftPyreLogs extends PlayerAction {
 
 	private static int getDosesInInv(Player player) {
 		int doses = 0;
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			switch(item.getId()) {

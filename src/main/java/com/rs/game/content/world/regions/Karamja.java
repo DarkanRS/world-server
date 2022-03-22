@@ -39,7 +39,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -303,18 +302,15 @@ public class Karamja  {
 				if (e.getPlayer().getX() >= e.getObject().getX())
 					Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
 				else
-					e.getPlayer().sendOptionDialogue("Pay 10 trading sticks to enter?", new String[] {"Yes", "No"}, new DialogueOptionEvent() {
-
-						@Override
-						public void run(Player player) {
-							if (getOption() == 1)
-								if (e.getPlayer().getInventory().containsItem(6306, 10)) {
-									Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
-									e.getPlayer().getInventory().deleteItem(6306, 10);
-								} else
-									e.getPlayer().sendMessage("You need 10 trading sticks to use this door.");
-						}
-
+					e.getPlayer().sendOptionDialogue("Pay 10 trading sticks to enter?", ops -> {
+						ops.add("Yes", () -> {
+							if (e.getPlayer().getInventory().containsItem(6306, 10)) {
+								Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
+								e.getPlayer().getInventory().deleteItem(6306, 10);
+							} else
+								e.getPlayer().sendMessage("You need 10 trading sticks to use this door.");
+						});
+						ops.add("No");
 					});
 		}
 	};

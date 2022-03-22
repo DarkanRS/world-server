@@ -88,7 +88,6 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.DamonheimController;
 import com.rs.game.model.entity.player.controllers.DungeonController;
-import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
@@ -632,7 +631,7 @@ public class DungeonManager {
 		Item ammo = player.getDungManager().getBindedAmmo();
 		if (ammo != null)
 			player.getInventory().addItem(ammo);
-		for (Item item : player.getDungManager().getBindedItems().getItems()) {
+		for (Item item : player.getDungManager().getBindedItems().array()) {
 			if (item == null)
 				continue;
 			player.getInventory().addItem(item);
@@ -646,7 +645,7 @@ public class DungeonManager {
 					continue;
 				World.addGroundItem(item, new WorldTile(player.getTile()));
 			}
-			for (Item item : player.getInventory().getItems().getItems()) {
+			for (Item item : player.getInventory().getItems().array()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
 				World.addGroundItem(item, new WorldTile(player.getTile()));

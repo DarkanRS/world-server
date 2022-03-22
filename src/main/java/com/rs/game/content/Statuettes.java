@@ -19,7 +19,7 @@ package com.rs.game.content;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
-import com.rs.plugin.events.DialogueOptionEvent;
+
 
 public enum Statuettes {
 
@@ -63,7 +63,7 @@ public enum Statuettes {
 
 	public static int getTotalValue(Player player) {
 		int value = 0;
-		for(Item item : player.getInventory().getItems().getItems()) {
+		for(Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			Statuettes statuette = null;
@@ -79,10 +79,9 @@ public enum Statuettes {
 	public static void exchangeStatuettes(Player player) {
 		int total = getTotalValue(player);
 		if (total > 0)
-			player.sendOptionDialogue("Would you like to exchange all of your statuettes for "+Utils.formatNumber(total)+" coins?", new String[] {"Yes", "No"}, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					for(Item item : player.getInventory().getItems().getItems()) {
+			player.sendOptionDialogue("Would you like to exchange all of your statuettes for "+Utils.formatNumber(total)+" coins?", ops -> {
+				ops.add("Yes", () -> {
+					for(Item item : player.getInventory().getItems().array()) {
 						if (item == null)
 							continue;
 						Statuettes statuette = null;
@@ -94,7 +93,8 @@ public enum Statuettes {
 							player.getInventory().addItem(995, statuette.getValue()*item.getAmount());
 						}
 					}
-				}
+				});
+				ops.add("No");
 			});
 		else
 			player.sendMessage("You don't have any statuettes to hand in.");

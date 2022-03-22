@@ -16,15 +16,10 @@
 //
 package com.rs.game.model.entity.npc.qbd;
 
-import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.skills.prayer.Prayer;
-import com.rs.game.model.entity.Hit;
-import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.npc.combat.CombatScript;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
 /**
@@ -43,24 +38,7 @@ public final class RangeAttack implements QueenAttack {
 	@Override
 	public int attack(final QueenBlackDragon npc, final Player victim) {
 		npc.setNextAnimation(ANIMATION);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				stop();
-				int hit = 0;
-				if (victim.getPrayer().active(Prayer.DEFLECT_RANGE)) {
-					victim.setNextAnimation(new Animation(12573));
-					victim.setNextSpotAnim(new SpotAnim(2229));
-					victim.sendMessage("You are unable to reflect damage back to this creature.");
-				} else if (victim.getPrayer().active(Prayer.PROTECT_RANGE))
-					victim.setNextAnimation(new Animation(PlayerCombat.getDefenceEmote(victim)));
-				else {
-					hit = Utils.random(0 + Utils.random(150), 360);
-					victim.setNextAnimation(new Animation(PlayerCombat.getDefenceEmote(victim)));
-				}
-				victim.applyHit(new Hit(npc, hit, hit == 0 ? HitLook.MISSED : HitLook.RANGE_DAMAGE));
-			}
-		}, 1);
+		CombatScript.delayHit(npc, 1, victim, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, 360, AttackStyle.RANGE, victim)));
 		return Utils.random(4, 15);
 	}
 

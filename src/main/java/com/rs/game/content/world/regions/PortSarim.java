@@ -31,7 +31,6 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemAddedToInventoryEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -49,20 +48,19 @@ public class PortSarim {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
 			if (e.getItem().getId() == 24303 || e.getItem().getId() == 24339)
-				e.getPlayer().sendOptionDialogue("Would you like Thurgo to " + (e.getItem().getId() == 24339 ? "repair" : "forge") + " your Royal Crossbow?", new String[]{"Yes, please (Requires a stabilizer, frame, sight, and spring)", "No, thanks."}, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							if (player.getInventory().containsItems(new Item(24340), new Item(24342), new Item(24344), new Item(24346))) {
-								player.getInventory().deleteItem(e.getItem().getId(), 1);
-								player.getInventory().deleteItem(24340, 1);
-								player.getInventory().deleteItem(24342, 1);
-								player.getInventory().deleteItem(24344, 1);
-								player.getInventory().deleteItem(24346, 1);
-								player.getInventory().addItem(e.getItem().getId() == 24339 ? 24338 : 24337, 1);
-								player.sendMessage("Thurgo " + (e.getItem().getId() == 24339 ? "repairs" : "forges") + " your Royal crossbow.");
-							}
-					}
+				e.getPlayer().sendOptionDialogue("Would you like Thurgo to " + (e.getItem().getId() == 24339 ? "repair" : "forge") + " your Royal Crossbow?", ops -> {
+					ops.add("Yes, please (Requires a stabilizer, frame, sight, and spring)", () -> {
+						if (e.getPlayer().getInventory().containsItems(new Item(24340), new Item(24342), new Item(24344), new Item(24346))) {
+							e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+							e.getPlayer().getInventory().deleteItem(24340, 1);
+							e.getPlayer().getInventory().deleteItem(24342, 1);
+							e.getPlayer().getInventory().deleteItem(24344, 1);
+							e.getPlayer().getInventory().deleteItem(24346, 1);
+							e.getPlayer().getInventory().addItem(e.getItem().getId() == 24339 ? 24338 : 24337, 1);
+							e.getPlayer().sendMessage("Thurgo " + (e.getItem().getId() == 24339 ? "repairs" : "forges") + " your Royal crossbow.");
+						}
+					});
+					ops.add("No, thanks.");
 				});
 		}
 	};

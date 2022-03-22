@@ -103,7 +103,7 @@ public class PriceChecker {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
-			Item item = pc.getItems()[index];
+			Item item = pc.array()[index];
 			if (item != null)
 				totalPrice += EconomyPrices.getPrice(item.getId()) * item.getAmount();
 			if (itemsBefore[index] != item) {

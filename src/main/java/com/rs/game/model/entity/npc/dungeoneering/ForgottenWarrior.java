@@ -19,10 +19,10 @@ package com.rs.game.model.entity.npc.dungeoneering;
 import java.util.ArrayList;
 
 import com.rs.game.World;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
-import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;

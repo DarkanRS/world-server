@@ -21,7 +21,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -84,23 +83,19 @@ public class SawmillOperator  {
 		}
 		final int finalAmount = amount;
 		final int finalPrice = amount*pricePer;
-		player.sendOptionDialogue("Pay "+finalPrice+" gold to make "+finalAmount+" planks?", new String[] {"Make "+finalAmount+" planks. ("+finalPrice+" coins)", "That's too much money."}, new DialogueOptionEvent() {
-
-			@Override
-			public void run(Player player) {
-				if (getOption() == 1) {
-					if (!player.getInventory().containsItem(log, finalAmount))
-						return;
-					if (!player.getInventory().containsItem(995, finalPrice)) {
-						player.sendMessage("You don't have enough money to make the planks.");
-						return;
-					}
-					player.getInventory().deleteItem(995, finalPrice);
-					player.getInventory().deleteItem(log, finalAmount);
-					player.getInventory().addItem(plank, finalAmount);
+		player.sendOptionDialogue("Pay "+finalPrice+" gold to make "+finalAmount+" planks?", ops -> {
+			ops.add("Make "+finalAmount+" planks. ("+finalPrice+" coins)", () -> {
+				if (!player.getInventory().containsItem(log, finalAmount))
+					return;
+				if (!player.getInventory().containsItem(995, finalPrice)) {
+					player.sendMessage("You don't have enough money to make the planks.");
+					return;
 				}
-			}
-
+				player.getInventory().deleteItem(995, finalPrice);
+				player.getInventory().deleteItem(log, finalAmount);
+				player.getInventory().addItem(plank, finalAmount);
+			});
+			ops.add("That's too much money.");
 		});
 	}
 

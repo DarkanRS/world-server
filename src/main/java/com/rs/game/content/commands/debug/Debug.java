@@ -39,7 +39,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
@@ -271,12 +270,9 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
-			p.sendOptionDialogue("Clear bank?", new String[]{"Yes", "No"}, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						player.getBank().clear();
-				}
+			p.sendOptionDialogue("Clear bank?", ops -> {
+				ops.add("Yes", () -> p.getBank().clear());
+				ops.add("No");
 			});
 		});
 
@@ -346,7 +342,7 @@ public class Debug {
 					continue;
 				World.addGroundItem(item, new WorldTile(p.getTile()));
 			}
-			for (Item item : p.getInventory().getItems().getItems()) {
+			for (Item item : p.getInventory().getItems().array()) {
 				if (item != null)
 					System.out.println(item.getName() + ": " + item.getAmount());
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))

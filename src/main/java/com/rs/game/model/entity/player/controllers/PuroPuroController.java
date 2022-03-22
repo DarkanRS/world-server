@@ -182,7 +182,7 @@ public class PuroPuroController extends Controller {
 		Item[] requriedItems = REQUIRED[slot];
 		if (slot == 3) {
 			requriedItems = null;
-			for (Item item : player.getInventory().getItems().getItems()) {
+			for (Item item : player.getInventory().getItems().array()) {
 				if (item == null || FlyingEntities.forItem((short) item.getId()) == null)
 					continue;
 				requriedItems = new Item[] { item };

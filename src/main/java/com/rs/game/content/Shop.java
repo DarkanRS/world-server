@@ -144,9 +144,9 @@ public class Shop {
 				} else if (e.getComponentId() == 211) {
 					if ((slot == -1) || (shop.getMainStock() == null) || (slot > shop.getMainStock().length - 1) || (shop.getMainStock()[slot] == null))
 						return;
-					if (e.getPlayer().getInventory().getItems().getItems()[slot] == null)
+					if (e.getPlayer().getInventory().getItems().array()[slot] == null)
 						return;
-					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(isBuying ? shop.getMainStock()[slot].getItem().getAmount() : e.getPlayer().getInventory().getItems().getItems()[slot].getAmount(), 1, 5000));
+					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(isBuying ? shop.getMainStock()[slot].getItem().getAmount() : e.getPlayer().getInventory().getItems().array()[slot].getAmount(), 1, 5000));
 					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
 				} else if (e.getComponentId() == 29) {
 					e.getPlayer().getVars().setVar(2561, 93);
@@ -436,7 +436,7 @@ public class Shop {
 			int price = getBuyPrice(item);
 			player.sendMessage(item.getItem().getDefinitions().getName() + ": shop will " + (isBuying ? "sell" : "buy") + " for " + price + " " + ItemDefinitions.getDefs(currency).getName().toLowerCase() + ".");
 		} else {
-			Item[] stock = player.getInventory().getItems().getItems();
+			Item[] stock = player.getInventory().getItems().array();
 			if (slotId >= stock.length)
 				return;
 			Item item = stock[slotId];

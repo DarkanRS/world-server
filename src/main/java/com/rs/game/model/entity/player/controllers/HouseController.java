@@ -27,17 +27,17 @@ import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.construction.House;
+import com.rs.game.content.skills.construction.House.ObjectReference;
+import com.rs.game.content.skills.construction.House.RoomReference;
 import com.rs.game.content.skills.construction.HouseConstants;
+import com.rs.game.content.skills.construction.HouseConstants.Builds;
+import com.rs.game.content.skills.construction.HouseConstants.HObject;
+import com.rs.game.content.skills.construction.HouseConstants.POHLocation;
 import com.rs.game.content.skills.construction.ItemOnServantD;
 import com.rs.game.content.skills.construction.ServantHouseD;
 import com.rs.game.content.skills.construction.ServantNPC;
 import com.rs.game.content.skills.construction.SitChair;
 import com.rs.game.content.skills.construction.TabletMaking;
-import com.rs.game.content.skills.construction.House.ObjectReference;
-import com.rs.game.content.skills.construction.House.RoomReference;
-import com.rs.game.content.skills.construction.HouseConstants.Builds;
-import com.rs.game.content.skills.construction.HouseConstants.HObject;
-import com.rs.game.content.skills.construction.HouseConstants.POHLocation;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.content.skills.magic.Magic;
@@ -58,7 +58,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
-import com.rs.plugin.events.DialogueOptionEvent;
+
 
 public class HouseController extends Controller {
 
@@ -218,16 +218,9 @@ public class HouseController extends Controller {
 			player.sendMessage("You search the bookcase but find nothing.");
 		else if (HouseConstants.Builds.STAIRCASE.containsObject(object) || HouseConstants.Builds.STAIRCASE_DOWN.containsObject(object)) {
 			if (object.getDefinitions().getOption(1).equals("Climb"))
-				player.sendOptionDialogue("Would you like to climb up or down?", new String[] { "Climb up.", "Climb down." }, new DialogueOptionEvent() {
-
-					@Override
-					public void run(Player player) {
-						if (getOption() == 1)
-							house.climbStaircase(player, object, true);
-						else
-							house.climbStaircase(player, object, false);
-					}
-
+				player.sendOptionDialogue("Would you like to climb up or down?", ops -> {
+					ops.add("Climb up", () -> house.climbStaircase(player, object, true));
+					ops.add("Climb down", () -> house.climbStaircase(player, object, false));
 				});
 			else
 				house.climbStaircase(player, object, object.getDefinitions().getOption(1).equals("Climb-up"));
@@ -494,14 +487,9 @@ public class HouseController extends Controller {
 		else if (HouseConstants.Builds.STAIRCASE.containsObject(object) || HouseConstants.Builds.STAIRCASE_DOWN.containsObject(object))
 			house.climbStaircase(player, object, true);
 		else if (HouseConstants.Builds.LEVER.containsObject(object))
-			player.sendOptionDialogue("Would you like to toggle PVP challenge mode?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						house.toggleChallengeMode(player);
-				}
-
+			player.sendOptionDialogue("Would you like to toggle PVP challenge mode?", ops -> {
+				ops.add("Yes", () -> house.toggleChallengeMode(player));
+				ops.add("No");
 			});
 		return false;
 	}
@@ -568,86 +556,11 @@ public class HouseController extends Controller {
 	}
 
 	public void sendTakeItemsDialogue(final int... itemIds) {
-		if (itemIds.length <= 5) {
-			String[] options = new String[itemIds.length];
-			for (int i = 0; i < options.length; i++)
-				options[i] = ItemDefinitions.getDefs(itemIds[i]).getName();
-			player.sendOptionDialogue("What would you like to take?", options, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						player.getInventory().addItem(itemIds[0], 1);
-					else if (getOption() == 2) {
-						if (itemIds.length > 1)
-							player.getInventory().addItem(itemIds[1], 1);
-					} else if (getOption() == 3) {
-						if (itemIds.length > 2)
-							player.getInventory().addItem(itemIds[2], 1);
-					} else if (getOption() == 4) {
-						if (itemIds.length > 3)
-							player.getInventory().addItem(itemIds[3], 1);
-					} else if (getOption() == 5)
-						if (itemIds.length > 4)
-							player.getInventory().addItem(itemIds[4], 1);
-				}
-
-			});
-		} else if (itemIds.length > 5) {
-			String[] options = new String[5];
-			for (int i = 0; i < 4; i++)
-				options[i] = ItemDefinitions.getDefs(itemIds[i]).getName();
-			options[4] = "More";
-			player.sendOptionDialogue("What would you like to take?", options, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						player.getInventory().addItem(itemIds[0], 1);
-					else if (getOption() == 2) {
-						if (itemIds.length > 1)
-							player.getInventory().addItem(itemIds[1], 1);
-					} else if (getOption() == 3) {
-						if (itemIds.length > 2)
-							player.getInventory().addItem(itemIds[2], 1);
-					} else if (getOption() == 4) {
-						if (itemIds.length > 3)
-							player.getInventory().addItem(itemIds[3], 1);
-					} else if (getOption() == 5) {
-						String[] options = new String[itemIds.length - 4];
-						for (int i = 4; i < 9; i++) {
-							if (i > (itemIds.length - 1))
-								break;
-							options[i - 4] = ItemDefinitions.getDefs(itemIds[i]).getName();
-						}
-						player.sendOptionDialogue("What would you like to take?", options, new DialogueOptionEvent() {
-
-							@Override
-							public void run(Player player) {
-								if (getOption() == 1) {
-									if (itemIds.length > 4)
-										player.getInventory().addItem(itemIds[4], 1);
-								} else if (getOption() == 2) {
-									if (itemIds.length > 5)
-										player.getInventory().addItem(itemIds[5], 1);
-								} else if (getOption() == 3) {
-									if (itemIds.length > 6)
-										player.getInventory().addItem(itemIds[6], 1);
-								} else if (getOption() == 4) {
-									if (itemIds.length > 7)
-										player.getInventory().addItem(itemIds[7], 1);
-								} else if (getOption() == 5)
-									if (itemIds.length > 8)
-										player.getInventory().addItem(itemIds[8], 1);
-							}
-
-						});
-					}
-				}
-
-			});
-		} else
-			System.err.println("Bro who the fuck needs more than 9 items in a dialogue?");
+		player.sendOptionDialogue("What would you like to take?", ops -> {
+			for (int itemId : itemIds)
+				ops.add(ItemDefinitions.getDefs(itemId).getName(), () -> player.getInventory().addItem(itemId, 1));
+			ops.add("Nevermind.");
+		});
 	}
 
 	public static void directPortals(Player player, GameObject object ) {

@@ -21,9 +21,9 @@ import java.util.List;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
+import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.minigames.barrows.BarrowsPath;
 import com.rs.game.content.minigames.barrows.BarrowsPuzzle;
@@ -186,7 +186,7 @@ public final class BarrowsController extends Controller {
 				continue;
 			rollAdd(container, DropTable.calculateDrops(new DropSet(new DropTable(995, 1, points))));
 		}
-		for (Item i : container.getItems()) {
+		for (Item i : container.array()) {
 			if (i == null)
 				continue;
 			if (i.getId() >= 554 && i.getId() <= 566)
@@ -235,7 +235,7 @@ public final class BarrowsController extends Controller {
 			rollAdd(container, DropTable.calculateDrops(player, new DropSet(new DropTable(995, 1, points))));
 		}
 		if (SetReward.MORYTANIA_LEGS.hasRequirements(player, Area.MORYTANIA, Difficulty.HARD, false))
-			for (Item i : container.getItems()) {
+			for (Item i : container.array()) {
 				if (i == null)
 					continue;
 				if (i.getId() >= 554 && i.getId() <= 566)

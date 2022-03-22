@@ -68,7 +68,7 @@ public class Clayfamiliarclass1 extends Familiar {
 		Score score = sc.getGame().getScore(getOwner());
 		if (score == null)
 			return false;
-		for (Item item : getBob().getBeastItems().getItems()) {
+		for (Item item : getBob().getBeastItems().array()) {
 			if (item == null)
 				continue;
 			sc.getGame().sendItemToBase(getOwner(), item, sc.getTeam(), true, false);
