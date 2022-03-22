@@ -27,7 +27,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -44,20 +43,13 @@ public class Daemonheim {
 			if(e.getOption().equalsIgnoreCase("collect"))
 				GE.openCollection(p);
 			if(e.getOption().equalsIgnoreCase("talk-to"))
-				p.startConversation(new Conversation(p) {
-					{
-						addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Good day. How may I help you?");
-						addOptions("Select an option", new Options() {
-							@Override
-							public void create() {
-								option("I'd like to access my bank account, please.", new Dialogue().addNext(()->{p.getBank().open();}));
-								option("I'd like to check my PIN settings.", new Dialogue().addNext(()->{p.getBank().openPinSettings();}));
-								option("I'd like to see my collection box", new Dialogue().addNext(()->{GE.openCollection(p);}));
-							}
-						});
-						create();
-					}
-				});
+				p.startConversation(new Dialogue()
+						.addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Good day. How may I help you?")
+						.addOptions("Select an option", ops -> {
+							ops.add("I'd like to access my bank account, please.", new Dialogue().addNext(()->{p.getBank().open();}));
+							ops.add("I'd like to check my PIN settings.", new Dialogue().addNext(()->{p.getBank().openPinSettings();}));
+							ops.add("I'd like to see my collection box", new Dialogue().addNext(()->{GE.openCollection(p);}));
+						}));
 
 		}
 	};
@@ -107,42 +99,44 @@ public class Daemonheim {
 			if (deg == null)
 				return;
 			int cost = deg.getCost(e.getItem());
-			e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(9711, HeadE.SCARED, "I can repair that for either " + Utils.formatNumber(cost) + " coins or " + Utils.formatNumber(cost / 10) + " coins and " + Utils.formatNumber(cost / 100) + " dungeoneering tokens.").addNext(() -> {
-				e.getPlayer().sendOptionDialogue("Which repair option would you like to use?", new String[] { Utils.formatNumber(cost) + " coins", Utils.formatNumber(cost / 10) + " coins and " + Utils.formatNumber(cost / 100) + " dungeoneering tokens", "Nevermind" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						Item item = player.getInventory().getItem(e.getItem().getSlot());
-						if (item == null || item.getId() != e.getItem().getId())
-							return;
-						if (option == 1) {
-							if (!player.getInventory().containsItem(995, cost)) {
-								player.sendMessage("You don't have enough coins.");
+			e.getPlayer().startConversation(new Conversation(e.getPlayer())
+					.addNPC(9711, HeadE.SCARED, "I can repair that for either " + Utils.formatNumber(cost) + " coins or " + Utils.formatNumber(cost / 10) + " coins and " + Utils.formatNumber(cost / 100) + " dungeoneering tokens.")
+					.addOptions("Which repair option would you like to use?", ops -> {
+						ops.add(Utils.formatNumber(cost) + " coins", () -> {
+							Item item = e.getPlayer().getInventory().getItem(e.getItem().getSlot());
+							if (item == null || item.getId() != e.getItem().getId())
+								return;
+							if (!e.getPlayer().getInventory().containsItem(995, cost)) {
+								e.getPlayer().sendMessage("You don't have enough coins.");
 								return;
 							}
-							player.getInventory().deleteItem(995, cost);
+							e.getPlayer().getInventory().deleteItem(995, cost);
 							item.setId(deg.getItemId());
 							item.deleteMetaData();
-							player.getInventory().refresh(e.getItem().getSlot());
-						} else if (option == 2) {
+							e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+						});
+						ops.add(Utils.formatNumber(cost / 10) + " coins and " + Utils.formatNumber(cost / 100) + " dungeoneering tokens", () -> {
+							Item item = e.getPlayer().getInventory().getItem(e.getItem().getSlot());
+							if (item == null || item.getId() != e.getItem().getId())
+								return;
 							int coinCost = cost / 10;
 							int tokenCost = cost / 100;
-							if (!player.getInventory().containsItem(995, coinCost)) {
-								player.sendMessage("You don't have enough coins.");
+							if (!e.getPlayer().getInventory().containsItem(995, coinCost)) {
+								e.getPlayer().sendMessage("You don't have enough coins.");
 								return;
 							}
-							if (player.getDungManager().getTokens() < tokenCost) {
-								player.sendMessage("You don't have enough dungeoneering tokens.");
+							if (e.getPlayer().getDungManager().getTokens() < tokenCost) {
+								e.getPlayer().sendMessage("You don't have enough dungeoneering tokens.");
 								return;
 							}
-							player.getInventory().deleteItem(995, coinCost);
-							player.getDungManager().removeTokens(tokenCost);
+							e.getPlayer().getInventory().deleteItem(995, coinCost);
+							e.getPlayer().getDungManager().removeTokens(tokenCost);
 							item.setId(deg.getItemId());
 							item.deleteMetaData();
-							player.getInventory().refresh(e.getItem().getSlot());
-						}
-					}
-				});
-			}));
+							e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+						});
+						ops.add("Nevermind.");
+					}));
 		}
 	};
 }

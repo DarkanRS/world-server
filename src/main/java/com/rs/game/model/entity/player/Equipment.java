@@ -125,7 +125,7 @@ public final class Equipment {
 	}
 
 	public Item getItemById(int id) {
-		for (Item item : items.getItems())
+		for (Item item : items.array())
 			if (item != null && item.getId() == id)
 				return item;
 		return null;
@@ -204,7 +204,7 @@ public final class Equipment {
 				player.refreshHitPoints();
 		}
 		double w = 0;
-		for (Item item : items.getItems()) {
+		for (Item item : items.array()) {
 			if (item == null)
 				continue;
 			w += ItemWeights.getWeight(item, true);
@@ -337,7 +337,7 @@ public final class Equipment {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++)
-			if (itemsBefore[index] != items.getItems()[index])
+			if (itemsBefore[index] != items.array()[index])
 				changedSlots[count++] = index;
 		int[] finalChangedSlots = new int[count];
 		System.arraycopy(changedSlots, 0, finalChangedSlots, 0, count);

@@ -38,7 +38,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -224,28 +223,26 @@ public class Halloween2009 {
 	public static ObjectClickHandler spiderPortal = new ObjectClickHandler(new Object[] { 46932 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6)
-				e.getPlayer().sendOptionDialogue("Select an Option", new String[] { "Go to web maze.", "Go to spider court." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1) {
-							e.getPlayer().setNextAnimation(new Animation(12776));
-							WorldTasks.delay(1, () -> {
-								e.getPlayer().setNextAnimation(new Animation(12777));
-								e.getPlayer().setNextWorldTile(new WorldTile(3936, 5125, 2));
-								e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
-							});
-						} else {
-							e.getPlayer().setNextAnimation(new Animation(12776));
-							WorldTasks.delay(1, () -> {
-								e.getPlayer().setNextAnimation(new Animation(12777));
-								e.getPlayer().setNextWorldTile(new WorldTile(3744, 5287, 0));
-								e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
-							});
-						}
-					}
+			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
+				e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
+					ops.add("Go to web maze.", () -> {
+						e.getPlayer().setNextAnimation(new Animation(12776));
+						WorldTasks.delay(1, () -> {
+							e.getPlayer().setNextAnimation(new Animation(12777));
+							e.getPlayer().setNextWorldTile(new WorldTile(3936, 5125, 2));
+							e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
+						});
+					});
+					ops.add("Go to spider court.", () -> {
+						e.getPlayer().setNextAnimation(new Animation(12776));
+						WorldTasks.delay(1, () -> {
+							e.getPlayer().setNextAnimation(new Animation(12777));
+							e.getPlayer().setNextWorldTile(new WorldTile(3744, 5287, 0));
+							e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
+						});
+					});
 				});
-			else {
+			} else {
 				e.getPlayer().setNextAnimation(new Animation(12776));
 				WorldTasks.delay(1, () -> {
 					e.getPlayer().setNextAnimation(new Animation(12777));
@@ -272,14 +269,9 @@ public class Halloween2009 {
 		public void handle(ObjectClickEvent e) {
 			if (e.getObject().isAt(3744, 5288)) {
 				if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
-					e.getPlayer().sendOptionDialogue("Select an Option", new String[] { "Go down the ladder.", "Return to the Grim Reaper's House." }, new DialogueOptionEvent() {
-						@Override
-						public void run(Player player) {
-							if (option == 1)
-								e.getPlayer().useLadder(/*new WorldTile(3936, 5372, 2)*/new WorldTile(3936, 5150, 2));
-							else
-								e.getPlayer().useLadder(new WorldTile(3805, 5149, 0));
-						}
+					e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
+						ops.add("Go down the ladder.", () -> e.getPlayer().useLadder(/*new WorldTile(3936, 5372, 2)*/new WorldTile(3936, 5150, 2)));
+						ops.add("Return to the Grim Reaper's House.", () -> e.getPlayer().useLadder(new WorldTile(3805, 5149, 0)));
 					});
 					return;
 				}

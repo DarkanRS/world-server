@@ -474,7 +474,7 @@ public class StealingCreationController extends Controller {
 			return false;
 		}
 		if (object.getId() == 39533) {
-			for (Item item : player.getInventory().getItems().getItems()) {
+			for (Item item : player.getInventory().getItems().array()) {
 				if (item == null)
 					continue;
 				game.sendItemToBase(player, item, getTeam(), false, true);

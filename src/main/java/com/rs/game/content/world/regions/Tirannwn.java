@@ -29,7 +29,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -42,33 +41,30 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Tirannwn {
 
-	//	public static void unlockPrisonerOfGlouphrieEntrance(LoginEvent e) {
-	//		e.getPlayer().getVars().setVarBit(5332, 1); //remove boulder
-	//		e.getPlayer().getVars().setVarBit(8749, 2); //expose vent and tie rope
-	//		return false;
-	//	}
+	// public static void unlockPrisonerOfGlouphrieEntrance(LoginEvent e) {
+	// e.getPlayer().getVars().setVarBit(5332, 1); //remove boulder
+	// e.getPlayer().getVars().setVarBit(8749, 2); //expose vent and tie rope
+	// return false;
+	// }
 
 	public static ObjectClickHandler handleStickTraps = new ObjectClickHandler(new Object[] { 3922 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			/*
-            3 = S -> N
-            2 = W -> E
-            1 = N- > S
-            0 = E -> W
+			 * 3 = S -> N 2 = W -> E 1 = N- > S 0 = E -> W
 			 */
 			Player p = e.getPlayer();
 			WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-			if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 3 || e.getObject().getRotation()== 1))
-				if(p.getY() > objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()-1, objTile.getPlane()), 5, false);
-				else if(p.getY() <= objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()+2, objTile.getPlane()), 5, false);
-			if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation()== 2))
-				if(p.getX() > objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX()-1, objTile.getY(), objTile.getPlane()), 5, false);
-				else if(p.getX() <= objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX()+2, objTile.getY(), objTile.getPlane()), 5, false);
+			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 3 || e.getObject().getRotation() == 1))
+				if (p.getY() > objTile.getY())
+					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() - 1, objTile.getPlane()), 5, false);
+				else if (p.getY() <= objTile.getY())
+					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() + 2, objTile.getPlane()), 5, false);
+			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2))
+				if (p.getX() > objTile.getX())
+					p.addWalkSteps(new WorldTile(objTile.getX() - 1, objTile.getY(), objTile.getPlane()), 5, false);
+				else if (p.getX() <= objTile.getX())
+					p.addWalkSteps(new WorldTile(objTile.getX() + 2, objTile.getY(), objTile.getPlane()), 5, false);
 		}
 	};
 
@@ -76,54 +72,50 @@ public class Tirannwn {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			/*
-            2 = S -> N
-            3 = W -> E
-            0 = N- > S
-            1 = E -> W
+			 * 2 = S -> N 3 = W -> E 0 = N- > S 1 = E -> W
 			 */
 			Player p = e.getPlayer();
 			WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-			if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation()== 2))
-				if(p.getY() > objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()-1, objTile.getPlane()), 5, false);
-				else if(p.getY() <= objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY()+2, objTile.getPlane()), 5, false);
-			if(p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 1 || e.getObject().getRotation()== 3))
-				if(p.getX() > objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX()-1, objTile.getY(), objTile.getPlane()), 5, false);
-				else if(p.getX() <= objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX()+2, objTile.getY(), objTile.getPlane()), 5, false);
+			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2))
+				if (p.getY() > objTile.getY())
+					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() - 1, objTile.getPlane()), 5, false);
+				else if (p.getY() <= objTile.getY())
+					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() + 2, objTile.getPlane()), 5, false);
+			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 1 || e.getObject().getRotation() == 3))
+				if (p.getX() > objTile.getX())
+					p.addWalkSteps(new WorldTile(objTile.getX() - 1, objTile.getY(), objTile.getPlane()), 5, false);
+				else if (p.getX() <= objTile.getX())
+					p.addWalkSteps(new WorldTile(objTile.getX() + 2, objTile.getY(), objTile.getPlane()), 5, false);
 		}
 	};
 
 	public static ObjectClickHandler handleLeafTrap = new ObjectClickHandler(new Object[] { 3923, 3925 }) {
 		@Override
-		public void handle(ObjectClickEvent e) { //Hard coded
+		public void handle(ObjectClickEvent e) { // Hard coded
 			Player p = e.getPlayer();
 			WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-			if(p.withinDistance(new WorldTile(2208, 3204, 0), 4))
-				if(p.getY() > objTile.getY())
+			if (p.withinDistance(new WorldTile(2208, 3204, 0), 4))
+				if (p.getY() > objTile.getY())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2209, 3201, 0), 10963, 1, 0, Direction.SOUTH);
-				else if(p.getY() < objTile.getY())
+				else if (p.getY() < objTile.getY())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2209, 3205, 0), 10963, 1, 0, Direction.NORTH);
-			if(p.withinDistance(new WorldTile(2267, 3202, 0), 4))
-				if(p.getY() > objTile.getY())
+			if (p.withinDistance(new WorldTile(2267, 3202, 0), 4))
+				if (p.getY() > objTile.getY())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2267, 3201, 0), 10963, 1, 0, Direction.SOUTH);
-				else if(p.getY() < objTile.getY())
+				else if (p.getY() < objTile.getY())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2267, 3205, 0), 10963, 1, 0, Direction.NORTH);
-			if(p.withinDistance(new WorldTile(2274, 3174, 0), 4))
-				if(p.getY() > objTile.getY())
+			if (p.withinDistance(new WorldTile(2274, 3174, 0), 4))
+				if (p.getY() > objTile.getY())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2274, 3172, 0), 10963, 1, 0, Direction.SOUTH);
-				else if(p.getY() < objTile.getY())
+				else if (p.getY() < objTile.getY())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2274, 3176, 0), 10963, 1, 0, Direction.NORTH);
-			if(p.withinDistance(new WorldTile(2278, 3262, 0), 4))
-				if(p.getX() > objTile.getX())
+			if (p.withinDistance(new WorldTile(2278, 3262, 0), 4))
+				if (p.getX() > objTile.getX())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2275, 3262, 0), 10963, 1, 0, Direction.WEST);
-				else if(p.getX() < objTile.getX())
+				else if (p.getX() < objTile.getX())
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2279, 3262, 0), 10963, 1, 0, Direction.EAST);
 		}
 	};
-
 
 	public static ObjectClickHandler handleGlouphrieCave = new ObjectClickHandler(new Object[] { 20750, 20753 }) {
 		@Override
@@ -221,10 +213,10 @@ public class Tirannwn {
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
 
-			if(p.getY() > obj.getY())
-				p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY()-1, obj.getPlane()));
-			if(p.getY() < obj.getY())
-				p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY()+1, obj.getPlane()));
+			if (p.getY() > obj.getY())
+				p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY() - 1, obj.getPlane()));
+			if (p.getY() < obj.getY())
+				p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY() + 1, obj.getPlane()));
 		}
 	};
 
@@ -234,22 +226,22 @@ public class Tirannwn {
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
 
-			if(obj.getId() == 9296) {//above
-				if(obj.matches(new WorldTile(2333,3252, 0))) {
+			if (obj.getId() == 9296) {// above
+				if (obj.matches(new WorldTile(2333, 3252, 0))) {
 					if (!Agility.hasLevel(p, 85)) {
 						p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
 						return;
 					}
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3253, 0), 2050, 1, 1, Direction.WEST);
 				}
-				if(obj.matches(new WorldTile(2338,3282, 0))) {
+				if (obj.matches(new WorldTile(2338, 3282, 0))) {
 					if (!Agility.hasLevel(p, 68)) {
 						p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
 						return;
 					}
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3286, 0), 2050, 1, 1, Direction.SOUTH);
 				}
-				if(obj.matches(new WorldTile(2346,3299, 0))) {
+				if (obj.matches(new WorldTile(2346, 3299, 0))) {
 					if (!Agility.hasLevel(p, 59)) {
 						p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
 						return;
@@ -258,22 +250,22 @@ public class Tirannwn {
 				}
 			}
 
-			if(obj.getId() == 9297) {//below
-				if(obj.matches(new WorldTile(2337,3253, 0))) {
+			if (obj.getId() == 9297) {// below
+				if (obj.matches(new WorldTile(2337, 3253, 0))) {
 					if (!Agility.hasLevel(p, 85)) {
 						p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
 						return;
 					}
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2332, 3252, 0), 2049, 1, 1, Direction.WEST);
 				}
-				if(obj.matches(new WorldTile(2338,3285, 0))) {
+				if (obj.matches(new WorldTile(2338, 3285, 0))) {
 					if (!Agility.hasLevel(p, 68)) {
 						p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
 						return;
 					}
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3281, 0), 2049, 1, 1, Direction.SOUTH);
 				}
-				if(obj.matches(new WorldTile(2344,3295, 0))) {
+				if (obj.matches(new WorldTile(2344, 3295, 0))) {
 					if (!Agility.hasLevel(p, 59)) {
 						p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
 						return;
@@ -281,7 +273,6 @@ public class Tirannwn {
 					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2346, 3300, 0), 2049, 1, 1, Direction.NORTH);
 				}
 			}
-
 
 		}
 	};
@@ -298,26 +289,20 @@ public class Tirannwn {
 						@Override
 						public void create() {
 							option("Could you repair some seeds for me?", new Dialogue().addNPC(e.getNPCId(), HeadE.CHEERFUL, "Of course! If you have a seed you would like me to repair, use it on me."));
-							option("Could I buy a crystal bow?", new Dialogue()
-									.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Yes, but it will cost you 1,000,000 coins.")
-									.addOption("Buy a crystal bow for 1,000,000 coins?", "Yes, I'd like to buy one.", "No thanks, that's way too much for me.")
-									.addNext(() -> {
-										if (player.getInventory().containsItem(995, 1000000)) {
-											player.getInventory().deleteItem(995, 1000000);
-											player.getInventory().addItem(4212, 1);
-										} else
-											player.sendMessage("You don't have enough money.");
-									}));
-							option("Could I buy a crystal shield?", new Dialogue()
-									.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Yes, but it will cost you 750,000 coins.")
-									.addOption("Buy a crystal shield for 750,000 coins?", "Yes, I'd like to buy one.", "No thanks, that's way too much for me.")
-									.addNext(() -> {
-										if (player.getInventory().containsItem(995, 750000)) {
-											player.getInventory().deleteItem(995, 750000);
-											player.getInventory().addItem(4224, 1);
-										} else
-											player.sendMessage("You don't have enough money.");
-									}));
+							option("Could I buy a crystal bow?", new Dialogue().addNPC(e.getNPCId(), HeadE.CHEERFUL, "Yes, but it will cost you 1,000,000 coins.").addOption("Buy a crystal bow for 1,000,000 coins?", "Yes, I'd like to buy one.", "No thanks, that's way too much for me.").addNext(() -> {
+								if (player.getInventory().containsItem(995, 1000000)) {
+									player.getInventory().deleteItem(995, 1000000);
+									player.getInventory().addItem(4212, 1);
+								} else
+									player.sendMessage("You don't have enough money.");
+							}));
+							option("Could I buy a crystal shield?", new Dialogue().addNPC(e.getNPCId(), HeadE.CHEERFUL, "Yes, but it will cost you 750,000 coins.").addOption("Buy a crystal shield for 750,000 coins?", "Yes, I'd like to buy one.", "No thanks, that's way too much for me.").addNext(() -> {
+								if (player.getInventory().containsItem(995, 750000)) {
+									player.getInventory().deleteItem(995, 750000);
+									player.getInventory().addItem(4224, 1);
+								} else
+									player.sendMessage("You don't have enough money.");
+							}));
 						}
 					});
 				}
@@ -329,44 +314,35 @@ public class Tirannwn {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
 			if (e.getItem().getId() == 4207) {
-				int cost = 1000000;
+				int estCost = 1000000;
 				if (e.getPlayer().getCrystalSeedRepairs() >= 0) {
 					int repairs = e.getPlayer().getCrystalSeedRepairs();
 					if (repairs <= 5)
-						cost -= repairs * 200000;
+						estCost -= repairs * 200000;
 					else
-						cost = 200000;
+						estCost = 200000;
 				}
-
-				e.getPlayer().sendOptionDialogue("Would you like to attune your crystal seed for " + cost + " gold?", new String[] { "Yes, I'll pay " + cost + " gold for a bow.", "Yes, I'll pay " + cost + " gold for a shield.", "No, that's too much." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						int cost = 1000000;
-						if (e.getPlayer().getCrystalSeedRepairs() >= 0) {
-							int repairs = e.getPlayer().getCrystalSeedRepairs();
-							if (repairs < 5)
-								cost -= repairs * 200000;
-							else
-								cost = 200000;
-						}
-						if (option == 1)
-							if (player.getInventory().containsItem(995, cost) && player.getInventory().containsItem(4207, 1)) {
-								player.getInventory().deleteItem(4207, 1);
-								player.getInventory().deleteItem(995, cost);
-								player.getInventory().addItem(4212, 1);
-								player.incrementCrystalSeedRepair();
-							} else
-								player.sendMessage("You don't have enough money.");
-
-						if (option == 2)
-							if (player.getInventory().containsItem(995, cost) && player.getInventory().containsItem(4207, 1)) {
-								player.getInventory().deleteItem(4207, 1);
-								player.getInventory().deleteItem(995, cost);
-								player.getInventory().addItem(4224, 1);
-								player.incrementCrystalSeedRepair();
-							} else
-								player.sendMessage("You don't have enough money.");
-					}
+				final int cost = estCost;
+				e.getPlayer().sendOptionDialogue("Would you like to attune your crystal seed for " + cost + " gold?", ops -> {
+					ops.add("Yes, I'll pay " + cost + " gold for a bow.", () -> {
+						if (e.getPlayer().getInventory().containsItem(995, cost) && e.getPlayer().getInventory().containsItem(4207, 1)) {
+							e.getPlayer().getInventory().deleteItem(4207, 1);
+							e.getPlayer().getInventory().deleteItem(995, cost);
+							e.getPlayer().getInventory().addItem(4212, 1);
+							e.getPlayer().incrementCrystalSeedRepair();
+						} else
+							e.getPlayer().sendMessage("You don't have enough money.");
+					});
+					ops.add("Yes, I'll pay " + cost + " gold for a shield.", () -> {
+						if (e.getPlayer().getInventory().containsItem(995, cost) && e.getPlayer().getInventory().containsItem(4207, 1)) {
+							e.getPlayer().getInventory().deleteItem(4207, 1);
+							e.getPlayer().getInventory().deleteItem(995, cost);
+							e.getPlayer().getInventory().addItem(4224, 1);
+							e.getPlayer().incrementCrystalSeedRepair();
+						} else
+							e.getPlayer().sendMessage("You don't have enough money.");
+					});
+					ops.add("No, that's too much.");
 				});
 			} else if (e.getItem().getId() == 6103) {
 				int numSeeds = e.getPlayer().getInventory().getNumberOf(6103);
@@ -379,18 +355,17 @@ public class Tirannwn {
 						cost = 150;
 				}
 				int totalCost = cost * numSeeds;
-				e.getPlayer().sendOptionDialogue("Repair all your teleport seeds for " + totalCost + "?", new String[] { "Yes please.", "No, thanks." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							if (player.getInventory().containsItem(995, totalCost) && player.getInventory().containsItem(6103, numSeeds)) {
-								player.getInventory().deleteItem(6103, numSeeds);
-								player.getInventory().addItem(6099, numSeeds);
-								for (int i = 0;i < numSeeds;i++)
-									player.incrementTinyCrystalSeedRepair();
-							} else
-								player.sendMessage("You don't have enough money.");
-					}
+				e.getPlayer().sendOptionDialogue("Repair all your teleport seeds for " + totalCost + "?", ops -> {
+					ops.add("Yes, please.", () -> {
+						if (e.getPlayer().getInventory().containsItem(995, totalCost) && e.getPlayer().getInventory().containsItem(6103, numSeeds)) {
+							e.getPlayer().getInventory().deleteItem(6103, numSeeds);
+							e.getPlayer().getInventory().addItem(6099, numSeeds);
+							for (int i = 0; i < numSeeds; i++)
+								e.getPlayer().incrementTinyCrystalSeedRepair();
+						} else
+							e.getPlayer().sendMessage("You don't have enough money.");
+					});
+					ops.add("No, thank you.");
 				});
 			}
 		}
@@ -400,11 +375,10 @@ public class Tirannwn {
 		@Override
 		public void handle(ItemClickEvent e) {
 			if (Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2340, 3172, 0))) {
-				e.getItem().setId(e.getItem().getId()+1);
+				e.getItem().setId(e.getItem().getId() + 1);
 				e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 			}
 		}
 	};
-
 
 }

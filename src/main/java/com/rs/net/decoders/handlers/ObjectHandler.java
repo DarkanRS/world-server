@@ -54,8 +54,8 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.construction.EnterHouse;
 import com.rs.game.content.skills.cooking.Cooking;
-import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
+import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.content.skills.crafting.Jewelry;
 import com.rs.game.content.skills.crafting.SandBucketFill;
 import com.rs.game.content.skills.crafting.Silver;
@@ -1741,7 +1741,7 @@ public final class ObjectHandler {
 			case "bank table":
 			case "counter":
 				if (def.containsOption(2, "Collect") || def.containsOption(2, "Use")) {
-					//						player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, new DialogueOptionEvent() {
+					//						player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, ops -> {
 					//							@Override
 					//							public void run(Player player) {
 					//								if (option == 1) {

@@ -191,7 +191,7 @@ public class BeastOfBurden {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
-			Item item = beastItems.getItems()[index];
+			Item item = beastItems.array()[index];
 			if (itemsBefore[index] != item)
 				changedSlots[count++] = index;
 

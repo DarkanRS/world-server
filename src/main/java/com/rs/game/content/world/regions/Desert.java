@@ -25,7 +25,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -72,54 +71,37 @@ public class Desert  {
 			CarpetLocation loc = CarpetLocation.forId(e.getNPC().getId());
 			switch(loc) {
 			case SHANTAY_PASS:
-				e.getPlayer().sendOptionDialogue("Where would you like to travel?", new String[] { "Pollnivneach", "Bedabin Camp", "Uzer", "Monkey Colony", "Nevermind" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(CarpetLocation.N_POLLNIVNEACH.tile);
-						else if (option == 2)
-							player.setNextWorldTile(CarpetLocation.BEDABIN_CAMP.tile);
-						else if (option == 3)
-							player.setNextWorldTile(CarpetLocation.UZER.tile);
-						else if (option == 4)
-							player.setNextWorldTile(CarpetLocation.MONKEY_COLONY.tile);
-					}
+				e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
+					ops.add("Pollnivneach", () -> e.getPlayer().setNextWorldTile(CarpetLocation.N_POLLNIVNEACH.tile));
+					ops.add("Bedabin Camp", () -> e.getPlayer().setNextWorldTile(CarpetLocation.BEDABIN_CAMP.tile));
+					ops.add("Uzer", () -> e.getPlayer().setNextWorldTile(CarpetLocation.UZER.tile));
+					ops.add("Monkey Colony", () -> e.getPlayer().setNextWorldTile(CarpetLocation.MONKEY_COLONY.tile));
+					ops.add("Nevermind");
 				});
 				break;
 			case N_POLLNIVNEACH:
 			case UZER:
 			case BEDABIN_CAMP:
 			case MONKEY_COLONY:
-				e.getPlayer().sendOptionDialogue("Where would you like to travel?", new String[] { "Shantay Pass", "Nevermind" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(CarpetLocation.SHANTAY_PASS.tile);
-					}
+				e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
+					ops.add("Shantay Pass", () -> e.getPlayer().setNextWorldTile(CarpetLocation.SHANTAY_PASS.tile));
+					ops.add("Nevermind");
 				});
 				break;
 			case S_POLLNIVNEACH:
-				e.getPlayer().sendOptionDialogue("Where would you like to travel?", new String[] { "Nardah", "Sophanem", "Menaphos", "Nevermind" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(CarpetLocation.NARDAH.tile);
-						else if (option == 2)
-							player.setNextWorldTile(CarpetLocation.SOPHANEM.tile);
-						else if (option == 3)
-							player.setNextWorldTile(CarpetLocation.MENAPHOS.tile);
-					}
+				e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
+					ops.add("Nardah", () -> e.getPlayer().setNextWorldTile(CarpetLocation.NARDAH.tile));
+					ops.add("Sophanem", () -> e.getPlayer().setNextWorldTile(CarpetLocation.SOPHANEM.tile));
+					ops.add("Menaphos", () -> e.getPlayer().setNextWorldTile(CarpetLocation.MENAPHOS.tile));
+					ops.add("Nevermind");
 				});
 				break;
 			case NARDAH:
 			case SOPHANEM:
 			case MENAPHOS:
-				e.getPlayer().sendOptionDialogue("Where would you like to travel?", new String[] { "Pollnivneach", "Nevermind" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(CarpetLocation.S_POLLNIVNEACH.tile);
-					}
+				e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
+					ops.add("Pollnivneach", () -> e.getPlayer().setNextWorldTile(CarpetLocation.S_POLLNIVNEACH.tile));
+					ops.add("Nevermind");
 				});
 				break;
 			default:

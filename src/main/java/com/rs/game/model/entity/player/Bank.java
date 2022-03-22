@@ -279,7 +279,7 @@ public class Bank {
 		Familiar familiar = player.getFamiliar();
 		if (familiar == null || familiar.getBob() == null)
 			return;
-		int space = addItems(familiar.getBob().getBeastItems().getItems(), banking);
+		int space = addItems(familiar.getBob().getBeastItems().array(), banking);
 		if (space != 0) {
 			for (int i = 0; i < space; i++)
 				familiar.getBob().getBeastItems().set(i, null);

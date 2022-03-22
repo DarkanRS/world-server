@@ -192,7 +192,7 @@ public class DuelArenaController extends Controller {
 		int[] changedSlots = new int[itemsBefore.length];
 		int count = 0;
 		for (int index = 0; index < itemsBefore.length; index++) {
-			Item item = player.getLastDuelRules().getStake().getItems()[index];
+			Item item = player.getLastDuelRules().getStake().array()[index];
 			if (item != null)
 				if (itemsBefore[index] != item)
 					changedSlots[count++] = index;
@@ -204,7 +204,7 @@ public class DuelArenaController extends Controller {
 
 	private void refresh(int... slots) {
 		player.getPackets().sendUpdateItems(134, player.getLastDuelRules().getStake(), 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17);
-		target.getPackets().sendUpdateItems(134, true, player.getLastDuelRules().getStake().getItems(), 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17);
+		target.getPackets().sendUpdateItems(134, true, player.getLastDuelRules().getStake().array(), 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17);
 	}
 
 	public void cancelAccepted() {
@@ -272,12 +272,12 @@ public class DuelArenaController extends Controller {
 
 	public void endDuel(final Player victor, final Player loser, boolean removeLoserController) {
 		if (isDueling) {
-			for (Item item : player.getLastDuelRules().getStake().getItems()) {
+			for (Item item : player.getLastDuelRules().getStake().array()) {
 				if (item == null)
 					continue;
 				victor.getInventory().addItem(item);
 			}
-			for (Item item : target.getLastDuelRules().getStake().getItems()) {
+			for (Item item : target.getLastDuelRules().getStake().array()) {
 				if (item == null)
 					continue;
 				victor.getInventory().addItem(item);

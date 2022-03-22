@@ -70,7 +70,7 @@ public class Lunars {
 	}
 
 	public static boolean hasUnstrungs(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			if (getStrungIndex(item.getId()) != -1)
@@ -220,7 +220,7 @@ public class Lunars {
 	}
 
 	public static void fillFillables(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			Filler fill = Filler.forId((short) item.getId());
@@ -233,7 +233,7 @@ public class Lunars {
 	}
 
 	public static boolean hasFillables(Player player) {
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			Filler fill = Filler.forId((short) item.getId());
@@ -249,7 +249,7 @@ public class Lunars {
 				player.setNextSpotAnim(new SpotAnim(728, 0, 100));
 				player.setNextAnimation(new Animation(4412));
 				player.getSkills().addXp(Constants.MAGIC, 87);
-				for (Item item : player.getInventory().getItems().getItems()) {
+				for (Item item : player.getInventory().getItems().array()) {
 					if (item == null)
 						continue;
 					int strungId = getStrungIndex(item.getId());

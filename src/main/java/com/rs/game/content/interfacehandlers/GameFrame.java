@@ -18,8 +18,8 @@ package com.rs.game.content.interfacehandlers;
 
 import com.rs.game.model.entity.actions.Rest;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
-import com.rs.game.model.entity.player.managers.PriceChecker;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
+import com.rs.game.model.entity.player.managers.PriceChecker;
 import com.rs.lib.net.ClientPacket;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;

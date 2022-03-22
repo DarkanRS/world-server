@@ -51,7 +51,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
@@ -84,15 +83,13 @@ public class PlayerCombat extends PlayerAction {
 				if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
 					e.getPlayer().sendMessage("The shield is already empty.");
 				else
-					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", new String[]{"Yes, I understand the shield will lose all it's stats.", "No, I want to keep them."}, new DialogueOptionEvent() {
-						@Override
-						public void run(Player player) {
-							if (option == 1) {
-								e.getItem().deleteMetaData();
-								e.getItem().setId(11284);
-								e.getPlayer().getInventory().refresh();
-							}
-						}
+					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
+						ops.add("Yes, I understand the shield will lose all its stats.", () -> {
+							e.getItem().deleteMetaData();
+							e.getItem().setId(11284);
+							e.getPlayer().getInventory().refresh();
+						});
+						ops.add("No, I want to keep them.");
 					});
 		}
 	};

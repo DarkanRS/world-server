@@ -33,7 +33,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.NPCDropEvent;
@@ -61,22 +60,20 @@ public class AchievementSetRewards {
 	public static ItemClickHandler handleArdougneCloak = new ItemClickHandler(new Object[] { 15345, 15347, 15349, 19748, 20767, 20769, 20771 }, new String[] { "Teleports", "Teleport", "Kandarin Monastery", "Summoning-restore", "Ardougne Farm", "Customise", "Features" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Teleports") || e.getOption().equals("Features"))
-				e.getPlayer().sendOptionDialogue("Where would you like to go?", new String[] { "Ardougne Farm", "Kandarin Monastery", "Nowhere" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1) {
-							if (e.getPlayer().getDailyB("ardyCloakFarmTele") && (e.getItem().getId() == 15345 || e.getItem().getId() == 15347 || e.getItem().getId() == 15349)) {
-								e.getPlayer().sendMessage("You already used your teleport for today.");
-								return;
-							}
-							if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, Magic.MAGIC_TELEPORT))
-								e.getPlayer().setDailyB("ardyCloakFarmTele", true);
-						} else if (option == 2)
-							Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.MAGIC_TELEPORT);
-					}
+			if (e.getOption().equals("Teleports") || e.getOption().equals("Features")) {
+				e.getPlayer().sendOptionDialogue("Where would you like to go?", ops -> {
+					ops.add("Ardougne Farm", () -> {
+						if (e.getPlayer().getDailyB("ardyCloakFarmTele") && (e.getItem().getId() == 15345 || e.getItem().getId() == 15347 || e.getItem().getId() == 15349)) {
+							e.getPlayer().sendMessage("You already used your teleport for today.");
+							return;
+						}
+						if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, Magic.MAGIC_TELEPORT))
+							e.getPlayer().setDailyB("ardyCloakFarmTele", true);
+					});
+					ops.add("Kandarin Monastery", () -> Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.MAGIC_TELEPORT));
+					ops.add("Nowhere.");
 				});
-			else if (e.getOption().contains("Kandarin Monastery") || e.getOption().equals("Teleport"))
+			} else if (e.getOption().contains("Kandarin Monastery") || e.getOption().equals("Teleport"))
 				Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.MAGIC_TELEPORT);
 			else if (e.getOption().contains("Ardougne Farm")) {
 				if (e.getPlayer().getDailyB("ardyCloakFarmTele") && (e.getItem().getId() == 15345 || e.getItem().getId() == 15347 || e.getItem().getId() == 15349)) {
@@ -132,11 +129,10 @@ public class AchievementSetRewards {
 				openERingInter(e.getPlayer(), 2);
 				break;
 			case "Alchemy-or-superheat":
-				e.getPlayer().sendOptionDialogue("What would you like to do?", new String[] { "Low-alchemy", "High-alchemy", "Superheat" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						openERingInter(player, option-1);
-					}
+				e.getPlayer().sendOptionDialogue("What would you like to do?", ops -> {
+					ops.add("Low-alchemy", () -> openERingInter(e.getPlayer(), 0));
+					ops.add("High-alchemy", () -> openERingInter(e.getPlayer(), 1));
+					ops.add("Superheat", () -> openERingInter(e.getPlayer(), 2));
 				});
 				break;
 			}

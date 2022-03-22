@@ -215,7 +215,7 @@ public class TravelMethods {
 		if (isFare) {
 			if (ship.ordinal() == 10 && !returning) {
 				boolean hasEquip = false;
-				for (Item item : player.getInventory().getItems().getItems()) {
+				for (Item item : player.getInventory().getItems().array()) {
 					if (item == null)
 						continue;
 					if (Equipment.getItemSlot(item.getId()) != -1) {

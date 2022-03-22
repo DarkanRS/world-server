@@ -32,7 +32,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
@@ -326,25 +325,23 @@ public class ShadesOfMortton {
 				e.getPlayer().sendMessage("You don't have enough inventory space!");
 				return;
 			}
-			e.getPlayer().sendOptionDialogue("Would you like to remove the kit? You will not recover the fine cloth.", new String[] { "Yes", "Nevermind" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1) {
-						switch(e.getItem().getId()) {
-						case 21477:
-							e.getItem().setId(14497);
-							break;
-						case 21478:
-							e.getItem().setId(14499);
-							break;
-						case 21479:
-							e.getItem().setId(14501);
-							break;
-						}
-						e.getPlayer().getInventory().addItemDrop(21489, 1);
-						e.getPlayer().getInventory().refresh();
+			e.getPlayer().sendOptionDialogue("Would you like to remove the kit? You will not recover the fine cloth.", ops -> {
+				ops.add("Yes", () -> {
+					switch(e.getItem().getId()) {
+					case 21477:
+						e.getItem().setId(14497);
+						break;
+					case 21478:
+						e.getItem().setId(14499);
+						break;
+					case 21479:
+						e.getItem().setId(14501);
+						break;
 					}
-				}
+					e.getPlayer().getInventory().addItemDrop(21489, 1);
+					e.getPlayer().getInventory().refresh();
+				});
+				ops.add("Nevermind");
 			});
 		}
 	};
@@ -424,70 +421,68 @@ public class ShadesOfMortton {
 				e.getPlayer().sendMessage("You don't have enough inventory space!");
 				return;
 			}
-			e.getPlayer().sendOptionDialogue("Would you like to remove the skull?", new String[] { "Yes", "Nevermind" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1) {
-						switch(e.getItem().getId()) {
-						case 21490: //Skeletal staff of air
-							e.getItem().setId(1381);
-							break;
-						case 21491: //Skeletal staff of water
-							e.getItem().setId(1383);
-							break;
-						case 21492: //Skeletal staff of earth
-							e.getItem().setId(1385);
-							break;
-						case 21493: //Skeletal staff of fire
-							e.getItem().setId(1387);
-							break;
-						case 21494: //Skeletal battlestaff of fire
-							e.getItem().setId(1393);
-							break;
-						case 21495: //Skeletal battlestaff of water
-							e.getItem().setId(1395);
-							break;
-						case 21496: //Skeletal battlestaff of air
-							e.getItem().setId(1397);
-							break;
-						case 21497: //Skeletal battlestaff of earth
-							e.getItem().setId(1399);
-							break;
-						case 21498: //Necromancer's fire staff
-							e.getItem().setId(1401);
-							break;
-						case 21499: //Necromancer's water staff
-							e.getItem().setId(1403);
-							break;
-						case 21500: //Necromancer's air staff
-							e.getItem().setId(1405);
-							break;
-						case 21501: //Necromancer's earth staff
-							e.getItem().setId(1407);
-							break;
-						case 21502: //Skeletal lava battlestaff
-							e.getItem().setId(3053);
-							break;
-						case 21503: //Necromancer's lava staff
-							e.getItem().setId(3054);
-							break;
-						case 21504: //Skeletal mud battlestaff
-							e.getItem().setId(6562);
-							break;
-						case 21505: //Necromancer's mud staff
-							e.getItem().setId(6563);
-							break;
-						case 21506: //Skeletal steam battlestaff
-							e.getItem().setId(11736);
-							break;
-						case 21507: //Necromancer's steam staff
-							e.getItem().setId(11738);
-							break;
-						}
-						e.getPlayer().getInventory().addItemDrop(21488, 1);
-						e.getPlayer().getInventory().refresh();
+			e.getPlayer().sendOptionDialogue("Would you like to remove the skull?", ops -> {
+				ops.add("Yes", () -> {
+					switch(e.getItem().getId()) {
+					case 21490: //Skeletal staff of air
+						e.getItem().setId(1381);
+						break;
+					case 21491: //Skeletal staff of water
+						e.getItem().setId(1383);
+						break;
+					case 21492: //Skeletal staff of earth
+						e.getItem().setId(1385);
+						break;
+					case 21493: //Skeletal staff of fire
+						e.getItem().setId(1387);
+						break;
+					case 21494: //Skeletal battlestaff of fire
+						e.getItem().setId(1393);
+						break;
+					case 21495: //Skeletal battlestaff of water
+						e.getItem().setId(1395);
+						break;
+					case 21496: //Skeletal battlestaff of air
+						e.getItem().setId(1397);
+						break;
+					case 21497: //Skeletal battlestaff of earth
+						e.getItem().setId(1399);
+						break;
+					case 21498: //Necromancer's fire staff
+						e.getItem().setId(1401);
+						break;
+					case 21499: //Necromancer's water staff
+						e.getItem().setId(1403);
+						break;
+					case 21500: //Necromancer's air staff
+						e.getItem().setId(1405);
+						break;
+					case 21501: //Necromancer's earth staff
+						e.getItem().setId(1407);
+						break;
+					case 21502: //Skeletal lava battlestaff
+						e.getItem().setId(3053);
+						break;
+					case 21503: //Necromancer's lava staff
+						e.getItem().setId(3054);
+						break;
+					case 21504: //Skeletal mud battlestaff
+						e.getItem().setId(6562);
+						break;
+					case 21505: //Necromancer's mud staff
+						e.getItem().setId(6563);
+						break;
+					case 21506: //Skeletal steam battlestaff
+						e.getItem().setId(11736);
+						break;
+					case 21507: //Necromancer's steam staff
+						e.getItem().setId(11738);
+						break;
 					}
-				}
+					e.getPlayer().getInventory().addItemDrop(21488, 1);
+					e.getPlayer().getInventory().refresh();
+				});
+				ops.add("Nevermind");
 			});
 		}
 	};

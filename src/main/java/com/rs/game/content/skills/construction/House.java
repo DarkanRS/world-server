@@ -51,7 +51,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.RegionUtils;
 
@@ -254,53 +253,28 @@ public class House {
 			return;
 		player.lock(7);
 		if (trap == HObject.TRAPDOOR.getId())
-			player.sendOptionDialogue("What would you like to do?", new String[] { "Drop into oubliette" }, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						dropPlayers(roomX, roomY, 13681, 13681, 13681, 13681);
-				}
-
+			player.sendOptionDialogue("What would you like to do?", ops -> {
+				ops.add("Drop into oubliette", () -> dropPlayers(roomX, roomY, 13681, 13681, 13681, 13681));
+				ops.add("Nothing.");
 			});
 		else if (trap == HObject.STEELCAGE.getId()) {
 			trapPlayers(roomX, roomY, 13681, 13681, 13681, 13681);
-			player.sendOptionDialogue("What would you like to do?", new String[] { "Release players", "Nothing." }, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						releasePlayers(roomX, roomY, 13681, 13681, 13681, 13681);
-				}
-
+			player.sendOptionDialogue("What would you like to do?", ops -> {
+				ops.add("Release players", () -> releasePlayers(roomX, roomY, 13681, 13681, 13681, 13681));
+				ops.add("Nothing.");
 			});
 		} else if (trap == HObject.LESSERMAGICCAGE.getId()) {
 			trapPlayers(roomX, roomY, 13682);
-			player.sendOptionDialogue("What would you like to do?", new String[] { "Release players", "Drop into oubliette" }, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						releasePlayers(roomX, roomY, 13682);
-					else if (getOption() == 2)
-						dropPlayers(roomX, roomY, 13682);
-				}
-
+			player.sendOptionDialogue("What would you like to do?", ops -> {
+				ops.add("Release players", () -> releasePlayers(roomX, roomY, 13682));
+				ops.add("Drop into oubliette", () -> dropPlayers(roomX, roomY, 13682));
 			});
 		} else if (trap == HObject.GREATERMAGICCAGE.getId()) {
 			trapPlayers(roomX, roomY, 13683);
-			player.sendOptionDialogue("What would you like to do?", new String[] { "Release players", "Drop into oubliette", "Kick from house" }, new DialogueOptionEvent() {
-
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						releasePlayers(roomX, roomY, 13683);
-					else if (getOption() == 2)
-						dropPlayers(roomX, roomY, 13683);
-					else if (getOption() == 3)
-						kickTrapped(roomX, roomY, 13683);
-				}
-
+			player.sendOptionDialogue("What would you like to do?", ops -> {
+				ops.add("Release players", () -> releasePlayers(roomX, roomY, 13683));
+				ops.add("Drop into oubliette", () -> dropPlayers(roomX, roomY, 13683));
+				ops.add("Kick from house", () -> kickTrapped(roomX, roomY, 13683));
 			});
 		}
 	}
@@ -1273,7 +1247,7 @@ public class House {
 				player.getInterfaceManager().setDefaultTopInterface();
 				if (!buildMode)
 					if (getMenagerie() != null)
-						for (Item item : petHouse.getPets().getItems())
+						for (Item item : petHouse.getPets().array())
 							if (item != null)
 								addPet(item, false);
 				refreshServant();

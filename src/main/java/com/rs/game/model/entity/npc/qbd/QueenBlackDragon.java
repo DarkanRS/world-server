@@ -363,7 +363,7 @@ public final class QueenBlackDragon extends NPC {
 		attacker.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 8, 3, "Take", "Bank", "Discard", "Examine");
 		attacker.getPackets().setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3);
 		attacker.getPackets().sendItems(100, rewards);
-		for (Item item : rewards.getItems()) {
+		for (Item item : rewards.array()) {
 			if (item == null)
 				continue;
 			if (yellDrop(item.getId()))

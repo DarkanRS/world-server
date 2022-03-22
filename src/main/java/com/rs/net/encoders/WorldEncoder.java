@@ -526,7 +526,7 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendUpdateItems(int key, ItemsContainer<Item> items, int... slots) {
-		sendUpdateItems(key, items.getItems(), slots);
+		sendUpdateItems(key, items.array(), slots);
 	}
 
 	public void sendUpdateItems(int key, Item[] items, int... slots) {
@@ -542,7 +542,7 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendItems(int key, boolean negativeKey, ItemsContainer<Item> items) {
-		sendItems(key, negativeKey, items.getItems());
+		sendItems(key, negativeKey, items.array());
 	}
 
 	public void sendItems(int key, Item[] items) {

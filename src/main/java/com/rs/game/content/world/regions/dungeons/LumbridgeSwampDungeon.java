@@ -18,14 +18,12 @@ package com.rs.game.content.world.regions.dungeons;
 
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -34,18 +32,15 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class LumbridgeSwampDungeon {
 
-	public static ItemOnNPCHandler handleLightCreatures = new ItemOnNPCHandler(2021, 2022) {
+	public static ItemOnNPCHandler handleLightCreatures = new ItemOnNPCHandler(false, new Object[] { 2021, 2022 }) {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
 			if (!Quest.WHILE_GUTHIX_SLEEPS.meetsRequirements(e.getPlayer(), "to lure the light creature."))
 				return;
 			if (e.getItem().getId() == 4702)
-				e.getPlayer().sendOptionDialogue(e.getNPC().getId() == 2021 ? "Would you like to go down into the chasm?" : "Would you like to go back up the chasm?", new String[] { "Yes", "No, that's scary" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(e.getNPC().getId() == 2021 ? new WorldTile(2520, 5884, 0) : new WorldTile(3219, 9527, 2));
-					}
+				e.getPlayer().sendOptionDialogue(e.getNPC().getId() == 2021 ? "Would you like to go down into the chasm?" : "Would you like to go back up the chasm?", ops -> {
+					ops.add("Yes", () -> e.getPlayer().setNextWorldTile(e.getNPC().getId() == 2021 ? new WorldTile(2520, 5884, 0) : new WorldTile(3219, 9527, 2)));
+					ops.add("No, that's scary");
 				});
 		}
 	};

@@ -21,13 +21,11 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Equipment;
-import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.QueenBlackDragonController;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -45,19 +43,17 @@ public class RoyalCrossbow {
 					e.getPlayer().sendMessage("You don't have enough inventory space.");
 					return;
 				}
-				e.getPlayer().sendOptionDialogue("Would you like to undo Thurgo's hard work and retrieve the parts back?", new String[] { "Yes, please.", "No, thanks." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1) {
-							player.getInventory().deleteItem(e.getItem().getId(), 1);
-							player.getInventory().addItemDrop(24303, 1);
-							player.getInventory().addItemDrop(24340, 1);
-							player.getInventory().addItemDrop(24342, 1);
-							player.getInventory().addItemDrop(24344, 1);
-							player.getInventory().addItemDrop(24346, 1);
-							player.sendMessage("You disassemble the crossbow.");
-						}
-					}
+				e.getPlayer().sendOptionDialogue("Would you like to undo Thurgo's hard work and retrieve the parts back?", ops -> {
+					ops.add("Yes, please.", () -> {
+						e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+						e.getPlayer().getInventory().addItemDrop(24303, 1);
+						e.getPlayer().getInventory().addItemDrop(24340, 1);
+						e.getPlayer().getInventory().addItemDrop(24342, 1);
+						e.getPlayer().getInventory().addItemDrop(24344, 1);
+						e.getPlayer().getInventory().addItemDrop(24346, 1);
+						e.getPlayer().sendMessage("You disassemble the crossbow.");
+					});
+					ops.add("No, thanks.");
 				});
 				break;
 			case "Brandish":

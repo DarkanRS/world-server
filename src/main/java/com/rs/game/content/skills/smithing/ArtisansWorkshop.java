@@ -28,7 +28,6 @@ import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
@@ -45,7 +44,7 @@ public class ArtisansWorkshop  {
 	public static final HashMap<String, int[]> ORES = new HashMap<>();
 	public static final int ORE_IDX = 0, ORE_NOTED = 1, A_ORE_ID = 2, CAP_AMT = 3;
 
-	public static final String[] ORE_OPTIONS = { "Iron", "Coal", "Mithril", "Adamantite", "Runite", "None" };
+	public static final String[] ORE_OPTIONS = { "Iron", "Coal", "Mithril", "Adamantite", "Runite" };
 
 	static {
 		ORES.put("Iron", new int[] { 0, 441, 25629, 4000 });
@@ -105,65 +104,43 @@ public class ArtisansWorkshop  {
 			player.sendMessage("You don't have any ores to return.");
 			return;
 		}
-		player.sendOptionDialogue("Which ore would you like to deposit?", filteredOres, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				if (!getOptionString().equals("None"))
-					promptForDeposit(player, getOptionString());
-			}
+		player.sendOptionDialogue("Which ore would you like to deposit?", ops -> {
+			for (String opName : filteredOres)
+				ops.add(opName, () -> promptForDeposit(player, opName));
+			ops.add("None");
 		});
 	}
 
 	public static void promptForDeposit(Player player, String oreName) {
-		player.sendOptionDialogue("How many would you like to deposit?", new String[] { "10", "100", "1000", "All", "X" }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				switch(getOption()) {
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-					depositOres(player, oreName, (int) Math.pow(10, getOption()));
-					break;
-				case 5:
-					player.sendInputInteger("How many would you like to deposit?", (amount) -> depositOres(player, oreName, amount));
-					break;
-				}
-			}
+		player.sendOptionDialogue("How many would you like to deposit?", ops -> {
+			ops.add("10", () -> depositOres(player, oreName, 10));
+			ops.add("100", () -> depositOres(player, oreName, 100));
+			ops.add("1000", () -> depositOres(player, oreName, 1000));
+			ops.add("All", () -> depositOres(player, oreName, Integer.MAX_VALUE));
+			ops.add("X", () -> player.sendInputInteger("How many would you like to deposit?", (amount) -> depositOres(player, oreName, amount)));
 		});
 	}
 
 	public static void handleWithdrawOres(Player player) {
 		String[] filteredOres = Arrays.stream(ORE_OPTIONS).filter(oreName -> oreName.equals("None") ? true : player.artisanOres[ORES.get(oreName)[ORE_IDX]] > 0).toArray(String[]::new);
 		if (filteredOres.length < 2) {
-			player.sendMessage("You don't have any ores stored in the smelter.");
+			player.sendMessage("You don't have any ores to return.");
 			return;
 		}
-		player.sendOptionDialogue("Which ore would you like to withdraw?", filteredOres, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				if (!getOptionString().equals("None"))
-					promptForWithdrawal(player, getOptionString());
-			}
+		player.sendOptionDialogue("Which ore would you like to withdraw?", ops -> {
+			for (String opName : filteredOres)
+				ops.add(opName, () -> promptForWithdrawal(player, opName));
+			ops.add("None");
 		});
 	}
 
 	public static void promptForWithdrawal(Player player, String oreName) {
-		player.sendOptionDialogue("How many would you like to withdraw?", new String[] { "10", "100", "1000", "All", "X" }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				switch(getOption()) {
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-					withdrawOres(player, oreName, (int) Math.pow(10, getOption()));
-					break;
-				case 5:
-					player.sendInputInteger("How many would you like to withdraw?", (amount) -> withdrawOres(player, oreName, amount));
-					break;
-				}
-			}
+		player.sendOptionDialogue("How many would you like to withdraw?", ops -> {
+			ops.add("10", () -> withdrawOres(player, oreName, 10));
+			ops.add("100", () -> withdrawOres(player, oreName, 100));
+			ops.add("1000", () -> withdrawOres(player, oreName, 1000));
+			ops.add("All", () -> withdrawOres(player, oreName, Integer.MAX_VALUE));
+			ops.add("X", () -> player.sendInputInteger("How many would you like to deposit?", (amount) -> withdrawOres(player, oreName, amount)));
 		});
 	}
 
@@ -314,14 +291,12 @@ public class ArtisansWorkshop  {
 						continue;
 					options.add(bar[0].getProduct().getDefinitions().name.split(" ")[0]);
 				}
-				if (options.size() > 1)
-					e.getPlayer().sendOptionDialogue("Which type of bar would you like to make?", options.toArray(new String[options.size()]), new DialogueOptionEvent() {
-						@Override
-						public void run(Player player) {
-							openIngotCreation(player, BAR_SETS.get(getOptionString()));
-						}
+				if (options.size() > 1) {
+					e.getPlayer().sendOptionDialogue("Which type of bar would you like to make?", ops -> {
+						for (String opName : options)
+							ops.add(opName, () -> openIngotCreation(e.getPlayer(), BAR_SETS.get(opName)));
 					});
-				else if (options.size() == 1)
+				} else if (options.size() == 1)
 					openIngotCreation(e.getPlayer(), BAR_SETS.get(options.get(0)));
 				else
 					e.getPlayer().sendMessage("You don't have any ore stored.");

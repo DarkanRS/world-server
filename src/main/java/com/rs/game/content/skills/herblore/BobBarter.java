@@ -57,7 +57,7 @@ public class BobBarter {
 		HashMap<String, ArrayList<Integer>> potionDoses = new HashMap<>();
 		Potion potion;
 
-		for (Item i : p.getInventory().getItems().getItems()) {
+		for (Item i : p.getInventory().getItems().array()) {
 			potion = null;
 			if (i == null)
 				continue;
