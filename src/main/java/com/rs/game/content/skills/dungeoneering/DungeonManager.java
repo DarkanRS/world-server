@@ -612,6 +612,7 @@ public class DungeonManager {
 		player.getPackets().sendVarc(234, 3);
 		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 939);
 		player.getDungManager().refresh();
+		player.getInventory().deleteItem(new Item(15707, 28));
 		sendRing(player);
 		sendBindItems(player);
 		wearInventory(player);
@@ -641,20 +642,27 @@ public class DungeonManager {
 	public void resetItems(Player player, boolean drop, boolean logout) {
 		if (drop) {
 			for (Item item : player.getEquipment().getItemsCopy()) {
-				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || DungManager.isBannedDungItem(item))
 					continue;
 				World.addGroundItem(item, new WorldTile(player.getTile()));
 			}
 			for (Item item : player.getInventory().getItems().array()) {
-				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || DungManager.isBannedDungItem(item))
 					continue;
 				World.addGroundItem(item, new WorldTile(player.getTile()));
 				if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)
 					setGroupGatestone(new WorldTile(player.getTile()));
 			}
 		}
-		player.getEquipment().reset();
-		player.getInventory().reset();
+		for (Item item : player.getInventory().getItems().array()) {
+			if (DungManager.isBannedDungItem(item))
+				player.getInventory().deleteItem(item);
+		}
+		for (Item item : player.getEquipment().getItemsCopy()) {
+			if (DungManager.isBannedDungItem(item))
+				player.getEquipment().deleteItem(item.getId(), item.getAmount());
+		}
+		player.getInventory().addItem(15707, 1);
 		if (!logout)
 			player.getAppearance().generateAppearanceData();
 	}
@@ -662,6 +670,8 @@ public class DungeonManager {
 	public void sendRing(Player player) {
 		if (player.getInventory().containsItem(15707, 1))
 			player.getInventory().deleteItem(15707, 1);
+		if (player.getEquipment().containsOneItem(15707, 1))
+			player.getEquipment().deleteItem(15707, 1);
 		player.getInventory().addItem(player.getDungManager().getActivePerk() != null ? new Item(player.getDungManager().getActivePerk().getItemId()) : new Item(15707));
 	}
 
@@ -982,7 +992,6 @@ public class DungeonManager {
 		player.getControllerManager().removeControllerWithoutCheck();
 		player.getControllerManager().startController(new DamonheimController());
 		resetTraps(player);
-		player.getInventory().addItem(15707, 1);
 		if (player.getFamiliar() != null)
 			player.getFamiliar().sendDeath(player);
 		if (logout) {

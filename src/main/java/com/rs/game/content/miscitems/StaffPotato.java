@@ -71,7 +71,7 @@ public class StaffPotato {
 					}));
 					o1.add("Toggle Invisibility", new Dialogue().addNext(() -> {
 						e.getPlayer().getAppearance().setHidden(!e.getPlayer().getAppearance().isHidden());
-						e.getPlayer().sendMessage("Hidden: " + e.getPlayer().getAppearance().isHidden());
+						e.getPlayer().sendMessage("HIDDEN: " + e.getPlayer().getAppearance().isHidden());
 					}));
 					o1.add("Send drops directly to bank until logout", new Dialogue().addNext(() -> {
 						e.getPlayer().getNSV().setB("sendingDropsToBank", true);
@@ -109,6 +109,10 @@ public class StaffPotato {
 							}
 							e.getPlayer().getInventory().refresh();
 						}
+					});
+					o1.add("Instant grow all farm patches", () -> {
+						for (int i = 0;i < 200;i++)
+							e.getPlayer().tickFarming();
 					});
 				}));
 			}
