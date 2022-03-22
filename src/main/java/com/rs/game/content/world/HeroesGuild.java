@@ -31,7 +31,7 @@ public class HeroesGuild  {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if (isGloryOrROW(e.getItem().getId()) && e.getItem().getName().toLowerCase().indexOf("(4)") < 0) {
-				for (Item item : e.getPlayer().getInventory().getItems().getItems())
+				for (Item item : e.getPlayer().getInventory().getItems().array())
 					if (item != null)
 						if (isGloryOrROW(item.getId())) {
 							int fullyChargedItemId = getChargedId(item.getId());

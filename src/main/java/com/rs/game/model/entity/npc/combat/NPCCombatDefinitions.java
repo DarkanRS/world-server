@@ -18,6 +18,7 @@ package com.rs.game.model.entity.npc.combat;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -70,6 +71,7 @@ public class NPCCombatDefinitions {
 	private int attackProjectile;
 	private AggressiveType agressivenessType;
 	private Bonus attackBonus;
+	private Map<Bonus, Integer> bonuses;
 	private int aggroDistance = -1; //4 for melee, 8 for range default
 	private int deAggroDistance = -1; //16 by default
 	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
@@ -354,5 +356,17 @@ public class NPCCombatDefinitions {
 		if (attackRange <= 0)
 			return getAttackStyle() == AttackStyle.MELEE || getAttackStyle() == AttackStyle.SPECIAL2 ? 0 : 10;
 		return attackRange;
+	}
+
+	public boolean hasOverriddenBonuses() {
+		return bonuses != null && bonuses.size() > 0;
+	}
+
+	public int getBonus(Bonus bonus) {
+		if (bonuses == null)
+			return 1000;
+		if (bonuses.get(bonus) == null)
+			return 0;
+		return (Integer) bonuses.get(bonus);
 	}
 }

@@ -51,7 +51,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
@@ -84,15 +83,13 @@ public class PlayerCombat extends PlayerAction {
 				if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
 					e.getPlayer().sendMessage("The shield is already empty.");
 				else
-					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", new String[]{"Yes, I understand the shield will lose all it's stats.", "No, I want to keep them."}, new DialogueOptionEvent() {
-						@Override
-						public void run(Player player) {
-							if (option == 1) {
-								e.getItem().deleteMetaData();
-								e.getItem().setId(11284);
-								e.getPlayer().getInventory().refresh();
-							}
-						}
+					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
+						ops.add("Yes, I understand the shield will lose all its stats.", () -> {
+							e.getItem().deleteMetaData();
+							e.getItem().setId(11284);
+							e.getPlayer().getInventory().refresh();
+						});
+						ops.add("No, I want to keep them.");
 					});
 		}
 	};
@@ -1107,7 +1104,7 @@ public class PlayerCombat extends PlayerAction {
 				case 10887: // anchor
 					player.setNextAnimation(new Animation(5870));
 					player.setNextSpotAnim(new SpotAnim(1027));
-					Hit hitt = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 2.0, 1.1));
+					Hit hitt = getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 2.0, 1.1));
 					delayNormalHit(weaponId, attackStyle, hitt);
 					if (target instanceof Player other)
 						other.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
@@ -1124,9 +1121,9 @@ public class PlayerCombat extends PlayerAction {
 						target.setNextSpotAnim(new SpotAnim(254, 0, 100));
 						target.setNextSpotAnim(new SpotAnim(80));
 					}
-					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 1.0, 1.1)));
+					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.1)));
 					if (target.getSize() > 1)
-						delayHit(1, weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, false, 1.0, 1.1)));
+						delayHit(1, weaponId, attackStyle, getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.1)));
 					break;
 				case 4587: // dragon sci
 					player.setNextAnimation(new Animation(12031));
@@ -2346,7 +2343,7 @@ public class PlayerCombat extends PlayerAction {
 			return protection;
 		}
 		int shieldId = p2.getEquipment().getShieldId();
-		if (shieldId == 1540 || shieldId == 11283 || shieldId == 11284 || shieldId == 16933) {
+		if (shieldId == 1540 || shieldId == 11283 || shieldId == 11284 || shieldId == 16079 || shieldId == 16933) {
 			protection++;
 			p2.sendMessage("Your shield manages to block some of the dragon's breath.", true);
 		}

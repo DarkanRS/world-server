@@ -69,7 +69,7 @@ public class Test {
 
 		List<Item> sorted = new ArrayList<>();
 
-		for (Item item : items.getItems()) {
+		for (Item item : items.array()) {
 			if (item == null)
 				continue;
 			sorted.add(item);

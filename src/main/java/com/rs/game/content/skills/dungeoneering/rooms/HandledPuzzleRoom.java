@@ -17,8 +17,8 @@
 package com.rs.game.content.skills.dungeoneering.rooms;
 
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.content.skills.dungeoneering.VisibleRoom;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.Puzzle;
+import com.rs.game.content.skills.dungeoneering.VisibleRoom;
 
 public class HandledPuzzleRoom extends HandledRoom {
 

@@ -34,7 +34,6 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.utils.Ticks;
 
 public class GraveStone extends NPC {// 652 - gravestone selection interface
@@ -188,16 +187,13 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 			demolisher.sendMessage("It would be impolite to demolish someone else's gravestone.");
 			return;
 		}
-		demolisher.sendOptionDialogue("Are you sure you want to demolish your gravestone?", new String[] { "Yes (Permanently destroys all items underneath)", "No, I still have items to pick up." }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				if (option == 1) {
-					addLeftTime(true);
-					finish();
-					demolisher.sendMessage("It looks like it'll survive another " + (ticks / 100) + " minutes. You demolish it anyway.");
-				}
-			}
-
+		demolisher.sendOptionDialogue("Are you sure you want to demolish your gravestone?", ops -> {
+			ops.add("Yes (You will have 1 more minute to loot before they go public)", () -> {
+				addLeftTime(true);
+				finish();
+				demolisher.sendMessage("It looks like it'll survive another " + (ticks / 100) + " minutes. You demolish it anyway.");
+			});
+			ops.add("No, I have some more items to loot.");
 		});
 	}
 

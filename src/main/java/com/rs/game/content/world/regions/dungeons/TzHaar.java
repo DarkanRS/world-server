@@ -28,7 +28,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -53,12 +52,23 @@ public class TzHaar {
 					if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[2]))
 						depleteTokkulZo(e.getPlayer());
 				} else
-					e.getPlayer().sendOptionDialogue("Where would you like to teleport?", new String[] { "Main Plaza", "Fight Pits", "Fight Caves", "Fight Kiln" }, new DialogueOptionEvent() {
-						@Override
-						public void run(Player player) {
-							if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[option-1]))
+					e.getPlayer().sendOptionDialogue("Where would you like to teleport?", ops -> {
+						ops.add("Main Plaza", () -> {
+							if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[0]))
 								depleteTokkulZo(e.getPlayer());
-						}
+						});
+						ops.add("Fight Pits", () -> {
+							if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[1]))
+								depleteTokkulZo(e.getPlayer());
+						});
+						ops.add("Fight Caves", () -> {
+							if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[2]))
+								depleteTokkulZo(e.getPlayer());
+						});
+						ops.add("Fight Kiln", () -> {
+							if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[3]))
+								depleteTokkulZo(e.getPlayer());
+						});
 					});
 			} else
 				e.getPlayer().sendMessage("Your Tokkul-Zo has " + e.getItem().getMetaDataI("tzhaarCharges") + " charges left.");

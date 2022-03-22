@@ -22,6 +22,7 @@ import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.dialogue.statements.ItemStatement;
@@ -43,7 +44,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -384,20 +384,17 @@ public class Morytania  {
 				e.getPlayer().sendMessage("You have already retrieved the medallion from here.");
 				return;
 			}
-			e.getPlayer().sendOptionDialogue("Are you sure you want to inspect the coffin?", new String[] { "Yes.", "No, I'm scared!" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option == 1) {
-						player.setNextAnimation(new Animation(14745));
-						player.lock();
-						e.getPlayer().applyHit(new Hit(null, 10, HitLook.TRUE_DAMAGE), 0, () -> {
-							player.getInventory().addItem(new Item(21576, 1).addMetaData("drakanCharges", 10));
-							e.getObject().setIdTemporary(61093, 20);
-							player.unlock();
-						});
-					} else
-						player.startConversation(new Conversation(e.getPlayer()).addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "Veliaf did ask me to search everywhere."));
-				}
+			e.getPlayer().sendOptionDialogue("Are you sure you want to inspect the coffin?", ops -> {
+				ops.add("Yes.", () -> {
+					e.getPlayer().setNextAnimation(new Animation(14745));
+					e.getPlayer().lock();
+					e.getPlayer().applyHit(new Hit(null, 10, HitLook.TRUE_DAMAGE), 0, () -> {
+						e.getPlayer().getInventory().addItem(new Item(21576, 1).addMetaData("drakanCharges", 10));
+						e.getObject().setIdTemporary(61093, 20);
+						e.getPlayer().unlock();
+					});
+				});
+				ops.add("No, I'm scared!", new Dialogue().addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "Veliaf did ask me to search everywhere."));
 			});
 		}
 	};

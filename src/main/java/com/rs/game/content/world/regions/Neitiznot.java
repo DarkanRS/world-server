@@ -22,7 +22,6 @@ import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -111,16 +110,15 @@ public class Neitiznot  {
 	public static NPCClickHandler handleCureHide = new NPCClickHandler(new Object[] { 5506 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().sendOptionDialogue("What can I help you with?", new String[] {"Cure my yak-hide, please.", "Nothing, thanks."}, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						if (e.getPlayer().getInventory().containsItem(10818, 1)) {
-							int number = e.getPlayer().getInventory().getAmountOf(10818);
-							e.getPlayer().getInventory().deleteItem(10818, number);
-							e.getPlayer().getInventory().addItem(10820, number);
-						}
-				}
+			e.getPlayer().sendOptionDialogue("What can I help you with?", ops -> {
+				ops.add("Cure my yak-hide, please.", () -> {
+					if (e.getPlayer().getInventory().containsItem(10818, 1)) {
+						int number = e.getPlayer().getInventory().getAmountOf(10818);
+						e.getPlayer().getInventory().deleteItem(10818, number);
+						e.getPlayer().getInventory().addItem(10820, number);
+					}
+				});
+				ops.add("Nothing, thanks.");
 			});
 		}
 	};

@@ -76,7 +76,6 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.utils.NPCExamines;
@@ -96,12 +95,11 @@ public class NPCHandler {
 		}
 		player.getPackets().sendNPCMessage(player, 0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
 		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate"))
-			player.sendOptionDialogue("Would you like to check the drops on this monster?", new String[] { "Show drops (1,000 kills)", "Show drops (5,000 kills)", "Show drops (50,000 kills)", "Nevermind"}, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (option != 4)
-						NPC.displayDropsFor(player, npc.getId(), option == 1 ? 1000 : option == 2 ? 5000 : 50000);
-				}
+			player.sendOptionDialogue("Would you like to check the drops on this monster?", ops -> {
+				ops.add("Show drops (1,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 1000));
+				ops.add("Show drops (5,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 5000));
+				ops.add("Show drops (10,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 10000));
+				ops.add("Nevermind");
 			});
 		if (Settings.getConfig().isDebug())
 			Logger.log("NPCHandler", "examined npc: " + npc.getIndex() + ", " + npc.getId());
@@ -137,12 +135,9 @@ public class NPCHandler {
 			if (player.getTreasureTrailsManager().useNPC(npc))
 				return;
 			if (npc.getId() == 6537)
-				player.sendOptionDialogue("What would you like to do?", new String[] { "Exchange Ancient Revenant Artefacts", "Nothing." }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (getOption() == 1)
-							Statuettes.exchangeStatuettes(player);
-					}
+				player.sendOptionDialogue("What would you like to do?", ops -> {
+					ops.add("Exchange Ancient Revenant Artefacts", () -> Statuettes.exchangeStatuettes(player));
+					ops.add("Nothing.");
 				});
 			else if (npc.getId() == 5282)
 				player.startConversation(new OsmanD(player, npc.getId()));
@@ -163,20 +158,14 @@ public class NPCHandler {
 			else if (npc.getId() == 9462 || npc.getId() == 9464 || npc.getId() == 9466)
 				Strykewyrm.handleStomping(player, npc);
 			else if (npc.getId() == 2825)
-				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", new String[] {"Yes", "No"}, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(new WorldTile(2163, 5112, 1));
-					}
+				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
+					ops.add("Yes", () -> player.setNextWorldTile(new WorldTile(2163, 5112, 1)));
+					ops.add("No");
 				});
 			else if (npc.getId() == 2826)
-				player.sendOptionDialogue("Would you like to travel back to Port Phasmatys?", new String[] {"Yes", "No"}, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							player.setNextWorldTile(new WorldTile(3680, 3536, 0));
-					}
+				player.sendOptionDialogue("Would you like to travel back to Port Phasmatys?", ops -> {
+					ops.add("Yes", () -> player.setNextWorldTile(new WorldTile(3680, 3536, 1)));
+					ops.add("No");
 				});
 			else if (npc.getId() == 9707)
 				player.getDialogueManager().execute(new FremennikShipmaster(), npc.getId(), true);
@@ -380,7 +369,7 @@ public class NPCHandler {
 				return;
 			} else if (npc.getId() == 11267) {
 				int[] noteableFish = { 377, 371, 359, 317, 345, 327 };
-				for (Item item : player.getInventory().getItems().getItems()) {
+				for (Item item : player.getInventory().getItems().array()) {
 					if (item == null)
 						continue;
 					for (int id : noteableFish)

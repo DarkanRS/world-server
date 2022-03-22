@@ -130,7 +130,7 @@ public class EnchantedHeadwear {
 				ShopsHandler.openShop(e.getPlayer(), "taverly_summoning_shop");
 			else if (e.getOpNum() == 4) {
 				if (e.getPlayer().getInventory().getFreeSlots() < 28)
-					for (Item i : e.getPlayer().getInventory().getItems().getItems())
+					for (Item i : e.getPlayer().getInventory().getItems().array())
 						if ((null != i) && (null != Headwear.getHeadwear(i.getId()))) {
 							e.getPlayer().startConversation(new Dialogue().addSimple("That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it."));
 							return;

@@ -30,6 +30,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
@@ -42,19 +43,20 @@ import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.ItemConstants.ItemDegrade;
 import com.rs.game.content.Notes;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.Toolbelt;
-import com.rs.game.content.ItemConstants.ItemDegrade;
 import com.rs.game.content.Toolbelt.Tools;
 import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.content.books.Book;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.dialogues_matrix.StartDialogue;
 import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
@@ -112,11 +114,11 @@ import com.rs.game.model.entity.player.managers.DialogueManager;
 import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.game.model.entity.player.managers.HintIconsManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.managers.MusicsManager;
 import com.rs.game.model.entity.player.managers.PrayerManager;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
-import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
@@ -152,7 +154,6 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
@@ -790,11 +791,11 @@ public class Player extends Entity {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
 				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().getItems())
+					for (Item item : getFamiliar().getBob().getBeastItems().array())
 						if (item != null)
 							if (ItemConstants.isDungItem(item.getId()))
 								getFamiliar().getBob().getBeastItems().remove(item);
-		for (Item item : getInventory().getItems().getItems())
+		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isDungItem(item.getId()))
 					getInventory().deleteItem(item);
@@ -813,11 +814,11 @@ public class Player extends Entity {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
 				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().getItems())
+					for (Item item : getFamiliar().getBob().getBeastItems().array())
 						if (item != null)
 							if (ItemConstants.isHouseOnlyItem(item.getId()))
 								getFamiliar().getBob().getBeastItems().remove(item);
-		for (Item item : getInventory().getItems().getItems())
+		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isHouseOnlyItem(item.getId()))
 					getInventory().deleteItem(item);
@@ -1809,11 +1810,8 @@ public class Player extends Entity {
 			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
 	}
 
-	public void sendOptionDialogue(String question, String[] options, DialogueOptionEvent e) {
-		e.setOptions(options);
-		getTempAttribs().setO("pluginOption", e);
-		MatrixDialogue.sendOptionsDialogue(this, question, options);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginOption"));
+	public void sendOptionDialogue(String question, Consumer<Options> options) {
+		startConversation(new Dialogue().addOptions(question, options));
 	}
 
 	public void sendInputName(String question, InputStringEvent e) {

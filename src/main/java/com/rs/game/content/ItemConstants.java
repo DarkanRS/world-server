@@ -30,7 +30,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
@@ -293,18 +292,17 @@ public class ItemConstants {
 		}
 		if (item.getId() == 20120) {
 			if (item.getMetaData("frozenKeyCharges") != null && item.getMetaDataI("frozenKeyCharges") < 100)
-				player.sendOptionDialogue("Would you like to add a charge to your frozen key? It will cost 50,000 coins.", new String[] {"Yes please.", "No, that's too much."}, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							if (player.getInventory().containsItem(995, 50000)) {
-								if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId())
-									return;
-								player.getInventory().deleteItem(995, 50000);
-								player.getInventory().getItems().set(slot, new Item(20120, 1).addMetaData("frozenKeyCharges", item.getMetaDataI("frozenKeyCharges") + 1));
-							} else
-								player.sendMessage("You don't have enough money to add a charge.");
-					}
+				player.sendOptionDialogue("Would you like to add a charge to your frozen key? It will cost 50,000 coins.", ops -> {
+					ops.add("Yes please.", () -> {
+						if (player.getInventory().containsItem(995, 50000)) {
+							if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId())
+								return;
+							player.getInventory().deleteItem(995, 50000);
+							player.getInventory().getItems().set(slot, new Item(20120, 1).addMetaData("frozenKeyCharges", item.getMetaDataI("frozenKeyCharges") + 1));
+						} else
+							player.sendMessage("You don't have enough money to add a charge.");
+					});
+					ops.add("No, that's too much.");
 				});
 			return;
 		}

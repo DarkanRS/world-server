@@ -31,7 +31,6 @@ import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -133,17 +132,9 @@ public class ClansManager {
 	};
 
 	public static void create(Player player, String name) {
-		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", new String[] { "Yes, create " + name + ".", "No, I want to pick another name." }, new DialogueOptionEvent() {
-			@Override
-			public void run(Player player) {
-				if (getOption() == 1)
-					LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> {
-
-					});
-				else {
-
-				}
-			}
+		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", ops -> {
+			ops.add("Yes, create " + name + ".", () -> LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> { }));
+			ops.add("No, I want to pick another name.");
 		});
 	}
 

@@ -87,7 +87,7 @@ public final class CastleWars {
 			player.sendMessage("You cannot wear hats, capes or helms in the arena.");
 			return;
 		}
-		for (Item item : player.getInventory().getItems().getItems()) {
+		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
 			if (Food.forId(item.getId()) != null) {

@@ -123,7 +123,7 @@ public class PartyRoom {
 		player.getPackets().setIFHidden(CHEST_INTERFACE, 26, true);
 		refreshItems(player);
 		player.setCloseInterfacesEvent(() -> {
-			for (Item item : player.partyDeposit.getItems())
+			for (Item item : player.partyDeposit.array())
 				if (item != null)
 					player.getInventory().addItem(item);
 			player.partyDeposit.clear();
@@ -136,7 +136,7 @@ public class PartyRoom {
 				player.sendMessage("Please wait for the previous party to end.");
 				return;
 			}
-			for (Item item : store.getItems()) {
+			for (Item item : store.array()) {
 				if (item == null)
 					continue;
 				if (drop.freeSlots() <= 0)
@@ -189,7 +189,7 @@ public class PartyRoom {
 
 	public static Item getNextItem() {
 		ArrayList<Item> items = new ArrayList<>();
-		for (Item item : drop.getItems())
+		for (Item item : drop.array())
 			if (item != null)
 				items.add(item);
 		if (items.isEmpty())
@@ -270,7 +270,7 @@ public class PartyRoom {
 	}
 
 	public static void addToChest(Player player) {
-		for (Item item : player.partyDeposit.getItems())
+		for (Item item : player.partyDeposit.array())
 			if (item != null) {
 				if (store.freeSlots() <= 0) {
 					player.sendMessage("There was not enough room in the chest for all those items.");
@@ -375,7 +375,7 @@ public class PartyRoom {
 
 	public static long getTotalCoins() {
 		long total = 0;
-		for (Item item : drop.getItems())
+		for (Item item : drop.array())
 			if (item != null)
 				total += item.getDefinitions().getValue() * item.getAmount();
 		return total;

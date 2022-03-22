@@ -17,11 +17,10 @@
 package com.rs.game.content;
 
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.world.LoyaltyShop;
-import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -42,43 +41,23 @@ public class TitleShop {
 					}));
 					return;
 				}
-				e.getPlayer().sendOptionDialogue("What would you like help with?", new String[] { "Check the Loyalty Point Shop", "Re-apply my account type title", "See your available titles", "Clear my title" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (option == 1)
-							LoyaltyShop.open(e.getPlayer());
-						else if (option == 2)
-							player.applyAccountTitle();
-						else if (option == 3)
-							AchievementTitles.openInterface(player);
-						else
-							player.sendOptionDialogue("Really clear your title?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
-								@Override
-								public void run(Player player) {
-									if (getOption() == 1)
-										player.clearTitle();
-								}
-
-							});
-					}
+				e.getPlayer().sendOptionDialogue("What would you like help with?", ops -> {
+					ops.add("Check the Loyalty Point Shop", () -> LoyaltyShop.open(e.getPlayer()));
+					ops.add("Re-apply my account type title", () -> e.getPlayer().applyAccountTitle());
+					ops.add("See your available titles", () -> AchievementTitles.openInterface(e.getPlayer()));
+					ops.add("Clear my title", new Dialogue().addOptions("Really clear your title?", ops2 -> {
+						ops2.add("Yes", () -> e.getPlayer().clearTitle());
+						ops2.add("No");
+					}));
 				});
 				break;
 			case 3:
 				LoyaltyShop.open(e.getPlayer());
 				break;
 			case 4:
-				e.getPlayer().sendOptionDialogue("Really clear your title?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
-					@Override
-					public void run(Player player) {
-						if (getOption() == 1) {
-							player.setTitle(null);
-							player.setTitleColor(null);
-							player.setTitleShading(null);
-							player.getAppearance().setTitle(0);
-							player.getAppearance().generateAppearanceData();
-						}
-					}
-
+				e.getPlayer().sendOptionDialogue("Really clear your title?", ops -> {
+					ops.add("Yes", () -> e.getPlayer().clearTitle());
+					ops.add("No");
 				});
 				break;
 			}

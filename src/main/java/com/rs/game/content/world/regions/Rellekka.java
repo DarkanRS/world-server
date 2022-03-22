@@ -18,10 +18,10 @@ package com.rs.game.content.world.regions;
 
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.achievements.AchievementDef;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
-import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
+import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

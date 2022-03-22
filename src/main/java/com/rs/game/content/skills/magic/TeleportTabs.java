@@ -146,7 +146,7 @@ public class TeleportTabs {
 	public static boolean meetsTabReqs(int itemId, Player p) {
 		if (itemId == 13608) {
 			boolean hasEquip = false;
-			for (Item item : p.getInventory().getItems().getItems()) {
+			for (Item item : p.getInventory().getItems().array()) {
 				if (item == null)
 					continue;
 				if (Equipment.getItemSlot(item.getId()) != -1) {

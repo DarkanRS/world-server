@@ -1,6 +1,6 @@
 {
-  "names": [
-    "Queen Black Dragon"
+  "ids": [
+    15506
   ],
   "hitpoints": 2000,
   "attackAnim": -1,
@@ -14,10 +14,19 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "levels": [
-    450,
-    450,
-    450,
-    450,
-    450
-  ]
+    250,
+    0,
+    250,
+    250,
+    250
+  ],
+  "bonuses": {
+  	"SLASH_ATT": 490,
+  	"RANGE_ATT": 490,
+  	"STAB_DEF": 0,
+  	"SLASH_DEF": 100,
+  	"CRUSH_DEF": 100,
+  	"MAGIC_DEF": 500,
+  	"RANGE_DEF": 0
+  }
 }

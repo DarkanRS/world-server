@@ -68,7 +68,6 @@ import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.DialogueOptionEvent;
 import com.rs.tools.MapSearcher;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
@@ -253,12 +252,9 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
-			p.sendOptionDialogue("Clear bank?", new String[] { "Yes", "No" }, new DialogueOptionEvent() {
-				@Override
-				public void run(Player player) {
-					if (getOption() == 1)
-						player.getBank().clear();
-				}
+			p.sendOptionDialogue("Clear bank?", ops -> {
+				ops.add("Yes", () -> p.getBank().clear());
+				ops.add("No");
 			});
 		});
 
@@ -479,6 +475,9 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "reloadcombat", "Reloads the NPC combat definitions files.", (p, args) -> {
 			NPCCombatDefinitions.reload();
+			for (NPC npc : World.getNPCs())
+				if (npc != null)
+					npc.resetLevels();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloaddrops", "Reloads the drop table files.", (p, args) -> {
@@ -964,7 +963,7 @@ public class MiscTest {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				target.addReflectionCheck(new ReflectionCheck("Loader", "public static", "void", "handleNewJarDownload", true));
+				target.addReflectionCheck(new ReflectionCheck("com.Loader", "private", "void", "doFrame", true));
 		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {

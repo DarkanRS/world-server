@@ -160,7 +160,7 @@ public class Ectofuntus {
 				e.getPlayer().sendMessage("You need a bucket of slime before you can worship the ectofuntus.");
 				return;
 			}
-			for (Item item : e.getPlayer().getInventory().getItems().getItems()) {
+			for (Item item : e.getPlayer().getInventory().getItems().array()) {
 				if (item == null)
 					continue;
 				BoneMeal bone = BoneMeal.forMealId(item.getId());
