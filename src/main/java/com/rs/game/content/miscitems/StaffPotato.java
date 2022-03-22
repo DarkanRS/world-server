@@ -27,6 +27,8 @@ public class StaffPotato {
 				});
 			}
 			case "Eat" -> {
+				if (!e.getPlayer().canEat())
+					return;
 				e.getPlayer().sendMessage("You eat the meme.");
 				e.getPlayer().incrementCount("Food eaten");
 				e.getPlayer().setNextAnimation(Foods.EAT_ANIM);
