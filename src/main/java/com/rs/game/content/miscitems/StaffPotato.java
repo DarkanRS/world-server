@@ -1,5 +1,6 @@
 package com.rs.game.content.miscitems;
 
+import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.dialogue.Dialogue;
@@ -123,6 +124,9 @@ public class StaffPotato {
 						else
 							e.getPlayer().addEffect(Effect.AGGRESSION_POTION, Ticks.fromHours(10));
 						e.getPlayer().sendMessage("Aggression potion: " + e.getPlayer().hasEffect(Effect.AGGRESSION_POTION));
+					});
+					o1.add("Stop randoms for session", () -> {
+						e.getPlayer().getNSV().setL("lastRandom", World.getServerTicks() + Ticks.fromHours(300));
 					});
 				}));
 			}
