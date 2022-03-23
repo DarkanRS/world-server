@@ -748,6 +748,8 @@ public class Bank {
 	}
 
 	public void addItem(Item item, int creationTab, boolean refresh) {
+		if (item.getId() == -1)
+			return;
 		int[] slotInfo = getItemSlot(item.getId());
 		if (slotInfo == null || item.getMetaData() != null || bankTabs[slotInfo[0]][slotInfo[1]].getMetaData() != null) {
 			if (creationTab >= bankTabs.length)
