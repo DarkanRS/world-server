@@ -145,7 +145,7 @@ public class DungeonController extends Controller {
 	}
 
 	public void showDeaths() {
-		player.getInterfaceManager().setOverlay(945);
+		player.getInterfaceManager().sendOverlay(945);
 	}
 
 	public void showBar() {

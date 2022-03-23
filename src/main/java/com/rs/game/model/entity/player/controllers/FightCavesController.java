@@ -190,7 +190,7 @@ public class FightCavesController extends Controller {
 			win();
 			return;
 		}
-		player.getInterfaceManager().setOverlay(316);
+		player.getInterfaceManager().sendOverlay(316);
 		player.getVars().setVar(639, currentWave);
 		player.getVars().setVarBit(1549, currentWave);
 		if (stage != Stages.RUNNING)

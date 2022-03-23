@@ -478,7 +478,7 @@ public final class BarrowsController extends Controller {
 	@Override
 	public void sendInterfaces() {
 		if (player.getHiddenBrother() != -1)
-			player.getInterfaceManager().setOverlay(24);
+			player.getInterfaceManager().sendOverlay(24);
 	}
 
 	public void loadData() {

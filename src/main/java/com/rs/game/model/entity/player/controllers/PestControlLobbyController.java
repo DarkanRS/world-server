@@ -42,7 +42,7 @@ public final class PestControlLobbyController extends Controller {
 		player.getPackets().setIFText(407, 13, "Next Departure: " + minutesLeft + " minutes " + (!(minutesLeft % 2 == 0) ? " 30 seconds" : ""));
 		player.getPackets().setIFText(407, 14, "Player's Ready: " + Lander.getLanders()[landerId].getPlayers().size());
 		player.getPackets().setIFText(407, 16, "Commendations: " + player.getPestPoints());
-		player.getInterfaceManager().setOverlay(407);
+		player.getInterfaceManager().sendOverlay(407);
 	}
 
 	@Override

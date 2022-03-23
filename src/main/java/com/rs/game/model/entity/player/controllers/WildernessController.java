@@ -162,7 +162,7 @@ public class WildernessController extends Controller {
 	}
 
 	public void showSkull() {
-		player.getInterfaceManager().setOverlay(381);
+		player.getInterfaceManager().sendOverlay(381);
 	}
 
 	public static boolean isDitch(int id) {

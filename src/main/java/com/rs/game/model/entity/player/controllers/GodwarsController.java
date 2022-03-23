@@ -290,7 +290,7 @@ public class GodwarsController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(601, true);
+		player.getInterfaceManager().sendOverlay(601, true);
 		player.getPackets().sendRunScriptReverse(1171);
 	}
 

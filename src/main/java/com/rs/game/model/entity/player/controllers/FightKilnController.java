@@ -515,7 +515,7 @@ public class FightKilnController extends Controller {
 		if (stage != Stages.RUNNING)
 			return;
 		int currentWave = getCurrentWave();
-		player.getInterfaceManager().setOverlay(316);
+		player.getInterfaceManager().sendOverlay(316);
 		player.getVars().setVar(639, currentWave);
 		if (currentWave > WAVES.length) {
 			if (currentWave == 37)

@@ -1204,7 +1204,7 @@ public class DungeonManager {
 			if (!player.resizeable())
 				player.getInterfaceManager().sendInterface(933);
 			else
-				player.getInterfaceManager().setOverlay(933, true);
+				player.getInterfaceManager().sendOverlay(933, true);
 			player.getPackets().sendRunScriptReverse(2275); //clears interface data from last run
 			for (int i = 0; i < 5; i++) {
 				Player partyPlayer = i >= party.getTeam().size() ? null : party.getTeam().get(i);

@@ -148,7 +148,7 @@ public class DomTowerController extends Controller {
 	@Override
 	public void sendInterfaces() {
 		if (bosses != null) {
-			player.getInterfaceManager().setOverlay(1159);
+			player.getInterfaceManager().sendOverlay(1159);
 			player.getPackets().setIFHidden(1159, 14, true);
 			player.getPackets().setIFText(1159, 32, getMode() == DominionTower.CLIMBER ? "Climber" : "Endurance" + ". Floor " + (player.getDominionTower().getProgress() + 1));
 			player.getPackets().setIFText(1159, 40, player.getDisplayName());

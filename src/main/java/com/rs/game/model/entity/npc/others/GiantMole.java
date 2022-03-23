@@ -58,7 +58,7 @@ public class GiantMole extends NPC {
 		Entity source = hit.getSource();
 		final Player player = source == null ? null : (Player) (source instanceof Player ? source : null);
 		if (player != null)
-			player.getInterfaceManager().setOverlay(226);
+			player.getInterfaceManager().sendOverlay(226);
 		final WorldTile middle = getMiddleWorldTile();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
