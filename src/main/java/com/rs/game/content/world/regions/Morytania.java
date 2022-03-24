@@ -306,7 +306,7 @@ public class Morytania  {
 	public static ItemClickHandler handleBonesackTele = new ItemClickHandler(new Object[] { 15215 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			Magic.sendTeleportSpell(e.getPlayer(), 12055, 12057, 2133, 2134, 0, 0, new WorldTile(3362, 3504, 0), 3, true, Magic.MAGIC_TELEPORT);
+			Magic.sendTeleportSpell(e.getPlayer(), 12055, 12057, 2133, 2134, 0, 0, new WorldTile(3362, 3504, 0), 3, true, Magic.MAGIC_TELEPORT, null);
 		}
 	};
 
@@ -315,7 +315,7 @@ public class Morytania  {
 			player.sendMessage("The medallion seems unresponsive. It probably needs recharging.");
 			return;
 		}
-		if (Magic.sendTeleportSpell(player, 8939, 8941, 1864, 1864, 0, 0, location, 2, true, Magic.MAGIC_TELEPORT))
+		if (Magic.sendTeleportSpell(player, 8939, 8941, 1864, 1864, 0, 0, location, 2, true, Magic.MAGIC_TELEPORT, null))
 			if (player.getX() >= 3398 && player.getX() <= 3841 && player.getY() >= 3161 && player.getY() <= 3586)
 				player.sendMessage("Due to the short nature of your teleport, the medallion does not use a charge.");
 			else

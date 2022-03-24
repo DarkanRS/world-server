@@ -1155,7 +1155,7 @@ public class DungeonController extends Controller {
 					player.sendMessage("You cannot do that while in combat.");
 					return false;
 				}
-				Magic.sendNormalTeleportSpell(player, 0, 0, dungeon.getHomeTile(), null);
+				Magic.sendNormalTeleportSpell(player, 0, 0, dungeon.getHomeTile(), null, null);
 			}
 			if (componentId == 2)
 				player.getCombatDefinitions().switchDefensiveCasting();

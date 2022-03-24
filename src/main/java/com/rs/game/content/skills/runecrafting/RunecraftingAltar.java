@@ -143,7 +143,7 @@ public class RunecraftingAltar {
 				e.getPlayer().getTempAttribs().removeO("whr");
 				sendWickedHoodInter(e.getPlayer());
 			} else
-				Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3106, 3162, 1));
+				Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3106, 3162, 1), null, null);
 		}
 	};
 
@@ -203,7 +203,7 @@ public class RunecraftingAltar {
 						if (e.getPlayer().hasWickedHoodTalisman(selection)) {
 							if (e.getPlayer().getDailyI("wickedTeles") < 2) {
 								e.getPlayer().incDailyI("wickedTeles");
-								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null);
+								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null, null);
 							}
 						} else
 							e.getPlayer().sendMessage("The hood has not learned this rune type yet.");

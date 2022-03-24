@@ -135,9 +135,9 @@ public class DungManager {
 				return;
 			}
 			if (dung == ResourceDungeon.POLYPORE_DUNGEON)
-				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getX() == 4695 && e.getObject().getY() == 5626 ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT);
+				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getX() == 4695 && e.getObject().getY() == 5626 ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT, null);
 			else
-				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getId() == dung.insideId ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT);
+				Magic.sendTeleportSpell(e.getPlayer(), 13288, 13285, 2516, 2517, 0, 0, e.getObject().getId() == dung.insideId ? dung.outside : dung.inside, 1, false, Magic.OBJECT_TELEPORT, null);
 			if (!e.getPlayer().getDungManager().gainedXp(dung)) {
 				e.getPlayer().getDungManager().addGainedXp(dung);
 				e.getPlayer().getSkills().addXp(Constants.DUNGEONEERING, dung.xp);

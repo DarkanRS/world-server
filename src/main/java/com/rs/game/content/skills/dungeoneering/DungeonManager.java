@@ -1196,8 +1196,14 @@ public class DungeonManager {
 	public void loadRewards() {
 		stage = 2;
 		for (Player player : party.getTeam()) {
-			player.getEquipment().reset();
-			player.getInventory().reset();
+			for (Item item : player.getInventory().getItems().array()) {
+				if (DungManager.isBannedDungItem(item))
+					player.getInventory().deleteItem(item);
+			}
+			for (Item item : player.getEquipment().getItemsCopy()) {
+				if (DungManager.isBannedDungItem(item))
+					player.getEquipment().deleteItem(item.getId(), item.getAmount());
+			}
 			player.getAppearance().generateAppearanceData();
 			player.stopAll();
 			double multiplier = 1;
