@@ -57,6 +57,7 @@ public final class DungeonPartyManager {
 			remove(player, logout);
 		}
 		player.getDungManager().refresh();
+		player.getInterfaceManager().removeOverlay();
 	}
 
 	public void remove(Player player, boolean logout) {

@@ -955,6 +955,7 @@ public class DungManager {
 			}
 			if (teamMate.getDungManager().getMaxFloor() > highestFloor)
 				highestFloor = teamMate.getDungManager().getMaxFloor();
+			selectFloor(highestFloor);
 			for (int floor = 0; floor < teamMate.getDungManager().getMaxFloor(); floor++) {
 				player.getPackets().setIFHidden(947, startComponentAvailable + floor, false);
 				if (teamMate.getDungManager().currentProgress[floor])
@@ -1148,12 +1149,12 @@ public class DungManager {
 		}
 		for (Player p2 : party.getTeam()) {
 			for (Item item : p2.getInventory().getItems().array())
-				if (item != null && item.getId() != 15707) {
+				if (isBannedDungItem(item)) {
 					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;
 				}
 			for (Item item : p2.getEquipment().getItemsCopy())
-				if (item != null && item.getId() != 15707) {
+				if (isBannedDungItem(item)) {
 					player.sendMessage(p2.getDisplayName() + " is carrying items that cannot be taken into Daemonheim.");
 					return;
 				}
@@ -1167,6 +1168,15 @@ public class DungManager {
 			}
 		}
 		party.start();
+	}
+
+	public static boolean isBannedDungItem(Item item) {
+		if (item == null)
+			return false;
+		return switch(item.getId()) {
+		case 15707, 18508, 18509, 18510, 19709, 19710, 5733 -> false;
+		default -> true;
+		};
 	}
 
 	public void setSize(int size) {
