@@ -24,14 +24,11 @@ mainClassName = 'com.rs.Launcher'
 repositories {
 	mavenLocal()
 	mavenCentral()
+	maven githubPackage.invoke('DarkanRS/core')
 }
 
 group 'rs.darkan'
 version '1.0.6'
-
-repositories {
-	maven githubPackage.invoke('DarkanRS/core')
-}
 
 dependencies {
 	//implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
