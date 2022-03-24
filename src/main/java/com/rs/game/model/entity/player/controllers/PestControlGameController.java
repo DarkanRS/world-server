@@ -47,7 +47,7 @@ public class PestControlGameController extends Controller {
 	@Override
 	public void sendInterfaces() {
 		updatePestPoints();
-		player.getInterfaceManager().setOverlay(408);
+		player.getInterfaceManager().sendOverlay(408);
 	}
 
 	private void updatePestPoints() {

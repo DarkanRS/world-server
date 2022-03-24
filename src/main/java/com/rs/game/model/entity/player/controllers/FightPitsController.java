@@ -130,7 +130,7 @@ public class FightPitsController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(373);
+		player.getInterfaceManager().sendOverlay(373);
 		if (FightPits.currentChampion != null)
 			player.getPackets().setIFText(373, 10, "Current Champion: JaLYt-Ket-" + FightPits.currentChampion);
 	}

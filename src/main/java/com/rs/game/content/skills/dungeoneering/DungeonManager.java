@@ -1196,15 +1196,21 @@ public class DungeonManager {
 	public void loadRewards() {
 		stage = 2;
 		for (Player player : party.getTeam()) {
-			player.getEquipment().reset();
-			player.getInventory().reset();
+			for (Item item : player.getInventory().getItems().array()) {
+				if (DungManager.isBannedDungItem(item))
+					player.getInventory().deleteItem(item);
+			}
+			for (Item item : player.getEquipment().getItemsCopy()) {
+				if (DungManager.isBannedDungItem(item))
+					player.getEquipment().deleteItem(item.getId(), item.getAmount());
+			}
 			player.getAppearance().generateAppearanceData();
 			player.stopAll();
 			double multiplier = 1;
 			if (!player.resizeable())
 				player.getInterfaceManager().sendInterface(933);
 			else
-				player.getInterfaceManager().setOverlay(933, true);
+				player.getInterfaceManager().sendOverlay(933, true);
 			player.getPackets().sendRunScriptReverse(2275); //clears interface data from last run
 			for (int i = 0; i < 5; i++) {
 				Player partyPlayer = i >= party.getTeam().size() ? null : party.getTeam().get(i);

@@ -210,7 +210,7 @@ public class FishingTrawler {
 		for(final Player player : lobby) {
 			FadingScreen.fade(player, 2, () -> {
 				player.setNextWorldTile(NO_WATER_SHIP.getRandomTile());
-				player.getInterfaceManager().setOverlay(15);
+				player.getInterfaceManager().sendOverlay(15);
 				player.getInterfaceManager().sendInterface(368);
 				game.forEach(this::refreshInterface);
 			});

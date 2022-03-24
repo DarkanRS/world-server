@@ -60,7 +60,7 @@ public class AncientEffigiesD extends MatrixDialogue {
 		} else if (stage == 1 && componentId == OPTION_1) {
 			if (player.getSkills().getLevel(player.getTempAttribs().getI("skill1")) < AncientEffigies.getRequiredLevel(item.getId())) {
 				sendDialogue("The images in your mind fade; the ancient effigy seems", "to desire knowledge of experiences you have not yet", "had.");
-				player.sendMessage("You require at least level" + AncientEffigies.getRequiredLevel(item.getId()) + Constants.SKILL_NAME[player.getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
+				player.sendMessage("You require at least level " + AncientEffigies.getRequiredLevel(item.getId()) + Constants.SKILL_NAME[player.getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
 				player.setNextAnimation(new Animation(4067));
 			} else {
 				player.getTempAttribs().setI("skill", skill1);
@@ -70,7 +70,7 @@ public class AncientEffigiesD extends MatrixDialogue {
 		} else if (stage == 1 && componentId == OPTION_2) {
 			if (player.getSkills().getLevel(player.getTempAttribs().getI("skill2")) < AncientEffigies.getRequiredLevel(item.getId())) {
 				sendDialogue("The images in your mind fade; the ancient effigy seems", "to desire knowledge of experiences you have not yet", "had.");
-				player.sendMessage("You require at least level" + AncientEffigies.getRequiredLevel(item.getId()) + " " + Constants.SKILL_NAME[player.getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
+				player.sendMessage("You require at least level " + AncientEffigies.getRequiredLevel(item.getId()) + " " + Constants.SKILL_NAME[player.getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
 				player.setNextAnimation(new Animation(4067));
 			} else {
 				player.getTempAttribs().setI("skill", skill2);

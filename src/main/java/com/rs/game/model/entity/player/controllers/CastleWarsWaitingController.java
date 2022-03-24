@@ -45,7 +45,7 @@ public class CastleWarsWaitingController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(57);
+		player.getInterfaceManager().sendOverlay(57);
 	}
 
 	@Override

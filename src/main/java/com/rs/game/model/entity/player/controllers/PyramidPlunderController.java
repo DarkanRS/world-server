@@ -43,7 +43,7 @@ public class PyramidPlunderController extends Controller {
 
 	@Override
 	public void start() {
-		player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
+		player.getInterfaceManager().sendOverlay(PLUNDER_INTERFACE);
 		updatePlunderInterface();
 		nextRoom();
 	}
@@ -88,7 +88,7 @@ public class PyramidPlunderController extends Controller {
 
 	@Override
 	public boolean login() {
-		player.getInterfaceManager().setOverlay(PLUNDER_INTERFACE);
+		player.getInterfaceManager().sendOverlay(PLUNDER_INTERFACE);
 		for (Integer vb : varbits.keySet())
 			player.getVars().setVarBit(vb.intValue(), varbits.get(vb).intValue());
 		updatePlunderInterface();

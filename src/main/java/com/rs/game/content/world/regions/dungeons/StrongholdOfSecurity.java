@@ -34,7 +34,7 @@ public class StrongholdOfSecurity {
 	public static ItemClickHandler handleSkullSceptreTele = new ItemClickHandler(new Object[] { 9013 }, new String[] { "Invoke" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, new WorldTile(3080, 3424, 0), 4, true, Magic.MAGIC_TELEPORT);
+			Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, new WorldTile(3080, 3424, 0), 4, true, Magic.MAGIC_TELEPORT, null);
 		}
 	};
 

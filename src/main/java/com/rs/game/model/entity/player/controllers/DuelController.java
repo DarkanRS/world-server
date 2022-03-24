@@ -134,7 +134,7 @@ public class DuelController extends Controller {
 	@Override
 	public void sendInterfaces() {
 		if (isAtDuelArena(player.getTile()))
-			player.getInterfaceManager().setOverlay(638);
+			player.getInterfaceManager().sendOverlay(638);
 	}
 
 	public static boolean isAtDuelArena(WorldTile player) {

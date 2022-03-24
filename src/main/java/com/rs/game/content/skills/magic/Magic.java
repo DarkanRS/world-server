@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.magic;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
@@ -412,25 +413,45 @@ public class Magic {
 	public static final void sendDamonheimTeleport(Player player, WorldTile tile) {
 		sendTeleportSpell(player, 13652, 13654, 2602, 2603, 0, 0, tile, 10, true, MAGIC_TELEPORT, null);
 	}
-
+	
 	public static final void sendLunarTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes) {
-		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes);
+		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, null);
 	}
 
+	public static final void sendLunarTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes, Consumer<Player> onArrive) {
+		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, onArrive);
+	}
+	
+	public static final void sendAncientTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes, Consumer<Player> onArrive) {
+		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, onArrive);
+	}
+	
 	public static final void sendAncientTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes) {
-		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes);
+		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, null);
 	}
-
-	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes) {
-		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, runes);
-	}
-
+	
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile) {
-		return sendNormalTeleportSpell(player, level, xp, tile, null);
+		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, null, null);
+	}
+	
+	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes) {
+		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, runes, null);
 	}
 
+	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile, RuneSet runes, Consumer<Player> onArrive) {
+		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, runes, onArrive);
+	}
+
+	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, WorldTile tile, Consumer<Player> onArrive) {
+		return sendNormalTeleportSpell(player, level, xp, tile, null, onArrive);
+	}
+	
 	public static final boolean sendNormalTeleportSpell(Player player, WorldTile tile) {
 		return sendNormalTeleportSpell(player, 0, 0, tile);
+	}
+
+	public static final boolean sendNormalTeleportSpell(Player player, WorldTile tile, Consumer<Player> onArrive) {
+		return sendNormalTeleportSpell(player, 0, 0, tile, onArrive);
 	}
 
 	public static final boolean sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int delay, WorldTile tile) {
@@ -447,24 +468,28 @@ public class Magic {
 			@Override
 			public void run() {
 				player.unlock();
-				Magic.sendObjectTeleportSpell(player, false, tile);
+				Magic.sendObjectTeleportSpell(player, false, tile, null);
 			}
 		}, 1);
 	}
-
+	
 	public static final void sendObjectTeleportSpell(Player player, boolean randomize, WorldTile tile) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, OBJECT_TELEPORT, null);
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, OBJECT_TELEPORT, null, null);
 	}
 
-	public static final void sendDelayedObjectTeleportSpell(Player player, int delay, boolean randomize, WorldTile tile) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, delay, randomize, OBJECT_TELEPORT, null);
+	public static final void sendObjectTeleportSpell(Player player, boolean randomize, WorldTile tile, Consumer<Player> onArrive) {
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, OBJECT_TELEPORT, null, onArrive);
 	}
 
-	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final WorldTile tile, int delay, final boolean randomize, final int teleType) {
-		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, null);
+	public static final void sendDelayedObjectTeleportSpell(Player player, int delay, boolean randomize, WorldTile tile, Consumer<Player> onArrive) {
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, delay, randomize, OBJECT_TELEPORT, null, onArrive);
 	}
 
-	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final WorldTile tile, int delay, final boolean randomize, final int teleType, RuneSet runes) {
+	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final WorldTile tile, int delay, final boolean randomize, final int teleType, Consumer<Player> onArrive) {
+		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, null, onArrive);
+	}
+
+	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final WorldTile tile, int delay, final boolean randomize, final int teleType, RuneSet runes, Consumer<Player> onArrive) {
 		if (player.isLocked())
 			return false;
 		if (player.getSkills().getLevel(Constants.MAGIC) < level) {
@@ -531,6 +556,8 @@ public class Magic {
 						player.setNextFaceWorldTile(new WorldTile(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
 						player.setFaceAngle(6);
 					}
+					if (onArrive != null)
+						onArrive.accept(player);
 					removeDamage = true;
 				} else {
 					player.resetReceivedHits();

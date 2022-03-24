@@ -142,7 +142,7 @@ public class WarriorsGuild extends Controller {
 	public void sendInterfaces() {
 		if (inCatapultArea(player) && player.getEquipment().getShieldId() == 8856)
 			sendShieldInterfaces();
-		player.getInterfaceManager().setOverlay(1057);
+		player.getInterfaceManager().sendOverlay(1057);
 		for (int i = 0; i < player.getWarriorPoints().length; i++)
 			player.refreshWarriorPoints(i);
 	}

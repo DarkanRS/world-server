@@ -52,7 +52,7 @@ public class UndergroundDungeonController extends Controller {
 	public void sendInterfaces() {
 		if (requiresLightSource) {
 			boolean hasLight = LightSource.hasLightSource(player);
-			player.getInterfaceManager().setOverlay(hasLight ? (LightSource.hasExplosiveSource(player) ? 98 : 97) : 96, true);
+			player.getInterfaceManager().sendOverlay(hasLight ? (LightSource.hasExplosiveSource(player) ? 98 : 97) : 96, true);
 			if (!hasLight)
 				player.getPackets().setBlockMinimapState(2);
 			else
