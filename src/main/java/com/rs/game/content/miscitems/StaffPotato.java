@@ -1,15 +1,23 @@
 package com.rs.game.content.miscitems;
 
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.function.Consumer;
+
+import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.cooking.Foods.Food;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.controllers.BarrowsController;
+import com.rs.game.model.entity.player.controllers.Controller;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -17,8 +25,96 @@ import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class StaffPotato {
+	
+	private enum Command {
+		GOD("Toggle God", p -> {
+			p.setNextAnimation(new Animation(361));
+			p.setNextSpotAnim(new SpotAnim(122));
+			p.getNSV().setB("godMode", !p.getNSV().getB("godMode"));
+			p.sendMessage("GODMODE: " + p.getNSV().getB("godMode"));
+		}),
+		INF_PRAY("Toggle Infinite Prayer", p -> {
+			p.setNextAnimation(new Animation(412));
+			p.setNextSpotAnim(new SpotAnim(121));
+			p.getNSV().setB("infPrayer", !p.getNSV().getB("infPrayer"));
+			p.sendMessage("INFINITE PRAYER: " + p.getNSV().getB("infPrayer"));
+		}),
+		INF_SPEC("Toggle Infinite Spec", p -> {
+			p.getNSV().setB("infSpecialAttack", !p.getNSV().getB("infSpecialAttack"));
+			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getNSV().getB("infSpecialAttack"));
+		}),
+		INVISIBILITY("Toggle Invisibility", p -> {
+			p.getAppearance().setHidden(!p.getAppearance().isHidden());
+			p.sendMessage("HIDDEN: " + p.getAppearance().isHidden());
+		}),
+		BANK_DROPS("Send drops directly to bank until logout", p -> {
+			p.getNSV().setB("sendingDropsToBank", true);
+		}),
+		RESET_TASK("Reset slayer task", p -> {
+			p.getSlayer().removeTask();
+			p.updateSlayerTask();
+		}),
+		BANK("Bank", p -> {
+			p.getBank().open();
+		}),
+		MAGE_BOOK("Magic book", p -> {
+			p.startConversation(new Dialogue().addOptions(o2 -> {
+				o2.add("Modern", () -> p.getCombatDefinitions().setSpellBook(0));
+				o2.add("Ancient", () -> p.getCombatDefinitions().setSpellBook(1));
+				o2.add("Lunar", () -> p.getCombatDefinitions().setSpellBook(2));
+				o2.add("Dungeoneering", () -> p.getCombatDefinitions().setSpellBook(3));
+			}));
+		}),
+		PRAY_BOOK("Prayer book", p -> {
+			p.startConversation(new Dialogue().addOptions(o2 -> {
+			o2.add("Modern", () -> p.getPrayer().setPrayerBook(false));
+			o2.add("Ancient curses", () -> p.getPrayer().setPrayerBook(true));
+				}));
+		}),
+		LOOT_BARROWS("Loot a barrows chest", p -> {
+			if (p.getControllerManager().isIn(BarrowsController.class))
+				p.getControllerManager().getController(BarrowsController.class).cheat();
+			else
+				p.sendMessage("You're not at barrows.");
+		}),
+		CLUES_TO_CASKETS("Turn clue scroll boxes to caskets", p -> {
+			for (Item item : p.getInventory().getItems().array()) {
+				if (item == null)
+					continue;
+				for (int i = 0;i < TreasureTrailsManager.SCROLL_BOXES.length;i++) {
+					if (item.getId() == TreasureTrailsManager.SCROLL_BOXES[i])
+						item.setId(TreasureTrailsManager.CASKETS[i]);
+				}
+				p.getInventory().refresh();
+			}
+		}),
+		INSTA_FARM("Instant grow all farm patches", p -> {
+			for (int i = 0;i < 200;i++)
+				p.tickFarming();
+		}),
+		NEVER_LOG("Neverlog", p -> p.getNSV().setB("idleLogImmune", true)),
+		AGGRO_POT("Aggro pot toggle", p -> {
+			if (p.hasEffect(Effect.AGGRESSION_POTION))
+				p.removeEffect(Effect.AGGRESSION_POTION);
+			else
+				p.addEffect(Effect.AGGRESSION_POTION, Ticks.fromHours(10));
+			p.sendMessage("Aggression potion: " + p.hasEffect(Effect.AGGRESSION_POTION));
+		}),
+		NO_RANDOMS("Stop randoms for session", p -> {
+			p.getNSV().setL("lastRandom", World.getServerTicks() + Ticks.fromHours(300));
+		});
+		
+		private String name;
+		private Consumer<Player> action;
+		
+		Command(String name, Consumer<Player> action) {
+			this.name = name;
+			this.action = action;
+		}
+	}
 
 	public static ItemClickHandler handle = new ItemClickHandler(new Object[] { 5733 }, new String[] { "Eat", "Heal", "CM-Tool", "Commands", "Drop" }) {
+		@SuppressWarnings("deprecation")
 		@Override
 		public void handle(ItemClickEvent e) {
 			switch(e.getOption()) {
@@ -37,97 +133,52 @@ public class StaffPotato {
 				e.getPlayer().addFoodDelay(3);
 				e.getPlayer().getActionManager().setActionDelay(e.getPlayer().getActionManager().getActionDelay() + 3);
 				e.getPlayer().heal(Food.ROCKTAIL.getHeal() * 10, Food.ROCKTAIL.getExtraHP() * 10);
-				e.getPlayer().addEffect(Effect.OVERLOAD, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.BONFIRE, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.ANTIPOISON, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.SUPER_ANTIFIRE, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.JUJU_MINE_BANK, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.JUJU_WC_BANK, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.JUJU_FARMING, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.JUJU_HUNTER, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.JUJU_FISHING, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.REV_AGGRO_IMMUNE, Ticks.fromHours(1));
-				e.getPlayer().addEffect(Effect.REV_IMMUNE, Ticks.fromHours(1));
+				e.getPlayer().addEffect(Effect.OVERLOAD, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.BONFIRE, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.ANTIPOISON, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.SUPER_ANTIFIRE, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.JUJU_MINE_BANK, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.JUJU_WC_BANK, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.JUJU_FARMING, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.JUJU_HUNTER, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.JUJU_FISHING, Ticks.fromHours(10));
+				e.getPlayer().addEffect(Effect.REV_IMMUNE, Ticks.fromHours(10));
+				Potion.RECOVER_SPECIAL.getEffect().accept(e.getPlayer());
 				Potion.SUPER_RESTORE.getEffect().accept(e.getPlayer());
 				Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
 				Potion.SUMMONING_POTION.getEffect().accept(e.getPlayer());
 			}
-			case "Heal" -> e.getPlayer().setHitpoints(e.getPlayer().getMaxHitpoints());
+			case "Heal" -> {
+				Command command = e.getPlayer().getNSV().getO("lastPotatoCommand");
+				if (command != null)
+					command.action.accept(e.getPlayer());
+			}
 			case "Commands" -> {
 				e.getPlayer().startConversation(new Dialogue().addOptions(o1 -> {
-					o1.add("Toggle God", new Dialogue().addNext(() -> {
-						e.getPlayer().setNextAnimation(new Animation(361));
-						e.getPlayer().setNextSpotAnim(new SpotAnim(122));
-						e.getPlayer().getNSV().setB("godMode", !e.getPlayer().getNSV().getB("godMode"));
-						e.getPlayer().sendMessage("GODMODE: " + e.getPlayer().getNSV().getB("godMode"));
-					}));
-					o1.add("Toggle Infinite Prayer", new Dialogue().addNext(() -> {
-						e.getPlayer().setNextAnimation(new Animation(412));
-						e.getPlayer().setNextSpotAnim(new SpotAnim(121));
-						e.getPlayer().getNSV().setB("infPrayer", !e.getPlayer().getNSV().getB("infPrayer"));
-						e.getPlayer().sendMessage("INFINITE PRAYER: " + e.getPlayer().getNSV().getB("infPrayer"));
-					}));
-					o1.add("Toggle Infinite Spec", new Dialogue().addNext(() -> {
-						e.getPlayer().getNSV().setB("infSpecialAttack", !e.getPlayer().getNSV().getB("infSpecialAttack"));
-						e.getPlayer().sendMessage("INFINITE SPECIAL ATTACK: " + e.getPlayer().getNSV().getB("infSpecialAttack"));
-					}));
-					o1.add("Toggle Invisibility", new Dialogue().addNext(() -> {
-						e.getPlayer().getAppearance().setHidden(!e.getPlayer().getAppearance().isHidden());
-						e.getPlayer().sendMessage("HIDDEN: " + e.getPlayer().getAppearance().isHidden());
-					}));
-					o1.add("Send drops directly to bank until logout", new Dialogue().addNext(() -> {
-						e.getPlayer().getNSV().setB("sendingDropsToBank", true);
-					}));
-					o1.add("Reset slayer task", new Dialogue().addNext(() -> {
-						e.getPlayer().getSlayer().removeTask();
-						e.getPlayer().updateSlayerTask();
-					}));
-					o1.add("Bank", new Dialogue().addNext(() -> {
-						e.getPlayer().getBank().open();
-					}));
-					o1.add("Magic book", new Dialogue().addOptions(o2 -> {
-						o2.add("Modern", () -> e.getPlayer().getCombatDefinitions().setSpellBook(0));
-						o2.add("Ancient", () -> e.getPlayer().getCombatDefinitions().setSpellBook(1));
-						o2.add("Lunar", () -> e.getPlayer().getCombatDefinitions().setSpellBook(2));
-						o2.add("Dungeoneering", () -> e.getPlayer().getCombatDefinitions().setSpellBook(3));
-					}));
-					o1.add("Prayer book", new Dialogue().addOptions(o2 -> {
-						o2.add("Modern", () -> e.getPlayer().getPrayer().setPrayerBook(false));
-						o2.add("Ancient curses", () -> e.getPlayer().getPrayer().setPrayerBook(true));
-					}));
-					o1.add("Loot a barrows chest", () -> {
-						if (e.getPlayer().getControllerManager().isIn(BarrowsController.class))
-							e.getPlayer().getControllerManager().getController(BarrowsController.class).cheat();
-						else
-							e.getPlayer().sendMessage("You're not at barrows.");
-					});
-					o1.add("Turn clue scroll boxes to caskets", () -> {
-						for (Item item : e.getPlayer().getInventory().getItems().array()) {
-							if (item == null)
-								continue;
-							for (int i = 0;i < TreasureTrailsManager.SCROLL_BOXES.length;i++) {
-								if (item.getId() == TreasureTrailsManager.SCROLL_BOXES[i])
-									item.setId(TreasureTrailsManager.CASKETS[i]);
-							}
-							e.getPlayer().getInventory().refresh();
-						}
-					});
-					o1.add("Instant grow all farm patches", () -> {
-						for (int i = 0;i < 200;i++)
-							e.getPlayer().tickFarming();
-					});
-					o1.add("Neverlog", () -> e.getPlayer().getNSV().setB("idleLogImmune", true));
-					o1.add("Aggro pot toggle", () -> {
-						if (e.getPlayer().hasEffect(Effect.AGGRESSION_POTION))
-							e.getPlayer().removeEffect(Effect.AGGRESSION_POTION);
-						else
-							e.getPlayer().addEffect(Effect.AGGRESSION_POTION, Ticks.fromHours(10));
-						e.getPlayer().sendMessage("Aggression potion: " + e.getPlayer().hasEffect(Effect.AGGRESSION_POTION));
-					});
+					for (Command command : Command.values())
+						o1.add(command.name, () -> {
+							command.action.accept(e.getPlayer());
+							e.getPlayer().getNSV().setO("lastPotatoCommand", command);
+						});
 				}));
 			}
 			case "CM-Tool" -> {
-				
+				e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
+					SimpleImmutableEntry<WorldTile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
+					if (lastLoc != null)
+						op.add("Teleport to saved location.", () -> {
+							Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), p -> {
+								if (lastLoc.getValue() != null) {
+									p.getControllerManager().setController(lastLoc.getValue());
+									p.getControllerManager().sendInterfaces();
+								}
+							});
+						});
+					op.add("Save current location.", () -> {
+						e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(new WorldTile(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
+						e.getPlayer().sendMessage("Location saved.");
+					});
+				});
 			}
 			}
 		}

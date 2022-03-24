@@ -370,6 +370,15 @@ public final class ControllerManager {
 			return false;
 		return controller.getClass().isAssignableFrom(type);
 	}
+	
+	/**
+	 * Very unsafe to use this. Do not please.
+	 * @param controller
+	 */
+	@Deprecated
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends Controller> T getController(Class<T> clazz) {

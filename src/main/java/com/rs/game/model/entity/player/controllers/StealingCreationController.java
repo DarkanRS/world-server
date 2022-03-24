@@ -80,7 +80,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(809, false);
+		player.getInterfaceManager().sendOverlay(809, false);
 		player.getPackets().sendVarc(558, (int) ((game.getEndTime() - System.currentTimeMillis()) / 600)); // sync
 		player.getVars().setVarBit(5493, getTeam() ? 2 : 1);
 	}

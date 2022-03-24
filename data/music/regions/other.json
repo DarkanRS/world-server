@@ -435,6 +435,7 @@
     "comment": "Covers the entire overworld wild, maybe call on wildy controller?, covers edgevill dungeon wilderness",
     "isActive": true,
     "regionIds": [
+      11081,
       12630,
       12629,
       12886,

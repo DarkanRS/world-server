@@ -145,7 +145,7 @@ public class DungeonController extends Controller {
 	}
 
 	public void showDeaths() {
-		player.getInterfaceManager().setOverlay(945);
+		player.getInterfaceManager().sendOverlay(945);
 	}
 
 	public void showBar() {
@@ -1155,7 +1155,7 @@ public class DungeonController extends Controller {
 					player.sendMessage("You cannot do that while in combat.");
 					return false;
 				}
-				Magic.sendNormalTeleportSpell(player, 0, 0, dungeon.getHomeTile(), null);
+				Magic.sendNormalTeleportSpell(player, 0, 0, dungeon.getHomeTile(), null, null);
 			}
 			if (componentId == 2)
 				player.getCombatDefinitions().switchDefensiveCasting();

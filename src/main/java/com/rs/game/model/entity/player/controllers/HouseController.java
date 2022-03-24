@@ -858,37 +858,37 @@ public class HouseController extends Controller {
 		case 13615:
 		case 13622:
 		case 13629:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(3212, 3424, 0), null); //Varrock
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(3212, 3424, 0), null, null); //Varrock
 			break;
 		case 13616:
 		case 13623:
 		case 13630:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(3222, 3218, 0), null); //Lumby
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(3222, 3218, 0), null, null); //Lumby
 			break;
 		case 13617:
 		case 13624:
 		case 13631:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2964, 3379, 0), null); //Falador
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2964, 3379, 0), null, null); //Falador
 			break;
 		case 13618:
 		case 13625:
 		case 13632:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2757, 3478, 0), null); //Camelot
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2757, 3478, 0), null, null); //Camelot
 			break;
 		case 13619:
 		case 13626:
 		case 13633:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2664, 3305, 0), null); //Ardougne
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2664, 3305, 0), null, null); //Ardougne
 			break;
 		case 13620:
 		case 13627:
 		case 13634:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2546, 3095, 0), null); //Yanille
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(2546, 3095, 0), null, null); //Yanille
 			break;
 		case 13621:
 		case 13628:
 		case 13635:
-			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(3492, 3471, 0), null); //Kharyrll
+			Magic.sendNormalTeleportSpell(player, 1, 0, new WorldTile(3492, 3471, 0), null, null); //Kharyrll
 			break;
 		default:
 			player.sendMessage("Uh-oh... This shouldn't have happened (Object: " + objectId + "). Please report to staff.");
