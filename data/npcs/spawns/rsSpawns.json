@@ -1,5 +1,320 @@
 [
   {
+    "comment": "Black Knight Titan added by jazneta",
+    "npcId": 221,
+    "tile": {
+      "x": 2791,
+      "y": 4722,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 214,
+    "tile": {
+      "x": 2788,
+      "y": 4722,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fisherman added by jazneta",
+    "npcId": 219,
+    "tile": {
+      "x": 2798,
+      "y": 4705,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 215,
+    "tile": {
+      "x": 2787,
+      "y": 4698,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 214,
+    "tile": {
+      "x": 2777,
+      "y": 4703,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 215,
+    "tile": {
+      "x": 2773,
+      "y": 4724,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2764,
+      "y": 4691,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2758,
+      "y": 4688,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2768,
+      "y": 4685,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2766,
+      "y": 4680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "The Fisher King added by jazneta",
+    "npcId": 220,
+    "tile": {
+      "x": 2764,
+      "y": 4684,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 214,
+    "tile": {
+      "x": 2660,
+      "y": 4722,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 215,
+    "tile": {
+      "x": 2650,
+      "y": 4719,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 214,
+    "tile": {
+      "x": 2639,
+      "y": 4725,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5168,
+    "tile": {
+      "x": 2655,
+      "y": 4716,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5169,
+    "tile": {
+      "x": 2658,
+      "y": 4715,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5170,
+    "tile": {
+      "x": 2656,
+      "y": 4713,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5168,
+    "tile": {
+      "x": 2652,
+      "y": 4716,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5169,
+    "tile": {
+      "x": 2651,
+      "y": 4712,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5170,
+    "tile": {
+      "x": 2652,
+      "y": 4709,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5168,
+    "tile": {
+      "x": 2656,
+      "y": 4709,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5169,
+    "tile": {
+      "x": 2659,
+      "y": 4708,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5170,
+    "tile": {
+      "x": 2659,
+      "y": 4706,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5168,
+    "tile": {
+      "x": 2656,
+      "y": 4706,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5169,
+    "tile": {
+      "x": 2653,
+      "y": 4705,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5170,
+    "tile": {
+      "x": 2657,
+      "y": 4719,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Ram added by jazneta",
+    "npcId": 5168,
+    "tile": {
+      "x": 2660,
+      "y": 4717,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Peasant added by jazneta",
+    "npcId": 214,
+    "tile": {
+      "x": 2651,
+      "y": 4704,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2630,
+      "y": 4689,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2632,
+      "y": 4685,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2639,
+      "y": 4687,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2642,
+      "y": 4683,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2639,
+      "y": 4680,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grail Maiden added by jazneta",
+    "npcId": 210,
+    "tile": {
+      "x": 2636,
+      "y": 4677,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "The Fisher King added by jazneta",
+    "npcId": 220,
+    "tile": {
+      "x": 2635,
+      "y": 4683,
+      "plane": 1
+    }
+  },
+  {
     "comment": "Ogre added by jazneta",
     "npcId": 115,
     "tile": {
