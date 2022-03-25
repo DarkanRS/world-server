@@ -52,6 +52,7 @@ public enum Miniquest {
 	private String name;
 	private Quest[] preReqs;
 	private Map<Integer, Integer> skillReqs;
+	@SuppressWarnings("unused")
 	private Function<Player, Boolean> canStart;
 	private MiniquestOutline handler;
 

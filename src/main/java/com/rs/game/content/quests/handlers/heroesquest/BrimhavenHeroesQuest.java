@@ -109,8 +109,6 @@ public class BrimhavenHeroesQuest {
 	};
 
 	public static NPCClickHandler trobertTalk = new NPCClickHandler(new Object[] { 1884 }) {
-		int NPC = 1884;
-
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))
@@ -119,8 +117,6 @@ public class BrimhavenHeroesQuest {
 	};
 
 	public static NPCClickHandler handleAlfonseWaiter = new NPCClickHandler(new Object[] { 793 }) {
-		int NPC = 793;
-
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to")) {
@@ -132,8 +128,6 @@ public class BrimhavenHeroesQuest {
 	};
 
 	public static NPCClickHandler handleCharlieCook = new NPCClickHandler(new Object[] { 794 }) {
-		int NPC = 794;
-
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))

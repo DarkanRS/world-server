@@ -46,6 +46,7 @@ public class Wilderness {
 				case OBJECT_OP2 -> {
 					Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 2574, 32, 14, 7.5, DropSets.getDropSet("magic_axe_hut_chest"));
 				}
+				default -> e.getPlayer();
 			}
 		};
 	};
