@@ -630,13 +630,6 @@ public class NPC extends Entity {
 
 		final int size = getSize();
 
-		if (dropTo.getNSV().getB("sendingDropsToBank")) {
-			if (item.getDefinitions().isNoted())
-				item.setId(item.getDefinitions().certId);
-			sendDropDirectlyToBank(dropTo, item);
-			return;
-		}
-
 		//final WorldTile tile = new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane());
 		int value = item.getDefinitions().getValue() * item.getAmount();
 		if (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId()))
@@ -644,6 +637,12 @@ public class NPC extends Entity {
 		//player.getPackets().sendTileMessage("<shad=000000>"+item.getDefinitions().getName() + " (" + item.getAmount() + ")", tile, 20000, 50, 0xFF0000);
 
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
+		if (item.getId() != -1 && dropTo.getNSV().getB("sendingDropsToBank")) {
+			if (item.getDefinitions().isNoted())
+				item.setId(item.getDefinitions().certId);
+			sendDropDirectlyToBank(dropTo, item);
+			return;
+		}
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
 	}
 
