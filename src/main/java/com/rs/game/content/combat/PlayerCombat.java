@@ -220,11 +220,50 @@ public class PlayerCombat extends PlayerAction {
 		return delay - 1;
 	}
 
-	public Entity[] getMultiAttackTargets(Player player) {
-		return getMultiAttackTargets(player, 1, 9);
+	public static Entity[] getMultiAttackTargets(Player player, Entity target) {
+		return getMultiAttackTargets(player, target, 1, 9);
+	}
+	
+	public static Entity[] getMultiAttackTargets(Player player, WorldTile tile, int maxDistance, int maxAmtTargets) {
+		List<Entity> possibleTargets = new ArrayList<>();
+		if (!player.isAtMultiArea()) {
+			Entity target = player.getTempAttribs().getO("last_target");
+			if (target != null && !target.isDead() && !target.hasFinished() && target.withinDistance(tile, maxDistance) && (!(target instanceof NPC n) || n.getDefinitions().hasAttackOption()))
+				possibleTargets.add(target);
+			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+		}
+		y: for (int regionId : player.getMapRegionsIds()) {
+			Region region = World.getRegion(regionId);
+//			if (target instanceof Player) {
+//				Set<Integer> playerIndexes = region.getPlayerIndexes();
+//				if (playerIndexes == null)
+//					continue;
+//				for (int playerIndex : playerIndexes) {
+//					Player p2 = World.getPlayers().get(playerIndex);
+//					if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target.getTile(), maxDistance) || !player.getControllerManager().canHit(p2))
+//						continue;
+//					possibleTargets.add(p2);
+//					if (possibleTargets.size() == maxAmtTargets)
+//						break y;
+//				}
+//			} else {
+				Set<Integer> npcIndexes = region.getNPCsIndexes();
+				if (npcIndexes == null)
+					continue;
+				for (int npcIndex : npcIndexes) {
+					NPC n = World.getNPCs().get(npcIndex);
+					if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
+						continue;
+					possibleTargets.add(n);
+					if (possibleTargets.size() == maxAmtTargets)
+						break y;
+				}
+			}
+//		}
+		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
 
-	public Entity[] getMultiAttackTargets(Player player, int maxDistance, int maxAmtTargets) {
+	public static Entity[] getMultiAttackTargets(Player player, Entity target, int maxDistance, int maxAmtTargets) {
 		List<Entity> possibleTargets = new ArrayList<>();
 		possibleTargets.add(target);
 		if (target.isAtMultiArea())
@@ -311,7 +350,7 @@ public class PlayerCombat extends PlayerAction {
 		} else {
 			boolean hit = castSpellAtTarget(player, target, spell, delay);
 			if (spell.isAOE() && hit)
-				attackTarget(getMultiAttackTargets(player), new MultiAttack() {
+				attackTarget(getMultiAttackTargets(player, target), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override
@@ -430,7 +469,7 @@ public class PlayerCombat extends PlayerAction {
 					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							for (Entity target : getMultiAttackTargets(player, 5, 4)) {
+							for (Entity target : getMultiAttackTargets(player, target, 5, 4)) {
 								WorldProjectile p = World.sendProjectile(player, target, 258, 20, 50, 1);
 								WorldTasks.schedule(new WorldTask() {
 									@Override
@@ -583,7 +622,7 @@ public class PlayerCombat extends PlayerAction {
 						return 0;
 				case CHINCHOMPA:
 				case RED_CHINCHOMPA:
-					attackTarget(getMultiAttackTargets(player), new MultiAttack() {
+					attackTarget(getMultiAttackTargets(player, target), new MultiAttack() {
 						private boolean nextTarget;
 
 						@Override
@@ -886,26 +925,31 @@ public class PlayerCombat extends PlayerAction {
 			if (!specialExecute(player))
 				return combatDelay;
 			switch (weaponId) {
-				case 21371: {
+				case 21371:
+				case 21372:
+				case 21373:
+				case 21374:
+				case 21375: {
 					final WorldTile tile = new WorldTile(target.getX(), target.getY(), target.getPlane());
 					player.setNextAnimation(new Animation(11971));
 					player.setNextSpotAnim(new SpotAnim(476));
-					int damage = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.25);
-					int damDamage = damage / 5;
-					if (damage <= 200)
-						damDamage = 40;
-					final int specHits = damDamage;
-					for (int i = 0; i < 11; ++i)
-						WorldTasks.schedule(new WorldTask() {
-							@Override
-							public void run() {
-								if (target == null || target.hasFinished() || player == null || player.hasFinished())
-									stop();
-								World.sendSpotAnim(player, new SpotAnim(478), tile);
-								if (Utils.getDistance(target.getTile(), tile) <= 1)
-									target.applyHit(new Hit(player, Utils.getRandomInclusive(specHits), HitLook.MELEE_DAMAGE));
+					WorldTasks.scheduleTimer(tick -> {
+						if (player == null || player.hasFinished())
+							return false;
+						if (tick % 5 == 0) {
+							World.sendSpotAnim(player, new SpotAnim(478), tile);
+							for (Entity entity : getMultiAttackTargets(player, new WorldTile(target.getTile()), 1, 9)) {
+								Hit hit = getMeleeHit(player, getRandomMaxHit(player, entity, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25));
+								addXp(player, entity, attackStyle, hit);
+								if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
+									target.getPoison().makePoisoned(48);
+								entity.applyHit(hit);
 							}
-						}, i * 5);
+						}
+						if (tick >= 55)
+							return false;
+						return true;
+					});
 				}
 				break;
 				case 15442:// whip start
@@ -1038,7 +1082,7 @@ public class PlayerCombat extends PlayerAction {
 				case 7158: //d 2h
 					player.setNextAnimation(new Animation(7078));
 					player.setNextSpotAnim(new SpotAnim(1225));
-					attackTarget(getMultiAttackTargets(player, 1, 20), () -> {
+					attackTarget(getMultiAttackTargets(player, target, 1, 20), () -> {
 						int damage = getRandomMaxHit(player, 7158, attackStyle, true, true, 1.0, 1.2);
 						delayHit(1, 7158, attackStyle, getMeleeHit(player, damage));
 						return true;
@@ -1165,7 +1209,7 @@ public class PlayerCombat extends PlayerAction {
 				if (new Random().nextInt(randomSeed) == 0) {
 					player.setNextAnimation(new Animation(14417));
 					final AttackStyle attack = attackStyle;
-					attackTarget(getMultiAttackTargets(player, 5, Integer.MAX_VALUE), new MultiAttack() {
+					attackTarget(getMultiAttackTargets(player, target, 5, Integer.MAX_VALUE), new MultiAttack() {
 
 						private boolean nextTarget;
 
@@ -1712,15 +1756,15 @@ public class PlayerCombat extends PlayerAction {
 		delayHit(0, weaponId, attackStyle, hit, afterDelay, hitSucc, hitFail);
 	}
 
-	public Hit getMeleeHit(Player player, int damage) {
+	public static Hit getMeleeHit(Player player, int damage) {
 		return new Hit(player, damage, HitLook.MELEE_DAMAGE);
 	}
 
-	public Hit getRangeHit(Player player, int damage) {
+	public static Hit getRangeHit(Player player, int damage) {
 		return new Hit(player, damage, HitLook.RANGE_DAMAGE);
 	}
 
-	public Hit getMagicHit(Player player, int damage) {
+	public static Hit getMagicHit(Player player, int damage) {
 		return new Hit(player, damage, HitLook.MAGIC_DAMAGE);
 	}
 
