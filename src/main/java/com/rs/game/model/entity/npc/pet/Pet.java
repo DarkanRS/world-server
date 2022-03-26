@@ -52,8 +52,8 @@ public final class Pet extends NPC {
 
 	@Override
 	public void processNPC() {
-		unlockOrb();
-		if (pet == Pets.TROLL_BABY || pet.getFood().length > 0) {
+		Familiar.sendLeftClickOption(owner);
+		if (pet != Pets.TROLL_BABY || pet.getFood().length > 0) {
 			details.updateHunger(0.025);
 			owner.getVars().setVarBit(4286, (int) details.getHunger());
 		}
@@ -96,9 +96,8 @@ public final class Pet extends NPC {
 			owner.setPet(null);
 			owner.getPetManager().setNpcId(-1);
 			owner.getPetManager().setItemId(-1);
-			switchOrb(false);
+			owner.getPackets().sendRunScript(2471);
 			owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
-			owner.getPackets().setIFTargetParamsDefault(747, 17, 0, 0);
 			finish();
 		} else
 			owner.sendMessage("You need more inventory slots to pick up your pet.");
@@ -137,12 +136,15 @@ public final class Pet extends NPC {
 			calcFollow(owner, 2, false);
 	}
 
+	/**
+	 * Baby troll = var 2480 itemId it's eaten
+	 */
 	public void sendMainConfigurations() {
-		switchOrb(true);
-		owner.getVars().setVar(448, itemId);// configures
-		owner.getVars().setVar(1160, 243269632); // sets npc emote
+		owner.getVars().setVar(448, itemId);// configures pet type
+		owner.getVars().setVar(1174, 0); //refresh pet head
+		owner.getVars().setVarBit(4282, 0); //refresh pet emote
 		owner.getPackets().sendVarc(1436, 0);
-		unlockOrb(); // temporary
+		owner.getPackets().setIFHidden(747, 9, false);
 	}
 
 	public void sendFollowerDetails() {
@@ -151,30 +153,7 @@ public final class Pet extends NPC {
 		owner.getVars().setVarBit(4285, (int) details.getGrowth());
 		owner.getVars().setVarBit(4286, (int) details.getHunger());
 		owner.getInterfaceManager().sendSub(Sub.TAB_FOLLOWER, 662);
-		unlock();
 		owner.getInterfaceManager().openTab(Sub.TAB_FOLLOWER);
-	}
-
-	public void switchOrb(boolean enable) {
-		owner.getVars().setVar(1174, enable ? getId() : 0);
-		if (enable) {
-			unlock();
-			return;
-		}
-		lockOrb();
-	}
-
-	public void unlockOrb() {
-		owner.getPackets().setIFHidden(747, 9, false);
-		Familiar.sendLeftClickOption(owner);
-	}
-
-	public void unlock() {
-		owner.getPackets().setIFHidden(747, 9, false);
-	}
-
-	public void lockOrb() {
-		owner.getPackets().setIFHidden(747, 9, true);
 	}
 
 	public PetDetails getDetails() {

@@ -22,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.pet.Pets;
@@ -565,10 +565,10 @@ public class House {
 		}
 		player.getPackets().sendVarc(841, requirimentsValue);
 		player.getPackets().sendItems(398, itemArray);
-		player.getPackets().setIFTargetParams(new IFTargetParams(1306, 55, -1, -1).enableContinueButton()); // exit
+		player.getPackets().setIFEvents(new IFEvents(1306, 55, -1, -1).enableContinueButton()); // exit
 		// button
 		for (int i = 0; i < itemArray.length; i++)
-			player.getPackets().setIFTargetParams(new IFTargetParams(1306, 8 + 7 * i, 4, 4).enableContinueButton());
+			player.getPackets().setIFEvents(new IFEvents(1306, 8 + 7 * i, 4, 4).enableContinueButton());
 		// options
 		player.getInterfaceManager().sendInterface(1306);
 		player.getTempAttribs().setO("OpenedBuild", build);

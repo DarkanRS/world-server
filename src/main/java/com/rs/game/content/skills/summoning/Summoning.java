@@ -23,7 +23,7 @@ import java.util.Map;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -35,89 +35,90 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class Summoning {
 
 	public enum Pouches {
-		SPIRIT_WOLF(12047, 1, 0.1, 4.8, 360000, 1),
-		DREADFOWL(12043, 4, 0.1, 9.3, 240000, 1),
-		SPIRIT_SPIDER(12059, 10, 0.2, 12.6, 900000, 2),
-		THORNY_SNAIL(12019, 13, 0.2, 12.6, 960000, 2),
-		GRANITE_CRAB(12009, 16, 0.2, 21.6, 1080000, 2),
-		SPIRIT_MOSQUITO(12778, 17, 0.2, 46.5, 720000, 2),
-		DESERT_WYRM(12049, 18, 0.4, 31.2, 1140000, 1),
-		SPIRIT_SCORPIAN(12055, 19, 0.9, 83.2, 1020000, 2),
-		SPIRIT_TZ_KIH(12808, 22, 1.1, 96.8, 1080000, 3),
-		ALBINO_RAT(12067, 23, 2.3, 100.4, 1320000, 3),
-		SPIRIT_KALPHITE(12063, 25, 2.5, 220, 1320000, 3),
-		COMPOST_MOUNT(12091, 28, 0.6, 49.8, 1440000, 6),
-		GIANT_CHINCHOMPA(12800, 29, 2.5, 50.0, 1860000, 1),
-		VAMPYRE_BAT(12053, 31, 1.6, 86.0, 1980000, 4),
-		HONEY_BADGER(12065, 32, 1.6, 90.8, 1500000, 4),
-		BEAVER(12021, 33, 0.7, 57.6, 1620000, 4),
-		VOID_RAVAGER(12818, 34, 0.7, 59.6, 5640000, 4),
-		VOID_SPINNER(12780, 34, 0.7, 59.6, 5640000, 4),
-		VOID_TORCHER(12798, 34, 0.7, 59.6, 5640000, 4),
-		VOID_SHIFTER(12814, 34, 0.7, 59.6, 5640000, 4),
-		BRONZE_MINOTAUR(12073, 36, 2.4, 79.8, 1800000, 9),
-		IRON_MINOTAUR(12075, 46, 4.6, 404.8, 2220000, 9),
-		STEEL_MINOTAUR(12077, 56, 5.6, 142.8, 2760000, 9),
-		MITHRIL_MINOTAUR(12079, 66, 6.6, 580.8, 3300000, 9),
-		ADAMANT_MINOTAUR(12081, 76, 8.6, 668.8, 3960000, 9),
-		RUNE_MINOTAUR(12083, 86, 8.6, 756.8, 9060000, 9),
-		BULL_ANT(12087, 40, 0.6, 52.8, 1800000, 5),
-		MACAW(12071, 41, 0.8, 72.4, 1860000, 5),
-		EVIL_TURNIP(12051, 42, 2.1, 184.8, 1800000, 5),
-		SPIRIT_COCKATRICE(12095, 43, 0.9, 75.2, 2160000, 5),
-		SPIRIT_GUTHATRICE(12097, 43, 0.9, 75.2, 2160000, 5),
-		SPIRIT_SARATRICE(12099, 43, 0.9, 75.2, 2160000, 5),
-		SPIRIT_ZAMATRICE(12101, 43, 0.9, 75.2, 2160000, 5),
-		SPIRIT_PENGATRICE(12103, 43, 0.9, 75.2, 2160000, 5),
-		SPIRIT_CORAXATRICE(12105, 43, 0.9, 75.2, 2160000, 5),
-		SPIRIT_VULATRICE(12107, 43, 0.9, 75.2, 2160000, 5),
-		PYRELORD(12816, 46, 2.3, 202.4, 1920000, 5),
-		MAGPIE(12041, 47, 0.9, 83.2, 2040000, 5),
-		BLOATED_LEECH(12061, 49, 2.4, 215.2, 2040000, 5),
-		SPIRIT_TERRORBIRD(12007, 52, 0.7, 68.4, 2160000, 6),
-		ABYSSAL_PARASITE(12035, 54, 1.1, 94.8, 1800000, 6),
-		SPIRIT_JELLY(12027, 55, 5.5, 100.0, 2580000, 6),
-		IBIS(12531, 56, 1.1, 98.8, 2280000, 6),
-		SPIRIT_KYATT(12812, 57, 5.7, 201.6, 2940000, 6),
-		SPIRIT_LARUPIA(12784, 57, 5.7, 201.6, 2940000, 6),
-		SPIRIT_GRAAHK(12810, 57, 5.6, 201.6, 2940000, 6),
-		KARAMTHULU_OVERLOAD(12023, 58, 5.8, 210.4, 2640000, 6),
-		SMOKE_DEVIL(12085, 61, 3.1, 268.0, 2880000, 7),
-		ABYSSAL_LURKER(12037, 62, 1.9, 109.6, 2460000, 7),
-		SPIRIT_COBRA(12015, 63, 3.1, 276.8, 3360000, 7),
-		STRANGER_PLANT(12045, 64, 3.2, 281.6, 2940000, 7),
-		BARKER_TOAD(12123, 66, 1.0, 87.0, 480000, 7),
-		WAR_TORTOISE(12031, 67, 0.7, 58.6, 2580000, 7),
-		BUNYIP(12029, 68, 1.4, 119.2, 2640000, 7),
-		FRUIT_BAT(12033, 69, 1.4, 121.2, 2700000, 7),
-		RAVENOUS_LOCUST(12820, 70, 1.5, 132.0, 1440000, 4),
-		ARCTIC_BEAR(12057, 71, 1.1, 93.2, 1680000, 8),
-		PHEONIX(14623, 72, 3.0, 101.0, 1800000, 8),
-		OBSIDIAN_GOLEM(12792, 73, 7.3, 342.4, 3300000, 8),
-		GRANITE_LOBSTER(12069, 74, 3.7, 325.6, 2920000, 8),
-		PRAYING_MANTIS(12011, 75, 3.6, 329.6, 4140000, 8),
-		FORGE_REGENT(12782, 76, 1.5, 134.0, 2700000, 9),
-		TALON_BEAST(12794, 77, 3.8, 105.2, 2940000, 9),
-		GIANT_ENT(12013, 78, 1.6, 136.8, 2940000, 8),
-		HYDRA(12025, 80, 1.6, 140.8, 2940000, 8),
-		SPIRIT_DAGANNOTH(12017, 83, 4.1, 364.8, 3420000, 9),
-		UNICORN_STALLION(12039, 88, 1.8, 154.4, 3240000, 9),
-		WOLPERTINGER(12089, 92, 4.6, 404.8, 3720000, 10),
-		PACK_YAK(12093, 96, 4.8, 422.2, 3480000, 10),
-		FIRE_TITAN(12802, 79, 7.9, 395.2, 3720000, 9),
-		MOSS_TITAN(12804, 79, 7.9, 395.2, 3720000, 9),
-		ICE_TITAN(12806, 79, 7.9, 395.2, 3720000, 9),
-		LAVA_TITAN(12788, 83, 8.3, 330.4, 3660000, 9),
-		SWAMP_TITAN(12776, 85, 4.2, 373.6, 3360000, 9),
-		GEYSER_TITAN(12786, 89, 8.9, 383.2, 4140000, 10),
-		ABYSSAL_TITAN(12796, 93, 1.9, 163.2, 1920000, 10),
-		IRON_TITAN(12822, 95, 8.6, 417.6, 3600000, 10),
-		STEEL_TITAN(12790, 99, 4.9, 435.2, 3840000, 10);
+		SPIRIT_WOLF(12047, 1, 0.1, 4.8, Ticks.fromMinutes(16), 1),
+		DREADFOWL(12043, 4, 0.1, 9.3, Ticks.fromMinutes(16), 1),
+		SPIRIT_SPIDER(12059, 10, 0.2, 12.6, Ticks.fromMinutes(16), 2),
+		THORNY_SNAIL(12019, 13, 0.2, 12.6, Ticks.fromMinutes(16), 2),
+		GRANITE_CRAB(12009, 16, 0.2, 21.6, Ticks.fromMinutes(16), 2),
+		SPIRIT_MOSQUITO(12778, 17, 0.2, 46.5, Ticks.fromMinutes(16), 2),
+		DESERT_WYRM(12049, 18, 0.4, 31.2, Ticks.fromMinutes(16), 1),
+		SPIRIT_SCORPION(12055, 19, 0.9, 83.2, Ticks.fromMinutes(16), 2),
+		SPIRIT_TZ_KIH(12808, 22, 1.1, 96.8, Ticks.fromMinutes(16), 3),
+		ALBINO_RAT(12067, 23, 2.3, 202.4, Ticks.fromMinutes(16), 3),
+		SPIRIT_KALPHITE(12063, 25, 2.5, 220, Ticks.fromMinutes(16), 3),
+		COMPOST_MOUNT(12091, 28, 0.6, 49.8, Ticks.fromMinutes(32), 6),
+		GIANT_CHINCHOMPA(12800, 29, 2.5, 255.2, Ticks.fromMinutes(32), 1),
+		VAMPYRE_BAT(12053, 31, 1.6, 136.0, Ticks.fromMinutes(32), 4),
+		HONEY_BADGER(12065, 32, 1.6, 140.8, Ticks.fromMinutes(32), 4),
+		BEAVER(12021, 33, 0.7, 57.6, Ticks.fromMinutes(32), 4),
+		VOID_RAVAGER(12818, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+		VOID_SPINNER(12780, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+		VOID_TORCHER(12798, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+		VOID_SHIFTER(12814, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+		BRONZE_MINOTAUR(12073, 36, 2.4, 316.8, Ticks.fromMinutes(32), 9),
+		IRON_MINOTAUR(12075, 46, 4.6, 404.8, Ticks.fromMinutes(32), 9),
+		STEEL_MINOTAUR(12077, 56, 5.6, 492.8, Ticks.fromMinutes(48), 9),
+		MITHRIL_MINOTAUR(12079, 66, 6.6, 580.8, Ticks.fromMinutes(48), 9),
+		ADAMANT_MINOTAUR(12081, 76, 8.6, 668.8, Ticks.fromMinutes(64), 9),
+		RUNE_MINOTAUR(12083, 86, 8.6, 756.8, Ticks.fromMinutes(64), 9),
+		BULL_ANT(12087, 40, 0.6, 52.8, Ticks.fromMinutes(32), 5),
+		MACAW(12071, 41, 0.8, 72.4, Ticks.fromMinutes(32), 5),
+		EVIL_TURNIP(12051, 42, 2.1, 184.8, Ticks.fromMinutes(32), 5),
+		SPIRIT_COCKATRICE(12095, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_GUTHATRICE(12097, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_SARATRICE(12099, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_ZAMATRICE(12101, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_PENGATRICE(12103, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_CORAXATRICE(12105, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_VULATRICE(12107, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5),
+		PYRELORD(12816, 46, 2.3, 202.4, Ticks.fromMinutes(32), 5),
+		MAGPIE(12041, 47, 0.9, 83.2, Ticks.fromMinutes(32), 5),
+		BLOATED_LEECH(12061, 49, 2.4, 215.2, Ticks.fromMinutes(32), 5),
+		SPIRIT_TERRORBIRD(12007, 52, 0.7, 68.4, Ticks.fromMinutes(32), 6),
+		ABYSSAL_PARASITE(12035, 54, 1.1, 94.8, Ticks.fromMinutes(32), 6),
+		SPIRIT_JELLY(12027, 55, 5.5, 484.0, Ticks.fromMinutes(48), 6),
+		IBIS(12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6),
+		SPIRIT_KYATT(12812, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
+		SPIRIT_LARUPIA(12784, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
+		SPIRIT_GRAAHK(12810, 57, 5.6, 501.6, Ticks.fromMinutes(48), 6),
+		KARAMTHULU_OVERLOAD(12023, 58, 5.8, 510.4, Ticks.fromMinutes(48), 6),
+		SMOKE_DEVIL(12085, 61, 3.1, 268.0, Ticks.fromMinutes(48), 7),
+		ABYSSAL_LURKER(12037, 62, 1.9, 109.6, Ticks.fromMinutes(48), 7),
+		SPIRIT_COBRA(12015, 63, 3.1, 276.8, Ticks.fromMinutes(48), 7),
+		STRANGER_PLANT(12045, 64, 3.2, 281.6, Ticks.fromMinutes(48), 7),
+		BARKER_TOAD(12123, 66, 1.0, 87.0, Ticks.fromMinutes(48), 7),
+		WAR_TORTOISE(12031, 67, 0.7, 58.6, Ticks.fromMinutes(48), 7),
+		BUNYIP(12029, 68, 1.4, 119.2, Ticks.fromMinutes(48), 7),
+		FRUIT_BAT(12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7),
+		RAVENOUS_LOCUST(12820, 70, 1.5, 132.0, Ticks.fromMinutes(48), 4),
+		ARCTIC_BEAR(12057, 71, 1.1, 93.2, Ticks.fromMinutes(48), 8),
+		PHEONIX(14623, 72, 3.0, 301.0, Ticks.fromMinutes(48), 8),
+		OBSIDIAN_GOLEM(12792, 73, 7.3, 642.4, Ticks.fromMinutes(64), 8),
+		GRANITE_LOBSTER(12069, 74, 3.7, 325.6, Ticks.fromMinutes(64), 8),
+		PRAYING_MANTIS(12011, 75, 3.6, 329.6, Ticks.fromMinutes(64), 8),
+		FORGE_REGENT(12782, 76, 1.5, 134.0, Ticks.fromMinutes(64), 9),
+		TALON_BEAST(12794, 77, 3.8, 1015.2, Ticks.fromMinutes(64), 9),
+		GIANT_ENT(12013, 78, 1.6, 136.8, Ticks.fromMinutes(64), 8),
+		HYDRA(12025, 80, 1.6, 140.8, Ticks.fromMinutes(64), 8),
+		SPIRIT_DAGANNOTH(12017, 83, 4.1, 364.8, Ticks.fromMinutes(64), 9),
+		UNICORN_STALLION(12039, 88, 1.8, 154.4, Ticks.fromMinutes(64), 9),
+		WOLPERTINGER(12089, 92, 4.6, 404.8, Ticks.fromMinutes(64), 10),
+		PACK_YAK(12093, 96, 4.8, 422.2, Ticks.fromMinutes(64), 10),
+		FIRE_TITAN(12802, 79, 7.9, 695.2, Ticks.fromMinutes(64), 9),
+		MOSS_TITAN(12804, 79, 7.9, 695.2, Ticks.fromMinutes(64), 9),
+		ICE_TITAN(12806, 79, 7.9, 695.2, Ticks.fromMinutes(64), 9),
+		LAVA_TITAN(12788, 83, 8.3, 730.4, Ticks.fromMinutes(64), 9),
+		SWAMP_TITAN(12776, 85, 4.2, 373.6, Ticks.fromMinutes(64), 9),
+		GEYSER_TITAN(12786, 89, 8.9, 783.2, Ticks.fromMinutes(64), 10),
+		ABYSSAL_TITAN(12796, 93, 1.9, 163.2, Ticks.fromMinutes(64), 10),
+		IRON_TITAN(12822, 95, 8.6, 417.6, Ticks.fromMinutes(64), 10),
+		STEEL_TITAN(12790, 99, 4.9, 435.2, Ticks.fromMinutes(64), 10);
 
 		private static final Map<Integer, Pouches> pouches = new HashMap<>();
 
@@ -135,9 +136,9 @@ public class Summoning {
 		private int summoningCost;
 		private double minorExperience;
 		private double experience;
-		private long pouchTime;
+		private int pouchTime;
 
-		private Pouches(int realPouchId, int level, double minorExperience, double experience, long pouchTime, int summoningCost) {
+		private Pouches(int realPouchId, int level, double minorExperience, double experience, int pouchTime, int summoningCost) {
 			this.level = level;
 			this.realPouchId = realPouchId;
 			this.minorExperience = minorExperience;
@@ -166,7 +167,7 @@ public class Summoning {
 			return experience;
 		}
 
-		public long getPouchTime() {
+		public int getPouchTime() {
 			return pouchTime;
 		}
 	}
@@ -326,6 +327,7 @@ public class Summoning {
 		player.getInventory().deleteItem(pouch.getRealPouchId(), 1);
 		player.getSkills().drainSummoning(pouch.getSummoningCost());
 		player.setFamiliar(npc);
+		npc.sendFollowerDetails();
 	}
 
 	public static Familiar createFamiliar(Player player, WorldTile tile, Pouches pouch) {
@@ -376,14 +378,14 @@ public class Summoning {
 	public static void openInfusionInterface(Player player) {
 		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
 		player.getPackets().sendPouchInfusionOptionsScript(POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
-		player.getPackets().setIFTargetParams(new IFTargetParams(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
+		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
 		player.getTempAttribs().setB("infusing_scroll", false);
 	}
 
 	public static void openScrollInfusionInterface(Player player) {
 		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
 		player.getPackets().sendScrollInfusionOptionsScript(SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
-		player.getPackets().setIFTargetParams(new IFTargetParams(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
+		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
 		player.getTempAttribs().setB("infusing_scroll", true);
 	}
 

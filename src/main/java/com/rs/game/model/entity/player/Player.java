@@ -943,7 +943,6 @@ public class Player extends Entity {
 			interfaceManager.removeInventoryInterface();
 		endConversation();
 		dialogueManager.finishDialogue();
-		getPackets().closeGESearch();
 		if (closeInterfacesEvent != null) {
 			closeInterfacesEvent.run();
 			closeInterfacesEvent = null;
@@ -2945,7 +2944,7 @@ public class Player extends Entity {
 				setNextAnimation(new Animation(weaponId == 4153 ? 1667 : 10505));
 				if (weaponId == 4153)
 					setNextSpotAnim(new SpotAnim(340, 0, 96 << 16));
-				pcb.delayNormalHit(weaponId, getCombatDefinitions().getAttackStyle(), pcb.getMeleeHit(this, pcb.getRandomMaxHit(this, weaponId, getCombatDefinitions().getAttackStyle(), false, true, 1.0, 1.1)));
+				pcb.delayNormalHit(weaponId, getCombatDefinitions().getAttackStyle(), PlayerCombat.getMeleeHit(this, pcb.getRandomMaxHit(this, weaponId, getCombatDefinitions().getAttackStyle(), false, true, 1.0, 1.1)));
 			}
 			break;
 		case 1377:

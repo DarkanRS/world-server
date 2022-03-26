@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
@@ -113,13 +113,13 @@ public class PartyRoom {
 		player.getInterfaceManager().sendInterface(CHEST_INTERFACE);
 		player.getInterfaceManager().sendInventoryInterface(INVENTORY_INTERFACE);
 		player.getPackets().sendInterSetItemsOptionsScript(INVENTORY_INTERFACE, 0, 93, 4, 7, "Deposit", "Deposit-5", "Deposit-10", "Deposit-All", "Deposit-X");
-		player.getPackets().setIFTargetParams(new IFTargetParams(INVENTORY_INTERFACE, 0, 0, 27).enableRightClickOptions(0,1,2,3,4,5,6,9));
+		player.getPackets().setIFEvents(new IFEvents(INVENTORY_INTERFACE, 0, 0, 27).enableRightClickOptions(0,1,2,3,4,5,6,9));
 		player.getPackets().sendInterSetItemsOptionsScript(CHEST_INTERFACE, 23, 529, 6, 36, "Value");
 		player.getPackets().sendInterSetItemsOptionsScript(CHEST_INTERFACE, 24, 91, 6, 36, "Value");
 		player.getPackets().sendInterSetItemsOptionsScript(CHEST_INTERFACE, 25, 92, 8, 1, "Withdraw");
-		player.getPackets().setIFTargetParams(new IFTargetParams(CHEST_INTERFACE, 23, 0, 215).enableRightClickOptions(0,1,2,3,4,5,9));
-		player.getPackets().setIFTargetParams(new IFTargetParams(CHEST_INTERFACE, 24, 0, 215).enableRightClickOptions(0,9));
-		player.getPackets().setIFTargetParams(new IFTargetParams(CHEST_INTERFACE, 25, 0, 7).enableRightClickOptions(0,9));
+		player.getPackets().setIFEvents(new IFEvents(CHEST_INTERFACE, 23, 0, 215).enableRightClickOptions(0,1,2,3,4,5,9));
+		player.getPackets().setIFEvents(new IFEvents(CHEST_INTERFACE, 24, 0, 215).enableRightClickOptions(0,9));
+		player.getPackets().setIFEvents(new IFEvents(CHEST_INTERFACE, 25, 0, 7).enableRightClickOptions(0,9));
 		player.getPackets().setIFHidden(CHEST_INTERFACE, 26, true);
 		refreshItems(player);
 		player.setCloseInterfacesEvent(() -> {

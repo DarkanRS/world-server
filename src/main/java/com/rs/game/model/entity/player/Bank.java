@@ -24,8 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
-import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
+import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -420,6 +420,7 @@ public class Bank {
 			player.getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 			player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
 			player.getTempAttribs().setB("viewingDepositBox", false);
+			Familiar.sendLeftClickOption(player);
 		});
 	}
 
@@ -585,6 +586,7 @@ public class Bank {
 		unlockButtons();
 		sendItems();
 		refreshItems();
+		player.setCloseInterfacesEvent(() -> Familiar.sendLeftClickOption(player));
 	}
 
 	public void openBankOther(Player other) {
@@ -601,6 +603,7 @@ public class Bank {
 		player.setCloseInterfacesEvent(() -> {
 			player.getInventory().refresh();
 			player.getEquipment().refresh();
+			Familiar.sendLeftClickOption(player);
 		});
 	}
 
@@ -966,11 +969,11 @@ public class Bank {
 		//		player.getPackets().sendHideIComponent(762, 43, false); //unlocks bank pin shit
 		//		player.getPackets().sendHideIComponent(762, 44, false);
 
-		player.getPackets().setIFTargetParams(new IFTargetParams(762, 95, 0, MAX_BANK_SIZE)
+		player.getPackets().setIFEvents(new IFEvents(762, 95, 0, MAX_BANK_SIZE)
 				.enableRightClickOptions(0,1,2,3,4,5,6,9)
 				.setDepth(2)
 				.enableDrag());
-		player.getPackets().setIFTargetParams(new IFTargetParams(763, 0, 0, 27)
+		player.getPackets().setIFEvents(new IFEvents(763, 0, 0, 27)
 				.enableUseOptions(UseFlag.ICOMPONENT)
 				.enableRightClickOptions(0,1,2,3,4,5,9)
 				.setDepth(1)

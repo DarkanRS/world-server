@@ -16,7 +16,7 @@
 //
 package com.rs.game.model.entity.player;
 
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.db.WorldDB;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.item.ItemsContainer;
@@ -223,11 +223,11 @@ public class Trade {
 
 	public void sendOptions() {
 		player.getPackets().sendInterSetItemsOptionsScript(336, 0, 93, 4, 7, "Offer", "Offer-5", "Offer-10", "Offer-All", "Offer-X", "Value<col=FF9040>", "Lend");
-		player.getPackets().setIFTargetParams(new IFTargetParams(336, 0, 0, 27).enableRightClickOptions(0,1,2,3,4,5,6,9));
+		player.getPackets().setIFEvents(new IFEvents(336, 0, 0, 27).enableRightClickOptions(0,1,2,3,4,5,6,9));
 		player.getPackets().sendInterSetItemsOptionsScript(335, 32, 90, 4, 7, "Remove", "Remove-5", "Remove-10", "Remove-All", "Remove-X", "Value");
-		player.getPackets().setIFTargetParams(new IFTargetParams(335, 32, 0, 27).enableRightClickOptions(0,1,2,3,4,5,9));
+		player.getPackets().setIFEvents(new IFEvents(335, 32, 0, 27).enableRightClickOptions(0,1,2,3,4,5,9));
 		player.getPackets().sendInterSetItemsOptionsScript(335, 35, 90, true, 4, 7, "Value");
-		player.getPackets().setIFTargetParams(new IFTargetParams(335, 35, 0, 27).enableRightClickOptions(0,9));
+		player.getPackets().setIFEvents(new IFEvents(335, 35, 0, 27).enableRightClickOptions(0,9));
 	}
 
 	public boolean isTrading() {

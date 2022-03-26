@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.hunter;
 
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
@@ -71,7 +71,7 @@ public final class Hunter {
 		public void handle(ItemClickEvent e) {
 			if (e.getOption().equals("Bank")) {
 				e.getPlayer().getInterfaceManager().sendInterface(478);
-				e.getPlayer().getPackets().setIFTargetParams(new IFTargetParams(478, 14, 0, 27).enableRightClickOptions(0, 1));
+				e.getPlayer().getPackets().setIFEvents(new IFEvents(478, 14, 0, 27).enableRightClickOptions(0, 1));
 			}
 		}
 	};
