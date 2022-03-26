@@ -39,9 +39,8 @@ public class DismissD extends MatrixDialogue {
 			player.getPetManager().setNpcId(-1);
 			player.getPetManager().setItemId(-1);
 			player.getPetManager().removeDetails(player.getPet().getItemId());
-			player.getPet().switchOrb(false);
+			player.getPackets().sendRunScript(2471);
 			player.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
-			player.getPackets().setIFTargetParamsDefault(747, 17, 0, 0);
 			player.getPet().finish();
 			player.setPet(null);
 			player.sendMessage("Your pet runs off until it's out of sight.");

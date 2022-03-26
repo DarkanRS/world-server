@@ -19,8 +19,8 @@ package com.rs.game.model.entity.player;
 import java.util.List;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
-import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
+import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.item.ItemsContainer;
@@ -119,12 +119,12 @@ public final class Inventory {
 	}
 
 	public void unlockInventoryOptions() {
-		player.getPackets().setIFTargetParams(new IFTargetParams(INVENTORY_INTERFACE, 0, 0, 27)
+		player.getPackets().setIFEvents(new IFEvents(INVENTORY_INTERFACE, 0, 0, 27)
 				.enableUseOptions(UseFlag.GROUND_ITEM,UseFlag.NPC,UseFlag.WORLD_OBJECT,UseFlag.PLAYER,UseFlag.ICOMPONENT)
 				.enableRightClickOptions(0,1,2,6,7,9)
 				.setDepth(1)
-				.enableBit22());
-		player.getPackets().setIFTargetParams(new IFTargetParams(INVENTORY_INTERFACE, 0, 28, 55).enableDrag());
+				.enableUseTargetability());
+		player.getPackets().setIFEvents(new IFEvents(INVENTORY_INTERFACE, 0, 28, 55).enableDrag());
 	}
 
 	public void reset() {

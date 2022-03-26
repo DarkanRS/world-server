@@ -228,6 +228,8 @@ public class InterfaceManager {
 		if (removedInterface != null) {
 			clearChilds(removedInterface);
 			player.getPackets().closeInterface(parentUID);
+//			if (player.getFamiliar() != null)
+//				Familiar.sendLeftClickOption(player);
 		}
 	}
 	
@@ -359,7 +361,7 @@ public class InterfaceManager {
 			openedInterfaces.clear();
 		setDefaultTopInterface();
 		if (player.getFamiliar() != null && player.isRunning())
-			player.getFamiliar().unlock();
+			player.getFamiliar().sendMainConfigs();
 		for (Sub sub : Sub.values())
 			sendSubDefault(sub);
 		player.getControllerManager().sendInterfaces();
@@ -379,7 +381,7 @@ public class InterfaceManager {
 		openedInterfaces.clear();
 		setDefaultTopInterface();
 		if (player.getFamiliar() != null && player.isRunning())
-			player.getFamiliar().unlock();
+			player.getFamiliar().sendMainConfigs();
 		for (Sub sub : Sub.values()) {
 			sendSubDefault(sub);
 			Integer prev = old.get(sub.getHash(oldMode));
