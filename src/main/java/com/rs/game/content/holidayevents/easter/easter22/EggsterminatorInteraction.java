@@ -1,6 +1,5 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
-import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -39,19 +38,14 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
     public void interact(Player player) {
         player.setNextFaceWorldTile(target.getTile());
         int attackStyle = player.getCombatDefinitions().getAttackStyleId();
-        int delay = World.sendProjectile(player.getTile(), target.getTile(), (attackStyle == 0 ? 3034 : 3035), 35, 0, 60, 1, 0, 0).getTaskDelay();
+        int delay = World.sendProjectile(player.getTile(), target.getTile(), (attackStyle == 0 ? 3034 : 3035), 20, 10, 10, 1, 0, 0).getTaskDelay();
 
         if (target instanceof NPC) {
             NPC npc = ((NPC) target);
-            if (EggHunt.hasCompletedHunt(player) && (npc.getId() == Easter2022.CHOCOCHICK || npc.getId() == Easter2022.CHICK)) {
-                player.sendMessage("This hunt has ended.");
-                return;
-            }
             player.setNextAnimation(new Animation(12174));
             player.setNextSpotAnim(new SpotAnim(2138));
             WorldTasks.schedule(delay, () -> {
             	target.sendDeath(player);
-            	target.setNextSpotAnim(new SpotAnim(3962));
             });
         }
     }
@@ -80,9 +74,10 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
 		}
     };
 
-    public static ObjectClickHandler crackEgg = new ObjectClickHandler(new Object[] { 70106, 70107, 70108, 70109, 70110 }) {
+    public static ObjectClickHandler crackEgg = new ObjectClickHandler(false, new Object[] { 70106, 70107, 70108, 70109, 70110 }) {
         @Override
         public void handle(ObjectClickEvent e) {
+        	e.getPlayer().faceObject(e.getObject());
             if (e.getPlayer().getEquipment().getWeaponId() != Easter2022.EGGSTERMINATOR && e.getPlayer().getEquipment().getWeaponId() != Easter2022.PERMANENT_EGGSTERMINATOR) {
                 e.getPlayer().sendMessage("You need the Eggsterminator to crack open this egg. Speak with the Evil Chicken or the Chocatrice in Varrock Square.");
                 return;
@@ -95,25 +90,28 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
         		return; //Not a part of this hunt. This should only happen if varbits arent being set correctly somewhere.  
             if (e.getOption().equals("Crack")) {
                 int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
-//                int delay = World.sendProjectile(e.getPlayer().getTile(), new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()),
-//                        (attackStyle == 0 ? 3034 : 3035), 35, 0, 60, 1, 0, 0).getTaskDelay();
-                int delay = World.sendProjectile(e.getPlayer(), e.getObject(), (attackStyle == 0 ? 3034 : 3035), 35, 0, 60, 1, 0, 0).getTaskDelay();
-
-                WorldTasks.schedule(delay, () -> {
-
-                	EggHunt.updateVarbits(e.getPlayer(), 1, idx);
-                	//TODO - send object animation
-
-                	int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
-                    EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2), Spawns.getSpawnByObject(e.getObject()));
-//                	EggHunt.updateVarbits(e.getPlayer(), 3, idx);
-                    e.getPlayer().startConversation(new Dialogue().addNPC(npc.getId(), HeadE.CALM, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
-                    e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
-                    World.sendSpotAnim(e.getPlayer(), new SpotAnim(3037), e.getObject());
-                    if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt()) {
-                        e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
-                        if (Settings.getConfig().isDebug()) { System.out.println("Current hunt updated to " + EggHunt.getHunt() + " for " + e.getPlayer().getDisplayName()); }
-                    }
+                e.getPlayer().setNextAnimation(new Animation(12174));
+                int delay = World.sendProjectile(e.getPlayer().getTile(), new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()),
+                        (attackStyle == 0 ? 3034 : 3035), 20, 10, 10, 1, 0, 0).getTaskDelay();
+        		int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
+                WorldTasks.scheduleTimer(delay, (tick) -> {
+                	
+                	switch (tick) {
+                		case 0 -> { 
+                			EggHunt.updateVarbits(e.getPlayer(), (attackStyle == 0 ? 2 : 1), idx);
+                            World.sendSpotAnim(e.getPlayer(), new SpotAnim(3037), e.getObject());
+                			World.sendObjectAnimation(e.getObject(), new Animation(16432));
+                		}
+                		case 2 -> {
+                            EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2), spawn);
+                            e.getPlayer().startConversation(new Dialogue().addNPC(15272, HeadE.NONE, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
+                            e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
+                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt())
+                                e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
+                            return false;
+                		}
+                	}
+                    return true;
                 });
             }
         }
