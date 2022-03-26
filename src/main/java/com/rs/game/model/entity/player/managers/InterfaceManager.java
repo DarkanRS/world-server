@@ -383,10 +383,13 @@ public class InterfaceManager {
 		if (player.getFamiliar() != null && player.isRunning())
 			player.getFamiliar().sendMainConfigs();
 		for (Sub sub : Sub.values()) {
-			sendSubDefault(sub);
+		//	sendSubDefault(sub);
 			Integer prev = old.get(sub.getHash(oldMode));
-			if (prev != null && prev != sub.defaultInter)
+			if (prev != null) {
 				sendSub(sub, prev, sub == Sub.CENTRAL ? false : true);
+				if (sub.defaultProcedure != null)
+					sub.defaultProcedure.accept(player);
+			}
 		}
 	}
 
