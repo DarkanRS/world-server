@@ -135,7 +135,6 @@ public class IkovDungeon {
 	public static NPCClickHandler handleGaurdianTalk = new NPCClickHandler(new Object[]{274, 275}, new String[]{"Talk-to"}) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			int NPC = e.getNPCId();
 			if(e.getPlayer().getEquipment().getAmuletId() == 86) {//Lucien amulet
 				e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Thou art a foul agent of Lucien! Such an agent must die!"));
 				WorldTasks.delay(3, () -> {

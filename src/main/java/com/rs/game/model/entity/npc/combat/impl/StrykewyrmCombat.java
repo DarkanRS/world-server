@@ -46,14 +46,15 @@ public class StrykewyrmCombat extends CombatScript {
 	@Override
 	public int attack(final NPC npc, final Entity target) {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
-		int attackStyle = Utils.getRandomInclusive(10);
+		int attackStyle = Utils.getRandomInclusive(20);
 		if (attackStyle <= 7 && WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) { // melee
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			if (npc.getId() == 9467)
+			if (npc.getId() == 9467) {
 				if (Utils.getRandomInclusive(10) == 0) {
 					target.setNextSpotAnim(new SpotAnim(2309));
 					target.getPoison().makePoisoned(44);
 				}
+			}
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MAGE, target)));
 			return npc.getAttackSpeed();
 		}
@@ -81,7 +82,7 @@ public class StrykewyrmCombat extends CombatScript {
 					if (Utils.random(2) == 0)
 						target.getPoison().makePoisoned(88);
 				}
-		} else if (attackStyle == 10) { // bury
+		} else if (attackStyle == 20) { // bury
 			final WorldTile tile = new WorldTile(target.getTile());
 			tile.moveLocation(-1, -1, 0);
 			npc.setNextAnimation(new Animation(12796));

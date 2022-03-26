@@ -534,7 +534,7 @@ public class RunespanController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(1274);
+		player.getInterfaceManager().sendOverlay(1274);
 		refreshPoints(player);
 	}
 

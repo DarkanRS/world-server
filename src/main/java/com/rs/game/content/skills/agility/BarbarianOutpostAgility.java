@@ -174,7 +174,7 @@ public class BarbarianOutpostAgility {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					e.getPlayer().unlock();
+					e.getPlayer().lock(1);
 					e.getPlayer().setNextWorldTile(toTile);
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 13.7);
 					int stage = getStage(e.getPlayer());

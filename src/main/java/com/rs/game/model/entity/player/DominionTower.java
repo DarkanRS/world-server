@@ -232,7 +232,7 @@ public final class DominionTower {
 			@Override
 			public void run() {
 				if (count == 0) {
-					player.getInterfaceManager().setOverlay(1172);
+					player.getInterfaceManager().sendOverlay(1172);
 					player.getPackets().setIFHidden(1172, 2, true);
 					player.getPackets().setIFHidden(1172, 7, true);
 					player.getPackets().setIFText(1172, 4, player.getDisplayName());

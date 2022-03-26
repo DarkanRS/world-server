@@ -75,7 +75,6 @@ import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.npc.others.PolyporeNPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
@@ -298,7 +297,7 @@ public final class ObjectHandler {
 						player.getControllerManager().startController(new PuroPuroController());
 					}
 				}, 10);
-				Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2591, 4320, 0), 9, false, Magic.OBJECT_TELEPORT);
+				Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2591, 4320, 0), 9, false, Magic.OBJECT_TELEPORT, null);
 			} else if (id == 26847)
 				Runecrafting.craftZMIAltar(player);
 			else if (id == 35391 || id == 2832) {
@@ -355,54 +354,6 @@ public final class ObjectHandler {
 				player.getDialogueManager().execute(new RunespanPortalD());
 			else if (id == 38279 && x == 1696 && y == 5460)
 				player.useStairs(-1, new WorldTile(3106, 3160, 1), 0, 1);
-
-			/*
-			 * START POLYPORE DUNGEON
-			 */
-			else if (id == 64360 && x == 4629 && y == 5453)
-				PolyporeNPC.useStairs(player, new WorldTile(4629, 5451, 2), true);
-			else if (id == 64361 && x == 4629 && y == 5452)
-				PolyporeNPC.useStairs(player, new WorldTile(4629, 5454, 3), false);
-			else if (id == 64359 && x == 4632 && y == 5443)
-				PolyporeNPC.useStairs(player, new WorldTile(4632, 5443, 1), true);
-			else if (id == 64361 && x == 4632 && y == 5442)
-				PolyporeNPC.useStairs(player, new WorldTile(4632, 5444, 2), false);
-			else if (id == 64359 && x == 4632 && y == 5409)
-				PolyporeNPC.useStairs(player, new WorldTile(4632, 5409, 2), true);
-			else if (id == 64361 && x == 4633 && y == 5409)
-				PolyporeNPC.useStairs(player, new WorldTile(4631, 5409, 3), false);
-			else if (id == 64359 && x == 4642 && y == 5389)
-				PolyporeNPC.useStairs(player, new WorldTile(4642, 5389, 1), true);
-			else if (id == 64361 && x == 4643 && y == 5389)
-				PolyporeNPC.useStairs(player, new WorldTile(4641, 5389, 2), false);
-			else if (id == 64359 && x == 4652 && y == 5388)
-				PolyporeNPC.useStairs(player, new WorldTile(4652, 5388, 0), true);
-			else if (id == 64362 && x == 4652 && y == 5387)
-				PolyporeNPC.useStairs(player, new WorldTile(4652, 5389, 1), false);
-			else if (id == 64359 && x == 4691 && y == 5469)
-				PolyporeNPC.useStairs(player, new WorldTile(4691, 5469, 2), true);
-			else if (id == 64361 && x == 4691 && y == 5468)
-				PolyporeNPC.useStairs(player, new WorldTile(4691, 5470, 3), false);
-			else if (id == 64359 && x == 4689 && y == 5479)
-				PolyporeNPC.useStairs(player, new WorldTile(4689, 5479, 1), true);
-			else if (id == 64361 && x == 4689 && y == 5480)
-				PolyporeNPC.useStairs(player, new WorldTile(4689, 5478, 2), false);
-			else if (id == 64359 && x == 4698 && y == 5459)
-				PolyporeNPC.useStairs(player, new WorldTile(4698, 5459, 2), true);
-			else if (id == 64361 && x == 4699 && y == 5459)
-				PolyporeNPC.useStairs(player, new WorldTile(4697, 5459, 3), false);
-			else if (id == 64359 && x == 4705 && y == 5460)
-				PolyporeNPC.useStairs(player, new WorldTile(4704, 5461, 1), true);
-			else if (id == 64361 && x == 4705 && y == 5461)
-				PolyporeNPC.useStairs(player, new WorldTile(4705, 5459, 2), false);
-			else if (id == 64359 && x == 4718 && y == 5467)
-				PolyporeNPC.useStairs(player, new WorldTile(4718, 5467, 0), true);
-			else if (id == 64361 && x == 4718 && y == 5466)
-				PolyporeNPC.useStairs(player, new WorldTile(4718, 5468, 1), false);
-			/*
-			 * END POLYPORE DUNGEON
-			 */
-
 			else if (id == 12327) { // jadinko lair out
 				player.setNextWorldTile(new WorldTile(2948, 2955, 0));
 				return;

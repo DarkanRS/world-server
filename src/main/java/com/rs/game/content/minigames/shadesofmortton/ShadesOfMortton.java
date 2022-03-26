@@ -156,7 +156,7 @@ public class ShadesOfMortton {
 			} else if (Areas.withinArea("shades_temple", e.getChunkId())) {
 				Player player = e.getPlayer();
 				if (player != null && player.hasStarted()) {
-					player.getInterfaceManager().setOverlay(328);
+					player.getInterfaceManager().sendOverlay(328);
 					e.getEntity().getTempAttribs().setB("inShadeTemple", true);
 					updateVars(player);
 				}

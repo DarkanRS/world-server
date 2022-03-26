@@ -178,6 +178,6 @@ public final class BrimhavenAgilityController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(5);
+		player.getInterfaceManager().sendOverlay(5);
 	}
 }

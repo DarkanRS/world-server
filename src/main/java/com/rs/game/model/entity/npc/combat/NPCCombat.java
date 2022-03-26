@@ -80,7 +80,7 @@ public final class NPCCombat {
 			return npc.getAttackSpeed();
 		boolean los = npc.lineOfSightTo(target, maxDistance == 0);
 		boolean inRange = WorldUtil.isInRange(npc, target, maxDistance + (npc.hasWalkSteps() && target.hasWalkSteps() ? (npc.getRun() && target.getRun() ? 2 : 1) : 0));
-		boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
+		//boolean collidesCheck = !npc.isCantFollowUnderCombat() && WorldUtil.collides(npc, target);
 		//add collision check here to enable jagex's cancer NPC walking mechanic
 		if (!los || !inRange)
 			return 0;

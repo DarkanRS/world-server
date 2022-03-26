@@ -74,6 +74,7 @@
     "comment": "Includes Rune Essence mine",
     "isActive": true,
     "regionIds": [
+      10569,
       11595,
       9017,
       9273,

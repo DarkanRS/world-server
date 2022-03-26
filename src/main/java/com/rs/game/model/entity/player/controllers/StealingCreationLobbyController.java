@@ -38,7 +38,7 @@ public class StealingCreationLobbyController extends Controller {
 
 	@Override
 	public void sendInterfaces() {
-		player.getInterfaceManager().setOverlay(804, false);
+		player.getInterfaceManager().sendOverlay(804, false);
 		StealingCreationLobby.updateTeamInterface(player, false);
 	}
 

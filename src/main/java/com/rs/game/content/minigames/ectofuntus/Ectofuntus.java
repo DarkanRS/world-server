@@ -92,7 +92,7 @@ public class Ectofuntus {
 	}
 
 	public static final void sendEctophialTeleport(Player player, WorldTile tile) {
-		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT);
+		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT, null);
 	}
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }) {

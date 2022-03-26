@@ -518,11 +518,11 @@ public class InterfaceManager {
 		removeOverlay(false);
 	}
 
-	public void setOverlay(int id, boolean fullGameWindow) {
+	public void sendOverlay(int id, boolean fullGameWindow) {
 		sendSub(fullGameWindow ? Sub.FULL_GAMESPACE_BG2 : Sub.MINIGAME_HUD, id);
 	}
 
-	public void setOverlay(int id) {
-		setOverlay(id, false);
+	public void sendOverlay(int id) {
+		sendOverlay(id, false);
 	}
 }

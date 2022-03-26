@@ -74,7 +74,7 @@ public class PuroPuroController extends Controller {
 		switch (object.getId()) {
 		case 25014:
 			player.getControllerManager().forceStop();
-			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2427, 4446, 0), 9, false, Magic.OBJECT_TELEPORT);
+			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2427, 4446, 0), 9, false, Magic.OBJECT_TELEPORT, null);
 			return true;
 		}
 		return true;
