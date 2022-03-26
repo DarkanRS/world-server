@@ -15,6 +15,7 @@ import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.music.Music;
 
 @PluginEventHandler
 public class EvilChickenD extends Conversation {
@@ -30,14 +31,14 @@ public class EvilChickenD extends Conversation {
         } else if (player.getNSV().getB("talkedWithEvilChicken")) {
             addNPC(Easter2022.EVIL_CHICKEN, HeadE.CAT_SHOUTING, "Report in, soldier. *bwaaak*");
 
-            if (EggHunt.isFinished(player)) {
+            if (EggHunt.hasCompletedHunt(player)) {
                 if (!player.getEmotesManager().unlockedEmote(Easter2022.EASTER_EMOTE)) {
                     player.getEmotesManager().unlockEmote(Easter2022.EASTER_EMOTE);
                     player.sendMessage("You have unlocked an Easter emote, " + Easter2022.EASTER_EMOTE.name());
                 }
-                if (!player.getMusicsManager().hasMusic(Easter2022.EASTER_TRACK.getId())) {
-                    player.getMusicsManager().unlockMusic(Easter2022.EASTER_TRACK.getId());
-                    player.sendMessage("you have unlocked an Easter track, " + Easter2022.EASTER_TRACK.getName());
+                if (!player.getMusicsManager().hasMusic(Easter2022.EASTER_TRACK)) {
+                    player.getMusicsManager().unlockMusic(Easter2022.EASTER_TRACK);
+                    player.sendMessage("You have unlocked an Easter track, " + Music.getSong(Easter2022.EASTER_TRACK).getName() + ".");
                 }
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes."); //TODO timer
@@ -55,9 +56,6 @@ public class EvilChickenD extends Conversation {
                                     player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
                                     if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
                                     	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
-//                                        player.getEquipment().set(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR));
-//                                        player.getEquipment().refresh(Equipment.WEAPON);
-//                                        player.getAppearance().generateAppearanceData();
                                         player.sendMessage("The Evil Chicken waves his feathers over your hands... That's it? Did that actually enchant anything?");
                                     }
                                     if (player.getBank().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
@@ -78,7 +76,7 @@ public class EvilChickenD extends Conversation {
                 });
             }
 
-            if (player.getInventory().containsItem(Easter2022.EVIL_DRUMSTICK, 3)) {
+            if (player.getInventory().containsItem(Easter2022.EVIL_DRUMSTICK, 3) && player.getDiangoReclaim().contains(Easter2022.EGG_ON_FACE_MASK)) {
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You have three succulent drumsticks on you. May I have them?");
                 addOptions(new Options("buyMask", this) {
                     @Override

@@ -3,8 +3,9 @@ package com.rs.game.content.holidayevents.easter.easter22;
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.holidayevents.easter.easter22.EggHunt.Spawns;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.managers.EmotesManager;
+import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTasks;
@@ -12,9 +13,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
-import com.rs.utils.music.Music;
-import com.rs.utils.music.Song;
-
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -30,8 +28,8 @@ public class Easter2022 {
     public static final int XP_LAMP = 2528;
     public static final int EGG_ON_FACE_MASK = 24149;
     public static final int CHOCOLATE_EGG_ON_FACE_MASK = 24150;
-    public static final Song EASTER_TRACK = Music.getSong(273); //Easter Jigg
-    public static final EmotesManager.Emote EASTER_EMOTE = EmotesManager.Emote.AROUND_THE_WORLD;
+    public static final int EASTER_TRACK = 273; //Easter Jigg
+    public static final Emote EASTER_EMOTE = Emote.AROUND_THE_WORLD;
 
     //Event Items
     public static final int EGGSTERMINATOR = 24145;
@@ -111,7 +109,7 @@ public class Easter2022 {
         World.addNPC(Chocatrice);
         World.addNPC(EvilChicken);
 
-        for (EggHunt.Spawns spawn : EggHunt.Spawns.values())
+        for (Spawns spawn : Spawns.values())
             World.spawnObject(spawn.getEgg());
 
         WorldTasks.schedule(ticksToEnd, () -> {

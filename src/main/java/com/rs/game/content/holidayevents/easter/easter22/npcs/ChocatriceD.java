@@ -15,6 +15,7 @@ import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.music.Music;
 
 @PluginEventHandler
 public class ChocatriceD extends Conversation {
@@ -31,14 +32,14 @@ public class ChocatriceD extends Conversation {
         } else if (player.getNSV().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hello again, " + player.getDisplayName());
 
-            if (EggHunt.isFinished(player)) {
+            if (EggHunt.hasCompletedHunt(player)) {
                 if (!player.getEmotesManager().unlockedEmote(Easter2022.EASTER_EMOTE)) {
                     player.getEmotesManager().unlockEmote(Easter2022.EASTER_EMOTE);
                     player.sendMessage("You have unlocked an Easter emote, " + Easter2022.EASTER_EMOTE.name());
                 }
-                if (!player.getMusicsManager().hasMusic(Easter2022.EASTER_TRACK.getId())) {
-                    player.getMusicsManager().unlockMusic(Easter2022.EASTER_TRACK.getId());
-                    player.sendMessage("you have unlocked an Easter track, " + Easter2022.EASTER_TRACK.getName());
+                if (!player.getMusicsManager().hasMusic(Easter2022.EASTER_TRACK)) {
+                    player.getMusicsManager().unlockMusic(Easter2022.EASTER_TRACK);
+                    player.sendMessage("You have unlocked an Easter track, " + Music.getSong(Easter2022.EASTER_TRACK).getName() + ".");
                 }
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes."); //TODO timer
@@ -56,8 +57,6 @@ public class ChocatriceD extends Conversation {
                                     player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
                                     if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
                                     	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
-//                                        player.getEquipment().refresh(Equipment.WEAPON);
-//                                        player.getAppearance().generateAppearanceData();
                                         player.sendMessage("The Chocatrice goes to enchant your weapon... Sweating on the beautiful spring day, chocolate drips on your hands.");
                                     }
                                     if (player.getBank().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
