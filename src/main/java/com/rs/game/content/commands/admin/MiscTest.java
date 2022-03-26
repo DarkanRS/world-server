@@ -51,6 +51,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.controllers.BarrowsController;
 import com.rs.game.model.entity.player.controllers.RunespanController;
+import com.rs.game.model.entity.player.controllers.TutorialIslandController;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.ClipFlag;
@@ -116,6 +117,10 @@ public class MiscTest {
 				for (int y = -10;y < 10;y++)
 					if (!World.floorAndWallsFree(new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()), 1))
 						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()));
+		});
+		
+		Commands.add(Rights.DEVELOPER, "tutisland", "Sets NPCs names to something.", (p, args) -> {
+			p.getControllerManager().startController(new TutorialIslandController());
 		});
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
