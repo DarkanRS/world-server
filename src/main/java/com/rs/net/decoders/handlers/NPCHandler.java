@@ -164,7 +164,7 @@ public class NPCHandler {
 				});
 			else if (npc.getId() == 2826)
 				player.sendOptionDialogue("Would you like to travel back to Port Phasmatys?", ops -> {
-					ops.add("Yes", () -> player.setNextWorldTile(new WorldTile(3680, 3536, 1)));
+					ops.add("Yes", () -> player.setNextWorldTile(new WorldTile(3680, 3536, 0)));
 					ops.add("No");
 				});
 			else if (npc.getId() == 9707)

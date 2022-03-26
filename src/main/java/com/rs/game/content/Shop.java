@@ -20,8 +20,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
-import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
+import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
@@ -223,14 +223,14 @@ public class Shop {
 		sendStore(player);
 		player.getInterfaceManager().sendInterface(1265);
 		player.getPackets().sendVarc(1876, -1);
-		player.getPackets().setIFTargetParams(new IFTargetParams(1265, 20, 0, getStoreSize() * 6).enableRightClickOptions(0,1,2,3,4,5,9));
-		player.getPackets().setIFTargetParams(new IFTargetParams(1265, 26, 0, getStoreSize() * 6)
+		player.getPackets().setIFEvents(new IFEvents(1265, 20, 0, getStoreSize() * 6).enableRightClickOptions(0,1,2,3,4,5,9));
+		player.getPackets().setIFEvents(new IFEvents(1265, 26, 0, getStoreSize() * 6)
 				.enableUseOptions(UseFlag.ICOMPONENT)
 				.enableRightClickOptions(0,2,3)
 				.setDepth(4)
 				.enableDrag()
-				.enableBit23()
-				.enableBit22());
+				.enableDepthFlagIgnoring()
+				.enableUseTargetability());
 		player.getPackets().setIFText(1265, 85, name);
 		if (isGeneralStore())
 			player.getPackets().setIFHidden(1265, 52, false);
@@ -495,7 +495,7 @@ public class Shop {
 	public void refreshShop() {
 		for (Player player : viewingPlayers) {
 			sendStore(player);
-			player.getPackets().setIFTargetParams(new IFTargetParams(620, 25, 0, getStoreSize() * 6).enableRightClickOptions(0,1,2,3,4,5,9));
+			player.getPackets().setIFEvents(new IFEvents(620, 25, 0, getStoreSize() * 6).enableRightClickOptions(0,1,2,3,4,5,9));
 			sendCustomPrices(player);
 		}
 	}

@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
@@ -688,7 +688,7 @@ public class NPC extends Entity {
 		player.getPackets().sendRunScript(2319);
 		player.getPackets().setIFText(762, 47, npcAmount+" "+NPCDefinitions.getDefs(npcId).getName()+" kills");
 		player.getPackets().sendItems(95, dropCollection);
-		player.getPackets().setIFTargetParams(new IFTargetParams(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
+		player.getPackets().setIFEvents(new IFEvents(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
 		player.getVars().setVarBit(4893, 1);
 		player.getVars().syncVarsToClient();
 	}

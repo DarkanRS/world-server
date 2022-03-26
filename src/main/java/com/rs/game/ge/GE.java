@@ -22,11 +22,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.ge.Offer.State;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -120,7 +121,7 @@ public class GE {
 		case 186 -> confirmOffer(e.getPlayer());
 
 		//Search item
-		case 190 -> e.getPlayer().getPackets().openGESearch(e.getPlayer(), "Grand Exchange Item Search");
+		case 190 -> e.getPlayer().getPackets().openGESearch(e.getPlayer());
 
 		default -> System.out.println("Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
 		}
@@ -175,6 +176,7 @@ public class GE {
 			player.getInterfaceManager().removeInventoryInterface();
 		if (!player.getInterfaceManager().topOpen(OFFER_SELECTION))
 			player.getInterfaceManager().sendInterface(OFFER_SELECTION);
+		player.setCloseInterfacesEvent(() -> Familiar.sendLeftClickOption(player));
 	}
 
 	public static void collectItems(Player player, int box, int slot, boolean noted) {
@@ -231,18 +233,18 @@ public class GE {
 		}
 		player.getVars().setVar(VAR_CURR_BOX, box);
 		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(offer.getItemId())));
-		player.getPackets().setIFTargetParams(new IFTargetParams(OFFER_SELECTION, 206, -1, 0).enableRightClickOptions(0,1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(OFFER_SELECTION, 208, -1, 0).enableRightClickOptions(0,1));
+		player.getPackets().setIFEvents(new IFEvents(OFFER_SELECTION, 206, -1, 0).enableRightClickOptions(0,1));
+		player.getPackets().setIFEvents(new IFEvents(OFFER_SELECTION, 208, -1, 0).enableRightClickOptions(0,1));
 	}
 
 	public static void openCollection(Player player) {
 		player.getInterfaceManager().sendInterface(COLLECTION_BOX);
-		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 19, 0, 2).enableRightClickOptions(0, 1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 23, 0, 2).enableRightClickOptions(0, 1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 27, 0, 2).enableRightClickOptions(0, 1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 32, 0, 2).enableRightClickOptions(0, 1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 37, 0, 2).enableRightClickOptions(0, 1));
-		player.getPackets().setIFTargetParams(new IFTargetParams(COLLECTION_BOX, 42, 0, 2).enableRightClickOptions(0, 1));
+		player.getPackets().setIFEvents(new IFEvents(COLLECTION_BOX, 19, 0, 2).enableRightClickOptions(0, 1));
+		player.getPackets().setIFEvents(new IFEvents(COLLECTION_BOX, 23, 0, 2).enableRightClickOptions(0, 1));
+		player.getPackets().setIFEvents(new IFEvents(COLLECTION_BOX, 27, 0, 2).enableRightClickOptions(0, 1));
+		player.getPackets().setIFEvents(new IFEvents(COLLECTION_BOX, 32, 0, 2).enableRightClickOptions(0, 1));
+		player.getPackets().setIFEvents(new IFEvents(COLLECTION_BOX, 37, 0, 2).enableRightClickOptions(0, 1));
+		player.getPackets().setIFEvents(new IFEvents(COLLECTION_BOX, 42, 0, 2).enableRightClickOptions(0, 1));
 		for (Offer offer : player.getGEOffers().values())
 			if (offer != null)
 				offer.sendItems(player);
@@ -251,7 +253,7 @@ public class GE {
 	public static void openBuy(Player player, int box) {
 		player.getVars().setVar(VAR_CURR_BOX, box);
 		player.getVars().setVar(VAR_IS_SELLING, 0);
-		player.getPackets().openGESearch(player, "Grand Exchange Item Search");
+		player.getPackets().openGESearch(player);
 	}
 
 	public static void openSell(Player player, int box) {

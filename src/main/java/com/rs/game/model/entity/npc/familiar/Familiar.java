@@ -17,8 +17,8 @@
 package com.rs.game.model.entity.npc.familiar;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
-import com.rs.cache.loaders.interfaces.IFTargetParams.UseFlag;
+import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Effect;
 import com.rs.game.content.dialogues_matrix.DismissD;
 import com.rs.game.content.skills.summoning.Summoning;
@@ -45,7 +45,6 @@ public abstract class Familiar extends NPC {
 
 	private transient Player owner;
 	private int ticks;
-	private int trackTimer;
 	private int specialEnergy;
 	private transient boolean finished = false;
 	private boolean trackDrain;
@@ -85,8 +84,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public void resetTickets() {
-		ticks = (int) (pouch.getPouchTime() / 1000 / 30);
-		trackTimer = 0;
+		ticks = pouch.getPouchTime();
 	}
 
 	public static ButtonClickHandler handleFamiliarOptionSettings = new ButtonClickHandler(880) {
@@ -193,24 +191,22 @@ public abstract class Familiar extends NPC {
 	public void processNPC() {
 		if (isDead())
 			return;
-		unlockOrb();
-		trackTimer++;
-		if (trackTimer == 50) {
-			trackTimer = 0;
-			ticks--;
+		Familiar.sendLeftClickOption(owner);
+		ticks--;
+		if (ticks % 50 == 0) {
 			if (trackDrain)
 				owner.getSkills().drainSummoning(1);
 			trackDrain = !trackDrain;
-			if (ticks == 2)
+			if (ticks == 100)
 				owner.sendMessage("You have 1 minute before your familiar vanishes.");
-			else if (ticks == 1)
+			else if (ticks == 50)
 				owner.sendMessage("You have 30 seconds before your familiar vanishes.");
-			else if (ticks == 0) {
-				removeFamiliar();
-				dissmissFamiliar(false);
-				return;
-			}
 			sendTimeRemaining();
+		}
+		if (ticks == 0) {
+			removeFamiliar();
+			dissmissFamiliar(false);
+			return;
 		}
 		int originalId = getOriginalId() + 1;
 		if (owner.isCanPvp() && getId() == getOriginalId()) {
@@ -242,8 +238,8 @@ public abstract class Familiar extends NPC {
 	}
 
 	public boolean renewFamiliar() {
-		if (ticks > 5) {
-			owner.sendMessage("You need to have at least two minutes and fifty seconds remaining before you can renew your familiar.", true);
+		if (ticks > 200) {
+			owner.sendMessage("You need to have at least two minutes remaining before you can renew your familiar.", true);
 			return false;
 		}
 		if (!owner.getInventory().getItems().contains(new Item(pouch.getRealPouchId(), 1))) {
@@ -264,57 +260,46 @@ public abstract class Familiar extends NPC {
 	}
 
 	public void sendTimeRemaining() {
-		owner.getVars().setVar(1176, ticks * 65);
+		owner.getVars().setVarBit(4534, ticks / 100);
+		owner.getVars().setVarBit(4290, (ticks % 100) == 0 ? 0 : 1);
 	}
 
+	/**
+	 * Var 448 sets to itemId of pouch then gets npc chathead from enum 1279 and stores it in var 1174
+	 * Var 1174 set to 0 will refresh the head as 448 will recalculate from the enum
+	 * 
+	 * 
+	 */
 	public void sendMainConfigs() {
-		switchOrb(true);
 		owner.getVars().setVar(448, pouch.getRealPouchId());// configures familiar type
-		owner.getVars().setVar(1160, 243269632); // sets npc emote
+		owner.getVars().setVar(1174, 0); //refresh familiar head
+		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
 		refreshSpecialEnergy();
 		sendTimeRemaining();
-		owner.getVars().setVar(1175, getSpecialAmount() << 23);// check
+		owner.getVars().setVarBit(4288, getSpecialAmount());// check
 		owner.getPackets().sendVarcString(204, getSpecialName());
 		owner.getPackets().sendVarcString(205, getSpecialDescription());
 		owner.getPackets().sendVarc(1436, getSpecialAttack() == SpecialAttack.CLICK ? 1 : 0);
-		unlockOrb(); // temporary
+		owner.getPackets().sendRunScript(751);
+		sendLeftClickOption(owner);
+		sendOrbTargetParams();
 	}
 
 	public void sendFollowerDetails() {
 		owner.getInterfaceManager().sendSub(Sub.TAB_FOLLOWER, 662);
-		owner.getPackets().setIFHidden(662, 44, true);
-		owner.getPackets().setIFHidden(662, 45, true);
-		owner.getPackets().setIFHidden(662, 46, true);
-		owner.getPackets().setIFHidden(662, 47, true);
-		owner.getPackets().setIFHidden(662, 48, true);
-		owner.getPackets().setIFHidden(662, 71, false);
-		owner.getPackets().setIFHidden(662, 72, false);
-		unlock();
 		owner.getInterfaceManager().openTab(Sub.TAB_FOLLOWER);
-	}
-
-	public void switchOrb(boolean on) {
-		owner.getVars().setVar(1174, on ? -1 : 0);
-		if (on)
-			unlock();
-		else
-			lockOrb();
-	}
-
-	public void unlockOrb() {
-		owner.getPackets().setIFHidden(747, 9, false);
-		sendLeftClickOption(owner);
 	}
 
 	public static void selectLeftOption(Player player) {
 		player.getInterfaceManager().sendSub(Sub.TAB_FOLLOWER, 880);
-		sendLeftClickOption(player);
 		player.getInterfaceManager().openTab(Sub.TAB_FOLLOWER);
+		sendLeftClickOption(player);
 	}
 
 	public static void confirmLeftOption(Player player) {
 		player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
 		player.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
+		sendLeftClickOption(player);
 	}
 
 	public static void setLeftclickOption(Player player, int summoningLeftClickOption) {
@@ -325,31 +310,29 @@ public abstract class Familiar extends NPC {
 	}
 
 	public static void sendLeftClickOption(Player player) {
+		if (player.getFamiliar() == null)
+			return;
 		player.getVars().setVar(1493, player.getSummoningLeftClickOption());
 		player.getVars().setVar(1494, player.getSummoningLeftClickOption());
+		player.getPackets().setIFHidden(747, 9, false);
 	}
 
-	public void unlock() {
+	public void sendOrbTargetParams() {
 		switch (getSpecialAttack()) {
 		case CLICK:
-			owner.getPackets().setIFTargetParams(new IFTargetParams(747, 18, 0, 0).enableRightClickOptions(0));
-			owner.getPackets().setIFTargetParams(new IFTargetParams(662, 74, 0, 0).enableRightClickOptions(0));
+			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableRightClickOptions(0));
+			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableRightClickOptions(0));
 			break;
 		case ENTITY:
-			owner.getPackets().setIFTargetParams(new IFTargetParams(747, 18, 0, 0).enableUseOptions(UseFlag.NPC,UseFlag.PLAYER));
-			owner.getPackets().setIFTargetParams(new IFTargetParams(662, 74, 0, 0).enableUseOptions(UseFlag.NPC,UseFlag.PLAYER));
+			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.NPC,UseFlag.PLAYER));
+			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.NPC,UseFlag.PLAYER));
 			break;
 		case OBJECT:
 		case ITEM:
-			owner.getPackets().setIFTargetParams(new IFTargetParams(747, 18, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
-			owner.getPackets().setIFTargetParams(new IFTargetParams(662, 74, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
+			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
+			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
 			break;
 		}
-		owner.getPackets().setIFHidden(747, 9, false);
-	}
-
-	public void lockOrb() {
-		owner.getPackets().setIFHidden(747, 9, true);
 	}
 
 	private transient boolean sentRequestMoveMessage;
@@ -392,9 +375,8 @@ public abstract class Familiar extends NPC {
 		finish();
 		if (!logged && !isFinished()) {
 			setFinished(true);
-			switchOrb(false);
+			owner.getPackets().sendRunScript(2471);
 			owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
-			owner.getPackets().setIFTargetParamsDefault(747, 18, 0, 0);
 			if (bob != null)
 				bob.dropBob();
 		}

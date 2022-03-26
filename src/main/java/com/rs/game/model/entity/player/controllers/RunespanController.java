@@ -18,7 +18,7 @@ package com.rs.game.model.entity.player.controllers;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.magic.Magic;
@@ -344,7 +344,7 @@ public class RunespanController extends Controller {
 	private static void openRewards(Player player) {
 		refreshPoints(player);
 		player.getInterfaceManager().setFullscreenInterface(317, 1273);
-		player.getPackets().setIFTargetParams(new IFTargetParams(1273, 14, 0, 60).enableRightClickOptions(0, 1, 2, 3, 4));
+		player.getPackets().setIFEvents(new IFEvents(1273, 14, 0, 60).enableRightClickOptions(0, 1, 2, 3, 4));
 	}
 
 	public static ButtonClickHandler handleRewards = new ButtonClickHandler(1273) {
