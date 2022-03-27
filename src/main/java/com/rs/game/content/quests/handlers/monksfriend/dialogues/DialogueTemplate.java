@@ -12,6 +12,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class DialogueTemplate extends Conversation {
+	@SuppressWarnings("unused")
 	private static final int NPC = -1;
 
 	public DialogueTemplate(Player p) {

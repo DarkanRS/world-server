@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
@@ -630,13 +630,6 @@ public class NPC extends Entity {
 
 		final int size = getSize();
 
-		if (dropTo.getNSV().getB("sendingDropsToBank")) {
-			if (item.getDefinitions().isNoted())
-				item.setId(item.getDefinitions().certId);
-			sendDropDirectlyToBank(dropTo, item);
-			return;
-		}
-
 		//final WorldTile tile = new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane());
 		int value = item.getDefinitions().getValue() * item.getAmount();
 		if (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId()))
@@ -644,6 +637,12 @@ public class NPC extends Entity {
 		//player.getPackets().sendTileMessage("<shad=000000>"+item.getDefinitions().getName() + " (" + item.getAmount() + ")", tile, 20000, 50, 0xFF0000);
 
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
+		if (item.getId() != -1 && dropTo.getNSV().getB("sendingDropsToBank")) {
+			if (item.getDefinitions().isNoted())
+				item.setId(item.getDefinitions().certId);
+			sendDropDirectlyToBank(dropTo, item);
+			return;
+		}
 		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
 	}
 
@@ -689,7 +688,7 @@ public class NPC extends Entity {
 		player.getPackets().sendRunScript(2319);
 		player.getPackets().setIFText(762, 47, npcAmount+" "+NPCDefinitions.getDefs(npcId).getName()+" kills");
 		player.getPackets().sendItems(95, dropCollection);
-		player.getPackets().setIFTargetParams(new IFTargetParams(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
+		player.getPackets().setIFEvents(new IFEvents(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
 		player.getVars().setVarBit(4893, 1);
 		player.getVars().syncVarsToClient();
 	}

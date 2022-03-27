@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
@@ -318,8 +317,9 @@ public final class MusicsManager {
             //genre song ids int[] -> list<>
             List<Integer> genreSongs = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
 
-            genreSongs.retainAll(new ArrayList<Integer>() {
-                { //Unlocked music or allowed ambient music inside the genre & region music
+            genreSongs.retainAll(new ArrayList<>() {
+                private static final long serialVersionUID = 1L;
+				{ //Unlocked music or allowed ambient music inside the genre & region music
                     addAll(unlockedMusics);
                     addAll(Music.getAllowAmbientMusic());
                 }
@@ -350,13 +350,13 @@ public final class MusicsManager {
 		playingMusic = -2;//Don't play music.
 	}
 
-    private void playRandom() {
-		for(int i = 0; i < 15; i++) {
-			playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
-			if(!(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic)))
-				break;
-		}
-    }
+//    private void playRandom() {
+//		for(int i = 0; i < 15; i++) {
+//			playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
+//			if(!(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic)))
+//				break;
+//		}
+//    }
 
     public void playSongWithoutUnlocking(int musicId) {
         if (!player.hasStarted())

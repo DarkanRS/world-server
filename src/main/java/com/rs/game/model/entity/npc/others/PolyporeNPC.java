@@ -19,10 +19,6 @@ package com.rs.game.model.entity.npc.others;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -39,17 +35,6 @@ public class PolyporeNPC extends NPC {
 		if (id == 14698)
 			setCantFollowUnderCombat(id == 14698);
 
-	}
-
-	public static void useStairs(final Player player, WorldTile tile, final boolean down) {
-		player.useStairs(down ? 15458 : 15456, tile, 2, 3); // TODO find correct
-		// emote
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextAnimation(new Animation(down ? 15459 : 15457));
-			}
-		}, 1);
 	}
 
 	@Override
