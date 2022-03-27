@@ -28,10 +28,8 @@ public class ChocatriceD extends Conversation {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Good - you haven't spoken to that Evil Chicken yet. Nasty, lying chicken, that one. " +
                     "Think he's better than Chocatrice because he's made of flesh and feathers. You talk with Chocatrice; you trust Chocatrice.");
             addPlayer(HeadE.CALM_TALK, "What are you two doing here?");
-            player.getNSV().setB("talkedWithChocatrice", true);
         } else if (player.getNSV().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hello again, " + player.getDisplayName());
-
             if (EggHunt.hasCompletedHunt(player)) {
                 if (!player.getEmotesManager().unlockedEmote(Easter2022.EASTER_EMOTE)) {
                     player.getEmotesManager().unlockEmote(Easter2022.EASTER_EMOTE);
@@ -42,7 +40,7 @@ public class ChocatriceD extends Conversation {
                     player.sendMessage("You have unlocked an Easter track, " + Music.getSong(Easter2022.EASTER_TRACK).getName() + ".");
                 }
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
-                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes."); //TODO timer
+                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + EggHunt.getTime() + " minutes.");
             }
 
             if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
@@ -51,24 +49,15 @@ public class ChocatriceD extends Conversation {
                 addOptions(new Options("unlockPermanent", ChocatriceD.this) {
                     @Override
                     public void create() {
+                		//TODO - add diango reclaim
                         option("Yes", new Dialogue()
                                 .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
                                 .addNext(() -> {
-                                    player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
-                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
-                                        player.sendMessage("The Chocatrice goes to enchant your weapon... Sweating on the beautiful spring day, chocolate drips on your hands.");
-                                    }
-                                    if (player.getBank().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
-                                        player.getBank().deleteItem(Easter2022.EGGSTERMINATOR, Integer.MAX_VALUE);
-                                        player.getBank().addItem(new Item(Easter2022.PERMANENT_EGGSTERMINATOR), true);
-                                        player.sendMessage("Your Eggsterminator in the bank has been replaced with its enchanted version.");
-                                    }
-                                    if (player.getInventory().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
-                                        player.getInventory().deleteItem(Easter2022.EGGSTERMINATOR, 28);
-                                        player.getInventory().addItemDrop(Easter2022.PERMANENT_EGGSTERMINATOR, 1);
-                                        player.sendMessage("The Chocatrice reaches into your pack and enchants your Eggsterminator. Hope he didn't get it all sticky.");
-                                    }
+                                    player.getDiangoReclaim().add(Easter2022.PERMANENT_EGGSTERMINATOR);
+//                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
+//                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
+//                                        player.sendMessage("The Chocatrice enchants your Eggsterminator...");
+//                                    }
                                 })
                                 .addGotoStage("huntOps", ChocatriceD.this)
                         );
@@ -95,6 +84,7 @@ public class ChocatriceD extends Conversation {
             addNext(new StageSelectDialogue("huntOps", this));
         }
 
+        player.getNSV().setB("talkedWithChocatrice", true);
         create("continued", addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Chocatrice is hosting this year's Easter hunt. No more annoying bunnies or pesky, nasty little squirrels."));
         addPlayer(HeadE.CALM_TALK, "Shouldn't the Easter bunny be hosting it?");
         addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Oh, you not heard? Easter Bunny had an accident. Poor Easter Bunny fell down White Wolf Mountain with a boulder tied to his feet. " +
@@ -141,7 +131,8 @@ public class ChocatriceD extends Conversation {
                             new Dialogue()
                                 .addItem(Easter2022.EGGSTERMINATOR, "You're handed (or 'winged') the Eggsterminator.")
                                 .addNext(() -> {
-                                	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.EGGSTERMINATOR);
+                                	player.getEquipment().setSlot(Equipment.WEAPON, new Item(Easter2022.EGGSTERMINATOR));
+                                	player.getAppearance().generateAppearanceData();
                                 })
                                 .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
                                 .addSimple("These eggs can be found around Runescape. You can search for them yourself or with your friends.") //Information can also be found on the Runescape official forums.

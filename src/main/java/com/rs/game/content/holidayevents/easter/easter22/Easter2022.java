@@ -73,12 +73,12 @@ public class Easter2022 {
             return;
 
         int ticksToStart = (Settings.getConfig().isDebug() || currentTime.get() >= startDate) ? 10 : Ticks.fromSeconds((int)(startDate - currentTime.get()));
-        int ticksToEnd = Ticks.fromSeconds((int)(endDate - currentTime.get()));
-
+        int ticksToEnd = Settings.getConfig().isDebug() ? 3000 : Ticks.fromSeconds((int)(endDate - currentTime.get()));
+        
         WorldTasks.scheduleTimer(ticksToStart, (interval) -> {
-            currentTime = new AtomicLong(Instant.now().getEpochSecond());
-            if (currentTime.get() >= endDate) {
+        	if (interval >= ticksToEnd) {
                 World.sendWorldMessage("<col=ff0000>News: The Easter event is now over! Thanks for participating!", false);
+                ENABLED = false;
                 return false;
             }
             if (interval == 0) {
@@ -87,20 +87,6 @@ public class Easter2022 {
             }
             return true;
         });
-        
-//        WorldTasks.scheduleTimer(ticksToStart, Ticks.fromMinutes((Settings.getConfig().isDebug() ? 7 : 120)), (interval) -> {
-//            currentTime = new AtomicLong(Instant.now().getEpochSecond());
-//            if (currentTime.get() >= endDate) {
-//                World.sendWorldMessage("<col=ff0000>News: The Easter event is now over! Thanks for participating!", false);
-//                return false;
-//            }
-//            
-//            if (interval == 0)
-//                initEasterSpawns(ticksToEnd);
-//            
-//            event.start();
-//            return true;
-//        });
     }
 
     public static void initEasterSpawns(int ticksToEnd) {

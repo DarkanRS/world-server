@@ -79,14 +79,18 @@ public class EggHunt {
 	private static int hunt = 0;
 	private static int chocatriceScore = 0;
 	private static int evilChickenScore = 0;
+	private static int timer = -1;
     
     public EggHunt() { 
-    	WorldTasks.scheduleTimer(timer -> {
+    	WorldTasks.scheduleTimer(0, (ticks) -> {
+    		if (!Easter2022.ENABLED)
+    			return false;
+    		timer++;
     		if (Settings.getConfig().isDebug()) {
         		switch (timer) {
 		    		case 0 -> start();
 		    		case 500 -> end();
-		    		case 700 -> timer = 0;
+		    		case 700 -> timer = -1;
         		}
         		return true;
     		}
@@ -119,9 +123,8 @@ public class EggHunt {
             if (!eggs.contains(spawn.ordinal())) {
                 eggs.add(spawn.ordinal());          
         		if (Settings.getConfig().isDebug())
-        			System.out.println("Setting egg [" + spawn.ordinal() + "] " + spawn.getEgg().getX() + ", " + spawn.getEgg().getY() + " with a varbit of " + varbits[eggs.size()-1]);
+        			System.out.println("Setting egg [" + spawn.ordinal() + "] " + spawn.getEgg().getX() + ", " + spawn.getEgg().getY() + " with a varbit of " + spawn.getEgg().getDefinitions().varpBit);
                 spawn.getEgg().setId(70105 + eggs.size());
-                spawn.getEgg().setVarbit(varbits[eggs.size()-1]);
             }
         }
         for (Player p : World.getPlayers()) {
@@ -130,13 +133,13 @@ public class EggHunt {
             p.getNSV().removeB("talkedWithEvilChicken");
 			p.getNSV().removeB("talkedWithChocatrice");
         }
-//        WorldTasks.schedule(Ticks.fromMinutes((Settings.getConfig().isDebug() ? 5 : 115)), () -> { end(); });  
         World.sendWorldMessage("<col=ff0000>News: A new Easter Egg Hunt has begun! Speak with the Evil Chicken or Chocatrice in Varrock Square to start it.", false);
     }
     
     public void end() {
     	for (int spawn : eggs) {
     		Spawns.values()[spawn].getEgg().setId(Easter2022.RUBBLE);
+    		Spawns.values()[spawn].getEgg().setFound(false);
     	}
     	World.sendWorldMessage("<col=ff0000>News: The Easter Egg Hunt has ended! A new one will commence shortly.", false);
     }
@@ -172,5 +175,9 @@ public class EggHunt {
     
     public static String getHint() {
     	return Spawns.values()[eggs.get(0)].getEgg().getHint();
+    }
+    
+    public static double getTime() {
+    	return Math.ceil(timer/100);
     }
 }

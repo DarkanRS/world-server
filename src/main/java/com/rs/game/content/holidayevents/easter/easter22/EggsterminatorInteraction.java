@@ -66,19 +66,21 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
         }
     };
     
-    public static NPCClickHandler handleNPCSplatter = new NPCClickHandler(new Object[] { Easter2022.CHOCOCHICK, Easter2022.CHICK }, new String[] { "Splatter" }) {
+    public static NPCClickHandler handleNPCSplatter = new NPCClickHandler(false, new Object[] { Easter2022.CHOCOCHICK, Easter2022.CHICK }, new String[] { "Splatter" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
             e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getNPC()));
 		}
     };
 
-
     public static ItemEquipHandler handleEggsterminatorWield = new ItemEquipHandler(Easter2022.EGGSTERMINATOR, Easter2022.PERMANENT_EGGSTERMINATOR) {
         @Override
         public void handle(ItemEquipEvent e) {
             e.getPlayer().setPlayerOption(e.equip() ? "Splatter" : "null", 8, true);
+        	if (e.equip())
+                return;
             if (e.dequip() && e.getItem().getId() == Easter2022.EGGSTERMINATOR) {
+            	e.cancel();
                 e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", options -> {
                     options.add("Yes", () -> {
                         e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
@@ -87,7 +89,6 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
                     });
                     options.add("No");
                 });
-                return;
             }
             if (Easter2022.ENABLED)
                 e.getPlayer().sendMessage("Using the Combat Styles menu, you can choose whether to fire marshmallows (in support of the Chocatrice) or scotch-eggs (in support of the Evil Chicken).");

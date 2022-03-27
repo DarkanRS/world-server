@@ -355,7 +355,9 @@ public class Foods {
 
 		SHORT_FINNED_EEL(18167, 12),
 
-		WEB_SNIPER(18169, 15);
+		WEB_SNIPER(18169, 15),
+		EVIL_DRUMSTICK(24147, 8),
+		CHOCOTREAT(24148, 8);
 
 		/**
 		 * The food id

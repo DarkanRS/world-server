@@ -26,7 +26,6 @@ public class EvilChickenD extends Conversation {
             addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You shouldn't have spoken to that Chocatrice. He's *bwaaak* *bwaaak* mad.");
         } else if (!player.getNSV().getB("talkedWithEvilChicken") && !player.getNSV().getB("talkedWithChocatrice")) {
             addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "I'm glad you spoke with me first and not that chocolate bar on legs.");
-            player.getNSV().setB("talkedWithEvilChicken", true);
             addPlayer(HeadE.CALM_TALK, "What are you two doing here?");
         } else if (player.getNSV().getB("talkedWithEvilChicken")) {
             addNPC(Easter2022.EVIL_CHICKEN, HeadE.CAT_SHOUTING, "Report in, soldier. *bwaaak*");
@@ -41,7 +40,7 @@ public class EvilChickenD extends Conversation {
                     player.sendMessage("You have unlocked an Easter track, " + Music.getSong(Easter2022.EASTER_TRACK).getName() + ".");
                 }
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
-                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + /*timer +*/ " minutes."); //TODO timer
+                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + EggHunt.getTime() + " minutes.");
             }
 
             if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
@@ -51,26 +50,19 @@ public class EvilChickenD extends Conversation {
                     @Override
                     public void create() {
                         option("Yes", new Dialogue()
-                                .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
+                        		//TODO - add diango reclaim
                                 .addNext(() -> {
-                                    player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
-                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
-                                        player.sendMessage("The Evil Chicken waves his feathers over your hands... That's it? Did that actually enchant anything?");
-                                    }
-                                    if (player.getBank().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
-                                        player.getBank().deleteItem(Easter2022.EGGSTERMINATOR, Integer.MAX_VALUE);
-                                        player.getBank().addItem(new Item(Easter2022.PERMANENT_EGGSTERMINATOR), true);
-                                        player.sendMessage("Your Eggsterminator in the bank has been replaced with its enchanted version.");
-                                    }
-                                    if (player.getInventory().containsItem(Easter2022.EGGSTERMINATOR, 1)) {
-                                        player.getInventory().deleteItem(Easter2022.EGGSTERMINATOR, 28);
-                                        player.getInventory().addItemDrop(Easter2022.PERMANENT_EGGSTERMINATOR, 1);
-                                        player.sendMessage("The Evil Chicken reaches its feathers into your pack and enchants your Eggsterminator.");
-                                    }
+                                    player.getDiangoReclaim().add(Easter2022.PERMANENT_EGGSTERMINATOR);
+//                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
+//                                    	player.getEquipment().deleteSlot(Equipment.WEAPON);
+//                                    	player.getEquipment().setSlot(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR));
+//                                    	player.getAppearance().generateAppearanceData();
+//                                        player.sendMessage("The Evil Chicken enchants your Eggsterminator...");
+//                                    }
                                 })
-                                .addGotoStage("huntOps", EvilChickenD.this)
-                        );
+                                .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
+                                .addGotoStage("huntOps", EvilChickenD.this));
+                        		//.addNext(new StageSelectDialogue("huntOps", EvilChickenD.this)));
                         option("No", new Dialogue().addGotoStage("continued", EvilChickenD.this));
                     }
                 });
@@ -94,6 +86,7 @@ public class EvilChickenD extends Conversation {
             addNext(new StageSelectDialogue("huntOps", this));
         }
 
+        player.getNSV().setB("talkedWithEvilChicken", true);
         create("continued", addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "I'm hosting this year's *bwaaak* Easter hunt. Time to take things in-wing. I'm sick of the incessant, poorly timed *bwaaak* predictable egg jokes you get every single Easter."));
         addPlayer(HeadE.CALM_TALK, "They must be getting old.");
         addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Egg-xactly. *bwaaak* *bwaaak* Now, you may have heard that the Easter Bunny is recovering from a terrible accident. " +
@@ -147,7 +140,10 @@ public class EvilChickenD extends Conversation {
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Your hands must be free. *bwaaak*") :
                             new Dialogue()
                                     .addItem(Easter2022.EGGSTERMINATOR, "You're handed (or 'winged') the Eggsterminator.")
-                                    .addNext(() -> { Equipment.sendWear(player, Equipment.WEAPON, Easter2022.EGGSTERMINATOR); })
+                                    .addNext(() -> { 
+                                    	player.getEquipment().setSlot(Equipment.WEAPON, new Item(Easter2022.EGGSTERMINATOR));
+                                    	player.getAppearance().generateAppearanceData();
+                                    })
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
                                     .addSimple("These eggs can be found around Runescape. You can search for them yourself or with your friends.") //Information can also be found on the Runescape official forums.
                                     .addSimple("Finding all 5 eggs in a single hunt will unlock additional rewards.")); //Some eggs only appear in members parts of the world, so only members gain these additional benefits.
@@ -159,6 +155,7 @@ public class EvilChickenD extends Conversation {
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Quiet, you.")
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Every two hours, a new hunt will begin. Hunt down the five eggs, smash them open using the Eggsterminator and then shoot at the chick that emerges with the Eggsterminator. " +
                                     "This will turn the chick into a tasty treat."));
+                    //TODO - dont display hint if the current hunt is over
                     option("Can I have a hint?", (player.getVars().getVarBit(10954) == 3) ?
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You've already found the egg I have information on.") :
