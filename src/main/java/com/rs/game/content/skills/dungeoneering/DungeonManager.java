@@ -642,12 +642,12 @@ public class DungeonManager {
 	public void resetItems(Player player, boolean drop, boolean logout) {
 		if (drop) {
 			for (Item item : player.getEquipment().getItemsCopy()) {
-				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || DungManager.isBannedDungItem(item))
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || !DungManager.isBannedDungItem(item))
 					continue;
 				World.addGroundItem(item, new WorldTile(player.getTile()));
 			}
 			for (Item item : player.getInventory().getItems().array()) {
-				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || DungManager.isBannedDungItem(item))
+				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship") || !DungManager.isBannedDungItem(item))
 					continue;
 				World.addGroundItem(item, new WorldTile(player.getTile()));
 				if (hasLoadedNoRewardScreen() & item.getId() == DungeonConstants.GROUP_GATESTONE)

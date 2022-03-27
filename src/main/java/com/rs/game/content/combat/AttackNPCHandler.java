@@ -19,7 +19,7 @@ public class AttackNPCHandler {
 		}
 	};
 
-	public static NPCClickHandler dagDoorSupports = new NPCClickHandler(false, new Object[]{2440, 2443, 2446}, new String[]{"Attack"}) {
+	public static NPCClickHandler dagDoorSupports = new NPCClickHandler(false, new Object[]{2440, 2443, 2446}, new String[]{"Destroy"}) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getNPC() instanceof DoorSupport door) {
@@ -28,6 +28,8 @@ public class AttackNPCHandler {
 					return;
 				}
 			}
+			e.getPlayer().stopAll(true);
+			e.getPlayer().getInteractionManager().setInteraction(new PlayerCombatInteraction(e.getPlayer(), e.getNPC()));
 		}
 	};
 
