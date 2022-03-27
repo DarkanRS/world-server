@@ -19,6 +19,7 @@ package com.rs.game.model.entity.npc.others;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -60,6 +61,12 @@ public class ConditionalDeath extends NPC {
 			// missing emote
 			if (getId() == 14849)
 				player.setNextAnimation(new Animation(15845));
+			if (getId() == 1610) {
+				player.setNextAnimation(new Animation(1755));
+				transformIntoNPC(1827);
+				setNextAnimation(new Animation(9513));
+				WorldTasks.schedule(10, () -> setNPC(1610));
+			}
 			setHitpoints(0);
 			super.sendDeath(player);
 			return true;

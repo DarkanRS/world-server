@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.rs.game.content.dialogue.impl.StageSelectDialogue;
 import com.rs.game.content.dialogue.statements.ItemStatement;
@@ -167,7 +168,27 @@ public class Conversation {
 	public Dialogue addNext(Statement statement, Dialogue... options) {
 		return addNext(null, statement, options);
 	}
+	
+	public Dialogue addOptions(Consumer<Options> create) {
+		Options options = new Options() {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(null, options);
+	}
 
+	public Dialogue addOptions(String title, Consumer<Options> create) {
+		Options options = new Options() {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(title, options);
+	}
+	
 	public Dialogue addNext(String name, Statement statement, Dialogue... options) {
 		Dialogue option = addNext(name, statement);
 		for (Dialogue option2 : options)
