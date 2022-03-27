@@ -25,7 +25,12 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.merlinscrystal.knightsroundtable.SirKayMerlinsCrystalD;
+import com.rs.game.content.quests.handlers.holygrail.HolyGrail;
+import com.rs.game.content.quests.handlers.holygrail.dialogue.KingArthurHolyGrailD;
+import com.rs.game.content.quests.handlers.holygrail.dialogue.MerlinHolyGrailD;
+import com.rs.game.content.quests.handlers.holygrail.dialogue.knightsroundtable.*;
+import com.rs.game.content.quests.handlers.merlinscrystal.KingArthurMerlinsCrystalD;
+import com.rs.game.content.quests.handlers.merlinscrystal.knightsroundtable.*;
 import com.rs.game.content.quests.handlers.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.content.quests.handlers.scorpioncatcher.SeerScorpionCatcherD;
 import com.rs.game.content.quests.handlers.scorpioncatcher.ThormacScorpionCatcherD;
@@ -171,6 +176,8 @@ public class SeersVillage {
 		}
 	};
 
+	//---Camelot Castle
+
 	public static NPCClickHandler handleSirKay = new NPCClickHandler(new Object[] { 241 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -181,6 +188,9 @@ public class SeersVillage {
 						@Override
 						public void create() {
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+							if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED)
+								option("About Holy Grail", new Dialogue()
+										.addNext(()->{e.getPlayer().startConversation(new SirKayHolyGrailD(e.getPlayer()).getStart());}));
 							if (!player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
 								option("About Merlin's Crystal", new Dialogue()
 										.addNext(()->{e.getPlayer().startConversation(new SirKayMerlinsCrystalD(e.getPlayer()).getStart());}));
@@ -190,6 +200,108 @@ public class SeersVillage {
 			});
 		}
 	};
+
+	public static NPCClickHandler handleSirBedivere = new NPCClickHandler(new Object[] { 242 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirBedivereHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirBedivereMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleSirGawain = new NPCClickHandler(new Object[] { 240 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirGawainHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirGawainMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleSirLancelot = new NPCClickHandler(new Object[] { 239 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirLancelotHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirLancelotMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleSirLucan = new NPCClickHandler(new Object[] { 245 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirLucanHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirLucanMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleSirPalomedes = new NPCClickHandler(new Object[] { 3787 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirPalomedesHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirPalomedesMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleSirPelleas = new NPCClickHandler(new Object[] { 244 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirPelleasHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirPelleasMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleTristram = new NPCClickHandler(new Object[] { 243 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new SirTristamHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new SirTristramMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleKingArthur = new NPCClickHandler(new Object[] { 251 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL)) {//After merlins crystal is holy grail...
+				e.getPlayer().startConversation(new KingArthurHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			e.getPlayer().startConversation(new KingArthurMerlinsCrystalD(e.getPlayer()).getStart());
+		}
+	};
+
+	public static NPCClickHandler handleMerlin = new NPCClickHandler(new Object[] { 213 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
+				e.getPlayer().startConversation(new MerlinHolyGrailD(e.getPlayer()).getStart());
+				return;
+			}
+			if(e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+				e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Thank you for saving me from that crystal!"));
+		}
+	};
+
+	//--End Camelot Castle
 
 	public static ObjectClickHandler handleRoofLadder = new ObjectClickHandler(new Object[] { 26118, 26119 }) {
 		@Override

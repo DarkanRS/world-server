@@ -1,5 +1,25 @@
 [
   {
+    "comment": "Holy Grail in Fisher Realm",
+    "itemId": 19,
+    "amount": 1,
+    "tile": {
+      "x": 2649,
+      "y": 4684,
+      "plane": 2
+    }
+  },
+  {
+    "comment": "Grail Bell in Fisher Realm",
+    "itemId": 17,
+    "amount": 1,
+    "tile": {
+      "x": 2762,
+      "y": 4694,
+      "plane": 0
+    }
+  },
+  {
     "comment": "White Cog in Clock Tower Dungeon",
     "itemId": 20,
     "amount": 1,

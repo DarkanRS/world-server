@@ -8108,7 +8108,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Sounds great!",
-    "allowAmbient": true,
+    "allowAmbient": false,
     "id": 897,
     "regionIds": []
   },
