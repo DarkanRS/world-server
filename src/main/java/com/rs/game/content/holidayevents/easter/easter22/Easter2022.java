@@ -50,7 +50,7 @@ public class Easter2022 {
     public static final int CHOCATRICE_MEDIUM = 15260;
     public static final int EVIL_CHICKEN_LARGE = 15264;
     public static final int CHOCATRICE_LARGE = 15261;
-    public static EggHunt event = new EggHunt();
+    public static EggHunt event;// = new EggHunt();
 
     static AtomicLong currentTime = new AtomicLong(Instant.now().getEpochSecond());
     static long startDate = 1648771200; //April 1st - 00:00
@@ -75,19 +75,32 @@ public class Easter2022 {
         int ticksToStart = (Settings.getConfig().isDebug() || currentTime.get() >= startDate) ? 10 : Ticks.fromSeconds((int)(startDate - currentTime.get()));
         int ticksToEnd = Ticks.fromSeconds((int)(endDate - currentTime.get()));
 
-        WorldTasks.scheduleTimer(ticksToStart, Ticks.fromMinutes((Settings.getConfig().isDebug() ? 7 : 120)), (interval) -> {
+        WorldTasks.scheduleTimer(ticksToStart, (interval) -> {
             currentTime = new AtomicLong(Instant.now().getEpochSecond());
             if (currentTime.get() >= endDate) {
                 World.sendWorldMessage("<col=ff0000>News: The Easter event is now over! Thanks for participating!", false);
                 return false;
             }
-            
-            if (interval == 0)
+            if (interval == 0) {
                 initEasterSpawns(ticksToEnd);
-            
-            event.start();
+                event = new EggHunt();
+            }
             return true;
         });
+        
+//        WorldTasks.scheduleTimer(ticksToStart, Ticks.fromMinutes((Settings.getConfig().isDebug() ? 7 : 120)), (interval) -> {
+//            currentTime = new AtomicLong(Instant.now().getEpochSecond());
+//            if (currentTime.get() >= endDate) {
+//                World.sendWorldMessage("<col=ff0000>News: The Easter event is now over! Thanks for participating!", false);
+//                return false;
+//            }
+//            
+//            if (interval == 0)
+//                initEasterSpawns(ticksToEnd);
+//            
+//            event.start();
+//            return true;
+//        });
     }
 
     public static void initEasterSpawns(int ticksToEnd) {

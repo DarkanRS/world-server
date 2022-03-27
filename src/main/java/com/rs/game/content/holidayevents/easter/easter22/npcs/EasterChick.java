@@ -23,11 +23,11 @@ import com.rs.plugin.events.NPCDeathEvent;
 @PluginEventHandler
 public class EasterChick extends OwnedNPC {
 
-    public static Spawns spawnEgg;
+    public int varbit;
 
-    public EasterChick(Player player, int id, WorldTile tile, Spawns spawn) {
+    public EasterChick(Player player, int id, WorldTile tile, int varbit) {
         super(player, id, tile, true);
-        spawnEgg = spawn;
+        this.varbit = varbit;
         setRandomWalk(true);
         setNextAnimation(new Animation(3673));
         setAutoDespawnAtDistance(true);
@@ -63,10 +63,7 @@ public class EasterChick extends OwnedNPC {
     @Override
     public void onDespawnEarly() {
     	finish();
-    	int idx = EggHunt.indexOf(spawnEgg.ordinal());
-    	//If the hunt hasn't rotated yet and the player leaves the Easter chick... Otherwise the idx of its spawn may be -1.
-    	if (idx > -1)
-    		EggHunt.updateVarbits(getOwner(), 0, idx);
+    	getOwner().getVars().saveVarBit(varbit,  0);
     }
     
     @Override
@@ -83,7 +80,7 @@ public class EasterChick extends OwnedNPC {
             int attackStyle = getOwner().getCombatDefinitions().getAttackStyleId();
 			switch (loop) {
 				case 0 -> setNextAnimation(new Animation(3806));
-				case 2 -> World.sendSpotAnim(getOwner(), attackStyle == 0 ? new SpotAnim(3031) : new SpotAnim(3030), this.getTile());
+				case 1 -> World.sendSpotAnim(getOwner(), attackStyle == 0 ? new SpotAnim(3031) : new SpotAnim(3030), this.getTile());
 				case 3 -> {
 					finish();
 	                Item reward = new Item(attackStyle == 0 ? Easter2022.EVIL_DRUMSTICK : Easter2022.CHOCOTREAT);
@@ -92,9 +89,7 @@ public class EasterChick extends OwnedNPC {
 	                else 
 	                	EggHunt.incrementChocatriceScore(); 
 	                getOwner().sendMessage("You turn the " + getName().toLowerCase() + " into a " + reward.getName().toLowerCase() + " The shattered remains of the egg disappear.");
-	                int idx = EggHunt.indexOf(spawnEgg.ordinal());
-	                if (idx > -1)
-	                	EggHunt.updateVarbits(getOwner(), 2, idx);
+	            	getOwner().getVars().saveVarBit(varbit,  3);
 	                getOwner().getInventory().addItemDrop(reward);
 	                if (EggHunt.hasCompletedHunt(getOwner())) {
 	                    getOwner().getInventory().addItem(Easter2022.XP_LAMP);
@@ -118,9 +113,4 @@ public class EasterChick extends OwnedNPC {
 			return true;
 		});
     }
-
-    public static void setEasterEggSpawn(Spawns egg) { spawnEgg = egg; }
-
-    public static Spawns getEasterEggSpawn() { return spawnEgg; }
-
 }

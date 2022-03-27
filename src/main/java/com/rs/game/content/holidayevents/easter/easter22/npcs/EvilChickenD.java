@@ -147,12 +147,7 @@ public class EvilChickenD extends Conversation {
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Your hands must be free. *bwaaak*") :
                             new Dialogue()
                                     .addItem(Easter2022.EGGSTERMINATOR, "You're handed (or 'winged') the Eggsterminator.")
-                                    .addNext(() -> {
-                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.EGGSTERMINATOR);
-//                                        player.getEquipment().set(Equipment.WEAPON, new Item(Easter2022.EGGSTERMINATOR));
-//                                        player.getEquipment().refresh(Equipment.WEAPON);
-//                                        player.getAppearance().generateAppearanceData();
-                                    })
+                                    .addNext(() -> { Equipment.sendWear(player, Equipment.WEAPON, Easter2022.EGGSTERMINATOR); })
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
                                     .addSimple("These eggs can be found around Runescape. You can search for them yourself or with your friends.") //Information can also be found on the Runescape official forums.
                                     .addSimple("Finding all 5 eggs in a single hunt will unlock additional rewards.")); //Some eggs only appear in members parts of the world, so only members gain these additional benefits.
@@ -164,14 +159,14 @@ public class EvilChickenD extends Conversation {
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Quiet, you.")
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Every two hours, a new hunt will begin. Hunt down the five eggs, smash them open using the Eggsterminator and then shoot at the chick that emerges with the Eggsterminator. " +
                                     "This will turn the chick into a tasty treat."));
-                    option("Can I have a hint?", (EggHunt.hasFoundHintEgg(player) ?
+                    option("Can I have a hint?", (player.getVars().getVarBit(10954) == 3) ?
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You've already found the egg I have information on.") :
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well, the Chocatrice and I have a gentlefowl's agreement not to tell our seekers the locations of any of the eggs. But between you and me...")
                                     .addOption("Listen to the hint?", "Yes", "No")
                                     .addSimple("The chicken lowers its voice.")
-                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint())));
+                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint()));
                 }
                 option("Who are you?", new Dialogue()
                         .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "But surely everybody has heard of the Evil Chicken.")

@@ -66,7 +66,6 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
         }
     };
     
-
     public static NPCClickHandler handleNPCSplatter = new NPCClickHandler(new Object[] { Easter2022.CHOCOCHICK, Easter2022.CHICK }, new String[] { "Splatter" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -74,65 +73,20 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
 		}
     };
 
-    public static ObjectClickHandler crackEgg = new ObjectClickHandler(false, new Object[] { 70106, 70107, 70108, 70109, 70110 }) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-        	e.getPlayer().faceObject(e.getObject());
-            if (e.getPlayer().getEquipment().getWeaponId() != Easter2022.EGGSTERMINATOR && e.getPlayer().getEquipment().getWeaponId() != Easter2022.PERMANENT_EGGSTERMINATOR) {
-                e.getPlayer().sendMessage("You need the Eggsterminator to crack open this egg. Speak with the Evil Chicken or the Chocatrice in Varrock Square.");
-                return;
-            }   
-        	Spawns spawn = Spawns.getSpawnByObject(e.getObject());
-        	if (spawn == null)
-        		return; //Failed to get a spawn location based on the object coordinates. This should never happen.
-        	int idx = EggHunt.indexOf(spawn.ordinal());
-        	if (idx == -1)
-        		return; //Not a part of this hunt. This should only happen if varbits arent being set correctly somewhere.  
-            if (e.getOption().equals("Crack")) {
-                int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
-                e.getPlayer().setNextAnimation(new Animation(12174));
-                int delay = World.sendProjectile(e.getPlayer().getTile(), new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()),
-                        (attackStyle == 0 ? 3034 : 3035), 20, 10, 10, 1, 0, 0).getTaskDelay();
-        		int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
-                WorldTasks.scheduleTimer(delay, (tick) -> {
-                	
-                	switch (tick) {
-                		case 0 -> { 
-                			EggHunt.updateVarbits(e.getPlayer(), (attackStyle == 0 ? 2 : 1), idx);
-                            World.sendSpotAnim(e.getPlayer(), new SpotAnim(3037), e.getObject());
-                			World.sendObjectAnimation(e.getObject(), new Animation(16432));
-                		}
-                		case 2 -> {
-                            EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2), spawn);
-                            e.getPlayer().startConversation(new Dialogue().addNPC(15272, HeadE.NONE, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
-                            e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
-                            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt())
-                                e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
-                            return false;
-                		}
-                	}
-                    return true;
-                });
-            }
-        }
-    };
 
     public static ItemEquipHandler handleEggsterminatorWield = new ItemEquipHandler(Easter2022.EGGSTERMINATOR, Easter2022.PERMANENT_EGGSTERMINATOR) {
         @Override
         public void handle(ItemEquipEvent e) {
             e.getPlayer().setPlayerOption(e.equip() ? "Splatter" : "null", 8, true);
             if (e.dequip() && e.getItem().getId() == Easter2022.EGGSTERMINATOR) {
-                e.getPlayer().startConversation(new Dialogue().addOptions("Destroy the Eggsterminator?", new Options() {
-                    @Override
-                    public void create() {
-                        option("Yes", () -> {
-                            e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
-                            e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
-                            e.getPlayer().getAppearance().generateAppearanceData();
-                        });
-                        option("No");
-                    }
-                }));
+                e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", options -> {
+                    options.add("Yes", () -> {
+                        e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
+                        e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
+                        e.getPlayer().getAppearance().generateAppearanceData();
+                    });
+                    options.add("No");
+                });
                 return;
             }
             if (Easter2022.ENABLED)
