@@ -16,13 +16,10 @@
 //
 package com.rs.game.content.quests.handlers.holygrail;
 
-import com.rs.cores.CoresManager;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.quests.handlers.holygrail.dialogue.EntranaHighPriest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.godwars.GodWarMinion;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
@@ -48,10 +45,20 @@ public class BlackKnightTitan extends NPC {
 		if(source instanceof Player p && p.getEquipment().getWeaponId() == 35) {
 			super.sendDeath(source);
 			p.sendMessage("Well done, you have defeated the Black Knight Titan!");
-			p.addWalkSteps(new WorldTile(2790, 4722, 0), 4, false);
+			boolean isRun = p.getRun();
+			p.setRunHidden(false);
+			p.addWalkSteps(new WorldTile(p.getX() >= 2791 ? 2790 : 2792, 4722, 0), 4, false);
+			WorldTasks.delay(2, () -> {
+				p.setRunHidden(isRun);
+			});
 			return;
 		}
 		resetHP();
+	}
+
+	@Override
+	public boolean ignoreWallsWhenMeleeing() {
+		return true;
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(221) {
@@ -65,7 +72,7 @@ public class BlackKnightTitan extends NPC {
 		@Override
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().startConversation(new Dialogue()
-					.addNPC(221, HeadE.CALM_TALK, "I am the Black Knight Titan! You must pass through me before you can continue in this realm!")
+					.addNPC(221, HeadE.CHILD_CALM_TALK, "I am the Black Knight Titan! You must pass through me before you can continue in this realm!")
 					.addPlayer(HeadE.HAPPY_TALKING, "Ok, have at ye oh evil knight!")
 					.addPlayer(HeadE.HAPPY_TALKING, "Actually I think I'll run away!")
 			);

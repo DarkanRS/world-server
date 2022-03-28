@@ -16,12 +16,8 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
 
 import java.util.ArrayList;
@@ -30,12 +26,13 @@ import java.util.ArrayList;
 @PluginEventHandler
 public class HolyGrail extends QuestOutline {
 	public final static int NOT_STARTED = 0;
-	public final static int GO_TO_ENTRANA = 1;
-	public final static int GO_TO_MCGRUBOR = 2;
-	public final static int SPEAK_TO_FISHER_KING = 3;
-	public final static int SPEAK_TO_PERCIVAL = 4;
-	public final static int GIVE_AURTHUR_HOLY_GRAIL = 5;
-	public final static int QUEST_COMPLETE = 6;
+	public final static int TALK_TO_MERLIN = 1;
+	public final static int GO_TO_ENTRANA = 2;
+	public final static int GO_TO_MCGRUBOR = 3;
+	public final static int SPEAK_TO_FISHER_KING = 4;
+	public final static int SPEAK_TO_PERCIVAL = 5;
+	public final static int GIVE_AURTHUR_HOLY_GRAIL = 6;
+	public final static int QUEST_COMPLETE = 7;
 
 	@Override
 	public int getCompletedStage() {
@@ -65,24 +62,36 @@ public class HolyGrail extends QuestOutline {
 					lines.add("");
 				}
 			}
-			case GO_TO_ENTRANA -> {
+			case TALK_TO_MERLIN -> {
+				lines.add("King Arthur recommended I get more informatoion about the");
+				lines.add("Holy Grail from King Arthur.");
 				lines.add("");
+			}
+			case GO_TO_ENTRANA -> {
+				lines.add("Merlin recommends looking for Entrana, perhaps the High");
+				lines.add("Priest of the church can help me?");
 				lines.add("");
 			}
 			case GO_TO_MCGRUBOR -> {
-				lines.add("");
+				lines.add("I need an artifact of The Fisher Realm. Perhaps Brother");
+				lines.add("Galahad can help me get one.");
 				lines.add("");
 			}
 			case SPEAK_TO_FISHER_KING -> {
-				lines.add("");
+				lines.add("I must get into the castle and speak to the king of The");
+				lines.add("Fisher Realm");
 				lines.add("");
 			}
 			case SPEAK_TO_PERCIVAL -> {
-				lines.add("");
+				lines.add("I should find the Fisher King's son, Sir Percival. Sir");
+				lines.add("Percival is also a knight of the round table. Perhaps");
+				lines.add("King Arthur will know how to get to him?");
 				lines.add("");
 			}
 			case GIVE_AURTHUR_HOLY_GRAIL -> {
-				lines.add("");
+				lines.add("Legend has it once The Fisher Realm is restored a hero");
+				lines.add("can claim the Holy Grail from the castle and after give");
+				lines.add("it to King Arthur.");
 				lines.add("");
 			}
 			case QUEST_COMPLETE -> {
@@ -110,10 +119,37 @@ public class HolyGrail extends QuestOutline {
 		return true;
 	}
 
+	public static NPCClickHandler handleFisherNPCs = new NPCClickHandler(new Object[]{210, 214, 215}, new String[]{"Talk-to"}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getNPCId()==214)//peasent
+				e.getPlayer().startConversation(new Dialogue()
+						.addNPC(214, HeadE.SAD_CRYING, "Woe is me! Our crops are all failing... how shall I feed myself this winter?")
+				);
+			if(e.getNPCId()==215)//paesent
+				e.getPlayer().startConversation(new Dialogue()
+						.addNPC(215, HeadE.HAPPY_TALKING, "Oh happy day! Suddenly our crops are growing again! It'll be a bumper harvest this year!")
+				);
+			if(e.getNPCId()==210)//grail maiden
+				e.getPlayer().startConversation(new Dialogue()
+						.addNPC(210, HeadE.CALM_TALK, "Welcome to the Grail Castle.")
+				);
+		}
+	};
+
+	public static PickupItemHandler handleHolyGrail = new PickupItemHandler(new Object[] {19},
+			new WorldTile(2649, 4684, 2)) {
+		@Override
+		public void handle(PickupItemEvent e) {
+			if(e.getPlayer().getQuestManager().isComplete(Quest.HOLY_GRAIL) || e.getPlayer().getInventory().containsItem(19))
+				e.cancelPickup();
+		}
+	};
+
 	public static PlayerStepHandler handleMagicWhistleSpawn = new PlayerStepHandler(new WorldTile(3106, 3361, 2)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
-			if(e.getPlayer().getInventory().containsItem(15) && e.getPlayer().getTempAttribs().getB("Spawned_Whistle")) {
+			if(e.getPlayer().getInventory().containsItem(15) && !e.getPlayer().getTempAttribs().getB("Spawned_Whistle")) {
 				e.getPlayer().getTempAttribs().setB("Spawned_Whistle", true);
 				World.addGroundItem(new Item(16, 1), new WorldTile(3107, 3359, 2), e.getPlayer());
 				World.addGroundItem(new Item(16, 1), new WorldTile(3107, 3359, 2), e.getPlayer());
@@ -121,57 +157,89 @@ public class HolyGrail extends QuestOutline {
 		}
 	};
 
-	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(16, new String[]{"Blow"}) {
+	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(16) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if(e.getPlayer().getRegionId() == 11081)
-				Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2757, 3475, 0));
-			if(e.getPlayer().getTile().withinDistance(new WorldTile(2742, 3236, 0), 2))
-				e.getPlayer().setNextWorldTile(new WorldTile(2803, 4713, 0));
-		}
-	};
-
-	public static ItemClickHandler handleGrailBell = new ItemClickHandler(17, new String[]{"Ring"}) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if(e.getPlayer().getTile().withinDistance(new WorldTile(2762, 4694, 0), 1))
-				e.getPlayer().startConversation(new Dialogue()
-						.addSimple("Ting-a-ling!")
-						.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
-						.addNext(()->{e.getPlayer().setNextWorldTile(new WorldTile(2762, 4692, 0));})
-				);
-		}
-	};
-
-	public static ItemClickHandler handleMagicGoldFeather = new ItemClickHandler(18, new String[]{"Blow-on"}) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
-				e.getPlayer().sendMessage("The feather seems like an ordinary feather now...");
-				return;
+			if(e.getOption().equalsIgnoreCase("Blow")) {
+				if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
+					Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2757, 3475, 0));
+				}
+				if (e.getPlayer().getTile().withinDistance(new WorldTile(2742, 3236, 0), 2)) {
+					if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
+						Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2678, 4713, 0));
+						return;
+					}
+					Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2803, 4713, 0));
+				}
 			}
-			WorldTile playerTile = e.getPlayer().getTile();
-			WorldTile percievalTile = new WorldTile(2961, 3505, 0);
-			int xDir = playerTile.getX() - percievalTile.getX();
-			int yDir = playerTile.getY() - percievalTile.getY();
-			if(xDir == 0 && yDir == 0)
-				e.getPlayer().sendMessage("The feather points down somewhere near here");
-			if(xDir == 0 && yDir > 0)
-				e.getPlayer().sendMessage("The feather points to the north");
-			if(xDir > 0 && yDir > 0)
-				e.getPlayer().sendMessage("The feather points to northeast");
-			if(xDir > 0 && yDir == 0)
-				e.getPlayer().sendMessage("The feather points to the east");
-			if(xDir > 0 && yDir < 0)
-				e.getPlayer().sendMessage("The feather points to the southeast");
-			if(xDir == 0 && yDir < 0)
-				e.getPlayer().sendMessage("The feather points to the south");
-			if(xDir < 0 && yDir < 0)
-				e.getPlayer().sendMessage("The feather points to the southwest");
-			if(xDir < 0 && yDir == 0)
-				e.getPlayer().sendMessage("The feather points to the west");
-			if(xDir < 0 && yDir > 0)
-				e.getPlayer().sendMessage("The feather points to the northwest");
+			if(e.getOption().equalsIgnoreCase("drop")) {
+				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+				e.getPlayer().getPackets().sendSound(2739, 0, 1);
+			}
+		}
+	};
+
+	public static ItemClickHandler handleGrailBell = new ItemClickHandler(17) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if(e.getOption().equalsIgnoreCase("Ring")) {
+				if (e.getPlayer().getTile().withinDistance(new WorldTile(2762, 4694, 0), 1)) {
+					e.getPlayer().startConversation(new Dialogue()
+							.addSimple("Ting-a-ling!")
+							.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
+							.addNext(() -> {
+								e.getPlayer().setNextWorldTile(new WorldTile(2762, 4692, 0));
+							})
+					);
+					return;
+				}
+				e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
+			}
+			if(e.getOption().equalsIgnoreCase("drop")) {
+				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+				e.getPlayer().getPackets().sendSound(2739, 0, 1);
+			}
+		}
+	};
+
+	public static ItemClickHandler handleMagicGoldFeather = new ItemClickHandler(18) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if(e.getOption().equalsIgnoreCase("Blow-on")) {
+				if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
+					e.getPlayer().sendMessage("The feather seems like an ordinary feather now...");
+					return;
+				}
+				WorldTile playerTile = e.getPlayer().getTile();
+				WorldTile percievalTile = new WorldTile(2961, 3505, 0);
+				int xDir = percievalTile.getX() - playerTile.getX();
+				int yDir = percievalTile.getY() - playerTile.getY();
+				if (xDir == 0 && yDir == 0)
+					e.getPlayer().sendMessage("The feather points down somewhere near here");
+				if (xDir == 0 && yDir > 0)
+					e.getPlayer().sendMessage("The feather points to the north");
+				if (xDir > 0 && yDir > 0)
+					e.getPlayer().sendMessage("The feather points to northeast");
+				if (xDir > 0 && yDir == 0)
+					e.getPlayer().sendMessage("The feather points to the east");
+				if (xDir > 0 && yDir < 0)
+					e.getPlayer().sendMessage("The feather points to the southeast");
+				if (xDir == 0 && yDir < 0)
+					e.getPlayer().sendMessage("The feather points to the south");
+				if (xDir < 0 && yDir < 0)
+					e.getPlayer().sendMessage("The feather points to the southwest");
+				if (xDir < 0 && yDir == 0)
+					e.getPlayer().sendMessage("The feather points to the west");
+				if (xDir < 0 && yDir > 0)
+					e.getPlayer().sendMessage("The feather points to the northwest");
+			}
+			if(e.getOption().equalsIgnoreCase("drop")) {
+				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+				e.getPlayer().getPackets().sendSound(2739, 0, 1);
+			}
 		}
 	};
 

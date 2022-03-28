@@ -14,7 +14,7 @@ public class MerlinHolyGrailD extends Conversation {
 	public MerlinHolyGrailD(Player p) {
 		super(p);
 		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
-			case GO_TO_ENTRANA, GO_TO_MCGRUBOR -> {
+			case TALK_TO_MERLIN, GO_TO_ENTRANA, GO_TO_MCGRUBOR -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello. King Arthur has sent me on a quest for the Holy Grail. He thought you could offer some assistance.");
 				addNPC(NPC, HeadE.CALM_TALK, "Ah yes... the Holy Grail... That is a powerful artefact indeed. Returning it here would help Camelot a lot." +
 						" Due to its nature the Holy Grail is likely to reside in a holy place.");
@@ -24,7 +24,10 @@ public class MerlinHolyGrailD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "He returned from the quest many years after everyone else. He seems to know something about it, but he can only " +
 						"speak about those experiences cryptically.");
 				addPlayer(HeadE.HAPPY_TALKING, "Where can I find Sir Galahad?");
-				addNPC(NPC, HeadE.CALM_TALK, "Galahad now lives a life of religious contemplation. He lives somewhere west of McGrubor's Wood I think.");
+				addNPC(NPC, HeadE.CALM_TALK, "Galahad now lives a life of religious contemplation. He lives somewhere west of McGrubor's Wood I think. Though " +
+						"I recommend speaking to someone on the holy island first.",()->{
+					p.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_ENTRANA);
+				});
 			}
 			case SPEAK_TO_FISHER_KING -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes the quest for the Holy Grail?");
@@ -47,12 +50,4 @@ public class MerlinHolyGrailD extends Conversation {
 			}
 		}
 	}
-
-
-//    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
-//        @Override
-//        public void handle(NPCClickEvent e) {
-//            e.getPlayer().startConversation(new MerlinHolyGrailD(e.getPlayer()).getStart());
-//        }
-//    };
 }

@@ -33,7 +33,7 @@ public class KingArthurHolyGrailD extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "I'd enjoy trying that.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Go speak to Merlin. He may be able to give a better clue as to where it is now you have freed him from that crystal. " +
 									"He has set up his workshop in the room next to the library.", () -> {
-									p.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_ENTRANA);
+									p.getQuestManager().setStage(Quest.HOLY_GRAIL, TALK_TO_MERLIN);
 								})
 							);
 							option("No.", new Dialogue());
@@ -41,7 +41,7 @@ public class KingArthurHolyGrailD extends Conversation {
 					});
 					return;
 				}
-				p.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL);
+				addNext(()->{p.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL);});
 			}
 			case GO_TO_ENTRANA -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes thy quest?");

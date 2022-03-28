@@ -33,7 +33,7 @@ public class KingPercivalHolyGrailD extends Conversation {
     public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
         @Override
         public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new DialogueTemplate(e.getPlayer()).getStart());
+            e.getPlayer().startConversation(new KingPercivalHolyGrailD(e.getPlayer()).getStart());
         }
     };
 }
