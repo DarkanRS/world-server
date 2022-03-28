@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -164,7 +164,7 @@ public class DungeonRewards {
 
 	public static void openRewardsShop(Player player) {
 		player.getInterfaceManager().sendInterface(940);
-		player.getPackets().setIFTargetParams(new IFTargetParams(940, 2, 0, 205).enableRightClickOptions(0,1,2,3,4,5,6,9));
+		player.getPackets().setIFEvents(new IFEvents(940, 2, 0, 205).enableRightClickOptions(0,1,2,3,4,5,6,9));
 		refresh(player);
 	}
 

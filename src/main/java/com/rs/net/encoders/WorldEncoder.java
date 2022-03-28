@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
@@ -68,9 +68,9 @@ import com.rs.lib.net.packets.encoders.camera.CamMoveTo;
 import com.rs.lib.net.packets.encoders.camera.CamShake;
 import com.rs.lib.net.packets.encoders.interfaces.IFCloseSub;
 import com.rs.lib.net.packets.encoders.interfaces.IFOpenTop;
-import com.rs.lib.net.packets.encoders.interfaces.IFResetTargetParams;
 import com.rs.lib.net.packets.encoders.interfaces.IFSetAngle;
 import com.rs.lib.net.packets.encoders.interfaces.IFSetAnimation;
+import com.rs.lib.net.packets.encoders.interfaces.IFSetEvents;
 import com.rs.lib.net.packets.encoders.interfaces.IFSetGraphic;
 import com.rs.lib.net.packets.encoders.interfaces.IFSetHide;
 import com.rs.lib.net.packets.encoders.interfaces.IFSetItem;
@@ -174,16 +174,16 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new IFSetHide(interfaceId, componentId, hidden));
 	}
 
-	public void setIFTargetParams(IFTargetParams params) {
-		session.writeToQueue(new IFSetTargetParam(params));
+	public void setIFEvents(IFEvents params) {
+		session.writeToQueue(new IFSetEvents(params));
 	}
 
 	public void setIFRightClickOps(int interfaceId, int componentId, int fromSlot, int toSlot, int... optionsSlots) {
-		setIFTargetParams(new IFTargetParams(interfaceId, componentId, fromSlot, toSlot).enableRightClickOptions(optionsSlots));
+		setIFEvents(new IFEvents(interfaceId, componentId, fromSlot, toSlot).enableRightClickOptions(optionsSlots));
 	}
 
-	public void setIFTargetParamsDefault(int interfaceId, int componentId, int fromSlot, int toSlot) {
-		session.writeToQueue(new IFResetTargetParams(interfaceId, componentId, fromSlot, toSlot));
+	public void setIFTargetParam(int interfaceId, int componentId, int fromSlot, int toSlot, int targetParam) {
+		session.writeToQueue(new IFSetTargetParam(interfaceId, componentId, fromSlot, toSlot, targetParam));
 	}
 
 	public void setIFText(int interfaceId, int componentId, String text) {
@@ -730,14 +730,13 @@ public class WorldEncoder extends Encoder {
 		sendObjectInterface(object, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
 	}
 
-	public void openGESearch(Player player, Object... o) {
+	public void openGESearch(Player player) {
 		player.getInterfaceManager().sendChatBoxInterface(7, 389);
-		sendRunScriptReverse(570, o);
+		sendRunScriptReverse(570, "Grand Exchange Item Search");
 	}
 
 	public void closeGESearch() {
-		Object[] args = null;
-		sendRunScriptReverse(571, args);
+		sendRunScript(571);
 	}
 
 	public void sendInterFlashScript(int interfaceId, int componentId, int width, int height, int slot) {

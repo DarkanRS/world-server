@@ -262,10 +262,15 @@ public class PlayerCombat extends PlayerAction {
 //		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
-
+	
 	public static Entity[] getMultiAttackTargets(Player player, Entity target, int maxDistance, int maxAmtTargets) {
+		return getMultiAttackTargets(player, target, maxDistance, maxAmtTargets, true);
+	}
+
+	public static Entity[] getMultiAttackTargets(Player player, Entity target, int maxDistance, int maxAmtTargets, boolean includeOriginalTarget) {
 		List<Entity> possibleTargets = new ArrayList<>();
-		possibleTargets.add(target);
+		if (includeOriginalTarget)
+			possibleTargets.add(target);
 		if (target.isAtMultiArea())
 			y:for (int regionId : target.getMapRegionsIds()) {
 				Region region = World.getRegion(regionId);
@@ -464,22 +469,34 @@ public class PlayerCombat extends PlayerAction {
 					break;
 				case 805:
 					player.setNextAnimation(new Animation(9055));
-					p = World.sendProjectile(player, target, 258, 20, 50, 1);
-					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
-					WorldTasks.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							for (Entity target : getMultiAttackTargets(player, target, 5, 4)) {
-								WorldProjectile p = World.sendProjectile(player, target, 258, 20, 50, 1);
-								WorldTasks.schedule(new WorldTask() {
-									@Override
-									public void run() {
-										target.applyHit(getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
-									}
-								}, p.getTaskDelay());
-							}
+					WorldProjectile p1 = World.sendProjectile(player, target, 258, 20, 50, 1);
+					delayHit(p1.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
+					WorldTasks.schedule(p1.getTaskDelay(), () -> {
+						for (Entity next : getMultiAttackTargets(player, target, 5, 1, false)) {
+							WorldProjectile p2 = World.sendProjectile(target, next, 258, 20, 50, 1);
+							WorldTasks.schedule(p2.getTaskDelay(), () -> {
+								next.applyHit(getRangeHit(player, getRandomMaxHit(player, next, weaponId, attackStyle, true)));
+								for (Entity next2 : getMultiAttackTargets(player, next, 5, 1, false)) {
+									WorldProjectile p3 = World.sendProjectile(next, next2, 258, 20, 50, 1);
+									WorldTasks.schedule(p3.getTaskDelay(), () -> {
+										next2.applyHit(getRangeHit(player, getRandomMaxHit(player, next2, weaponId, attackStyle, true)));
+										for (Entity next3 : getMultiAttackTargets(player, next2, 5, 1, false)) {
+											WorldProjectile p4 = World.sendProjectile(next2, next3, 258, 20, 50, 1);
+											WorldTasks.schedule(p4.getTaskDelay(), () -> {
+												next3.applyHit(getRangeHit(player, getRandomMaxHit(player, next3, weaponId, attackStyle, true)));
+												for (Entity next4 : getMultiAttackTargets(player, next3, 5, 1, false)) {
+													WorldProjectile p5 = World.sendProjectile(next3, next4, 258, 20, 50, 1);
+													WorldTasks.schedule(p5.getTaskDelay(), () -> {
+														next4.applyHit(getRangeHit(player, getRandomMaxHit(player, next4, weaponId, attackStyle, true)));	
+													});
+												}
+											});
+										}
+									});
+								}
+							});
 						}
-					}, p.getTaskDelay());
+					});
 					break;
 				case 859: // magic longbow
 				case 861: // magic shortbow
@@ -899,7 +916,7 @@ public class PlayerCombat extends PlayerAction {
 	}
 
 	private int meleeAttack(final Player player) {
-		if (player.hasEffect(Effect.FREEZE)) {
+		if (player.hasEffect(Effect.FREEZE) && target.getSize() == 1) {
 			Direction dir = Direction.forDelta(target.getX() - player.getX(), target.getY() - player.getY());
 			if (dir != null)
 				switch (dir) {
@@ -1462,6 +1479,15 @@ public class PlayerCombat extends PlayerAction {
 	public int getRandomMaxHit(Player player, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
 		max_hit = getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier);
 		return getRandomMaxHit(player, target, max_hit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
+	}
+	
+	public static int getRandomMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging) {
+		return getRandomMaxHit(player, target, weaponId, attackStyle, ranging, true, 1.0D, 1.0D);
+	}
+
+	public static int getRandomMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
+		int maxHit = getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier);
+		return getRandomMaxHit(player, target, maxHit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
 	}
 
 	public static int getRandomMaxHit(Player player, Entity target, int maxHit, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier) {

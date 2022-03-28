@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
@@ -477,12 +477,12 @@ public class FishingTrawler {
 				e.getPlayer().getDialogueManager().execute(new SimplePlayerMessage(), "I better not steal other people's fish!");
 				return;
 			}
-			IFTargetParams params = new IFTargetParams(REWARDS_INTERFACE, REWARDS_CONTAINER, 0, 27)
+			IFEvents params = new IFEvents(REWARDS_INTERFACE, REWARDS_CONTAINER, 0, 27)
 					.enableRightClickOptions(0, 1, 2, 3)
 					.enableDrag();
 			e.getPlayer().getInterfaceManager().sendInterface(REWARDS_INTERFACE);
 			e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards());
-			e.getPlayer().getPackets().setIFTargetParams(params);
+			e.getPlayer().getPackets().setIFEvents(params);
 			e.getPlayer().getPackets().sendInterSetItemsOptionsScript(REWARDS_INTERFACE, REWARDS_CONTAINER, REWARDS_KEY, 4, 7, "Withdraw-1", "Withdraw-all", "Discard-all", "Examine");
 			e.getPlayer().setCloseInterfacesEvent(() -> {
 				for(final Item item : e.getPlayer().getTrawlerRewards().array()) {

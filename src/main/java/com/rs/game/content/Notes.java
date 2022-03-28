@@ -19,7 +19,7 @@ package com.rs.game.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -81,7 +81,7 @@ public final class Notes {
 	};
 
 	public void init() {
-		player.getPackets().setIFTargetParams(new IFTargetParams(34, 9, 0, 30)
+		player.getPackets().setIFEvents(new IFEvents(34, 9, 0, 30)
 				.enableRightClickOptions(0,1,2,3)
 				.setDepth(2)
 				.enableDrag());

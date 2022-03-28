@@ -978,6 +978,7 @@ public final class TutorialIslandController extends Controller {
 					return;
 				}
 				s.setupInterfaces.accept(ctr);
+				s.onStart.accept(ctr);
 			}
 		}
 	}
@@ -993,35 +994,36 @@ public final class TutorialIslandController extends Controller {
 			if (item != null && item.getId() == 1511)
 				sendText(true, "Please wait.", "", "Your character is now attempting to light the fire.", "This should only take a few seconds.");
 		}
-		if (getStage() == Stage.OPEN_SETTINGS && player.getInterfaceManager().isSubClick(Sub.TAB_SETTINGS, interfaceId, componentId))
+		System.out.println(interfaceId + " - " + componentId);
+		if (getStage() == Stage.OPEN_SETTINGS && componentId == 87)
 			nextStage(Stage.TALK_TO_GUIDE_2);
-		else if (getStage() == Stage.OPEN_INVENTORY && player.getInterfaceManager().isSubClick(Sub.TAB_INVENTORY, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_INVENTORY && (componentId == 79 || componentId == 116))
 			nextStage(Stage.CHOP_TREE);
-		else if (getStage() == Stage.OPEN_SKILLS && player.getInterfaceManager().isSubClick(Sub.TAB_SKILLS, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_SKILLS && (componentId == 77 || componentId == 114))
 			nextStage(Stage.TALK_TO_SURVIVAL_EXPERT_2);
-		else if (getStage() == Stage.OPEN_MUSIC && player.getInterfaceManager().isSubClick(Sub.TAB_MUSIC, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_MUSIC && componentId == 89)
 			nextStage(Stage.LEAVE_CHEF_HOUSE);
-		else if (getStage() == Stage.OPEN_EMOTES && player.getInterfaceManager().isSubClick(Sub.TAB_EMOTES, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_EMOTES && componentId == 88)
 			nextStage(Stage.USE_EMOTE);
 		else if (getStage() == Stage.USE_EMOTE && interfaceId == 590 && componentId == 8)
 			nextStage(Stage.RUN);
 		else if (getStage() == Stage.RUN && interfaceId == 750 && componentId == 4)
 			nextStage(Stage.ENTER_QUEST_GUIDE_HOUSE);
-		else if (getStage() == Stage.OPEN_QUEST_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_QUEST, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_QUEST_TAB && (componentId == 78 || componentId == 115))
 			nextStage(Stage.TALK_TO_QUEST_GUIDE_2);
-		else if (getStage() == Stage.OPEN_EQUIPMENT_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_EQUIPMENT, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_EQUIPMENT_TAB && (componentId == 80 || componentId == 117))
 			nextStage(Stage.OPEN_EQUIPMENT_SCREEN);
 		else if (getStage() == Stage.OPEN_EQUIPMENT_SCREEN && interfaceId == 387 && componentId == 38)
 			nextStage(Stage.WIELD_DAGGER);
-		else if (getStage() == Stage.OPEN_COMBAT_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_COMBAT, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_COMBAT_TAB && (componentId == 75 || componentId == 112))
 			nextStage(Stage.ENTER_RAT_CAGE);
-		else if (getStage() == Stage.OPEN_PRAYER_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_PRAYER, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_PRAYER_TAB && (componentId == 81 || componentId == 118))
 			nextStage(Stage.TALK_TO_BROTHER_BRACE_2);
-		else if (getStage() == Stage.OPEN_FRIENDS_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_FRIENDS, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_FRIENDS_TAB && componentId == 84)
 			nextStage(Stage.OPEN_IGNORE_LIST);
 		else if (getStage() == Stage.OPEN_IGNORE_LIST && interfaceId == 550 && componentId == 48)
 			nextStage(Stage.TALK_TO_BROTHER_BRACE_3);
-		else if (getStage() == Stage.OPEN_MAGIC_TAB && player.getInterfaceManager().isSubClick(Sub.TAB_MAGIC, interfaceId, componentId))
+		else if (getStage() == Stage.OPEN_MAGIC_TAB && (componentId == 82 || componentId == 119))
 			nextStage(Stage.TALK_TO_MAGIC_INSTRUCTOR_2);
 		return true;
 	}

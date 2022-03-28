@@ -17,7 +17,7 @@
 package com.rs.game.content;
 
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -109,7 +109,7 @@ public class Lamps {
                 player.getPackets().sendVarc(1799, getVarCValueForLamp(id));
                 for (int i = 13; i < 38; i++)
                     player.getPackets().setIFRightClickOps(1263, i, -1, 0, 0);
-                player.getPackets().setIFTargetParams(new IFTargetParams(1263, 39, 1, 26).enableContinueButton());
+                player.getPackets().setIFEvents(new IFEvents(1263, 39, 1, 26).enableContinueButton());
             }
 
             private int getVarCValueForLamp(int id) {

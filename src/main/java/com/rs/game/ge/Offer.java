@@ -16,7 +16,7 @@
 //
 package com.rs.game.ge;
 
-import com.rs.cache.loaders.interfaces.IFTargetParams;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.db.WorldDB;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
@@ -133,8 +133,8 @@ public class Offer {
 	public void sendItems(Player player) {
 		player.getPackets().sendItems(523+box, processedItems);
 		if (player.getInterfaceManager().topOpen(105)) {
-			player.getPackets().setIFTargetParams(new IFTargetParams(105, 206, -1, 0).enableRightClickOptions(0,1));
-			player.getPackets().setIFTargetParams(new IFTargetParams(105, 208, -1, 0).enableRightClickOptions(0,1));
+			player.getPackets().setIFEvents(new IFEvents(105, 206, -1, 0).enableRightClickOptions(0,1));
+			player.getPackets().setIFEvents(new IFEvents(105, 208, -1, 0).enableRightClickOptions(0,1));
 		}
 	}
 
