@@ -735,10 +735,6 @@ public class WorldEncoder extends Encoder {
 		sendRunScriptReverse(570, "Grand Exchange Item Search");
 	}
 
-	public void closeGESearch() {
-		sendRunScript(571);
-	}
-
 	public void sendInterFlashScript(int interfaceId, int componentId, int width, int height, int slot) {
 		Object[] parameters = new Object[4];
 		int index = 0;
