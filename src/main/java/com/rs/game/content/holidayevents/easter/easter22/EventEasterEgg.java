@@ -51,15 +51,18 @@ public class EventEasterEgg extends GameObject {
         public void handle(ObjectClickEvent e) {
         	if (!Easter2022.ENABLED)
         		return;
-        	e.getPlayer().faceObject(e.getObject());
             if (e.getOption().equals("Crack")) {
                 if (e.getPlayer().getEquipment().getWeaponId() != Easter2022.EGGSTERMINATOR && e.getPlayer().getEquipment().getWeaponId() != Easter2022.PERMANENT_EGGSTERMINATOR) {
                     e.getPlayer().sendMessage("You need the Eggsterminator to crack open this egg. Speak with the Evil Chicken or the Chocatrice in Varrock Square.");
                     return;
                 }
-                WorldTasks.schedule(1, () -> e.getPlayer().setNextAnimation(new Animation(12174)));
+                e.getPlayer().lock();
+                e.getPlayer().resetWalkSteps();
+            	e.getPlayer().faceObject(e.getObject());
+                e.getPlayer().setNextAnimation(new Animation(12174));
+                e.getPlayer().setNextSpotAnim(new SpotAnim(2138));
                 int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
-                int delay = World.sendProjectile(e.getPlayer().getTile(), new WorldTile(e.getObject()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 10, 1, 0, 0).getTaskDelay();
+                int delay = World.sendProjectile(e.getPlayer().getTile(), new WorldTile(e.getObject()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0, 0).getTaskDelay();
         		int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
         		((EventEasterEgg)e.getObject()).spotted(e.getPlayer());
         		WorldTasks.scheduleTimer(delay, (tick) -> {
@@ -75,6 +78,7 @@ public class EventEasterEgg extends GameObject {
                             e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
                             if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt())
                                 e.getPlayer().save(Easter2022.STAGE_KEY+"CurrentHunt", EggHunt.getHunt());
+                            e.getPlayer().unlock();
                             return false;
                 		}
                 	}

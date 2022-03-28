@@ -26,6 +26,7 @@ public class Easter2022 {
     //Rewards
     public static final int PERMANENT_EGGSTERMINATOR = 24146;
     public static final int XP_LAMP = 2528;
+    public static final int LOYALTY_POINTS_AWARDED = 2500;
     public static final int EGG_ON_FACE_MASK = 24149;
     public static final int CHOCOLATE_EGG_ON_FACE_MASK = 24150;
     public static final int EASTER_TRACK = 273; //Easter Jigg
@@ -37,8 +38,6 @@ public class Easter2022 {
     public static final int EVIL_DRUMSTICK = 24147;
 
     //Event Objects
-    public static final int UNCRACKED_EGG = 70103;
-    public static final int CRACKED_EGG = 70104;
     public static final int RUBBLE = 69753;
 
     //Event NPCs

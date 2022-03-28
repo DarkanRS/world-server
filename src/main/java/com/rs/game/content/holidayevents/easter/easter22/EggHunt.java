@@ -121,10 +121,10 @@ public class EggHunt {
         while (eggs.size() < 5) {
         	Spawns spawn = Spawns.values()[Utils.random(EggHunt.Spawns.values().length)];
             if (!eggs.contains(spawn.ordinal())) {
-                eggs.add(spawn.ordinal());          
+                eggs.add(spawn.ordinal());
+                spawn.getEgg().setId(70105 + eggs.size());
         		if (Settings.getConfig().isDebug())
         			System.out.println("Setting egg [" + spawn.ordinal() + "] " + spawn.getEgg().getX() + ", " + spawn.getEgg().getY() + " with a varbit of " + spawn.getEgg().getDefinitions().varpBit);
-                spawn.getEgg().setId(70105 + eggs.size());
             }
         }
         for (Player p : World.getPlayers()) {
@@ -153,16 +153,8 @@ public class EggHunt {
         return true;
     }
 
-    public static void incrementChocatriceScore() {
-        chocatriceScore++;
-    }
-
     public static int getChocatriceScore() {
         return chocatriceScore;
-    }
-
-    public static void incrementEvilChickenScore() {
-        evilChickenScore++;
     }
 
     public static int getEvilChickenScore() {
@@ -180,4 +172,11 @@ public class EggHunt {
     public static double getTime() {
     	return Math.ceil(timer/100);
     }
+
+	public static void incrementScore(int attackStyle) {
+		if (attackStyle == 0)
+			evilChickenScore++;
+		else
+			chocatriceScore++;		
+	}
 }

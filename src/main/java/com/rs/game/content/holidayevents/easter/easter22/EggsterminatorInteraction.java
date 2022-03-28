@@ -36,18 +36,24 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
 
     @Override
     public void interact(Player player) {
+    	
+        player.lock();
+        player.resetWalkSteps();
         player.setNextFaceWorldTile(target.getTile());
+        player.setNextAnimation(new Animation(12174));
+        player.setNextSpotAnim(new SpotAnim(2138));
+        
         int attackStyle = player.getCombatDefinitions().getAttackStyleId();
-        int delay = World.sendProjectile(player.getTile(), target.getTile(), (attackStyle == 0 ? 3034 : 3035), 20, 10, 10, 1, 0, 0).getTaskDelay();
+        int delay = World.sendProjectile( player.getTile(), new WorldTile(target.getTile()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0, 0).getTaskDelay();
 
-        if (target instanceof NPC) {
-            NPC npc = ((NPC) target);
-            player.setNextAnimation(new Animation(12174));
-            player.setNextSpotAnim(new SpotAnim(2138));
-            WorldTasks.schedule(delay, () -> {
-            	target.sendDeath(player);
-            });
-        }
+        WorldTasks.schedule(delay, () -> {
+            if (target instanceof NPC) {
+                NPC npc = ((NPC) target);
+                target.sendDeath(player);
+            }
+            player.unlock();
+        });
+
     }
 
     @Override

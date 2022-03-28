@@ -62,7 +62,6 @@ public class EvilChickenD extends Conversation {
                                 })
                                 .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
                                 .addGotoStage("huntOps", EvilChickenD.this));
-                        		//.addNext(new StageSelectDialogue("huntOps", EvilChickenD.this)));
                         option("No", new Dialogue().addGotoStage("continued", EvilChickenD.this));
                     }
                 });

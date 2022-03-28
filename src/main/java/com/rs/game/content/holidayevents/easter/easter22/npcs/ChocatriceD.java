@@ -55,7 +55,7 @@ public class ChocatriceD extends Conversation {
                                 .addNext(() -> {
                                     player.getDiangoReclaim().add(Easter2022.PERMANENT_EGGSTERMINATOR);
 //                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-//                                    	Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
+//                                    	  Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
 //                                        player.sendMessage("The Chocatrice enchants your Eggsterminator...");
 //                                    }
                                 })
