@@ -18,35 +18,41 @@ import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.*;
 @PluginEventHandler
 public class EntranaHighPriestHolyGrailD extends Conversation {
 	private static final int NPC = 216;
+	static class CroneDialogue extends Conversation {
+		public CroneDialogue(Player p) {
+			super(p);
+			Dialogue croneQuestions = new Dialogue();
+			croneQuestions.addOptions("Choose an option:", new Options() {
+				@Override
+				public void create() {
+					option("What are the six heads?", new Dialogue()
+							.addPlayer(HeadE.HAPPY_TALKING, "What are the six heads?")
+							.addNPC(217, HeadE.CALM_TALK, "The six stone heads have appeared just recently in the world. They all face the point of the realm crossing. ")
+							.addNPC(217, HeadE.CALM_TALK, "Find where two of the heads face, and you should be able to pinpoint where it is.")
+							.addNext(croneQuestions)
+					);
+					option("What's a Fisher King?", new Dialogue()
+							.addPlayer(HeadE.HAPPY_TALKING, "What's a Fisher King?")
+							.addNPC(217, HeadE.CALM_TALK, "The Fisher King is the owner and slave of the Grail.")
+							.addNext(croneQuestions)
+					);
+					option("What do you mean by the whistle?", new Dialogue()
+							.addPlayer(HeadE.HAPPY_TALKING, "What do you mean by the whistle?")
+							.addNPC(217, HeadE.CALM_TALK, "You don't know about the whistles yet? The whistles are easy. You will need one to get to and from the Fisher King's realm. ")
+							.addNPC(217, HeadE.CALM_TALK, "They reside in a haunted manor house in Misthalin, though you may not perceive them unless you carry something from the realm of the Fisher King...")
+							.addNext(croneQuestions)
+					);
+					option("Ok, I will go searching.", new Dialogue());
+				}
+			});
+			addNext(croneQuestions);
+		}
+	}
+
 	public EntranaHighPriestHolyGrailD(Player p) {
 		super(p);
 		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case GO_TO_ENTRANA, GO_TO_MCGRUBOR -> {
-				Dialogue croneQuestions = new Dialogue();
-				croneQuestions.addOptions("Choose an option:", new Options() {
-					@Override
-					public void create() {
-						option("What are the six heads?", new Dialogue()
-								.addPlayer(HeadE.HAPPY_TALKING, "What are the six heads?")
-								.addNPC(217, HeadE.CALM_TALK, "The six stone heads have appeared just recently in the world. They all face the point of the realm crossing. ")
-								.addNPC(217, HeadE.CALM_TALK, "Find where two of the heads face, and you should be able to pinpoint where it is.")
-								.addNext(croneQuestions)
-						);
-						option("What's a Fisher King?", new Dialogue()
-								.addPlayer(HeadE.HAPPY_TALKING, "What's a Fisher King?")
-								.addNPC(217, HeadE.CALM_TALK, "The Fisher King is the owner and slave of the Grail.")
-								.addNext(croneQuestions)
-						);
-						option("What do you mean by the whistle?", new Dialogue()
-								.addPlayer(HeadE.HAPPY_TALKING, "What do you mean by the whistle?")
-								.addNPC(217, HeadE.CALM_TALK, "You don't know about the whistles yet? The whistles are easy. You will need one to get to and from the Fisher King's realm. ")
-								.addNPC(217, HeadE.CALM_TALK, "They reside in a haunted manor house in Misthalin, though you may not perceive them unless you carry something from the realm of the Fisher King...")
-								.addNext(croneQuestions)
-						);
-						option("Ok, I will go searching.", new Dialogue());
-					}
-				});
-
 				addNPC(NPC, HeadE.CALM_TALK, "Many greetings. Welcome to our fair island.");
 				addPlayer(HeadE.HAPPY_TALKING, "Hello. I am in search of the Holy Grail.");
 				addNPC(NPC, HeadE.CALM_TALK, "The object of which you speak did once pass through holy Entrana. I know not where it is now however. " +
@@ -61,7 +67,7 @@ public class EntranaHighPriestHolyGrailD extends Conversation {
 				addNPC(217, HeadE.CALM_TALK, " Go to where the six heads face, blow the whistle and away you go!", ()-> {
 					p.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_MCGRUBOR);
 				});
-				addNext(croneQuestions);
+				addNext(()->{p.startConversation(new CroneDialogue(p).getStart());});
 			}
 			default -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Bless you " + p.getDisplayName() + "!");
@@ -70,10 +76,17 @@ public class EntranaHighPriestHolyGrailD extends Conversation {
 	}
 
 
-    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
+    public static NPCClickHandler handlePriest = new NPCClickHandler(new Object[]{NPC}) {
         @Override
         public void handle(NPCClickEvent e) {
             e.getPlayer().startConversation(new EntranaHighPriestHolyGrailD(e.getPlayer()).getStart());
         }
     };
+
+	public static NPCClickHandler handleCrone = new NPCClickHandler(new Object[]{217}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getPlayer().startConversation(new CroneDialogue(e.getPlayer()).getStart());
+		}
+	};
 }

@@ -43,7 +43,8 @@ public class SirGalahadHolyGrailD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "I don't suppose I could borrow that? It could come in useful on my quest.");
 				addSimple("Galahad reluctantly passes you a small cloth.", ()->{
 					p.getInventory().addItem(new Item(15, 1), true);
-					p.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_FISHER_KING);
+					if(p.getQuestManager().getStage(Quest.HOLY_GRAIL) == GO_TO_MCGRUBOR)
+						p.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_FISHER_KING);
 				});
 			}
 			default -> {

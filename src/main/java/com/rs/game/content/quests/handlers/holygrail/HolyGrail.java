@@ -79,7 +79,13 @@ public class HolyGrail extends QuestOutline {
 			}
 			case SPEAK_TO_FISHER_KING -> {
 				lines.add("I must get into the castle and speak to the king of The");
-				lines.add("Fisher Realm");
+				lines.add("Fisher Realm. However I need some type of whistle. I was");
+				lines.add("told I can find it in a haunted mansion. However I need");
+				lines.add("to have an artifact of the fisher realm for it to");
+				lines.add("appear.");
+				lines.add("");
+				lines.add("Once I have the whistle I need to find a way to get there.");
+				lines.add("6 heads point to the location which I must find.");
 				lines.add("");
 			}
 			case SPEAK_TO_PERCIVAL -> {
