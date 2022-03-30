@@ -227,7 +227,7 @@ public class Lumbridge {
 	public static ObjectClickHandler handleThievesGuildExitLadder = new ObjectClickHandler(new Object[] { 52308 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(new WorldTile(3233, 5890, 0));
+			e.getPlayer().useLadder(new WorldTile(3223, 3269, 0));
 		}
 	};
 
