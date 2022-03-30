@@ -138,6 +138,7 @@ import com.rs.lib.model.Account;
 import com.rs.lib.model.Clan;
 import com.rs.lib.model.Social;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.Session;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketHandler;
@@ -155,6 +156,7 @@ import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.EnterChunkEvent;
+import com.rs.plugin.events.InputHSLEvent;
 import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
 import com.rs.plugin.events.ItemEquipEvent;
@@ -943,6 +945,7 @@ public class Player extends Entity {
 			interfaceManager.removeInventoryInterface();
 		endConversation();
 		dialogueManager.finishDialogue();
+		getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 		if (closeInterfacesEvent != null) {
 			closeInterfacesEvent.run();
 			closeInterfacesEvent = null;
@@ -1843,7 +1846,7 @@ public class Player extends Entity {
 		});
 	}
 
-	public void sendInputHSL(InputIntegerEvent e) {
+	public void sendInputHSL(InputHSLEvent e) {
 		getTempAttribs().setO("pluginHSL", e);
 		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginHSL"));
 	}

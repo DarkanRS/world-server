@@ -1057,7 +1057,7 @@ public final class ObjectHandler {
 				// climb
 				player.useStairs(828, new WorldTile(3096, 3468, 0), 1, 2);
 			else if (id == 26934)
-				player.useStairs(833, new WorldTile(3097, 9868, 0), 1, 2);
+				player.useStairs(833, new WorldTile(3096, 9868, 0), 1, 2);
 			else if (id == 29355 && object.getX() == 3088 && object.getY() == 9971)
 				player.useStairs(828, new WorldTile(3087, 3571, 0), 1, 2);
 			else if (id == 65453)

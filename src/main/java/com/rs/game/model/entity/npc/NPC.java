@@ -410,7 +410,6 @@ public class NPC extends Entity {
 		setFinished(false);
 		World.addNPC(this);
 		setLastRegionId(0);
-		setNextAnimation(new Animation(-1));
 		World.updateEntityRegion(this);
 		loadMapRegions();
 		checkMultiArea();

@@ -1529,4 +1529,9 @@ public final class World {
 	public static void broadcastLoot(String message) {
 		sendWorldMessage("<img=4><shad=000000><col=00FF00>" + message, false);
 	}
+
+	public static void processEntityLists() {
+		PLAYERS.processPostTick();
+		NPCS.processPostTick();
+	}
 }
