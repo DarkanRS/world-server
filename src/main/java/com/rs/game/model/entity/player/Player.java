@@ -156,6 +156,7 @@ import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.EnterChunkEvent;
+import com.rs.plugin.events.InputHSLEvent;
 import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
 import com.rs.plugin.events.ItemEquipEvent;
@@ -1845,7 +1846,7 @@ public class Player extends Entity {
 		});
 	}
 
-	public void sendInputHSL(InputIntegerEvent e) {
+	public void sendInputHSL(InputHSLEvent e) {
 		getTempAttribs().setO("pluginHSL", e);
 		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginHSL"));
 	}
