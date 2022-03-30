@@ -110,6 +110,7 @@ public final class WorldThread extends Thread {
 					continue;
 				npc.resetMasks();
 			}
+			World.processEntityLists();
 			Telemetry.queueTelemetryTick((System.currentTimeMillis() - startTime));
 		} catch (Throwable e) {
 			Logger.handle(e);

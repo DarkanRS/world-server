@@ -31,6 +31,7 @@ import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -170,7 +171,7 @@ public class GE {
 	};
 
 	public static void open(Player player) {
-		player.getPackets().closeGESearch();
+		player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 		resetVars(player);
 		if (player.getInterfaceManager().containsInventoryInter())
 			player.getInterfaceManager().removeInventoryInterface();

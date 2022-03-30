@@ -100,7 +100,7 @@ public class ArtisansWorkshop  {
 
 	public static void handleDepositOres(Player player) {
 		String[] filteredOres = Arrays.stream(ORE_OPTIONS).filter(oreName -> oreName.equals("None") ? true : player.getInventory().containsItem(ORES.get(oreName)[ORE_NOTED], 1)).toArray(String[]::new);
-		if (filteredOres.length < 2) {
+		if (filteredOres.length < 1) {
 			player.sendMessage("You don't have any ores to return.");
 			return;
 		}
@@ -123,7 +123,7 @@ public class ArtisansWorkshop  {
 
 	public static void handleWithdrawOres(Player player) {
 		String[] filteredOres = Arrays.stream(ORE_OPTIONS).filter(oreName -> oreName.equals("None") ? true : player.artisanOres[ORES.get(oreName)[ORE_IDX]] > 0).toArray(String[]::new);
-		if (filteredOres.length < 2) {
+		if (filteredOres.length < 1) {
 			player.sendMessage("You don't have any ores to return.");
 			return;
 		}

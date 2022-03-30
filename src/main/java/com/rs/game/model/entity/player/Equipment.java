@@ -168,30 +168,15 @@ public final class Equipment {
 			Item item = items.get(index);
 			if (item == null)
 				continue;
-			int id = item.getId();
-			if (index == Equipment.HEAD) {
-				if (id == 20135 || id == 20137 // torva
-						|| id == 20147 || id == 20149 // pernix
-						|| id == 20159 || id == 20161 // virtus
-						)
-					hpIncrease += 66;
-
-			} else if (index == Equipment.CHEST) {
-				if (id == 20139 || id == 20141 // torva
-						|| id == 20151 || id == 20153 // pernix
-						|| id == 20163 || id == 20165 // virtus
-						)
-					hpIncrease += 200;
-			} else if (index == Equipment.LEGS)
-				if (id == 20143 || id == 20145 // torva
-				|| id == 20155 || id == 20157 // pernix
-				|| id == 20167 || id == 20169 // virtus
-						)
-					hpIncrease += 134;
-
+			switch(item.getId()) {
+			case 20135, 20137, 20147, 20149, 20159, 20161 -> hpIncrease += 66;
+			case 20139, 20141, 20151, 20153, 20163, 20165 -> hpIncrease += 200;
+			case 20143, 20145, 20155, 20157, 20167, 20169 -> hpIncrease += 134;
+			case 24974, 24975, 24977, 24978, 24980, 24981, 24983, 24984, 24986, 24987, 24989, 24990, 25058, 25060, 25062, 25064, 25066, 25068 -> hpIncrease += 25;
+			}
 		}
 		if (player.hasEffect(Effect.BONFIRE)) {
-			int maxhp = player.getSkills().getLevel(Constants.HITPOINTS) * 10;
+			int maxhp = player.getSkills().getLevel(Constants.HITPOINTS) * 10 + (int) hpIncrease;
 			hpIncrease += (maxhp * Bonfire.getBonfireBoostMultiplier(player)) - maxhp;
 		}
 		if (player.getHpBoostMultiplier() != 0) {
