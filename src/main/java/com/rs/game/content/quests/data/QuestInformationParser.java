@@ -109,6 +109,9 @@ public class QuestInformationParser {
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 60);
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MAGIC, 65);
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.WOODCUTTING, 55);
+		Quest.VOID_STARES_BACK.getDefs().getExtraInfo().addSkillReq(Skills.SMITHING, 70);
+		Quest.VOID_STARES_BACK.getDefs().getExtraInfo().addSkillReq(Skills.SUMMONING, 55);
+		Quest.VOID_STARES_BACK.getDefs().getExtraInfo().addSkillReq(Skills.DEFENSE, 25);
 	}
 
 	public static void addPreReqs(QuestInformation info, Quest quest) {
