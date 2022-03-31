@@ -22,6 +22,7 @@ import java.util.Set;
 
 import com.rs.game.World;
 import com.rs.game.content.AchievementTitles;
+import com.rs.game.content.skills.construction.SawmillOperator;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
 import com.rs.game.content.skills.farming.PatchType;
@@ -43,9 +44,6 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class Lunars {
-
-	public static int[] logs = { 1511, 1521, 6333, 6332 };
-	public static int[] planks = { 960, 8778, 8780, 8782 };
 
 	public static int[] unstrung = { 1673, 1675, 1677, 1679, 1681, 1683, 1714, 1720, 6579 };
 	public static int[] strung = { 1692, 1694, 1696, 1698, 1700, 1702, 1716, 1722, 6581 };
@@ -87,8 +85,8 @@ public class Lunars {
 	}
 
 	public static int getPlankIdx(int logId) {
-		for (int i = 0; i < logs.length; i++)
-			if (logs[i] == logId)
+		for (int i = 0; i < SawmillOperator.logs.length; i++)
+			if (SawmillOperator.logs[i] == logId)
 				return i;
 		return -1;
 	}
@@ -180,14 +178,22 @@ public class Lunars {
 			player.sendMessage("You can only cast this spell on a log.");
 			return;
 		}
+		
+		int price = (int) (SawmillOperator.prices[index] * 0.7);
+		
+		if (!player.getInventory().containsItem(995, price)) {
+			player.sendMessage("You need " + Utils.formatNumber(price) + " gold to convert this log.");
+			return;
+		}
 
-		if (!player.getInventory().containsItem(logs[index], 1) || !Magic.checkMagicAndRunes(player, 86, true, new RuneSet(Rune.NATURE, 1, Rune.ASTRAL, 2, Rune.EARTH, 15)))
+		if (!player.getInventory().containsItem(SawmillOperator.logs[index], 1) || !Magic.checkMagicAndRunes(player, 86, true, new RuneSet(Rune.NATURE, 1, Rune.ASTRAL, 2, Rune.EARTH, 15)))
 			return;
 
 		player.setNextAnimation(new Animation(6298));
 		player.setNextSpotAnim(new SpotAnim(1063, 0, 50));
-		player.getInventory().deleteItem(logs[index], 1);
-		player.getInventory().addItem(planks[index], 1);
+		player.getInventory().deleteItem(995, price);
+		player.getInventory().deleteItem(SawmillOperator.logs[index], 1);
+		player.getInventory().addItem(SawmillOperator.planks[index], 1);
 		player.getSkills().addXp(Constants.MAGIC, 90);
 		player.addSpellDelay(2);
 	}
