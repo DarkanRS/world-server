@@ -120,7 +120,7 @@ public class PlayerCombat extends PlayerAction {
 				return false;
 			}
 		}
-		if (!player.checkInCombat(target))
+		if (!player.canAttackMulti(target))
 			return false;
 		if (!checkAll(player))
 			return false;
