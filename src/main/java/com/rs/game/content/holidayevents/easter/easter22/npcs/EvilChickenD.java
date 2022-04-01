@@ -52,13 +52,11 @@ public class EvilChickenD extends Conversation {
                         option("Yes", new Dialogue()
                         		//TODO - add diango reclaim
                                 .addNext(() -> {
-                                    player.getDiangoReclaim().add(Easter2022.PERMANENT_EGGSTERMINATOR);
-//                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-//                                    	player.getEquipment().deleteSlot(Equipment.WEAPON);
-//                                    	player.getEquipment().setSlot(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR));
-//                                    	player.getAppearance().generateAppearanceData();
-//                                        player.sendMessage("The Evil Chicken enchants your Eggsterminator...");
-//                                    }
+                                    player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
+                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
+                                    	player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR)); 
+                                        player.sendMessage("The Evil Chicken enchants your Eggsterminator...");
+                                    }
                                 })
                                 .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
                                 .addGotoStage("huntOps", EvilChickenD.this));
@@ -67,7 +65,7 @@ public class EvilChickenD extends Conversation {
                 });
             }
 
-            if (player.getInventory().containsItem(Easter2022.EVIL_DRUMSTICK, 3) && player.getDiangoReclaim().contains(Easter2022.EGG_ON_FACE_MASK)) {
+            if (player.getInventory().containsItem(Easter2022.EVIL_DRUMSTICK, 3) && !player.getDiangoReclaim().contains(Easter2022.EGG_ON_FACE_MASK)) {
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You have three succulent drumsticks on you. May I have them?");
                 addOptions(new Options("buyMask", this) {
                     @Override

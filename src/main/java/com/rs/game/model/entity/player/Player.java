@@ -4001,8 +4001,6 @@ public class Player extends Entity {
 	public void addDiangoReclaimItem(int itemId) {
 		if (diangoReclaim == null)
 			diangoReclaim = new HashSet<>();
-		if (!ItemConstants.isTradeable(new Item(itemId)))
-			return;
 		diangoReclaim.add(itemId);
 	}
 

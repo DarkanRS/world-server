@@ -51,14 +51,14 @@ public class ChocatriceD extends Conversation {
                     public void create() {
                 		//TODO - add diango reclaim
                         option("Yes", new Dialogue()
-                                .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
                                 .addNext(() -> {
-                                    player.getDiangoReclaim().add(Easter2022.PERMANENT_EGGSTERMINATOR);
-//                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-//                                    	  Equipment.sendWear(player, Equipment.WEAPON, Easter2022.PERMANENT_EGGSTERMINATOR);
-//                                        player.sendMessage("The Chocatrice enchants your Eggsterminator...");
-//                                    }
+                                    player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
+                                    if (player.getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
+                                    	player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(Easter2022.PERMANENT_EGGSTERMINATOR)); 
+                                    	player.sendMessage("The Chocatrice enchants your Eggsterminator...");
+                                    }
                                 })
+                                .addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You will now be able to keep the Eggsterminator after the Easter event.")
                                 .addGotoStage("huntOps", ChocatriceD.this)
                         );
                         option("No", new Dialogue().addGotoStage("continued", ChocatriceD.this));
@@ -75,7 +75,8 @@ public class ChocatriceD extends Conversation {
                             player.getInventory().deleteItem(Easter2022.CHOCOTREAT, 3);
                             player.addDiangoReclaimItem(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK);
                             player.getInventory().addItemDrop(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, 1);
-                            addItem(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, "You receive the chocolate egg on face mask.").addGotoStage("huntOps", ChocatriceD.this);
+                            addItem(Easter2022.CHOCOLATE_EGG_ON_FACE_MASK, "You receive the chocolate egg on face mask.")
+                            .addGotoStage("huntOps", ChocatriceD.this);
                         });
                         option("No", new Dialogue().addGotoStage("huntOps", ChocatriceD.this));
                     }

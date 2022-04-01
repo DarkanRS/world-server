@@ -169,8 +169,8 @@ public class EggHunt {
     	return Spawns.values()[eggs.get(0)].getEgg().getHint();
     }
     
-    public static double getTime() {
-    	return Math.ceil(timer/100);
+    public static int getTime() {
+    	return (int)Math.ceil(timer/100);
     }
 
 	public static void incrementScore(int attackStyle) {

@@ -1,6 +1,7 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
 import com.rs.game.World;
+import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
@@ -87,13 +88,13 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
                 return;
             if (e.dequip() && e.getItem().getId() == Easter2022.EGGSTERMINATOR) {
             	e.cancel();
-                e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", options -> {
-                    options.add("Yes", () -> {
+                e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", ops -> {
+                	ops.add("Yes, destroy it.", () -> {
                         e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
                         e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
                         e.getPlayer().getAppearance().generateAppearanceData();
                     });
-                    options.add("No");
+                	ops.add("No, keep it.");
                 });
             }
             if (Easter2022.ENABLED)
@@ -110,7 +111,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
                 e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
                 e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
                 e.getPlayer().getAppearance().generateAppearanceData();
-                e.getPlayer().sendMessage("Your Eggsterminator has vanished. Start a hunt to obtain a new one and even unlock an enchanted permanent version.");
+                e.getPlayer().sendMessage("The Easter event is over and the magic of your Eggsterminator has vanished. You watch as it melts into chocolate.");
             }
         }
     };
