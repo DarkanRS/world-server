@@ -236,7 +236,6 @@ public class FarmPatch {
 			item.setId(1925);
 			player.getInventory().refresh();
 			compostLevel = item.getId() == 6032 ? 1 : 2;
-			player.lock(3);
 			break;
 		case 6036:
 			if (dead) {
@@ -254,7 +253,6 @@ public class FarmPatch {
 			player.getInventory().refresh();
 			diseased = false;
 			updateVars(player);
-			player.lock(3);
 			break;
 		case 18682:
 			if (seed == null || fullyGrown() || diseased || dead || watered || (location.type != PatchType.ALLOTMENT && location.type != PatchType.FLOWER && location.type != PatchType.HOP && location.type != PatchType.VINE_FLOWER)) {
