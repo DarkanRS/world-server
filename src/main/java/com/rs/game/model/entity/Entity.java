@@ -1576,20 +1576,23 @@ public abstract class Entity {
 	}
 
 	public boolean checkInCombat(Entity target) {
-		if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
-			if (!target.isAtMultiArea() || !isAtMultiArea()) {
-				if (getAttackedBy() != target && inCombat()) {
-					if (this instanceof Player p)
-						p.sendMessage("You are already in combat.");
-					return false;
-				}
-				if (target.getAttackedBy() != this && target.inCombat()) {
-					if (!(target.getAttackedBy() instanceof NPC)) {
-						if (this instanceof Player p)
-							p.sendMessage("They are already in combat.");
-						return false;
-					}
-				}
+		if (target instanceof NPC npc && npc.isForceMultiAttacked())
+			return true;
+		if (target.isAtMultiArea() && isAtMultiArea())
+			return true;
+		
+		if (getAttackedBy() != target && inCombat()) {
+			if (!(getAttackedBy() instanceof NPC)) {
+				if (this instanceof Player p)
+					p.sendMessage("You are already in combat.");
+				return false;
+			}
+		}
+		if (target.getAttackedBy() != this && target.inCombat()) {
+			if (!(target.getAttackedBy() instanceof NPC)) {
+				if (this instanceof Player p)
+					p.sendMessage("They are already in combat.");
+				return false;
 			}
 		}
 		return true;
