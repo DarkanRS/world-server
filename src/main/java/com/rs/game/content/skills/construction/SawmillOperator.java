@@ -30,9 +30,9 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class SawmillOperator  {
 
-	private static int[] logs = { 1511, 1521, 6333, 6332 };
-	private static int[] planks = { 960, 8778, 8780, 8782 };
-	private static int[] prices = { 100, 250, 500, 1500 };
+	public static int[] logs = { 1511, 1521, 6333, 6332 };
+	public static int[] planks = { 960, 8778, 8780, 8782 };
+	public static int[] prices = { 100, 250, 500, 1500 };
 
 	public static NPCInteractionDistanceHandler sawmillDistance = new NPCInteractionDistanceHandler(4250) {
 		@Override

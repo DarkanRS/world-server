@@ -17,31 +17,22 @@
 package com.rs.game.model.entity;
 
 import java.util.AbstractCollection;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
-
-import com.rs.Settings;
+import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntPriorityQueue;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	public Object[] entities;
-	public Set<Integer> indicies = new HashSet<>();
-	public int capacity;
+	private IntSet usedIndices = new IntOpenHashSet();
+	private IntPriorityQueue freeIndices = new IntHeapPriorityQueue();
+	private IntSet toFreeUp = new IntOpenHashSet();
+	private int freeCap = 1;
 	private final Object lock = new Object();
 
 	public EntityList(int capacity) {
 		entities = new Object[capacity];
-		this.capacity = capacity;
-	}
-
-	public int getEmptySlot() {
-		for (int i = 1; i < entities.length; i++) {
-			if (i >= Settings.NPCS_LIMIT)
-				return -1;
-			if (entities[i] == null)
-				return i;
-		}
-		return -1;
 	}
 
 	@Override
@@ -50,15 +41,30 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 			int slot = getEmptySlot();
 			if (slot == -1)
 				return false;
-			add(entity, slot);
+			if (entities[slot] != null)
+				return false;
+			entities[slot] = entity;
+			entity.setIndex(slot);
+			usedIndices.add(slot);
 			return true;
 		}
+	}
+	
+	private int getEmptySlot() {
+		if (freeIndices.isEmpty()) {
+			if (freeCap < entities.length)
+				freeIndices.enqueue(freeCap++);
+			else
+				return -1;
+		}
+		return freeIndices.dequeueInt();
 	}
 
 	public void remove(T entity) {
 		synchronized (lock) {
 			entities[entity.getIndex()] = null;
-			indicies.remove(entity.getIndex());
+			usedIndices.remove(entity.getIndex());
+			toFreeUp.add(entity.getIndex());
 		}
 	}
 
@@ -67,8 +73,17 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 		synchronized (lock) {
 			Object temp = entities[index];
 			entities[index] = null;
-			indicies.remove(index);
+			usedIndices.remove(index);
+			toFreeUp.add(index);
 			return (T) temp;
+		}
+	}
+	
+	public void processPostTick() {
+		synchronized (lock) {
+			for (int toFree : toFreeUp)
+				freeIndices.enqueue(toFree);
+			toFreeUp.clear();
 		}
 	}
 
@@ -81,18 +96,10 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 		}
 	}
 
-	public void add(T entity, int index) {
-		if (entities[index] != null)
-			return;
-		entities[index] = entity;
-		entity.setIndex(index);
-		indicies.add(index);
-	}
-
 	@Override
 	public Iterator<T> iterator() {
 		synchronized (lock) {
-			return new EntityListIterator<>(entities, indicies, this);
+			return new EntityListIterator<>(entities, usedIndices, this);
 		}
 	}
 
@@ -102,7 +109,7 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 
 	public int indexOf(T entity) {
 		synchronized (lock) {
-			for (int index : indicies)
+			for (int index : usedIndices)
 				if (entities[index].equals(entity))
 					return index;
 		}
@@ -111,6 +118,6 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 
 	@Override
 	public int size() {
-		return indicies.size();
+		return usedIndices.size();
 	}
 }
