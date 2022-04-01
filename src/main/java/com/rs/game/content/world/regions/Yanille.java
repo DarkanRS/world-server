@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.world.regions;
 
+import com.rs.game.content.quests.Quest;
+import com.rs.game.content.quests.handlers.treegnomevillage.dialogues.ElkoyTreeGnomeVillageD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
@@ -32,6 +34,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+import com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage;
 
 @PluginEventHandler
 public class Yanille {
@@ -70,6 +73,9 @@ public class Yanille {
 	public static NPCClickHandler handleElkoy = new NPCClickHandler(new Object[] { 473, 474 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
+			if(e.getOption().equalsIgnoreCase("Talk-to")) {
+				e.getPlayer().startConversation(new ElkoyTreeGnomeVillageD(e.getPlayer()).getStart());
+			}
 			if (e.getOpNum() == 3)
 				e.getPlayer().fadeScreen(() -> {
 					e.getPlayer().sendMessage("Elkoy leads you through the maze...");

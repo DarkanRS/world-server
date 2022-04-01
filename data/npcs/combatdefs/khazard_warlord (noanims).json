@@ -3,9 +3,9 @@
     "Khazard warlord"
   ],
   "hitpoints": 1690,
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 390,
+  "defenceAnim": 383,
+  "deathAnim": 4200,
   "deathDelay": 3,
   "respawnDelay": 60,
   "maxHit": 92,
