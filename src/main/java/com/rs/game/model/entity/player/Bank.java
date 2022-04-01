@@ -32,6 +32,7 @@ import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -418,6 +419,7 @@ public class Bank {
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
 		player.setCloseInterfacesEvent(() -> {
+			player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 			player.getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 			player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
 			player.getTempAttribs().setB("viewingDepositBox", false);
@@ -587,7 +589,10 @@ public class Bank {
 		unlockButtons();
 		sendItems();
 		refreshItems();
-		player.setCloseInterfacesEvent(() -> Familiar.sendLeftClickOption(player));
+		player.setCloseInterfacesEvent(() -> {
+			player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
+			Familiar.sendLeftClickOption(player);
+		});
 	}
 
 	public void openBankOther(Player other) {

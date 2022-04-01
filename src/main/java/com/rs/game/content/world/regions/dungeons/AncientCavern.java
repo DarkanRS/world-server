@@ -90,19 +90,19 @@ public class AncientCavern {
 		}
 	};
 
-	public static ObjectClickHandler handleDownStepsKuradal = new ObjectClickHandler(new Object[] { 39468 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1774, 5325, 0));
-		}
-	};
+//	public static ObjectClickHandler handleDownStepsKuradal = new ObjectClickHandler(new Object[] { 39468 }) {
+//		@Override
+//		public void handle(ObjectClickEvent e) {
+//			e.getPlayer().setNextWorldTile(new WorldTile(1744, 5325, 0));
+//		}
+//	};
 
-	public static ObjectClickHandler handleUpStepsKuradal = new ObjectClickHandler(new Object[] { 25337 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getPlayer().getQuestManager().isComplete(Quest.WHILE_GUTHIX_SLEEPS) ? new WorldTile(1774, 5321, 1) : new WorldTile(1694, 5296, 1));
-		}
-	};
+//	public static ObjectClickHandler handleUpStepsKuradal = new ObjectClickHandler(new Object[] { 25337 }) {
+//		@Override
+//		public void handle(ObjectClickEvent e) {
+//			e.getPlayer().setNextWorldTile(e.getPlayer().getQuestManager().isComplete(Quest.WHILE_GUTHIX_SLEEPS) ? new WorldTile(1774, 5321, 1) : new WorldTile(1694, 5296, 1));
+//		}
+//	};
 
 	public static ObjectClickHandler handleWhirlpool = new ObjectClickHandler(new Object[] { 67966 }) {
 		@Override

@@ -5225,8 +5225,8 @@
   {
     "name": "Ardougne Ago",
     "hint": "during Meeting History.",
-    "comment": "put in wild",
-    "allowAmbient": true,
+    "comment": "Out of place",
+    "allowAmbient": false,
     "id": 555,
     "regionIds": []
   },
@@ -8108,7 +8108,7 @@
     "name": "",
     "hint": "somewhere.",
     "comment": "Sounds great!",
-    "allowAmbient": true,
+    "allowAmbient": false,
     "id": 897,
     "regionIds": []
   },

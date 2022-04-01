@@ -78,10 +78,4 @@ public class SirLancelotMerlinsCrystalD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new SirLancelotMerlinsCrystalD(e.getPlayer()).getStart());
-		}
-	};
 }

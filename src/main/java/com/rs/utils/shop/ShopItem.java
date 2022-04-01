@@ -42,7 +42,7 @@ public class ShopItem {
 	}
 
 	public int getRestockTicks() {
-		return restockTicks <= 0 ? 50 : restockTicks;
+		return restockTicks < 0 ? 50 : restockTicks;
 	}
 
 	public void setCap(int cap) {

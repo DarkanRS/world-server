@@ -194,6 +194,14 @@ public class DwarfMultiCannon extends OwnedObject {
 				cannon.pickUp(e.getPlayer(), e.getObject());
 		}
 	};
+	
+	public int getMaxBalls() {
+		return switch(type) {
+			case 2 -> 100;
+			case 1 -> 50;
+			default -> 30;
+		};
+	}
 
 	public void fire(Player player) {
 		if (!ownedBy(player)) {
