@@ -65,10 +65,5 @@ public class SirGawainMerlinsCrystalD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new SirGawainMerlinsCrystalD(e.getPlayer()).getStart());
-		}
-	};
+
 }
