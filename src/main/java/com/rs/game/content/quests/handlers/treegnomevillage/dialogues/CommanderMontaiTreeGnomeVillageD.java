@@ -107,7 +107,7 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 						"be able to enter the stronghold and retrieve the orb.");
 			}
 			case KILL_WARLORD -> {
-				addPlayer(HeadE.HAPPY_TALKING, "I have the orb of protection.");
+				addPlayer(HeadE.HAPPY_TALKING, "I got the orb of protection.");
 				addNPC(NPC, HeadE.CALM_TALK, "Incredible, for a human you really are something.");
 				addPlayer(HeadE.HAPPY_TALKING, "Thanks... I think!");
 				addNPC(NPC, HeadE.CALM_TALK, "I'll stay here with my troops and try and hold Khazard's men back. You return the orb to the gnome village. Go as quick as you can, the village is still unprotected.");

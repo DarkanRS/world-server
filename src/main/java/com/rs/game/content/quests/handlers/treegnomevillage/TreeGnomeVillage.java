@@ -58,27 +58,37 @@ public class TreeGnomeVillage extends QuestOutline {
 				lines.add("");
 			}
 			case TALK_TO_MONTAI_ABOUT_WOOD -> {
-				lines.add("");
+				lines.add("I am to talk to Commander Montai to help the gnomes fight on the");
+				lines.add("battlefield.");
 				lines.add("");
 			}
 			case GET_WOOD -> {
-				lines.add("");
+				lines.add("I should gather wood for Commander Montai and bring them to him.");
 				lines.add("");
 			}
 			case TALK_TO_MONTAI_ABOUT_TRACKERS -> {
-				lines.add("");
+				lines.add("Now that that's over let's see how else we can help on the");
+				lines.add("battlefield by talking to Commander Montai again.");
 				lines.add("");
 			}
 			case FIRE_BALLISTA -> {
+				lines.add("I need to get 3 coordinates from 3 tracker gnomes. After");
+				lines.add("I speak with them I can aim and fire a ballista on the");
+				lines.add("battlefield toward the enemy stronghold.");
 				lines.add("");
+				lines.add((player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getB("tracker1found") ? "<str>" : "") + "I have spoken to the 1st tracker");
+				lines.add((player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getB("tracker2found") ? "<str>" : "") + "I have spoken to the 2nd tracker");
+				lines.add((player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getB("tracker3found") ? "<str>" : "") + "I have spoken to the 3rd tracker");
 				lines.add("");
 			}
 			case ORB1 -> {
-				lines.add("");
+				lines.add("Now that the ballista was fired I can force my way");
+				lines.add("into the stronghold and steal the orb.");
 				lines.add("");
 			}
 			case KILL_WARLORD -> {
-				lines.add("");
+				lines.add("A Khazard Warlord has the remaining orbs. I should");
+				lines.add("find him, kill him and return them.");
 				lines.add("");
 			}
 			case QUEST_COMPLETE -> {
@@ -239,7 +249,7 @@ public class TreeGnomeVillage extends QuestOutline {
 	private static boolean has3TrackerCoordinates(Player p) {
 		GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE);
 		for(int i = 1; i <= 3; i++)
-			if(!attr.getB("tracker"+i+"gnome"))
+			if(!attr.getB("tracker"+i+"found"))
 				return false;
 		return true;
 	}

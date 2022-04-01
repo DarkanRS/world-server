@@ -38,19 +38,19 @@ public class Tracker3TreeGnomeVillageD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "What?");
 				if(coordinate == 1)
 					addNPC(NPC, HeadE.CALM_TALK, "Less than my hands", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3gnome", true);
+						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				if(coordinate == 2)
 					addNPC(NPC, HeadE.CALM_TALK, "More than my head less than my fingers", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3gnome", true);
+						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				if(coordinate == 3)
 					addNPC(NPC, HeadE.CALM_TALK, "More than we but less than our feet", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3gnome", true);
+						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				if(coordinate == 4)
 					addNPC(NPC, HeadE.CALM_TALK, "My legs and your legs", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3gnome", true);
+						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				addPlayer(HeadE.HAPPY_TALKING, "You're mad.");
 				addNPC(NPC, HeadE.CALM_TALK, "Dance with me, and Khazard's men are beat.");
