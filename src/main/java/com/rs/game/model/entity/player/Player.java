@@ -1042,7 +1042,7 @@ public class Player extends Entity {
 			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
 			if (isResting()) {
 				energy = 1.68;
-				if (Musician.isNearby(this))
+				if (Musician.isNearby(this)) //TODO optimize this with its own resting variable
 					energy = 2.28;
 			}
 			restoreRunEnergy(energy);
