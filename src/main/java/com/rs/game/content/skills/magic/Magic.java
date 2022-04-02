@@ -85,8 +85,10 @@ public class Magic {
 	}
 
 	public static final void manualCast(Player player, Entity target, CombatSpell spell) {
-		if (checkCombatSpell(player, spell, 1, false))
+		if (checkCombatSpell(player, spell, 1, false)) {
+			player.setNextFaceWorldTile(target.getMiddleWorldTile());
 			player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
+		}
 	}
 
 	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192) {
