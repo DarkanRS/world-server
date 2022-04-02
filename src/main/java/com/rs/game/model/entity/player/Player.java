@@ -1008,20 +1008,12 @@ public class Player extends Entity {
 				finish(0);
 			
 			timePlayed++;
-			if (timePlayed % 500 == 0) {
-				if (getDailyI("loyaltyTicks") < 12) {
-					loyaltyPoints += 175;
-					incDailyI("loyaltyTicks");
-				} else if (!getDailyB("loyaltyNotifiedCap")) {
-					sendMessage("<col=FF0000>You've reached your loyalty point cap for the day. You now have " + Utils.formatNumber(loyaltyPoints) + ".");
-					setDailyB("loyaltyNotifiedCap", true);
-				}
-			}
 			timeLoggedOut = System.currentTimeMillis();
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 				tickFarming();
 
+			processTimePlayedTasks();
 			processTimedRestorations();
 			processMusic();
 			processItemDegrades();
@@ -1030,6 +1022,18 @@ public class Player extends Entity {
 			controllerManager.process();
 		} catch (Throwable e) {
 			WorldDB.getLogs().logError(e);
+		}
+	}
+	
+	private void processTimePlayedTasks() {
+		if (timePlayed % 500 == 0) {
+			if (getDailyI("loyaltyTicks") < 12) {
+				loyaltyPoints += 175;
+				incDailyI("loyaltyTicks");
+			} else if (!getDailyB("loyaltyNotifiedCap")) {
+				sendMessage("<col=FF0000>You've reached your loyalty point cap for the day. You now have " + Utils.formatNumber(loyaltyPoints) + ".");
+				setDailyB("loyaltyNotifiedCap", true);
+			}
 		}
 	}
 
