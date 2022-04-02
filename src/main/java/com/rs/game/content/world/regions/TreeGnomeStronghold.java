@@ -24,7 +24,7 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class TreeGnomeVillage {
+public class TreeGnomeStronghold {
 	public static ObjectClickHandler handleGnomeSpiralStairsUp = new ObjectClickHandler(new Object[] { 69505 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
