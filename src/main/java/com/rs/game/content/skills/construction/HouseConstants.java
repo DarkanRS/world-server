@@ -436,7 +436,7 @@ public class HouseConstants {
 		MAHOGANYCOSTUMEBOX(9825, 18774, 80, 280, new Item(8782, 2)),
 
 		//MENAGERIE
-		SMALLOBELISK(15236, 44837, 41, 676, new Item(8786, 1), new Item(12158, 10), new Item(12163, 10), new Item(12160, 10), new Item(12159, 10), new Item(12183, 1000000)),
+		SMALLOBELISK(15236, 44837, 41, 676, new Item(8786, 1), new Item(12158, 10), new Item(12163, 10), new Item(12160, 10), new Item(12159, 10), new Item(12183, 1000)),
 		OAKPETFEEDER(15233, 44834, 37, 240, new Item(8778, 4)),
 		TEAKPETFEEDER(15234, 44835, 52, 380, new Item(8780, 4)),
 		MAHOGANYPETFEEDER(15235, 44836, 67, 880, new Item(8782, 4), new Item(8784, 1)),
