@@ -52,19 +52,30 @@ public class Easter2022 {
     public static EggHunt event;// = new EggHunt();
 
     static AtomicLong currentTime = new AtomicLong(Instant.now().getEpochSecond());
-    static long startDate = 1648771200; //April 1st - 00:00
-    static long endDate = 1649635200; //April 11th - 00:00
+    static long startDate = 1649548800; //April 10th - 00:00
+    static long endDate = 1650412800; //April 20th - 00:00
 
     /*
      *   Runescape 2012 Easter event - Chocatrice vs Evil Chicken.
      *
      *   Rewards -
      *       1 hunt - xp lamp (skill*10) per hunt completed
-     *       1 hunt - previously unlocked easter emotes (Bunny-hop, Around the World in Eggty Days, Invoke Spring - 2011)
-     *       3 hunts completed -> Permanent eggsterminator unlocked
-     *       3 drumsticks given to the evil chicken -> Egg on face mask
-     *       3 chocolate treats given to the chocatrice -> Chocolate egg on face mask
+     *       1 hunt - Emote -> Around the World in Eggty Days
+     *       1 hunt - Song -> Easter Jigg
+     *       3 hunts - Permanent eggsterminator unlocked
+     *       3 hunts - drumsticks given to the evil chicken -> Egg on face mask
+     *       3 hunts - chocotreats given to the chocatrice -> Chocolate egg on face mask
      */
+    
+    //TODO - TYPO IN ObjectType - STRAIGHT_OUSIDE_WALL_DEC
+    //TODO - Dialogue when unequiping temporary eggsterminator still prompting to destroy twice
+    //TODO - verify locking/animations look and feel okay when firing the eggsterminator.
+    //TODO - test to make sure there are no bugs with awarding xp lamps + loyalty points
+    //TODO - verify players can buy egg hats 1 time, once its awarded to diango reclaim they should not be prompted anymore
+    //TODO - verify other rewards are given, song/emote after 1 successful hunt, permanent eggsterminator after 3.
+    //TODO - add player v player splattering with the eggsterminator, its also supposed to have a special animation of twirling if the player has an egg hat on, but do we care?
+    //TODO - test event automatically ending and removing objects/npcs.
+    //TODO - is it possible to get the chocolate bars and easter eggs to sit on varrock fountain properly?
 
     @ServerStartupEvent
     public static void EasterEvent2022() {
@@ -131,12 +142,11 @@ public class Easter2022 {
         World.spawnObjectTemporary(new GameObject(70126, ObjectType.WALL_STRAIGHT, 1, new WorldTile(3215,3429,0)), ticksToEnd); //Northeast evil egg wall
         World.spawnObjectTemporary(new GameObject(70126, ObjectType.WALL_STRAIGHT, 2, new WorldTile(3213,3426,0)), ticksToEnd); //South evil egg wall
         World.spawnObjectTemporary(new GameObject(70127, ObjectType.WALL_STRAIGHT, 3, new WorldTile(3215,3428,0)), ticksToEnd); //Southeast evil egg wall
-        //TODO - TYPO IN STRAIGHT_OUSIDE_WALL_DEC
         World.spawnObjectTemporary(new GameObject(70123, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3211,3438,0)), ticksToEnd); //Castle entrance west standing banner
         World.spawnObjectTemporary(new GameObject(70123, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3214,3438,0)), ticksToEnd); //Castle entrance east standing banner
-        //TODO - FIX THIS SPAWN https://youtu.be/sbTo1HMvHas?t=133
-        World.spawnObjectTemporary(new GameObject(70117, ObjectType.SCENERY_INTERACT, 2, new WorldTile(3232,3428,1)), ticksToEnd); //Varrock east path banner
-        World.spawnObjectTemporary(new GameObject(70129, ObjectType.WALL_STRAIGHT_CORNER, 2, new WorldTile(3232,3431,0)), ticksToEnd); //Varrock east path pole
+        World.spawnObjectTemporary(new GameObject(70119, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3224,3427,0)), ticksToEnd); //Varrock east path pole
+        World.spawnObjectTemporary(new GameObject(70119, ObjectType.SCENERY_INTERACT, 2, new WorldTile(3224,3432,0)), ticksToEnd); //Varrock east path pole
+        World.spawnObjectTemporary(new GameObject(70117, ObjectType.SCENERY_INTERACT, 2, new WorldTile(3224,3428,1)), ticksToEnd); //Varrock east path banner
         World.spawnObjectTemporary(new GameObject(70123, ObjectType.GROUND_INTERACT, 1, new WorldTile(3229,3428,0)), ticksToEnd); //Varrock east path standing banner
         World.spawnObjectTemporary(new GameObject(70116, ObjectType.SCENERY_INTERACT, 1, new WorldTile(3208,3410,1)), ticksToEnd); //Varrock south path banner
         World.spawnObjectTemporary(new GameObject(70116, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3200,3427,1)), ticksToEnd); //Varrock west path banner
