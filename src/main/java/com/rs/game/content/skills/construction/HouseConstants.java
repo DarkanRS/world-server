@@ -840,7 +840,7 @@ public class HouseConstants {
 		GUTHIX_ICON(8060, 13177, 59, 960, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
 		SARADOMIN_ICON(8058, 13175, 59, 960, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
 		ZAMORAK_ICON(8059, 13173, 59, 960, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
-		ICON_OF_BOB(8061, 13178, 71, 1160, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
+		ICON_OF_BOB(8061, 13178, 71, 1160, new Item(MAHOGANY_PLANK, 4), new Item(GOLD_LEAF, 2)),
 		// MUSIC
 		WINCHIMES(8079, 13214, 49, 323, new Item(OAK_PLANK, 4), new Item(NAILS, 4), new Item(STEEL_BAR, 4)),
 		BELLS(8080, 13215, 58, 480, new Item(TEAK_PLANK, 4), new Item(STEEL_BAR, 6)),
