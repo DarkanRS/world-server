@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.model.entity.player.controllers.FightKilnController;
+import com.rs.game.content.controllers.FightKilnController;
 
 public class FightKilnDialogue extends MatrixDialogue {
 

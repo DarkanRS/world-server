@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 
 public class DungeonClimbLadder extends MatrixDialogue {
 

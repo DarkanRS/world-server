@@ -26,7 +26,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.rs.game.model.entity.player.controllers.Controller;
+import com.rs.game.content.controllers.Controller;
 
 public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeserializer<Controller> {
 
@@ -45,7 +45,7 @@ public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeseri
 		JsonElement element = jsonObject.get("properties");
 
 		try {
-			String thePackage = "com.rs.game.model.entity.player.controllers.";
+			String thePackage = "com.rs.game.content.controllers.";
 			return context.deserialize(element, Class.forName(thePackage + type));
 		} catch (ClassNotFoundException cnfe) {
 			throw new JsonParseException("Unknown element type: " + type, cnfe);

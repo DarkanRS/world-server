@@ -17,12 +17,12 @@
 package com.rs.game.model.entity.npc.combat.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.familiar.Familiar;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;

@@ -16,10 +16,10 @@
 //
 package com.rs.game.model.entity.npc.familiar;
 
+import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.skills.summoning.Summoning.Pouches;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.StealingCreationController;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;

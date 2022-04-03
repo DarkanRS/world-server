@@ -21,13 +21,13 @@ import java.util.function.Consumer;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
+import com.rs.game.content.controllers.DamonheimController;
+import com.rs.game.content.controllers.GodwarsController;
+import com.rs.game.content.controllers.HouseController;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DamonheimController;
-import com.rs.game.model.entity.player.controllers.GodwarsController;
-import com.rs.game.model.entity.player.controllers.HouseController;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;

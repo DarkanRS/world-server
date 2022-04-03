@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.FightPitsController;
+import com.rs.game.content.controllers.FightPitsLobbyController;
 import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -29,8 +31,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.fightpits.FightPitsNPC;
 import com.rs.game.model.entity.npc.fightpits.TzKekPits;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.FightPitsController;
-import com.rs.game.model.entity.player.controllers.FightPitsLobbyController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;

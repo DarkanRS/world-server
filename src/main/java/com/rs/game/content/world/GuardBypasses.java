@@ -18,10 +18,10 @@ package com.rs.game.content.world;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.controllers.DamonheimController;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.world.doors.DoorPair;
 import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.player.controllers.DamonheimController;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

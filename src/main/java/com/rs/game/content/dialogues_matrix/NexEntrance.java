@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.controllers.NexController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.model.entity.npc.godwars.zaros.NexArena;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.NexController;
 import com.rs.lib.game.WorldTile;
 
 public class NexEntrance extends Conversation {

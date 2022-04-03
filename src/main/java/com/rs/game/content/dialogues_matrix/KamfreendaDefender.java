@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.model.entity.player.controllers.WarriorsGuild;
+import com.rs.game.content.controllers.WarriorsGuild;
 
 public class KamfreendaDefender extends MatrixDialogue {
 

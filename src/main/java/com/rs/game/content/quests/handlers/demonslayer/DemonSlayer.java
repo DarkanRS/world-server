@@ -18,6 +18,7 @@ package com.rs.game.content.quests.handlers.demonslayer;
 
 import java.util.ArrayList;
 
+import com.rs.game.content.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
@@ -25,7 +26,6 @@ import com.rs.game.content.quests.QuestHandler;
 import com.rs.game.content.quests.QuestOutline;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.EnterChunkEvent;
