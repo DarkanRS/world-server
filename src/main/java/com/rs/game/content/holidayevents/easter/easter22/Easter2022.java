@@ -21,7 +21,7 @@ public class Easter2022 {
 
     //Event configs
     public static String STAGE_KEY = "easter2022";
-    public static Boolean ENABLED = true;
+    public static Boolean ENABLED = false;
 
     //Rewards
     public static final int PERMANENT_EGGSTERMINATOR = 24146;
