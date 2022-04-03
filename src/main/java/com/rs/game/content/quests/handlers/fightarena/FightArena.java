@@ -32,7 +32,7 @@ public class FightArena extends QuestOutline {
 			case NOT_STARTED -> {
 				lines.add("A child has had their blanket stolen! Find the thieves'");
 				lines.add("den and return the blanket, then help Brother Omad ");
-				lines.add("organise the drinks for the child's birthday party. your mother");
+				lines.add("your mother");
 				lines.add("");
 			}
 			case FREE_JEREMY -> {
@@ -55,6 +55,15 @@ public class FightArena extends QuestOutline {
 		return lines;
 	}
 
+	public static ObjectClickHandler handleStinkyArmour = new ObjectClickHandler(new Object[] { 41498 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+// 			player.getInventory().addItem(995, 1000, true);
+		player.getSkills().addXpQuest(Constants.ATTACK, 12_185);
+		player.getSkills().addXpQuest(Constants.THIEVING, 2_175);
+		}
+	};
+	
 	@Override
 	public void complete(Player player) {
 		player.getInventory().addItem(995, 1000, true);
