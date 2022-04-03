@@ -16,7 +16,11 @@
 //
 package com.rs.utils.json;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -27,8 +31,28 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.rs.game.content.controllers.Controller;
+import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 
+@PluginEventHandler
 public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeserializer<Controller> {
+	
+	private static Map<String, Class<?>> CONTROLLER_CLASSES = new HashMap<>();
+	
+	@ServerStartupEvent
+	public static void init() {
+		try {
+			List<Class<?>> classes = Utils.getSubClasses("com.rs", Controller.class);
+			for (Class<?> clazz : classes) {
+				if (CONTROLLER_CLASSES.put(clazz.getSimpleName(), clazz) != null)
+					System.out.println("Duplicate controller class: " + clazz.getName());
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Loaded " + CONTROLLER_CLASSES.size() + " controllers...");
+	}
 
 	@Override
 	public JsonElement serialize(Controller controller, Type type, JsonSerializationContext context) {
@@ -43,13 +67,10 @@ public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeseri
 		JsonObject jsonObject = json.getAsJsonObject();
 		String type = jsonObject.get("type").getAsString();
 		JsonElement element = jsonObject.get("properties");
-
-		try {
-			String thePackage = "com.rs.game.content.controllers.";
-			return context.deserialize(element, Class.forName(thePackage + type));
-		} catch (ClassNotFoundException cnfe) {
-			throw new JsonParseException("Unknown element type: " + type, cnfe);
-		}
+		Class<?> clazz = CONTROLLER_CLASSES.get(type);
+		if (clazz == null)
+			throw new RuntimeException("Controller not found: " + type);
+		return context.deserialize(element, clazz);
 	}
 
 }
