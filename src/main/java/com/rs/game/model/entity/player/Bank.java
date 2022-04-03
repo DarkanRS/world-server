@@ -28,7 +28,7 @@ import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;

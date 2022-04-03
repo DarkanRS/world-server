@@ -16,7 +16,7 @@
 //
 package com.rs.game.model.entity.npc.others;
 
-import com.rs.game.content.controllers.BarrowsController;
+import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.lib.game.SpotAnim;

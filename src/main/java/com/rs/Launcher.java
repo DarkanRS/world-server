@@ -32,7 +32,7 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;

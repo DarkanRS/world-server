@@ -21,7 +21,7 @@ import com.rs.game.World;
 import com.rs.game.content.controllers.DuelArenaController;
 import com.rs.game.content.controllers.DuelController;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;

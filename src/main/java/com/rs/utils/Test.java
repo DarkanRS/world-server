@@ -25,7 +25,7 @@ import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
