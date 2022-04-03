@@ -32,7 +32,7 @@ public class FightArena extends QuestOutline {
 			case NOT_STARTED -> {
 				lines.add("A child has had their blanket stolen! Find the thieves'");
 				lines.add("den and return the blanket, then help Brother Omad ");
-				lines.add("organise the drinks for the child's birthday party.");
+				lines.add("organise the drinks for the child's birthday party. your mother");
 				lines.add("");
 			}
 			case FREE_JEREMY -> {
