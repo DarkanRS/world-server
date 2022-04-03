@@ -1,5 +1,14 @@
 [
   {
+    "comment": "Lady Servil added by jazneta",
+    "npcId": 7529,
+    "tile": {
+      "x": 2569,
+      "y": 3199,
+      "plane": 0
+    }
+  },
+  {
     "comment": "Grifolaroo added by trent",
     "npcId": 14700,
     "tile": {
