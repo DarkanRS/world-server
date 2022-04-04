@@ -31,6 +31,7 @@ import com.rs.game.content.dialogue.statements.PlayerStatement;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
 import com.rs.game.content.dialogue.statements.Statement;
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Utils;
 
 public class Conversation {

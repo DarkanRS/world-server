@@ -90,7 +90,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
             	e.cancel();
                 e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", ops -> {
                 	ops.add("Yes, destroy it.", () -> {
-                        e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
+                		e.getPlayer().getEquipment().setNoPluginTrigger(Equipment.WEAPON, null);
                         e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
                         e.getPlayer().getAppearance().generateAppearanceData();
                     });
