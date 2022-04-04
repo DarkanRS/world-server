@@ -132,7 +132,7 @@ public class EvilChickenD extends Conversation {
             public void create() {
                 if (!player.getInventory().containsItem(Easter2022.EGGSTERMINATOR) && !player.getBank().containsItem(Easter2022.EGGSTERMINATOR, 1) && player.getEquipment().getWeaponId() != Easter2022.EGGSTERMINATOR &&
                         !player.getInventory().containsItem(Easter2022.PERMANENT_EGGSTERMINATOR) && !player.getBank().containsItem(Easter2022.PERMANENT_EGGSTERMINATOR, 1) && player.getEquipment().getWeaponId() != Easter2022.PERMANENT_EGGSTERMINATOR) {
-                    option("Start the hunt.", (player.getEquipment().getWeaponId() != -1 && player.getEquipment().getShieldId() != -1) ?
+                    option("Start the hunt.", (player.getEquipment().getWeaponId() != -1 || player.getEquipment().getShieldId() != -1) ?
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Your hands must be free. *bwaaak*") :
                             new Dialogue()
