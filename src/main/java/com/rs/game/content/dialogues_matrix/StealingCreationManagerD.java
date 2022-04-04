@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.controllers.StealingCreationGameController;
 import com.rs.game.content.minigames.creations.Helper;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.controllers.StealingCreationGameController;
 import com.rs.lib.util.Utils;
 
 public class StealingCreationManagerD extends MatrixDialogue {

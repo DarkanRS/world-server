@@ -17,10 +17,10 @@
 package com.rs.game.content.minigames.wguild;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.WarriorsGuild;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

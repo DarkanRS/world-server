@@ -18,10 +18,10 @@ package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.npc.godwars.zaros.Nex;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;

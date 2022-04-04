@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.model.entity.player.controllers.DuelArenaController;
+import com.rs.game.content.controllers.DuelArenaController;
 
 public class ForfeitDialouge extends MatrixDialogue {
 

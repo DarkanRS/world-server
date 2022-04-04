@@ -22,8 +22,8 @@ public class ShopItem {
 	private Item item;
 	private transient int ticks;
 	private int capStock;
-	private int customPrice = -1;
-	private int restockTicks = -1;
+	private int customPrice;
+	private Integer restockTicks = -1;
 
 	public ShopItem(int id, int amount) {
 		item = new Item(id, amount);
@@ -42,7 +42,7 @@ public class ShopItem {
 	}
 
 	public int getRestockTicks() {
-		return restockTicks < 0 ? 50 : restockTicks;
+		return restockTicks == null ? 50 : restockTicks;
 	}
 
 	public void setCap(int cap) {

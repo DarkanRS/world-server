@@ -17,13 +17,13 @@
 package com.rs.game.model.entity.player.managers;
 
 import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;

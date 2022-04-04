@@ -16,9 +16,9 @@
 //
 package com.rs.game.model.entity.npc.fightcaves;
 
+import com.rs.game.content.controllers.FightCavesController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.player.controllers.FightCavesController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

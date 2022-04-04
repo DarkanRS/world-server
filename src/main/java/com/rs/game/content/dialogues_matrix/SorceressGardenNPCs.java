@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.controllers.SorceressGardenController;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.controllers.SorceressGardenController;
 
 public class SorceressGardenNPCs extends MatrixDialogue {
 

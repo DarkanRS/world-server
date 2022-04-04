@@ -16,13 +16,13 @@
 //
 package com.rs.game.model.entity.npc.combat.impl;
 
+import com.rs.game.content.controllers.BorkController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.BorkController;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 

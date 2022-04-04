@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.FightKilnController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

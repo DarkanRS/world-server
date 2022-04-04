@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rs.cache.loaders.Bonus;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;

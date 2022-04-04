@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.tutorialisland;
 
+import com.rs.game.content.controllers.TutorialIslandController;
+import com.rs.game.content.controllers.TutorialIslandController.Stage;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -25,8 +27,6 @@ import com.rs.game.content.dialogue.statements.OptionStatement;
 import com.rs.game.content.dialogue.statements.PlayerStatement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.TutorialIslandController;
-import com.rs.game.model.entity.player.controllers.TutorialIslandController.Stage;
 
 public class MiningInstructor extends Conversation {
 

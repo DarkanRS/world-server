@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.world.regions.dungeons;
 
+import com.rs.game.content.controllers.KuradalDungeonController;
 import com.rs.game.content.skills.slayer.TaskMonster;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.controllers.KuradalDungeonController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.world;
 
+import com.rs.game.content.controllers.QueenBlackDragonController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Equipment;
-import com.rs.game.model.entity.player.controllers.QueenBlackDragonController;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;

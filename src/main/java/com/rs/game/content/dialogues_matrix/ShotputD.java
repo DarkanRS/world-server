@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.model.entity.player.controllers.Controller;
-import com.rs.game.model.entity.player.controllers.WarriorsGuild;
+import com.rs.game.content.controllers.Controller;
+import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

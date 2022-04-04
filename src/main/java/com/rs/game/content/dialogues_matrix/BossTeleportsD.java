@@ -18,8 +18,8 @@ package com.rs.game.content.dialogues_matrix;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.content.controllers.QueenBlackDragonController;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.player.controllers.QueenBlackDragonController;
 import com.rs.lib.Constants;
 import com.rs.lib.game.WorldTile;
 

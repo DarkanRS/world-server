@@ -34,14 +34,14 @@ import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.dungeoneering.Stomp;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
@@ -1575,22 +1575,37 @@ public abstract class Entity {
 		return tile.withinArea(a, b, c, d);
 	}
 
-	public boolean checkInCombat(Entity target) {
-		if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
-			if (!target.isAtMultiArea() || !isAtMultiArea()) {
-				if (getAttackedBy() != target && inCombat()) {
-					if (this instanceof Player p)
-						p.sendMessage("You are already in combat.");
+	public boolean canAttackMulti(Entity target) {
+		if (target instanceof NPC npc && npc.isForceMultiAttacked())
+			return true;
+		if (target.isAtMultiArea() && isAtMultiArea())
+			return true;
+		
+		if (this instanceof Player p) {
+			if (target instanceof Player) {
+				if (getAttackedBy() instanceof Player && inCombat() && getAttackedBy() != target) {
+					p.sendMessage("You are already in combat.");
 					return false;
 				}
-				if (target.getAttackedBy() != this && target.inCombat()) {
-					if (!(target.getAttackedBy() instanceof NPC)) {
-						if (this instanceof Player p)
-							p.sendMessage("They are already in combat.");
-						return false;
-					}
+				if (target.getAttackedBy() instanceof Player && target.inCombat() && target.getAttackedBy() != this) {
+					p.sendMessage("They are already in combat.");
+					return false;
+				}
+			} else if (target instanceof NPC) {
+				if (inCombat() && getAttackedBy() != target) {
+					p.sendMessage("You are already in combat.");
+					return false;
+				}
+				if (target.inCombat() && target.getAttackedBy() != this) {
+					p.sendMessage("They are already in combat.");
+					return false;
 				}
 			}
+		} else if (this instanceof NPC n) {
+			if (inCombat() && getAttackedBy() != target)
+				return false;
+			if (target.inCombat() && target.getAttackedBy() != this)
+				return false;
 		}
 		return true;
 	}

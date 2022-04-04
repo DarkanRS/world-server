@@ -18,11 +18,11 @@ package com.rs.game.content.dialogues_matrix;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.content.controllers.DuelController;
+import com.rs.game.content.controllers.FightCavesController;
+import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.content.minigames.CastleWars;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.player.controllers.DuelController;
-import com.rs.game.model.entity.player.controllers.FightCavesController;
-import com.rs.game.model.entity.player.controllers.FightKilnController;
 import com.rs.lib.game.WorldTile;
 
 public class MinigameTeleportsD extends MatrixDialogue {

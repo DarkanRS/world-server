@@ -21,13 +21,13 @@ import java.util.function.Consumer;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
+import com.rs.game.content.controllers.DamonheimController;
+import com.rs.game.content.controllers.GodwarsController;
+import com.rs.game.content.controllers.HouseController;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DamonheimController;
-import com.rs.game.model.entity.player.controllers.GodwarsController;
-import com.rs.game.model.entity.player.controllers.HouseController;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -85,8 +85,10 @@ public class Magic {
 	}
 
 	public static final void manualCast(Player player, Entity target, CombatSpell spell) {
-		if (checkCombatSpell(player, spell, 1, false))
+		if (checkCombatSpell(player, spell, 1, false)) {
+			player.setNextFaceWorldTile(target.getMiddleWorldTile());
 			player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
+		}
 	}
 
 	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192) {
@@ -570,7 +572,6 @@ public class Magic {
 	}
 
 	public static boolean useHouseTeleport(final Player player) {
-
 		//		if (player.getControllerManager().getController() instanceof HouseController)
 		//			return false;
 		if (!player.getControllerManager().processMagicTeleport(new WorldTile(3217, 3426, 0)) || player.isLocked())
