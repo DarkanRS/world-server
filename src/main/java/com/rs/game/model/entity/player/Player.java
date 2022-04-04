@@ -53,6 +53,11 @@ import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.content.books.Book;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.controllers.Controller;
+import com.rs.game.content.controllers.DeathOfficeController;
+import com.rs.game.content.controllers.GodwarsController;
+import com.rs.game.content.controllers.TutorialIslandController;
+import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.Options;
@@ -82,6 +87,7 @@ import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.slayer.BossTask;
 import com.rs.game.content.skills.slayer.SlayerTaskManager;
 import com.rs.game.content.skills.slayer.TaskMonster;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.world.Musician;
 import com.rs.game.ge.GE;
@@ -94,7 +100,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.LodestoneAction.Lodestone;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.npc.godwars.zaros.Nex;
 import com.rs.game.model.entity.npc.others.GraveStone;
 import com.rs.game.model.entity.npc.pet.Pet;
@@ -102,11 +107,6 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.pathing.RouteFinder;
-import com.rs.game.model.entity.player.controllers.Controller;
-import com.rs.game.model.entity.player.controllers.DeathOfficeController;
-import com.rs.game.model.entity.player.controllers.GodwarsController;
-import com.rs.game.model.entity.player.controllers.TutorialIslandController;
-import com.rs.game.model.entity.player.controllers.WarriorsGuild;
 import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.entity.player.managers.ControllerManager;
 import com.rs.game.model.entity.player.managers.CutsceneManager;
@@ -1006,12 +1006,14 @@ public class Player extends Entity {
 			}
 			if (disconnected && !finishing)
 				finish(0);
-			timePlayed = getTimePlayed() + 1;
+			
+			timePlayed++;
 			timeLoggedOut = System.currentTimeMillis();
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 				tickFarming();
 
+			processTimePlayedTasks();
 			processTimedRestorations();
 			processMusic();
 			processItemDegrades();
@@ -1022,13 +1024,25 @@ public class Player extends Entity {
 			WorldDB.getLogs().logError(e);
 		}
 	}
+	
+	private void processTimePlayedTasks() {
+		if (timePlayed % 500 == 0) {
+			if (getDailyI("loyaltyTicks") < 12) {
+				loyaltyPoints += 175;
+				incDailyI("loyaltyTicks");
+			} else if (!getDailyB("loyaltyNotifiedCap")) {
+				sendMessage("<col=FF0000>You've reached your loyalty point cap for the day. You now have " + Utils.formatNumber(loyaltyPoints) + ".");
+				setDailyB("loyaltyNotifiedCap", true);
+			}
+		}
+	}
 
 	private void processTimedRestorations() {
 		if (getNextRunDirection() == null) {
 			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
 			if (isResting()) {
 				energy = 1.68;
-				if (Musician.isNearby(this))
+				if (Musician.isNearby(this)) //TODO optimize this with its own resting variable
 					energy = 2.28;
 			}
 			restoreRunEnergy(energy);
@@ -4004,8 +4018,6 @@ public class Player extends Entity {
 	public void addDiangoReclaimItem(int itemId) {
 		if (diangoReclaim == null)
 			diangoReclaim = new HashSet<>();
-		if (!ItemConstants.isTradeable(new Item(itemId)))
-			return;
 		diangoReclaim.add(itemId);
 	}
 

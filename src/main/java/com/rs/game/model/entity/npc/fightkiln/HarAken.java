@@ -19,9 +19,9 @@ package com.rs.game.model.entity.npc.fightkiln;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.controllers.FightKilnController;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;

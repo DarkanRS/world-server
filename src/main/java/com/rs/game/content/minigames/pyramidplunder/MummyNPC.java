@@ -1,11 +1,11 @@
 package com.rs.game.content.minigames.pyramidplunder;
 
+import com.rs.game.content.controllers.PyramidPlunderController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.PyramidPlunderController;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;

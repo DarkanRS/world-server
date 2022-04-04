@@ -23,13 +23,13 @@ import java.util.Set;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.controllers.Halloween2007Controller;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.Halloween2007Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

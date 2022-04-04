@@ -73,7 +73,7 @@ public class Revenant extends NPC {
 		case 13471:
 			return 7485;
 		case 13472:
-			return -1;
+			return 7424;
 		case 13473:
 			return 7426;
 		case 13474:
@@ -85,12 +85,13 @@ public class Revenant extends NPC {
 		case 13477:
 			return 7478;
 		case 13478:
-			return 7416;
+			return 7417;
 		case 13479:
 			return 7471;
 		case 13480:
 			return 7440;
 		case 13481:
+			return 3643;
 		default:
 			return -1;
 		}

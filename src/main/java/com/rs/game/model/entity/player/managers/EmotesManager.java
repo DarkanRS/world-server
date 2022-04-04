@@ -247,6 +247,13 @@ public final class EmotesManager {
 		if (unlocked.add(emote))
 			refreshListConfigs();
 	}
+	
+	public void lockEmote(Emote emote) {
+		if (!unlocked.contains(emote))
+			return;
+		if (unlocked.remove(emote))
+			refreshListConfigs();
+	}
 
 	public boolean unlockedEmote(Emote emote) {
 		if (player.hasRights(Rights.ADMIN) || emote.ordinal() <= Emote.SALUTE.ordinal() || emote == Emote.CELEBRATE || emote == Emote.CAPE)

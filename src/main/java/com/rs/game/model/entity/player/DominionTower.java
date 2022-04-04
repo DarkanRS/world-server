@@ -18,12 +18,12 @@ package com.rs.game.model.entity.player;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.controllers.DomTowerController;
 import com.rs.game.content.dialogues_matrix.DTSpectateReq;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.dialogues_matrix.StrangeFace;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.controllers.DomTowerController;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

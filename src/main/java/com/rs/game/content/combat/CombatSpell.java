@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
@@ -29,7 +30,6 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;

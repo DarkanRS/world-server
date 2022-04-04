@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.dialogues_matrix.SimpleItemMessage;
 import com.rs.game.model.entity.ForceTalk;
@@ -29,7 +30,6 @@ import com.rs.game.model.entity.npc.others.ClueNPC;
 import com.rs.game.model.entity.npc.others.Ugi;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;

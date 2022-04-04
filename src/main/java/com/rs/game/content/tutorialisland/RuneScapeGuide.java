@@ -17,14 +17,14 @@
 package com.rs.game.content.tutorialisland;
 
 import com.rs.Settings;
+import com.rs.game.content.controllers.TutorialIslandController;
+import com.rs.game.content.controllers.TutorialIslandController.Stage;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.statements.NPCStatement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.TutorialIslandController;
-import com.rs.game.model.entity.player.controllers.TutorialIslandController.Stage;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;

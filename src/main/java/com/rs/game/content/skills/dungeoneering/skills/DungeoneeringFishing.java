@@ -18,9 +18,9 @@ package com.rs.game.content.skills.dungeoneering.skills;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
+import com.rs.game.content.skills.dungeoneering.npcs.misc.DungeonFishSpot;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.npc.dungeoneering.DungeonFishSpot;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;

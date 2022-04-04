@@ -36,7 +36,7 @@ public class CombatScriptsHandler {
 	public static final void loadScripts() {
 		List<Class<?>> classes;
 		try {
-			classes = Utils.getClasses("com.rs.game.model.entity.npc.combat.impl");
+			classes = Utils.getSubClasses("com.rs", CombatScript.class);
 			for (Class<?> c : classes) {
 				if (c.isAnonymousClass()) // next
 					continue;

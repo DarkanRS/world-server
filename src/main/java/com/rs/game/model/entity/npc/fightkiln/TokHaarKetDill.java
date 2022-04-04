@@ -16,11 +16,11 @@
 //
 package com.rs.game.model.entity.npc.fightkiln;
 
+import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.FightKilnController;
 import com.rs.lib.game.WorldTile;
 
 public class TokHaarKetDill extends FightKilnNPC {

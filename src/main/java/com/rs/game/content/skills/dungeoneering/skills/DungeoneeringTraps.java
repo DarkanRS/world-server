@@ -17,8 +17,8 @@
 package com.rs.game.content.skills.dungeoneering.skills;
 
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
+import com.rs.game.content.skills.dungeoneering.npcs.MastyxTrap;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.dungeoneering.MastyxTrap;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

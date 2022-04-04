@@ -26,20 +26,20 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
+import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.familiars.Steeltitan;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.familiar.Familiar;
-import com.rs.game.model.entity.npc.familiar.Steeltitan;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
 import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
@@ -120,7 +120,7 @@ public class PlayerCombat extends PlayerAction {
 				return false;
 			}
 		}
-		if (!player.checkInCombat(target))
+		if (!player.canAttackMulti(target))
 			return false;
 		if (!checkAll(player))
 			return false;

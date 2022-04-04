@@ -121,7 +121,7 @@ public class Strykewyrm extends NPC {
 	public static void handleStomping(final Player player, final NPC npc) {
 		if (npc.isCantInteract())
 			return;
-		if (!player.checkInCombat(npc))
+		if (!player.canAttackMulti(npc))
 			return;
 		switch (npc.getId()) {
 		case 9462:
