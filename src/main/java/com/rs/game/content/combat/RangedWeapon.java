@@ -53,7 +53,8 @@ public enum RangedWeapon {
 
 	DOMINION_CROSSBOW(new Animation(4230), 6, new int[] { 22348 }, 27, 955),
 
-	SHORTBOW(new Animation(426), 4, new int[] { 841, 23818, 23043 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
+	SHORTBOW(new Animation(426), 4, new int[] { 841, 23818 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
+	QUICK_BOW(new Animation(426), 4, new int[] { 23043 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
 	LONGBOW(new Animation(426), 6, new int[] { 839 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
 
 	OAK_SHORTBOW(new Animation(426), 4, new int[] { 843 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW),
