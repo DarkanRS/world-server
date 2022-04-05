@@ -40,7 +40,7 @@ public class EvilChickenD extends Conversation {
                     player.sendMessage("You have unlocked an Easter track, " + Music.getSong(Easter2022.EASTER_TRACK).getName() + ".");
                 }
                 addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
-                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + EggHunt.getTime() + " minutes.");
+                addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, EggHunt.getTimeString());
             }
 
             if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
@@ -152,16 +152,20 @@ public class EvilChickenD extends Conversation {
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Quiet, you.")
                             .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Every two hours, a new hunt will begin. Hunt down the five eggs, smash them open using the Eggsterminator and then shoot at the chick that emerges with the Eggsterminator. " +
                                     "This will turn the chick into a tasty treat."));
-                    //TODO - dont display hint if the current hunt is over
-                    option("Can I have a hint?", (player.getVars().getVarBit(10954) == 3) ?
+                    
+                    option("Can I have a hint?", (EggHunt.active() ? (player.getVars().getVarBit(10954) == 3 ?
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You've already found the egg I have information on.") :
                             new Dialogue()
                                     .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Well, the Chocatrice and I have a gentlefowl's agreement not to tell our seekers the locations of any of the eggs. But between you and me...")
                                     .addOption("Listen to the hint?", "Yes", "No")
                                     .addSimple("The chicken lowers its voice.")
-                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint()));
+                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint())) :
+                           new Dialogue()
+                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The hunt has ended. " + EggHunt.getTimeString())));
                 }
+                option("Who is winning the egg hunt?", new Dialogue()
+                		.addSimple("Evil Chicken: " + EggHunt.getEvilChickenScore() + "<br><br> vs <br><br>" + "Chocatrice: " + EggHunt.getChocatriceScore()));
                 option("Who are you?", new Dialogue()
                         .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "But surely everybody has heard of the Evil Chicken.")
                         .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Some say I came from the Abyss. Others say I was just a normal chicken, who grew angry at human domination over my species. But do you want to know where I really came from?")

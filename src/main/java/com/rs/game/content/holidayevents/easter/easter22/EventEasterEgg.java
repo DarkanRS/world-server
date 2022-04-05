@@ -71,7 +71,6 @@ public class EventEasterEgg extends GameObject {
                 	switch (tick) {
                 		case 0 -> { 
                 			e.getPlayer().getVars().saveVarBit(e.getObject().getDefinitions().varpBit, (attackStyle == 0 ? 2 : 1));
-                            World.sendSpotAnim(e.getPlayer(), new SpotAnim(3037), e.getObject());
                             e.getPlayer().getPackets().sendObjectAnimation(e.getObject(), new Animation(16432));
                 		}
                 		case 2 -> {

@@ -68,14 +68,11 @@ public class Easter2022 {
      */
     
     //TODO - TYPO IN ObjectType - STRAIGHT_OUSIDE_WALL_DEC
-    //TODO - Dialogue when unequiping temporary eggsterminator still prompting to destroy twice
     //TODO - verify locking/animations look and feel okay when firing the eggsterminator.
     //TODO - test to make sure there are no bugs with awarding xp lamps + loyalty points
-    //TODO - verify players can buy egg hats 1 time, once its awarded to diango reclaim they should not be prompted anymore
     //TODO - verify other rewards are given, song/emote after 1 successful hunt, permanent eggsterminator after 3.
     //TODO - add player v player splattering with the eggsterminator, its also supposed to have a special animation of twirling if the player has an egg hat on, but do we care?
     //TODO - test event automatically ending and removing objects/npcs.
-    //TODO - is it possible to get the chocolate bars and easter eggs to sit on varrock fountain properly?
 
     @ServerStartupEvent
     public static void EasterEvent2022() {
@@ -122,8 +119,8 @@ public class Easter2022 {
             World.spawnObject(spawn.getEgg());
 
         WorldTasks.schedule(ticksToEnd, () -> {
-            World.removeNPC(Chocatrice);
-            World.removeNPC(EvilChicken);
+        	Chocatrice.finish();
+        	EvilChicken.finish();
             for (EggHunt.Spawns spawn : EggHunt.Spawns.values())
             	World.removeObject(spawn.getEgg());
         });

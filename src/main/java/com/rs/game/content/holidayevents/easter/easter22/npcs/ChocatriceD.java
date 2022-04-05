@@ -40,7 +40,7 @@ public class ChocatriceD extends Conversation {
                     player.sendMessage("You have unlocked an Easter track, " + Music.getSong(Easter2022.EASTER_TRACK).getName() + ".");
                 }
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Well done, soldier, you've found all the eggs this hunt. You're delightfully despicable.");
-                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The next hunt will be starting in " + EggHunt.getTime() + " minutes.");
+                addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, EggHunt.getTimeString());
             }
 
             if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
@@ -138,7 +138,7 @@ public class ChocatriceD extends Conversation {
                                 .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Hunt down the five eggs scattered across Runescape. Blow them open with the Eggsterminator and splatter the chick that comes from within.")
                                 .addSimple("These eggs can be found around Runescape. You can search for them yourself or with your friends.") //Information can also be found on the Runescape official forums.
                                 .addSimple("Finding all 5 eggs in a single hunt will unlock additional rewards.")); //Some eggs only appear in members parts of the world, so only members gain these additional benefits.
-                } else {
+                } else {	
                     option("How do I hunt the eggs?", new Dialogue()
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The Easter Bunny has hidden magical eggs across Runescape. Unfortunate, the Easter Bunny is temporarily...indisposed...and so is unable to perform his duties as huntmaster. " +
                             "I am now in charge of the hunt.")
@@ -146,15 +146,20 @@ public class ChocatriceD extends Conversation {
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Quiet, you.")
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Every two hours, a new hunt will begin. Hunt down the five eggs, smash them open using the Eggsterminator and then shoot at the chick that emerges with the Eggsterminator. " +
                                     "This will turn the chick into a tasty treat."));
-                    option("Can I have a hint?", (player.getVars().getVarBit(10954) == 3) ?
-                            new Dialogue()
-                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You've already found the egg I have information on.") :
-                            new Dialogue()
-                                .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Nasty chicken and I agreed not to help the hunters find any of the eggs, but...")
-                                .addOption("Listen to the hint?", "Yes", "No")
-                                .addSimple("The bird lowers its voice.")
-                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint()));
+                    
+	                    option("Can I have a hint?", (EggHunt.active() ? (player.getVars().getVarBit(10954) == 3 ?
+	                            new Dialogue()
+	                                    .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "You've already found the egg I have information on.") :
+	                            new Dialogue()
+	                                .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "Nasty chicken and I agreed not to help the hunters find any of the eggs, but...")
+	                                .addOption("Listen to the hint?", "Yes", "No")
+	                                .addSimple("The bird lowers its voice.")
+	                                .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "One egg can be found " + EggHunt.getHint())) :
+	                            new Dialogue()
+	                                .addNPC(Easter2022.EVIL_CHICKEN, HeadE.NO_EXPRESSION, "The hunt has ended. " + EggHunt.getTimeString())));
                 }
+                option("Who is winning the egg hunt?", new Dialogue()
+                		.addSimple("Chocatrice: " + EggHunt.getChocatriceScore() + "<br><br> vs <br><br>" + "Evil Chicken: " + EggHunt.getEvilChickenScore()));
                 option("Who are you?", new Dialogue()
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION,"I was born from an egg dipped in chocolate. The others insulted me, even the cockatrices.")
                             .addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION,"So I turned them all into chocolate! Now they no longer insult me!")
