@@ -966,7 +966,7 @@ public class PlayerCombat extends PlayerAction {
 						if (tick % 5 == 0) {
 							World.sendSpotAnim(player, new SpotAnim(478), tile);
 							for (Entity entity : getMultiAttackTargets(player, new WorldTile(target.getTile()), 1, 9)) {
-								Hit hit = getMeleeHit(player, getRandomMaxHit(player, entity, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25));
+								Hit hit = getMeleeHit(player, getRandomMaxHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25));
 								addXp(player, entity, attackStyle, hit);
 								if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
 									target.getPoison().makePoisoned(48);
@@ -1150,24 +1150,25 @@ public class PlayerCombat extends PlayerAction {
 				case 23695:
 					player.setNextAnimation(new Animation(10961));
 					player.setNextSpotAnim(new SpotAnim(1950));
-					int[] hits = {0, 1};
-					int hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
+					int[] hits = { 0, 1 };
+					max_hit = getMaxHit(player, target, weaponId, attackStyle, false, 1.0);
+					int hit = getRandomMaxHit(player, target, max_hit / 2, max_hit, weaponId, attackStyle, false, true, 1.0);
 					if (hit > 0)
-						hits = new int[]{hit, hit / 2, (hit / 2) / 2, (hit / 2) - ((hit / 2) / 2)};
+						hits = new int[] { hit, hit / 2, (hit / 2) / 2, (hit / 2) - ((hit / 2) / 2) };
 					else {
 						hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
 						if (hit > 0)
-							hits = new int[]{0, hit, hit / 2, hit - (hit / 2)};
+							hits = new int[] { 0, hit, hit / 2, hit - (hit / 2) };
 						else {
 							hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
 							if (hit > 0)
-								hits = new int[]{0, 0, hit / 2, (hit / 2) + 10};
+								hits = new int[] { 0, 0, hit / 2, (hit / 2) + 10 };
 							else {
 								hit = getRandomMaxHit(player, weaponId, attackStyle, false, true, 1.0, 1.0);
 								if (hit > 0)
-									hits = new int[]{0, 0, 0, (int) (hit * 1.5)};
+									hits = new int[] { 0, 0, 0, (int) (hit * 1.5) };
 								else
-									hits = new int[]{0, 0, 0, Utils.getRandomInclusive(7)};
+									hits = new int[] { 0, 0, 0, Utils.getRandomInclusive(7) };
 							}
 						}
 					}
@@ -1499,7 +1500,7 @@ public class PlayerCombat extends PlayerAction {
 
 	public int getRandomMaxHit(Player player, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
 		max_hit = getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier);
-		return getRandomMaxHit(player, target, max_hit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
+		return getRandomMaxHit(player, target, 1, max_hit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
 	}
 	
 	public static int getRandomMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging) {
@@ -1508,10 +1509,10 @@ public class PlayerCombat extends PlayerAction {
 
 	public static int getRandomMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
 		int maxHit = getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier);
-		return getRandomMaxHit(player, target, maxHit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
+		return getRandomMaxHit(player, target, 1, maxHit, weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
 	}
 
-	public static int getRandomMaxHit(Player player, Entity target, int maxHit, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier) {
+	public static int getRandomMaxHit(Player player, Entity target, int minHit, int maxHit, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier) {
 		boolean veracsProc = false;
 		if (calcDefense) {
 			double atkLvl = Math.floor(player.getSkills().getLevel(ranging ? Constants.RANGE : Constants.ATTACK) * (ranging ? player.getPrayer().getRangeMultiplier() : player.getPrayer().getAttackMultiplier()));
@@ -1598,7 +1599,7 @@ public class PlayerCombat extends PlayerAction {
 			if (prob <= Math.random() && !veracsProc)
 				return 0;
 		}
-		int hit = Utils.random(maxHit + 1);
+		int hit = Utils.random(minHit, maxHit);
 		if (veracsProc)
 			hit += 1.0;
 		if (target instanceof NPC n)
