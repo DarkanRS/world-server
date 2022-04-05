@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.world.regions.dungeons;
 
-import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.tasks.WorldTask;

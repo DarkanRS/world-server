@@ -254,20 +254,17 @@ public enum RangedWeapon {
 		return attackAnim;
 	}
 
-	public SpotAnim getAttackSpotAnim(Player player) {
+	public SpotAnim getAttackSpotAnim(Player player, AmmoType ammo) {
 		switch(this) {
 		case DARK_BOW -> {
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			return new SpotAnim(ammo.getDoubleDrawbackSpotAnim(player.getEquipment().getAmmoId()), 0, 100);
 		}
 		case HAND_CANNON -> {
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			return new SpotAnim(ammo.getDrawbackSpotAnim(player.getEquipment().getAmmoId()));
 		}
 		default -> {
 			if (thrown || ammos == null)
 				return new SpotAnim(drawbackSpotAnim, 0, 100);
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			if (ammo != null)
 				return new SpotAnim(ammo.getDrawbackSpotAnim(player.getEquipment().getAmmoId()), 0, 100);
 		}

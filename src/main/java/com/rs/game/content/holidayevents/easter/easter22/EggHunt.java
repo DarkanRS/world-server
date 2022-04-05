@@ -1,5 +1,8 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -10,8 +13,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.LoginHandler;
-import java.util.ArrayList;
-import java.util.List;
 
 @PluginEventHandler
 public class EggHunt {

@@ -449,6 +449,7 @@ public class PlayerCombat extends PlayerAction {
 		final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
 		int soundId = getSoundId(weaponId, attackStyle);
 		RangedWeapon weapon = RangedWeapon.forId(weaponId);
+		AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 		int combatDelay = getRangeCombatDelay(weapon, attackStyle);
 		if (player.getCombatDefinitions().isUsingSpecialAttack()) {
 			int specAmt = getSpecialAmmount(weaponId);
@@ -544,7 +545,7 @@ public class PlayerCombat extends PlayerAction {
 				}
 				case DORGESHUUN_CBOW -> {
 					player.setNextAnimation(weapon.getAttackAnimation());
-					SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player);
+					SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 					if (attackSpotAnim != null)
 						player.setNextSpotAnim(attackSpotAnim);
 					int damage = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0, 1.3);
@@ -555,7 +556,7 @@ public class PlayerCombat extends PlayerAction {
 				case DARK_BOW -> {
 					int ammoId = player.getEquipment().getAmmoId();
 					player.setNextAnimation(weapon.getAttackAnimation());
-					SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player);
+					SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 					if (attackSpotAnim != null)
 						player.setNextSpotAnim(attackSpotAnim);
 					if (ammoId == 11212) {
@@ -843,7 +844,7 @@ public class PlayerCombat extends PlayerAction {
 					break;
 			}
 			player.setNextAnimation(weapon.getAttackAnimation());
-			SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player);
+			SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 			if (attackSpotAnim != null)
 				player.setNextSpotAnim(attackSpotAnim);
 		}
@@ -1129,12 +1130,7 @@ public class PlayerCombat extends PlayerAction {
 					max_hit = (int) (korasiDamage * 1.5);
 					korasiDamage *= multiplier;
 					delayNormalHit(weaponId, attackStyle, getMagicHit(player, korasiDamage));
-					WorldTasks.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							target.setNextSpotAnim(new SpotAnim(1730));
-						}
-					}, 0);
+					WorldTasks.schedule(0, () -> target.setNextSpotAnim(new SpotAnim(1730)));
 					break;
 				case 11700:
 					int zgsdamage = getRandomMaxHit(player, weaponId, attackStyle, false, true, 2.0, 1.1);
@@ -1243,7 +1239,6 @@ public class PlayerCombat extends PlayerAction {
 					player.setNextAnimation(new Animation(14417));
 					final AttackStyle attack = attackStyle;
 					attackTarget(getMultiAttackTargets(player, target, 5, Integer.MAX_VALUE), new MultiAttack() {
-
 						private boolean nextTarget;
 
 						@Override
@@ -1251,15 +1246,7 @@ public class PlayerCombat extends PlayerAction {
 							target.freeze(Ticks.fromSeconds(10), true);
 							target.setNextSpotAnim(new SpotAnim(181, 0, 96));
 							final Entity t = target;
-							WorldTasks.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									final int damage = getRandomMaxHit(player, -2, attack, false, false, 1.0, 1.0);
-									t.applyHit(new Hit(player, damage, HitLook.TRUE_DAMAGE));
-
-									stop();
-								}
-							}, 1);
+							WorldTasks.schedule(1, () -> t.applyHit(new Hit(player, getRandomMaxHit(player, -2, attack, false, false, 1.0, 1.0), HitLook.TRUE_DAMAGE)));
 							if (target instanceof Player p) {
 								for (int i = 0; i < 7; i++)
 									if (i != 3 && i != 5)
