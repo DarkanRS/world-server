@@ -40,6 +40,10 @@ public class FamiliarAdapter implements JsonSerializer<Familiar>, JsonDeserializ
 
 	private static Map<String, Class<?>> FAMILIAR_CLASSES = new HashMap<>();
 	
+	public static Class<?> getFamiliarClass(String name) {
+		return FAMILIAR_CLASSES.get(name);
+	}
+	
 	@ServerStartupEvent
 	public static void init() {
 		try {
