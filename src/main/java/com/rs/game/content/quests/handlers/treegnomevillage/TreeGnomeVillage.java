@@ -1,5 +1,7 @@
 package com.rs.game.content.quests.handlers.treegnomevillage;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -19,15 +21,11 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCDeathEvent;
-import com.rs.plugin.events.NPCDropEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.NPCDeathHandler;
-import com.rs.plugin.handlers.NPCDropHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
-
-import java.util.ArrayList;
 
 @QuestHandler(Quest.TREE_GNOME_VILLAGE)
 @PluginEventHandler

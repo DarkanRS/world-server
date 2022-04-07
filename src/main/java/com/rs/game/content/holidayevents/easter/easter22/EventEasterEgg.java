@@ -49,6 +49,8 @@ public class EventEasterEgg extends GameObject {
     public static ObjectClickHandler crackEgg = new ObjectClickHandler(false, new Object[] { 70106, 70107, 70108, 70109, 70110 }) {
         @Override
         public void handle(ObjectClickEvent e) {
+        	if (!(e.getObject() instanceof EventEasterEgg egg))
+        		return;
         	if (!Easter2022.ENABLED)
         		return;
             if (e.getOption().equals("Crack")) {
@@ -64,13 +66,12 @@ public class EventEasterEgg extends GameObject {
                 int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
                 int delay = World.sendProjectile(e.getPlayer().getTile(), new WorldTile(e.getObject()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0, 0).getTaskDelay();
         		int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
-        		((EventEasterEgg)e.getObject()).spotted(e.getPlayer());
+        		egg.spotted(e.getPlayer());
         		WorldTasks.scheduleTimer(delay, (tick) -> {
                 	switch (tick) {
                 		case 0 -> { 
                 			e.getPlayer().getVars().saveVarBit(e.getObject().getDefinitions().varpBit, (attackStyle == 0 ? 2 : 1));
-                            World.sendSpotAnim(e.getPlayer(), new SpotAnim(3037), e.getObject());
-                			World.sendObjectAnimation(e.getObject(), new Animation(16432));
+                            e.getPlayer().getPackets().sendObjectAnimation(e.getObject(), new Animation(16432));
                 		}
                 		case 2 -> {
                             EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2), e.getObject().getDefinitions().varpBit);

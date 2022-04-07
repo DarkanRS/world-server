@@ -72,6 +72,7 @@ public enum Rune {
 		case AIR:
 			switch(player.getEquipment().getWeaponId()) {
 			case 1381:
+			case 23044:
 			case 15598:
 			case 17009:
 			case 17011:
@@ -92,6 +93,7 @@ public enum Rune {
 				return true;
 			switch(player.getEquipment().getWeaponId()) {
 			case 1383:
+			case 23045:
 			case 16997:
 			case 16999:
 			case 16163:
@@ -116,6 +118,7 @@ public enum Rune {
 		case EARTH:
 			switch(player.getEquipment().getWeaponId()) {
 			case 1385:
+			case 23046:
 			case 17001:
 			case 17003:
 			case 16165:
@@ -140,6 +143,7 @@ public enum Rune {
 		case FIRE:
 			switch(player.getEquipment().getWeaponId()) {
 			case 1387:
+			case 23047:
 			case 17005:
 			case 17007:
 			case 16167:

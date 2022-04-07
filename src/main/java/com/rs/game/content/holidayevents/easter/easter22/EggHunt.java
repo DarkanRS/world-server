@@ -1,5 +1,8 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -10,8 +13,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.LoginHandler;
-import java.util.ArrayList;
-import java.util.List;
 
 @PluginEventHandler
 public class EggHunt {
@@ -79,25 +80,22 @@ public class EggHunt {
 	private static int hunt = 0;
 	private static int chocatriceScore = 0;
 	private static int evilChickenScore = 0;
-	private static int timer = -1;
+	private static int timer = 1;
+	private static boolean active = false;
     
     public EggHunt() { 
     	WorldTasks.scheduleTimer(0, (ticks) -> {
     		if (!Easter2022.ENABLED)
     			return false;
-    		timer++;
-    		if (Settings.getConfig().isDebug()) {
-        		switch (timer) {
-		    		case 0 -> start();
-		    		case 500 -> end();
-		    		case 700 -> timer = -1;
-        		}
-        		return true;
-    		}
+    		timer--;
     		switch (timer) {
-	    		case 0 -> start();
-	    		case 11500 -> end();
-	    		case 12000 -> timer = 0;
+	    		case 12000 -> start();
+	    		case 1000 -> {
+	    			if (Settings.getConfig().isDebug())
+	    				start();
+	    		}
+	    		case 500 -> end();
+	    		case 0 -> timer = Settings.getConfig().isDebug() ? 1001 : 12001;
     		}
     		return true;
     	});
@@ -115,6 +113,7 @@ public class EggHunt {
     };
 
     public void start() {
+    	active = true;
     	hunt++;
     	while (eggs.size() > 0)
     		eggs.remove(0);
@@ -137,6 +136,7 @@ public class EggHunt {
     }
     
     public void end() {
+    	active = false;
     	for (int spawn : eggs) {
     		Spawns.values()[spawn].getEgg().setId(Easter2022.RUBBLE);
     		Spawns.values()[spawn].getEgg().setFound(false);
@@ -172,11 +172,25 @@ public class EggHunt {
     public static int getTime() {
     	return (int)Math.ceil(timer/100);
     }
+    
+    public static String getTimeString() {
+    	if (active)
+    		return "The hunt will be ending in " + (getTime()-5) + ((getTime()-5 > 1) ? " minutes." : " minute.");
+    	else {
+    		if (getTime() == 0)
+    			return "The next hunt will be starting in less than a minute.";
+    		return "The next hunt will be starting in " + getTime() + ((getTime() > 1) ? " minutes." : " minute.");
+    	}
+    }
 
 	public static void incrementScore(int attackStyle) {
 		if (attackStyle == 0)
 			evilChickenScore++;
 		else
 			chocatriceScore++;		
+	}
+	
+	public static boolean active() {
+		return active;
 	}
 }

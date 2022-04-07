@@ -115,7 +115,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "tilefree", "Checks if tile is free", (p, args) -> {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
-					if (!World.floorAndWallsFree(new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()), 1))
+					if (World.floorAndWallsFree(new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()), 1))
 						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()));
 		});
 		

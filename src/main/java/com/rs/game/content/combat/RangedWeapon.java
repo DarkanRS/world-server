@@ -53,7 +53,8 @@ public enum RangedWeapon {
 
 	DOMINION_CROSSBOW(new Animation(4230), 6, new int[] { 22348 }, 27, 955),
 
-	SHORTBOW(new Animation(426), 4, new int[] { 841, 23818, 23043 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
+	SHORTBOW(new Animation(426), 4, new int[] { 841, 23818 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
+	QUICK_BOW(new Animation(426), 4, new int[] { 23043 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
 	LONGBOW(new Animation(426), 6, new int[] { 839 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW),
 
 	OAK_SHORTBOW(new Animation(426), 4, new int[] { 843 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW),
@@ -253,20 +254,17 @@ public enum RangedWeapon {
 		return attackAnim;
 	}
 
-	public SpotAnim getAttackSpotAnim(Player player) {
+	public SpotAnim getAttackSpotAnim(Player player, AmmoType ammo) {
 		switch(this) {
 		case DARK_BOW -> {
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			return new SpotAnim(ammo.getDoubleDrawbackSpotAnim(player.getEquipment().getAmmoId()), 0, 100);
 		}
 		case HAND_CANNON -> {
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			return new SpotAnim(ammo.getDrawbackSpotAnim(player.getEquipment().getAmmoId()));
 		}
 		default -> {
 			if (thrown || ammos == null)
 				return new SpotAnim(drawbackSpotAnim, 0, 100);
-			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			if (ammo != null)
 				return new SpotAnim(ammo.getDrawbackSpotAnim(player.getEquipment().getAmmoId()), 0, 100);
 		}

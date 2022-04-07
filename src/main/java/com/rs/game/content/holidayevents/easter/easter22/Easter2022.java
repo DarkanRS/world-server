@@ -1,5 +1,8 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
+import java.time.Instant;
+import java.util.concurrent.atomic.AtomicLong;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -13,15 +16,13 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
-import java.time.Instant;
-import java.util.concurrent.atomic.AtomicLong;
 
 @PluginEventHandler
 public class Easter2022 {
 
     //Event configs
     public static String STAGE_KEY = "easter2022";
-    public static Boolean ENABLED = false;
+    public static Boolean ENABLED = true;
 
     //Rewards
     public static final int PERMANENT_EGGSTERMINATOR = 24146;
@@ -49,7 +50,7 @@ public class Easter2022 {
     public static final int CHOCATRICE_MEDIUM = 15260;
     public static final int EVIL_CHICKEN_LARGE = 15264;
     public static final int CHOCATRICE_LARGE = 15261;
-    public static EggHunt event;// = new EggHunt();
+    public static EggHunt event;
 
     static AtomicLong currentTime = new AtomicLong(Instant.now().getEpochSecond());
     static long startDate = 1649548800; //April 10th - 00:00
@@ -68,14 +69,6 @@ public class Easter2022 {
      */
     
     //TODO - TYPO IN ObjectType - STRAIGHT_OUSIDE_WALL_DEC
-    //TODO - Dialogue when unequiping temporary eggsterminator still prompting to destroy twice
-    //TODO - verify locking/animations look and feel okay when firing the eggsterminator.
-    //TODO - test to make sure there are no bugs with awarding xp lamps + loyalty points
-    //TODO - verify players can buy egg hats 1 time, once its awarded to diango reclaim they should not be prompted anymore
-    //TODO - verify other rewards are given, song/emote after 1 successful hunt, permanent eggsterminator after 3.
-    //TODO - add player v player splattering with the eggsterminator, its also supposed to have a special animation of twirling if the player has an egg hat on, but do we care?
-    //TODO - test event automatically ending and removing objects/npcs.
-    //TODO - is it possible to get the chocolate bars and easter eggs to sit on varrock fountain properly?
 
     @ServerStartupEvent
     public static void EasterEvent2022() {
@@ -122,8 +115,8 @@ public class Easter2022 {
             World.spawnObject(spawn.getEgg());
 
         WorldTasks.schedule(ticksToEnd, () -> {
-            World.removeNPC(Chocatrice);
-            World.removeNPC(EvilChicken);
+        	Chocatrice.finish();
+        	EvilChicken.finish();
             for (EggHunt.Spawns spawn : EggHunt.Spawns.values())
             	World.removeObject(spawn.getEgg());
         });

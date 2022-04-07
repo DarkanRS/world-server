@@ -1,5 +1,14 @@
 package com.rs.game.content.quests.handlers.treegnomevillage.dialogues;
 
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.FIRE_BALLISTA;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.GET_WOOD;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.KILL_WARLORD;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.NOT_STARTED;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.ORB1;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.QUEST_COMPLETE;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
+import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
+
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -9,8 +18,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-
-import static com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage.*;
 
 @PluginEventHandler
 public class ElkoyTreeGnomeVillageD extends Conversation {
