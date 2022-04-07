@@ -36,6 +36,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.Ticks;
+import com.rs.utils.json.FamiliarAdapter;
 
 @PluginEventHandler
 public class Summoning {
@@ -332,7 +333,10 @@ public class Summoning {
 
 	public static Familiar createFamiliar(Player player, WorldTile tile, Pouches pouch) {
 		try {
-			return (Familiar) Class.forName("com.rs.game.model.entity.npc.familiar." + (NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId()))).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")).getConstructor(Player.class, Pouches.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, tile, -1, true);
+			Class<?> familiarClass = FamiliarAdapter.getFamiliarClass(NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId())).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", ""));
+			if (familiarClass == null)
+				return null;
+			return (Familiar) familiarClass.getConstructor(Player.class, Pouches.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, tile, -1, true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return null;
