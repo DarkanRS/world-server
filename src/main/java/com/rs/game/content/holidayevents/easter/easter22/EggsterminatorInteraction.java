@@ -1,12 +1,6 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.holidayevents.easter.easter22.EggHunt.Spawns;
-import com.rs.game.content.holidayevents.easter.easter22.npcs.EasterChick;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Equipment;
@@ -15,17 +9,14 @@ import com.rs.game.model.entity.player.interactions.PlayerEntityInteraction;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerClickEvent;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerClickHandler;
 
 @PluginEventHandler

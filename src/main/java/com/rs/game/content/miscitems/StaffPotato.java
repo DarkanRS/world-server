@@ -147,6 +147,10 @@ public class StaffPotato {
 				Potion.SUPER_RESTORE.getEffect().accept(e.getPlayer());
 				Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
 				Potion.SUMMONING_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_ARTISANS_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_GATHERERS_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_NATURALISTS_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_SURVIVALISTS_POTION.getEffect().accept(e.getPlayer());
 			}
 			case "Heal" -> {
 				Command command = e.getPlayer().getNSV().getO("lastPotatoCommand");

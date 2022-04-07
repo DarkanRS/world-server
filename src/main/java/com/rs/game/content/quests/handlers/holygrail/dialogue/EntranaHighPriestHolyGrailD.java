@@ -1,5 +1,8 @@
 package com.rs.game.content.quests.handlers.holygrail.dialogue;
 
+import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.GO_TO_ENTRANA;
+import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.GO_TO_MCGRUBOR;
+
 import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
@@ -12,8 +15,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.*;
 
 @PluginEventHandler
 public class EntranaHighPriestHolyGrailD extends Conversation {

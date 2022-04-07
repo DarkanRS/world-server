@@ -8,13 +8,8 @@ import static com.rs.game.content.quests.handlers.familycrest.FamilyCrest.TALK_T
 import static com.rs.game.content.quests.handlers.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
 
 import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
 
 @PluginEventHandler
 public class DialogueTemplate extends Conversation {
