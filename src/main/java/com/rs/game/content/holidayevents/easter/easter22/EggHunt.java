@@ -87,7 +87,6 @@ public class EggHunt {
     		if (!Easter2022.ENABLED)
     			return false;
     		timer--;
-    		System.out.println(timer + " " + active);
     		switch (timer) {
 	    		case 12000 -> start();
 	    		case 1000 -> {
@@ -176,8 +175,11 @@ public class EggHunt {
     public static String getTimeString() {
     	if (active)
     		return "The hunt will be ending in " + (getTime()-5) + ((getTime()-5 > 1) ? " minutes." : " minute.");
-    	else
+    	else {
+    		if (getTime() == 0)
+    			return "The next hunt will be starting in less than a minute.";
     		return "The next hunt will be starting in " + getTime() + ((getTime() > 1) ? " minutes." : " minute.");
+    	}
     }
 
 	public static void incrementScore(int attackStyle) {

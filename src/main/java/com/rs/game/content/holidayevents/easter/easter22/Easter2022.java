@@ -49,7 +49,7 @@ public class Easter2022 {
     public static final int CHOCATRICE_MEDIUM = 15260;
     public static final int EVIL_CHICKEN_LARGE = 15264;
     public static final int CHOCATRICE_LARGE = 15261;
-    public static EggHunt event;// = new EggHunt();
+    public static EggHunt event;
 
     static AtomicLong currentTime = new AtomicLong(Instant.now().getEpochSecond());
     static long startDate = 1649548800; //April 10th - 00:00
@@ -68,11 +68,6 @@ public class Easter2022 {
      */
     
     //TODO - TYPO IN ObjectType - STRAIGHT_OUSIDE_WALL_DEC
-    //TODO - verify locking/animations look and feel okay when firing the eggsterminator.
-    //TODO - test to make sure there are no bugs with awarding xp lamps + loyalty points
-    //TODO - verify other rewards are given, song/emote after 1 successful hunt, permanent eggsterminator after 3.
-    //TODO - add player v player splattering with the eggsterminator, its also supposed to have a special animation of twirling if the player has an egg hat on, but do we care?
-    //TODO - test event automatically ending and removing objects/npcs.
 
     @ServerStartupEvent
     public static void EasterEvent2022() {

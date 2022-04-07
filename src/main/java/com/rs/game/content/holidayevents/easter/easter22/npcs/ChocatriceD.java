@@ -33,7 +33,7 @@ public class ChocatriceD extends Conversation {
             if (EggHunt.hasCompletedHunt(player)) {
                 if (!player.getEmotesManager().unlockedEmote(Easter2022.EASTER_EMOTE)) {
                     player.getEmotesManager().unlockEmote(Easter2022.EASTER_EMOTE);
-                    player.sendMessage("You have unlocked an Easter emote, " + Easter2022.EASTER_EMOTE.name());
+                    player.sendMessage("You have unlocked an Easter emote, " + Easter2022.EASTER_EMOTE.name().toLowerCase().replace("_", " ") + ".");
                 }
                 if (!player.getMusicsManager().hasMusic(Easter2022.EASTER_TRACK)) {
                     player.getMusicsManager().unlockMusic(Easter2022.EASTER_TRACK);
@@ -43,13 +43,12 @@ public class ChocatriceD extends Conversation {
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, EggHunt.getTimeString());
             }
 
-            if (player.getI(Easter2022.STAGE_KEY + "CompletedHunts", 0) >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
+            if (player.getCounter().get(Easter2022.STAGE_KEY + "CompletedHunts") >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Good work, you must enjoy smashing those eggs. Seeing you've been so helpfully destructive I can enchant your Eggsterminator so that it will last after Easter. " +
                         "Want me to do that for you?");
                 addOptions(new Options("unlockPermanent", ChocatriceD.this) {
                     @Override
                     public void create() {
-                		//TODO - add diango reclaim
                         option("Yes", new Dialogue()
                                 .addNext(() -> {
                                     player.addDiangoReclaimItem(Easter2022.PERMANENT_EGGSTERMINATOR);
