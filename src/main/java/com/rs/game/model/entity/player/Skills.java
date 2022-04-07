@@ -1281,10 +1281,11 @@ public final class Skills {
 	public static int[] allExcept(int... exclude) {
 		int[] skills = new int[1+Constants.SKILL_NAME.length-exclude.length];
 		int idx = 0;
-		for (int i = 0;i < Constants.SKILL_NAME.length;i++) {
-			for (int ex : exclude)
+		skills: for (int i = 0;i < Constants.SKILL_NAME.length;i++) {
+			for (int ex : exclude) {
 				if (i == ex)
-					continue;
+					continue skills;
+			}
 			skills[idx++] = i;
 		}
 		return skills;

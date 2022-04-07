@@ -23,7 +23,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class WizardCrompertyTribalTotemD extends Conversation {
 	private static final int NPC = 844;
-	public WizardCrompertyTribalTotemD(Player p) {
+	public WizardCrompertyTribalTotemD(Player p, NPC npc) {
 		super(p);
 		switch(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM)) {
 		case GET_TOTEM -> {
@@ -33,12 +33,8 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "Yes, that sounds good. Teleport me!");
 			addNPC(NPC, HeadE.CALM_TALK, "Okey dokey! Ready?");
 			addNext(()->{
-				NPC wizard = null;
-				for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-					if(npc.getId() == NPC)
-						wizard = npc;
-				wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
-				World.sendProjectile(wizard, p, 50, 5, 5, 5, 1, 5, 0);
+				npc.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
+				World.sendProjectile(npc, p, 50, 5, 5, 5, 1, 5, 0);
 				p.lock(3);
 				WorldTasks.schedule(new WorldTask() {
 					@Override
@@ -119,7 +115,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new WizardCrompertyTribalTotemD(e.getPlayer()).getStart());
+			e.getPlayer().startConversation(new WizardCrompertyTribalTotemD(e.getPlayer(), e.getNPC()).getStart());
 		}
 	};
 }

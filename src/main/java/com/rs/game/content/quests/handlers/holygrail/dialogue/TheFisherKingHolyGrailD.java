@@ -1,5 +1,9 @@
 package com.rs.game.content.quests.handlers.holygrail.dialogue;
 
+import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.GIVE_AURTHUR_HOLY_GRAIL;
+import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.SPEAK_TO_FISHER_KING;
+import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
+
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -9,8 +13,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.content.quests.handlers.holygrail.HolyGrail.*;
 
 @PluginEventHandler
 public class TheFisherKingHolyGrailD extends Conversation {
