@@ -28,7 +28,7 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
-public class BeastOfBurden {
+public class FamiliarInventory {
 
 	private static final int ITEMS_KEY = 530;
 
@@ -37,7 +37,7 @@ public class BeastOfBurden {
 
 	private ItemsContainer<Item> beastItems;
 
-	public BeastOfBurden(int size) {
+	public FamiliarInventory(int size) {
 		beastItems = new ItemsContainer<>(size, false);
 	}
 

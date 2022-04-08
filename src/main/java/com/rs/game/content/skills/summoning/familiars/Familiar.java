@@ -50,7 +50,7 @@ public class Familiar extends NPC {
 	private int ticks;
 	private int specialEnergy;
 	private boolean trackDrain;
-	private BeastOfBurden bob;
+	private FamiliarInventory inv;
 	private Pouch pouch;
 
 	public Familiar(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
@@ -62,18 +62,18 @@ public class Familiar extends NPC {
 		resetTickets();
 		specialEnergy = 60;
 		if (pouch.getBobSize() > 0)
-			bob = new BeastOfBurden(pouch.getBOBSize());
+			inv = new FamiliarInventory(pouch.getBobSize());
 		call(true);
 	}
 
 	public boolean isBeastOfBurden() {
-		return bob != null;
+		return inv != null;
 	}
 
 	public void store() {
-		if (bob == null)
+		if (inv == null)
 			return;
-		bob.open();
+		inv.open();
 	}
 
 	public boolean canStoreEssOnly() {
@@ -259,9 +259,9 @@ public class Familiar extends NPC {
 	}
 
 	public void takeBob() {
-		if (bob == null)
+		if (inv == null)
 			return;
-		bob.takeBob();
+		inv.takeBob();
 	}
 
 	public void sendTimeRemaining() {
@@ -352,8 +352,8 @@ public class Familiar extends NPC {
 
 	public void call(boolean login) {
 		if (login) {
-			if (bob != null)
-				bob.setEntitys(owner, this);
+			if (inv != null)
+				inv.setEntitys(owner, this);
 			sendMainConfigs();
 		} else
 			removeTarget();
@@ -382,8 +382,8 @@ public class Familiar extends NPC {
 			setFinished(true);
 			owner.getPackets().sendRunScript(2471);
 			owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
-			if (bob != null)
-				bob.dropBob();
+			if (inv != null)
+				inv.dropBob();
 		}
 	}
 
@@ -427,8 +427,8 @@ public class Familiar extends NPC {
 		return pouch.getScroll().getTarget() == ScrollTarget.ENTITY;
 	}
 
-	public BeastOfBurden getBob() {
-		return bob;
+	public FamiliarInventory getBob() {
+		return inv;
 	}
 
 	public void refreshSpecialEnergy() {
