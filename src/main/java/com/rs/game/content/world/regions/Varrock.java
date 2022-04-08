@@ -142,6 +142,8 @@ public class Varrock {
 		}
 	};
 
+
+
 	public static NPCClickHandler handlePeskaBarbarianVillage = new NPCClickHandler(new Object[] { 538 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -181,7 +183,14 @@ public class Varrock {
 				ShopsHandler.openShop(e.getPlayer(), "helmet_shop");
 		}
 	};
-	
+
+	public static ObjectClickHandler varrockCenterStairs = new ObjectClickHandler(new Object[] { 24367 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useStairs(-1, new WorldTile(e.getObject().getX(), 3476, 1), 1, 2);
+		}
+	};
+
 	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

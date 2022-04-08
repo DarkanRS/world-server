@@ -24,6 +24,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -106,14 +107,14 @@ public class ForgottenMage extends CombatScript {
 		World.sendProjectile(npc, target, projectileId, 39, 18, 55, 1.2, 5, 0);
 		if (hit > 0) {
 			WorldTasks.schedule(new WorldTask() {
-
 				@Override
 				public void run() {
 					if (target instanceof Player player)
 						if (percentDrain == 0)
 							player.freeze(skill == 0 ? 8 : skill == 1 ? 12 : 16, true);
 						else
-							player.getSkills().set(skill, (int) (player.getSkills().getLevel(skill) * percentDrain));
+							if(player.getSkills().getLevel(skill) > player.getSkills().getLevelForXp(skill)*0.93)
+								player.getSkills().set(skill, (int) (player.getSkills().getLevel(skill) * percentDrain));
 				}
 			}, 2);
 			target.setNextSpotAnim(new SpotAnim(hit, 140, 85));
