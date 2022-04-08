@@ -18,7 +18,7 @@ package com.rs.game.content.skills.summoning.familiars;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -28,7 +28,7 @@ import com.rs.lib.util.Utils;
 
 public class Macaw extends Familiar {
 
-	public Macaw(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Macaw(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(owner, pouch, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
 	}
 

@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.skills.summoning.familiars;
 
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 
 public class Steeltitan extends Familiar {
 
-	public Steeltitan(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Steeltitan(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(owner, pouch, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
 		setNextAnimation(new Animation(8188));
 	}

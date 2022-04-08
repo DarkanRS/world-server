@@ -32,6 +32,10 @@ public class Cooking extends PlayerAction {
 
 	public enum Cookables {
 		RAW_MEAT(new Item(2132, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
+		RAW_RAT(new Item(2134, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
+		RAW_BEAR(new Item(2136, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
+		RAW_MEAT_GHOST(new Item(4287, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
+		RAW_CHICKEN_GHOST(new Item(4289, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
 		BREAD(new Item(2307, 1), 1, 5, 40, new Item(2311, 1), new Item(2309, 1), false, false),
 		SINEW(new Item(2142, 1), 1, 1, 1, new Item(9436, 1), new Item(9436, 1), false, false),
 		RAW_CHICKEN(new Item(2138, 1), 1, 5, 30, new Item(2144, 1), new Item(2140, 1), false, false),
