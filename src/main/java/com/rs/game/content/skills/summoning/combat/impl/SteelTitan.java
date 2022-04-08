@@ -23,25 +23,32 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
-public class Dreadfowl extends FamiliarCombatScript {
+public class SteelTitan extends FamiliarCombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return Pouch.DREADFOWL.getIdKeys();
+		return Pouch.STEEL_TITAN.getIdKeys();
 	}
 	
 	@Override
 	public int alternateAttack(final NPC npc, final Entity target) {
-		if (Utils.getRandomInclusive(10) != 0)
-			return CANCEL;
-		
-		npc.setNextAnimation(new Animation(7810));
-		npc.setNextSpotAnim(new SpotAnim(1318));
-		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 30, AttackStyle.MAGE, target)));
-		World.sendProjectile(npc, target, 1376, 34, 16, 30, 35, 16, 0);
+		if (npc.inMeleeRange(target)) {
+			npc.setNextAnimation(new Animation(8183));
+			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 244, AttackStyle.MELEE, target)));
+		} else {
+			switch (Utils.getRandomInclusive(1)) {
+			case 0:
+				npc.setNextAnimation(new Animation(7694));
+				delayHit(npc, World.sendProjectile(npc, target, 1451, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
+				break;
+			case 1:
+				npc.setNextAnimation(new Animation(8190));
+				delayHit(npc, World.sendProjectile(npc, target, 1445, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
+				break;
+			}
+		}
 		return npc.getAttackSpeed();
 	}
 }

@@ -1609,6 +1609,27 @@ public abstract class Entity {
 		}
 		return true;
 	}
+	
+	public void anim(int anim) {
+		setNextAnimation(new Animation(anim));
+	}
+	
+	public void spotAnim(int spotAnim, int speed, int height) {
+		setNextSpotAnim(new SpotAnim(spotAnim, speed, height));
+	}
+	
+	public void spotAnim(int spotAnim, int speed) {
+		setNextSpotAnim(new SpotAnim(spotAnim, speed));
+	}
+	
+	public void spotAnim(int spotAnim) {
+		setNextSpotAnim(new SpotAnim(spotAnim));
+	}
+	
+	public void sync(int anim, int spotAnim) {
+		anim(anim);
+		spotAnim(spotAnim);
+	}
 
 	public InteractionManager getInteractionManager() {
 		return interactionManager;

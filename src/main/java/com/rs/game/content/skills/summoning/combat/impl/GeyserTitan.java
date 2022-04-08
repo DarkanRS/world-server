@@ -14,39 +14,34 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.summoning.combat;
+package com.rs.game.content.skills.summoning.combat.impl;
 
 import com.rs.game.World;
-import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
+import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
-public class ThornySnailCombat extends CombatScript {
+public class GeyserTitan extends FamiliarCombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[] { 6807, 6806 };
+		return Pouch.GEYSER_TITAN.getIdKeys();
 	}
-
+	
 	@Override
-	public int attack(NPC npc, Entity target) {
-		Familiar familiar = (Familiar) npc;
-		boolean usingSpecial = familiar.hasSpecialOn();
-		if (usingSpecial) {// priority over regular attack
-			npc.setNextAnimation(new Animation(8148));
-			npc.setNextSpotAnim(new SpotAnim(1385));
-			World.sendProjectile(npc, target, 1386, 34, 16, 30, 35, 16, 0);
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, 80, AttackStyle.RANGE, target)));
-			npc.setNextSpotAnim(new SpotAnim(1387));
+	public int alternateAttack(final NPC npc, final Entity target) {
+		if (npc.inMeleeRange(target)) {
+			npc.setNextAnimation(new Animation(7879));
+			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 244, AttackStyle.MELEE, target)));
 		} else {
-			npc.setNextAnimation(new Animation(8143));
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, 40, AttackStyle.RANGE, target)));
+			npc.setNextAnimation(new Animation(7883));
+			npc.setNextSpotAnim(new SpotAnim(1375));
+			delayHit(npc, World.sendProjectile(npc, target, 1374, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMeleeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
 		}
 		return npc.getAttackSpeed();
 	}
-
 }

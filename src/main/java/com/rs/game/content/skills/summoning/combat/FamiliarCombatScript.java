@@ -1,7 +1,11 @@
 package com.rs.game.content.skills.summoning.combat;
 
+import java.util.Arrays;
+
+import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -18,7 +22,7 @@ public class FamiliarCombatScript extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[] {  };
+		return Arrays.stream(Pouch.values()).map(p -> NPCDefinitions.getDefs(p.getBaseNpc()).getName()).toArray();
 	}
 	
 	@Override

@@ -224,6 +224,17 @@ public enum Pouch {
 		this.forager = forager;
 	}
 	
+	public Object[] getIdKeys() {
+		int size = 1;
+		if (pvpNpc != -1)
+			size = 2;
+		Object[] ids = new Object[size];
+		ids[0] = baseNpc;
+		if (pvpNpc != -1)
+			ids[1] = pvpNpc;
+		return ids;
+	}
+	
 	public void tick(Player owner, Familiar familiar) {
 		
 	}

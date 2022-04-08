@@ -1,15 +1,24 @@
 package com.rs.game.content.skills.summoning;
 
+import static com.rs.game.model.entity.npc.combat.CombatScript.delayHit;
+import static com.rs.game.model.entity.npc.combat.CombatScript.getMagicHit;
+import static com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit;
+import static com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit;
+import static com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit;
+
 import java.util.HashSet;
 import java.util.Set;
 
+import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
+import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.npc.combat.CombatScript;
+import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -19,13 +28,26 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.utils.WorldUtil;
 
 public enum Scroll {
 	HOWL(12425, ScrollTarget.COMBAT, "Scares non-player opponents, causing them to retreat. However, this lasts for only a few seconds.", 0.1, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8293));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 20, AttackStyle.MAGE, target)));
+			if (target instanceof Familiar)
+				familiar.getOwner().sendMessage("Your familiar cannot scare other familiars.");
+			else if (target instanceof Player)
+				familiar.getOwner().sendMessage("Your familiar cannot scare a player.");
+			else if (target instanceof NPC targN) {
+				if (targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL)
+					target.setAttackedByDelay(3000);
+				else
+					familiar.getOwner().sendMessage("Your familiar cannot scare that monster.");
+			}
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	DREADFOWL_STRIKE(12445, ScrollTarget.COMBAT, "Fires a long-ranged, magic-based attack which can damage for up to 31.", 0.1, 3) {
@@ -33,7 +55,7 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.setNextAnimation(new Animation(7810));
 			familiar.setNextSpotAnim(new SpotAnim(1318));
-			CombatScript.delayHit(familiar, World.sendProjectile(familiar, target, 1376, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, CombatScript.getMagicHit(familiar, CombatScript.getMaxHit(familiar, 40, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1376, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 40, AttackStyle.MAGE, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -70,8 +92,10 @@ public enum Scroll {
 	SLIME_SPRAY(12459, ScrollTarget.COMBAT, "Fires a ranged-based attack that damages for up to 42.", 0.2, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8148));
+			familiar.setNextSpotAnim(new SpotAnim(1385));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1386, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getRangeHit(familiar, getMaxHit(familiar, 80, AttackStyle.RANGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1387)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	STONY_SHELL(12533, ScrollTarget.CLICK, "Temporarily boosts the player's defence level by +4.", 0.2, 12) {
@@ -175,8 +199,10 @@ public enum Scroll {
 	BRONZE_BULL(12461, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 80 damage.", 3.6, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8026));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	UNBURDEN(12431, ScrollTarget.CLICK, "Restores the player's run energy by half of their agility level.", 0.6, 12) {
@@ -214,11 +240,13 @@ public enum Scroll {
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
-	IRON_BULL(12462, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 90 damage.", 4.6, 6) {
+	IRON_BULL(12462, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 100 damage.", 4.6, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8026));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	IMMENSE_HEAT(12829, ScrollTarget.ITEM, "Allows the player to craft a single peice of jewelry without a furnace.", 2.3, 6) {
@@ -282,11 +310,13 @@ public enum Scroll {
 			return false;
 		}
 	},
-	STEEL_BULL(12463, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 110 damage.", 5.6, 6) {
+	STEEL_BULL(12463, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 120 damage.", 5.6, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8026));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	AMBUSH(12836, ScrollTarget.COMBAT, "Teleports to the target and attacks the target, dealing up to 224 damage.", 5.7, 3) {
@@ -348,8 +378,10 @@ public enum Scroll {
 	MITHRIL_BULL(12464, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 160 damage.", 6.6, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8026));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 160, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	TOAD_BARK(12452, ScrollTarget.COMBAT, "Performs the same attack as if it were loaded with a cannonball.", 1, 6) {
@@ -437,8 +469,10 @@ public enum Scroll {
 	ADAMANT_BULL(12465, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 200 damage.", 7.6, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8026));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 200, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	DEADLY_CLAW(12831, ScrollTarget.COMBAT, "Causes the talon beast to attack with magic instead of melee. Dealing up to 300 damage.", 11.4, 6) {
@@ -479,8 +513,13 @@ public enum Scroll {
 	EBON_THUNDER(12837, ScrollTarget.COMBAT, "Fires a magic attack that lowers the opponent's special attack energy by 10%.", 8.3, 4) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			Hit hit = getMeleeHit(familiar, getMaxHit(familiar, 140, AttackStyle.MELEE, target));
+			familiar.setNextAnimation(new Animation(7883));
+			familiar.setNextSpotAnim(new SpotAnim(1491));
+			delayHit(familiar, 1, target, hit);
+			if (hit.getDamage() > 0 && target instanceof Player player)
+				player.getCombatDefinitions().drainSpec((player.getCombatDefinitions().getSpecialAttackPercentage() / 10));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	SWAMP_PLAGUE(12832, ScrollTarget.COMBAT, "Fires a magic attack that hits for up to 110 damage and poisons the target for 78 damage.", 4.1, 6) {
@@ -493,8 +532,10 @@ public enum Scroll {
 	RUNE_BULL(12466, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 240 damage.", 8.6, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8026));
+			familiar.setNextSpotAnim(new SpotAnim(1334));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 240, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	HEALING_AURA(12434, ScrollTarget.CLICK, "Heals the player for 15% of their maximum lifepoints.", 1.8, 20) {
@@ -514,8 +555,17 @@ public enum Scroll {
 	BOIL(12833, ScrollTarget.COMBAT, "Boils the target in their armor causing magic damage based on the opponents defense bonuses.", 8.9, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(7883));
+			familiar.setNextSpotAnim(new SpotAnim(1373));
+			if (!WorldUtil.isInRange(familiar, target, 0)) {
+				if (Utils.getRandomInclusive(2) == 0)
+					delayHit(familiar, 1, target, getRangeHit(familiar, getMaxHit(familiar, 300, AttackStyle.RANGE, target)));
+				else
+					delayHit(familiar, 1, target, getMagicHit(familiar, getMaxHit(familiar, 300, AttackStyle.MAGE, target)));
+			} else
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 300, AttackStyle.MELEE, target)));
+			World.sendProjectile(familiar, target, 1376, 34, 16, 30, 35, 16, 0);
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	MAGIC_FOCUS(12437, ScrollTarget.CLICK, "Boosts the player's attack level by 7.", 4.6, 20) {
@@ -540,8 +590,18 @@ public enum Scroll {
 	IRON_WITHIN(12828, ScrollTarget.COMBAT, "Hits with melee instead of magic for a turn hitting up to 3 times.", 4.7, 12) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(7954));
+			familiar.setNextSpotAnim(new SpotAnim(1450));
+			if (!familiar.inMeleeRange(target)) {
+				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)).setSource(familiar.getOwner()));
+			} else {
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)).setSource(familiar.getOwner()));
+			}
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	WINTER_STORAGE(12435, ScrollTarget.ITEM, "Banks the targeted item for the player.", 4.8, 12) {
@@ -561,8 +621,20 @@ public enum Scroll {
 	STEEL_OF_LEGENDS(12825, ScrollTarget.COMBAT, "Attacks the target with four ranged or melee attacks depending on distance dealing very high damage.", 4.9, 12) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.setNextAnimation(new Animation(8190));
+			target.setNextSpotAnim(new SpotAnim(1449));
+			if (!familiar.inMeleeRange(target)) {
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
+			} else {// melee hit
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
+			}
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	GHASTLY_ATTACK(21453, ScrollTarget.CLICK, "Restores 100 prayer points to the player.", 0.9, 20) {
@@ -573,160 +645,250 @@ public enum Scroll {
 		}
 	},
 	
-	SUNDERING_STRIKE_1(18027, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_2(18028, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_3(18029, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_4(18030, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_5(18031, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_6(18032, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_7(18033, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_8(18034, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_9(18035, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
-	SUNDERING_STRIKE_10(18036, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6),
+	SUNDERING_STRIKE_1(18027, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 1); }
+	},
+	SUNDERING_STRIKE_2(18028, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 2); }
+	},
+	SUNDERING_STRIKE_3(18029, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 3); }
+	},
+	SUNDERING_STRIKE_4(18030, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 4); }
+	},
+	SUNDERING_STRIKE_5(18031, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 5); }
+	},
+	SUNDERING_STRIKE_6(18032, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 6); }
+	},
+	SUNDERING_STRIKE_7(18033, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 7); }
+	},
+	SUNDERING_STRIKE_8(18034, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 8); }
+	},
+	SUNDERING_STRIKE_9(18035, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 9); }
+	},
+	SUNDERING_STRIKE_10(18036, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 10); }
+	},
 	
-	POISONOUS_SHOT_1(18037, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 18 damage.", 0.0, 6),
-	POISONOUS_SHOT_2(18038, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 28 damage.", 0.0, 6),
-	POISONOUS_SHOT_3(18039, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 38 damage.", 0.0, 6),
-	POISONOUS_SHOT_4(18040, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 48 damage.", 0.0, 6),
-	POISONOUS_SHOT_5(18041, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 58 damage.", 0.0, 6),
-	POISONOUS_SHOT_6(18042, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 68 damage.", 0.0, 6),
-	POISONOUS_SHOT_7(18043, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 78 damage.", 0.0, 6),
-	POISONOUS_SHOT_8(18044, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 88 damage.", 0.0, 6),
-	POISONOUS_SHOT_9(18045, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 98 damage.", 0.0, 6),
-	POISONOUS_SHOT_10(18046, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 108 damage.", 0.0, 6),
+	POISONOUS_SHOT_1(18037, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 18 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 1); }
+	},
+	POISONOUS_SHOT_2(18038, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 28 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 2); }
+	},
+	POISONOUS_SHOT_3(18039, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 38 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 3); }
+	},
+	POISONOUS_SHOT_4(18040, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 48 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 4); }
+	},
+	POISONOUS_SHOT_5(18041, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 58 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 5); }
+	},
+	POISONOUS_SHOT_6(18042, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 68 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 6); }
+	},
+	POISONOUS_SHOT_7(18043, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 78 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 7); }
+	},
+	POISONOUS_SHOT_8(18044, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 88 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 8); }
+	},
+	POISONOUS_SHOT_9(18045, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 98 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 9); }
+	},
+	POISONOUS_SHOT_10(18046, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that poisons the target for 108 damage.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.poisonousShot(owner, familiar, target, 10); }
+	},
 	
-	SNARING_WAVE_1(18047, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_2(18048, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_3(18049, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_4(18050, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_5(18051, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_6(18052, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_7(18053, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_8(18054, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_9(18055, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
-	SNARING_WAVE_10(18056, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6),
+	SNARING_WAVE_1(18047, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 1); }
+	},
+	SNARING_WAVE_2(18048, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 2); }
+	},
+	SNARING_WAVE_3(18049, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 3); }
+	},
+	SNARING_WAVE_4(18050, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 4); }
+	},
+	SNARING_WAVE_5(18051, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 5); }
+	},
+	SNARING_WAVE_6(18052, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 6); }
+	},
+	SNARING_WAVE_7(18053, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 7); }
+	},
+	SNARING_WAVE_8(18054, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 8); }
+	},
+	SNARING_WAVE_9(18055, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 9); }
+	},
+	SNARING_WAVE_10(18056, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that snares the opponent.", 0.0, 6) {
+		@Override
+		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.snaringWave(owner, familiar, target, 10); }
+	},
 	
 	APTITUDE_1(18057, ScrollTarget.CLICK, "Invisibly boosts all skills by 1.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 1); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 1); }
 	},
 	APTITUDE_2(18058, ScrollTarget.CLICK, "Invisibly boosts all skills by 2.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 2); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 2); }
 	},
 	APTITUDE_3(18059, ScrollTarget.CLICK, "Invisibly boosts all skills by 3.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 3); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 3); }
 	},
 	APTITUDE_4(18060, ScrollTarget.CLICK, "Invisibly boosts all skills by 4.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 4); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 4); }
 	},
 	APTITUDE_5(18061, ScrollTarget.CLICK, "Invisibly boosts all skills by 5.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 5); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 5); }
 	},
 	APTITUDE_6(18062, ScrollTarget.CLICK, "Invisibly boosts all skills by 6.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 6); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 6); }
 	},
 	APTITUDE_7(18063, ScrollTarget.CLICK, "Invisibly boosts all skills by 7.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 7); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 7); }
 	},
 	APTITUDE_8(18064, ScrollTarget.CLICK, "Invisibly boosts all skills by 8.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 8); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 8); }
 	},
 	APTITUDE_9(18065, ScrollTarget.CLICK, "Invisibly boosts all skills by 9.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 9); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 9); }
 	},
 	APTITUDE_10(18066, ScrollTarget.CLICK, "Invisibly boosts all skills by 10.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return aptitude(owner, familiar, 10); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.aptitude(owner, familiar, 10); }
 	},
 	
 	SECOND_WIND_1(18067, ScrollTarget.CLICK, "Restores 20% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 20); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 20); }
 	},
 	SECOND_WIND_2(18068, ScrollTarget.CLICK, "Restores 22% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 22); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 22); }
 	},
 	SECOND_WIND_3(18069, ScrollTarget.CLICK, "Restores 24% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 24); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 24); }
 	},
 	SECOND_WIND_4(18070, ScrollTarget.CLICK, "Restores 26% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 26); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 26); }
 	},
 	SECOND_WIND_5(18071, ScrollTarget.CLICK, "Restores 28% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 28); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 28); }
 	},
 	SECOND_WIND_6(18072, ScrollTarget.CLICK, "Restores 30% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 30); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 30); }
 	},
 	SECOND_WIND_7(18073, ScrollTarget.CLICK, "Restores 32% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 32); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 32); }
 	},
 	SECOND_WIND_8(18074, ScrollTarget.CLICK, "Restores 34% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 34); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 34); }
 	},
 	SECOND_WIND_9(18075, ScrollTarget.CLICK, "Restores 36% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 36); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 36); }
 	},
 	SECOND_WIND_10(18076, ScrollTarget.CLICK, "Restores 38% of the player's run energy.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return secondWind(owner, familiar, 38); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.secondWind(owner, familiar, 38); }
 	},
 	
 	GLIMMER_OF_LIGHT_1(18077, ScrollTarget.CLICK, "Heals the player for 20 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 20); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 20); }
 	},
 	GLIMMER_OF_LIGHT_2(18078, ScrollTarget.CLICK, "Heals the player for 40 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 40); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 40); }
 	},
 	GLIMMER_OF_LIGHT_3(18079, ScrollTarget.CLICK, "Heals the player for 60 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 60); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 60); }
 	},
 	GLIMMER_OF_LIGHT_4(18080, ScrollTarget.CLICK, "Heals the player for 80 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 80); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 80); }
 	},
 	GLIMMER_OF_LIGHT_5(18081, ScrollTarget.CLICK, "Heals the player for 100 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 100); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 100); }
 	},
 	GLIMMER_OF_LIGHT_6(18082, ScrollTarget.CLICK, "Heals the player for 120 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 120); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 120); }
 	},
 	GLIMMER_OF_LIGHT_7(18083, ScrollTarget.CLICK, "Heals the player for 140 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 140); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 140); }
 	},
 	GLIMMER_OF_LIGHT_8(18084, ScrollTarget.CLICK, "Heals the player for 160 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 160); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 160); }
 	},
 	GLIMMER_OF_LIGHT_9(18085, ScrollTarget.CLICK, "Heals the player for 180 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 180); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 180); }
 	},
 	GLIMMER_OF_LIGHT_10(18086, ScrollTarget.CLICK, "Heals the player for 200 hitpoints.", 0.0, 6) {
 		@Override
-		public boolean use(Player owner, Familiar familiar) { return glimmer(owner, familiar, 200); }
+		public boolean use(Player owner, Familiar familiar) { return FamiliarSpecs.glimmer(owner, familiar, 200); }
 	},
 	
 	CLAY_DEPOSIT(14421, ScrollTarget.CLICK, "Sends all held clay back to the base.", 0.0, 12) {
@@ -763,21 +925,6 @@ public enum Scroll {
 		this.id = scrollId;
 		this.xp = xp;
 		this.pointCost = pointCost;
-	}
-	
-	public static boolean aptitude(Player player, Familiar familiar, int boost) {
-		//TODO
-		return false;
-	}
-	
-	public static boolean secondWind(Player player, Familiar familiar, int amount) {
-		//TODO
-		return false;
-	}
-	
-	public static boolean glimmer(Player player, Familiar familiar, int amount) {
-		//TODO
-		return false;
 	}
 	
 	public String getName() {

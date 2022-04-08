@@ -14,37 +14,35 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.dungeoneering.npcs.familiars;
+package com.rs.game.content.skills.summoning.combat.impl;
 
-import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
+import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
-public class BloodragerCombat extends CombatScript {
+public class AbyssalTitan extends FamiliarCombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[] { 11106, 11108, 11110, 11112, 11114, 11116, 11118, 11120, 11122, 11124, 11126 };
+		return Pouch.ABYSSAL_TITAN.getIdKeys();
 	}
-
+	
 	@Override
-	public int attack(NPC npc, Entity target) {
-		Familiar familiar = (Familiar) npc;
-		boolean usingSpecial = familiar.hasSpecialOn();
-		int tier = (npc.getId() - 11106) / 2;
-
+	public int alternateAttack(final NPC npc, final Entity target) {
 		int damage = 0;
-		if (usingSpecial) {
-			npc.setNextSpotAnim(new SpotAnim(2444));
-			damage = getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * (1.05 * tier)), AttackStyle.MELEE, target);
-		} else
-			damage = getMaxHit(npc, AttackStyle.MELEE, target);
-		delayHit(npc, usingSpecial ? 1 : 0, target, getMeleeHit(npc, damage));
-		npc.setNextAnimation(new Animation(13617));
+		damage = getMaxHit(npc, 140, AttackStyle.MELEE, target);
+		npc.setNextAnimation(new Animation(7980));
+		npc.setNextSpotAnim(new SpotAnim(1490));
+
+		if (target instanceof Player player)
+			if (damage > 0 && player.getPrayer().getPoints() > 0)
+				player.getPrayer().drainPrayer(damage / 2);
+		delayHit(npc, 0, target, getMeleeHit(npc, damage));
 		return npc.getAttackSpeed();
 	}
 }

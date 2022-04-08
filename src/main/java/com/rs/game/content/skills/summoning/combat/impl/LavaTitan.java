@@ -14,43 +14,30 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.summoning.combat;
+package com.rs.game.content.skills.summoning.combat.impl;
 
-import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
+import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
-public class LavaTitanCombat extends CombatScript {
+public class LavaTitan extends FamiliarCombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[] { 7342, 7341 };
+		return Pouch.LAVA_TITAN.getIdKeys();
 	}
-
+	
 	@Override
-	public int attack(NPC npc, Entity target) {
-		Familiar familiar = (Familiar) npc;
-		boolean usingSpecial = familiar.hasSpecialOn();
-		int damage = 0;
-		if (usingSpecial) {// priority over regular attack
-			npc.setNextAnimation(new Animation(7883));
-			npc.setNextSpotAnim(new SpotAnim(1491));
-			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 140, AttackStyle.MELEE, target)));
-			if (damage <= 4 && target instanceof Player player)
-				player.getCombatDefinitions().drainSpec((player.getCombatDefinitions().getSpecialAttackPercentage() / 10));
-		} else {
-			damage = getMaxHit(npc, 140, AttackStyle.MELEE, target);
-			npc.setNextAnimation(new Animation(7980));
-			npc.setNextSpotAnim(new SpotAnim(1490));
-			delayHit(npc, 1, target, getMeleeHit(npc, damage));
-		}
-		if (Utils.getRandomInclusive(10) == 0)// 1/10 chance of happening
+	public int alternateAttack(final NPC npc, final Entity target) {
+		npc.setNextAnimation(new Animation(7980));
+		npc.setNextSpotAnim(new SpotAnim(1490));
+		delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 140, AttackStyle.MELEE, target)));
+		if (Utils.getRandomInclusive(10) == 0) // 1/10 chance of happening
 			delayHit(npc, 1, target, getMeleeHit(npc, Utils.getRandomInclusive(50)));
 		return npc.getAttackSpeed();
 	}
