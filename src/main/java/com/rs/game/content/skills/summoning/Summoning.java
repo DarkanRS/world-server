@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.summoning;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.rs.cache.loaders.EnumDefinitions;
@@ -86,7 +87,7 @@ public class Summoning {
 		return reals.getIntValue((grayId-2) / 5 + 1);
 	}
 	
-	public static ItemClickHandler handleSummonOps = new ItemClickHandler() {
+	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getRealPouchId()).toArray(), new String[] { "Summon" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			Pouch pouches = Pouch.forId(e.getItem().getId());

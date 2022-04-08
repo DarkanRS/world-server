@@ -411,6 +411,7 @@ public class Familiar extends NPC {
 			return CANCEL_SPECIAL;
 		int spec = executeCombatSpecial(target);
 		if (spec != CANCEL_SPECIAL) {
+			setSpecActive(false);
 			decrementScroll();
 			return spec == DEFAULT_ATTACK_SPEED ? getAttackSpeed() : spec;
 		}
@@ -545,7 +546,7 @@ public class Familiar extends NPC {
 		owner.getVars().setVarBit(4288, pouch.getScroll().getPointCost());// check
 		owner.getPackets().sendVarcString(204, pouch.getScroll().getName());
 		owner.getPackets().sendVarcString(205, pouch.getScroll().getDescription());
-		owner.getPackets().sendVarc(1436, pouch.getScroll().getTarget() == ScrollTarget.CLICK ? 1 : 0);
+		owner.getPackets().sendVarc(1436, pouch.getScroll().getTarget() == ScrollTarget.CLICK || pouch.getScroll().getTarget() == ScrollTarget.COMBAT ? 1 : 0);
 		owner.getPackets().sendRunScript(751);
 		sendLeftClickOption(owner);
 		sendOrbTargetParams();
