@@ -24,7 +24,8 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.familiars.*;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -34,7 +35,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
 import com.rs.utils.json.FamiliarAdapter;
 
@@ -209,7 +212,8 @@ public class Summoning {
 		public static Pouch forId(int id) {
 			return pouches.get(id);
 		}
-
+		
+		private int baseNpc, pvpNpc;
 		private Scroll scroll;
 		private int realPouchId;
 		private int level;
@@ -218,7 +222,9 @@ public class Summoning {
 		private double experience;
 		private int pouchTime;
 
-		private Pouch(Scroll scroll, int realPouchId, int level, double minorExperience, double experience, int pouchTime, int summoningCost) {
+		private Pouch(int baseNpc, int pvpNpc, Scroll scroll, int realPouchId, int level, double minorExperience, double experience, int pouchTime, int summoningCost) {
+			this.baseNpc = baseNpc;
+			this.pvpNpc = pvpNpc;
 			this.scroll = scroll;
 			this.level = level;
 			this.realPouchId = realPouchId;
@@ -226,6 +232,14 @@ public class Summoning {
 			this.experience = experience;
 			this.summoningCost = summoningCost;
 			this.pouchTime = pouchTime;
+		}
+		
+		public int getBaseNpc() {
+			return baseNpc;
+		}
+		
+		public int getPVPNpc() {
+			return pvpNpc;
 		}
 
 		public int getLevel() {
@@ -251,6 +265,14 @@ public class Summoning {
 		public int getPouchTime() {
 			return pouchTime;
 		}
+
+		public Scroll getScroll() {
+			return scroll;
+		}
+	}
+	
+	public static enum ScrollTarget {
+		ITEM, ENTITY, CLICK, OBJECT
 	}
 	
 	public enum Scroll {
@@ -393,16 +415,34 @@ public class Summoning {
 		CLAY_DEPOSIT(14421, 0.0, 12),
 		;
 		
+		private ScrollTarget target;
+		private String name;
+		private String description;
 		private int id;
 		private double xp;
 		private int pointCost;
 
-		private Scroll(int scrollId, double xp, int pointCost) {
+		private Scroll(int scrollId, String name, String description, ScrollTarget target, double xp, int pointCost) {
+			this.name = name;
+			this.description = description;
+			this.target = target;
 			this.id = scrollId;
 			this.xp = xp;
 			this.pointCost = pointCost;
 		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public String getDescription() {
+			return description;
+		}
 
+		public ScrollTarget getTarget() {
+			return target;
+		}
+		
 		public int getScrollId() {
 			return id;
 		}
@@ -416,7 +456,64 @@ public class Summoning {
 		}
 	}
 
-	public static void spawnFamiliar(Player player, Pouch pouch) {
+	public static final int POUCHES_INTERFACE = 672, SCROLLS_INTERFACE = 666;
+	private static final Animation SCROLL_INFUSIN_ANIMATION = new Animation(723);
+	private static final Animation POUCH_INFUSION_ANIMATION = new Animation(725);
+	private static final SpotAnim POUCH_INFUSION_GRAPHICS = new SpotAnim(1207);
+
+	public static int getScrollId(int id) {
+		return EnumDefinitions.getEnum(1283).getIntValue(id);
+	}
+
+	public static int getRequiredLevel(int id) {
+		return EnumDefinitions.getEnum(1185).getIntValue(id);
+	}
+
+	public static boolean isFamiliar(int npcId) {
+		return EnumDefinitions.getEnum(1320).getValues().containsValue(npcId);
+	}
+
+	public static boolean isFollower(int npcId) {
+		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
+	}
+
+	public static String getRequirementsMessage(int id) {
+		return EnumDefinitions.getEnum(1186).getStringValue(id);
+	}
+
+	public static void openInfusionInterface(Player player) {
+		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
+		player.getPackets().sendPouchInfusionOptionsScript(POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
+		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
+		player.getTempAttribs().setB("infusing_scroll", false);
+	}
+
+	public static void openScrollInfusionInterface(Player player) {
+		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
+		player.getPackets().sendScrollInfusionOptionsScript(SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
+		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
+		player.getTempAttribs().setB("infusing_scroll", true);
+	}
+
+	public static int getPouchId(int grayId) {
+		EnumDefinitions reals = EnumDefinitions.getEnum(1182);
+		return reals.getIntValue((grayId-2) / 5 + 1);
+	}
+	
+	public static ItemClickHandler handleSummonOps = new ItemClickHandler() {
+		@Override
+		public void handle(ItemClickEvent e) {
+			Pouch pouches = Pouch.forId(e.getItem().getId());
+			if (pouches != null) {
+				if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
+					spawnFamiliar(e.getPlayer(), pouches);
+				else
+					e.getPlayer().sendMessage("You need a summoning level of " + pouches.getLevel() + " to summon this familiar.");
+			}
+		}
+	};
+	
+	private static void spawnFamiliar(Player player, Pouch pouch) {
 		if (player.getFamiliar() != null || player.getPet() != null) {
 			player.sendMessage("You already have a follower.");
 			return;
@@ -450,10 +547,10 @@ public class Summoning {
 
 	public static Familiar createFamiliar(Player player, WorldTile tile, Pouch pouch) {
 		try {
-			Class<?> familiarClass = FamiliarAdapter.getFamiliarClass(NPCDefinitions.getDefs(getNPCId(pouch.getRealPouchId())).getName().replace(" ", "").replace("-", "").replace("(", "").replace(")", ""));
-			if (familiarClass == null)
+			if (pouch.clazz == null)
 				return null;
-			return (Familiar) familiarClass.getConstructor(Player.class, Pouch.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, tile, -1, true);
+			pouch
+			return (Familiar) pouch.clazz.getConstructor(Player.class, Pouch.class, WorldTile.class, int.class, boolean.class).newInstance(player, pouch, tile, -1, true);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return null;
@@ -465,54 +562,6 @@ public class Summoning {
 			if (player.getInventory().containsOneItem(pouch.getRealPouchId()))
 				return true;
 		return false;
-	}
-
-	public static final int POUCHES_INTERFACE = 672, SCROLLS_INTERFACE = 666;
-	private static final Animation SCROLL_INFUSIN_ANIMATION = new Animation(723);
-	private static final Animation POUCH_INFUSION_ANIMATION = new Animation(725);
-	private static final SpotAnim POUCH_INFUSION_GRAPHICS = new SpotAnim(1207);
-
-	public static int getScrollId(int id) {
-		return EnumDefinitions.getEnum(1283).getIntValue(id);
-	}
-
-	public static int getRequiredLevel(int id) {
-		return EnumDefinitions.getEnum(1185).getIntValue(id);
-	}
-
-	public static int getNPCId(int id) {
-		return EnumDefinitions.getEnum(1320).getIntValue(id);
-	}
-
-	public static boolean isFamiliar(int npcId) {
-		return EnumDefinitions.getEnum(1320).getValues().containsValue(npcId);
-	}
-
-	public static boolean isFollower(int npcId) {
-		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
-	}
-
-	public static String getRequirementsMessage(int id) {
-		return EnumDefinitions.getEnum(1186).getStringValue(id);
-	}
-
-	public static void openInfusionInterface(Player player) {
-		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
-		player.getPackets().sendPouchInfusionOptionsScript(POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
-		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
-		player.getTempAttribs().setB("infusing_scroll", false);
-	}
-
-	public static void openScrollInfusionInterface(Player player) {
-		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
-		player.getPackets().sendScrollInfusionOptionsScript(SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
-		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
-		player.getTempAttribs().setB("infusing_scroll", true);
-	}
-
-	public static int getPouchId(int grayId) {
-		EnumDefinitions reals = EnumDefinitions.getEnum(1182);
-		return reals.getIntValue((grayId-2) / 5 + 1);
 	}
 
 	public static ButtonClickHandler handlePouchButtons = new ButtonClickHandler(672) {

@@ -23,6 +23,7 @@ import com.rs.game.content.Effect;
 import com.rs.game.content.dialogues_matrix.DismissD;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.summoning.Summoning.Pouch;
+import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -41,27 +42,27 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
-public abstract class Familiar extends NPC {
+public class Familiar extends NPC {
 
 	private transient Player owner;
+	private transient boolean finished = false;
+	
 	private int ticks;
 	private int specialEnergy;
-	private transient boolean finished = false;
 	private boolean trackDrain;
-
 	private BeastOfBurden bob;
 	private Pouch pouch;
 
 	public Familiar(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
-		super(Summoning.getNPCId(pouch.getRealPouchId()), tile, false);
+		super(pouch.getBaseNpc(), tile, false);
 		this.owner = owner;
 		this.pouch = pouch;
 		setIgnoreNPCClipping(true);
 		setBlocksOtherNPCs(false);
 		resetTickets();
 		specialEnergy = 60;
-		if (getBOBSize() > 0)
-			bob = new BeastOfBurden(getBOBSize());
+		if (pouch.getBobSize() > 0)
+			bob = new BeastOfBurden(pouch.getBOBSize());
 		call(true);
 	}
 
@@ -80,7 +81,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public int getOriginalId() {
-		return Summoning.getNPCId(pouch.getRealPouchId());
+		return pouch.getBaseNpc();
 	}
 
 	public void resetTickets() {
@@ -123,7 +124,7 @@ public abstract class Familiar extends NPC {
 				else if (e.getComponentId() == 19 || e.getComponentId() == 10)
 					e.getPlayer().getFamiliar().sendFollowerDetails();
 				else if (e.getComponentId() == 18) {
-					if (e.getPlayer().getFamiliar().getSpecialAttack() == SpecialAttack.CLICK)
+					if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.CLICK)
 						e.getPlayer().getFamiliar().setSpecial(true);
 					if (e.getPlayer().getFamiliar().hasSpecialOn())
 						e.getPlayer().getFamiliar().submitSpecial(e.getPlayer());
@@ -152,13 +153,17 @@ public abstract class Familiar extends NPC {
 			else if (e.getComponentId() == 69)
 				e.getPlayer().getFamiliar().renewFamiliar();
 			else if (e.getComponentId() == 74) {
-				if (e.getPlayer().getFamiliar().getSpecialAttack() == SpecialAttack.CLICK)
+				if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.CLICK)
 					e.getPlayer().getFamiliar().setSpecial(true);
 				if (e.getPlayer().getFamiliar().hasSpecialOn())
 					e.getPlayer().getFamiliar().submitSpecial(e.getPlayer());
 			}
 		}
 	};
+	
+	public Pouch getPouch() {
+		return pouch;
+	}
 
 	private void sendFollow() {
 		if (getLastFaceEntity() != owner.getClientIndex())
@@ -276,10 +281,10 @@ public abstract class Familiar extends NPC {
 		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
 		refreshSpecialEnergy();
 		sendTimeRemaining();
-		owner.getVars().setVarBit(4288, getSpecialAmount());// check
-		owner.getPackets().sendVarcString(204, getSpecialName());
-		owner.getPackets().sendVarcString(205, getSpecialDescription());
-		owner.getPackets().sendVarc(1436, getSpecialAttack() == SpecialAttack.CLICK ? 1 : 0);
+		owner.getVars().setVarBit(4288, pouch.getScroll().getPointCost());// check
+		owner.getPackets().sendVarcString(204, pouch.getScroll().getName());
+		owner.getPackets().sendVarcString(205, pouch.getScroll().getDescription());
+		owner.getPackets().sendVarc(1436, pouch.getScroll().getTarget() == ScrollTarget.CLICK ? 1 : 0);
 		owner.getPackets().sendRunScript(751);
 		sendLeftClickOption(owner);
 		sendOrbTargetParams();
@@ -318,7 +323,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public void sendOrbTargetParams() {
-		switch (getSpecialAttack()) {
+		switch (pouch.getScroll().getTarget()) {
 		case CLICK:
 			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableRightClickOptions(0));
 			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableRightClickOptions(0));
@@ -418,24 +423,8 @@ public abstract class Familiar extends NPC {
 		call(true);
 	}
 
-	public abstract String getSpecialName();
-
-	public abstract String getSpecialDescription();
-
-	public abstract int getBOBSize();
-
-	public abstract int getSpecialAmount();
-
-	public abstract SpecialAttack getSpecialAttack();
-
-	public abstract boolean submitSpecial(Object object);
-
 	public boolean isAgressive() {
-		return true;
-	}
-
-	public static enum SpecialAttack {
-		ITEM, ENTITY, CLICK, OBJECT
+		return pouch.getScroll().getTarget() == ScrollTarget.ENTITY;
 	}
 
 	public BeastOfBurden getBob() {
@@ -457,7 +446,7 @@ public abstract class Familiar extends NPC {
 		if (!on)
 			owner.getTempAttribs().removeB("FamiliarSpec");
 		else {
-			if (specialEnergy < getSpecialAmount()) {
+			if (specialEnergy < pouch.getScroll().getPointCost()) {
 				owner.sendMessage("You familiar doesn't have enough special energy.");
 				return;
 			}
@@ -473,7 +462,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public void drainSpecial() {
-		specialEnergy -= getSpecialAmount();
+		specialEnergy -= pouch.getScroll().getPointCost();
 		refreshSpecialEnergy();
 	}
 

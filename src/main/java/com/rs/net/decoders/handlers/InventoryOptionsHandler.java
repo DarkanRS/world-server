@@ -62,9 +62,8 @@ import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.smithing.GodSwordCreation;
-import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.familiars.Geysertitan;
 import com.rs.game.content.skills.summoning.familiars.Packyak;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.content.world.LightSource;
@@ -590,13 +589,8 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(3))))
 			return;
 		player.stopAll(false);
-		Pouch pouches = Pouch.forId(itemId);
-		if (pouches != null) {
-			if (player.getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
-				Summoning.spawnFamiliar(player, pouches);
-			else
-				player.sendMessage("You need a summoning level of " + pouches.getLevel() + " to summon this familiar.");
-		} else if (itemId == 1438)
+
+		if (itemId == 1438)
 			Runecrafting.locate(player, 3127, 3405);
 		else if (itemId == 1440)
 			Runecrafting.locate(player, 3306, 3474);
@@ -664,7 +658,7 @@ public class InventoryOptionsHandler {
 				ItemConstants.handleRepairs(player, item, false, slot);
 				return;
 			}
-			if (npc instanceof Familiar) {
+			if (npc instanceof Geysertitan) {
 				if (npc.getId() == 7339 || npc.getId() == 7339)
 					if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {
 						for (Item i : player.getInventory().getItems().array()) {
