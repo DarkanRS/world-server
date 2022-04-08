@@ -585,6 +585,7 @@ public class Summoning {
 		boolean infusingScroll = player.getTempAttribs().removeB("infusing_scroll"), hasRequirements = false;
 		ItemDefinitions def = ItemDefinitions.getDefs(pouch.getRealPouchId());
 		List<Item> itemReq = def.getCreateItemRequirements(infusingScroll);
+		System.out.println(itemReq);
 		int level = getRequiredLevel(pouch.getRealPouchId());
 		if (itemReq != null)
 			itemCount: for (int i = 0; i < creationCount; i++) {
