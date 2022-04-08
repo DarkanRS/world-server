@@ -55,7 +55,7 @@ import com.rs.game.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.content.skills.construction.ServantDialogue;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeoneeringTutor;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.thieving.PickPocketAction;
 import com.rs.game.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.content.transportation.TravelMethods;
@@ -334,7 +334,7 @@ public class NPCHandler {
 						player.sendMessage("That isn't your familiar.");
 						return;
 					}
-					player.getFamiliar().store();
+					player.getFamiliar().openInventory();
 				} else if (npc.getDefinitions().hasOption("cure")) {
 					if (player.getFamiliar() != npc) {
 						player.sendMessage("That isn't your familiar.");
@@ -344,7 +344,7 @@ public class NPCHandler {
 						player.sendMessage("Your arent poisoned or diseased.");
 						return;
 					}
-					player.getFamiliar().drainSpecial(2);
+					player.getFamiliar().drainSpec(2);
 					player.addEffect(Effect.ANTIPOISON, Ticks.fromMinutes(2));
 				}
 				return;

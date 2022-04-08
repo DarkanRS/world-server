@@ -374,7 +374,7 @@ public class StealingCreationGameController {
 				clayQuality = index == 9 ? 1 : Integer.parseInt(name.substring(nameIndex).replace("(class ", "").replace(")", ""));
 			score.updateDepositing(((item.getDefinitions().isStackable() ? 1 : 30) * clayQuality) * item.getAmount());
 			if (BOB)
-				player.getFamiliar().getBob().getBeastItems().remove(item);
+				player.getFamiliar().removeItem(item);
 			else
 				player.getInventory().deleteItem(item);
 			World.addGroundItem(item, object);

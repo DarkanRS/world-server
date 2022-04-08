@@ -73,8 +73,8 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringWoodcutting;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.model.entity.Entity;
@@ -532,7 +532,7 @@ public class DungeonController extends Controller {
 				return false;
 			}
 			if (familiar.getDefinitions().hasOption("Take")) {
-				familiar.takeBob();
+				familiar.takeInventory();
 				return false;
 			}
 			return true;

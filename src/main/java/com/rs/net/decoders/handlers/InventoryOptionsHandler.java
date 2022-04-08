@@ -62,9 +62,8 @@ import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.smithing.GodSwordCreation;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
-import com.rs.game.content.skills.summoning.familiars.Geysertitan;
-import com.rs.game.content.skills.summoning.familiars.Packyak;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.content.world.LightSource;
 import com.rs.game.model.entity.ForceTalk;
@@ -480,12 +479,11 @@ public class InventoryOptionsHandler {
 			return true;
 		}
 
-		if (usedId == 12435)
-			if (player.getFamiliar() != null)
-				if (player.getFamiliar() instanceof Packyak) {
-					player.getFamiliar().submitSpecial(toSlot);
-					return true;
-				}
+		if (usedId == 12435 && player.getFamiliarPouch() == Pouch.PACK_YAK) {
+			usedWith.setSlot(usedWith.getSlot());
+			player.getFamiliar().castSpecial(usedWith);
+			return true;
+		}
 
 		if (usedWith.getId() == 946 || used.getId() == 946) {
 			CuttableFruit fruit = CuttableFruit.forId(used.getId());
@@ -658,7 +656,7 @@ public class InventoryOptionsHandler {
 				ItemConstants.handleRepairs(player, item, false, slot);
 				return;
 			}
-			if (npc instanceof Geysertitan) {
+			if (npc instanceof Familiar f && f.getPouch() == Pouch.GEYSER_TITAN) {
 				if (npc.getId() == 7339 || npc.getId() == 7339)
 					if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {
 						for (Item i : player.getInventory().getItems().array()) {

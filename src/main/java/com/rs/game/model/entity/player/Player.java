@@ -87,7 +87,8 @@ import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.slayer.BossTask;
 import com.rs.game.content.skills.slayer.SlayerTaskManager;
 import com.rs.game.content.skills.slayer.TaskMonster;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.world.Musician;
 import com.rs.game.ge.GE;
@@ -354,7 +355,7 @@ public class Player extends Entity {
 	private MusicsManager musicsManager;
 	private EmotesManager emotesManager;
 	private DominionTower dominionTower;
-	private Familiar familiar;
+	private Familiar summFamiliar;
 	private AuraManager auraManager;
 	private PetManager petManager;
 	private BossTask bossTask;
@@ -792,11 +793,11 @@ public class Player extends Entity {
 	public void removeDungItems() {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
-				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().array())
+				if (getFamiliar().getInventory() != null)
+					for (Item item : getFamiliar().getInventory().array())
 						if (item != null)
 							if (ItemConstants.isDungItem(item.getId()))
-								getFamiliar().getBob().getBeastItems().remove(item);
+								getFamiliar().getInventory().remove(item);
 		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isDungItem(item.getId()))
@@ -815,11 +816,11 @@ public class Player extends Entity {
 	public void removeHouseOnlyItems() {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
-				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().array())
+				if (getFamiliar().getInventory() != null)
+					for (Item item : getFamiliar().getInventory().array())
 						if (item != null)
 							if (ItemConstants.isHouseOnlyItem(item.getId()))
-								getFamiliar().getBob().getBeastItems().remove(item);
+								getFamiliar().getInventory().remove(item);
 		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isHouseOnlyItem(item.getId()))
@@ -1294,8 +1295,8 @@ public class Player extends Entity {
 
 		GE.updateOffers(username);
 
-		if (familiar != null)
-			familiar.respawnFamiliar(this);
+		if (summFamiliar != null)
+			summFamiliar.respawn(this);
 		else
 			petManager.init();
 		running = true;
@@ -1360,7 +1361,7 @@ public class Player extends Entity {
 		if (getInventory().containsOneItem(itemIds) || getEquipment().containsOneItem(itemIds))
 			return true;
 		Familiar familiar = getFamiliar();
-		if (familiar != null && ((familiar.getBob() != null && familiar.getBob().containsOneItem(itemIds) || familiar.isFinished())))
+		if (familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished())))
 			return true;
 		return false;
 	}
@@ -1720,8 +1721,8 @@ public class Player extends Entity {
 		house.finish();
 		dungManager.finish();
 		running = false;
-		if (familiar != null && !familiar.isFinished())
-			familiar.dissmissFamiliar(true);
+		if (summFamiliar != null && !summFamiliar.isFinished())
+			summFamiliar.dismiss(true);
 		else if (pet != null)
 			pet.finish();
 		lastLoggedIn = System.currentTimeMillis();
@@ -2255,8 +2256,8 @@ public class Player extends Entity {
 			return;
 		lock(7);
 		stopAll();
-		if (familiar != null)
-			familiar.sendDeath(this);
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(this);
 		WorldTile lastTile = new WorldTile(getTile());
 		if (isAtDynamicRegion())
 			lastTile = getRandomGraveyardTile();
@@ -2878,11 +2879,17 @@ public class Player extends Entity {
 	}
 
 	public Familiar getFamiliar() {
-		return familiar;
+		return summFamiliar;
+	}
+	
+	public Pouch getFamiliarPouch() {
+		if (summFamiliar == null)
+			return null;
+		return summFamiliar.getPouch();
 	}
 
 	public void setFamiliar(Familiar familiar) {
-		this.familiar = familiar;
+		this.summFamiliar = familiar;
 	}
 
 	public int getSummoningLeftClickOption() {
@@ -3233,7 +3240,7 @@ public class Player extends Entity {
 	}
 
 	public boolean hasFamiliar() {
-		return familiar != null;
+		return summFamiliar != null;
 	}
 
 	public double getBonusXpRate() {

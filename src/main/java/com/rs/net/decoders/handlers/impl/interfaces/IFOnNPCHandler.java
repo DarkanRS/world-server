@@ -19,8 +19,7 @@ package com.rs.net.decoders.handlers.impl.interfaces;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
-import com.rs.game.content.skills.summoning.familiars.Familiar.SpecialAttack;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
@@ -60,10 +59,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 			if (player.getFamiliar() == null)
 				return;
 			player.resetWalkSteps();
-			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || packet.getInterfaceId() == 747 && packet.getComponentId() == 18 || packet.getInterfaceId() == 747 && packet.getComponentId() == 24) {
-				if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
-					if (player.getFamiliar().getSpecialAttack() != SpecialAttack.ENTITY)
-						return;
+			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65) || packet.getInterfaceId() == 747 && packet.getComponentId() == 24) {
 				if (npc instanceof Familiar familiar) {
 					if (familiar == player.getFamiliar()) {
 						player.sendMessage("You can't attack your own familiar.");
@@ -78,7 +74,6 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 					player.sendMessage("You can only use your familiar in a multi-zone area.");
 					return;
 				}
-				player.getFamiliar().setSpecial(packet.getInterfaceId() == 662 && packet.getComponentId() == 74 || packet.getInterfaceId() == 747 && packet.getComponentId() == 18);
 				player.getFamiliar().setTarget(npc);
 			}
 			break;

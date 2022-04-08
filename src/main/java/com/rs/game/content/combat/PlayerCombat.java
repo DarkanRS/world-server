@@ -28,8 +28,8 @@ import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
-import com.rs.game.content.skills.summoning.familiars.Steeltitan;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -1556,7 +1556,7 @@ public class PlayerCombat extends PlayerAction {
 				def = Math.floor(defLvl * (defBonus + 64));
 
 				if (!ranging)
-					if (p2.getFamiliar() instanceof Steeltitan)
+					if (p2.getFamiliarPouch() == Pouch.STEEL_TITAN)
 						def *= 1.15;
 			} else {
 				NPC n = (NPC) target;

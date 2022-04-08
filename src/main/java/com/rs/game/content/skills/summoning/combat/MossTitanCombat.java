@@ -14,9 +14,10 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.dungeoneering.npcs.familiars;
+package com.rs.game.content.skills.summoning.combat;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -26,30 +27,41 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
-public class DeathslingerCombat extends CombatScript {
+public class MossTitanCombat extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[] { 11208, 11210, 11212, 11214, 11216, 11218, 11220, 11222, 11224, 11226 };
+		return new Object[] { 7330, 7329 };
 	}
 
 	@Override
 	public int attack(NPC npc, Entity target) {
 		Familiar familiar = (Familiar) npc;
 		boolean usingSpecial = familiar.hasSpecialOn();
-		int tier = (npc.getId() - 11208) / 2;
-
 		int damage = 0;
-		if (usingSpecial) {
-			npc.setNextSpotAnim(new SpotAnim(2447));
-			damage = getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.RANGE) * (1.05 * tier)), AttackStyle.RANGE, target);
-			if (Utils.random(11 - tier) == 0)
-				target.getPoison().makePoisoned(100);
-		} else
-			damage = getMaxHit(npc, AttackStyle.RANGE, target);
-		npc.setNextAnimation(new Animation(13615));
-		World.sendProjectile(npc, target, 2448, 41, 16, 41, 35, 16, 0);
-		delayHit(npc, 2, target, getRangeHit(npc, damage));
+		if (usingSpecial) {// priority over regular attack
+			npc.setNextAnimation(new Animation(8223));
+			npc.setNextSpotAnim(new SpotAnim(1460));
+			for (Entity targets : npc.getPossibleTargets()) {
+				if (targets.equals(target) && !targets.isAtMultiArea())
+					continue;
+				sendSpecialAttack(targets, npc);
+			}
+			sendSpecialAttack(target, npc);
+		} else {
+			damage = getMaxHit(npc, 160, AttackStyle.MELEE, target);
+			npc.setNextAnimation(new Animation(8222));
+			delayHit(npc, 1, target, getMeleeHit(npc, damage));
+		}
 		return npc.getAttackSpeed();
+	}
+
+	public void sendSpecialAttack(Entity target, NPC npc) {
+		if (target.isAtMultiArea() && WildernessController.isAtWild(target.getTile())) {
+			delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 160, AttackStyle.MAGE, target)));
+			World.sendProjectile(npc, target, 1462, 34, 16, 30, 35, 16, 0);
+			if (Utils.getRandomInclusive(3) == 0)// 1/3 chance of being poisioned
+				target.getPoison().makePoisoned(58);
+		}
 	}
 }

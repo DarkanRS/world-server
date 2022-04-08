@@ -19,7 +19,7 @@ package com.rs.game.model.entity.npc.pet;
 import com.rs.game.content.Effect;
 import com.rs.game.content.pet.PetDetails;
 import com.rs.game.content.pet.Pets;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;

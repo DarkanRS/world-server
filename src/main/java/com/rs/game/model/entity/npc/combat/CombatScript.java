@@ -20,7 +20,7 @@ import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.content.combat.AttackType;
 import com.rs.game.content.combat.XPType;
-import com.rs.game.content.skills.summoning.familiars.Steeltitan;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -185,7 +185,7 @@ public abstract class CombatScript {
 			default -> player.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
 			};
 			if (attackStyle == AttackStyle.MELEE)
-				if (player.getFamiliar() instanceof Steeltitan)
+				if (player.getFamiliarPouch() == Pouch.STEEL_TITAN)
 					def *= 1.15;
 		} else {
 			NPC n = (NPC) target;

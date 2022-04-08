@@ -28,7 +28,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -279,15 +279,15 @@ public class Bank {
 		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		Familiar familiar = player.getFamiliar();
-		if (familiar == null || familiar.getBob() == null)
+		if (familiar == null || familiar.getInventory() == null)
 			return;
-		int space = addItems(familiar.getBob().getBeastItems().array(), banking);
+		int space = addItems(familiar.getInventory().array(), banking);
 		if (space != 0) {
 			for (int i = 0; i < space; i++)
-				familiar.getBob().getBeastItems().set(i, null);
-			familiar.getBob().sendInterItems();
+				familiar.getInventory().set(i, null);
+			familiar.sendItemsOnInter();
 		}
-		if (space < familiar.getBob().getBeastItems().getSize()) {
+		if (space < familiar.getInventory().getSize()) {
 			player.sendMessage("Not enough space in your bank.");
 			return;
 		}

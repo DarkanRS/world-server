@@ -25,7 +25,6 @@ import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
@@ -37,7 +36,6 @@ import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.utils.drop.DropList;
 import com.rs.utils.json.ControllerAdapter;
-import com.rs.utils.json.FamiliarAdapter;
 
 public class Test {
 
@@ -47,7 +45,6 @@ public class Test {
 		int numKills = 1000000;
 
 		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
 				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())

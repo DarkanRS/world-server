@@ -33,7 +33,7 @@ import com.rs.game.content.controllers.GodwarsController;
 import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.regions.dungeons.TzHaar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
