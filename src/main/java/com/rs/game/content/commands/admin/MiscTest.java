@@ -41,6 +41,7 @@ import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -121,6 +122,13 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Sets NPCs names to something.", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "unffamiliars", "Spawns all unfinished familiar pouches to bank.", (p, args) -> {
+			for (Pouch pouch : Pouch.values()) {
+				if (pouch.getDespawnAnim() == 0)
+					p.getBank().addItem(new Item(pouch.getRealPouchId(), 1), true);
+			}
 		});
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
