@@ -30,7 +30,7 @@ public class FamiliarSpecs {
 	}
 
 	public static int sunderingStrike(Player owner, Familiar familiar, Entity target, int tier) {
-		familiar.setNextAnimation(new Animation(13617));
+		familiar.setNextAnimation(new Animation(13198));
 		familiar.setNextSpotAnim(new SpotAnim(2444));
 		delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit(AttackStyle.MELEE) * (1.05 * tier)), AttackStyle.MELEE, target)));
 		return Familiar.DEFAULT_ATTACK_SPEED;
@@ -48,6 +48,7 @@ public class FamiliarSpecs {
 	
 	public static boolean glimmer(Player player, Familiar familiar, int amount) {
 		//TODO
+		//13620
 		return false;
 	}
 }
