@@ -40,12 +40,12 @@ public class SteelTitan extends FamiliarCombatScript {
 		} else {
 			switch (Utils.getRandomInclusive(1)) {
 			case 0:
-				npc.setNextAnimation(new Animation(7694));
-				delayHit(npc, World.sendProjectile(npc, target, 1451, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
+				npc.sync(7694, 1451);
+				delayHit(npc, World.sendProjectile(npc, target, 1453, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
 				break;
 			case 1:
-				npc.setNextAnimation(new Animation(8190));
-				delayHit(npc, World.sendProjectile(npc, target, 1445, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
+				npc.sync(8190, 1444);
+				delayHit(npc, World.sendProjectile(npc, target, 1445, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, getRangeHit(npc, getMaxHit(npc, 244, AttackStyle.RANGE, target)));
 				break;
 			}
 		}

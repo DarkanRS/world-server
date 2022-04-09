@@ -1722,7 +1722,7 @@ public class Player extends Entity {
 		dungManager.finish();
 		running = false;
 		if (summFamiliar != null && !summFamiliar.isFinished())
-			summFamiliar.dismiss(true);
+			summFamiliar.finish();
 		else if (pet != null)
 			pet.finish();
 		lastLoggedIn = System.currentTimeMillis();

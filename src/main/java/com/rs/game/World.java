@@ -1448,14 +1448,14 @@ public final class World {
 			for (int i = 0;i <= size;i++) {
 				for (int row = 0; row < size; row++) {
 					WorldTile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
-					if (Settings.getConfig().isDebug()) {
-						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
-							case NORTH -> 2000;
-							case SOUTH -> 2001;
-							case EAST -> 2017;
-							default -> 1999;
-						}), from);
-					}
+//					if (Settings.getConfig().isDebug()) {
+//						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
+//							case NORTH -> 2000;
+//							case SOUTH -> 2001;
+//							case EAST -> 2017;
+//							default -> 1999;
+//						}), from);
+//					}
 					if (!checkWalkStep(from, curr, 1) || (size > 1 && row < (size-1) && !checkWalkStep(from, offset, 1))) {
 						failed = true;
 						break;
@@ -1466,8 +1466,8 @@ public final class World {
 				finalTile = startTile.transform(curr.getDx(), curr.getDy());
 				if (curr.getDx() < 0 || curr.getDy() < 0)
 					finalTile = finalTile.transform(-size+1, -size+1);
-				if (Settings.getConfig().isDebug())
-					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
+//				if (Settings.getConfig().isDebug())
+//					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
 				break;
 			}
 			unchecked.remove(curr);

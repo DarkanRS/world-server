@@ -68,13 +68,14 @@ public class Familiar extends NPC {
 		super(pouch.getBaseNpc(), tile, false);
 		this.owner = owner;
 		this.pouch = pouch;
-		setNextAnimation(new Animation(pouch.getSpawnAnim()));
 		setIgnoreNPCClipping(true);
 		setBlocksOtherNPCs(false);
+		setRun(true);
 		resetTickets();
 		specialEnergy = 60;
 		if (pouch.getBobSize() > 0)
 			inv = new ItemsContainer<>(pouch.getBobSize(), false);
+		anim(pouch.getSpawnAnim());
 		call(true);
 	}
 
@@ -420,7 +421,7 @@ public class Familiar extends NPC {
 	
 	public int executeCombatSpecial(Entity target) {
 		if (pouch.getScroll().getTarget() != ScrollTarget.COMBAT)
-			return -2;
+			return CANCEL_SPECIAL;
 		return pouch.getScroll().attack(owner, this, target);
 	}
 	
@@ -477,8 +478,7 @@ public class Familiar extends NPC {
 			sendTimeRemaining();
 		}
 		if (ticks == 0) {
-			removeFamiliar();
-			dismiss(false);
+			dismiss();
 			return;
 		}
 		int originalId = getOriginalId() + 1;
@@ -621,8 +621,6 @@ public class Familiar extends NPC {
 			removeTarget();
 		WorldTile teleTile = null;
 		teleTile = owner.getNearestTeleTile(getSize());
-		if (login || teleTile != null)
-			WorldTasks.schedule(() -> setNextSpotAnim(new SpotAnim(getDefinitions().size > 1 ? 1315 : 1314)));
 		if (teleTile == null) {
 			if (!sentRequestMoveMessage) {
 				owner.sendMessage("Theres not enough space for your familiar appear.");
@@ -631,21 +629,24 @@ public class Familiar extends NPC {
 			return;
 		}
 		sentRequestMoveMessage = false;
+		spotAnim(getSize() > 1 ? 1315 : 1314);
 		setNextWorldTile(teleTile);
 	}
 
-	public void removeFamiliar() {
-		owner.setFamiliar(null);
+	public void dismiss() {
+		anim(pouch.getDespawnAnim());
+		kill();
+		WorldTasks.schedule(3, () -> finish());
 	}
-
-	public void dismiss(boolean logged) {
-		finish();
-		if (!logged && !isFinished()) {
-			setFinished(true);
-			owner.getPackets().sendRunScript(2471);
-			owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
-			dropInventory();
-		}
+	
+	public void kill() {
+		resetWalkSteps();
+		setCantInteract(true);
+		getCombat().removeTarget();
+		owner.setFamiliar(null);
+		owner.getPackets().sendRunScript(2471);
+		owner.getInterfaceManager().removeSub(Sub.TAB_FOLLOWER);
+		dropInventory();
 	}
 
 	private transient boolean dead;
@@ -655,23 +656,23 @@ public class Familiar extends NPC {
 		if (dead)
 			return;
 		dead = true;
-		removeFamiliar();
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		setCantInteract(true);
 		getCombat().removeTarget();
-		setNextAnimation(null);
+		anim(-1);
+		kill();
 		WorldTasks.schedule(new WorldTask() {
 			int loop;
 
 			@Override
 			public void run() {
 				if (loop == 0) {
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-					owner.sendMessage("Your familiar slowly begins to fade away..");
-					dismiss(false);
-				} else if (loop >= defs.getDeathDelay())
+					anim(defs.getDeathEmote());
+				} else if (loop >= defs.getDeathDelay()) {
 					stop();
+					finish();
+				}
 				loop++;
 			}
 		}, 0, 1);

@@ -166,7 +166,7 @@ public enum Scroll {
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
-	VAMPYRE_TOUCH(12477, ScrollTarget.COMBAT, "Attacks the target and heals the player for 50% of the damage dealt.", 1.5, 4) {
+	VAMPYRE_TOUCH(12447, ScrollTarget.COMBAT, "Attacks the target and heals the player for 50% of the damage dealt.", 1.5, 4) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
@@ -621,8 +621,8 @@ public enum Scroll {
 	STEEL_OF_LEGENDS(12825, ScrollTarget.COMBAT, "Attacks the target with four ranged or melee attacks depending on distance dealing very high damage.", 4.9, 12) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			familiar.setNextAnimation(new Animation(8190));
-			target.setNextSpotAnim(new SpotAnim(1449));
+			familiar.sync(8190, 1449);
+			target.spotAnim(1449);
 			if (!familiar.inMeleeRange(target)) {
 				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
 				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
@@ -895,7 +895,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) { 
 			if (owner.getControllerManager().getController() == null || !(owner.getControllerManager().getController() instanceof StealingCreationController)) {
-				familiar.dismiss(false);
+				familiar.dismiss();
 				return false;
 			}
 			StealingCreationController sc = (StealingCreationController) owner.getControllerManager().getController();
@@ -937,10 +937,6 @@ public enum Scroll {
 
 	public ScrollTarget getTarget() {
 		return target;
-	}
-	
-	public int getScrollId() {
-		return getId();
 	}
 
 	public double getExperience() {
