@@ -142,7 +142,7 @@ public class Lamps {
                     } else if (lamp.getId() == 20960)
                         xpAmt = (lvl * lvl) - (2 * lvl) + 100;
                     else if (lamp.getId() == 2528)
-                        xpAmt = player.getSkills().getLevel(lamp.getSelectedSkill()) * 10;
+                        xpAmt = player.getSkills().getLevelForXp(lamp.getSelectedSkill()) * 10;
                     else if (lamp.getId() == 4447)
                         xpAmt = 1000;
                     double exp = player.getSkills().addXpLamp(lamp.getSelectedSkill(), xpAmt);
