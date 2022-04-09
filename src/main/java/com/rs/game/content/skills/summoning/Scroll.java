@@ -623,16 +623,16 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8190, 1449);
 			target.spotAnim(1449);
-			if (!familiar.inMeleeRange(target)) {
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 3.0)).setSource(familiar.getOwner()));
-			} else {// melee hit
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 3.0)).setSource(familiar.getOwner()));
+			if (familiar.inMeleeRange(target)) {				
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
+			} else {
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}

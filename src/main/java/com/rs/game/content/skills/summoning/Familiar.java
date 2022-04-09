@@ -378,11 +378,12 @@ public class Familiar extends NPC {
 	}
 
 	public void castSpecial(Object target) {
-		if (!hasScroll())
+		if (!hasScroll() || !hasEnergy())
 			return;
 		if (executeSpecial(target)) {
 			owner.setNextAnimation(new Animation(7660));
 			owner.setNextSpotAnim(new SpotAnim(1316));
+			drainSpec();
 			decrementScroll();
 		}
 	}
@@ -407,13 +408,20 @@ public class Familiar extends NPC {
 		return false;
 	}
 	
+	public int getSpecCost() {
+		if (owner.getEquipment().getCapeId() == 19893)
+			return (int) ((double) pouch.getScroll().getPointCost() * 0.80);
+		return pouch.getScroll().getPointCost();
+	}
+	
 	public int castCombatSpecial(Entity target) {
-		if (!isSpecOn() || !hasScroll())
+		if (!isSpecOn() || !hasScroll() || !hasEnergy())
 			return CANCEL_SPECIAL;
 		int spec = executeCombatSpecial(target);
 		if (spec != CANCEL_SPECIAL) {
-			setSpecActive(false);
+			drainSpec();
 			decrementScroll();
+			setSpecActive(false);
 			return spec == DEFAULT_ATTACK_SPEED ? getAttackSpeed() : spec;
 		}
 		return CANCEL_SPECIAL;
@@ -700,20 +708,23 @@ public class Familiar extends NPC {
 		refreshSpecialEnergy();
 	}
 
-	public boolean drainSpec(int specialReduction) {
-		if (specialEnergy < pouch.getScroll().getPointCost()) {
+	public boolean hasEnergy() {
+		if (specialEnergy < getSpecCost()) {
 			owner.sendMessage("Your familiar doesn't have enough special energy.");
 			return false;
 		}
+		return true;
+	}
+	
+	public void drainSpec(int specialReduction) {
 		specialEnergy -= specialReduction;
 		if (specialEnergy < 0)
 			specialEnergy = 0;
 		refreshSpecialEnergy();
-		return true;
 	}
 
-	public boolean drainSpec() {
-		return drainSpec(pouch.getScroll().getPointCost());
+	public void drainSpec() {
+		drainSpec(getSpecCost());
 	}
 
 	public int getSpecialEnergy() {

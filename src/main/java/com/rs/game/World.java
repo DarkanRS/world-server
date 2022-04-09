@@ -421,6 +421,7 @@ public final class World {
 
 	private static int getClipFlagsProj(int plane, int x, int y) {
 		WorldTile tile = new WorldTile(x, y, plane);
+		//World.sendSpotAnim(null, new SpotAnim(2000), tile);
 		Region region = getRegion(tile.getRegionId());
 		if (region == null)
 			return -1;
