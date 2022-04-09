@@ -968,7 +968,7 @@ public class PlayerCombat extends PlayerAction {
 							World.sendSpotAnim(player, new SpotAnim(478), tile);
 							for (Entity entity : getMultiAttackTargets(player, new WorldTile(target.getTile()), 1, 9)) {
 								Hit hit = getMeleeHit(player, getRandomMaxHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25));
-								addXp(player, entity, attackStyle, hit);
+								addXp(player, entity, attackStyle.getXpType(), hit);
 								if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
 									target.getPoison().makePoisoned(48);
 								entity.applyHit(hit);
@@ -1839,7 +1839,7 @@ public class PlayerCombat extends PlayerAction {
 				hitSucc.run();
 		} else if (hitFail != null)
 			hitFail.run();
-		addXp(player, target, attackStyle, hit);
+		addXp(player, target, attackStyle.getXpType(), hit);
 		checkPoison(player, target, weaponId, hit);
 	}
 
@@ -1888,7 +1888,7 @@ public class PlayerCombat extends PlayerAction {
 				}
 	}
 
-	public static void addXp(Player player, Entity target, AttackStyle attackStyle, Hit hit) {
+	public static void addXp(Player player, Entity target, XPType xpType, Hit hit) {
 		double combatXp;
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
 		switch (hit.getLook()) {
@@ -1910,7 +1910,7 @@ public class PlayerCombat extends PlayerAction {
 				break;
 			case MELEE_DAMAGE:
 				combatXp = (damage / 2.5);
-				switch (attackStyle.getXpType()) {
+				switch (xpType) {
 					case ACCURATE:
 						player.getSkills().addXp(Constants.ATTACK, combatXp);
 						break;
@@ -1931,7 +1931,7 @@ public class PlayerCombat extends PlayerAction {
 				break;
 			case RANGE_DAMAGE:
 				combatXp = (damage / 2.5);
-				if (attackStyle.getXpType() == XPType.RANGED_DEFENSIVE) {
+				if (xpType == XPType.RANGED_DEFENSIVE) {
 					player.getSkills().addXp(Constants.RANGE, combatXp / 2);
 					player.getSkills().addXp(Constants.DEFENSE, combatXp / 2);
 				} else

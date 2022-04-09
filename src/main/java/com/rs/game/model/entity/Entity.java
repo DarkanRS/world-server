@@ -34,6 +34,7 @@ import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
@@ -292,6 +293,10 @@ public abstract class Entity {
 		handlePreHit(hit);
 		if (hit.getSource() != null)
 			hit.getSource().handlePreHitOut(this, hit);
+		if (hit.getSource() instanceof Familiar f) {
+			hit.setSource(f.getOwner());
+			PlayerCombat.addXp(f.getOwner(), this, f.getPouch().getXpType(), hit);
+		}
 		if (delay < 0)
 			receivedHits.add(hit);
 		else
