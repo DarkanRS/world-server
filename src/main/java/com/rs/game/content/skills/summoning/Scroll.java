@@ -34,9 +34,9 @@ public enum Scroll {
 	HOWL(12425, ScrollTarget.COMBAT, "Scares non-player opponents, causing them to retreat. However, this lasts for only a few seconds.", 0.1, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			familiar.setNextAnimation(new Animation(8293));
+			familiar.setNextAnimation(new Animation(8294));
 			familiar.setNextSpotAnim(new SpotAnim(1334));
-			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 20, AttackStyle.MAGE, target)));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1333, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 20, AttackStyle.MAGE, target)));
 			if (target instanceof Familiar)
 				familiar.getOwner().sendMessage("Your familiar cannot scare other familiars.");
 			else if (target instanceof Player)

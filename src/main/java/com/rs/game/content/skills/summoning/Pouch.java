@@ -9,7 +9,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.utils.Ticks;
 
 public enum Pouch {
-	SPIRIT_WOLF(6829, 6830, XPType.AGGRESSIVE, 00000, 00000, Scroll.HOWL, 12047, 1, 0.1, 4.8, Ticks.fromMinutes(16), 1),
+	SPIRIT_WOLF(6829, 6830, XPType.AGGRESSIVE, 8298, 8532, Scroll.HOWL, 12047, 1, 0.1, 4.8, Ticks.fromMinutes(16), 1),
 	DREADFOWL(6825, 6826, XPType.AGGRESSIVE, 00000, 00000, Scroll.DREADFOWL_STRIKE, 12043, 4, 0.1, 9.3, Ticks.fromMinutes(16), 1),
 	SPIRIT_SPIDER(6841, 6842, XPType.AGGRESSIVE, 00000, 00000, Scroll.EGG_SPAWN, 12059, 10, 0.2, 12.6, Ticks.fromMinutes(16), 2, true),
 	THORNY_SNAIL(6806, 6807, XPType.AGGRESSIVE, 00000, 00000, Scroll.SLIME_SPRAY, 12019, 13, 0.2, 12.6, Ticks.fromMinutes(16), 2, 3),
