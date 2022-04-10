@@ -290,8 +290,10 @@ public class MiscTest {
 			p.getPackets().setIFAnimation(Integer.valueOf(args[1]), 1184, 11);
 		});
 
-		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev]", "Dialogue box", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev/start_num]", "Dialogue box", (p, args) -> {
 			int idx = p.getTempAttribs().getI("tempDialCheck", 0);
+			if(args[1].matches("[0-9]+"))
+				idx = Integer.valueOf(args[1])+1;
 			int anim = UNIDENTIFIED_ANIMS[idx];
 			p.getInterfaceManager().sendChatBoxInterface(1184);
 			p.getPackets().setIFText(1184, 17, NPCDefinitions.getDefs(Integer.valueOf(args[0])).getName());
