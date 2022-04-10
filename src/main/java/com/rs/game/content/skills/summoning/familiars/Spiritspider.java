@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.summoning.familiars;
 
 import com.rs.game.World;
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -28,7 +28,7 @@ import com.rs.lib.util.Utils;
 
 public class Spiritspider extends Familiar {
 
-	public Spiritspider(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Spiritspider(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(owner, pouch, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
 	}
 

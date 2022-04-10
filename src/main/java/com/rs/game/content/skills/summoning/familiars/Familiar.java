@@ -22,7 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Effect;
 import com.rs.game.content.dialogues_matrix.DismissD;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -50,9 +50,9 @@ public abstract class Familiar extends NPC {
 	private boolean trackDrain;
 
 	private BeastOfBurden bob;
-	private Pouches pouch;
+	private Pouch pouch;
 
-	public Familiar(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Familiar(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(Summoning.getNPCId(pouch.getRealPouchId()), tile, false);
 		this.owner = owner;
 		this.pouch = pouch;
@@ -76,7 +76,7 @@ public abstract class Familiar extends NPC {
 	}
 
 	public boolean canStoreEssOnly() {
-		return pouch == Pouches.ABYSSAL_LURKER || pouch == Pouches.ABYSSAL_PARASITE || pouch == Pouches.ABYSSAL_TITAN;
+		return pouch == Pouch.ABYSSAL_LURKER || pouch == Pouch.ABYSSAL_PARASITE || pouch == Pouch.ABYSSAL_TITAN;
 	}
 
 	public int getOriginalId() {
@@ -214,7 +214,7 @@ public abstract class Familiar extends NPC {
 			call(false);
 			return;
 		}
-		if (!owner.isCanPvp() && getId() == originalId && pouch != Pouches.MAGPIE && pouch != Pouches.IBIS && pouch != Pouches.BEAVER && pouch != Pouches.MACAW && pouch != Pouches.FRUIT_BAT) {
+		if (!owner.isCanPvp() && getId() == originalId && pouch != Pouch.MAGPIE && pouch != Pouch.IBIS && pouch != Pouch.BEAVER && pouch != Pouch.MACAW && pouch != Pouch.FRUIT_BAT) {
 			transformIntoNPC(originalId - 1);
 			call(false);
 			return;
@@ -234,7 +234,7 @@ public abstract class Familiar extends NPC {
 		if (target instanceof Player player)
 			if (!owner.isCanPvp() || !player.isCanPvp() || (owner == target))
 				return false;
-		return !target.isDead() && ((owner.isAtMultiArea() && isAtMultiArea() && target.isAtMultiArea()) || (owner.isForceMultiArea() && target.isForceMultiArea())) && owner.getControllerManager().canAttack(target);
+		return !target.isDead() && (target instanceof NPC n && n.isForceMultiAttacked()) || ((owner.isAtMultiArea() && isAtMultiArea() && target.isAtMultiArea()) || (owner.isForceMultiArea() && target.isForceMultiArea())) && owner.getControllerManager().canAttack(target);
 	}
 
 	public boolean renewFamiliar() {

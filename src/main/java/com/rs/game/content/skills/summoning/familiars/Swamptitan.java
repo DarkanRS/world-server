@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.skills.summoning.familiars;
 
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 
 public class Swamptitan extends Familiar {
 
-	public Swamptitan(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Swamptitan(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(owner, pouch, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
 	}
 

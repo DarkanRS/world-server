@@ -42,11 +42,12 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapRegionsIds().contains(npc.getRegionId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
 			return;
 		player.stopAll(false);
-		if (packet.getInterfaceId() != Inventory.INVENTORY_INTERFACE)
+		if (packet.getInterfaceId() != Inventory.INVENTORY_INTERFACE) {
 			if (!npc.getDefinitions().hasAttackOption()) {
-				player.sendMessage("You can't attack this npc.");
+				player.sendMessage("You can't attack that.");
 				return;
 			}
+		}
 		switch (packet.getInterfaceId()) {
 		case Inventory.INVENTORY_INTERFACE:
 			Item item = player.getInventory().getItem(packet.getSlotId());
