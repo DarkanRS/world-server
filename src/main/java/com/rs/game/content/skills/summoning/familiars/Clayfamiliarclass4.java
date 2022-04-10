@@ -18,7 +18,7 @@ package com.rs.game.content.skills.summoning.familiars;
 
 import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -27,7 +27,7 @@ import com.rs.lib.game.WorldTile;
 
 public class Clayfamiliarclass4 extends Familiar {
 
-	public Clayfamiliarclass4(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Clayfamiliarclass4(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(owner, pouch, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
 	}
 

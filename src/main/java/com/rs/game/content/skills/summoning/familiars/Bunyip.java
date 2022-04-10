@@ -18,7 +18,7 @@ package com.rs.game.content.skills.summoning.familiars;
 
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.fishing.Fish;
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -30,7 +30,7 @@ public class Bunyip extends Familiar {
 
 	private int healTicks = 25;
 
-	public Bunyip(Player owner, Pouches pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Bunyip(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(owner, pouch, tile, mapAreaNameHash, canBeAttackFromOutOfArea);
 	}
 

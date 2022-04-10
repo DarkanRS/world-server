@@ -63,7 +63,7 @@ import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.smithing.GodSwordCreation;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.content.skills.summoning.Summoning.Pouches;
+import com.rs.game.content.skills.summoning.Summoning.Pouch;
 import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.content.skills.summoning.familiars.Packyak;
 import com.rs.game.content.transportation.ItemTeleports;
@@ -590,7 +590,7 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(3))))
 			return;
 		player.stopAll(false);
-		Pouches pouches = Pouches.forId(itemId);
+		Pouch pouches = Pouch.forId(itemId);
 		if (pouches != null) {
 			if (player.getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
 				Summoning.spawnFamiliar(player, pouches);
