@@ -47,6 +47,10 @@ public class NPCCombatDefinitions {
 		SPECIAL, //Ranged special
 		SPECIAL2 //Melee special
 	}
+	
+	public enum Stat {
+		ATTACK, STRENGTH, DEFENSE, RANGE, MAGE
+	}
 
 	public enum AggressiveType {
 		PASSIVE,
