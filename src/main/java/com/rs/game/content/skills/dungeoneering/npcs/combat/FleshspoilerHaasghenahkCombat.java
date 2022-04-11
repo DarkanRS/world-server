@@ -39,7 +39,7 @@ public class FleshspoilerHaasghenahkCombat extends CombatScript {
 
 		for (Entity t : npc.getPossibleTargets())
 			if (WorldUtil.collides(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize()))
-				delayHit(npc, 0, t, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, t)));
+				delayHit(npc, 0, t, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
 		if (boss.isSecondStage())
 			return 0;
 		boolean magicOnly = boss.canUseMagicOnly();
@@ -49,10 +49,10 @@ public class FleshspoilerHaasghenahkCombat extends CombatScript {
 					if (player.getPrayer().isProtectingMage() && Utils.random(3) == 0)
 						boss.setUseMagicOnly(false);
 			npc.setNextAnimation(new Animation(14463));
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 		} else {
 			npc.setNextAnimation(new Animation(13320));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 		}
 		return 6;
 	}

@@ -431,19 +431,19 @@ public class NPC extends Entity {
 	}
 
 	public int getDefenseLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
+		return combatLevels == null ? 0 : combatLevels.get(Skill.DEFENSE);
 	}
 
 	public int getStrengthLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
+		return combatLevels == null ? 0 : combatLevels.get(Skill.STRENGTH);
 	}
 
 	public int getRangeLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
+		return combatLevels == null ? 0 : combatLevels.get(Skill.RANGE);
 	}
 
 	public int getMagicLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
+		return combatLevels == null ? 0 : combatLevels.get(Skill.MAGE);
 	}
 
 	@Override
@@ -694,7 +694,7 @@ public class NPC extends Entity {
 		return getCombatDefinitions().getMaxHit();
 	}
 
-	public int getMaxHit(AttackStyle style) {
+	public int getLevelForStyle(AttackStyle style) {
 		int maxHit = getAttackLevel();
 		if (style == AttackStyle.RANGE)
 			maxHit = getRangeLevel();

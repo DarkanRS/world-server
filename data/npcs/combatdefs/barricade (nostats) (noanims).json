@@ -6,7 +6,7 @@
   "defenceAnim": -1,
   "deathAnim": -1,
   "deathDelay": 0,
-  "respawnDelay": 1,
+  "respawnDelay": 0,
   "hitpoints": 500,
   "maxHit": 0,
   "attackStyle": "SPECIAL",

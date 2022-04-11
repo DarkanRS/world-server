@@ -53,7 +53,7 @@ public class BulwarkBeastCombat extends CombatScript {
 			for (Entity t : targets)
 				if (WorldUtil.isInRange(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0)) {
 					t.setNextSpotAnim(new SpotAnim(2400));
-					delayHit(npc, 1, t, getRegularHit(npc, 1 + Utils.random((int) (npc.getMaxHit(AttackStyle.MELEE) * 0.7))));
+					delayHit(npc, 1, t, getRegularHit(npc, 1 + Utils.random((int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.7))));
 				}
 			return npc.getAttackSpeed();
 		}
@@ -80,12 +80,12 @@ public class BulwarkBeastCombat extends CombatScript {
 			for (Entity t : targets) {
 				World.sendProjectile(npc, t, 2395, 35, 30, 41, 40, 0, 0);
 				t.setNextSpotAnim(new SpotAnim(2396, 75, 0));
-				delayHit(npc, 1, t, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, t)));
+				delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, t)));
 			}
 			break;
 		case 2:
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 			break;
 		}
 		return npc.getAttackSpeed();

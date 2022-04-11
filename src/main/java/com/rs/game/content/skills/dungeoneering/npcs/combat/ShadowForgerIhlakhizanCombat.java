@@ -71,7 +71,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 							for (Player player : forger.getManager().getParty().getTeam()) {
 								if (player.isDead() || player.getX() != tile.getX() || player.getY() != tile.getY())
 									continue;
-								player.applyHit(new Hit(npc, Utils.random(npc.getMaxHit(AttackStyle.RANGE)) + 1, HitLook.RANGE_DAMAGE));
+								player.applyHit(new Hit(npc, Utils.random(npc.getLevelForStyle(AttackStyle.RANGE)) + 1, HitLook.RANGE_DAMAGE));
 							}
 						}
 
@@ -146,14 +146,14 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(2375));
 			World.sendProjectile(npc, target, 2376, 120, 30, 60, 70, 16, 0);
 			target.setNextSpotAnim(new SpotAnim(2377, 120, 0));
-			delayHit(npc, 3, target, getRegularHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 3, target, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			break;
 		case 1:
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			for (Entity t : npc.getPossibleTargets()) {
 				if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 0))
 					continue;
-				delayHit(npc, 0, t, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, t)));
+				delayHit(npc, 0, t, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
 			}
 			break;
 		}

@@ -89,7 +89,7 @@ public class Familiar extends NPC {
 	public static ButtonClickHandler handleInvInter = new ButtonClickHandler(665) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar() == null)
+			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().inv == null || e.getPlayer().getFamiliar().pouch.isForager())
 				return;
 			if (e.getComponentId() == 0)
 				if (e.getPacket() == ClientPacket.IF_OP1)
@@ -110,7 +110,7 @@ public class Familiar extends NPC {
 	public static ButtonClickHandler handleInter = new ButtonClickHandler(671) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar() == null)
+			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().inv == null)
 				return;
 			if (e.getComponentId() == 27) {
 				if (e.getPacket() == ClientPacket.IF_OP1)
@@ -132,9 +132,11 @@ public class Familiar extends NPC {
 		if (inv == null)
 			return;
 		owner.getInterfaceManager().sendInterface(671);
-		owner.getInterfaceManager().sendInventoryInterface(665);
 		sendItemsOnInter();
-		sendInventoryOps();
+		if (!pouch.isForager()) {
+			owner.getInterfaceManager().sendInventoryInterface(665);
+			sendInventoryOps();
+		}
 	}
 	
 	public void dropInventory() {

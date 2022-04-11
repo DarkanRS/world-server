@@ -68,7 +68,7 @@ public class NPCCombatDefinitions {
 	private int attackAnim;
 	private int defenceAnim;
 	private int deathAnim;
-	private int deathDelay;
+	public int deathDelay;
 	public int respawnDelay;
 	private int hitpoints;
 	private int maxHit;

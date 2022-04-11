@@ -99,8 +99,12 @@ public abstract class CombatScript {
 		return new Hit(npc, damage, HitLook.MELEE_DAMAGE);
 	}
 
+	public static int getMaxHitFromAttackStyleLevel(NPC npc, AttackStyle attackType, Entity target) {
+		return getMaxHit(npc, npc.getLevelForStyle(attackType), attackType, target);
+	}
+	
 	public static int getMaxHit(NPC npc, AttackStyle attackType, Entity target) {
-		return getMaxHit(npc, npc.getMaxHit(attackType), attackType, target);
+		return getMaxHit(npc, npc.getMaxHit(), attackType, target);
 	}
 
 	public static int getMaxHit(NPC npc, int maxHit, AttackStyle attackStyle, Entity target) {
