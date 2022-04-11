@@ -1,10 +1,10 @@
 {
-  "names": [
-    "Adamant minotaur"
+  "ids": [
+    6850
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 8112,
+  "defenceAnim": 8114,
+  "deathAnim": 8113,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

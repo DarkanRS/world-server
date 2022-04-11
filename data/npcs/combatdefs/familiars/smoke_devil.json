@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Smoke devil"
+  ],
+  "attackAnim": 7816,
+  "defenceAnim": 7817,
+  "deathAnim": 7818,
+  "deathDelay": 6,
+  "respawnDelay": 39,
+  "hitpoints": 1850,
+  "maxHit": 200,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 140,
+    "RANGE": 195,
+    "STRENGTH": 130,
+    "DEFENSE": 275,
+    "MAGE": 1
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

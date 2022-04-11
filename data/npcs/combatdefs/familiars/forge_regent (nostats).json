@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Forge regent"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7863,
+  "defenceAnim": 7865,
+  "deathAnim": 7864,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

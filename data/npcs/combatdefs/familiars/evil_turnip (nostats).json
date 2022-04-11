@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Evil turnip"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 8248,
+  "defenceAnim": 8249,
+  "deathAnim": 8250,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

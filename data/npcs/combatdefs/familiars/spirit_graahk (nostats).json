@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Spirit graahk"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 5229,
+  "defenceAnim": 5227,
+  "deathAnim": 5230,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

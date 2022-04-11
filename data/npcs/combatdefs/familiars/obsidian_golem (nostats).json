@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Obsidian golem"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 8050,
+  "defenceAnim": 8051,
+  "deathAnim": 8052,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

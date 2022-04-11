@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Karamthulhu overlord"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7963,
+  "defenceAnim": 7962,
+  "deathAnim": 7964,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

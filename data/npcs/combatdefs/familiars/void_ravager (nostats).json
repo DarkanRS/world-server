@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Void ravager"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 8086,
+  "defenceAnim": 8088,
+  "deathAnim": 8087,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

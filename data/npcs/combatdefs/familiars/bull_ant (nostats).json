@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Bull ant"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7896,
+  "defenceAnim": 7900,
+  "deathAnim": 7897,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

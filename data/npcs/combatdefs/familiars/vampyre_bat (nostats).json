@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Vampyre bat"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 4915,
+  "defenceAnim": 4916,
+  "deathAnim": 4917,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,
