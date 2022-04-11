@@ -78,6 +78,8 @@ public enum Effect {
 
 	CHARGED("god charge", false),
 	
+	DUNG_HS_SCROLL_BOOST("hoardstalker boost", true),
+	
 	AGGRESSION_POTION("aggression potion", false),
 
 	BONFIRE("bonfire boost", false) {

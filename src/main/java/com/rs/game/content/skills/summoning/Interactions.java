@@ -565,34 +565,34 @@ public class Interactions {
 		}
 	};
 
-	public static NPCClickHandler handle = new NPCClickHandler(Pouch, new String[]{"Interact"}) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
-				int NPC = e.getNPCId();
-				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
-					e.getPlayer().startConversation(new Dialogue());
-					switch(Utils.random(0, 5)) {
-						case 0-> {
-							e.getPlayer().startConversation(new Dialogue());
-						}
-						case 1-> {
-							e.getPlayer().startConversation(new Dialogue());
-						}
-						case 2-> {
-							e.getPlayer().startConversation(new Dialogue());
-						}
-						case 3-> {
-							e.getPlayer().startConversation(new Dialogue());
-						}
-						case 4-> {
-							e.getPlayer().startConversation(new Dialogue());
-						}
-					}
-					return;
-				}
-				e.getPlayer().startConversation(new Dialogue().addNPC(NPC, HeadE.CAT_CALM_TALK2, ""));
-			}
-		}
-	};
+//	public static NPCClickHandler handle = new NPCClickHandler(Pouch, new String[]{"Interact"}) {
+//		@Override
+//		public void handle(NPCClickEvent e) {
+//			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
+//				int NPC = e.getNPCId();
+//				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
+//					e.getPlayer().startConversation(new Dialogue());
+//					switch(Utils.random(0, 5)) {
+//						case 0-> {
+//							e.getPlayer().startConversation(new Dialogue());
+//						}
+//						case 1-> {
+//							e.getPlayer().startConversation(new Dialogue());
+//						}
+//						case 2-> {
+//							e.getPlayer().startConversation(new Dialogue());
+//						}
+//						case 3-> {
+//							e.getPlayer().startConversation(new Dialogue());
+//						}
+//						case 4-> {
+//							e.getPlayer().startConversation(new Dialogue());
+//						}
+//					}
+//					return;
+//				}
+//				e.getPlayer().startConversation(new Dialogue().addNPC(NPC, HeadE.CAT_CALM_TALK2, ""));
+//			}
+//		}
+//	};
 }

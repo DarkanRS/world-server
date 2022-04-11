@@ -746,4 +746,9 @@ public class Familiar extends NPC {
 	public void setSpecActive(boolean specOn) {
 		this.specOn = specOn;
 	}
+
+	public void forage() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -273,7 +273,7 @@ public enum Scroll {
 	TIRELESS_RUN(12441, ScrollTarget.CLICK, "Restores the player's run energy by half of their agility level. Boosts agility level by 2.", 0.8, 8) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			if (player.getRunEnergy() == 100) {
+			if (player.getRunEnergy() >= 100) {
 				player.sendMessage("This wouldn't effect you at all.");
 				return false;
 			}

@@ -421,7 +421,7 @@ public class DungeonController extends Controller {
 		final Door door = room.getDoor(index);
 		if (door == null || door.getType() != DungeonConstants.SKILL_DOOR)
 			return;
-		if (door.getLevel() > player.getSkills().getLevel(s.getSkillId())) {
+		if (door.getLevel() > (player.getSkills().getLevel(s.getSkillId()) + player.getInvisibleSkillBoost(s.getSkillId()))) {
 			player.sendMessage("You need a " + Constants.SKILL_NAME[s.getSkillId()] + " level of " + door.getLevel() + " to remove this " + object.getDefinitions().getName().toLowerCase() + ".");
 			return;
 		}

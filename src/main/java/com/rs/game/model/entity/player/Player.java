@@ -4258,4 +4258,54 @@ public class Player extends Entity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public int getInvisibleSkillBoost(int skill) {
+		int boost = 0;
+		
+		if (Arrays.stream(Skills.SKILLING).anyMatch(check -> check == skill) && hasEffect(Effect.DUNG_HS_SCROLL_BOOST))
+			boost += getTempAttribs().getI("hsDungScrollTier", 0);
+		
+		switch(skill) {
+		case Skills.WOODCUTTING:
+			if (getFamiliarPouch() == Pouch.BEAVER)
+				boost += 2;
+			break;
+		case Skills.MINING:
+			if (getFamiliarPouch() == Pouch.DESERT_WYRM)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.VOID_RAVAGER)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.OBSIDIAN_GOLEM)
+				boost += 7;
+			else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
+				boost += 10;
+			break;
+		case Skills.FISHING:
+			if (getFamiliarPouch() == Pouch.GRANITE_CRAB)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.IBIS)
+				boost += 3;
+			else if (getFamiliarPouch() == Pouch.GRANITE_LOBSTER)
+				boost += 4;
+			break;
+		case Skills.FIREMAKING:
+			if (getFamiliarPouch() == Pouch.PYRELORD)
+				boost += 3;
+			else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
+				boost += 10;
+			else if (getFamiliarPouch() == Pouch.PHOENIX)
+				boost += 12;
+			break;
+		case Skills.HUNTER:
+			if (getFamiliarPouch() == Pouch.SPIRIT_GRAAHK || getFamiliarPouch() == Pouch.SPIRIT_LARUPIA || getFamiliarPouch() == Pouch.SPIRIT_KYATT)
+				boost += 5;
+			else if (getFamiliarPouch() == Pouch.WOLPERTINGER)
+				boost += 5;
+			else if (getFamiliarPouch() == Pouch.ARCTIC_BEAR)
+				boost += 7;
+			break;
+		}
+		
+		return boost;
+	}
 }

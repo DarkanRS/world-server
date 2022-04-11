@@ -22,6 +22,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
@@ -221,10 +222,8 @@ public class Woodcutting extends PlayerAction {
 
 	@Override
 	public int processWithDelay(Player player) {
-		int level = player.getSkills().getLevel(Constants.WOODCUTTING);
+		int level = player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING);
 		player.faceObject(treeObj);
-		if (player.getFamiliar() != null)
-			level += getSpecialFamiliarBonus(player.getFamiliar().getId());
 		if (type.rollSuccess(player, level, hatchet)) {
 			giveLog(player, type, usingBeaver);
 			if (!type.isPersistent() || (Utils.random(8) == 0)) {
@@ -330,12 +329,5 @@ public class Woodcutting extends PlayerAction {
 	@Override
 	public void stop(Player player) {
 		setActionDelay(player, 4);
-	}
-
-	public static int getSpecialFamiliarBonus(int id) {
-		switch (id) {
-
-		}
-		return 0;
 	}
 }
