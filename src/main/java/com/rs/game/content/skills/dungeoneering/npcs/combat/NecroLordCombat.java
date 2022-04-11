@@ -79,7 +79,7 @@ public class NecroLordCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(14209));
 			npc.setNextSpotAnim(new SpotAnim(2716));
 			World.sendProjectile(npc, target, 2721, 38, 18, 50, 50, 0, 0);
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			target.setNextSpotAnim(new SpotAnim(2726, 75, 80));
 			break;
 		case 2:

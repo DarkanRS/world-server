@@ -61,9 +61,9 @@ public class SagittareCombat extends CombatScript {
 					continue;
 				World.sendProjectile(npc, t, attack == 0 ? 2533 : 2535, 65, 50, 54, 35, 5, 0);
 				if (attack == 0)
-					delayHit(npc, 1, t, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, t)));
+					delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, t)));
 				else
-					delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, t)));
+					delayHit(npc, 1, t, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t)));
 			}
 			break;
 		case 3:// Bind attacks
@@ -81,10 +81,10 @@ public class SagittareCombat extends CombatScript {
 				if (isMagicAttack) {
 					if (!player.getPrayer().isProtectingMage())
 						bindTarget = true;
-					delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, t)));
+					delayHit(npc, 1, t, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t)));
 				} else {
 					bindTarget = Utils.random(2) == 0;// 50/50
-					delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, t)));
+					delayHit(npc, 1, t, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t)));
 				}
 				if (bindTarget) {
 					player.freeze(8);

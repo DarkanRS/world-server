@@ -55,7 +55,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 		for (Entity t : npc.getPossibleTargets())
 			if (WorldUtil.collides(t.getX(), t.getY(), t.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				trample = true;
-				delayHit(npc, 0, t, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, t)));
+				delayHit(npc, 0, t, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
 				if (t instanceof Player player)
 					player.sendMessage("The beast tramples you.");
 			}
@@ -123,20 +123,20 @@ public class RuneboundBehemothCombat extends CombatScript {
 		switch (attack) {
 		case 0://melee
 			boss.setNextAnimation(new Animation(14423));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 			break;
 		case 1://green exploding blob attack (magic)
 			boss.setNextAnimation(new Animation(14427));
 			//boss.setNextGraphics(new Graphics(2413));
 			World.sendProjectile(npc, target, 2414, 41, 16, 50, 40, 0, 0);
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			target.setNextSpotAnim(new SpotAnim(2417, 80, 0));
 			break;
 		case 2://green blob attack (range)
 			boss.setNextAnimation(new Animation(14424));
 			boss.setNextSpotAnim(new SpotAnim(2394));
 			World.sendProjectile(npc, target, 2395, 41, 16, 50, 40, 0, 2);
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
+			delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			target.setNextSpotAnim(new SpotAnim(2396, 80, 0));
 			break;
 		}

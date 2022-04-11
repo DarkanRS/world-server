@@ -51,14 +51,14 @@ public class AsteaFrostwebCombat extends CombatScript {
 			List<Entity> possibleTargets = npc.getPossibleTargets();
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			for (Entity t : possibleTargets)
-				delayHit(npc, 1, t, new Hit(npc, Utils.random((int) (npc.getMaxHit(AttackStyle.MAGE) * 0.5) + 1), HitLook.TRUE_DAMAGE));
+				delayHit(npc, 1, t, new Hit(npc, Utils.random((int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.5) + 1), HitLook.TRUE_DAMAGE));
 			return npc.getAttackSpeed();
 		}
 		int attackStyle = Utils.random(2);
 		if (attackStyle == 1) {
 			if (Utils.getDistance(npc.getX(), npc.getY(), target.getX(), target.getY()) <= 1) { // melee
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
 			attackStyle = 0;
@@ -67,7 +67,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 			List<Entity> possibleTargets = npc.getPossibleTargets();
 
-			int d = getMaxHit(npc, AttackStyle.MAGE, target);
+			int d = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 1, target, getMagicHit(npc, d));
 			if (d != 0) {
 				WorldTasks.schedule(new WorldTask() {
@@ -83,7 +83,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 				}, 1);
 				for (final Entity t : possibleTargets)
 					if (t != target && t.withinDistance(target.getTile(), 2)) {
-						int damage = getMaxHit(npc, AttackStyle.MAGE, t);
+						int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t);
 						delayHit(npc, 1, t, getMagicHit(npc, damage));
 						if (damage != 0)
 							WorldTasks.schedule(new WorldTask() {
