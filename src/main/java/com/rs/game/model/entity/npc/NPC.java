@@ -55,7 +55,6 @@ import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.game.model.item.ItemsContainer;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -379,18 +378,14 @@ public class NPC extends Entity {
 	 * @param ticks
 	 */
 	public void finishAfterTicks(final int ticks) {
-		WorldTasks.schedule(new WorldTask() {
-			int tick;
-			@Override
-			public void run() {
-				if (tick == ticks) {
-					if (!hasFinished())
-						finish();
-					stop();
-				}
-				tick++;
+		WorldTasks.scheduleTimer(tick -> {
+			if (tick == ticks) {
+				if (!hasFinished())
+					finish();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public void setRespawnTask(int time) {
@@ -463,27 +458,22 @@ public class NPC extends Entity {
 		}
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					if (source instanceof Player player)
-						player.getControllerManager().processNPCDeath(NPC.this);
-					drop();
-					reset();
-					getTile().setLocation(respawnTile);
-					finish();
-					if (!isSpawned())
-						setRespawnTask();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				if (source instanceof Player player)
+					player.getControllerManager().processNPCDeath(NPC.this);
+				drop();
+				reset();
+				getTile().setLocation(respawnTile);
+				finish();
+				if (!isSpawned())
+					setRespawnTask();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public void drop(Player killer) {

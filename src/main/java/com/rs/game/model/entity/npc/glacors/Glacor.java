@@ -177,25 +177,20 @@ public class Glacor extends NPC {
 		getCombat().removeTarget();
 		setNextAnimation(null);
 		deathReset();
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					resetNpcs();
-					drop();
-					reset();
-					setLocation(getRespawnTile());
-					finish();
-					setRespawnTask();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				resetNpcs();
+				drop();
+				reset();
+				setLocation(getRespawnTile());
+				finish();
+				setRespawnTask();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	@Override

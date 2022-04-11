@@ -68,19 +68,14 @@ public class Splatter extends PestMonsters {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					sendExplosion();
-				else if (loop >= defs.getDeathDelay()) {
-					reset();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				sendExplosion();
+			else if (loop >= defs.getDeathDelay()) {
+				reset();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 }
