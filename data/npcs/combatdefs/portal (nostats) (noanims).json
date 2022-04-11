@@ -6,7 +6,7 @@
   "defenceAnim": -1,
   "deathAnim": -1,
   "deathDelay": 0,
-  "respawnDelay": 119,
+  "respawnDelay": 59,
   "hitpoints": 2000,
   "maxHit": 240,
   "attackStyle": "MELEE",

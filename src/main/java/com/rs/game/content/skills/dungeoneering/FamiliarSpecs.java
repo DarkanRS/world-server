@@ -25,7 +25,7 @@ public class FamiliarSpecs {
 	}
 
 	public static int poisonousShot(Player owner, Familiar familiar, Entity target, int tier) {
-		familiar.setNextAnimation(new Animation(13615));
+		familiar.setNextAnimation(new Animation(13203));
 		familiar.setNextSpotAnim(new SpotAnim(2447));
 		delayHit(familiar, World.sendProjectile(familiar, target, 2448, 41, 16, 41, 2.0, 16, 0).getTaskDelay(), target, getRangeHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit(AttackStyle.RANGE) * (1.05 * tier)), AttackStyle.RANGE, target, 1.5)), () -> target.getPoison().makePoisoned(18+tier));
 		return Familiar.DEFAULT_ATTACK_SPEED;
