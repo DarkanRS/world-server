@@ -2,9 +2,9 @@
   "names": [
     "Abyssal lurker"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 2019,
+  "defenceAnim": 2020,
+  "deathAnim": 2021,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

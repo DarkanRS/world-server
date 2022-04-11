@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Ravenous locust"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7994,
+  "defenceAnim": 7995,
+  "deathAnim": 7996,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Spirit jelly"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 8569,
+  "defenceAnim": 8571,
+  "deathAnim": 8570,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

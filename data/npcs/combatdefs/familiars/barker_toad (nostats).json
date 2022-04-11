@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Barker toad"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7260,
+  "defenceAnim": 7257,
+  "deathAnim": 7256,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

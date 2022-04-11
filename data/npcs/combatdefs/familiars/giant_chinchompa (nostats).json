@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Giant chinchompa"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7755,
+  "defenceAnim": 7753,
+  "deathAnim": 7758,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

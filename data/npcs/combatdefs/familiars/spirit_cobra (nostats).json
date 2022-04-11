@@ -1,10 +1,10 @@
 {
   "names": [
-    "Adamant minotaur"
+    "Spirit cobra"
   ],
-  "attackAnim": 8024,
-  "defenceAnim": 8023,
-  "deathAnim": 8025,
+  "attackAnim": 7795,
+  "defenceAnim": 7796,
+  "deathAnim": 7797,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,
