@@ -649,39 +649,39 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 1); }
 	},
-	SUNDERING_STRIKE_2(18028, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_2(18028, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 2 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 2); }
 	},
-	SUNDERING_STRIKE_3(18029, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_3(18029, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 3 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 3); }
 	},
-	SUNDERING_STRIKE_4(18030, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_4(18030, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 4 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 4); }
 	},
-	SUNDERING_STRIKE_5(18031, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_5(18031, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 5 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 5); }
 	},
-	SUNDERING_STRIKE_6(18032, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_6(18032, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 6 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 6); }
 	},
-	SUNDERING_STRIKE_7(18033, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_7(18033, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 7 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 7); }
 	},
-	SUNDERING_STRIKE_8(18034, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_8(18034, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 8 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 8); }
 	},
-	SUNDERING_STRIKE_9(18035, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_9(18035, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 9 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 9); }
 	},
-	SUNDERING_STRIKE_10(18036, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 1 for every 20 points of damage dealt.", 0.0, 6) {
+	SUNDERING_STRIKE_10(18036, ScrollTarget.COMBAT, "Fires a 50% more accurate attack that reduces the target's defense by 10 for every 20 points of damage dealt.", 0.0, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) { return FamiliarSpecs.sunderingStrike(owner, familiar, target, 10); }
 	},

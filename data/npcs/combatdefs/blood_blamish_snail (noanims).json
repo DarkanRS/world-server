@@ -2,26 +2,26 @@
   "names": [
     "Blood Blamish Snail"
   ],
-  "hitpoints": 100,
   "attackAnim": 8143,
   "defenceAnim": 8145,
   "deathAnim": 8144,
   "deathDelay": 3,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
+  "hitpoints": 100,
   "maxHit": 30,
   "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 0,
+    "RANGE": 12,
+    "STRENGTH": 0,
+    "DEFENSE": 45,
+    "MAGE": 1
+  },
+  "attackRange": 0,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "aggroDistance": -1,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": 0,
-  "levels": [
-    0,
-    45,
-    0,
-    12,
-    1
-  ]
+  "maxDistFromSpawn": -1
 }

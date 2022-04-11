@@ -94,32 +94,21 @@ public class HoleInTheWall extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					setNPC(2058);
-					drop();
-					reset();
-					setLocation(getRespawnTile());
-					finish();
-					WorldTasks.schedule(new WorldTask() {
-
-						@Override
-						public void run() {
-							hasGrabbed = false;
-						}
-					}, 8);
-					spawn();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				setNPC(2058);
+				drop();
+				reset();
+				setLocation(getRespawnTile());
+				finish();
+				WorldTasks.schedule(8, () -> hasGrabbed = false);
+				spawn();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(2058) {

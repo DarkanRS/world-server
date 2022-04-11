@@ -2,27 +2,27 @@
   "names": [
     "Steel dragon"
   ],
-  "hitpoints": 2100,
   "attackAnim": 13158,
   "defenceAnim": 13163,
   "deathAnim": 13159,
   "deathDelay": 3,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
+  "hitpoints": 2100,
   "maxHit": 225,
   "attackStyle": "SPECIAL",
+  "attackBonus": "SLASH_ATT",
+  "combatLevels": {
+    "ATTACK": 215,
+    "RANGE": 1,
+    "STRENGTH": 215,
+    "DEFENSE": 215,
+    "MAGE": 100
+  },
+  "attackRange": 8,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "attackBonus": "SLASH_ATT",
   "aggroDistance": 8,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": 8,
-  "levels": [
-    215,
-    215,
-    215,
-    1,
-    100
-  ]
+  "maxDistFromSpawn": -1
 }

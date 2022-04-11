@@ -2,26 +2,26 @@
   "ids": [
     3767
   ],
-  "hitpoints": 270,
   "attackAnim": 3920,
   "defenceAnim": 3921,
   "deathAnim": 3922,
   "deathDelay": 4,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
+  "hitpoints": 270,
   "maxHit": 60,
   "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 0,
+    "RANGE": 85,
+    "STRENGTH": 0,
+    "DEFENSE": 41,
+    "MAGE": 0
+  },
+  "attackRange": -1,
   "attackGfx": 657,
   "attackProjectile": 656,
   "agressivenessType": "AGGRESSIVE",
   "aggroDistance": -1,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": -1,
-  "levels": [
-    0,
-    41,
-    0,
-    85,
-    0
-  ]
+  "maxDistFromSpawn": -1
 }

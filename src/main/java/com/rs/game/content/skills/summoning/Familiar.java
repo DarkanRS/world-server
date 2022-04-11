@@ -31,7 +31,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -670,20 +669,15 @@ public class Familiar extends NPC {
 		getCombat().removeTarget();
 		anim(-1);
 		kill();
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0) {
-					anim(defs.getDeathEmote());
-				} else if (loop >= defs.getDeathDelay()) {
-					stop();
-					finish();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0) {
+				anim(defs.getDeathEmote());
+			} else if (loop >= defs.getDeathDelay()) {
+				finish();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public void respawn(Player owner) {
