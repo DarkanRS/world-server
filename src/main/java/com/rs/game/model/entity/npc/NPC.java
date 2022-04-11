@@ -17,7 +17,9 @@
 package com.rs.game.model.entity.npc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,6 +44,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombat;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
@@ -75,7 +78,7 @@ public class NPC extends Entity {
 	private int id;
 	private WorldTile respawnTile;
 	private boolean randomWalk;
-	private int[] levels;
+	private Map<Skill, Integer> combatLevels;
 	private boolean spawned;
 	private transient NPCCombat combat;
 	private transient boolean blocksOtherNPCs = true;
@@ -142,7 +145,7 @@ public class NPC extends Entity {
 		}
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
 		combat = new NPCCombat(this);
 		capDamage = -1;
 		lureDelay = 12000;
@@ -186,7 +189,7 @@ public class NPC extends Entity {
 	}
 
 	public void resetLevels() {
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
 	}
 
 	public void transformIntoNPC(int id) {
@@ -201,11 +204,11 @@ public class NPC extends Entity {
 	public void setNPC(int id) {
 		this.id = id;
 		size = getDefinitions().size;
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
 	}
 
-	public void setLevels(int[] levels) {
-		this.levels = levels;
+	public void setLevels(Map<Skill, Integer> levels) {
+		this.combatLevels = levels;
 	}
 
 	public void resetDirection() {
@@ -354,7 +357,7 @@ public class NPC extends Entity {
 		getInteractionManager().forceStop();
 		setFaceAngle(getRespawnDirection());
 		combat.reset();
-		levels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
 		forceWalk = null;
 	}
 
@@ -429,23 +432,23 @@ public class NPC extends Entity {
 	}
 
 	public int getAttackLevel() {
-		return levels == null ? 0 : levels[0];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
 	}
 
 	public int getDefenseLevel() {
-		return levels == null ? 0 : levels[1];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
 	}
 
 	public int getStrengthLevel() {
-		return levels == null ? 0 : levels[2];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
 	}
 
 	public int getRangeLevel() {
-		return levels == null ? 0 : levels[3];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
 	}
 
 	public int getMagicLevel() {
-		return levels == null ? 0 : levels[4];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
 	}
 
 	@Override
@@ -711,48 +714,62 @@ public class NPC extends Entity {
 	}
 
 	public void lowerDefense(float multiplier) {
-		lowerStat(NPCCombatDefinitions.DEFENSE, multiplier);
+		lowerStat(Skill.DEFENSE, multiplier);
 	}
 
 	public void lowerDefense(int drain) {
-		lowerStat(NPCCombatDefinitions.DEFENSE, drain);
+		lowerStat(Skill.DEFENSE, drain);
 	}
 
 	public void lowerAttack(float multiplier) {
-		lowerStat(NPCCombatDefinitions.ATTACK, multiplier);
+		lowerStat(Skill.ATTACK, multiplier);
 	}
 
 	public void lowerAttack(int drain) {
-		lowerStat(NPCCombatDefinitions.ATTACK, drain);
+		lowerStat(Skill.ATTACK, drain);
 	}
 
 	public void lowerStrength(float multiplier) {
-		lowerStat(NPCCombatDefinitions.STRENGTH, multiplier);
+		lowerStat(Skill.STRENGTH, multiplier);
 	}
 
 	public void lowerStrength(int drain) {
-		lowerStat(NPCCombatDefinitions.STRENGTH, drain);
+		lowerStat(Skill.STRENGTH, drain);
 	}
 
 	public void lowerMagic(float multiplier) {
-		lowerStat(NPCCombatDefinitions.MAGIC, multiplier);
+		lowerStat(Skill.MAGE, multiplier);
 	}
 
 	public void lowerMagic(int drain) {
-		lowerStat(NPCCombatDefinitions.MAGIC, drain);
+		lowerStat(Skill.MAGE, drain);
+	}
+	
+	public int getStat(Skill skill) {
+		if (combatLevels == null)
+			return 0;
+		Integer level = combatLevels.get(skill);
+		if (level == null)
+			return 0;
+		return level;
+	}
+	
+	public void setStat(Skill skill, int level) {
+		if (combatLevels == null)
+			combatLevels = new HashMap<>();
+		if (level < 0)
+			level = 0;
+		combatLevels.put(skill, level);
 	}
 
-	public void lowerStat(int stat, float multiplier) {
-		if (levels != null)
-			levels[NPCCombatDefinitions.DEFENSE] -= levels[NPCCombatDefinitions.DEFENSE] * multiplier;
+	public void lowerStat(Skill stat, float multiplier) {
+		if (combatLevels != null)
+			setStat(stat, (int) (getStat(stat) - (getStat(stat) * multiplier)));
 	}
 
-	public void lowerStat(int stat, int levelDrain) {
-		if (levels != null) {
-			levels[NPCCombatDefinitions.DEFENSE] -= levelDrain;
-			if (levels[NPCCombatDefinitions.DEFENSE] < 0)
-				levels[NPCCombatDefinitions.DEFENSE] = 0;
-		}
+	public void lowerStat(Skill stat, int levelDrain) {
+		if (combatLevels != null)
+			setStat(stat, (int) getStat(stat) - levelDrain);
 	}
 
 	public int getBonus(Bonus bonus) {

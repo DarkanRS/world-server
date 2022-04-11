@@ -7,10 +7,14 @@
   "defenceAnim": 16779,
   "deathAnim": 16778,
   "deathDelay": 3,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
   "maxHit": 210,
   "attackStyle": "MAGE",
   "attackGfx": 3162,
   "attackProjectile": 3164,
-  "agressivenessType": "PASSIVE"
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1
 }

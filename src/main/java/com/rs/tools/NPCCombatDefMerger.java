@@ -26,7 +26,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.lib.file.JsonFileManager;
@@ -61,7 +60,9 @@ public class NPCCombatDefMerger {
 
 		for (File file : ORIGINAL.keySet()) {
 			NPCCombatDefinitions def = ORIGINAL.get(file);
-			
+
+			JsonFileManager.saveJsonFile(def, file);
+			System.out.println("Processed: " + file);
 		}
 	}
 

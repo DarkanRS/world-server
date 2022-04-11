@@ -7,13 +7,21 @@
   "defenceAnim": 16101,
   "deathAnim": 16103,
   "deathDelay": 4,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
   "maxHit": 460,
   "attackStyle": "MELEE",
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "levels": [
-  	320, 185, 100, 0, 80
-  ]
+  "combatLevels": {
+    "ATTACK": 320,
+    "RANGE": 0,
+    "STRENGTH": 100,
+    "DEFENSE": 185,
+    "MAGE": 80
+  },
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1
 }

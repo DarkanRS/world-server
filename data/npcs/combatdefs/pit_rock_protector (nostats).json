@@ -7,10 +7,14 @@
   "defenceAnim": 12194,
   "deathAnim": 12199,
   "deathDelay": 3,
-  "respawnDelay": 240,
+  "respawnDelay": 479,
   "maxHit": 120,
   "attackStyle": "MELEE",
   "attackGfx": -1,
   "attackProjectile": -1,
-  "agressivenessType": "AGGRESSIVE"
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1
 }

@@ -7,17 +7,21 @@
   "defenceAnim": 12251,
   "deathAnim": 12250,
   "deathDelay": 3,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
   "maxHit": 182,
   "attackStyle": "SPECIAL",
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "levels": [
-    268,
-    168,
-    168,
-    0,
-    168
-  ]
+  "combatLevels": {
+    "ATTACK": 268,
+    "RANGE": 0,
+    "STRENGTH": 168,
+    "DEFENSE": 168,
+    "MAGE": 168
+  },
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1
 }

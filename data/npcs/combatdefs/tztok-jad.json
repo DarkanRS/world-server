@@ -14,15 +14,15 @@
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
   "attackBonus": "STAB_ATT",
+  "combatLevels": {
+    "ATTACK": 640,
+    "RANGE": 960,
+    "STRENGTH": 960,
+    "DEFENSE": 480,
+    "MAGE": 480
+  },
   "aggroDistance": -1,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1,
-  "attackRange": -1,
-  "levels": [
-    640,
-    480,
-    960,
-    960,
-    480
-  ]
+  "attackRange": -1
 }

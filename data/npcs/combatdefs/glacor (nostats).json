@@ -7,10 +7,14 @@
   "defenceAnim": 9962,
   "deathAnim": 9961,
   "deathDelay": 1,
-  "respawnDelay": 60,
+  "respawnDelay": 119,
   "maxHit": 260,
   "attackStyle": "SPECIAL",
   "attackGfx": -1,
   "attackProjectile": -1,
-  "agressivenessType": "PASSIVE"
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": -1,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1,
+  "attackRange": -1
 }

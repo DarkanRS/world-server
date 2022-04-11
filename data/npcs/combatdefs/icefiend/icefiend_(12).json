@@ -7,21 +7,21 @@
   "defenceAnim": 8079,
   "deathAnim": 8078,
   "deathDelay": 3,
-  "respawnDelay": 40,
+  "respawnDelay": 79,
   "maxHit": 20,
   "attackStyle": "MAGE",
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
+  "combatLevels": {
+    "ATTACK": 10,
+    "RANGE": 1,
+    "STRENGTH": 10,
+    "DEFENSE": 12,
+    "MAGE": 1
+  },
   "aggroDistance": -1,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1,
-  "attackRange": -1,
-  "levels": [
-    10,
-    12,
-    10,
-    1,
-    1
-  ]
+  "attackRange": -1
 }
