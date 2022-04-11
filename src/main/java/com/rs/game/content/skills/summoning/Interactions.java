@@ -18,6 +18,7 @@ public class Interactions {
 		player.sendMessage("This isn't your familiar");
 		return false;
 	}
+
 	private static boolean canTalkToFamiliar(Player player, Familiar familiar) {
 		return player.getSkills().getLevelForXp(Skills.SUMMONING) >= familiar.getPouch().getLevel() + 10;
 	}
@@ -449,5 +450,149 @@ public class Interactions {
 		}
 	};
 
+	public static NPCClickHandler handleSpiritTzKih = new NPCClickHandler(Pouch.SPIRIT_TZ_KIH.getIdKeys(), new String[]{"Interact"}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
+				int NPC = e.getNPCId();
+				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
+					if(e.getPlayer().containsOneItem(139, 141, 143, 2434)) {
+						e.getPlayer().startConversation(new Dialogue()
+								.addNPC(NPC, HeadE.CAT_CALM_TALK2, "You drink pray, me drink pray.")
+								.addPlayer(HeadE.HAPPY_TALKING, "What's that, Tz-Kih?")
+								.addNPC(NPC, HeadE.CAT_CALM_TALK2, "You got pray pray pot. Tz-Kih drink pray pray you, you drink pray pray pot.")
+								.addPlayer(HeadE.HAPPY_TALKING, "You want to drink my Prayer points?")
+								.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Yes. Pray pray.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Err, not right now, Tz-Kih. I, er, need them myself.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Sorry.")
+								.addNPC(NPC, HeadE.CAT_CALM_TALK2, "But, pray praaaay...?")
+						);
+						return;
+					}
 
+					switch(Utils.random(0, 4)) {
+						case 0-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "How's it going, Tz-kih?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Pray pray?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Don't start with all that again.")
+									.addPlayer(HeadE.HAPPY_TALKING, "Hmph, silly JalYt.")
+							);
+						}
+						case 1-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Does JalYt think Tz-kih as strong as Jad Jad?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Are you as strong as TzTok-Jad? Yeah, sure, why not.")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Really? Thanks, JalYt. Tz-Kih strong and happy.")
+							);
+						}
+						case 2-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Have you heard of blood bat, JalYt?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Blood bats? You mean vampire bats?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Yes. Blood bat.")
+									.addPlayer(HeadE.HAPPY_TALKING, "Yes, I've heard of them. What about them?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Tz-Kih like blood bat, but drink pray pray not blood blood. Blood blood is yuck.")
+									.addPlayer(HeadE.HAPPY_TALKING, "Thanks, Tz-Kih, that's nice to know.")
+							);
+						}
+						case 3-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Pray pray pray pray pray pray pray pray!")
+									.addPlayer(HeadE.HAPPY_TALKING, "Calm down, Tz-Kih, we'll find you something to drink soon.")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Pray praaaaaaaaaaaaaay!")
+									.addPlayer(HeadE.HAPPY_TALKING, "Okay, okay. Calm down!")
+							);
+						}
+					}
+					return;
+				}
+				e.getPlayer().startConversation(new Dialogue().addNPC(NPC, HeadE.CAT_CALM_TALK2, "Chirp chirp!"));
+			}
+		}
+	};
+
+	public static NPCClickHandler handleAlbinoRat = new NPCClickHandler(Pouch.ALBINO_RAT.getIdKeys(), new String[]{"Interact"}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
+				int NPC = e.getNPCId();
+				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
+					switch(Utils.random(0, 4)) {
+						case 0-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Hey boss, we going to do anything wicked today?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Well, I don't know why we would: I tend not to go around being wicked.")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Not even a little?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Well there was that one time... I'm sorry, no wickedness today.")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Awwwwww...")
+							);
+						}
+						case 1-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Hey boss, can we go and loot something now?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Well, what did you have in mind?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "I dunno - where are we headed?")
+									.addPlayer(HeadE.HAPPY_TALKING, "I hadn't decided yet.")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "When we get there, let's loot something nearby!")
+									.addPlayer(HeadE.HAPPY_TALKING, "Sounds like a plan, certainly.")
+							);
+						}
+						case 2-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "So what we up to today, boss?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Oh I'm sure we'll find something to occupy our time.")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Let's go robbin' graves again!")
+									.addPlayer(HeadE.HAPPY_TALKING, "What do you mean 'again'?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Nuffin'...")
+							);
+						}
+						case 3-> {
+							e.getPlayer().startConversation(new Dialogue()
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "You know, boss, I don't think you're totally into this whole 'evil' thing.")
+									.addPlayer(HeadE.HAPPY_TALKING, "I wonder what gave you that impression?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Well, I worked with a lot of evil people; some of the best.")
+									.addPlayer(HeadE.HAPPY_TALKING, "Such as?")
+									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "I'm not telling! I've got my principles to uphold.")
+									.addPlayer(HeadE.HAPPY_TALKING, "There is honour amongst thieves, it would seem.")
+							);
+						}
+					}
+					return;
+				}
+				e.getPlayer().startConversation(new Dialogue().addNPC(NPC, HeadE.CAT_CALM_TALK2, "Reeeeee!"));
+			}
+		}
+	};
+
+	public static NPCClickHandler handle = new NPCClickHandler(Pouch, new String[]{"Interact"}) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
+				int NPC = e.getNPCId();
+				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
+					e.getPlayer().startConversation(new Dialogue());
+					switch(Utils.random(0, 5)) {
+						case 0-> {
+							e.getPlayer().startConversation(new Dialogue());
+						}
+						case 1-> {
+							e.getPlayer().startConversation(new Dialogue());
+						}
+						case 2-> {
+							e.getPlayer().startConversation(new Dialogue());
+						}
+						case 3-> {
+							e.getPlayer().startConversation(new Dialogue());
+						}
+						case 4-> {
+							e.getPlayer().startConversation(new Dialogue());
+						}
+					}
+					return;
+				}
+				e.getPlayer().startConversation(new Dialogue().addNPC(NPC, HeadE.CAT_CALM_TALK2, ""));
+			}
+		}
+	};
 }
