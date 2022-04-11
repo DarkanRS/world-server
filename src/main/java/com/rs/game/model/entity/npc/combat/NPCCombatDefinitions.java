@@ -65,24 +65,24 @@ public class NPCCombatDefinitions {
 	private transient boolean realStats = true;
 	private int[] ids;
 	private String[] names;
-	private int hitpoints;
 	private int attackAnim;
 	private int defenceAnim;
 	private int deathAnim;
 	private int deathDelay;
 	public int respawnDelay;
+	private int hitpoints;
 	private int maxHit;
 	private AttackStyle attackStyle;
-	private int attackGfx;
-	private int attackProjectile;
-	private AggressiveType agressivenessType;
 	private Bonus attackBonus;
 	private Map<Skill, Integer> combatLevels;
 	private Map<Bonus, Integer> bonuses;
+	private int attackRange = -1; //10 by default for range
+	private int attackGfx;
+	private int attackProjectile;
+	private AggressiveType agressivenessType;
 	private int aggroDistance = -1; //4 for melee, 8 for range default
 	private int deAggroDistance = -1; //16 by default
 	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
-	private int attackRange = -1; //10 by default for range
 
 	public NPCCombatDefinitions() {
 		hitpoints = 1;

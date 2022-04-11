@@ -2,19 +2,19 @@
   "names": [
     "Grifolaroo"
   ],
-  "hitpoints": 1780,
   "attackAnim": 15492,
   "defenceAnim": 15497,
   "deathAnim": 15499,
   "deathDelay": 5,
   "respawnDelay": 239,
+  "hitpoints": 1780,
   "maxHit": 175,
   "attackStyle": "MAGE",
+  "attackRange": -1,
   "attackGfx": 2036,
   "attackProjectile": 2035,
   "agressivenessType": "PASSIVE",
   "aggroDistance": -1,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": -1
+  "maxDistFromSpawn": -1
 }

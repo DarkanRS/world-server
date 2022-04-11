@@ -6,17 +6,14 @@
     8871,
     8872
   ],
-  "hitpoints": 120,
   "attackAnim": 14221,
   "defenceAnim": -1,
   "deathAnim": 836,
   "deathDelay": 3,
   "respawnDelay": 119,
+  "hitpoints": 120,
   "maxHit": 20,
   "attackStyle": "MAGE",
-  "attackGfx": 2701,
-  "attackProjectile": 2703,
-  "agressivenessType": "AGGRESSIVE",
   "combatLevels": {
     "ATTACK": 5,
     "RANGE": 1,
@@ -24,8 +21,11 @@
     "DEFENSE": 5,
     "MAGE": 6
   },
+  "attackRange": 10,
+  "attackGfx": 2701,
+  "attackProjectile": 2703,
+  "agressivenessType": "AGGRESSIVE",
   "aggroDistance": 5,
   "deAggroDistance": 13,
-  "maxDistFromSpawn": 7,
-  "attackRange": 10
+  "maxDistFromSpawn": 7
 }

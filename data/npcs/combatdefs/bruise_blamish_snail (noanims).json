@@ -2,17 +2,14 @@
   "names": [
     "Bruise Blamish Snail"
   ],
-  "hitpoints": 120,
   "attackAnim": 8143,
   "defenceAnim": 8145,
   "deathAnim": 8144,
   "deathDelay": 3,
   "respawnDelay": 119,
+  "hitpoints": 120,
   "maxHit": 40,
   "attackStyle": "RANGE",
-  "attackGfx": -1,
-  "attackProjectile": -1,
-  "agressivenessType": "PASSIVE",
   "combatLevels": {
     "ATTACK": 0,
     "RANGE": 15,
@@ -20,8 +17,11 @@
     "DEFENSE": 40,
     "MAGE": 1
   },
+  "attackRange": 0,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
   "aggroDistance": -1,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": 0
+  "maxDistFromSpawn": -1
 }

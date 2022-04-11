@@ -2,17 +2,14 @@
   "names": [
     "Eduard"
   ],
-  "hitpoints": 600,
   "attackAnim": -1,
   "defenceAnim": -1,
   "deathAnim": -1,
   "deathDelay": 3,
   "respawnDelay": 119,
+  "hitpoints": 600,
   "maxHit": 20,
   "attackStyle": "MELEE",
-  "attackGfx": -1,
-  "attackProjectile": -1,
-  "agressivenessType": "PASSIVE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {
     "ATTACK": 10,
@@ -21,8 +18,11 @@
     "DEFENSE": 10,
     "MAGE": 1
   },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
   "aggroDistance": -1,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": -1
+  "maxDistFromSpawn": -1
 }

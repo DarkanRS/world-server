@@ -2,17 +2,14 @@
   "names": [
     "Wild dog"
   ],
-  "hitpoints": 620,
   "attackAnim": 6559,
   "defenceAnim": 6557,
   "deathAnim": 6558,
   "deathDelay": 3,
   "respawnDelay": 119,
+  "hitpoints": 620,
   "maxHit": 68,
   "attackStyle": "MELEE",
-  "attackGfx": -1,
-  "attackProjectile": -1,
-  "agressivenessType": "AGGRESSIVE",
   "attackBonus": "STAB_ATT",
   "combatLevels": {
     "ATTACK": 53,
@@ -21,8 +18,11 @@
     "DEFENSE": 54,
     "MAGE": 1
   },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
   "aggroDistance": -1,
   "deAggroDistance": -1,
-  "maxDistFromSpawn": -1,
-  "attackRange": -1
+  "maxDistFromSpawn": -1
 }
