@@ -41,7 +41,9 @@ import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
@@ -125,6 +127,19 @@ public class Familiar extends NPC {
 					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().removeItem(e.getSlotId(), num));
 			} else if (e.getComponentId() == 29)
 				e.getPlayer().getFamiliar().takeInventory();
+		}
+	};
+	
+	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take" }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (!(e.getNPC() instanceof Familiar familiar))
+				return;
+			if (familiar.getOwner() != e.getPlayer()) {
+				e.getPlayer().sendMessage("This isn't your familiar");
+				return;
+			}
+			familiar.openInventory();
 		}
 	};
 	
@@ -382,6 +397,7 @@ public class Familiar extends NPC {
 		if (!hasScroll() || !hasEnergy())
 			return;
 		if (executeSpecial(target)) {
+			owner.lock(3);
 			owner.setNextAnimation(new Animation(7660));
 			owner.setNextSpotAnim(new SpotAnim(1316));
 			drainSpec();

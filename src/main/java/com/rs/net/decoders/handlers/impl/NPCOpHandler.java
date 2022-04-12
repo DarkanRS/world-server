@@ -45,7 +45,7 @@ public class NPCOpHandler implements PacketHandler<Player, NPCOp> {
 
 		if (player.isDead() || player.isLocked())
 			return;
-
+		
 		switch(packet.getOpcode()) {
 		case NPC_OP1:
 			NPCHandler.handleOption1(player, npc);

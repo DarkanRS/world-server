@@ -22,6 +22,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -69,21 +70,19 @@ public enum Scroll {
 	EGG_SPAWN(12428, ScrollTarget.CLICK, "Creates up to 5 red spider eggs on the ground next to the player.", 0.2, 6) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			familiar.setNextAnimation(new Animation(8267));
-			player.setNextAnimation(new Animation(7660));
-			player.setNextSpotAnim(new SpotAnim(1316));
+			familiar.setNextAnimation(new Animation(8164));
 			int num = Utils.random(5);
-			Set<WorldTile> spawned = new HashSet<>();
+			Set<Integer> spawned = new HashSet<>();
 			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
 				if (spawned.size() >= num)
 					break;
-				WorldTile tile = World.findRandomAdjacentTile(familiar.getTile(), 1);
-				if (spawned.contains(tile))
+				WorldTile tile = World.findAdjacentFreeTile(player.getTile());
+				if (spawned.contains(tile.getTileHash()))
 					continue;
-				spawned.add(tile);
+				spawned.add(tile.getTileHash());
 				num++;
 				World.sendSpotAnim(player, new SpotAnim(1342), tile);
-				World.addGroundItem(new Item(223, 1), tile, player, true, 120);
+				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(223, 1), tile, player, true, 120));
 			}
 			//TODO test
 			return true;

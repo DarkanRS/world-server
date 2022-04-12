@@ -1,8 +1,10 @@
 package com.rs.game.content.skills.summoning;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.Streams;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
@@ -224,7 +226,7 @@ public enum Pouch {
 		this.experience = experience;
 		this.summoningCost = summoningCost;
 		this.pouchTime = pouchTime;
-		this.bobSize = 0;
+		this.bobSize = bobSize;
 		this.forageDropTable = forageDropTable;
 	}
 	
@@ -297,6 +299,18 @@ public enum Pouch {
 
 	public int getSpawnAnim() {
 		return spawnAnim;
+	}
+
+	public boolean isBob() {
+		return bobSize > 0 && !isForager();
+	}
+
+	public static Object[] getAllNPCKeysWithInventory() {
+		return Streams.concat(Arrays.stream(Pouch.values()).filter(p -> p.bobSize > 0).map(p -> p.getIdKeys()[0]).filter(i -> (int) i != -1), Arrays.stream(Pouch.values()).filter(p -> p.bobSize > 0).map(p -> p.getIdKeys().length <= 1 ? -1 : p.getIdKeys()[1]).filter(i -> (int) i != -1)).toArray();
+	}
+	
+	public static Object[] getAllNPCIdKeys() {
+		return Streams.concat(Arrays.stream(Pouch.values()).map(p -> p.getIdKeys()[0]).filter(i -> (int) i != -1), Arrays.stream(Pouch.values()).map(p -> p.getIdKeys().length <= 1 ? -1 : p.getIdKeys()[1]).filter(i -> (int) i != -1)).toArray();
 	}
 }
 

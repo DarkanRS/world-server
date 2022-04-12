@@ -17,6 +17,7 @@
 package com.rs.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1434,11 +1435,27 @@ public final class World {
 				region.removeProjectiles();
 		}
 	}
+	
+	/**
+	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
+	 */
+	public static WorldTile findAdjacentFreeTile(WorldTile tile) {
+		List<Direction> unchecked = new ArrayList<>(Arrays.asList(Direction.values()));
+		while(!unchecked.isEmpty()) {
+			Direction curr = unchecked.get(Utils.random(unchecked.size()));
+			if (World.checkWalkStep(tile, curr, 1))
+				return tile.transform(curr.getDx(), curr.getDy());
+			unchecked.remove(curr);
+		}
+		return null;
+	}
 
 	/**
 	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
 	 */
-	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
+	public static WorldTile findAdjacentFreeSpace(WorldTile tile, int size) {
+		if (size == 1)
+			return findAdjacentFreeTile(tile);
 		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
 		WorldTile finalTile = null;
 		while(!unchecked.isEmpty()) {

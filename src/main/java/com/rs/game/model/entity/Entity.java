@@ -1421,7 +1421,7 @@ public abstract class Entity {
 	}
 
 	public WorldTile getNearestTeleTile(int size) {
-		return World.findRandomAdjacentTile(this.getTile(), size);
+		return World.findAdjacentFreeSpace(this.getTile(), size);
 	}
 
 	public WorldTile getTile() {
