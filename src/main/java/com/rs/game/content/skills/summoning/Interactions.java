@@ -923,7 +923,7 @@ public class Interactions {
 //			case SPIRIT_TERRORBIRD -> {
 //				if(!canTalk)
 //					new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Reeeeee!");
-//
+//				familiar.getInventory().getUsedSlots()
 //			}
 			default -> new Dialogue().addSimple("This familiar can't talk yet.");
 		};
