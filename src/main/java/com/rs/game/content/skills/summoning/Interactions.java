@@ -1,7 +1,5 @@
 package com.rs.game.content.skills.summoning;
 
-import java.util.Arrays;
-
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
@@ -18,7 +16,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Interactions {
 	
-	public static NPCClickHandler handleInteract = new NPCClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getIdKeys()).toArray(), new String[] { "Interact" }) {
+	public static NPCClickHandler handleInteract = new NPCClickHandler(Pouch.getAllNPCIdKeys(), new String[] { "Interact" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (!(e.getNPC() instanceof Familiar familiar))

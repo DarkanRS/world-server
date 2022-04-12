@@ -312,5 +312,9 @@ public enum Pouch {
 	public static Object[] getAllNPCIdKeys() {
 		return Streams.concat(Arrays.stream(Pouch.values()).map(p -> p.getIdKeys()[0]).filter(i -> (int) i != -1), Arrays.stream(Pouch.values()).map(p -> p.getIdKeys().length <= 1 ? -1 : p.getIdKeys()[1]).filter(i -> (int) i != -1)).toArray();
 	}
+
+	public boolean isPassive() {
+		return xpType == null;
+	}
 }
 
