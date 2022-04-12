@@ -136,7 +136,7 @@ public class Familiar extends NPC {
 			if (!(e.getNPC() instanceof Familiar familiar))
 				return;
 			if (familiar.getOwner() != e.getPlayer()) {
-				e.getPlayer().sendMessage("This isn't your familiar");
+				e.getPlayer().sendMessage("This isn't your familiar.");
 				return;
 			}
 			familiar.openInventory();
@@ -241,16 +241,16 @@ public class Familiar extends NPC {
 		int freeSpace = inv.getFreeSlots();
 		if (!item.getDefinitions().isStackable()) {
 			if (freeSpace == 0) {
-				owner.sendMessage("Not enough space in your Familiar Inventory.");
+				owner.sendMessage("Not enough space in your familiar's inventory.");
 				return;
 			}
 
 			if (freeSpace < item.getAmount()) {
 				item.setAmount(freeSpace);
-				owner.sendMessage("Not enough space in your Familiar Inventory.");
+				owner.sendMessage("Not enough space in your familiar's inventory.");
 			}
 		} else if (freeSpace == 0 && !inv.containsOne(item)) {
-			owner.sendMessage("Not enough space in your Familiar Inventory.");
+			owner.sendMessage("Not enough space in your familiar's inventory.");
 			return;
 		}
 		inv.add(item);
@@ -302,6 +302,17 @@ public class Familiar extends NPC {
 			return;
 		owner.getPackets().sendItems(ITEMS_KEY, inv);
 		owner.getPackets().sendItems(93, owner.getInventory().getItems());
+	}
+	
+	@Override
+	public void setTarget(Entity target) {
+		if (isPassive())
+			return;
+		super.setTarget(target);
+	}
+	
+	public boolean isPassive() {
+		return pouch.isPassive();
 	}
 
 	public boolean canStoreEssOnly() {
@@ -648,7 +659,7 @@ public class Familiar extends NPC {
 		teleTile = owner.getNearestTeleTile(getSize());
 		if (teleTile == null) {
 			if (!sentRequestMoveMessage) {
-				owner.sendMessage("Theres not enough space for your familiar appear.");
+				owner.sendMessage("Theres not enough space for your familiar to appear.");
 				sentRequestMoveMessage = true;
 			}
 			return;
