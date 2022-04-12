@@ -1,10 +1,15 @@
 package com.rs.game.content.skills.summoning;
 
+import java.util.Arrays;
+
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.Options;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
@@ -12,99 +17,94 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Interactions {
-	private static boolean checkIsOwner(Player player, Familiar familiar) {
-		if(familiar.getOwner() == player)
-			return true;
-		player.sendMessage("This isn't your familiar");
-		return false;
-	}
-
-	private static boolean canTalkToFamiliar(Player player, Familiar familiar) {
-		return player.getSkills().getLevelForXp(Skills.SUMMONING) >= familiar.getPouch().getLevel() + 10;
-	}
-
-    public static NPCClickHandler handleSpiritWolf = new NPCClickHandler(Pouch.SPIRIT_WOLF.getIdKeys(), new String[]{"Interact"}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
-				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
-					int NPC = e.getNPCId();
-					if(e.getPlayer().getInventory().containsOneItem(526, 530, 532, 528, 534, 536, 2859, 2530, 3125, 4834, 4832, 6729, 18830, 18832, 6812)) {
-						e.getPlayer().startConversation(new Dialogue()
-								.addNPC(NPC, HeadE.CAT_EXPLAIN, "Throw the bone! I want to chase it!")
-								.addPlayer(HeadE.HAPPY_TALKING, "I can't just throw bones away - I need them to train my Prayer!")
-						);
-						return;
-					}
-					switch(Utils.random(0, 4)) {
-						case 0 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_EXPLAIN, "What are you doing?")
-									.addPlayer(HeadE.HAPPY_TALKING, "Oh, just some...biped things. I'm sure it would bore you.")
-							);
-						}
-						case 1 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_SHOOK, "Danger!")
-									.addPlayer(HeadE.HAPPY_TALKING, "Where?!")
-									.addNPC(NPC, HeadE.CAT_CALM_TALK, "False alarm...")
-							);
-						}
-						case 2 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_CALM_TALK, "I smell something good! Hunting time!")
-									.addPlayer(HeadE.HAPPY_TALKING, "We can go hunting in a moment. I just have to take care of something first.")
-							);
-						}
-						case 3 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_EXPLAIN, "When am I going to get to chase something?")
-									.addPlayer(HeadE.HAPPY_TALKING, "Oh I'm sure we'll find something for you in a bit.")
-							);
-						}
-					}
-					return;
-				}
-				e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.CAT_EXPLAIN, "Whurf?"));
-			}
-        }
-    };
-
-	public static NPCClickHandler handleDreadFowl = new NPCClickHandler(Pouch.DREADFOWL.getIdKeys(), new String[]{"Interact"}) {
+	
+	public static NPCClickHandler handleInteract = new NPCClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getIdKeys()).toArray(), new String[] { "Interact" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getNPC() instanceof Familiar familiar && checkIsOwner(e.getPlayer(), familiar)) {
-				int NPC = e.getNPCId();
-				if(canTalkToFamiliar(e.getPlayer(), familiar)) {
-					switch (Utils.random(0, 3)) {
-						case 0 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Attack! Fight! Annihilate!")
-									.addPlayer(HeadE.HAPPY_TALKING, "It always worries me when you're so happy saying that.")
-							);
-						}
-						case 1 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Can it be fightin' time, please?")
-									.addPlayer(HeadE.HAPPY_TALKING, "Look I'll find something for you to fight, just give me a second.")
-							);
-						}
-						case 2 -> {
-							e.getPlayer().startConversation(new Dialogue()
-									.addNPC(NPC, HeadE.CAT_CALM_TALK2, "I want to fight something.")
-									.addPlayer(HeadE.HAPPY_TALKING, "I'll find something for you in a minute - just be patient.")
-							);
-						}
-					}
-					return;
-				}
-				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Cock-!")
-						.addNPC(NPC, HeadE.CAT_CALM_TALK2, "Cock-ledoodledoo!")
-				);
+			if (!(e.getNPC() instanceof Familiar familiar))
+				return;
+			if (familiar.getOwner() != e.getPlayer()) {
+				e.getPlayer().sendMessage("This isn't your familiar");
+				return;
 			}
+			e.getPlayer().startConversation(new Dialogue().addOptions("What would you like to do?", ops -> {
+				if (familiar.getInventory() != null)
+					ops.add("Open Familiar Inventory");
+				ops.add("Talk-to", getTalkToDialogue(e.getPlayer(), familiar));
+				addExtraOps(e.getPlayer(), ops, familiar);
+			}));
 		}
 	};
+	
+	private static Dialogue getTalkToDialogue(Player player, Familiar familiar) {
+		boolean canTalk = player.getSkills().getLevelForXp(Skills.SUMMONING) >= familiar.getPouch().getLevel() + 10;
+		
+		return switch(familiar.getPouch()) {
+		
+		case SPIRIT_WOLF -> {
+			if (!canTalk)
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_EXPLAIN, "Whurf?");
+			
+			yield random(
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_EXPLAIN, "What are you doing?")
+					.addPlayer(HeadE.HAPPY_TALKING, "Oh, just some...biped things. I'm sure it would bore you."),
+							
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_SHOOK, "Danger!")
+					.addPlayer(HeadE.HAPPY_TALKING, "Where?!")
+					.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK, "False alarm..."),
+								
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK, "I smell something good! Hunting time!")
+					.addPlayer(HeadE.HAPPY_TALKING, "We can go hunting in a moment. I just have to take care of something first."),
+								
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_EXPLAIN, "When am I going to get to chase something?")
+					.addPlayer(HeadE.HAPPY_TALKING, "Oh I'm sure we'll find something for you in a bit.")
+			);
+		}
+		
+		case DREADFOWL -> {
+			if (!canTalk)
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Cock-!")
+									.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Cock-ledoodledoo!");
+			
+			yield random(
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Attack! Fight! Annihilate!")
+					.addPlayer(HeadE.HAPPY_TALKING, "It always worries me when you're so happy saying that."),
+						
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Can it be fightin' time, please?")
+					.addPlayer(HeadE.HAPPY_TALKING, "Look I'll find something for you to fight, just give me a second."),
+							
+					new Dialogue()
+					.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I want to fight something.")
+					.addPlayer(HeadE.HAPPY_TALKING, "I'll find something for you in a minute - just be patient.")
+			);
+		}
+		
+		default -> new Dialogue().addSimple("This familiar can't talk yet.");
+		};
+	}
+	
+	private static void addExtraOps(Player player, Options ops, Familiar familiar) {
+		switch(familiar.getPouch()) {
+		case LAVA_TITAN:
+			ops.add("Teleport to Lava Maze", new Dialogue().addOptions("Are you sure you want to teleport here? It's very high wilderness.", yesNo -> {
+				yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, new WorldTile(3030, 3838, 0)));
+				yesNo.add("Nevermind. That sounds dangerous.");
+			}));
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private static Dialogue random(Dialogue... options) {
+		return options[Utils.random(options.length)];
+	}
 
 	public static NPCClickHandler handleSpiritSpider = new NPCClickHandler(Pouch.SPIRIT_SPIDER.getIdKeys(), new String[]{"Interact"}) {
 		@Override
