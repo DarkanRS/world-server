@@ -149,7 +149,7 @@ public class Summoning {
 					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), Integer.MAX_VALUE);
 				else if (e.getPacket() == ClientPacket.IF_OP5) {
 					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), 28);
-					e.getPlayer().sendMessage("You currently need " + ItemDefinitions.getDefs(e.getSlotId2()).getCreateItemRequirements());
+					e.getPlayer().sendMessage("You currently need " + ItemDefinitions.getDefs().getCreateItemRequirements());
 				}
 			} else if (e.getComponentId() == 19 && e.getPacket() == ClientPacket.IF_OP1)
 				openScrollInfusionInterface(e.getPlayer());
