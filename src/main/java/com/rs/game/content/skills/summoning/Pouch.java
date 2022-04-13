@@ -6,16 +6,27 @@ import java.util.Map;
 
 import com.google.common.collect.Streams;
 import com.rs.game.content.combat.XPType;
+import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.item.ItemsContainer;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
+import com.rs.utils.drop.DropSet;
+import com.rs.utils.drop.DropTable;
 
 public enum Pouch {
 	SPIRIT_WOLF(6829, 6830, XPType.ACCURATE, 8298, 8532, Scroll.HOWL, 12047, 1, 0.1, 4.8, Ticks.fromMinutes(16), 1),
 	DREADFOWL(6825, 6826, XPType.MAGIC, 00000, 00000, Scroll.DREADFOWL_STRIKE, 12043, 4, 0.1, 9.3, Ticks.fromMinutes(16), 1),
 	SPIRIT_SPIDER(6841, 6842, XPType.CONTROLLED, 00000, 00000, Scroll.EGG_SPAWN, 12059, 10, 0.2, 12.6, Ticks.fromMinutes(16), 2, "forage_spirit_spider"),
 	THORNY_SNAIL(6806, 6807, XPType.RANGED, 00000, 00000, Scroll.SLIME_SPRAY, 12019, 13, 0.2, 12.6, Ticks.fromMinutes(16), 2, 3),
-	GRANITE_CRAB(6796, 6797, XPType.DEFENSIVE, 00000, 00000, Scroll.STONY_SHELL, 12009, 16, 0.2, 21.6, Ticks.fromMinutes(16), 2, "forage_granite_crab"),
+	GRANITE_CRAB(6796, 6797, XPType.DEFENSIVE, 00000, 00000, Scroll.STONY_SHELL, 12009, 16, 0.2, 21.6, Ticks.fromMinutes(16), 2, "forage_granite_crab") {
+		@Override
+		public boolean canRollForager(Player player) {
+			return player.getActionManager().doingAction(Fishing.class);
+		}
+	},
 	SPIRIT_MOSQUITO(7331, 7332, XPType.ACCURATE, 00000, 00000, Scroll.PESTER, 12778, 17, 0.2, 46.5, Ticks.fromMinutes(16), 2),
 	DESERT_WYRM(6831, 6832, XPType.AGGRESSIVE, 00000, 00000, Scroll.ELECTRIC_LASH, 12049, 18, 0.4, 31.2, Ticks.fromMinutes(16), 1),
 	SPIRIT_SCORPION(6837, 6838, XPType.CONTROLLED, 00000, 00000, Scroll.VENOM_SHOT, 12055, 19, 0.9, 83.2, Ticks.fromMinutes(16), 2),
@@ -38,7 +49,7 @@ public enum Pouch {
 	ADAMANT_MINOTAUR(6861, 6862, XPType.DEFENSIVE, 00000, 00000, Scroll.ADAMANT_BULL, 12081, 76, 8.6, 668.8, Ticks.fromMinutes(64), 9),
 	RUNE_MINOTAUR(6863, 6864, XPType.DEFENSIVE, 00000, 00000, Scroll.RUNE_BULL, 12083, 86, 8.6, 756.8, Ticks.fromMinutes(64), 9),
 	BULL_ANT(6867, 6868, XPType.CONTROLLED, 00000, 00000, Scroll.UNBURDEN, 12087, 40, 0.6, 52.8, Ticks.fromMinutes(32), 5, 9),
-	MACAW(6851, 6852, null, 00000, 00000, Scroll.HERBCALL, 12071, 41, 0.8, 72.4, Ticks.fromMinutes(32), 5, "forage_macaw"),
+	MACAW(6851, 6852, null, 00000, 00000, Scroll.HERBCALL, 12071, 41, 0.8, 72.4, Ticks.fromMinutes(32), 5, "forage_macaw"), //spotanim 1321
 	EVIL_TURNIP(6833, 6834, XPType.RANGED, 00000, 00000, Scroll.EVIL_FLAMES, 12051, 42, 2.1, 184.8, Ticks.fromMinutes(32), 5, "forage_evil_turnip"),
 	SPIRIT_COCKATRICE(6875, 6876, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12095, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	SPIRIT_GUTHATRICE(6877, 6878, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12097, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
@@ -53,7 +64,12 @@ public enum Pouch {
 	SPIRIT_TERRORBIRD(6794, 6795, XPType.CONTROLLED, 00000, 00000, Scroll.TIRELESS_RUN, 12007, 52, 0.7, 68.4, Ticks.fromMinutes(32), 6, 12),
 	ABYSSAL_PARASITE(6818, 6819, XPType.MAGIC, 00000, 00000, Scroll.ABYSSAL_DRAIN, 12035, 54, 1.1, 94.8, Ticks.fromMinutes(32), 6, 7),
 	SPIRIT_JELLY(6992, 6993, XPType.AGGRESSIVE, 00000, 00000, Scroll.DISSOLVE, 12027, 55, 5.5, 484.0, Ticks.fromMinutes(48), 6),
-	IBIS(6991, -1, null, 00000, 00000, Scroll.FISH_RAIN, 12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6, "forage_ibis"),
+	IBIS(6991, -1, null, 00000, 00000, Scroll.FISH_RAIN, 12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6, "forage_ibis") { //spotanim 1337
+		@Override
+		public boolean canRollForager(Player player) {
+			return player.getActionManager().doingAction(Fishing.class);
+		}
+	},
 	SPIRIT_KYATT(7365, 7366, XPType.ACCURATE, 00000, 00000, Scroll.AMBUSH, 12812, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
 	SPIRIT_LARUPIA(7337, 7338, XPType.CONTROLLED, 00000, 00000, Scroll.RENDING, 12784, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
 	SPIRIT_GRAAHK(7363, 7364, XPType.AGGRESSIVE, 00000, 00000, Scroll.GOAD, 12810, 57, 5.6, 501.6, Ticks.fromMinutes(48), 6),
@@ -70,17 +86,22 @@ public enum Pouch {
 			familiar.getAttribs().decI("healTicks");
 			if (familiar.getAttribs().getI("healTicks") <= 0 && owner != null) {
 				owner.heal((int) (owner.getMaxHitpoints()*0.02));
-				owner.setNextSpotAnim(new SpotAnim(1300));
+				owner.setNextSpotAnim(new SpotAnim(1507));
 				familiar.getAttribs().setI("healTicks", 25);
 			}
 		}
 	},
-	FRUIT_BAT(6817, -1, null, 00000, 00000, Scroll.FRUITFALL, 12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7, "forage_fruit_bat"),
+	FRUIT_BAT(6817, -1, null, 00000, 00000, Scroll.FRUITFALL, 12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7, "forage_fruit_bat"), //spotanim 1331
 	RAVENOUS_LOCUST(7372, 7373, XPType.ACCURATE, 00000, 00000, Scroll.FAMINE, 12820, 70, 1.5, 132.0, Ticks.fromMinutes(48), 4),
 	ARCTIC_BEAR(6839, 6840, XPType.CONTROLLED, 00000, 00000, Scroll.ARCTIC_BLAST, 12057, 71, 1.1, 93.2, Ticks.fromMinutes(48), 8),
 	PHOENIX(8575, 8576, XPType.MAGIC, 00000, 00000, Scroll.RISE_FROM_THE_ASHES, 14623, 72, 3.0, 301.0, Ticks.fromMinutes(48), 8),
 	OBSIDIAN_GOLEM(7345, 7346, XPType.AGGRESSIVE, 00000, 00000, Scroll.VOLCANIC_STRENGTH, 12792, 73, 7.3, 642.4, Ticks.fromMinutes(64), 8),
-	GRANITE_LOBSTER(6849, 6850, XPType.DEFENSIVE, 00000, 00000, Scroll.CRUSHING_CLAW, 12069, 74, 3.7, 325.6, Ticks.fromMinutes(64), 8, "forage_granite_lobster"),
+	GRANITE_LOBSTER(6849, 6850, XPType.DEFENSIVE, 00000, 00000, Scroll.CRUSHING_CLAW, 12069, 74, 3.7, 325.6, Ticks.fromMinutes(64), 8, "forage_granite_lobster") {
+		@Override
+		public boolean canRollForager(Player player) {
+			return player.getActionManager().doingAction(Fishing.class);
+		}
+	},
 	PRAYING_MANTIS(6798, 6799, XPType.ACCURATE, 00000, 00000, Scroll.MANTIS_STRIKE, 12011, 75, 3.6, 329.6, Ticks.fromMinutes(64), 8),
 	FORGE_REGENT(7335, 7336, XPType.RANGED, 00000, 00000, Scroll.INFERNO, 12782, 76, 1.5, 134.0, Ticks.fromMinutes(64), 9),
 	TALON_BEAST(7347, 7348, XPType.AGGRESSIVE, 00000, 00000, Scroll.DEADLY_CLAW, 12794, 77, 3.8, 1015.2, Ticks.fromMinutes(64), 9),
@@ -89,7 +110,7 @@ public enum Pouch {
 	SPIRIT_DAGANNOTH(6804, 6805, XPType.CONTROLLED, 00000, 00000, Scroll.SPIKE_SHOT, 12017, 83, 4.1, 364.8, Ticks.fromMinutes(64), 9),
 	UNICORN_STALLION(6822, 6823, XPType.CONTROLLED, 00000, 00000, Scroll.HEALING_AURA, 12039, 88, 1.8, 154.4, Ticks.fromMinutes(64), 9),
 	WOLPERTINGER(6869, 6870, XPType.MAGIC, 00000, 00000, Scroll.MAGIC_FOCUS, 12089, 92, 4.6, 404.8, Ticks.fromMinutes(64), 10),
-	PACK_YAK(6873, 6874, XPType.AGGRESSIVE, 00000, 00000, Scroll.WINTER_STORAGE, 12093, 96, 4.8, 422.2, Ticks.fromMinutes(64), 10, 30),
+	PACK_YAK(6873, 6874, XPType.AGGRESSIVE, 8058, 8536, Scroll.WINTER_STORAGE, 12093, 96, 4.8, 422.2, Ticks.fromMinutes(64), 10, 30),
 	FIRE_TITAN(7355, 7356, XPType.MAGIC, 00000, 00000, Scroll.TITANS_CONSTITUTION, 12802, 79, 7.9, 695.2, Ticks.fromMinutes(64), 9),
 	MOSS_TITAN(7357, 7358, XPType.AGGRESSIVE, 00000, 00000, Scroll.TITANS_CONSTITUTION, 12804, 79, 7.9, 695.2, Ticks.fromMinutes(64), 9),
 	ICE_TITAN(7359, 7360, XPType.ACCURATE, 00000, 00000, Scroll.TITANS_CONSTITUTION, 12806, 79, 7.9, 695.2, Ticks.fromMinutes(64), 9),
@@ -136,27 +157,27 @@ public enum Pouch {
 	HOARDSTALKER_9(11162, 11163, XPType.DEFENSIVE, 13684, 13685, Scroll.APTITUDE_9, 17963, 85, 4.8, 538.8, Ticks.fromMinutes(64), 1, "forage_hoardstalker_t9"),
 	HOARDSTALKER_10(11164, 11165, XPType.DEFENSIVE, 13684, 13685, Scroll.APTITUDE_10, 17964, 95, 5.3, 835.5, Ticks.fromMinutes(64), 1, "forage_hoardstalker_t10"),
 	
-	SKINWEAVER_1(11166, 11167, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_1, 17965, 9, 1.0, 8.5, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_2(11168, 11169, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_2, 17966, 19, 1.5, 24.5, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_3(11170, 11171, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_3, 17967, 29, 2.0, 50, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_4(11172, 11173, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_4, 17968, 39, 2.5, 78, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_5(11174, 11175, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_5, 17969, 49, 3.0, 112, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_6(11176, 11177, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_6, 17970, 59, 3.5, 174.5, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_7(11178, 11179, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_7, 17971, 69, 4.0, 243, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_8(11180, 11181, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_8, 17972, 79, 4.5, 354, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_9(11182, 11183, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_9, 17973, 89, 5.0, 553, Ticks.fromMinutes(64), 1),
-	SKINWEAVER_10(11184, 11185, XPType.MAGIC, 00000, 00000, Scroll.GLIMMER_OF_LIGHT_10, 17974, 99, 5.5, 852.5, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_1(11166, 11167, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_1, 17965, 9, 1.0, 8.5, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_2(11168, 11169, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_2, 17966, 19, 1.5, 24.5, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_3(11170, 11171, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_3, 17967, 29, 2.0, 50, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_4(11172, 11173, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_4, 17968, 39, 2.5, 78, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_5(11174, 11175, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_5, 17969, 49, 3.0, 112, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_6(11176, 11177, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_6, 17970, 59, 3.5, 174.5, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_7(11178, 11179, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_7, 17971, 69, 4.0, 243, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_8(11180, 11181, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_8, 17972, 79, 4.5, 354, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_9(11182, 11183, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_9, 17973, 89, 5.0, 553, Ticks.fromMinutes(64), 1),
+	SKINWEAVER_10(11184, 11185, XPType.MAGIC, 13676, 13677, Scroll.GLIMMER_OF_LIGHT_10, 17974, 99, 5.5, 852.5, Ticks.fromMinutes(64), 1),
 	
-	WORLDBEARER_1(11186, 11187, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_1, 17975, 7, 0.9, 7.8, Ticks.fromMinutes(64), 1, 12),
-	WORLDBEARER_2(11188, 11189, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_2, 17976, 17, 1.4, 23.5, Ticks.fromMinutes(64), 1, 14),
-	WORLDBEARER_3(11190, 11191, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_3, 17977, 27, 1.9, 48.6, Ticks.fromMinutes(64), 1, 16),
-	WORLDBEARER_4(11192, 11193, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_4, 17978, 37, 2.4, 76.1, Ticks.fromMinutes(64), 1, 18),
-	WORLDBEARER_5(11194, 11195, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_5, 17979, 47, 2.9, 109.5, Ticks.fromMinutes(64), 1, 20),
-	WORLDBEARER_6(11196, 11197, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_6, 17980, 57, 3.4, 171, Ticks.fromMinutes(64), 1, 22),
-	WORLDBEARER_7(11198, 11199, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_7, 17981, 67, 3.9, 238.4, Ticks.fromMinutes(64), 1, 24),
-	WORLDBEARER_8(11200, 11201, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_8, 17982, 77, 4.4, 348.2, Ticks.fromMinutes(64), 1, 26),
-	WORLDBEARER_9(11202, 11203, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_9, 17983, 87, 4.9, 545.9, Ticks.fromMinutes(64), 1, 28),
-	WORLDBEARER_10(11204, 11205, XPType.ACCURATE, 00000, 00000, Scroll.SECOND_WIND_10, 17984, 97, 5.4, 844, Ticks.fromMinutes(64), 1, 30),
+	WORLDBEARER_1(11186, 11187, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_1, 17975, 7, 0.9, 7.8, Ticks.fromMinutes(64), 1, 12),
+	WORLDBEARER_2(11188, 11189, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_2, 17976, 17, 1.4, 23.5, Ticks.fromMinutes(64), 1, 14),
+	WORLDBEARER_3(11190, 11191, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_3, 17977, 27, 1.9, 48.6, Ticks.fromMinutes(64), 1, 16),
+	WORLDBEARER_4(11192, 11193, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_4, 17978, 37, 2.4, 76.1, Ticks.fromMinutes(64), 1, 18),
+	WORLDBEARER_5(11194, 11195, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_5, 17979, 47, 2.9, 109.5, Ticks.fromMinutes(64), 1, 20),
+	WORLDBEARER_6(11196, 11197, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_6, 17980, 57, 3.4, 171, Ticks.fromMinutes(64), 1, 22),
+	WORLDBEARER_7(11198, 11199, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_7, 17981, 67, 3.9, 238.4, Ticks.fromMinutes(64), 1, 24),
+	WORLDBEARER_8(11200, 11201, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_8, 17982, 77, 4.4, 348.2, Ticks.fromMinutes(64), 1, 26),
+	WORLDBEARER_9(11202, 11203, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_9, 17983, 87, 4.9, 545.9, Ticks.fromMinutes(64), 1, 28),
+	WORLDBEARER_10(11204, 11205, XPType.ACCURATE, 13684, 13685, Scroll.SECOND_WIND_10, 17984, 97, 5.4, 844, Ticks.fromMinutes(64), 1, 30),
 	
 	DEATHSLINGER_1(11206, 11207, XPType.RANGED, 13684, 13685, Scroll.POISONOUS_SHOT_1, 17985, 2, 0.6, 5.7, Ticks.fromMinutes(64), 1),
 	DEATHSLINGER_2(11208, 11209, XPType.RANGED, 13684, 13685, Scroll.POISONOUS_SHOT_2, 17986, 12, 1.1, 20.5, Ticks.fromMinutes(64), 1),
@@ -319,6 +340,17 @@ public enum Pouch {
 
 	public boolean isPassive() {
 		return xpType == null;
+	}
+	
+	public boolean canRollForager(Player player) {
+		return true;
+	}
+
+	public void rollForage(Player player, ItemsContainer<Item> inv) {
+		DropSet drop = DropSets.getDropSet(forageDropTable);
+		if (drop == null || !canRollForager(player))
+			return;
+		inv.addAll(DropTable.calculateDrops(player, drop));
 	}
 }
 

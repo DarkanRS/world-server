@@ -23,7 +23,6 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 
 public class IronTitan extends FamiliarCombatScript {
 
@@ -36,11 +35,10 @@ public class IronTitan extends FamiliarCombatScript {
 	public int alternateAttack(final NPC npc, final Entity target) {
 		if (npc.inMeleeRange(target)) {
 			npc.setNextAnimation(new Animation(7946));
-			npc.setNextSpotAnim(new SpotAnim(1447));
 			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 244, AttackStyle.MELEE, target)));
 		} else {
-			npc.setNextAnimation(new Animation(7694));
-			delayHit(npc, World.sendProjectile(npc, target, 1452, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
+			npc.sync(7694, 1452);
+			delayHit(npc, World.sendProjectile(npc, target, 1454, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
 		}
 		return npc.getAttackSpeed();
 	}

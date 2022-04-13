@@ -198,8 +198,6 @@ public class Summoning {
 			player.getInventory().addItem(pouch.getScroll().getId(), 10);
 			player.getSkills().addXp(Constants.SUMMONING, pouch.getScroll().getXp());
 		}
-
-		player.closeInterfaces();
 		player.anim(SCROLL_ANIM);
 	}
 
@@ -223,8 +221,6 @@ public class Summoning {
 			player.getInventory().addItem(new Item(pouch.getId(), 1));
 			player.getSkills().addXp(Constants.SUMMONING, pouch.getExperience());
 		}
-		
-		player.closeInterfaces();
 		player.sync(POUCH_ANIM, POUCH_SPOTANIM);
 	}
 

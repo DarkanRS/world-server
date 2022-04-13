@@ -56,6 +56,7 @@ public class Familiar extends NPC {
 	
 	private transient Player owner;
 	private transient boolean finished = false;
+	private transient int forageTicks = 0;
 	
 	private int ticks;
 	private int specialEnergy;
@@ -220,6 +221,20 @@ public class Familiar extends NPC {
 		inv.shift();
 		owner.getInventory().addItem(item);
 		refreshItems(itemsBefore);
+	}
+	
+	@Override
+	public void processEntity() {
+		super.processEntity();
+		if (forageTicks++ >= 50)
+			rollForage();
+		pouch.tick(owner, this);
+	}
+	
+	public void rollForage() {
+		if (inv == null || inv.freeSlots() <= 0)
+			return;
+		pouch.rollForage(owner, inv);
 	}
 
 	public void addItem(int slot, int amount) {
@@ -651,6 +666,8 @@ public class Familiar extends NPC {
 	private transient boolean sentRequestMoveMessage;
 
 	public void call() {
+		if (isDead())
+			return;
 		if (getAttackedBy() != null && inCombat()) {
 			owner.sendMessage("You cant call your familiar while it is under combat.");
 			return;
@@ -659,6 +676,8 @@ public class Familiar extends NPC {
 	}
 
 	public void call(boolean login) {
+		if (isDead())
+			return;
 		if (login)
 			sendMainConfigs();
 		else

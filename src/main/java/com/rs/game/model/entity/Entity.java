@@ -295,7 +295,7 @@ public abstract class Entity {
 			hit.getSource().handlePreHitOut(this, hit);
 		if (hit.getSource() instanceof Familiar f) {
 			hit.setSource(f.getOwner());
-			PlayerCombat.addXp(f.getOwner(), this, f.getPouch().getXpType(), hit);
+			PlayerCombat.addXpFamiliar(f.getOwner(), this, f.getPouch().getXpType(), hit);
 		}
 		if (delay < 0)
 			receivedHits.add(hit);

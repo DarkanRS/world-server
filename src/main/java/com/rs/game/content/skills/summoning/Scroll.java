@@ -193,8 +193,7 @@ public enum Scroll {
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			player.setNextSpotAnim(new SpotAnim(1316));
-			player.setNextAnimation(new Animation(7660));
+			player.setNextSpotAnim(new SpotAnim(1502));
 			//TODO
 			return false;
 		}
@@ -596,13 +595,13 @@ public enum Scroll {
 			familiar.setNextAnimation(new Animation(7954));
 			familiar.setNextSpotAnim(new SpotAnim(1450));
 			if (!familiar.inMeleeRange(target)) {
-				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
+				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
+				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
 			} else {
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -614,10 +613,10 @@ public enum Scroll {
 				owner.sendMessage("Your bank is full!");
 				return false;
 			}
+			familiar.spotAnim(1358);
 			owner.incrementCount("Items banked with yak");
 			owner.getBank().depositItem(item.getSlot(), 1, true);
 			owner.sendMessage("Your pack yak has sent an item to your bank.", true);
-			//TODO gfx and setting item slot before passing
 			return true;
 		}
 	},
@@ -627,15 +626,15 @@ public enum Scroll {
 			familiar.sync(8190, 1449);
 			target.spotAnim(1449);
 			if (familiar.inMeleeRange(target)) {				
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
+				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 244, Bonus.CRUSH_ATT, AttackStyle.MELEE, target, 1.0)));
 			} else {
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
-				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)).setSource(familiar.getOwner()));
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
+				delayHit(familiar, 3, target, getRangeHit(familiar, getMaxHit(familiar, 244, Bonus.RANGE_ATT, AttackStyle.RANGE, target, 1.0)));
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
