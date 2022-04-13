@@ -22,7 +22,6 @@ import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -46,12 +45,6 @@ public enum Scroll {
 				familiar.getOwner().sendMessage("Your familiar cannot scare other familiars.");
 			else if (target instanceof Player)
 				familiar.getOwner().sendMessage("Your familiar cannot scare a player.");
-			else if (target instanceof NPC targN) {
-				if (targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL && targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL2)
-					target.setAttackedByDelay(3000);
-				else
-					familiar.getOwner().sendMessage("Your familiar cannot scare that monster.");
-			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},

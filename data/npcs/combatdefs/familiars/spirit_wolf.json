@@ -10,22 +10,13 @@
   "hitpoints": 150,
   "maxHit": 40,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
+  "attackBonus": "SLASH_ATT",
   "combatLevels": {
     "ATTACK": 10,
     "RANGE": 10,
     "STRENGTH": 10,
     "DEFENSE": 10,
     "MAGE": 10
-  },
-  "bonuses": {
-    "SLASH_ATT": 0,
-    "RANGE_ATT": 0,
-    "STAB_DEF": 0,
-    "SLASH_DEF": 0,
-    "CRUSH_DEF": 0,
-    "MAGIC_DEF": 0,
-    "RANGE_DEF": 0
   },
   "attackRange": -1,
   "attackGfx": -1,

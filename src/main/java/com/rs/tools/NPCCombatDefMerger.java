@@ -28,6 +28,7 @@ import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.packets.Packet;
@@ -60,6 +61,20 @@ public class NPCCombatDefMerger {
 
 		for (File file : ORIGINAL.keySet()) {
 			NPCCombatDefinitions def = ORIGINAL.get(file);
+			
+			if (def.aggroDistance <= 0)
+				def.aggroDistance = def.attackStyle == AttackStyle.MELEE ? 4 : def.attackStyle == AttackStyle.SPECIAL ? 64 : 8;
+			
+			if (def.maxDistFromSpawn <= 0)
+				def.aggroDistance = def.attackStyle == AttackStyle.SPECIAL || def.attackStyle == AttackStyle.SPECIAL2 ? 64 : 16;
+			
+			if (def.attackStyle == AttackStyle.SPECIAL) {
+				def.attackStyle = AttackStyle.RANGE;
+			}
+			if (def.attackStyle == AttackStyle.SPECIAL2) {
+				def.attackStyle = AttackStyle.MELEE;
+			}
+			
 			JsonFileManager.saveJsonFile(def, file);
 			System.out.println("Processed: " + file);
 		}
