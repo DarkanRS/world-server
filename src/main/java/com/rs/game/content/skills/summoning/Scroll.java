@@ -47,7 +47,7 @@ public enum Scroll {
 			else if (target instanceof Player)
 				familiar.getOwner().sendMessage("Your familiar cannot scare a player.");
 			else if (target instanceof NPC targN) {
-				if (targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL)
+				if (targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL && targN.getCombatDefinitions().getAttackStyle() != AttackStyle.SPECIAL2)
 					target.setAttackedByDelay(3000);
 				else
 					familiar.getOwner().sendMessage("Your familiar cannot scare that monster.");
