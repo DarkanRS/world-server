@@ -245,6 +245,10 @@ public enum Pouch {
 		
 	}
 	
+	public PouchMaterialList getMaterialList() {
+		return PouchMaterialList.forId(realPouchId);
+	}
+	
 	public XPType getXpType() {
 		return xpType;
 	}

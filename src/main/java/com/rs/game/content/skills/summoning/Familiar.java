@@ -228,7 +228,15 @@ public class Familiar extends NPC {
 		Item item = owner.getInventory().getItem(slot);
 		if (item == null)
 			return;
-		if (!ItemConstants.isTradeable(item) || item.getId() == 4049 || (canStoreEssOnly() && item.getId() != 1436 && item.getId() != 7936) || item.getDefinitions().getValue() > 50000) {
+		if (canStoreEssOnly() && item.getId() != 1436 && item.getId() != 7936) {
+			owner.sendMessage("An abyssal familiar can only carry blank rune essence.");
+			return;
+		}
+		if (!canStoreEssOnly() && item.getId() == 1436 && item.getId() == 7936) {
+			owner.sendMessage("Only an abyssal familiar can carry blank rune essence.");
+			return;
+		}
+		if (!ItemConstants.isTradeable(item) || item.getId() == 4049 || item.getDefinitions().getValue() > 50000) {
 			owner.sendMessage("You cannot store this item.");
 			return;
 		}

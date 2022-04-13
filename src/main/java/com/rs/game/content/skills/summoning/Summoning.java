@@ -17,18 +17,13 @@
 package com.rs.game.content.skills.summoning;
 
 import java.util.Arrays;
-import java.util.List;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -45,17 +40,9 @@ public class Summoning {
 	}
 
 	public static final int POUCHES_INTERFACE = 672, SCROLLS_INTERFACE = 666;
-	private static final Animation SCROLL_INFUSIN_ANIMATION = new Animation(723);
-	private static final Animation POUCH_INFUSION_ANIMATION = new Animation(725);
-	private static final SpotAnim POUCH_INFUSION_GRAPHICS = new SpotAnim(1207);
-
-	public static int getScrollId(int id) {
-		return EnumDefinitions.getEnum(1283).getIntValue(id);
-	}
-
-	public static int getRequiredLevel(int id) {
-		return EnumDefinitions.getEnum(1185).getIntValue(id);
-	}
+	private static final int SCROLL_ANIM = 723;
+	private static final int POUCH_ANIM = 725;
+	private static final int POUCH_SPOTANIM = 1207;
 
 	public static boolean isFamiliar(int npcId) {
 		return EnumDefinitions.getEnum(1320).getValues().containsValue(npcId);
@@ -65,22 +52,20 @@ public class Summoning {
 		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
 	}
 
-	public static String getRequirementsMessage(int id) {
-		return EnumDefinitions.getEnum(1186).getStringValue(id);
-	}
+//	public static String getRequirementsMessage(int id) {
+//		return EnumDefinitions.getEnum(1186).getStringValue(id);
+//	}
 
 	public static void openInfusionInterface(Player player) {
 		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
 		player.getPackets().sendPouchInfusionOptionsScript(POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
 		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
-		player.getTempAttribs().setB("infusing_scroll", false);
 	}
 
 	public static void openScrollInfusionInterface(Player player) {
 		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
 		player.getPackets().sendScrollInfusionOptionsScript(SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
 		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
-		player.getTempAttribs().setB("infusing_scroll", true);
 	}
 
 	public static int getPouchId(int grayId) {
@@ -112,9 +97,8 @@ public class Summoning {
 			player.sendMessage("You do not have enought summoning points to spawn this.");
 			return;
 		}
-		int levelReq = getRequiredLevel(pouch.getRealPouchId());
-		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < levelReq) {
-			player.sendMessage("You need a summoning level of " + levelReq + " in order to use this pouch.");
+		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < pouch.getLevel()) {
+			player.sendMessage("You need a summoning level of " + pouch.getLevel() + " in order to use this pouch.");
 			return;
 		}
 		WorldTile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(pouch.getBaseNpc(), player.getVars()).size);
@@ -139,18 +123,23 @@ public class Summoning {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 16) {
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), 1);
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), 5);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), 10);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), Integer.MAX_VALUE);
-				else if (e.getPacket() == ClientPacket.IF_OP5) {
-					handlePouchInfusion(e.getPlayer(), getPouchId(e.getSlotId()), 28);
-					e.getPlayer().sendMessage("You currently need " + ItemDefinitions.getDefs(e.getSlotId2()).getCreateItemRequirements());
+				Pouch pouch = Pouch.forId(getPouchId(e.getSlotId()));
+				if (pouch == null) {
+					e.getPlayer().sendMessage("Unknown pouch with ID: " + getPouchId(e.getSlotId()));
+					return;
 				}
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					handlePouchInfusion(e.getPlayer(), pouch, 1);
+				else if (e.getPacket() == ClientPacket.IF_OP2)
+					handlePouchInfusion(e.getPlayer(), pouch, 5);
+				else if (e.getPacket() == ClientPacket.IF_OP3)
+					handlePouchInfusion(e.getPlayer(), pouch, 10);
+				else if (e.getPacket() == ClientPacket.IF_OP4)
+					handlePouchInfusion(e.getPlayer(), pouch, Integer.MAX_VALUE);
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					handlePouchInfusion(e.getPlayer(), pouch, 28);
+				else if (e.getPacket() == ClientPacket.IF_OP7)
+					e.getPlayer().sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
 			} else if (e.getComponentId() == 19 && e.getPacket() == ClientPacket.IF_OP1)
 				openScrollInfusionInterface(e.getPlayer());
 		}
@@ -194,41 +183,27 @@ public class Summoning {
 		player.getSkills().addXp(Constants.SUMMONING, pouch.getScroll().getXp());
 
 		player.closeInterfaces();
-		player.setNextAnimation(SCROLL_INFUSIN_ANIMATION);
+		player.anim(SCROLL_ANIM);
 	}
 
 
-	public static void handlePouchInfusion(Player player, int pouchId, int creationCount) {
-		Pouch pouch = Pouch.forId(pouchId);
-		if (pouch == null)
-			return;
-		boolean infusingScroll = player.getTempAttribs().removeB("infusing_scroll"), hasRequirements = false;
-		ItemDefinitions def = ItemDefinitions.getDefs(pouch.getRealPouchId());
-		List<Item> itemReq = def.getCreateItemRequirements(infusingScroll);
-		System.out.println(itemReq);
-		int level = getRequiredLevel(pouch.getRealPouchId());
-		if (itemReq != null)
-			itemCount: for (int i = 0; i < creationCount; i++) {
-				if (!player.getInventory().containsItems(itemReq)) {
-					sendItemList(player, infusingScroll, creationCount, pouchId);
-					break itemCount;
-				}
-				if (player.getSkills().getLevelForXp(Constants.SUMMONING) < level) {
-					player.sendMessage("You need a summoning level of " + level + " to create this pouch.");
-					break itemCount;
-				}
-				hasRequirements = true;
-				player.getInventory().removeItems(itemReq);
-				player.getInventory().addItem(new Item(infusingScroll ? getScrollId(pouch.getRealPouchId()) : pouch.getRealPouchId(), infusingScroll ? 10 : 1));
-				player.getSkills().addXp(Constants.SUMMONING, infusingScroll ? pouch.getMinorExperience() : pouch.getExperience());
+	public static void handlePouchInfusion(Player player, Pouch pouch, int creationCount) {
+		Item[] itemReq = pouch.getMaterialList().get();
+		for (int i = 0; i < creationCount; i++) {
+			if (!player.getInventory().containsItems(itemReq)) {
+				player.sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
+				return;
 			}
-		if (!hasRequirements) {
-			player.getTempAttribs().setB("infusing_scroll", infusingScroll);
-			return;
+			if (player.getSkills().getLevelForXp(Constants.SUMMONING) < pouch.getLevel()) {
+				player.sendMessage("You need a summoning level of " + pouch.getLevel() + " to create this pouch.");
+				return;
+			}
+			player.getInventory().removeItems(itemReq);
+			player.getInventory().addItem(new Item(pouch.getRealPouchId(), 1));
+			player.getSkills().addXp(Constants.SUMMONING, pouch.getExperience());
 		}
 		player.closeInterfaces();
-		player.setNextAnimation(POUCH_INFUSION_ANIMATION);
-		player.setNextSpotAnim(POUCH_INFUSION_GRAPHICS);
+		player.sync(POUCH_ANIM, POUCH_SPOTANIM);
 	}
 
 	public static void switchInfusionOption(Player player) {
@@ -237,14 +212,14 @@ public class Summoning {
 		else
 			openScrollInfusionInterface(player);
 	}
-
-	public static void sendItemList(Player player, boolean infusingScroll, int count, int pouchId) {
-		Pouch pouch = Pouch.forId(pouchId);
-		if (pouch == null)
-			return;
-		if (infusingScroll)
-			player.sendMessage("This scroll requires 1 " + ItemDefinitions.getDefs(pouch.getRealPouchId()).name.toLowerCase() + ".");
-		else
-			player.sendMessage(getRequirementsMessage(pouch.getRealPouchId()));
+	
+	public static String getMaterialListString(Pouch pouch) {
+		String list = "";
+		Item[] items = pouch.getMaterialList().get();
+		if (items == null)
+			return "nothing";
+		for (int i = 0;i < items.length;i++)
+			list += items[i].getAmount() + " " + items[i].getDefinitions().name.toLowerCase() + ((i == items.length - 1) ? "" : ", ");
+		return list;
 	}
 }
