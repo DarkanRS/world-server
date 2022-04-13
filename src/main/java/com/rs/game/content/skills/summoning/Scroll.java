@@ -6,7 +6,11 @@ import static com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit;
 import static com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit;
 import static com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.rs.cache.loaders.Bonus;
@@ -910,12 +914,20 @@ public enum Scroll {
 		}
 	};
 	
+	private static Map<Integer, Scroll> MAP = new HashMap<>();
+	
+	static {
+		for (Scroll s : Scroll.values())
+			MAP.put(s.id, s);
+	}
+	
 	private ScrollTarget target;
 	private String name;
 	private String description;
 	private int id;
 	private double xp;
 	private int pointCost;
+	private List<Pouch> fromPouches;
 
 	private Scroll(int scrollId, ScrollTarget target, String description, double xp, int pointCost) {
 		this.name = Utils.formatPlayerNameForDisplay(ItemDefinitions.getDefs(scrollId).name.replace(" scroll", ""));
@@ -944,6 +956,17 @@ public enum Scroll {
 	
 	public int getPointCost() {
 		return pointCost;
+	}
+	
+	public List<Pouch> fromPouches() {
+		if (fromPouches == null) {
+			fromPouches = new ArrayList<>();
+			for (Pouch p : Pouch.values()) {
+				if (p.getScroll() == this)
+					fromPouches.add(p);
+			}
+		}
+		return fromPouches;
 	}
 
 	public boolean use(Player owner, Familiar familiar) {
@@ -975,5 +998,9 @@ public enum Scroll {
 
 	public double getXp() {
 		return xp;
+	}
+	
+	public static Scroll forId(int id) {
+		return MAP.get(id);
 	}
 }
