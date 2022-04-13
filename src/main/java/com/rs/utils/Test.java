@@ -17,16 +17,13 @@
 package com.rs.utils;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 
-import com.google.common.collect.Streams;
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.packets.Packet;
