@@ -216,6 +216,7 @@ public class Summoning {
 			player.getInventory().addItem(new Item(pouch.getRealPouchId(), 1));
 			player.getSkills().addXp(Constants.SUMMONING, pouch.getExperience());
 		}
+		
 		player.closeInterfaces();
 		player.sync(POUCH_ANIM, POUCH_SPOTANIM);
 	}

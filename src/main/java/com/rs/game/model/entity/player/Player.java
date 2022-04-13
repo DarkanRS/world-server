@@ -1137,6 +1137,7 @@ public class Player extends Entity {
 	}
 
 	public void postSync() {
+		getInventory().processRefresh();
 		getVars().syncVarsToClient();
 		skills.updateXPDrops();
 	}

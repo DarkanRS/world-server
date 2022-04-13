@@ -16,7 +16,9 @@
 //
 package com.rs.game.model.entity.player;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
@@ -44,6 +46,8 @@ public final class Inventory {
 
 	private transient Player player;
 	private transient double inventoryWeight;
+	private transient Set<Integer> slotsToUpdate = new HashSet<>();
+	private transient boolean updateAll = true;
 
 	public static final int INVENTORY_INTERFACE = 679;
 
@@ -133,8 +137,8 @@ public final class Inventory {
 	}
 
 	public void refresh(int... slots) {
-		player.getPackets().sendUpdateItems(93, items, slots);
-		refreshConfigs();
+		for (int i : slots)
+			slotsToUpdate.add(i);
 	}
 
 	public boolean hasMaterials(Item[] mats) {
@@ -410,8 +414,20 @@ public final class Inventory {
 	}
 
 	public void refresh() {
-		player.getPackets().sendItems(93, items);
-		refreshConfigs();
+		updateAll = true;
+	}
+	
+	public void processRefresh() {
+		boolean needsRefresh = updateAll || !slotsToUpdate.isEmpty();
+		if (updateAll)
+			player.getPackets().sendItems(93, items);
+		else if (!slotsToUpdate.isEmpty())
+			player.getPackets().sendUpdateItems(93, items, slotsToUpdate.stream().mapToInt(Integer::intValue).toArray());
+		if (needsRefresh) {
+			updateAll = false;
+			slotsToUpdate.clear();
+			refreshConfigs();
+		}
 	}
 
 	public boolean addItem(int itemId, int amount, boolean dropIfInvFull) {
