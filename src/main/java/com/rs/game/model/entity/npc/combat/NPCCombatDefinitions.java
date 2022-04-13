@@ -355,7 +355,7 @@ public class NPCCombatDefinitions {
 
 	public int getAttackRange() {
 		if (attackRange <= 0)
-			return getAttackStyle() == AttackStyle.MELEE ? 0 : 10;
+			return getAttackStyle() == AttackStyle.MELEE ? 0 : getAttackStyle() == AttackStyle.RANGE ? 7 : 10;
 		return attackRange;
 	}
 
