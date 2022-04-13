@@ -406,7 +406,7 @@ public final class ObjectHandler {
 			else if (id == 26723)
 				player.getDialogueManager().execute(new SpiritTreeD(), (object.getId() == 68973 && object.getId() == 68974) ? 3637 : 3636);
 			else if (id == 4019 || id == 67036)
-				Summoning.openInfusionInterface(player);
+				Summoning.openInfusionInterface(player, false);
 			else if (id == 20604)
 				player.useStairs(-1, new WorldTile(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)

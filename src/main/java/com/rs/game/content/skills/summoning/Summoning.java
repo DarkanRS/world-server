@@ -21,6 +21,8 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.game.content.ItemConstants;
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -56,15 +58,15 @@ public class Summoning {
 //		return EnumDefinitions.getEnum(1186).getStringValue(id);
 //	}
 
-	public static void openInfusionInterface(Player player) {
+	public static void openInfusionInterface(Player player, boolean dung) {
 		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
-		player.getPackets().sendPouchInfusionOptionsScript(POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
+		player.getPackets().sendPouchInfusionOptionsScript(dung, POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
 		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
 	}
 
-	public static void openScrollInfusionInterface(Player player) {
+	public static void openScrollInfusionInterface(Player player, boolean dung) {
 		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
-		player.getPackets().sendScrollInfusionOptionsScript(SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
+		player.getPackets().sendScrollInfusionOptionsScript(dung, SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
 		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
 	}
 
@@ -73,7 +75,7 @@ public class Summoning {
 		return reals.getIntValue((grayId-2) / 5 + 1);
 	}
 	
-	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getRealPouchId()).toArray(), new String[] { "Summon" }) {
+	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getId()).toArray(), new String[] { "Summon" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			Pouch pouches = Pouch.forId(e.getItem().getId());
@@ -106,7 +108,7 @@ public class Summoning {
 			player.sendMessage("Theres not enough space to summon your familiar here.");
 			return;
 		}
-		player.getInventory().deleteItem(pouch.getRealPouchId(), 1);
+		player.getInventory().deleteItem(pouch.getId(), 1);
 		player.getSkills().drainSummoning(pouch.getSummoningCost());
 		player.setFamiliar(new Familiar(player, pouch, spawnTile, -1, true));
 		player.getFamiliar().sendFollowerDetails();
@@ -114,7 +116,7 @@ public class Summoning {
 
 	public static boolean hasPouch(Player player) {
 		for (Pouch pouch : Pouch.values())
-			if (player.getInventory().containsOneItem(pouch.getRealPouchId()))
+			if (player.getInventory().containsOneItem(pouch.getId()))
 				return true;
 		return false;
 	}
@@ -141,7 +143,7 @@ public class Summoning {
 				else if (e.getPacket() == ClientPacket.IF_OP7)
 					e.getPlayer().sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
 			} else if (e.getComponentId() == 19 && e.getPacket() == ClientPacket.IF_OP1)
-				openScrollInfusionInterface(e.getPlayer());
+				openScrollInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
 		}
 	};
 
@@ -158,7 +160,7 @@ public class Summoning {
 				else if (e.getPacket() == ClientPacket.IF_OP4)
 					createScroll(e.getPlayer(), e.getSlotId2(), Integer.MAX_VALUE);
 			} else if (e.getComponentId() == 18 && e.getPacket() == ClientPacket.IF_OP1)
-				openInfusionInterface(e.getPlayer());
+				openInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
 		}
 	};
 
@@ -174,7 +176,7 @@ public class Summoning {
 		}
 		boolean hasReqs = false;
 		for (Pouch pouch : scroll.fromPouches()) {
-			if (player.getInventory().containsItem(pouch.getRealPouchId()))
+			if (player.getInventory().containsItem(pouch.getId()))
 				hasReqs = true;
 		}
 		if (!hasReqs) {
@@ -184,14 +186,14 @@ public class Summoning {
 		for (int i = 0;i < amount;i++) {
 			Pouch pouch = null;
 			for (Pouch p : scroll.fromPouches()) {
-				if (player.getInventory().containsItem(p.getRealPouchId())) {
+				if (player.getInventory().containsItem(p.getId())) {
 					pouch = p;
 					break;
 				}
 			}
 			if (pouch == null)
 				break;
-			player.getInventory().deleteItem(pouch.getRealPouchId(), 1);
+			player.getInventory().deleteItem(pouch.getId(), 1);
 			player.getInventory().addItem(pouch.getScroll().getId(), 10);
 			player.getSkills().addXp(Constants.SUMMONING, pouch.getScroll().getXp());
 		}
@@ -202,6 +204,10 @@ public class Summoning {
 
 
 	public static void handlePouchInfusion(Player player, Pouch pouch, int creationCount) {
+		if (ItemConstants.isDungItem(pouch.getId()) && !player.getControllerManager().isIn(DungeonController.class))
+			return;
+		if (!ItemConstants.isDungItem(pouch.getId()) && player.getControllerManager().isIn(DungeonController.class))
+			return;
 		Item[] itemReq = pouch.getMaterialList().get();
 		for (int i = 0; i < creationCount; i++) {
 			if (!player.getInventory().containsItems(itemReq)) {
@@ -213,7 +219,7 @@ public class Summoning {
 				return;
 			}
 			player.getInventory().removeItems(itemReq);
-			player.getInventory().addItem(new Item(pouch.getRealPouchId(), 1));
+			player.getInventory().addItem(new Item(pouch.getId(), 1));
 			player.getSkills().addXp(Constants.SUMMONING, pouch.getExperience());
 		}
 		

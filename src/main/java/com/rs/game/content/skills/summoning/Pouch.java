@@ -182,7 +182,7 @@ public enum Pouch {
 
 	static {
 		for (Pouch pouch : Pouch.values())
-			pouches.put(pouch.realPouchId, pouch);
+			pouches.put(pouch.id, pouch);
 	}
 
 	public static Pouch forId(int id) {
@@ -192,10 +192,10 @@ public enum Pouch {
 	private int baseNpc, pvpNpc, spawnAnim, despawnAnim;
 	private XPType xpType;
 	private Scroll scroll;
-	private int realPouchId;
+	private int id;
 	private int level;
 	private int summoningCost;
-	private double minorExperience;
+	private double summonXp;
 	private double experience;
 	private int pouchTime;
 	private int bobSize;
@@ -221,8 +221,8 @@ public enum Pouch {
 		this.despawnAnim = despawnAnim;
 		this.scroll = scroll;
 		this.level = level;
-		this.realPouchId = realPouchId;
-		this.minorExperience = minorExperience;
+		this.id = realPouchId;
+		this.summonXp = minorExperience;
 		this.experience = experience;
 		this.summoningCost = summoningCost;
 		this.pouchTime = pouchTime;
@@ -246,7 +246,7 @@ public enum Pouch {
 	}
 	
 	public PouchMaterialList getMaterialList() {
-		return PouchMaterialList.forId(realPouchId);
+		return PouchMaterialList.forId(id);
 	}
 	
 	public XPType getXpType() {
@@ -273,16 +273,16 @@ public enum Pouch {
 		return level;
 	}
 
-	public int getRealPouchId() {
-		return realPouchId;
+	public int getId() {
+		return id;
 	}
 
 	public int getSummoningCost() {
 		return summoningCost;
 	}
 
-	public double getMinorExperience() {
-		return minorExperience;
+	public double getSummonXp() {
+		return summonXp;
 	}
 
 	public double getExperience() {

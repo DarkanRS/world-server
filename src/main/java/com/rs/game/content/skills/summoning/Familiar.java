@@ -559,12 +559,12 @@ public class Familiar extends NPC {
 			owner.sendMessage("You need to have at least two minutes remaining before you can renew your familiar.", true);
 			return false;
 		}
-		if (!owner.getInventory().getItems().contains(new Item(pouch.getRealPouchId(), 1))) {
-			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getRealPouchId()).getName().toLowerCase() + " to renew your familiar's timer.");
+		if (!owner.getInventory().getItems().contains(new Item(pouch.getId(), 1))) {
+			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getId()).getName().toLowerCase() + " to renew your familiar's timer.");
 			return false;
 		}
 		resetTickets();
-		owner.getInventory().deleteItem(pouch.getRealPouchId(), 1);
+		owner.getInventory().deleteItem(pouch.getId(), 1);
 		call(true);
 		owner.sendMessage("You use your remaining pouch to renew your familiar.");
 		return true;
@@ -582,7 +582,7 @@ public class Familiar extends NPC {
 	 * 
 	 */
 	public void sendMainConfigs() {
-		owner.getVars().setVar(448, pouch.getRealPouchId());// configures familiar type
+		owner.getVars().setVar(448, pouch.getId());// configures familiar type
 		owner.getVars().setVar(1174, 0); //refresh familiar head
 		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
 		refreshSpecialEnergy();

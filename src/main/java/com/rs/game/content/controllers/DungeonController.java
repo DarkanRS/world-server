@@ -856,7 +856,7 @@ public class DungeonController extends Controller {
 			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, products, 883, 2));
 			return false;
 		case "summoning obelisk":
-			//TODO dung summ
+			Summoning.openInfusionInterface(player, true);
 			return false;
 		case "group gatestone portal":
 			portalGroupStoneTeleport();
@@ -1116,9 +1116,6 @@ public class DungeonController extends Controller {
 			return true;
 		} else if (interfaceId == 934)
 			DungeoneeringSmithing.handleButtons(player, packet, componentId);
-		else if (interfaceId == Summoning.POUCHES_INTERFACE)
-			//TODO dung summoning
-			return false;
 		else if (interfaceId == DungeonResourceShop.RESOURCE_SHOP) {
 			if (componentId == 24) {
 				int quantity = -1;
