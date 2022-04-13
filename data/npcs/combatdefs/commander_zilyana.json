@@ -9,7 +9,7 @@
   "respawnDelay": 149,
   "hitpoints": 2550,
   "maxHit": 315,
-  "attackStyle": "SPECIAL2",
+  "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {
     "ATTACK": 280,
@@ -22,7 +22,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": -1,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

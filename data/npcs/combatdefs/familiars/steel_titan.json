@@ -9,7 +9,7 @@
   "respawnDelay": 0,
   "hitpoints": 7540,
   "maxHit": 244,
-  "attackStyle": "SPECIAL",
+  "attackStyle": "RANGE",
   "combatLevels": {
     "ATTACK": 150,
     "RANGE": 150,
@@ -33,7 +33,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": -1,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

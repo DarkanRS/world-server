@@ -48,9 +48,7 @@ public class NPCCombatDefinitions {
 	}
 
 	public enum AttackStyle {
-		MELEE, RANGE, MAGE,
-		SPECIAL, //Ranged special
-		SPECIAL2 //Melee special
+		MELEE, RANGE, MAGE
 	}
 	
 	public enum Skill {
@@ -68,11 +66,11 @@ public class NPCCombatDefinitions {
 	private int attackAnim;
 	private int defenceAnim;
 	private int deathAnim;
-	public int deathDelay;
-	public int respawnDelay;
+	private int deathDelay;
+	private int respawnDelay;
 	private int hitpoints;
 	private int maxHit;
-	public AttackStyle attackStyle;
+	private AttackStyle attackStyle;
 	private Bonus attackBonus;
 	private Map<Skill, Integer> combatLevels;
 	private Map<Bonus, Integer> bonuses;
@@ -80,9 +78,9 @@ public class NPCCombatDefinitions {
 	private int attackGfx;
 	private int attackProjectile;
 	private AggressiveType agressivenessType;
-	public int aggroDistance = -1; //4 for melee, 8 for range default
+	private int aggroDistance = -1; //4 for melee, 8 for range default
 	private int deAggroDistance = -1; //16 by default
-	public int maxDistFromSpawn = -1; //16 by default 64 for special/special2
+	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
 
 	public NPCCombatDefinitions() {
 		hitpoints = 1;
@@ -339,7 +337,7 @@ public class NPCCombatDefinitions {
 
 	public int getMaxDistFromSpawn() {
 		if (maxDistFromSpawn <= 0)
-			return getAttackStyle() == AttackStyle.SPECIAL || getAttackStyle() == AttackStyle.SPECIAL2 ? 64 : 16;
+			return 16;
 		return maxDistFromSpawn;
 	}
 
@@ -351,13 +349,13 @@ public class NPCCombatDefinitions {
 
 	public int getAggroDistance() {
 		if (aggroDistance <= 0)
-			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackStyle() == AttackStyle.SPECIAL ? 64 : 8;
+			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackRange() - 2;
 		return aggroDistance;
 	}
 
 	public int getAttackRange() {
 		if (attackRange <= 0)
-			return getAttackStyle() == AttackStyle.MELEE || getAttackStyle() == AttackStyle.SPECIAL2 ? 0 : 10;
+			return getAttackStyle() == AttackStyle.MELEE ? 0 : 10;
 		return attackRange;
 	}
 
