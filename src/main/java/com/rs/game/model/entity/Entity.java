@@ -1023,7 +1023,7 @@ public abstract class Entity {
 	}
 
 	public void setNextWorldTile(WorldTile nextWorldTile) {
-		this.nextWorldTile = nextWorldTile;
+		this.nextWorldTile = new WorldTile(nextWorldTile);
 	}
 
 	public WorldTile getNextWorldTile() {

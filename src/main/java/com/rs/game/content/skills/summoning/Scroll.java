@@ -105,11 +105,31 @@ public enum Scroll {
 			return true;
 		}
 	},
-	PESTER(12838, ScrollTarget.COMBAT, "Immediately moves the mosquito to melee attack the target dealing up to 90 damage.", 0.5, 3) {
+	PESTER(12838, ScrollTarget.ENTITY, "Immediately moves the mosquito to melee attack the target dealing up to 90 damage.", 0.5, 3) {
 		@Override
-		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+		public boolean entity(Player owner, Familiar familiar, Entity target) {
+			if (!owner.lineOfSightTo(target, false)) {
+				owner.sendMessage("Your mosquito can't find a way to get there.");
+				return false;
+			}
+			if (familiar.getTarget() != null) {
+				owner.sendMessage("Your mosquito is already attacking something.");
+				return false;
+			}
+			WorldTile tile = target.getNearestTeleTile(familiar);
+			if (tile == null) {
+				owner.sendMessage("The mosquito can't find a place to land on that target right now.");
+				return false;
+			}
+			if (!familiar.commandAttack(target))
+				return false;
+			familiar.freeze(3);
+			familiar.sync(8040, 1440);
+			delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 90, AttackStyle.MELEE, target)), () -> {
+				familiar.setNextWorldTile(target.getNearestTeleTile(familiar));
+				familiar.sync(8041, 1442);
+			});
+			return true;
 		}
 	},
 	ELECTRIC_LASH(12460, ScrollTarget.COMBAT, "Fires a small, magic lightning bolt at the opponent dealing up to 40 damage and stunning them.", 0.4, 6) {
@@ -217,6 +237,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
+			//spotanim 1321
 			return false;
 		}
 	},
@@ -301,6 +322,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
+			//spotanim 1337
 			return false;
 		}
 	},
@@ -408,6 +430,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
+			//spotanim 1331
 			return false;
 		}
 	},
@@ -967,6 +990,10 @@ public enum Scroll {
 	
 	public int attack(Player owner, Familiar familiar, Entity target) {
 		return -1;
+	}
+	
+	public boolean entity(Player owner, Familiar familiar, Entity target) {
+		return true;
 	}
 
 	public boolean onCombatActivation(Player owner, Familiar familiar, Entity target) {

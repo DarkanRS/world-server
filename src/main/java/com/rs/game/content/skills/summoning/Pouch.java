@@ -27,7 +27,7 @@ public enum Pouch {
 			return player.getActionManager().doingAction(Fishing.class);
 		}
 	},
-	SPIRIT_MOSQUITO(7331, 7332, XPType.ACCURATE, 00000, 00000, Scroll.PESTER, 12778, 17, 0.2, 46.5, Ticks.fromMinutes(16), 2),
+	SPIRIT_MOSQUITO(7331, 7332, XPType.ACCURATE, 8037, 8915, Scroll.PESTER, 12778, 17, 0.2, 46.5, Ticks.fromMinutes(16), 2),
 	DESERT_WYRM(6831, 6832, XPType.AGGRESSIVE, 00000, 00000, Scroll.ELECTRIC_LASH, 12049, 18, 0.4, 31.2, Ticks.fromMinutes(16), 1),
 	SPIRIT_SCORPION(6837, 6838, XPType.CONTROLLED, 00000, 00000, Scroll.VENOM_SHOT, 12055, 19, 0.9, 83.2, Ticks.fromMinutes(16), 2),
 	SPIRIT_TZ_KIH(7361, 7362, XPType.MAGIC, 00000, 00000, Scroll.FIREBALL, 12808, 22, 1.1, 96.8, Ticks.fromMinutes(16), 3),
@@ -49,7 +49,7 @@ public enum Pouch {
 	ADAMANT_MINOTAUR(6861, 6862, XPType.DEFENSIVE, 00000, 00000, Scroll.ADAMANT_BULL, 12081, 76, 8.6, 668.8, Ticks.fromMinutes(64), 9),
 	RUNE_MINOTAUR(6863, 6864, XPType.DEFENSIVE, 00000, 00000, Scroll.RUNE_BULL, 12083, 86, 8.6, 756.8, Ticks.fromMinutes(64), 9),
 	BULL_ANT(6867, 6868, XPType.CONTROLLED, 00000, 00000, Scroll.UNBURDEN, 12087, 40, 0.6, 52.8, Ticks.fromMinutes(32), 5, 9),
-	MACAW(6851, 6852, null, 00000, 00000, Scroll.HERBCALL, 12071, 41, 0.8, 72.4, Ticks.fromMinutes(32), 5, "forage_macaw"), //spotanim 1321
+	MACAW(6851, 6852, null, 00000, 00000, Scroll.HERBCALL, 12071, 41, 0.8, 72.4, Ticks.fromMinutes(32), 5, "forage_macaw"),
 	EVIL_TURNIP(6833, 6834, XPType.RANGED, 00000, 00000, Scroll.EVIL_FLAMES, 12051, 42, 2.1, 184.8, Ticks.fromMinutes(32), 5, "forage_evil_turnip"),
 	SPIRIT_COCKATRICE(6875, 6876, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12095, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	SPIRIT_GUTHATRICE(6877, 6878, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12097, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
@@ -64,7 +64,7 @@ public enum Pouch {
 	SPIRIT_TERRORBIRD(6794, 6795, XPType.CONTROLLED, 00000, 00000, Scroll.TIRELESS_RUN, 12007, 52, 0.7, 68.4, Ticks.fromMinutes(32), 6, 12),
 	ABYSSAL_PARASITE(6818, 6819, XPType.MAGIC, 00000, 00000, Scroll.ABYSSAL_DRAIN, 12035, 54, 1.1, 94.8, Ticks.fromMinutes(32), 6, 7),
 	SPIRIT_JELLY(6992, 6993, XPType.AGGRESSIVE, 00000, 00000, Scroll.DISSOLVE, 12027, 55, 5.5, 484.0, Ticks.fromMinutes(48), 6),
-	IBIS(6991, -1, null, 00000, 00000, Scroll.FISH_RAIN, 12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6, "forage_ibis") { //spotanim 1337
+	IBIS(6991, -1, null, 00000, 00000, Scroll.FISH_RAIN, 12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6, "forage_ibis") {
 		@Override
 		public boolean canRollForager(Player player) {
 			return player.getActionManager().doingAction(Fishing.class);
@@ -91,7 +91,7 @@ public enum Pouch {
 			}
 		}
 	},
-	FRUIT_BAT(6817, -1, null, 00000, 00000, Scroll.FRUITFALL, 12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7, "forage_fruit_bat"), //spotanim 1331
+	FRUIT_BAT(6817, -1, null, 00000, 00000, Scroll.FRUITFALL, 12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7, "forage_fruit_bat"),
 	RAVENOUS_LOCUST(7372, 7373, XPType.ACCURATE, 00000, 00000, Scroll.FAMINE, 12820, 70, 1.5, 132.0, Ticks.fromMinutes(48), 4),
 	ARCTIC_BEAR(6839, 6840, XPType.CONTROLLED, 00000, 00000, Scroll.ARCTIC_BLAST, 12057, 71, 1.1, 93.2, Ticks.fromMinutes(48), 8),
 	PHOENIX(8575, 8576, XPType.MAGIC, 00000, 00000, Scroll.RISE_FROM_THE_ASHES, 14623, 72, 3.0, 301.0, Ticks.fromMinutes(48), 8),

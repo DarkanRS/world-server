@@ -450,6 +450,12 @@ public class Familiar extends NPC {
 			if (target instanceof GameObject o)
 				return pouch.getScroll().object(owner, this, o);
 			return false;
+		case ENTITY:
+			if (target instanceof Entity o)
+				return pouch.getScroll().entity(owner, this, o);
+			break;
+		default:
+			break;
 		}
 		return false;
 	}
@@ -649,6 +655,10 @@ public class Familiar extends NPC {
 			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.WORLD_OBJECT));
 			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.WORLD_OBJECT));
 			break;
+		case ENTITY:
+			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.NPC, UseFlag.PLAYER));
+			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.NPC, UseFlag.PLAYER));
+			break;
 		case ITEM:
 			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
 			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
@@ -663,10 +673,6 @@ public class Familiar extends NPC {
 	public void call() {
 		if (isDead())
 			return;
-		if (getAttackedBy() != null && inCombat()) {
-			owner.sendMessage("You cant call your familiar while it is under combat.");
-			return;
-		}
 		call(false);
 	}
 
@@ -805,5 +811,39 @@ public class Familiar extends NPC {
 			ops.add("Talk-to", Interactions.getTalkToDialogue(owner, this));
 			Interactions.addExtraOps(owner, ops, this);
 		}));
+	}
+
+	public boolean commandAttack(Entity target) {
+		if (target instanceof Player player) {
+			if (!owner.isCanPvp() || !player.isCanPvp()) {
+				owner.sendMessage("You can only attack players in a player-vs-player area.");
+				return false;
+			}
+			if (!owner.getFamiliar().canAttack(player)) {
+				owner.sendMessage("You can only use your familiar in a multi-zone area.");
+				return false;
+			}
+		} else if (target instanceof NPC npc) {
+			if (!npc.getDefinitions().hasAttackOption()) {
+				owner.sendMessage("You can't attack them.");
+				return false;
+			}
+			if (target instanceof Familiar familiar) {
+				if (familiar == this) {
+					owner.sendMessage("You can't attack your own familiar.");
+					return false;
+				}
+				if (!owner.getFamiliar().canAttack(familiar.getOwner())) {
+					owner.sendMessage("You can only attack players in a player-vs-player area.");
+					return false;
+				}
+			}
+			if (!owner.getFamiliar().canAttack(target)) {
+				owner.sendMessage("You can only use your familiar in a multi-zone area.");
+				return false;
+			}
+		}
+		owner.getFamiliar().setTarget(target);
+		return true;
 	}
 }

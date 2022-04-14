@@ -53,17 +53,10 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 			if (player.getFamiliar() == null)
 				return;
 			player.resetWalkSteps();
-			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65)) {
-				if (!player.isCanPvp() || !p2.isCanPvp()) {
-					player.sendMessage("You can only attack players in a player-vs-player area.");
-					return;
-				}
-				if (!player.getFamiliar().canAttack(p2)) {
-					player.sendMessage("You can only use your familiar in a multi-zone area.");
-					return;
-				}
-				player.getFamiliar().setTarget(p2);
-			}
+			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65))
+				player.getFamiliar().commandAttack(p2);
+			if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || (packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
+				player.getFamiliar().executeSpecial(p2);
 			break;
 		case 193:
 		case 192:

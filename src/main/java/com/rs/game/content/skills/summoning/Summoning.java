@@ -39,7 +39,7 @@ import com.rs.plugin.handlers.ItemClickHandler;
 public class Summoning {
 
 	public static enum ScrollTarget {
-		ITEM, COMBAT, CLICK, OBJECT
+		ITEM, COMBAT, CLICK, OBJECT, ENTITY
 	}
 
 	public static final int POUCHES_INTERFACE = 672, SCROLLS_INTERFACE = 666;
