@@ -20,7 +20,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.rs.game.content.Effect;
-import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -102,8 +101,6 @@ public enum Fish {
 
     ROCKTAIL(15270, 90, 385, -35, 35);
 
-    private static final int[] BONUS_FISH = {341, 349, 401, 407};
-
     private int id, level;
     private int rate1, rate99;
     private double xp;
@@ -176,11 +173,6 @@ public enum Fish {
             player.getInventory().addItem(fish);
         player.getSkills().addXp(Constants.FISHING, totalXp);
         player.incrementCount(fish.getDefinitions().getName() + " caught fishing");
-        if (player.getFamiliarPouch() == Pouch.IBIS || player.getFamiliarPouch() == Pouch.GRANITE_LOBSTER || player.getFamiliarPouch() == Pouch.GRANITE_CRAB)
-            if (Utils.getRandomInclusive(50) == 0) {
-            	player.getFamiliar().forage();
-                player.getSkills().addXp(Constants.FISHING, 5.5);
-            }
         if (extraRewards != null)
             extraRewards.accept(player);
     }

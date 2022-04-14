@@ -9,11 +9,11 @@
   "respawnDelay": 0,
   "hitpoints": 160,
   "maxHit": 40,
-  "attackStyle": "MAGE",
+  "attackStyle": "MELEE",
   "combatLevels": {
-    "ATTACK": 10,
+    "ATTACK": 15,
     "RANGE": 10,
-    "STRENGTH": 10,
+    "STRENGTH": 15,
     "DEFENSE": 10,
     "MAGE": 15
   },

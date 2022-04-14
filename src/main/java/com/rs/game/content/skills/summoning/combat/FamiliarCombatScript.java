@@ -8,7 +8,6 @@ import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -40,10 +39,6 @@ public class FamiliarCombatScript extends CombatScript {
 	
 	public int alternateAttack(NPC npc, Entity target) {
 		return CANCEL;
-	}
-	
-	public void onDamageDealt(NPC npc, Entity target, Hit hit) {
-		
 	}
 	
 	public final int autoAttack(NPC npc, Entity target) {

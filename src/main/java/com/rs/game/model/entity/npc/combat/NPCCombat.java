@@ -72,7 +72,7 @@ public final class NPCCombat {
 			Player player = familiar.getOwner();
 			if (player != null) {
 				target = player;
-				familiar.setTarget(target);
+				npc.setTarget(target);
 				addAttackedByDelay(target);
 			}
 		}

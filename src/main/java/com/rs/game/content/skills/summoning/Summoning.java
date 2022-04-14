@@ -55,27 +55,6 @@ public class Summoning {
 		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
 	}
 
-//	public static String getRequirementsMessage(int id) {
-//		return EnumDefinitions.getEnum(1186).getStringValue(id);
-//	}
-
-	public static void openInfusionInterface(Player player, boolean dung) {
-		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
-		player.getPackets().sendPouchInfusionOptionsScript(dung, POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
-		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
-	}
-
-	public static void openScrollInfusionInterface(Player player, boolean dung) {
-		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
-		player.getPackets().sendScrollInfusionOptionsScript(dung, SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
-		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
-	}
-
-	public static int getPouchId(int grayId) {
-		EnumDefinitions reals = EnumDefinitions.getEnum(1182);
-		return reals.getIntValue((grayId-2) / 5 + 1);
-	}
-	
 	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getId()).toArray(), new String[] { "Summon" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
@@ -122,6 +101,12 @@ public class Summoning {
 		return false;
 	}
 
+	public static void openInfusionInterface(Player player, boolean dung) {
+		player.getInterfaceManager().sendInterface(POUCHES_INTERFACE);
+		player.getPackets().sendPouchInfusionOptionsScript(dung, POUCHES_INTERFACE, 16, 78, 8, 10, "Infuse<col=FF9040>", "Infuse-5<col=FF9040>", "Infuse-10<col=FF9040>", "Infuse-X<col=FF9040>", "Infuse-All<col=FF9040>", "List<col=FF9040>");
+		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
+	}
+
 	public static ButtonClickHandler handlePouchButtons = new ButtonClickHandler(672) {
 		@Override
 		public void handle(ButtonClickEvent e) {
@@ -147,6 +132,12 @@ public class Summoning {
 				openScrollInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
 		}
 	};
+	
+	public static void openScrollInfusionInterface(Player player, boolean dung) {
+		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
+		player.getPackets().sendScrollInfusionOptionsScript(dung, SCROLLS_INTERFACE, 16, 78, 8, 10, "Transform<col=FF9040>", "Transform-5<col=FF9040>", "Transform-10<col=FF9040>", "Transform-All<col=FF9040>", "Transform-X<col=FF9040>");
+		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
+	}
 
 	public static ButtonClickHandler handleScrollButtons = new ButtonClickHandler(666) {
 		@Override

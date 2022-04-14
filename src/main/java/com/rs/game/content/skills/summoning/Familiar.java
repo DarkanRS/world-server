@@ -22,6 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.DismissD;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
@@ -148,10 +149,14 @@ public class Familiar extends NPC {
 		if (inv == null)
 			return;
 		owner.getInterfaceManager().sendInterface(671);
-		sendItemsOnInter();
+		owner.getPackets().sendItems(ITEMS_KEY, inv);
+		owner.getPackets().setIFRightClickOps(671, 27, 0, ITEMS_KEY, 0, 1, 2, 3, 4, 5);
+		owner.getPackets().sendInterSetItemsOptionsScript(671, 27, ITEMS_KEY, 6, 5, "Withdraw", "Withdraw-5", "Withdraw-10", "Withdraw-All", "Withdraw-X", "Examine");
 		if (!pouch.isForager()) {
 			owner.getInterfaceManager().sendInventoryInterface(665);
-			sendInventoryOps();
+			owner.getPackets().sendItems(93, owner.getInventory().getItems());
+			owner.getPackets().setIFRightClickOps(665, 0, 0, 27, 0, 1, 2, 3, 4, 5);
+			owner.getPackets().sendInterSetItemsOptionsScript(665, 0, 93, 4, 7, "Store", "Store-5", "Store-10", "Store-All", "Store-X", "Examine");
 		}
 	}
 	
@@ -226,8 +231,10 @@ public class Familiar extends NPC {
 	@Override
 	public void processEntity() {
 		super.processEntity();
-		if (forageTicks++ >= 50)
+		if (forageTicks++ >= 50) {
 			rollForage();
+			forageTicks = 0;
+		}
 		pouch.tick(owner, this);
 	}
 	
@@ -304,13 +311,6 @@ public class Familiar extends NPC {
 		owner.getPackets().sendUpdateItems(ITEMS_KEY, inv, slots);
 	}
 
-	public void sendInventoryOps() {
-		owner.getPackets().setIFRightClickOps(665, 0, 0, 27, 0, 1, 2, 3, 4, 5);
-		owner.getPackets().sendInterSetItemsOptionsScript(665, 0, 93, 4, 7, "Store", "Store-5", "Store-10", "Store-All", "Store-X", "Examine");
-		owner.getPackets().setIFRightClickOps(671, 27, 0, ITEMS_KEY, 0, 1, 2, 3, 4, 5);
-		owner.getPackets().sendInterSetItemsOptionsScript(671, 27, ITEMS_KEY, 6, 5, "Withdraw", "Withdraw-5", "Withdraw-10", "Withdraw-All", "Withdraw-X", "Examine");
-	}
-
 	public boolean containsOneItem(int... itemIds) {
 		if (inv == null)
 			return false;
@@ -318,13 +318,6 @@ public class Familiar extends NPC {
 			if (inv.containsOne(new Item(itemId, 1)))
 				return true;
 		return false;
-	}
-
-	public void sendItemsOnInter() {
-		if (inv == null)
-			return;
-		owner.getPackets().sendItems(ITEMS_KEY, inv);
-		owner.getPackets().sendItems(93, owner.getInventory().getItems());
 	}
 	
 	@Override
@@ -362,7 +355,7 @@ public class Familiar extends NPC {
 		}
 	};
 
-	public static ButtonClickHandler handleFamiliarOption = new ButtonClickHandler(747) {
+	public static ButtonClickHandler summoningOrb = new ButtonClickHandler(747) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 8)
@@ -383,6 +376,8 @@ public class Familiar extends NPC {
 					e.getPlayer().getFamiliar().takeInventory();
 				else if (e.getComponentId() == 14 || e.getComponentId() == 23)
 					e.getPlayer().getFamiliar().renewFamiliar();
+				else if (e.getComponentId() == 16)
+					e.getPlayer().getFamiliar().interact();
 				else if (e.getComponentId() == 19 || e.getComponentId() == 10)
 					e.getPlayer().getFamiliar().sendFollowerDetails();
 				else if (e.getComponentId() == 18) {
@@ -394,7 +389,7 @@ public class Familiar extends NPC {
 		}
 	};
 
-	public static ButtonClickHandler handleFamiliarOrbOption = new ButtonClickHandler(662) {
+	public static ButtonClickHandler followerInterface = new ButtonClickHandler(662) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().getFamiliar() == null) {
@@ -801,8 +796,12 @@ public class Familiar extends NPC {
 		this.specOn = specOn;
 	}
 
-	public void forage() {
-		// TODO Auto-generated method stub
-		
+	public void interact() {
+		owner.startConversation(new Dialogue().addOptions("What would you like to do?", ops -> {
+			if (inv != null)
+				ops.add("Open Familiar Inventory", () -> openInventory());
+			ops.add("Talk-to", Interactions.getTalkToDialogue(owner, this));
+			Interactions.addExtraOps(owner, ops, this);
+		}));
 	}
 }

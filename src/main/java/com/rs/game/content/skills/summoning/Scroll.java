@@ -52,8 +52,8 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.setNextAnimation(new Animation(7810));
-			familiar.setNextSpotAnim(new SpotAnim(1318));
-			delayHit(familiar, World.sendProjectile(familiar, target, 1376, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 40, AttackStyle.MAGE, target)));
+			familiar.setNextSpotAnim(new SpotAnim(1523));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1318, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 40, AttackStyle.MAGE, target)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
@@ -81,7 +81,6 @@ public enum Scroll {
 				World.sendSpotAnim(player, new SpotAnim(1342), tile);
 				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(223, 1), tile, player, true, 120));
 			}
-			//TODO test
 			return true;
 		}
 	},
