@@ -22,7 +22,7 @@ import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.lib.game.Animation;
+import com.rs.lib.util.Utils;
 
 public class IronTitan extends FamiliarCombatScript {
 
@@ -33,13 +33,10 @@ public class IronTitan extends FamiliarCombatScript {
 	
 	@Override
 	public int alternateAttack(final NPC npc, final Entity target) {
-		if (npc.inMeleeRange(target)) {
-			npc.setNextAnimation(new Animation(7946));
-			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, 244, AttackStyle.MELEE, target)));
-		} else {
-			npc.sync(7694, 1452);
-			delayHit(npc, World.sendProjectile(npc, target, 1454, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
-		}
+		if (Utils.random(5) != 0)
+			return CANCEL;
+		npc.sync(7694, 1452);
+		delayHit(npc, World.sendProjectile(npc, target, 1454, 34, 16, 30, 2.0, 16, 0).getTaskDelay(), target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, target)));
 		return npc.getAttackSpeed();
 	}
 }

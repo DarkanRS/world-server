@@ -600,8 +600,23 @@ public enum Scroll {
 	ESSENCE_SHIPMENT(12827, ScrollTarget.CLICK, "Sends all carried essence (both in player inventory and familiar inventory) to the bank.", 1.9, 6) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			return false;
+			if (!owner.getInventory().containsOneItem(1436, 7936) && familiar.getInventory().isEmpty()) {
+				owner.sendMessage("You have no essence to ship to the bank.");
+				return false;
+			}
+			if (!owner.getBank().hasBankSpace()) {
+				owner.sendMessage("Your bank is full!");
+				return false;
+			}
+			familiar.sync(7698, 1457);
+			owner.getBank().depositAllBob(false);
+			for (int i = 0;i < owner.getInventory().getItemsContainerSize();i++) {
+				Item item = owner.getInventory().getItem(i);
+				if (item == null)
+					continue;
+				owner.getBank().depositItem(i, 1, false);
+			}
+			return true;
 		}
 	},
 	IRON_WITHIN(12828, ScrollTarget.COMBAT, "Hits with melee instead of magic for a turn hitting up to 3 times.", 4.7, 12) {
@@ -612,11 +627,11 @@ public enum Scroll {
 			if (!familiar.inMeleeRange(target)) {
 				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
 				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
-				delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
+				delayHit(familiar, 3, target, getMagicHit(familiar, getMaxHit(familiar, 220, AttackStyle.MAGE, target, 2.0)));
 			} else {
 				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
 				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
-				delayHit(familiar, 1, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
+				delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 230, AttackStyle.MELEE, target, 2.0)));
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
