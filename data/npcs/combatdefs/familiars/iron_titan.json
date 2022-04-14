@@ -11,11 +11,11 @@
   "maxHit": 230,
   "attackStyle": "RANGE",
   "combatLevels": {
-    "ATTACK": 215,
-    "RANGE": 215,
-    "STRENGTH": 215,
-    "DEFENSE": 215,
-    "MAGE": 215
+    "ATTACK": 170,
+    "RANGE": 170,
+    "STRENGTH": 170,
+    "DEFENSE": 170,
+    "MAGE": 170
   },
   "attackRange": -1,
   "attackGfx": -1,

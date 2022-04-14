@@ -762,6 +762,8 @@ public class Familiar extends NPC {
 	}
 	
 	public void drainSpec(int specialReduction) {
+		if (owner.getNSV().getB("infSpecialAttack"))
+			return;
 		specialEnergy -= specialReduction;
 		if (specialEnergy < 0)
 			specialEnergy = 0;
