@@ -1,5 +1,6 @@
 {
   "ids": [
+    6806,
     6807
   ],
   "attackAnim": 8143,
@@ -10,9 +11,9 @@
   "hitpoints": 280,
   "maxHit": 40,
   "attackStyle": "RANGE",
-  "attackRange": -1,
-  "attackGfx": -1,
-  "attackProjectile": -1,
+  "attackRange": 7,
+  "attackGfx": 1379,
+  "attackProjectile": 1380,
   "agressivenessType": "PASSIVE",
   "aggroDistance": 64,
   "deAggroDistance": -1,
