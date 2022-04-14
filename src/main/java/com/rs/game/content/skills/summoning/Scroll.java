@@ -99,8 +99,8 @@ public enum Scroll {
 			int newLevel = player.getSkills().getLevel(Constants.DEFENSE) + 4;
 			if (newLevel > player.getSkills().getLevelForXp(Constants.DEFENSE) + 4)
 				newLevel = player.getSkills().getLevelForXp(Constants.DEFENSE) + 4;
-			familiar.setNextSpotAnim(new SpotAnim(8108));
-			familiar.setNextAnimation(new Animation(1326));
+			familiar.setNextSpotAnim(new SpotAnim(1326));
+			familiar.setNextAnimation(new Animation(8109));
 			player.getSkills().set(Constants.DEFENSE, newLevel);
 			return true;
 		}

@@ -11,6 +11,13 @@
   "hitpoints": 280,
   "maxHit": 40,
   "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 15,
+    "STRENGTH": 1,
+    "DEFENSE": 15,
+    "MAGE": 1
+  },
   "attackRange": 7,
   "attackGfx": 1379,
   "attackProjectile": 1380,

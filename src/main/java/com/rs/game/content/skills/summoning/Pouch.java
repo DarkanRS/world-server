@@ -21,7 +21,7 @@ public enum Pouch {
 	DREADFOWL(6825, 6826, XPType.MAGIC, 7807, 8555, Scroll.DREADFOWL_STRIKE, 12043, 4, 0.1, 9.3, Ticks.fromMinutes(16), 1),
 	SPIRIT_SPIDER(6841, 6842, XPType.CONTROLLED, 8163, 8544, Scroll.EGG_SPAWN, 12059, 10, 0.2, 12.6, Ticks.fromMinutes(16), 2, "forage_spirit_spider"),
 	THORNY_SNAIL(6806, 6807, XPType.RANGED, 8141, 8561, Scroll.SLIME_SPRAY, 12019, 13, 0.2, 12.6, Ticks.fromMinutes(16), 2, 3),
-	GRANITE_CRAB(6796, 6797, XPType.DEFENSIVE, 00000, 00000, Scroll.STONY_SHELL, 12009, 16, 0.2, 21.6, Ticks.fromMinutes(16), 2, "forage_granite_crab") {
+	GRANITE_CRAB(6796, 6797, XPType.DEFENSIVE, 8108, 8541, Scroll.STONY_SHELL, 12009, 16, 0.2, 21.6, Ticks.fromMinutes(16), 2, "forage_granite_crab") {
 		@Override
 		public boolean canRollForager(Player player) {
 			return player.getActionManager().doingAction(Fishing.class);
