@@ -17,11 +17,43 @@
 package com.rs.tools;
 
 import java.io.IOException;
+import java.util.Date;
+
+import com.google.gson.GsonBuilder;
+import com.rs.Settings;
+import com.rs.cache.Cache;
+import com.rs.cache.loaders.BASDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.content.controllers.Controller;
+import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.json.DateAdapter;
+import com.rs.lib.net.packets.Packet;
+import com.rs.lib.net.packets.PacketEncoder;
+import com.rs.lib.util.PacketAdapter;
+import com.rs.lib.util.PacketEncoderAdapter;
+import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.utils.json.ControllerAdapter;
 
 public class Test {
 
 	public static void main(String[] args) throws IOException {
-		//Cache.init();
+		JsonFileManager.setGSON(new GsonBuilder()
+				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+				.registerTypeAdapter(Date.class, new DateAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
+				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+				.disableHtmlEscaping()
+				.setPrettyPrinting()
+				.create());
+		Settings.loadConfig();
+		Cache.init(Settings.getConfig().getCachePath());
+		
+		NPCDefinitions def = NPCDefinitions.getDefs(11640);
+		System.out.println(def);
+		
+		BASDefinitions def2 = BASDefinitions.getDefs(1856);
+		System.out.println(def2);
 	}
 
 }

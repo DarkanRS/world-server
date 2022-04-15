@@ -19,11 +19,11 @@ package com.rs.game.content.skills.summoning.combat.impl;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.skills.summoning.combat.FamiliarCombatScript;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 
 public class AbyssalTitan extends FamiliarCombatScript {
 
@@ -34,15 +34,12 @@ public class AbyssalTitan extends FamiliarCombatScript {
 	
 	@Override
 	public int alternateAttack(final NPC npc, final Entity target) {
-		int damage = 0;
-		damage = getMaxHit(npc, 140, AttackStyle.MELEE, target);
-		npc.setNextAnimation(new Animation(7980));
-		npc.setNextSpotAnim(new SpotAnim(1490));
-
+		npc.setNextAnimation(new Animation(7693));
+		Hit hit = getMeleeHit(npc, getMaxHit(npc, 220, AttackStyle.MELEE, target));
+		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 220, AttackStyle.MELEE, target)));
 		if (target instanceof Player player)
-			if (damage > 0 && player.getPrayer().getPoints() > 0)
-				player.getPrayer().drainPrayer(damage / 2);
-		delayHit(npc, 0, target, getMeleeHit(npc, damage));
+			if (hit.getDamage() > 0 && player.getPrayer().getPoints() > 0)
+				player.getPrayer().drainPrayer(hit.getDamage() / 2);
 		return npc.getAttackSpeed();
 	}
 }

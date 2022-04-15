@@ -127,7 +127,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "unffamiliars", "Spawns all unfinished familiar pouches to bank.", (p, args) -> {
 			for (Pouch pouch : Pouch.values()) {
 				if (pouch.getDespawnAnim() == 0)
-					p.getBank().addItem(new Item(pouch.getRealPouchId(), 1), true);
+					p.getBank().addItem(new Item(pouch.getId(), 1), true);
 			}
 		});
 

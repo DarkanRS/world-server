@@ -60,6 +60,7 @@ public class NPCCombatDefMerger {
 
 		for (File file : ORIGINAL.keySet()) {
 			NPCCombatDefinitions def = ORIGINAL.get(file);
+
 			JsonFileManager.saveJsonFile(def, file);
 			System.out.println("Processed: " + file);
 		}

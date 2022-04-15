@@ -698,6 +698,8 @@ public final class Skills {
 	}
 
 	public void drainSummoning(int amt) {
+		if (player.getNSV().getB("infPrayer"))
+			return;
 		int level = getLevel(Constants.SUMMONING);
 		if (level == 0)
 			return;

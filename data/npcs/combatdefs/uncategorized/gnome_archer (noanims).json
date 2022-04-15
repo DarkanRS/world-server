@@ -1,0 +1,28 @@
+{
+  "names": [
+    "Gnome Archer",
+    "Gnome"
+  ],
+  "attackAnim": 190,
+  "defenceAnim": 193,
+  "deathAnim": 196,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 100,
+  "maxHit": 20,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 6,
+    "STRENGTH": 1,
+    "DEFENSE": 1,
+    "MAGE": 1
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

@@ -285,7 +285,6 @@ public class Bank {
 		if (space != 0) {
 			for (int i = 0; i < space; i++)
 				familiar.getInventory().set(i, null);
-			familiar.sendItemsOnInter();
 		}
 		if (space < familiar.getInventory().getSize()) {
 			player.sendMessage("Not enough space in your bank.");

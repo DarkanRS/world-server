@@ -17,15 +17,13 @@
 package com.rs.utils;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 
-import com.google.common.collect.Streams;
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.packets.Packet;
@@ -53,19 +51,9 @@ public class Test {
 		Settings.getConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 		
-		Object[] arr = Streams.concat(Arrays.stream(Pouch.values())
-				.filter(p -> p.isBob())
-				.map(p -> p.getIdKeys()[0])
-				.filter(i -> (int) i != -1), 
-				
-				Arrays.stream(Pouch.values())
-				.filter(p -> p.isBob())
-				.map(p -> p.getIdKeys().length <= 1 ? -1 : p.getIdKeys()[1])
-				.filter(i -> (int) i != -1))
-				
-				.toArray();
-		
-		System.out.println(Arrays.toString(arr));
+		IComponentDefinitions[] summ = IComponentDefinitions.getInterface(672);
+		for (int i = 0;i < summ.length;i++)
+			System.out.println(summ[i]);
 	}
 
 //	public static void main(String[] args) throws IOException {

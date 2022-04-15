@@ -1887,6 +1887,54 @@ public class PlayerCombat extends PlayerAction {
 							target.getPoison().makePoisoned(48);
 				}
 	}
+	
+	public static void addXpFamiliar(Player player, Entity target, XPType xpType, Hit hit) {
+		double combatXp;
+		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
+		double hpXp = (damage / 7.5);
+		if (hpXp > 0)
+			player.getSkills().addXp(Constants.HITPOINTS, hpXp);
+		switch(xpType) {
+		case ACCURATE:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.ATTACK, combatXp);
+			break;
+		case AGGRESSIVE:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.STRENGTH, combatXp);
+			break;
+		case CONTROLLED:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.ATTACK, combatXp / 3);
+			player.getSkills().addXp(Constants.STRENGTH, combatXp / 3);
+			player.getSkills().addXp(Constants.DEFENSE, combatXp / 3);
+			break;
+		case DEFENSIVE:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.DEFENSE, combatXp);
+			break;
+		case MAGIC:
+			combatXp = (damage / 2.5);
+			if (combatXp > 0)
+				player.getSkills().addXp(Constants.MAGIC, combatXp);
+			break;
+		case RANGED:
+		case RANGED_DEFENSIVE:
+			combatXp = (damage / 2.5);
+			if (xpType == XPType.RANGED_DEFENSIVE) {
+				player.getSkills().addXp(Constants.RANGE, combatXp / 2);
+				player.getSkills().addXp(Constants.DEFENSE, combatXp / 2);
+			} else
+				player.getSkills().addXp(Constants.RANGE, combatXp);
+			break;
+		case PRAYER:
+			combatXp = (damage / 10.0);
+			player.getSkills().addXp(Constants.PRAYER, combatXp);
+			break;
+		default:
+			break;
+		}
+	}
 
 	public static void addXp(Player player, Entity target, XPType xpType, Hit hit) {
 		double combatXp;

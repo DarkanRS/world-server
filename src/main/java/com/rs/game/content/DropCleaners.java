@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.rs.game.content.skills.dungeoneering.DungeonRewards;
 import com.rs.game.content.skills.prayer.Burying;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -25,8 +26,15 @@ public class DropCleaners {
 	public static NPCDropHandler herbicide = new NPCDropHandler(null, Arrays.stream(DungeonRewards.HerbicideSetting.values()).map(setting -> setting.getHerb().getHerbId()).toArray()) {
 		@Override
 		public void handle(NPCDropEvent e) {
-			if (herbicide(e.getPlayer(), e.getItem()))
+			if (herbicide(e.getPlayer(), e.getItem())) {
 				e.deleteItem();
+				return;
+			}
+			if (e.getPlayer().getFamiliarPouch() == Pouch.MACAW && e.getPlayer().getFamiliar().getInventory().freeSlot() > 0) {
+				e.getPlayer().sendMessage("Your macaw picks up the " + e.getItem().getName().toLowerCase() + " from the ground.", true);
+				e.getPlayer().getFamiliar().getInventory().add(new Item(e.getItem().getId(), e.getItem().getAmount()));
+				e.deleteItem();
+			}
 		}
 	};
 

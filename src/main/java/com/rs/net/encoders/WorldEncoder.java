@@ -660,11 +660,16 @@ public class WorldEncoder extends Encoder {
 		sendMessage(MessageType.CLAN_INVITE, p.getDisplayName() + " is inviting you to join their clan.", p);
 	}
 
-	public void sendPouchInfusionOptionsScript(int interfaceId, int componentId, int slotLength, int width, int height, String... options) {
+	public void sendPouchInfusionOptionsScript(boolean dung, int interfaceId, int componentId, int slotLength, int width, int height, String... options) {
 		Object[] parameters = new Object[5 + options.length];
 		int index = 0;
-		parameters[index++] = slotLength;
-		parameters[index++] = 1; // dunno
+		if (dung) {
+			parameters[index++] = 1159;
+			parameters[index++] = 1100;
+		} else {
+			parameters[index++] = slotLength;
+			parameters[index++] = 1;
+		}
 		for (int count = options.length - 1; count >= 0; count--)
 			parameters[index++] = options[count];
 		parameters[index++] = height;
@@ -673,11 +678,16 @@ public class WorldEncoder extends Encoder {
 		sendRunScriptReverse(757, parameters);
 	}
 
-	public void sendScrollInfusionOptionsScript(int interfaceId, int componentId, int slotLength, int width, int height, String... options) {
+	public void sendScrollInfusionOptionsScript(boolean dung, int interfaceId, int componentId, int slotLength, int width, int height, String... options) {
 		Object[] parameters = new Object[5 + options.length];
 		int index = 0;
-		parameters[index++] = slotLength;
-		parameters[index++] = 1; // dunno are u sure it contains this 1? yeah
+		if (dung) {
+			parameters[index++] = 1159;
+			parameters[index++] = 1100;
+		} else {
+			parameters[index++] = slotLength;
+			parameters[index++] = 1;
+		}
 		for (int count = options.length - 1; count >= 0; count--)
 			parameters[index++] = options[count];
 		parameters[index++] = height;

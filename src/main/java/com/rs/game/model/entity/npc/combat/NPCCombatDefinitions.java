@@ -48,9 +48,7 @@ public class NPCCombatDefinitions {
 	}
 
 	public enum AttackStyle {
-		MELEE, RANGE, MAGE,
-		SPECIAL, //Ranged special
-		SPECIAL2 //Melee special
+		MELEE, RANGE, MAGE
 	}
 	
 	public enum Skill {
@@ -68,8 +66,8 @@ public class NPCCombatDefinitions {
 	private int attackAnim;
 	private int defenceAnim;
 	private int deathAnim;
-	public int deathDelay;
-	public int respawnDelay;
+	private int deathDelay;
+	private int respawnDelay;
 	private int hitpoints;
 	private int maxHit;
 	private AttackStyle attackStyle;
@@ -339,7 +337,7 @@ public class NPCCombatDefinitions {
 
 	public int getMaxDistFromSpawn() {
 		if (maxDistFromSpawn <= 0)
-			return getAttackStyle() == AttackStyle.SPECIAL || getAttackStyle() == AttackStyle.SPECIAL2 ? 64 : 16;
+			return 16;
 		return maxDistFromSpawn;
 	}
 
@@ -351,13 +349,13 @@ public class NPCCombatDefinitions {
 
 	public int getAggroDistance() {
 		if (aggroDistance <= 0)
-			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackStyle() == AttackStyle.SPECIAL ? 64 : 8;
+			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackRange() - 2;
 		return aggroDistance;
 	}
 
 	public int getAttackRange() {
 		if (attackRange <= 0)
-			return getAttackStyle() == AttackStyle.MELEE || getAttackStyle() == AttackStyle.SPECIAL2 ? 0 : 10;
+			return getAttackStyle() == AttackStyle.MELEE ? 0 : getAttackStyle() == AttackStyle.RANGE ? 7 : 10;
 		return attackRange;
 	}
 

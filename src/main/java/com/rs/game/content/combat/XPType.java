@@ -23,5 +23,6 @@ public enum XPType {
 	CONTROLLED,
 	RANGED,
 	RANGED_DEFENSIVE,
-	MAGIC
+	MAGIC, 
+	PRAYER
 }

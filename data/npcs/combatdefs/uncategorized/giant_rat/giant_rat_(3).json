@@ -1,0 +1,37 @@
+{
+  "ids": [
+    446,
+    950,
+    4922,
+    4923,
+    4924,
+    4942,
+    4943,
+    12349,
+    12350,
+    12351
+  ],
+  "attackAnim": 14859,
+  "defenceAnim": 14861,
+  "deathAnim": 14860,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 53,
+  "maxHit": 17,
+  "attackStyle": "MELEE",
+  "attackBonus": "STAB_ATT",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 1,
+    "STRENGTH": 1,
+    "DEFENSE": 1,
+    "MAGE": 1
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

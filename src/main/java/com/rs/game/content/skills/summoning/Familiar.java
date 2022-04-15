@@ -22,6 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.DismissD;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
@@ -56,6 +57,7 @@ public class Familiar extends NPC {
 	
 	private transient Player owner;
 	private transient boolean finished = false;
+	private transient int forageTicks = 0;
 	
 	private int ticks;
 	private int specialEnergy;
@@ -147,10 +149,14 @@ public class Familiar extends NPC {
 		if (inv == null)
 			return;
 		owner.getInterfaceManager().sendInterface(671);
-		sendItemsOnInter();
+		owner.getPackets().sendItems(ITEMS_KEY, inv);
+		owner.getPackets().setIFRightClickOps(671, 27, 0, ITEMS_KEY, 0, 1, 2, 3, 4, 5);
+		owner.getPackets().sendInterSetItemsOptionsScript(671, 27, ITEMS_KEY, 6, 5, "Withdraw", "Withdraw-5", "Withdraw-10", "Withdraw-All", "Withdraw-X", "Examine");
 		if (!pouch.isForager()) {
 			owner.getInterfaceManager().sendInventoryInterface(665);
-			sendInventoryOps();
+			owner.getPackets().sendItems(93, owner.getInventory().getItems());
+			owner.getPackets().setIFRightClickOps(665, 0, 0, 27, 0, 1, 2, 3, 4, 5);
+			owner.getPackets().sendInterSetItemsOptionsScript(665, 0, 93, 4, 7, "Store", "Store-5", "Store-10", "Store-All", "Store-X", "Examine");
 		}
 	}
 	
@@ -221,6 +227,22 @@ public class Familiar extends NPC {
 		owner.getInventory().addItem(item);
 		refreshItems(itemsBefore);
 	}
+	
+	@Override
+	public void processEntity() {
+		super.processEntity();
+		if (forageTicks++ >= 50) {
+			rollForage();
+			forageTicks = 0;
+		}
+		pouch.tick(owner, this);
+	}
+	
+	public void rollForage() {
+		if (inv == null || inv.freeSlots() <= 0)
+			return;
+		pouch.rollForage(owner, inv);
+	}
 
 	public void addItem(int slot, int amount) {
 		if (inv == null)
@@ -289,13 +311,6 @@ public class Familiar extends NPC {
 		owner.getPackets().sendUpdateItems(ITEMS_KEY, inv, slots);
 	}
 
-	public void sendInventoryOps() {
-		owner.getPackets().setIFRightClickOps(665, 0, 0, 27, 0, 1, 2, 3, 4, 5);
-		owner.getPackets().sendInterSetItemsOptionsScript(665, 0, 93, 4, 7, "Store", "Store-5", "Store-10", "Store-All", "Store-X", "Examine");
-		owner.getPackets().setIFRightClickOps(671, 27, 0, ITEMS_KEY, 0, 1, 2, 3, 4, 5);
-		owner.getPackets().sendInterSetItemsOptionsScript(671, 27, ITEMS_KEY, 6, 5, "Withdraw", "Withdraw-5", "Withdraw-10", "Withdraw-All", "Withdraw-X", "Examine");
-	}
-
 	public boolean containsOneItem(int... itemIds) {
 		if (inv == null)
 			return false;
@@ -303,13 +318,6 @@ public class Familiar extends NPC {
 			if (inv.containsOne(new Item(itemId, 1)))
 				return true;
 		return false;
-	}
-
-	public void sendItemsOnInter() {
-		if (inv == null)
-			return;
-		owner.getPackets().sendItems(ITEMS_KEY, inv);
-		owner.getPackets().sendItems(93, owner.getInventory().getItems());
 	}
 	
 	@Override
@@ -347,7 +355,7 @@ public class Familiar extends NPC {
 		}
 	};
 
-	public static ButtonClickHandler handleFamiliarOption = new ButtonClickHandler(747) {
+	public static ButtonClickHandler summoningOrb = new ButtonClickHandler(747) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 8)
@@ -368,6 +376,8 @@ public class Familiar extends NPC {
 					e.getPlayer().getFamiliar().takeInventory();
 				else if (e.getComponentId() == 14 || e.getComponentId() == 23)
 					e.getPlayer().getFamiliar().renewFamiliar();
+				else if (e.getComponentId() == 16)
+					e.getPlayer().getFamiliar().interact();
 				else if (e.getComponentId() == 19 || e.getComponentId() == 10)
 					e.getPlayer().getFamiliar().sendFollowerDetails();
 				else if (e.getComponentId() == 18) {
@@ -379,7 +389,7 @@ public class Familiar extends NPC {
 		}
 	};
 
-	public static ButtonClickHandler handleFamiliarOrbOption = new ButtonClickHandler(662) {
+	public static ButtonClickHandler followerInterface = new ButtonClickHandler(662) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().getFamiliar() == null) {
@@ -440,6 +450,12 @@ public class Familiar extends NPC {
 			if (target instanceof GameObject o)
 				return pouch.getScroll().object(owner, this, o);
 			return false;
+		case ENTITY:
+			if (target instanceof Entity o)
+				return pouch.getScroll().entity(owner, this, o);
+			break;
+		default:
+			break;
 		}
 		return false;
 	}
@@ -559,12 +575,12 @@ public class Familiar extends NPC {
 			owner.sendMessage("You need to have at least two minutes remaining before you can renew your familiar.", true);
 			return false;
 		}
-		if (!owner.getInventory().getItems().contains(new Item(pouch.getRealPouchId(), 1))) {
-			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getRealPouchId()).getName().toLowerCase() + " to renew your familiar's timer.");
+		if (!owner.getInventory().getItems().contains(new Item(pouch.getId(), 1))) {
+			owner.sendMessage("You need a " + ItemDefinitions.getDefs(pouch.getId()).getName().toLowerCase() + " to renew your familiar's timer.");
 			return false;
 		}
 		resetTickets();
-		owner.getInventory().deleteItem(pouch.getRealPouchId(), 1);
+		owner.getInventory().deleteItem(pouch.getId(), 1);
 		call(true);
 		owner.sendMessage("You use your remaining pouch to renew your familiar.");
 		return true;
@@ -582,7 +598,7 @@ public class Familiar extends NPC {
 	 * 
 	 */
 	public void sendMainConfigs() {
-		owner.getVars().setVar(448, pouch.getRealPouchId());// configures familiar type
+		owner.getVars().setVar(448, pouch.getId());// configures familiar type
 		owner.getVars().setVar(1174, 0); //refresh familiar head
 		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
 		refreshSpecialEnergy();
@@ -639,6 +655,10 @@ public class Familiar extends NPC {
 			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.WORLD_OBJECT));
 			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.WORLD_OBJECT));
 			break;
+		case ENTITY:
+			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.NPC, UseFlag.PLAYER));
+			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.NPC, UseFlag.PLAYER));
+			break;
 		case ITEM:
 			owner.getPackets().setIFEvents(new IFEvents(747, 18, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
 			owner.getPackets().setIFEvents(new IFEvents(662, 74, 0, 0).enableUseOptions(UseFlag.ICOMPONENT));
@@ -651,14 +671,14 @@ public class Familiar extends NPC {
 	private transient boolean sentRequestMoveMessage;
 
 	public void call() {
-		if (getAttackedBy() != null && inCombat()) {
-			owner.sendMessage("You cant call your familiar while it is under combat.");
+		if (isDead())
 			return;
-		}
 		call(false);
 	}
 
 	public void call(boolean login) {
+		if (isDead())
+			return;
 		if (login)
 			sendMainConfigs();
 		else
@@ -748,6 +768,8 @@ public class Familiar extends NPC {
 	}
 	
 	public void drainSpec(int specialReduction) {
+		if (owner.getNSV().getB("infSpecialAttack"))
+			return;
 		specialEnergy -= specialReduction;
 		if (specialEnergy < 0)
 			specialEnergy = 0;
@@ -782,8 +804,46 @@ public class Familiar extends NPC {
 		this.specOn = specOn;
 	}
 
-	public void forage() {
-		// TODO Auto-generated method stub
-		
+	public void interact() {
+		owner.startConversation(new Dialogue().addOptions("What would you like to do?", ops -> {
+			if (inv != null)
+				ops.add("Open Familiar Inventory", () -> openInventory());
+			ops.add("Talk-to", Interactions.getTalkToDialogue(owner, this));
+			Interactions.addExtraOps(owner, ops, this);
+		}));
+	}
+
+	public boolean commandAttack(Entity target) {
+		if (target instanceof Player player) {
+			if (!owner.isCanPvp() || !player.isCanPvp()) {
+				owner.sendMessage("You can only attack players in a player-vs-player area.");
+				return false;
+			}
+			if (!owner.getFamiliar().canAttack(player)) {
+				owner.sendMessage("You can only use your familiar in a multi-zone area.");
+				return false;
+			}
+		} else if (target instanceof NPC npc) {
+			if (!npc.getDefinitions().hasAttackOption()) {
+				owner.sendMessage("You can't attack them.");
+				return false;
+			}
+			if (target instanceof Familiar familiar) {
+				if (familiar == this) {
+					owner.sendMessage("You can't attack your own familiar.");
+					return false;
+				}
+				if (!owner.getFamiliar().canAttack(familiar.getOwner())) {
+					owner.sendMessage("You can only attack players in a player-vs-player area.");
+					return false;
+				}
+			}
+			if (!owner.getFamiliar().canAttack(target)) {
+				owner.sendMessage("You can only use your familiar in a multi-zone area.");
+				return false;
+			}
+		}
+		owner.getFamiliar().setTarget(target);
+		return true;
 	}
 }

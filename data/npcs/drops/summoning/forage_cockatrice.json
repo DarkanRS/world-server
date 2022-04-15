@@ -1,0 +1,15 @@
+{
+    "names": [
+      "forage_cockatrice"
+    ],
+    "tables": [
+      {
+        "chance": 1.0,
+        "outOf": 12.0,
+        "dropOne": true,
+        "drops": [
+          { "id": 12109, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

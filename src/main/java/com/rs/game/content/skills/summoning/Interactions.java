@@ -32,16 +32,11 @@ public class Interactions {
 				e.getPlayer().sendMessage("This isn't your familiar");
 				return;
 			}
-			e.getPlayer().startConversation(new Dialogue().addOptions("What would you like to do?", ops -> {
-				if (familiar.getInventory() != null)
-					ops.add("Open Familiar Inventory", new Dialogue().addNext(()->{familiar.openInventory();}));
-				ops.add("Talk-to", getTalkToDialogue(e.getPlayer(), familiar));
-				addExtraOps(e.getPlayer(), ops, familiar);
-			}));
+			familiar.interact();
 		}
 	};
 	
-	private static Dialogue getTalkToDialogue(Player player, Familiar familiar) {
+	public static Dialogue getTalkToDialogue(Player player, Familiar familiar) {
 		boolean canTalk = player.getSkills().getLevelForXp(Skills.SUMMONING) >= familiar.getPouch().getLevel() + 10;
 		
 		return switch(familiar.getPouch()) {
@@ -2309,8 +2304,9 @@ public class Interactions {
 			default -> new Dialogue().addSimple("This familiar can't talk yet.");
 		};
 	}
+
 	
-	private static void addExtraOps(Player player, Options ops, Familiar familiar) {
+	public static void addExtraOps(Player player, Options ops, Familiar familiar) {
 		switch(familiar.getPouch()) {
 		case LAVA_TITAN:
 			ops.add("Teleport to Lava Maze", new Dialogue().addOptions("Are you sure you want to teleport here? It's very high wilderness.", yesNo -> {
