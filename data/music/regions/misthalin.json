@@ -6,7 +6,6 @@
     "isActive": true,
     "regionIds": [
       12597,
-      12598,
       12853,
       12854,
       12952
@@ -17,10 +16,24 @@
       125,
       157,
       175,
-      177,
       330,
       496,
       716
+    ]
+  },
+  {
+    "genre": "Grand Exchange",
+    "parent": "Misthalin",
+    "comment": "Its done, but we need to add more overall songs",
+    "isActive": true,
+    "regionIds": [
+      12598
+    ],
+    "songs": [
+      116,
+      175,
+      330,
+      496
     ]
   },
   {
