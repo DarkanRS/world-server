@@ -1,15 +1,18 @@
 package com.rs.game.content.skills.summoning;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.controllers.UndergroundDungeonController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
+import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -31,7 +34,7 @@ public class Interactions {
 			}
 			e.getPlayer().startConversation(new Dialogue().addOptions("What would you like to do?", ops -> {
 				if (familiar.getInventory() != null)
-					ops.add("Open Familiar Inventory");
+					ops.add("Open Familiar Inventory", new Dialogue().addNext(()->{familiar.openInventory();}));
 				ops.add("Talk-to", getTalkToDialogue(e.getPlayer(), familiar));
 				addExtraOps(e.getPlayer(), ops, familiar);
 			}));
@@ -920,15 +923,1392 @@ public class Interactions {
 								.addPlayer(HeadE.HAPPY_TALKING, "In most other fields, yes; in medicine, no.")
 				);
 			}
-//			case SPIRIT_TERRORBIRD -> {
-//				if(!canTalk)
-//					new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Reeeeee!");
-//				familiar.getInventory().getUsedSlots()
-//			}
+			case SPIRIT_TERRORBIRD -> {
+				if(!canTalk)
+					new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Breeeeee!");
+				int itemsInBird = familiar.getInventory().getUsedSlots();
+				if(itemsInBird <= 8) {
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "This is a fun little walk.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Why do I get the feeling you'll change your tune when I start loading you up with items?");
+				}
+				if(itemsInBird == 9) {
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I can keep this up for hours.")
+							.addPlayer(HeadE.HAPPY_TALKING, "I'm glad, as we still have plenty of time to go.");
+				}
+				if(itemsInBird == 10) {
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Are we going to visit a bank soon?")
+							.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure, you still have plenty of room for more stuff.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Just don't leave it too long, okay?");
+				}
+				if(itemsInBird == 11) {
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Can we go to a bank now?")
+							.addPlayer(HeadE.HAPPY_TALKING, "Just give me a little longer, okay?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "That's what you said last time!")
+							.addPlayer(HeadE.HAPPY_TALKING, "Did I?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes!")
+							.addPlayer(HeadE.HAPPY_TALKING, "Well, I mean it this time, promise.");
+				}
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "So...heavy...")
+						.addPlayer(HeadE.HAPPY_TALKING, "I knew you'd change your tune once you started carrying things.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Can we go bank this stuff now?")
+						.addPlayer(HeadE.HAPPY_TALKING, "Sure. You do look like you're about to collapse.");
+
+			}
+			case ABYSSAL_PARASITE -> {
+				if(!canTalk)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Reeeeeee!")
+							.addPlayer(HeadE.SECRETIVE, "What?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Reeeeeee!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ongk n'hd?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh, I'm not feeling so well.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Uge f't es?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Please have mercy!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "F'tp ohl't?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I shouldn't have eaten that kebab. Please stop talking!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Noslr'rh...")
+								.addPlayer(HeadE.HAPPY_TALKING, "What's the matter?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Kdso Seo...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Could you...could you mime what the problem is?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yiao itl!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I want to help it but, aside from the language gap its noises make me retch!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ace'e e ur'y!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I think I'm going to be sick... The noises! Oh, the terrifying noises."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Tdsa tukk!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh, the noises again.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hem s'htee?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Please, just stop talking!")
+				);
+			}
+			case SPIRIT_JELLY -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Bloop!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Play play play play!")
+								.addPlayer(HeadE.HAPPY_TALKING, "The only game I have time to play is the 'Staying Very Still' game.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "But that game is soooooo booooooring...")
+								.addPlayer(HeadE.HAPPY_TALKING, "How about we use the extra house rule, that makes it the 'Staying Very Still and Very Quiet' game.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Happy happy! I love new games!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It's playtime now!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Okay, how about we play the 'Staying Very Still' game.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "But that game is booooooring...")
+								.addPlayer(HeadE.HAPPY_TALKING, "If you win then you can pick the next game, how about that?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Happy happy!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Can we go over there now, please please please pleeeeeease?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Go over where?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I dunno, someplace fun, please please please!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Okay, but first, let's play the 'Sitting Very Still' game.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "But that game is booooooring...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, if you win we can go somewhere else, okay?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Happy happy!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What game are we playing now?")
+								.addPlayer(HeadE.HAPPY_TALKING, "It's called the 'Staying Very Still' game.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "This game is booooooring...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Hey, all that moping doesn't look very still to me.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I never win at this game...")
+								.addPlayer(HeadE.HAPPY_TALKING, "You know what? I think I'll not count it this one time")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Happy happy! You're the best friend ever!")
+				);
+			}
+			case IBIS -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Reeeeep!");
+				if(player.getInventory().getAmountOf(383) >= 2)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Can I look after those sharks for you?")
+							.addPlayer(HeadE.HAPPY_TALKING, "I don't know. Would you eat them?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes! Ooops...")
+							.addPlayer(HeadE.HAPPY_TALKING, "I think I'll hang onto them myself for now.");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm the best fisherman ever!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Where is your skillcape to prove it, then?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "At home...")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'll bet it is."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'll bet it is.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I like to fish!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'll bet it is.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I like to fish!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hey, where are we?")
+								.addPlayer(HeadE.HAPPY_TALKING, "What do you mean?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I just noticed we weren't fishing.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, we can't fish all the time.")
+				);
+			}
+			case SPIRIT_KYATT -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rawr!");
+				if(player.getInventory().containsOneItem(1759, 15416))
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Human, hand me that ball of wool.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Aww...do you want to play with it?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I do not 'play', human.")
+							.addPlayer(HeadE.HAPPY_TALKING, "If you say so, kitty! Alright, you can have it.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Aha! Ball of wool: you are mine now. I will destroy you!")
+							.addPlayer(HeadE.HAPPY_TALKING, "Well I'm not giving it to you, now! I'll never get it back.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Then you leave me no choice but to destroy YOU, human!")
+							.addPlayer(HeadE.HAPPY_TALKING, "Bad kitty!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Guess who wants a belly rub, human.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Umm...is it me?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "No, human, it is not you. Guess again.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Is it the Duke of Lumbridge?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You try my patience, human!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Is it Zamorak? That would explain why he's so cranky.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Please do not make me destroy you before I get my belly rub!"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Here, kitty!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What do you want, human?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I just thought I would see how you were.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I do not have time for your distractions. Leave me be!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, sorry! Would a ball of wool cheer you up?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "How dare you insult my intelli- what colour wool?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Umm...white?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I will end you!"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Hello, kitty cat!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Human, leave me be. I'm far too busy to deal with your nonsense.")
+								.addPlayer(HeadE.HAPPY_TALKING, "What are you up to?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I am engaged in an intricate dirt-purging operation!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Aww, kitty's cleaning his paws! How cute!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Know this, human. Once I finish cleaning my paws...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I will destroy you!"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Here, kitty!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Do not toy with me, human!")
+								.addPlayer(HeadE.HAPPY_TALKING, "What about under your chin?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I am not one of your playful kittens, human. I eat playful kittens for breakfast!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Not even behind your ears?")
+								.addSimple("You lean down and tickle the kyatt behind the ears.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I will...purrrrr...ooh that's quite nice...destroy...purrrrrrr...you.")
+				);
+			}
+			case SPIRIT_LARUPIA -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rawr!");
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Kitty cat!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What is your wish master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Have you ever thought about doing something other than hunting and serving me?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You mean, like stand-up comedy, master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Umm...yes, like that.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "No, master."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Hello friend!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "'Friend', master? I do not understand this word.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Friends are people, or animals, who like one another. I think we are friends.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ah, I think I understand friends, master.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Great!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "A friend is someone who looks tasty, but you don't eat.")
+								.addPlayer(HeadE.SCARED, "!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What are we doing today, master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't know, what do you want to do?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I desire only to hunt and to serve my master.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Err...great! I guess I'll decide then."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Master, do you ever worry that I might eat you?")
+								.addPlayer(HeadE.HAPPY_TALKING, "No, of course not! We're pals.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "That is good, master.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Should I?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Of course not, master.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh. Good.")
+				);
+			}
+			case SPIRIT_GRAAHK -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Grrrrr...");
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Your spikes are looking particularly spiky today.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Really, you think so?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Yes. Most pointy, indeed.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "That's really kind of you to say. I was going to spike you but I won't now...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Thanks?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "...I'll do it later instead.")
+								.addPlayer(HeadE.HAPPY_TALKING, "*sigh!*"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "My spikes hurt, could you pet them for me?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Aww, of course I can I'll just... Oww! I think you drew blood that time."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hi!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Hello. Are you going to spike me again?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "No, I got a present to apologise for last time.")
+								.addPlayer(HeadE.HAPPY_TALKING, "That's really sweet, thank you.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Here you go, it's a special cushion to make you comfortable.")
+								.addPlayer(HeadE.HAPPY_TALKING, "It's made of spikes!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes, but they're therapeutic spikes.")
+								.addPlayer(HeadE.HAPPY_TALKING, "..."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How's your day going?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It's great! Actually I've got something to show you!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh? What's that?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You'll need to get closer!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I can't see anything...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It's really small - even closer.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oww! I'm going to have your spikes trimmed!")
+				);
+			}
+			case KARAMTHULU_OVERLOAD -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Bloooooob.... *burp");
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you want-")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Silence!")
+								.addPlayer(HeadE.FRUSTRATED, "But I only...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Silence!")
+								.addPlayer(HeadE.FRUSTRATED, "Now, listen here...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "SIIIIIILLLLLEEEEENCE!")
+								.addPlayer(HeadE.FRUSTRATED, "Fine!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Good!")
+								.addPlayer(HeadE.FRUSTRATED, "Maybe I'll be so silent you'll think I never existed")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Oh, how I long for that day..."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Kneel before my awesome might!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I would, but I have a bad knee you see...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Your feeble prattlings matter not, air-breather! Kneel or face my wrath!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'm not afraid of you. You're only a squid in a bowl!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Only? I, radiant in my awesomeness, am 'only' a squid in a bowl? Clearly you need to be shown in your place, lung-user!")
+								.addSimple("*The Karamthulhu overlord narrows its eye and you find yourself unable to breathe!")
+								.addPlayer(HeadE.SCARED, "Gaak! Wheeeze!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Who rules?")
+								.addPlayer(HeadE.SCARED, "You rule!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "And don't forget it!"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "The answer 'be silent'!")
+								.addPlayer(HeadE.HAPPY_TALKING, "You have no idea what I was going to ask you.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes I do; I know all!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Then you will not be surprised to know I was going to ask you what you wanted to do today.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You dare doubt me!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "The answer 'be silent' because your puny compressed brain could not even begin to comprehend my needs!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, how about I dismiss you so you can go and do what you like?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, how about I topple your nations into the ocean and dance my tentacle-waving victory dance upon your watery graves?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Yeah...well...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Silence! Your burbling vexes me greatly!"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Errr...Have you calmed down yet?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Calmed down? Why would I need to calm down?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well there is that whole 'god complex' thing...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Complex? What 'complex' are you drooling about this time, minion?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It is a sad thing indeed when a god as powerful as I cannot gain recognition from the foolish mewling sheep of this 'surface' place.")
+								.addPlayer(HeadE.SECRETIVE, "I don't really think sheep really make mewling noises...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Silence!")
+				);
+			}
+			case SMOKE_DEVIL -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Roooo.... rooooo!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "When are you going to be done with that?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Soon, I hope.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Good, because this place is too breezy.")
+								.addPlayer(HeadE.HAPPY_TALKING, "What do you mean?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I mean, it's tricky to keep hovering in this draft.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Ok, we'll move around a little if you like.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes please!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hey!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Yes?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Where are we going again?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I have a lot of things to do today, so we might go a lot of places.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Are we there yet?")
+								.addPlayer(HeadE.HAPPY_TALKING, "No, not yet.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "How about now?")
+								.addPlayer(HeadE.FRUSTRATED, "No.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Are we still not there?")
+								.addPlayer(HeadE.ANGRY, "NO!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Okay, just checking."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ah, this is the life!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Having a good time up there?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yeah! It's great to feel the wind in your tentacles.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Sadly, I don't know what that feels like.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Why not?")
+								.addPlayer(HeadE.HAPPY_TALKING, "No tentacles for a start.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, nobody's perfect."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Why is it always so cold here?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't think it's that cold.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It is compared to back home.")
+								.addPlayer(HeadE.HAPPY_TALKING, "How hot is it where you are from?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I can never remember. What is the vaporisation point of steel again?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Pretty high.")
+								.addPlayer(HeadE.HAPPY_TALKING, "No wonder you feel cold here...")
+				);
+			}
+			case ABYSSAL_LURKER -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Reeeee!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Djrej gf'ig sgshe...")
+								.addPlayer(HeadE.HAPPY_TALKING, "What? Are we in danger, or something?"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "To poshi v'kaa!")
+								.addPlayer(HeadE.HAPPY_TALKING, "What? Is that even a language?"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "G-harrve shelmie?")
+								.addPlayer(HeadE.HAPPY_TALKING, "What? Do you want something?"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Jehifk i'ekfh skjd.")
+								.addPlayer(HeadE.HAPPY_TALKING, "What? Is there somebody down an old well, or something?")
+				);
+			}
+			case SPIRIT_COBRA -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sssssst!");
+				int ringID = player.getEquipment().getRingId();
+				if(ringID == 4202 || ringID == 6465 || ringID == 15016)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You are under my power!")
+							.addPlayer(HeadE.HAPPY_TALKING, "No, you are under my power!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "No, you are under my power!")
+							.addPlayer(HeadE.HAPPY_TALKING, "No, my power is greater!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Your power is the greater...")
+							.addPlayer(HeadE.HAPPY_TALKING, "Your powers are no match for mine!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You are convinced you have won this argument...")
+							.addPlayer(HeadE.HAPPY_TALKING, "I won the argument...yay!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "*Manic serpentine laughter*");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Do we have to do thissss right now?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Yes, I'm afraid so.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You are under my sssspell...")
+								.addPlayer(HeadE.HAPPY_TALKING, "I will do as you ask...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Do we have to do thissss right now?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Not at all, I had just finished!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You are feeling ssssleepy...")
+								.addPlayer(HeadE.HAPPY_TALKING, "I am feeling sssso ssssleepy...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You will bring me lotssss of sssstuff!")
+								.addPlayer(HeadE.HAPPY_TALKING, "What ssssort of sssstuff?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What ssssort of sssstuff have you got?")
+								.addPlayer(HeadE.HAPPY_TALKING, "All kindsss of sssstuff.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Then just keep bringing sssstuff until I'm ssssatissssfied!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm bored, do ssssomething to entertain me...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Errr, I'm not here to entertain you, you know.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You will do as I assssk...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Your will is my command...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm bored, do ssssomething to entertain me...")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'll dance for you!", ()->{
+									player.setNextAnimation(new Animation(866));
+								}),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I am king of the world!")
+								.addPlayer(HeadE.HAPPY_TALKING, "You know, I think there is a law against snakes being the king.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "My will is your command...")
+								.addPlayer(HeadE.HAPPY_TALKING, "I am yours to command...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I am king of the world!")
+								.addPlayer(HeadE.HAPPY_TALKING, "All hail King Serpentor!")
+				);
+			}
+			case STRANGER_PLANT -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "...");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'M STRANGER PLANT!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I know you are.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I KNOW! I'M JUST SAYING!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you have to shout like that all of the time?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "WHO'S SHOUTING?")
+								.addPlayer(HeadE.HAPPY_TALKING, "If this is you speaking normally, I'd hate to hear you shouting.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "OH, SNAP!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "WILL WE HAVE TO BE HERE LONG?")
+								.addPlayer(HeadE.HAPPY_TALKING, "We'll be here until I am finished.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "BUT THERE'S NO DRAMA HERE!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, how about you pretend to be an undercover agent.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "WONDERFUL! WHAT'S MY MOTIVATION?")
+								.addPlayer(HeadE.HAPPY_TALKING, "You're trying to remain stealthy and secretive, while looking out for clues.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'LL JUST GET INTO CHARACTER! AHEM!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "PAPER! PAPER! VARROCK HERALD FOR SALE!")
+								.addPlayer(HeadE.HAPPY_TALKING, "What kind of spy yells loudly like that?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "ONE WHOSE COVER IDENTITY IS A PAPER-SELLER, OF COURSE!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Ask a silly question..."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "DIIIIVE!")
+								.addPlayer(HeadE.HAPPY_TALKING, "What? Help! Why dive?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "OH, DON'T WORRY! I JUST LIKE TO YELL THAT FROM TIME TO TIME!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, can you give me a little warning next time?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "WHAT, AND TAKE ALL THE FUN OUT OF LIFE?")
+								.addPlayer(HeadE.HAPPY_TALKING, "If by 'fun' you mean 'sudden heart attacks', then yes, please take them out of my life!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I THINK I'M WILTING!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you need some water?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "DON'T BE SILLY! I CAN PULL THAT OUT OF THE GROUND!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Then why are you wilting?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "IT'S SIMPLE: THERE'S A DISTINCT LACK OF DRAMA!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Drama?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "YES, DRAMA!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Okay...")
+								.addPlayer(HeadE.HAPPY_TALKING, "Let's see if we can find some for you.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "LEAD ON!")
+				);
+			}
+			case BARKER_TOAD -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Riiibit!");
+				if(player.getInventory().containsOneItem(2150))
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Bwaaarp graaaawk? (What's that croaking in your inventory?)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Ah, you mean that toad?")
+							.addPlayer(HeadE.HAPPY_TALKING, "Oh, I'm guessing you're not going to like me carrying a toad about.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Craaawk, croak. (I might not be all that happy, no.)")
+							.addPlayer(HeadE.HAPPY_TALKING, "I'm not going to eat it.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Craaaaawk braaap croak. (Weeeeell, I'd hope not! Reminds me of my mama toad. She was inflated and fed to a jubbly, you know. A sad, demeaning way to die.)");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ladies and gentlemen, for my next trick, I shall swallow this fly!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Seen it.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ah, but last time was the frog...on fire?")
+								.addPlayer(HeadE.HAPPY_TALKING, "No! That would be a good trick.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, it won't be this time either.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Awwwww..."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Roll up, roll up, roll up! See the greatest show on Gielinor!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Where?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, it's kind of...you.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Me?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Roll up, roll up, roll up! See the greatest freakshow on Gielinor!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Don't make me smack you, slimy."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "We need to set up the big top somewhere near here. The locals look friendly enough.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Are you kidding?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Your problem is that you never see opportunities."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Braaaaaaaaaaaaaaaaaaaaaaap! (*Burp!*)")
+								.addPlayer(HeadE.HAPPY_TALKING, "That's disgusting behaviour!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Braap craaaaawk craaaawk. (That, my dear boy, was my world-renowned belching.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I got that part. Why are you so happy about it?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Braaaaaaap craaaaaawk craaaaaaaawk. (My displays have bedazzled the crowned heads of Gielinor.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'd give you a standing ovation, but I have my hands full.")
+				);
+			}
+			case WAR_TORTOISE -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Roop!");
+				yield random(
+						new Dialogue()
+								.addSimple("*The tortoise waggles its head about*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What are we doing in this dump?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I was just going to take care of a few things.")
+								.addSimple("*The tortoise shakes its head*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I don't believe it. Stuck here with this young whippersnapper running around having fun.")
+								.addPlayer(HeadE.HAPPY_TALKING, "You know, I'm sure you would enjoy it if you gave it a chance.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Oh, you would say that, wouldn't you?"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hold up a minute, there.")
+								.addPlayer(HeadE.HAPPY_TALKING, "What do you want?")
+								.addSimple("*The tortoise bobs its head*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "For you to slow down!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I've stopped now.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes, but you'll soon start up again, won't you?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Probably.")
+								.addSimple("* The tortoise waggles its head despondently.*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, " I don't believe it...."),
+						new Dialogue()
+								.addSimple("* The tortoise bobs its head around energetically.*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Oh, so now you're paying attention to me, are you?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I pay you plenty of attention!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Only when you want me to carry those heavy things of yours.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't ask you to carry anything heavy.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What about those lead ingots?")
+								.addPlayer(HeadE.HAPPY_TALKING, "What lead ingots?")
+								.addSimple("*The tortoise droops its head*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, that's what it felt like....")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "*grumble grumble*"),
+						new Dialogue()
+								.addSimple("*The tortoise exudes an air of reproach*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Are you going to keep rushing around all day?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Only for as long as I have the energy to.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Oh. I'm glad that my not being able to keep up with you brings you such great amusement.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I didn't mean it like that.")
+								.addSimple("*The tortoise waggles its head disapprovingly.*")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, when you are QUITE finished laughing at my expense, how about you pick up a rock larger than your body and go crawling about with it?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "We'll see how energetic you are after an hour or two of that.")
+				);
+			}
+			case BUNYIP -> {
+				if(!canTalk)
+					yield new Dialogue();
+				//has fish
+				if(player.getInventory().containsOneItem(13435, 317, 321, 327, 338, 345, 335, 331, 349, 359, 371, 377, 353, 341, 363, 11328, 2148, 11330, 11332, 7944, 383, 15264, 15270)) {
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I see you've got some fish there, mate.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Yeah, but I might cook them up before I give them to you!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Humans...always ruining good fishes.")
+							.addPlayer(HeadE.HAPPY_TALKING, "You know, some people prefer them cooked.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yeah. We call 'em freaks.");
+				}
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Where are we going and why is it not to the beach?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, we have a fair few places to go, but I suppose we could go to the beach if we get time.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Bonza! I'll get my board ready!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, even if we do go to the beach I don't know if we'll have time for that.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Awww, that's a drag..."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hey Bruce, can we go down to the beach t'day?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I have a lot of things to do today but maybe later.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Bonza!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Pass me another bunch of shrimps, mate!")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't know if I want any more water runes.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Righty, but I do know that I want some shrimps!")
+								.addPlayer(HeadE.HAPPY_TALKING, "A fair point."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sigh...")
+								.addPlayer(HeadE.HAPPY_TALKING, "What's the matter?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm dryin' out in this sun, mate.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, what can I do to help?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, fish oil is bonza for the skin, ya know.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh, right, I think I see where this is going.")
+				);
+			}
+			case FRUIT_BAT -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeeeeeek!");
+				if(player.getInventory().getAmountOf(5972) > 3)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeek squeek-a-squeek squeeek? (Can I have a papaya?)")
+							.addPlayer(HeadE.HAPPY_TALKING, "No, I have a very specific plan for them.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeek? (What?)")
+							.addPlayer(HeadE.HAPPY_TALKING, "I was just going to grate it over some other vegetables and eat it. Yum.");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeek-a-squeek squeek? (How much longer do you want me for?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't really know at the moment, it all depends what I want to do today."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeak squeek-a-squeak. (This place is fun!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Glad you think so!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeek squeek squeek-a-squeek? (Where are we going?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh, we're likely to go to a lot of places today."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeek squeek-a-squeek squeek? (Can you smell lemons?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "No, why do you ask?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Squeak-a-squeak squeek. (Must just be thinking about them.)")
+				);
+			}
+			case RAVENOUS_LOCUST -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiiiiiiine!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Click whiiine whiiiiine click click? (Hey, man, can you spare some lentils?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "What would you want with lentils?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiiinewhiiiiiiine click whiiiiiiiine. (I was going to make a casserole.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "How? You don't have a fire, pans or thumbs.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiiiiiiiiiine! (Stop hassling me, man.)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiiine click click! (Man, it's a totally groovy day.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "That it is.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiine whiiiiine whinewhiiiine. (Now, if only I wasn't being held down by 'The Man'.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Which man?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clickclack whiiiiiine whiiiiinewhiiine. ('The Man'; the one that keeps harshing my mellow.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "'Harshing your mellow'? Okay, I don't want to know any more."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiiine... (Siiiiigh...)")
+								.addPlayer(HeadE.HAPPY_TALKING, "What's the matter?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiine whiiiineclickwhiiiiine whine... (I was just thinking about how meat is murder...)")
+								.addPlayer(HeadE.HAPPY_TALKING, "But it isn't. Killing someone is murder.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Click click! (Good point.)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whiiiiine whinewhiiiine? (Man, how about time?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I think it's about midday.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clickwhiiiiine whiiiiiiiiiiiiine... (No, man. Isn't time, like, massive?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't think an abstract concept can have mass...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whineclick click! (Oh, man, that's heavy.)")
+				);
+			}
+			case ARCTIC_BEAR -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rawr!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crikey! We’re tracking ourselves a real live one here. I call ’em ‘Brighteyes’.")
+								.addPlayer(HeadE.FRUSTRATED, "Will you stop stalking me like that?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Lookit that! Something’s riled this one up good and proper.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Who are you talking to anyway?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Looks like I’ve been spotted.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Did you think you didn’t stand out here or something?"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crikey! Something seems to have startled Brighteyes, here.")
+								.addPlayer(HeadE.HAPPY_TALKING, "What? What’s happening?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Maybe " + player.getPronoun("he's", "she's") + " scented a rival.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I smell something, but it’s not a rival."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "We’re tracking Brighteyes here as " + player.getPronoun("he", "she") + " goes about " + player.getPronoun("his", "her") + " daily routine.")
+								.addPlayer(HeadE.HAPPY_TALKING, "My name is " + player.getDisplayName() + ", not Brighteyes!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Looks like the little critter’s upset about something.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I wonder if " + player.getPronoun("he", "she") + "’d be quiet if I just did really boring stuff."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "These little guys get riled up real easy.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Who wouldn’t be upset with a huge bear tracking along behind them, commenting on everything they do?")
+				);
+			}
+			case PHOENIX -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skreee!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skreee skree skrooo skrooooouuu. (I want to burn something.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Why are you looking at me like that?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skeeeeooouoou! Skree skrooo, skrooouuee skreee! (Please! It won't hurt that much, and I'll bring you back straight away!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Maybe later. Much later. When I'm dead from natural causes already. And medicine has failed to bring me back.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skreee skreeeooouu skroou! (I'll hold you to it!)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "May I ask you a question?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Skreeoooouuu, skreeee skreeeeoooo. (Yes, but you have already asked me a question.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Skreeeooo, skreee skreeeeee skreeoooo. (You should have said 'May I ask you two questions?'.)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Erm, may I ask you two questions?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Skroo. (No.)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "..."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "May I ask you... TWO questions?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skree ree ree! Skree, skreee skrooou skreeeoou. (Heh heh heh. The answer to your first is yes. You may ask your second.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "What was RuneScape like in the distant past?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skreee skreeeeout skreeou. Skreee skree. (It was like it is now, only younger.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "...")
+								.addPlayer(HeadE.HAPPY_TALKING, "You, madam, are the most pestiferous poultry I have ever met.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skree ree ree! (Heh heh heh!)"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Skreeee, skree skrooo. Skrooooou skreee!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skreee skroooue, skreeee skreeeeeeeou. (Either you need to practice your phoenixspeak, or I should burn you where you stand.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "So that didn't mean 'How are you feeling today?'")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Skroo. Skroo, skreee skreou. (No, it didn't.")
+				);
+			}
+			case OBSIDIAN_GOLEM -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrr!");
+				int capeID = player.getEquipment().getCapeId();
+				if(player.getInventory().containsOneItem(6570, 23659) || capeID == 6570 || capeID == 23659)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Truly, you are a powerful warrior, Master!")
+							.addPlayer(HeadE.HAPPY_TALKING, "I'm pleased you think so.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It is my duty to respect you, Master.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Oh, So you're just saying that to make me happy...")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I obey all orders, Master.");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Let us go forth and prove our strength, Master!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Where would you like to prove it?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "The caves of the TzHaar are filled with monsters for us to defeat, Master! TzTok-Jad shall quake in his slippers!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Have you ever met TzTok-Jad?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Alas, Master, I have not. No Master has ever taken me to see him."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "How many foes have you defeated, Master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Quite a few, I should think.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Was your first foe as mighty as the volcano, Master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Um, not quite.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I am sure it must have been a deadly opponent, Master!")
+								.addPlayer(HeadE.HAPPY_TALKING, "*Cough* It might have been a chicken. *Cough*"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Master! We are truly a mighty duo!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you think so?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Of course, Master! I am programmed to believe so.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you do anything you're not programmed to?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "No, Master.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I guess that makes things simple for you..."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Do you ever doubt your programming, Master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have programming. I can think about whatever I like.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What do you think about, Master?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh, simple things: the sound of one hand clapping, where the gods come from...Simple things.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Paradox check = positive. Error. Reboot.")
+				);
+			}
+			case GRANITE_LOBSTER -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "CLomp! Clap Clamp!");
+				if(player.getQuestManager().isComplete(Quest.FREMENNIK_TRIALS))
+					yield random(
+							new Dialogue()
+									.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ho, my Fremennik brother, shall we go raiding?")
+									.addPlayer(HeadE.HAPPY_TALKING, "Well, I suppose we could when I'm done with this.")
+									.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes! To the looting and the plunder!"),
+							new Dialogue()
+									.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "We shall heap the helmets of the fallen into a mountain!")
+									.addPlayer(HeadE.HAPPY_TALKING, "The outerlanders have insulted our heritage for the last time!")
+									.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "The longhall will resound with our celebration!")
+					);
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clonkclonk clonk grind clonk. (Keep walking, outerlander. We have nothing to discuss.)")
+						.addPlayer(HeadE.HAPPY_TALKING, "Fair enough.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clonkclonkclonk grind clonk grind? (It's nothing personal, you're just an outerlander, you know?)");
+			}
+			case PRAYING_MANTIS -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clatter click chitter!");
+				if(player.getInventory().containsOneItem(10010) || player.getEquipment().getWeaponId() == 10010)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clatter click chitter click? (Wouldn't you learn focus better if you used chopsticks?)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Huh?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clicker chirrpchirrup. (For catching the butterflies, grasshopper.)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Oh, right! Well, if I use anything but the net I squash them.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chirrupchirrup click! (Then, I could have them!)");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chitter chirrup chirrup? (Have you been following your training, grasshopper?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Yes, almost every day.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chirrupchirrup chirrup. ('Almost' is not good enough.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I'm trying as hard as I can.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chirrup chitter chitter chirrup? (How do you expect to achieve enlightenment at this rate, grasshopper?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Spontaneously."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chitterchitter chirrup clatter. (Today, grasshopper, I will teach you to walk on rice paper.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "What if I can't find any?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clatter chitter click chitter... (Then we will wander about and punch monsters in the head...)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I could do in an enlightened way if you want?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chirrupchitter! (That will do!)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clatter chirrup chirp chirrup clatter clatter. (A wise man once said; 'Feed your mantis and it will be happy'.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Is there any point to that saying?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clatter chirrupchirrup chirp. (I find that a happy mantis is its own point.)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clatter chirrupchirp- (Today, grasshopper, we will-)")
+								.addPlayer(HeadE.HAPPY_TALKING, "You know, I'd rather you call me something other than grasshopper.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clitterchirp? (Is there a reason for this?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "You drool when you say it.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Clickclatter! Chirrup chirpchirp click chitter... (I do not! Why would I drool when I cann you a juicy...)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "...clickclick chitter clickchitter click... (...succulent, nourishing, crunchy...)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "*Drooool*")
+								.addPlayer(HeadE.HAPPY_TALKING, "You're doing it again!")
+				);
+			}
+			case FORGE_REGENT -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crackley spit crack sizzle...");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crackley spit crack sizzle? (Can we go Smithing?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Maybe.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hiss? (Can we go smelt something?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Maybe.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Flicker crackle sizzle? (Can we go mine something to smelt?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Maybe.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle flicker! (Yay! I like doing that!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "..."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hiss. (I'm happy.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Good.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crackle. (Now I'm sad.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh dear, why?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hiss-hiss. (Happy again.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Glad to hear it.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crackley-crick. (Sad now.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Um.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hiss. (Happy.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Right...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crackle. (Sad.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "You're very strange.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle hiss? (What makes you say that?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh...nothing in particular."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle! (I like logs.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "They are useful for making planks.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzley crack hiss spit. (No, I just like walking on them. They burst into flames.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "It's a good job I can use you as a firelighter really!"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle... (I'm bored.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Are you not enjoying what we're doing?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Crackley crickle sizzle. (Oh yes, but I'm still bored.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oh, I see.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle hiss? (What's that over there?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't know. Should we go and look?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hiss crackle spit sizzle crack? (Nah, that's old news - I'm bored of it now.)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle hiss? (What's that over there?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "But...wha...where now?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sizzle crack crickle. (Oh no matter, it no longer interests me.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "You're hard work.")
+				);
+			}
+			case TALON_BEAST -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Screeee!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Is this all you apes do all day, then?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, we do a lot of other things, too.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "That’s dull. Lets go find something and bite it.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I wouldn’t want to spoil my dinner.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "So, I have to watch you trudge about again? Talk about boring."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "This place smells odd…")
+								.addPlayer(HeadE.HAPPY_TALKING, "Odd?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Yes, not enough is rotting…")
+								.addPlayer(HeadE.HAPPY_TALKING, "For which I am extremely grateful."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hey!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Aaaargh!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Why d’you always do that?")
+								.addPlayer(HeadE.HAPPY_TALKING, "I don’t think I’ll ever get used to having a huge, ravenous feline sneaking around behind me all the time.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "That’s okay, I doubt I’ll get used to following an edible, furless monkey prancing in front of me all the time either."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "C’mon! Lets go fight stuff!")
+								.addPlayer(HeadE.HAPPY_TALKING, "What sort of stuff?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I dunno? Giants, monsters, vaguely-defined philosophical concepts. You know: stuff.")
+								.addPlayer(HeadE.HAPPY_TALKING, "How are we supposed to fight a philosophical concept?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "With subtle arguments and pointy sticks!")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I can see you’re going to go far in debates.")
+				);
+			}
+			case GIANT_ENT -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Creeeeeeeek....");
+				if(player.getTempAttribs().getI("ent_fam_dial") == 0) {
+					player.getTempAttribs().setI("ent_fam_dial", 1);
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Creeeeeeeeeeeak..... (I.....)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Yes?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, ".....")
+							.addSimple("After a while you realise that the ent has finished speaking for the moment.");
+				}
+				if(player.getTempAttribs().getI("ent_fam_dial") == 1) {
+					player.getTempAttribs().setI("ent_fam_dial", 2);
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Creak..... Creaaaaaaaaak..... (Am.....)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Yes?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, ".....")
+							.addSimple("After a while you realise that the ent has finished speaking for the moment.");
+				}
+				if(player.getTempAttribs().getI("ent_fam_dial") == 2) {
+					player.getTempAttribs().setI("ent_fam_dial", 3);
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Grooooooooan..... (Feeling.....)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Yes? We almost have a full sentence now - the suspense is killing me!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, ".....")
+							.addSimple("After a while you realise that the ent has finished speaking for the moment.");
+				}
+				player.getTempAttribs().setI("ent_fam_dial", 0);
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Groooooooooan..... (Sleepy.....)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure if that was worth all the waiting."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Grooooooan.....creeeeeeeak (Restful.....)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure if that was worth all the waiting."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Grrrrooooooooooooooan..... (Achey.....)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure if that was worth all the waiting."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Creeeeeeeegroooooooan..... (Goood.....)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure if that was worth all the waiting."),
+						new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Creeeeeeeeeeeeeaaaaaak..... (Tired.....)")
+							.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure if that was worth all the waiting.")
+				);
+			}
+			case HYDRA -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaasp!");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaspraaasp? (Isn't it hard to get things done with just one head?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Not really!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaasp raaaaap raaaasp? (Well I suppose you work with what you got, right?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaaaasp raaaasp raaaasp. (At least he doesn't have someone whittering in their ear all the time.)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaaaaasp! (Quiet, you!)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaasp raaaasp! (Man, I feel good!)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaasp ssssss raaaasp. (That's easy for you to say.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "What's up?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaa.... (well...)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaaasp sss rassssp. (Don't pay any attention, they are just feeling whiny.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "But they're you, aren't they?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaasp raasp rasssp! (Don't remind me!)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rassssp rasssssp! (You know, two heads are better than one!)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaasp rassssp sssssp.... (Unless you're the one doing all the heavy thinking....)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I think I'll stick to one for now, thanks."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaaaaasp. (Siiiigh.)")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raasp raasp raaaaasp? (What's up this time?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Can I help?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rasssp ssssssp? raaaaasp raaaasp. (Do you mind? This is a private conversation.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, excu-u-use me.")
+				);
+			}
+			case SPIRIT_DAGANNOTH -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Grooooowl");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Grooooooowl graaaaawl raaaawl? (Are you ready to surrender to the power of the Deep Waters?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Err, not really.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rooooowl? (How about now?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "No, sorry.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rooooowl? (How about now?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "No, sorry. You might want to try again a little later."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Groooooowl. Hsssssssssssssss! (The Deeps will swallow the lands. None will stand before us!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "What if we build boats?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hsssssssss groooooowl? Hssssshsss grrooooooowl? (What are boats? The tasty wooden containers full of meat?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I suppose they could be described as such, yes."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hssssss graaaawl grooooowl, growwwwwwwwwl! (Oh how the bleak gulfs hunger for the Day of Rising.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "My brain hurts when I listen to you talk...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaaawl groooowl grrrrawl! (That's the truth biting into your clouded mind!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Could you try using a little less truth please?"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Raaaawl! (Submit!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Submit to what?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hssssssssss rawwwwwl graaaawl! (To the inevitable defeat of all life on the Surface!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I think I'll wait a little longer before I just keep over and submit, thanks")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Hsssss, grooooowl, raaaaawl. (Well, it's your choice, but those that submit first will be eaten first.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'll pass on that one, thanks.")
+				);
+			}
+			case UNICORN_STALLION -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Neigh .... neigh!");
+				if(player.getHitpoints() < player.getMaxHitpoints()*0.6)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker snort! Whinny whinny whinny. (You're hurt! Let me try to heal you.)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Yes, please do!")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Snuffle whicker whicker neigh neigh... (Okay, we'll begin with acupuncture and some reiki, then I'll get my crystals...)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Or you could use some sort of magic...like the other unicorns...")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker whinny whinny neigh. (Yes, but I believe in alternative medicine.)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Riiight. Don't worry about it, then; I'll be fine.");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Neigh neigh neighneigh snort? (Isn't everything so awesomely wonderful?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Err...yes?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker whicker snuffle. (I can see you're not tuning in, " + player.getDisplayName() + ".)")
+								.addPlayer(HeadE.HAPPY_TALKING, "No, no, I'm completely at one with...you know...everything.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker! (Cosmic.)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker whicker. Neigh, neigh, whinny. (I feel so, like, enlightened. Let's meditate and enhance our auras.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I can't do that! I barely even know you.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker... (Bipeds...)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whinny whinny whinny. (I think I'm astrally projecting.)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Okay... Hang on. Seeing as I summoned you here, wouldn't that mean you are physically projecting instead?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whicker whicker whicker. (You're, like, no fun at all, man.)"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whinny, neigh! (Oh, happy day!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Happy day? Is that some sort of holiday or something?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Snuggle whicker (Man, you're totally, like, uncosmic, " + player.getDisplayName() + ".)")
+				);
+			}
+			case WOLPERTINGER -> {
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rawr!");
+			}
+			case PACK_YAK -> {
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Barroobaroooo baaaaaaaaarooo!");
+			}
+			case FIRE_TITAN -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrr....");
+				if(player.getInventory().containsOneItem(590))
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Relight my fire.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "A tinderbox is my only desire.")
+							.addPlayer(HeadE.HAPPY_TALKING, "What are you singing?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Just a song I heard a while ago.")
+							.addPlayer(HeadE.HAPPY_TALKING, "A tinderbox is my only desire.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You're just jealous of my singing voice.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Where did you hear this again?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Oh, you know, just with some other fire titans. Out for a night on the pyres.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Hmm. Come on then. We have stuff to do.");
+				yield random(
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Pick flax.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Jump to it.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "If you want to get to Fletching level 99.")
+								.addPlayer(HeadE.HAPPY_TALKING, "That song...is terrible.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sorry."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You're fanning my flame with your wind spells.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm singeing the curtains with my heat.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Oooh, very mellow."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm burning up.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I want the world to know.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I got to let it show.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Catchy."),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It's raining flame!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Huzzah!")
+								.addPlayer(HeadE.HAPPY_TALKING, "You have a...powerful voice.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Thanks"),
+						new Dialogue()
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Let's go fireside.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I think I've roasted the sofa.")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I think I've burnt down the hall.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Can't you sing quietly?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Sorry.")
+				);
+			}
+			case MOSS_TITAN -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrr...");
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Oh, look! A bug!")
+						.addPlayer(HeadE.HAPPY_TALKING, "It's quite a large bug.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "He's so cute! I wanna keep him.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Well, be careful.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm gonna call him Buggie and I'm gonna keep him in a box.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Don't get overexcited.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm gonna feed him and we're gonna be so happy together!")
+						.addSimple("The Moss titan begins to bounce up and down.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Aww...Buggie went squish.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Sigh.");
+			}
+			case ICE_TITAN -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrrr...");
+				//in kharidian desert
+				if(player.getX() > 3130 && player.getX() < 3520 && player.getY() < 3130 && player.getY() > 2755)
+					yield new Dialogue()
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm melting!")
+							.addPlayer(HeadE.HAPPY_TALKING, "I have to admit, I am rather on the hot side myself.")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "No, I mean I'm actually melting! My legs have gone dribbly.")
+							.addPlayer(HeadE.HAPPY_TALKING, "Urk! Well, try hold it together.");
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It's too hot here.")
+						.addPlayer(HeadE.HAPPY_TALKING, "It's really not that hot. I think it's rather pleasant.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Well, it's alright for some. Some of us don't like the heat. I burn easily - well, okay, melt.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Well, at least I know where to get a nice cold drink if I need one.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "What was that?")
+						.addPlayer(HeadE.HAPPY_TALKING, "Nothing. Hehehehe");
+			}
+			case LAVA_TITAN -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrr....");
+				yield new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "Isn’t it a lovely day, Titan?")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It is quite beautiful. The perfect sort of day for a limerick. Perhaps, I could tell you one?")
+						.addPlayer(HeadE.HAPPY_TALKING, "That sounds splendid.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "There once was a bard of Edgeville,")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Whose limericks were quite a thrill,")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "He wrote this one here,")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "His best? Nowhere near,")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "But at least half a page it did fill.");
+			}
+			case SWAMP_TITAN -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrr....");
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I’m alone, all alone I say.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Oh, stop being so melodramatic.")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "It’s not easy being greenery…well, decomposing greenery.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Surely, you’re not the only swamp…thing in the world? What about the other swamp titans?")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "They’re not my friends…they pick on me…they’re so mean…")
+						.addPlayer(HeadE.HAPPY_TALKING, "Why would they do that?")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "They think I DON’T smell.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Oh, yes. That is, er, mean…");
+			}
+			case GEYSER_TITAN -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrr....");
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Did you know a snail can sleep up to three years?")
+						.addPlayer(HeadE.HAPPY_TALKING, "I wish I could do that. Ah...sleep.");
+			}
+			case ABYSSAL_TITAN -> {
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Scruunt, scraaan.....");
+			}
+			case IRON_TITAN, STEEL_TITAN -> {
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrrr...");
+			}
+			case MEERKATS -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter Chatter");
+				yield new Dialogue()
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter Chatter. Chatter chatter chatter chatter chatter. Chatter! (We're pretty unlucky. Often, we hit a box when we try to burrow where you tell us. Very suspicious!)")
+						.addPlayer(HeadE.HAPPY_TALKING, "Well, if we remove all the boxes, you'll be able to burrow anywhere!")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter chatter chatter! (Then the boxes must be removed!)")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter! (Agreed!)")
+						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter chatter chatter! (Let's dig out those boxes!)")
+						.addPlayer(HeadE.HAPPY_TALKING, "That's the spirit!");
+			}
+			case GHAST -> {
+				yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Woooooo woooo!");
+			}
+			case BLOODRAGER_1, BLOODRAGER_2, BLOODRAGER_3, BLOODRAGER_4, BLOODRAGER_5, BLOODRAGER_6, BLOODRAGER_7, BLOODRAGER_8, BLOODRAGER_9, BLOODRAGER_10 ->{
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Yahadahalyonih dahdikad, bebehsha.");
+				if(!player.getTempAttribs().getB("talked_to_bloograger")) {
+					player.getTempAttribs().setB("talked_to_bloograger", true);
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Brother, you are always welcome to talk with me.");
+				}
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Are all gorajo as cheery as you?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Come to the gorajo plane and find out, brother! In the clan fringes, you will find bloodragers, and there are none more welcoming. You would be treated like a sachem.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I would love to! Are the other gorajo as friendly?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Their lives are more complicated, brother. They must bear burdens, teach, guide and lead. Although we must protect the clan and serve Challem, we have nothing else to cloud our minds.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Well, I'll hold you to that invite. If we ever get out of here, of course."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How do you like it in Daemonheim?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "It is a place, as any other. I am just happy to be alive, taking sharp rukhs full of air-")
+								.addPlayer(HeadE.HAPPY_TALKING, "Im not sure I have a rukh.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Sure you do! Or how else would you grebbit? I am just happy to be alive, breathing the air and completing the task that has been asked of me. Challem be praised."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have any more questions.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Shame. I feel that we are pollen on the same wind, friend.")
+				);
+			}
+			case STORMBRINGER_1, STORMBRINGER_2, STORMBRINGER_3, STORMBRINGER_4, STORMBRINGER_5, STORMBRINGER_6, STORMBRINGER_7, STORMBRINGER_8, STORMBRINGER_9, STORMBRINGER_10 -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Rooooooo!");
+				if(!player.getTempAttribs().getB("talked_to_stormbringer")){
+					player.getTempAttribs().setB("talked_to_stormbringer", true);
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Little cub, I see you have questions for me.");
+				}
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How do you cast magic? You don't seem to carry any runes.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "So, how can I possibly form magic?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Yes, I guess.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "You are right, we have no runes, but some of us are born with currents of magic rippling over our bodies. Such is the power generated by a stormbringer that we render our mothers blind and infertile during childbirth.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "One day I hope to be a Blind Mother. They are highly esteemed and carried on the back of their own worldbearer."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How powerful is a stormbringer? Have you killed a dragon?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "A drah-gon? Is that like the triple-bellied wolflok?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Probably not. Twenty-feet high, firebreathing?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Oh, it sounds much like! Seven heads? Large bellows on its sides, pumping out acid?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Bellows? No, definitely no bellows.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Then it is a shame. The creatures on our plane sound far more dangerous."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How do you like it in Daemonheim?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I like it very little. I grow tired of this place.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Then why don't you just leave? If you're so tired of floating about behind me, why don't you just go?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Do not tempt me. You are like a tiny pup, nibbling and barking at my heel. I am here because the gorajos greatest duty is to hinder the one who created this place.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "We sense that great headway has been made; that we have dropped over a waterfall and risen, coughing and spluttering to the surface. Yet, there are many turns and falls ahead.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I follow you because you have shown a remarkable habit of stumbling into trouble, young fawn. When that trouble comes, we shall push you aside and finish this.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Charming."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have any more questions.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "That is a good thing. We must prepare for the next battle.")
+				);
+			}
+			case HOARDSTALKER_1, HOARDSTALKER_2, HOARDSTALKER_3, HOARDSTALKER_4, HOARDSTALKER_5, HOARDSTALKER_6, HOARDSTALKER_7, HOARDSTALKER_8, HOARDSTALKER_9, HOARDSTALKER_10 -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Nabe!");
+				if(!player.getTempAttribs().getB("talked_to_hoardstalker")){
+					player.getTempAttribs().setB("talked_to_hoardstalker", true);
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Are you sure we can stop, naabe? Aren't there creatures about?");
+				}
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "You're a little timid for a gorajo, aren't you?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Naabe, a hoardstalker has little or no experience of combat. I am told that I fight like a cat on hind legs.")
+								.addOptions("Choose an option:", new Options() {
+									@Override
+									public void create() {
+										option("Don't worry, I have your back.", new Dialogue()
+												.addPlayer(HeadE.HAPPY_TALKING, "Don't worry, I have your back.")
+												.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Not just my back, I hope. I find a foe more terrifying when " +
+														"they run at me from the front. Although we do not die in our spirit form, we must rest for a week due to " +
+														"our spirit wounds, so others would have to perform my role for me.")
+												.addNPC(familiar.getId(), HeadE.FRUSTRATED, "They would be like a woodpecket attempting to feed from a tortoise. " +
+														"I'd come back to find the crops irrigated with milk, " +
+														"weapons dipped in water, " +
+														"and babies drinking poison. Churra, it is too terrible to think on.")
+										);
+										option("Then what use are you?", new Dialogue()
+												.addPlayer(HeadE.HAPPY_TALKING, "Then what use are you?")
+												.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Churra! You have a closed mind on those shoulders. I may not be a" +
+														" towering bloodrager or a graceful deathslinger, but I can be useful where they cannot")
+												.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Let me scavenge in these ruins, naabe. I will bring you such " +
+														"items that you would never question my place here.")
+										);
+									}
+								}),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you like it in Daemonheim? I can't imagine how anyone could.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I see this place in a way that you do not, naabe. It amazes me how something can " +
+										"go down so deep, yet still be strong and broad. I cannot help but applaud the mind behind these dungeons.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "The workmanship, too...it makes me want to put down my tools and reincarnate " +
+										"as a bloodrager. I feel like a sparrowhawk who has been chased off his kill by a dragon.")
+								.addPlayer(HeadE.HAPPY_TALKING, "But this place is evil, and thousands died building it. I doubt you've murdered anyone to make a dagger, you know.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "And that is some comfort. I feel I must be careful about what I learn and study " +
+										"on this plane. There are poisoned thorns among the flowering wonders"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Why are you called a hoardstalker? It seems a strange choice for a...blacksmith and scavenger, I guess.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "We are not just required to make the tools of our clansmen, naabe, We must " +
+										"protect the tools from those who would take them.")
+								.addPlayer(HeadE.HAPPY_TALKING, "Still, hoardstalker is a silly name.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Naabe, I have held this back from you until now, but the term " +
+										player.getDisplayName() + ", in our tongue, means 'One-Who-Juggles-Piglets'. A less-mature gorajo would find that amusing."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have any more questions.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "No problem, naabe. Just make sure nothing sneaks past and hurts me.")
+				);
+			}
+			case SKINWEAVER_1, SKINWEAVER_2, SKINWEAVER_3, SKINWEAVER_4, SKINWEAVER_5, SKINWEAVER_6, SKINWEAVER_7, SKINWEAVER_8, SKINWEAVER_9,  SKINWEAVER_10 -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Naaabe!");
+				if(!player.getTempAttribs().getB("talked_to_skinweaver")){
+					player.getTempAttribs().setB("talked_to_skinweaver", true);
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "This is my first time on this plane, naabe. I hope I can serve you well.");
+				}
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "What is your name? My name is "+ player.getDisplayName() + ", by the way.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I get confused with these titles you humans take pride in. Fremennik names," +
+										" first names, last names... Gorajo have no need to be individual - to have a name that no-one else has.")
+								.addPlayer(HeadE.HAPPY_TALKING, "How can you not have a name?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Everything we do is for the clan. If a problem arises, a role will be required, " +
+										"not an individual. The individual has no place among the gorajo.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Please do not take it as rudeness, but I cannot understand how your world " +
+										"functions with names and individuals, naabe."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "What does a skinweaver do, exactly?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "We are healers of livestock, crops and other gorajo. Which reminds me, " +
+										"naabe, do you mind if I ask you a question?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Sure.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Do you find that human organs feel like slippery fish? And that your skin is " +
+										"stretchy like the dried sap of an utuku?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Uh. I'm feeling a little faint.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Don't worry! I have cat spittle for your head should you fall. And I am on hand to suck any blood clots from your brain."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How do you like it in Daemonheim?.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Naabe, let me tell you something. When I was a few years younger than I am now, " +
+										"I helped to heal a nustukh: a creature as big as three floors of this place.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "The nustukh do not benefit the gorajo in any way, but they are the " +
+										"reincarnations of our greatest leaders. They have great significance to our people.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "This nustukh was ravaged by a corruption that ate at every one of its organs. " +
+										"A skinweaver was required to crawl in through an open lesion and heal it: I volunteered immediately. I spent two weeks inside.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I cannot help but be reminded of the nustukh in Daemonheim. The dungeons are as rank and unwholesome, and I feel that my powers are just as ineffective inside."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have any more questions.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I can understand your curiosity, naabe. Feel free to talk whenever you need.")
+				);
+			}
+			case WORLDBEARER_1, WORLDBEARER_2, WORLDBEARER_3, WORLDBEARER_4, WORLDBEARER_5, WORLDBEARER_6, WORLDBEARER_7, WORLDBEARER_8, WORLDBEARER_9, WORLDBEARER_10 -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Naaabe!");
+				if(!player.getTempAttribs().getB("talked_to_worldbearer")){
+					player.getTempAttribs().setB("talked_to_worldbearer", true);
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "I am not a great talker, little cub. For my sake, make it quick.");
+				}
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Do you need help carrying?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Little cub, there is no greater insult to a worldbearer. Shall I rub your belly so you can digest? Shall I move your feet so you can walk?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Garra! I know your culture: you call us pack mules and servants. There is no indignity in what I do! There is only honour in bearing another's burdens.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I didn't mean to insult you.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Bah, you are right. I must have woken on the wrong side of the stream today, little cub. Ignore me.")
+								.addPlayer(HeadE.HAPPY_TALKING, "You're carrying a few burdens of your own.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Grrrr! Although my role is to carry - and I carry for you now - I like it as much as I like your stale odour. Can we press on before I do something that I will get exiled for?"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "You shouldn't complain so much.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Do not pretend that we are in the servant and master role, little cub! Our alliance is a delicate one and will end some day, through good means or bad.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "When that day comes, you may not find that I am so helpful. Our goal is to blast this dungeon apart, but I have no issue with leaving you behind."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "What is it like to be a worldbearer?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "The worldbearers are the legs and back of the gorajo; we bear the provisions, tents and tools from one destination to another.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "And when the gorajo are not moving, the worldbearers prepare and serve the food. It is an important role, and one that is esteemed among my clansmen.")
+								.addPlayer(HeadE.HAPPY_TALKING, "It sounds like hard work. There can't be much time to enjoy yourself.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "It is rewarding in its own way. When a worldbearer is put to rest, they are stripped of all belongings, to be reincarnated as a creature without burden: a sparrowhawk or a wildcat, perhaps.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Although we face trials in this life, our next is free and joyful.")
+								.addPlayer(HeadE.HAPPY_TALKING, "You carry everything and have to serve it too?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "The clan sees the worldbearer as the nurturing mother wolf: proudly defending her pack while carrying the food and delivering it to her pups.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I would prefer a more masculine comparison; never mind, it has been so for centuries."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have any more questions.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "That is good to hear. I am not one to talk.")
+				);
+			}
+			case DEATHSLINGER_1, DEATHSLINGER_2, DEATHSLINGER_3, DEATHSLINGER_4, DEATHSLINGER_5, DEATHSLINGER_6, DEATHSLINGER_7, DEATHSLINGER_8, DEATHSLINGER_9, DEATHSLINGER_10 -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Naaabe!");
+				if(!player.getTempAttribs().getB("talked_to_deathslinger")){
+					player.getTempAttribs().setB("talked_to_deathslinger", true);
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "We have much work to do, but I could stop for a moment.");
+				}
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "What is the biggest creature you have killed?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Haha, you sound like my cubs! What did you kill, mama? Did it have " +
+										"ten heads, mama? Did it fire magic bolts from its eyes?")
+								.addPlayer(HeadE.HAPPY_TALKING, "Alright, I get it. I was just making conversation.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Do not sulk, naabe. You simply reminded me of better times. To answer your question, " +
+										"it was most likely a sinkhole. They are huge and flat, shaped something like an open palm. ")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "They burrow beneath the ground, and then fold themselves into a fist, " +
+										"storing the land and people within them to be digested when required.")
+								.addPlayer(HeadE.HAPPY_TALKING, "That's horrible!")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "And so much worse to be inside one. This place is nothing in comparison to a " +
+										"sinkhole, naabe. I relish every day outside of that thing."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "How much do you know about Daemonheim?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "I know that it has been here for far longer than you or I have been alive, " +
+										"beyond the lifetimes of our parents, grandparents and any relatives they knew.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Many, from so many different races, have been born here. And many have died here, " +
+										"filling the holes they helped to dig. It is not a life they deserved, but they knew no other.")
+								.addPlayer(HeadE.HAPPY_TALKING, "It must have been a terrible life.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "It is best to not consider it a life, naabe. They would have burrowed without " +
+										"question, knowing no life better than this. Like blind moles, churra. ")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "They believed that they were burrowing to an exit. It is hateful to think that " +
+										"their leader may have played upon this fact, encouraging them downward to their escape."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Why do the gorajo have only one role? You can't be a deathslinger all the time, can you?")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "A gorajo needs but one role. How do you humans say it? We...specialise.")
+								.addPlayer(HeadE.HAPPY_TALKING, "I guess that would make you a pure. I mean, adventurers who specialise in one skill are often called pures.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "A pure? I like this. The goraju are pure of action, pure of purpose... Yes, I will accept this term."),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "I don't have any more questions.")
+								.addNPC(familiar.getId(), HeadE.FRUSTRATED, "Fly fast on the wind, young naabe.")
+				);
+			}
+			case CLAY_POUCH_1, CLAY_POUCH_2, CLAY_POUCH_3, CLAY_POUCH_4, CLAY_POUCH_5 -> {
+				if(!canTalk)
+					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble Rumble.");
+				if(familiar.getInventory().getUsedSlots() > 0)
+					yield new Dialogue()
+							.addPlayer(HeadE.HAPPY_TALKING, "How are you getting on with the load?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble. (Just fine, master.)")
+							.addPlayer(HeadE.HAPPY_TALKING, "Don't go dropping it, okay?")
+							.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble. (I'll try my very best, master.)");
+
+				yield random(
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "What is it like to be made out of sacred clay?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble... (I do not understand the question...)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Can you at least tell me how you feel?")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble! (I am happy as long as I can serve you, master!)"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "They're attacking!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble! (Fear not, master, for I'll protect you!)")
+								.addPlayer(HeadE.HAPPY_TALKING, "I'm glad you're here!"),
+						new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Hey!")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble? (Yes, master?)")
+								.addPlayer(HeadE.HAPPY_TALKING, "Actually, I probably don't want to be talking to you. It's kind of dangerous here...")
+								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rumble... (As You wish...)")
+				);
+			}
 			default -> new Dialogue().addSimple("This familiar can't talk yet.");
 		};
 	}
-
 	
 	private static void addExtraOps(Player player, Options ops, Familiar familiar) {
 		switch(familiar.getPouch()) {
