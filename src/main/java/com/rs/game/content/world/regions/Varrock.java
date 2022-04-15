@@ -61,14 +61,57 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 
 
 @PluginEventHandler
 public class Varrock {
+	public static PlayerStepHandler musicBlueMoonInn = new PlayerStepHandler(new WorldTile(3215, 3395, 0), new WorldTile(3216, 3395, 0), new WorldTile(3233, 3396, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getTile().getX() <= 3216 && e.getStep().getDir() == Direction.WEST)
+				if(e.getPlayer().getMusicsManager().isPlaying(716))
+					e.getPlayer().getMusicsManager().nextAmbientSong();
+			if(e.getTile().getX() == 3216 && e.getStep().getDir() == Direction.EAST)
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(716, true);
+
+			if(e.getTile().getX() == 3233 && e.getStep().getDir() == Direction.WEST)
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(716, true);
+			if(e.getTile().getX() == 3233 && e.getStep().getDir() == Direction.EAST) {
+				if(e.getPlayer().getMusicsManager().isPlaying(716))
+					e.getPlayer().getMusicsManager().nextAmbientSong();
+			}
+		}
+	};
+
+	public static PlayerStepHandler musicDancingDonkeyInn = new PlayerStepHandler(new WorldTile(3274, 3389, 0), new WorldTile(3275, 3389, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getTile().getX() <= 3275 && e.getStep().getDir() == Direction.EAST)
+				if(e.getPlayer().getMusicsManager().isPlaying(721))
+					e.getPlayer().getMusicsManager().nextAmbientSong();
+			if(e.getTile().getX() == 3274 && e.getStep().getDir() == Direction.WEST)
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(721, true);
+
+		}
+	};
+
+	public static PlayerStepHandler musicBoarsHeadInn = new PlayerStepHandler(new WorldTile(3281, 3506, 0), new WorldTile(3280, 3506, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getStep().getDir() == Direction.NORTH)
+				if(e.getPlayer().getMusicsManager().isPlaying(720))
+					e.getPlayer().getMusicsManager().nextAmbientSong();
+			if(e.getStep().getDir() == Direction.SOUTH)
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(720, true);
+		}
+	};
+
 
 	public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(new Object[] { 733 }) {
 		@Override
@@ -142,6 +185,8 @@ public class Varrock {
 		}
 	};
 
+
+
 	public static NPCClickHandler handlePeskaBarbarianVillage = new NPCClickHandler(new Object[] { 538 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -181,7 +226,14 @@ public class Varrock {
 				ShopsHandler.openShop(e.getPlayer(), "helmet_shop");
 		}
 	};
-	
+
+	public static ObjectClickHandler varrockCenterStairs = new ObjectClickHandler(new Object[] { 24367 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().useStairs(-1, new WorldTile(e.getObject().getX(), 3476, 1), 1, 2);
+		}
+	};
+
 	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

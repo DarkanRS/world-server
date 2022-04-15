@@ -256,6 +256,9 @@ public final class MusicsManager {
         return playingMusic != -2 && playingMusicDelay + (180000) < System.currentTimeMillis();
     }
 
+	/**
+	 * Next ambient song by genre or region.
+	 */
     public void nextAmbientSong() {
         if (player.getCutsceneManager().hasCutscene())
             return;
@@ -274,6 +277,31 @@ public final class MusicsManager {
         }
         playSongWithoutUnlocking(playingMusic);
     }
+
+	public void playSpecificAmbientSong(int song) {
+		playSpecificAmbientSong(song, false);
+	}
+
+	/**
+	 * Play song but not
+	 * 1. if in the last ten
+	 * 2. if a playlist is on
+	 * @param song
+	 */
+	public void playSpecificAmbientSong(int song, boolean unlock) {
+		if(playListOn && playList.size() > 0)
+			return;
+		lastTenSongs.addFirst(playingMusic);
+		if(lastTenSongs.size() > 10)
+			lastTenSongs.removeLast();
+		if(lastTenSongs.contains(song))
+			return;
+		if(unlock) {
+			playSongAndUnlock(song);
+			return;
+		}
+		playSongWithoutUnlocking(song);
+	}
 
     /**
      * Only for use in nextAmbientSong
@@ -294,12 +322,11 @@ public final class MusicsManager {
     private void pickAmbientStrictlyBackgroundMusic() {
 		playingGenre = player.getControllerManager().getController().getGenre();
 		if (playingGenre == null) {
-//			playRandom();
 			playingMusic = -2;//don't play music
 			return;
 		}
 		List<Integer> genreSongs = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
-		cycleMusic(genreSongs);
+		cycleMusic(null, genreSongs);
     }
 
     /**
@@ -311,7 +338,6 @@ public final class MusicsManager {
         if (playingGenre == null) {
 			playingMusic = -2;//don't play music.
 			return;
-//            playRandom();
 		}
         else {
             //genre song ids int[] -> list<>
@@ -325,18 +351,31 @@ public final class MusicsManager {
                 }
             });
             //Tack on region music to local genre.
+			List<Integer> regionSongs = new ArrayList<>();
             try {
-                genreSongs.addAll((Arrays.stream(Music.getRegionMusics(player.getRegionId())).boxed().toList()));
+                regionSongs.addAll((Arrays.stream(Music.getRegionMusics(player.getRegionId())).boxed().toList()));
             } catch (NullPointerException e) {
                 //empty song region
             }
-			cycleMusic(genreSongs);
+			cycleMusic(regionSongs, genreSongs);
         }
     }
 
-	private void cycleMusic(List<Integer> genreSongs) {
+	private void cycleMusic(List<Integer> regionSongs, List<Integer> genreSongs) {
+		if(regionSongs != null && regionSongs.size() > 0) {
+			int attempts = regionSongs.size();
+			for (int i = 0; i < attempts; i++) {
+				int random = Utils.random(regionSongs.size());
+				if(!lastTenSongs.contains(regionSongs.get(random))) {
+					playingMusic = regionSongs.get(random);
+					return;
+				} else
+					regionSongs.remove(random);
+			}
+		}
 		if(genreSongs == null || genreSongs.size() <= 0)
 			return;
+
 		int attempts = genreSongs.size();
 		for (int i = 0; i < attempts; i++) {
 			int random = Utils.random(genreSongs.size());
@@ -346,17 +385,8 @@ public final class MusicsManager {
 			} else
 				genreSongs.remove(random);
 		}
-//		playRandom();
 		playingMusic = -2;//Don't play music.
 	}
-
-//    private void playRandom() {
-//		for(int i = 0; i < 15; i++) {
-//			playingMusic = unlockedMusics.get(Utils.getRandomInclusive(unlockedMusics.size() - 1));
-//			if(!(DungeonConstants.isDungeonSong(playingMusic) || lastTenSongs.contains(playingMusic)))
-//				break;
-//		}
-//    }
 
     public void playSongWithoutUnlocking(int musicId) {
         if (!player.hasStarted())
