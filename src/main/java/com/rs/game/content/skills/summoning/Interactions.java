@@ -1163,7 +1163,7 @@ public class Interactions {
 								.addPlayer(HeadE.HAPPY_TALKING, "Oww! I'm going to have your spikes trimmed!")
 				);
 			}
-			case KARAMTHULU_OVERLOAD -> {
+			case KARAMTHULU_OVERLORD -> {
 				if(!canTalk)
 					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Bloooooob.... *burp");
 				yield random(
