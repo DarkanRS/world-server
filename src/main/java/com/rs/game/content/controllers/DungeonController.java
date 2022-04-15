@@ -239,7 +239,7 @@ public class DungeonController extends Controller {
 				int procChance = (int) (40 + (player.getDungManager().getKinshipTier(KinshipPerk.KEEN_EYE) * 6.5));
 				if (Utils.random(100) < procChance)
 					if (target instanceof NPC npc)
-						npc.lowerDefense(1);
+						npc.lowerDefense(1, 0.0);
 			}
 			rangeDamage += hit.getDamage();
 		} else if (hit.getLook() == HitLook.MAGIC_DAMAGE) {

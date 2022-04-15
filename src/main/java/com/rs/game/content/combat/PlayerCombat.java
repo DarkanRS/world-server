@@ -1071,7 +1071,7 @@ public class PlayerCombat extends PlayerAction {
 												break;
 					} else if (target instanceof NPC n)
 						if (hit2.getDamage() != 0)
-							n.lowerDefense(hit2.getDamage() / 10);
+							n.lowerDefense(hit2.getDamage() / 10, 0.0);
 					break;
 				case 11061: // ancient mace
 					player.setNextAnimation(new Animation(6147));
@@ -1101,7 +1101,7 @@ public class PlayerCombat extends PlayerAction {
 
 					if (hit1.getDamage() != 0)
 						if (target instanceof NPC n)
-							n.lowerDefense(0.30f);
+							n.lowerDefense(0.30, 0.0);
 						else if (target instanceof Player p)
 							p.getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
 
@@ -1253,7 +1253,7 @@ public class PlayerCombat extends PlayerAction {
 										p.getSkills().drainLevel(i, 7);
 								p.sendMessage("Your stats have been drained!");
 							} else if (target instanceof NPC n)
-								n.lowerDefense(0.05f);
+								n.lowerDefense(0.05, 0.0);
 							if (!nextTarget)
 								nextTarget = true;
 							return nextTarget;

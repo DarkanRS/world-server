@@ -1,3 +1,19 @@
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//  Copyright (C) 2021 Trenton Kress
+//  This file is part of project: Darkan
+//
 package com.rs.game.content.skills.summoning;
 
 import static com.rs.game.model.entity.npc.combat.CombatScript.delayHit;
@@ -19,11 +35,13 @@ import com.rs.game.World;
 import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -34,6 +52,10 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
 public enum Scroll {
+	/**
+	 * Hello leecher. Nice to see you here. You're welcome for doing all the hard work for you.
+	 * I hope you'll notice the license above :)
+	 */
 	HOWL(12425, ScrollTarget.COMBAT, "Scares non-player opponents, causing them to retreat. However, this lasts for only a few seconds.", 0.1, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
@@ -203,9 +225,15 @@ public enum Scroll {
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			player.setNextSpotAnim(new SpotAnim(1502));
-			//TODO
-			return false;
+			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, new WorldTile(2662, 2654, 0), 1, true, 1, null))
+				return false;
+			familiar.sync(switch(familiar.getPouch()) {
+			default -> 8097;
+			case VOID_SPINNER -> 8181;
+			case VOID_TORCHER -> 8243;
+			case VOID_SHIFTER -> 8139;
+			}, 1506);
+			return true;
 		}
 	},
 	BRONZE_BULL(12461, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 80 damage.", 3.6, 6) {
@@ -247,8 +275,24 @@ public enum Scroll {
 	PETRIFYING_GAZE(12458, ScrollTarget.COMBAT, "Deals up to 10 damage and lowers the target's levels depending on which cockatrice variant is casting.", 0.9, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(7766, 1467);
+			Hit hit = getMagicHit(familiar, getMaxHit(familiar, 10, AttackStyle.MAGE, target));
+			delayHit(familiar, World.sendProjectile(familiar, target, 1468, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, hit, () -> {
+				if (hit.getDamage() > 0) {
+					int skill = switch(familiar.getPouch()) {
+					default -> Skills.DEFENSE;
+					case SPIRIT_ZAMATRICE -> Skills.STRENGTH;
+					case SPIRIT_VULATRICE -> Skills.RANGE;
+					case SPIRIT_SARATRICE -> Skills.PRAYER;
+					case SPIRIT_GUTHATRICE -> Skills.ATTACK;
+					case SPIRIT_CORAXATRICE -> Skills.SUMMONING;
+					case SPIRIT_PENGATRICE -> Skills.MAGIC;
+					};
+					target.spotAnim(1469);
+					target.lowerStat(skill, 1, 0.0);
+				}
+			});
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	IRON_BULL(12462, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 100 damage.", 4.6, 6) {

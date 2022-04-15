@@ -41,7 +41,7 @@ public class FamiliarSpecs {
 		Hit hit = getMeleeHit(familiar, getMaxHit(familiar, (int) (familiar.getMaxHit() * (1.0 + (0.05 * tier))), AttackStyle.MELEE, target, 1.5));
 		delayHit(familiar, 1, target, hit);
 		if (hit.getDamage() > 0 && target instanceof NPC n)
-			n.lowerDefense((hit.getDamage() / 20) * tier);
+			n.lowerDefense((hit.getDamage() / 20) * tier, 0.0);
 		return Familiar.DEFAULT_ATTACK_SPEED;
 	}
 

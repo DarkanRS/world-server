@@ -1,3 +1,19 @@
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//  Copyright (C) 2021 Trenton Kress
+//  This file is part of project: Darkan
+//
 package com.rs.game.content.skills.summoning;
 
 import java.util.Arrays;
@@ -5,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.Streams;
+import com.rs.game.World;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.model.entity.player.Player;
@@ -17,6 +34,10 @@ import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
 public enum Pouch {
+	/**
+	 * Hello leecher. Nice to see you here. You're welcome for doing all the hard work for you.
+	 * I hope you'll notice the license above :)
+	 */
 	SPIRIT_WOLF(6829, 6830, XPType.ACCURATE, 8298, 8532, Scroll.HOWL, 12047, 1, 0.1, 4.8, Ticks.fromMinutes(16), 1),
 	DREADFOWL(6825, 6826, XPType.MAGIC, 7807, 8555, Scroll.DREADFOWL_STRIKE, 12043, 4, 0.1, 9.3, Ticks.fromMinutes(16), 1),
 	SPIRIT_SPIDER(6841, 6842, XPType.CONTROLLED, 8163, 8544, Scroll.EGG_SPAWN, 12059, 10, 0.2, 12.6, Ticks.fromMinutes(16), 2, "forage_spirit_spider"),
@@ -38,23 +59,30 @@ public enum Pouch {
 	VAMPYRE_BAT(6835, 6836, XPType.CONTROLLED, 00000, 00000, Scroll.VAMPYRE_TOUCH, 12053, 31, 1.6, 136.0, Ticks.fromMinutes(32), 4),
 	HONEY_BADGER(6845, 6846, XPType.AGGRESSIVE, 00000, 00000, Scroll.INSANE_FEROCITY, 12065, 32, 1.6, 140.8, Ticks.fromMinutes(32), 4),
 	BEAVER(6808, -1, null, 00000, 00000, Scroll.MULTICHOP, 12021, 33, 0.7, 57.6, Ticks.fromMinutes(32), 4, "forage_beaver"),
-	VOID_RAVAGER(7370, 7371, XPType.AGGRESSIVE, 00000, 00000, Scroll.CALL_TO_ARMS, 12818, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4, "forage_void_ravager"),
-	VOID_SPINNER(7333, 7334, XPType.DEFENSIVE, 00000, 00000, Scroll.CALL_TO_ARMS, 12780, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4) {
+	VOID_RAVAGER(7370, 7371, XPType.AGGRESSIVE, 8091, 8929, Scroll.CALL_TO_ARMS, 12818, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4, "forage_void_ravager"),
+	VOID_SPINNER(7333, 7334, XPType.DEFENSIVE, 8174, 8920, Scroll.CALL_TO_ARMS, 12780, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4) {
 		@Override
 		public void tick(Player owner, Familiar familiar) {
 			familiar.getAttribs().decI("healTicks");
 			if (familiar.getAttribs().getI("healTicks") <= 0 && owner != null) {
 				owner.heal(10);
+				familiar.anim(8179);
 				owner.setNextSpotAnim(new SpotAnim(1507));
 				familiar.getAttribs().setI("healTicks", 25);
 			}
 		}
 	},
-	VOID_TORCHER(7351, 7352, XPType.MAGIC, 00000, 00000, Scroll.CALL_TO_ARMS, 12798, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
-	VOID_SHIFTER(7367, 7368, XPType.ACCURATE, 00000, 00000, Scroll.CALL_TO_ARMS, 12814, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4) {
+	VOID_TORCHER(7351, 7352, XPType.MAGIC, 8238, 8921, Scroll.CALL_TO_ARMS, 12798, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+	VOID_SHIFTER(7367, 7368, XPType.ACCURATE, 8134, 8919, Scroll.CALL_TO_ARMS, 12814, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4) {
 		@Override
 		public void tick(Player owner, Familiar familiar) {
-			//if player low health use scroll spec TODO
+			if (owner.getHitpoints() <= (owner.getMaxHitpoints() * 0.1) && familiar.getTempAttribs().getL("lastTeleAtt") <= World.getServerTicks()) {
+				familiar.getTempAttribs().setL("lastTeleAtt", World.getServerTicks() + Ticks.fromMinutes(1));
+				if (Scroll.CALL_TO_ARMS.use(owner, familiar)) {
+					owner.setHitpoints((int) (owner.getMaxHitpoints() * 0.2));
+					owner.refreshHitPoints();
+				}
+			}
 		}
 	},
 	BRONZE_MINOTAUR(6853, 6854, XPType.DEFENSIVE, 8029, 8549, Scroll.BRONZE_BULL, 12073, 36, 2.4, 316.8, Ticks.fromMinutes(32), 9),
@@ -66,13 +94,13 @@ public enum Pouch {
 	BULL_ANT(6867, 6868, XPType.CONTROLLED, 00000, 00000, Scroll.UNBURDEN, 12087, 40, 0.6, 52.8, Ticks.fromMinutes(32), 5, 9),
 	MACAW(6851, 6852, null, 00000, 00000, Scroll.HERBCALL, 12071, 41, 0.8, 72.4, Ticks.fromMinutes(32), 5, "forage_macaw"),
 	EVIL_TURNIP(6833, 6834, XPType.RANGED, 00000, 00000, Scroll.EVIL_FLAMES, 12051, 42, 2.1, 184.8, Ticks.fromMinutes(32), 5, "forage_evil_turnip"),
-	SPIRIT_COCKATRICE(6875, 6876, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12095, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	SPIRIT_GUTHATRICE(6877, 6878, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12097, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	SPIRIT_SARATRICE(6879, 6880, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12099, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	SPIRIT_ZAMATRICE(6881, 6882, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12101, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	SPIRIT_PENGATRICE(6883, 6884, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12103, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	SPIRIT_CORAXATRICE(6885, 6886, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12105, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	SPIRIT_VULATRICE(6887, 6888, XPType.MAGIC, 00000, 00000, Scroll.PETRIFYING_GAZE, 12107, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_COCKATRICE(6875, 6876, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12095, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_GUTHATRICE(6877, 6878, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12097, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_SARATRICE(6879, 6880, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12099, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_ZAMATRICE(6881, 6882, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12101, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_PENGATRICE(6883, 6884, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12103, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_CORAXATRICE(6885, 6886, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12105, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
+	SPIRIT_VULATRICE(6887, 6888, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12107, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	PYRELORD(7377, 7378, XPType.AGGRESSIVE, 00000, 00000, Scroll.IMMENSE_HEAT, 12816, 46, 2.3, 202.4, Ticks.fromMinutes(32), 5),
 	MAGPIE(6824, -1, null, 00000, 00000, Scroll.THIEVING_FINGERS, 12041, 47, 0.9, 83.2, Ticks.fromMinutes(32), 5, "forage_magpie"),
 	BLOATED_LEECH(6843, 6844, XPType.ACCURATE, 00000, 00000, Scroll.BLOOD_DRAIN, 12061, 49, 2.4, 215.2, Ticks.fromMinutes(32), 5),

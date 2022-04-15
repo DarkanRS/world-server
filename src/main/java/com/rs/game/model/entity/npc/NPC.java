@@ -703,36 +703,44 @@ public class NPC extends Entity {
 		return maxHit;
 	}
 
-	public void lowerDefense(float multiplier) {
-		lowerStat(Skill.DEFENSE, multiplier);
+	public void lowerDefense(double multiplier, double maxDrain) {
+		lowerStat(Skill.DEFENSE, multiplier, maxDrain);
 	}
 
-	public void lowerDefense(int drain) {
-		lowerStat(Skill.DEFENSE, drain);
+	public void lowerDefense(int drain, double maxDrain) {
+		lowerStat(Skill.DEFENSE, drain, maxDrain);
 	}
 
-	public void lowerAttack(float multiplier) {
-		lowerStat(Skill.ATTACK, multiplier);
+	public void lowerAttack(double multiplier, double maxDrain) {
+		lowerStat(Skill.ATTACK, multiplier, maxDrain);
 	}
 
-	public void lowerAttack(int drain) {
-		lowerStat(Skill.ATTACK, drain);
+	public void lowerAttack(int drain, double maxDrain) {
+		lowerStat(Skill.ATTACK, drain, maxDrain);
 	}
 
-	public void lowerStrength(float multiplier) {
-		lowerStat(Skill.STRENGTH, multiplier);
+	public void lowerStrength(double multiplier, double maxDrain) {
+		lowerStat(Skill.STRENGTH, multiplier, maxDrain);
 	}
 
-	public void lowerStrength(int drain) {
-		lowerStat(Skill.STRENGTH, drain);
+	public void lowerStrength(int drain, double maxDrain) {
+		lowerStat(Skill.STRENGTH, drain, maxDrain);
 	}
 
-	public void lowerMagic(float multiplier) {
-		lowerStat(Skill.MAGE, multiplier);
+	public void lowerMagic(double multiplier, double maxDrain) {
+		lowerStat(Skill.MAGE, multiplier, maxDrain);
 	}
 
-	public void lowerMagic(int drain) {
-		lowerStat(Skill.MAGE, drain);
+	public void lowerMagic(int drain, double maxDrain) {
+		lowerStat(Skill.MAGE, drain, maxDrain);
+	}
+	
+	public void lowerRange(double multiplier, double maxDrain) {
+		lowerStat(Skill.RANGE, multiplier, maxDrain);
+	}
+
+	public void lowerRange(int drain, double maxDrain) {
+		lowerStat(Skill.RANGE, drain, maxDrain);
 	}
 	
 	public int getStat(Skill skill) {
@@ -752,14 +760,14 @@ public class NPC extends Entity {
 		combatLevels.put(skill, level);
 	}
 
-	public void lowerStat(Skill stat, float multiplier) {
+	public void lowerStat(Skill stat, double multiplier, double maxDrain) {
 		if (combatLevels != null)
-			setStat(stat, (int) (getStat(stat) - (getStat(stat) * multiplier)));
+			setStat(stat, Utils.clampI((int) (getStat(stat) - (getStat(stat) * multiplier)), (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
 	}
 
-	public void lowerStat(Skill stat, int levelDrain) {
+	public void lowerStat(Skill stat, int levelDrain, double maxDrain) {
 		if (combatLevels != null)
-			setStat(stat, (int) getStat(stat) - levelDrain);
+			setStat(stat, Utils.clampI((int) getStat(stat) - levelDrain, (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
 	}
 
 	public int getBonus(Bonus bonus) {

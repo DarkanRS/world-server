@@ -54,6 +54,7 @@ import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.pathing.WalkStep;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.ActionManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.DynamicRegion;
@@ -1642,5 +1643,79 @@ public abstract class Entity {
 	
 	public ActionManager getActionManager() {
 		return actionManager;
+	}
+	
+	public boolean canLowerStat(int skillId, double perc, double maxDrain) {
+		if (this instanceof Player player) {
+			if (player.getSkills().getLevel(skillId) < (player.getSkills().getLevelForXp(skillId) * maxDrain))
+				return false;
+		} else if (this instanceof NPC npc) {
+			for (int skill : Skills.SKILLING)
+				if (skillId == skill)
+					return false;
+			switch(skillId) {
+			case Skills.ATTACK -> {
+				if (npc.getAttackLevel() < (npc.getCombatDefinitions().getAttackLevel() * maxDrain))
+					return false;
+			}
+			case Skills.STRENGTH -> {
+				if (npc.getStrengthLevel() < (npc.getCombatDefinitions().getStrengthLevel() * maxDrain))
+					return false;
+			}
+			case Skills.DEFENSE -> {
+				if (npc.getDefenseLevel() < (npc.getCombatDefinitions().getDefenseLevel() * maxDrain))
+					return false;		
+						}
+			case Skills.MAGIC -> {
+				if (npc.getMagicLevel() < (npc.getCombatDefinitions().getMagicLevel() * maxDrain))
+					return false;
+			}
+			case Skills.RANGE -> {
+				if (npc.getRangeLevel() < (npc.getCombatDefinitions().getRangeLevel() * maxDrain))
+					return false;
+			}
+			}
+		}
+		return true;
+	}
+
+	public void lowerStat(int skillId, double perc, double maxDrain) {
+		if (this instanceof Player player) {
+			if (skillId == Skills.HITPOINTS)
+				return;
+			if (skillId == Skills.PRAYER) {
+				player.getPrayer().drainPrayer(player.getPrayer().getPoints() * perc);
+				return;
+			}
+			player.getSkills().lowerStat(skillId, perc, maxDrain);
+		} else if (this instanceof NPC npc) {
+			switch(skillId) {
+			case Skills.ATTACK -> npc.lowerAttack(skillId, maxDrain);
+			case Skills.STRENGTH -> npc.lowerStrength(skillId, maxDrain);
+			case Skills.DEFENSE -> npc.lowerDefense(skillId, maxDrain);
+			case Skills.MAGIC -> npc.lowerMagic(skillId, maxDrain);
+			case Skills.RANGE -> npc.lowerRange(skillId, maxDrain);
+			}
+		}
+	}
+	
+	public void lowerStat(int skillId, int amt, double maxDrain) {
+		if (this instanceof Player player) {
+			if (skillId == Skills.HITPOINTS)
+				return;
+			if (skillId == Skills.PRAYER) {
+				player.getPrayer().drainPrayer(amt * 10);
+				return;
+			}
+			player.getSkills().lowerStat(skillId, amt, maxDrain);
+		} else if (this instanceof NPC npc) {
+			switch(skillId) {
+			case Skills.ATTACK -> npc.lowerAttack(amt, maxDrain);
+			case Skills.STRENGTH -> npc.lowerStrength(amt, maxDrain);
+			case Skills.DEFENSE -> npc.lowerDefense(amt, maxDrain);
+			case Skills.MAGIC -> npc.lowerMagic(amt, maxDrain);
+			case Skills.RANGE -> npc.lowerRange(amt, maxDrain);
+			}
+		}
 	}
 }
