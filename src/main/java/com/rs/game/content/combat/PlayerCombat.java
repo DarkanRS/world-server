@@ -1927,6 +1927,10 @@ public class PlayerCombat extends PlayerAction {
 			} else
 				player.getSkills().addXp(Constants.RANGE, combatXp);
 			break;
+		case PRAYER:
+			combatXp = (damage / 10.0);
+			player.getSkills().addXp(Constants.PRAYER, combatXp);
+			break;
 		default:
 			break;
 		}
