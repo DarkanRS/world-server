@@ -7,7 +7,7 @@
   "deathAnim": 7818,
   "deathDelay": 6,
   "respawnDelay": 39,
-  "hitpoints": 1850,
+  "hitpoints": 3000,
   "maxHit": 150,
   "attackStyle": "MAGIC",
   "combatLevels": {

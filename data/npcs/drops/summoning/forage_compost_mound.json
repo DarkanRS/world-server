@@ -1,0 +1,22 @@
+{
+    "names": [
+      "forage_compost_mound"
+    ],
+    "tables": [
+      {
+        "chance": 1.0,
+        "outOf": 6.0,
+        "dropOne": true,
+        "drops": [
+          { "id": 6032, "min": 1, "max": 1 },
+          { "id": 6034, "min": 1, "max": 1 },
+          { "id": 5291, "min": 1, "max": 1 },
+          { "id": 5320, "min": 1, "max": 1 },
+          { "id": 5098, "min": 1, "max": 1 },
+          { "id": 14870, "min": 1, "max": 1 },
+          { "id": 5100, "min": 1, "max": 1 },
+          { "id": 5101, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

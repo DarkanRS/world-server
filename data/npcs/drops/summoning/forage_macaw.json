@@ -1,0 +1,13 @@
+{
+    "names": [
+      "forage_macaw"
+    ],
+    "tables": [
+      {
+        "chance": 1.0,
+        "outOf": 20.0,
+        "dropOne": false,
+        "rollTable": "herb"
+      }
+    ]
+  }

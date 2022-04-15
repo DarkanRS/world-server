@@ -7,7 +7,7 @@
   "deathAnim": 7897,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 1700,
+  "hitpoints": 1540,
   "maxHit": 52,
   "attackStyle": "MELEE",
   "combatLevels": {

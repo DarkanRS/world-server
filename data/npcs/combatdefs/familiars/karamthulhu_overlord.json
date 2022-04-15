@@ -7,7 +7,7 @@
   "deathAnim": 7964,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 680,
+  "hitpoints": 2760,
   "maxHit": 76,
   "attackStyle": "RANGE",
   "combatLevels": {

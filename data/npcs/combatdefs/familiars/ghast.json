@@ -1,5 +1,6 @@
 {
   "ids": [
+    13979,
     13980
   ],
   "attackAnim": 9466,
@@ -7,7 +8,7 @@
   "deathAnim": 9467,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 970,
+  "hitpoints": 6100,
   "maxHit": 113,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
