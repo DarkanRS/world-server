@@ -34,8 +34,13 @@ public class NPCCombatDefinitions {
 	private final static String PATH = "data/npcs/combatdefs/";
 	public static HashMap<Object, NPCCombatDefinitions> COMBAT_DEFINITIONS = new HashMap<>();
 	public static NPCCombatDefinitions DEFAULT_DEF;
+	
+	private static Map<Skill, Integer> DEFAULT_LEVELS = new HashMap<>();
 
 	static {
+		for (Skill skill : Skill.values())
+			DEFAULT_LEVELS.put(skill, 0);
+		
 		NPCCombatDefinitions def = new NPCCombatDefinitions();
 		def.attackStyle = AttackStyle.MELEE;
 		def.agressivenessType = AggressiveType.PASSIVE;
@@ -43,9 +48,11 @@ public class NPCCombatDefinitions {
 	}
 
 	public enum AttackStyle {
-		MELEE, RANGE, MAGE,
-		SPECIAL, //Ranged special
-		SPECIAL2 //Melee special
+		MELEE, RANGE, MAGE
+	}
+	
+	public enum Skill {
+		ATTACK, STRENGTH, DEFENSE, RANGE, MAGE
 	}
 
 	public enum AggressiveType {
@@ -53,30 +60,27 @@ public class NPCCombatDefinitions {
 		AGGRESSIVE
 	}
 
-	public static int ATTACK = 0, DEFENSE = 1, STRENGTH = 2, RANGE = 3, MAGIC = 4;
-	private static final int[] DEFAULT_LEVELS = { 0, 0, 0, 0, 0 };
-
 	private transient boolean realStats = true;
 	private int[] ids;
 	private String[] names;
-	private int hitpoints;
 	private int attackAnim;
 	private int defenceAnim;
 	private int deathAnim;
 	private int deathDelay;
 	private int respawnDelay;
+	private int hitpoints;
 	private int maxHit;
 	private AttackStyle attackStyle;
+	private Bonus attackBonus;
+	private Map<Skill, Integer> combatLevels;
+	private Map<Bonus, Integer> bonuses;
+	private int attackRange = -1; //10 by default for range
 	private int attackGfx;
 	private int attackProjectile;
 	private AggressiveType agressivenessType;
-	private Bonus attackBonus;
-	private Map<Bonus, Integer> bonuses;
 	private int aggroDistance = -1; //4 for melee, 8 for range default
 	private int deAggroDistance = -1; //16 by default
 	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
-	private int attackRange = -1; //10 by default for range
-	private int[] levels;
 
 	public NPCCombatDefinitions() {
 		hitpoints = 1;
@@ -115,7 +119,7 @@ public class NPCCombatDefinitions {
 		attackProjectile = defs.attackProjectile;
 		agressivenessType = defs.agressivenessType;
 		attackBonus = defs.attackBonus;
-		levels = defs.levels == null ? null : defs.levels.clone();
+		combatLevels = defs.combatLevels == null ? null : new HashMap<>(defs.combatLevels);
 	}
 
 	@ServerStartupEvent
@@ -134,9 +138,10 @@ public class NPCCombatDefinitions {
 			defs = COMBAT_DEFINITIONS.get(NPCDefinitions.getDefs(npcId).getName());
 		if (defs == null)
 			defs = DEFAULT_DEF;
-		if (defs.levels == null) {
-			if (NPCDefinitions.getDefs(npcId).combatLevel > 0)
-				defs.levels = generateLevels(NPCDefinitions.getDefs(npcId).combatLevel, defs.hitpoints/10);
+		if (defs.combatLevels == null) {
+			if (NPCDefinitions.getDefs(npcId).combatLevel > 0) {
+				defs.combatLevels = generateLevels(NPCDefinitions.getDefs(npcId).combatLevel, (int) (defs.hitpoints / 10.0));
+			}
 			defs.realStats = false;
 		} else
 			defs.realStats = true;
@@ -230,10 +235,10 @@ public class NPCCombatDefinitions {
 		return deathDelay;
 	}
 
-	public int[] getLevels() {
-		if (levels == null)
-			return DEFAULT_LEVELS.clone();
-		return levels.clone();
+	public Map<Skill, Integer> getLevels() {
+		if (combatLevels == null)
+			return new HashMap<>(DEFAULT_LEVELS);
+		return new HashMap<>(combatLevels);
 	}
 
 	public int[] getIds() {
@@ -245,48 +250,48 @@ public class NPCCombatDefinitions {
 	}
 
 	public int getAttackLevel() {
-		return levels[ATTACK];
+		return getLevels().get(Skill.ATTACK);
 	}
 
 	public int getStrengthLevel() {
-		return levels[STRENGTH];
+		return getLevels().get(Skill.STRENGTH);
 	}
 
 	public int getDefenseLevel() {
-		return levels[DEFENSE];
+		return getLevels().get(Skill.DEFENSE);
 	}
 
 	public int getMagicLevel() {
-		return levels[MAGIC];
+		return getLevels().get(Skill.MAGE);
 	}
 
 	public int getRangeLevel() {
-		return levels[RANGE];
+		return getLevels().get(Skill.RANGE);
 	}
 
-	public static int[] generateLevels(int combat, int hp) {
-		int[] levels = new int[5];
+	public static Map<Skill, Integer> generateLevels(int combat, int hp) {
+		Map<Skill, Integer> levels = new HashMap<>();
 		int def = (int) (((combat/1.32 + 1) / 0.25) - hp);
 		combat -= (int) ((def + hp) * 0.25) + 1;
 		int off = (int) ((combat/0.325)/1.5);
 
 		int avg = (def+off)/2;
 
-		levels[DEFENSE] = avg;
-		levels[STRENGTH] = avg;
-		levels[ATTACK] = avg;
-		levels[RANGE] = avg;
-		levels[MAGIC] = avg;
+		levels.put(Skill.ATTACK, avg);
+		levels.put(Skill.STRENGTH, avg);
+		levels.put(Skill.DEFENSE, avg);
+		levels.put(Skill.RANGE, avg);
+		levels.put(Skill.MAGE, avg);
 		return levels;
 	}
 
 	public int getCombatLevel() {
-		int attack = getLevels()[ATTACK];
-		int defence = getLevels()[DEFENSE];
-		int strength = getLevels()[STRENGTH];
+		int attack = getLevels().get(Skill.ATTACK);
+		int defence = getLevels().get(Skill.DEFENSE);
+		int strength = getLevels().get(Skill.STRENGTH);
 		int hp = hitpoints/10;
-		int ranged = getLevels()[RANGE];
-		int magic = getLevels()[MAGIC];
+		int ranged = getLevels().get(Skill.RANGE);
+		int magic = getLevels().get(Skill.MAGE);
 		int combatLevel = 3;
 		combatLevel = (int) ((defence + hp) * 0.25) + 1;
 		double melee = (attack + strength) * 0.325;
@@ -299,10 +304,6 @@ public class NPCCombatDefinitions {
 		else if (mage >= melee && mage >= ranger)
 			combatLevel += mage;
 		return combatLevel;
-	}
-
-	public void setLevels(int[] levels) {
-		this.levels = levels;
 	}
 
 	public void setAttackBonus(Bonus bonus) {
@@ -336,7 +337,7 @@ public class NPCCombatDefinitions {
 
 	public int getMaxDistFromSpawn() {
 		if (maxDistFromSpawn <= 0)
-			return getAttackStyle() == AttackStyle.SPECIAL || getAttackStyle() == AttackStyle.SPECIAL2 ? 64 : 16;
+			return 16;
 		return maxDistFromSpawn;
 	}
 
@@ -348,13 +349,13 @@ public class NPCCombatDefinitions {
 
 	public int getAggroDistance() {
 		if (aggroDistance <= 0)
-			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackStyle() == AttackStyle.SPECIAL ? 64 : 8;
+			return getAttackStyle() == AttackStyle.MELEE ? 4 : getAttackRange() - 2;
 		return aggroDistance;
 	}
 
 	public int getAttackRange() {
-		if (attackRange <= 0)
-			return getAttackStyle() == AttackStyle.MELEE || getAttackStyle() == AttackStyle.SPECIAL2 ? 0 : 10;
+		if (attackRange < 0)
+			return getAttackStyle() == AttackStyle.MELEE ? 0 : getAttackStyle() == AttackStyle.RANGE ? 7 : 10;
 		return attackRange;
 	}
 

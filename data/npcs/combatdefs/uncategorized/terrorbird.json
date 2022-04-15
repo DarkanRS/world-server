@@ -1,0 +1,28 @@
+{
+  "names": [
+    "Terrorbird"
+  ],
+  "attackAnim": 1010,
+  "defenceAnim": 1012,
+  "deathAnim": 1013,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 340,
+  "maxHit": 30,
+  "attackStyle": "MELEE",
+  "attackBonus": "STAB_ATT",
+  "combatLevels": {
+    "ATTACK": 23,
+    "RANGE": 1,
+    "STRENGTH": 23,
+    "DEFENSE": 19,
+    "MAGE": 1
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

@@ -76,7 +76,7 @@ public class StompCombat extends CombatScript {
 		switch (attackStyle) {
 		case 0:
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 			break;
 		case 1:
 			npc.setNextAnimation(new Animation(13449));
@@ -84,7 +84,7 @@ public class StompCombat extends CombatScript {
 			for (Entity t : npc.getPossibleTargets()) {
 				World.sendProjectile(npc, t, 2402, 16, 16, 41, 30, 0, 0);
 				t.setNextSpotAnim(new SpotAnim(2403, 70, 0));
-				delayHit(npc, 1, t, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
+				delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			}
 			break;
 		case 2:
@@ -92,7 +92,7 @@ public class StompCombat extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(2404));
 			World.sendProjectile(npc, target, 2405, 30, 16, 41, 65, 0, 0);
 			target.setNextSpotAnim(new SpotAnim(2406, 120, 0));
-			delayHit(npc, 2, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			break;
 
 		}

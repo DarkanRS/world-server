@@ -40,7 +40,8 @@ import com.rs.game.content.cutscenes.ExampleCutscene;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.randomevents.RandomEvents;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -121,6 +122,13 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Sets NPCs names to something.", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "unffamiliars", "Spawns all unfinished familiar pouches to bank.", (p, args) -> {
+			for (Pouch pouch : Pouch.values()) {
+				if (pouch.getDespawnAnim() == 0)
+					p.getBank().addItem(new Item(pouch.getId(), 1), true);
+			}
 		});
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
@@ -282,8 +290,10 @@ public class MiscTest {
 			p.getPackets().setIFAnimation(Integer.valueOf(args[1]), 1184, 11);
 		});
 
-		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev]", "Dialogue box", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev/start_num]", "Dialogue box", (p, args) -> {
 			int idx = p.getTempAttribs().getI("tempDialCheck", 0);
+			if(args[1].matches("[0-9]+"))
+				idx = Integer.valueOf(args[1])+1;
 			int anim = UNIDENTIFIED_ANIMS[idx];
 			p.getInterfaceManager().sendChatBoxInterface(1184);
 			p.getPackets().setIFText(1184, 17, NPCDefinitions.getDefs(Integer.valueOf(args[0])).getName());

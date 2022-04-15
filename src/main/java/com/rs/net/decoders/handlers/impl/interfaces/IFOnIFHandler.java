@@ -19,7 +19,6 @@ package com.rs.net.decoders.handlers.impl.interfaces;
 import com.rs.game.content.skills.magic.Alchemy;
 import com.rs.game.content.skills.magic.Enchanting;
 import com.rs.game.content.skills.magic.Lunars;
-import com.rs.game.content.skills.summoning.familiars.Familiar.SpecialAttack;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -88,10 +87,11 @@ public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
 
 		if (packet.getFromInter() == 747 && packet.getToInter() == 679) {
 			if (player.getFamiliar() != null) {
-				player.getFamiliar().setSpecial(true);
-				if (player.getFamiliar().getSpecialAttack() == SpecialAttack.ITEM)
-					if (player.getFamiliar().hasSpecialOn())
-						player.getFamiliar().submitSpecial(packet.getToSlot());
+				Item item = player.getInventory().getItem(packet.getToSlot());
+				if (item == null)
+					return;
+				item.setSlot(packet.getToSlot());
+				player.getFamiliar().castSpecial(item);
 			}
 			return;
 		}

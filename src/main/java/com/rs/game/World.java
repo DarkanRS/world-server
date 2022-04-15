@@ -17,6 +17,7 @@
 package com.rs.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -243,7 +244,7 @@ public final class World {
 	}
 
 	public static void clipNPC(NPC npc) {
-		if (!npc.isBlocksOtherNPCs())
+		if (!npc.blocksOtherNpcs())
 			return;
 		WorldTile lastTile = npc.getLastWorldTile() == null ? npc.getTile() : npc.getLastWorldTile();
 		fillNPCClip(lastTile, npc.getSize(), false);
@@ -421,6 +422,7 @@ public final class World {
 
 	private static int getClipFlagsProj(int plane, int x, int y) {
 		WorldTile tile = new WorldTile(x, y, plane);
+		//World.sendSpotAnim(null, new SpotAnim(2000), tile);
 		Region region = getRegion(tile.getRegionId());
 		if (region == null)
 			return -1;
@@ -1433,11 +1435,27 @@ public final class World {
 				region.removeProjectiles();
 		}
 	}
+	
+	/**
+	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
+	 */
+	public static WorldTile findAdjacentFreeTile(WorldTile tile) {
+		List<Direction> unchecked = new ArrayList<>(Arrays.asList(Direction.values()));
+		while(!unchecked.isEmpty()) {
+			Direction curr = unchecked.get(Utils.random(unchecked.size()));
+			if (World.checkWalkStep(tile, curr, 1))
+				return tile.transform(curr.getDx(), curr.getDy());
+			unchecked.remove(curr);
+		}
+		return null;
+	}
 
 	/**
 	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
 	 */
-	public static WorldTile findRandomAdjacentTile(WorldTile tile, int size) {
+	public static WorldTile findAdjacentFreeSpace(WorldTile tile, int size) {
+		if (size == 1)
+			return findAdjacentFreeTile(tile);
 		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
 		WorldTile finalTile = null;
 		while(!unchecked.isEmpty()) {
@@ -1448,14 +1466,14 @@ public final class World {
 			for (int i = 0;i <= size;i++) {
 				for (int row = 0; row < size; row++) {
 					WorldTile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
-					if (Settings.getConfig().isDebug()) {
-						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
-							case NORTH -> 2000;
-							case SOUTH -> 2001;
-							case EAST -> 2017;
-							default -> 1999;
-						}), from);
-					}
+//					if (Settings.getConfig().isDebug()) {
+//						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
+//							case NORTH -> 2000;
+//							case SOUTH -> 2001;
+//							case EAST -> 2017;
+//							default -> 1999;
+//						}), from);
+//					}
 					if (!checkWalkStep(from, curr, 1) || (size > 1 && row < (size-1) && !checkWalkStep(from, offset, 1))) {
 						failed = true;
 						break;
@@ -1466,8 +1484,8 @@ public final class World {
 				finalTile = startTile.transform(curr.getDx(), curr.getDy());
 				if (curr.getDx() < 0 || curr.getDy() < 0)
 					finalTile = finalTile.transform(-size+1, -size+1);
-				if (Settings.getConfig().isDebug())
-					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
+//				if (Settings.getConfig().isDebug())
+//					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);
 				break;
 			}
 			unchecked.remove(curr);

@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Spinolyp"
+  ],
+  "attackAnim": 2868,
+  "defenceAnim": 2869,
+  "deathAnim": 2866,
+  "deathDelay": 6,
+  "respawnDelay": 49,
+  "hitpoints": 750,
+  "maxHit": 100,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 10,
+    "RANGE": 100,
+    "STRENGTH": 10,
+    "DEFENSE": 10,
+    "MAGE": 1
+  },
+  "attackRange": 8,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 8,
+  "deAggroDistance": 13,
+  "maxDistFromSpawn": 7
+}

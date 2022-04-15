@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Adept deathslinger"
+  ],
+  "attackAnim": 13203,
+  "defenceAnim": 13614,
+  "deathAnim": 13669,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 900,
+  "maxHit": 228,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 95,
+    "STRENGTH": 1,
+    "DEFENSE": 95,
+    "MAGE": 1
+  },
+  "attackRange": 6,
+  "attackGfx": -1,
+  "attackProjectile": 2448,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

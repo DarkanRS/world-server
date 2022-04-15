@@ -1,0 +1,28 @@
+{
+  "names": [
+    "Fire elemental"
+  ],
+  "attackAnim": 1029,
+  "defenceAnim": 1030,
+  "deathAnim": 1031,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 300,
+  "maxHit": 60,
+  "attackStyle": "MELEE",
+  "attackBonus": "SLASH_ATT",
+  "combatLevels": {
+    "ATTACK": 35,
+    "RANGE": 20,
+    "STRENGTH": 35,
+    "DEFENSE": 20,
+    "MAGE": 20
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

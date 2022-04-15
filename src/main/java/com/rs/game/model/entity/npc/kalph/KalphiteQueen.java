@@ -44,42 +44,37 @@ public class KalphiteQueen extends NPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				if (getId() == 1158) {
+					setCantInteract(true);
+					transformIntoNPC(1160);
+					setNextSpotAnim(new SpotAnim(1055));
+					setNextAnimation(new Animation(6270));
+					WorldTasks.schedule(new WorldTask() {
 
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					if (getId() == 1158) {
-						setCantInteract(true);
-						transformIntoNPC(1160);
-						setNextSpotAnim(new SpotAnim(1055));
-						setNextAnimation(new Animation(6270));
-						WorldTasks.schedule(new WorldTask() {
+						@Override
+						public void run() {
+							reset();
+							setCantInteract(false);
+						}
 
-							@Override
-							public void run() {
-								reset();
-								setCantInteract(false);
-							}
-
-						}, 5);
-					} else {
-						drop();
-						reset();
-						setLocation(getRespawnTile());
-						finish();
-						if (!isSpawned())
-							setRespawnTask();
-						transformIntoNPC(1158);
-					}
-					stop();
+					}, 5);
+				} else {
+					drop();
+					reset();
+					setLocation(getRespawnTile());
+					finish();
+					if (!isSpawned())
+						setRespawnTask();
+					transformIntoNPC(1158);
 				}
-				loop++;
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1158, 1160) {

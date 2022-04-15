@@ -55,7 +55,7 @@ import com.rs.game.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.content.skills.construction.ServantDialogue;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeoneeringTutor;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.thieving.PickPocketAction;
 import com.rs.game.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.content.transportation.TravelMethods;
@@ -327,26 +327,18 @@ public class NPCHandler {
 				TravelMethods.sendCarrier(player, (Carrier) shipAttributes[0], (boolean) shipAttributes[1]);
 				return;
 			}
-			if (npc instanceof Familiar) {
-				npc.resetDirection();
-				if (npc.getDefinitions().hasOption("store")) {
-					if (player.getFamiliar() != npc) {
-						player.sendMessage("That isn't your familiar.");
-						return;
-					}
-					player.getFamiliar().store();
-				} else if (npc.getDefinitions().hasOption("cure")) {
-					if (player.getFamiliar() != npc) {
-						player.sendMessage("That isn't your familiar.");
-						return;
-					}
-					if (!player.getPoison().isPoisoned()) {
-						player.sendMessage("Your arent poisoned or diseased.");
-						return;
-					}
-					player.getFamiliar().drainSpecial(2);
-					player.addEffect(Effect.ANTIPOISON, Ticks.fromMinutes(2));
+			
+			if (npc instanceof Familiar && npc.getDefinitions().hasOption("cure")) {
+				if (player.getFamiliar() != npc) {
+					player.sendMessage("That isn't your familiar.");
+					return;
 				}
+				if (!player.getPoison().isPoisoned()) {
+					player.sendMessage("Your arent poisoned or diseased.");
+					return;
+				}
+				player.getFamiliar().drainSpec(2);
+				player.addEffect(Effect.ANTIPOISON, Ticks.fromMinutes(2));
 				return;
 			}
 

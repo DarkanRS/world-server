@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Adept stormbringer"
+  ],
+  "attackAnim": 13620,
+  "defenceAnim": 13674,
+  "deathAnim": 13675,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 900,
+  "maxHit": 228,
+  "attackStyle": "MAGE",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 1,
+    "STRENGTH": 1,
+    "DEFENSE": 95,
+    "MAGE": 95
+  },
+  "attackRange": 8,
+  "attackGfx": 2591,
+  "attackProjectile": 2592,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

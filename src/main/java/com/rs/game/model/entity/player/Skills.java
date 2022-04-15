@@ -698,6 +698,8 @@ public final class Skills {
 	}
 
 	public void drainSummoning(int amt) {
+		if (player.getNSV().getB("infPrayer"))
+			return;
 		int level = getLevel(Constants.SUMMONING);
 		if (level == 0)
 			return;
@@ -1275,6 +1277,25 @@ public final class Skills {
 			realLevel = getLevel(skill);
 		int maxBoost = (int) (realLevel + (baseMod + (realLevel * mul)));
 		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : (getLevel(skill) > realLevel ? getLevel(skill) : realLevel));
+		markForRefresh(skill);
+	}
+	
+	public void lowerStat(int skill, double mul, double maxDrain) {
+		lowerStat(0, mul, maxDrain, skill);
+	}
+	
+	public void lowerStat(int skill, int amt, double maxDrain) {
+		lowerStat(amt, 0.0, maxDrain, skill);
+	}
+	
+	public void lowerStat(int skill, int amt) {
+		lowerStat(amt, 0.0, 0.0, skill);
+	}
+	
+	public void lowerStat(int baseMod, double mul, double maxDrain, int skill) {
+		int realLevel = getLevelForXp(skill);
+		int realDrain = (int) (baseMod + (getLevel(skill) * mul));
+		level[skill] = (short) Utils.clampI(level[skill] - realDrain, (int) ((double) realLevel * maxDrain), getLevel(skill));
 		markForRefresh(skill);
 	}
 

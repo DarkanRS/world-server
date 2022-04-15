@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Karamthulhu overlord"
+  ],
+  "attackAnim": 7963,
+  "defenceAnim": 7962,
+  "deathAnim": 7964,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 2760,
+  "maxHit": 76,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 53,
+    "RANGE": 53,
+    "STRENGTH": 35,
+    "DEFENSE": 47,
+    "MAGE": 53
+  },
+  "attackRange": 6,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

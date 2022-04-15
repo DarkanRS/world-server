@@ -22,6 +22,7 @@ import com.rs.game.content.skills.dungeoneering.npcs.misc.DungeonFishSpot;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -105,23 +106,13 @@ public class DungeoneeringFishing extends PlayerAction {
 		int modifier = spot.getFish().getLevel();
 		int randomAmt = Utils.random(4);
 		double cycleCount = 1, otherBonus = 0;
-		if (player.getFamiliar() != null)
-			otherBonus = getSpecialFamiliarBonus(player.getFamiliar().getId());
+		otherBonus += player.getInvisibleSkillBoost(Skills.WOODCUTTING);
 		cycleCount = Math.ceil(((fishLevel + otherBonus) * 50 - playerLevel * 10) / modifier * 0.25 - randomAmt * 4);
 		if (cycleCount < 1)
 			cycleCount = 1;
 		int delay = (int) cycleCount + 1;
 		return delay;
 
-	}
-
-	private int getSpecialFamiliarBonus(int id) {
-		switch (id) {
-		case 6796:
-		case 6795:// rock crab
-			return 1;
-		}
-		return -1;
 	}
 
 	@Override

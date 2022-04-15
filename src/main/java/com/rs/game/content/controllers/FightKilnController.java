@@ -21,7 +21,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.dialogues_matrix.FightKilnDialogue;
 import com.rs.game.content.dialogues_matrix.TokHaarHok;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.fightkiln.FightKilnNPC;
@@ -129,7 +129,7 @@ public class FightKilnController extends Controller {
 		if (player.getInventory().containsOneItem(23653, 23654, 23655, 23656, 23657, 23658))
 			return;
 		Familiar familiar = player.getFamiliar();
-		if (familiar != null && ((familiar.getBob() != null && familiar.getBob().containsOneItem(23653, 23654, 23655, 23656, 23657, 23658)) || familiar.isFinished()))
+		if (familiar != null && ((familiar != null && familiar.containsOneItem(23653, 23654, 23655, 23656, 23657, 23658)) || familiar.isFinished()))
 			return;
 		if (!quickEnter)
 			player.getDialogueManager().execute(new FightKilnDialogue());

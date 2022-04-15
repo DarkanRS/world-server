@@ -37,7 +37,7 @@ public class TomeOfLexicus extends CombatScript {
 		switch (type) {
 		case 0:
 			npc.setNextAnimation(new Animation(13479));
-			delayHit(npc, 0, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 0, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			break;
 		case 1:
 		case 2:
@@ -46,9 +46,9 @@ public class TomeOfLexicus extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(range_style ? 2408 : 2424));
 			World.sendProjectile(npc, target, range_style ? 2409 : 2425, 40, 40, 54, 35, 5, 0);
 			if (range_style)
-				delayHit(npc, 1, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
+				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			else
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			target.setNextSpotAnim(new SpotAnim(range_style ? 2410 : 2426, 75, 0));
 			break;
 		}

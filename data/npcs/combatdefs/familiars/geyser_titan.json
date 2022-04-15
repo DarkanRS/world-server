@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Geyser titan"
+  ],
+  "attackAnim": 7883,
+  "defenceAnim": 7878,
+  "deathAnim": 7880,
+  "deathDelay": 8,
+  "respawnDelay": 0,
+  "hitpoints": 6100,
+  "maxHit": 190,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 85,
+    "RANGE": 85,
+    "STRENGTH": 35,
+    "DEFENSE": 72,
+    "MAGE": 85
+  },
+  "attackRange": 8,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 64,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

@@ -17,37 +17,28 @@
 package com.rs.utils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
-import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.file.JsonFileManager;
-import com.rs.lib.game.Item;
 import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
-import com.rs.utils.drop.DropList;
 import com.rs.utils.json.ControllerAdapter;
-import com.rs.utils.json.FamiliarAdapter;
 
 public class Test {
 
 	public static int HOURS_TO_SAMPLE = 300;
-
+	
 	public static void main(String[] args) throws IOException {
-		int numKills = 1000000;
-
 		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
 				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
@@ -59,27 +50,48 @@ public class Test {
 
 		Settings.getConfig();
 		Cache.init(Settings.getConfig().getCachePath());
-		DropSets.init();
-
-		ItemsContainer<Item> items = new ItemsContainer<>(500, true);
-
-		DropList table = DropSets.getDropSet(6260).createDropList();
-		for (int i = 0;i < numKills;i++)
-			items.addAll(table.genDrop());
-
-		List<Item> sorted = new ArrayList<>();
-
-		for (Item item : items.array()) {
-			if (item == null)
-				continue;
-			sorted.add(item);
-		}
-
-		sorted.sort((o1, o2) -> o1.getId() - o2.getId());
-
-		for (Item item : sorted)
-			System.out.println(item.getName() + " - " + item.getAmount() + " Rate: 1/" + (numKills / item.getAmount()));
+		
+		IComponentDefinitions[] summ = IComponentDefinitions.getInterface(672);
+		for (int i = 0;i < summ.length;i++)
+			System.out.println(summ[i]);
 	}
+
+//	public static void main(String[] args) throws IOException {
+//		int numKills = 1000000;
+//
+//		JsonFileManager.setGSON(new GsonBuilder()
+//				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+//				.registerTypeAdapter(Date.class, new DateAdapter())
+//				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+//				.registerTypeAdapter(Packet.class, new PacketAdapter())
+//				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+//				.disableHtmlEscaping()
+//				.setPrettyPrinting()
+//				.create());
+//
+//		Settings.getConfig();
+//		Cache.init(Settings.getConfig().getCachePath());
+//		DropSets.init();
+//
+//		ItemsContainer<Item> items = new ItemsContainer<>(500, true);
+//
+//		DropList table = DropSets.getDropSet(6260).createDropList();
+//		for (int i = 0;i < numKills;i++)
+//			items.addAll(table.genDrop());
+//
+//		List<Item> sorted = new ArrayList<>();
+//
+//		for (Item item : items.array()) {
+//			if (item == null)
+//				continue;
+//			sorted.add(item);
+//		}
+//
+//		sorted.sort((o1, o2) -> o1.getId() - o2.getId());
+//
+//		for (Item item : sorted)
+//			System.out.println(item.getName() + " - " + item.getAmount() + " Rate: 1/" + (numKills / item.getAmount()));
+//	}
 
 	//		for (int i = 0;i < 2000;i++) {
 	//			int musicIndex = (int) EnumDefinitions.getEnum(1351).getKeyForValue(i);

@@ -1,0 +1,28 @@
+{
+  "ids": [
+    8575,
+    8576
+  ],
+  "attackAnim": 11093,
+  "defenceAnim": 11107,
+  "deathAnim": 11108,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 1530,
+  "maxHit": 160,
+  "attackStyle": "MAGE",
+  "combatLevels": {
+    "ATTACK": 72,
+    "RANGE": 72,
+    "STRENGTH": 35,
+    "DEFENSE": 64,
+    "MAGE": 72
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

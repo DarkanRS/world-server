@@ -20,7 +20,6 @@ import com.rs.game.content.minigames.pest.PestControl;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -113,23 +112,18 @@ public class PestPortal extends NPC {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		setNextAnimation(null);
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					if (getIndexForId() != 4) {
-						control.unlockPortal();
-						control.getKnight().heal(500);
-					}
-					finish();
-					stop();
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				if (getIndexForId() != 4) {
+					control.unlockPortal();
+					control.getKnight().heal(500);
 				}
-				loop++;
+				finish();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 }

@@ -1,0 +1,33 @@
+{
+  "ids": [
+    1633,
+    1634,
+    1635,
+    1636,
+    8598,
+    8616,
+    10697
+  ],
+  "attackAnim": 8080,
+  "defenceAnim": 8081,
+  "deathAnim": 8078,
+  "deathDelay": 8,
+  "respawnDelay": 59,
+  "hitpoints": 450,
+  "maxHit": 44,
+  "attackStyle": "MELEE",
+  "combatLevels": {
+    "ATTACK": 52,
+    "RANGE": 1,
+    "STRENGTH": 30,
+    "DEFENSE": 22,
+    "MAGE": 1
+  },
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

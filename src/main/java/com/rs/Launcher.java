@@ -32,7 +32,6 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -50,7 +49,6 @@ import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
 import com.rs.utils.Ticks;
 import com.rs.utils.json.ControllerAdapter;
-import com.rs.utils.json.FamiliarAdapter;
 import com.rs.web.WorldAPI;
 
 public final class Launcher {
@@ -61,7 +59,6 @@ public final class Launcher {
 		System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$s %2$s %5$s%6$s%n");
 		Logger.log("Settings", "Loading config...");
 		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Familiar.class, new FamiliarAdapter())
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
 				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())

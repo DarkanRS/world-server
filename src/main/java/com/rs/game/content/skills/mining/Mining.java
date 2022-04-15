@@ -225,10 +225,8 @@ public class Mining extends PlayerAction {
 
 	@Override
 	public int processWithDelay(Player player) {
-		int level = player.getSkills().getLevel(Constants.MINING);
+		int level = player.getSkills().getLevel(Constants.MINING) + player.getInvisibleSkillBoost(Constants.MINING);
 		boolean success = false;
-		if (player.getFamiliar() != null)
-			level += getSpecialFamiliarBonus(player.getFamiliar().getId());
 		if (type.getOres().size() == 1 && !type.getOres().get(0).checkRequirements(player))
 			return -1;
 		for (Ore ore : type.getOres())
@@ -293,14 +291,6 @@ public class Mining extends PlayerAction {
 
 	public boolean checkRock() {
 		return rockObj != null ? World.getRegion(rockObj.getRegionId()).objectExists(rockObj) : !rockNPC.hasFinished();
-	}
-
-	public static int getSpecialFamiliarBonus(int id) {
-		if (id == 7342 || id == 7341)
-			return 10;
-		if (id == 6832 || id == 6831)
-			return 1;
-		return 0;
 	}
 
 	public static double getXPMultiplier(Player player) {

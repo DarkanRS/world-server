@@ -101,8 +101,6 @@ public enum Fish {
 
     ROCKTAIL(15270, 90, 385, -35, 35);
 
-    private static final int[] BONUS_FISH = {341, 349, 401, 407};
-
     private int id, level;
     private int rate1, rate99;
     private double xp;
@@ -175,11 +173,6 @@ public enum Fish {
             player.getInventory().addItem(fish);
         player.getSkills().addXp(Constants.FISHING, totalXp);
         player.incrementCount(fish.getDefinitions().getName() + " caught fishing");
-        if (player.getFamiliar() != null)
-            if (Utils.getRandomInclusive(50) == 0 && Fishing.getSpecialFamiliarBonus(player.getFamiliar().getId()) > 0) {
-                player.getInventory().addItem(new Item(BONUS_FISH[Utils.random(BONUS_FISH.length)]));
-                player.getSkills().addXp(Constants.FISHING, 5.5);
-            }
         if (extraRewards != null)
             extraRewards.accept(player);
     }

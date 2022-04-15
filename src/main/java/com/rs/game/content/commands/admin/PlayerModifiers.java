@@ -193,7 +193,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else {
-				target.getTreasureTrailsManager().setNextClue(0);
+				target.getTreasureTrailsManager().setNextClue(0, true);
 				target.sendMessage("Your clue step has been automatically completed.");
 				p.sendMessage("Successfully moved them on to the next clue.");
 			}

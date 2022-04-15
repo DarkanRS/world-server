@@ -25,7 +25,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.ge.Offer.State;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

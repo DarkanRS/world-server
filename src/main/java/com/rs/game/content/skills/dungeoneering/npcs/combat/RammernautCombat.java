@@ -69,7 +69,7 @@ public class RammernautCombat extends CombatScript {
 			for (Entity entity : npc.getPossibleTargets()) {
 				if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), entity.getX(), entity.getY(), entity.getSize(), 0))
 					continue;
-				((Rammernaut) npc).applyStunHit(entity, npc.getMaxHit(AttackStyle.MELEE));
+				((Rammernaut) npc).applyStunHit(entity, npc.getLevelForStyle(AttackStyle.MELEE));
 			}
 			return npc.getAttackSpeed();
 		}
@@ -85,7 +85,7 @@ public class RammernautCombat extends CombatScript {
 
 		// default melee attack can be protected with prayer
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 		return npc.getAttackSpeed();
 	}
 }

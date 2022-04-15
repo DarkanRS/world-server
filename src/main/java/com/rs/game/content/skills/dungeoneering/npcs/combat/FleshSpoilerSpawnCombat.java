@@ -33,7 +33,7 @@ public class FleshSpoilerSpawnCombat extends CombatScript {
 	@Override
 	public int attack(NPC npc, Entity target) {
 		npc.setNextAnimation(new Animation(Utils.random(3) == 0 ? 14474 : 14475));
-		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 		return 3;
 	}
 }
