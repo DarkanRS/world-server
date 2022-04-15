@@ -3111,7 +3111,9 @@
     "allowAmbient": false,
     "id": 325,
     "regionIds": [
-      11927
+      11929,
+      12185,
+      12184
     ]
   },
   {
