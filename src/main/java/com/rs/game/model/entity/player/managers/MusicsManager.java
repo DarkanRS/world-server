@@ -256,6 +256,9 @@ public final class MusicsManager {
         return playingMusic != -2 && playingMusicDelay + (180000) < System.currentTimeMillis();
     }
 
+	/**
+	 * Next ambient song by genre or region.
+	 */
     public void nextAmbientSong() {
         if (player.getCutsceneManager().hasCutscene())
             return;
@@ -275,13 +278,17 @@ public final class MusicsManager {
         playSongWithoutUnlocking(playingMusic);
     }
 
+	public void playSpecificAmbientSong(int song) {
+		playSpecificAmbientSong(song, false);
+	}
+
 	/**
 	 * Play song but not
 	 * 1. if in the last ten
 	 * 2. if a playlist is on
 	 * @param song
 	 */
-	public void playSpecificAmbientSong(int song) {
+	public void playSpecificAmbientSong(int song, boolean unlock) {
 		if(playListOn && playList.size() > 0)
 			return;
 		lastTenSongs.addFirst(playingMusic);
@@ -289,6 +296,10 @@ public final class MusicsManager {
 			lastTenSongs.removeLast();
 		if(lastTenSongs.contains(song))
 			return;
+		if(unlock) {
+			playSongAndUnlock(song);
+			return;
+		}
 		playSongWithoutUnlocking(song);
 	}
 
