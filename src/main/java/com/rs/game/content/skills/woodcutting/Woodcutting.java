@@ -21,9 +21,11 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -42,12 +44,11 @@ import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropTable;
 
 @PluginEventHandler
-public class Woodcutting extends PlayerAction {
+public class Woodcutting extends Action {
 
 	private GameObject treeObj;
 	private TreeType type;
 	private Hatchet hatchet;
-	private boolean usingBeaver;
 
 	public Woodcutting(GameObject treeObj, TreeType type) {
 		this.treeObj = treeObj;
@@ -181,27 +182,33 @@ public class Woodcutting extends PlayerAction {
 	};
 
 	@Override
-	public boolean start(Player player) {
-		if (!checkAll(player))
+	public boolean start(Entity entity) {
+		if (!checkAll(entity))
 			return false;
-		player.faceObject(treeObj);
-		player.sendMessage(usingBeaver ? "Your beaver uses its strong teeth to chop down the tree..." : "You swing your hatchet at the " + (TreeType.IVY == type ? "ivy" : "tree") + "...", true);
-		setActionDelay(player, 4);
+		entity.faceObject(treeObj);
+		if (entity instanceof Familiar familiar)
+			familiar.getOwner().sendMessage("Your beaver uses its strong teeth to chop down the tree...");
+		else if (entity instanceof Player player)
+			player.sendMessage("You swing your hatchet at the " + (TreeType.IVY == type ? "ivy" : "tree") + "...", true);
+		setActionDelay(entity, 4);
 		return true;
 	}
 
-	private boolean checkAll(Player player) {
-		hatchet = Hatchet.getBest(player);
-		if (hatchet == null) {
-			player.sendMessage("You dont have the required level to use that axe or you don't have a hatchet.");
+	private boolean checkAll(Entity entity) {
+		hatchet = entity instanceof Player player ? Hatchet.getBest(player) : Hatchet.MITHRIL;
+		if (entity instanceof Player player) {
+			if (hatchet == null) {
+				player.sendMessage("You dont have the required level to use that axe or you don't have a hatchet.");
+				return false;
+			}
+			if (!hasWoodcuttingLevel(player))
+				return false;
+			if (!player.getInventory().hasFreeSlots()) {
+				player.sendMessage("Not enough space in your inventory.");
+				return false;
+			}
+		} else if (entity instanceof Familiar familiar && familiar.getInventory().freeSlots() == 0)
 			return false;
-		}
-		if (!hasWoodcuttingLevel(player))
-			return false;
-		if (!player.getInventory().hasFreeSlots()) {
-			player.sendMessage("Not enough space in your inventory.");
-			return false;
-		}
 		return true;
 	}
 
@@ -214,21 +221,20 @@ public class Woodcutting extends PlayerAction {
 	}
 
 	@Override
-	public boolean process(Player player) {
-		if (!usingBeaver)
-			player.setNextAnimation(hatchet.getAnim());
-		return checkAll(player) && checkTree();
+	public boolean process(Entity entity) {
+		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim());
+		return checkAll(entity) && checkTree();
 	}
 
 	@Override
-	public int processWithDelay(Player player) {
-		int level = player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING);
-		player.faceObject(treeObj);
-		if (type.rollSuccess(player, level, hatchet)) {
-			giveLog(player, type, usingBeaver);
+	public int processWithDelay(Entity entity) {
+		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : 60;
+		entity.faceObject(treeObj);
+		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
+			giveLog(entity, type);
 			if (!type.isPersistent() || (Utils.random(8) == 0)) {
 				fellTree();
-				player.setNextAnimation(new Animation(-1));
+				entity.setNextAnimation(new Animation(-1));
 				return -1;
 			}
 		}
@@ -263,62 +269,58 @@ public class Woodcutting extends PlayerAction {
 		return xpBoost;
 	}
 
-	public static void giveLog(Player player, TreeType type, boolean usingBeaver) {
-		if (type != TreeType.IVY) {
-			if (type.getLogsId() != null)
-				player.incrementCount(ItemDefinitions.getDefs(type.getLogsId()[0]).getName() + " chopped");
-		} else
-			player.incrementCount("Choking ivy chopped");
-		if (Utils.random(256) == 0) {
-			for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-				World.addGroundItem(rew, new WorldTile(player.getTile()), player, true, 30);
-			player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
-		}
-		if (!usingBeaver)
+	public static void giveLog(Entity entity, TreeType type) {
+		if (entity instanceof Player player) {
+			if (type != TreeType.IVY) {
+				if (type.getLogsId() != null)
+					player.incrementCount(ItemDefinitions.getDefs(type.getLogsId()[0]).getName() + " chopped");
+			} else
+				player.incrementCount("Choking ivy chopped");
+			if (Utils.random(256) == 0) {
+				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
+					World.addGroundItem(rew, new WorldTile(player.getTile()), player, true, 30);
+				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
+			}
 			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
-		if (player.hasEffect(Effect.JUJU_WOODCUTTING)) {
-			int random = Utils.random(100);
-			if (random < 11)
-				player.addEffect(Effect.JUJU_WC_BANK, 75);
-		}
-		if (Utils.random(256) == 0) {
-			for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-				World.addGroundItem(rew, new WorldTile(player.getTile()), player, true, 30);
-			player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
-		}
-		//		if (type != TreeType.IVY) {
-		//			if (type.getLogsId() != null)
-		//				player.incrementCount(ItemDefinitions.getDefs(type.getLogsId()[0]).getName() + " chopped");
-		//		} else {
-		//			player.incrementCount("Choking ivy chopped");
-		//		}
-		if (type.getLogsId() != null) {
-			if (usingBeaver) {
-				if (player.getFamiliar() != null)
+			if (player.hasEffect(Effect.JUJU_WOODCUTTING)) {
+				int random = Utils.random(100);
+				if (random < 11)
+					player.addEffect(Effect.JUJU_WC_BANK, 75);
+			}
+			if (Utils.random(256) == 0) {
+				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
+					World.addGroundItem(rew, new WorldTile(player.getTile()), player, true, 30);
+				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
+			}
+			if (type.getLogsId() != null) {
+				if (player.hasEffect(Effect.JUJU_WC_BANK)) {
+					for (int item : type.getLogsId())
+						player.getBank().addItem(new Item(item, 1), true);
+					player.setNextSpotAnim(new SpotAnim(2897));
+				} else
 					for (int item : type.getLogsId())
 						player.getInventory().addItemDrop(item, 1);
-			} else if (player.hasEffect(Effect.JUJU_WC_BANK)) {
-				for (int item : type.getLogsId())
-					player.getBank().addItem(new Item(item, 1), true);
-				player.setNextSpotAnim(new SpotAnim(2897));
-			} else
-				for (int item : type.getLogsId())
-					player.getInventory().addItemDrop(item, 1);
-			if (type == TreeType.FRUIT_TREE)
-				return;
-			if (type == TreeType.IVY)
-				player.sendMessage("You succesfully cut an ivy vine.", true);
-			else {
-				String logName = ItemDefinitions.getDefs(type.getLogsId()[0]).getName().toLowerCase();
-				player.sendMessage("You get some " + logName + ".", true);
-				if (player.getEquipment().getWeaponId() == 13661 && !(type == TreeType.IVY))
-					if (Utils.getRandomInclusive(3) == 0) {
-						player.getSkills().addXp(Constants.FIREMAKING, type.getXp() * 1);
-						player.getInventory().deleteItem(type.getLogsId()[0], 1);
-						player.sendMessage("The adze's heat instantly incinerates the " + logName + ".");
-						player.setNextSpotAnim(new SpotAnim(1776));
-					}
+				if (type == TreeType.FRUIT_TREE)
+					return;
+				if (type == TreeType.IVY)
+					player.sendMessage("You succesfully cut an ivy vine.", true);
+				else {
+					String logName = ItemDefinitions.getDefs(type.getLogsId()[0]).getName().toLowerCase();
+					player.sendMessage("You get some " + logName + ".", true);
+					if (player.getEquipment().getWeaponId() == 13661 && !(type == TreeType.IVY))
+						if (Utils.getRandomInclusive(3) == 0) {
+							player.getSkills().addXp(Constants.FIREMAKING, type.getXp() * 1);
+							player.getInventory().deleteItem(type.getLogsId()[0], 1);
+							player.sendMessage("The adze's heat instantly incinerates the " + logName + ".");
+							player.setNextSpotAnim(new SpotAnim(1776));
+						}
+				}
 			}
+		}
+		if (entity instanceof Familiar familiar) {
+			for (int item : type.getLogsId())
+				familiar.getInventory().add(new Item(item, 1));
+			familiar.getOwner().getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(familiar.getOwner()));
 		}
 	}
 
@@ -327,7 +329,7 @@ public class Woodcutting extends PlayerAction {
 	}
 
 	@Override
-	public void stop(Player player) {
+	public void stop(Entity player) {
 		setActionDelay(player, 4);
 	}
 }

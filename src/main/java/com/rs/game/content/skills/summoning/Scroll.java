@@ -32,11 +32,18 @@ import java.util.Set;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
+import com.rs.game.content.skills.farming.FarmPatch;
+import com.rs.game.content.skills.farming.PatchLocation;
+import com.rs.game.content.skills.farming.PatchType;
+import com.rs.game.content.skills.farming.ProduceType;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
+import com.rs.game.content.skills.woodcutting.TreeType;
+import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
@@ -50,6 +57,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.utils.DropSets;
+import com.rs.utils.Ticks;
+import com.rs.utils.drop.DropTable;
 
 public enum Scroll {
 	/**
@@ -82,10 +92,9 @@ public enum Scroll {
 			if (owner.getTreasureTrailsManager().useDig(true)) {
 				familiar.sync(14314, 1412);
 				return true;
-			} else {
-				owner.sendMessage("The meerkats don't sense anything nearby.");
-				return false;
-			}
+			} 
+			owner.sendMessage("The meerkats don't sense anything nearby.");
+			return false;
 		}
 	},
 	EGG_SPAWN(12428, ScrollTarget.CLICK, "Creates up to 5 red spider eggs on the ground next to the player.", 0.2, 6) {
@@ -152,73 +161,147 @@ public enum Scroll {
 			return true;
 		}
 	},
-	ELECTRIC_LASH(12460, ScrollTarget.COMBAT, "Fires a small, magic lightning bolt at the opponent dealing up to 40 damage and stunning them.", 0.4, 6) {
+	ELECTRIC_LASH(12460, ScrollTarget.COMBAT, "Fires a small, magic lightning bolt at the opponent dealing up to 50 damage and stunning them.", 0.4, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(7803, 1410);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1411, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 50, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1413)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	VENOM_SHOT(12432, ScrollTarget.COMBAT, "Shoots a ranged-based drop of venom at the target, poisoning them for 50 damage.", 0.9, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(8124, 1403);
+			delayHit(familiar, 2, target, getRangeHit(familiar, getMaxHit(familiar, 50, AttackStyle.RANGE, target)), () -> {
+				target.setNextSpotAnim(new SpotAnim(1404));
+				target.getPoison().makePoisoned(50);
+			});
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
-	}, //anim 8124
+	},
 	FIREBALL(12839, ScrollTarget.COMBAT, "Hits up to 5 nearby targets with a fiery magic attack.", 1.1, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			//1394, 1395, 1393
+			
+			familiar.sync(7871, 1396);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1392, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1390)));
+			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 4, 5, false))
+				delayHit(familiar, World.sendProjectile(familiar, next, 1392, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1390)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	CHEESE_FEAST(12430, ScrollTarget.CLICK, "Fills the rat's inventory with 4 pieces of cheese.", 2.3, 6) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			return false;
+			if (familiar.getInventory().freeSlots() == 0) {
+				owner.sendMessage("Your rat already has plenty of cheese.");
+				return false;
+			}
+			familiar.sync(7906, 1384);
+			familiar.getInventory().add(new Item(1985, 4));
+			return true;
 		}
 	},
 	SANDSTORM(12446, ScrollTarget.COMBAT, "Hits up to 5 nearby targets with a magical sandstorm.", 2.5, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(8517, 1349);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1350, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 90, AttackStyle.MAGE, target)));
+			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 4, 5, false))
+				delayHit(familiar, World.sendProjectile(familiar, next, 1350, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 90, AttackStyle.MAGE, next)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	COMPOST_GENERATE(12440, ScrollTarget.OBJECT, "Fills the targeted compost bin with compost. With a 10% chance of yielding super compost.", 0.6, 12) {
 		@Override
 		public boolean object(Player owner, Familiar familiar, GameObject object) {
-			//TODO
+			PatchLocation loc = PatchLocation.forObject(object.getId());
+			if (loc == null || loc.type != PatchType.COMPOST) {
+				owner.sendMessage("This must be cast on an empty compost bin.");
+				return false;
+			}
+			FarmPatch getSpot = owner.getPatch(loc);
+			if (getSpot == null)
+				getSpot = new FarmPatch(loc);
+			if (getSpot.lives < 0) {
+				owner.sendMessage("This must be cast on an empty compost bin.");
+				return false;
+			}
+			final FarmPatch spot = getSpot;
+			owner.lock();
+			owner.sync(7660, 1316);
+			familiar.sync(7775, 1461);
+			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, 0, proj -> {
+				World.sendSpotAnim(owner, new SpotAnim(1460), object);
+				owner.unlock();
+				boolean superCompost = Utils.random(10) == 0;
+				spot.lives = 15;
+				spot.seed = superCompost ? ProduceType.Supercompost : ProduceType.Compost;
+				spot.compostLevel = superCompost ? 2 : 1;
+				owner.putPatch(spot);
+				spot.updateVars(owner);
+			});
 			return false;
 		}
 	},
 	EXPLODE(12834, ScrollTarget.COMBAT, "Allahu Akbar's the target with an AOE range of damage.", 2.9, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.freeze(3);
+			familiar.setLocked(true);
+			familiar.sync(7758, 1364);
+			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, familiar.getTile(), 1, 9)) {
+				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
+				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 60, AttackStyle.RANGE, next)));
+				delayHit(familiar, 2, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
+				delayHit(familiar, 2, next, getRangeHit(familiar, getMaxHit(familiar, 60, AttackStyle.RANGE, next)));
+			}
+			WorldTasks.delay(2, () -> {
+				familiar.kill();
+				familiar.finish();
+			});
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	VAMPYRE_TOUCH(12447, ScrollTarget.COMBAT, "Attacks the target and heals the player for 50% of the damage dealt.", 1.5, 4) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(8277, 1323);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1324, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 180, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1325)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	INSANE_FEROCITY(12433, ScrollTarget.CLICK, "Boosts the players attack and strength at the cost of magic, ranged, and defense levels.", 1.6, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
+			familiar.sync(7930, 1397);
+			owner.spotAnim(1399);
+			familiar.getAttribs().setL("insaneFerocity", World.getServerTicks() + Ticks.fromMinutes(5));
+			owner.getSkills().adjustStat(5, 0.15, Constants.ATTACK);
+			owner.getSkills().adjustStat(5, 0.15, Constants.STRENGTH);
+			owner.lowerStat(Constants.RANGE, 0.1, 0.0);
+			owner.lowerStat(Constants.MAGIC, 0.1, 0.0);
+			owner.lowerStat(Constants.DEFENSE, 0.1, 0.0);
 			return false;
 		}
 	},
-	MULTICHOP(12429, ScrollTarget.OBJECT, "Chops 0-3 logs from the target tree. ", 0.7, 3) {
+	MULTICHOP(12429, ScrollTarget.OBJECT, "Sends off the beaver to chop the target tree.", 0.7, 3) {
 		@Override
 		public boolean object(Player owner, Familiar familiar, GameObject object) {
-			//TODO
+			TreeType type = TreeType.forObject(owner, object);
+			if (type == null || !object.getDefinitions().containsOption(0, "Chop down")) {
+				owner.sendMessage("You can't chop that down.");
+				return false;
+			}
+			if (type.getLevel() > owner.getSkills().getLevel(Skills.WOODCUTTING)) {
+				owner.sendMessage("You need a woodcutting level of " + type.getLevel() + " to chop down this tree.");
+				return false;
+			}
+			familiar.faceObject(object);
+			familiar.setNextFaceEntity(null);
+			familiar.walkToAndExecute(object, () -> familiar.getActionManager().setAction(new Woodcutting(object, type)));
 			return false;
 		}
 	},
@@ -251,25 +334,43 @@ public enum Scroll {
 				player.sendMessage("This wouldn't affect you at all.");
 				return false;
 			}
+			familiar.sync(7903, 1382);
+			player.spotAnim(1300);
 			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);
-			//TODO gfx
 			return true;
 		}
 	},
 	HERBCALL(12422, ScrollTarget.CLICK, "Sends the macaw to find a random herb to bring back to the player.", 0.8, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			//spotanim 1321
+			owner.lock();
+			WorldTasks.scheduleTimer(timer -> {
+				switch(timer) {
+				case 0 -> familiar.anim(8013);
+				case 2 -> familiar.spotAnim(1321);
+				case 3 -> familiar.anim(8014);
+				case 5 -> {
+					Item[] herb = DropTable.calculateDrops(owner, DropSets.getDropSet("herb"));
+					if (herb.length < 1) {
+						owner.unlock();
+						return false;
+					}
+					World.addGroundItem(herb[0], new WorldTile(familiar.getTile()), owner, true, 120);
+					owner.unlock();
+				}
+				}
+				return true;
+			});
 			return false;
 		}
 	},
 	EVIL_FLAMES(12448, ScrollTarget.COMBAT, "Fires a magic fireball at the target and lowering their magic level.", 2.1, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(8251, 1328);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1330, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1329)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	PETRIFYING_GAZE(12458, ScrollTarget.COMBAT, "Deals up to 10 damage and lowers the target's levels depending on which cockatrice variant is casting.", 0.9, 3) {
@@ -393,8 +494,11 @@ public enum Scroll {
 	DOOMSPHERE(12455, ScrollTarget.COMBAT, "Attacks the opponent with a strong water spell that hits up to 76 damage and drains the target's magic.", 5.8, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(7974, 1478);
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1479, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 78, AttackStyle.MAGE, target)), () -> target.spotAnim(1480));
+			if (hit.getDamage() > 0)
+				target.lowerStat(Constants.MAGIC, 0.05, 0.0);
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	DUST_CLOUD(12468, ScrollTarget.COMBAT, "Hits up to 6 nearby targets for up to 79 damage with a strong magical dust cloud.", 3, 6) {
@@ -443,6 +547,7 @@ public enum Scroll {
 	TESTUDO(12439, ScrollTarget.CLICK, "Temporarily boosts the player's defense level by 8 points.", 0.7, 20) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
+			//1414
 			player.getSkills().adjustStat(8, 0.0, Constants.DEFENSE); //TODO gfx
 			return true;
 		}
@@ -459,6 +564,7 @@ public enum Scroll {
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
 			//spotanim 1331
+			//8320 8321
 			return false;
 		}
 	},
@@ -562,19 +668,19 @@ public enum Scroll {
 			return false;
 		}
 	},
-	SPIKE_SHOT(12456, ScrollTarget.COMBAT, "Fires a magic attack that deals up to 108 damage.", 4.1, 6) {
+	SPIKE_SHOT(12456, ScrollTarget.COMBAT, "Fires a magic attack that deals up to 170 damage.", 4.1, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.anim(7787);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1426, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 170, AttackStyle.MAGE, target)), () -> target.spotAnim(1428));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	EBON_THUNDER(12837, ScrollTarget.COMBAT, "Fires a magic attack that lowers the opponent's special attack energy by 10%.", 8.3, 4) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			Hit hit = getMagicHit(familiar, getMaxHit(familiar, 140, AttackStyle.MAGE, target));
-			familiar.setNextAnimation(new Animation(7986));
-			familiar.setNextSpotAnim(new SpotAnim(1492));
+			familiar.sync(7986, 1492);
 			delayHit(familiar, World.sendProjectile(familiar, target, 1493, 34, 16, 30, 35, 16, 0).getTaskDelay(), target, hit, () -> target.spotAnim(1494));
 			if (hit.getDamage() > 0 && target instanceof Player player)
 				player.getCombatDefinitions().drainSpec((player.getCombatDefinitions().getSpecialAttackPercentage() / 10));
@@ -604,7 +710,7 @@ public enum Scroll {
 				player.sendMessage("You're already at full hitpoints!");
 				return false;
 			}
-			familiar.sync(8267, 1518); //TODO find right spotanim
+			familiar.sync(8267, 1356);
 			player.spotAnim(1300);
 			player.heal((int) ((double) player.getMaxHitpoints() * 0.15));
 			return true;

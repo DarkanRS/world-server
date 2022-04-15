@@ -59,14 +59,16 @@ public abstract class CombatScript {
 		}
 	}
 
-	public static void delayHit(NPC npc, int delay, Entity target, Hit hit) {
-		delayHit(npc, delay, target, hit, null);
+	public static Hit delayHit(NPC npc, int delay, Entity target, Hit hit) {
+		return delayHit(npc, delay, target, hit, null);
 	}
 
-	public static void delayHit(NPC npc, int delay, Entity target, Hit hit, Runnable afterDelay) {
+	public static Hit delayHit(NPC npc, int delay, Entity target, Hit hit, Runnable afterDelay) {
 		npc.getCombat().addAttackedByDelay(target);
-		if (npc.isDead() || npc.hasFinished() || target.isDead() || target.hasFinished())
-			return;
+		if (npc.isDead() || npc.hasFinished() || target.isDead() || target.hasFinished()) {
+			hit.setDamage(0);
+			return hit;
+		}
 		target.applyHit(hit, delay, () -> {
 			if (afterDelay != null)
 				afterDelay.run();
@@ -81,6 +83,7 @@ public abstract class CombatScript {
 					n.setTarget(npc);
 			}
 		});
+		return hit;
 	}
 
 	public static Hit getRangeHit(NPC npc, int damage) {

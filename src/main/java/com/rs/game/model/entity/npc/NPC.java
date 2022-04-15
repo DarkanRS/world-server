@@ -80,7 +80,6 @@ public class NPC extends Entity {
 	private Map<Skill, Integer> combatLevels;
 	private boolean spawned;
 	private transient NPCCombat combat;
-	private transient boolean blocksOtherNPCs = true;
 	private transient boolean ignoreNPCClipping;
 	public WorldTile forceWalk;
 	private int size;
@@ -366,6 +365,7 @@ public class NPC extends Entity {
 			return;
 		setFinished(true);
 		World.updateEntityRegion(this);
+		World.fillNPCClip(getTile(), getSize(), false);
 		World.removeNPC(this);
 	}
 
@@ -1271,12 +1271,8 @@ public class NPC extends Entity {
 		this.canAggroNPCs = canAggroNPCs;
 	}
 
-	public boolean isBlocksOtherNPCs() {
-		return blocksOtherNPCs;
-	}
-
-	public void setBlocksOtherNPCs(boolean blocksOtherNPCs) {
-		this.blocksOtherNPCs = blocksOtherNPCs;
+	public boolean blocksOtherNpcs() {
+		return true;
 	}
 
 	public boolean isIgnoreNPCClipping() {

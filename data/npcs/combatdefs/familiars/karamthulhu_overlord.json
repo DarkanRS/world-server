@@ -19,7 +19,7 @@
   },
   "attackRange": 6,
   "attackGfx": -1,
-  "attackProjectile": 1477,
+  "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
   "aggroDistance": 16,
   "deAggroDistance": -1,

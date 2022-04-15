@@ -49,10 +49,10 @@ public class Test {
 		Settings.loadConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 		
-		NPCDefinitions def = NPCDefinitions.getDefs(11640);
+		NPCDefinitions def = NPCDefinitions.getDefs(6808);
 		System.out.println(def);
 		
-		BASDefinitions def2 = BASDefinitions.getDefs(1856);
+		BASDefinitions def2 = BASDefinitions.getDefs(10);
 		System.out.println(def2);
 	}
 

@@ -41,13 +41,17 @@ public final class Pet extends NPC {
 		this.details = details;
 		pet = Pets.forId(itemId);
 		setIgnoreNPCClipping(true);
-		setBlocksOtherNPCs(false);
 		if (pet == Pets.TROLL_BABY && owner.getPetManager().getTrollBabyName() != null)
 			setName(owner.getPetManager().getTrollBabyName());
 		if (details != null) {
 			sendMainConfigurations();
 			sendFollowerDetails();
 		}
+	}
+	
+	@Override
+	public boolean blocksOtherNpcs() {
+		return false;
 	}
 
 	@Override

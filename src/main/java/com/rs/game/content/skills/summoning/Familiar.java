@@ -72,7 +72,6 @@ public class Familiar extends NPC {
 		this.owner = owner;
 		this.pouch = pouch;
 		setIgnoreNPCClipping(true);
-		setBlocksOtherNPCs(false);
 		setRun(true);
 		resetTickets();
 		specialEnergy = 60;
@@ -80,6 +79,11 @@ public class Familiar extends NPC {
 			inv = new ItemsContainer<>(pouch.getBobSize(), false);
 		anim(pouch.getSpawnAnim());
 		call(true);
+	}
+	
+	@Override
+	public boolean blocksOtherNpcs() {
+		return false;
 	}
 
 	public boolean hasInventory() {
@@ -132,7 +136,7 @@ public class Familiar extends NPC {
 		}
 	};
 	
-	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take" }) {
+	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take", "Withdraw" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (!(e.getNPC() instanceof Familiar familiar))
@@ -231,6 +235,8 @@ public class Familiar extends NPC {
 	@Override
 	public void processEntity() {
 		super.processEntity();
+		if (isDead())
+			return;
 		if (forageTicks++ >= 50) {
 			rollForage();
 			forageTicks = 0;
@@ -541,14 +547,13 @@ public class Familiar extends NPC {
 			dismiss();
 			return;
 		}
-		int originalId = getOriginalId() + 1;
-		if (owner.isCanPvp() && getId() == getOriginalId()) {
-			transformIntoNPC(originalId);
+		if (pouch.getPVPNpc() != -1 && owner.isCanPvp() && getId() != pouch.getPVPNpc()) {
+			transformIntoNPC(pouch.getPVPNpc());
 			call(false);
 			return;
 		}
-		if (!owner.isCanPvp() && getId() == originalId && pouch != Pouch.MAGPIE && pouch != Pouch.IBIS && pouch != Pouch.BEAVER && pouch != Pouch.MACAW && pouch != Pouch.FRUIT_BAT) {
-			transformIntoNPC(originalId - 1);
+		if (!owner.isCanPvp() && getId() != pouch.getBaseNpc()) {
+			transformIntoNPC(pouch.getBaseNpc());
 			call(false);
 			return;
 		}
@@ -559,7 +564,7 @@ public class Familiar extends NPC {
 		if (!getCombat().process())
 			if (isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(25) == 0)
 				getCombat().setTarget(owner.getAttackedBy());
-			else
+			else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
 				sendFollow();
 	}
 
@@ -695,6 +700,7 @@ public class Familiar extends NPC {
 		sentRequestMoveMessage = false;
 		spotAnim(getSize() > 1 ? 1315 : 1314);
 		setNextWorldTile(teleTile);
+		getActionManager().forceStop();
 	}
 
 	public void dismiss() {

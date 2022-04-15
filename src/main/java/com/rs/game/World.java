@@ -244,7 +244,7 @@ public final class World {
 	}
 
 	public static void clipNPC(NPC npc) {
-		if (!npc.isBlocksOtherNPCs())
+		if (!npc.blocksOtherNpcs())
 			return;
 		WorldTile lastTile = npc.getLastWorldTile() == null ? npc.getTile() : npc.getLastWorldTile();
 		fillNPCClip(lastTile, npc.getSize(), false);

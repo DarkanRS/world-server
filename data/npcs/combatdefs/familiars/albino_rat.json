@@ -2,9 +2,9 @@
   "names": [
     "Albino rat"
   ],
-  "attackAnim": 4933,
-  "defenceAnim": 4934,
-  "deathAnim": 4935,
+  "attackAnim": 15514,
+  "defenceAnim": 14860,
+  "deathAnim": 15518,
   "deathDelay": 8,
   "respawnDelay": 0,
   "hitpoints": 680,

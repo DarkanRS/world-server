@@ -2,13 +2,13 @@
   "names": [
     "Fungal rodent"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 14859,
+  "defenceAnim": 14860,
+  "deathAnim": 14861,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 1000,
+  "maxHit": 50,
   "attackStyle": "MELEE",
   "attackRange": -1,
   "attackGfx": -1,

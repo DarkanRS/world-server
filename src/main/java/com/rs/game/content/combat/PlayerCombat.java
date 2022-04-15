@@ -257,32 +257,29 @@ public class PlayerCombat extends PlayerAction {
 		}
 		y: for (int regionId : player.getMapRegionsIds()) {
 			Region region = World.getRegion(regionId);
-//			if (target instanceof Player) {
-//				Set<Integer> playerIndexes = region.getPlayerIndexes();
-//				if (playerIndexes == null)
-//					continue;
-//				for (int playerIndex : playerIndexes) {
-//					Player p2 = World.getPlayers().get(playerIndex);
-//					if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target.getTile(), maxDistance) || !player.getControllerManager().canHit(p2))
-//						continue;
-//					possibleTargets.add(p2);
-//					if (possibleTargets.size() == maxAmtTargets)
-//						break y;
-//				}
-//			} else {
-				Set<Integer> npcIndexes = region.getNPCsIndexes();
-				if (npcIndexes == null)
+			Set<Integer> playerIndexes = region.getPlayerIndexes();
+			if (playerIndexes == null)
+				continue;
+			for (int playerIndex : playerIndexes) {
+				Player p2 = World.getPlayers().get(playerIndex);
+				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(tile, maxDistance) || !player.getControllerManager().canHit(p2))
 					continue;
-				for (int npcIndex : npcIndexes) {
-					NPC n = World.getNPCs().get(npcIndex);
-					if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
-						continue;
-					possibleTargets.add(n);
-					if (possibleTargets.size() == maxAmtTargets)
-						break y;
-				}
+				possibleTargets.add(p2);
+				if (possibleTargets.size() == maxAmtTargets)
+					break y;
 			}
-//		}
+			Set<Integer> npcIndexes = region.getNPCsIndexes();
+			if (npcIndexes == null)
+				continue;
+			for (int npcIndex : npcIndexes) {
+				NPC n = World.getNPCs().get(npcIndex);
+				if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
+					continue;
+				possibleTargets.add(n);
+				if (possibleTargets.size() == maxAmtTargets)
+					break y;
+			}
+		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
 	
