@@ -8,9 +8,16 @@
   "deathDelay": 8,
   "respawnDelay": 0,
   "hitpoints": 6200,
-  "maxHit": 244,
+  "maxHit": 190,
   "attackStyle": "RANGE",
-  "attackRange": -1,
+  "combatLevels": {
+    "ATTACK": 85,
+    "RANGE": 85,
+    "STRENGTH": 35,
+    "DEFENSE": 72,
+    "MAGE": 85
+  },
+  "attackRange": 8,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",

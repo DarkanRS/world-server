@@ -11,23 +11,11 @@
   "maxHit": 244,
   "attackStyle": "RANGE",
   "combatLevels": {
-    "ATTACK": 150,
-    "RANGE": 150,
-    "STRENGTH": 150,
-    "DEFENSE": 150,
-    "MAGE": 150
-  },
-  "bonuses": {
-    "STAB_ATT": 195,
-    "SLASH_ATT": 195,
-    "CRUSH_ATT": 195,
-    "MAGIC_ATT": 195,
-    "RANGE_ATT": 195,
-    "STAB_DEF": 200,
-    "SLASH_DEF": 200,
-    "CRUSH_DEF": 200,
-    "MAGIC_DEF": 200,
-    "RANGE_DEF": 100
+    "ATTACK": 130,
+    "RANGE": 130,
+    "STRENGTH": 130,
+    "DEFENSE": 130,
+    "MAGE": 130
   },
   "attackRange": 8,
   "attackGfx": -1,

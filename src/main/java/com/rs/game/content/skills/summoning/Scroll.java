@@ -403,7 +403,7 @@ public enum Scroll {
 	TOAD_BARK(12452, ScrollTarget.COMBAT, "Performs the same attack as if it were loaded with a cannonball.", 1, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
+			//TODO spotanim 1400
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},

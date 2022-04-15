@@ -7,16 +7,16 @@
   "deathAnim": 9467,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 450,
-  "maxHit": 30,
+  "hitpoints": 970,
+  "maxHit": 113,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 135,
-    "RANGE": 30,
-    "STRENGTH": 110,
-    "DEFENSE": 80,
-    "MAGE": 30
+    "ATTACK": 80,
+    "RANGE": 80,
+    "STRENGTH": 35,
+    "DEFENSE": 69,
+    "MAGE": 80
   },
   "attackRange": -1,
   "attackGfx": -1,

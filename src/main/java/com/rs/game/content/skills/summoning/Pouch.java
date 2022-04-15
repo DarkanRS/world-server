@@ -39,9 +39,24 @@ public enum Pouch {
 	HONEY_BADGER(6845, 6846, XPType.AGGRESSIVE, 00000, 00000, Scroll.INSANE_FEROCITY, 12065, 32, 1.6, 140.8, Ticks.fromMinutes(32), 4),
 	BEAVER(6808, -1, null, 00000, 00000, Scroll.MULTICHOP, 12021, 33, 0.7, 57.6, Ticks.fromMinutes(32), 4, "forage_beaver"),
 	VOID_RAVAGER(7370, 7371, XPType.AGGRESSIVE, 00000, 00000, Scroll.CALL_TO_ARMS, 12818, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4, "forage_void_ravager"),
-	VOID_SPINNER(7333, 7334, XPType.DEFENSIVE, 00000, 00000, Scroll.CALL_TO_ARMS, 12780, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+	VOID_SPINNER(7333, 7334, XPType.DEFENSIVE, 00000, 00000, Scroll.CALL_TO_ARMS, 12780, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4) {
+		@Override
+		public void tick(Player owner, Familiar familiar) {
+			familiar.getAttribs().decI("healTicks");
+			if (familiar.getAttribs().getI("healTicks") <= 0 && owner != null) {
+				owner.heal(10);
+				owner.setNextSpotAnim(new SpotAnim(1507));
+				familiar.getAttribs().setI("healTicks", 25);
+			}
+		}
+	},
 	VOID_TORCHER(7351, 7352, XPType.MAGIC, 00000, 00000, Scroll.CALL_TO_ARMS, 12798, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
-	VOID_SHIFTER(7367, 7368, XPType.ACCURATE, 00000, 00000, Scroll.CALL_TO_ARMS, 12814, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4),
+	VOID_SHIFTER(7367, 7368, XPType.ACCURATE, 00000, 00000, Scroll.CALL_TO_ARMS, 12814, 34, 0.7, 59.6, Ticks.fromMinutes(32), 4) {
+		@Override
+		public void tick(Player owner, Familiar familiar) {
+			//if player low health use scroll spec TODO
+		}
+	},
 	BRONZE_MINOTAUR(6853, 6854, XPType.DEFENSIVE, 00000, 00000, Scroll.BRONZE_BULL, 12073, 36, 2.4, 316.8, Ticks.fromMinutes(32), 9),
 	IRON_MINOTAUR(6855, 6856, XPType.DEFENSIVE, 00000, 00000, Scroll.IRON_BULL, 12075, 46, 4.6, 404.8, Ticks.fromMinutes(32), 9),
 	STEEL_MINOTAUR(6857, 6858, XPType.DEFENSIVE, 00000, 00000, Scroll.STEEL_BULL, 12077, 56, 5.6, 492.8, Ticks.fromMinutes(48), 9),
