@@ -275,6 +275,23 @@ public final class MusicsManager {
         playSongWithoutUnlocking(playingMusic);
     }
 
+	/**
+	 * Play song but not
+	 * 1. if in the last ten
+	 * 2. if a playlist is on
+	 * @param song
+	 */
+	public void playSpecificAmbientSong(int song) {
+		if(playListOn && playList.size() > 0)
+			return;
+		lastTenSongs.addFirst(playingMusic);
+		if(lastTenSongs.size() > 10)
+			lastTenSongs.removeLast();
+		if(lastTenSongs.contains(song))
+			return;
+		playSongWithoutUnlocking(song);
+	}
+
     /**
      * Only for use in nextAmbientSong
      */
@@ -294,7 +311,6 @@ public final class MusicsManager {
     private void pickAmbientStrictlyBackgroundMusic() {
 		playingGenre = player.getControllerManager().getController().getGenre();
 		if (playingGenre == null) {
-//			playRandom();
 			playingMusic = -2;//don't play music
 			return;
 		}
