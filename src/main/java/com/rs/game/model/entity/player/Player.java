@@ -37,6 +37,7 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
+import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
@@ -335,6 +336,10 @@ public class Player extends Entity {
 	private transient boolean largeSceneView;
 	private transient String lastNpcInteractedName = null;
 	private transient Account account;
+	
+	private transient boolean tileMan;
+	private transient int tilesAvailable;
+	private transient Set<Integer> tilesUnlocked;
 
 	private HabitatFeature habitatFeature;
 
@@ -3745,7 +3750,35 @@ public class Player extends Entity {
 
 	@Override
 	public boolean canMove(Direction dir) {
-		return getControllerManager().canMove(dir);
+		if (!getControllerManager().canMove(dir))
+			return false;
+		if (tileMan) {
+			if (tilesUnlocked == null) {
+				tilesUnlocked = new HashSet<>();
+				tilesAvailable = 50;
+			}
+			int tileHash = getTile().transform(dir.getDx(), dir.getDy()).getTileHash();
+			if (!tilesUnlocked.contains(tileHash)) {
+				if (tilesAvailable <= 0)
+					return false;
+				tilesAvailable--;
+				tilesUnlocked.add(tileHash);
+				markTile(new WorldTile(tileHash));
+			}
+		}
+		return true;
+	}
+	
+	public void markTile(WorldTile tile) {
+		getPackets().sendAddObject(new GameObject(21777, ObjectType.GROUND_DECORATION, 0, tile));
+	}
+	
+	public void updateTilemanTiles() {
+		for (int i : tilesUnlocked) {
+			WorldTile tile = new WorldTile(i);
+			if (Utils.getDistance(getTile(), tile) < 64)
+				markTile(tile);
+		}
 	}
 
 	@Override
@@ -4308,5 +4341,13 @@ public class Player extends Entity {
 		}
 		
 		return boost;
+	}
+
+	public boolean isTileMan() {
+		return tileMan;
+	}
+
+	public void setTileMan(boolean tileMan) {
+		this.tileMan = tileMan;
 	}
 }
