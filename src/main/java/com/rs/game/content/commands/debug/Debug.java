@@ -123,7 +123,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "getcontroller", "Shows current controller", (p, args) -> {
-			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getClass().getName()));
+			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getController().getClass().getName()));
 		});
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {
