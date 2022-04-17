@@ -857,6 +857,15 @@ public class DungeonController extends Controller {
 			return false;
 		case "summoning obelisk":
 			Summoning.openInfusionInterface(player, true);
+			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
+				player.sendMessage("You touch the obelisk", true);
+				player.setNextAnimation(new Animation(8502));
+				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				WorldTasks.schedule(2, () -> {
+					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
+					player.sendMessage("...and recharge your summoning points.", true);
+				});
+			}
 			return false;
 		case "group gatestone portal":
 			portalGroupStoneTeleport();

@@ -18,6 +18,7 @@ package com.rs.game.content.skills.summoning;
 
 import java.util.Arrays;
 
+import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -113,7 +114,9 @@ public class Summoning {
 			if (e.getComponentId() == 16) {
 				Pouch pouch = Pouch.forId(e.getSlotId2());
 				if (pouch == null) {
-					e.getPlayer().sendMessage("Unknown pouch with ID: " + e.getSlotId2());
+					if(Settings.getConfig().isDebug())
+						e.getPlayer().sendMessage("Unknown pouch with ID: " + e.getSlotId2());
+					e.getPlayer().sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
 					return;
 				}
 				if (e.getPacket() == ClientPacket.IF_OP1)
