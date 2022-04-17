@@ -1,10 +1,10 @@
 {
   "ids": [
-    9852
+    9848
   ],
   "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "defenceAnim": 13468,
+  "deathAnim": 13472,
   "deathDelay": 4,
   "respawnDelay": 0,
   "hitpoints": 5000,
