@@ -18,6 +18,7 @@ package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.skills.crafting.Jewelry.Bling;
+import com.rs.game.content.skills.summoning.Scroll;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -26,16 +27,21 @@ import com.rs.lib.game.Item;
 
 public class JewelryAction extends PlayerAction {
 
-	Bling bling;
-	int numberToMake;
+	private Bling bling;
+	private int numberToMake;
+	private boolean pyrefiend;
+	
 
-	public JewelryAction(Bling bling, int number) {
+	public JewelryAction(Bling bling, int number, boolean pyrefiend) {
 		this.bling = bling;
-		numberToMake = number;
+		this.numberToMake = number;
+		this.pyrefiend = pyrefiend;
 	}
 
 	public boolean checkAll(Player player) {
 		if (bling == null || player == null)
+			return false;
+		if (pyrefiend && !player.getInventory().containsItem(Scroll.IMMENSE_HEAT.getId()))
 			return false;
 		if (!player.getInventory().containsItem(bling.getMouldRequired().getId(), 1)) {
 			player.sendMessage("You need one " + ItemDefinitions.getDefs(bling.getMouldRequired().getId()).getName().toLowerCase() + " to make that.");
@@ -74,11 +80,12 @@ public class JewelryAction extends PlayerAction {
 		numberToMake--;
 		player.setNextAnimation(new Animation(3243));
 		player.getSkills().addXp(Constants.CRAFTING, bling.getExperience());
+		if (pyrefiend)
+			player.getInventory().deleteItem(Scroll.IMMENSE_HEAT.getId(), 1);
 		for (Item required : bling.getItemsRequired())
 			player.getInventory().deleteItem(required.getId(), required.getAmount());
 		player.getInventory().addItem(bling.getProduct());
 		player.sendMessage("You make a " + bling.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
-
 		if (numberToMake > 0)
 			return 2;
 		return -1;

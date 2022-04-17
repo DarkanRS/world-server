@@ -35,6 +35,7 @@ import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
+import com.rs.game.content.skills.crafting.Jewelry;
 import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
@@ -407,8 +408,12 @@ public enum Scroll {
 	IMMENSE_HEAT(12829, ScrollTarget.ITEM, "Allows the player to craft a single peice of jewelry without a furnace.", 2.3, 6) {
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
-			//TODO
-			return false;
+			if (item.getId() != Jewelry.GOLD_BAR) {
+				owner.sendMessage("This must be cast on a gold bar.");
+				return false;
+			}
+			Jewelry.openJewelryInterface(owner, true);
+			return true;
 		}
 	},
 	THIEVING_FINGERS(12426, ScrollTarget.CLICK, "Temporarily raises the player's thieving level by 2.", 0.9, 12) {
