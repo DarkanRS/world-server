@@ -82,7 +82,7 @@ public class JewelryAction extends PlayerAction {
 		player.getSkills().addXp(Constants.CRAFTING, bling.getExperience());
 		if (pyrefiend) {
 			player.getFamiliar().sync(8082, 1394);
-			player.spotAnim(1393);
+			player.spotAnim(1463);
 			player.getInventory().deleteItem(Scroll.IMMENSE_HEAT.getId(), 1);
 		}
 		for (Item required : bling.getItemsRequired())

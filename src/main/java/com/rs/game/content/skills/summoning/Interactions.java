@@ -23,6 +23,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Interactions {
 	
+	//spotanim 1575 mining boost
+	
 	public static NPCClickHandler handleInteract = new NPCClickHandler(Pouch.getAllNPCIdKeys(), new String[] { "Interact" }) {
 		@Override
 		public void handle(NPCClickEvent e) {

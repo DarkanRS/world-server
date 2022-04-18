@@ -41,6 +41,8 @@ public class KalphiteQueenCombat extends CombatScript {
 	public Object[] getKeys() {
 		return new Object[] { "Kalphite Queen" };
 	}
+	
+	//278, 279, 280, 281 spotanims
 
 	public static void attackMageTarget(final List<Player> arrayList, Entity fromEntity, final NPC startTile, Entity t, final int projectile, final int gfx) {
 		final Entity target = t == null ? getTarget(arrayList, fromEntity, startTile.getTile()) : t;

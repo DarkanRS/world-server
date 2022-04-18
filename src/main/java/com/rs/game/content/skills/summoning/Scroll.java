@@ -434,11 +434,11 @@ public enum Scroll {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
 			if (player.getRunEnergy() >= 100) {
-				player.sendMessage("This wouldn't effect you at all.");
+				player.sendMessage("You're already full run energy.");
 				return false;
 			}
-			familiar.setNextAnimation(new Animation(8229));
-			//TODO gfx
+			familiar.sync(8229, 1521);
+			player.spotAnim(1300);
 			player.getSkills().adjustStat(2, 0.0, Constants.AGILITY);
 			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);
