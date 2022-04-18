@@ -31,7 +31,6 @@ public class JewelryAction extends PlayerAction {
 	private int numberToMake;
 	private boolean pyrefiend;
 	
-
 	public JewelryAction(Bling bling, int number, boolean pyrefiend) {
 		this.bling = bling;
 		this.numberToMake = number;
@@ -41,7 +40,7 @@ public class JewelryAction extends PlayerAction {
 	public boolean checkAll(Player player) {
 		if (bling == null || player == null)
 			return false;
-		if (pyrefiend && player.getFamiliar() == null || !player.getInventory().containsItem(Scroll.IMMENSE_HEAT.getId()))
+		if (pyrefiend && (player.getFamiliar() == null || !player.getInventory().containsItem(Scroll.IMMENSE_HEAT.getId())))
 			return false;
 		if (!player.getInventory().containsItem(bling.getMouldRequired().getId(), 1)) {
 			player.sendMessage("You need one " + ItemDefinitions.getDefs(bling.getMouldRequired().getId()).getName().toLowerCase() + " to make that.");
@@ -78,10 +77,14 @@ public class JewelryAction extends PlayerAction {
 	@Override
 	public int processWithDelay(Player player) {
 		numberToMake--;
-		player.setNextAnimation(new Animation(3243));
+		if (!pyrefiend)
+			player.setNextAnimation(new Animation(3243));
 		player.getSkills().addXp(Constants.CRAFTING, bling.getExperience());
-		if (pyrefiend)
+		if (pyrefiend) {
+			player.getFamiliar().sync(8082, 1394);
+			player.spotAnim(1393);
 			player.getInventory().deleteItem(Scroll.IMMENSE_HEAT.getId(), 1);
+		}
 		for (Item required : bling.getItemsRequired())
 			player.getInventory().deleteItem(required.getId(), required.getAmount());
 		player.getInventory().addItem(bling.getProduct());

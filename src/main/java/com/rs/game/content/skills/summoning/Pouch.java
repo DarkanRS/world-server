@@ -101,7 +101,7 @@ public enum Pouch {
 	SPIRIT_PENGATRICE(6883, 6884, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12103, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	SPIRIT_CORAXATRICE(6885, 6886, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12105, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	SPIRIT_VULATRICE(6887, 6888, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12107, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	PYRELORD(7377, 7378, XPType.AGGRESSIVE, 00000, 00000, Scroll.IMMENSE_HEAT, 12816, 46, 2.3, 202.4, Ticks.fromMinutes(32), 5),
+	PYRELORD(7377, 7378, XPType.AGGRESSIVE, 8081, 00000, Scroll.IMMENSE_HEAT, 12816, 46, 2.3, 202.4, Ticks.fromMinutes(32), 5),
 	MAGPIE(6824, -1, null, 00000, 00000, Scroll.THIEVING_FINGERS, 12041, 47, 0.9, 83.2, Ticks.fromMinutes(32), 5, "forage_magpie"),
 	BLOATED_LEECH(6843, 6844, XPType.ACCURATE, 00000, 00000, Scroll.BLOOD_DRAIN, 12061, 49, 2.4, 215.2, Ticks.fromMinutes(32), 5),
 	SPIRIT_TERRORBIRD(6794, 6795, XPType.CONTROLLED, 00000, 00000, Scroll.TIRELESS_RUN, 12007, 52, 0.7, 68.4, Ticks.fromMinutes(32), 6, 12),

@@ -1,14 +1,12 @@
 package com.rs.game.content.skills.summoning;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.controllers.UndergroundDungeonController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.quests.Quest;
+import com.rs.game.content.skills.firemaking.Firemaking;
+import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -17,7 +15,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -33,6 +33,22 @@ public class Interactions {
 				return;
 			}
 			familiar.interact();
+		}
+	};
+	
+	public static ItemOnNPCHandler pyrelordFire = new ItemOnNPCHandler(Pouch.PYRELORD.getIdKeys()) {
+		@Override
+		public void handle(ItemOnNPCEvent e) {
+			Fire fire = Fire.forId(e.getItem().getId());
+			if (fire == null) {
+				e.getPlayer().sendMessage("The pyrelord only burns logs.");
+				return;
+			}
+			if (e.getPlayer().getSkills().getLevel(Skills.FIREMAKING) < fire.getLevel()) {
+				e.getPlayer().sendMessage("You need " + fire.getLevel() + " firemaking to burn this log.");
+				return;
+			}
+			e.getNPC().getActionManager().setAction(new Firemaking(fire));
 		}
 	};
 	

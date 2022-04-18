@@ -139,7 +139,6 @@ public class Jewelry {
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(446) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			e.getPlayer().closeInterfaces();
 			Bling bling = Bling.forId(e.getComponentId());
 			int numberToMake = getNumberToMake(e.getPacket());
 			if (numberToMake == -5)
@@ -163,6 +162,7 @@ public class Jewelry {
 				e.getPlayer().getActionManager().setAction(new JewelryAction(bling, numberToMake, e.getPlayer().getTempAttribs().getB("immenseHeatCrafting")));
 			} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
 				e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
+			e.getPlayer().closeInterfaces();
 		}
 	};
 
@@ -209,7 +209,9 @@ public class Jewelry {
 		player.getPackets().setIFItem(446, 40, 11092, 75);
 		player.getPackets().setIFItem(446, 42, 11115, 75);
 		player.getPackets().setIFItem(446, 44, 11130, 75);
-		if (pyrefiend)
+		if (pyrefiend) {
+			player.getTempAttribs().setB("immenseHeatCrafting", true);
 			player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeB("immenseHeatCrafting"));
+		}
 	}
 }
