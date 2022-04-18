@@ -41,7 +41,7 @@ public class JewelryAction extends PlayerAction {
 	public boolean checkAll(Player player) {
 		if (bling == null || player == null)
 			return false;
-		if (pyrefiend && !player.getInventory().containsItem(Scroll.IMMENSE_HEAT.getId()))
+		if (pyrefiend && player.getFamiliar() == null || !player.getInventory().containsItem(Scroll.IMMENSE_HEAT.getId()))
 			return false;
 		if (!player.getInventory().containsItem(bling.getMouldRequired().getId(), 1)) {
 			player.sendMessage("You need one " + ItemDefinitions.getDefs(bling.getMouldRequired().getId()).getName().toLowerCase() + " to make that.");
