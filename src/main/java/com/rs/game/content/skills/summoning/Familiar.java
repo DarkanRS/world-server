@@ -235,7 +235,7 @@ public class Familiar extends NPC {
 	@Override
 	public void processEntity() {
 		super.processEntity();
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		if (forageTicks++ >= 50) {
 			rollForage();
@@ -529,7 +529,7 @@ public class Familiar extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		Familiar.sendLeftClickOption(owner);
 		ticks--;
@@ -676,13 +676,13 @@ public class Familiar extends NPC {
 	private transient boolean sentRequestMoveMessage;
 
 	public void call() {
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		call(false);
 	}
 
 	public void call(boolean login) {
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		if (login)
 			sendMainConfigs();
