@@ -729,8 +729,8 @@ public class MiscTest {
 			p.getNSV().setB("sendingDropsToBank", true);
 		});
 
-		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
-			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[0]), 0, 0));
+		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id height]", "Creates a spot animation on top of the player.", (p, args) -> {
+			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[0]), 0, args.length == 1 ? 0 : Integer.valueOf(args[1])));
 		});
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
