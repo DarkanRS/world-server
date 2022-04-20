@@ -1888,7 +1888,8 @@
     "allowAmbient": false,
     "id": 192,
     "regionIds": [
-      10804
+      10804,
+      10904
     ]
   },
   {
@@ -5477,9 +5478,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 582,
-    "regionIds": [
-      12084
-    ]
+    "regionIds": []
   },
   {
     "name": "Chef Surprize",
@@ -5944,9 +5943,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 634,
-    "regionIds": [
-      11319
-    ]
+    "regionIds": []
   },
   {
     "name": "The Adventurers Re-United!",
@@ -6658,9 +6655,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 718,
-    "regionIds": [
-      11828
-    ]
+    "regionIds": []
   },
   {
     "name": "Honkytonky Sea Shanty",
@@ -6668,9 +6663,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 719,
-    "regionIds": [
-      12082
-    ]
+    "regionIds": []
   },
   {
     "name": "Honkytonky Parade",

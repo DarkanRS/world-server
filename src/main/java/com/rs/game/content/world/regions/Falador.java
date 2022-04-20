@@ -27,6 +27,7 @@ import com.rs.game.content.quests.handlers.knightssword.SquireKnightsSwordD;
 import com.rs.game.content.quests.handlers.piratestreasure.RedbeardFrankPiratesTreasureD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
@@ -34,12 +35,44 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Falador {
+
+	public static PlayerStepHandler musicArtisansWorkshop = new PlayerStepHandler(new WorldTile(3035, 3339, 0), new WorldTile(3035, 3338, 0),
+			new WorldTile(3034, 3339, 0), new WorldTile(3034, 3338, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getTile().getX() == 3035 && e.getStep().getDir() == Direction.EAST) {
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(582, true);
+				return;
+			}
+			if(e.getTile().getX() == 3034 && e.getPlayer().getMusicsManager().isPlaying(582))
+				e.getPlayer().getMusicsManager().nextAmbientSong();
+		}
+	};
+
+	public static PlayerStepHandler musicRisingSunInn = new PlayerStepHandler(new WorldTile(2956, 3378, 0), new WorldTile(2956, 3379, 0),
+			new WorldTile(2961, 3372, 0), new WorldTile(2962, 3372, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getTile().getY() == 3378 && e.getStep().getDir() == Direction.SOUTH) {
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(718, true);
+				return;
+			}
+			if(e.getTile().getX() == 2961 && e.getStep().getDir() == Direction.WEST) {
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(718, true);
+				return;
+			}
+			if((e.getTile().getY() == 3379 || e.getTile().getX() == 2961) && e.getPlayer().getMusicsManager().isPlaying(718))
+				e.getPlayer().getMusicsManager().nextAmbientSong();
+		}
+	};
 
 	public static NPCClickHandler handleRedBeardFrank = new NPCClickHandler(new Object[] { 375 }) {
 		@Override
