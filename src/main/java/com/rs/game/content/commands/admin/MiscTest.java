@@ -699,14 +699,14 @@ public class MiscTest {
 					if(tick == 0)
 						voiceID = Integer.valueOf(args[0]);
 
-					if(Voices.voicesMarked.containsKey(voiceID))
+					if(Voices.voicesMarked.contains(voiceID))
 						for(int i = voiceID; i < 100_000; i++) {
-							if(!Voices.voicesMarked.containsKey(voiceID))
+							if(!Voices.voicesMarked.contains(voiceID))
 								break;
 							voiceID++;
 						}
 
-					if(!Voices.voicesMarked.containsKey(voiceID)) {
+					if(!Voices.voicesMarked.contains(voiceID)) {
 						p.sendMessage("Playing voice " + voiceID);
 						p.getPackets().sendVoice(voiceID++);
 					}
