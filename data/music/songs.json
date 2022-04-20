@@ -610,11 +610,18 @@
   },
   {
     "name": "Newbie Melody",
-    "hint": "automatically.",
+    "hint": "automatically. Tutorial Island",
     "comment": "",
     "allowAmbient": true,
     "id": 62,
-    "regionIds": []
+    "regionIds": [
+      12080,
+      12079,
+      12336,
+      12592,
+      12335,
+      12436
+    ]
   },
   {
     "name": "Chain of Command",
@@ -1410,7 +1417,8 @@
       13210,
       12443,
       12442,
-      12441
+      12441,
+      12436
     ]
   },
   {
@@ -3113,7 +3121,8 @@
     "regionIds": [
       11929,
       12185,
-      12184
+      12184,
+      12436
     ]
   },
   {
@@ -3856,7 +3865,7 @@
     "name": "Scape Original",
     "hint": "automatically.",
     "comment": "Login Music",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 400,
     "regionIds": []
   },
