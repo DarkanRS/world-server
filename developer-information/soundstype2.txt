@@ -1,23 +1,8 @@
-/**
-Sounds Type 2, dont delete I am categorizing the list combining with soundlist 3744+ not found
-**/
-0-307: 1 tone notes
-308-335: Haunted whispers
-367-375, 385, 389, 414-415: Unstable foundations tutorial narrator
-
-600-638: 1 tone notes
-639-1890: Unstable foundations tutorial
-1893-1897:Organ Background or ambient music
-1898-1905:Weird voices
-1906-1917: Dungeoneering/haunted whispering voices
-1918-1925: Ghostly moans
 1926-1930: "You dare steal my power" Yk'Lagor Thunderous boss Dungeoneering
 1931-1932: Glass blowing pipe
 1933-1936: More demon voices, same as steal my power
 1937-1942: Dungeoneering/haunted whispering voices2
 1943-1956:Haunted ambient ghost sounds
-1957: Firework sfx
-1958-1959: Like little pebbles dropping
 1960: Boulder moving
 1961: Carriage like a horse
 1962: carriage like a horse river
@@ -59,10 +44,5 @@ Dwarf male:
 Little girl: 77250, 77251
 
 
-{
-    "Sanfew": [77777, 77789],
-    "Let them eat pie": [77780, 77785],
-    "Tom Mcgruber": [],
-    "Druidic Ritual": []
-}
+
 

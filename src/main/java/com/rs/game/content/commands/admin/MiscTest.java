@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.commands.admin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,6 +61,7 @@ import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
+import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -73,9 +75,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
-import com.rs.utils.music.Genre;
-import com.rs.utils.music.Music;
-import com.rs.utils.music.Song;
+import com.rs.utils.music.*;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
@@ -676,6 +676,47 @@ public class MiscTest {
 			p.playSound(Integer.valueOf(args[0]), 2);
 		});
 
+
+
+		Commands.add(Rights.PLAYER, "playthroughvoices [start finish tick_delay]", "Gets player rights", (p, args) -> {
+			//		Voice[] voices = new Voice[3];
+			//		voices[0] = new Voice("Test1", new int[]{1, 2, 3});
+			//		voices[1] = new Voice("Test3", new int[]{4, 5, 6});
+			//		voices[2] = new Voice("Test4", new int[]{7, 8, 9});
+			//		try {
+			//			JsonFileManager.saveJsonFile(voices, new File("developer-information/voice.json"));
+			//		} catch(Exception e) {
+			//			System.out.println(e.getStackTrace());
+			//		}
+
+			int tickDelay = Integer.valueOf(args[2]);
+
+			WorldTasks.schedule(new WorldTask() {
+				int tick;
+				int voiceID = 0;
+				@Override
+				public void run() {
+					if(tick == 0)
+						voiceID = Integer.valueOf(args[0]);
+
+					if(Voices.voicesMarked.containsKey(voiceID))
+						for(int i = voiceID; i < 100_000; i++) {
+							if(!Voices.voicesMarked.containsKey(voiceID))
+								break;
+							voiceID++;
+						}
+
+					if(!Voices.voicesMarked.containsKey(voiceID)) {
+						p.sendMessage("Playing voice " + voiceID);
+						p.getPackets().sendVoice(voiceID++);
+					}
+
+					if(voiceID > Integer.valueOf(args[1]))
+						stop();
+					tick++;
+				}
+			}, 0, tickDelay);
+		});
 
 		Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
 			if (args[0].contains(",")) {
