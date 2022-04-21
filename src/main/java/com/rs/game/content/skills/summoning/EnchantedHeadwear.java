@@ -85,12 +85,11 @@ public class EnchantedHeadwear {
 			}
 		}
 
-		private int baseId;
-		private int enchantedId;
-		private int chargedId;
-		private int summReq;
-		@SuppressWarnings("unused")
-		private int scrollLimit;
+		int baseId;
+		int enchantedId;
+		int chargedId;
+		int summReq;
+		int scrollLimit;
 
 		Headwear(int id, int enchantedId, int chargedId, int summoningLevel, int scrolls) {
 			this.baseId = id;

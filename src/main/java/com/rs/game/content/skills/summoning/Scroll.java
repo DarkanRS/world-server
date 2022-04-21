@@ -103,7 +103,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
 			familiar.setNextAnimation(new Animation(8164));
-			int num = Utils.random(5);
+			int num = Utils.random(6);
 			Set<Integer> spawned = new HashSet<>();
 			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
 				if (spawned.size() >= num)
@@ -581,12 +581,28 @@ public enum Scroll {
 	FRUITFALL(12423, ScrollTarget.CLICK, "Drops from 0-5 random fruit on the ground around the player.", 1.4, 6) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			//anim 8277 fruitfall
-			//spotanim 1331 falling fruit
-			
-			//8320 8321 interaction to search for fruit
-			return false;
+			//TODO 8320 8321 interaction to search for fruit
+			familiar.anim(8277);
+			int num = Utils.random(7);
+			Set<Integer> spawned = new HashSet<>();
+			boolean papaya = true;
+			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
+				if (spawned.size() >= num)
+					break;
+				WorldTile tile = World.findAdjacentFreeTile(owner.getTile());
+				if (spawned.contains(tile.getTileHash()))
+					continue;
+				spawned.add(tile.getTileHash());
+				World.sendSpotAnim(owner, new SpotAnim(1331), tile);
+				final boolean spawnPapaya = papaya;
+				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(spawnPapaya ? 5972 : randomFruit(), 1), tile, owner, true, 120));
+				papaya = false;
+			}
+			return true;
+		}
+		
+		private int randomFruit() {
+			return new int[] { 2102, 2108, 2114, 2120, 1963 }[Utils.random(5)];
 		}
 	},
 	FAMINE(12830, ScrollTarget.COMBAT, "Consumes a piece of the target's food.", 1.5, 12) {
@@ -616,7 +632,7 @@ public enum Scroll {
 		public boolean use(Player owner, Familiar familiar) {
 			familiar.sync(8053, 1465);
 			owner.getSkills().adjustStat(9, 0.0, Constants.STRENGTH);
-			return false;
+			return true;
 		}
 	},
 	MANTIS_STRIKE(12450, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent dealing up to 100 damage, binding them for 3 seconds, and draining their prayer.", 3.7, 6) {
