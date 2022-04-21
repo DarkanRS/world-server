@@ -107,29 +107,25 @@ public class EnchantedHeadwear {
 		public void handle(ItemOnNPCEvent e) {
 			Headwear helm = Headwear.forId(e.getItem().getId());
 			if (helm != null) {
-				if (e.getItem().getId() == helm.enchantedId || e.getItem().getId() == helm.chargedId) {
-					e.getPlayer().sendMessage("This headwear is already resonating with familiar magic. There is no need to enchant it.");
-					return;
-				}
-				if (e.getPlayer().getSkills().getLevel(Constants.SUMMONING) < helm.summReq) {
+				if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) < helm.summReq) {
 					e.getPlayer().sendMessage("You must have a summoning level of " + helm.summReq + " to enchant this.");
 					return;
 				}
 
 				if (e.getItem().getId() == helm.baseId) {
-					e.getPlayer().getInventory().deleteItem(e.getItem().getSlot(), e.getItem());
-					e.getPlayer().getInventory().addItem(helm.enchantedId, 1);
+					e.getItem().setId(helm.enchantedId);
+					e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 					e.getPlayer().sendMessage("Pikkupstix magically enchants your headwear.");
 					return;
 				}
 				if (e.getItem().getId() == helm.enchantedId) {
-					e.getPlayer().getInventory().deleteItem(e.getItem().getSlot(), e.getItem());
-					e.getPlayer().getInventory().addItem(helm.baseId, 1);
+					e.getItem().setId(helm.baseId);
+					e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 					e.getPlayer().sendMessage("Pikkupstix removes the enchantment from your headwear.");
 					return;
 				}
 				if (e.getItem().getId() == helm.chargedId) {
-					e.getPlayer().sendMessage("Pikkupstix removes the enchantment from your headwear.");
+					e.getPlayer().sendMessage("You need to remove your scrolls before unenchanting the helmet.");
 					return;
 				}
 			}
