@@ -1139,6 +1139,9 @@ public class PlayerCombat extends PlayerAction {
 					}
 					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, zgsdamage));
 					break;
+				case 3101: //rune claws
+					//spotanim 274
+					break;
 				case 14484: // d claws
 				case 23695:
 					player.setNextAnimation(new Animation(10961));

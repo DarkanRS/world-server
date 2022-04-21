@@ -120,8 +120,12 @@ public class MiscTest {
 						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "tutisland", "Sets NPCs names to something.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
+			p.setTileMan(true);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "unffamiliars", "Spawns all unfinished familiar pouches to bank.", (p, args) -> {
@@ -163,7 +167,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
-			p.getTempAttribs().getI("tempProjCheck", Integer.valueOf(args[0]));
+			p.getTempAttribs().setI("tempProjCheck", Integer.valueOf(args[0]));
 			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
 		});
 

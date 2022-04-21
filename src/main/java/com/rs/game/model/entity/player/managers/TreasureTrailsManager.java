@@ -341,7 +341,7 @@ public class TreasureTrailsManager {
 			if (!hasCurrentClue())
 				return false;
 			WorldTile tile = new WorldTile(currentClue.details.getId());
-			if (!player.withinDistance(tile, currentClue.details.type == MAP ? 6 : 16))
+			if (!player.withinDistance(tile, currentClue.details.type == MAP ? meerkat ? 12 : 6 : meerkat ? 32 : 16))
 				return false;
 			setNextClue(SOURCE_DIG, meerkat);
 			return true;
@@ -351,7 +351,7 @@ public class TreasureTrailsManager {
 				return false;
 			WorldTile t = getTile((Integer) currentClue.details.parameters[0], (Integer) currentClue.details.parameters[1], (Integer) currentClue.details.parameters[2], (Integer) currentClue.details.parameters[3],
 					(Integer) currentClue.details.parameters[4], (Integer) currentClue.details.parameters[5]);
-			if (!player.withinDistance(t, 6)) // setted distance cuz the getTile
+			if (!player.withinDistance(t, meerkat ? 12 : 6)) // setted distance cuz the getTile
 				// method may miss 3-5 tiles on rs
 				return false;
 			setNextClue(SOURCE_DIG, meerkat);

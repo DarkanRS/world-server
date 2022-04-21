@@ -19,7 +19,6 @@ package com.rs.game.model.entity.player;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
-import com.rs.game.content.EnchantedHeadwear;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
@@ -568,7 +567,7 @@ public final class Equipment {
 					if (item == null)
 						return;
 					if (e.getPacket() == ClientPacket.IF_OP1) {
-						if (e.getPlayer().isEquipDisabled() || !EnchantedHeadwear.canEquip(item.getId(), e.getPlayer()))
+						if (e.getPlayer().isEquipDisabled())
 							return;
 						if (sendWear(e.getPlayer(), e.getSlotId(), item.getId()))
 							Equipment.refreshEquipBonuses(e.getPlayer());

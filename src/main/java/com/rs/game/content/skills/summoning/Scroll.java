@@ -35,6 +35,7 @@ import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.controllers.StealingCreationController;
 import com.rs.game.content.minigames.creations.Score;
+import com.rs.game.content.skills.crafting.Jewelry;
 import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
@@ -46,6 +47,7 @@ import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -407,33 +409,42 @@ public enum Scroll {
 	IMMENSE_HEAT(12829, ScrollTarget.ITEM, "Allows the player to craft a single peice of jewelry without a furnace.", 2.3, 6) {
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
-			//TODO
+			if (item.getId() != Jewelry.GOLD_BAR) {
+				owner.sendMessage("This must be cast on a gold bar.");
+				return false;
+			}
+			Jewelry.openJewelryInterface(owner, true);
 			return false;
 		}
 	},
 	THIEVING_FINGERS(12426, ScrollTarget.CLICK, "Temporarily raises the player's thieving level by 2.", 0.9, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			return false;
+			familiar.sync(8020, 0000); //TODO gfx
+			owner.getSkills().adjustStat(2, 0.0, Constants.THIEVING);
+			return true;
 		}
 	},
-	BLOOD_DRAIN(12444, ScrollTarget.CLICK, "Restores the player's stats by 5% and cures poison. Damages the player for 25 damage, though.", 2.4, 6) {
+	BLOOD_DRAIN(12444, ScrollTarget.CLICK, "Restores the player's stats by 2 + 20% and cures poison. Damages the player for 25 damage, though.", 2.4, 6) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			return false;
+			familiar.sync(7715, 0000); //TODO gfx
+			owner.spotAnim(0000);
+			owner.applyHit(new Hit(owner, 25, HitLook.TRUE_DAMAGE));
+			owner.getPoison().reset();
+			owner.getSkills().adjustStat(2, 0.20, false, Utils.range(0, Skills.SIZE-1));
+			return true;
 		}
 	},
 	TIRELESS_RUN(12441, ScrollTarget.CLICK, "Restores the player's run energy by half of their agility level. Boosts agility level by 2.", 0.8, 8) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
 			if (player.getRunEnergy() >= 100) {
-				player.sendMessage("This wouldn't effect you at all.");
+				player.sendMessage("You're already full run energy.");
 				return false;
 			}
-			familiar.setNextAnimation(new Animation(8229));
-			//TODO gfx
+			familiar.sync(8229, 1521);
+			player.spotAnim(1300);
 			player.getSkills().adjustStat(2, 0.0, Constants.AGILITY);
 			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);

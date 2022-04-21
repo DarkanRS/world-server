@@ -37,6 +37,7 @@ public class LumbridgeSwampDungeon {
 		public void handle(ItemOnNPCEvent e) {
 			if (!Quest.WHILE_GUTHIX_SLEEPS.meetsRequirements(e.getPlayer(), "to lure the light creature."))
 				return;
+			//spotanims 1932 1933
 			if (e.getItem().getId() == 4702)
 				e.getPlayer().sendOptionDialogue(e.getNPC().getId() == 2021 ? "Would you like to go down into the chasm?" : "Would you like to go back up the chasm?", ops -> {
 					ops.add("Yes", () -> e.getPlayer().setNextWorldTile(e.getNPC().getId() == 2021 ? new WorldTile(2520, 5884, 0) : new WorldTile(3219, 9527, 2)));
