@@ -28,6 +28,7 @@ import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
@@ -492,12 +493,24 @@ public class Familiar extends NPC {
 	}
 	
 	public boolean hasScroll() {
-		//TODO
-		return true;
+		if (owner.getInventory().containsItem(pouch.getScroll().getId()))
+			return true;
+		Item headwear = owner.getEquipment().get(Equipment.HEAD);
+		if (headwear != null && headwear.getMetaDataI("summScrollId") == pouch.getScroll().getId())
+			return headwear.getMetaDataI("summScrollsStored") > 0;
+		return false;
 	}
 	
 	public void decrementScroll() {
-		//TODO
+		Item headwear = owner.getEquipment().get(Equipment.HEAD);
+		if (headwear != null && headwear.getMetaDataI("summScrollId") == pouch.getScroll().getId()) {
+			headwear.decMetaDataI("summScrollsStored");
+			if (headwear.getMetaDataI("summScrollsStored") <= 0) {
+				headwear.deleteMetaData();
+			}
+			return;
+		}
+		owner.getInventory().deleteItem(pouch.getScroll().getId(), 1);
 	}
 
 	private void sendFollow() {

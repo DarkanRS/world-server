@@ -167,7 +167,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
-			p.getTempAttribs().getI("tempProjCheck", Integer.valueOf(args[0]));
+			p.getTempAttribs().setI("tempProjCheck", Integer.valueOf(args[0]));
 			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
 		});
 

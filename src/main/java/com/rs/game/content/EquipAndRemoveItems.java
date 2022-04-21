@@ -35,7 +35,7 @@ public class EquipAndRemoveItems  {
 				break;
 			case "Wear":
 			case "Wield":
-				if (e.getPlayer().isEquipDisabled() || !EnchantedHeadwear.canEquip(e.getItem().getId(), e.getPlayer()))
+				if (e.getPlayer().isEquipDisabled())
 					return;
 				Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
 				break;
