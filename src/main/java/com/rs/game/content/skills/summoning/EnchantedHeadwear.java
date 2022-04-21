@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Skillcapes;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
@@ -29,10 +30,12 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -131,6 +134,22 @@ public class EnchantedHeadwear {
 			}
 		}
 	};
+	
+	public static ItemEquipHandler canEquipCharged = new ItemEquipHandler(Arrays.stream(Headwear.values()).map(h -> h.chargedId).toArray()) {
+		@Override
+		public void handle(ItemEquipEvent e) {
+			if (e.equip() && !ItemConstants.canWear(new Item(Headwear.forId(e.getItem().getId()).baseId, 1), e.getPlayer()))
+				e.cancel();
+		}
+	};
+	
+	public static ItemEquipHandler canEquipEnchanted = new ItemEquipHandler(Arrays.stream(Headwear.values()).map(h -> h.enchantedId).toArray()) {
+		@Override
+		public void handle(ItemEquipEvent e) {
+			if (e.equip() && !ItemConstants.canWear(new Item(Headwear.forId(e.getItem().getId()).baseId, 1), e.getPlayer()))
+				e.cancel();
+		}
+	};
 
 	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(new Object[] { 6988 }) {
 		@Override
@@ -149,7 +168,6 @@ public class EnchantedHeadwear {
 					}
 				}
 				e.getPlayer().startConversation(new Dialogue().addSimple("If you bring me the right headwear, I may be able to assist in enchanting it."));
-
 			}
 		}
 	};
