@@ -86,6 +86,7 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -503,7 +504,7 @@ public class DungeonManager {
 					if (party.isGuideMode())
 						player.sendMessage("<col=641d9e>Guide Mode ON");
 					player.sendMessage("");
-					player.lock(2);
+					player.lock(1);
 				}
 				resetGatestone();
 			}
@@ -970,7 +971,7 @@ public class DungeonManager {
 		return (int) (lvl < 1 ? 1 : lvl);
 	}
 
-	public int[] getLevels(boolean boss, int level, int hitpoints) {
+	public Map<Skill, Integer> getLevels(boolean boss, int level, int hitpoints) {
 		return NPCCombatDefinitions.generateLevels(level, hitpoints/10);
 	}
 

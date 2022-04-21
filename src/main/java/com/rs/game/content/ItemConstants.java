@@ -147,6 +147,7 @@ public class ItemConstants {
 		BLUE_COIF(12943, -1, 12948, Ticks.fromHours(6), -1),
 		RED_COIF(12950, -1, 12955, Ticks.fromHours(6), -1),
 		BLACK_COIF(12957, -1, 12962, Ticks.fromHours(6), -1),
+		ROYAL_COIF(24388, -1, 24393, Ticks.fromHours(6), -1),
 
 		CHAOTIC_RAPIER(18349, -1, 18350, Ticks.fromHours(10), 2000000),
 		CHAOTIC_LONGSWORD(18351, -1, 18352, Ticks.fromHours(10), 2000000),

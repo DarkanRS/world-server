@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.rs.game.World;
@@ -27,9 +28,12 @@ import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.*;
 
 public class DungeonNPC extends NPC {
 
@@ -45,6 +49,28 @@ public class DungeonNPC extends NPC {
 			setForceMultiArea(true);
 		}
 		setForceAggroDistance(20); //includes whole room
+	}
+
+
+
+	@Override
+	public List<Entity> getPossibleTargets(boolean includeNpcs) {//SHADOW SILK HOOD
+		List<Entity> possibleTargets = super.getPossibleTargets(includeNpcs);
+		DungeonConstants.GuardianMonster mob = DungeonConstants.GuardianMonster.forId(getId());
+		if (mob == null)
+			return possibleTargets;
+		if(mob == FORGOTTEN_WARRIOR || mob == FORGOTTEN_RANGER || mob == SKELETON_MELEE || mob == SKELETON_RANGED
+				|| mob == ZOMBIE_MELEE || mob == ZOMBIE_RANGED || mob == HILL_GIANT || mob == GIANT_SKELETON
+				|| mob == HOBGOBLIN || mob == REBORN_WARRIOR) {
+			List<Entity> shadowedTargets = new ArrayList<>();
+			for (Entity entity : possibleTargets) {
+				if (entity instanceof Player player && player.getEquipment().containsOneItem(17279, 15828)
+						&& !player.getTempAttribs().getB("ShadowSilkSpellDisable"))
+					shadowedTargets.add(entity);
+			}
+			possibleTargets.removeAll(shadowedTargets);
+		}
+		return possibleTargets;
 	}
 
 	public void resetBonuses() {

@@ -441,13 +441,13 @@ public class DragonSlayer extends QuestOutline {
 					p.getInventory().removeItems(new Item(BOWL, 1));
 					p.sendMessage("You place the unfired bowl on the door...");
 				}
-			if (e.getItem().getId() == CAGE)
+			if (e.getItem().getId() == CAGE || e.getItem().getId() == 301)
 				if(attr.getB(DOOR_CAGE_ATTR))
 					p.sendMessage("The cage seems to have been used on the door...");
 				else {
 					attr.setB(DOOR_CAGE_ATTR, true);
 					p.getInventory().removeItems(new Item(CAGE, 1));
-					p.sendMessage("The door consumes the crayfish cage...");
+					p.sendMessage("The door consumes the cage...");
 				}
 		}
 	};

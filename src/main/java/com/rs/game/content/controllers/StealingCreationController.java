@@ -27,7 +27,7 @@ import com.rs.game.content.dialogues_matrix.StealingCreationRange;
 import com.rs.game.content.minigames.creations.GameArea;
 import com.rs.game.content.minigames.creations.Helper;
 import com.rs.game.content.minigames.creations.Score;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;

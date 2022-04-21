@@ -19,7 +19,7 @@ package com.rs.game.model.entity.npc.nomad;
 import java.util.ArrayList;
 
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;

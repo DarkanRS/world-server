@@ -233,8 +233,12 @@ public class DruidicRitual extends QuestOutline {
 			switch(player.getQuestManager().getStage(Quest.DRUIDIC_RITUAL)) {
 			case 1:
 				addPlayer(HeadE.CALM_TALK, "Hello there.");
-				addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?");
-				addPlayer(HeadE.CALM_TALK, "I've been sent to assist you with the ritual to purify the Varrockian stone circle.");
+				addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?", () -> {
+					player.getPackets().sendVoice(77263);
+				});
+				addPlayer(HeadE.CALM_TALK, "I've been sent to assist you with the ritual to purify the Varrockian stone circle.", ()->{
+					player.getPackets().resetSounds();
+				});
 				addNPC(SANFEW, HeadE.CALM_TALK, "Well, what I'm struggling with right now is the meats needed for the potion to honour Guthix. I need the raw" +
 						" meats of four different animals for it, ");
 				addNPC(SANFEW, HeadE.CALM_TALK, "but not just any old meats will do. Each meat has to be dipped individually into the Cauldron of Thunder " +
@@ -278,9 +282,12 @@ public class DruidicRitual extends QuestOutline {
 				}
 				break;
 			default:
-				addPlayer(HeadE.CALM_TALK, "Hello there.");
-				addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?");
-				addPlayer(HeadE.CALM_TALK, "Nothing at the moment.");
+				addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?", ()->{
+					player.getPackets().sendVoice(77263);
+				});
+				addPlayer(HeadE.CALM_TALK, "Nothing at the moment.", ()->{
+
+				});
 				break;
 			}
 			create();

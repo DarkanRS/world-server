@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.controllers;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.rs.Settings;
@@ -73,8 +74,8 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringWoodcutting;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
 import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.model.entity.Entity;
@@ -119,6 +120,23 @@ public class DungeonController extends Controller {
 
 	@Override
 	public void start() {
+		ArrayList<Integer> enterInventory = new ArrayList<>();
+		for (Item item : player.getEquipment().getItemsCopy())
+			if (!DungManager.isBannedDungItem(item)) {
+				if(item == null)
+					continue;
+				enterInventory.add(item.getId());
+				enterInventory.add(item.getAmount());
+			}
+		for (Item item : player.getInventory().getItems().array())
+			if (!DungManager.isBannedDungItem(item)) {
+				if(item == null)
+					continue;
+				enterInventory.add(item.getId());
+				enterInventory.add(item.getAmount());
+			}
+		player.delete("dungeoneering_enter_floor_inventory");
+		player.getSavingAttributes().put("dungeoneering_enter_floor_inventory", enterInventory.toArray());
 		showDeaths();
 		refreshDeaths();
 		player.setForceMultiArea(true);
@@ -239,7 +257,7 @@ public class DungeonController extends Controller {
 				int procChance = (int) (40 + (player.getDungManager().getKinshipTier(KinshipPerk.KEEN_EYE) * 6.5));
 				if (Utils.random(100) < procChance)
 					if (target instanceof NPC npc)
-						npc.lowerDefense(1);
+						npc.lowerDefense(1, 0.0);
 			}
 			rangeDamage += hit.getDamage();
 		} else if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
@@ -421,7 +439,7 @@ public class DungeonController extends Controller {
 		final Door door = room.getDoor(index);
 		if (door == null || door.getType() != DungeonConstants.SKILL_DOOR)
 			return;
-		if (door.getLevel() > player.getSkills().getLevel(s.getSkillId())) {
+		if (door.getLevel() > (player.getSkills().getLevel(s.getSkillId()) + player.getInvisibleSkillBoost(s.getSkillId()))) {
 			player.sendMessage("You need a " + Constants.SKILL_NAME[s.getSkillId()] + " level of " + door.getLevel() + " to remove this " + object.getDefinitions().getName().toLowerCase() + ".");
 			return;
 		}
@@ -532,7 +550,7 @@ public class DungeonController extends Controller {
 				return false;
 			}
 			if (familiar.getDefinitions().hasOption("Take")) {
-				familiar.takeBob();
+				familiar.takeInventory();
 				return false;
 			}
 			return true;
@@ -856,7 +874,16 @@ public class DungeonController extends Controller {
 			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, products, 883, 2));
 			return false;
 		case "summoning obelisk":
-			//TODO dung summ
+			Summoning.openInfusionInterface(player, true);
+			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
+				player.sendMessage("You touch the obelisk", true);
+				player.setNextAnimation(new Animation(8502));
+				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				WorldTasks.schedule(2, () -> {
+					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
+					player.sendMessage("...and recharge your summoning points.", true);
+				});
+			}
 			return false;
 		case "group gatestone portal":
 			portalGroupStoneTeleport();
@@ -904,6 +931,17 @@ public class DungeonController extends Controller {
 		switch (name) {
 		case "runecrafting altar":
 			player.getDialogueManager().execute(new DungeoneeringRCD(), 1);
+			return false;
+		case "summoning obelisk":
+			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
+				player.sendMessage("You touch the obelisk", true);
+				player.setNextAnimation(new Animation(8502));
+				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				WorldTasks.schedule(2, () -> {
+					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
+					player.sendMessage("...and recharge your summoning points.", true);
+				});
+			}
 			return false;
 		}
 		return true;
@@ -1116,9 +1154,6 @@ public class DungeonController extends Controller {
 			return true;
 		} else if (interfaceId == 934)
 			DungeoneeringSmithing.handleButtons(player, packet, componentId);
-		else if (interfaceId == Summoning.POUCHES_INTERFACE)
-			//TODO dung summoning
-			return false;
 		else if (interfaceId == DungeonResourceShop.RESOURCE_SHOP) {
 			if (componentId == 24) {
 				int quantity = -1;

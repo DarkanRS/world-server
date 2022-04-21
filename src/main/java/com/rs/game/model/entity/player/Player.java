@@ -37,6 +37,7 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
+import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
@@ -87,7 +88,8 @@ import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.slayer.BossTask;
 import com.rs.game.content.skills.slayer.SlayerTaskManager;
 import com.rs.game.content.skills.slayer.TaskMonster;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.world.Musician;
 import com.rs.game.ge.GE;
@@ -334,6 +336,10 @@ public class Player extends Entity {
 	private transient boolean largeSceneView;
 	private transient String lastNpcInteractedName = null;
 	private transient Account account;
+	
+	private transient boolean tileMan;
+	private transient int tilesAvailable;
+	private transient Set<Integer> tilesUnlocked;
 
 	private HabitatFeature habitatFeature;
 
@@ -354,7 +360,7 @@ public class Player extends Entity {
 	private MusicsManager musicsManager;
 	private EmotesManager emotesManager;
 	private DominionTower dominionTower;
-	private Familiar familiar;
+	private Familiar summFamiliar;
 	private AuraManager auraManager;
 	private PetManager petManager;
 	private BossTask bossTask;
@@ -792,11 +798,11 @@ public class Player extends Entity {
 	public void removeDungItems() {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
-				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().array())
+				if (getFamiliar().getInventory() != null)
+					for (Item item : getFamiliar().getInventory().array())
 						if (item != null)
 							if (ItemConstants.isDungItem(item.getId()))
-								getFamiliar().getBob().getBeastItems().remove(item);
+								getFamiliar().getInventory().remove(item);
 		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isDungItem(item.getId()))
@@ -815,11 +821,11 @@ public class Player extends Entity {
 	public void removeHouseOnlyItems() {
 		if (hasFamiliar())
 			if (getFamiliar() != null)
-				if (getFamiliar().getBob() != null)
-					for (Item item : getFamiliar().getBob().getBeastItems().array())
+				if (getFamiliar().getInventory() != null)
+					for (Item item : getFamiliar().getInventory().array())
 						if (item != null)
 							if (ItemConstants.isHouseOnlyItem(item.getId()))
-								getFamiliar().getBob().getBeastItems().remove(item);
+								getFamiliar().getInventory().remove(item);
 		for (Item item : getInventory().getItems().array())
 			if (item != null)
 				if (ItemConstants.isHouseOnlyItem(item.getId()))
@@ -873,9 +879,13 @@ public class Player extends Entity {
 				this.reset();
 				getEquipment().reset();
 				getInventory().reset();
-				getInventory().addItem(15707, 1);
+				ArrayList<Double> itemsEnter = (ArrayList<Double>)savingAttributes.get("dungeoneering_enter_floor_inventory");
+				for(int i = 0; i < itemsEnter.size(); i++)
+					if ((i % 2) == 0)
+						getInventory().addItem(itemsEnter.get(i).intValue(), itemsEnter.get(i+1).intValue());
 			}
 			delete("isLoggedOutInDungeon");
+			delete("dungeoneering_enter_floor_inventory");
 		}
 		if (getI("cutsceneManagerStartTileX") != -1) {
 			WorldTile tile = new WorldTile(getI("cutsceneManagerStartTileX"), getI("cutsceneManagerStartTileY"), getI("cutsceneManagerStartTileZ"));
@@ -1136,6 +1146,7 @@ public class Player extends Entity {
 	}
 
 	public void postSync() {
+		getInventory().processRefresh();
 		getVars().syncVarsToClient();
 		skills.updateXPDrops();
 	}
@@ -1294,8 +1305,8 @@ public class Player extends Entity {
 
 		GE.updateOffers(username);
 
-		if (familiar != null)
-			familiar.respawnFamiliar(this);
+		if (summFamiliar != null)
+			summFamiliar.respawn(this);
 		else
 			petManager.init();
 		running = true;
@@ -1360,7 +1371,7 @@ public class Player extends Entity {
 		if (getInventory().containsOneItem(itemIds) || getEquipment().containsOneItem(itemIds))
 			return true;
 		Familiar familiar = getFamiliar();
-		if (familiar != null && ((familiar.getBob() != null && familiar.getBob().containsOneItem(itemIds) || familiar.isFinished())))
+		if (familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished())))
 			return true;
 		return false;
 	}
@@ -1720,8 +1731,8 @@ public class Player extends Entity {
 		house.finish();
 		dungManager.finish();
 		running = false;
-		if (familiar != null && !familiar.isFinished())
-			familiar.dissmissFamiliar(true);
+		if (summFamiliar != null && !summFamiliar.isFinished())
+			summFamiliar.finish();
 		else if (pet != null)
 			pet.finish();
 		lastLoggedIn = System.currentTimeMillis();
@@ -2255,8 +2266,8 @@ public class Player extends Entity {
 			return;
 		lock(7);
 		stopAll();
-		if (familiar != null)
-			familiar.sendDeath(this);
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(this);
 		WorldTile lastTile = new WorldTile(getTile());
 		if (isAtDynamicRegion())
 			lastTile = getRandomGraveyardTile();
@@ -2878,11 +2889,17 @@ public class Player extends Entity {
 	}
 
 	public Familiar getFamiliar() {
-		return familiar;
+		return summFamiliar;
+	}
+	
+	public Pouch getFamiliarPouch() {
+		if (summFamiliar == null)
+			return null;
+		return summFamiliar.getPouch();
 	}
 
 	public void setFamiliar(Familiar familiar) {
-		this.familiar = familiar;
+		this.summFamiliar = familiar;
 	}
 
 	public int getSummoningLeftClickOption() {
@@ -3233,7 +3250,7 @@ public class Player extends Entity {
 	}
 
 	public boolean hasFamiliar() {
-		return familiar != null;
+		return summFamiliar != null;
 	}
 
 	public double getBonusXpRate() {
@@ -3737,7 +3754,35 @@ public class Player extends Entity {
 
 	@Override
 	public boolean canMove(Direction dir) {
-		return getControllerManager().canMove(dir);
+		if (!getControllerManager().canMove(dir))
+			return false;
+		if (tileMan) {
+			if (tilesUnlocked == null) {
+				tilesUnlocked = new HashSet<>();
+				tilesAvailable = 50;
+			}
+			int tileHash = getTile().transform(dir.getDx(), dir.getDy()).getTileHash();
+			if (!tilesUnlocked.contains(tileHash)) {
+				if (tilesAvailable <= 0)
+					return false;
+				tilesAvailable--;
+				tilesUnlocked.add(tileHash);
+				markTile(new WorldTile(tileHash));
+			}
+		}
+		return true;
+	}
+	
+	public void markTile(WorldTile tile) {
+		getPackets().sendAddObject(new GameObject(21777, ObjectType.GROUND_DECORATION, 0, tile));
+	}
+	
+	public void updateTilemanTiles() {
+		for (int i : tilesUnlocked) {
+			WorldTile tile = new WorldTile(i);
+			if (Utils.getDistance(getTile(), tile) < 64)
+				markTile(tile);
+		}
 	}
 
 	@Override
@@ -4250,5 +4295,63 @@ public class Player extends Entity {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public int getInvisibleSkillBoost(int skill) {
+		int boost = 0;
+		
+		if (Arrays.stream(Skills.SKILLING).anyMatch(check -> check == skill) && hasEffect(Effect.DUNG_HS_SCROLL_BOOST))
+			boost += getTempAttribs().getI("hsDungScrollTier", 0);
+		
+		switch(skill) {
+		case Skills.WOODCUTTING:
+			if (getFamiliarPouch() == Pouch.BEAVER)
+				boost += 2;
+			break;
+		case Skills.MINING:
+			if (getFamiliarPouch() == Pouch.DESERT_WYRM)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.VOID_RAVAGER)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.OBSIDIAN_GOLEM)
+				boost += 7;
+			else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
+				boost += 10;
+			break;
+		case Skills.FISHING:
+			if (getFamiliarPouch() == Pouch.GRANITE_CRAB)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.IBIS)
+				boost += 3;
+			else if (getFamiliarPouch() == Pouch.GRANITE_LOBSTER)
+				boost += 4;
+			break;
+		case Skills.FIREMAKING:
+			if (getFamiliarPouch() == Pouch.PYRELORD)
+				boost += 3;
+			else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
+				boost += 10;
+			else if (getFamiliarPouch() == Pouch.PHOENIX)
+				boost += 12;
+			break;
+		case Skills.HUNTER:
+			if (getFamiliarPouch() == Pouch.SPIRIT_GRAAHK || getFamiliarPouch() == Pouch.SPIRIT_LARUPIA || getFamiliarPouch() == Pouch.SPIRIT_KYATT)
+				boost += 5;
+			else if (getFamiliarPouch() == Pouch.WOLPERTINGER)
+				boost += 5;
+			else if (getFamiliarPouch() == Pouch.ARCTIC_BEAR)
+				boost += 7;
+			break;
+		}
+		
+		return boost;
+	}
+
+	public boolean isTileMan() {
+		return tileMan;
+	}
+
+	public void setTileMan(boolean tileMan) {
+		this.tileMan = tileMan;
 	}
 }

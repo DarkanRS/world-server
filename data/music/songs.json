@@ -610,11 +610,18 @@
   },
   {
     "name": "Newbie Melody",
-    "hint": "automatically.",
+    "hint": "automatically. Tutorial Island",
     "comment": "",
     "allowAmbient": true,
     "id": 62,
-    "regionIds": []
+    "regionIds": [
+      12080,
+      12079,
+      12336,
+      12592,
+      12335,
+      12436
+    ]
   },
   {
     "name": "Chain of Command",
@@ -1410,7 +1417,8 @@
       13210,
       12443,
       12442,
-      12441
+      12441,
+      12436
     ]
   },
   {
@@ -1880,7 +1888,8 @@
     "allowAmbient": false,
     "id": 192,
     "regionIds": [
-      10804
+      10804,
+      10904
     ]
   },
   {
@@ -3111,7 +3120,10 @@
     "allowAmbient": false,
     "id": 325,
     "regionIds": [
-      11927
+      11929,
+      12185,
+      12184,
+      12436
     ]
   },
   {
@@ -3854,7 +3866,7 @@
     "name": "Scape Original",
     "hint": "automatically.",
     "comment": "Login Music",
-    "allowAmbient": false,
+    "allowAmbient": true,
     "id": 400,
     "regionIds": []
   },
@@ -5466,9 +5478,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 582,
-    "regionIds": [
-      12084
-    ]
+    "regionIds": []
   },
   {
     "name": "Chef Surprize",
@@ -5933,9 +5943,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 634,
-    "regionIds": [
-      11319
-    ]
+    "regionIds": []
   },
   {
     "name": "The Adventurers Re-United!",
@@ -6631,9 +6639,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 716,
-    "regionIds": [
-      12853
-    ]
+    "regionIds": []
   },
   {
     "name": "I'm Counting on You",
@@ -6649,9 +6655,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 718,
-    "regionIds": [
-      11828
-    ]
+    "regionIds": []
   },
   {
     "name": "Honkytonky Sea Shanty",
@@ -6659,9 +6663,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 719,
-    "regionIds": [
-      12082
-    ]
+    "regionIds": []
   },
   {
     "name": "Honkytonky Parade",
@@ -6669,9 +6671,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 720,
-    "regionIds": [
-      13110
-    ]
+    "regionIds": []
   },
   {
     "name": "Honkytonky Medieval",
@@ -6679,10 +6679,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 721,
-    "regionIds": [
-      13108,
-      13109
-    ]
+    "regionIds": []
   },
   {
     "name": "Ghost of Christmas Presents",

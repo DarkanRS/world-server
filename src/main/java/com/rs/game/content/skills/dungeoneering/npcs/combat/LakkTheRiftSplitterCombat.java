@@ -58,8 +58,8 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
 				player.setProtectionPrayBlock(2);
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * .85), AttackStyle.MELEE, player)));
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MELEE) * .60), AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * .85), AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * .60), AttackStyle.MELEE, player)));
 			}
 		if (smash) {
 			npc.setNextAnimation(new Animation(14383));
@@ -99,7 +99,7 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 		boolean melee = onRange && Utils.random(2) == 0;
 		if (melee) {
 			npc.setNextAnimation(new Animation(14375));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 		} else
 			regularMagicAttack(target, npc);
 		return 5;
@@ -109,7 +109,7 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(14398));
 		World.sendProjectile(npc, target, 2579, 50, 30, 41, 40, 0, 0);
 		if (target instanceof Player player) {
-			int damage = getMaxHit(npc, AttackStyle.MAGE, player);
+			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, player);
 			if (player.getPrayer().getPoints() > 0 && player.getPrayer().isProtectingMage()) {
 				player.getPrayer().drainPrayer((int) (damage * .5));
 				player.sendMessage("Your prayer points feel drained.");

@@ -51,7 +51,7 @@ public class HopeDevourerCombat extends CombatScript {
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				stomp = true;
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player)));
 			}
 		if (stomp) {
 			npc.setNextAnimation(new Animation(14459));
@@ -69,7 +69,7 @@ public class HopeDevourerCombat extends CombatScript {
 					int healedDamage = 0;
 					for (Entity t : npc.getPossibleTargets()) {
 						Player player = (Player) t;
-						int damage = (int) Utils.random(npc.getMaxHit(AttackStyle.MAGE) * .85, npc.getMaxHit(AttackStyle.MAGE));
+						int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MAGE) * .85, npc.getLevelForStyle(AttackStyle.MAGE));
 						if (damage > 0 && player.getPrayer().isUsingProtectionPrayer()) {
 							healedDamage += damage;
 							player.setProtectionPrayBlock(2);
@@ -88,7 +88,7 @@ public class HopeDevourerCombat extends CombatScript {
 
 		if (Utils.random(5) == 0) {
 			npc.setNextAnimation(new Animation(14458));
-			final int damage = (int) Utils.random(npc.getMaxHit(AttackStyle.MELEE) * .85, npc.getMaxHit(AttackStyle.MELEE));
+			final int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MELEE) * .85, npc.getLevelForStyle(AttackStyle.MELEE));
 			if (target instanceof Player player)
 				player.getSkills().set(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) - (damage * .05)));
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));
@@ -124,7 +124,7 @@ public class HopeDevourerCombat extends CombatScript {
 			}, 0, 0);
 		} else {
 			npc.setNextAnimation(new Animation(14457));
-			int damage = (int) Utils.random(npc.getMaxHit(AttackStyle.MELEE) * .75, npc.getMaxHit(AttackStyle.MELEE));
+			int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MELEE) * .75, npc.getLevelForStyle(AttackStyle.MELEE));
 			if (target instanceof Player player)
 				if (player.getPrayer().isProtectingMelee()) {
 					player.sendMessage("Your prayer completely negates the attack.", true);

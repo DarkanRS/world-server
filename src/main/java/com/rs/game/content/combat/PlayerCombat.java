@@ -28,8 +28,8 @@ import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
-import com.rs.game.content.skills.summoning.familiars.Steeltitan;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -257,32 +257,29 @@ public class PlayerCombat extends PlayerAction {
 		}
 		y: for (int regionId : player.getMapRegionsIds()) {
 			Region region = World.getRegion(regionId);
-//			if (target instanceof Player) {
-//				Set<Integer> playerIndexes = region.getPlayerIndexes();
-//				if (playerIndexes == null)
-//					continue;
-//				for (int playerIndex : playerIndexes) {
-//					Player p2 = World.getPlayers().get(playerIndex);
-//					if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target.getTile(), maxDistance) || !player.getControllerManager().canHit(p2))
-//						continue;
-//					possibleTargets.add(p2);
-//					if (possibleTargets.size() == maxAmtTargets)
-//						break y;
-//				}
-//			} else {
-				Set<Integer> npcIndexes = region.getNPCsIndexes();
-				if (npcIndexes == null)
+			Set<Integer> playerIndexes = region.getPlayerIndexes();
+			if (playerIndexes == null)
+				continue;
+			for (int playerIndex : playerIndexes) {
+				Player p2 = World.getPlayers().get(playerIndex);
+				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(tile, maxDistance) || !player.getControllerManager().canHit(p2))
 					continue;
-				for (int npcIndex : npcIndexes) {
-					NPC n = World.getNPCs().get(npcIndex);
-					if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
-						continue;
-					possibleTargets.add(n);
-					if (possibleTargets.size() == maxAmtTargets)
-						break y;
-				}
+				possibleTargets.add(p2);
+				if (possibleTargets.size() == maxAmtTargets)
+					break y;
 			}
-//		}
+			Set<Integer> npcIndexes = region.getNPCsIndexes();
+			if (npcIndexes == null)
+				continue;
+			for (int npcIndex : npcIndexes) {
+				NPC n = World.getNPCs().get(npcIndex);
+				if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
+					continue;
+				possibleTargets.add(n);
+				if (possibleTargets.size() == maxAmtTargets)
+					break y;
+			}
+		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
 	
@@ -968,7 +965,7 @@ public class PlayerCombat extends PlayerAction {
 							World.sendSpotAnim(player, new SpotAnim(478), tile);
 							for (Entity entity : getMultiAttackTargets(player, new WorldTile(target.getTile()), 1, 9)) {
 								Hit hit = getMeleeHit(player, getRandomMaxHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25));
-								addXp(player, entity, attackStyle, hit);
+								addXp(player, entity, attackStyle.getXpType(), hit);
 								if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
 									target.getPoison().makePoisoned(48);
 								entity.applyHit(hit);
@@ -1071,7 +1068,7 @@ public class PlayerCombat extends PlayerAction {
 												break;
 					} else if (target instanceof NPC n)
 						if (hit2.getDamage() != 0)
-							n.lowerDefense(hit2.getDamage() / 10);
+							n.lowerDefense(hit2.getDamage() / 10, 0.0);
 					break;
 				case 11061: // ancient mace
 					player.setNextAnimation(new Animation(6147));
@@ -1101,7 +1098,7 @@ public class PlayerCombat extends PlayerAction {
 
 					if (hit1.getDamage() != 0)
 						if (target instanceof NPC n)
-							n.lowerDefense(0.30f);
+							n.lowerDefense(0.30, 0.0);
 						else if (target instanceof Player p)
 							p.getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
 
@@ -1141,6 +1138,9 @@ public class PlayerCombat extends PlayerAction {
 						target.freeze(Ticks.fromSeconds(18), false);
 					}
 					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, zgsdamage));
+					break;
+				case 3101: //rune claws
+					//spotanim 274
 					break;
 				case 14484: // d claws
 				case 23695:
@@ -1253,7 +1253,7 @@ public class PlayerCombat extends PlayerAction {
 										p.getSkills().drainLevel(i, 7);
 								p.sendMessage("Your stats have been drained!");
 							} else if (target instanceof NPC n)
-								n.lowerDefense(0.05f);
+								n.lowerDefense(0.05, 0.0);
 							if (!nextTarget)
 								nextTarget = true;
 							return nextTarget;
@@ -1556,7 +1556,7 @@ public class PlayerCombat extends PlayerAction {
 				def = Math.floor(defLvl * (defBonus + 64));
 
 				if (!ranging)
-					if (p2.getFamiliar() instanceof Steeltitan)
+					if (p2.getFamiliarPouch() == Pouch.STEEL_TITAN)
 						def *= 1.15;
 			} else {
 				NPC n = (NPC) target;
@@ -1839,7 +1839,7 @@ public class PlayerCombat extends PlayerAction {
 				hitSucc.run();
 		} else if (hitFail != null)
 			hitFail.run();
-		addXp(player, target, attackStyle, hit);
+		addXp(player, target, attackStyle.getXpType(), hit);
 		checkPoison(player, target, weaponId, hit);
 	}
 
@@ -1887,8 +1887,56 @@ public class PlayerCombat extends PlayerAction {
 							target.getPoison().makePoisoned(48);
 				}
 	}
+	
+	public static void addXpFamiliar(Player player, Entity target, XPType xpType, Hit hit) {
+		double combatXp;
+		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
+		double hpXp = (damage / 7.5);
+		if (hpXp > 0)
+			player.getSkills().addXp(Constants.HITPOINTS, hpXp);
+		switch(xpType) {
+		case ACCURATE:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.ATTACK, combatXp);
+			break;
+		case AGGRESSIVE:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.STRENGTH, combatXp);
+			break;
+		case CONTROLLED:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.ATTACK, combatXp / 3);
+			player.getSkills().addXp(Constants.STRENGTH, combatXp / 3);
+			player.getSkills().addXp(Constants.DEFENSE, combatXp / 3);
+			break;
+		case DEFENSIVE:
+			combatXp = (damage / 2.5);
+			player.getSkills().addXp(Constants.DEFENSE, combatXp);
+			break;
+		case MAGIC:
+			combatXp = (damage / 2.5);
+			if (combatXp > 0)
+				player.getSkills().addXp(Constants.MAGIC, combatXp);
+			break;
+		case RANGED:
+		case RANGED_DEFENSIVE:
+			combatXp = (damage / 2.5);
+			if (xpType == XPType.RANGED_DEFENSIVE) {
+				player.getSkills().addXp(Constants.RANGE, combatXp / 2);
+				player.getSkills().addXp(Constants.DEFENSE, combatXp / 2);
+			} else
+				player.getSkills().addXp(Constants.RANGE, combatXp);
+			break;
+		case PRAYER:
+			combatXp = (damage / 10.0);
+			player.getSkills().addXp(Constants.PRAYER, combatXp);
+			break;
+		default:
+			break;
+		}
+	}
 
-	public static void addXp(Player player, Entity target, AttackStyle attackStyle, Hit hit) {
+	public static void addXp(Player player, Entity target, XPType xpType, Hit hit) {
 		double combatXp;
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
 		switch (hit.getLook()) {
@@ -1910,7 +1958,7 @@ public class PlayerCombat extends PlayerAction {
 				break;
 			case MELEE_DAMAGE:
 				combatXp = (damage / 2.5);
-				switch (attackStyle.getXpType()) {
+				switch (xpType) {
 					case ACCURATE:
 						player.getSkills().addXp(Constants.ATTACK, combatXp);
 						break;
@@ -1931,7 +1979,7 @@ public class PlayerCombat extends PlayerAction {
 				break;
 			case RANGE_DAMAGE:
 				combatXp = (damage / 2.5);
-				if (attackStyle.getXpType() == XPType.RANGED_DEFENSIVE) {
+				if (xpType == XPType.RANGED_DEFENSIVE) {
 					player.getSkills().addXp(Constants.RANGE, combatXp / 2);
 					player.getSkills().addXp(Constants.DEFENSE, combatXp / 2);
 				} else

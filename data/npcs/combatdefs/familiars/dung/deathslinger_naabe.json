@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Naabe deathslinger"
+  ],
+  "attackAnim": 13203,
+  "defenceAnim": 13614,
+  "deathAnim": 13669,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 812,
+  "maxHit": 192,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 80,
+    "STRENGTH": 1,
+    "DEFENSE": 80,
+    "MAGE": 1
+  },
+  "attackRange": 6,
+  "attackGfx": -1,
+  "attackProjectile": 2448,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

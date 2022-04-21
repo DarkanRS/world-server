@@ -62,14 +62,7 @@ public class Miscellania {
 		}
 	};
 
-	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { 46274, 46275, 46277 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().sendMessage("You'd better leave that to the serfs.");
-		}
-	};
-
-	public static ObjectClickHandler handleMiscTeak = new ObjectClickHandler(new Object[] { 15062 }, new WorldTile(2594, 3890, 0)) {
+	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { 46274, 46275, 46277, 15062 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().sendMessage("You'd better leave that to the serfs.");

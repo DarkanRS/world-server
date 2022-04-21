@@ -24,12 +24,14 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import com.rs.utils.Ticks;
 
 public class ForgottenMage extends CombatScript {
 
@@ -76,6 +78,12 @@ public class ForgottenMage extends CombatScript {
 		int attack = POSSIBLE_ATTACKS[Utils.random(POSSIBLE_ATTACKS.length)];
 		if ((npc instanceof YkLagorMage || npc instanceof SkeletalAdventurer) && attack <= 8)
 			return 0;
+		if(!(npc instanceof YkLagorMage || npc instanceof SkeletalAdventurer) && target instanceof Player player
+				&& player.getEquipment().containsOneItem(17279, 15828)
+				&& !player.getTempAttribs().getB("ShadowSilkSpellDisable")) {
+			sendAntiSilkHoodSpell(npc, player);
+			return 5;
+		}
 		if (attack >= 0 && attack <= 8) {
 			double drainRate = attack < 2 ? .95 : attack > 6 ? .90 : 0.0;
 			sendWeaken(npc, target, ATTACK_ANIMATIONS[attack], START_GRAPHICS[attack], HIT_GRAPHICS[attack], PROJECTILES[attack], SKILLS[attack], drainRate);
@@ -106,17 +114,37 @@ public class ForgottenMage extends CombatScript {
 		World.sendProjectile(npc, target, projectileId, 39, 18, 55, 1.2, 5, 0);
 		if (hit > 0) {
 			WorldTasks.schedule(new WorldTask() {
-
 				@Override
 				public void run() {
 					if (target instanceof Player player)
 						if (percentDrain == 0)
 							player.freeze(skill == 0 ? 8 : skill == 1 ? 12 : 16, true);
 						else
-							player.getSkills().set(skill, (int) (player.getSkills().getLevel(skill) * percentDrain));
+							if(player.getSkills().getLevel(skill) > player.getSkills().getLevelForXp(skill)*0.93)
+								player.getSkills().set(skill, (int) (player.getSkills().getLevel(skill) * percentDrain));
 				}
 			}, 2);
 			target.setNextSpotAnim(new SpotAnim(hit, 140, 85));
 		}
+	}
+
+	private void sendAntiSilkHoodSpell(NPC npc, final Player player) {
+		npc.setNextAnimation(new Animation(6293));
+		npc.setNextSpotAnim(new SpotAnim(1059));
+		WorldTasks.schedule(new WorldTask() {
+			@Override
+			public void run() {
+				player.setNextSpotAnim(new SpotAnim(736, 0, 50));
+				player.getTempAttribs().setB("ShadowSilkSpellDisable", true);
+				player.sendMessage("<col=ff6f69>Your Shadow Silk Hood loses its power...");
+				WorldTasks.delay(Ticks.fromMinutes(2), () -> {
+					if(player.hasStarted()) {
+						if(player.getTempAttribs().getB("ShadowSilkSpellDisable"))
+							player.sendMessage("<col=96ceb4>Your Shadow Silk hood returns its power...");
+						player.getTempAttribs().setB("ShadowSilkSpellDisable", false);
+					}
+				});
+			}
+		}, 2);
 	}
 }

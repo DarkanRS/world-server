@@ -26,7 +26,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.BodyGlow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.pet.Pet;

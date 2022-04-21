@@ -241,8 +241,8 @@ public class CountDraynorBoss extends OwnedNPC {
 					}
 					if(tick == 22) {
 						if(p.getInventory().containsItem(GARLIC, 1)) {
-							countDraynor.lowerDefense(5);
-							countDraynor.lowerStrength(5);
+							countDraynor.lowerDefense(5, 0.0);
+							countDraynor.lowerStrength(5, 0.0);
 							p.sendMessage("The garlic has weakened Count Draynor...");
 						}
 						p.getPackets().sendResetCamera();

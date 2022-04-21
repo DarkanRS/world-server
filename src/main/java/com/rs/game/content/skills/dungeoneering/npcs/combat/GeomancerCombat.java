@@ -68,7 +68,7 @@ public class GeomancerCombat extends CombatScript {
 				sendEarthBlast(npc, target, true);
 			else {
 				npc.setNextAnimation(new Animation(12989));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 			}
 			break;
 		case 1:// EARTH BLAST
@@ -98,7 +98,7 @@ public class GeomancerCombat extends CombatScript {
 				continue;
 			t.setNextSpotAnim(new SpotAnim(2726, 75, 100));
 			World.sendProjectile(npc, t, 2720, 50, 18, 50, 50, 0, 0);
-			delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MAGE) * .7), AttackStyle.MAGE, t)));
+			delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * .7), AttackStyle.MAGE, t)));
 		}
 	}
 
@@ -108,7 +108,7 @@ public class GeomancerCombat extends CombatScript {
 		npc.removeTarget();
 		World.sendProjectile(npc, target, 178, 40, 18, 55, 70, 5, 0);
 
-		int damage = getMaxHit(npc, (int) (npc.getMaxHit(AttackStyle.MAGE) * 0.95), AttackStyle.MAGE, target);
+		int damage = getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MAGE) * 0.95), AttackStyle.MAGE, target);
 
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(180, 75, 100));
@@ -126,7 +126,7 @@ public class GeomancerCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(12992));
 		World.sendProjectile(npc, target, 106, 40, 18, 55, 70, 5, 0);
 
-		int damage = getMaxHit(npc, AttackStyle.MAGE, target);
+		int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 
 		if (damage > 0) {
 			target.setNextSpotAnim(new SpotAnim(107, 75, 150));
@@ -149,7 +149,7 @@ public class GeomancerCombat extends CombatScript {
 		boolean hasDrained = false;
 
 		for (Entity t : npc.getPossibleTargets()) {
-			int damage = getMaxHit(npc, AttackStyle.MAGE, t);
+			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t);
 
 			if (damage > 0)
 				if (t instanceof Player player)

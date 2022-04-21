@@ -19,7 +19,7 @@ package com.rs.game.model.entity.npc.pet;
 import com.rs.game.content.Effect;
 import com.rs.game.content.pet.PetDetails;
 import com.rs.game.content.pet.Pets;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -41,13 +41,17 @@ public final class Pet extends NPC {
 		this.details = details;
 		pet = Pets.forId(itemId);
 		setIgnoreNPCClipping(true);
-		setBlocksOtherNPCs(false);
 		if (pet == Pets.TROLL_BABY && owner.getPetManager().getTrollBabyName() != null)
 			setName(owner.getPetManager().getTrollBabyName());
 		if (details != null) {
 			sendMainConfigurations();
 			sendFollowerDetails();
 		}
+	}
+	
+	@Override
+	public boolean blocksOtherNpcs() {
+		return false;
 	}
 
 	@Override

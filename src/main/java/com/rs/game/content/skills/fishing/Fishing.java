@@ -156,9 +156,7 @@ public class Fishing extends PlayerAction {
 
     @Override
     public int processWithDelay(Player player) {
-        int level = player.getSkills().getLevel(Constants.FISHING);
-        if (player.getFamiliar() != null)
-            level += getSpecialFamiliarBonus(player.getFamiliar().getId());
+        int level = player.getSkills().getLevel(Constants.FISHING) + player.getInvisibleSkillBoost(Skills.FISHING);
         for (Fish f : spot.getFish())
             if (f.checkRequirements(player) && f.rollSuccess(player, level)) {
                 f.giveFish(player, spot);
@@ -201,17 +199,6 @@ public class Fishing extends PlayerAction {
     @Override
     public void stop(final Player player) {
         setActionDelay(player, 4);
-    }
-
-    public static int getSpecialFamiliarBonus(int id) {
-        switch (id) {
-            case 6796:
-            case 6795: //granite crab
-                return 1;
-            //ibis 3
-            //granite lobster 4
-        }
-        return 0;
     }
 
     public static boolean hasFishingSuit(Player player) {

@@ -43,7 +43,7 @@ public class UgiDialogue extends MatrixDialogue {
 			npc.finish();
 
 			player.getTreasureTrailsManager().setPhase(5);
-			player.getTreasureTrailsManager().setNextClue(TreasureTrailsManager.SOURCE_EMOTE);
+			player.getTreasureTrailsManager().setNextClue(TreasureTrailsManager.SOURCE_EMOTE, false);
 		} else if (stage == -1) {
 			sendNPCDialogue(npc.getId(), NORMAL, TreasureTrailsManager.UGI_BADREQS);
 			stage = -2;

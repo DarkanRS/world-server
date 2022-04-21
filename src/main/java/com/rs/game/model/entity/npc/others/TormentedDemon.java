@@ -26,7 +26,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -121,23 +120,19 @@ public final class TormentedDemon extends NPC {
 		combatStyle = 0;
 		damageTaken = new int[3];
 		prayer = 0;
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					drop();
-					reset();
-					setLocation(getRespawnTile());
-					finish();
-					setRespawnTask();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				drop();
+				reset();
+				setLocation(getRespawnTile());
+				finish();
+				setRespawnTask();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	private void sendRandomProjectile() {

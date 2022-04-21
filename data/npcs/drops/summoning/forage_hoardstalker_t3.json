@@ -1,0 +1,19 @@
+{
+    "names": [
+      "forage_hoardstalker_t3"
+    ],
+    "tables": [
+      {
+        "chance": 1.0,
+        "outOf": 5.0,
+        "dropOne": true,
+        "drops": [
+          { "id": 17634, "min": 1, "max": 1 },
+          { "id": 17428, "min": 1, "max": 1 },
+          { "id": 17686, "min": 1, "max": 1 },
+          { "id": 17452, "min": 1, "max": 1 },
+          { "id": 17801, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

@@ -45,7 +45,7 @@ public class WorldGorgerShukarhazhCombat extends CombatScript {
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
 				player.sendMessage("The creature crushes you as you move underneath it.");
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player)));
 			}
 		if (smash) {
 			npc.setNextAnimation(new Animation(14894));
@@ -54,12 +54,12 @@ public class WorldGorgerShukarhazhCombat extends CombatScript {
 
 		if (Utils.random(manager.getParty().getTeam().size() > 1 ? 20 : 5) == 0 && WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 			npc.setNextAnimation(new Animation(14892));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 		} else {
 			npc.setNextAnimation(new Animation(14893));
 			npc.setNextSpotAnim(new SpotAnim(2846, 0, 100));
 			target.setNextSpotAnim(new SpotAnim(2848, 75, 100));
-			delayHit(npc, 2, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)));
+			delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 		}
 		return 6;
 	}

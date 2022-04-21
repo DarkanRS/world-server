@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Fire Warrior of Lesarkus"
+  ],
+  "attackAnim": 2791,
+  "defenceAnim": 424,
+  "deathAnim": 836,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 590,
+  "maxHit": 80,
+  "attackStyle": "MAGE",
+  "combatLevels": {
+    "ATTACK": 78,
+    "RANGE": 1,
+    "STRENGTH": 78,
+    "DEFENSE": 78,
+    "MAGE": 62
+  },
+  "attackRange": -1,
+  "attackGfx": 2728,
+  "attackProjectile": 2735,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

@@ -1,0 +1,15 @@
+{
+    "names": [
+      "forage_evil_turnip"
+    ],
+    "tables": [
+      {
+        "chance": 1.0,
+        "outOf": 12.0,
+        "dropOne": true,
+        "drops": [
+          { "id": 12136, "min": 1, "max": 1 }
+        ]
+      }
+    ]
+  }

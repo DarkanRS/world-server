@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Zakl'n Gritch"
+  ],
+  "attackAnim": 6945,
+  "defenceAnim": 65,
+  "deathAnim": 67,
+  "deathDelay": 4,
+  "respawnDelay": 149,
+  "hitpoints": 1500,
+  "maxHit": 265,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 83,
+    "RANGE": 150,
+    "STRENGTH": 76,
+    "DEFENSE": 127,
+    "MAGE": 50
+  },
+  "attackRange": -1,
+  "attackGfx": 1208,
+  "attackProjectile": 1209,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

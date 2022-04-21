@@ -1,1 +1,48 @@
-0-48 1 tone notes
+1926-1930: "You dare steal my power" Yk'Lagor Thunderous boss Dungeoneering
+1931-1932: Glass blowing pipe
+1933-1936: More demon voices, same as steal my power
+1937-1942: Dungeoneering/haunted whispering voices2
+1943-1956:Haunted ambient ghost sounds
+1960: Boulder moving
+1961: Carriage like a horse
+1962: carriage like a horse river
+1963: carriage like a horse with background
+1965-1970: chicken noises
+1971-1978:Background tension sounds
+1979-1990: Gourd/bass drum sounds
+1991-2007: Guitar endings
+2008-2016: Scribble, added quest progress
+2017-2023:Paper folding/movement, or book opening(can use this)
+2024-2025: Chicken sounds
+2036: Ring on orb
+2037: Pig snort
+2038-2039: Man sounds
+2040-2079: Cow sounds
+2080-2087: Duck sounds
+2088-2107: Damage/death sounds to male player(important) also 2141-2144 are deathvoices for player
+2222-2358: Damage/death sounds to male player2
+2359-2451: Damage/death sounds to female player
+2459, 2462, 2468, 2470, 2896: Tokash bloodchiller dung boss
+-3774
+
+77850 Voice at end of druidic ritual
+77768 did you bring me the ingredients Sanfew druidic ritual
+
+
+77800-78100: Burthrope voices
+77565: Wicked hood dialogue
+77781: Throwing up fed pie quest.
+77991: Fed obese quest in taverly
+
+Druidic Ritual: 77445, 77390, 77298
+Sanfew: 77479, 77385, 77394, 77353, 77378, 77327, 77301, 77309, 77257
+Summoning dude: 77387, 77397, 77351, 77352, 77379, 77339, 77281, 77292, 77259, 77263
+Tom Mcgruber:
+let them eat pie quest: 77429, 77431, 77396, 77358, 77361, 77365, 77328, 77286
+Random female: 77300, 77293
+Dwarf male:
+Little girl: 77250, 77251
+
+
+
+

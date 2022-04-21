@@ -62,10 +62,8 @@ import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
 import com.rs.game.content.skills.smithing.GodSwordCreation;
-import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.content.skills.summoning.Summoning.Pouch;
-import com.rs.game.content.skills.summoning.familiars.Familiar;
-import com.rs.game.content.skills.summoning.familiars.Packyak;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.content.world.LightSource;
 import com.rs.game.model.entity.ForceTalk;
@@ -120,30 +118,25 @@ public class InventoryOptionsHandler {
 		player.resetWalkSteps();
 		player.setNextAnimation(new Animation(830));
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.unlock();
-				if (player.getTreasureTrailsManager().useDig() || BarrowsController.digIntoGrave(player))
-					return;
-				if (player.getX() == 3005 && player.getY() == 3376 || player.getX() == 2999 && player.getY() == 3375 || player.getX() == 2996 && player.getY() == 3377 || player.getX() == 2989 && player.getY() == 3378 || player.getX() == 2987
-						&& player.getY() == 3387 || player.getX() == 2984 && player.getY() == 3387) {
-					// mole
-					player.setNextWorldTile(new WorldTile(1752, 5137, 0));
-					player.sendMessage("You seem to have dropped down into a network of mole tunnels.");
-					return;
-				}
-				if (Utils.getDistance(player.getTile(), new WorldTile(2749, 3734, 0)) < 3) {
-					player.useStairs(-1, new WorldTile(2690, 10124, 0), 0, 1);
-					return;
-				}
-				//Pirate's Treasure
-				if(player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.GET_TREASURE)
-					PiratesTreasure.findTreasure(player);
-				player.sendMessage("You find nothing.");
+		WorldTasks.schedule(() -> {
+			player.unlock();
+			if (player.getTreasureTrailsManager().useDig(false) || BarrowsController.digIntoGrave(player))
+				return;
+			if (player.getX() == 3005 && player.getY() == 3376 || player.getX() == 2999 && player.getY() == 3375 || player.getX() == 2996 && player.getY() == 3377 || player.getX() == 2989 && player.getY() == 3378 || player.getX() == 2987
+					&& player.getY() == 3387 || player.getX() == 2984 && player.getY() == 3387) {
+				// mole
+				player.setNextWorldTile(new WorldTile(1752, 5137, 0));
+				player.sendMessage("You seem to have dropped down into a network of mole tunnels.");
+				return;
 			}
-
+			if (Utils.getDistance(player.getTile(), new WorldTile(2749, 3734, 0)) < 3) {
+				player.useStairs(-1, new WorldTile(2690, 10124, 0), 0, 1);
+				return;
+			}
+			//Pirate's Treasure
+			if(player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.GET_TREASURE)
+				PiratesTreasure.findTreasure(player);
+			player.sendMessage("You find nothing.");
 		});
 	}
 
@@ -481,12 +474,11 @@ public class InventoryOptionsHandler {
 			return true;
 		}
 
-		if (usedId == 12435)
-			if (player.getFamiliar() != null)
-				if (player.getFamiliar() instanceof Packyak) {
-					player.getFamiliar().submitSpecial(toSlot);
-					return true;
-				}
+		if (usedId == 12435 && player.getFamiliarPouch() == Pouch.PACK_YAK) {
+			usedWith.setSlot(usedWith.getSlot());
+			player.getFamiliar().castSpecial(usedWith);
+			return true;
+		}
 
 		if (usedWith.getId() == 946 || used.getId() == 946) {
 			CuttableFruit fruit = CuttableFruit.forId(used.getId());
@@ -590,13 +582,8 @@ public class InventoryOptionsHandler {
 		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(3))))
 			return;
 		player.stopAll(false);
-		Pouch pouches = Pouch.forId(itemId);
-		if (pouches != null) {
-			if (player.getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
-				Summoning.spawnFamiliar(player, pouches);
-			else
-				player.sendMessage("You need a summoning level of " + pouches.getLevel() + " to summon this familiar.");
-		} else if (itemId == 1438)
+
+		if (itemId == 1438)
 			Runecrafting.locate(player, 3127, 3405);
 		else if (itemId == 1440)
 			Runecrafting.locate(player, 3306, 3474);
@@ -664,7 +651,7 @@ public class InventoryOptionsHandler {
 				ItemConstants.handleRepairs(player, item, false, slot);
 				return;
 			}
-			if (npc instanceof Familiar) {
+			if (npc instanceof Familiar f && f.getPouch() == Pouch.GEYSER_TITAN) {
 				if (npc.getId() == 7339 || npc.getId() == 7339)
 					if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {
 						for (Item i : player.getInventory().getItems().array()) {

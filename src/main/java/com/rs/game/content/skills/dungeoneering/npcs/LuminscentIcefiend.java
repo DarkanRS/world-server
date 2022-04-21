@@ -139,7 +139,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 				for (WorldTile tile : icicles) {
 					entityLoop: for (Entity t : getPossibleTargets()) {
 						Player player = (Player) t;
-						if (player.getTempAttribs().getB("FIEND_FLAGGED"))
+						if (!player.getTempAttribs().getB("FIEND_FLAGGED"))
 							continue entityLoop;
 
 						WorldTile nextTile = World.getFreeTile(player.getTile(), 1);

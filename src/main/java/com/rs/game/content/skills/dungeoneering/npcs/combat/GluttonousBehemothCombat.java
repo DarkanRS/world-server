@@ -77,7 +77,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				stomp = true;
-				delayHit(npc, 0, player, getRegularHit(npc, getMaxHit(npc, AttackStyle.MELEE, player)));
+				delayHit(npc, 0, player, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, player)));
 			}
 		if (stomp) {
 			npc.setNextAnimation(new Animation(13718));
@@ -87,7 +87,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		if (attackStyle == 2) {
 			if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, AttackStyle.MELEE, target)));
+				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 				return npc.getAttackSpeed();
 			}
 			attackStyle = Utils.getRandomInclusive(1);
@@ -95,7 +95,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		if (attackStyle == 0) {
 			npc.setNextAnimation(new Animation(13719));
 			World.sendProjectile(npc, target, 2612, 41, 16, 41, 35, 16, 0);
-			int damage = getMaxHit(npc, AttackStyle.MAGE, target);
+			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			if (damage != 0)
 				WorldTasks.schedule(new WorldTask() {
@@ -107,7 +107,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 		} else if (attackStyle == 1) {
 			npc.setNextAnimation(new Animation(13721));
 			World.sendProjectile(npc, target, 2610, 41, 16, 41, 35, 16, 0);
-			delayHit(npc, 2, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)));
+			delayHit(npc, 2, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
