@@ -40,7 +40,7 @@ public class Foods {
 		YULE_LOGS(15430, 1),
 		MULLED_WINE(15431, 1),
 
-		CRAFISH(13433, 2),
+		CRAYFISH(13433, 2),
 
 		KINGWORM(2162, 2),
 

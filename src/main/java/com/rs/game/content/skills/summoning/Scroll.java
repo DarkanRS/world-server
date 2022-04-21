@@ -103,7 +103,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
 			familiar.setNextAnimation(new Animation(8164));
-			int num = Utils.random(5);
+			int num = Utils.random(6);
 			Set<Integer> spawned = new HashSet<>();
 			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
 				if (spawned.size() >= num)
@@ -469,7 +469,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
-			//spotanim 1337
+			//sync 8199, 1337
 			return false;
 		}
 	},
@@ -485,6 +485,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 7911 7912
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -516,6 +517,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 7820
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -523,6 +525,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
+			//anim 7682
 			return false;
 		}
 	},
@@ -530,6 +533,7 @@ public enum Scroll {
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
 			//TODO
+			//anim 8159
 			return false;
 		}
 	},
@@ -537,6 +541,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 8214
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -552,37 +557,102 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO spotanim 1400
+			//anim 7703 shoot
+			//anim 7704 load
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
 	TESTUDO(12439, ScrollTarget.CLICK, "Temporarily boosts the player's defense level by 8 points.", 0.7, 20) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			//1414
-			player.getSkills().adjustStat(8, 0.0, Constants.DEFENSE); //TODO gfx
+			familiar.sync(8288, 1414);
+			player.getSkills().adjustStat(8, 0.0, Constants.DEFENSE);
 			return true;
 		}
 	},
 	SWALLOW_WHOLE(12438, ScrollTarget.ITEM, "Allows a player to eat a raw fish (assuming the player has the proper cooking level for it). Also does not trigger the eat timer.", 1.4, 3) {
+		enum Fish {
+			CRAYFISH(13435, 2),
+			SHRIMP(317, 3),
+			ANCHOVIES(321, 1),
+			SARDINE(327, 3),
+			HERRING(345, 5),
+			MACKEREL(353, 6),
+			TROUT(335, 7),
+			COD(341, 7),
+			PIKE(349, 8),
+			SALMON(331, 9),
+			TUNA(359, 10),
+			LOBSTER(377, 12),
+			BASS(363, 13),
+			SWORDFISH(371, 14),
+			MONKFISH(7944, 16),
+			SHARK(383, 20),
+			TURTLE(395, 21),
+			MANTA(389, 22),
+			CAVEFISH(15264, 22),
+			ROCKTAIL(15270, 23);
+			
+			int id, heal;
+			
+			Fish(int id, int heal) {
+				this.id = id;
+				this.heal = heal;
+			}
+			
+			static Fish forId(int id) {
+				for (Fish f : Fish.values())
+					if (f.id == id)
+						return f;
+				return null;
+			}
+		}
+		
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
-			//TODO
-			return false;
+			Fish fish = Fish.forId(item.getId());
+			if (fish == null) {
+				owner.sendMessage("Your bunyip can only eat raw fish.");
+				return false;
+			}
+			owner.getInventory().deleteItem(item);
+			familiar.sync(7747, 1481);
+			owner.heal(fish.heal * 10);
+			return true;
 		}
 	},
 	FRUITFALL(12423, ScrollTarget.CLICK, "Drops from 0-5 random fruit on the ground around the player.", 1.4, 6) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			//spotanim 1331
-			//8320 8321
-			return false;
+			//TODO 8320 8321 interaction to search for fruit
+			familiar.anim(8277);
+			int num = Utils.random(7);
+			Set<Integer> spawned = new HashSet<>();
+			boolean papaya = true;
+			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
+				if (spawned.size() >= num)
+					break;
+				WorldTile tile = World.findAdjacentFreeTile(owner.getTile());
+				if (spawned.contains(tile.getTileHash()))
+					continue;
+				spawned.add(tile.getTileHash());
+				World.sendSpotAnim(owner, new SpotAnim(1331), tile);
+				final boolean spawnPapaya = papaya;
+				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(spawnPapaya ? 5972 : randomFruit(), 1), tile, owner, true, 120));
+				papaya = false;
+			}
+			return true;
+		}
+		
+		private int randomFruit() {
+			return new int[] { 2102, 2108, 2114, 2120, 1963 }[Utils.random(5)];
 		}
 	},
 	FAMINE(12830, ScrollTarget.COMBAT, "Consumes a piece of the target's food.", 1.5, 12) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 7998 proj is swarm of bugs
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -603,8 +673,9 @@ public enum Scroll {
 	VOLCANIC_STRENGTH(12826, ScrollTarget.CLICK, "Boosts the player's strength level by 9 points.", 7.3, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			return false;
+			familiar.sync(8053, 1465);
+			owner.getSkills().adjustStat(9, 0.0, Constants.STRENGTH);
+			return true;
 		}
 	},
 	MANTIS_STRIKE(12450, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent dealing up to 100 damage, binding them for 3 seconds, and draining their prayer.", 3.7, 6) {
@@ -625,6 +696,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//emote 7871
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},

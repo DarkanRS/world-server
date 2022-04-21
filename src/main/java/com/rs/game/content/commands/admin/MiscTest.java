@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.commands.admin;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +41,6 @@ import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.summoning.Familiar;
-import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -61,7 +59,6 @@ import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -126,13 +123,6 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
 			p.setTileMan(true);
-		});
-		
-		Commands.add(Rights.DEVELOPER, "unffamiliars", "Spawns all unfinished familiar pouches to bank.", (p, args) -> {
-			for (Pouch pouch : Pouch.values()) {
-				if (pouch.getDespawnAnim() == 0)
-					p.getBank().addItem(new Item(pouch.getId(), 1), true);
-			}
 		});
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
