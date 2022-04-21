@@ -571,11 +571,54 @@ public enum Scroll {
 		}
 	},
 	SWALLOW_WHOLE(12438, ScrollTarget.ITEM, "Allows a player to eat a raw fish (assuming the player has the proper cooking level for it). Also does not trigger the eat timer.", 1.4, 3) {
+		enum Fish {
+			CRAYFISH(13435, 2),
+			SHRIMP(317, 3),
+			ANCHOVIES(321, 1),
+			SARDINE(327, 3),
+			HERRING(345, 5),
+			MACKEREL(353, 6),
+			TROUT(335, 7),
+			COD(341, 7),
+			PIKE(349, 8),
+			SALMON(331, 9),
+			TUNA(359, 10),
+			LOBSTER(377, 12),
+			BASS(363, 13),
+			SWORDFISH(371, 14),
+			MONKFISH(7944, 16),
+			SHARK(383, 20),
+			TURTLE(395, 21),
+			MANTA(389, 22),
+			CAVEFISH(15264, 22),
+			ROCKTAIL(15270, 23);
+			
+			int id, heal;
+			
+			Fish(int id, int heal) {
+				this.id = id;
+				this.heal = heal;
+			}
+			
+			static Fish forId(int id) {
+				for (Fish f : Fish.values())
+					if (f.id == id)
+						return f;
+				return null;
+			}
+		}
+		
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
-			//TODO
-			//anim 7746
-			return false;
+			Fish fish = Fish.forId(item.getId());
+			if (fish == null) {
+				owner.sendMessage("Your bunyip can only eat raw fish.");
+				return false;
+			}
+			owner.getInventory().deleteItem(item);
+			familiar.sync(7747, 1481);
+			owner.heal(fish.heal * 10);
+			return true;
 		}
 	},
 	FRUITFALL(12423, ScrollTarget.CLICK, "Drops from 0-5 random fruit on the ground around the player.", 1.4, 6) {
