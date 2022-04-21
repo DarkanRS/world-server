@@ -469,7 +469,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
-			//spotanim 1337
+			//sync 8199, 1337
 			return false;
 		}
 	},
@@ -485,6 +485,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 7911 7912
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -516,6 +517,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 7820
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -523,6 +525,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
+			//anim 7682
 			return false;
 		}
 	},
@@ -530,6 +533,7 @@ public enum Scroll {
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
 			//TODO
+			//anim 8159
 			return false;
 		}
 	},
@@ -537,6 +541,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 8214
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -552,14 +557,16 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO spotanim 1400
+			//anim 7703 shoot
+			//anim 7704 load
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
 	TESTUDO(12439, ScrollTarget.CLICK, "Temporarily boosts the player's defense level by 8 points.", 0.7, 20) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			//1414
-			player.getSkills().adjustStat(8, 0.0, Constants.DEFENSE); //TODO gfx
+			familiar.sync(8288, 1414);
+			player.getSkills().adjustStat(8, 0.0, Constants.DEFENSE);
 			return true;
 		}
 	},
@@ -567,6 +574,7 @@ public enum Scroll {
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
 			//TODO
+			//anim 7746
 			return false;
 		}
 	},
@@ -574,8 +582,10 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			//TODO
-			//spotanim 1331
-			//8320 8321
+			//anim 8277 fruitfall
+			//spotanim 1331 falling fruit
+			
+			//8320 8321 interaction to search for fruit
 			return false;
 		}
 	},
@@ -583,6 +593,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//anim 7998 proj is swarm of bugs
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -603,7 +614,8 @@ public enum Scroll {
 	VOLCANIC_STRENGTH(12826, ScrollTarget.CLICK, "Boosts the player's strength level by 9 points.", 7.3, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
+			familiar.sync(8053, 1465);
+			owner.getSkills().adjustStat(9, 0.0, Constants.STRENGTH);
 			return false;
 		}
 	},
@@ -625,6 +637,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//emote 7871
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
