@@ -879,9 +879,13 @@ public class Player extends Entity {
 				this.reset();
 				getEquipment().reset();
 				getInventory().reset();
-				getInventory().addItem(15707, 1);
+				ArrayList<Double> itemsEnter = (ArrayList<Double>)savingAttributes.get("dungeoneering_enter_floor_inventory");
+				for(int i = 0; i < itemsEnter.size(); i++)
+					if ((i % 2) == 0)
+						getInventory().addItem(itemsEnter.get(i).intValue(), itemsEnter.get(i+1).intValue());
 			}
 			delete("isLoggedOutInDungeon");
+			delete("dungeoneering_enter_floor_inventory");
 		}
 		if (getI("cutsceneManagerStartTileX") != -1) {
 			WorldTile tile = new WorldTile(getI("cutsceneManagerStartTileX"), getI("cutsceneManagerStartTileY"), getI("cutsceneManagerStartTileZ"));

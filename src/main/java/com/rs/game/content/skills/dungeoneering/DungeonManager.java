@@ -504,7 +504,7 @@ public class DungeonManager {
 					if (party.isGuideMode())
 						player.sendMessage("<col=641d9e>Guide Mode ON");
 					player.sendMessage("");
-					player.lock(2);
+					player.lock(1);
 				}
 				resetGatestone();
 			}

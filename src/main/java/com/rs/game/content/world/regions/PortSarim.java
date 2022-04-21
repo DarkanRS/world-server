@@ -26,23 +26,35 @@ import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.heroesquest.HeroesQuest;
 import com.rs.game.content.quests.handlers.knightssword.KnightsSword;
 import com.rs.game.content.quests.handlers.knightssword.ThurgoKnightsSwordD;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemAddedToInventoryEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.events.*;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PortSarim {
+
+	public static PlayerStepHandler musicRustyAnchorInn = new PlayerStepHandler(new WorldTile(3053, 3255, 0), new WorldTile(3053, 3254, 0),
+			new WorldTile(3053, 3259, 0), new WorldTile(3053, 3260, 0)) {
+		@Override
+		public void handle(PlayerStepEvent e) {
+			if(e.getTile().getY() == 3255 && e.getStep().getDir() == Direction.NORTH) {
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(719, true);
+				return;
+			}
+			if(e.getTile().getY() == 3259 && e.getStep().getDir() == Direction.SOUTH) {
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(719, true);
+				return;
+			}
+			if((e.getTile().getY() == 3260 || e.getTile().getY() == 3254) && e.getPlayer().getMusicsManager().isPlaying(719))
+				e.getPlayer().getMusicsManager().nextAmbientSong();
+		}
+	};
 
 	public static ItemOnNPCHandler handleThurgoItem = new ItemOnNPCHandler(604) {
 		@Override

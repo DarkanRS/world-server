@@ -119,6 +119,7 @@ public class WarriorsGuild extends Controller {
 			return false;
 		}
 		player.getControllerManager().startController(new WarriorsGuild());
+		player.getMusicsManager().playSpecificAmbientSong(634, true);
 		return true;
 	}
 
