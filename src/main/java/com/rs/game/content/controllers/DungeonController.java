@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.controllers;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.rs.Settings;
@@ -119,6 +120,23 @@ public class DungeonController extends Controller {
 
 	@Override
 	public void start() {
+		ArrayList<Integer> enterInventory = new ArrayList<>();
+		for (Item item : player.getEquipment().getItemsCopy())
+			if (!DungManager.isBannedDungItem(item)) {
+				if(item == null)
+					continue;
+				enterInventory.add(item.getId());
+				enterInventory.add(item.getAmount());
+			}
+		for (Item item : player.getInventory().getItems().array())
+			if (!DungManager.isBannedDungItem(item)) {
+				if(item == null)
+					continue;
+				enterInventory.add(item.getId());
+				enterInventory.add(item.getAmount());
+			}
+		player.delete("dungeoneering_enter_floor_inventory");
+		player.getSavingAttributes().put("dungeoneering_enter_floor_inventory", enterInventory.toArray());
 		showDeaths();
 		refreshDeaths();
 		player.setForceMultiArea(true);
@@ -857,6 +875,15 @@ public class DungeonController extends Controller {
 			return false;
 		case "summoning obelisk":
 			Summoning.openInfusionInterface(player, true);
+			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
+				player.sendMessage("You touch the obelisk", true);
+				player.setNextAnimation(new Animation(8502));
+				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				WorldTasks.schedule(2, () -> {
+					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
+					player.sendMessage("...and recharge your summoning points.", true);
+				});
+			}
 			return false;
 		case "group gatestone portal":
 			portalGroupStoneTeleport();
@@ -904,6 +931,17 @@ public class DungeonController extends Controller {
 		switch (name) {
 		case "runecrafting altar":
 			player.getDialogueManager().execute(new DungeoneeringRCD(), 1);
+			return false;
+		case "summoning obelisk":
+			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
+				player.sendMessage("You touch the obelisk", true);
+				player.setNextAnimation(new Animation(8502));
+				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				WorldTasks.schedule(2, () -> {
+					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
+					player.sendMessage("...and recharge your summoning points.", true);
+				});
+			}
 			return false;
 		}
 		return true;

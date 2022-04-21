@@ -615,6 +615,27 @@
     ]
   },
   {
+    "genre": "Tutorial Island",
+    "comment": "Played at the beginning of the game",
+    "isActive": true,
+    "regionIds": [
+      12080,
+      12079,
+      12336,
+      12592,
+      12335,
+      12436
+    ],
+    "songs": [
+      16,
+      62,
+      207,
+      400,
+      457,
+      621
+    ]
+  },
+  {
     "genre": "Ambient Dungeoneering",
     "parent": "Dungeoneering",
     "comment": "Called for dynamic room",

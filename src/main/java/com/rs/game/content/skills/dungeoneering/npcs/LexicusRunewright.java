@@ -66,7 +66,7 @@ public class LexicusRunewright extends DungeonBoss {
 
 	public void sendTeleport() {
 		setCantInteract(true);
-		setNextAnimation(new Animation(8939));
+		setNextAnimation(new Animation(13499));
 		setNextSpotAnim(new SpotAnim(1576));
 		WorldTasks.schedule(new WorldTask() {
 
@@ -80,7 +80,7 @@ public class LexicusRunewright extends DungeonBoss {
 					if (random % 1 == 0 && random != 0)
 						random -= 1;
 					setNextWorldTile(World.getFreeTile(getManager().getTile(getReference(), TELEPORT_LOCS[random], TELEPORT_LOCS[random + 1]), 2));
-					setNextAnimation(new Animation(8941));
+					setNextAnimation(new Animation(13500));
 					setNextSpotAnim(new SpotAnim(1577));
 				} else if (cycles == 4) {
 					setCantInteract(false);

@@ -1174,7 +1174,7 @@ public class DungManager {
 		if (item == null)
 			return false;
 		return switch(item.getId()) {
-		case 15707, 18508, 18509, 18510, 19709, 19710, 5733 -> false;
+		case 15707, 18508, 18509, 18510, 19709, 19710, 5733, 25349 -> false;
 		default -> true;
 		};
 	}
