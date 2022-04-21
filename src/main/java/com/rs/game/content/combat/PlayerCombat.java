@@ -1839,7 +1839,7 @@ public class PlayerCombat extends PlayerAction {
 				hitSucc.run();
 		} else if (hitFail != null)
 			hitFail.run();
-		addXp(player, target, attackStyle.getXpType(), hit);
+		addXp(player, target, attackStyle == null ? null : attackStyle.getXpType(), hit);
 		checkPoison(player, target, weaponId, hit);
 	}
 
