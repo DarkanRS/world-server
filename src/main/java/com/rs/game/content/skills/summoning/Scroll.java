@@ -468,9 +468,9 @@ public enum Scroll {
 	FISH_RAIN(12424, ScrollTarget.CLICK, "Produces a random, low-level fish next to the player.", 1.1, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			//TODO
-			//sync 8199, 1337
-			return false;
+			familiar.sync(8199, 1337);
+			WorldTasks.schedule(2, () -> World.addGroundItem(new Item(new int[] { 317, 341, 363, 353 }[Utils.random(4)]), new WorldTile(familiar.getTile()), owner, true, 120));
+			return true;
 		}
 	},
 	STEEL_BULL(12463, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 120 damage.", 5.6, 6) {
