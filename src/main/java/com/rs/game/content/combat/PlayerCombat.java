@@ -1889,6 +1889,8 @@ public class PlayerCombat extends PlayerAction {
 	}
 	
 	public static void addXpFamiliar(Player player, Entity target, XPType xpType, Hit hit) {
+		if (hit.getLook() != HitLook.MAGIC_DAMAGE || hit.getLook() != HitLook.RANGE_DAMAGE || hit.getLook() != HitLook.MELEE_DAMAGE)
+			return;
 		double combatXp;
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
 		double hpXp = (damage / 7.5);
