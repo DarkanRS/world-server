@@ -545,6 +545,14 @@ public class MiscTest {
 			}
 		});
 
+		Commands.add(Rights.ADMIN, "boostlevel [skillId level]", "Sets a skill to a specified level.", (p, args) -> {
+			int skill = Integer.parseInt(args[0]);
+			int level = Integer.parseInt(args[1]);
+
+			p.sendMessage("Boosting " + Skills.SKILL_NAME[skill] + " by " + level);
+			p.getSkills().set(skill, level);
+		});
+
 		Commands.add(Rights.DEVELOPER, "deathnpcs", "Kills all npcs around the player.", (p, args) -> {
 			for (NPC npc : World.getNPCs()) {
 				if (npc instanceof Familiar || npc instanceof Pet)

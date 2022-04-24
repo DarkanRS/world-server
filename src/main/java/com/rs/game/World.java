@@ -1135,7 +1135,7 @@ public final class World {
 	}
 
 	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type, int deleteTime) {
-		if (owner == null || (item.getId() == -1) || owner.getRights() == Rights.ADMIN)
+		if ((item.getId() == -1) || (owner != null && owner.getRights() == Rights.ADMIN))
 			return null;
 		if (type != DropMethod.NORMAL)
 			if (type == DropMethod.TURN_UNTRADEABLES_TO_COINS && !ItemConstants.isTradeable(item)) {
