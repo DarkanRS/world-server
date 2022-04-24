@@ -2308,12 +2308,25 @@ public class Interactions {
 	
 	public static void addExtraOps(Player player, Options ops, Familiar familiar) {
 		switch(familiar.getPouch()) {
-		case LAVA_TITAN:
-			ops.add("Teleport to Lava Maze", new Dialogue().addOptions("Are you sure you want to teleport here? It's very high wilderness.", yesNo -> {
-				yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, new WorldTile(3030, 3838, 0)));
-				yesNo.add("Nevermind. That sounds dangerous.");
-			}));
-			break;
+			case LAVA_TITAN:
+				ops.add("Teleport to Lava Maze", new Dialogue().addOptions("Are you sure you want to teleport here? It's very high wilderness.", yesNo -> {
+					yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, new WorldTile(3030, 3838, 0)));
+					yesNo.add("Nevermind. That sounds dangerous.");
+				}));
+				break;
+			case DREADFOWL:
+				ops.add("Boost Farming", new Dialogue().addNext(()->{
+					if(player.getSkills().getLevel(Skills.FARMING) <= player.getSkills().getLevelForXp(Skills.FARMING))
+						player.getSkills().set(Skills.FARMING, player.getSkills().getLevel(Skills.FARMING) + 1);
+				}));
+				break;
+			case COMPOST_MOUND:
+				ops.add("Boost Farming", new Dialogue().addNext(()->{
+					int boostAmount = (int)Math.ceil(1 + player.getSkills().getLevelForXp(Skills.FARMING) * 0.02);
+					if(player.getSkills().getLevel(Skills.FARMING) <= player.getSkills().getLevelForXp(Skills.FARMING))
+						player.getSkills().set(Skills.FARMING, player.getSkills().getLevel(Skills.FARMING) + boostAmount);
+				}));
+				break;
 		default:
 			break;
 		}
