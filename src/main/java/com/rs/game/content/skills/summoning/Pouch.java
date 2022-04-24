@@ -101,29 +101,29 @@ public enum Pouch {
 	SPIRIT_PENGATRICE(6883, 6884, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12103, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	SPIRIT_CORAXATRICE(6885, 6886, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12105, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
 	SPIRIT_VULATRICE(6887, 6888, XPType.MAGIC, 7765, 8551, Scroll.PETRIFYING_GAZE, 12107, 43, 0.9, 75.2, Ticks.fromMinutes(32), 5, "forage_cockatrice"),
-	PYRELORD(7377, 7378, XPType.AGGRESSIVE, 00000, 00000, Scroll.IMMENSE_HEAT, 12816, 46, 2.3, 202.4, Ticks.fromMinutes(32), 5),
-	MAGPIE(6824, -1, null, 00000, 00000, Scroll.THIEVING_FINGERS, 12041, 47, 0.9, 83.2, Ticks.fromMinutes(32), 5, "forage_magpie"),
-	BLOATED_LEECH(6843, 6844, XPType.ACCURATE, 00000, 00000, Scroll.BLOOD_DRAIN, 12061, 49, 2.4, 215.2, Ticks.fromMinutes(32), 5),
-	SPIRIT_TERRORBIRD(6794, 6795, XPType.CONTROLLED, 00000, 00000, Scroll.TIRELESS_RUN, 12007, 52, 0.7, 68.4, Ticks.fromMinutes(32), 6, 12),
-	ABYSSAL_PARASITE(6818, 6819, XPType.MAGIC, 00000, 00000, Scroll.ABYSSAL_DRAIN, 12035, 54, 1.1, 94.8, Ticks.fromMinutes(32), 6, 7),
-	SPIRIT_JELLY(6992, 6993, XPType.AGGRESSIVE, 00000, 00000, Scroll.DISSOLVE, 12027, 55, 5.5, 484.0, Ticks.fromMinutes(48), 6),
-	IBIS(6991, -1, null, 00000, 00000, Scroll.FISH_RAIN, 12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6, "forage_ibis") {
+	PYRELORD(7377, 7378, XPType.AGGRESSIVE, 8081, 8930, Scroll.IMMENSE_HEAT, 12816, 46, 2.3, 202.4, Ticks.fromMinutes(32), 5),
+	MAGPIE(6824, -1, null, 8005, 8553, Scroll.THIEVING_FINGERS, 12041, 47, 0.9, 83.2, Ticks.fromMinutes(32), 5, "forage_magpie"),
+	BLOATED_LEECH(6843, 6844, XPType.ACCURATE, 7711, 8567, Scroll.BLOOD_DRAIN, 12061, 49, 2.4, 215.2, Ticks.fromMinutes(32), 5),
+	SPIRIT_TERRORBIRD(6794, 6795, XPType.CONTROLLED, 8231, 8557, Scroll.TIRELESS_RUN, 12007, 52, 0.7, 68.4, Ticks.fromMinutes(32), 6, 12),
+	ABYSSAL_PARASITE(6818, 6819, XPType.MAGIC, 7669, 8556, Scroll.ABYSSAL_DRAIN, 12035, 54, 1.1, 94.8, Ticks.fromMinutes(32), 6, 7),
+	SPIRIT_JELLY(6992, 6993, XPType.AGGRESSIVE, 8513, 7075, Scroll.DISSOLVE, 12027, 55, 5.5, 484.0, Ticks.fromMinutes(48), 6),
+	IBIS(6991, -1, null, 8202, 8552, Scroll.FISH_RAIN, 12531, 56, 1.1, 98.8, Ticks.fromMinutes(32), 6, "forage_ibis") {
 		@Override
 		public boolean canRollForager(Player player) {
 			return player.getActionManager().doingAction(Fishing.class);
 		}
 	},
-	SPIRIT_KYATT(7365, 7366, XPType.ACCURATE, 00000, 00000, Scroll.AMBUSH, 12812, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
-	SPIRIT_LARUPIA(7337, 7338, XPType.CONTROLLED, 00000, 00000, Scroll.RENDING, 12784, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
-	SPIRIT_GRAAHK(7363, 7364, XPType.AGGRESSIVE, 00000, 00000, Scroll.GOAD, 12810, 57, 5.6, 501.6, Ticks.fromMinutes(48), 6),
+	SPIRIT_KYATT(7365, 7366, XPType.ACCURATE, 7909, 8917, Scroll.AMBUSH, 12812, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
+	SPIRIT_LARUPIA(7337, 7338, XPType.CONTROLLED, 7909, 8917, Scroll.RENDING, 12784, 57, 5.7, 501.6, Ticks.fromMinutes(48), 6),
+	SPIRIT_GRAAHK(7363, 7364, XPType.AGGRESSIVE, 7909, 8917, Scroll.GOAD, 12810, 57, 5.6, 501.6, Ticks.fromMinutes(48), 6),
 	KARAMTHULU_OVERLORD(6809, 6810, XPType.RANGED, 7969, 8543, Scroll.DOOMSPHERE, 12023, 58, 5.8, 510.4, Ticks.fromMinutes(48), 6),
-	SMOKE_DEVIL(6865, 6866, XPType.MAGIC, 00000, 00000, Scroll.DUST_CLOUD, 12085, 61, 3.1, 268.0, Ticks.fromMinutes(48), 7),
-	ABYSSAL_LURKER(6820, 6821, XPType.CONTROLLED, 00000, 00000, Scroll.ABYSSAL_STEALTH, 12037, 62, 1.9, 109.6, Ticks.fromMinutes(48), 7, 12),
-	SPIRIT_COBRA(6802, 6803, XPType.ACCURATE, 00000, 00000, Scroll.OPHIDIAN_INCUBATION, 12015, 63, 3.1, 276.8, Ticks.fromMinutes(48), 7),
-	STRANGER_PLANT(6827, 6828, XPType.CONTROLLED, 00000, 00000, Scroll.POISONOUS_BLAST, 12045, 64, 3.2, 281.6, Ticks.fromMinutes(48), 7, "forage_stranger_plant"),
-	BARKER_TOAD(6889, 6890, XPType.AGGRESSIVE, 00000, 00000, Scroll.TOAD_BARK, 12123, 66, 1.0, 87.0, Ticks.fromMinutes(48), 7),
-	WAR_TORTOISE(6815, 6816, XPType.DEFENSIVE, 00000, 00000, Scroll.TESTUDO, 12031, 67, 0.7, 58.6, Ticks.fromMinutes(48), 7, 18),
-	BUNYIP(6813, 6814, XPType.ACCURATE, 00000, 00000, Scroll.SWALLOW_WHOLE, 12029, 68, 1.4, 119.2, Ticks.fromMinutes(48), 7) {
+	SMOKE_DEVIL(6865, 6866, XPType.MAGIC, 7819, 8530, Scroll.DUST_CLOUD, 12085, 61, 3.1, 268.0, Ticks.fromMinutes(48), 7),
+	ABYSSAL_LURKER(6820, 6821, XPType.CONTROLLED, 7683, 8564, Scroll.ABYSSAL_STEALTH, 12037, 62, 1.9, 109.6, Ticks.fromMinutes(48), 7, 12),
+	SPIRIT_COBRA(6802, 6803, XPType.ACCURATE, 8157, 8550, Scroll.OPHIDIAN_INCUBATION, 12015, 63, 3.1, 276.8, Ticks.fromMinutes(48), 7),
+	STRANGER_PLANT(6827, 6828, XPType.CONTROLLED, 8216, 8533, Scroll.POISONOUS_BLAST, 12045, 64, 3.2, 281.6, Ticks.fromMinutes(48), 7, "forage_stranger_plant"),
+	BARKER_TOAD(6889, 6890, XPType.AGGRESSIVE, 7702, 8539, Scroll.TOAD_BARK, 12123, 66, 1.0, 87.0, Ticks.fromMinutes(48), 7),
+	WAR_TORTOISE(6815, 6816, XPType.DEFENSIVE, 8282, 8542, Scroll.TESTUDO, 12031, 67, 0.7, 58.6, Ticks.fromMinutes(48), 7, 18),
+	BUNYIP(6813, 6814, XPType.ACCURATE, 7736, 8547, Scroll.SWALLOW_WHOLE, 12029, 68, 1.4, 119.2, Ticks.fromMinutes(48), 7) {
 		@Override
 		public void tick(Player owner, Familiar familiar) {
 			familiar.getAttribs().decI("healTicks");
@@ -134,22 +134,22 @@ public enum Pouch {
 			}
 		}
 	},
-	FRUIT_BAT(6817, -1, null, 00000, 00000, Scroll.FRUITFALL, 12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7, "forage_fruit_bat"),
-	RAVENOUS_LOCUST(7372, 7373, XPType.ACCURATE, 00000, 00000, Scroll.FAMINE, 12820, 70, 1.5, 132.0, Ticks.fromMinutes(48), 4),
-	ARCTIC_BEAR(6839, 6840, XPType.CONTROLLED, 00000, 00000, Scroll.ARCTIC_BLAST, 12057, 71, 1.1, 93.2, Ticks.fromMinutes(48), 8),
-	PHOENIX(8575, 8576, XPType.MAGIC, 00000, 00000, Scroll.RISE_FROM_THE_ASHES, 14623, 72, 3.0, 301.0, Ticks.fromMinutes(48), 8),
-	OBSIDIAN_GOLEM(7345, 7346, XPType.AGGRESSIVE, 00000, 00000, Scroll.VOLCANIC_STRENGTH, 12792, 73, 7.3, 642.4, Ticks.fromMinutes(64), 8),
-	GRANITE_LOBSTER(6849, 6850, XPType.DEFENSIVE, 00000, 00000, Scroll.CRUSHING_CLAW, 12069, 74, 3.7, 325.6, Ticks.fromMinutes(64), 8, "forage_granite_lobster") {
+	FRUIT_BAT(6817, -1, null, 8279, 8563, Scroll.FRUITFALL, 12033, 69, 1.4, 121.2, Ticks.fromMinutes(48), 7, "forage_fruit_bat"),
+	RAVENOUS_LOCUST(7372, 7373, XPType.ACCURATE, 7997, 8931, Scroll.FAMINE, 12820, 70, 1.5, 132.0, Ticks.fromMinutes(48), 4),
+	ARCTIC_BEAR(6839, 6840, XPType.CONTROLLED, 8522, 8566, Scroll.ARCTIC_BLAST, 12057, 71, 1.1, 93.2, Ticks.fromMinutes(48), 8),
+	PHOENIX(8575, 8576, XPType.MAGIC, 11095, 11096, Scroll.RISE_FROM_THE_ASHES, 14623, 72, 3.0, 301.0, Ticks.fromMinutes(48), 8),
+	OBSIDIAN_GOLEM(7345, 7346, XPType.AGGRESSIVE, 8049, 8924, Scroll.VOLCANIC_STRENGTH, 12792, 73, 7.3, 642.4, Ticks.fromMinutes(64), 8),
+	GRANITE_LOBSTER(6849, 6850, XPType.DEFENSIVE, 8122, 8548, Scroll.CRUSHING_CLAW, 12069, 74, 3.7, 325.6, Ticks.fromMinutes(64), 8, "forage_granite_lobster") {
 		@Override
 		public boolean canRollForager(Player player) {
 			return player.getActionManager().doingAction(Fishing.class);
 		}
 	},
-	PRAYING_MANTIS(6798, 6799, XPType.ACCURATE, 00000, 00000, Scroll.MANTIS_STRIKE, 12011, 75, 3.6, 329.6, Ticks.fromMinutes(64), 8),
-	FORGE_REGENT(7335, 7336, XPType.RANGED, 00000, 00000, Scroll.INFERNO, 12782, 76, 1.5, 134.0, Ticks.fromMinutes(64), 9),
-	TALON_BEAST(7347, 7348, XPType.AGGRESSIVE, 00000, 00000, Scroll.DEADLY_CLAW, 12794, 77, 3.8, 1015.2, Ticks.fromMinutes(64), 9),
-	GIANT_ENT(6800, 6801, XPType.CONTROLLED, 00000, 00000, Scroll.ACORN_MISSILE, 12013, 78, 1.6, 136.8, Ticks.fromMinutes(64), 8, "forage_giant_ent"),
-	HYDRA(6811, 6812, XPType.RANGED, 00000, 00000, Scroll.REGROWTH, 12025, 80, 1.6, 140.8, Ticks.fromMinutes(64), 8),
+	PRAYING_MANTIS(6798, 6799, XPType.ACCURATE, 8075, 8558, Scroll.MANTIS_STRIKE, 12011, 75, 3.6, 329.6, Ticks.fromMinutes(64), 8),
+	FORGE_REGENT(7335, 7336, XPType.RANGED, 7870, 8934, Scroll.INFERNO, 12782, 76, 1.5, 134.0, Ticks.fromMinutes(64), 9),
+	TALON_BEAST(7347, 7348, XPType.AGGRESSIVE, 8045, 8933, Scroll.DEADLY_CLAW, 12794, 77, 3.8, 1015.2, Ticks.fromMinutes(64), 9),
+	GIANT_ENT(6800, 6801, XPType.CONTROLLED, 7850, 8559, Scroll.ACORN_MISSILE, 12013, 78, 1.6, 136.8, Ticks.fromMinutes(64), 8, "forage_giant_ent"),
+	HYDRA(6811, 6812, XPType.RANGED, 7940, 8538, Scroll.REGROWTH, 12025, 80, 1.6, 140.8, Ticks.fromMinutes(64), 8),
 	SPIRIT_DAGANNOTH(6804, 6805, XPType.CONTROLLED, 7783, 8560, Scroll.SPIKE_SHOT, 12017, 83, 4.1, 364.8, Ticks.fromMinutes(64), 9),
 	UNICORN_STALLION(6822, 6823, XPType.CONTROLLED, 8266, 8565, Scroll.HEALING_AURA, 12039, 88, 1.8, 154.4, Ticks.fromMinutes(64), 9),
 	WOLPERTINGER(6869, 6870, XPType.MAGIC, 8309, 8534, Scroll.MAGIC_FOCUS, 12089, 92, 4.6, 404.8, Ticks.fromMinutes(64), 10),

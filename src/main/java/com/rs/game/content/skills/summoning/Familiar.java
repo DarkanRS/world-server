@@ -24,10 +24,12 @@ import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.DismissD;
+import com.rs.game.content.skills.summoning.EnchantedHeadwear.Headwear;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
@@ -235,7 +237,7 @@ public class Familiar extends NPC {
 	@Override
 	public void processEntity() {
 		super.processEntity();
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		if (forageTicks++ >= 50) {
 			rollForage();
@@ -429,10 +431,14 @@ public class Familiar extends NPC {
 	}
 
 	public void castSpecial(Object target) {
-		if (!hasScroll() || !hasEnergy())
+		if (!hasScroll()) {
+			owner.sendMessage("You don't have any scrolls left.");
+			return;
+		}
+		if (!hasEnergy() || owner.getTempAttribs().getL("familiarSpecTimer") > World.getServerTicks())
 			return;
 		if (executeSpecial(target)) {
-			owner.lock(3);
+			owner.getTempAttribs().setL("familiarSpecTimer", World.getServerTicks() + 4);
 			owner.setNextAnimation(new Animation(7660));
 			owner.setNextSpotAnim(new SpotAnim(1316));
 			drainSpec();
@@ -473,7 +479,13 @@ public class Familiar extends NPC {
 	}
 	
 	public int castCombatSpecial(Entity target) {
-		if (!isSpecOn() || !hasScroll() || !hasEnergy())
+		if (!isSpecOn())
+			return CANCEL_SPECIAL;
+		if (!hasScroll()) {
+			owner.sendMessage("You don't have any scrolls left.");
+			return CANCEL_SPECIAL;
+		}
+		if (!hasEnergy())
 			return CANCEL_SPECIAL;
 		int spec = executeCombatSpecial(target);
 		if (spec != CANCEL_SPECIAL) {
@@ -492,12 +504,32 @@ public class Familiar extends NPC {
 	}
 	
 	public boolean hasScroll() {
-		//TODO
-		return true;
+		if (owner.getNSV().getB("infSpecialAttack"))
+			return true;
+		if (owner.getInventory().containsItem(pouch.getScroll().getId()))
+			return true;
+		Item headwear = owner.getEquipment().get(Equipment.HEAD);
+		if (headwear != null && headwear.getMetaDataI("summScrollId") == pouch.getScroll().getId())
+			return headwear.getMetaDataI("summScrollsStored") > 0;
+		return false;
 	}
 	
 	public void decrementScroll() {
-		//TODO
+		Item item = owner.getEquipment().get(Equipment.HEAD);
+		if (item != null && item.getMetaDataI("summScrollId") == pouch.getScroll().getId()) {
+			item.decMetaDataI("summScrollsStored");
+			if (item.getMetaDataI("summScrollsStored") <= 0) {
+				item.deleteMetaData();
+				Headwear headwear = Headwear.forId(item.getId());
+				if (headwear != null) {
+					item.setId(headwear.enchantedId);
+					owner.getEquipment().refresh(Equipment.HEAD);
+					owner.getAppearance().generateAppearanceData();
+				}
+			}
+			return;
+		}
+		owner.getInventory().deleteItem(pouch.getScroll().getId(), 1);
 	}
 
 	private void sendFollow() {
@@ -529,7 +561,7 @@ public class Familiar extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		Familiar.sendLeftClickOption(owner);
 		ticks--;
@@ -676,13 +708,13 @@ public class Familiar extends NPC {
 	private transient boolean sentRequestMoveMessage;
 
 	public void call() {
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		call(false);
 	}
 
 	public void call(boolean login) {
-		if (isDead())
+		if (isDead() || isCantInteract())
 			return;
 		if (login)
 			sendMainConfigs();

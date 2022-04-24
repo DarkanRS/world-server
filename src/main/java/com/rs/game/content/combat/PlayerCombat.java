@@ -1139,6 +1139,9 @@ public class PlayerCombat extends PlayerAction {
 					}
 					delayNormalHit(weaponId, attackStyle, getMeleeHit(player, zgsdamage));
 					break;
+				case 3101: //rune claws
+					//spotanim 274
+					break;
 				case 14484: // d claws
 				case 23695:
 					player.setNextAnimation(new Animation(10961));
@@ -1836,7 +1839,7 @@ public class PlayerCombat extends PlayerAction {
 				hitSucc.run();
 		} else if (hitFail != null)
 			hitFail.run();
-		addXp(player, target, attackStyle.getXpType(), hit);
+		addXp(player, target, attackStyle == null ? null : attackStyle.getXpType(), hit);
 		checkPoison(player, target, weaponId, hit);
 	}
 
@@ -1886,6 +1889,8 @@ public class PlayerCombat extends PlayerAction {
 	}
 	
 	public static void addXpFamiliar(Player player, Entity target, XPType xpType, Hit hit) {
+		if (hit.getLook() != HitLook.MAGIC_DAMAGE || hit.getLook() != HitLook.RANGE_DAMAGE || hit.getLook() != HitLook.MELEE_DAMAGE)
+			return;
 		double combatXp;
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
 		double hpXp = (damage / 7.5);

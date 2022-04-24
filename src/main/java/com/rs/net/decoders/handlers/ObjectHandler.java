@@ -1848,7 +1848,7 @@ public final class ObjectHandler {
 				return;
 			}
 			if (itemId == Jewelry.GOLD_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
-				Jewelry.openJewelryInterface(player);
+				Jewelry.openJewelryInterface(player, false);
 				player.getTempAttribs().setO("jewelryObject", object);
 				return;
 			}
