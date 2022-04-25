@@ -43,6 +43,7 @@ import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.content.skills.farming.ProduceType;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
+import com.rs.game.content.skills.summoning.combat.impl.BarkerToad;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.Entity;
@@ -556,10 +557,8 @@ public enum Scroll {
 	TOAD_BARK(12452, ScrollTarget.COMBAT, "Performs the same attack as if it were loaded with a cannonball.", 1, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO spotanim 1400
-			//anim 7703 shoot
-			//anim 7704 load
-			return Familiar.CANCEL_SPECIAL;
+			BarkerToad.shootCannonball(familiar, target);
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	TESTUDO(12439, ScrollTarget.CLICK, "Temporarily boosts the player's defense level by 8 points.", 0.7, 20) {
@@ -695,9 +694,9 @@ public enum Scroll {
 	INFERNO(12841, ScrollTarget.COMBAT, "Fires a magic based attack that disarms the opponent and deals up to 85 damage.", 1.5, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			//emote 7871
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(7871, 1328);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1330, 34, 16, 30, 1.8, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 85, AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	ADAMANT_BULL(12465, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 200 damage.", 7.6, 6) {
@@ -711,8 +710,11 @@ public enum Scroll {
 	DEADLY_CLAW(12831, ScrollTarget.COMBAT, "Causes the talon beast to attack with magic instead of melee. Dealing up to 300 damage.", 11.4, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.anim(familiar.getCombatDefinitions().getAttackEmote());
+			delayHit(familiar, 0, target, getMagicHit(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(familiar, 1, target, getMagicHit(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+			delayHit(familiar, 2, target, getMagicHit(familiar, getMaxHit(familiar, familiar.getCombatDefinitions().getMaxHit(), AttackStyle.MAGE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	ACORN_MISSILE(12457, ScrollTarget.COMBAT, "Hits anyone around the opponent with a rain of acorns dealing up to 100 damage each.", 1.6, 6) {
@@ -747,8 +749,16 @@ public enum Scroll {
 	REGROWTH(12442, ScrollTarget.OBJECT, "Immediately regrows a tree that has been felled by farming.", 1.6, 6) {
 		@Override
 		public boolean object(Player owner, Familiar familiar, GameObject object) {
-			//TODO spotanim 1487
-			return false;
+			if (object.getAttribs().getI("originalTrunkId", -1) == -1 || object.getAttribs().getI("originalTrunkId", -1) == object.getId()) {
+				owner.sendMessage("You can only cast this on a trunk.");
+				return false;
+			}
+			object.setId(object.getAttribs().getI("originalTrunkId", -1));
+			familiar.setNextFaceEntity(null);
+			familiar.setLockedForTicks(2);
+			familiar.faceObject(object);
+			familiar.sync(7945, 1487);
+			return true;
 		}
 	},
 	SPIKE_SHOT(12456, ScrollTarget.COMBAT, "Fires a magic attack that deals up to 170 damage.", 4.1, 6) {

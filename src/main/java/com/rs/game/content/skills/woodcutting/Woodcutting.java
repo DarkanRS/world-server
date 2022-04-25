@@ -252,8 +252,10 @@ public class Woodcutting extends Action {
 				}
 			}
 		}
-		if (!World.isSpawnedObject(treeObj))
-			World.spawnObjectTemporary(new GameObject(TreeStumps.getStumpId(treeObj.getId()), treeObj.getType(), treeObj.getRotation(), treeObj.getX(), treeObj.getY(), treeObj.getPlane()), type.getRespawnDelay());
+		if (!World.isSpawnedObject(treeObj)) {
+			treeObj.getAttribs().setI("originalTrunkId", treeObj.getId());
+			treeObj.setIdTemporary(TreeStumps.getStumpId(treeObj.getId()), type.getRespawnDelay());
+		}
 	}
 
 	public static double getLumberjackBonus(Player player) {

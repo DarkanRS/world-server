@@ -20,13 +20,17 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTaskInformation;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.GenericAttribMap;
 
 public class GameObject extends WorldObject {
+	
+	private transient WorldTaskInformation respawnTask;
+	private transient GenericAttribMap attribs = new GenericAttribMap();
 
 	public enum RouteType {
 		NORMAL, WALK_ONTO
@@ -77,6 +81,8 @@ public class GameObject extends WorldObject {
 		this.id = id;
 		if (lastId != id)
 			World.refreshObject(this);
+		if (respawnTask != null)
+			WorldTasks.remove(respawnTask);
 		return this;
 	}
 
@@ -85,12 +91,7 @@ public class GameObject extends WorldObject {
 			return;
 		final int original = this.id;
 		setId(id);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				setId(original);
-			}
-		}, ticks);
+		respawnTask = WorldTasks.schedule(ticks, () -> setId(original));
 	}
 
 	public GameObject setIdNoRefresh(int id) {
@@ -113,5 +114,9 @@ public class GameObject extends WorldObject {
 
 	public RouteType getRouteType() {
 		return routeType;
+	}
+
+	public GenericAttribMap getAttribs() {
+		return attribs;
 	}
 }
