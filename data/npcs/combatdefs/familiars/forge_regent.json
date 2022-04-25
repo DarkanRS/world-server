@@ -2,7 +2,7 @@
   "names": [
     "Forge regent"
   ],
-  "attackAnim": 7863,
+  "attackAnim": 7866,
   "defenceAnim": 7865,
   "deathAnim": 7864,
   "deathDelay": 6,
@@ -17,9 +17,9 @@
     "DEFENSE": 64,
     "MAGE": 72
   },
-  "attackRange": -1,
+  "attackRange": 6,
   "attackGfx": -1,
-  "attackProjectile": -1,
+  "attackProjectile": 1330,
   "agressivenessType": "PASSIVE",
   "aggroDistance": 16,
   "deAggroDistance": -1,
