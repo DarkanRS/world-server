@@ -737,7 +737,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
-			return Familiar.DEFAULT_ATTACK_SPEED;
+			return Familiar.CANCEL_SPECIAL;
 		}
 	},
 	VOLCANIC_STRENGTH(12826, ScrollTarget.CLICK, "Boosts the player's strength level by 9 points.", 7.3, 12) {
