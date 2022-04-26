@@ -421,7 +421,7 @@ public enum Scroll {
 	THIEVING_FINGERS(12426, ScrollTarget.CLICK, "Temporarily raises the player's thieving level by 2.", 0.9, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			familiar.sync(8020, 0000); //TODO gfx
+			familiar.sync(8020, 0000); //TODO spotanim
 			owner.getSkills().adjustStat(2, 0.0, Constants.THIEVING);
 			return true;
 		}
@@ -429,7 +429,7 @@ public enum Scroll {
 	BLOOD_DRAIN(12444, ScrollTarget.CLICK, "Restores the player's stats by 2 + 20% and cures poison. Damages the player for 25 damage, though.", 2.4, 6) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
-			familiar.sync(7715, 0000); //TODO gfx
+			familiar.sync(7715, 0000); //TODO spotanims
 			owner.spotAnim(0000);
 			owner.applyHit(new Hit(owner, 25, HitLook.TRUE_DAMAGE));
 			owner.getPoison().reset();
@@ -463,6 +463,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//1359, 1360?
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -482,26 +483,49 @@ public enum Scroll {
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
-	AMBUSH(12836, ScrollTarget.COMBAT, "Teleports to the target and attacks the target, dealing up to 224 damage.", 5.7, 3) {
+	AMBUSH(12836, ScrollTarget.ENTITY, "Teleports to the target and attacks the target, dealing up to 224 damage.", 5.7, 3) {
 		@Override
-		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			//anim 7911 7912
-			return Familiar.CANCEL_SPECIAL;
+		public boolean entity(Player owner, Familiar familiar, Entity target) {
+			if (!owner.lineOfSightTo(target, false)) {
+				owner.sendMessage("Your kyatt can't find a way to get there.");
+				return false;
+			}
+			if (familiar.getTarget() != null) {
+				owner.sendMessage("Your kyatt is already attacking something.");
+				return false;
+			}
+			WorldTile tile = target.getNearestTeleTile(familiar);
+			if (tile == null) {
+				owner.sendMessage("Your kyatt can't find a place to land on that target right now.");
+				return false;
+			}
+			if (!familiar.commandAttack(target))
+				return false;
+			familiar.freeze(2);
+			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 224, AttackStyle.MELEE, target)), () -> {
+				familiar.setNextWorldTile(target.getNearestTeleTile(familiar));
+				familiar.sync(7914, 1366);
+			});
+			return true;
 		}
 	},
 	RENDING(12840, ScrollTarget.COMBAT, "Performs a magic based attack that lowers the opponent's strength.", 5.7, 3) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(7919, 1370);
+			Hit hit = delayHit(familiar, World.sendProjectile(familiar, target, 1371, 70, 16, 30, 35, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 120, AttackStyle.MAGE, target)), () -> target.spotAnim(1372));
+			if (hit.getDamage() > 0)
+				target.lowerStat(Constants.STRENGTH, 0.1, 0.0);
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
-	GOAD(12835, ScrollTarget.COMBAT, "Gores the opponent with a powerful melee attack. Hits twice for up to 180 damage.", 5.7, 6) {
+	GOAD(12835, ScrollTarget.COMBAT, "Gores the opponent with a powerful melee attack. Hits twice for up to 120 damage each.", 5.7, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			return Familiar.CANCEL_SPECIAL;
+			familiar.anim(7915);
+			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 120, AttackStyle.MELEE, target)));
+			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 120, AttackStyle.MELEE, target)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	DOOMSPHERE(12455, ScrollTarget.COMBAT, "Attacks the opponent with a strong water spell that hits up to 76 damage and drains the target's magic.", 5.8, 3) {
@@ -517,9 +541,11 @@ public enum Scroll {
 	DUST_CLOUD(12468, ScrollTarget.COMBAT, "Hits up to 6 nearby targets for up to 79 damage with a strong magical dust cloud.", 3, 6) {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
-			//TODO
-			//anim 7820
-			return Familiar.CANCEL_SPECIAL;
+			familiar.sync(7820, 1375);
+			delayHit(familiar, World.sendProjectile(familiar, target, 1376, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1377)));
+			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 7, 6, false))
+				delayHit(familiar, World.sendProjectile(familiar, next, 1376, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1377)));
+			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
 	},
 	ABYSSAL_STEALTH(12427, ScrollTarget.CLICK, "Temporarily boosts the player's agility and thieving levels by 4 each.", 1.9, 20) {
@@ -652,6 +678,7 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
 			//anim 7998 proj is swarm of bugs
+			//1346-1348 spotanims
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
@@ -721,6 +748,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			//TODO
+			//1362, 1363
 			return Familiar.CANCEL_SPECIAL;
 		}
 	},
