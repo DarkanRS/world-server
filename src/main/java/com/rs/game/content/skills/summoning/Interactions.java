@@ -24,6 +24,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Interactions {
 	
 	//spotanim 1575 mining boost
+	//TODO 8320 8321 anim interaction to search for fruit fruit bat
 	
 	public static NPCClickHandler handleInteract = new NPCClickHandler(Pouch.getAllNPCIdKeys(), new String[] { "Interact" }) {
 		@Override
