@@ -63,8 +63,6 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.StartDialogue;
 import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
 import com.rs.game.content.interfacehandlers.TransformationRing;
 import com.rs.game.content.minigames.duel.DuelRules;
@@ -91,6 +89,7 @@ import com.rs.game.content.skills.slayer.TaskMonster;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.FadingScreen;
+import com.rs.game.content.tutorialisland.GamemodeSelection;
 import com.rs.game.content.world.Musician;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
@@ -112,7 +111,6 @@ import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.entity.player.managers.ControllerManager;
 import com.rs.game.model.entity.player.managers.CutsceneManager;
-import com.rs.game.model.entity.player.managers.DialogueManager;
 import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.game.model.entity.player.managers.HintIconsManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -252,7 +250,6 @@ public class Player extends Entity {
 	private transient int screenHeight;
 	private transient Conversation conversation;
 	private transient InterfaceManager interfaceManager;
-	private transient DialogueManager dialogueManager;
 	private transient HintIconsManager hintIconsManager;
 	private transient CutsceneManager cutsceneManager;
 	private transient Trade trade;
@@ -657,7 +654,6 @@ public class Player extends Entity {
 		reflectionChecks = new HashMap<>();
 		attackedBy = new ArrayList<>();
 		interfaceManager = new InterfaceManager(this);
-		dialogueManager = new DialogueManager(this);
 		hintIconsManager = new HintIconsManager(this);
 		localPlayerUpdate = new LocalPlayerUpdate(this);
 		localNPCUpdate = new LocalNPCUpdate(this);
@@ -879,6 +875,7 @@ public class Player extends Entity {
 				this.reset();
 				getEquipment().reset();
 				getInventory().reset();
+				@SuppressWarnings("unchecked")
 				ArrayList<Double> itemsEnter = (ArrayList<Double>)savingAttributes.get("dungeoneering_enter_floor_inventory");
 				for(int i = 0; i < itemsEnter.size(); i++)
 					if ((i % 2) == 0)
@@ -954,7 +951,6 @@ public class Player extends Entity {
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.removeInventoryInterface();
 		endConversation();
-		dialogueManager.finishDialogue();
 		getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 		if (closeInterfacesEvent != null) {
 			closeInterfacesEvent.run();
@@ -1345,7 +1341,7 @@ public class Player extends Entity {
 			else
 				setStarter(1);
 			PlayerLook.openCharacterCustomizing(this);
-			getDialogueManager().execute(new StartDialogue());
+			startConversation(new GamemodeSelection(this));
 		}
 		//getPackets().write(new UpdateRichPresence("state", "Logged in as " + getDisplayName()));
 		PluginManager.handle(new LoginEvent(this));
@@ -1993,10 +1989,6 @@ public class Player extends Entity {
 	public void setResting(boolean resting) {
 		this.resting = resting;
 		sendRunButtonConfig();
-	}
-
-	public DialogueManager getDialogueManager() {
-		return dialogueManager;
 	}
 
 	public CombatDefinitions getCombatDefinitions() {
@@ -4221,12 +4213,12 @@ public class Player extends Entity {
 	public void promptSetYellColor() {
 		sendInputName("Enter yell color in HEX: (ex: 00FF00 for green)", color -> {
 			if (color.length() != 6)
-				getDialogueManager().execute(new SimpleMessage(), "The HEX yell color you wanted to pick cannot be longer and shorter then 6.");
+				startConversation(new Dialogue().addSimple("The HEX yell color you wanted to pick cannot be longer and shorter then 6."));
 			else if (Utils.containsInvalidCharacter(color.toLowerCase()) || color.contains("_"))
-				getDialogueManager().execute(new SimpleMessage(), "The requested yell color can only contain numeric and regular characters.");
+				startConversation(new Dialogue().addSimple("The requested yell color can only contain numeric and regular characters."));
 			else {
 				setYellColor(color);
-				getDialogueManager().execute(new SimpleMessage(), "Your yell color has been changed to <col=" + getYellColor() + ">" + getYellColor() + "</col>.");
+				startConversation(new Dialogue().addSimple("Your yell color has been changed to <col=" + getYellColor() + ">" + getYellColor() + "</col>."));
 			}
 		});
 	}
@@ -4234,13 +4226,13 @@ public class Player extends Entity {
 	public void promptSetYellTitle() {
 		sendInputName("Enter yell title:", title -> {
 			if (title.length() > 20)
-				getDialogueManager().execute(new SimpleMessage(), "Your yell title cannot be longer than 20 characters.");
+				startConversation(new Dialogue().addSimple("Your yell title cannot be longer than 20 characters."));
 			else if (Utils.containsBadCharacter(title))
-				getDialogueManager().execute(new SimpleMessage(), "Keep your title as only letters and numbers..");
+				startConversation(new Dialogue().addSimple("Keep your title as only letters and numbers.."));
 			else {
 				setYellTitle(title);
 				getAppearance().generateAppearanceData();
-				getDialogueManager().execute(new SimpleMessage(), "Your yell title has been changed to " + getYellTitle() + ".");
+				startConversation(new Dialogue().addSimple("Your yell title has been changed to " + getYellTitle() + "."));
 			}
 		});
 	}
@@ -4248,15 +4240,15 @@ public class Player extends Entity {
 	public void promptSetTitle() {
 		sendInputName("Enter title:", title -> {
 			if (title.length() > 20)
-				getDialogueManager().execute(new SimpleMessage(), "Your title cannot be longer than 20 characters.");
+				startConversation(new Dialogue().addSimple("Your title cannot be longer than 20 characters."));
 			else if (Utils.containsBadCharacter(title))
-				getDialogueManager().execute(new SimpleMessage(), "Keep your title as only letters and numbers..");
+				startConversation(new Dialogue().addSimple("Keep your title as only letters and numbers.."));
 			else if (title.toLowerCase().contains("ironman") || title.toLowerCase().contains("hard"))
-				getDialogueManager().execute(new SimpleMessage(), "That title is reserved for special account types.");
+				startConversation(new Dialogue().addSimple("That title is reserved for special account types."));
 			else {
 				setTitle(title);
 				getAppearance().generateAppearanceData();
-				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
+				startConversation(new Dialogue().addSimple("Your title has been changed to " + getTitle() + "."));
 			}
 		});
 	}
@@ -4264,13 +4256,13 @@ public class Player extends Entity {
 	public void promptSetTitleColor() {
 		sendInputName("Enter title color in HEX: (ex: 00FF00 for green)", color -> {
 			if (color.length() != 6)
-				getDialogueManager().execute(new SimpleMessage(), "HEX colors are 6 characters long bud.");
+				startConversation(new Dialogue().addSimple("HEX colors are 6 characters long bud."));
 			else if (Utils.containsInvalidCharacter(color.toLowerCase()) || color.contains("_"))
-				getDialogueManager().execute(new SimpleMessage(), "HEX colors just contain letters and numbers bud.");
+				startConversation(new Dialogue().addSimple("HEX colors just contain letters and numbers bud."));
 			else {
 				setTitleColor(color);
 				getAppearance().generateAppearanceData();
-				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
+				startConversation(new Dialogue().addSimple("Your title has been changed to " + getTitle() + "."));
 			}
 		});
 	}
@@ -4278,13 +4270,13 @@ public class Player extends Entity {
 	public void promptSetTitleShade() {
 		sendInputName("Enter title shade color in HEX: (ex: 00FF00 for green)", color -> {
 			if (color.length() != 6)
-				getDialogueManager().execute(new SimpleMessage(), "HEX colors are 6 characters long bud.");
+				startConversation(new Dialogue().addSimple("HEX colors are 6 characters long bud."));
 			else if (Utils.containsInvalidCharacter(color.toLowerCase()) || color.contains("_"))
-				getDialogueManager().execute(new SimpleMessage(), "HEX colors just contain letters and numbers bud.");
+				startConversation(new Dialogue().addSimple("HEX colors just contain letters and numbers bud."));
 			else {
 				setTitleShading(color);
 				getAppearance().generateAppearanceData();
-				getDialogueManager().execute(new SimpleMessage(), "Your title has been changed to " + getTitle() + ".");
+				startConversation(new Dialogue().addSimple("Your title has been changed to " + getTitle() + "."));
 			}
 		});
 	}
