@@ -23,6 +23,7 @@ import java.util.Arrays;
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.commands.Commands;
 import com.rs.game.content.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.content.controllers.DemonSlayer_WallyVSDelrith;
@@ -231,15 +232,15 @@ public class Debug {
 			switch (args[0].toLowerCase()) {
 				case "modern":
 				case "normal":
-					p.getCombatDefinitions().setSpellBook(0);
+					p.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
 					break;
 				case "ancient":
 				case "ancients":
-					p.getCombatDefinitions().setSpellBook(1);
+					p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
 					break;
 				case "lunar":
 				case "lunars":
-					p.getCombatDefinitions().setSpellBook(2);
+					p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
 					break;
 				default:
 					p.sendMessage("Invalid spellbook. Spellbooks are modern, lunar, and ancient.");

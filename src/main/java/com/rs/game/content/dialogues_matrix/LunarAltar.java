@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.quests.Quest;
 
 public class LunarAltar extends MatrixDialogue {
@@ -33,12 +34,12 @@ public class LunarAltar extends MatrixDialogue {
 		if (componentId == OPTION_1) {
 			if (!Quest.LUNAR_DIPLOMACY.meetsRequirements(player, "to use the Lunar Spellbook."))
 				return;
-			if (player.getCombatDefinitions().getSpellBook() != 430) {
+			if (player.getCombatDefinitions().getSpellbook() != Spellbook.LUNAR) {
 				sendDialogue("Your mind clears and you switch", "back to the lunar spellbook.");
-				player.getCombatDefinitions().setSpellBook(2);
+				player.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
 			} else {
 				sendDialogue("Your mind clears and you switch", "back to the normal spellbook.");
-				player.getCombatDefinitions().setSpellBook(0);
+				player.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
 			}
 		} else
 			end();

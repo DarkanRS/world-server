@@ -33,6 +33,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.commands.Commands;
 import com.rs.game.content.controllers.RunespanController;
 import com.rs.game.content.controllers.TutorialIslandController;
@@ -443,18 +444,18 @@ public class MiscTest {
 			switch(args[0].toLowerCase()) {
 			case "modern":
 			case "normal":
-				p.getCombatDefinitions().setSpellBook(0);
+				p.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
 				break;
 			case "ancient":
 			case "ancients":
-				p.getCombatDefinitions().setSpellBook(1);
+				p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
 				break;
 			case "lunar":
 			case "lunars":
-				p.getCombatDefinitions().setSpellBook(2);
+				p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
 				break;
 			case "dung":
-				p.getCombatDefinitions().setSpellBook(3);
+				p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING);
 				break;
 			default:
 				p.sendMessage("Invalid spellbook. Spellbooks are modern, lunar, ancient, and dung");

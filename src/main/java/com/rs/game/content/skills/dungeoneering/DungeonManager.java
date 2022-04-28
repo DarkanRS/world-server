@@ -32,6 +32,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
@@ -606,7 +607,7 @@ public class DungeonManager {
 		else {
 			player.getControllerManager().startController(new DungeonController(DungeonManager.this));
 			player.setLargeSceneView(true);
-			player.getCombatDefinitions().setSpellBook(3);
+			player.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING);
 			player.getPackets().sendVarc(1725, 11);
 			setWorldMap(player, true);
 		}

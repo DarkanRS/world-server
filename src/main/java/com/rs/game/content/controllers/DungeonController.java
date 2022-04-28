@@ -393,7 +393,7 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		if (dungeon == null || !player.getCombatDefinitions().isDungeonneringSpellBook() || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
+		if (dungeon == null || !player.getCombatDefinitions().isDungSpellbook() || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		if (Utils.getDistance(toTile, dungeon.getHomeTile()) > 500)
 			return false;

@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
+
 public class AncientAltar extends MatrixDialogue {
 
 	@Override
@@ -26,12 +28,12 @@ public class AncientAltar extends MatrixDialogue {
 	@Override
 	public void run(int interfaceId, int componentId) {
 		if (componentId == OPTION_1) {
-			if (player.getCombatDefinitions().getSpellBook() != 193) {
+			if (player.getCombatDefinitions().getSpellbook() != Spellbook.ANCIENT) {
 				sendDialogue("Your mind clears and you switch", "back to the ancient spellbook.");
-				player.getCombatDefinitions().setSpellBook(1);
+				player.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
 			} else {
 				sendDialogue("Your mind clears and you switch", "back to the normal spellbook.");
-				player.getCombatDefinitions().setSpellBook(0);
+				player.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
 			}
 		} else
 			end();
