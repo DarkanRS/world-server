@@ -21,6 +21,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.controllers.FalconryController;
 import com.rs.game.content.controllers.FightCavesController;
 import com.rs.game.content.controllers.FightKilnController;
@@ -36,24 +37,6 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.impl.StrongholdRewardD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
-import com.rs.game.content.dialogues_matrix.AncientAltar;
-import com.rs.game.content.dialogues_matrix.ClimbEmoteStairs;
-import com.rs.game.content.dialogues_matrix.ClimbNoEmoteStairs;
-import com.rs.game.content.dialogues_matrix.CookingD;
-import com.rs.game.content.dialogues_matrix.DTClaimRewards;
-import com.rs.game.content.dialogues_matrix.GrotwormLairD;
-import com.rs.game.content.dialogues_matrix.LunarAltar;
-import com.rs.game.content.dialogues_matrix.MagicPortal;
-import com.rs.game.content.dialogues_matrix.MiningGuildDwarf;
-import com.rs.game.content.dialogues_matrix.PartyRoomLever;
-import com.rs.game.content.dialogues_matrix.RunespanPortalD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
-import com.rs.game.content.dialogues_matrix.SimplePlayerMessage;
-import com.rs.game.content.dialogues_matrix.SmeltingD;
-import com.rs.game.content.dialogues_matrix.SpiritTreeD;
-import com.rs.game.content.dialogues_matrix.WildernessDitch;
-import com.rs.game.content.dialogues_matrix.ZarosAltar;
 import com.rs.game.content.minigames.FightPits;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
@@ -349,9 +332,6 @@ public final class ObjectHandler {
 				player.useStairs(-1, player.transform(0, 3, -1), 0, 1);
 			else if (id == 11211)
 				player.useStairs(-1, player.transform(0, -3, 1), 0, 1);
-
-			else if (id == 38279 && x == 3107 && y == 3160)
-				player.getDialogueManager().execute(new RunespanPortalD());
 			else if (id == 38279 && x == 1696 && y == 5460)
 				player.useStairs(-1, new WorldTile(3106, 3160, 1), 0, 1);
 			else if (id == 12327) { // jadinko lair out
@@ -1539,8 +1519,20 @@ public final class ObjectHandler {
 							}, 2);
 						} else
 							player.sendMessage("You already have full prayer.");
-						if (id == 6552)
-							player.getDialogueManager().execute(new AncientAltar());
+						if (id == 6552) {
+							player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
+								ops.add("Yes, replace my spellbook.", () -> {
+									if (player.getCombatDefinitions().getSpellbook() != Spellbook.ANCIENT) {
+										player.sendMessage("Your mind clears and you switch back to the ancient spellbook.");
+										player.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
+									} else {
+										player.sendMessage("Your mind clears and you switch back to the normal spellbook.");
+										player.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
+									}
+								});
+								ops.add("Nevermind.");
+							}));
+						}
 					}
 					break;
 				default:

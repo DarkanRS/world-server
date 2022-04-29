@@ -14,16 +14,17 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.skills.runecrafting.runespan;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
+import com.rs.game.content.controllers.Controller;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
-import com.rs.game.content.skills.runecrafting.runespan.WizardFinix;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -38,9 +39,11 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class RunespanController extends Controller {
@@ -338,6 +341,17 @@ public class RunespanController extends Controller {
 				e.getPlayer().startConversation(new WizardFinix(e.getPlayer()));
 				break;
 			}
+		}
+	};
+	
+	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { new WorldTile(3107, 3160, 3) }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().startConversation(new Dialogue().addOptions("Where would you like to travel to?", ops -> {
+				ops.add("The Runecrafting Guild", () -> e.getPlayer().useStairs(-1, new WorldTile(1696, 5460, 2), 0, 1));
+				ops.add("The Runespan (Low level)", () -> RunespanController.enterRunespan(e.getPlayer(), false));
+				ops.add("The Runespan (High level)", () -> RunespanController.enterRunespan(e.getPlayer(), true));
+			}));
 		}
 	};
 

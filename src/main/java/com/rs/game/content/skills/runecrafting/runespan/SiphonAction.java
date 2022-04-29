@@ -2,7 +2,6 @@ package com.rs.game.content.skills.runecrafting.runespan;
 
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.controllers.RunespanController;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.WorldProjectile;

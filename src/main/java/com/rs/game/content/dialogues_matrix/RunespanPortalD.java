@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.controllers.RunespanController;
+import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.lib.game.WorldTile;
 
 public class RunespanPortalD extends MatrixDialogue {
