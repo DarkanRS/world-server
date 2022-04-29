@@ -61,6 +61,7 @@ import com.rs.game.content.controllers.TutorialIslandController;
 import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
 import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
@@ -3612,6 +3613,10 @@ public class Player extends Entity {
 	
 	public void simpleDialogue(String... message) {
 		startConversation(new Dialogue().addSimple(message));
+	}
+	
+	public void simpleNPCDialogue(int npcId, HeadE emote, String message) {
+		startConversation(new Dialogue().addNPC(npcId, emote, message));
 	}
 
 	public ArrayList<Player> getNearbyFCMembers(NPC npc) {

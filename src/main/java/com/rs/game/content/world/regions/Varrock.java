@@ -697,7 +697,7 @@ public class Varrock {
 					return;
 				}
 				Doors.handleDoor(p, obj);
-				p.getDialogueManager().execute(new SimpleNPCMessage(), 198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
+				p.simpleNPCDialogue(198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
 			} else
 				Doors.handleDoor(p, obj);
 		}

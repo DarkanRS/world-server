@@ -219,7 +219,7 @@ public class WarriorsGuild extends Controller {
 		} else if (object.getId() == 15664 || object.getId() == 15665) {
 			if (player.getTempAttribs().getB("thrown_delay")) {
 				int random = Utils.random(3);
-				player.getDialogueManager().execute(new SimpleNPCMessage(), 4300, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
+				player.simpleNPCDialogue(4300, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
 				return false;
 			} else if (!hasEmptyHands()) {
 				player.simpleDialogue("You must have both your hands free in order to throw a shotput.");

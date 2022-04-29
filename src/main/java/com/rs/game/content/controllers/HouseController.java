@@ -105,7 +105,7 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.getDialogueManager().execute(new SimpleNPCMessage(), npc.getId(), "Sorry, I only serve my master.");
+				player.simpleNPCDialogue(npc.getId(), "Sorry, I only serve my master.");
 				return false;
 			}
 			player.getDialogueManager().execute(new ServantHouseD(), npc, false);
@@ -119,7 +119,7 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.getDialogueManager().execute(new SimpleNPCMessage(), npc.getId(), "The servant ignores your request.");
+				player.simpleNPCDialogue(npc.getId(), "The servant ignores your request.");
 				return false;
 			}
 			player.getDialogueManager().execute(new ServantHouseD(), npc, true);
@@ -133,7 +133,7 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.getDialogueManager().execute(new SimpleNPCMessage(), npc.getId(), "The servant ignores your request.");
+				player.simpleNPCDialogue(npc.getId(), "The servant ignores your request.");
 				return false;
 			}
 			player.getDialogueManager().execute(new ItemOnServantD(), npc, item.getId(), house.getServant().isSawmill());

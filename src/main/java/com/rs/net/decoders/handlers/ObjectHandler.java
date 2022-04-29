@@ -898,13 +898,13 @@ public final class ObjectHandler {
 				player.useStairs(-1, new WorldTile(3058, 9776, 0), 0, 1);
 			else if (id == 2112 && object.getX() == 3046 && object.getY() == 9756) {
 				if (player.getSkills().getLevelForXp(Constants.MINING) < 60) {
-					player.getDialogueManager().execute(new SimpleNPCMessage(), MiningGuildDwarf.getClosestDwarfID(player), "Sorry, but you need level 60 Mining to go in there.");
+					player.simpleNPCDialogue(MiningGuildDwarf.getClosestDwarfID(player), "Sorry, but you need level 60 Mining to go in there.");
 					return;
 				}
 				Doors.handleDoor(player, object);
 			} else if (id == 2113) {
 				if (player.getSkills().getLevelForXp(Constants.MINING) < 60) {
-					player.getDialogueManager().execute(new SimpleNPCMessage(), MiningGuildDwarf.getClosestDwarfID(player), "Sorry, but you need level 60 Mining to go in there.");
+					player.simpleNPCDialogue(MiningGuildDwarf.getClosestDwarfID(player), "Sorry, but you need level 60 Mining to go in there.");
 					return;
 				}
 				player.useStairs(-1, new WorldTile(3021, 9739, 0), 0, 1);

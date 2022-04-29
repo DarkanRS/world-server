@@ -77,7 +77,7 @@ public class TanningD extends MatrixDialogue {
 
 						@Override
 						public void run() {
-							player.getDialogueManager().execute(new SimpleNPCMessage(), npcId, "Ahhh... novice mistake, you must bring me at least one " + ItemDefinitions.getDefs(INGREDIENT[componentIndex]).getName().toLowerCase() + " in order to tan " + ItemDefinitions.getDefs(PRODUCT[componentIndex]).getName().toLowerCase() + ".");
+							player.simpleNPCDialogue(npcId, "Ahhh... novice mistake, you must bring me at least one " + ItemDefinitions.getDefs(INGREDIENT[componentIndex]).getName().toLowerCase() + " in order to tan " + ItemDefinitions.getDefs(PRODUCT[componentIndex]).getName().toLowerCase() + ".");
 						}
 					});
 					return false;
@@ -99,7 +99,7 @@ public class TanningD extends MatrixDialogue {
 			public boolean process(Player player) {
 				if (player.getInventory().getNumberOf(995) < price) {
 					end();
-					player.getDialogueManager().execute(new SimpleNPCMessage(), npcId, "Oh no, it looks like you've ran out of coins. Come back later once you have " + price + " coins.");
+					player.simpleNPCDialogue(npcId, "Oh no, it looks like you've ran out of coins. Come back later once you have " + price + " coins.");
 					return false;
 				}
 				return ticks > 0;

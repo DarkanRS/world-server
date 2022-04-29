@@ -70,7 +70,7 @@ public class FightCavesController extends Controller {
 
 	public static void enterFightCaves(Player player) {
 		if (player.getFamiliar() != null || player.getPet() != null || Summoning.hasPouch(player) || Pets.hasPet(player)) {
-			player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "No Kimit-Zil in the pits! This is a fight for YOU, not your friends!");
+			player.simpleNPCDialogue(THHAAR_MEJ_JAL, "No Kimit-Zil in the pits! This is a fight for YOU, not your friends!");
 			return;
 		}
 		player.getControllerManager().startController(new FightCavesController(1));
@@ -139,7 +139,7 @@ public class FightCavesController extends Controller {
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
 				}
 				center = new WorldTile(player.getTile());
-				player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "You're on your own now, JalYt.<br>Prepare to fight for your life!");
+				player.simpleNPCDialogue(THHAAR_MEJ_JAL, "You're on your own now, JalYt.<br>Prepare to fight for your life!");
 				player.setForceMultiArea(true);
 				playMusic();
 				player.unlock(); // unlocks player
@@ -230,7 +230,7 @@ public class FightCavesController extends Controller {
 
 	public void setWaveEvent() {
 		if (getCurrentWave() == 63)
-			player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "Look out, here comes TzTok-Jad!");
+			player.simpleNPCDialogue(THHAAR_MEJ_JAL, "Look out, here comes TzTok-Jad!");
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -323,7 +323,7 @@ public class FightCavesController extends Controller {
 					player.incrementCount("Fight Caves clears");
 					player.refreshFightKilnEntrance();
 					player.reset();
-					player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "You even defeated Tz Tok-Jad, I am most impressed! Please accept this gift as a reward.");
+					player.simpleNPCDialogue(THHAAR_MEJ_JAL, "You even defeated Tz Tok-Jad, I am most impressed! Please accept this gift as a reward.");
 					player.sendMessage("You were victorious!!");
 					for (Player p : World.getPlayers()) {
 						if (p == null || p.hasFinished())
@@ -336,12 +336,12 @@ public class FightCavesController extends Controller {
 					} else if (!player.getInventory().addItem(6529, 16064))
 						World.addGroundItem(new Item(6529, 16064), new WorldTile(player.getTile()), player, true, 180);
 				} else if (getCurrentWave() == 1)
-					player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "Well I suppose you tried... better luck next time.");
+					player.simpleNPCDialogue(THHAAR_MEJ_JAL, "Well I suppose you tried... better luck next time.");
 				else {
 					int tokkul = getCurrentWave() * 8032 / WAVES.length;
 					if (!player.getInventory().addItem(6529, tokkul))
 						World.addGroundItem(new Item(6529, tokkul), new WorldTile(player.getTile()), player, true, 180);
-					player.getDialogueManager().execute(new SimpleNPCMessage(), THHAAR_MEJ_JAL, "Well done in the cave, here, take TokKul as reward.");
+					player.simpleNPCDialogue(THHAAR_MEJ_JAL, "Well done in the cave, here, take TokKul as reward.");
 					// TODO tokens
 				}
 			}
