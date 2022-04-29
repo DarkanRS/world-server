@@ -244,7 +244,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile tile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave just like that!");
+		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 

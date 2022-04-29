@@ -532,7 +532,7 @@ public class RunespanController extends Controller {
 		sendInterfaces();
 		player.getPackets().sendVarc(1917, getCurrentFloor());
 		player.getPackets().sendVarc(1918, 0);
-		player.getDialogueManager().execute(new SimpleMessage(), "Welcome To the Runespan ", "Unnote essence on the essence clouds and siphon for runes.", "Your runes will not be removed when you leave.");
+		player.simpleDialogue("Welcome To the Runespan ", "Unnote essence on the essence clouds and siphon for runes.", "Your runes will not be removed when you leave.");
 
 	}
 

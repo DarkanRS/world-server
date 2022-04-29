@@ -76,13 +76,13 @@ public class PestControlGameController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave the pest control area like this.");
+		player.simpleDialogue("You can't leave the pest control area like this.");
 		return false;
 	}
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave the pest control area like this.");
+		player.simpleDialogue("You can't leave the pest control area like this.");
 		return false;
 	}
 

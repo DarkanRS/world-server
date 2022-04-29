@@ -136,11 +136,11 @@ public class GemCutting extends PlayerAction {
 
 	public boolean checkAll(Player player) {
 		if (player.getSkills().getLevel(Constants.CRAFTING) < gem.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a crafting level of " + gem.getLevelRequired() + " to cut that gem.");
+			player.simpleDialogue("You need a crafting level of " + gem.getLevelRequired() + " to cut that gem.");
 			return false;
 		}
 		if (!player.getInventory().containsOneItem(gem.getUncut())) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have any " + ItemDefinitions.getDefs(gem.getUncut()).getName().toLowerCase() + " to cut.");
+			player.simpleDialogue("You don't have any " + ItemDefinitions.getDefs(gem.getUncut()).getName().toLowerCase() + " to cut.");
 			return false;
 		}
 		return true;

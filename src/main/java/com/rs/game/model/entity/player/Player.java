@@ -3609,6 +3609,10 @@ public class Player extends Entity {
 	public void setBossTask(BossTask bossTask) {
 		this.bossTask = bossTask;
 	}
+	
+	public void simpleDialogue(String... message) {
+		startConversation(new Dialogue().addSimple(message));
+	}
 
 	public ArrayList<Player> getNearbyFCMembers(NPC npc) {
 		ArrayList<Player> eligible = new ArrayList<>();

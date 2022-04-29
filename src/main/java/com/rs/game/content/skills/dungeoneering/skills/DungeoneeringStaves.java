@@ -41,7 +41,7 @@ public class DungeoneeringStaves extends PlayerAction {
 	public boolean start(Player player) {
 		int levelReq = LEVELS[index];
 		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < levelReq) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a Runecrafting level of " + levelReq + " in order to imbue this stave.");
+			player.simpleDialogue("You need a Runecrafting level of " + levelReq + " in order to imbue this stave.");
 			return false;
 		}
 		int staves = getUsableStaves(player, index);

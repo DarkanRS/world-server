@@ -83,7 +83,7 @@ public class Bonfire extends PlayerAction {
 		if (!World.getRegion(object.getRegionId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FIREMAKING) < log.level) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need level " + log.level + " Firemaking to add these logs to a bonfire.");
+			player.simpleDialogue("You need level " + log.level + " Firemaking to add these logs to a bonfire.");
 			return false;
 		}
 		return true;

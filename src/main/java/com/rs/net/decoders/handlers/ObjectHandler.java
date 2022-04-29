@@ -398,7 +398,7 @@ public final class ObjectHandler {
 				player.getInventory().addItem(12629, 1, true);
 				player.getInventory().addItem(12628, 2, true);
 				player.getEmotesManager().unlockEmote(Emote.SAFETY_FIRST);
-				player.getDialogueManager().execute(new SimpleMessage(), "You open the chest and find a large pile of gold, along with a pair", "of safety gloves and two antique lamps. Also in the chest is the", "secret of the 'Safety First' emote.");
+				player.simpleDialogue("You open the chest and find a large pile of gold, along with a pair", "of safety gloves and two antique lamps. Also in the chest is the", "secret of the 'Safety First' emote.");
 			} else if (id == 16135) {
 				if (player.getEmotesManager().unlockedEmote(Emote.FLAP)) {
 					player.sendMessage("You have already claimed your reward from this level.");
@@ -448,7 +448,7 @@ public final class ObjectHandler {
 			else if (id == 26571 || id == 26572 || id == 26573 || id == 26574)
 				player.useStairs(-1, new WorldTile(2321, 3100, 0), 1, 2);
 			else if (id == 26560 && x == 2015 && y == 4255)
-				player.getDialogueManager().execute(new SimpleMessage(), "The room beyond the door is covred in gas, it is probably dangerous to go in there.");
+				player.simpleDialogue("The room beyond the door is covred in gas, it is probably dangerous to go in there.");
 			else if (id == 26519) {
 				if (x == 1991 && y == 4175)
 					player.useStairs(827, new WorldTile(1991, 4175, 0), 1, 2);
@@ -1169,7 +1169,7 @@ public final class ObjectHandler {
 					player.sendMessage("You already have full prayer.");
 
 			} else if (id == 2878 || id == 2879) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You step into the pool of sparkling water. You feel the energy rush through your veins.");
+				player.simpleDialogue("You step into the pool of sparkling water. You feel the energy rush through your veins.");
 				final boolean isLeaving = id == 2879;
 				final WorldTile tile = isLeaving ? new WorldTile(2509, 4687, 0) : new WorldTile(2542, 4720, 0);
 				player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, 2, isLeaving ? Direction.SOUTH : Direction.NORTH));
@@ -1196,7 +1196,7 @@ public final class ObjectHandler {
 
 					@Override
 					public void run() {
-						player.getDialogueManager().execute(new SimpleMessage(), "You feel a rush of energy charge through your veins. Suddenly a cape appears before you.");
+						player.simpleDialogue("You feel a rush of energy charge through your veins. Suddenly a cape appears before you.");
 						World.sendSpotAnim(player, new SpotAnim(1605), new WorldTile(object.getX(), object.getY() - 1, 0));
 						World.addGroundItem(new Item(id == 2873 ? 2412 : id == 2874 ? 2414 : 2413), new WorldTile(object.getX(), object.getY() - 1, 0));
 					}
@@ -1554,7 +1554,7 @@ public final class ObjectHandler {
 			else if (id == 62677)
 				player.getDominionTower().openRewards();
 			else if (id == 62688)
-				player.getDialogueManager().execute(new SimpleMessage(), "You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".");
+				player.simpleDialogue("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".");
 			else if (id == 68107)
 				FightKilnController.enterFightKiln(player, true);
 			else if (id == 70795) {
@@ -1901,7 +1901,7 @@ public final class ObjectHandler {
 						player.getDialogueManager().execute(new CookingD(), cook, object);
 						return;
 					}
-					player.getDialogueManager().execute(new SimpleMessage(), "You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
+					player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
 					break;
 				}
 				if (Settings.getConfig().isDebug())

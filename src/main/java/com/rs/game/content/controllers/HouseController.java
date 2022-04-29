@@ -465,7 +465,7 @@ public class HouseController extends Controller {
 				player.getDialogueManager().execute(new CookingD(), cook, object);
 				return false;
 			}
-			player.getDialogueManager().execute(new SimpleMessage(), "You can't cook that on a " + (object.getDefinitions().getName().equals("Fire") ? "fire" : "range") + ".");
+			player.simpleDialogue("You can't cook that on a " + (object.getDefinitions().getName().equals("Fire") ? "fire" : "range") + ".");
 			return false;
 		}
 		return true;

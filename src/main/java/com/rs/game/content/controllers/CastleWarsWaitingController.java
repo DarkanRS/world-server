@@ -82,19 +82,19 @@ public class CastleWarsWaitingController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave just like that!");
+		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave just like that!");
+		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 
 	@Override
 	public boolean processObjectTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave just like that!");
+		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 

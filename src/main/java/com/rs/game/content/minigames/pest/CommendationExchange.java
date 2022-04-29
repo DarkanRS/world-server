@@ -182,7 +182,7 @@ public class CommendationExchange {// 1875 TODO
 			}
 		double experience = calculateExperience(player, skill) * rate;
 		player.getSkills().addXp(skill, experience / 18);
-		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");
+		player.simpleDialogue("You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");
 	}
 
 	private static void addVoidItem(Player player, int index) {

@@ -171,7 +171,7 @@ public class Fishing extends PlayerAction {
             return false;
         }
         if (player.getSkills().getLevel(Constants.FISHING) < spot.getLevel()) {
-            player.getDialogueManager().execute(new SimpleMessage(), "You need a fishing level of " + spot.getLevel() + " to fish here.");
+            player.simpleDialogue("You need a fishing level of " + spot.getLevel() + " to fish here.");
             return false;
         }
         boolean hasTool = false;
@@ -188,7 +188,7 @@ public class Fishing extends PlayerAction {
         }
         if (!player.getInventory().hasFreeSlots()) {
             player.setNextAnimation(new Animation(-1));
-            player.getDialogueManager().execute(new SimpleMessage(), "You don't have enough inventory space.");
+            player.simpleDialogue("You don't have enough inventory space.");
             return false;
         }
         if (tile.getX() != npc.getX() || tile.getY() != npc.getY())

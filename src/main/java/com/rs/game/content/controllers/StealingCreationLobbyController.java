@@ -77,13 +77,13 @@ public class StealingCreationLobbyController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "A magical force prevents you from teleporting from the arena.");
+		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "A magical force prevents you from teleporting from the arena.");
+		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 

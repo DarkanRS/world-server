@@ -49,7 +49,7 @@ public class Herblore extends PlayerAction {
 		if (player == null || potion == null)
 			return false;
 		if (player.getSkills().getLevel(Constants.HERBLORE) < potion.getReq()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a herblore level of " + potion.getReq() + " to combine these ingredients.");
+			player.simpleDialogue("You need a herblore level of " + potion.getReq() + " to combine these ingredients.");
 			return false;
 		}
 		return true;

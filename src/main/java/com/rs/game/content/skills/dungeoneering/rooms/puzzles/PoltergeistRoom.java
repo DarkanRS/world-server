@@ -94,7 +94,7 @@ public class PoltergeistRoom extends PuzzleRoom {
 	public boolean processObjectClick1(Player player, GameObject object) {
 		String name = object.getDefinitions().getName();
 		if (name.equals("Sarcophagus")) {
-			player.getDialogueManager().execute(new SimpleMessage(), "The inscription reads: 'Here lies Leif, posthumously honoured with the discovery of " + requiredHerb.getName() + ".");
+			player.simpleDialogue("The inscription reads: 'Here lies Leif, posthumously honoured with the discovery of " + requiredHerb.getName() + ".");
 			return false;
 		}
 		if (name.equals("Censer") && object.getDefinitions().containsOption("Light")) {

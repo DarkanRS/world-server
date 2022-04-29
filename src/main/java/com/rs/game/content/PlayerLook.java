@@ -193,7 +193,7 @@ public final class PlayerLook {
 						e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "That is no different from what you already have. I guess I shouldn't charge you if I'm not changing anything."));
 						if (e.getPlayer().getAppearance().isMale() != male) {
 							if (e.getPlayer().getEquipment().wearingArmour()) {
-								e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You cannot have armor on while changing your gender.");
+								e.getPlayer().simpleDialogue("You cannot have armor on while changing your gender.");
 								return;
 							}
 							if (male)

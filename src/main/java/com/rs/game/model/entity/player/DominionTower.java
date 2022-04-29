@@ -75,7 +75,7 @@ public final class DominionTower {
 
 	public void growFace() {
 		player.getPackets().sendSound(7913, 0, 2);
-		player.getDialogueManager().execute(new SimpleMessage(), "The face on the wall groans and scowls at you. Perhaps you should", "talk to it first.");
+		player.simpleDialogue("The face on the wall groans and scowls at you. Perhaps you should", "talk to it first.");
 	}
 
 	public void openModes() {
@@ -88,7 +88,7 @@ public final class DominionTower {
 			return;
 		}
 		if (progress == 256) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You have some dominion factor which you must exchange before", "starting another match.");
+			player.simpleDialogue("You have some dominion factor which you must exchange before", "starting another match.");
 			player.sendMessage("You can't go back into the arena, you must go to the next floor on entrance.");
 			return;
 		}
@@ -169,7 +169,7 @@ public final class DominionTower {
 
 	private void startEnduranceMode() {
 		if (progress == 256) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You have some dominion factor which you must exchange before", "starting another match.");
+			player.simpleDialogue("You have some dominion factor which you must exchange before", "starting another match.");
 			player.sendMessage("You can't go back into the arena, you must go to the next floor on entrance.");
 			return;
 		}
@@ -480,7 +480,7 @@ public final class DominionTower {
 
 	public void talkToFace(boolean fromDialogue) {
 		if (!hasRequiriments()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need at least level 110 combat to use this tower.");
+			player.simpleDialogue("You need at least level 110 combat to use this tower.");
 			return;
 		}
 		if (!talkedWithFace)

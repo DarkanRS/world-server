@@ -557,15 +557,15 @@ public class DungeonManager {
 
 	public void sendStartItems(Player player) {
 		if (party.getComplexity() == 1)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 1", "Combat only", "Armour and weapons allocated", "No shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 1", "Combat only", "Armour and weapons allocated", "No shop stock");
 		else if (party.getComplexity() == 2)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 2", "+ Fishing, Woodcutting, Firemaking, Cooking", "Armour and weapons allocated", "Minimal shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 2", "+ Fishing, Woodcutting, Firemaking, Cooking", "Armour and weapons allocated", "Minimal shop stock");
 		else if (party.getComplexity() == 3)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 3", "+ Mining, Smithing weapons, Fletching, Runecrafting", "Armour allocated", "Increased shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 3", "+ Mining, Smithing weapons, Fletching, Runecrafting", "Armour allocated", "Increased shop stock");
 		else if (party.getComplexity() == 4)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 4", "+ Smithing armour, Hunter, Farming textiles, Crafting", "Increased shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 4", "+ Smithing armour, Hunter, Farming textiles, Crafting", "Increased shop stock");
 		else if (party.getComplexity() == 5)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 5", "All skills included", "+ Farming seeds, Herblore, Thieving, Summoning", "Complete shop stock", "Challenge rooms + skill doors");
+			player.simpleDialogue("<col=0000FF>Complexity 5", "All skills included", "+ Farming seeds, Herblore, Thieving, Summoning", "Complete shop stock", "Challenge rooms + skill doors");
 		if (party.getComplexity() <= 3) {
 			int defenceTier = DungeonUtils.getTier(player.getSkills().getLevelForXp(Constants.DEFENSE));
 			if (defenceTier > 8)

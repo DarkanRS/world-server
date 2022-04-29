@@ -175,7 +175,7 @@ public class House {
 		if (room == null)
 			return;
 		if (room.getZ() != 1) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You cannot remove a building that is supporting this room.");
+			player.simpleDialogue("You cannot remove a building that is supporting this room.");
 			return;
 		}
 
@@ -184,7 +184,7 @@ public class House {
 
 		RoomReference roomTo = above != null && above.getStaircaseSlot() != -1 ? above : below != null && below.getStaircaseSlot() != -1 ? below : null;
 		if (roomTo == null) {
-			player.getDialogueManager().execute(new SimpleMessage(), "These stairs do not lead anywhere.");
+			player.simpleDialogue("These stairs do not lead anywhere.");
 			return;
 		}
 		openRoomCreationMenu(roomTo.getX(), roomTo.getY(), roomTo.getZ());
@@ -195,37 +195,37 @@ public class House {
 	 */
 	public void openRoomCreationMenu(int roomX, int roomY, int plane) {
 		if (!buildMode) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		RoomReference room = getRoom(roomX, roomY, plane);
 		if (room != null) {
 			if (room.plane == 1 && getRoom(roomX, roomY, room.plane + 1) != null) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You can't remove a room that is supporting another room.");
+				player.simpleDialogue("You can't remove a room that is supporting another room.");
 				return;
 			}
 			if (room.room == Room.THRONE_ROOM && room.plane == 1) {
 				RoomReference bellow = getRoom(roomX, roomY, room.plane - 1);
 				if (bellow != null && bellow.room == Room.OUTBLIETTE) {
-					player.getDialogueManager().execute(new SimpleMessage(), "You can't remove a throne room that is supporting a outbliette.");
+					player.simpleDialogue("You can't remove a throne room that is supporting a outbliette.");
 					return;
 				}
 			}
 			if ((room.room == Room.GARDEN || room.room == Room.FORMAL_GARDEN) && getPortalCount() < 2)
 				if (room == getPortalRoom()) {
-					player.getDialogueManager().execute(new SimpleMessage(), "Your house must have at least one exit portal.");
+					player.simpleDialogue("Your house must have at least one exit portal.");
 					return;
 				}
 			player.getDialogueManager().execute(new RemoveRoomD(), room);
 		} else {
 			if (roomX == 0 || roomY == 0 || roomX == 7 || roomY == 7) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You can't create a room here.");
+				player.simpleDialogue("You can't create a room here.");
 				return;
 			}
 			if (plane == 2) {
 				RoomReference r = getRoom(roomX, roomY, 1);
 				if (r == null || (r.room == Room.GARDEN || r.room == Room.FORMAL_GARDEN || r.room == Room.MENAGERIE)) {
-					player.getDialogueManager().execute(new SimpleMessage(), "You can't create a room here.");
+					player.simpleDialogue("You can't create a room here.");
 					return;
 				}
 
@@ -545,7 +545,7 @@ public class House {
 
 	public void openBuildInterface(GameObject object, final Builds build) {
 		if (!buildMode) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -697,11 +697,11 @@ public class House {
 
 	public void openRemoveBuild(GameObject object) {
 		if (!buildMode) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		if (object.getId() == HouseConstants.HObject.EXIT_PORTAL.getId() && getPortalCount() <= 1) {
-			player.getDialogueManager().execute(new SimpleMessage(), "Your house must have at least one exit portal.");
+			player.simpleDialogue("Your house must have at least one exit portal.");
 			return;
 		}
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -716,7 +716,7 @@ public class House {
 					RoomReference above = getRoom(roomX, roomY, 2);
 					RoomReference below = getRoom(roomX, roomY, 0);
 					if ((above != null && above.getStaircaseSlot() != -1) || (below != null && below.getStaircaseSlot() != -1))
-						player.getDialogueManager().execute(new SimpleMessage(), "You cannot remove a building that is supporting this room.");
+						player.simpleDialogue("You cannot remove a building that is supporting this room.");
 					return;
 				}
 			player.getDialogueManager().execute(new RemoveBuildD(), object);
@@ -726,7 +726,7 @@ public class House {
 	public void removeBuild(final GameObject object) {
 		if (!buildMode) { // imagine u use settings to change while dialogue
 			// open, cheater :p
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -768,11 +768,11 @@ public class House {
 		}
 		locked = !locked;
 		if (locked)
-			player.getDialogueManager().execute(new SimpleMessage(), "Your house is now locked to visitors.");
+			player.simpleDialogue("Your house is now locked to visitors.");
 		else if (buildMode)
-			player.getDialogueManager().execute(new SimpleMessage(), "Visitors will be able to enter your house once you leave building mode.");
+			player.simpleDialogue("Visitors will be able to enter your house once you leave building mode.");
 		else
-			player.getDialogueManager().execute(new SimpleMessage(), "You have unlocked your house.");
+			player.simpleDialogue("You have unlocked your house.");
 	}
 
 	public static void enterHouse(Player player, String username) {

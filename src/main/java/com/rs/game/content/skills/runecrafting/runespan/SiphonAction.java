@@ -44,7 +44,7 @@ public class SiphonAction extends PlayerAction {
 		if (player.isLocked() || creature.hasFinished())
 			return false;
 		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < creatures.levelRequired) {
-			player.getDialogueManager().execute(new SimpleMessage(), "This creature requires level " + creatures.levelRequired + " to siphon.");
+			player.simpleDialogue("This creature requires level " + creatures.levelRequired + " to siphon.");
 			return false;
 		}
 		if ((!creatures.rune.isPureEss() && !player.getInventory().containsOneItem(Runecrafting.PURE_ESS, Runecrafting.RUNE_ESS)) || (creatures.rune.isPureEss() && !player.getInventory().containsItem(Runecrafting.PURE_ESS))) {

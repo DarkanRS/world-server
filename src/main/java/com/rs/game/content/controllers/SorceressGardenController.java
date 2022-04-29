@@ -81,7 +81,7 @@ public class SorceressGardenController extends Controller {
 		 */
 		public static void handleGates(Player player, int objectId, int lvlReq, WorldTile toTile, int musicId) {
 			if (lvlReq > player.getSkills().getLevelForXp(Constants.THIEVING)) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You need " + lvlReq + " thieving level to pick this gate.");
+				player.simpleDialogue("You need " + lvlReq + " thieving level to pick this gate.");
 				return;
 			}
 			player.useStairs(-1, toTile, 0, 1);

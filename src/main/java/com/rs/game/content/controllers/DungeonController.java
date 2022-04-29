@@ -1237,7 +1237,7 @@ public class DungeonController extends Controller {
 	@Override
 	public boolean canDropItem(Item item) {
 		if (item.getName().contains("Ring of kinship")) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You cannot destroy that here.");
+			player.simpleDialogue("You cannot destroy that here.");
 			return false;
 		}
 		if (item.getDefinitions().isDestroyItem())

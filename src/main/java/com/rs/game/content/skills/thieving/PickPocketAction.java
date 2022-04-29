@@ -166,7 +166,7 @@ public class PickPocketAction extends PlayerAction {
 		if (player.isDead() || player.hasFinished() || npc.isDead() || npc.hasFinished() || player.hasPendingHits())
 			return false;
 		if (player.getSkills().getLevel(Constants.THIEVING) < npcData.getThievingLevels()[0]) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a thieving level of " + npcData.getThievingLevels()[0] + " to steal from this npc.");
+			player.simpleDialogue("You need a thieving level of " + npcData.getThievingLevels()[0] + " to steal from this npc.");
 			return false;
 		}
 		if (player.getInventory().getFreeSlots() < 1) {

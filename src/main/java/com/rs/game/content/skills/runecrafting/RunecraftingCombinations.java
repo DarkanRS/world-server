@@ -116,12 +116,12 @@ public class RunecraftingCombinations {
 							double xp = cr.getXP()[i];
 
 							if (pureEss == 0) {
-								e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You don't have enough pure essence.");
+								e.getPlayer().simpleDialogue("You don't have enough pure essence.");
 								return;
 							}
 
 							if (inputRune == 0) {
-								e.getPlayer().getDialogueManager().execute(new SimpleMessage(), "You don't have enough " + ItemDefinitions.getDefs(cr.getRunes()[i]).getName() + "s.");
+								e.getPlayer().simpleDialogue("You don't have enough " + ItemDefinitions.getDefs(cr.getRunes()[i]).getName() + "s.");
 								return;
 							}
 

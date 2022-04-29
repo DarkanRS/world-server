@@ -271,7 +271,7 @@ public class Fletching extends PlayerAction {
 		if ((ticks <= 0) || !player.getInventory().containsItem(fletch.getId(), 1) || !player.getInventory().containsItem(fletch.getSelected(), 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FLETCHING) < fletch.getLevel()[option]) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a level of " + fletch.getLevel()[option] + " to fletch this.");
+			player.simpleDialogue("You need a level of " + fletch.getLevel()[option] + " to fletch this.");
 			return false;
 		}
 		return true;

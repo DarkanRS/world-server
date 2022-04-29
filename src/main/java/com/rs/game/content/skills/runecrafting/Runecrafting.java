@@ -206,7 +206,7 @@ public class Runecrafting {
 		double xp = 0;
 		int craftedSoFar = 0;
 		if (runes == 0) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have pure essence.");
+			player.simpleDialogue("You don't have pure essence.");
 			return;
 		}
 		player.getInventory().deleteItem(PURE_ESS, runes);
@@ -236,7 +236,7 @@ public class Runecrafting {
 	public static void runecraft(Player player, RCRune rune, boolean span) {
 		int actualLevel = player.getSkills().getLevel(Constants.RUNECRAFTING);
 		if (actualLevel < rune.req) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a runecrafting level of " + rune.req + " to craft this rune.");
+			player.simpleDialogue("You need a runecrafting level of " + rune.req + " to craft this rune.");
 			return;
 		}
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
@@ -284,7 +284,7 @@ public class Runecrafting {
 			}
 		}
 		if (runes == 0) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have " + (rune.pureEss ? "pure" : "rune") + " essence.");
+			player.simpleDialogue("You don't have " + (rune.pureEss ? "pure" : "rune") + " essence.");
 			return;
 		}
 		if (rune.runeId == 556 && player.getInventory().containsItem(21774, 1) && player.getSkills().getLevel(Constants.RUNECRAFTING) >= 72) {

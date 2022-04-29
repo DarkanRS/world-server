@@ -222,7 +222,7 @@ public class WarriorsGuild extends Controller {
 				player.getDialogueManager().execute(new SimpleNPCMessage(), 4300, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
 				return false;
 			} else if (!hasEmptyHands()) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You must have both your hands free in order to throw a shotput.");
+				player.simpleDialogue("You must have both your hands free in order to throw a shotput.");
 				return false;
 			}
 			player.getDialogueManager().execute(new ShotputD(), object.getId() == 15664);
@@ -252,7 +252,7 @@ public class WarriorsGuild extends Controller {
 			if (hasEmptyHands() && (player.getEquipment().getHatId() == -1 || kegCount >= 1))
 				balanceKeg(object);
 			else if (kegCount == 0)
-				player.getDialogueManager().execute(new SimpleMessage(), "You must have both your hands and head free to balance kegs.");
+				player.simpleDialogue("You must have both your hands and head free to balance kegs.");
 			return false;
 		} else if (object.getId() == 66599 || object.getId() == 66601) {
 			player.setNextFaceWorldTile(CYCLOPS_LOBBY);
@@ -264,7 +264,7 @@ public class WarriorsGuild extends Controller {
 				player.getDialogueManager().execute(new KamfreendaDefender());
 			return false;
 		} else if (object.getId() == 56887) {
-			player.getDialogueManager().execute(new SimpleMessage(), "Kamfreena reports that " + killedCyclopses + " cyclopes have been slain in the guild today. She hopes that warriors will step up and kill more!");
+			player.simpleDialogue("Kamfreena reports that " + killedCyclopses + " cyclopes have been slain in the guild today. She hopes that warriors will step up and kill more!");
 			return false;
 		}
 		return true;
@@ -294,9 +294,9 @@ public class WarriorsGuild extends Controller {
 					if (ticks == 0)
 						player.faceObject(object);
 					else if (ticks == 1)
-						player.getDialogueManager().execute(new SimpleMessage(), "The animator hums, something appears to be working.");
+						player.simpleDialogue("The animator hums, something appears to be working.");
 					else if (ticks == 2) {
-						player.getDialogueManager().execute(new SimpleMessage(), "You stand back.");
+						player.simpleDialogue("You stand back.");
 						player.addWalkSteps(player.getX(), player.getY() + 3);
 					} else if (ticks == 3) {
 						player.faceObject(object);

@@ -95,11 +95,11 @@ public class GemTipCutting extends PlayerAction {
 
 	public boolean checkAll(Player player) {
 		if (player.getSkills().getLevel(Constants.FLETCHING) < gem.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a fletching level of " + gem.getLevelRequired() + " to cut that gem.");
+			player.simpleDialogue("You need a fletching level of " + gem.getLevelRequired() + " to cut that gem.");
 			return false;
 		}
 		if (!player.getInventory().containsOneItem(gem.getCut())) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have any " + ItemDefinitions.getDefs(gem.getCut()).getName().toLowerCase() + " to cut.");
+			player.simpleDialogue("You don't have any " + ItemDefinitions.getDefs(gem.getCut()).getName().toLowerCase() + " to cut.");
 			return false;
 		}
 		return true;

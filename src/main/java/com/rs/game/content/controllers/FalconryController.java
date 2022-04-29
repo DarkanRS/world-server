@@ -50,11 +50,11 @@ public class FalconryController extends Controller {
 			return;
 		}
 		if ((player.getEquipment().getItem(3) != null && player.getEquipment().getItem(3).getId() == -1) || (player.getEquipment().getItem(5) != null && player.getEquipment().getItem(5).getId() == -1)) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need both hands free to use a falcon.");
+			player.simpleDialogue("You need both hands free to use a falcon.");
 			return;
 		}
 		if (player.getSkills().getLevel(Constants.HUNTER) < 43) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a Hunter level of at least 43 to use a falcon, come back later.");
+			player.simpleDialogue("You need a Hunter level of at least 43 to use a falcon, come back later.");
 			return;
 		}
 		player.getControllerManager().startController(new FalconryController());
@@ -71,7 +71,7 @@ public class FalconryController extends Controller {
 		});
 		player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
 		player.getAppearance().generateAppearanceData();
-		player.getDialogueManager().execute(new SimpleMessage(), "Simply click on the target and try your luck.");
+		player.simpleDialogue("Simply click on the target and try your luck.");
 	}
 
 	@Override
@@ -98,13 +98,13 @@ public class FalconryController extends Controller {
 		player.setNextFaceEntity(npc);
 		if (npc.getDefinitions().getName().toLowerCase().contains("kebbit")) {
 			if (player.getTempAttribs().getB("falconReleased")) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You cannot catch a kebbit without your falcon.");
+				player.simpleDialogue("You cannot catch a kebbit without your falcon.");
 				return false;
 			}
 			int level = levels[(npc.getId() - 5098)];
 			if (proccessFalconAttack(npc)) {
 				if (player.getSkills().getLevel(Constants.HUNTER) < level) {
-					player.getDialogueManager().execute(new SimpleMessage(), "You need a Hunter level of " + level + " to capture this kebbit.");
+					player.simpleDialogue("You need a Hunter level of " + level + " to capture this kebbit.");
 					return true;
 				}
 				if (FlyingEntityHunter.isSuccessful(player, level, player -> {
@@ -164,7 +164,7 @@ public class FalconryController extends Controller {
 			if (kill == null)
 				return false;
 			if (kill != npc) {
-				player.getDialogueManager().execute(new SimpleMessage(), "This isn't your kill!");
+				player.simpleDialogue("This isn't your kill!");
 				return false;
 			}
 			npc.transformIntoNPC(npc.getId() + 4);

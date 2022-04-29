@@ -160,7 +160,7 @@ public class StealingCreationLobby {
 			// return false;
 		}
 		if (player.getTempAttribs().getL("SC_PENALTY") >= System.currentTimeMillis()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You have betrayed the mystics and must wait " + (int) (player.getTempAttribs().getL("SC_PENALTY") / 60000) + "minutes.");
+			player.simpleDialogue("You have betrayed the mystics and must wait " + (int) (player.getTempAttribs().getL("SC_PENALTY") / 60000) + "minutes.");
 			return false;
 		}
 		return true;

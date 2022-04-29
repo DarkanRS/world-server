@@ -141,7 +141,7 @@ public class DungeoneeringFishing extends PlayerAction {
 
 	private boolean checkAll(Player player) {
 		if (player.getSkills().getLevel(Constants.FISHING) < spot.getFish().getLevel()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a fishing level of " + spot.getFish().getLevel() + " to fish here.");
+			player.simpleDialogue("You need a fishing level of " + spot.getFish().getLevel() + " to fish here.");
 			return false;
 		}
 		if (!player.getInventory().containsOneItem(FLY_FISHING_ROAD)) {
@@ -154,7 +154,7 @@ public class DungeoneeringFishing extends PlayerAction {
 		}
 		if (!player.getInventory().hasFreeSlots()) {
 			player.setNextAnimation(new Animation(-1));
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have enough inventory space.");
+			player.simpleDialogue("You don't have enough inventory space.");
 			return false;
 		}
 		return !spot.hasFinished();
