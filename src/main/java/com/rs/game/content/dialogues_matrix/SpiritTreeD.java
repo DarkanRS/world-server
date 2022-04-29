@@ -42,7 +42,7 @@ public class SpiritTreeD extends MatrixDialogue {
 				sendPlayerDialogue(9827, "No thanks.");
 			}
 		} else if (stage == 1) {
-			SpiritTree.openInterface(player, npcId == 3636);
+			SpiritTree.openInterface(player);
 			end();
 		} else if (stage == 2)
 			end();

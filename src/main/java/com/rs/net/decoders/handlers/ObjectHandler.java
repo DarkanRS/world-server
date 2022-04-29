@@ -61,7 +61,6 @@ import com.rs.game.content.skills.smithing.ForgingInterface;
 import com.rs.game.content.skills.smithing.Smithing.ForgingBar;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.thieving.Thieving;
-import com.rs.game.content.transportation.SpiritTree;
 import com.rs.game.content.transportation.WildernessObelisk;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.ForceMovement;
@@ -345,13 +344,10 @@ public final class ObjectHandler {
 				return;
 			} else if (id == 39191) { // Armored zombie up ladder
 				player.setNextAnimation(new Animation(828));
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						player.setNextWorldTile(new WorldTile(3240, 3607, 0));
-						player.getControllerManager().startController(new WildernessController());
-					}
-				}, 1);
+				WorldTasks.schedule(1, () -> {
+					player.setNextWorldTile(new WorldTile(3240, 3607, 0));
+					player.getControllerManager().startController(new WildernessController());
+				});
 				return;
 			} else if (id == 2353 && (object.getX() == 3177 && object.getY() == 5730 && object.getPlane() == 0))
 				player.useStairs(828, new WorldTile(3353, 3416, 0), 1, 2);
@@ -383,8 +379,6 @@ public final class ObjectHandler {
 				Runecrafting.runecraft(player, RCRune.DEATH);
 			else if (id == 30624)
 				Runecrafting.runecraft(player, RCRune.BLOOD);
-			else if (id == 26723)
-				player.getDialogueManager().execute(new SpiritTreeD(), (object.getId() == 68973 && object.getId() == 68974) ? 3637 : 3636);
 			else if (id == 4019 || id == 67036)
 				Summoning.openInfusionInterface(player, false);
 			else if (id == 20604)
@@ -1440,9 +1434,6 @@ public final class ObjectHandler {
 					if (objectDef.containsOption(0, "Search"))
 						player.sendMessage("You search the chest but find nothing.");
 					break;
-				case "spirit tree":
-					player.getDialogueManager().execute(new SpiritTreeD(), (object.getId() == 68973 && object.getId() == 68974) ? 3637 : 3636);
-					break;
 				case "spiderweb":
 					if (object.getRotation() == 2) {
 						player.lock(2);
@@ -1582,8 +1573,6 @@ public final class ObjectHandler {
 				}
 			} else if (object.getDefinitions(player).getName().toLowerCase().contains(" stall"))
 				Thieving.handleStalls(player, object);
-			else if (object.getId() == 26723)
-				SpiritTree.openInterface(player, object.getId() != 68973 && object.getId() != 68974);
 			else if (id == 2646 || object.getDefinitions(player).getName().equals("Flax")) {
 				if (Utils.random(5) == 0)
 					World.removeObjectTemporary(object, Ticks.fromMinutes(1));
@@ -1645,9 +1634,6 @@ public final class ObjectHandler {
 						player.lock(2);
 						World.removeObjectTemporary(object, Ticks.fromMinutes(1));
 					}
-					break;
-				case "spirit tree":
-					SpiritTree.openInterface(player, object.getId() != 68973 && object.getId() != 68974);
 					break;
 				case "ladder":
 					handleLadder(player, object, 2);
