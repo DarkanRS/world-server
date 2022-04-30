@@ -108,15 +108,37 @@ public class Summoning {
 		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
 	}
 
-	public static ButtonClickHandler handlePouchButtons = new ButtonClickHandler(672) {
+	public static ButtonClickHandler handleDungeoneeringPouchButtons = new ButtonClickHandler(672) {
+		static int getPouchID(int slot) {//From blank
+			slot = (slot+3)/5 + 5;
+			switch (slot % 6) {
+				case 0 -> {
+					return slot / 6 + 17934;
+				}
+				case 1 -> {
+					return slot / 6 + 17984;
+				}
+				case 2 -> {
+					return slot / 6 + 17944;
+				}
+				case 3 -> {
+					return slot / 6 + 17954;
+				}
+				case 4 -> {
+					return slot / 6 + 17974;
+				}
+				case 5 -> {
+					return slot / 6 + 17964;
+				}
+			}
+			return -1;
+		}
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 16) {
 				Pouch pouch = Pouch.forId(e.getSlotId2());
 				if (pouch == null) {
-					if(Settings.getConfig().isDebug())
-						e.getPlayer().sendMessage("Unknown pouch with ID: " + e.getSlotId2());
-					e.getPlayer().sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
+					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getPouchID(e.getSlotId()))) + " to create this pouch.");
 					return;
 				}
 				if (e.getPacket() == ClientPacket.IF_OP1)
@@ -220,9 +242,9 @@ public class Summoning {
 
 	public static String getMaterialListString(Pouch pouch) {
 		String list = "";
-		Item[] items = pouch.getMaterialList().get();
-		if (items == null)
+		if (pouch == null)
 			return "nothing";
+		Item[] items = pouch.getMaterialList().get();
 		for (int i = 0;i < items.length;i++)
 			list += items[i].getAmount() + " " + items[i].getDefinitions().name.toLowerCase() + ((i == items.length - 1) ? "" : ", ");
 		return list;
