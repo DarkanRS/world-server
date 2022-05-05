@@ -37,6 +37,7 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.impl.StrongholdRewardD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
+import com.rs.game.content.dialogue.statements.Statement;
 import com.rs.game.content.minigames.FightPits;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
@@ -45,7 +46,6 @@ import com.rs.game.content.pet.Incubator;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
-import com.rs.game.content.skills.construction.EnterHouse;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.content.skills.cooking.CowMilkingAction;
@@ -1034,9 +1034,30 @@ public final class ObjectHandler {
 				player.useStairs(833, new WorldTile(3117, 9852, 0), 1, 2);
 			else if (id == 29355 && object.getX() == 3116 && object.getY() == 9852)
 				player.useStairs(833, new WorldTile(3115, 3452, 0), 1, 2);
-			else if (WildernessController.isDitch(id))
-				player.getDialogueManager().execute(new WildernessDitch(), object);
-			else if (id == 42611)
+			else if (WildernessController.isDitch(id)) {
+				player.startConversation(new Dialogue().addNext(new Statement() {
+					@Override
+					public void send(Player player) { player.getInterfaceManager().sendInterface(382); }
+
+					@Override
+					public int getOptionId(int componentId) { return componentId == 19 ? 1 : 2; }
+				}).addNext(() -> {
+						player.stopAll();
+						player.lock(4);
+						player.setNextAnimation(new Animation(6132));
+						final WorldTile toTile = new WorldTile(object.getRotation() == 3 || object.getRotation() == 1 ? object.getX() - 1 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() + 2 : player.getY(), object.getPlane());
+						player.setNextForceMovement(new ForceMovement(new WorldTile(player.getTile()), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.NORTH : Direction.WEST));
+						WorldTasks.schedule(new WorldTask() {
+							@Override
+							public void run() {
+								player.setNextWorldTile(toTile);
+								player.faceObject(object);
+								player.getControllerManager().startController(new WildernessController());
+								player.resetReceivedDamage();
+							}
+						}, 2);
+				}));
+			} else if (id == 42611)
 				player.getDialogueManager().execute(new MagicPortal());
 			else if (id >= 8958 && id <= 8960)
 				//						List<Integer> pIndex = World.getRegion(object.getRegionId()).getPlayerIndexes();
