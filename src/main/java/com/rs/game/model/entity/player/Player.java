@@ -3618,6 +3618,10 @@ public class Player extends Entity {
 	public void simpleNPCDialogue(int npcId, HeadE emote, String message) {
 		startConversation(new Dialogue().addNPC(npcId, emote, message));
 	}
+	
+	public void simplePlayerDialogue(HeadE emote, String message) {
+		startConversation(new Dialogue().addPlayer(emote, message));
+	}
 
 	public ArrayList<Player> getNearbyFCMembers(NPC npc) {
 		ArrayList<Player> eligible = new ArrayList<>();

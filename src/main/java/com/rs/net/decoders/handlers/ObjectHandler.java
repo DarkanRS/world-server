@@ -419,36 +419,38 @@ public final class ObjectHandler {
 				player.startConversation(new StrongholdRewardD(player, 2));
 			} else if (id == 16047)
 				player.startConversation(new StrongholdRewardD(player, 3));
-			else if (id == 47120) { // zaros altar
-				// recharge if needed
+			else if (id == 47120) { // zaros altar recharge if needed
 				if (player.getPrayer().getPoints() < player.getSkills().getLevelForXp(Constants.PRAYER) * 10) {
 					player.lock(12);
 					player.setNextAnimation(new Animation(12563));
 					player.getPrayer().setPoints(((player.getSkills().getLevelForXp(Constants.PRAYER) * 10) * 1.15));
 					player.getPrayer().refreshPoints();
 				}
-				player.getDialogueManager().execute(new ZarosAltar());
+				player.startConversation(new Dialogue()
+						.addOptions("Change from " + ((player.getPrayer().isCurses() ? "curses" : "prayers")) + "?", ops -> {
+							ops.add("Yes, replace my prayer book.", () -> {
+								if (player.getPrayer().isCurses())
+									player.simpleDialogue("The altar eases its grip on your mid. The curses slip from", "your memory and you recall the prayers you used to know.");
+								else
+									player.simpleDialogue("The altar fills your head with dark thoughts, purging the", "prayers from your memory and leaving only curses in", " their place.");
+								player.getPrayer().setPrayerBook(!player.getPrayer().isCurses());
+							});
+							ops.add("Nevermind.");
+						}));
 			} else if (id == 19222)
 				FalconryController.beginFalconry(player);
-			else if (id == 42425 && object.getX() == 3220 && object.getY() == 3222) { // zaros
-				// portal
-				player.useStairs(10256, new WorldTile(3353, 3416, 0), 4, 5, "And you find yourself into a digsite.");
-				player.addWalkSteps(3222, 3223, -1, false);
-				player.sendMessage("You examine portal and it absorbs you...");
-			} else if (id == 9356)
+			else if (id == 9356)
 				FightCavesController.enterFightCaves(player);
 			else if (id == 68107)
 				FightKilnController.enterFightKiln(player, false);
 			else if (id == 68223)
 				FightPits.enterLobby(player, false);
-			else if (id == 26684 || id == 26685 || id == 26686) // poison
-				// waste
-				// cave
+			else if (id == 26684 || id == 26685 || id == 26686) // poison waste cave
 				player.useStairs(-1, new WorldTile(1989, 4174, 0), 1, 2, "You enter the murky cave...");
 			else if (id == 26571 || id == 26572 || id == 26573 || id == 26574)
 				player.useStairs(-1, new WorldTile(2321, 3100, 0), 1, 2);
 			else if (id == 26560 && x == 2015 && y == 4255)
-				player.simpleDialogue("The room beyond the door is covred in gas, it is probably dangerous to go in there.");
+				player.simpleDialogue("The room beyond the door is covered in gas, it is probably dangerous to go in there.");
 			else if (id == 26519) {
 				if (x == 1991 && y == 4175)
 					player.useStairs(827, new WorldTile(1991, 4175, 0), 1, 2);
@@ -838,13 +840,7 @@ public final class ObjectHandler {
 				player.useStairs(828, new WorldTile(2594, 3086, 0), 1, 2);
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? new WorldTile(2501, 2989, 0) : new WorldTile(2574, 3029, 0), 1, 2);
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						player.getDialogueManager().execute(new SimplePlayerMessage(), "Wow! That tunnel went a long way.");
-					}
-				});
+				WorldTasks.schedule(() -> player.simplePlayerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));
 			} else if (id == 2890 || id == 2892 || id == 2893) {
 
 				if (player.getEquipment().getWeaponId() != 975 && !player.getInventory().containsItem(975, 1) &&
@@ -898,13 +894,13 @@ public final class ObjectHandler {
 				player.useStairs(-1, new WorldTile(3058, 9776, 0), 0, 1);
 			else if (id == 2112 && object.getX() == 3046 && object.getY() == 9756) {
 				if (player.getSkills().getLevelForXp(Constants.MINING) < 60) {
-					player.simpleNPCDialogue(MiningGuildDwarf.getClosestDwarfID(player), "Sorry, but you need level 60 Mining to go in there.");
+					player.simpleNPCDialogue(3294, HeadE.CHEERFUL, "Sorry, but you need level 60 Mining to go in there.");
 					return;
 				}
 				Doors.handleDoor(player, object);
 			} else if (id == 2113) {
 				if (player.getSkills().getLevelForXp(Constants.MINING) < 60) {
-					player.simpleNPCDialogue(MiningGuildDwarf.getClosestDwarfID(player), "Sorry, but you need level 60 Mining to go in there.");
+					player.simpleNPCDialogue(3294, HeadE.CHEERFUL, "Sorry, but you need level 60 Mining to go in there.");
 					return;
 				}
 				player.useStairs(-1, new WorldTile(3021, 9739, 0), 0, 1);
@@ -960,10 +956,9 @@ public final class ObjectHandler {
 					}
 
 				}, 0, 0);
-			} else if (id == 15478 || id == 15477 || id == 15481 || id == 15479 || id == 15482 || id == 15480)
-				player.getDialogueManager().execute(new EnterHouse());
+				
 			// rock living caverns
-			else if (id == 45077) {
+			} else if (id == 45077) {
 				player.lock();
 				if (player.getX() != object.getX() || player.getY() != object.getY())
 					player.addWalkSteps(object.getX(), object.getY(), -1, false);
@@ -976,7 +971,6 @@ public final class ObjectHandler {
 						if (count == 0) {
 							player.setNextFaceWorldTile(new WorldTile(object.getX() - 1, object.getY(), 0));
 							player.setNextAnimation(new Animation(12216));
-							player.unlock();
 						} else if (count == 2) {
 							player.setNextWorldTile(new WorldTile(3651, 5122, 0));
 							player.setNextFaceWorldTile(new WorldTile(3651, 5121, 0));

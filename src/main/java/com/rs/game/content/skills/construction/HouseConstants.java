@@ -998,22 +998,23 @@ public class HouseConstants {
 
 	public static enum POHLocation {
 
-		RIMMINGTON(new WorldTile(2953, 3224, 0), 1, 5000),
+		RIMMINGTON(15478, new WorldTile(2953, 3224, 0), 1, 5000),
 
-		TAVERLY(new WorldTile(2882, 3452, 0), 1, 5000),
+		TAVERLY(15477, new WorldTile(2882, 3452, 0), 1, 5000),
 
-		POLLNIVNEACH(new WorldTile(3340, 3003, 0), 20, 7500),
+		POLLNIVNEACH(15479, new WorldTile(3340, 3003, 0), 20, 7500),
 
-		RELLEKKA(new WorldTile(2670, 3631, 0), 30, 10000),
+		RELLEKKA(15480, new WorldTile(2670, 3631, 0), 30, 10000),
 
-		BRIMHAVEN(new WorldTile(2757, 3178, 0), 40, 15000),
+		BRIMHAVEN(15481, new WorldTile(2757, 3178, 0), 40, 15000),
 
-		YANILLE(new WorldTile(2544, 3096, 0), 50, 25000);
+		YANILLE(15482, new WorldTile(2544, 3096, 0), 50, 25000);
 
 		private WorldTile tile;
-		private int levelRequired, cost;
+		private int objectId, levelRequired, cost;
 
-		private POHLocation(WorldTile tile, int levelRequired, int cost) {
+		private POHLocation(int objectId, WorldTile tile, int levelRequired, int cost) {
+			this.objectId = objectId;
 			this.tile = tile;
 			this.levelRequired = levelRequired;
 			this.cost = cost;
@@ -1029,6 +1030,10 @@ public class HouseConstants {
 
 		public int getCost() {
 			return cost;
+		}
+
+		public int getObjectId() {
+			return objectId;
 		}
 	}
 

@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.construction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,6 +27,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.controllers.HouseController;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.pet.Pets;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
@@ -51,7 +53,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
 
 @PluginEventHandler
@@ -93,6 +97,31 @@ public class House {
 	private boolean isOwnerInside() {
 		return players.contains(player);
 	}
+	
+	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray()) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
+				ops.add("Go to your house.", () -> {
+					e.getPlayer().getHouse().setBuildMode(false);
+					e.getPlayer().getHouse().enterMyHouse();
+				});
+				ops.add("Go to your house (building mode).", () -> {
+					e.getPlayer().getHouse().kickGuests();
+					e.getPlayer().getHouse().setBuildMode(true);
+					e.getPlayer().getHouse().enterMyHouse();
+				});
+				ops.add("Go to a friend's house.", () -> {
+					if (e.getPlayer().isIronMan()) {
+						e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
+						return;
+					}
+					e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
+				});
+				ops.add("Nevermind.");
+			}));
+		}
+	};
 
 	public static ButtonClickHandler handleHouseOptions = new ButtonClickHandler(398) {
 		@Override
