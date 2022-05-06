@@ -27,6 +27,7 @@ import com.rs.game.content.controllers.FightCavesController;
 import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.content.controllers.PestControlLobbyController;
 import com.rs.game.content.controllers.PuroPuroController;
+import com.rs.game.content.controllers.QueenBlackDragonController;
 import com.rs.game.content.controllers.StealingCreationLobbyController;
 import com.rs.game.content.controllers.UndergroundDungeonController;
 import com.rs.game.content.controllers.WarriorsGuild;
@@ -1220,10 +1221,28 @@ public final class ObjectHandler {
 			else if (id == 70795) {
 				if (!Agility.hasLevel(player, 50))
 					return;
-				player.getDialogueManager().execute(new GrotwormLairD(), true);
-			} else if (id == 70812)
-				player.getDialogueManager().execute(new GrotwormLairD(), false);
-			else if (id == 70799)
+				player.startConversation(new Dialogue()
+						.addSimple("The shortcut leads to the deepest level of the dungeon. The worms in that area are significantly more dangerous.")
+						.addOptions("Slide down the worm burrow?", ops -> {
+							ops.add("Yes.", () -> player.useStairs(new WorldTile(1206, 6506, 0)));
+							ops.add("No.");
+						}));
+			} else if (id == 70812) {
+				player.startConversation(new Dialogue()
+						.addSimple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
+						.addOptions(ops -> {
+							ops.add("Proceed.", () -> {
+								if (player.getSkills().getLevelForXp(Constants.SUMMONING) < 60) {
+									player.sendMessage("You need a Summoning level of 60 to go through this portal.");
+									return;
+								}
+								player.lock();
+								player.getControllerManager().startController(new QueenBlackDragonController());
+								player.setNextAnimation(new Animation(16752));
+							});
+							ops.add("Step away from the portal.");
+						}));
+			} else if (id == 70799)
 				player.useStairs(-1, new WorldTile(1178, 6355, 0));
 			else if (id == 70796)
 				player.useStairs(-1, new WorldTile(1090, 6360, 0));
