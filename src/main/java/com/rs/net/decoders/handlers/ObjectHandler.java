@@ -1572,12 +1572,7 @@ public final class ObjectHandler {
 				}
 			} else if (object.getDefinitions(player).getName().toLowerCase().contains(" stall"))
 				Thieving.handleStalls(player, object);
-			else if (id == 2646 || object.getDefinitions(player).getName().equals("Flax")) {
-				if (Utils.random(5) == 0)
-					World.removeObjectTemporary(object, Ticks.fromMinutes(1));
-				player.getInventory().addItem(1779, 1);
-				// crucible
-			} else if (id == 22697)
+			else if (id == 22697)
 				Thieving.checkTrapsChest(player, object, 22683, 52, 210, 200, new DropSet(
 						new DropTable(1, 5, 995, 1, 200),
 						new DropTable(1, 5, 4537, 1),
@@ -1606,34 +1601,6 @@ public final class ObjectHandler {
 				return;
 			else
 				switch (def.getName().toLowerCase()) {
-				case "cabbage":
-					if (def.containsOption(1, "Pick") && player.getInventory().addItem(1965, 1)) {
-						player.setNextAnimation(new Animation(827));
-						player.lock(2);
-						World.removeObjectTemporary(object, Ticks.fromMinutes(1));
-					}
-					break;
-				case "potato":
-					if (def.containsOption(1, "Pick") && player.getInventory().addItem(1942, 1)) {
-						player.setNextAnimation(new Animation(827));
-						player.lock(2);
-						World.removeObjectTemporary(object, Ticks.fromMinutes(1));
-					}
-					break;
-				case "wheat":
-					if (def.containsOption(1, "Pick") && player.getInventory().addItem(1947, 1)) {
-						player.setNextAnimation(new Animation(827));
-						player.lock(2);
-						World.removeObjectTemporary(object, Ticks.fromMinutes(1));
-					}
-					break;
-				case "onion":
-					if (def.containsOption(1, "Pick") && player.getInventory().addItem(1957, 1)) {
-						player.setNextAnimation(new Animation(827));
-						player.lock(2);
-						World.removeObjectTemporary(object, Ticks.fromMinutes(1));
-					}
-					break;
 				case "ladder":
 					handleLadder(player, object, 2);
 					break;
@@ -1641,7 +1608,6 @@ public final class ObjectHandler {
 					handleStaircases(player, object, 2);
 					break;
 				default:
-
 					break;
 				}
 			if (Settings.getConfig().isDebug())
