@@ -41,7 +41,7 @@ public class GrotwormLairD extends MatrixDialogue {
 			sendOptionsDialogue("Slide down the worm burrow?", "Yes.", "No.");
 		else if (stage == 1) {
 			if (componentId == OPTION_1)
-				player.useStairs(-1, new WorldTile(1206, 6506, 0), 1, 2);
+				player.useStairs(new WorldTile(1206, 6506, 0));
 			end();
 		} else if (stage == 3) {
 			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "Proceed.", "Step away from the portal.");

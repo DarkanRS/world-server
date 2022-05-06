@@ -2508,8 +2508,23 @@ public class Player extends Entity {
 		useStairs(-1, dest, 1, 2);
 	}
 
-	public void useStairs(int emoteId, final WorldTile dest, int useDelay, int totalDelay) {
-		useStairs(emoteId, dest, useDelay, totalDelay, null);
+	public void useStairs(int animId, WorldTile dest) {
+		useStairs(animId, dest, 1, 2, null);
+	}
+	
+	public void useStairs(int animId, final WorldTile dest, int useDelay, int totalDelay) {
+		useStairs(animId, dest, useDelay, totalDelay, null);
+	}
+	
+	public void promptUpDown(int emoteId, String up, WorldTile upTile, String down, WorldTile downTile) {
+		startConversation(new Dialogue().addOptions(ops -> {
+			ops.add(up, () -> useStairs(emoteId, upTile, 2, 3));
+			ops.add(down, () -> useStairs(emoteId, downTile, 2, 3));
+		}));
+	}
+	
+	public void promptUpDown(String up, WorldTile upTile, String down, WorldTile downTile) {
+		promptUpDown(-1, up, upTile, down, downTile);
 	}
 
 	public void handleOneWayDoor(GameObject object, int xOff, int yOff) {
