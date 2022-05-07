@@ -1833,6 +1833,10 @@ public class Player extends Entity {
 		for (int i = 0;i < 8;i++)
 			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
 	}
+	
+	public void sendOptionDialogue(Consumer<Options> options) {
+		startConversation(new Dialogue().addOptions(options));
+	}
 
 	public void sendOptionDialogue(String question, Consumer<Options> options) {
 		startConversation(new Dialogue().addOptions(question, options));

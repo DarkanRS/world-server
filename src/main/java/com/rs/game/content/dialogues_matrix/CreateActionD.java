@@ -16,10 +16,16 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.SkillsDialogue;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.impl.skilling.MakeXItem;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
-public class CreateActionD extends MatrixDialogue {
+public class CreateActionD extends Conversation {
 
 	private int[] anims;
 	private Item[][] materials;
@@ -29,34 +35,44 @@ public class CreateActionD extends MatrixDialogue {
 	private int skill;
 	private int delay;
 
-	public CreateActionD(Item[][] materials, Item[][] products, int delay) {
+	public CreateActionD(Player player, Item[][] materials, Item[][] products, int delay) {
+		super(player);
 		this.materials = materials;
 		this.products = products;
 		this.delay = delay;
 		skill = -1;
 		anims = null;
 		xp = null;
+		start();
+		create();
 	}
 
-	public CreateActionD(Item[][] materials, Item[][] products, double[] xp, int skill, int delay) {
+	public CreateActionD(Player player, Item[][] materials, Item[][] products, double[] xp, int skill, int delay) {
+		super(player);
 		this.materials = materials;
 		this.products = products;
 		this.delay = delay;
 		this.skill = skill;
 		anims = null;
 		this.xp = xp;
+		start();
+		create();
 	}
 
-	public CreateActionD(Item[][] materials, Item[][] products, double[] xp, int[] anims, int skill, int delay) {
+	public CreateActionD(Player player, Item[][] materials, Item[][] products, double[] xp, int[] anims, int skill, int delay) {
+		super(player);
 		this.materials = materials;
 		this.products = products;
 		this.delay = delay;
 		this.skill = skill;
 		this.anims = anims;
 		this.xp = xp;
+		start();
+		create();
 	}
 
-	public CreateActionD(Item[][] materials, Item[][] products, double[] xp, int[] anims, int[] reqs, int skill, int delay) {
+	public CreateActionD(Player player, Item[][] materials, Item[][] products, double[] xp, int[] anims, int[] reqs, int skill, int delay) {
+		super(player);
 		this.materials = materials;
 		this.products = products;
 		this.delay = delay;
@@ -64,9 +80,12 @@ public class CreateActionD extends MatrixDialogue {
 		this.anims = anims;
 		this.xp = xp;
 		this.reqs = reqs;
+		start();
+		create();
 	}
 
-	public CreateActionD(Item[][] materials, Item[][] products, double[] xp, int anim, int skill, int delay) {
+	public CreateActionD(Player player, Item[][] materials, Item[][] products, double[] xp, int anim, int skill, int delay) {
+		super(player);
 		this.materials = materials;
 		this.products = products;
 		this.delay = delay;
@@ -75,9 +94,12 @@ public class CreateActionD extends MatrixDialogue {
 		for (int i = 0;i < products.length;i++)
 			anims[i] = anim;
 		this.xp = xp;
+		start();
+		create();
 	}
 
-	public CreateActionD(Item[][] materials, Item[][] products, double[] xp, int anim, int[] reqs, int skill, int delay) {
+	public CreateActionD(Player player, Item[][] materials, Item[][] products, double[] xp, int anim, int[] reqs, int skill, int delay) {
+		super(player);
 		this.materials = materials;
 		this.products = products;
 		this.delay = delay;
@@ -87,25 +109,17 @@ public class CreateActionD extends MatrixDialogue {
 			anims[i] = anim;
 		this.xp = xp;
 		this.reqs = reqs;
+		start();
+		create();
 	}
 
-	@Override
 	public void start() {
-		Item[] products = new Item[this.products.length];
+		List<MakeXItem> items = new ArrayList<>();
 		for (int i = 0; i < this.products.length; i++)
-			products[i] = this.products[i][0];
-		SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.MAKE_INTERVAL, "Which item would you like to make?", 0, products, null);
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		int type = SkillsDialogue.getItemSlot(componentId);
-		player.getActionManager().setAction(new CreateAction(materials, products, xp, anims, reqs, skill, delay, type));
-		end();
-	}
-
-	@Override
-	public void finish() {
-
+			items.add(new MakeXItem(player, materials[i], products[i], xp[i], anims[i], reqs[i], skill, delay));
+		addNext(new MakeXStatement((MakeXItem[]) items.toArray(), 30));
+		
+//		int type = MakeXStatement.getItemSlot(componentId);
+//		player.getActionManager().setAction(new CreateAction(materials, products, xp, anims, reqs, skill, delay, type));
 	}
 }

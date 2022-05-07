@@ -38,7 +38,6 @@ import com.rs.game.content.dialogues_matrix.GeneralStore;
 import com.rs.game.content.dialogues_matrix.Jossik;
 import com.rs.game.content.dialogues_matrix.MamboJamboD;
 import com.rs.game.content.dialogues_matrix.Max;
-import com.rs.game.content.dialogues_matrix.MiningGuildDwarf;
 import com.rs.game.content.dialogues_matrix.Nurmof;
 import com.rs.game.content.dialogues_matrix.SorceressGardenNPCs;
 import com.rs.game.content.dialogues_matrix.TanningD;

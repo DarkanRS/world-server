@@ -43,7 +43,7 @@ public class PotteryCrafting  {
 					.addNext(new MakeXStatement(new int[] { 1931, 20347 }, new String[] { "Normal Pottery", "Skilling Urns" }),
 							() -> {
 								e.getPlayer().endConversation();
-								e.getPlayer().getDialogueManager().execute(new CreateActionD(UNF_MATS, UNF_PRODS, XP, 896, REQS, Constants.CRAFTING, 2));
+								e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_MATS, UNF_PRODS, XP, 896, REQS, Constants.CRAFTING, 2));
 							},
 							() -> e.getPlayer().startConversation(new CreateUnfUrnD(e.getPlayer()))));
 		}
@@ -53,7 +53,7 @@ public class PotteryCrafting  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().containsItems(1787, 20052, 1789, 1791, 5352, 4438)) //TODO move these to generic firing dialogue
-				e.getPlayer().getDialogueManager().execute(new CreateActionD(UNF_PRODS, FIRED_PRODS, XP, 899, REQS, Constants.CRAFTING, 4));
+				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_PRODS, FIRED_PRODS, XP, 899, REQS, Constants.CRAFTING, 4));
 			else if (!e.getPlayer().startConversation(new FireUrnD(e.getPlayer())))
 				e.getPlayer().sendMessage("You don't have anything to fire.");
 		}

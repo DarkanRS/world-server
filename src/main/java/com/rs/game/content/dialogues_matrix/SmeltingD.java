@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.SkillsDialogue;
-import com.rs.game.content.SkillsDialogue.ItemNameFilter;
 import com.rs.game.content.skills.smithing.Smelting;
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.object.GameObject;

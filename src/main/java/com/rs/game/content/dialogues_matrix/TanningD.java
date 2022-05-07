@@ -19,9 +19,9 @@ package com.rs.game.content.dialogues_matrix;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.SkillsDialogue;
 import com.rs.game.content.SkillsDialogue.ItemNameFilter;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -73,13 +73,7 @@ public class TanningD extends MatrixDialogue {
 				int leatherAmount = player.getInventory().getAmountOf(INGREDIENT[componentIndex]);
 				if (leatherAmount == 0) {
 					end();
-					WorldTasks.schedule(new WorldTask() {
-
-						@Override
-						public void run() {
-							player.simpleNPCDialogue(npcId, "Ahhh... novice mistake, you must bring me at least one " + ItemDefinitions.getDefs(INGREDIENT[componentIndex]).getName().toLowerCase() + " in order to tan " + ItemDefinitions.getDefs(PRODUCT[componentIndex]).getName().toLowerCase() + ".");
-						}
-					});
+					WorldTasks.schedule(() -> player.simpleNPCDialogue(npcId, HeadE.SHAKING_HEAD, "Ahhh... novice mistake, you must bring me at least one " + ItemDefinitions.getDefs(INGREDIENT[componentIndex]).getName().toLowerCase() + " in order to tan " + ItemDefinitions.getDefs(PRODUCT[componentIndex]).getName().toLowerCase() + "."));
 					return false;
 				}
 				int requestedAmount = SkillsDialogue.getQuantity(player);
@@ -99,7 +93,7 @@ public class TanningD extends MatrixDialogue {
 			public boolean process(Player player) {
 				if (player.getInventory().getNumberOf(995) < price) {
 					end();
-					player.simpleNPCDialogue(npcId, "Oh no, it looks like you've ran out of coins. Come back later once you have " + price + " coins.");
+					player.simpleNPCDialogue(npcId, HeadE.CHEERFUL, "Oh no, it looks like you've ran out of coins. Come back later once you have " + price + " coins.");
 					return false;
 				}
 				return ticks > 0;

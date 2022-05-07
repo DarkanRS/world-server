@@ -28,7 +28,6 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.dragonslayer.GuildMasterDragonSlayerD;
 import com.rs.game.content.quests.handlers.heroesquest.dialogues.KatrineHeroesQuestD;
@@ -66,8 +65,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.shop.ShopsHandler;
-
-
 
 @PluginEventHandler
 public class Varrock {
@@ -697,7 +694,7 @@ public class Varrock {
 					return;
 				}
 				Doors.handleDoor(p, obj);
-				p.simpleNPCDialogue(198, "Greetings bold adventurer. Welcome to the guild of", "Champions.");
+				p.simpleNPCDialogue(198, HeadE.CHEERFUL, "Greetings bold adventurer. Welcome to the guild of Champions.");
 			} else
 				Doors.handleDoor(p, obj);
 		}

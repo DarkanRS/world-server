@@ -1357,7 +1357,12 @@ public final class ObjectHandler {
 			else if (id == 62678 || id == 62679)
 				player.getDominionTower().openModes();
 			else if (id == 62688)
-				player.getDialogueManager().execute(new DTClaimRewards());
+				player.startConversation(new Dialogue()
+						.addSimple("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".")
+						.addOptions("If you claim your rewards your progress will be reset.", ops -> {
+							ops.add("Claim rewards", () -> player.getDominionTower().openRewardsChest());
+							ops.add("Nevermind.");
+						}));
 			else if (id == 62677)
 				player.getDominionTower().talkToFace();
 			else if (id == 62680)
@@ -1396,8 +1401,6 @@ public final class ObjectHandler {
 				player.setNextWorldTile(player.transform(object.getRotation() == 3 ? -3 : 3, 0, -1));
 			else if (id == 2347)
 				player.setNextWorldTile(player.transform(object.getRotation() == 3 ? 3 : -3, 0, 1));
-			else if (id == 26194)
-				player.getDialogueManager().execute(new PartyRoomLever());
 			//start chaos tunnels
 			else if (id == 65203) {
 				if (player.inCombat(10000) || player.hasBeenHit(10000)) {
