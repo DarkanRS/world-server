@@ -1,10 +1,10 @@
 {
   "names": [
-    "Spiritual guardian"
+    "Warped gulega"
   ],
-  "attackAnim": 390,
-  "defenceAnim": 387,
-  "deathAnim": 4200,
+  "attackAnim": 15001,
+  "defenceAnim": 15000,
+  "deathAnim": 15003,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 1,

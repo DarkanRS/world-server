@@ -20,6 +20,10 @@
     "voiceIDs": [77850, 77445, 77390, 77298]
   },
   {
+    "category": "One Piercing Note quest",
+    "voiceIDs": [8746, 8747]
+  },
+  {
     "category": "Tom Mcgruber Burthrope",
     "voiceIDs": [77565]
   },
