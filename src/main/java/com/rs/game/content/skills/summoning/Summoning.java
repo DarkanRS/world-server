@@ -138,7 +138,10 @@ public class Summoning {
 			if (e.getComponentId() == 16) {
 				Pouch pouch = Pouch.forId(e.getSlotId2());
 				if (pouch == null) {
-					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getPouchID(e.getSlotId()))) + " to create this pouch.");
+					if(e.getPlayer().getControllerManager().isIn(DungeonController.class))
+						e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getPouchID(e.getSlotId()))) + " to create this pouch.");
+					if(!e.getPlayer().getControllerManager().isIn(DungeonController.class))
+						;//e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getPouchID(e.getSlotId()))) + " to create this pouch.");
 					return;
 				}
 				if (e.getPacket() == ClientPacket.IF_OP1)
