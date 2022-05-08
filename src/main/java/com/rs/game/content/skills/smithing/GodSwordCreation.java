@@ -206,6 +206,7 @@ public class GodSwordCreation {
 				player.sendMessage("You need 2 excressence, 1 mutated vine, and 72 fletching to create bolas.");
 			return true;
 		}
+		//spotanim 450 sagie
 		return false;
 	}
 	public static ItemClickHandler handleAbyssalVineWhip = new ItemClickHandler(new Object[] { "Abyssal vine whip" }, new String[] { "Split" }) {

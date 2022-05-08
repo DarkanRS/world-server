@@ -299,7 +299,6 @@ public class Lunars {
 		player.setNextSpotAnim(new SpotAnim(728, 0, 100));
 		spot.compostLevel = 2;
 		player.putPatch(spot);
-		player.lock(3);
 	}
 
 	public static void handleCurePlant(Player player, GameObject object) {

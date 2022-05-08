@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Sachem stormbringer"
+  ],
+  "attackAnim": 13620,
+  "defenceAnim": 13674,
+  "deathAnim": 13675,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 1000,
+  "maxHit": 237,
+  "attackStyle": "MAGE",
+  "combatLevels": {
+    "ATTACK": 1,
+    "RANGE": 1,
+    "STRENGTH": 1,
+    "DEFENSE": 99,
+    "MAGE": 99
+  },
+  "attackRange": 8,
+  "attackGfx": 2591,
+  "attackProjectile": 2592,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 16,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

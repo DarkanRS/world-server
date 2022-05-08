@@ -569,7 +569,7 @@ public class PrayerManager {
 
 	private void updateStatMods() {
 		for (StatMod m : StatMod.values())
-			player.getVars().setVarBit(6857 + m.ordinal(), 30 + statMods[m.ordinal()]);
+			updateStatMod(m);
 	}
 
 	public double getMageMultiplier() {

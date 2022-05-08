@@ -436,7 +436,7 @@ public class HouseConstants {
 		MAHOGANYCOSTUMEBOX(9825, 18774, 80, 280, new Item(8782, 2)),
 
 		//MENAGERIE
-		SMALLOBELISK(15236, 44837, 41, 676, new Item(8786, 1), new Item(12158, 10), new Item(12163, 10), new Item(12160, 10), new Item(12159, 10), new Item(12183, 1000000)),
+		SMALLOBELISK(15236, 44837, 41, 676, new Item(8786, 1), new Item(12158, 10), new Item(12163, 10), new Item(12160, 10), new Item(12159, 10), new Item(12183, 1000)),
 		OAKPETFEEDER(15233, 44834, 37, 240, new Item(8778, 4)),
 		TEAKPETFEEDER(15234, 44835, 52, 380, new Item(8780, 4)),
 		MAHOGANYPETFEEDER(15235, 44836, 67, 880, new Item(8782, 4), new Item(8784, 1)),
@@ -840,7 +840,7 @@ public class HouseConstants {
 		GUTHIX_ICON(8060, 13177, 59, 960, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
 		SARADOMIN_ICON(8058, 13175, 59, 960, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
 		ZAMORAK_ICON(8059, 13173, 59, 960, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
-		ICON_OF_BOB(8061, 13178, 71, 1160, new Item(TEAK_PLANK, 4), new Item(GOLD_LEAF, 2)),
+		ICON_OF_BOB(8061, 13178, 71, 1160, new Item(MAHOGANY_PLANK, 4), new Item(GOLD_LEAF, 2)),
 		// MUSIC
 		WINCHIMES(8079, 13214, 49, 323, new Item(OAK_PLANK, 4), new Item(NAILS, 4), new Item(STEEL_BAR, 4)),
 		BELLS(8080, 13215, 58, 480, new Item(TEAK_PLANK, 4), new Item(STEEL_BAR, 6)),

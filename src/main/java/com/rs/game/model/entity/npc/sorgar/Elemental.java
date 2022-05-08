@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.SorceressGardenController;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.SorceressGardenController;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;

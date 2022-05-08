@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

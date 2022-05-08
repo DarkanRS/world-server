@@ -1,0 +1,20 @@
+{
+  "names": [
+    "Revenant werewolf"
+  ],
+  "attackAnim": 7397,
+  "defenceAnim": 7399,
+  "deathAnim": 7398,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 500,
+  "maxHit": 220,
+  "attackStyle": "RANGE",
+  "attackRange": -1,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 64,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

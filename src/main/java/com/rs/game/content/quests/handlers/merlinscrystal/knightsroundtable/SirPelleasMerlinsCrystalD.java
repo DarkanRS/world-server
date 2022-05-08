@@ -15,8 +15,6 @@ import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SirPelleasMerlinsCrystalD extends Conversation {

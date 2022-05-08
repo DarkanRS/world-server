@@ -34,24 +34,24 @@ import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.commands.Commands;
+import com.rs.game.content.controllers.RunespanController;
+import com.rs.game.content.controllers.TutorialIslandController;
 import com.rs.game.content.cutscenes.ExampleCutscene;
+import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.randomevents.RandomEvents;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.npc.pet.Pet;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.controllers.BarrowsController;
-import com.rs.game.model.entity.player.controllers.RunespanController;
-import com.rs.game.model.entity.player.controllers.TutorialIslandController;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.ClipFlag;
@@ -72,9 +72,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
-import com.rs.utils.music.Genre;
-import com.rs.utils.music.Music;
-import com.rs.utils.music.Song;
+import com.rs.utils.music.*;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawn;
@@ -115,12 +113,16 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "tilefree", "Checks if tile is free", (p, args) -> {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
-					if (!World.floorAndWallsFree(new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()), 1))
+					if (World.floorAndWallsFree(new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()), 1))
 						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), new WorldTile(p.getX() + x, p.getY() + y, p.getPlane()));
 		});
 		
-		Commands.add(Rights.DEVELOPER, "tutisland", "Sets NPCs names to something.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
+			p.setTileMan(true);
 		});
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
@@ -155,7 +157,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
-			p.getTempAttribs().getI("tempProjCheck", Integer.valueOf(args[0]));
+			p.getTempAttribs().setI("tempProjCheck", Integer.valueOf(args[0]));
 			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
 		});
 
@@ -282,8 +284,10 @@ public class MiscTest {
 			p.getPackets().setIFAnimation(Integer.valueOf(args[1]), 1184, 11);
 		});
 
-		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev]", "Dialogue box", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "dialrot [npcId next/prev/start_num]", "Dialogue box", (p, args) -> {
 			int idx = p.getTempAttribs().getI("tempDialCheck", 0);
+			if(args[1].matches("[0-9]+"))
+				idx = Integer.valueOf(args[1])+1;
 			int anim = UNIDENTIFIED_ANIMS[idx];
 			p.getInterfaceManager().sendChatBoxInterface(1184);
 			p.getPackets().setIFText(1184, 17, NPCDefinitions.getDefs(Integer.valueOf(args[0])).getName());
@@ -322,11 +326,11 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
 			p.getPackets().sendSound(Integer.valueOf(args[0]), 0, args.length > 1 ? Integer.valueOf(args[1]) : 1);
 		});
 
-		Commands.add(Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
 			p.getMusicsManager().playSongWithoutUnlocking(Integer.valueOf(args[0]));
 		});
 
@@ -541,6 +545,14 @@ public class MiscTest {
 			}
 		});
 
+		Commands.add(Rights.ADMIN, "boostlevel [skillId level]", "Sets a skill to a specified level.", (p, args) -> {
+			int skill = Integer.parseInt(args[0]);
+			int level = Integer.parseInt(args[1]);
+
+			p.sendMessage("Boosting " + Skills.SKILL_NAME[skill] + " by " + level);
+			p.getSkills().set(skill, level);
+		});
+
 		Commands.add(Rights.DEVELOPER, "deathnpcs", "Kills all npcs around the player.", (p, args) -> {
 			for (NPC npc : World.getNPCs()) {
 				if (npc instanceof Familiar || npc instanceof Pet)
@@ -667,6 +679,47 @@ public class MiscTest {
 		});
 
 
+
+		Commands.add(Rights.PLAYER, "playthroughvoices [start finish tick_delay]", "Gets player rights", (p, args) -> {
+			//		Voice[] voices = new Voice[3];
+			//		voices[0] = new Voice("Test1", new int[]{1, 2, 3});
+			//		voices[1] = new Voice("Test3", new int[]{4, 5, 6});
+			//		voices[2] = new Voice("Test4", new int[]{7, 8, 9});
+			//		try {
+			//			JsonFileManager.saveJsonFile(voices, new File("developer-information/voice.json"));
+			//		} catch(Exception e) {
+			//			System.out.println(e.getStackTrace());
+			//		}
+
+			int tickDelay = Integer.valueOf(args[2]);
+
+			WorldTasks.schedule(new WorldTask() {
+				int tick;
+				int voiceID = 0;
+				@Override
+				public void run() {
+					if(tick == 0)
+						voiceID = Integer.valueOf(args[0]);
+
+					if(Voices.voicesMarked.contains(voiceID))
+						for(int i = voiceID; i < 100_000; i++) {
+							if(!Voices.voicesMarked.contains(voiceID))
+								break;
+							voiceID++;
+						}
+
+					if(!Voices.voicesMarked.contains(voiceID)) {
+						p.sendMessage("Playing voice " + voiceID);
+						p.getPackets().sendVoice(voiceID++);
+					}
+
+					if(voiceID > Integer.valueOf(args[1]))
+						stop();
+					tick++;
+				}
+			}, 0, tickDelay);
+		});
+
 		Commands.add(Rights.ADMIN, "tele,tp [x y (z)] or [tileHash] or [z,regionX,regionY,localX,localY]", "Teleports the player to a coordinate.", (p, args) -> {
 			if (args[0].contains(",")) {
 				args = args[0].split(",");
@@ -719,24 +772,24 @@ public class MiscTest {
 			p.getNSV().setB("sendingDropsToBank", true);
 		});
 
-		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id]", "Creates a spot animation on top of the player.", (p, args) -> {
-			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[0]), 0, 0));
+		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id height]", "Creates a spot animation on top of the player.", (p, args) -> {
+			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[0]), 0, args.length == 1 ? 0 : Integer.valueOf(args[1])));
 		});
 
-		Commands.add(Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getAnimationDefinitionsSize())
 				return;
 			p.setNextAnimation(new Animation(Integer.valueOf(args[0])));
 		});
 
-		Commands.add(Rights.DEVELOPER, "sync,animgfx [id]", "Animates the player with specified ID and plays a SpotAnim at the same time.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sync,animgfx [id]", "Animates the player with specified ID and plays a SpotAnim at the same time.", (p, args) -> {
 			if ((Integer.valueOf(args[0]) > Utils.getAnimationDefinitionsSize()) || (Integer.valueOf(args[1]) > Utils.getSpotAnimDefinitionsSize()))
 				return;
 			p.setNextAnimation(new Animation(Integer.valueOf(args[0])));
 			p.setNextSpotAnim(new SpotAnim(Integer.valueOf(args[1])));
 		});
 
-		Commands.add(Rights.DEVELOPER, "bas,render [id]", "Sets the BAS of the player to specified ID.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "bas,render [id]", "Sets the BAS of the player to specified ID.", (p, args) -> {
 			p.getAppearance().setBAS(Integer.valueOf(args[0]));
 		});
 
@@ -768,7 +821,7 @@ public class MiscTest {
 			p.getInventory().reset();
 		});
 
-		Commands.add(Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "tonpc,pnpc,npcme [npcId]", "Transforms the player into an NPC.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getNPCDefinitionsSize())
 				return;
 			p.getAppearance().transformIntoNPC(Integer.valueOf(args[0]));
@@ -779,7 +832,7 @@ public class MiscTest {
 					Integer.valueOf(args[4]));
 		});
 
-		Commands.add(Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
 			p.getInterfaceManager().sendInterface(Integer.valueOf(args[0]));
 		});
 
@@ -826,7 +879,7 @@ public class MiscTest {
 			p.getPackets().setIFModel(interId, compId, Integer.valueOf(args[2]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "companim [npcId]", "Prints out animations compatible with the npc id.", (p, args) -> {
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "companim [npcId]", "Prints out animations compatible with the npc id.", (p, args) -> {
 			if (Integer.valueOf(args[0]) > Utils.getNPCDefinitionsSize())
 				return;
 			NPCDefinitions defs = NPCDefinitions.getDefs(Integer.valueOf(args[0]));

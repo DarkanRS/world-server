@@ -26,8 +26,9 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
+import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -278,15 +279,14 @@ public class Bank {
 		if (player.getTempAttribs().getB("viewingOtherBank"))
 			return;
 		Familiar familiar = player.getFamiliar();
-		if (familiar == null || familiar.getBob() == null)
+		if (familiar == null || familiar.getInventory() == null)
 			return;
-		int space = addItems(familiar.getBob().getBeastItems().array(), banking);
+		int space = addItems(familiar.getInventory().array(), banking);
 		if (space != 0) {
 			for (int i = 0; i < space; i++)
-				familiar.getBob().getBeastItems().set(i, null);
-			familiar.getBob().sendInterItems();
+				familiar.getInventory().set(i, null);
 		}
-		if (space < familiar.getBob().getBeastItems().getSize()) {
+		if (space < familiar.getInventory().getSize()) {
 			player.sendMessage("Not enough space in your bank.");
 			return;
 		}
@@ -739,6 +739,10 @@ public class Bank {
 			for (int i = 0; i < space; i++) {
 				if (items[i] == null)
 					continue;
+				if (items[i].getId() == Easter2022.EGGSTERMINATOR) {
+					player.sendMessage("The banker drops the Eggsterminator as you hand it to them. You can obtain a new one from the Easter event, completing three hunts will unlock a more sturdy enchanted version.");
+					continue;
+				}
 				if (items[i].getDefinitions().isNoted() && items[i].getDefinitions().getCertId() != -1)
 					items[i].setId(items[i].getDefinitions().getCertId());
 				addItem(items[i], false);

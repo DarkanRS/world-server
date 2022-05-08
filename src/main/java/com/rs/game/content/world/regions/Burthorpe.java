@@ -43,11 +43,13 @@ public class Burthorpe {
 		}
 	};
 
-	public static ObjectClickHandler handleHeroesGuildDoors = new ObjectClickHandler(new Object[]{2624}) {
+	public static ObjectClickHandler handleHeroesGuildDoors = new ObjectClickHandler(new Object[]{2624, 2625}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST) || e.getPlayer().getX() < e.getObject().getX())
+			if (e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST) || e.getPlayer().getX() < e.getObject().getX()) {
 				handleDoubleDoor(e.getPlayer(), e.getObject());
+				e.getPlayer().getMusicsManager().playSpecificAmbientSong(77, true);
+			}
 			else
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 					int NPC = 796;

@@ -20,13 +20,13 @@ import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.content.combat.AttackType;
 import com.rs.game.content.combat.XPType;
+import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.npc.familiar.Steeltitan;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.SpotAnim;
@@ -59,14 +59,16 @@ public abstract class CombatScript {
 		}
 	}
 
-	public static void delayHit(NPC npc, int delay, Entity target, Hit hit) {
-		delayHit(npc, delay, target, hit, null);
+	public static Hit delayHit(NPC npc, int delay, Entity target, Hit hit) {
+		return delayHit(npc, delay, target, hit, null);
 	}
 
-	public static void delayHit(NPC npc, int delay, Entity target, Hit hit, Runnable afterDelay) {
+	public static Hit delayHit(NPC npc, int delay, Entity target, Hit hit, Runnable afterDelay) {
 		npc.getCombat().addAttackedByDelay(target);
-		if (npc.isDead() || npc.hasFinished() || target.isDead() || target.hasFinished())
-			return;
+		if (npc.isDead() || npc.hasFinished() || target.isDead() || target.hasFinished()) {
+			hit.setDamage(0);
+			return hit;
+		}
 		target.applyHit(hit, delay, () -> {
 			if (afterDelay != null)
 				afterDelay.run();
@@ -81,6 +83,7 @@ public abstract class CombatScript {
 					n.setTarget(npc);
 			}
 		});
+		return hit;
 	}
 
 	public static Hit getRangeHit(NPC npc, int damage) {
@@ -99,8 +102,12 @@ public abstract class CombatScript {
 		return new Hit(npc, damage, HitLook.MELEE_DAMAGE);
 	}
 
+	public static int getMaxHitFromAttackStyleLevel(NPC npc, AttackStyle attackType, Entity target) {
+		return getMaxHit(npc, npc.getLevelForStyle(attackType), attackType, target);
+	}
+	
 	public static int getMaxHit(NPC npc, AttackStyle attackType, Entity target) {
-		return getMaxHit(npc, npc.getMaxHit(attackType), attackType, target);
+		return getMaxHit(npc, npc.getMaxHit(), attackType, target);
 	}
 
 	public static int getMaxHit(NPC npc, int maxHit, AttackStyle attackStyle, Entity target) {
@@ -185,7 +192,7 @@ public abstract class CombatScript {
 			default -> player.getCombatDefinitions().getBonus(Bonus.STAB_ATT);
 			};
 			if (attackStyle == AttackStyle.MELEE)
-				if (player.getFamiliar() instanceof Steeltitan)
+				if (player.getFamiliarPouch() == Pouch.STEEL_TITAN)
 					def *= 1.15;
 		} else {
 			NPC n = (NPC) target;

@@ -41,11 +41,11 @@ public class MysteriousShadeCombat extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(rangeAttack ? 2514 : 2515));
 		WorldProjectile projectile = World.sendProjectile(npc, target, rangeAttack ? 2510 : 2511, 18, 18, 25, 3, 0, 0);
 		if (rangeAttack)
-			delayHit(npc, Utils.projectileTimeToCycles(projectile.getEndTime()) - 1, target, getRangeHit(npc, getMaxHit(npc, AttackStyle.RANGE, target)), () -> {
+			delayHit(npc, Utils.projectileTimeToCycles(projectile.getEndTime()) - 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)), () -> {
 				target.setNextSpotAnim(new SpotAnim(2512));
 			});
 		else
-			delayHit(npc, Utils.projectileTimeToCycles(projectile.getEndTime()) - 1, target, getMagicHit(npc, getMaxHit(npc, AttackStyle.MAGE, target)), () -> {
+			delayHit(npc, Utils.projectileTimeToCycles(projectile.getEndTime()) - 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)), () -> {
 				target.setNextSpotAnim(new SpotAnim(2513));
 			});
 		target.setNextSpotAnim(new SpotAnim(rangeAttack ? 2512 : 2513, projectile.getEndTime(), 0));

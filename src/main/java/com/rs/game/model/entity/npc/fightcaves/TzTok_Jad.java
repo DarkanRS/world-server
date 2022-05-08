@@ -16,10 +16,9 @@
 //
 package com.rs.game.model.entity.npc.fightcaves;
 
+import com.rs.game.content.controllers.FightCavesController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.player.controllers.FightCavesController;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -51,23 +50,18 @@ public class TzTok_Jad extends FightCavesNPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0) {
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-					setNextSpotAnim(new SpotAnim(2924 + getSize()));
-				} else if (loop >= defs.getDeathDelay()) {
-					reset();
-					finish();
-					controller.win();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0) {
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+				setNextSpotAnim(new SpotAnim(2924 + getSize()));
+			} else if (loop >= defs.getDeathDelay()) {
+				reset();
+				finish();
+				controller.win();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 }

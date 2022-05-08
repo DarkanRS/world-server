@@ -6,13 +6,13 @@ import java.util.function.Consumer;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.BarrowsController;
-import com.rs.game.model.entity.player.controllers.Controller;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -147,6 +147,10 @@ public class StaffPotato {
 				Potion.SUPER_RESTORE.getEffect().accept(e.getPlayer());
 				Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
 				Potion.SUMMONING_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_ARTISANS_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_GATHERERS_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_NATURALISTS_POTION.getEffect().accept(e.getPlayer());
+				Potion.STRONG_SURVIVALISTS_POTION.getEffect().accept(e.getPlayer());
 			}
 			case "Heal" -> {
 				Command command = e.getPlayer().getNSV().getO("lastPotatoCommand");

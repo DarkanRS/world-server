@@ -24,13 +24,13 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.commands.Commands;
+import com.rs.game.content.controllers.DemonSlayer_PlayerVSDelrith;
+import com.rs.game.content.controllers.DemonSlayer_WallyVSDelrith;
+import com.rs.game.content.controllers.DragonSlayer_BoatScene;
+import com.rs.game.content.controllers.MerlinsCrystalCrateScene;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.controllers.DemonSlayer_PlayerVSDelrith;
-import com.rs.game.model.entity.player.controllers.DemonSlayer_WallyVSDelrith;
-import com.rs.game.model.entity.player.controllers.DragonSlayer_BoatScene;
-import com.rs.game.model.entity.player.controllers.MerlinsCrystalCrateScene;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -123,7 +123,7 @@ public class Debug {
 		});
 
 		Commands.add(Rights.PLAYER, "getcontroller", "Shows current controller", (p, args) -> {
-			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getClass().getName()));
+			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getController().getClass().getName()));
 		});
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {

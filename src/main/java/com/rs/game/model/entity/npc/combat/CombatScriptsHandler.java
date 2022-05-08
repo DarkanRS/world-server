@@ -29,34 +29,39 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 @PluginEventHandler
 public class CombatScriptsHandler {
 
-	private static final HashMap<Object, CombatScript> cachedCombatScripts = new HashMap<>();
+	private static final HashMap<Object, CombatScript> MAPPED_SCRIPTS = new HashMap<>();
 	private static final CombatScript DEFAULT_SCRIPT = new Default();
 
 	@ServerStartupEvent
 	public static final void loadScripts() {
 		List<Class<?>> classes;
 		try {
-			classes = Utils.getClasses("com.rs.game.model.entity.npc.combat.impl");
+			classes = Utils.getSubClasses("com.rs", CombatScript.class);
 			for (Class<?> c : classes) {
 				if (c.isAnonymousClass()) // next
 					continue;
 				Object o = c.getDeclaredConstructor().newInstance();
 				if (!(o instanceof CombatScript script))
 					continue;
-				for (Object key : script.getKeys())
-					cachedCombatScripts.put(key, script);
+				for (Object key : script.getKeys()) {
+					if (key instanceof Object[] arr) {
+						for (Object val : arr)
+							MAPPED_SCRIPTS.put(val, script);
+					} else
+						MAPPED_SCRIPTS.put(key, script);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		Logger.log("CombatScriptsHandler", "Loaded combat scripts for " + cachedCombatScripts.size() + " NPCs...");
+		Logger.log("CombatScriptsHandler", "Loaded combat scripts for " + MAPPED_SCRIPTS.size() + " NPCs...");
 	}
 
 	public static int attack(final NPC npc, final Entity target) {
-		CombatScript script = cachedCombatScripts.get(npc.getId());
+		CombatScript script = MAPPED_SCRIPTS.get(npc.getId());
 		if (script == null) {
-			script = cachedCombatScripts.get(npc.getDefinitions().getName());
+			script = MAPPED_SCRIPTS.get(npc.getDefinitions().getName());
 			if (script == null)
 				script = DEFAULT_SCRIPT;
 		}

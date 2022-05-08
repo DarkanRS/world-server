@@ -49,7 +49,7 @@ public class CaveHorrorCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, targetPlayer.getMaxHitpoints() / 3));
 		} else
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, def.getMaxHit(), def.getAttackStyle(), target)));
-		npc.setNextAnimation(new Animation(def.getAttackEmote()));
+		npc.setNextAnimation(new Animation(4237));
 		return npc.getAttackSpeed();
 	}
 }

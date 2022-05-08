@@ -34,14 +34,15 @@ import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.dungeoneering.Stomp;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
@@ -53,6 +54,7 @@ import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.pathing.WalkStep;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.ActionManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.DynamicRegion;
@@ -292,6 +294,10 @@ public abstract class Entity {
 		handlePreHit(hit);
 		if (hit.getSource() != null)
 			hit.getSource().handlePreHitOut(this, hit);
+		if (hit.getSource() instanceof Familiar f) {
+			hit.setSource(f.getOwner());
+			PlayerCombat.addXpFamiliar(f.getOwner(), this, f.getPouch().getXpType(), hit);
+		}
 		if (delay < 0)
 			receivedHits.add(hit);
 		else
@@ -1018,7 +1024,7 @@ public abstract class Entity {
 	}
 
 	public void setNextWorldTile(WorldTile nextWorldTile) {
-		this.nextWorldTile = nextWorldTile;
+		this.nextWorldTile = new WorldTile(nextWorldTile);
 	}
 
 	public WorldTile getNextWorldTile() {
@@ -1416,7 +1422,7 @@ public abstract class Entity {
 	}
 
 	public WorldTile getNearestTeleTile(int size) {
-		return World.findRandomAdjacentTile(this.getTile(), size);
+		return World.findAdjacentFreeSpace(this.getTile(), size);
 	}
 
 	public WorldTile getTile() {
@@ -1575,24 +1581,60 @@ public abstract class Entity {
 		return tile.withinArea(a, b, c, d);
 	}
 
-	public boolean checkInCombat(Entity target) {
-		if (!(target instanceof NPC npc) || !npc.isForceMultiAttacked()) {
-			if (!target.isAtMultiArea() || !isAtMultiArea()) {
-				if (getAttackedBy() != target && inCombat()) {
-					if (this instanceof Player p)
-						p.sendMessage("You are already in combat.");
+	public boolean canAttackMulti(Entity target) {
+		if (target instanceof NPC npc && npc.isForceMultiAttacked())
+			return true;
+		if (target.isAtMultiArea() && isAtMultiArea())
+			return true;
+		
+		if (this instanceof Player p) {
+			if (target instanceof Player) {
+				if (getAttackedBy() instanceof Player && inCombat() && getAttackedBy() != target) {
+					p.sendMessage("You are already in combat.");
 					return false;
 				}
-				if (target.getAttackedBy() != this && target.inCombat()) {
-					if (!(target.getAttackedBy() instanceof NPC)) {
-						if (this instanceof Player p)
-							p.sendMessage("They are already in combat.");
-						return false;
-					}
+				if (target.getAttackedBy() instanceof Player && target.inCombat() && target.getAttackedBy() != this) {
+					p.sendMessage("They are already in combat.");
+					return false;
+				}
+			} else if (target instanceof NPC) {
+				if (inCombat() && getAttackedBy() != target) {
+					p.sendMessage("You are already in combat.");
+					return false;
+				}
+				if (target.inCombat() && target.getAttackedBy() != this) {
+					p.sendMessage("They are already in combat.");
+					return false;
 				}
 			}
+		} else if (this instanceof NPC n) {
+			if (inCombat() && getAttackedBy() != target)
+				return false;
+			if (target.inCombat() && target.getAttackedBy() != this)
+				return false;
 		}
 		return true;
+	}
+	
+	public void anim(int anim) {
+		setNextAnimation(new Animation(anim));
+	}
+	
+	public void spotAnim(int spotAnim, int speed, int height) {
+		setNextSpotAnim(new SpotAnim(spotAnim, speed, height));
+	}
+	
+	public void spotAnim(int spotAnim, int speed) {
+		setNextSpotAnim(new SpotAnim(spotAnim, speed));
+	}
+	
+	public void spotAnim(int spotAnim) {
+		setNextSpotAnim(new SpotAnim(spotAnim));
+	}
+	
+	public void sync(int anim, int spotAnim) {
+		anim(anim);
+		spotAnim(spotAnim);
 	}
 
 	public InteractionManager getInteractionManager() {
@@ -1601,5 +1643,79 @@ public abstract class Entity {
 	
 	public ActionManager getActionManager() {
 		return actionManager;
+	}
+	
+	public boolean canLowerStat(int skillId, double perc, double maxDrain) {
+		if (this instanceof Player player) {
+			if (player.getSkills().getLevel(skillId) < (player.getSkills().getLevelForXp(skillId) * maxDrain))
+				return false;
+		} else if (this instanceof NPC npc) {
+			for (int skill : Skills.SKILLING)
+				if (skillId == skill)
+					return false;
+			switch(skillId) {
+			case Skills.ATTACK -> {
+				if (npc.getAttackLevel() < (npc.getCombatDefinitions().getAttackLevel() * maxDrain))
+					return false;
+			}
+			case Skills.STRENGTH -> {
+				if (npc.getStrengthLevel() < (npc.getCombatDefinitions().getStrengthLevel() * maxDrain))
+					return false;
+			}
+			case Skills.DEFENSE -> {
+				if (npc.getDefenseLevel() < (npc.getCombatDefinitions().getDefenseLevel() * maxDrain))
+					return false;		
+						}
+			case Skills.MAGIC -> {
+				if (npc.getMagicLevel() < (npc.getCombatDefinitions().getMagicLevel() * maxDrain))
+					return false;
+			}
+			case Skills.RANGE -> {
+				if (npc.getRangeLevel() < (npc.getCombatDefinitions().getRangeLevel() * maxDrain))
+					return false;
+			}
+			}
+		}
+		return true;
+	}
+
+	public void lowerStat(int skillId, double perc, double maxDrain) {
+		if (this instanceof Player player) {
+			if (skillId == Skills.HITPOINTS)
+				return;
+			if (skillId == Skills.PRAYER) {
+				player.getPrayer().drainPrayer(player.getPrayer().getPoints() * perc);
+				return;
+			}
+			player.getSkills().lowerStat(skillId, perc, maxDrain);
+		} else if (this instanceof NPC npc) {
+			switch(skillId) {
+			case Skills.ATTACK -> npc.lowerAttack(skillId, maxDrain);
+			case Skills.STRENGTH -> npc.lowerStrength(skillId, maxDrain);
+			case Skills.DEFENSE -> npc.lowerDefense(skillId, maxDrain);
+			case Skills.MAGIC -> npc.lowerMagic(skillId, maxDrain);
+			case Skills.RANGE -> npc.lowerRange(skillId, maxDrain);
+			}
+		}
+	}
+	
+	public void lowerStat(int skillId, int amt, double maxDrain) {
+		if (this instanceof Player player) {
+			if (skillId == Skills.HITPOINTS)
+				return;
+			if (skillId == Skills.PRAYER) {
+				player.getPrayer().drainPrayer(amt * 10);
+				return;
+			}
+			player.getSkills().lowerStat(skillId, amt, maxDrain);
+		} else if (this instanceof NPC npc) {
+			switch(skillId) {
+			case Skills.ATTACK -> npc.lowerAttack(amt, maxDrain);
+			case Skills.STRENGTH -> npc.lowerStrength(amt, maxDrain);
+			case Skills.DEFENSE -> npc.lowerDefense(amt, maxDrain);
+			case Skills.MAGIC -> npc.lowerMagic(amt, maxDrain);
+			case Skills.RANGE -> npc.lowerRange(amt, maxDrain);
+			}
+		}
 	}
 }

@@ -21,12 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.FightKilnController;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -79,22 +78,17 @@ public class FightKilnNPC extends NPC {
 		setNextAnimation(null);
 		controller.checkCrystal();
 		setNextSpotAnim(new SpotAnim(getDeathGfx()));
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					reset();
-					finish();
-					controller.removeNPC();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				reset();
+				finish();
+				controller.removeNPC();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	@Override

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.world;
 
+import com.rs.game.content.controllers.UndergroundDungeonController;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.UndergroundDungeonController;
 import com.rs.lib.game.Item;
 
 public class LightSource {

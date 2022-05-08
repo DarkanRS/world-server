@@ -3,6 +3,7 @@ package com.rs.game.content.quests.handlers.merlinscrystal;
 import java.util.ArrayList;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.MerlinsCrystalRitualScene;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
@@ -10,7 +11,6 @@ import com.rs.game.content.quests.QuestHandler;
 import com.rs.game.content.quests.QuestOutline;
 import com.rs.game.model.entity.npc.others.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.MerlinsCrystalRitualScene;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

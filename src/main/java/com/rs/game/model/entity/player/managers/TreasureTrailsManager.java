@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.dialogues_matrix.SimpleItemMessage;
 import com.rs.game.model.entity.ForceTalk;
@@ -29,10 +30,8 @@ import com.rs.game.model.entity.npc.others.ClueNPC;
 import com.rs.game.model.entity.npc.others.Ugi;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -146,7 +145,7 @@ public class TreasureTrailsManager {
 		return -1;
 	}
 
-	public void setNextClue(int source) {
+	public void setNextClue(int source, boolean meerkat) {
 		int lastPhase = (currentClue.details.type == COORDINATE && currentClue.dificulty >= HARD) ? 2 : (currentClue.details.type == EMOTE ? 5 : 0);
 
 		if (cluePhase == lastPhase) {
@@ -208,27 +207,21 @@ public class TreasureTrailsManager {
 				throw new RuntimeException("UNKNOWN_SOURCE:" + source);
 		} else if (cluePhase == 0 && (currentClue.details.type == COORDINATE || currentClue.details.type == EMOTE) && currentClue.dificulty >= HARD) {
 			// spawn combat npc
-			boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
-			boolean isCoordinateClue = currentClue.details.type == COORDINATE;
-			final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, World.getFreeTile(player.getTile(), 1));
-			npc.setNextSpotAnim(new SpotAnim(74));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
+			if (!meerkat) {
+				boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
+				boolean isCoordinateClue = currentClue.details.type == COORDINATE;
+				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, player.getNearestTeleTile(1));
+				npc.setNextSpotAnim(new SpotAnim(74));
+				WorldTasks.schedule(() -> {
 					npc.setTarget(player);
 					npc.setNextForceTalk(new ForceTalk(npc.getId() == 1007 ? "For Zamorak!" : npc.getId() == 1264 ? "For Saradomin!" : "I expect you to die!"));
-				}
-			});
-			cluePhase = 1;
+				});
+			}
+			cluePhase = meerkat ? 2 : 1;
 		} else if (((cluePhase == 0 && currentClue.dificulty < HARD) || (cluePhase == 2 && currentClue.dificulty >= HARD)) && currentClue.details.type == EMOTE) {
-			final NPC npc = new Ugi(player, 5141, World.getFreeTile(player.getTile(), 1));
+			final NPC npc = new Ugi(player, 5141, player.getNearestTeleTile(1));
 			npc.setNextSpotAnim(new SpotAnim(74));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					npc.faceEntity(player);
-				}
-			});
+			WorldTasks.schedule(() -> npc.faceEntity(player));
 			cluePhase = ((Emote[]) currentClue.details.parameters[0]).length == 1 ? 4 : 3;
 		} else if (cluePhase == 3)
 			cluePhase = 4; // for emotes
@@ -338,19 +331,19 @@ public class TreasureTrailsManager {
 				} else if (requestedItem.getId() != item.getId())
 					return;
 			}
-		setNextClue(SOURCE_EMOTE);
+		setNextClue(SOURCE_EMOTE, false);
 	}
 
-	public boolean useDig() {
+	public boolean useDig(boolean meerkat) {
 		if (currentClue == null)
 			return false;
 		if ((currentClue.details.type == SIMPLE || currentClue.details.type == MAP) && currentClue.details.idType == TILE) {
 			if (!hasCurrentClue())
 				return false;
 			WorldTile tile = new WorldTile(currentClue.details.getId());
-			if (!player.withinDistance(tile, currentClue.details.type == MAP ? 6 : 16))
+			if (!player.withinDistance(tile, currentClue.details.type == MAP ? meerkat ? 12 : 6 : meerkat ? 32 : 16))
 				return false;
-			setNextClue(SOURCE_DIG);
+			setNextClue(SOURCE_DIG, meerkat);
 			return true;
 		}
 		if (currentClue.details.type == COORDINATE /*&& hasSextantItems()*/) {
@@ -358,10 +351,10 @@ public class TreasureTrailsManager {
 				return false;
 			WorldTile t = getTile((Integer) currentClue.details.parameters[0], (Integer) currentClue.details.parameters[1], (Integer) currentClue.details.parameters[2], (Integer) currentClue.details.parameters[3],
 					(Integer) currentClue.details.parameters[4], (Integer) currentClue.details.parameters[5]);
-			if (!player.withinDistance(t, 6)) // setted distance cuz the getTile
+			if (!player.withinDistance(t, meerkat ? 12 : 6)) // setted distance cuz the getTile
 				// method may miss 3-5 tiles on rs
 				return false;
-			setNextClue(SOURCE_DIG);
+			setNextClue(SOURCE_DIG, meerkat);
 			return true;
 		}
 		return false;
@@ -372,7 +365,7 @@ public class TreasureTrailsManager {
 			return false;
 		if ((currentClue.details.type != SIMPLE && currentClue.details.type != MAP) || !hasCurrentClue())
 			return false;
-		setNextClue(SOURCE_OBJECT);
+		setNextClue(SOURCE_OBJECT, false);
 		return true;
 	}
 
@@ -438,7 +431,7 @@ public class TreasureTrailsManager {
 				@Override
 				public void run(int interfaceId, int componentId) {
 					end();
-					setNextClue(SOURCE_NPC);
+					setNextClue(SOURCE_NPC, false);
 				}
 
 				@Override
@@ -459,7 +452,7 @@ public class TreasureTrailsManager {
 				end();
 				for (int id : PUZZLES)
 					player.getInventory().deleteItem(id, 1);
-				setNextClue(SOURCE_PUZZLENPC);
+				setNextClue(SOURCE_PUZZLENPC, false);
 			}
 
 			@Override

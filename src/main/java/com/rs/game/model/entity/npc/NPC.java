@@ -17,7 +17,9 @@
 package com.rs.game.model.entity.npc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,8 +31,11 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PolyporeStaff;
+import com.rs.game.content.controllers.GodwarsController;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.regions.dungeons.TzHaar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -39,7 +44,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombat;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
@@ -48,11 +53,8 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.GodwarsController;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.game.model.item.ItemsContainer;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -75,10 +77,9 @@ public class NPC extends Entity {
 	private int id;
 	private WorldTile respawnTile;
 	private boolean randomWalk;
-	private int[] levels;
+	private Map<Skill, Integer> combatLevels;
 	private boolean spawned;
 	private transient NPCCombat combat;
-	private transient boolean blocksOtherNPCs = true;
 	private transient boolean ignoreNPCClipping;
 	public WorldTile forceWalk;
 	private int size;
@@ -142,7 +143,7 @@ public class NPC extends Entity {
 		}
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
 		combat = new NPCCombat(this);
 		capDamage = -1;
 		lureDelay = 12000;
@@ -186,7 +187,7 @@ public class NPC extends Entity {
 	}
 
 	public void resetLevels() {
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
 	}
 
 	public void transformIntoNPC(int id) {
@@ -201,11 +202,11 @@ public class NPC extends Entity {
 	public void setNPC(int id) {
 		this.id = id;
 		size = getDefinitions().size;
-		levels = NPCCombatDefinitions.getDefs(id).getLevels();
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
 	}
 
-	public void setLevels(int[] levels) {
-		this.levels = levels;
+	public void setLevels(Map<Skill, Integer> levels) {
+		this.combatLevels = levels;
 	}
 
 	public void resetDirection() {
@@ -354,7 +355,7 @@ public class NPC extends Entity {
 		getInteractionManager().forceStop();
 		setFaceAngle(getRespawnDirection());
 		combat.reset();
-		levels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
+		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels(); // back to real bonuses
 		forceWalk = null;
 	}
 
@@ -364,6 +365,7 @@ public class NPC extends Entity {
 			return;
 		setFinished(true);
 		World.updateEntityRegion(this);
+		World.fillNPCClip(getTile(), getSize(), false);
 		World.removeNPC(this);
 	}
 
@@ -376,18 +378,14 @@ public class NPC extends Entity {
 	 * @param ticks
 	 */
 	public void finishAfterTicks(final int ticks) {
-		WorldTasks.schedule(new WorldTask() {
-			int tick;
-			@Override
-			public void run() {
-				if (tick == ticks) {
-					if (!hasFinished())
-						finish();
-					stop();
-				}
-				tick++;
+		WorldTasks.scheduleTimer(tick -> {
+			if (tick == ticks) {
+				if (!hasFinished())
+					finish();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public void setRespawnTask(int time) {
@@ -429,23 +427,23 @@ public class NPC extends Entity {
 	}
 
 	public int getAttackLevel() {
-		return levels == null ? 0 : levels[0];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
 	}
 
 	public int getDefenseLevel() {
-		return levels == null ? 0 : levels[1];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.DEFENSE);
 	}
 
 	public int getStrengthLevel() {
-		return levels == null ? 0 : levels[2];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.STRENGTH);
 	}
 
 	public int getRangeLevel() {
-		return levels == null ? 0 : levels[3];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.RANGE);
 	}
 
 	public int getMagicLevel() {
-		return levels == null ? 0 : levels[4];
+		return combatLevels == null ? 0 : combatLevels.get(Skill.MAGE);
 	}
 
 	@Override
@@ -460,27 +458,22 @@ public class NPC extends Entity {
 		}
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					setNextAnimation(new Animation(defs.getDeathEmote()));
-				else if (loop >= defs.getDeathDelay()) {
-					if (source instanceof Player player)
-						player.getControllerManager().processNPCDeath(NPC.this);
-					drop();
-					reset();
-					getTile().setLocation(respawnTile);
-					finish();
-					if (!isSpawned())
-						setRespawnTask();
-					stop();
-				}
-				loop++;
+		WorldTasks.scheduleTimer(loop -> {
+			if (loop == 0)
+				setNextAnimation(new Animation(defs.getDeathEmote()));
+			else if (loop >= defs.getDeathDelay()) {
+				if (source instanceof Player player)
+					player.getControllerManager().processNPCDeath(NPC.this);
+				drop();
+				reset();
+				getTile().setLocation(respawnTile);
+				finish();
+				if (!isSpawned())
+					setRespawnTask();
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 	}
 
 	public void drop(Player killer) {
@@ -701,7 +694,7 @@ public class NPC extends Entity {
 		return getCombatDefinitions().getMaxHit();
 	}
 
-	public int getMaxHit(AttackStyle style) {
+	public int getLevelForStyle(AttackStyle style) {
 		int maxHit = getAttackLevel();
 		if (style == AttackStyle.RANGE)
 			maxHit = getRangeLevel();
@@ -710,49 +703,71 @@ public class NPC extends Entity {
 		return maxHit;
 	}
 
-	public void lowerDefense(float multiplier) {
-		lowerStat(NPCCombatDefinitions.DEFENSE, multiplier);
+	public void lowerDefense(double multiplier, double maxDrain) {
+		lowerStat(Skill.DEFENSE, multiplier, maxDrain);
 	}
 
-	public void lowerDefense(int drain) {
-		lowerStat(NPCCombatDefinitions.DEFENSE, drain);
+	public void lowerDefense(int drain, double maxDrain) {
+		lowerStat(Skill.DEFENSE, drain, maxDrain);
 	}
 
-	public void lowerAttack(float multiplier) {
-		lowerStat(NPCCombatDefinitions.ATTACK, multiplier);
+	public void lowerAttack(double multiplier, double maxDrain) {
+		lowerStat(Skill.ATTACK, multiplier, maxDrain);
 	}
 
-	public void lowerAttack(int drain) {
-		lowerStat(NPCCombatDefinitions.ATTACK, drain);
+	public void lowerAttack(int drain, double maxDrain) {
+		lowerStat(Skill.ATTACK, drain, maxDrain);
 	}
 
-	public void lowerStrength(float multiplier) {
-		lowerStat(NPCCombatDefinitions.STRENGTH, multiplier);
+	public void lowerStrength(double multiplier, double maxDrain) {
+		lowerStat(Skill.STRENGTH, multiplier, maxDrain);
 	}
 
-	public void lowerStrength(int drain) {
-		lowerStat(NPCCombatDefinitions.STRENGTH, drain);
+	public void lowerStrength(int drain, double maxDrain) {
+		lowerStat(Skill.STRENGTH, drain, maxDrain);
 	}
 
-	public void lowerMagic(float multiplier) {
-		lowerStat(NPCCombatDefinitions.MAGIC, multiplier);
+	public void lowerMagic(double multiplier, double maxDrain) {
+		lowerStat(Skill.MAGE, multiplier, maxDrain);
 	}
 
-	public void lowerMagic(int drain) {
-		lowerStat(NPCCombatDefinitions.MAGIC, drain);
+	public void lowerMagic(int drain, double maxDrain) {
+		lowerStat(Skill.MAGE, drain, maxDrain);
+	}
+	
+	public void lowerRange(double multiplier, double maxDrain) {
+		lowerStat(Skill.RANGE, multiplier, maxDrain);
 	}
 
-	public void lowerStat(int stat, float multiplier) {
-		if (levels != null)
-			levels[NPCCombatDefinitions.DEFENSE] -= levels[NPCCombatDefinitions.DEFENSE] * multiplier;
+	public void lowerRange(int drain, double maxDrain) {
+		lowerStat(Skill.RANGE, drain, maxDrain);
+	}
+	
+	public int getStat(Skill skill) {
+		if (combatLevels == null)
+			return 0;
+		Integer level = combatLevels.get(skill);
+		if (level == null)
+			return 0;
+		return level;
+	}
+	
+	public void setStat(Skill skill, int level) {
+		if (combatLevels == null)
+			combatLevels = new HashMap<>();
+		if (level < 0)
+			level = 0;
+		combatLevels.put(skill, level);
 	}
 
-	public void lowerStat(int stat, int levelDrain) {
-		if (levels != null) {
-			levels[NPCCombatDefinitions.DEFENSE] -= levelDrain;
-			if (levels[NPCCombatDefinitions.DEFENSE] < 0)
-				levels[NPCCombatDefinitions.DEFENSE] = 0;
-		}
+	public void lowerStat(Skill stat, double multiplier, double maxDrain) {
+		if (combatLevels != null)
+			setStat(stat, Utils.clampI((int) (getStat(stat) - (getStat(stat) * multiplier)), (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
+	}
+
+	public void lowerStat(Skill stat, int levelDrain, double maxDrain) {
+		if (combatLevels != null)
+			setStat(stat, Utils.clampI((int) getStat(stat) - levelDrain, (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
 	}
 
 	public int getBonus(Bonus bonus) {
@@ -1256,12 +1271,8 @@ public class NPC extends Entity {
 		this.canAggroNPCs = canAggroNPCs;
 	}
 
-	public boolean isBlocksOtherNPCs() {
-		return blocksOtherNPCs;
-	}
-
-	public void setBlocksOtherNPCs(boolean blocksOtherNPCs) {
-		this.blocksOtherNPCs = blocksOtherNPCs;
+	public boolean blocksOtherNpcs() {
+		return true;
 	}
 
 	public boolean isIgnoreNPCClipping() {

@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.world.regions;
 
-import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.treegnomevillage.dialogues.ElkoyTreeGnomeVillageD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
@@ -34,7 +33,6 @@ import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-import com.rs.game.content.quests.handlers.treegnomevillage.TreeGnomeVillage;
 
 @PluginEventHandler
 public class Yanille {

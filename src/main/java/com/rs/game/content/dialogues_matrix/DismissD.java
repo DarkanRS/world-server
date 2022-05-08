@@ -29,7 +29,7 @@ public class DismissD extends MatrixDialogue {
 	public void run(int interfaceId, int componentId) {
 		if (stage == -1 && componentId == OPTION_1) {
 			if (player.getFamiliar() != null)
-				player.getFamiliar().sendDeath(player);
+				player.getFamiliar().dismiss();
 			else if (player.getPet() != null) {
 				stage = 0;
 				sendPlayerDialogue(9827, "Run along; I'm setting you free.");

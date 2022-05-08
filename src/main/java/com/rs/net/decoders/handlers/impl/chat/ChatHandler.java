@@ -17,8 +17,8 @@
 package com.rs.net.decoders.handlers.impl.chat;
 
 import com.rs.game.content.commands.Commands;
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.lib.game.PublicChatMessage;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.chat.Chat;

@@ -1,14 +1,14 @@
 package com.rs.game.content.skills.runecrafting.runespan;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.Controller;
+import com.rs.game.content.controllers.RunespanController;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.model.entity.player.controllers.Controller;
-import com.rs.game.model.entity.player.controllers.RunespanController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;

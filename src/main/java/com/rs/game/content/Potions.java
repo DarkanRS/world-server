@@ -22,12 +22,12 @@ import java.util.function.Consumer;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.controllers.WildernessController;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;

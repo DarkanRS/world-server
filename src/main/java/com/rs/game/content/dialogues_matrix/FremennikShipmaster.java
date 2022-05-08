@@ -17,8 +17,8 @@
 package com.rs.game.content.dialogues_matrix;
 
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DamonheimController;
 import com.rs.lib.game.WorldTile;
 
 public class FremennikShipmaster extends MatrixDialogue {

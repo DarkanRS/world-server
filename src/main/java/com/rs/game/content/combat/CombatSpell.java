@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
@@ -29,7 +30,6 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -170,12 +170,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getDefenseLevel() >= npc.getCombatDefinitions().getDefenseLevel())
-					npc.lowerDefense(0.05f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.DEFENSE) >= player.getSkills().getLevelForXp(Constants.DEFENSE))
-					player.getSkills().drainLevel(Constants.DEFENSE, (int) (player.getSkills().getLevel(Constants.DEFENSE) * 0.05));
+			target.lowerStat(Constants.DEFENSE, 0.05, 0.0);
 		}
 	},
 	FLAMES_OF_ZAMORAK(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(78, 0, 96), new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
@@ -197,12 +192,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getMagicLevel() >= npc.getCombatDefinitions().getMagicLevel())
-					npc.lowerMagic(0.05f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.MAGIC) >= player.getSkills().getLevelForXp(Constants.MAGIC))
-					player.getSkills().drainLevel(Constants.MAGIC, (int) (player.getSkills().getLevel(Constants.MAGIC) * 0.05));
+			target.lowerStat(Constants.MAGIC, 0.05, 0.0);
 		}
 	},
 	STORM_OF_ARMADYL(77, 70, 160, new Animation(10546), new SpotAnim(457), 1019, new SpotAnim(1019), new RuneSet(Rune.ARMADYL, 1)) {
@@ -213,10 +203,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc)
-				npc.lowerAttack(1);
-			else if (target instanceof Player player)
-				player.getSkills().drainLevel(Constants.DEFENSE, 1);
+			target.lowerStat(Constants.DEFENSE, 1, 0.0);
 		}
 	},
 	CONFUSE(3, 13, -1, new Animation(711), new SpotAnim(102, 0, 96), 103, new SpotAnim(104, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
@@ -237,12 +224,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getAttackLevel() >= npc.getCombatDefinitions().getAttackLevel())
-					npc.lowerAttack(0.05f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.ATTACK) >= player.getSkills().getLevelForXp(Constants.ATTACK))
-					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.05));
+			target.lowerStat(Constants.ATTACK, 0.05, 0.95);
 		}
 	},
 	WEAKEN(11, 21, -1, new Animation(711), new SpotAnim(105, 0, 96), 106, new SpotAnim(107, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
@@ -263,12 +245,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getStrengthLevel() >= npc.getCombatDefinitions().getStrengthLevel())
-					npc.lowerStrength(0.05f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
-					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.05));
+			target.lowerStat(Constants.STRENGTH, 0.05, 0.95);
 		}
 	},
 	CURSE(19, 29, -1, new Animation(711), new SpotAnim(108, 0, 96), 109, new SpotAnim(110, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 2, Rune.EARTH, 3)) {
@@ -280,7 +257,7 @@ public enum CombatSpell {
 					return false;
 				}
 			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.STRENGTH) < player.getSkills().getLevelForXp(Constants.STRENGTH)) {
+				if (player.getSkills().getLevel(Constants.DEFENSE) < player.getSkills().getLevelForXp(Constants.DEFENSE)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
@@ -289,12 +266,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getDefenseLevel() >= npc.getCombatDefinitions().getDefenseLevel())
-					npc.lowerDefense(0.05f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
-					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.05));
+			target.lowerStat(Constants.DEFENSE, 0.05, 0.95);
 		}
 	},
 	VULNERABILITY(66, 76, -1, new Animation(711), new SpotAnim(167, 0, 96), 168, new SpotAnim(169, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 5, Rune.EARTH, 5)) {
@@ -306,7 +278,7 @@ public enum CombatSpell {
 					return false;
 				}
 			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.STRENGTH) < player.getSkills().getLevelForXp(Constants.STRENGTH)) {
+				if (player.getSkills().getLevel(Constants.DEFENSE) < player.getSkills().getLevelForXp(Constants.DEFENSE)) {
 					caster.sendMessage("That target is already weakened.");
 					return false;
 				}
@@ -315,12 +287,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getDefenseLevel() >= npc.getCombatDefinitions().getDefenseLevel())
-					npc.lowerDefense(0.1f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
-					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.1));
+			target.lowerStat(Constants.DEFENSE, 0.1, 0.9);
 		}
 	},
 	ENFEEBLE(73, 83, -1, new Animation(711), new SpotAnim(170, 0, 96), 171, new SpotAnim(172, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 8, Rune.EARTH, 8)) {
@@ -341,12 +308,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getStrengthLevel() >= npc.getCombatDefinitions().getStrengthLevel())
-					npc.lowerStrength(0.1f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.STRENGTH) >= player.getSkills().getLevelForXp(Constants.STRENGTH))
-					player.getSkills().drainLevel(Constants.STRENGTH, (int) (player.getSkills().getLevel(Constants.STRENGTH) * 0.1));
+			target.lowerStat(Constants.STRENGTH, 0.1, 0.9);
 		}
 	},
 	STUN(80, 90, -1, new Animation(711), new SpotAnim(173, 0, 96), 174, new SpotAnim(245, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 12, Rune.EARTH, 12)) {
@@ -367,12 +329,7 @@ public enum CombatSpell {
 
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getAttackLevel() >= npc.getCombatDefinitions().getAttackLevel())
-					npc.lowerAttack(0.1f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.ATTACK) >= player.getSkills().getLevelForXp(Constants.ATTACK))
-					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.1));
+			target.lowerStat(Constants.ATTACK, 0.1, 0.9);
 		}
 	},
 	BIND(20, 30, 20, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(181, 0, 96), new RuneSet(Rune.NATURE, 2, Rune.WATER, 3, Rune.EARTH, 3)) {
@@ -450,45 +407,25 @@ public enum CombatSpell {
 	SHADOW_RUSH(52, 31, 140, new Animation(1978), null, 378, new SpotAnim(379), new RuneSet(Rune.SOUL, 1, Rune.DEATH, 2, Rune.CHAOS, 2, Rune.AIR, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.9f))
-					npc.lowerAttack(0.1f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.9f))
-					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.1));
+			target.lowerStat(Constants.ATTACK, 0.1, 0.9);
 		}
 	},
 	SHADOW_BURST(64, 37, 180, new Animation(1979), null, -1, new SpotAnim(382), new RuneSet(Rune.SOUL, 2, Rune.DEATH, 2, Rune.CHAOS, 4, Rune.AIR, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.9f))
-					npc.lowerAttack(0.1f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.9f))
-					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.1));
+			target.lowerStat(Constants.ATTACK, 0.1, 0.9);
 		}
 	},
 	SHADOW_BLITZ(76, 43, 240, new Animation(1978), null, 380, new SpotAnim(381), new RuneSet(Rune.SOUL, 2, Rune.BLOOD, 2, Rune.DEATH, 2, Rune.AIR, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.85f))
-					npc.lowerAttack(0.15f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.85f))
-					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.15));
+			target.lowerStat(Constants.ATTACK, 0.15, 0.85);
 		}
 	},
 	SHADOW_BARRAGE(88, 48, 280, new Animation(1979), null, -1, new SpotAnim(383), new RuneSet(Rune.SOUL, 3, Rune.BLOOD, 2, Rune.DEATH, 4, Rune.AIR, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
-			if (target instanceof NPC npc) {
-				if (npc.getAttackLevel() > (npc.getCombatDefinitions().getAttackLevel() * 0.85f))
-					npc.lowerAttack(0.15f);
-			} else if (target instanceof Player player)
-				if (player.getSkills().getLevel(Constants.ATTACK) > (player.getSkills().getLevelForXp(Constants.ATTACK) * 0.85f))
-					player.getSkills().drainLevel(Constants.ATTACK, (int) (player.getSkills().getLevel(Constants.ATTACK) * 0.15));
+			target.lowerStat(Constants.ATTACK, 0.15, 0.85);
 		}
 	},
 	BLOOD_RUSH(56, 33, 150, new Animation(1978), null, 374, new SpotAnim(373), new RuneSet(Rune.BLOOD, 1, Rune.DEATH, 2, Rune.CHAOS, 2)) {

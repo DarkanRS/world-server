@@ -18,12 +18,13 @@ package com.rs.game.content.skills.firemaking;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.controllers.DuelArenaController;
+import com.rs.game.content.controllers.DuelController;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
-import com.rs.game.model.entity.npc.familiar.Familiar;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.model.entity.player.controllers.DuelArenaController;
-import com.rs.game.model.entity.player.controllers.DuelController;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -34,7 +35,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 
-public class Firemaking extends PlayerAction {
+public class Firemaking extends Action {
 
 	public static enum Fire {
 		NORMAL(1511, 1, 300, 70755, 40, 20),
@@ -122,19 +123,23 @@ public class Firemaking extends PlayerAction {
 	}
 
 	@Override
-	public boolean start(Player player) {
-		if (!checkAll(player))
+	public boolean start(Entity entity) {
+		Player player = getPlayer(entity);
+		if (player == null)
 			return false;
-		player.resetWalkSteps();
+		
+		if (!checkAll(entity))
+			return false;
+		entity.resetWalkSteps();
 		player.sendMessage("You attempt to light the logs.", true);
 		if (groundItem == null) {
 			player.getInventory().deleteItem(fire.getLogId(), 1);
-			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(player.getTile()), player, true, 180);
+			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(entity.getTile()), player, true, 180);
 		}
-		boolean quickFire = player.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
-		setActionDelay(player, quickFire ? 1 : 2);
+		boolean quickFire = entity.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
+		setActionDelay(entity, quickFire ? 1 : 2);
 		if (!quickFire)
-			player.setNextAnimation(new Animation(16700));
+			entity.setNextAnimation(new Animation(entity instanceof Player ? 16700 : 8085));
 		return true;
 	}
 
@@ -155,13 +160,12 @@ public class Firemaking extends PlayerAction {
 
 	}
 
-	public static void startFamiliarFire(Player player, Familiar familiar, Fire fire) {
-		if (player.getFamiliar().getId() == 7378 || player.getFamiliar().getId() == 7377) {
-		}
-	}
+	public boolean checkAll(Entity entity) {
+		Player player = getPlayer(entity);
+		if (player == null)
+			return false;
 
-	public boolean checkAll(Player player) {
-		if (!player.getInventory().containsItem(590, 1) && (fire.ordinal() >= Fire.TANGLE_GUM_BRANCHES.ordinal() && !player.getInventory().containsItem(DungeonConstants.TINDERBOX))) {
+		if (entity instanceof Player && !player.getInventory().containsItem(590, 1) && (fire.ordinal() >= Fire.TANGLE_GUM_BRANCHES.ordinal() && !player.getInventory().containsItem(DungeonConstants.TINDERBOX))) {
 			player.sendMessage("You do not have the required items to light this.");
 			return false;
 		}
@@ -169,7 +173,7 @@ public class Firemaking extends PlayerAction {
 			player.sendMessage("You do not have the required level to light this.");
 			return false;
 		}
-		if (!World.canLightFire(player.getPlane(), player.getX(), player.getY()) || World.getRegion(player.getRegionId()).getSpawnedObject(player.getTile()) != null || player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController) { // contains
+		if (!World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || World.getRegion(entity.getRegionId()).getSpawnedObject(entity.getTile()) != null || player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController) { // contains
 			player.sendMessage("You can't light a fire here.");
 			return false;
 		}
@@ -177,8 +181,8 @@ public class Firemaking extends PlayerAction {
 	}
 
 	@Override
-	public boolean process(Player player) {
-		return checkAll(player);
+	public boolean process(Entity entity) {
+		return checkAll(entity);
 	}
 
 	public static double increasedExperience(Player player, double totalXp) {
@@ -190,12 +194,16 @@ public class Firemaking extends PlayerAction {
 	}
 
 	@Override
-	public int processWithDelay(final Player player) {
-		final WorldTile tile = new WorldTile(player.getTile());
-		if (!player.addWalkSteps(player.getX() - 1, player.getY(), 1))
-			if (!player.addWalkSteps(player.getX() + 1, player.getY(), 1))
-				if (!player.addWalkSteps(player.getX(), player.getY() + 1, 1))
-					player.addWalkSteps(player.getX(), player.getY() - 1, 1);
+	public int processWithDelay(Entity entity) {
+		Player player = getPlayer(entity);
+		if (player == null)
+			return -1;
+		
+		final WorldTile tile = new WorldTile(entity.getTile());
+		if (!entity.addWalkSteps(entity.getX() - 1, entity.getY(), 1))
+			if (!entity.addWalkSteps(entity.getX() + 1, entity.getY(), 1))
+				if (!entity.addWalkSteps(entity.getX(), entity.getY() + 1, 1))
+					entity.addWalkSteps(entity.getX(), entity.getY() - 1, 1);
 		player.sendMessage("The fire catches and the logs begin to burn.", true);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -205,16 +213,24 @@ public class Firemaking extends PlayerAction {
 					return;
 				World.spawnTempGroundObject(new GameObject(fire.getFireId(), ObjectType.SCENERY_INTERACT, 0, tile.getX(), tile.getY(), tile.getPlane()), 592, fire.getLife());
 				player.getSkills().addXp(Constants.FIREMAKING, increasedExperience(player, fire.getExperience()));
-				player.setNextFaceWorldTile(tile);
+				entity.setNextFaceWorldTile(tile);
 			}
 		}, 1);
-		player.getTempAttribs().setL("Fire", System.currentTimeMillis() + 1800);
+		entity.getTempAttribs().setL("Fire", System.currentTimeMillis() + 1800);
 		return -1;
 	}
 
 	@Override
-	public void stop(final Player player) {
-		setActionDelay(player, 3);
+	public void stop(Entity entity) {
+		setActionDelay(entity, 3);
+	}
+	
+	public Player getPlayer(Entity entity) {
+		if (entity instanceof Player p)
+			return p;
+		else if (entity instanceof Familiar f)
+			return f.getOwner();
+		return null;
 	}
 
 }

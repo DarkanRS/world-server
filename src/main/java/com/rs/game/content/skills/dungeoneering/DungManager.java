@@ -24,6 +24,8 @@ import java.util.Set;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.controllers.DamonheimController;
+import com.rs.game.content.controllers.DungeonController;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeonDifficulty;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeonLeaveParty;
@@ -33,8 +35,6 @@ import com.rs.game.content.skills.dungeoneering.dialogues.PrestigeReset;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.DamonheimController;
-import com.rs.game.model.entity.player.controllers.DungeonController;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.Constants;
@@ -1174,7 +1174,7 @@ public class DungManager {
 		if (item == null)
 			return false;
 		return switch(item.getId()) {
-		case 15707, 18508, 18509, 18510, 19709, 19710, 5733 -> false;
+		case 15707, 18508, 18509, 18510, 19709, 19710, 5733, 25349 -> false;
 		default -> true;
 		};
 	}

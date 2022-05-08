@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.woodcutting;
 
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.util.Utils;
 
 public enum TreeType {
@@ -84,7 +85,26 @@ public enum TreeType {
 		return persistent;
 	}
 
-	public boolean rollSuccess(Player player, int level, Hatchet hatchet) {
-		return Utils.skillSuccess((int) (level * player.getAuraManager().getWoodcuttingMul()), hatchet.getToolMod(), rate1, rate99);
+	public boolean rollSuccess(double mul, int level, Hatchet hatchet) {
+		return Utils.skillSuccess((int) (level * mul), hatchet.getToolMod(), rate1, rate99);
+	}
+	
+	public static TreeType forObject(Player player, GameObject object) {
+		switch(object.getId()) {
+		case 46274, 46275, 46277, 15062 -> { return null; }
+		}
+		
+		return switch(object.getDefinitions(player).getName()) {
+		case "Tree", "Swamp tree", "Dead tree", "Evergreen", "Dying tree", "Jungle tree" -> TreeType.NORMAL;
+		case "Oak", "Oak tree" -> TreeType.OAK;
+		case "Willow", "Willow tree" -> TreeType.WILLOW;
+		case "Maple", "Maple tree", "Maple Tree" -> TreeType.MAPLE;
+		case "Teak", "Teak tree" -> TreeType.TEAK;
+		case "Mahogany", "Mahogany tree" -> TreeType.MAHOGANY;
+		case "Arctic Pine" -> TreeType.ARCTIC_PINE;
+		case "Yew", "Yew tree" -> TreeType.YEW;
+		case "Magic tree", "Cursed magic tree" -> TreeType.MAGIC;
+		default -> null;
+		};
 	}
 }

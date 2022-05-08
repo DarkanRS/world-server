@@ -21,6 +21,15 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.controllers.FalconryController;
+import com.rs.game.content.controllers.FightCavesController;
+import com.rs.game.content.controllers.FightKilnController;
+import com.rs.game.content.controllers.PestControlLobbyController;
+import com.rs.game.content.controllers.PuroPuroController;
+import com.rs.game.content.controllers.StealingCreationLobbyController;
+import com.rs.game.content.controllers.UndergroundDungeonController;
+import com.rs.game.content.controllers.WarriorsGuild;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.cutscenes.DTPreview;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
@@ -52,6 +61,7 @@ import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.pet.Incubator;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
+import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
 import com.rs.game.content.skills.construction.EnterHouse;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
@@ -78,16 +88,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.AgilityPyramidController;
-import com.rs.game.model.entity.player.controllers.FalconryController;
-import com.rs.game.model.entity.player.controllers.FightCavesController;
-import com.rs.game.model.entity.player.controllers.FightKilnController;
-import com.rs.game.model.entity.player.controllers.PestControlLobbyController;
-import com.rs.game.model.entity.player.controllers.PuroPuroController;
-import com.rs.game.model.entity.player.controllers.StealingCreationLobbyController;
-import com.rs.game.model.entity.player.controllers.UndergroundDungeonController;
-import com.rs.game.model.entity.player.controllers.WarriorsGuild;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
@@ -406,7 +406,7 @@ public final class ObjectHandler {
 			else if (id == 26723)
 				player.getDialogueManager().execute(new SpiritTreeD(), (object.getId() == 68973 && object.getId() == 68974) ? 3637 : 3636);
 			else if (id == 4019 || id == 67036)
-				Summoning.openInfusionInterface(player);
+				Summoning.openInfusionInterface(player, false);
 			else if (id == 20604)
 				player.useStairs(-1, new WorldTile(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)
@@ -1848,7 +1848,7 @@ public final class ObjectHandler {
 				return;
 			}
 			if (itemId == Jewelry.GOLD_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
-				Jewelry.openJewelryInterface(player);
+				Jewelry.openJewelryInterface(player, false);
 				player.getTempAttribs().setO("jewelryObject", object);
 				return;
 			}

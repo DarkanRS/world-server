@@ -18,10 +18,11 @@ package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.npc.familiar.Familiar;
 import com.rs.game.model.entity.npc.godwars.zaros.Nex;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -67,7 +68,7 @@ public final class NPCCombat {
 		Entity target = this.target; // prevents multithread issues
 		if (target == null)
 			return 0;
-		if (target instanceof Familiar familiar && Utils.random(3) == 0) {
+		if (target instanceof Familiar familiar && familiar.getPouch().getScroll().getTarget() == ScrollTarget.COMBAT && Utils.random(3) == 0) {
 			Player player = familiar.getOwner();
 			if (player != null) {
 				target = player;

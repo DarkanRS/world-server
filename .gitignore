@@ -101,3 +101,4 @@ mainlog.txt
 /data/positions.txt
 /data/highscores.json
 /src/main/java/com/rs/tools/jawastools/
+/src/main/java/com/rs/game/content/commands/admin/DevinsCommands.java

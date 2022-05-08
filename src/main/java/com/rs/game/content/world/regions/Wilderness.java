@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.world.regions;
 
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.thieving.Thieving;
@@ -24,7 +25,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;

@@ -40,7 +40,7 @@ public class Foods {
 		YULE_LOGS(15430, 1),
 		MULLED_WINE(15431, 1),
 
-		CRAFISH(13433, 2),
+		CRAYFISH(13433, 2),
 
 		KINGWORM(2162, 2),
 
@@ -355,7 +355,9 @@ public class Foods {
 
 		SHORT_FINNED_EEL(18167, 12),
 
-		WEB_SNIPER(18169, 15);
+		WEB_SNIPER(18169, 15),
+		EVIL_DRUMSTICK(24147, 8),
+		CHOCOTREAT(24148, 8);
 
 		/**
 		 * The food id

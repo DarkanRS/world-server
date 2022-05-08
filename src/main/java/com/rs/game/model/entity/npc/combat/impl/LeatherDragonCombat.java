@@ -46,7 +46,10 @@ public class LeatherDragonCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target)));
 		} else {
 			int damage = Utils.getRandomInclusive(500);
-			npc.setNextAnimation(new Animation(12259));
+			int fireBreathAnimID = 12259;
+			if(npc.getId() >= 10219 && npc.getId() <= 10224)//Black dragons in dung
+				fireBreathAnimID = 13155;
+			npc.setNextAnimation(new Animation(fireBreathAnimID));
 			npc.setNextSpotAnim(new SpotAnim(1, 0, 100));
 			int protection = PlayerCombat.getAntifireLevel(target, true);
 			if (protection == 1)

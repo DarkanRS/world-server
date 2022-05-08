@@ -23,6 +23,8 @@ import java.util.Set;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.controllers.Controller;
+import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
@@ -31,8 +33,6 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.controllers.Controller;
-import com.rs.game.model.entity.player.controllers.WildernessController;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
 import com.rs.game.tasks.WorldTasks;
@@ -274,7 +274,7 @@ public class DwarfMultiCannon extends OwnedObject {
 				continue;
 
 			if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
-				int damage = PlayerCombat.getRandomMaxHit(owner, npc, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
+				int damage = PlayerCombat.getRandomMaxHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
 				WorldProjectile proj = World.sendProjectile(new WorldTile(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
 				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, damage, HitLook.CANNON_DAMAGE)));
 				owner.getSkills().addXp(Constants.RANGE, damage / 5);
