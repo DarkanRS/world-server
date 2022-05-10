@@ -16,41 +16,36 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.SkillsDialogue;
-import com.rs.game.content.SkillsDialogue.ItemNameFilter;
+import java.util.Arrays;
+
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.content.skills.Fletching;
 import com.rs.game.content.skills.Fletching.Fletch;
+import com.rs.game.model.entity.player.Player;
 
-public class FletchingD extends MatrixDialogue {
+public class FletchingD extends Conversation {
 
-	private Fletch items;
-
-	@Override
-	public void start() {
-		items = (Fletch) parameters[0];
+	public FletchingD(Player player, Fletch items) {
+		super(player);
+		
 		boolean maxQuantityTen = Fletching.maxMakeQuantityTen(items) && items.getProduct()[0] != 52;
-		SkillsDialogue.sendSkillsDialogue(player, maxQuantityTen ? SkillsDialogue.MAKE_INTERVAL : SkillsDialogue.MAKE_ALL, "Choose how many you wish to make,<br>then click on the item to begin.", maxQuantityTen ? 10 : 28, items.getProduct(),
-				maxQuantityTen ? null : (ItemNameFilter) name -> name.replace(" (u)", ""));
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		int option = SkillsDialogue.getItemSlot(componentId);
-		if (option > items.getProduct().length) {
-			end();
-			return;
+		Dialogue makeX = addNext(new MakeXStatement(maxQuantityTen ? MakeXType.MAKE_SET : MakeXType.MAKE, maxQuantityTen ? 10 : 28, "Choose how many you wish to make,<br>then click on the item to begin.", items.getProduct(), maxQuantityTen ? null : (String[]) Arrays.stream(items.getProduct()).mapToObj(i -> ItemDefinitions.getDefs(i).name.replace(" (u)", "")).toArray()));
+		
+		for (int i = 0;i < items.getProduct().length;i++) {
+			final int option = i;
+			makeX.addNext(() -> {
+				int quantity = MakeXStatement.getQuantity(player);
+				int invQuantity = player.getInventory().getItems().getNumberOf(items.getId());
+				if (quantity > invQuantity)
+					quantity = invQuantity;
+				player.getActionManager().setAction(new Fletching(items, option, quantity));
+			});
 		}
-		int quantity = SkillsDialogue.getQuantity(player);
-		int invQuantity = player.getInventory().getItems().getNumberOf(items.getId());
-		if (quantity > invQuantity)
-			quantity = invQuantity;
-		end();
-		player.getActionManager().setAction(new Fletching(items, option, quantity));
-
+		
+		create();
 	}
-
-	@Override
-	public void finish() {
-	}
-
 }

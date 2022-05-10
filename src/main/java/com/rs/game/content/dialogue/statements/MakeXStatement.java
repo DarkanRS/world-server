@@ -36,10 +36,10 @@ public class MakeXStatement implements Statement {
 		BAKE,
 		CUT,
 		DEPOSIT,
-		MAKE2,
+		MAKE_INTERVAL,
 		TELEPORT,
 		SELECT,
-		MAKE_SET2,
+		MAKE_SET_INTERVAL,
 		TAKE,
 		RETURN,
 		HEAT,
@@ -58,6 +58,10 @@ public class MakeXStatement implements Statement {
 		this.question = question;
 		this.items = items;
 		this.options = options;
+	}
+	
+	public MakeXStatement(MakeXType type, int maxQuantity, String question, int[] items) {
+		this(type, maxQuantity, question, items, null);
 	}
 
 	public MakeXStatement(MakeXItem[] items, int maxQuantity) {
