@@ -14,21 +14,33 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.skills.smithing;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
-import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
-import com.rs.game.content.skills.cooking.Cooking;
-import com.rs.game.content.skills.cooking.Cooking.Cookables;
+import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 
-public class CookingD extends Conversation {
-
-	public CookingD(Player player, Cookables cook, GameObject object) {
+public class SmeltingD extends Conversation {
+	
+	public SmeltingD(Player player, GameObject object) {
 		super(player);
-		addNext(new MakeXStatement(MakeXType.COOK, player.getInventory().getAmountOf(cook.getRawItem().getId()), "Choose how many you wish to cook,<br>then click on the item to begin.", new int[] { cook.getProduct().getId() }, null));
-		addNext(() -> player.getActionManager().setAction(new Cooking(object, cook.getRawItem(), MakeXStatement.getQuantity(player))));
+		
+		List<SmeltingBar> bars = new ArrayList<>();
+		for (SmeltingBar bar : SmeltingBar.values())
+			if (player.getInventory().containsItems(bar.getItemsRequired()))
+				bars.add(bar);
+		
+		
+		Dialogue makeX = addNext(new MakeXStatement(bars.stream().mapToInt(bar -> bar.getProducedBar().getId()).toArray()));
+		for (SmeltingBar bar : bars)
+			makeX.addNext(() -> player.getActionManager().setAction(new Smelting(bar, object, MakeXStatement.getQuantity(player))));
+		
+		create();
 	}
 }

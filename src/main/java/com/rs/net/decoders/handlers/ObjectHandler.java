@@ -39,11 +39,13 @@ import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.impl.StrongholdRewardD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
 import com.rs.game.content.dialogue.statements.Statement;
+import com.rs.game.content.dialogues_matrix.CookingD;
 import com.rs.game.content.minigames.FightPits;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.pet.Incubator;
+import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
@@ -59,6 +61,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 import com.rs.game.content.skills.smithing.ForgingInterface;
+import com.rs.game.content.skills.smithing.SmeltingD;
 import com.rs.game.content.skills.smithing.Smithing.ForgingBar;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.thieving.Thieving;
@@ -1569,10 +1572,23 @@ public final class ObjectHandler {
 			if (!player.getControllerManager().processObjectClick2(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
 			if (object.getDefinitions(player).getName().equalsIgnoreCase("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))
-				player.getDialogueManager().execute(new SmeltingD(), object);
-			else if (id == 17010)
-				player.getDialogueManager().execute(new LunarAltar());
-			else if (id == 62677)
+				player.startConversation(new SmeltingD(player, object));
+			else if (id == 17010) {
+				if (!Quest.LUNAR_DIPLOMACY.meetsRequirements(player, "to use the Lunar Spellbook."))
+					return;
+				player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
+					ops.add("Yes, replace my spellbook.", () -> {
+						if (player.getCombatDefinitions().getSpellbook() != Spellbook.LUNAR) {
+							player.sendMessage("Your mind clears and you switch back to the ancient spellbook.");
+							player.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
+						} else {
+							player.sendMessage("Your mind clears and you switch back to the normal spellbook.");
+							player.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
+						}
+					});
+					ops.add("Nevermind.");
+				}));
+			} else if (id == 62677)
 				player.getDominionTower().openRewards();
 			else if (id == 62688)
 				player.simpleDialogue("You have a Dominion Factor of " + player.getDominionTower().getDominionFactor() + ".");
@@ -1883,7 +1899,7 @@ public final class ObjectHandler {
 				case "fireplace":
 					Cookables cook = Cooking.isCookingSkill(item);
 					if (cook != null) {
-						player.getDialogueManager().execute(new CookingD(), cook, object);
+						player.startConversation(new CookingD(player, cook, object));
 						return;
 					}
 					player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");

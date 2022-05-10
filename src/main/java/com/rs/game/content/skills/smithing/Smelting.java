@@ -19,7 +19,6 @@ package com.rs.game.content.skills.smithing;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -145,9 +144,9 @@ public class Smelting extends PlayerAction {
 	public GameObject object;
 	public int ticks;
 
-	public Smelting(int slotId, GameObject object, int ticks) {
+	public Smelting(SmeltingBar bar, GameObject object, int ticks) {
 		this.object = object;
-		bar = SmeltingBar.forId(slotId);
+		this.bar = bar;
 		this.ticks = ticks;
 	}
 
