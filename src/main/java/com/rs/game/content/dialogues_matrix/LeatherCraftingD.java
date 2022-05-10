@@ -16,15 +16,14 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.SkillsDialogue;
-import com.rs.game.content.SkillsDialogue.ItemNameFilter;
+import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 
-public class LeatherCraftingD extends MatrixDialogue {
+public class LeatherCraftingD extends Conversation {
 
 	public static final int DUNG_NEEDLE = 17446;
 
@@ -79,12 +78,10 @@ public class LeatherCraftingD extends MatrixDialogue {
 			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) },
 			new Item[] { new Item(22452, 1), new Item(22454, 1), new Item(22456, 1) }, null, null
 	};
-
-	private int index;
-
-	@Override
-	public void start() {
-		index = (int) parameters[0];
+	
+	public LeatherCraftingD(Player player, int index) {
+		super(player);
+		
 		int[] ids = new int[POTENTIAL_PRODUCTS[index].length];
 		for (int i = 0; i < ids.length; i++)
 			ids[i] = POTENTIAL_PRODUCTS[index][i].getId();
@@ -100,10 +97,8 @@ public class LeatherCraftingD extends MatrixDialogue {
 				return name;
 			}
 		});
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
+		
+		
 		final int componentIndex = SkillsDialogue.getItemSlot(componentId);
 		if (componentIndex > BASE_LEATHER.length) {
 			end();
@@ -185,7 +180,8 @@ public class LeatherCraftingD extends MatrixDialogue {
 				setActionDelay(player, 3);
 			}
 		});
-		end();
+		
+		create();
 	}
 
 	public static int getIndex(int requestedId) {

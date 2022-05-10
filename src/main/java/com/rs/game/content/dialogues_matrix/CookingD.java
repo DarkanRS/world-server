@@ -30,5 +30,6 @@ public class CookingD extends Conversation {
 		super(player);
 		addNext(new MakeXStatement(MakeXType.COOK, player.getInventory().getAmountOf(cook.getRawItem().getId()), "Choose how many you wish to cook,<br>then click on the item to begin.", new int[] { cook.getProduct().getId() }, null));
 		addNext(() -> player.getActionManager().setAction(new Cooking(object, cook.getRawItem(), MakeXStatement.getQuantity(player))));
+		create();
 	}
 }

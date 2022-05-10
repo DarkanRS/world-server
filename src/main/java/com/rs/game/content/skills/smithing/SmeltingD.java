@@ -24,6 +24,7 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
 
 public class SmeltingD extends Conversation {
@@ -33,9 +34,14 @@ public class SmeltingD extends Conversation {
 		
 		List<SmeltingBar> bars = new ArrayList<>();
 		for (SmeltingBar bar : SmeltingBar.values())
-			if (player.getInventory().containsItems(bar.getItemsRequired()))
+			if (player.getInventory().containsItems(bar.getItemsRequired()) && player.getSkills().getLevel(Skills.SMITHING) >= bar.getLevelRequired())
 				bars.add(bar);
 		
+		if (bars.isEmpty()) {
+			addSimple("You don't have any ores that you are skilled enough to smelt.");
+			create();
+			return;
+		}
 		
 		Dialogue makeX = addNext(new MakeXStatement(bars.stream().mapToInt(bar -> bar.getProducedBar().getId()).toArray()));
 		for (SmeltingBar bar : bars)
