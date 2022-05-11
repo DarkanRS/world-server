@@ -21,9 +21,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import com.rs.game.content.SkillsDialogue;
-import com.rs.game.content.dialogues_matrix.CreationActionD;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.skills.util.Category;
+import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;

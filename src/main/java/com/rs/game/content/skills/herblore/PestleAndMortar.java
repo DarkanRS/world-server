@@ -19,7 +19,7 @@ package com.rs.game.content.skills.herblore;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;

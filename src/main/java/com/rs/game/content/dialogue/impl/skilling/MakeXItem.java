@@ -18,7 +18,7 @@ package com.rs.game.content.dialogue.impl.skilling;
 
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
-import com.rs.game.content.dialogues_matrix.CreateAction;
+import com.rs.game.content.skills.util.CreateAction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 

@@ -14,12 +14,11 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.skills.cooking;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
-import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

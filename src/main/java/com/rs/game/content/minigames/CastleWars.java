@@ -457,7 +457,7 @@ public final class CastleWars {
 	public static ObjectClickHandler handleScoreboard = new ObjectClickHandler(new Object[] { 4484 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().getDialogueManager().execute(new CastleWarsScoreboard());
+			CastleWars.viewScoreBoard(e.getPlayer());
 		}
 	};
 
