@@ -24,8 +24,7 @@ import com.rs.game.content.Statuettes;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.impl.ClanCloak;
-import com.rs.game.content.dialogue.impl.ClanVex;
+import com.rs.game.content.dialogue.impl.ClanItemClaim;
 import com.rs.game.content.dialogue.impl.FredaD;
 import com.rs.game.content.dialogue.impl.OsmanD;
 import com.rs.game.content.dialogue.impl.skillmasters.AjjatD;
@@ -251,9 +250,9 @@ public class NPCHandler {
 			else if (npc.getId() == 456)
 				player.getDialogueManager().execute(new FatherAereck(), npc.getId());
 			else if (npc.getId() == 13633)
-				player.getDialogueManager().execute(new ClanCloak(), false);
+				player.startConversation(new ClanItemClaim(player, 20708));
 			else if (npc.getId() == 5915)
-				player.getDialogueManager().execute(new ClanVex(), false);
+				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
 				player.getDialogueManager().execute(new TanningD(), npc.getId());
 			else if (npc.getName().toLowerCase().contains("impling"))
@@ -372,9 +371,9 @@ public class NPCHandler {
 			else if (npc.getId() == 14849 && npc instanceof ConditionalDeath cd)
 				cd.useHammer(player);
 			else if (npc.getId() == 13633)
-				player.getDialogueManager().execute(new ClanCloak(), true);
+				player.startConversation(new ClanItemClaim(player, 20708));
 			else if (npc.getId() == 5915)
-				player.getDialogueManager().execute(new ClanVex(), true);
+				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041)
 				player.startConversation(new TanningD(player, npc.getId() == 1041));
 			else if (npc.getId() == 1843)

@@ -16,44 +16,15 @@
 //
 package com.rs.game.content.dialogue.impl;
 
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 
-public class ClanCloak extends Conversation {
-
-	public ClanCloak(Player player) {
+public class ClanItemClaim extends Conversation {
+	public ClanItemClaim(Player player, int itemId) {
 		super(player);
-		// TODO Auto-generated constructor stub
+		addNPC(itemId == 20708 ? 13633 : 5915, HeadE.HAPPY_TALKING, "Why of course you can have a " + ItemDefinitions.getDefs(itemId).name.toLowerCase() + ".");
+		addItem(itemId, "You are handed a " + ItemDefinitions.getDefs(itemId).name.toLowerCase() + ".", () -> player.getInventory().addItem(itemId));
 	}
-
-	boolean rightClick;
-
-	@Override
-	public void start() {
-		rightClick = (boolean) parameters[0];
-
-		if (rightClick) {
-			sendNPCDialogue(13633, HAPPY_TALKING, "Why of course you can have a clan cape.");
-			stage = 100;
-		} else {
-			sendNPCDialogue(13633, DRUNK_HAPPY_TIRED, "Right click 'get cloak' on me if you would like a clan cape.");
-			stage = 1;
-		}
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 100) {
-			player.getInventory().addItem(20708, 1);
-			end();
-		} else
-			end();
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }
