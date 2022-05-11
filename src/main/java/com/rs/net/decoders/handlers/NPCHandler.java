@@ -24,13 +24,13 @@ import com.rs.game.content.Statuettes;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.impl.ClanCloak;
+import com.rs.game.content.dialogue.impl.ClanVex;
 import com.rs.game.content.dialogue.impl.FredaD;
 import com.rs.game.content.dialogue.impl.OsmanD;
 import com.rs.game.content.dialogue.impl.skillmasters.AjjatD;
 import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
 import com.rs.game.content.dialogues_matrix.BoatingDialogue;
-import com.rs.game.content.dialogues_matrix.ClanCloak;
-import com.rs.game.content.dialogues_matrix.ClanVex;
 import com.rs.game.content.dialogues_matrix.DrogoDwarf;
 import com.rs.game.content.dialogues_matrix.FatherAereck;
 import com.rs.game.content.dialogues_matrix.FremennikShipmaster;
@@ -236,8 +236,6 @@ public class NPCHandler {
 				player.getDialogueManager().execute(new Nurmof(), npc);
 			else if (npc.getId() == 3122)
 				player.getDialogueManager().execute(new MamboJamboD(), npc.getId());
-			else if (npc.getId() == 382 || npc.getId() == 3294 || npc.getId() == 4316)
-				player.getDialogueManager().execute(new MiningGuildDwarf(), npc.getId(), false);
 			else if (npc.getId() == 2617)
 				player.getDialogueManager().execute(new TzHaarMejJal(), npc.getId());
 			else if (npc.getId() == 2618)
@@ -378,7 +376,7 @@ public class NPCHandler {
 			else if (npc.getId() == 5915)
 				player.getDialogueManager().execute(new ClanVex(), true);
 			else if (npc.getId() == 2824 || npc.getId() == 1041)
-				player.getDialogueManager().execute(new TanningD(), npc.getId());
+				player.startConversation(new TanningD(player, npc.getId() == 1041));
 			else if (npc.getId() == 1843)
 				player.setNextWorldTile(new WorldTile(2836, 10142, 0));
 			else if (npc.getId() == 1844)

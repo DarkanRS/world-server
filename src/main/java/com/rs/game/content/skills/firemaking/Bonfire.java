@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.dialogues_matrix.BonfireD;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.npc.others.FireSpirit;
 import com.rs.game.model.entity.player.Player;

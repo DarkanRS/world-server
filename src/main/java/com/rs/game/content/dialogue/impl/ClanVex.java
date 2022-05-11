@@ -14,7 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.dialogue.impl;
+
+import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 
 public class ClanVex extends MatrixDialogue {
 

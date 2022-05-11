@@ -14,9 +14,18 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.dialogue.impl;
 
-public class ClanCloak extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.model.entity.player.Player;
+
+public class ClanCloak extends Conversation {
+
+	public ClanCloak(Player player) {
+		super(player);
+		// TODO Auto-generated constructor stub
+	}
 
 	boolean rightClick;
 
