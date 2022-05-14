@@ -56,6 +56,7 @@ import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.thieving.PickPocketAction;
 import com.rs.game.content.skills.thieving.PickPocketableNPC;
+import com.rs.game.content.transportation.BoatingD;
 import com.rs.game.content.transportation.TravelMethods;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
 import com.rs.game.ge.GE;
@@ -120,9 +121,9 @@ public class NPCHandler {
 			player.faceEntity(npc);
 			npc.faceEntity(player);
 
-			Object[] shipAttributes = BoatingDialogue.getBoatForShip(player, npc.getId());
+			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
-				player.getDialogueManager().execute(new BoatingDialogue(), npc.getId());
+				player.startConversation(new BoatingD(player, npc.getId()));
 				return;
 			}
 			if (npc instanceof GraveStone grave) {

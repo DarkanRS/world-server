@@ -14,92 +14,64 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.transportation;
 
 import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.KLARENSE;
 
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer;
 import com.rs.game.content.quests.handlers.dragonslayer.KlarenseDragonSlayerD;
 import com.rs.game.content.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
-import com.rs.game.content.transportation.TravelMethods;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 
-public class BoatingDialogue extends MatrixDialogue {
-
-	private int npcId, cost;
+public class BoatingD extends Conversation {
+	
+	private int cost;
 	private boolean returning;
 	private Carrier ship;
 
-	@Override
-	public void start() {
-		npcId = (Integer) parameters[0];
+	public BoatingD(Player player, int npcId) {
+		super(player);
 
-		if(npcId == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM)
+		if (npcId == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM) {
 			player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
-		else if(npcId == 744 && !player.getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+			return;
+		}
+		if (npcId == 744 && !player.getQuestManager().isComplete(Quest.DRAGON_SLAYER)) {
 			player.startConversation(new KlarenseDragonSlayerD(player).getStart());
-		else if(npcId == 744 && !player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.IS_BOAT_FIXED_ATTR))
-			player.startConversation(new Conversation(player) {
-				{
-					addNPC(KLARENSE, HeadE.CALM_TALK, "Wow! You sure are lucky! Seems the Lady Lumbridge just washed right up into the dock by " +
-							"herself! She's pretty badly damaged, though ...");
-					create();
-				}
-			});
-		else
-			sendNPCDialogue(npcId, 9827, "Hello adventurer, how can I help you today?");
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == -1) {
-			stage = 0;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "Where does this boat take me?", "Nothing, nevermind.");
-		} else if (stage == 0) {
-			if (componentId == OPTION_1) {
-				stage = 1;
-				sendPlayerDialogue(9827, "Where does this boat take me?");
-			} else {
-				sendPlayerDialogue(9827, "Nothing, nevermind.");
-				stage = 4;
-			}
-		} else if (stage == 1) {
-			stage = 2;
-			Object[] attributes = getBoatForShip(player, npcId);
-			if (attributes == null) {
-				end();
-				return;
-			}
-			ship = (Carrier) attributes[0];
-			returning = (Boolean) attributes[1];
-			cost = -1;
-			if (ship.getFares() != null)
-				cost = ship.getFares()[0];
-			if (cost == -1)
-				sendNPCDialogue(npcId, 9827, "This boat? Why this boat takes you to " + ship.getFixedName(returning) + ".");
-			else
-				sendNPCDialogue(npcId, 9827, "This boat? Why this boat takes you to " + ship.getFixedName(returning) + ", for a small fee of " + cost + " coins.");
-		} else if (stage == 2) {
-			if (cost != -1)
-				sendOptionsDialogue("Pay the price of " + cost + " coins?", "Yes, board the ship.", "I can't affored that!");
-			else
-				sendOptionsDialogue("Board the ship?", "Yes, board the ship.", "No, sometime later.");
-			stage = 3;
-		} else if (stage == 3) {
-			if (componentId == OPTION_1)
-				TravelMethods.sendCarrier(player, ship, returning);
-			end();
-		} else if (stage == 4) {
-			sendNPCDialogue(npcId, 9827, "Oh alright then, have a splendid day.");
-			stage = 5;
-		} else if (stage == 5)
-			end();
+			return;
+		}
+		if (npcId == 744 && !player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.IS_BOAT_FIXED_ATTR)) {
+			player.startConversation(new Dialogue().addNPC(KLARENSE, HeadE.CALM_TALK, "Wow! You sure are lucky! Seems the Lady Lumbridge just washed right up into the dock by herself! She's pretty badly damaged, though ..."));
+			return;
+		}
+		
+		Object[] attributes = getBoatForShip(player, npcId);
+		if (attributes == null)
+			return;
+		
+		ship = (Carrier) attributes[0];
+		returning = (Boolean) attributes[1];
+		cost = -1;
+		if (ship.getFares() != null)
+			cost = ship.getFares()[0];
+		
+		addNPC(npcId, HeadE.CHEERFUL, "Hello adventurer, how can I help you today?");
+		addOptions(ops -> {
+			ops.add("Where does this boat take me?", new Dialogue()
+					.addNPC(npcId, HeadE.CHEERFUL, "This boat? Why this boat takes you to " + ship.getFixedName(returning) + ((cost == -1) ? "." : ", for a small fee of " + cost + " coins."))
+					.addOptions(cost == -1 ? "Board the ship?" : "Pay the price of " + cost + " coins?", conf -> {
+						conf.add("Yes, board the ship.", () -> TravelMethods.sendCarrier(player, ship, returning));
+						conf.add(cost == -1 ? "No, sometime later." : "I can't afford that!");
+					}));
+			ops.add("Nevermind.");
+		});
 	}
 
 	public static Object[] getBoatForShip(Player player, int npcId) {
@@ -156,10 +128,5 @@ public class BoatingDialogue extends MatrixDialogue {
 			return new Object[] { Carrier.TEACH_MOS_LE_HARMLESS, player.withinDistance(new WorldTile(3714, 3499, 1)) ? false : true };
 		}
 		return null;
-	}
-
-	@Override
-	public void finish() {
-
 	}
 }
