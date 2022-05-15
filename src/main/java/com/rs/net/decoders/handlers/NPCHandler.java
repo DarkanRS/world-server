@@ -29,7 +29,6 @@ import com.rs.game.content.dialogue.impl.FredaD;
 import com.rs.game.content.dialogue.impl.OsmanD;
 import com.rs.game.content.dialogue.impl.skillmasters.AjjatD;
 import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.content.dialogues_matrix.BoatingDialogue;
 import com.rs.game.content.dialogues_matrix.DrogoDwarf;
 import com.rs.game.content.dialogues_matrix.FatherAereck;
 import com.rs.game.content.dialogues_matrix.FremennikShipmaster;
@@ -38,7 +37,6 @@ import com.rs.game.content.dialogues_matrix.Jossik;
 import com.rs.game.content.dialogues_matrix.MamboJamboD;
 import com.rs.game.content.dialogues_matrix.Max;
 import com.rs.game.content.dialogues_matrix.Nurmof;
-import com.rs.game.content.dialogues_matrix.SorceressGardenNPCs;
 import com.rs.game.content.dialogues_matrix.TanningD;
 import com.rs.game.content.dialogues_matrix.TzHaarMejJal;
 import com.rs.game.content.dialogues_matrix.TzHaarMejKah;
@@ -46,6 +44,7 @@ import com.rs.game.content.dialogues_matrix.UgiDialogue;
 import com.rs.game.content.minigames.creations.StealingCreationShop;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.pest.CommendationExchange;
+import com.rs.game.content.minigames.sorcgarden.SorceressGardenNPCs;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
@@ -142,20 +141,12 @@ public class NPCHandler {
 				player.startConversation(new OsmanD(player, npc.getId()));
 			else if (npc.getId() == 15099)
 				player.startConversation(new FredaD(player, npc.getId()));
-			else if (npc.getId() == 5532)
-				player.getDialogueManager().execute(new SorceressGardenNPCs(), npc);
 			else if (npc.getId() == 5141)
 				player.getDialogueManager().execute(new UgiDialogue(), npc);
 			else if (npc.getId() == 9712)
 				player.getDialogueManager().execute(new DungeoneeringTutor());
-			else if (npc.getId() == 5563)
-				player.getDialogueManager().execute(new SorceressGardenNPCs(), npc);
 			else if (npc.getId() == 3373 || npc.getId() == 3705)
 				player.getDialogueManager().execute(new Max(), npc.getId());
-			else if (npc.getId() == 15451 && npc instanceof FireSpirit spirit)
-				spirit.giveReward(player);
-			else if (npc.getId() == 9462 || npc.getId() == 9464 || npc.getId() == 9466)
-				Strykewyrm.handleStomping(player, npc);
 			else if (npc.getId() == 2825)
 				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
 					ops.add("Yes", () -> player.setNextWorldTile(new WorldTile(2163, 5112, 1)));

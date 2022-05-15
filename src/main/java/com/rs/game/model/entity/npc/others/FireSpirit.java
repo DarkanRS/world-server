@@ -22,7 +22,11 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 
+@PluginEventHandler
 public class FireSpirit extends OwnedNPC {
 
 	private long createTime;
@@ -60,4 +64,12 @@ public class FireSpirit extends OwnedNPC {
 			finish();
 		});
 	}
+	
+	public static NPCClickHandler claim = new NPCClickHandler(new Object[] { 15451 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (e.getNPC() instanceof FireSpirit spirit)
+				spirit.giveReward(e.getPlayer());
+		}
+	};
 }

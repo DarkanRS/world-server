@@ -14,12 +14,13 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.sorcgarden;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.sorcgarden.SqirkFruitSqueeze.SqirkFruit;
 import com.rs.game.content.skills.herblore.HerbCleaning;

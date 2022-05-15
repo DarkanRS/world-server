@@ -1149,7 +1149,7 @@ public final class World {
 		if (floorItem.getAmount() > 1 && !item.getDefinitions().isStackable() && floorItem.getMetaData() == null)
 			for (int i = 0; i < floorItem.getAmount(); i++) {
 				Item oneItem = new Item(item.getId(), 1);
-				GroundItem newItem = new GroundItem(oneItem, tile, owner.getUsername(), invisible ? GroundItemType.INVISIBLE : GroundItemType.NORMAL);
+				GroundItem newItem = new GroundItem(oneItem, tile, owner == null ? null : owner.getUsername(), invisible ? GroundItemType.INVISIBLE : GroundItemType.NORMAL);
 				finalizeGroundItem(newItem, tile, owner, hiddenTime, type, deleteTime);
 			}
 		else
