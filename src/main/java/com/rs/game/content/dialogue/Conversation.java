@@ -189,6 +189,16 @@ public class Conversation {
 		return addOptions(title, options);
 	}
 	
+	public Dialogue addOptions(String stageName, String title, Consumer<Options> create) {
+		Options options = new Options(stageName, this) {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(title, options);
+	}
+	
 	public Dialogue addNext(String name, Statement statement, Dialogue... options) {
 		Dialogue option = addNext(name, statement);
 		for (Dialogue option2 : options)

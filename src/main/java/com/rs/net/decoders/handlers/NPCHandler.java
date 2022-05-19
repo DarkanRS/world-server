@@ -35,16 +35,15 @@ import com.rs.game.content.dialogues_matrix.FremennikShipmaster;
 import com.rs.game.content.dialogues_matrix.GeneralStore;
 import com.rs.game.content.dialogues_matrix.Jossik;
 import com.rs.game.content.dialogues_matrix.MamboJamboD;
-import com.rs.game.content.dialogues_matrix.Max;
 import com.rs.game.content.dialogues_matrix.Nurmof;
 import com.rs.game.content.dialogues_matrix.TanningD;
 import com.rs.game.content.dialogues_matrix.TzHaarMejJal;
 import com.rs.game.content.dialogues_matrix.TzHaarMejKah;
-import com.rs.game.content.dialogues_matrix.UgiDialogue;
 import com.rs.game.content.minigames.creations.StealingCreationShop;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.pest.CommendationExchange;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenNPCs;
+import com.rs.game.content.minigames.treasuretrails.UgiDialogue;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
@@ -141,12 +140,6 @@ public class NPCHandler {
 				player.startConversation(new OsmanD(player, npc.getId()));
 			else if (npc.getId() == 15099)
 				player.startConversation(new FredaD(player, npc.getId()));
-			else if (npc.getId() == 5141)
-				player.getDialogueManager().execute(new UgiDialogue(), npc);
-			else if (npc.getId() == 9712)
-				player.getDialogueManager().execute(new DungeoneeringTutor());
-			else if (npc.getId() == 3373 || npc.getId() == 3705)
-				player.getDialogueManager().execute(new Max(), npc.getId());
 			else if (npc.getId() == 2825)
 				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
 					ops.add("Yes", () -> player.setNextWorldTile(new WorldTile(2163, 5112, 1)));
@@ -187,8 +180,6 @@ public class NPCHandler {
 				player.startConversation(new GenericSkillcapeOwnerD(player, 805, Skillcapes.Crafting));
 			else if (npc.getId() == 3295)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 3295, Skillcapes.Mining));
-			//			else if (npc.getId() == 455)
-			//				player.startConversation(new GenericSkillcapeOwnerD(player, 455, Skillcapes.Herblore));
 			else if (npc.getId() == 437)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 437, Skillcapes.Agility));
 			else if (npc.getId() == 2270)
