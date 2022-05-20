@@ -207,7 +207,7 @@ public class NPCHandler {
 			else if (npc.getId() == 9708 || npc.getId() == 14847)
 				player.startConversation(new FremennikShipmaster(player, npc.getId(), false));
 			else if (npc.getId() == 579)
-				player.getDialogueManager().execute(new DrogoDwarf(), npc.getId());
+				player.startConversation(new DrogoDwarf(player, npc));
 			else if (npc.getId() == 528 || npc.getId() == 529)
 				player.getDialogueManager().execute(new GeneralStore(), npc.getId(), "edgeville_general_store");
 			else if (npc.getId() == 522 || npc.getId() == 523)
