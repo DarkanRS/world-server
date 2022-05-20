@@ -151,7 +151,7 @@ public class NPCHandler {
 					ops.add("No");
 				});
 			else if (npc.getId() == 9707)
-				player.getDialogueManager().execute(new FremennikShipmaster(), npc.getId(), true);
+				player.startConversation(new FremennikShipmaster(player, npc.getId(), true));
 			else if (npc.getId() == 4288)
 				player.startConversation(new AjjatD(player));
 			else if (npc.getId() == 8269)
@@ -205,7 +205,7 @@ public class NPCHandler {
 						.addNPC(8649, HeadE.CHEERFUL_EXPOSITION, "I love bees!")
 						.finish()));
 			else if (npc.getId() == 9708 || npc.getId() == 14847)
-				player.getDialogueManager().execute(new FremennikShipmaster(), npc.getId(), false);
+				player.startConversation(new FremennikShipmaster(player, npc.getId(), false));
 			else if (npc.getId() == 579)
 				player.getDialogueManager().execute(new DrogoDwarf(), npc.getId());
 			else if (npc.getId() == 528 || npc.getId() == 529)
