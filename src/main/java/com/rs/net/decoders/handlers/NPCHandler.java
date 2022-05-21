@@ -297,7 +297,7 @@ public class NPCHandler {
 
 			npc.resetWalkSteps();
 
-			Object[] shipAttributes = BoatingDialogue.getBoatForShip(player, npc.getId());
+			Object[] shipAttributes = BoatingD.getBoatForShip(player, npc.getId());
 			if (shipAttributes != null) {
 				if(npc.getId() == 380 && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == PiratesTreasure.SMUGGLE_RUM) {
 					player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());

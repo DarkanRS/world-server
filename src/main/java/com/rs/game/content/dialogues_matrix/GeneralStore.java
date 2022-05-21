@@ -16,12 +16,19 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.utils.shop.ShopsHandler;
 
-public class GeneralStore extends MatrixDialogue {
+public class GeneralStore extends Conversation {
 
-	private int npcId;
-	private String shopId;
+	public GeneralStore(Player player, NPC npc, String shopName) {
+		super(player);
+		
+		
+	}
+
 
 	@Override
 	public void start() {
