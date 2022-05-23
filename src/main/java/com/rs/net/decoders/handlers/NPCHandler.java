@@ -209,35 +209,35 @@ public class NPCHandler {
 			else if (npc.getId() == 579)
 				player.startConversation(new DrogoDwarf(player, npc));
 			else if (npc.getId() == 528 || npc.getId() == 529)
-				player.getDialogueManager().execute(new GeneralStore(), npc.getId(), "edgeville_general_store");
+				player.startConversation(new GeneralStore(player, npc, "edgeville_general_store"));
 			else if (npc.getId() == 522 || npc.getId() == 523)
-				player.getDialogueManager().execute(new GeneralStore(), npc.getId(), "varrock_general_store");
+				player.startConversation(new GeneralStore(player, npc, "varrock_general_store"));
 			else if (npc.getId() == 520 || npc.getId() == 521)
-				player.getDialogueManager().execute(new GeneralStore(), npc.getId(), "lumbridge_general_store");
+				player.startConversation(new GeneralStore(player, npc, "lumbridge_general_store"));
 			else if (npc.getId() == 594)
-				player.getDialogueManager().execute(new Nurmof(), npc);
+				player.startConversation(new Nurmof(player, npc));
 			else if (npc.getId() == 3122)
-				player.getDialogueManager().execute(new MamboJamboD(), npc.getId());
+				player.startConversation(new MamboJamboD(npc));
 			else if (npc.getId() == 2617)
-				player.getDialogueManager().execute(new TzHaarMejJal(), npc.getId());
+				player.startConversation(new TzHaarMejJal(npc));
 			else if (npc.getId() == 2618)
-				player.getDialogueManager().execute(new TzHaarMejKah(), npc.getId());
+				player.startConversation(new TzHaarMejKah(npc));
 			else if (npc.getId() == 6715 || npc.getId() == 14862)
 				player.startConversation(new EstateAgentDialogue(player, npc.getId()));
 			else if (npc.getId() == 3344 || npc.getId() == 3345)
 				MutatedZygomite.transform(player, npc);
 			else if (npc.getId() == 4236 || npc.getId() == 4238 || npc.getId() == 4240 || npc.getId() == 4242 || npc.getId() == 4244)
-				player.getDialogueManager().execute(new ServantDialogue(), npc.getId());
+				player.startConversation(new ServantDialogue(npc), npc.getId());
 			else if (npc.getId() == 1334)
-				player.getDialogueManager().execute(new Jossik(), npc.getId());
+				player.startConversation(new Jossik(npc));
 			else if (npc.getId() == 456)
-				player.getDialogueManager().execute(new FatherAereck(), npc.getId());
+				player.startConversation(new FatherAereck(npc));
 			else if (npc.getId() == 13633)
 				player.startConversation(new ClanItemClaim(player, 20708));
 			else if (npc.getId() == 5915)
 				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
-				player.getDialogueManager().execute(new TanningD(), npc.getId());
+				player.startConversation(new TanningD(npc));
 			else if (npc.getName().toLowerCase().contains("impling"))
 				FlyingEntityHunter.captureFlyingEntity(player, npc);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {

@@ -35,18 +35,10 @@ public class SlayerMasterD extends Conversation {
 		public void handle(NPCClickEvent e) {
 			Master master = Master.getMasterForId(e.getNPC().getId());
 			switch(e.getOption()) {
-			case "Talk-to":
-				e.getPlayer().startConversation(new SlayerMasterD(e.getPlayer(), master));
-				break;
-			case "Get-task":
-				e.getPlayer().getSlayer().getTaskFrom(e.getPlayer(), master);
-				break;
-			case "Trade":
-				e.getPlayer().getSlayer().openShop(e.getPlayer(), master);
-				break;
-			case "Rewards":
-				Slayer.openBuyInterface(e.getPlayer());
-				break;
+			case "Talk-to" -> e.getPlayer().startConversation(new SlayerMasterD(e.getPlayer(), master));
+			case "Get-task" -> e.getPlayer().getSlayer().getTaskFrom(e.getPlayer(), master);
+			case "Trade" -> e.getPlayer().getSlayer().openShop(e.getPlayer(), master);
+			case "Rewards" -> Slayer.openBuyInterface(e.getPlayer());
 			}
 		}
 	};
