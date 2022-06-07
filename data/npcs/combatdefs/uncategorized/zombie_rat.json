@@ -1,21 +1,21 @@
 {
   "names": [
-    "Fox"
+    "Zombie rat"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 7905,
+  "defenceAnim": 4934,
+  "deathAnim": 4935,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 600,
-  "maxHit": 63,
+  "hitpoints": 50,
+  "maxHit": 10,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
+  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 1,
+    "ATTACK": 2,
     "RANGE": 1,
-    "STRENGTH": 20,
-    "DEFENSE": 20,
+    "STRENGTH": 3,
+    "DEFENSE": 2,
     "MAGE": 1
   },
   "attackRange": -1,

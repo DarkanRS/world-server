@@ -2,9 +2,9 @@
   "names": [
     "Crypt spider"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 6249,
+  "defenceAnim": 6250,
+  "deathAnim": 6251,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 600,
