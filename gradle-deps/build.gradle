@@ -1,0 +1,27 @@
+apply plugin: 'application'
+
+mainClassName = "com.gmigdos.utils.gradle.DownloadDependencies"
+
+jar {
+    baseName = 'DownloadDependencies'
+    version =  '0.1.0'
+}
+
+repositories {
+
+    mavenCentral()
+    // Add other repositories here
+}
+
+dependencies {
+    compile group: 'rs.darkan', name: 'core', version: '1.0.11'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
+    compile group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+    compile group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.4.0'
+    compile group: 'org.mongodb', name: 'mongodb-driver-core', version: '4.4.0'
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.72.Final'
+    compile group: 'io.undertow', name: 'undertow-core', version: '2.2.8.Final'
+    compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
+    compile group: 'com.trivago', name: 'fastutil-concurrent-wrapper', version: '0.1.0'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+}

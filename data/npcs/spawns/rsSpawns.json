@@ -22376,15 +22376,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2616,
-      "y": 3168
-    },
-    "comment": "Jeremy Servil",
-    "npcId": 265
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2601,
       "y": 3168
     },
