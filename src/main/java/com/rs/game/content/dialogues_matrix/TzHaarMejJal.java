@@ -16,188 +16,49 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-public class TzHaarMejJal extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 
-	private int npcId;
+public class TzHaarMejJal extends Conversation {
 
-	@Override
-	public void start() {
-		npcId = (Integer) parameters[0];
-		sendNPCDialogue(npcId, 9827, "You want help JalYt-Ket-" + player.getDisplayName() + "?");
+	public TzHaarMejJal(Player player, NPC npc) {
+		super(player);
+		
+		addNPC(npc.getId(), HeadE.T_CONFUSED, "You want help JalYt-Ket-" + player.getDisplayName() + "?");
+		addOptions(ops -> {
+			ops.add("What is this place?")
+				.addPlayer(HeadE.CONFUSED, "What is this place?")
+				.addNPC(npc.getId(), HeadE.T_CALM_TALK, "This is the Fight Cave, ThzHaar-Xil made it for practice but many JalYt come here to fight, too. Just enter the cave and make sure you're prepared.")
+				.addOptions(ops2 -> {
+					ops2.add("Are there any rules?")
+						.addPlayer(HeadE.CONFUSED, "Are there any rules?")
+						.addNPC(npc.getId(), HeadE.T_LAUGH, "Rules? Survival is the only rule in there.")
+						.addOptions(ops3 -> {
+							ops3.add("Do I win anything?")
+								.addPlayer(HeadE.CONFUSED, "Do I win anything?")
+								.addNPC(npc.getId(), HeadE.T_CALM_TALK, "You ask a lot questions.<br>Might give you TokKul if you last long enough.")
+								.addPlayer(HeadE.CONFUSED, "...")
+								.addNPC(npc.getId(), HeadE.T_ANGRY, "You ask a lot questions.<br>Might give you TokKul if you last long enough.")
+								.addNPC(npc.getId(), HeadE.CALM_TALK, "Before you ask, TokKul is like your coins.")
+								.addNPC(npc.getId(), HeadE.T_LAUGH, "Gold is like you JalYt, soft and easily broken, we use hard rock forged in fire like TzHaar!");
+							
+							ops3.add("Sounds good.");
+						});
+					
+					ops2.add("Ok thanks.");
+				});
+			
+			ops.add("What did you call me?")
+				.addPlayer(HeadE.CONFUSED, "What did you call me?")
+				.addNPC(npc.getId(), HeadE.T_CONFUSED, "Are you not a JalYt-Ket?")
+				.addPlayer(HeadE.CONFUSED, "What's a 'JalYt-Ket'?")
+				.addNPC(npc.getId(), HeadE.T_CONFUSED, "That what you are...you tough and strong, no?")
+				.addPlayer(HeadE.CALM_TALK, "Well, yes I suppose I am...")
+				.addNPC(npc.getId(), HeadE.T_LAUGH, "Then you JalYt-Ket!")
+				.addPlayer(HeadE.CALM_TALK, "Thanks for explaining it.");
+			ops.add("No I'm fine thanks.");
+		});
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		switch (stage) {
-		case -1:
-			stage = 0;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "What is this place?", "What did you call me?", "No I'm fine thanks.");
-			break;
-		case 0:
-			switch (componentId) {
-			case OPTION_1:
-				stage = 1;
-				sendPlayerDialogue(9827, "What is this place?");
-				break;
-			case OPTION_2:
-				stage = 11;
-				sendPlayerDialogue(9827, "What did you call me?");
-				break;
-			case OPTION_3:
-			default:
-				stage = -2;
-				sendPlayerDialogue(9827, "No I'm fine thanks.");
-				break;
-			}
-			break;
-		case 1:
-			stage = 2;
-			sendNPCDialogue(npcId, 9827, "This is the Fight Cave, ThzHaar-Xil made it for practice but many JalYt come here to fight, too. Just enter the cave and make sure you're prepared.");
-			break;
-		case 2:
-			stage = 3;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "Are there any rules?", "Ok thanks.");
-			break;
-		case 3:
-			switch (componentId) {
-			case OPTION_1:
-				stage = 4;
-				sendPlayerDialogue(9827, "Are there any rules?");
-				break;
-			case OPTION_2:
-			default:
-				stage = -2;
-				sendPlayerDialogue(9827, "Ok thanks.");
-				break;
-			}
-			break;
-		case 4:
-			stage = 5;
-			sendNPCDialogue(npcId, 9827, "Rules? Survival is the only rule in there.");
-			break;
-		case 5:
-			stage = 6;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "Do I win anything?", "Sounds good.");
-			break;
-		case 6:
-			switch (componentId) {
-			case OPTION_1:
-				stage = 7;
-				sendPlayerDialogue(9827, "Do I win anything?");
-				break;
-			case OPTION_2:
-			default:
-				stage = -2;
-				sendPlayerDialogue(9827, "Sounds good.");
-				break;
-			}
-			break;
-		case 7:
-			stage = 8;
-			sendNPCDialogue(npcId, 9827, "You ask a lot questions.<br>Might give you TokKul if you last long enough.");
-			break;
-		case 8:
-			stage = 9;
-			sendPlayerDialogue(9827, "...");
-			break;
-		case 9:
-			stage = 10;
-			sendNPCDialogue(npcId, 9827, "Before you ask, TokKul is like your coins.");
-			break;
-		case 10:
-			stage = -2;
-			sendNPCDialogue(npcId, 9827, "Gold is like you JalYt, soft and easily broken, we use hard rock forged in fire like TzHaar!");
-			break;
-		case 11:
-			stage = 12;
-			sendNPCDialogue(npcId, 9827, "Are you not a JalYt-Ket?");
-			break;
-		case 12:
-			stage = 13;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "What's a 'JalYt-Ket'?", "I guess so...?", "No I'm not!");
-			break;
-		case 13:
-			switch (componentId) {
-			case OPTION_1:
-				stage = 14;
-				sendPlayerDialogue(9827, "What's a 'JalYt-Ket'?");
-				break;
-			case OPTION_2:
-				stage = -2;
-				sendPlayerDialogue(9827, "I guess so...");
-				break;
-			case OPTION_3:
-			default:
-				stage = -2;
-				sendPlayerDialogue(9827, "No I'm not!");
-				break;
-			}
-			break;
-		case 14:
-			stage = 15;
-			sendNPCDialogue(npcId, 9827, "That what you are...you tough and strong, no?");
-			break;
-		case 15:
-			stage = 16;
-			sendPlayerDialogue(9827, "Well, yes I suppose I am...");
-			break;
-		case 16:
-			stage = 17;
-			sendNPCDialogue(npcId, 9827, "Then you JalYt-Ket!");
-			break;
-		case 17:
-			stage = 18;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "What are you then?", "Thanks for explaining it.");
-			break;
-		case 18:
-			switch (componentId) {
-			case OPTION_1:
-				stage = 19;
-				sendPlayerDialogue(9827, "What are you then?");
-				break;
-			case OPTION_2:
-			default:
-				stage = -2;
-				sendPlayerDialogue(9827, "Thanks for explaining it.");
-				break;
-			}
-			break;
-		case 19:
-			stage = 20;
-			sendNPCDialogue(npcId, 9827, "Foolish JalYt, I am TzHaar-Mej one of the mystics of this city.");
-			break;
-		case 20:
-			stage = 21;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "What other types are there?", "Ah ok then.");
-			break;
-		case 21:
-			stage = 22;
-			switch (componentId) {
-			case OPTION_1:
-				stage = 22;
-				sendPlayerDialogue(9827, "What other types are there?");
-				break;
-			case OPTION_2:
-			default:
-				stage = -2;
-				sendPlayerDialogue(9827, "Ah ok then.");
-				break;
-			}
-			break;
-		case 22:
-			stage = -2;
-			sendNPCDialogue(npcId, 9827, "There are the mighty TzHaar-Key who guard us, the swift TzHaar-Xil who hunt for our food, and the skilled TzHaar-Hur who creft our homes and tools.");
-			break;
-		default:
-			end();
-			break;
-		}
-
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }
