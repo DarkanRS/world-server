@@ -330,9 +330,7 @@ public class InventoryOptionsHandler {
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}
-		if (itemId == AncientEffigies.SATED_ANCIENT_EFFIGY || itemId == AncientEffigies.GORGED_ANCIENT_EFFIGY || itemId == AncientEffigies.NOURISHED_ANCIENT_EFFIGY || itemId == AncientEffigies.STARVED_ANCIENT_EFFIGY)
-			player.getDialogueManager().execute(new AncientEffigiesD(), item);
-		else if (itemId >= 23653 && itemId <= 23658)
+		if (itemId >= 23653 && itemId <= 23658)
 			FightKilnController.useCrystal(player, itemId);
 		else if (player.getTreasureTrailsManager().useItem(item, slotId))
 			return;

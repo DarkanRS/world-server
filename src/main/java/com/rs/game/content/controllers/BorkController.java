@@ -17,7 +17,6 @@
 package com.rs.game.content.controllers;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.DagonHai;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -61,7 +60,7 @@ public class BorkController extends Controller {
 			}
 			if (stage == 18) {
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
-				player.getDialogueManager().execute(new DagonHai(), 7137, player, -1);
+				//player.getDialogueManager().execute(new DagonHai(), 7137, player, -1);//Rewrite this from a YouTube video.
 				player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
 				player.resetReceivedHits();
 				player.unlock();

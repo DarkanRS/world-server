@@ -19,8 +19,7 @@ package com.rs.game.model.entity.player;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.controllers.DomTowerController;
-import com.rs.game.content.dialogues_matrix.DTSpectateReq;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.StrangeFace;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -80,7 +79,8 @@ public final class DominionTower {
 
 	public void openModes() {
 		if (!hasRequiriments()) {
-			player.getDialogueManager().execute(new DTSpectateReq());
+			player.startConversation(new Dialogue().addSimple("You don't have the requirements to play this content, but you can spectate some of the matches" +
+					" taking place if you would like.", () -> {player.getDominionTower().openSpectate();}));
 			return;
 		}
 		if (!talkedWithFace) {

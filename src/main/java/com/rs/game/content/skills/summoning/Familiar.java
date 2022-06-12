@@ -23,7 +23,6 @@ import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogues_matrix.DismissD;
 import com.rs.game.content.skills.summoning.EnchantedHeadwear.Headwear;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
@@ -372,14 +371,14 @@ public class Familiar extends NPC {
 				if (e.getComponentId() == 11 || e.getComponentId() == 20)
 					e.getPlayer().getPet().call();
 				else if (e.getComponentId() == 12 || e.getComponentId() == 21)
-					e.getPlayer().getDialogueManager().execute(new DismissD());
+					e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
 				else if (e.getComponentId() == 10 || e.getComponentId() == 19)
 					e.getPlayer().getPet().sendFollowerDetails();
 			} else if (e.getPlayer().getFamiliar() != null)
 				if (e.getComponentId() == 11 || e.getComponentId() == 20)
 					e.getPlayer().getFamiliar().call();
 				else if (e.getComponentId() == 12 || e.getComponentId() == 21)
-					e.getPlayer().getDialogueManager().execute(new DismissD());
+					e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
 				else if (e.getComponentId() == 13 || e.getComponentId() == 22)
 					e.getPlayer().getFamiliar().takeInventory();
 				else if (e.getComponentId() == 14 || e.getComponentId() == 23)
@@ -406,13 +405,13 @@ public class Familiar extends NPC {
 				if (e.getComponentId() == 49)
 					e.getPlayer().getPet().call();
 				else if (e.getComponentId() == 51)
-					e.getPlayer().getDialogueManager().execute(new DismissD());
+					e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
 				return;
 			}
 			if (e.getComponentId() == 49)
 				e.getPlayer().getFamiliar().call();
 			else if (e.getComponentId() == 51)
-				e.getPlayer().getDialogueManager().execute(new DismissD());
+				e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
 			else if (e.getComponentId() == 67)
 				e.getPlayer().getFamiliar().takeInventory();
 			else if (e.getComponentId() == 69)
