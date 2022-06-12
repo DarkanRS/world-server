@@ -240,7 +240,7 @@ public class FightKilnController extends Controller {
 						} else if (count == 1)
 							player.getPackets().sendResetCamera();
 						else if (count == 2) {
-							player.getDialogueManager().execute(new TokHaarHok(), 0, TOKHAAR_HOK, FightKilnController.this);
+							player.startConversation(new TokHaarHok(), 0, TOKHAAR_HOK, FightKilnController.this);
 							player.setRun(run);
 							stage = Stages.RUNNING;
 							player.unlock(); // unlocks player
@@ -272,7 +272,7 @@ public class FightKilnController extends Controller {
 							@Override
 							public void run() {
 								try {
-									player.getDialogueManager().execute(new TokHaarHok(), 6, TOKHAAR_HOK_SCENE, FightKilnController.this);
+									player.startConversation(new TokHaarHok(), 6, TOKHAAR_HOK_SCENE, FightKilnController.this);
 								} catch (Throwable e) {
 									Logger.handle(e);
 								}
@@ -295,7 +295,7 @@ public class FightKilnController extends Controller {
 						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
 						WorldTile posTile = getWorldTile(29, 28);
 						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
-						player.getDialogueManager().execute(new TokHaarHok(), 5, TOKHAAR_HOK_SCENE, FightKilnController.this);
+						player.startConversation(new TokHaarHok(), 5, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
 				}, 1);
@@ -330,7 +330,7 @@ public class FightKilnController extends Controller {
 							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 							WorldTile posTile = getWorldTile(30, 30);
 							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-							player.getDialogueManager().execute(new TokHaarHok(), 7, TOKHAAR_HOK_SCENE, FightKilnController.this);
+							player.startConversation(new TokHaarHok(), 7, TOKHAAR_HOK_SCENE, FightKilnController.this);
 						}
 						count++;
 
@@ -350,7 +350,7 @@ public class FightKilnController extends Controller {
 						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 						WorldTile posTile = getWorldTile(25, 26);
 						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-						player.getDialogueManager().execute(new TokHaarHok(), 4, TOKHAAR_HOK_SCENE, FightKilnController.this);
+						player.startConversation(new TokHaarHok(), 4, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
 				}, 1);
@@ -368,7 +368,7 @@ public class FightKilnController extends Controller {
 						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 						WorldTile posTile = getWorldTile(31, 34);
 						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 4000);
-						player.getDialogueManager().execute(new TokHaarHok(), 3, TOKHAAR_HOK_SCENE, FightKilnController.this);
+						player.startConversation(new TokHaarHok(), 3, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
 				}, 1);
@@ -386,7 +386,7 @@ public class FightKilnController extends Controller {
 						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 						WorldTile posTile = getWorldTile(38, 37);
 						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-						player.getDialogueManager().execute(new TokHaarHok(), 2, TOKHAAR_HOK_SCENE, FightKilnController.this);
+						player.startConversation(new TokHaarHok(), 2, TOKHAAR_HOK_SCENE, FightKilnController.this);
 					}
 
 				}, 1);
@@ -406,7 +406,7 @@ public class FightKilnController extends Controller {
 						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 						WorldTile posTile = getWorldTile(31, 50);
 						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-						player.getDialogueManager().execute(new TokHaarHok(), 1, TOKHAAR_HOK_SCENE, FightKilnController.this);
+						player.startConversation(new TokHaarHok(), 1, TOKHAAR_HOK_SCENE, FightKilnController.this);
 						stage = Stages.RUNNING;
 						player.unlock();
 					}
@@ -929,7 +929,7 @@ public class FightKilnController extends Controller {
 	@Override
 	public boolean processNPCClick1(NPC npc) {
 		if (npc.getId() == 15195 && getCurrentWave() == 0) {
-			player.getDialogueManager().execute(new TokHaarHok(), 0, TOKHAAR_HOK, this);
+			player.startConversation(new TokHaarHok(), 0, TOKHAAR_HOK, this);
 			return false;
 		}
 		return true;

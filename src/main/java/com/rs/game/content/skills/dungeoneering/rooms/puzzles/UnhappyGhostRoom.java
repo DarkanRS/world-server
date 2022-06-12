@@ -135,7 +135,7 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
 		if (npc.getId() == GHOST) {
-			player.getDialogueManager().execute(new UnhappyGhostD(), this);
+			player.startConversation(new UnhappyGhostD(), this);
 			return false;
 		}
 		return true;

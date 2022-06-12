@@ -36,7 +36,7 @@ public class DungeoneeringSmithing extends PlayerAction {
 	private static int[] BASE_COMPONENTS = { 113, 109, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105 };
 
 	public static void openSmelting(Player player) {
-		player.getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.SMITHING, 3));
+		player.startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.SMITHING, 3));
 	}
 
 	public static void openInterface(Player player, Item item) {

@@ -35,7 +35,7 @@ public class BattlestaffCrafting  {
 	public static ItemOnItemHandler craftStaves = new ItemOnItemHandler(1391, new int[] { 569, 571, 573, 575 }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+			e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 }

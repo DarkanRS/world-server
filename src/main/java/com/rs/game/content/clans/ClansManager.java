@@ -321,7 +321,7 @@ public class ClansManager {
 	//	public static void leaveClan(Player player) {
 	//		if (player.getClanManager() == null)
 	//			return;
-	//		player.getDialogueManager().execute(new LeaveClan());
+	//		player.startConversation(new LeaveClan());
 	//	}
 	//
 	//	public static void leaveClanCompletly(Player player) {
@@ -471,7 +471,7 @@ public class ClansManager {
 	//		if (!manager.hasRankToEditSettings(player))
 	//			return;
 	//		player.stopAll();
-	//		player.getDialogueManager().execute(new ForumThreadId());
+	//		player.startConversation(new ForumThreadId());
 	//	}
 	//
 	//	public static void openClanMottoInterface(Player player) {
@@ -481,7 +481,7 @@ public class ClansManager {
 	//		if (!manager.hasRankToEditSettings(player))
 	//			return;
 	//		player.stopAll();
-	//		player.getDialogueManager().execute(new ClanMotto());
+	//		player.startConversation(new ClanMotto());
 	//	}
 	//
 	//	public static void openClanMottifInterface(Player player) {
@@ -1266,7 +1266,7 @@ public class ClansManager {
 	//	public static void joinClanChatChannel(Player player) {
 	//		if (player.getClanManager() == null) {
 	//			player.sendMessage("You must be a member of a clan in order to join their channel.");
-	//			player.getDialogueManager().execute(new ClanCreateD());
+	//			player.startConversation(new ClanCreateD());
 	//			return;
 	//		}
 	//		if (player.isConnectedClanChannel()) {
@@ -1280,7 +1280,7 @@ public class ClansManager {
 	//
 	//	public static void viewInvite(final Player player, Player p2) {
 	//		if (player.getTemporaryAttributes().remove("claninvite") != null) {
-	//			player.getDialogueManager().execute(new ClanInvite(), p2);
+	//			player.startConversation(new ClanInvite(), p2);
 	//		}
 	//	}
 	//

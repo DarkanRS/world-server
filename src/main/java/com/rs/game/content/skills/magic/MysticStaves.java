@@ -86,7 +86,7 @@ public class MysticStaves  {
 	public static NPCClickHandler talkOp = new NPCClickHandler(new Object[] { "Thormac" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getDialogueManager().execute(new ThormacD());
+			e.getPlayer().startConversation(new ThormacD());
 		}
 	};
 

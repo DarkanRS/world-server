@@ -23,6 +23,7 @@ import java.util.List;
 import com.rs.game.World;
 import com.rs.game.content.controllers.FightPitsController;
 import com.rs.game.content.controllers.FightPitsLobbyController;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -82,7 +83,7 @@ public final class FightPits {
 					} else {
 						if (minutes == 0)
 							for (Player player : arena)
-								player.simpleNPCDialogue(THHAAR_MEJ_KAH, "FIGHT!");
+								player.simpleNPCDialogue(THHAAR_MEJ_KAH, HeadE.T_CALM_TALK, "FIGHT!");
 						else if (minutes == 5) { // spawn tz-kih
 							// spawns
 							spawns = new ArrayList<>();
@@ -167,7 +168,7 @@ public final class FightPits {
 		player.lock(5);
 		player.getControllerManager().startController(new FightPitsController());
 		player.setNextWorldTile(new WorldTile(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3));
-		player.simpleNPCDialogue(THHAAR_MEJ_KAH, "Please wait for the signal before fight.");
+		player.simpleNPCDialogue(THHAAR_MEJ_KAH, HeadE.T_CALM_TALK, "Please wait for the signal before fight.");
 		player.setCanPvp(true);
 		player.setCantTrade(true);
 		arena.add(player);
@@ -195,7 +196,7 @@ public final class FightPits {
 					// champion
 					// skull
 					player.removeSkull();
-					player.simpleNPCDialogue(THHAAR_MEJ_KAH, "Well done in the pit, here take TokKul as reward.");
+					player.simpleNPCDialogue(THHAAR_MEJ_KAH, HeadE.T_CALM_TALK, "Well done in the pit, here take TokKul as reward.");
 					int tokkul = (lobby.size() + arena.size()) * 100;
 					if (!player.getInventory().addItem(6529, tokkul) && type == 1)
 						World.addGroundItem(new Item(6529, tokkul), new WorldTile(4585, 5076, 0), player, true, 180);
@@ -279,7 +280,7 @@ public final class FightPits {
 		champion.getPackets().setIFText(373, 10, "Current Champion: JaLYt-Ket-" + currentChampion);
 		champion.setFightPitsSkull();
 		champion.incrementCount("Fight Pits victories");
-		champion.simpleNPCDialogue(THHAAR_MEJ_KAH, "Well done, you were the last person in the pit and won that fight! The next round will start soon, wait for my signal before fighting.");
+		champion.simpleNPCDialogue(THHAAR_MEJ_KAH, HeadE.T_CALM_TALK, "Well done, you were the last person in the pit and won that fight! The next round will start soon, wait for my signal before fighting.");
 	}
 
 	public static void endGame() {

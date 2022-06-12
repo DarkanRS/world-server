@@ -249,7 +249,7 @@ public class InventoryOptionsHandler {
 					if (thisman == null || thisman.hasFinished())
 						stop();
 					if (step == 1) {
-						thisman.getDialogueManager().execute(new FlowerPickup(), flowerObject, finalFlowerId);
+						thisman.startConversation(new FlowerPickup(), flowerObject, finalFlowerId);
 						thisman.setNextFaceWorldTile(tile);
 						thisman.unlock();
 						stop();
@@ -339,7 +339,7 @@ public class InventoryOptionsHandler {
 		else if (itemId == 2798 || itemId == 3565 || itemId == 3576 || itemId == 19042)
 			player.getTreasureTrailsManager().openPuzzle(itemId);
 		else if (item.getDefinitions().getName().startsWith("Burnt"))
-			player.getDialogueManager().execute(new SimplePlayerMessage(), "Ugh, this is inedible.");
+			player.startConversation(new SimplePlayerMessage(), "Ugh, this is inedible.");
 		if (player.hasRights(Rights.DEVELOPER))
 			player.sendMessage("ItemOption1: item: " + itemId + ", slotId: " + slotId);
 	}
@@ -481,25 +481,25 @@ public class InventoryOptionsHandler {
 		if (usedWith.getId() == 946 || used.getId() == 946) {
 			CuttableFruit fruit = CuttableFruit.forId(used.getId());
 			if (fruit != null && usedWith.getId() == 946) {
-				player.getDialogueManager().execute(new FruitCuttingD(), fruit);
+				player.startConversation(new FruitCuttingD(), fruit);
 				return true;
 			}
 
 			fruit = CuttableFruit.forId(usedWith.getId());
 			if (fruit != null && used.getId() == 946) {
-				player.getDialogueManager().execute(new FruitCuttingD(), fruit);
+				player.startConversation(new FruitCuttingD(), fruit);
 				return true;
 			}
 		}
 
 		Fletch fletch = Fletching.isFletching(usedWith, used);
 		if (fletch != null) {
-			player.getDialogueManager().execute(new FletchingD(), fletch);
+			player.startConversation(new FletchingD(), fletch);
 			return true;
 		}
 		int leatherIndex = LeatherCraftingD.getIndex(usedId) == -1 ? LeatherCraftingD.getIndex(usedWith.getId()) : LeatherCraftingD.getIndex(usedId);
 		if (leatherIndex != -1 && ((usedId == 1733 || usedWith.getId() == 1733) || LeatherCraftingD.isExtraItem(usedWith.getId()) || LeatherCraftingD.isExtraItem(usedId))) {
-			player.getDialogueManager().execute(new LeatherCraftingD(), leatherIndex);
+			player.startConversation(new LeatherCraftingD(), leatherIndex);
 			return true;
 		}
 		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
@@ -663,7 +663,7 @@ public class InventoryOptionsHandler {
 								i.setId(20659);
 						}
 						player.getInventory().refresh();
-						player.getDialogueManager().execute(new ItemMessage(), "Your ring of wealth and amulet of glory have all been recharged.", 1712);
+						player.startConversation(new ItemMessage(), "Your ring of wealth and amulet of glory have all been recharged.", 1712);
 					}
 			} else if (npc instanceof Pet p) {
 				player.faceEntity(npc);

@@ -422,7 +422,7 @@ public class DuelArenaController extends Controller {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
-		player.getDialogueManager().execute(new ForfeitDialouge());
+		player.startConversation(new ForfeitDialouge());
 		return true;
 	}
 

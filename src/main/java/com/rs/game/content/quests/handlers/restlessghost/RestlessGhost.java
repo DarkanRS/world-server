@@ -232,12 +232,12 @@ public class RestlessGhost extends QuestOutline {
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1) {
 				if (e.getNPC().getId() == 458) {
-					e.getPlayer().getDialogueManager().execute(new UrhneyD());
+					e.getPlayer().startConversation(new UrhneyD());
 					return;
 				}
 				if (e.getNPC().getId() == 457) {
 					if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
-						e.getPlayer().getDialogueManager().execute(new RGhostD());
+						e.getPlayer().startConversation(new RGhostD());
 					return;
 				}
 			}

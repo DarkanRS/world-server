@@ -18,7 +18,7 @@ package com.rs.game.content.skills.construction;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.construction.House.RoomReference;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
 import com.rs.game.content.skills.construction.HouseConstants.Room;
@@ -82,21 +82,21 @@ public class ServantNPC extends NPC {
 		String basicResponse = "I appologise, but I cannot serve " + (owner.getAppearance().isMale() ? "Sir" : "Madam") + " without";
 		final RoomReference kitchen = house.getRoom(Room.KITCHEN), diningRoom = house.getRoom(Room.DINING_ROOM);
 		if (kitchen == null) {
-			owner.simpleNPCDialogue(getId(), basicResponse + " a proper kitchen.");
+			owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, basicResponse + " a proper kitchen.");
 			return;
 		}
 		if (diningRoom == null) {
-			owner.simpleNPCDialogue(getId(), basicResponse + " a proper dining room.");
+			owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, basicResponse + " a proper dining room.");
 			return;
 		}
 		for (Builds build : builds)
 			if (!kitchen.containsBuild(build)) {
-				owner.simpleNPCDialogue(getId(), basicResponse + " a " + build.toString().toLowerCase() + ".");
+				owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, basicResponse + " a " + build.toString().toLowerCase() + ".");
 				return;
 			}
 
 		if (!diningRoom.containsBuild(HouseConstants.Builds.DINING_TABLE)) {
-			owner.simpleNPCDialogue(getId(), basicResponse + " a dining table");
+			owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, basicResponse + " a dining table");
 			return;
 		}
 
@@ -164,11 +164,11 @@ public class ServantNPC extends NPC {
 		final ItemDefinitions defs = ItemDefinitions.getDefs(item);
 		int inventorySize = servant.getInventorySize();
 		if (!bank.containsItem(defs.isNoted() ? defs.getCertId() : item, 1) && type == 0) {
-			owner.simpleNPCDialogue(getId(), "It appears you do not have this item in your bank.");
+			owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, "It appears you do not have this item in your bank.");
 			return;
 		}
 		if (quantity > inventorySize) {
-			owner.simpleNPCDialogue(getId(), "I'm sorry. I can only hold " + inventorySize + " items during a trip.");
+			owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, "I'm sorry. I can only hold " + inventorySize + " items during a trip.");
 			return;
 		}
 		setNextNPCTransformation(1957);
@@ -186,7 +186,7 @@ public class ServantNPC extends NPC {
 		if (plank != null && type == 1) {
 			final int cost = (int) ((plank[1] * 0.7) * quantity);
 			if (owner.getInventory().getAmountOf(995) < cost) {
-				owner.simpleNPCDialogue(getId(), "You do not have enough coins to cover the costs of the sawmill.");
+				owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, "You do not have enough coins to cover the costs of the sawmill.");
 				return;
 			}
 		}
@@ -231,7 +231,7 @@ public class ServantNPC extends NPC {
 				else
 					for (int i = 0; i < completeQuantity; i++)
 						bank.depositItem(owner.getInventory().getItems().getThisItemSlot(finalItem), completeQuantity, false);
-				owner.simpleNPCDialogue(getId(), type == 3 ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
+				owner.simpleNPCDialogue(getId(), HeadE.CALM_TALK, type == 3 ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
 			}
 		}, (int) servant.getBankDelay());
 	}

@@ -123,7 +123,7 @@ public class GemCutting extends PlayerAction {
 		if (player.getInventory().getItems().getNumberOf(new Item(gem.getUncut(), 1)) <= 1)
 			player.getActionManager().setAction(new GemCutting(gem, 1));
 		else
-			player.getDialogueManager().execute(new GemCuttingD(), gem);
+			player.startConversation(new GemCuttingD(), gem);
 	}
 
 	private Gem gem;

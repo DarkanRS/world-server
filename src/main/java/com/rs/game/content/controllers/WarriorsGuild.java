@@ -219,13 +219,13 @@ public class WarriorsGuild extends Controller {
 		} else if (object.getId() == 15664 || object.getId() == 15665) {
 			if (player.getTempAttribs().getB("thrown_delay")) {
 				int random = Utils.random(3);
-				player.simpleNPCDialogue(4300, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
+				player.simpleNPCDialogue(4300, HeadE.CALM_TALK, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
 				return false;
 			} else if (!hasEmptyHands()) {
 				player.simpleDialogue("You must have both your hands free in order to throw a shotput.");
 				return false;
 			}
-			player.getDialogueManager().execute(new ShotputD(), object.getId() == 15664);
+			player.startConversation(new ShotputD(), object.getId() == 15664);
 			return false;
 		} else if (object.getId() == 15647 || object.getId() == 15641 || object.getId() == 15644) {
 			player.lock(2);
@@ -261,7 +261,7 @@ public class WarriorsGuild extends Controller {
 				Doors.handleDoubleDoor(player, object);
 				inCyclopse = false;
 			} else
-				player.getDialogueManager().execute(new KamfreendaDefender());
+				player.startConversation(new KamfreendaDefender());
 			return false;
 		} else if (object.getId() == 56887) {
 			player.simpleDialogue("Kamfreena reports that " + killedCyclopses + " cyclopes have been slain in the guild today. She hopes that warriors will step up and kill more!");

@@ -17,12 +17,12 @@
 package com.rs.game.content.skills.construction;
 
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.Constants;
+import com.rs.game.model.entity.player.Skills;
 
 public class ServantDialogue extends Conversation {
 
@@ -74,72 +74,33 @@ public class ServantDialogue extends Conversation {
 		super(player);
 		
 		int slot = getSlot(npc.getId());
+		Servant servant = Servant.values()[slot];
 		
 		addNPC(npc.getId(), HeadE.CALM_TALK, BEGINNING_MESSAGE[slot]);
 		addOptions(ops -> {
 			ops.add("What can you do?")
 				.addPlayer(HeadE.CONFUSED, "What can you do?")
-				;
+				.addNPC(npc.getId(), HeadE.CALM_TALK, WHAT_CAN_YOU_DO[slot]);
 			ops.add("Tell me about your previous jobs.")
-				.addPlayer(HeadE.CONFUSED, "Tell me about your previous jobs.");
-			ops.add("You're hired!")
-				.addnex;
+				.addPlayer(HeadE.CONFUSED, "Tell me about your previous jobs.")
+				.addNPC(npc.getId(), HeadE.CALM_TALK, JOB_HISTORY[slot]);
+			ops.add("You're hired!", getHireDialogue(servant));
 		});
 	}
 
 	private int getSlot(int npcId) {
 		return (npcId - 4236) / 2;
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		int slot = getSlot();
-		if (stage == -1) {
-			sendOptionsDialogue("Select an option", "What can you do?", "Tell me about your previous jobs.", "You're hired!");
-			stage = 0;
-		} else if (stage == 0) {
-			if (componentId == OPTION_1) {
-				sendPlayerDialogue(NORMAL, "What can you do?");
-				stage = 1;
-			} else if (componentId == OPTION_2) {
-				sendPlayerDialogue(NORMAL, "Tell me about your previous jobs.");
-				stage = 2;
-			} else if (componentId == OPTION_3) {
-				if (player.getHouse().hasServant()) {
-					sendDialogue("You already have a servant!");
-					stage = 10;
-					return;
-				}
-				sendPlayerDialogue(NORMAL, "You're hired!");
-				stage = 3;
-			}
-		} else if (stage == 1) {
-			sendNPCDialogue(npcId, NORMAL, WHAT_CAN_YOU_DO[slot]);
-			stage = 10;
-		} else if (stage == 2) {
-			sendNPCDialogue(npcId, NORMAL, JOB_HISTORY[slot]);
-			stage = 10;
-		} else if (stage == 3) {
-			Servant servant = Servant.values()[slot];
-			if (player.getInventory().getNumberOf(995) < servant.getCost()) {
-				sendDialogue("You don't have enough to cover the costs.");
-				stage = 10;
-				return;
-			}
-			if (player.getSkills().getLevel(Constants.CONSTRUCTION) < servant.getLevel()) {
-				sendDialogue("You need a Construction level of at least " + servant.getLevel() + ".");
-				stage = 10;
-				return;
-			}
-			sendNPCDialogue(npcId, NORMAL, "Thank you master.");
-			stage = 10;
-			player.getHouse().setServantOrdinal((byte) slot);
-		} else if (stage == 10)
-			end();
-	}
-
-	@Override
-	public void finish() {
-
+	
+	private Dialogue getHireDialogue(Servant servant) {
+		if (player.getHouse().hasServant())
+			return new Dialogue().addSimple("You already have a servant!");
+		if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) < servant.getLevel())
+			return new Dialogue().addSimple("You need a Construction level of at least " + servant.getLevel() + ".");
+		
+		return new Dialogue()
+				.addPlayer(HeadE.CHEERFUL, "You're hired!")
+				.addNPC(servant.getId(), HeadE.CHEERFUL, "Thank you master.", () -> player.getHouse().setServantOrdinal((byte) servant.ordinal()))
+				.getHead();
 	}
 }

@@ -195,7 +195,7 @@ public class CommendationExchange {// 1875 TODO
 			return;
 		int voidItem = VOID[index];
 		player.getInventory().addItem(voidItem, 1, true);
-		player.getDialogueManager().execute(new ItemMessage(), "You exchange " + cost + " commendation points for a " + ItemDefinitions.getDefs(voidItem).getName().toLowerCase() + ".", voidItem);
+		player.startConversation(new ItemMessage(), "You exchange " + cost + " commendation points for a " + ItemDefinitions.getDefs(voidItem).getName().toLowerCase() + ".", voidItem);
 	}
 
 	private static double calculateExperience(Player player, int skill) {

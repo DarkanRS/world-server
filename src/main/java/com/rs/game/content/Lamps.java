@@ -83,7 +83,7 @@ public class Lamps {
     }
 
     public static void openSelectableInterface(Player player, int slot, int id) {
-        player.getDialogueManager().execute(new MatrixDialogue() {
+        player.startConversation(new MatrixDialogue() {
             Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
 
             private int getLampsLevelReq(int id) {
@@ -184,7 +184,7 @@ public class Lamps {
         final int type = skillLampType(id);
         final int skillId = skillLampSkillId(id);
 
-        player.getDialogueManager().execute(new MatrixDialogue() {
+        player.startConversation(new MatrixDialogue() {
             @Override
             public void start() {
                 sendOptionsDialogue("Rub Lamp?", "Gain <col=ff0000>" + Skills.SKILL_NAME[skillId] + "</col> experience", "Cancel");

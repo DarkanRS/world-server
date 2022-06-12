@@ -474,7 +474,7 @@ public class FishingTrawler {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if(e.getPlayer().getTrawlerRewards() == null || e.getPlayer().getTrawlerRewards().isEmpty()) {
-				e.getPlayer().getDialogueManager().execute(new SimplePlayerMessage(), "I better not steal other people's fish!");
+				e.getPlayer().startConversation(new SimplePlayerMessage(), "I better not steal other people's fish!");
 				return;
 			}
 			IFEvents params = new IFEvents(REWARDS_INTERFACE, REWARDS_CONTAINER, 0, 27)

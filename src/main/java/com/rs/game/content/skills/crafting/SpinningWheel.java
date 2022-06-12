@@ -39,7 +39,7 @@ public class SpinningWheel {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getOpNum() == ClientPacket.OBJECT_OP2)
-				e.getPlayer().getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+				e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 
@@ -48,7 +48,7 @@ public class SpinningWheel {
 		public void handle(ItemOnObjectEvent e) {
 			for (int i = 0; i < materials.length; i++)
 				if (materials[i][0].getId() == e.getItem().getId())
-					e.getPlayer().getDialogueManager().execute(new CreateActionD(new Item[][] { { materials[i][0] } }, new Item[][] { { products[i][0] } }, new double[] { xp[i] }, new int[] { anims[i] }, Constants.CRAFTING, 2));
+					e.getPlayer().startConversation(new CreateActionD(new Item[][] { { materials[i][0] } }, new Item[][] { { products[i][0] } }, new double[] { xp[i] }, new int[] { anims[i] }, Constants.CRAFTING, 2));
 		}
 	};
 }

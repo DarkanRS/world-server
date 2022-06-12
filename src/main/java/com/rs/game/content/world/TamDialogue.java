@@ -63,7 +63,7 @@ public class TamDialogue  {
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 14414 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().getDialogueManager().execute(new TamD());
+			e.getPlayer().startConversation(new TamD());
 		}
 	};
 }
