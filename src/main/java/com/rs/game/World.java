@@ -1003,7 +1003,7 @@ public final class World {
 					Logger.handle(e);
 				}
 			}
-		}, Utils.clampI(ticks - 1, 0, Integer.MAX_VALUE));
+		}, Utils.clampI(ticks, 0, Integer.MAX_VALUE));
 		return true;
 	}
 
