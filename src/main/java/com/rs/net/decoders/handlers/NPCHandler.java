@@ -220,8 +220,6 @@ public class NPCHandler {
 				MutatedZygomite.transform(player, npc);
 			else if (npc.getId() == 4236 || npc.getId() == 4238 || npc.getId() == 4240 || npc.getId() == 4242 || npc.getId() == 4244)
 				player.startConversation(new ServantDialogue(player, npc));
-			else if (npc.getId() == 1334)
-				player.startConversation(new Jossik(player, npc));
 			else if (npc.getId() == 456)
 				player.startConversation(new FatherAereckD(player));
 			else if (npc.getId() == 13633)
@@ -244,7 +242,7 @@ public class NPCHandler {
 			} else {
 				player.sendMessage("Nothing interesting happens." + npc.getId());
 				if (Settings.getConfig().isDebug())
-					System.out.println("cliked 1 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
+					System.out.println("clicked 1 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
 			}
 		}));
 	}
@@ -405,8 +403,6 @@ public class NPCHandler {
 				PlayerLook.openThessaliasMakeOver(player);
 			else if (npc.getId() == 1526)
 				player.getInterfaceManager().sendInterface(60);
-			else if (npc.getId() == 1334)
-				ShopsHandler.openShop(player, "book_shop");
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true)))
 				return;
 			else
