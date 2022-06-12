@@ -1,21 +1,21 @@
 {
   "names": [
-    "Giant Rock Crab"
+    "Giant crypt spider"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 5319,
+  "defenceAnim": 5320,
+  "deathAnim": 5321,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 2400,
-  "maxHit": 110,
+  "hitpoints": 800,
+  "maxHit": 100,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
+  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 50,
+    "ATTACK": 65,
     "RANGE": 1,
-    "STRENGTH": 80,
-    "DEFENSE": 200,
+    "STRENGTH": 67,
+    "DEFENSE": 65,
     "MAGE": 1
   },
   "attackRange": -1,

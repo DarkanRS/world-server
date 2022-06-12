@@ -1,21 +1,21 @@
 {
   "names": [
-    "Crypt rat"
+    "Giant Rock Crab"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 1312,
+  "defenceAnim": 1313,
+  "deathAnim": 1314,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 350,
-  "maxHit": 30,
+  "hitpoints": 2400,
+  "maxHit": 110,
   "attackStyle": "MELEE",
-  "attackBonus": "STAB_ATT",
+  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 70,
+    "ATTACK": 50,
     "RANGE": 1,
-    "STRENGTH": 20,
-    "DEFENSE": 20,
+    "STRENGTH": 80,
+    "DEFENSE": 200,
     "MAGE": 1
   },
   "attackRange": -1,
