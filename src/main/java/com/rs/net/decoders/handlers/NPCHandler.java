@@ -213,7 +213,7 @@ public class NPCHandler {
 			else if (npc.getId() == 2617)
 				player.startConversation(new TzHaarMejJal(player, npc));
 			else if (npc.getId() == 2618)
-				player.startConversation(new TzHaarMejKah(player, npc));
+				player.startConversation(new TzHaarMejKah(player, npc.getId()));
 			else if (npc.getId() == 6715 || npc.getId() == 14862)
 				player.startConversation(new EstateAgentDialogue(player, npc.getId()));
 			else if (npc.getId() == 3344 || npc.getId() == 3345)

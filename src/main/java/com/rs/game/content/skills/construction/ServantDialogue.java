@@ -16,11 +16,15 @@
 //
 package com.rs.game.content.skills.construction;
 
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.skills.construction.HouseConstants.Servant;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 
-public class ServantDialogue extends MatrixDialogue {
+public class ServantDialogue extends Conversation {
 
 	private static final String[] BEGINNING_MESSAGE = {
 
@@ -65,17 +69,25 @@ public class ServantDialogue extends MatrixDialogue {
 			"For millennia I have served and waited on the mighty Demon Lords of the infernal Dimensions. I began as a humble footman in the household of Lord Thammaron." + " Currently, I come to serve the mortal masters in the realms of light.",
 
 	};
-
-	private int npcId;
-
-	@Override
-	public void start() {
-		npcId = (int) parameters[0];
-		sendNPCDialogue(npcId, NORMAL, BEGINNING_MESSAGE[getSlot()]);
-
+	
+	public ServantDialogue(Player player, NPC npc) {
+		super(player);
+		
+		int slot = getSlot(npc.getId());
+		
+		addNPC(npc.getId(), HeadE.CALM_TALK, BEGINNING_MESSAGE[slot]);
+		addOptions(ops -> {
+			ops.add("What can you do?")
+				.addPlayer(HeadE.CONFUSED, "What can you do?")
+				;
+			ops.add("Tell me about your previous jobs.")
+				.addPlayer(HeadE.CONFUSED, "Tell me about your previous jobs.");
+			ops.add("You're hired!")
+				.addnex;
+		});
 	}
 
-	private int getSlot() {
+	private int getSlot(int npcId) {
 		return (npcId - 4236) / 2;
 	}
 
