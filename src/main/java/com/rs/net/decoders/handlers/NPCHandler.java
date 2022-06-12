@@ -32,7 +32,6 @@ import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
 import com.rs.game.content.dialogue.impl.DrogoDwarf;
 import com.rs.game.content.dialogues_matrix.FremennikShipmaster;
 import com.rs.game.content.dialogues_matrix.GeneralStore;
-import com.rs.game.content.dialogues_matrix.Jossik;
 import com.rs.game.content.dialogues_matrix.Nurmof;
 import com.rs.game.content.dialogues_matrix.TanningD;
 import com.rs.game.content.dialogues_matrix.TzHaarMejJal;
@@ -71,7 +70,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.utils.NPCExamines;
 import com.rs.utils.Ticks;
-import com.rs.utils.shop.ShopsHandler;
 
 public class NPCHandler {
 
@@ -227,7 +225,7 @@ public class NPCHandler {
 			else if (npc.getId() == 5915)
 				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
-				player.startConversation(new TanningD(player, npc));
+				player.startConversation(new TanningD(player, npc.getId() == 1041));
 			else if (npc.getName().toLowerCase().contains("impling"))
 				FlyingEntityHunter.captureFlyingEntity(player, npc);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
