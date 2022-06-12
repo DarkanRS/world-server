@@ -19,7 +19,7 @@ package com.rs.game.content.controllers;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.FightKilnDialogue;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogues_matrix.TokHaarHok;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
@@ -132,7 +132,13 @@ public class FightKilnController extends Controller {
 		if (familiar != null && ((familiar != null && familiar.containsOneItem(23653, 23654, 23655, 23656, 23657, 23658)) || familiar.isFinished()))
 			return;
 		if (!quickEnter)
-			player.getDialogueManager().execute(new FightKilnDialogue());
+			player.startConversation(new Dialogue()
+					.addSimple("You journey directly to the Kiln.")
+					.addNext(()->{
+						player.lock();
+						player.getControllerManager().startController(new FightKilnController(0));
+					})
+			);
 		else
 			player.getControllerManager().startController(new FightKilnController(1));
 	}

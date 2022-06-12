@@ -29,8 +29,7 @@ import com.rs.game.content.dialogue.impl.FredaD;
 import com.rs.game.content.dialogue.impl.OsmanD;
 import com.rs.game.content.dialogue.impl.skillmasters.AjjatD;
 import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.content.dialogues_matrix.DrogoDwarf;
-import com.rs.game.content.dialogues_matrix.FatherAereck;
+import com.rs.game.content.dialogue.impl.DrogoDwarf;
 import com.rs.game.content.dialogues_matrix.FremennikShipmaster;
 import com.rs.game.content.dialogues_matrix.GeneralStore;
 import com.rs.game.content.dialogues_matrix.Jossik;
@@ -41,14 +40,12 @@ import com.rs.game.content.dialogues_matrix.TzHaarMejKah;
 import com.rs.game.content.minigames.creations.StealingCreationShop;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.pest.CommendationExchange;
-import com.rs.game.content.minigames.sorcgarden.SorceressGardenNPCs;
-import com.rs.game.content.minigames.treasuretrails.UgiDialogue;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
+import com.rs.game.content.quests.handlers.restlessghost.FatherAereckD;
 import com.rs.game.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.content.skills.construction.ServantDialogue;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeoneeringTutor;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.thieving.PickPocketAction;
@@ -60,11 +57,9 @@ import com.rs.game.ge.GE;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.others.ConditionalDeath;
-import com.rs.game.model.entity.npc.others.FireSpirit;
 import com.rs.game.model.entity.npc.others.GraveStone;
 import com.rs.game.model.entity.npc.others.MutatedZygomite;
 import com.rs.game.model.entity.npc.pet.Pet;
-import com.rs.game.model.entity.npc.slayer.Strykewyrm;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -228,7 +223,7 @@ public class NPCHandler {
 			else if (npc.getId() == 1334)
 				player.startConversation(new Jossik(player, npc));
 			else if (npc.getId() == 456)
-				player.startConversation(new FatherAereck(player, npc));
+				player.startConversation(new FatherAereckD(player));
 			else if (npc.getId() == 13633)
 				player.startConversation(new ClanItemClaim(player, 20708));
 			else if (npc.getId() == 5915)

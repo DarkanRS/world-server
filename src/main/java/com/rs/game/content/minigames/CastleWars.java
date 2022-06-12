@@ -25,7 +25,6 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.controllers.CastleWarsPlayingController;
 import com.rs.game.content.controllers.CastleWarsWaitingController;
-import com.rs.game.content.dialogues_matrix.CastleWarsScoreboard;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.npc.others.CastleWarBarricade;
 import com.rs.game.model.entity.player.Equipment;
