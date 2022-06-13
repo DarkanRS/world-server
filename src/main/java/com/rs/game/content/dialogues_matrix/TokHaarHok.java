@@ -17,17 +17,21 @@
 package com.rs.game.content.dialogues_matrix;
 
 import com.rs.game.content.controllers.FightKilnController;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.utils.Ticks;
 
-public class TokHaarHok extends MatrixDialogue {
+public class TokHaarHok extends Conversation {
 
-	private int npcId;
-	private int type;
-	private FightKilnController fightKiln;
+	public TokHaarHok(Player player, int npcId, int type, FightKilnController fightKiln) {
+		super(player);
+		
+		
+	}
 
 	// / So...you accept our challenge. Let our sport be glorious. Xill -
 	// attack!

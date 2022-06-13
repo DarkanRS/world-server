@@ -241,6 +241,8 @@ public class FightKilnController extends Controller {
 							player.getPackets().sendResetCamera();
 						else if (count == 2) {
 							player.startConversation(new TokHaarHok(), 0, TOKHAAR_HOK, FightKilnController.this);
+							player.startConversation(new Dialogue()
+									);
 							player.setRun(run);
 							stage = Stages.RUNNING;
 							player.unlock(); // unlocks player

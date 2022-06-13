@@ -23,7 +23,7 @@ import com.rs.lib.game.Item;
 
 public class Transportation extends Conversation {
 
-	public Transportation(Player player, Item item, int itemId, String[] locations) {
+	public Transportation(Player player, Item item, int itemId, String... locations) {
 		super(player);
 		
 		addOptions("Where would you like to teleport to?", ops -> {
