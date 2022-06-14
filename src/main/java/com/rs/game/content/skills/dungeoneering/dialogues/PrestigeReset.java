@@ -16,31 +16,25 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
+import com.rs.game.model.entity.player.Player;
 
-public class PrestigeReset extends MatrixDialogue {
-
-	@Override
-	public void start() {
-		sendDialogue("Are you sure you want to reset your dungeon progress? Your previous progress will be set to the number of floors you have completed and all floors will be marked as incomplete. This cannot be undone.");
+public class PrestigeReset extends Conversation {
+	public PrestigeReset(Player player) {
+		super(player);
+		addSimple("Are you sure you want to reset your dungeon progress? Your previous progress will be set to the number of floors you have completed " +
+				"and all floors will be marked as incomplete. This cannot be undone.");
+		addOptions("Are you sure?", new Options() {
+			@Override
+			public void create() {
+				option("Yes, reset my progress.", new Dialogue()
+						.addNext(()->{player.getDungManager().resetProgress();})
+				);
+				option("No, don't reset my progress.", new Dialogue());
+			}
+		});
+		create();
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-
-		if (stage == -1) {
-			sendOptionsDialogue("Are you sure?", "Yes, reset my progress.", "No, don't reset my progress.");
-			stage = 0;
-		} else if (stage == 0) {
-			if (componentId == OPTION_1)
-				player.getDungManager().resetProgress();
-			end();
-		}
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

@@ -16,30 +16,25 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.Options;
+import com.rs.game.model.entity.player.Player;
 
-public class DungeonPartyStart extends MatrixDialogue {
-
-	@Override
-	public void start() {
-		sendDialogue("You must be in a party to enter a dungeon.");
+public class DungeonPartyStart extends Conversation {
+	public DungeonPartyStart(Player player) {
+		super(player);
+		addSimple("You must be in a party to enter a dungeon.");
+		addOptions("Would you like to start a dungeon?", new Options() {
+			@Override
+			public void create() {
+				option("Yes.", new Dialogue()
+						.addNext(()->{player.getDungManager().formParty();})
+				);
+				option("No.", new Dialogue());
+			}
+		});
+		create();
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == -1) {
-			sendOptionsDialogue("Would you like to start a dungeon?", "Yes.", "No.");
-			stage = 0;
-		} else if (stage == 0) {
-			if (componentId == OPTION_1)
-				player.getDungManager().formParty();
-			end();
-		}
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

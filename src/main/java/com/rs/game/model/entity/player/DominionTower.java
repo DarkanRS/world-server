@@ -484,7 +484,7 @@ public final class DominionTower {
 			return;
 		}
 		if (!talkedWithFace)
-			player.startConversation(new StrangeFace());
+			player.startConversation(new StrangeFace(player));
 		else {
 			if (!fromDialogue)
 				player.getPackets().sendVoice(7893);
