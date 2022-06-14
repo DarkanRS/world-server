@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import com.rs.game.content.dialogues_matrix.UnhappyGhostD;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
@@ -135,7 +135,7 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
 		if (npc.getId() == GHOST) {
-			player.getDialogueManager().execute(new UnhappyGhostD(), this);
+			player.simpleNPCDialogue(GHOST, isComplete() ? HeadE.CHEERFUL : HeadE.SAD, "Woooo wooooo woooooooo wooo");
 			return false;
 		}
 		return true;

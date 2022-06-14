@@ -16,33 +16,26 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.transportation.ItemTeleports;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
-public class Transportation extends MatrixDialogue {
+public class Transportation extends Conversation {
 
-	Item item;
-
-	@Override
-	public void start() {
-		String[] locations = (String[]) parameters[0];
-		if (parameters.length > 2 && parameters[2] != null)
-			item = (Item) parameters[2];
-		sendOptionsDialogue("Where would you like to teleport to", locations);
+	public Transportation(Player player, Item item, int itemId, String... locations) {
+		super(player);
+		
+		addOptions("Where would you like to teleport to?", ops -> {
+			for (int i = 0;i < locations.length;i++) {
+				final int index = i;
+				ops.add(locations[i], () -> {
+					if (item != null)
+						ItemTeleports.sendTeleport(player, item, index);
+					else
+						ItemTeleports.sendTeleport(player, player.getInventory().getItems().lookup(itemId), index, false, locations.length);
+				});
+			}
+		});
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		String[] locations = (String[]) parameters[0];
-		if (item != null)
-			ItemTeleports.sendTeleport(player, item, componentId == OPTION_1 ? 0 : componentId - 12);
-		else
-			ItemTeleports.sendTeleport(player, player.getInventory().getItems().lookup((Integer) parameters[1]), componentId == OPTION_1 ? 0 : componentId - 12, false, locations.length);
-		end();
-	}
-
-	@Override
-	public void finish() {
-	}
-
 }

@@ -1224,7 +1224,7 @@ public final class TutorialIslandController extends Controller {
 	public boolean canAddInventoryItem(int itemId, int amount) {
 		if (getStage() == Stage.CHOP_TREE && itemId == TreeType.NORMAL.getLogsId()[0]) {
 			nextStage(Stage.MAKE_A_FIRE);
-			player.getDialogueManager().execute(new ItemMessage(), "You get some logs.", itemId);
+			player.startConversation(new ItemMessage(), "You get some logs.", itemId);
 		} else if (itemId == Fish.SHRIMP.getId()) {
 			if (getStage() == Stage.CATCH_SHRIMP)
 				nextStage(Stage.BURN_SHRIMP);

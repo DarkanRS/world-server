@@ -168,7 +168,7 @@ public class ArtisansWorkshop  {
 	}
 
 	public static void openIngotCreation(Player player, final ReqItem[] ingots) {
-		player.getDialogueManager().execute(new MatrixDialogue() {
+		player.startConversation(new MatrixDialogue() {
 			@Override
 			public void start() {
 				SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What kind of bar would you like?", player.getInventory().getFreeSlots(), ingots, null);
@@ -274,7 +274,7 @@ public class ArtisansWorkshop  {
 		public void handle(ObjectClickEvent e) {
 			int highestIngot = getHighestIngot(e.getPlayer());
 			if (highestIngot != -1)
-				e.getPlayer().getDialogueManager().execute(new CreationActionD(Category.ARTISANS, highestIngot, 898, 15).setConsistentAnimation());
+				e.getPlayer().startConversation(new CreationActionD(Category.ARTISANS, highestIngot, 898, 15).setConsistentAnimation());
 			else
 				e.getPlayer().sendMessage("You don't have any ingots to smith.");
 		}

@@ -338,7 +338,7 @@ public class ItemConstants {
 			}
 			player.sendMessage("This item cannot be repaired or is already fully repaired.");
 		} else
-			player.getDialogueManager().execute(new RepairStandD(), details, item, stand, slot);
+			player.startConversation(new RepairStandD(), details, item, stand, slot);
 	}
 
 	public static boolean canWear(Item item, Player player) {

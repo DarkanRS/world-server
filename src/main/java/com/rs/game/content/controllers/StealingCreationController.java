@@ -220,7 +220,7 @@ public class StealingCreationController extends Controller {
 		for (int element : Helper.MANAGER_NPCS)
 			if (n.getId() == element) {
 				n.setNextFaceEntity(player);
-				player.getDialogueManager().execute(new StealingCreationManagerD(), n, getGame());
+				player.startConversation(new StealingCreationManagerD(), n, getGame());
 				return false;
 			}
 		return true;
@@ -509,11 +509,11 @@ public class StealingCreationController extends Controller {
 		} else if (object.getId() >= 39534 && object.getId() <= 39545) {
 			player.getTempAttribs().setO("sc_object", object);
 			if (object.getId() == 39541)
-				player.getDialogueManager().execute(new StealingCreationMagic());
+				player.startConversation(new StealingCreationMagic());
 			else if (object.getId() == 39539)
-				player.getDialogueManager().execute(new StealingCreationRange());
+				player.startConversation(new StealingCreationRange());
 			else if (object.getId() == 39534)
-				player.getDialogueManager().execute(new StealingCreationClay());
+				player.startConversation(new StealingCreationClay());
 			return false;
 		} else if (object.getId() == 39602 || object.getId() == 39613 || object.getId() == 39612 || object.getId() == 39611) {
 			boolean isWall = object.getId() == 39613 || object.getId() == 39612 || object.getId() == 39611;

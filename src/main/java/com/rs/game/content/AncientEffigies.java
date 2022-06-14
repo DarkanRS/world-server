@@ -29,18 +29,14 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
-/**
- * Handles ancient effigies non-dialogue related stuff.
- *
- * @author Raghav/Own4g3 <Raghav_ftw@hotmail.com>
- *
- */
 @PluginEventHandler
 public class AncientEffigies {
 
-	public static ItemClickHandler handleEffigies = new ItemClickHandler(new Object[]{
-			SATED_ANCIENT_EFFIGY, GORGED_ANCIENT_EFFIGY, NOURISHED_ANCIENT_EFFIGY, STARVED_ANCIENT_EFFIGY
-	}) {;
+	public static final int[] SKILL_1 = { Constants.AGILITY, Constants.CONSTRUCTION, Constants.COOKING, Constants.FISHING, Constants.FLETCHING, Constants.HERBLORE, Constants.MINING, Constants.SUMMONING };
+	public static final int[] SKILL_2 = { Constants.CRAFTING, Constants.THIEVING, Constants.FIREMAKING, Constants.FARMING, Constants.WOODCUTTING, Constants.HUNTER, Constants.SMITHING, Constants.RUNECRAFTING };
+	public static final int STARVED_ANCIENT_EFFIGY = 18778, NOURISHED_ANCIENT_EFFIGY = 18779, SATED_ANCIENT_EFFIGY = 18780, GORGED_ANCIENT_EFFIGY = 18781, DRAGONKIN_LAMP = 18782;
+
+	public static ItemClickHandler handleEffigies = new ItemClickHandler(new Object[] { SATED_ANCIENT_EFFIGY, GORGED_ANCIENT_EFFIGY, NOURISHED_ANCIENT_EFFIGY, STARVED_ANCIENT_EFFIGY }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			int type = -1;
@@ -111,28 +107,6 @@ public class AncientEffigies {
 		}
 	};
 
-	/**
-	 * First skill to be nourished.
-	 */
-	public static int[] SKILL_1 = { Constants.AGILITY, Constants.CONSTRUCTION, Constants.COOKING, Constants.FISHING, Constants.FLETCHING, Constants.HERBLORE, Constants.MINING, Constants.SUMMONING };
-
-	/**
-	 * Second skill to be nourished.
-	 */
-	public static int[] SKILL_2 = { Constants.CRAFTING, Constants.THIEVING, Constants.FIREMAKING, Constants.FARMING, Constants.WOODCUTTING, Constants.HUNTER, Constants.SMITHING, Constants.RUNECRAFTING };
-
-	/**
-	 * Ancient effigies' item ids.
-	 */
-	public static final int STARVED_ANCIENT_EFFIGY = 18778, NOURISHED_ANCIENT_EFFIGY = 18779, SATED_ANCIENT_EFFIGY = 18780, GORGED_ANCIENT_EFFIGY = 18781, DRAGONKIN_LAMP = 18782;
-
-	/**
-	 * Getting the required level for each effigy.
-	 *
-	 * @param id
-	 *            The effigy's item id.
-	 * @return Required level.
-	 */
 	public static int getRequiredLevel(int id) {
 		switch (id) {
 		case STARVED_ANCIENT_EFFIGY:
@@ -147,13 +121,6 @@ public class AncientEffigies {
 		return -1;
 	}
 
-	/**
-	 * Getting the message.
-	 *
-	 * @param skill
-	 *            The skill
-	 * @return message
-	 */
 	public static String getMessage(int skill) {
 		switch (skill) {
 		case Constants.AGILITY:
@@ -176,13 +143,6 @@ public class AncientEffigies {
 		return null;
 	}
 
-	/**
-	 * Getting the experience amount.
-	 *
-	 * @param itemId
-	 *            The effigy's item id.
-	 * @return The amount of experience.
-	 */
 	public static int getExp(int itemId) {
 		switch (itemId) {
 		case STARVED_ANCIENT_EFFIGY:
@@ -197,14 +157,6 @@ public class AncientEffigies {
 		return -1;
 	}
 
-	/**
-	 * Investigation of an effigy.
-	 *
-	 * @param player
-	 *            The player who is doing investigation.
-	 * @param item
-	 *            The effigy item id.
-	 */
 	public static void effigyInvestigation(Player player, Item item) {
 		Inventory inv = player.getInventory();
 		if (item.getId() == STARVED_ANCIENT_EFFIGY)

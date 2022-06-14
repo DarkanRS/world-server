@@ -183,7 +183,7 @@ public class TravelMethods {
 		player.closeInterfaces();
 
 		int costIndex = getOriginIndex(player.getRegionId());
-		player.getDialogueManager().execute(new QuickCharter(), ship, costIndex);
+		player.startConversation(new QuickCharter(), ship, costIndex);
 	}
 
 	private static int getOriginIndex(int regionId) {

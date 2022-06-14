@@ -92,7 +92,7 @@ public class ItemTeleports {
 		int index = getIndex(item);
 		if (!checkAll(player, item, index, 0, 1))
 			return false;
-		player.getDialogueManager().execute(new Transportation(), TELEPORT_NAMES[index], item.getId());
+		player.startConversation(new Transportation(player, null, item.getId(), TELEPORT_NAMES[index]));
 		return true;
 	}
 
@@ -100,7 +100,7 @@ public class ItemTeleports {
 		int index = getIndex(new Item(itemId, 1));
 		if (index == -1)
 			return false;
-		player.getDialogueManager().execute(new Transportation(), TELEPORT_NAMES[index], itemId, new Item(itemId, 1));
+		player.startConversation(new Transportation(player, new Item(itemId, 1), itemId, TELEPORT_NAMES[index]));
 		return true;
 	}
 

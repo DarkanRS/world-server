@@ -245,7 +245,7 @@ public class House {
 					player.simpleDialogue("Your house must have at least one exit portal.");
 					return;
 				}
-			player.getDialogueManager().execute(new RemoveRoomD(), room);
+			player.startConversation(new RemoveRoomD(), room);
 		} else {
 			if (roomX == 0 || roomY == 0 || roomX == 7 || roomY == 7) {
 				player.simpleDialogue("You can't create a room here.");
@@ -411,7 +411,7 @@ public class House {
 		RoomReference roomTo = getRoom(roomX, roomY, room.plane + (up ? 1 : -1));
 		if (roomTo == null) {
 			if (buildMode)
-				player.getDialogueManager().execute(new CreateLadderRoomD(), room, up);
+				player.startConversation(new CreateLadderRoomD(), room, up);
 			else
 				player.sendMessage("This does not lead anywhere.");
 			// start dialogue
@@ -472,7 +472,7 @@ public class House {
 		RoomReference roomTo = getRoom(roomX, roomY, room.plane + (up ? 1 : -1));
 		if (roomTo == null) {
 			if (buildMode)
-				player.getDialogueManager().execute(new CreateRoomStairsD(), room, up);
+				player.startConversation(new CreateRoomStairsD(), room, up);
 			else
 				player.sendMessage("These stairs do not lead anywhere.");
 			// start dialogue
@@ -539,7 +539,7 @@ public class House {
 			player.sendMessage("You have reached the maxium quantity of rooms.");
 			return;
 		}
-		player.getDialogueManager().execute(new CreateRoomD(), new RoomReference(room, position[0], position[1], position[2], 0));
+		player.startConversation(new CreateRoomD(), new RoomReference(room, position[0], position[1], position[2], 0));
 	}
 
 	public boolean hasRoom(Room room) {
@@ -602,7 +602,7 @@ public class House {
 		player.getInterfaceManager().sendInterface(1306);
 		player.getTempAttribs().setO("OpenedBuild", build);
 		player.getTempAttribs().setO("OpenedBuildObject", object);
-		player.getDialogueManager().execute(new BuildD());
+		player.startConversation(new BuildD());
 		player.setCloseInterfacesEvent(() -> {
 			player.getTempAttribs().removeO("OpenedBuild");
 			player.getTempAttribs().removeO("OpenedBuildObject");
@@ -748,7 +748,7 @@ public class House {
 						player.simpleDialogue("You cannot remove a building that is supporting this room.");
 					return;
 				}
-			player.getDialogueManager().execute(new RemoveBuildD(), object);
+			player.startConversation(new RemoveBuildD(), object);
 		}
 	}
 
@@ -915,7 +915,7 @@ public class House {
 			servantInstance.setFollowing(true);
 			servantInstance.setNextWorldTile(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
-			player.getDialogueManager().execute(new ServantDialogue(), servantInstance);
+			player.startConversation(new ServantDialogue(), servantInstance);
 		}
 	}
 

@@ -123,7 +123,7 @@ public class PoltergeistRoom extends PuzzleRoom {
 				player.sendMessage("You need a herblore level of " + requiredHerblore + " to harvest these herbs.");
 				return false;
 			}
-			player.getDialogueManager().execute(new PoltergeistFarmD(), this, object);
+			player.startConversation(new PoltergeistFarmD(), this, object);
 			return false;
 		}
 		return true;

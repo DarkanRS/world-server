@@ -19,8 +19,9 @@ package com.rs.game.content.controllers;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
+import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogues_matrix.TokHaarHok;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.npc.NPC;
@@ -204,6 +205,26 @@ public class FightKilnController extends Controller {
 			return new int[] { 528, 632 };
 		return new int[] { 536, 632 };
 	}
+	
+	protected Dialogue getStartDialogue() {
+		return new Dialogue()
+				.addNPC(TOKHAAR_HOK, HeadE.T_CALM_TALK, "Let us talk...")
+				.addOptions(ops -> {
+					ops.add("Let's fight.")
+						.addNPC(TOKHAAR_HOK, HeadE.T_CONFUSED, "Do you have any questions on the rules of our engagement?")
+						.addOptions(ops2 -> {
+							ops2.add("No, let's just fight.")
+								.addPlayer(HeadE.CALM_TALK, "No, let's just fight.")
+								.addNext(() -> {
+									removeTokHaarTok();
+									nextWave();
+								});
+							ops2.add("What do I get if I beat you?"); //TODO
+							ops2.add("What are the rules?"); //TODO
+						});
+					ops.add("I'd like to speak more about you and your kind."); //TODO
+				});
+	}
 
 	public void loadCave(final boolean login) {
 		stage = Stages.LOADING;
@@ -240,7 +261,7 @@ public class FightKilnController extends Controller {
 						} else if (count == 1)
 							player.getPackets().sendResetCamera();
 						else if (count == 2) {
-							player.getDialogueManager().execute(new TokHaarHok(), 0, TOKHAAR_HOK, FightKilnController.this);
+							player.startConversation(getStartDialogue());
 							player.setRun(run);
 							stage = Stages.RUNNING;
 							player.unlock(); // unlocks player
@@ -268,16 +289,36 @@ public class FightKilnController extends Controller {
 						HarAken harAken = new HarAken(15211, getWorldTile(45, 26), FightKilnController.this);
 						harAken.spawn();
 						harAken.sendDeath(player);
-						WorldTasks.schedule(new WorldTask() {
-							@Override
-							public void run() {
-								try {
-									player.getDialogueManager().execute(new TokHaarHok(), 6, TOKHAAR_HOK_SCENE, FightKilnController.this);
-								} catch (Throwable e) {
-									Logger.handle(e);
+						WorldTasks.schedule(Ticks.fromSeconds(5), () -> {
+							player.startConversation(new Conversation(player) {
+								{
+									addNPC(TOKHAAR_HOK_SCENE, HeadE.T_SURPRISED, "You are a Tokhaar... born in a human's body. Truly, we have not seen such skill from anyone out of our kiln.");
+									addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "You have done very well. To mark your triumph, accept a trophy from our home.");
+									addOptions("rewardSelect", "Choose your reward:", ops -> {
+										ops.add("The TokHaar-Kal")
+											.addItem(23659, "The TokHaar-Kal is a powerful cape that will let others see that you have mastered the Fight Kiln. In addition to this, it provides several stat boosts including 8+ strength.")
+											.addOptions("Accept the TokHaar-Kal?", conf -> {
+												conf.add("Yes.")
+													.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Let us test our strength again...soon...", () -> player.getTempAttribs().setI("FightKilnReward", 0))
+													.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Now,leave...before the lava consumes you.")
+													.addNext(() -> removeScene());
+												conf.add("No.").addGotoStage("rewardSelect", this);
+											});
+										ops.add("An uncut onyx")
+											.addItem(6571, "Onyx is a precious and rare gem that can be crafted into one of several powerful objects, including the coveted Amulet of Fury.")
+											.addOptions("Accept the uncut onyx?", conf -> {
+												conf.add("Yes.")
+													.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Let us test our strength again...soon...", () -> player.getTempAttribs().setI("FightKilnReward", 1))
+													.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Now,leave...before the lava consumes you.")
+													.addNext(() -> removeScene());
+												conf.add("No.").addGotoStage("rewardSelect", this);
+											});
+									});
+							
+									create();
 								}
-							}
-						}, Ticks.fromSeconds(5));
+							});
+						});
 					}
 				}, 1);
 			} else if (currentWave == 37) { // SCENE 6
@@ -287,18 +328,22 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(1, () -> {
+					WorldTile lookTo = getWorldTile(40, 28);
+					player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
+					WorldTile posTile = getWorldTile(29, 28);
+					player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
+					player.startConversation(new Dialogue()
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "We have thrown many waves at you... You have handled yourself like a true Tokhaar. You have earned our respect.")
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "	Take this cape as a symbol of our -", () -> showHarAken())
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_SURPRISED, "Ah - yes, there is one final challenge...")
+							.addNext(() -> {
+								hideHarAken();
+								unlockPlayer();
+								WorldTasks.schedule(5, () -> removeScene());
+							}));
 
-					@Override
-					public void run() {
-						WorldTile lookTo = getWorldTile(40, 28);
-						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2200);
-						WorldTile posTile = getWorldTile(29, 28);
-						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 2500);
-						player.getDialogueManager().execute(new TokHaarHok(), 5, TOKHAAR_HOK_SCENE, FightKilnController.this);
-					}
-
-				}, 1);
+				});
 			} else if (currentWave == 34) { // SCENE 5
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
@@ -330,7 +375,11 @@ public class FightKilnController extends Controller {
 							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
 							WorldTile posTile = getWorldTile(30, 30);
 							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-							player.getDialogueManager().execute(new TokHaarHok(), 7, TOKHAAR_HOK_SCENE, FightKilnController.this);
+							player.startConversation(new Dialogue()
+									.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_LAUGH, "Amazing! We haven't had such fun in such a long time. But now, the real challenge begins...")
+									.addPlayer(HeadE.CONFUSED, "The real challenge?")
+									.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Many creatures have entered the kiln over the ages. We remember their shapes.")
+									.addNext(() -> removeScene()));
 						}
 						count++;
 
@@ -342,54 +391,53 @@ public class FightKilnController extends Controller {
 				player.setNextFaceWorldTile(getWorldTile(20, 20));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						WorldTile lookTo = getWorldTile(20, 17);
-						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
-						WorldTile posTile = getWorldTile(25, 26);
-						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-						player.getDialogueManager().execute(new TokHaarHok(), 4, TOKHAAR_HOK_SCENE, FightKilnController.this);
-					}
-
-				}, 1);
+				WorldTasks.schedule(1, () -> {
+					WorldTile lookTo = getWorldTile(20, 17);
+					player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
+					WorldTile posTile = getWorldTile(25, 26);
+					player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+					player.startConversation(new Dialogue()
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Hurry, " + player.getDisplayName() + "... Kill my brothers before the lava consumes you.")
+							.addNext(() -> removeScene()));
+				});
 			} else if (currentWave == 21) { // SCENE 3
 				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(30, 43), true);
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						WorldTile lookTo = getWorldTile(31, 43);
-						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
-						WorldTile posTile = getWorldTile(31, 34);
-						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 4000);
-						player.getDialogueManager().execute(new TokHaarHok(), 3, TOKHAAR_HOK_SCENE, FightKilnController.this);
-					}
-
-				}, 1);
+				WorldTasks.schedule(1, () -> {
+					WorldTile lookTo = getWorldTile(31, 43);
+					player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 2500);
+					WorldTile posTile = getWorldTile(31, 34);
+					player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 4000);
+					player.startConversation(new Dialogue()
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "You must be carved from a rock inpervious to magic... You are quite the worthy foe.")
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Ah, the platform is crumbling. Be quick little one - our Ket are comming.")
+							.addNext(() -> removeScene()));
+				});
 			} else if (currentWave == 11) { // SCENE 2
 				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(45, 45), true);
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(-1, -1));
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
+				WorldTasks.schedule(1, () -> {
 						WorldTile lookTo = getWorldTile(45, 45);
 						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
 						WorldTile posTile = getWorldTile(38, 37);
 						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-						player.getDialogueManager().execute(new TokHaarHok(), 2, TOKHAAR_HOK_SCENE, FightKilnController.this);
-					}
-
-				}, 1);
+						player.startConversation(new Dialogue()
+								.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Well fought, " + player.getDisplayName() + ". You are ferocious, but you must fight faster... The lava is rising.")
+								.addNext(() -> {
+									player.getInterfaceManager().closeChatBoxInterface();
+									player.getPackets().sendCameraLook(player.getSceneX(getWorldTile(37, 50).getX()), player.getSceneY(getWorldTile(37, 50).getY()), 1000);
+									player.getPackets().sendCameraPos(player.getSceneX(getWorldTile(37, 45).getX()), player.getSceneY(getWorldTile(37, 45).getY()), 3000);
+									WorldTasks.schedule(5, () -> player.startConversation(new Dialogue()
+											.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "Our Mej wish to test you...")
+											.addNext(() -> removeScene())));
+								}));
+					});
 			} else if (currentWave == 1) { // SCENE 1
 				player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
 				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getWorldTile(30, 36), true);
@@ -398,20 +446,17 @@ public class FightKilnController extends Controller {
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
 				player.setNextFaceWorldTile(tokHaarHok.getMiddleWorldTile());
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						WorldTile lookTo = getWorldTile(31, 40);
-						player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
-						WorldTile posTile = getWorldTile(31, 50);
-						player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-						player.getDialogueManager().execute(new TokHaarHok(), 1, TOKHAAR_HOK_SCENE, FightKilnController.this);
-						stage = Stages.RUNNING;
-						player.unlock();
-					}
-
-				}, 1);
+				WorldTasks.schedule(1, () -> {
+					WorldTile lookTo = getWorldTile(31, 40);
+					player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 1000);
+					WorldTile posTile = getWorldTile(31, 50);
+					player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
+					player.startConversation(new Dialogue()
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.CALM_TALK, "So...you accept our challenge. Let our sport be glorious. Xill - attack!")
+							.addNext(() -> removeScene()));
+					stage = Stages.RUNNING;
+					player.unlock();
+				});
 			} else if (login) { // LOGIN during
 				FightKilnController.this.login = login;
 				WorldTasks.schedule(new WorldTask() {
@@ -929,7 +974,7 @@ public class FightKilnController extends Controller {
 	@Override
 	public boolean processNPCClick1(NPC npc) {
 		if (npc.getId() == 15195 && getCurrentWave() == 0) {
-			player.getDialogueManager().execute(new TokHaarHok(), 0, TOKHAAR_HOK, this);
+			player.startConversation(getStartDialogue());
 			return false;
 		}
 		return true;

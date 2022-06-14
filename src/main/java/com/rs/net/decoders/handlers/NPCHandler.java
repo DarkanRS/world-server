@@ -32,7 +32,6 @@ import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
 import com.rs.game.content.dialogue.impl.DrogoDwarf;
 import com.rs.game.content.dialogues_matrix.FremennikShipmaster;
 import com.rs.game.content.dialogues_matrix.GeneralStore;
-import com.rs.game.content.dialogues_matrix.Jossik;
 import com.rs.game.content.dialogues_matrix.Nurmof;
 import com.rs.game.content.dialogues_matrix.TanningD;
 import com.rs.game.content.dialogues_matrix.TzHaarMejJal;
@@ -71,7 +70,6 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.utils.NPCExamines;
 import com.rs.utils.Ticks;
-import com.rs.utils.shop.ShopsHandler;
 
 public class NPCHandler {
 
@@ -213,15 +211,13 @@ public class NPCHandler {
 			else if (npc.getId() == 2617)
 				player.startConversation(new TzHaarMejJal(player, npc));
 			else if (npc.getId() == 2618)
-				player.startConversation(new TzHaarMejKah(player, npc));
+				player.startConversation(new TzHaarMejKah(player, npc.getId()));
 			else if (npc.getId() == 6715 || npc.getId() == 14862)
 				player.startConversation(new EstateAgentDialogue(player, npc.getId()));
 			else if (npc.getId() == 3344 || npc.getId() == 3345)
 				MutatedZygomite.transform(player, npc);
 			else if (npc.getId() == 4236 || npc.getId() == 4238 || npc.getId() == 4240 || npc.getId() == 4242 || npc.getId() == 4244)
 				player.startConversation(new ServantDialogue(player, npc));
-			else if (npc.getId() == 1334)
-				player.startConversation(new Jossik(player, npc));
 			else if (npc.getId() == 456)
 				player.startConversation(new FatherAereckD(player));
 			else if (npc.getId() == 13633)
@@ -229,7 +225,7 @@ public class NPCHandler {
 			else if (npc.getId() == 5915)
 				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
-				player.startConversation(new TanningD(player, npc));
+				player.startConversation(new TanningD(player, npc.getId() == 1041));
 			else if (npc.getName().toLowerCase().contains("impling"))
 				FlyingEntityHunter.captureFlyingEntity(player, npc);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
@@ -244,7 +240,7 @@ public class NPCHandler {
 			} else {
 				player.sendMessage("Nothing interesting happens." + npc.getId());
 				if (Settings.getConfig().isDebug())
-					System.out.println("cliked 1 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
+					System.out.println("clicked 1 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
 			}
 		}));
 	}
@@ -405,8 +401,6 @@ public class NPCHandler {
 				PlayerLook.openThessaliasMakeOver(player);
 			else if (npc.getId() == 1526)
 				player.getInterfaceManager().sendInterface(60);
-			else if (npc.getId() == 1334)
-				ShopsHandler.openShop(player, "book_shop");
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true)))
 				return;
 			else

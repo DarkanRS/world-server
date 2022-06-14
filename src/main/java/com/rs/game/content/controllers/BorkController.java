@@ -60,7 +60,7 @@ public class BorkController extends Controller {
 			}
 			if (stage == 18) {
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
-				//player.getDialogueManager().execute(new DagonHai(), 7137, player, -1);//Rewrite this from a YouTube video.
+				//player.startConversation(new DagonHai(), 7137, player, -1);//Rewrite this from a YouTube video.
 				player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
 				player.resetReceivedHits();
 				player.unlock();

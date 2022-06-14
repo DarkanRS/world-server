@@ -122,7 +122,7 @@ public class DoughMaking  {
 	public static ItemOnItemHandler makeDough = new ItemOnItemHandler(POT_OF_FLOUR, new int[] { BUCKET_OF_WATER, BOWL_OF_WATER, JUG_OF_WATER }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().getDialogueManager().execute(new DoughMakeD());
+			e.getPlayer().startConversation(new DoughMakeD());
 		}
 	};
 

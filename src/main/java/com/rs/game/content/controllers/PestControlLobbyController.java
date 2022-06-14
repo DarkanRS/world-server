@@ -88,7 +88,7 @@ public final class PestControlLobbyController extends Controller {
 		case 14314:
 		case 25629:
 		case 25630:
-			player.getDialogueManager().execute(new LanderDialouge());
+			player.startConversation(new LanderDialouge());
 			return true;
 		}
 		return true;
