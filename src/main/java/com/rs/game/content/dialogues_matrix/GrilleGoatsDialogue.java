@@ -16,48 +16,20 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-public class GrilleGoatsDialogue extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.model.entity.player.Player;
 
-	public static final int GRILLEGOATS = 3807;
-
-	private int stage;
-
-	@Override
-	public void start() {
-		sendNPCDialogue(GRILLEGOATS, 9827, "Tee hee! You have never milked a cow before, have you?");
-		stage = -1;
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		switch (stage) {
-		case -1:
-			sendNPCDialogue(GRILLEGOATS, 9827, "Tee hee! You have never milked a cow before, have you?");
-			break;
-		case 0:
-			sendPlayerDialogue(9827, "Erm... no. How could you tell?");
-			break;
-		case 1:
-			sendNPCDialogue(GRILLEGOATS, 9827, "Because you're spilling milk all over the floor. What a waste! " + "You need something to hold the milk.");
-			break;
-		case 2:
-			sendPlayerDialogue(9827, "Derp. Ah, yes, I really should have guessed that one, shouldn't I?");
-			break;
-		case 3:
-			sendNPCDialogue(GRILLEGOATS, 9827, "You're from the city, arent you? Try it again with an empty bucket.");
-			break;
-		case 4:
-			sendPlayerDialogue(9827, "Right, I'll do that.");
-			break;
-		case 5:
-			end();
-			break;
-		}
-		stage++;
-	}
-
-	@Override
-	public void finish() {
-
+public class GrilleGoatsDialogue extends Conversation {
+	private static final int NPC = 3807;
+	public GrilleGoatsDialogue(Player player) {
+		super(player);
+		addNPC(NPC, HeadE.CALM_TALK, "Tee hee! You have never milked a cow before, have you?");
+		addPlayer(HeadE.HAPPY_TALKING, "Erm... no. How could you tell?");
+		addNPC(NPC, HeadE.CALM_TALK, "Because you're spilling milk all over the floor. What a waste! \" + \"You need something to hold the milk.");
+		addPlayer(HeadE.HAPPY_TALKING, "Derp. Ah, yes, I really should have guessed that one, shouldn't I?");
+		addNPC(NPC, HeadE.CALM_TALK, "You're from the city, arent you? Try it again with an empty bucket.");
+		addPlayer(HeadE.HAPPY_TALKING, "Right, I'll do that.");
+		create();
 	}
 }

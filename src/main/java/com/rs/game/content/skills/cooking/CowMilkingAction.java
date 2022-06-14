@@ -33,7 +33,7 @@ public class CowMilkingAction extends PlayerAction {
 	@Override
 	public boolean start(Player player) {
 		if (!player.getInventory().containsItem(EMPTY_BUCKET, 1)) {
-			player.startConversation(new GrilleGoatsDialogue());
+			player.startConversation(new GrilleGoatsDialogue(player));
 			return false;
 		}
 		return true;

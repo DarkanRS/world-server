@@ -261,7 +261,7 @@ public class WarriorsGuild extends Controller {
 				Doors.handleDoubleDoor(player, object);
 				inCyclopse = false;
 			} else
-				player.startConversation(new KamfreendaDefender());
+				player.startConversation(new KamfreendaDefender(player));
 			return false;
 		} else if (object.getId() == 56887) {
 			player.simpleDialogue("Kamfreena reports that " + killedCyclopses + " cyclopes have been slain in the guild today. She hopes that warriors will step up and kill more!");
