@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.rs.game.content.SkillsDialogue;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.CreationActionD;

@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.SkillsDialogue;
 import com.rs.game.model.entity.actions.FillAction;
 import com.rs.game.model.entity.actions.FillAction.Filler;
 
@@ -27,8 +26,7 @@ public class FillingD extends MatrixDialogue {
 	@Override
 	public void start() {
 		filler = (Filler) parameters[0];
-		SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "Choose how many you wish to fill,<br>then click on the item to begin.", player.getInventory().getItems().getNumberOf(filler.getEmptyItem()), new int[] { filler.getFilledItem()
-				.getId() }, null);
+		SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "Choose how many you wish to fill,<br>then click on the item to begin.", player.getInventory().getItems().getNumberOf(filler.getEmptyItem()), new int[] { filler.getFilledItem().getId() }, null);
 	}
 
 	@Override
