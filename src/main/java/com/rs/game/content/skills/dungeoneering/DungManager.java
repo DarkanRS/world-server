@@ -878,7 +878,7 @@ public class DungManager {
 
 	public void openResetProgress() {
 		player.stopAll();
-		player.startConversation(new PrestigeReset());
+		player.startConversation(new PrestigeReset(player));
 	}
 
 	public void switchGuideMode() {
@@ -1116,7 +1116,7 @@ public class DungManager {
 		player.stopAll();
 		expireInvitation();
 		if (party == null) {
-			player.startConversation(new DungeonPartyStart());
+			player.startConversation(new DungeonPartyStart(player));
 			return;
 		}
 		if (party.getDungeon() != null) // cant happen
@@ -1135,14 +1135,14 @@ public class DungManager {
 		}
 		if (party.getDificulty() == 0) {
 			if (party.getTeam().size() != 1) {
-				player.startConversation(new DungeonDifficulty(), party.getTeam().size());
+				player.startConversation(new DungeonDifficulty(player, party.getTeam().size()));
 				return;
 			}
 			party.setDificulty(1);
 		}
 		if (selectSize) {
 			if (party.getComplexity() == 6) {
-				player.startConversation(new DungeonSize());
+				player.startConversation(new DungeonSize(player));
 				return;
 			}
 			party.setSize(DungeonConstants.SMALL_DUNGEON);
@@ -1282,7 +1282,7 @@ public class DungManager {
 		if (party == null)
 			return;
 		if (party.getDungeon() != null)
-			player.startConversation(new DungeonLeaveParty());
+			player.startConversation(new DungeonLeaveParty(player));
 		else
 			leaveParty();
 	}

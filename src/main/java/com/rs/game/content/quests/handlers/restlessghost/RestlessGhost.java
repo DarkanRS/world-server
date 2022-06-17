@@ -89,106 +89,6 @@ public class RestlessGhost extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, 553, "1,125 Prayer XP");
 	}
 
-	static class RGhostD extends MatrixDialogue {
-
-		@Override
-		public void start() {
-			stage = 0;
-			if (player.getEquipment().getAmuletId() == 552)
-				sendNPCDialogue(457, MatrixDialogue.CALM_TALK, "Hello mortal.");
-			else {
-				sendNPCDialogue(457, MatrixDialogue.CALM_TALK, "Woooo woooo wooo woo!");
-				stage = -1;
-			}
-		}
-
-		@Override
-		public void run(int interfaceId, int componentId) {
-			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
-				if (stage == 0) {
-					if (player.getInventory().containsItem(553, 1)) {
-						stage++;
-						sendPlayerDialogue(MatrixDialogue.CALM_TALK, "I found this skull outside.");
-					} else {
-						stage++;
-						sendPlayerDialogue(MatrixDialogue.HAPPY_TALKING, "Hello.");
-					}
-				} else if (stage == 1) {
-					stage++;
-					if (player.getInventory().containsItem(553, 1))
-						sendNPCDialogue(457, MatrixDialogue.HAPPY_TALKING, "That's it! That's my head! Thank you adventurer.<br>Finally I can be at peace.");
-					else
-						sendNPCDialogue(457, MatrixDialogue.SAD, "I seem to have lost my skull. Could you go<br>find it for me please? I want to be released.<br>Last I saw it was a bit south of here by the mining site.");
-				} else if (stage == 2) {
-					stage++;
-					if (player.getInventory().containsItem(553, 1)) {
-						sendPlayerDialogue(MatrixDialogue.LAUGH_EXCITED, "You're very welcome. Farewell.");
-						player.getInventory().deleteItem(553, 1);
-						player.getQuestManager().completeQuest(Quest.RESTLESS_GHOST);
-					} else
-						sendPlayerDialogue(MatrixDialogue.HAPPY_TALKING, "I think I can handle that that.");
-				} else
-					end();
-		}
-
-		@Override
-		public void finish() {
-
-		}
-
-	}
-
-	static class UrhneyD extends MatrixDialogue {
-
-		@Override
-		public void start() {
-			stage = 0;
-			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 0) {
-				sendNPCDialogue(458, MatrixDialogue.MEAN_FACE, "Get out of my house!");
-				stage = -1;
-			} else if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
-				sendNPCDialogue(458, MatrixDialogue.MEAN_FACE, "Get out of my house!");
-			else
-				sendNPCDialogue(458, MatrixDialogue.MEAN_FACE, "What do you need now?");
-		}
-
-		@Override
-		public void run(int interfaceId, int componentId) {
-			if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) > 0)
-				if (stage == 0) {
-					if (!player.getInventory().containsItem(552, 1)) {
-						stage++;
-						if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
-							sendPlayerDialogue(MatrixDialogue.CALM_TALK, "Father Aereck told me to come talk to you about a ghost<br>haunting his graveyard.");
-						else
-							sendPlayerDialogue(MatrixDialogue.CALM_TALK, "I've lost my amulet of ghostspeak.");
-					} else {
-						stage = -1;
-						sendPlayerDialogue(MatrixDialogue.HAPPY_TALKING, "I don't need anything right now.<br>I just wanted to have a chat.");
-					}
-				} else if (stage == 1) {
-					stage++;
-					if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
-						sendNPCDialogue(458, MatrixDialogue.MEAN_FACE, "Oh the silly old fool. Here, take this amulet<br>and see if you can communicate with the spectre.");
-					else
-						sendNPCDialogue(458, MatrixDialogue.MEAN_FACE, "Have another one then. But be more careful next time!");
-					player.getInventory().addItem(552, 1);
-					if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 1)
-						player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 2);
-				} else if (stage == 2) {
-					stage++;
-					sendPlayerDialogue(MatrixDialogue.LAUGH_EXCITED, "Thank you. I'll try.");
-				} else
-					end();
-		}
-
-		@Override
-		public void finish() {
-
-		}
-
-	}
-
 	private static boolean hasSkull(Player player) {
 		if (player.getInventory().containsItem(553, 1) || player.getQuestManager().isComplete(Quest.RESTLESS_GHOST))
 			return true;
@@ -232,12 +132,12 @@ public class RestlessGhost extends QuestOutline {
 		public void handle(NPCClickEvent e) {
 			if (e.getOpNum() == 1) {
 				if (e.getNPC().getId() == 458) {
-					e.getPlayer().startConversation(new UrhneyD());
+					e.getPlayer().startConversation(new UrhneyD(e.getPlayer()));
 					return;
 				}
 				if (e.getNPC().getId() == 457) {
 					if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
-						e.getPlayer().startConversation(new RGhostD());
+						e.getPlayer().startConversation(new RGhostD(e.getPlayer()));
 					return;
 				}
 			}

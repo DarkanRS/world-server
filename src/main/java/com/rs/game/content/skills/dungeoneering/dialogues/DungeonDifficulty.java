@@ -15,40 +15,26 @@
 //  This file is part of project: Darkan
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
+import com.rs.game.model.entity.player.Player;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
-
-public class DungeonDifficulty extends MatrixDialogue {
-
-	@Override
-	public void start() {
-		int partySize = (int) parameters[0];
-		String[] options = new String[partySize];
-		for (int i = 0; i < options.length; i++)
-			options[i] = "" + (i + 1);
-		options[partySize / 2] += " (recommended)";
-		sendOptionsDialogue("What difficulty of dungeon would you like?", options);
+public class DungeonDifficulty extends Conversation {
+	public DungeonDifficulty(Player player, int partySize) {
+		super(player);
+		addOptions("What difficulty of dungeon would you like?", new Options() {
+			@Override
+			public void create() {
+				for(int i = 1; i <= partySize; i++) {
+					final int size = i;
+					option(i + (i == partySize ? " (recommended)" : ""), new Dialogue().addNext(() -> {
+						player.getDungManager().setDificulty(size);
+						player.getDungManager().enterDungeon(true);
+					}));
+				}
+			}
+		});
+		create();
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (componentId == OPTION_1)
-			player.getDungManager().setDificulty(1);
-		else if (componentId == OPTION_2)
-			player.getDungManager().setDificulty(2);
-		else if (componentId == OPTION_3)
-			player.getDungManager().setDificulty(3);
-		else if (componentId == OPTION_4)
-			player.getDungManager().setDificulty(4);
-		else if (componentId == OPTION_5)
-			player.getDungManager().setDificulty(5);
-		player.getDungManager().enterDungeon(true);
-		end();
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

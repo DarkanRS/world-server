@@ -16,66 +16,43 @@
 //
 package com.rs.game.content.quests.handlers.waterfallquest;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 
-public class AlmeraD extends MatrixDialogue {
-
-	// sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE,
-	// "How is life on the waterfall?", "I am looking for a quest.");
-	// sendPlayerDialogue(CALM_TALK, "");
-	// sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] {
-	// npc.getDefinitions().name, "" }, IS_NPC, npc.getId(), CALM_TALK);
-
-	private NPC npc;
-
-	@Override
-	public void start() {
-		npc = (NPC) parameters[0];
-		sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "How is life on the waterfall?", "I am looking for a quest.");
-		stage = 1;
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 1) {
-			if (componentId == OPTION_1) {
-				sendPlayerDialogue(CALM_TALK, "How is life on the waterfall?");
-				stage = 10;
-			} else if (componentId == OPTION_2) {
-				sendPlayerDialogue(SECRELTY_TALKING, "I am looking for a quest.");
-				stage = 5;
+public class AlmeraD extends Conversation {
+	public AlmeraD(Player player) {
+		super(player);
+		int NPC = 304;
+		addOptions("Choose an option:", new Options() {
+			@Override
+			public void create() {
+				option("How is life on the waterfall?", new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "How is life on the waterfall?")
+						.addNPC(NPC, HeadE.CALM_TALK, "I am worried about my son, but other than that everything is fine.")
+				);
+				option("I am looking for a quest.", new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "I am looking for a quest.")
+						.addNPC(NPC, HeadE.CALM_TALK, "I might have one for you. My son Hudon has gone missing on some hunt for treasure in the waterfall.")
+						.addNPC(NPC, HeadE.CALM_TALK, "Could you please go make sure he is alright for me?")
+						.addOptions("Choose an option:", new Options() {
+							@Override
+							public void create() {
+								option("Of course.", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "Of course I will.", () ->{player.getQuestManager().setStage(Quest.WATERFALL_QUEST, 1, true);})
+										.addNPC(NPC, HeadE.CALM_TALK, "Thank you so much!")
+								);
+								option("No thanks, I don't have time right now.", new Dialogue()
+										.addPlayer(HeadE.HAPPY_TALKING, "Sorry, but I don't have time right now. Bye.")
+								);
+							}
+						})
+				);
 			}
-		} else if (stage == 10) {
-			sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] { npc.getDefinitions().getName(), "I am worried about my son,", "but other than that, everything is fine." }, IS_NPC, npc.getId(), CALM_TALK);
-			stage = -1;
-		} else if (stage == 5) {
-			sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] { npc.getDefinitions().getName(), "I might have one for you.", "My son Hudon has gone missing", "on some hunt for treasure in", "the waterfall." }, IS_NPC, npc.getId(), WORRIED);
-			stage = 6;
-		} else if (stage == 6) {
-			sendEntityDialogue(SEND_1_TEXT_CHAT, new String[] { npc.getDefinitions().getName(), "Could you please go make sure he is alright for me?" }, IS_NPC, npc.getId(), WORRIED);
-			stage = 7;
-		} else if (stage == 7) {
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "Of course.", "No thanks, I don't have time right now.");
-			stage = 8;
-		} else if (stage == 8) {
-			if (componentId == OPTION_1) {
-				sendPlayerDialogue(TOUGH, "Of course I will!");
-				stage = 20;
-			} else if (componentId == OPTION_2) {
-				sendPlayerDialogue(SAD, "Sorry, but I don't have time right now. Bye.");
-				stage = 9;
-			}
-		} else if (stage == 20) {
-			player.getQuestManager().setStage(Quest.WATERFALL_QUEST, 1, true);
-			end();
-		} else
-			end();
-	}
-
-	@Override
-	public void finish() {
-
+		});
 	}
 }

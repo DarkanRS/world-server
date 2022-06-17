@@ -1,61 +1,48 @@
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-//
-//  Copyright (C) 2021 Trenton Kress
-//  This file is part of project: Darkan
-//
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.ItemConstants.ItemDegrade;
+import com.rs.db.WorldDB;
+import com.rs.game.content.ItemConstants;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+import com.rs.lib.net.ClientPacket;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.handlers.ButtonClickHandler;
 
-public class RepairStandD extends MatrixDialogue {
-
-	ItemDegrade details;
-	Item item;
-	boolean stand;
-	int slot;
-
-	@Override
-	public void start() {
-		details = (ItemDegrade) parameters[0];
-		item = (Item) parameters[1];
-		stand = (Boolean) parameters[2];
-		slot = (Integer) parameters[3];
+@PluginEventHandler
+public class RepairStandD extends Conversation {
+	public RepairStandD(Player player, ItemConstants.ItemDegrade details, Item item, final boolean stand, final int slot) {
+		super(player);
 		player.getInterfaceManager().sendChatBoxInterface(1183);
 		player.getPackets().setIFText(1183, 12, "It will cost " + (stand ? details.getRepairStandCost(player) : details.getCost(item)) + " to repair your " + item.getDefinitions().getName() + ".");
 		player.getPackets().setIFItem(1183, 13, details.getItemId(), 1);
 		player.getPackets().setIFText(1183, 7, "Repair this item fully for " + (stand ? details.getRepairStandCost(player) : details.getCost(item)) + " coins?");
 		player.getPackets().setIFText(1183, 22, "Confirm repair");
+		player.save("repairDetails", details);
+		player.save("repairItem", item);
+		player.save("repairStand", stand);
+		player.save("repairSlot", slot);
 	}
 
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (componentId == 9)
-			if (player.getInventory().containsItem(995, stand ? details.getRepairStandCost(player) : details.getCost(item))) {
-				if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId())
-					return;
-				player.getInventory().getItems().set(slot, new Item(details.getItemId(), 1));
-				player.getInventory().deleteItem(995, stand ? details.getRepairStandCost(player) : details.getCost(item));
-				player.getInventory().refresh();
-			} else
-				player.sendMessage("You don't have enough coins.");
-		end();
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
+	public static ButtonClickHandler handleRepair = new ButtonClickHandler(1183) {
+		@Override
+		public void handle(ButtonClickEvent e) {
+			ItemConstants.ItemDegrade details = e.getPlayer().getO("repairDetails");
+			Item item = e.getPlayer().getO("repairItem");
+			boolean stand = e.getPlayer().getO("repairStand");
+			int slot = e.getPlayer().getO("repairSlot");
+			if (e.getComponentId() == 9) {
+				if (e.getPlayer().getInventory().containsItem(995, stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item))) {
+					if (e.getPlayer().getInventory().getItem(slot) == null || e.getPlayer().getInventory().getItem(slot).getId() != item.getId())
+						return;
+					e.getPlayer().getInventory().getItems().set(slot, new Item(details.getItemId(), 1));
+					e.getPlayer().getInventory().deleteItem(995, stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item));
+					e.getPlayer().getInventory().refresh();
+				} else
+					e.getPlayer().sendMessage("You don't have enough coins.");
+			}
+			e.getPlayer().closeInterfaces();
+		}
+	};
 }
