@@ -131,14 +131,14 @@ public class WaterfallQuest extends QuestOutline {
 	public static NPCClickHandler handleAlmera = new NPCClickHandler(new Object[] { 304 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new AlmeraD(), e.getNPC());
+			e.getPlayer().startConversation(new AlmeraD(e.getPlayer()));
 		}
 	};
 
 	public static NPCClickHandler handleGolrie = new NPCClickHandler(new Object[] { 306 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GolrieD(), e.getNPC());
+			e.getPlayer().startConversation(new GolrieD(e.getPlayer()));
 		}
 	};
 

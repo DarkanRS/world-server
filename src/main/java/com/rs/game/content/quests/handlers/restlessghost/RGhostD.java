@@ -26,6 +26,6 @@ public class RGhostD extends Conversation {
 			return;
 		}
 		addNPC(NPC, HeadE.CALM_TALK, "Woooo woooo wooo woo!");
+		create();
 	}
-	create();
 }
