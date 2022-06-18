@@ -1,22 +1,25 @@
 {
   "ids": [
-    7643
+    269,
+    7521,
+    14483,
+    14555
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 6559,
+  "defenceAnim": 6557,
+  "deathAnim": 6558,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 1960,
-  "maxHit": 90,
+  "hitpoints": 1160,
+  "maxHit": 140,
   "attackStyle": "MELEE",
-  "attackBonus": "MAGIC_ATT",
+  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 0,
-    "RANGE": 0,
-    "STRENGTH": 0,
-    "DEFENSE": 0,
-    "MAGE": 0
+    "ATTACK": 120,
+    "RANGE": 1,
+    "STRENGTH": 120,
+    "DEFENSE": 120,
+    "MAGE": 1
   },
   "attackRange": -1,
   "attackGfx": -1,

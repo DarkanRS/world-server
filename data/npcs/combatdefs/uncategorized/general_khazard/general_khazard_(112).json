@@ -1,21 +1,24 @@
 {
-  "names": [
-    "Giant crypt rat"
+  "ids": [
+    7552,
+    7553,
+    14566,
+    14567
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
+  "attackAnim": 11526,
+  "defenceAnim": 11525,
   "deathAnim": -1,
   "deathDelay": 6,
-  "respawnDelay": 59,
-  "hitpoints": 700,
+  "respawnDelay": 39,
+  "hitpoints": 1710,
   "maxHit": 90,
   "attackStyle": "MELEE",
-  "attackBonus": "STAB_ATT",
+  "attackBonus": "SLASH_ATT",
   "combatLevels": {
-    "ATTACK": 80,
+    "ATTACK": 75,
     "RANGE": 1,
-    "STRENGTH": 50,
-    "DEFENSE": 65,
+    "STRENGTH": 78,
+    "DEFENSE": 80,
     "MAGE": 1
   },
   "attackRange": -1,

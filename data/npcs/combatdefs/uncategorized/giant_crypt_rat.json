@@ -1,21 +1,21 @@
 {
   "names": [
-    "Crypt spider"
+    "Giant crypt rat"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 15514,
+  "defenceAnim": 14861,
+  "deathAnim": 15518,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 600,
-  "maxHit": 30,
+  "hitpoints": 700,
+  "maxHit": 90,
   "attackStyle": "MELEE",
   "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 45,
+    "ATTACK": 80,
     "RANGE": 1,
-    "STRENGTH": 47,
-    "DEFENSE": 45,
+    "STRENGTH": 50,
+    "DEFENSE": 65,
     "MAGE": 1
   },
   "attackRange": -1,

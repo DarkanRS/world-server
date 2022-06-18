@@ -1,24 +1,21 @@
 {
-  "ids": [
-    7552,
-    7553,
-    14566,
-    14567
+  "names": [
+    "Giant crypt spider"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 5319,
+  "defenceAnim": 5320,
+  "deathAnim": 5321,
   "deathDelay": 6,
-  "respawnDelay": 39,
-  "hitpoints": 1710,
-  "maxHit": 90,
+  "respawnDelay": 59,
+  "hitpoints": 800,
+  "maxHit": 100,
   "attackStyle": "MELEE",
-  "attackBonus": "SLASH_ATT",
+  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 75,
+    "ATTACK": 65,
     "RANGE": 1,
-    "STRENGTH": 78,
-    "DEFENSE": 80,
+    "STRENGTH": 67,
+    "DEFENSE": 65,
     "MAGE": 1
   },
   "attackRange": -1,

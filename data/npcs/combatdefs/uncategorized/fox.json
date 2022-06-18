@@ -2,9 +2,9 @@
   "names": [
     "Fox"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 6559,
+  "defenceAnim": 6557,
+  "deathAnim": 6558,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 600,
