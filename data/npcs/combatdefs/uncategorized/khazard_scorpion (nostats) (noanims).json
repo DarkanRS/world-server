@@ -1,13 +1,14 @@
 {
   "ids": [
-    7523
+    7523,
+    271
   ],
   "names": [
     "Khazard scorpion"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 6254,
+  "defenceAnim": 6255,
+  "deathAnim": 6256,
   "deathDelay": 6,
   "respawnDelay": 39,
   "hitpoints": 400,

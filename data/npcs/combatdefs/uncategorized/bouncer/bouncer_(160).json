@@ -1,17 +1,15 @@
 {
   "ids": [
-    269,
-    7521,
-    14483,
-    14555
+    5564,
+    5565
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 6559,
+  "defenceAnim": 6557,
+  "deathAnim": 6558,
   "deathDelay": 6,
-  "respawnDelay": 59,
-  "hitpoints": 1160,
-  "maxHit": 140,
+  "respawnDelay": 39,
+  "hitpoints": 2320,
+  "maxHit": 250,
   "attackStyle": "MELEE",
   "attackBonus": "STAB_ATT",
   "combatLevels": {

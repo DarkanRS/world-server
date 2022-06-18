@@ -627,17 +627,20 @@ public class MiscTest {
 
 		});
 
-		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
+			int i = 0;
+			List<NPC> npcs = new ArrayList<>();
 			for (NPC npc : World.getNPCs())
 				if (npc.getId() == Integer.valueOf(args[0])) {
-					p.setNextWorldTile(new WorldTile(npc.getTile()));
-					return;
+					npcs.add(npc);
 				}
-			for (NPCSpawn spawns : NPCSpawns.getAllSpawns())
-				if (spawns.getNPCId() == Integer.valueOf(args[0])) {
-					p.setNextWorldTile(new WorldTile(spawns.getTile()));
-					return;
-				}
+			for(NPC npc : npcs)
+				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
+			if (args.length == 1) {
+				p.setNextWorldTile(new WorldTile(npcs.get(0).getTile()));
+				return;
+			}
+			p.setNextWorldTile(npcs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "hide", "Hides the player from other players.", (p, args) -> {
