@@ -71,6 +71,10 @@ public class MakeXStatement implements Statement {
 			itemIds[i] = items[i].getItemId();
 		this.items = itemIds;
 	}
+	
+	public MakeXStatement(String question, int[] items, int maxQuantity) {
+		this(MakeXType.MAKE, maxQuantity, question, items, null);
+	}
 
 	public MakeXStatement(int[] items, int maxQuantity) {
 		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", items, null);
