@@ -24,7 +24,6 @@ import java.util.Map;
 
 import com.rs.Settings;
 import com.rs.game.content.controllers.PestControlLobbyController;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.pest.PestControl.PestData;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;

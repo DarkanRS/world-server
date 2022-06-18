@@ -2,7 +2,6 @@ package com.rs.game.content.quests.handlers.restlessghost;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
 

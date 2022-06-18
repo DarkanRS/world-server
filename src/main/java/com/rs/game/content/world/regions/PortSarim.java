@@ -32,8 +32,16 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.*;
-import com.rs.plugin.handlers.*;
+import com.rs.plugin.events.ItemAddedToInventoryEvent;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.events.PlayerStepEvent;
+import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler

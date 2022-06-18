@@ -18,7 +18,6 @@ package com.rs.game.content.minigames.pest;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogues_matrix.ItemMessage;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;

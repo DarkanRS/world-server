@@ -19,7 +19,6 @@ package com.rs.game.content.controllers;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.CastleWars;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;

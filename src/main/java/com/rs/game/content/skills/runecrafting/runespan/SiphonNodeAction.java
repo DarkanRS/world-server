@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;

@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;

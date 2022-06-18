@@ -18,7 +18,6 @@ package com.rs.game.content.quests.handlers.restlessghost;
 
 import java.util.ArrayList;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.QuestHandler;
 import com.rs.game.content.quests.QuestOutline;

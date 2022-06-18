@@ -18,7 +18,6 @@ package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
 import com.rs.game.World;
 import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;

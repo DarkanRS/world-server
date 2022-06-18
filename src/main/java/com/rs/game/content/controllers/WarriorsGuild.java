@@ -29,8 +29,6 @@ import com.rs.game.content.dialogue.statements.NPCStatement;
 import com.rs.game.content.dialogues_matrix.KamfreendaDefender;
 import com.rs.game.content.dialogues_matrix.Shanomi;
 import com.rs.game.content.dialogues_matrix.ShotputD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.content.minigames.wguild.AnimatedArmor;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Entity;

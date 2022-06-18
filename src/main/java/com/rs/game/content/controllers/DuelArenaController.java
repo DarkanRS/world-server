@@ -22,7 +22,6 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.dialogues_matrix.ForfeitDialouge;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.Entity;

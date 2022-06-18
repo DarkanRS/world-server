@@ -16,6 +16,17 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.FORGOTTEN_RANGER;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.FORGOTTEN_WARRIOR;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.GIANT_SKELETON;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.HILL_GIANT;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.HOBGOBLIN;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_WARRIOR;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.SKELETON_MELEE;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.SKELETON_RANGED;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.ZOMBIE_MELEE;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.ZOMBIE_RANGED;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,8 +43,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
-
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.*;
 
 public class DungeonNPC extends NPC {
 

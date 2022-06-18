@@ -23,7 +23,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;

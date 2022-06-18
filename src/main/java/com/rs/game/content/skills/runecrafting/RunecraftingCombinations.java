@@ -18,7 +18,6 @@ package com.rs.game.content.skills.runecrafting;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.lib.Constants;

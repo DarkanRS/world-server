@@ -22,7 +22,6 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.entity.ForceMovement;

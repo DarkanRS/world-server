@@ -3639,6 +3639,10 @@ public class Player extends Entity {
 		startConversation(new Dialogue().addNPC(npcId, emote, message));
 	}
 	
+	public void simpleItemDialogue(int itemId, String message) {
+		startConversation(new Dialogue().addItem(itemId, message));
+	}
+	
 	public void simplePlayerDialogue(HeadE emote, String message) {
 		startConversation(new Dialogue().addPlayer(emote, message));
 	}

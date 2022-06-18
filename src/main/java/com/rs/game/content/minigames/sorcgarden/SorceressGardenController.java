@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.sorcgarden.SqirkFruitSqueeze.SqirkFruit;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;

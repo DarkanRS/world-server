@@ -19,7 +19,6 @@ package com.rs.game.content.controllers;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.dialogues_matrix.StealingCreationClay;
 import com.rs.game.content.dialogues_matrix.StealingCreationMagic;
 import com.rs.game.content.dialogues_matrix.StealingCreationManagerD;

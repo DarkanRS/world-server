@@ -18,12 +18,8 @@ package com.rs.game.content.quests.handlers.waterfallquest;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.quests.Quest;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-
-import static com.rs.game.content.dialogue.HeadE.TALKING_ALOT;
 
 public class GolrieD extends Conversation {
 	public GolrieD(Player player) {

@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.controllers;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.minigames.pest.PestControl;
 import com.rs.game.model.entity.Entity;

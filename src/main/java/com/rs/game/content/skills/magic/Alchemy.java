@@ -18,7 +18,6 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;

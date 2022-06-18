@@ -18,7 +18,6 @@ package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogues_matrix.GemCuttingD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -123,7 +122,7 @@ public class GemCutting extends PlayerAction {
 		if (player.getInventory().getItems().getNumberOf(new Item(gem.getUncut(), 1)) <= 1)
 			player.getActionManager().setAction(new GemCutting(gem, 1));
 		else
-			player.startConversation(new GemCuttingD(), gem);
+			player.startConversation(new GemCuttingD(player, gem));
 	}
 
 	private Gem gem;

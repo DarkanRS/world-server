@@ -16,28 +16,23 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
-import com.rs.game.World;
-import com.rs.game.model.WorldProjectile;
-import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.model.entity.npc.combat.CombatScriptsHandler;
-import com.rs.game.model.entity.npc.combat.Default;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
-import com.rs.utils.Ticks;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.NECROMANCER;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_MAGE;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.NECROMANCER;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_MAGE;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.combat.Default;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Animation;
+import com.rs.lib.game.SpotAnim;
+import com.rs.utils.Ticks;
 
 public class AntiSilkHoodMages extends Default {//default combat script
 

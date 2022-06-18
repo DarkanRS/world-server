@@ -24,7 +24,6 @@ import com.rs.game.World;
 import com.rs.game.content.controllers.FightPitsController;
 import com.rs.game.content.controllers.FightPitsLobbyController;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.FightPitsViewingOrb;

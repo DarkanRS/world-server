@@ -21,7 +21,6 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.quests.Quest;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 
 public class AlmeraD extends Conversation {

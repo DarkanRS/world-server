@@ -24,7 +24,6 @@ import com.rs.game.World;
 import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.others.ClueNPC;
