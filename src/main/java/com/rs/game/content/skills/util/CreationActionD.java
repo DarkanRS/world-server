@@ -16,91 +16,64 @@
 //
 package com.rs.game.content.skills.util;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import java.util.Arrays;
 
-public class CreationActionD extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.model.entity.player.Player;
 
-	private int animation;
-	private int product;
-	private int delay;
-	private int material;
-	private int gfx = -1;
-	private boolean consistentAnim = false;
-	private CreationAction customAction;
-	private ReqItem[] options;
-	private Category category;
+public class CreationActionD extends Conversation {
 
-	public CreationActionD(Category category, int material, int animation, int delay) {
-		product = -1;
-		this.animation = animation;
-		this.delay = delay;
-		this.material = material;
-		this.category = category;
-	}
+	public CreationActionD(Player player, Category category, int material, int animation, int delay, int gfx, int product, CreationAction customAction, ReqItem[] options, boolean consistentAnim) {
+		super(player);
+		options = product != -1 ? new ReqItem[] { ReqItem.getRequirements(product) } : options != null ? options : ReqItem.getProducts(category, material);
 
-	public CreationActionD(Category category, int material, int animation, int delay, boolean skip) {
-		product = -1;
-		this.animation = animation;
-		this.delay = delay;
-		this.material = material;
-		this.category = category;
-	}
+		addNext(new MakeXStatement("What would you like to make?", Arrays.stream(options).mapToInt(item -> item.getProduct().getId()).toArray(), 28));
 
-	public CreationActionD(int product, int animation, int delay) {
-		this.product = product;
-		this.animation = animation;
-		this.delay = delay;
-		material = -1;
-	}
-
-	public CreationActionD(Category category, ReqItem[] options, int animation, int delay) {
-		this.category = category;
-		this.animation = animation;
-		this.options = options;
-		this.delay = delay;
-		material = -1;
-		product = -1;
-	}
-
-	public CreationActionD attachCustomAction(CreationAction action) {
-		customAction = action;
-		return this;
-	}
-
-	public CreationActionD setConsistentAnimation() {
-		consistentAnim = true;
-		return this;
-	}
-
-	public CreationActionD setGraphics(int gfx) {
-		this.gfx = gfx;
-		return this;
-	}
-
-	@Override
-	public void start() {
-		if (product != -1)
-			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What would you like to make?", 28, new ReqItem[] { ReqItem.getRequirements(product) }, null);
-		else if (options != null)
-			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What would you like to make?", 28, options, null);
-		else {
-			options = ReqItem.getProducts(category, material);
-			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What would you like to make?", 28, options, null);
+		for (ReqItem item : options) {
+			addNext(() -> {
+				int quantity = MakeXStatement.getQuantity(player);
+				ReqItem produce = product == -1 ? item : ReqItem.getRequirements(product);
+				player.getActionManager().setAction(customAction != null ? customAction : new CreationAction(produce, animation, gfx, delay, quantity).setConsistentAnimation(consistentAnim));
+			});
 		}
+
+		create();
 	}
 
-	@Override
-	public void run(int interfaceId, int componentId) {
-		int option = SkillsDialogue.getItemSlot(componentId);
-		int quantity = SkillsDialogue.getQuantity(player);
-		ReqItem produce = product == -1 ? options[option] : ReqItem.getRequirements(product);
-		player.getActionManager().setAction(customAction != null ? customAction : new CreationAction(produce, animation, gfx, delay, quantity).setConsistentAnimation(consistentAnim));
-		end();
+	public CreationActionD(Player player, Category category, int material, int animation, int delay) {
+		this(player, category, material, animation, delay, -1, -1, null, null, false);
 	}
 
-	@Override
-	public void finish() {
-
+	public CreationActionD(Player player, int product, int animation, int delay) {
+		this(player, null, -1, animation, delay, -1, -1, null, null, false);
 	}
 
+	public CreationActionD(Player player, Category category, ReqItem[] options, int animation, int delay) {
+		this(player, category, -1, animation, delay, -1, -1, null, options, false);
+	}
+	
+	public CreationActionD(Player player, Category category, int material, int animation, int delay, CreationAction action, boolean consistentAnim) {
+		this(player, category, material, animation, delay, -1, -1, action, null, false);
+	}
+
+	public CreationActionD(Player player, int product, int animation, int delay, CreationAction action) {
+		this(player, null, -1, animation, delay, -1, -1, action, null, false);
+	}
+
+	public CreationActionD(Player player, Category category, ReqItem[] options, int animation, int delay, CreationAction action) {
+		this(player, category, -1, animation, delay, -1, -1, action, options, false);
+	}
+	
+	public CreationActionD(Player player, Category category, int material, int animation, int delay, boolean consistentAnim) {
+		this(player, category, material, animation, delay, -1, -1, null, null, consistentAnim);
+	}
+
+	public CreationActionD(Player player, int product, int animation, int delay, boolean consistentAnim) {
+		this(player, null, -1, animation, delay, -1, -1, null, null, consistentAnim);
+	}
+
+	public CreationActionD(Player player, Category category, ReqItem[] options, int animation, int delay, boolean consistentAnim) {
+		this(player, category, -1, animation, delay, -1, -1, null, options, consistentAnim);
+	}
 }

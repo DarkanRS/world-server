@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
-import com.rs.game.content.SkillsDialogue;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 
 public class DungeoneeringRCD extends MatrixDialogue {

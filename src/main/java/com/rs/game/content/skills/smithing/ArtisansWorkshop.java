@@ -22,7 +22,6 @@ import java.util.HashMap;
 
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
@@ -261,7 +260,7 @@ public class ArtisansWorkshop  {
 		public void handle(ObjectClickEvent e) {
 			int highestIngot = getHighestIngot(e.getPlayer());
 			if (highestIngot != -1)
-				e.getPlayer().startConversation(new CreationActionD(Category.ARTISANS, highestIngot, 898, 15).setConsistentAnimation());
+				e.getPlayer().startConversation(new CreationActionD(e.getPlayer(), Category.ARTISANS, highestIngot, 898, 15, true));
 			else
 				e.getPlayer().sendMessage("You don't have any ingots to smith.");
 		}

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.SkillsDialogue;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -32,7 +32,16 @@ public class DoughMaking  {
 	public static int BOWL_OF_WATER = 1921;
 	public static int BUCKET_OF_WATER = 1929;
 
-	static class DoughMakeD extends MatrixDialogue {
+	static class DoughMakeD extends Conversation {
+
+		public DoughMakeD(Player player) {
+			super(player);
+			
+			int[] items = new int[] { 2307, 1953, 2283, 1863 };
+			addNext(new MakeXStatement(items, getMaxAmount()));
+			for (int itemId : items)
+				addNext(() -> player.getActionManager().setAction(new DoughMakeAction(itemId)));
+		}
 
 		public int getAmountOfWaterItems() {
 			return player.getInventory().getAmountOf(JUG_OF_WATER) + player.getInventory().getAmountOf(BOWL_OF_WATER) + player.getInventory().getAmountOf(BUCKET_OF_WATER);
@@ -44,33 +53,14 @@ public class DoughMaking  {
 				min = getAmountOfWaterItems();
 			return min;
 		}
-
-		@Override
-		public void start() {
-			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.MAKE_INTERVAL, "Which item would you like to make?", getMaxAmount(), new int[] { 2307, 1953, 2283, 1863 }, null);
-		}
-
-		@Override
-		public void run(int interfaceId, int componentId) {
-			int type = SkillsDialogue.getItemSlot(componentId);
-			player.getActionManager().setAction(new DoughMakeAction(type));
-			end();
-		}
-
-		@Override
-		public void finish() {
-
-		}
-
 	}
 
 	static class DoughMakeAction extends PlayerAction {
 
-		private int[] doughs = { 2307, 1953, 2283, 1863 };
-		private int type;
+		private int doughId;
 
-		public DoughMakeAction(int type) {
-			this.type = type;
+		public DoughMakeAction(int doughId) {
+			this.doughId = doughId;
 		}
 
 		@Override
@@ -107,7 +97,7 @@ public class DoughMaking  {
 				}
 				player.getInventory().deleteItem(POT_OF_FLOUR, 1);
 				player.getInventory().addItem(1931, 1);
-				player.getInventory().addItem(doughs[type], 1);
+				player.getInventory().addItem(doughId, 1);
 			}
 			return 2;
 		}
@@ -122,7 +112,7 @@ public class DoughMaking  {
 	public static ItemOnItemHandler makeDough = new ItemOnItemHandler(POT_OF_FLOUR, new int[] { BUCKET_OF_WATER, BOWL_OF_WATER, JUG_OF_WATER }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().startConversation(new DoughMakeD());
+			e.getPlayer().startConversation(new DoughMakeD(e.getPlayer()));
 		}
 	};
 
