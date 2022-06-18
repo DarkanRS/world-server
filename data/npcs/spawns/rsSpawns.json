@@ -1,9 +1,27 @@
 [
   {
     "comment": "Lady Servil added by jazneta",
-    "npcId": 7529,
+    "npcId": 258,
     "tile": {
       "x": 2569,
+      "y": 3199,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Justin Servil added by jazneta",
+    "npcId": 7541,
+    "tile": {
+      "x": 2567,
+      "y": 3199,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Jeremy Servil added by jazneta",
+    "npcId": 7533,
+    "tile": {
+      "x": 2568,
       "y": 3199,
       "plane": 0
     }
@@ -22403,8 +22421,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2617,
-      "y": 3144
+      "x": 2616,
+      "y": 3143
     },
     "comment": "Lazy Khazard Guard",
     "npcId": 7550

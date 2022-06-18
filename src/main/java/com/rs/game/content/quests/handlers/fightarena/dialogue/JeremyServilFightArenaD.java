@@ -18,42 +18,44 @@ public class JeremyServilFightArenaD extends Conversation {
 		super(p);
 		switch(p.getQuestManager().getStage(Quest.FIGHT_ARENA)) {
 			case NOT_STARTED -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Hello...");
+				addNPC(NPC, HeadE.CHILD_CRYING, "Hello...");
 				addPlayer(HeadE.HAPPY_TALKING, "Hello...");
 			}
 			case FREE_JEREMY -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello.");
-				addNPC(NPC, HeadE.CALM_TALK, "Please, " + p.getPronoun("sir", "madam") + ", don't hurt me.");
+				addNPC(NPC, HeadE.CHILD_CRYING, "Please, " + p.getPronoun("sir", "madam") + ", don't hurt me.");
 				addSimple("You give Sammy a friendly wink.");
 				addPlayer(HeadE.HAPPY_TALKING, "Shhh. I am in disguise; I'm here to help you and your father escape, but I need your help. Do you know where " +
 						"they keep the keys?");
-				addNPC(NPC, HeadE.CALM_TALK, "The guard always keeps hold of them.");
+				addNPC(NPC, HeadE.CHILD_CALM_TALK, "The guard always keeps hold of them.");
 				addPlayer(HeadE.HAPPY_TALKING, "Which guard?");
-				addNPC(NPC, HeadE.CALM_TALK, "The bald, fat, lazy guard with a goatee. He's the one who usually locks up.");
-				addPlayer(HeadE.HAPPY_TALKING, "Right, I'll look for him. Don't lose heart – I'll be back.", ()->{
+				addNPC(NPC, HeadE.CHILD_ANGRY, "The bald, fat, lazy guard with a goatee. He's the one who usually locks up.");
+				addPlayer(HeadE.HAPPY_TALKING, "Right, I'll look for him. Don't lose heart - I'll be back.", ()->{
 					p.getQuestManager().setStage(Quest.FIGHT_ARENA, GET_JAIL_KEYS);
 				});
 			}
 			case GET_JAIL_KEYS -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Hurry, I don't know what they are going to do with me next.");
+				addNPC(NPC, HeadE.CHILD_CRYING, "Hurry, I don't know what they are going to do with me next.");
 			}
-			case QUEST_COMPLETE ->  {
-
+			case RETURN_TO_LADY_SERVIL, QUEST_COMPLETE ->  {
+				addNPC(7533, HeadE.CHILD_AWE, "That was amazing " + player.getDisplayName() + "!");
+				addPlayer(HeadE.HAPPY_TALKING, "Yea that was a trip...");
 			}
 		}
+		create();
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC, 7533}) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new JeremyServilFightArenaD(e.getPlayer()).getStart());
+			e.getPlayer().startConversation(new JeremyServilFightArenaD(e.getPlayer()));
 		}
 	};
 
 	public static NPCInteractionDistanceHandler jeremyJailDistance = new NPCInteractionDistanceHandler(NPC) {
 		@Override
 		public int getDistance(Player player, com.rs.game.model.entity.npc.NPC npc) {
-			return 1;
+			return 2;
 		}
 	};
 }

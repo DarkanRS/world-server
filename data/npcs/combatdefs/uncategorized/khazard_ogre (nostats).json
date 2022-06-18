@@ -1,25 +1,24 @@
 {
   "ids": [
-    7552,
-    7553,
-    14566,
-    14567
+    7522
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "names": [
+    "Khazard ogre"
+  ],
+  "attackAnim": 2100,
+  "defenceAnim": 8578,
+  "deathAnim": 8576,
   "deathDelay": 6,
   "respawnDelay": 39,
-  "hitpoints": 1710,
-  "maxHit": 90,
+  "hitpoints": 600,
+  "maxHit": 1,
   "attackStyle": "MELEE",
-  "attackBonus": "SLASH_ATT",
   "combatLevels": {
-    "ATTACK": 75,
-    "RANGE": 1,
-    "STRENGTH": 78,
-    "DEFENSE": 80,
-    "MAGE": 1
+    "ATTACK": 0,
+    "RANGE": 0,
+    "STRENGTH": 0,
+    "DEFENSE": 0,
+    "MAGE": 0
   },
   "attackRange": -1,
   "attackGfx": -1,
