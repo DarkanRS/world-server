@@ -233,6 +233,7 @@ public class InventoryOptionsHandler {
 						player.addWalkSteps(player.getX(), player.getY() - 1, 1);
 			player.getInventory().deleteItem(299, 1);
 			final GameObject flowerObject = new GameObject(2987, ObjectType.SCENERY_INTERACT, Utils.getRandomInclusive(4), tile.getX(), tile.getY(), tile.getPlane());
+			final int flowerId = flower;
 			World.spawnObjectTemporary(flowerObject, Ticks.fromSeconds(45));
 			player.lock();
 			WorldTasks.schedule(new WorldTask() {
@@ -243,7 +244,7 @@ public class InventoryOptionsHandler {
 					if (player == null || player.hasFinished())
 						stop();
 					if (step == 1) {
-						player.startConversation(new FlowerPickup(player, flowerObject, flower));
+						player.startConversation(new FlowerPickup(player, flowerObject, flowerId));
 						player.setNextFaceWorldTile(tile);
 						player.unlock();
 						stop();

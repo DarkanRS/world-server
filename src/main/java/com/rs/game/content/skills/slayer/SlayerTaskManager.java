@@ -105,7 +105,7 @@ public class SlayerTaskManager {
 	public void speakToMaster(Player player, Master master) {
 		if (master == null) {
 			if (player.hasSlayerTask())
-				player.startConversation(new EnchantedGemD(), player.getSlayer().getMaster());
+				player.startConversation(new EnchantedGemD(player, player.getSlayer().getMaster()));
 			else
 				player.sendMessage("You have no task currently.");
 		} else

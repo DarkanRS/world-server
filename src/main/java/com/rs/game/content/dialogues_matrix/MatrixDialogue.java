@@ -52,7 +52,7 @@ public abstract class MatrixDialogue {
 	public abstract void finish();
 
 	protected final void end() {
-		player.getDialogueManager().finishDialogue();
+		
 	}
 
 	protected static final short SEND_1_TEXT_INFO = 210;

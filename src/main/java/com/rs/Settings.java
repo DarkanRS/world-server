@@ -132,7 +132,7 @@ public final class Settings {
 		}
 		try {
 			String line;
-			Process proc = Runtime.getRuntime().exec("git log -n 1");
+			Process proc = Runtime.getRuntime().exec(new String[] { "git log -n 1" });
 			BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			boolean markMsg = false;
 			while ((line = in.readLine()) != null) {

@@ -203,7 +203,7 @@ public final class Launcher {
 		CoresManager.execute(() -> {
 			try {
 				String line;
-				Process proc = Runtime.getRuntime().exec(cmd);
+				Process proc = Runtime.getRuntime().exec(new String[] { cmd });
 				BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 				while ((line = in.readLine()) != null) {
 					if (player != null)

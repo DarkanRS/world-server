@@ -16,51 +16,33 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.controllers.WarriorsGuild;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 
-public class ShotputD extends MatrixDialogue {
+public class ShotputD extends Conversation {
 
-	private boolean is18LB;
-
-	@Override
-	public void start() {
-		is18LB = (boolean) parameters[0];
-		player.setNextAnimation(new Animation(827));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				sendOptionsDialogue("What would you like to do?", "Standing Throw.", "Step and throw.", "Spin and throw.");
-			}
-		});
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		Controller controller = player.getControllerManager().getController();
-		if (controller == null || !(controller instanceof WarriorsGuild currentGuild)) {
-			end();
+	public ShotputD(Player player, boolean is18LB) {
+		super(player);
+		WarriorsGuild controller = player.getControllerManager().getController(WarriorsGuild.class);
+		if (controller == null)
 			return;
-		}
-		if (componentId == OPTION_1) {
-			currentGuild.prepareShotput((byte) 0, is18LB);
-			player.setNextAnimation(new Animation(15079));
-		} else if (componentId == OPTION_2) {
-			currentGuild.prepareShotput((byte) 1, is18LB);
-			player.setNextAnimation(new Animation(15080));
-		} else {
-			currentGuild.prepareShotput((byte) 2, is18LB);
-			player.setNextAnimation(new Animation(15078));
-		}
-		end();
-	}
-
-	@Override
-	public void finish() {
-
+		player.setNextAnimation(new Animation(827));
+		
+		addOptions(ops -> {
+			ops.add("Standing Throw.", () -> {
+				controller.prepareShotput((byte) 0, is18LB);
+				player.setNextAnimation(new Animation(15079));
+			});
+			ops.add("Step and throw.", () -> {
+				controller.prepareShotput((byte) 1, is18LB);
+				player.setNextAnimation(new Animation(15080));
+			});
+			ops.add("Spin and throw.", () -> {
+				controller.prepareShotput((byte) 2, is18LB);
+				player.setNextAnimation(new Animation(15078));
+			});
+		});
 	}
 }

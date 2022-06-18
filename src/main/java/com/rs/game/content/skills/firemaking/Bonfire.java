@@ -107,7 +107,7 @@ public class Bonfire extends PlayerAction {
 		else if (logs.length == 1)
 			player.getActionManager().setAction(new Bonfire(logs[0], object));
 		else
-			player.startConversation(new BonfireD(), logs, object);
+			player.startConversation(new BonfireD(player, object, logs));
 	}
 
 	@Override

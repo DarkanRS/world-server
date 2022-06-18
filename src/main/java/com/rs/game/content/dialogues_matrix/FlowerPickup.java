@@ -17,41 +17,27 @@
 package com.rs.game.content.dialogues_matrix;
 
 import com.rs.game.World;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 
-public class FlowerPickup extends MatrixDialogue {
+public class FlowerPickup extends Conversation {
 
-	GameObject flowerObject;
-	int flowerId;
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
-	}
-
-	@Override
-	public void start() {
-		flowerObject = (GameObject) parameters[0];
-		flowerId = (int) parameters[1];
-		sendOptionsDialogue("What do you want to do with the flowers?", "Pick", "Leave them");
-		stage = 1;
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 1) {
-			if (componentId == 11) {
+	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+		super(player);
+		addOptions("What do you want to do with the flowers?", ops -> {
+			ops.add("Pick", () -> {
 				player.setNextAnimation(new Animation(827));
 				player.getInventory().addItem(getFlowerId(flowerId), 1);
 				player.getInventory().refresh();
 				World.removeObject(flowerObject);
-			}
-			end();
-		}
+			});
+			ops.add("Leave them");
+		});
 	}
 
-	@Override
-	public void finish() {
-
+	public int getFlowerId(int objectId) {
+		return 2460 + ((objectId - 2980) * 2);
 	}
 }

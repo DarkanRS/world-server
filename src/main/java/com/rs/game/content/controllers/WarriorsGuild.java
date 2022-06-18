@@ -223,7 +223,7 @@ public class WarriorsGuild extends Controller {
 				player.simpleDialogue("You must have both your hands free in order to throw a shotput.");
 				return false;
 			}
-			player.startConversation(new ShotputD(), object.getId() == 15664);
+			player.startConversation(new ShotputD(player, object.getId() == 15664));
 			return false;
 		} else if (object.getId() == 15647 || object.getId() == 15641 || object.getId() == 15644) {
 			player.lock(2);
@@ -298,7 +298,7 @@ public class WarriorsGuild extends Controller {
 						player.addWalkSteps(player.getX(), player.getY() + 3);
 					} else if (ticks == 3) {
 						player.faceObject(object);
-						player.getDialogueManager().finishDialogue();
+						player.endConversation();
 					} else if (ticks == 5) {
 						AnimatedArmor npc = new AnimatedArmor(player, 4278 + finalIndex, object, -1, true);
 						npc.setRun(false);

@@ -16,10 +16,13 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
+import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.model.entity.player.Player;
 
-public class DungeoneeringRCD extends MatrixDialogue {
+public class DungeoneeringRCD extends Conversation {
 
 	public static final int[][] RUNES = {
 			{ 17780, 17781, 17782, 17783 }, //Elemental 0
@@ -27,6 +30,11 @@ public class DungeoneeringRCD extends MatrixDialogue {
 			{ 17788, 17789, 17790, 17791, 17792 }, //Other 2
 			{ 16997, 17001, 17005, 17009, 17013, 16999, 17003, 17007, 17011, 17015 } //Staves 3
 	};
+	
+	public DungeoneeringRCD(Player player) {
+		super(player);
+		
+	}
 
 	@Override
 	public void start() {
@@ -38,7 +46,7 @@ public class DungeoneeringRCD extends MatrixDialogue {
 		if (type == 0)
 			sendOptionsDialogue("What would you like to make?", "Runes", "Staves");
 		else
-			MakeXStatement.sendSkillsDialogue(player, MakeXStatement.MAKE_INTERVAL, "Which item would you like to make?", 0, RUNES[type-1], null);
+			MakeXStatement.sendSkillsDialogue(player, MakeXType.MAKE_INTERVAL, "Which item would you like to make?", 0, RUNES[type-1], null);
 		stage = (byte) (type + 1);
 	}
 
