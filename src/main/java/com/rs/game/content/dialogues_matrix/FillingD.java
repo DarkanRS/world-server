@@ -26,7 +26,7 @@ public class FillingD extends Conversation {
 	public FillingD(Player player, Filler filler) {
 		super(player);
 		
-		addNext(new MakeXStatement(new int[] { filler.getFilledItem().getId() }));
+		addNext(new MakeXStatement(new int[] { filler.getFilledItem().getId() }, player.getInventory().getAmountOf(filler.getEmptyItem().getId())));
 		addNext(() -> player.getActionManager().setAction(new FillAction(MakeXStatement.getQuantity(player), filler)));
 	}
 }

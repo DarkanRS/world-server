@@ -39,7 +39,7 @@ public class GlassBlowing  {
 	public static ItemOnItemHandler blowGlass = new ItemOnItemHandler(GLASSBLOWING_PIPE, new int[] { MOLTEN_GLASS, ROBUST_GLASS }) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 

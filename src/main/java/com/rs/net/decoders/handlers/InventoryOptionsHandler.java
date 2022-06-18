@@ -26,7 +26,6 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Lamps;
 import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.content.dialogue.impl.DestroyItem;
-import com.rs.game.content.dialogues_matrix.AncientEffigiesD;
 import com.rs.game.content.dialogues_matrix.FletchingD;
 import com.rs.game.content.dialogues_matrix.FlowerPickup;
 import com.rs.game.content.dialogues_matrix.ItemMessage;

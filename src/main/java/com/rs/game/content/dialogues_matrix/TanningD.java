@@ -63,7 +63,7 @@ public class TanningD extends Conversation {
 			return;
 		}
 		
-		Dialogue makeX = addNext(new MakeXStatement(MakeXType.MAKE, 28, "How many hides would you like to tan?<br>Choose a number, then click the hide to begin.", craftable.stream().mapToInt(leather -> leather.tanned).toArray()));
+		Dialogue makeX = addNext(new MakeXStatement(MakeXType.MAKE, "How many hides would you like to tan?<br>Choose a number, then click the hide to begin.", craftable.stream().mapToInt(leather -> leather.tanned).toArray(), 28));
 		
 		for (Leather leather : craftable) {
 			makeX.addNext(() -> {

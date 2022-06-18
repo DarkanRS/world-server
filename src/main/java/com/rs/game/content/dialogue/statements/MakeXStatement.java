@@ -59,10 +59,6 @@ public class MakeXStatement implements Statement {
 		this.items = items;
 		this.options = options;
 	}
-	
-	public MakeXStatement(MakeXType type, int maxQuantity, String question, int[] items) {
-		this(type, maxQuantity, question, items, null);
-	}
 
 	public MakeXStatement(MakeXItem[] items, int maxQuantity) {
 		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", null, null);
@@ -70,6 +66,10 @@ public class MakeXStatement implements Statement {
 		for (int i = 0;i < items.length;i++)
 			itemIds[i] = items[i].getItemId();
 		this.items = itemIds;
+	}
+	
+	public MakeXStatement(MakeXType type, String question, int[] items, int maxQuantity) {
+		this(type, maxQuantity, question, items, null);
 	}
 	
 	public MakeXStatement(String question, int[] items, int maxQuantity) {

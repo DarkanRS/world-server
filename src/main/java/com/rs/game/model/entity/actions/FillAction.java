@@ -40,7 +40,7 @@ public class FillAction extends PlayerAction {
 		public void handle(ItemOnObjectEvent e) {
 			Filler fill = FillAction.isFillable(e.getItem());
 			if (fill != null)
-				e.getPlayer().startConversation(new FillingD(), fill);
+				e.getPlayer().startConversation(new FillingD(e.getPlayer(), fill));
 		}
 	};
 

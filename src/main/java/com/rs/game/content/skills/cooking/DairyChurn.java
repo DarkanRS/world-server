@@ -34,7 +34,7 @@ public class DairyChurn  {
 	public static ObjectClickHandler handleChurns = new ObjectClickHandler(new Object[] { "Dairy churn", "Dairy Churn" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.COOKING, 8));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.COOKING, 8));
 		}
 	};
 }

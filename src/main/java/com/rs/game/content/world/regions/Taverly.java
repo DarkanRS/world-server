@@ -295,9 +295,7 @@ public class Taverly {
 								option("I need crafting supplies", () -> {
 									ShopsHandler.openShop(e.getPlayer(), "jack_crafting_shop");
 								});
-								option("I need you to tan some leather for me.", () -> {
-									e.getPlayer().startConversation(new TanningD(), e.getNPCId());
-								});
+								option("I need you to tan some leather for me.", () -> e.getPlayer().startConversation(new TanningD(e.getPlayer(), false)));
 								option("farewell");
 							}
 						});
@@ -305,7 +303,7 @@ public class Taverly {
 					}
 				});
 			if (option == 4)
-				e.getPlayer().startConversation(new TanningD(), e.getNPCId());
+				e.getPlayer().startConversation(new TanningD(e.getPlayer(), false));
 			if (option == 5)
 				ShopsHandler.openShop(e.getPlayer(), "jack_crafting_shop");
 		}

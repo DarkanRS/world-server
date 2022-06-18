@@ -35,7 +35,7 @@ public class SnakeskinCrafting  {
 	public static ItemOnItemHandler craft = new ItemOnItemHandler(6287, 1733) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 }

@@ -762,7 +762,7 @@ public class DungeonController extends Controller {
 			player.startConversation(new DungeonExit(), this);
 			return false;
 		case "water trough":
-			player.startConversation(new CreateActionD(new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
+			player.startConversation(new CreateActionD(player, new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
 			return false;
 		case "salve nettles":
 			DungeoneeringFarming.initHarvest(player, Harvest.SALVE_NETTLES, object);
@@ -871,7 +871,7 @@ public class DungeonController extends Controller {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING);
 			if (products == null || products.length <= 0)
 				return false;
-			player.startConversation(new CreationActionD(Category.DUNG_SPINNING, products, 883, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_SPINNING, products, 883, 2));
 			return false;
 		case "summoning obelisk":
 			Summoning.openInfusionInterface(player, true);
@@ -1032,7 +1032,7 @@ public class DungeonController extends Controller {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING, item.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.startConversation(new CreationActionD(Category.DUNG_SPINNING, item.getId(), 883, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_SPINNING, item.getId(), 883, 2));
 			return false;
 		}
 		return true;
@@ -1048,28 +1048,28 @@ public class DungeonController extends Controller {
 				products = ReqItem.getProducts(Category.DUNG_NEEDLE_CRAFTING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.startConversation(new CreationActionD(Category.DUNG_NEEDLE_CRAFTING, products[0].getMaterials()[0].getId(), -1, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_NEEDLE_CRAFTING, products[0].getMaterials()[0].getId(), -1, 2));
 		} else if (itemUsed.getId() == 17752 || usedWith.getId() == 17752) {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_BOWSTRINGING, usedWith.getId());
 			if (products == null || products.length <= 0)
 				products = ReqItem.getProducts(Category.DUNG_BOWSTRINGING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.startConversation(new CreationActionD(Category.DUNG_BOWSTRINGING, products[0].getMaterials()[0].getId(), -1, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_BOWSTRINGING, products[0].getMaterials()[0].getId(), -1, 2));
 		} else if (itemUsed.getId() == 17754 || usedWith.getId() == 17754) {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_KNIFE_FLETCHING, usedWith.getId());
 			if (products == null || products.length <= 0)
 				products = ReqItem.getProducts(Category.DUNG_KNIFE_FLETCHING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.startConversation(new CreationActionD(Category.DUNG_KNIFE_FLETCHING, products[0].getMaterials()[0].getId(), -1, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_KNIFE_FLETCHING, products[0].getMaterials()[0].getId(), -1, 2));
 		} else if (itemUsed.getId() == 17742 || usedWith.getId() == 17742 || itemUsed.getId() == 17747 || usedWith.getId() == 17747) {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_ARROW_COMBINING, usedWith.getId());
 			if (products == null || products.length <= 0)
 				products = ReqItem.getProducts(Category.DUNG_ARROW_COMBINING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.startConversation(new CreationActionD(Category.DUNG_ARROW_COMBINING, products[0].getMaterials()[1].getId(), -1, 1));
+			player.startConversation(new CreationActionD(player, Category.DUNG_ARROW_COMBINING, products[0].getMaterials()[1].getId(), -1, 1));
 		}
 		return true;
 	}

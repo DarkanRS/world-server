@@ -35,7 +35,7 @@ public class Weaving  {
 	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Loom" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 }

@@ -16,30 +16,20 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
-import com.rs.game.content.SkillsDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.content.skills.crafting.GemCutting;
 import com.rs.game.content.skills.crafting.GemCutting.Gem;
+import com.rs.game.model.entity.player.Player;
 
-public class GemCuttingD extends MatrixDialogue {
+public class GemCuttingD extends Conversation {
 
-	private Gem gem;
-
-	@Override
-	public void start() {
-		gem = (Gem) parameters[0];
-		SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.CUT, "Choose how many you wish to cut,<br>then click on the item to begin.", player.getInventory().getItems().getNumberOf(gem.getUncut()), new int[] { gem.getUncut() }, null);
-
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		player.getActionManager().setAction(new GemCutting(gem, SkillsDialogue.getQuantity(player)));
-		end();
-	}
-
-	@Override
-	public void finish() {
-
+	public GemCuttingD(Player player, Gem gem) {
+		super(player);
+		
+		addNext(new MakeXStatement(MakeXType.CUT, "Choose how many you wish to cut,<br>then click on the item to begin.", new int[] { gem.getUncut() }, player.getInventory().getAmountOf(gem.getUncut())));
+		addNext(() -> player.getActionManager().setAction(new GemCutting(gem, MakeXStatement.getQuantity(player))));
 	}
 
 }

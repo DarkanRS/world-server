@@ -452,7 +452,7 @@ public class HouseController extends Controller {
 		if (Builds.SINK.containsObject(object)) {
 			Filler fill = FillAction.isFillable(item);
 			if (fill != null)
-				player.startConversation(new FillingD(), fill);
+				player.startConversation(new FillingD(player, fill));
 		} else if (HouseConstants.Builds.STOVE.containsObject(object)) {
 			if (item.getId() == 7690) {
 				player.getInventory().deleteItem(7690, 1);
@@ -463,7 +463,7 @@ public class HouseController extends Controller {
 			}
 			final Cookables cook = Cooking.isCookingSkill(item);
 			if (cook != null) {
-				player.startConversation(new CookingD(), cook, object);
+				player.startConversation(new CookingD(player, cook, object));
 				return false;
 			}
 			player.simpleDialogue("You can't cook that on a " + (object.getDefinitions().getName().equals("Fire") ? "fire" : "range") + ".");

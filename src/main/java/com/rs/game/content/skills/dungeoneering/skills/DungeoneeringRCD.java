@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
+import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 
 public class DungeoneeringRCD extends MatrixDialogue {
@@ -37,7 +38,7 @@ public class DungeoneeringRCD extends MatrixDialogue {
 		if (type == 0)
 			sendOptionsDialogue("What would you like to make?", "Runes", "Staves");
 		else
-			SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.MAKE_INTERVAL, "Which item would you like to make?", 0, RUNES[type-1], null);
+			MakeXStatement.sendSkillsDialogue(player, MakeXStatement.MAKE_INTERVAL, "Which item would you like to make?", 0, RUNES[type-1], null);
 		stage = (byte) (type + 1);
 	}
 
@@ -46,8 +47,8 @@ public class DungeoneeringRCD extends MatrixDialogue {
 		if (stage == 1)
 			sendRCOptions(componentId == OPTION_1 ? 1 : 4);
 		else if (stage >= 2 && stage <= 5) {
-			int option = SkillsDialogue.getItemSlot(componentId);
-			int quantity = SkillsDialogue.getQuantity(player);
+			int option = MakeXStatement.getItemSlot(componentId);
+			int quantity = MakeXStatement.getQuantity(player);
 			if (stage == 2) {
 				if (option == 0)
 					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 1, .10, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10));

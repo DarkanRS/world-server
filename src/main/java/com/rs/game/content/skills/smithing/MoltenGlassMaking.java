@@ -41,7 +41,7 @@ public class MoltenGlassMaking {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if (e.getItem().getId() == SODA_ASH || e.getItem().getId() == BUCKET_OF_SAND)
-				e.getPlayer().startConversation(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 }
