@@ -709,8 +709,6 @@ public class Player extends Entity {
 		if (machineMap == null)
 			machineMap = new HashMap<>();
 		updateMachineIPs();
-		for(int i = 0; i < 25; i++)
-			getSkills().setXp(i, (i == 24 ? Utils.random(10, 105_000_000) : Utils.random(10, 13_000_000)));
 	}
 
 	public void updateMachineIPs() {
