@@ -79,7 +79,6 @@ import com.rs.utils.music.Song;
 import com.rs.utils.music.Voices;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
-import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 
 @PluginEventHandler

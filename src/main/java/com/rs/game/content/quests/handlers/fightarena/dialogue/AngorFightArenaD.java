@@ -4,14 +4,11 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-
-import static com.rs.game.content.quests.handlers.fightarena.FightArena.*;
 
 @PluginEventHandler
 public class AngorFightArenaD extends Conversation {

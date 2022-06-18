@@ -1,16 +1,18 @@
 package com.rs.game.content.quests.handlers.fightarena;
 
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+
+import java.util.ArrayList;
+
 import com.rs.game.content.controllers.FightArenaFightCutsceneController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.QuestHandler;
 import com.rs.game.content.quests.QuestOutline;
-import com.rs.game.content.quests.handlers.CooksAssistant;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.LoginEvent;
@@ -20,11 +22,6 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.Ticks;
-
-import java.util.ArrayList;
-
-import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.FIGHT_ARENA)
 @PluginEventHandler
