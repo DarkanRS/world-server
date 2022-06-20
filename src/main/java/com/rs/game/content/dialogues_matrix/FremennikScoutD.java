@@ -16,38 +16,24 @@
 //
 package com.rs.game.content.dialogues_matrix;
 
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.Fletching;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FremennikCampRoom;
+import com.rs.game.model.entity.player.Player;
 
-public class FremennikScoutD extends MatrixDialogue {
+public class FremennikScoutD extends Conversation {
 
-	@Override
-	public void start() {
-		PuzzleRoom room = (PuzzleRoom) parameters[0];
+	public FremennikScoutD(Player player, PuzzleRoom room) {
+		super(player);
 		if (room.isComplete()) {
-			sendNPCDialogue(FremennikCampRoom.FREMENNIK_SCOUT, NORMAL, "Wonderful! That was the last of them. As promised, I'll unlock the door for you.");
-			stage = 100;
-		} else {
-			sendNPCDialogue(FremennikCampRoom.FREMENNIK_SCOUT, NORMAL, "Need some tools?");
-			stage = 1;
+			addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CHEERFUL_EXPOSITION, "Wonderful! That was the last of them. As promised, I'll unlock the door for you.");
+			create();
+			return;
 		}
+		addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CONFUSED, "Need some tools?");
+		addItem(Fletching.DUNGEONEERING_KNIFE, "The scout hands you a knife.", () -> player.getInventory().addItem(Fletching.DUNGEONEERING_KNIFE, 1));
+		create();
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 1) {
-			if (!player.getInventory().containsItem(Fletching.DUNGEONEERING_KNIFE))
-				player.getInventory().addItem(Fletching.DUNGEONEERING_KNIFE, 1);
-			stage = 100;
-		}
-		if (stage == 100)
-			end();
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

@@ -101,14 +101,14 @@ public class FremennikCampRoom extends PuzzleRoom {
 	public void advance(Player player) {
 		if (++stage == 3) {
 			setComplete();
-			player.startConversation(new FremennikScoutD(), this);
+			player.startConversation(new FremennikScoutD(player, this));
 		}
 	}
 
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
 		if (npc.getId() == FREMENNIK_SCOUT) {
-			player.startConversation(new FremennikScoutD(), this);
+			player.startConversation(new FremennikScoutD(player, this));
 			return false;
 		}
 		return true;
