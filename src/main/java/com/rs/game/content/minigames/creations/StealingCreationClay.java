@@ -14,26 +14,18 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.minigames.creations;
 
-public class SimplePlayerMessage extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 
-	@Override
-	public void start() {
-		String[] messages = new String[parameters.length];
-		for (int i = 0; i < messages.length; i++)
-			messages[i] = (String) parameters[i];
-		sendPlayerDialogue(9827, messages);
+public class StealingCreationClay extends Conversation {
+
+	public StealingCreationClay(Player player) {
+		super(player);
+		addOptions("Select a class.", ops -> {
+			for (int i = 0;i < 5;i++)
+				ops.add("Class " + (i + 1)); //TODO 14182 + (i*2)
+		});
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		end();
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

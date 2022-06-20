@@ -14,26 +14,23 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.minigames.creations;
 
-public class SimpleMessage extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 
-	@Override
-	public void start() {
-		String[] messages = new String[parameters.length];
-		for (int i = 0; i < messages.length; i++)
-			messages[i] = (String) parameters[i];
-		sendDialogue(messages);
+public class StealingCreationMagic extends Conversation {
+
+	public StealingCreationMagic(Player player) {
+		super(player);
+		
+		addOptions("Select a magical weapon.", ops -> {
+			ops.add("Magic staff").addOptions(staves -> {
+				for (int i = 0;i < 5;i++)
+					staves.add("Class " + (i + 1)); //TODO 14377 + (i*2)
+			});
+			ops.add("Elemental rune", () -> player.sendInputInteger("How many do you want to request?", num -> { /* TODO 12850 */}));
+			ops.add("Catalytic rune", () -> player.sendInputInteger("How many do you want to request?", num -> { /* TODO 12851 */}));
+		});
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		end();
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

@@ -21,7 +21,6 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.dialogues_matrix.ForfeitDialouge;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.Entity;
@@ -421,7 +420,10 @@ public class DuelArenaController extends Controller {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
-		player.startConversation(new ForfeitDialouge());
+		player.sendOptionDialogue("Forfeit Duel?", ops -> {
+			ops.add("Yes.", () -> { if (!player.getLastDuelRules().getRule(7)) endDuel(player.getLastDuelRules().getTarget(), player); else player.simpleDialogue("You can't forfeit during this duel."); });
+			ops.add("No.");
+		});
 		return true;
 	}
 
