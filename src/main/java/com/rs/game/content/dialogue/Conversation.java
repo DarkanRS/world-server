@@ -330,6 +330,8 @@ public class Conversation {
 	}
 	
 	public void process(int opIndex) {
+		if (current != null)
+			current.close(player);
 		current = current.getNext(opIndex);
 		if (current == null) {
 			player.endConversation();

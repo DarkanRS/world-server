@@ -174,4 +174,9 @@ public class MakeXStatement implements Statement {
 		return player.getVars().getVarBit(8095);
 	}
 
+	@Override
+	public void close(Player player) {
+		
+	}
+
 }

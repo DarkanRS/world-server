@@ -341,4 +341,9 @@ public class Dialogue {
 		conversation.addStage(stageName, copy);
 		return this;
 	}
+
+	public void close(Player player) {
+		if (statement != null)
+			statement.close(player);
+	}
 }

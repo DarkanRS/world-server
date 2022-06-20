@@ -64,8 +64,8 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFarming.Harv
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining.DungeoneeringRocks;
-import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD.DungRCSet;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD;
+import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD.DungRCSet;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringSmithing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringTraps;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringWoodcutting;

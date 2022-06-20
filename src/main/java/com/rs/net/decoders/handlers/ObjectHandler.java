@@ -1045,6 +1045,11 @@ public final class ObjectHandler {
 
 					@Override
 					public int getOptionId(int componentId) { return componentId == 19 ? 1 : 2; }
+
+					@Override
+					public void close(Player player) {
+						
+					}
 				}).addNext(() -> {
 					player.stopAll();
 					player.lock(4);

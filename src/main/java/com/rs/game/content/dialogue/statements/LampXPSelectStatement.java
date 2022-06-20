@@ -60,4 +60,9 @@ public class LampXPSelectStatement implements Statement {
         }
         return id;
     }
+
+	@Override
+	public void close(Player player) {
+		player.closeInterfaces();
+	}
 }
