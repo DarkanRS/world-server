@@ -16,85 +16,92 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
+import java.util.Arrays;
+
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
 import com.rs.game.model.entity.player.Player;
 
 public class DungeoneeringRCD extends Conversation {
-
-	public static final int[][] RUNES = {
-			{ 17780, 17781, 17782, 17783 }, //Elemental 0
-			{ 17784, 17785, 17786, 17787 }, //Combat 1
-			{ 17788, 17789, 17790, 17791, 17792 }, //Other 2
-			{ 16997, 17001, 17005, 17009, 17013, 16999, 17003, 17007, 17011, 17015 } //Staves 3
-	};
 	
-	public DungeoneeringRCD(Player player) {
+	public enum DungRCRune {
+		AIR(17780, 1, .10, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10),
+		WATER(17781, 5, .12, 19, 2, 38, 3, 57, 4, 76, 5, 95, 6),
+		EARTH(17782, 9, .13, 26, 2, 52, 3, 78, 4),
+		FIRE(17783, 14, .14, 35, 2, 70, 3),
+		
+		MIND(17784, 2, .11, 14, 2, 28, 3, 42, 4, 56, 5, 70, 6, 84, 7, 98, 8),
+		CHAOS(17785, 35, .17, 74, 2),
+		DEATH(17786, 65, .20, 74, 2),
+		BLOOD(17787, 77, .21),
+		
+		BODY(17788, 20, .15, 46, 2, 92, 3),
+		COSMIC(17789, 27, .16, 59, 2),
+		ASTRAL(17790, 40, .174, 82, 2),
+		NATURE(17791, 44, .18, 91, 2),
+		LAW(17792, 54, .19);
+		
+		int runeId;
+		int level;
+		double xp;
+		int[] multipliers;
+		
+		private DungRCRune(int runeId, int level, double xp, int... multipliers) {
+			this.runeId = runeId;
+			this.level = level;
+			this.xp  = xp;
+			this.multipliers = multipliers;
+		}
+	}
+	
+	public enum DungRCSet {
+		ELEMENTAL(DungRCRune.AIR, DungRCRune.WATER, DungRCRune.EARTH, DungRCRune.FIRE),
+		COMBAT(DungRCRune.MIND, DungRCRune.CHAOS, DungRCRune.DEATH, DungRCRune.BLOOD),
+		OTHER(DungRCRune.BODY, DungRCRune.COSMIC, DungRCRune.ASTRAL, DungRCRune.NATURE, DungRCRune.LAW),
+		STAVES();
+
+		private DungRCRune[] runes;
+		
+		DungRCSet(DungRCRune... runes) {
+			this.runes = runes;
+		}
+	}
+	
+	static final int[] STAVES = { 16997, 17001, 17005, 17009, 17013, 16999, 17003, 17007, 17011, 17015 };
+	
+	public DungeoneeringRCD(Player player, DungRCSet set) {
 		super(player);
 		
-	}
-
-	@Override
-	public void start() {
-		int type = (int) parameters[0];
-		sendRCOptions(type);
-	}
-
-	private void sendRCOptions(int type) {
-		if (type == 0)
-			sendOptionsDialogue("What would you like to make?", "Runes", "Staves");
-		else
-			MakeXStatement.sendSkillsDialogue(player, MakeXType.MAKE_INTERVAL, "Which item would you like to make?", 0, RUNES[type-1], null);
-		stage = (byte) (type + 1);
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 1)
-			sendRCOptions(componentId == OPTION_1 ? 1 : 4);
-		else if (stage >= 2 && stage <= 5) {
-			int option = MakeXStatement.getItemSlot(componentId);
-			int quantity = MakeXStatement.getQuantity(player);
-			if (stage == 2) {
-				if (option == 0)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 1, .10, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10));
-				else if (option == 1)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 5, .12, 19, 2, 38, 3, 57, 4, 76, 5, 95, 6));
-				else if (option == 2)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 9, .13, 26, 2, 52, 3, 78, 4));
-				else if (option == 3)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[0][option], 14, .14, 35, 2, 70, 3));
-			} else if (stage == 3) {
-				if (option == 0)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[1][option], 2, .11, 14, 2, 28, 3, 42, 4, 56, 5, 70, 6, 84, 7, 98, 8));
-				else if (option == 1)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[1][option], 35, .17, 74, 2));
-				else if (option == 2)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[1][option], 35, .20, 74, 2));
-				else if (option == 3)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[1][option], 77, .21));
-			} else if (stage == 4) {
-				if (option == 0)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[2][option], 20, .15, 46, 2, 92, 3));
-				else if (option == 1)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[2][option], 27, .16, 59, 2));
-				else if (option == 2)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[2][option], 40, .174, 82, 2));
-				else if (option == 3)
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[2][option], 45, .18, 91, 2));
-				else
-					player.getActionManager().setAction(new DungeoneeringRunecrafting(quantity, RUNES[2][option], 50, .19));
-			} else if (stage == 5)
-				player.getActionManager().setAction(new DungeoneeringStaves(option, quantity));
-			end();
+		if (set == DungRCSet.STAVES) {
+			addOptions("What would you like to make?", ops -> {
+				ops.add("Runes").addNext(addMakeOps(DungRCSet.ELEMENTAL));
+				ops.add("Staves").addNext(addMakeOps(null));
+			});
+			create();
+			return;
 		}
-
+		addNext(addMakeOps(set));
+		create();
 	}
 
-	@Override
-	public void finish() {
-
+	private Dialogue addMakeOps(DungRCSet set) {
+		Dialogue dialogue = new Dialogue();
+		if (set == null) {
+			dialogue = dialogue.addNext(new MakeXStatement(MakeXType.MAKE_INTERVAL, STAVES));
+			for (int i = 0;i < STAVES.length;i++) {
+				final int index = i;
+				dialogue.addNext(() -> player.getActionManager().setAction(new DungeoneeringStaves(index, MakeXStatement.getQuantity(player))));
+			}
+			return dialogue.getHead();
+		}
+		int[] items = Arrays.stream(set.runes).mapToInt(rune -> rune.runeId).toArray();
+		dialogue = dialogue.addNext(new MakeXStatement(MakeXType.MAKE_INTERVAL, items));
+		for (int i = 0;i < items.length;i++) {
+			final int index = i;
+			dialogue.addNext(() -> player.getActionManager().setAction(new DungeoneeringRunecrafting(MakeXStatement.getQuantity(player), set.runes[index].runeId, set.runes[index].level, set.runes[index].xp, set.runes[index].multipliers)));
+		}
+		return dialogue.getHead();
 	}
 }

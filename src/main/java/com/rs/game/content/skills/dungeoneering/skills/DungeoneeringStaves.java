@@ -69,7 +69,7 @@ public class DungeoneeringStaves extends PlayerAction {
 		player.setNextAnimation(new Animation(13662));
 
 		player.getInventory().deleteItem(new Item(stave, 1));
-		player.getInventory().addItem(new Item(DungeoneeringRCD.RUNES[3][index]));
+		player.getInventory().addItem(new Item(DungeoneeringRCD.STAVES[index]));
 
 		double experience = EXPERIENCE[index];
 		player.getSkills().addXp(Constants.RUNECRAFTING, experience);

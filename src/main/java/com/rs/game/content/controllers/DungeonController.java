@@ -64,6 +64,7 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFarming.Harv
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining.DungeoneeringRocks;
+import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD.DungRCSet;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringSmithing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringTraps;
@@ -864,7 +865,7 @@ public class DungeonController extends Controller {
 				}
 			return false;
 		case "runecrafting altar":
-			player.startConversation(new DungeoneeringRCD(), 0);
+			player.startConversation(new DungeoneeringRCD(player, null));
 			return false;
 		case "spinning wheel":
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING);
@@ -929,7 +930,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.startConversation(new DungeoneeringRCD(), 1);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.ELEMENTAL));
 			return false;
 		case "summoning obelisk":
 			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
@@ -960,7 +961,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.startConversation(new DungeoneeringRCD(), 2);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.COMBAT));
 			return false;
 		}
 		return true;
@@ -973,7 +974,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.startConversation(new DungeoneeringRCD(), 3);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.OTHER));
 			return false;
 		}
 		return true;
@@ -989,7 +990,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.startConversation(new DungeoneeringRCD(), 4);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.STAVES));
 			return false;
 		}
 		return true;

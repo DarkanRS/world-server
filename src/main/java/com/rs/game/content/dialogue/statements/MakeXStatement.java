@@ -71,6 +71,18 @@ public class MakeXStatement implements Statement {
 	public MakeXStatement(MakeXType type, String question, int[] items, int maxQuantity) {
 		this(type, maxQuantity, question, items, null);
 	}
+
+	public MakeXStatement(MakeXType type, int[] items, int maxQuantity) {
+		this(type, maxQuantity, "How many would you like to make?", items, null);
+	}
+
+	public MakeXStatement(MakeXType type, int[] items, String[] options) {
+		this(type, -1, "Select an item.", items, options);
+	}
+
+	public MakeXStatement(MakeXType type, int[] items) {
+		this(type, -1, "Select an item.", items, null);
+	}
 	
 	public MakeXStatement(String question, int[] items, int maxQuantity) {
 		this(MakeXType.MAKE, maxQuantity, question, items, null);
