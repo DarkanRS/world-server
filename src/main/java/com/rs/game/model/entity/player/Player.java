@@ -3761,6 +3761,8 @@ public class Player extends Entity {
 	public boolean startConversation(Conversation conversation) {
 		if (conversation.getCurrent() == null)
 			return false;
+		if (!conversation.isCreated())
+			conversation.create();
 		this.conversation = conversation;
 		this.conversation.setPlayer(this);
 		conversation.start();

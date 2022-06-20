@@ -14,30 +14,20 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.dialogues_matrix;
+package com.rs.game.content.minigames.pest;
 
-public class LanderDialouge extends MatrixDialogue {
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.player.Player;
 
-	@Override
-	public void start() {
-		sendDialogue("Are you sure you would like to leave the lander?");
+public class LanderD extends Conversation {
+
+	public LanderD(Player player) {
+		super(player);
+		
+		addSimple("Are you sure you would like to leave the lander?");
+		addOptions("Are you sure you would like to leave the lander?", ops -> {
+			ops.add("Yes, get me out of here!", () -> player.getControllerManager().forceStop());
+			ops.add("No, I want to stay.");
+		});
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == -1) {
-			stage = 0;
-			sendOptionsDialogue("Are you sure you would like to leave the lander?", "Yes, get me out of here!", "No, I want to stay.");
-		} else if (stage == 0) {
-			if (componentId == OPTION_1)
-				player.getControllerManager().forceStop();
-			end();
-		}
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

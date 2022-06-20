@@ -101,13 +101,13 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean processNPCClick1(NPC npc) {
-		if (npc instanceof ServantNPC) {
+		if (npc instanceof ServantNPC servant) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
 				player.simpleNPCDialogue(npc.getId(), HeadE.CALM_TALK, "Sorry, I only serve my master.");
 				return false;
 			}
-			player.startConversation(new ServantHouseD(), npc, false);
+			player.startConversation(new ServantHouseD(player, servant, false));
 			return false;
 		}
 		return true;
@@ -115,13 +115,13 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean processNPCClick2(NPC npc) {
-		if (npc instanceof ServantNPC) {
+		if (npc instanceof ServantNPC servant) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
 				player.simpleNPCDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
 			}
-			player.startConversation(new ServantHouseD(), npc, true);
+			player.startConversation(new ServantHouseD(player, servant, true));
 			return false;
 		}
 		return true;
@@ -135,7 +135,7 @@ public class HouseController extends Controller {
 				player.simpleNPCDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
 			}
-			player.startConversation(new ItemOnServantD(), npc, item.getId(), house.getServant().isSawmill());
+			player.startConversation(new ItemOnServantD(player, npc, item.getId(), house.getServant().isSawmill()));
 			return false;
 		}
 		return false;

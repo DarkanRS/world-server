@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.controllers;
 
-import com.rs.game.content.dialogues_matrix.LanderDialouge;
 import com.rs.game.content.minigames.pest.Lander;
+import com.rs.game.content.minigames.pest.LanderD;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -88,7 +88,7 @@ public final class PestControlLobbyController extends Controller {
 		case 14314:
 		case 25629:
 		case 25630:
-			player.startConversation(new LanderDialouge());
+			player.startConversation(new LanderD(player));
 			return true;
 		}
 		return true;

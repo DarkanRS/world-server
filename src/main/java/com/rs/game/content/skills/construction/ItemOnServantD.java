@@ -17,91 +17,62 @@
 package com.rs.game.content.skills.construction;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 
-public class ItemOnServantD extends MatrixDialogue {
+public class ItemOnServantD extends Conversation {
 
-	private ServantNPC servant;
-	private int item;
-
-	@Override
-	public void start() {
-		servant = (ServantNPC) parameters[0];
-		item = (int) parameters[1];
-		boolean procceed = false;
-		for (int[] element : HouseConstants.BANKABLE_ITEMS)
-			for (int bankable : element)
-				if (item == bankable) {
-					procceed = true;
-					break;
-				}
+	public ItemOnServantD(Player player, NPC servant, int item, boolean isSawmill) {
+		super(player);
+		boolean proceed = false;
+		for (int bankable : HouseConstants.BANKABLE_ITEMS) {
+			if (item == bankable) {
+				proceed = true;
+				break;
+			}
+		}
 		ItemDefinitions definition = ItemDefinitions.getDefs(item);
 		final int[] plank = SawmillOperator.getPlankForLog(item);
 		if (plank != null || definition.isNoted())
-			procceed = true;
-		if (!procceed) {
-			end();
+			proceed = true;
+		if (!proceed)
 			return;
-		}
 		int paymentStage = player.getHouse().getPaymentStage();
 		if (paymentStage == 1) {
-			sendNPCDialogue(servant.getId(), NORMAL, "Excuse me, but before I can continue working you must pay my fee.");
-			stage = 3;
+			addNPC(servant.getId(), HeadE.CALM_TALK, "Excuse me, but before I can continue working you must pay my fee.");
+			return;
 		}
 		String name = definition.getName().toLowerCase();
 
 		if (definition.isNoted()) {
-			sendOptionsDialogue("Un-cert this item?", "Un-cert " + name + ".", "Fetch another " + name + ".", "Bank", "Cancel");
-			stage = 0;
-		} else if ((boolean) parameters[2] && plank != null) {
-			sendOptionsDialogue("Take this to the sawmill?", "Take it to the sawmill.", "Bank", "Cancel");
-			stage = 2;
+			addOptions("Un-cert this item?", ops -> {
+				ops.add("Un-cert " + name + ".", () -> setFetchAttributes(2, item, "How many would you like to un-note?"));
+				ops.add("Fetch another " + name + ".", () -> setFetchAttributes(0, item, "How many would you like to retrieve?"));
+				ops.add("Bank", () -> setFetchAttributes(3, item, "How many would you like to bank?"));
+				ops.add("Cancel");
+			});
+		} else if (isSawmill && plank != null) {
+			addOptions("Take this to the sawmill?", ops -> {
+				ops.add("Take it to the sawmill.", () -> setFetchAttributes(1, item, "How many would you like to create?"));
+				ops.add("Bank", () -> setFetchAttributes(3, item, "How many would you like to bank?"));
+				ops.add("Cancel");
+			});
 		} else {
-			sendOptionsDialogue("Take this item to the bank?", "Fetch another " + name + ".", "Bank", "Cancel");
-			stage = 1;
+			addOptions("Take this item to the bank?", ops -> {
+				ops.add("Fetch another " + name + ".", () -> setFetchAttributes(0, item, "How many would you like to retrieve?"));
+				ops.add("Bank", () -> setFetchAttributes(3, item, "How many would you like to bank?"));
+				ops.add("Cancel");
+			});
 		}
 	}
 
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == 0) {
-			if (componentId == OPTION_1)
-				setFetchAttributes(2, "How many would you like to un-note?");
-			else if (componentId == OPTION_2)
-				setFetchAttributes(0, "How many would you like to retrieve?");
-			else if (componentId == OPTION_3)
-				setFetchAttributes(3, "How many would you like to bank?");
-			else
-				end();
-		} else if (stage == 1) {
-			if (componentId == OPTION_1)
-				setFetchAttributes(0, "How many would you like to retrieve?");
-			else if (componentId == OPTION_2)
-				setFetchAttributes(3, "How many would you like to bank?");
-			else
-				end();
-		} else if (stage == 2) {
-			if (componentId == OPTION_1)
-				setFetchAttributes(1, "How many would you like to create?");
-			else if (componentId == OPTION_2)
-				setFetchAttributes(3, "How many would you like to bank?");
-			else
-				end();
-		} else if (stage == 3)
-			end();
-	}
-
-	private void setFetchAttributes(int type, String title) {
+	private void setFetchAttributes(int type, int item, String title) {
 		player.sendInputInteger(title, amount -> {
 			if (!player.getHouse().isLoaded() || !player.getHouse().getPlayers().contains(player))
 				return;
 			player.getHouse().getServantInstance().requestType(item, amount, (byte) type);
 		});
-		end();
-	}
-
-	@Override
-	public void finish() {
-
 	}
 }

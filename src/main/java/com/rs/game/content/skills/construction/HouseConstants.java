@@ -37,10 +37,10 @@ public class HouseConstants {
 	public static final Builds[] TEA_BUILDS = { Builds.SHELVES, Builds.SINK, Builds.LARDER, Builds.KITCHEN_TABLE, Builds.STOVE };
 	public static final Builds[] DRINKS_BUILDS = { Builds.SHELVES, Builds.BARRELS };
 
-	public static final int[][] BANKABLE_ITEMS = {
-			{ PLANK, OAK_PLANK, TEAK_PLANK },
-			{ MAHOGANY_PLANK, SOFT_CLAY, LIMESTONE_BRICKS, STEEL_BAR },
-			{ BOLT_OF_CLOTH, GOLD_LEAF, MARBLE_BLOCK, MAGIC_STONE } };
+	public static final int[] BANKABLE_ITEMS = { 
+			PLANK, OAK_PLANK, TEAK_PLANK ,
+			MAHOGANY_PLANK, SOFT_CLAY, LIMESTONE_BRICKS, STEEL_BAR,
+			BOLT_OF_CLOTH, GOLD_LEAF, MARBLE_BLOCK, MAGIC_STONE };
 
 	public static enum Builds {
 		// GARDEN
