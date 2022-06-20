@@ -522,7 +522,7 @@ public class DungeonController extends Controller {
 		}
 		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			npc.faceEntity(player);
-			player.startConversation(new SmugglerD(), dungeon.getParty().getComplexity());
+			player.startConversation(new SmugglerD(player, dungeon.getParty().getComplexity()));
 			return false;
 		} else if (npc.getId() >= 11076 && npc.getId() <= 11085) {
 			DungeoneeringTraps.removeTrap(player, (MastyxTrap) npc, dungeon);
@@ -747,7 +747,7 @@ public class DungeonController extends Controller {
 				player.sendMessage("You have already voted to move on.");
 				return false;
 			}
-			player.startConversation(new DungeonClimbLadder(), this);
+			player.startConversation(new DungeonClimbLadder(player, this));
 			return false;
 		} else if (object.getId() == 53977 || object.getId() == 53978 || object.getId() == 53979) {
 			int type = object.getId() == 53977 ? 0 : object.getId() == 53979 ? 1 : 2;
@@ -759,7 +759,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "dungeon exit":
-			player.startConversation(new DungeonExit(), this);
+			player.startConversation(new DungeonExit(player, this));
 			return false;
 		case "water trough":
 			player.startConversation(new CreateActionD(player, new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
@@ -1111,7 +1111,7 @@ public class DungeonController extends Controller {
 			if (interfaceId == 933)
 				if (componentId >= 318 && componentId <= 322)
 					if (packet == ClientPacket.IF_OP2)
-						player.startConversation(new DungeonLeave(), this);
+						player.startConversation(new DungeonLeave(player, this));
 					else {
 						if (voteStage == 2)
 							return false;
