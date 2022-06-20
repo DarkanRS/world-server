@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.transportation;
 
-import com.rs.game.content.dialogues_matrix.Transportation;
+import com.rs.game.content.dialogue.impl.Transportation;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.HeroesGuild;
 import com.rs.game.model.entity.player.Equipment;

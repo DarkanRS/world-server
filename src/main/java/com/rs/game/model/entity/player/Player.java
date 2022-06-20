@@ -3635,15 +3635,15 @@ public class Player extends Entity {
 		startConversation(new Dialogue().addSimple(message));
 	}
 	
-	public void simpleNPCDialogue(int npcId, HeadE emote, String message) {
+	public void npcDialogue(int npcId, HeadE emote, String message) {
 		startConversation(new Dialogue().addNPC(npcId, emote, message));
 	}
 	
-	public void simpleItemDialogue(int itemId, String message) {
+	public void itemDialogue(int itemId, String message) {
 		startConversation(new Dialogue().addItem(itemId, message));
 	}
 	
-	public void simplePlayerDialogue(HeadE emote, String message) {
+	public void playerDialogue(HeadE emote, String message) {
 		startConversation(new Dialogue().addPlayer(emote, message));
 	}
 

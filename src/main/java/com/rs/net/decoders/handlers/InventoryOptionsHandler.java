@@ -25,15 +25,15 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Lamps;
 import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.content.dialogue.impl.DestroyItem;
-import com.rs.game.content.dialogues_matrix.FletchingD;
-import com.rs.game.content.dialogues_matrix.FlowerPickup;
-import com.rs.game.content.dialogues_matrix.LeatherCraftingD;
+import com.rs.game.content.dialogue.impl.FlowerPickup;
+import com.rs.game.content.dialogue.impl.LeatherCraftingD;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.game.content.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.content.skills.Fletching;
+import com.rs.game.content.skills.FletchingD;
 import com.rs.game.content.skills.Fletching.Fletch;
 import com.rs.game.content.skills.cooking.CookingCombos;
 import com.rs.game.content.skills.cooking.Foods;
@@ -658,7 +658,7 @@ public class InventoryOptionsHandler {
 								i.setId(20659);
 						}
 						player.getInventory().refresh();
-						player.simpleItemDialogue(1712, "Your ring of wealth and amulet of glory have all been recharged.");
+						player.itemDialogue(1712, "Your ring of wealth and amulet of glory have all been recharged.");
 					}
 			} else if (npc instanceof Pet p) {
 				player.faceEntity(npc);

@@ -16,28 +16,20 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
 
-public class FlowerPickup extends Conversation {
-
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+public class GrilleGoatsDialogue extends Conversation {
+	private static final int NPC = 3807;
+	public GrilleGoatsDialogue(Player player) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
-		});
-	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
+		addNPC(NPC, HeadE.CALM_TALK, "Tee hee! You have never milked a cow before, have you?");
+		addPlayer(HeadE.HAPPY_TALKING, "Erm... no. How could you tell?");
+		addNPC(NPC, HeadE.CALM_TALK, "Because you're spilling milk all over the floor. What a waste! \" + \"You need something to hold the milk.");
+		addPlayer(HeadE.HAPPY_TALKING, "Derp. Ah, yes, I really should have guessed that one, shouldn't I?");
+		addNPC(NPC, HeadE.CALM_TALK, "You're from the city, arent you? Try it again with an empty bucket.");
+		addPlayer(HeadE.HAPPY_TALKING, "Right, I'll do that.");
+		create();
 	}
 }

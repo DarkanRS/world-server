@@ -16,28 +16,26 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
+import com.rs.utils.shop.ShopsHandler;
 
-public class FlowerPickup extends Conversation {
+public class GeneralStore extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public GeneralStore(Player player, NPC npc, String shopName) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
+		
+		addNPC(npc.getId(), HeadE.CONFUSED, "Can I help you at all?");
+		addOptions(ops -> {
+			ops.add("Yes, please. What are you selling?", () -> ShopsHandler.openShop(player, shopName));
+			
+			ops.add("How should I use your shop?")
+				.addNPC(npc.getId(), HeadE.CHEERFUL, "I'm glad you ask! You can buy as many of the items stocked as you wish. The price of these items changes based on the amount in stock.")
+				.addNPC(npc.getId(), HeadE.CHEERFUL, "You can also sell most items to the shop and the price given will be based on the amount in stock.");
+				
+			ops.add("No, thanks.");
 		});
-	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
 	}
 }

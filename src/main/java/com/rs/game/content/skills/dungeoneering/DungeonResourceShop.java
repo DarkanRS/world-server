@@ -29,7 +29,7 @@ public class DungeonResourceShop {
 
 	public static void openResourceShop(final Player player, int complexity) {
 		if (complexity <= 1) {
-			player.simpleNPCDialogue(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Sorry, but I don't have anything to sell.");
+			player.npcDialogue(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Sorry, but I don't have anything to sell.");
 			return;
 		}
 		player.getPackets().sendVarc(1320, complexity);

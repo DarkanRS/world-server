@@ -844,7 +844,7 @@ public final class ObjectHandler {
 				player.useStairs(828, new WorldTile(2594, 3086, 0));
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? new WorldTile(2501, 2989, 0) : new WorldTile(2574, 3029, 0));
-				WorldTasks.schedule(() -> player.simplePlayerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));
+				WorldTasks.schedule(() -> player.playerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));
 			} else if (id == 2890 || id == 2892 || id == 2893) {
 
 				if (player.getEquipment().getWeaponId() != 975 && !player.getInventory().containsItem(975, 1) &&
@@ -898,13 +898,13 @@ public final class ObjectHandler {
 				player.useStairs(-1, new WorldTile(3058, 9776, 0), 0, 1);
 			else if (id == 2112 && object.getX() == 3046 && object.getY() == 9756) {
 				if (player.getSkills().getLevelForXp(Constants.MINING) < 60) {
-					player.simpleNPCDialogue(3294, HeadE.CHEERFUL, "Sorry, but you need level 60 Mining to go in there.");
+					player.npcDialogue(3294, HeadE.CHEERFUL, "Sorry, but you need level 60 Mining to go in there.");
 					return;
 				}
 				Doors.handleDoor(player, object);
 			} else if (id == 2113) {
 				if (player.getSkills().getLevelForXp(Constants.MINING) < 60) {
-					player.simpleNPCDialogue(3294, HeadE.CHEERFUL, "Sorry, but you need level 60 Mining to go in there.");
+					player.npcDialogue(3294, HeadE.CHEERFUL, "Sorry, but you need level 60 Mining to go in there.");
 					return;
 				}
 				player.useStairs(-1, new WorldTile(3021, 9739, 0), 0, 1);

@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import com.rs.game.content.dialogues_matrix.FremennikScoutD;
+import com.rs.game.content.dialogue.impl.FremennikScoutD;
 import com.rs.game.content.skills.Fletching;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;

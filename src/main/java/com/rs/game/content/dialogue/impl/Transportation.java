@@ -16,28 +16,26 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 
-public class FlowerPickup extends Conversation {
+public class Transportation extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public Transportation(Player player, Item item, int itemId, String... locations) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
+		
+		addOptions("Where would you like to teleport to?", ops -> {
+			for (int i = 0;i < locations.length;i++) {
+				final int index = i;
+				ops.add(locations[i], () -> {
+					if (item != null)
+						ItemTeleports.sendTeleport(player, item, index);
+					else
+						ItemTeleports.sendTeleport(player, player.getInventory().getItems().lookup(itemId), index, false, locations.length);
+				});
+			}
 		});
-	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
 	}
 }

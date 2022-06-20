@@ -153,7 +153,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 	}
 	public void talkTo(Player player) {
 		if (count < holeClosed.length || skeletons.size() > 0) {
-			player.simpleNPCDialogue(getId(), HeadE.CALM_TALK, "Chat later and kill the skeletons now, brah.");
+			player.npcDialogue(getId(), HeadE.CALM_TALK, "Chat later and kill the skeletons now, brah.");
 			return;
 		}
 		if (killedCount == Integer.MAX_VALUE)

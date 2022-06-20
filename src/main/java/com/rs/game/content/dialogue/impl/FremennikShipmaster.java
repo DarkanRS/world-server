@@ -16,28 +16,30 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
+import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
 
-public class FlowerPickup extends Conversation {
+public class FremennikShipmaster extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public FremennikShipmaster(Player player, int npcId, boolean backing) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
+		
+		addNPC(npcId, HeadE.CONFUSED, backing ? "Do you want a lift back to the south?" : "You want passage to Daemonheim?");
+		addOptions(ops -> {
+			ops.add("Yes, please.", () -> sail(player, backing));
+			ops.add("Not right now, thanks.");
 		});
+		create();
 	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
+	
+	public static void sail(Player player, boolean backing) {
+		player.useStairs(-1, backing ? new WorldTile(3254, 3171, 0) : new WorldTile(3511, 3692, 0), 2, 3);
+		if (backing)
+			player.getControllerManager().forceStop();
+		else
+			player.getControllerManager().startController(new DamonheimController());
 	}
 }

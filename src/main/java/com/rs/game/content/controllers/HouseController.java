@@ -22,7 +22,7 @@ import com.rs.game.content.PlayerLook;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogues_matrix.FillingD;
+import com.rs.game.content.dialogue.impl.FillingD;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.construction.House.ObjectReference;
@@ -104,7 +104,7 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC servant) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.simpleNPCDialogue(npc.getId(), HeadE.CALM_TALK, "Sorry, I only serve my master.");
+				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "Sorry, I only serve my master.");
 				return false;
 			}
 			player.startConversation(new ServantHouseD(player, servant, false));
@@ -118,7 +118,7 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC servant) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.simpleNPCDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
+				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
 			}
 			player.startConversation(new ServantHouseD(player, servant, true));
@@ -132,7 +132,7 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.simpleNPCDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
+				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
 			}
 			player.startConversation(new ItemOnServantD(player, npc, item.getId(), house.getServant().isSawmill()));

@@ -16,28 +16,20 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.game.content.skills.crafting.GemCutting;
+import com.rs.game.content.skills.crafting.GemCutting.Gem;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
 
-public class FlowerPickup extends Conversation {
+public class GemCuttingD extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public GemCuttingD(Player player, Gem gem) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
-		});
+		
+		addNext(new MakeXStatement(MakeXType.CUT, "Choose how many you wish to cut,<br>then click on the item to begin.", new int[] { gem.getUncut() }, player.getInventory().getAmountOf(gem.getUncut())));
+		addNext(() -> player.getActionManager().setAction(new GemCutting(gem, MakeXStatement.getQuantity(player))));
 	}
 
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
-	}
 }

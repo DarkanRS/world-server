@@ -16,28 +16,23 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
+import com.rs.game.content.controllers.NexController;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.model.entity.npc.godwars.zaros.NexArena;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
+import com.rs.lib.game.WorldTile;
 
-public class FlowerPickup extends Conversation {
+public class NexEntrance extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public NexEntrance(NexArena arena, Player player) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
-		});
-	}
 
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
+		addSimple("The room beyond this point is a prison! There is no way out other than death or teleport. Only those who endure dangerous encounters should proceed.");
+		addOption("There are currently " + arena.getPlayersCount() + " people fighting.<br>Do you wish to join them?", "Climb down.", "Stay here.");
+		addNext(() -> {
+			player.setNextWorldTile(new WorldTile(2911, 5204, 0));
+			player.getControllerManager().startController(new NexController(arena));
+		});
+		create();
 	}
 }

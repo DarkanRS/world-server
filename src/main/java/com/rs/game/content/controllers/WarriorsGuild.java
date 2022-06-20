@@ -25,11 +25,11 @@ import com.rs.game.content.combat.XPType;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.impl.Shanomi;
+import com.rs.game.content.dialogue.impl.ShotputD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
-import com.rs.game.content.dialogues_matrix.KamfreendaDefender;
-import com.rs.game.content.dialogues_matrix.Shanomi;
-import com.rs.game.content.dialogues_matrix.ShotputD;
 import com.rs.game.content.minigames.wguild.AnimatedArmor;
+import com.rs.game.content.minigames.wguild.KamfreendaDefender;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -217,7 +217,7 @@ public class WarriorsGuild extends Controller {
 		} else if (object.getId() == 15664 || object.getId() == 15665) {
 			if (player.getTempAttribs().getB("thrown_delay")) {
 				int random = Utils.random(3);
-				player.simpleNPCDialogue(4300, HeadE.CALM_TALK, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
+				player.npcDialogue(4300, HeadE.CALM_TALK, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
 				return false;
 			} else if (!hasEmptyHands()) {
 				player.simpleDialogue("You must have both your hands free in order to throw a shotput.");

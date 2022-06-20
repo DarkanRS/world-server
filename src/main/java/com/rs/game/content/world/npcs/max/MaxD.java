@@ -56,19 +56,19 @@ public class MaxD extends Conversation {
 							ops.add("I'll take one!", () -> {
 								int value = 2475000;
 								if (player.getInventory().getFreeSlots() < 2) {
-									player.simpleNPCDialogue(max.getId(), HeadE.SHAKING_HEAD, "You don't have enough inventory space for that.");
+									player.npcDialogue(max.getId(), HeadE.SHAKING_HEAD, "You don't have enough inventory space for that.");
 								} else {
 									if (player.getInventory().containsItem(995, value)) {
 										player.getInventory().deleteItem(995, value);
 										player.getInventory().addItemDrop(20768, 1);
 										player.getInventory().addItemDrop(20767, 1);
-										player.simpleNPCDialogue(max.getId(), HeadE.SHAKING_HEAD, "Thanks. Enjoy!");
+										player.npcDialogue(max.getId(), HeadE.SHAKING_HEAD, "Thanks. Enjoy!");
 										if (player.getSkills().isMaxed(false) && !player.isMaxed) {
 											player.isMaxed = true;
 											World.sendWorldMessage("<col=ff8c38><img=7>News: " + player.getDisplayName() + " has just been awarded the Max cape!" + "</col> ", false);
 										}
 									} else
-										player.simpleNPCDialogue(max.getId(), HeadE.SHAKING_HEAD, "You don't have enough money for that!");
+										player.npcDialogue(max.getId(), HeadE.SHAKING_HEAD, "You don't have enough money for that!");
 								}
 							});
 							ops.add("No, thanks.", new Dialogue().addPlayer(HeadE.CALM_TALK, "No, thanks."));

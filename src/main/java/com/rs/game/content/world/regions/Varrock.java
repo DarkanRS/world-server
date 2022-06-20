@@ -694,7 +694,7 @@ public class Varrock {
 					return;
 				}
 				Doors.handleDoor(p, obj);
-				p.simpleNPCDialogue(198, HeadE.CHEERFUL, "Greetings bold adventurer. Welcome to the guild of Champions.");
+				p.npcDialogue(198, HeadE.CHEERFUL, "Greetings bold adventurer. Welcome to the guild of Champions.");
 			} else
 				Doors.handleDoor(p, obj);
 		}

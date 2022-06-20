@@ -16,28 +16,24 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.skills.Fletching;
+import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
+import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FremennikCampRoom;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
 
-public class FlowerPickup extends Conversation {
+public class FremennikScoutD extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public FremennikScoutD(Player player, PuzzleRoom room) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
-		});
-	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
+		if (room.isComplete()) {
+			addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CHEERFUL_EXPOSITION, "Wonderful! That was the last of them. As promised, I'll unlock the door for you.");
+			create();
+			return;
+		}
+		addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CONFUSED, "Need some tools?");
+		addItem(Fletching.DUNGEONEERING_KNIFE, "The scout hands you a knife.", () -> player.getInventory().addItem(Fletching.DUNGEONEERING_KNIFE, 1));
+		create();
 	}
 }

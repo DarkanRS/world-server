@@ -56,7 +56,7 @@ public class FlyingEntityHunter {
 				if (Utils.random(2) == 0) {
 					Item charm = CHARMS[Utils.random(CHARMS.length)];
 					int charmAmount = Utils.random(charm.getAmount());
-					player.simpleItemDialogue(charm.getId(), "The impling was carrying a" + charm.getName().toLowerCase() + ".");
+					player.itemDialogue(charm.getId(), "The impling was carrying a" + charm.getName().toLowerCase() + ".");
 					player.getInventory().addItem(charm.getId(), charmAmount, true);
 				}
 			}

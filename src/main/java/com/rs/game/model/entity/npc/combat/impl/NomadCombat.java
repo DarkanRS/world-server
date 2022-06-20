@@ -17,7 +17,7 @@
 package com.rs.game.model.entity.npc.combat.impl;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -56,25 +56,13 @@ public class NomadCombat extends CombatScript {
 					nomad.setNextAnimation(new Animation(12700));
 					nomad.heal(2500);
 					nomad.setHealed(true);
-					MatrixDialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "You're thougher than I thought, time to even things up!");
+					player.npcDialogue(nomad.getId(), HeadE.ANGRY, "You're thougher than I thought, time to even things up!");
 					player.getPackets().sendVoice(8019);
-					WorldTasks.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							MatrixDialogue.closeNoContinueDialogue(player);
-						}
-					}, 9);
 					return npc.getAttackSpeed();
 				}
 				nomad.setMeleeMode();
-				MatrixDialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "Enough! THIS..ENDS..NOW!");
+				player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Enough! THIS..ENDS..NOW!");
 				player.getPackets().sendVoice(7964);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						MatrixDialogue.closeNoContinueDialogue(player);
-					}
-				}, 9);
 			}
 		if (nomad.isMeleeMode()) {
 			int distanceX = target.getX() - npc.getX();
@@ -91,7 +79,7 @@ public class NomadCombat extends CombatScript {
 			case 0:
 				nomad.setNextMovePerform();
 				npc.setNextAnimation(new Animation(12701));
-				MatrixDialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9842, "Let's make things interesting!");
+				player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's make things interesting!");
 				player.getPackets().sendVoice(8039);
 				final WorldTile middle = new WorldTile(player.getTile());
 				WorldTasks.schedule(new WorldTask() {
@@ -137,7 +125,6 @@ public class NomadCombat extends CombatScript {
 							spawnFlameVortex(middle.transform(-3, 1, 0));
 							break;
 						case 12:
-							MatrixDialogue.closeNoContinueDialogue(player);
 							stop();
 							break;
 						}
@@ -160,7 +147,7 @@ public class NomadCombat extends CombatScript {
 						if (!secondLoop) {
 							npc.setNextAnimation(new Animation(12698));
 							npc.setNextSpotAnim(new SpotAnim(2281));
-							MatrixDialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "You cannot hide from my wrath!");
+							player.npcDialogue(nomad.getId(), HeadE.ANGRY, "You cannot hide from my wrath!");
 							player.getPackets().sendVoice(7960);
 							secondLoop = true;
 						} else {
@@ -169,7 +156,6 @@ public class NomadCombat extends CombatScript {
 								World.sendProjectile(npc, target, 1658, 30, 30, 75, 25, 0, 0);
 							}
 							nomad.setCantFollowUnderCombat(false);
-							MatrixDialogue.closeNoContinueDialogue(player);
 							nomad.setNextMovePerform();
 							stop();
 						}
@@ -179,15 +165,9 @@ public class NomadCombat extends CombatScript {
 				}, 7, 10);
 				return 25;
 			case 2:
-				MatrixDialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9842, "Let's see how well you senses serve you!");
+				player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's see how well you senses serve you!");
 				player.getActionManager().forceStop();
 				nomad.createCopies(player);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						MatrixDialogue.closeNoContinueDialogue(player);
-					}
-				}, 9);
 				return 7;
 			case 3:
 				nomad.setCantFollowUnderCombat(true);
@@ -204,18 +184,12 @@ public class NomadCombat extends CombatScript {
 							npc.setNextAnimation(new Animation(12699));
 							npc.setNextSpotAnim(new SpotAnim(2280));
 							player.freeze(Ticks.fromSeconds(17));
-							MatrixDialogue.sendNPCDialogueNoContinue(player, nomad.getId(), 9790, "Let's see how much punishment you can take!");
+							player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's see how much punishment you can take!");
 							player.getPackets().sendVoice(8001);
 							player.setNextFaceWorldTile(new WorldTile(player.getX(), player.getY() + 1, 0));
 							player.setNextSpotAnim(new SpotAnim(369));
 							player.unlock();
 							secondLoop = true;
-							WorldTasks.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									MatrixDialogue.closeNoContinueDialogue(player);
-								}
-							}, 9);
 						} else {
 							delayHit(npc, 2, target, getRegularHit(npc, player.getMaxHitpoints() - 1));
 							World.sendProjectile(npc, target, 2280, 30, 30, 5, 25, 0, 0);

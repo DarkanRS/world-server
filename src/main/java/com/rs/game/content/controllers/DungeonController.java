@@ -25,7 +25,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.content.combat.AttackType;
-import com.rs.game.content.dialogues_matrix.SmugglerD;
+import com.rs.game.content.dialogue.impl.SmugglerD;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.dungeoneering.Door;
 import com.rs.game.content.skills.dungeoneering.DungManager;

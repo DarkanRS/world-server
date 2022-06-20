@@ -289,7 +289,7 @@ public final class PlayerLook {
 
 	public static void openThessaliasMakeOver(final Player player) {
 		if (player.getEquipment().wearingArmour()) {
-			player.simpleNPCDialogue(548, HeadE.CALM_TALK, "You're not able to try on my clothes with all that armour. Take it off and then speak to me again.");
+			player.npcDialogue(548, HeadE.CALM_TALK, "You're not able to try on my clothes with all that armour. Take it off and then speak to me again.");
 			return;
 		}
 		player.setNextAnimation(new Animation(11623));
@@ -299,7 +299,7 @@ public final class PlayerLook {
 		player.getPackets().setIFRightClickOps(729, 12, 0, 100, 0);
 		player.getPackets().setIFRightClickOps(729, 17, 0, EnumDefinitions.getEnum(3282).getSize() * 2, 0);
 		player.setCloseInterfacesEvent(() -> {
-			player.simpleNPCDialogue(548, HeadE.CALM_TALK, "A marvellous choice. You look splendid!");
+			player.npcDialogue(548, HeadE.CALM_TALK, "A marvellous choice. You look splendid!");
 			player.setNextAnimation(new Animation(-1));
 			player.getAppearance().generateAppearanceData();
 			player.getTempAttribs().removeI("ThessaliasMakeOver");
@@ -308,11 +308,11 @@ public final class PlayerLook {
 
 	public static void openHairdresserSalon(final Player player) {
 		if (player.getEquipment().getHatId() != -1) {
-			player.simpleNPCDialogue(598, HeadE.CALM_TALK, "I'm afraid I can't see your head at the moment. Please remove your headgear first.");
+			player.npcDialogue(598, HeadE.CALM_TALK, "I'm afraid I can't see your head at the moment. Please remove your headgear first.");
 			return;
 		}
 		if (player.getEquipment().getWeaponId() != -1 || player.getEquipment().getShieldId() != -1) {
-			player.simpleNPCDialogue(598, HeadE.CALM_TALK, "I don't feel comfortable cutting hair when you are wielding something. Please remove what you are holding first.");
+			player.npcDialogue(598, HeadE.CALM_TALK, "I don't feel comfortable cutting hair when you are wielding something. Please remove what you are holding first.");
 			return;
 		}
 		player.setNextAnimation(new Animation(11623));
@@ -322,7 +322,7 @@ public final class PlayerLook {
 		player.getPackets().setIFText(309, 20, "Free!");
 		player.getTempAttribs().setB("hairSaloon", true);
 		player.setCloseInterfacesEvent(() -> {
-			player.simpleNPCDialogue(598, HeadE.CALM_TALK, "An excellent choice, " + (player.getAppearance().isMale() ? "sir" : "madam") + ".");
+			player.npcDialogue(598, HeadE.CALM_TALK, "An excellent choice, " + (player.getAppearance().isMale() ? "sir" : "madam") + ".");
 			player.setNextAnimation(new Animation(-1));
 			player.getAppearance().generateAppearanceData();
 			player.getTempAttribs().removeB("hairSaloon");
@@ -331,7 +331,7 @@ public final class PlayerLook {
 
 	public static void openYrsaShop(final Player player) {
 		if (player.getEquipment().getBootsId() != -1) {
-			player.simpleNPCDialogue(1301, HeadE.CALM_TALK, "I don't feel comfortable helping you try on new boots when you are wearing some already. Please remove your boots first.");
+			player.npcDialogue(1301, HeadE.CALM_TALK, "I don't feel comfortable helping you try on new boots when you are wearing some already. Please remove your boots first.");
 			return;
 		}
 		player.setNextAnimation(new Animation(11623));
@@ -341,7 +341,7 @@ public final class PlayerLook {
 		player.getPackets().setIFRightClickOps(728, 12, 0, 500, 0);
 		player.getPackets().setIFRightClickOps(728, 7, 0, EnumDefinitions.getEnum(3297).getSize() * 2, 0);
 		player.setCloseInterfacesEvent(() -> {
-			player.simpleNPCDialogue(1301, HeadE.CHEERFUL, "Hey, They look great!");
+			player.npcDialogue(1301, HeadE.CHEERFUL, "Hey, They look great!");
 			player.setNextAnimation(new Animation(-1));
 			player.getAppearance().generateAppearanceData();
 			player.getTempAttribs().removeI("YrsaBoot");

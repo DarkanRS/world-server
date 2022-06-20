@@ -33,12 +33,12 @@ public class ServantHouseD extends Conversation {
 				ops.add("Yes.", () -> {
 					int cost = servant.getServantData().getCost();
 					if (player.getInventory().getNumberOf(995) < cost) {
-						player.simpleNPCDialogue(servant.getId(), HeadE.UPSET, "You do not have enough coins to cover up my cost.");
+						player.npcDialogue(servant.getId(), HeadE.UPSET, "You do not have enough coins to cover up my cost.");
 						return;
 					}
 					player.getInventory().deleteItem(995, cost);
 					player.getHouse().resetPaymentStage();
-					player.simpleNPCDialogue(servant.getId(), HeadE.CHEERFUL, "Thank you!");
+					player.npcDialogue(servant.getId(), HeadE.CHEERFUL, "Thank you!");
 				});
 				ops.add("No.");
 				ops.add("Fire.", () -> fireServant(player, servant));
@@ -109,7 +109,7 @@ public class ServantHouseD extends Conversation {
 	private void fireServant(Player player, ServantNPC servant) {
 		player.sendOptionDialogue("Do you really want to fire your servant?", ops -> {
 			ops.add("Yes.", () -> {
-				player.simplePlayerDialogue(HeadE.CALM_TALK, "You are dismissed...");
+				player.playerDialogue(HeadE.CALM_TALK, "You are dismissed...");
 				servant.fire();
 			});
 			ops.add("No.");

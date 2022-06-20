@@ -16,28 +16,33 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
+import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 
-public class FlowerPickup extends Conversation {
+public class ShotputD extends Conversation {
 
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+	public ShotputD(Player player, boolean is18LB) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
+		WarriorsGuild controller = player.getControllerManager().getController(WarriorsGuild.class);
+		if (controller == null)
+			return;
+		player.setNextAnimation(new Animation(827));
+		
+		addOptions(ops -> {
+			ops.add("Standing Throw.", () -> {
+				controller.prepareShotput((byte) 0, is18LB);
+				player.setNextAnimation(new Animation(15079));
 			});
-			ops.add("Leave them");
+			ops.add("Step and throw.", () -> {
+				controller.prepareShotput((byte) 1, is18LB);
+				player.setNextAnimation(new Animation(15080));
+			});
+			ops.add("Spin and throw.", () -> {
+				controller.prepareShotput((byte) 2, is18LB);
+				player.setNextAnimation(new Animation(15078));
+			});
 		});
-	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
 	}
 }

@@ -16,28 +16,17 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.model.entity.actions.FillAction;
+import com.rs.game.model.entity.actions.FillAction.Filler;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Animation;
 
-public class FlowerPickup extends Conversation {
-
-	public FlowerPickup(Player player, GameObject flowerObject, int flowerId) {
+public class FillingD extends Conversation {
+	public FillingD(Player player, Filler filler) {
 		super(player);
-		addOptions("What do you want to do with the flowers?", ops -> {
-			ops.add("Pick", () -> {
-				player.setNextAnimation(new Animation(827));
-				player.getInventory().addItem(getFlowerId(flowerId), 1);
-				player.getInventory().refresh();
-				World.removeObject(flowerObject);
-			});
-			ops.add("Leave them");
-		});
-	}
-
-	public int getFlowerId(int objectId) {
-		return 2460 + ((objectId - 2980) * 2);
+		
+		addNext(new MakeXStatement(new int[] { filler.getFilledItem().getId() }, player.getInventory().getAmountOf(filler.getEmptyItem().getId())));
+		addNext(() -> player.getActionManager().setAction(new FillAction(MakeXStatement.getQuantity(player), filler)));
 	}
 }

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.rs.Settings;
 import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.dialogues_matrix.RepairStandD;
+import com.rs.game.content.dialogue.impl.RepairStandD;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.model.entity.player.Player;
