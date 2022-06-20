@@ -28,6 +28,7 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
@@ -199,6 +200,19 @@ public class PartyRoom {
 		return item;
 	}
 
+	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(e.getObject()), () -> {
+				e.getPlayer().sendOptionDialogue(ops -> {
+					ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
+					ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
+					ops.add("No action.");
+				});
+			}));
+		}
+	};
+	
 	public static ObjectClickHandler handleBalloons = new ObjectClickHandler(new Object[] { 115, 116, 117, 118, 119, 120, 121, 122 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {

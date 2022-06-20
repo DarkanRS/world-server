@@ -19,14 +19,13 @@ package com.rs.game.content.controllers;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.StealingCreationClay;
-import com.rs.game.content.dialogues_matrix.StealingCreationMagic;
-import com.rs.game.content.dialogues_matrix.StealingCreationManagerD;
-import com.rs.game.content.dialogues_matrix.StealingCreationRange;
 import com.rs.game.content.minigames.creations.GameArea;
 import com.rs.game.content.minigames.creations.Helper;
 import com.rs.game.content.minigames.creations.Score;
+import com.rs.game.content.minigames.creations.StealingCreationClay;
+import com.rs.game.content.minigames.creations.StealingCreationMagic;
+import com.rs.game.content.minigames.creations.StealingCreationManagerD;
+import com.rs.game.content.minigames.creations.StealingCreationRange;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceMovement;
@@ -220,7 +219,7 @@ public class StealingCreationController extends Controller {
 		for (int element : Helper.MANAGER_NPCS)
 			if (n.getId() == element) {
 				n.setNextFaceEntity(player);
-				player.getDialogueManager().execute(new StealingCreationManagerD(), n, getGame());
+				player.startConversation(new StealingCreationManagerD(player, getGame(), n));
 				return false;
 			}
 		return true;
@@ -244,7 +243,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile tile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave just like that!");
+		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 
@@ -509,11 +508,11 @@ public class StealingCreationController extends Controller {
 		} else if (object.getId() >= 39534 && object.getId() <= 39545) {
 			player.getTempAttribs().setO("sc_object", object);
 			if (object.getId() == 39541)
-				player.getDialogueManager().execute(new StealingCreationMagic());
+				player.startConversation(new StealingCreationMagic(player));
 			else if (object.getId() == 39539)
-				player.getDialogueManager().execute(new StealingCreationRange());
+				player.startConversation(new StealingCreationRange(player));
 			else if (object.getId() == 39534)
-				player.getDialogueManager().execute(new StealingCreationClay());
+				player.startConversation(new StealingCreationClay(player));
 			return false;
 		} else if (object.getId() == 39602 || object.getId() == 39613 || object.getId() == 39612 || object.getId() == 39611) {
 			boolean isWall = object.getId() == 39613 || object.getId() == 39612 || object.getId() == 39611;

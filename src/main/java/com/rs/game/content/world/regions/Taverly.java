@@ -22,7 +22,7 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogues_matrix.TanningD;
+import com.rs.game.content.dialogue.impl.TanningD;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.heroesquest.dialogues.AchiettiesHeroesQuestD;
 import com.rs.game.content.world.doors.Doors;
@@ -295,9 +295,7 @@ public class Taverly {
 								option("I need crafting supplies", () -> {
 									ShopsHandler.openShop(e.getPlayer(), "jack_crafting_shop");
 								});
-								option("I need you to tan some leather for me.", () -> {
-									e.getPlayer().getDialogueManager().execute(new TanningD(), e.getNPCId());
-								});
+								option("I need you to tan some leather for me.", () -> e.getPlayer().startConversation(new TanningD(e.getPlayer(), false)));
 								option("farewell");
 							}
 						});
@@ -305,7 +303,7 @@ public class Taverly {
 					}
 				});
 			if (option == 4)
-				e.getPlayer().getDialogueManager().execute(new TanningD(), e.getNPCId());
+				e.getPlayer().startConversation(new TanningD(e.getPlayer(), false));
 			if (option == 5)
 				ShopsHandler.openShop(e.getPlayer(), "jack_crafting_shop");
 		}

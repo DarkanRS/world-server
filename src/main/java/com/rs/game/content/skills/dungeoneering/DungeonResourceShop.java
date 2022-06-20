@@ -18,7 +18,7 @@ package com.rs.game.content.skills.dungeoneering;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
@@ -29,7 +29,7 @@ public class DungeonResourceShop {
 
 	public static void openResourceShop(final Player player, int complexity) {
 		if (complexity <= 1) {
-			player.getDialogueManager().execute(new SimpleNPCMessage(), DungeonConstants.SMUGGLER, "Sorry, but I don't have anything to sell.");
+			player.npcDialogue(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Sorry, but I don't have anything to sell.");
 			return;
 		}
 		player.getPackets().sendVarc(1320, complexity);

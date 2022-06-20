@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.crafting;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -35,7 +35,7 @@ public class SnakeskinCrafting  {
 	public static ItemOnItemHandler craft = new ItemOnItemHandler(6287, 1733) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 }

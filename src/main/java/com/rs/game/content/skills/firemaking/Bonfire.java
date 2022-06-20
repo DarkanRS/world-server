@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.dialogues_matrix.BonfireD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.npc.others.FireSpirit;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -83,7 +81,7 @@ public class Bonfire extends PlayerAction {
 		if (!World.getRegion(object.getRegionId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FIREMAKING) < log.level) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need level " + log.level + " Firemaking to add these logs to a bonfire.");
+			player.simpleDialogue("You need level " + log.level + " Firemaking to add these logs to a bonfire.");
 			return false;
 		}
 		return true;
@@ -109,7 +107,7 @@ public class Bonfire extends PlayerAction {
 		else if (logs.length == 1)
 			player.getActionManager().setAction(new Bonfire(logs[0], object));
 		else
-			player.getDialogueManager().execute(new BonfireD(), logs, object);
+			player.startConversation(new BonfireD(player, object, logs));
 	}
 
 	@Override

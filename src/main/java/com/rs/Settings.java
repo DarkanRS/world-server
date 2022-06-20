@@ -132,7 +132,8 @@ public final class Settings {
 		}
 		try {
 			String line;
-			Process proc = Runtime.getRuntime().exec("git log -n 1");
+			ProcessBuilder builder = new ProcessBuilder("git", "log", "-n", "1");
+			Process proc = builder.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			boolean markMsg = false;
 			while ((line = in.readLine()) != null) {
@@ -149,6 +150,7 @@ public final class Settings {
 			}
 			proc.waitFor();
 			in.close();
+			System.out.println(COMMIT_HISTORY);
 		} catch (JsonIOException | IOException | InterruptedException e) {
 			Logger.handle(e);
 		}

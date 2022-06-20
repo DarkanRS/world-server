@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -80,7 +80,7 @@ public class CookingCombos {
 			}
 			if (!player.getInventory().containsItems(combo.materials))
 				return true;
-			player.getDialogueManager().execute(new CreateActionD(new Item[][] { combo.materials }, new Item[][] { combo.product }, new double[] { 0.0 }, new int[] { -1 }, new int[] { combo.req }, Constants.COOKING, 0));
+			player.startConversation(new CreateActionD(player, new Item[][] { combo.materials }, new Item[][] { combo.product }, new double[] { 0.0 }, new int[] { -1 }, new int[] { combo.req }, Constants.COOKING, 0));
 			return true;
 		}
 		return false;

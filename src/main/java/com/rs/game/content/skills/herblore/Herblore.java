@@ -22,7 +22,6 @@ import java.util.List;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -49,7 +48,7 @@ public class Herblore extends PlayerAction {
 		if (player == null || potion == null)
 			return false;
 		if (player.getSkills().getLevel(Constants.HERBLORE) < potion.getReq()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a herblore level of " + potion.getReq() + " to combine these ingredients.");
+			player.simpleDialogue("You need a herblore level of " + potion.getReq() + " to combine these ingredients.");
 			return false;
 		}
 		return true;

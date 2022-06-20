@@ -17,8 +17,6 @@
 package com.rs.game.content.minigames.pest;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogues_matrix.ItemMessage;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -182,7 +180,7 @@ public class CommendationExchange {// 1875 TODO
 			}
 		double experience = calculateExperience(player, skill) * rate;
 		player.getSkills().addXp(skill, experience / 18);
-		player.getDialogueManager().execute(new SimpleMessage(), "You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");
+		player.simpleDialogue("You gain " + Utils.getFormattedNumber((int) experience) + " experience in " + Constants.SKILL_NAME[skill] + ".");
 	}
 
 	private static void addVoidItem(Player player, int index) {
@@ -195,7 +193,7 @@ public class CommendationExchange {// 1875 TODO
 			return;
 		int voidItem = VOID[index];
 		player.getInventory().addItem(voidItem, 1, true);
-		player.getDialogueManager().execute(new ItemMessage(), "You exchange " + cost + " commendation points for a " + ItemDefinitions.getDefs(voidItem).getName().toLowerCase() + ".", voidItem);
+		player.itemDialogue(voidItem, "You exchange " + cost + " commendation points for a " + ItemDefinitions.getDefs(voidItem).getName().toLowerCase() + ".");
 	}
 
 	private static double calculateExperience(Player player, int skill) {

@@ -12,8 +12,8 @@ import com.rs.game.content.controllers.FishingTrawlerCrashedController;
 import com.rs.game.content.controllers.FishingTrawlerGameController;
 import com.rs.game.content.controllers.FishingTrawlerLobbyController;
 import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
-import com.rs.game.content.dialogues_matrix.SimplePlayerMessage;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -474,7 +474,7 @@ public class FishingTrawler {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if(e.getPlayer().getTrawlerRewards() == null || e.getPlayer().getTrawlerRewards().isEmpty()) {
-				e.getPlayer().getDialogueManager().execute(new SimplePlayerMessage(), "I better not steal other people's fish!");
+				e.getPlayer().playerDialogue(HeadE.CONFUSED, "I better not steal other people's fish!");
 				return;
 			}
 			IFEvents params = new IFEvents(REWARDS_INTERFACE, REWARDS_CONTAINER, 0, 27)

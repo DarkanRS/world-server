@@ -21,7 +21,6 @@ import java.util.Map;
 
 import com.rs.game.World;
 import com.rs.game.content.controllers.PuroPuroController;
-import com.rs.game.content.dialogues_matrix.ItemMessage;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -57,7 +56,7 @@ public class FlyingEntityHunter {
 				if (Utils.random(2) == 0) {
 					Item charm = CHARMS[Utils.random(CHARMS.length)];
 					int charmAmount = Utils.random(charm.getAmount());
-					player.getDialogueManager().execute(new ItemMessage(), "The impling was carrying a" + charm.getName().toLowerCase() + ".", charm.getId());
+					player.itemDialogue(charm.getId(), "The impling was carrying a" + charm.getName().toLowerCase() + ".");
 					player.getInventory().addItem(charm.getId(), charmAmount, true);
 				}
 			}

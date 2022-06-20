@@ -47,4 +47,9 @@ public class SpiderStatement implements Statement {
 		return 0;
 	}
 
+	@Override
+	public void close(Player player) {
+		
+	}
+
 }

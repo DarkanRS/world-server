@@ -1,13 +1,14 @@
 package com.rs.game.content.quests.handlers.fightarena.dialogue;
 
-import com.rs.game.World;
+import static com.rs.game.content.quests.handlers.fightarena.FightArena.FREE_JEREMY;
+import static com.rs.game.content.quests.handlers.fightarena.FightArena.GET_JAIL_KEYS;
+import static com.rs.game.content.quests.handlers.fightarena.FightArena.NOT_STARTED;
+import static com.rs.game.content.quests.handlers.fightarena.FightArena.QUEST_COMPLETE;
+
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.demonslayer.DelrithBoss;
-import com.rs.game.content.quests.handlers.demonslayer.EncantationOptionsD;
-import com.rs.game.content.quests.handlers.piratestreasure.AngryGardenerNPC;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -18,10 +19,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
-import com.rs.utils.Ticks;
-import org.checkerframework.checker.units.qual.A;
-
-import static com.rs.game.content.quests.handlers.fightarena.FightArena.*;
 
 @PluginEventHandler
 public class LazyGuardFightArenaD extends Conversation {

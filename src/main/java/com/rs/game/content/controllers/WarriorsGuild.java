@@ -25,13 +25,11 @@ import com.rs.game.content.combat.XPType;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.impl.Shanomi;
+import com.rs.game.content.dialogue.impl.ShotputD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
-import com.rs.game.content.dialogues_matrix.KamfreendaDefender;
-import com.rs.game.content.dialogues_matrix.Shanomi;
-import com.rs.game.content.dialogues_matrix.ShotputD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
 import com.rs.game.content.minigames.wguild.AnimatedArmor;
+import com.rs.game.content.minigames.wguild.KamfreendaDefender;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -219,13 +217,13 @@ public class WarriorsGuild extends Controller {
 		} else if (object.getId() == 15664 || object.getId() == 15665) {
 			if (player.getTempAttribs().getB("thrown_delay")) {
 				int random = Utils.random(3);
-				player.getDialogueManager().execute(new SimpleNPCMessage(), 4300, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
+				player.npcDialogue(4300, HeadE.CALM_TALK, random == 0 ? "Just a moment, I dropped my hanky." : random == 1 ? "Pace yourself." : "Sorry, I'm not ready yet.");
 				return false;
 			} else if (!hasEmptyHands()) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You must have both your hands free in order to throw a shotput.");
+				player.simpleDialogue("You must have both your hands free in order to throw a shotput.");
 				return false;
 			}
-			player.getDialogueManager().execute(new ShotputD(), object.getId() == 15664);
+			player.startConversation(new ShotputD(player, object.getId() == 15664));
 			return false;
 		} else if (object.getId() == 15647 || object.getId() == 15641 || object.getId() == 15644) {
 			player.lock(2);
@@ -252,7 +250,7 @@ public class WarriorsGuild extends Controller {
 			if (hasEmptyHands() && (player.getEquipment().getHatId() == -1 || kegCount >= 1))
 				balanceKeg(object);
 			else if (kegCount == 0)
-				player.getDialogueManager().execute(new SimpleMessage(), "You must have both your hands and head free to balance kegs.");
+				player.simpleDialogue("You must have both your hands and head free to balance kegs.");
 			return false;
 		} else if (object.getId() == 66599 || object.getId() == 66601) {
 			player.setNextFaceWorldTile(CYCLOPS_LOBBY);
@@ -261,10 +259,10 @@ public class WarriorsGuild extends Controller {
 				Doors.handleDoubleDoor(player, object);
 				inCyclopse = false;
 			} else
-				player.getDialogueManager().execute(new KamfreendaDefender());
+				player.startConversation(new KamfreendaDefender(player));
 			return false;
 		} else if (object.getId() == 56887) {
-			player.getDialogueManager().execute(new SimpleMessage(), "Kamfreena reports that " + killedCyclopses + " cyclopes have been slain in the guild today. She hopes that warriors will step up and kill more!");
+			player.simpleDialogue("Kamfreena reports that " + killedCyclopses + " cyclopes have been slain in the guild today. She hopes that warriors will step up and kill more!");
 			return false;
 		}
 		return true;
@@ -294,13 +292,13 @@ public class WarriorsGuild extends Controller {
 					if (ticks == 0)
 						player.faceObject(object);
 					else if (ticks == 1)
-						player.getDialogueManager().execute(new SimpleMessage(), "The animator hums, something appears to be working.");
+						player.simpleDialogue("The animator hums, something appears to be working.");
 					else if (ticks == 2) {
-						player.getDialogueManager().execute(new SimpleMessage(), "You stand back.");
+						player.simpleDialogue("You stand back.");
 						player.addWalkSteps(player.getX(), player.getY() + 3);
 					} else if (ticks == 3) {
 						player.faceObject(object);
-						player.getDialogueManager().finishDialogue();
+						player.endConversation();
 					} else if (ticks == 5) {
 						AnimatedArmor npc = new AnimatedArmor(player, 4278 + finalIndex, object, -1, true);
 						npc.setRun(false);

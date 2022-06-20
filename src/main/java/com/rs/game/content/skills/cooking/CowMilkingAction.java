@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.dialogues_matrix.GrilleGoatsDialogue;
+import com.rs.game.content.dialogue.impl.GrilleGoatsDialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
@@ -33,7 +33,7 @@ public class CowMilkingAction extends PlayerAction {
 	@Override
 	public boolean start(Player player) {
 		if (!player.getInventory().containsItem(EMPTY_BUCKET, 1)) {
-			player.getDialogueManager().execute(new GrilleGoatsDialogue());
+			player.startConversation(new GrilleGoatsDialogue(player));
 			return false;
 		}
 		return true;

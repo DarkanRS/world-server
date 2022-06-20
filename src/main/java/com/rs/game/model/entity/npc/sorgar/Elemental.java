@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.SorceressGardenController;
+import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;

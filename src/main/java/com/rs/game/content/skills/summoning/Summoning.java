@@ -18,7 +18,6 @@ package com.rs.game.content.skills.summoning;
 
 import java.util.Arrays;
 
-import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;

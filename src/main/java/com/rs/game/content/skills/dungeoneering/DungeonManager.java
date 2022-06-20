@@ -32,9 +32,9 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.controllers.DungeonController;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.MapRoomIcon;
@@ -556,15 +556,15 @@ public class DungeonManager {
 
 	public void sendStartItems(Player player) {
 		if (party.getComplexity() == 1)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 1", "Combat only", "Armour and weapons allocated", "No shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 1", "Combat only", "Armour and weapons allocated", "No shop stock");
 		else if (party.getComplexity() == 2)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 2", "+ Fishing, Woodcutting, Firemaking, Cooking", "Armour and weapons allocated", "Minimal shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 2", "+ Fishing, Woodcutting, Firemaking, Cooking", "Armour and weapons allocated", "Minimal shop stock");
 		else if (party.getComplexity() == 3)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 3", "+ Mining, Smithing weapons, Fletching, Runecrafting", "Armour allocated", "Increased shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 3", "+ Mining, Smithing weapons, Fletching, Runecrafting", "Armour allocated", "Increased shop stock");
 		else if (party.getComplexity() == 4)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 4", "+ Smithing armour, Hunter, Farming textiles, Crafting", "Increased shop stock");
+			player.simpleDialogue("<col=0000FF>Complexity 4", "+ Smithing armour, Hunter, Farming textiles, Crafting", "Increased shop stock");
 		else if (party.getComplexity() == 5)
-			player.getDialogueManager().execute(new SimpleMessage(), "<col=0000FF>Complexity 5", "All skills included", "+ Farming seeds, Herblore, Thieving, Summoning", "Complete shop stock", "Challenge rooms + skill doors");
+			player.simpleDialogue("<col=0000FF>Complexity 5", "All skills included", "+ Farming seeds, Herblore, Thieving, Summoning", "Complete shop stock", "Challenge rooms + skill doors");
 		if (party.getComplexity() <= 3) {
 			int defenceTier = DungeonUtils.getTier(player.getSkills().getLevelForXp(Constants.DEFENSE));
 			if (defenceTier > 8)
@@ -606,7 +606,7 @@ public class DungeonManager {
 		else {
 			player.getControllerManager().startController(new DungeonController(DungeonManager.this));
 			player.setLargeSceneView(true);
-			player.getCombatDefinitions().setSpellBook(3);
+			player.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING);
 			player.getPackets().sendVarc(1725, 11);
 			setWorldMap(player, true);
 		}

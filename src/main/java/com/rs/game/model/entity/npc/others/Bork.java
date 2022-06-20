@@ -51,7 +51,7 @@ public class Bork extends NPC {
 		for (Entity e : getPossibleTargets())
 			if (e instanceof Player player) {
 //				player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(693);
-//				player.getDialogueManager().execute(new DagonHai(), 7137, player, 1);
+//				player.startConversation(new DagonHai(), 7137, player, 1);
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {

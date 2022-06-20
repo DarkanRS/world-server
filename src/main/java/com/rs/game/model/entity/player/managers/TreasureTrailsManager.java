@@ -22,8 +22,8 @@ import java.util.List;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.controllers.WildernessController;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
-import com.rs.game.content.dialogues_matrix.SimpleItemMessage;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.others.ClueNPC;
@@ -157,7 +157,7 @@ public class TreasureTrailsManager {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
 					player.sendMessage("You've found another clue!");
-					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!");
+					player.startConversation(new Dialogue().addItem(CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!"));
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
 					player.getInventory().addItemDrop(CASKETS[currentClue.dificulty], 1);
@@ -170,9 +170,9 @@ public class TreasureTrailsManager {
 					int id = currentClue.details.ids[0];
 					currentClue.details = generateClueDetails(currentClue.dificulty);
 					if (id == 2812)
-						player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "Grrrrow!");
+						player.startConversation(new Dialogue().addItem(CLUE_SCROLLS[currentClue.dificulty], "Grrrrow!"));
 					else
-						player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], NPCDefinitions.getDefs(id).getName() + " has given you another clue scroll.");
+						player.startConversation(new Dialogue().addItem(CLUE_SCROLLS[currentClue.dificulty], NPCDefinitions.getDefs(id).getName() + " has given you another clue scroll."));
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
 					player.getInventory().addItemDrop(CASKETS[currentClue.dificulty], 1);
@@ -184,7 +184,7 @@ public class TreasureTrailsManager {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
 					player.sendMessage("You've been given another clue!");
-					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've been given another clue!");
+					player.startConversation(new Dialogue().addItem(CLUE_SCROLLS[currentClue.dificulty], "You've been given another clue!"));
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
 					player.getInventory().addItemDrop(CASKETS[currentClue.dificulty], 1);
@@ -196,7 +196,7 @@ public class TreasureTrailsManager {
 					currentClue.count--;
 					currentClue.details = generateClueDetails(currentClue.dificulty);
 					player.sendMessage("You've found another clue!");
-					player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!");
+					player.startConversation(new Dialogue().addItem(CLUE_SCROLLS[currentClue.dificulty], "You've found another clue!"));
 				} else {
 					player.getInventory().deleteItem(CLUE_SCROLLS[currentClue.dificulty], 1);
 					player.getInventory().addItemDrop(CASKETS[currentClue.dificulty], 1);
@@ -260,7 +260,7 @@ public class TreasureTrailsManager {
 			resetCurrentClue();
 			player.getInventory().deleteItem(SCROLL_BOXES[level], 1);
 			player.getInventory().addItem(CLUE_SCROLLS[level], 1);
-			player.getDialogueManager().execute(new SimpleItemMessage(), CLUE_SCROLLS[level], "You've found another clue!");
+			player.startConversation(new Dialogue().addItem(CLUE_SCROLLS[level], "You've found another clue!"));
 			return true;
 		}
 		level = getCasketLevel(item.getId());
@@ -375,91 +375,36 @@ public class TreasureTrailsManager {
 		if ((currentClue.details.type != SIMPLE && currentClue.details.type != ANAGRAM) || !hasCurrentClue())
 			return false;
 		if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD && !player.containsOneItem(PUZZLES)) {
-			player.getDialogueManager().execute(new MatrixDialogue() {
-				@Override
-				public void start() {
-					sendNPCDialogue(currentClue.details.getId(), MatrixDialogue.NORMAL, "I have a puzzle for you!");
-					stage = 0;
-				}
-
-				@Override
-				public void run(int interfaceId, int componentId) {
-					if (stage == 0) {
-						int puzzle_id = currentClue.dificulty == ELITE ? PUZZLES[3] : PUZZLES[Utils.random(PUZZLES.length - 1)];
-						sendEntityDialogue(IS_ITEM, puzzle_id, -1, "", npc.getName() + " has given you a puzzle box!");
+			int puzzle_id = currentClue.dificulty == ELITE ? PUZZLES[3] : PUZZLES[Utils.random(PUZZLES.length - 1)];
+			player.startConversation(new Dialogue()
+					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "I have a puzzle for you!")
+					.addItem(puzzle_id, npc.getName() + " has given you a puzzle box!", ()->{
 						player.getInventory().addItem(puzzle_id, 1);
-						stage = 1;
-					} else
-						end();
-				}
-
-				@Override
-				public void finish() {
-				}
-
-			});
-
+					})
+			);
 			return true;
 		}
 		if (currentClue.details.type == ANAGRAM && currentClue.dificulty >= HARD && !hasCompletedPuzzle()) {
-			player.getDialogueManager().execute(new MatrixDialogue() {
-				@Override
-				public void start() {
-					sendNPCDialogue(currentClue.details.getId(), MatrixDialogue.NORMAL, "That doesn't look right.");
-				}
-
-				@Override
-				public void run(int interfaceId, int componentId) {
-					end();
-				}
-
-				@Override
-				public void finish() {
-				}
-
-			});
-
+			player.startConversation(new Dialogue()
+					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "That doesn't look right.")
+			);
 			return true;
 		}
 		if ((currentClue.details.type != ANAGRAM) || (currentClue.dificulty < HARD)) {
-			player.getDialogueManager().execute(new MatrixDialogue() {
-				@Override
-				public void start() {
-					sendNPCDialogue(currentClue.details.getId(), MatrixDialogue.NORMAL, "Congratulations! You have come to right place.");
-				}
-
-				@Override
-				public void run(int interfaceId, int componentId) {
-					end();
-					setNextClue(SOURCE_NPC, false);
-				}
-
-				@Override
-				public void finish() {
-				}
-
-			});
+			player.startConversation(new Dialogue()
+					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "Congratulations! You have come to right place.", ()->{
+						setNextClue(SOURCE_NPC, false);
+					})
+			);
 			return true;
 		}
-		player.getDialogueManager().execute(new MatrixDialogue() {
-			@Override
-			public void start() {
-				sendNPCDialogue(currentClue.details.getId(), MatrixDialogue.NORMAL, "Good job!");
-			}
-
-			@Override
-			public void run(int interfaceId, int componentId) {
-				end();
-				for (int id : PUZZLES)
-					player.getInventory().deleteItem(id, 1);
-				setNextClue(SOURCE_PUZZLENPC, false);
-			}
-
-			@Override
-			public void finish() {
-			}
-
-		});
+		player.startConversation(new Dialogue()
+				.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "Good job!", ()->{
+					for (int id : PUZZLES)
+						player.getInventory().deleteItem(id, 1);
+					setNextClue(SOURCE_PUZZLENPC, false);
+				})
+		);
 		return true;
 	}
 

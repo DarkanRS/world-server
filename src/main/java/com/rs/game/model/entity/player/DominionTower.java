@@ -19,9 +19,8 @@ package com.rs.game.model.entity.player;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.controllers.DomTowerController;
-import com.rs.game.content.dialogues_matrix.DTSpectateReq;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.StrangeFace;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.impl.StrangeFace;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
@@ -75,12 +74,13 @@ public final class DominionTower {
 
 	public void growFace() {
 		player.getPackets().sendSound(7913, 0, 2);
-		player.getDialogueManager().execute(new SimpleMessage(), "The face on the wall groans and scowls at you. Perhaps you should", "talk to it first.");
+		player.simpleDialogue("The face on the wall groans and scowls at you. Perhaps you should", "talk to it first.");
 	}
 
 	public void openModes() {
 		if (!hasRequiriments()) {
-			player.getDialogueManager().execute(new DTSpectateReq());
+			player.startConversation(new Dialogue().addSimple("You don't have the requirements to play this content, but you can spectate some of the matches" +
+					" taking place if you would like.", () -> {player.getDominionTower().openSpectate();}));
 			return;
 		}
 		if (!talkedWithFace) {
@@ -88,7 +88,7 @@ public final class DominionTower {
 			return;
 		}
 		if (progress == 256) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You have some dominion factor which you must exchange before", "starting another match.");
+			player.simpleDialogue("You have some dominion factor which you must exchange before", "starting another match.");
 			player.sendMessage("You can't go back into the arena, you must go to the next floor on entrance.");
 			return;
 		}
@@ -169,7 +169,7 @@ public final class DominionTower {
 
 	private void startEnduranceMode() {
 		if (progress == 256) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You have some dominion factor which you must exchange before", "starting another match.");
+			player.simpleDialogue("You have some dominion factor which you must exchange before", "starting another match.");
 			player.sendMessage("You can't go back into the arena, you must go to the next floor on entrance.");
 			return;
 		}
@@ -480,11 +480,11 @@ public final class DominionTower {
 
 	public void talkToFace(boolean fromDialogue) {
 		if (!hasRequiriments()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need at least level 110 combat to use this tower.");
+			player.simpleDialogue("You need at least level 110 combat to use this tower.");
 			return;
 		}
 		if (!talkedWithFace)
-			player.getDialogueManager().execute(new StrangeFace());
+			player.startConversation(new StrangeFace(player));
 		else {
 			if (!fromDialogue)
 				player.getPackets().sendVoice(7893);

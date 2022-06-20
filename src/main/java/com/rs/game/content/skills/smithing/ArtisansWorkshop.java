@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.rs.game.content.SkillsDialogue;
-import com.rs.game.content.dialogues_matrix.CreationActionD;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.skills.util.Category;
+import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -168,44 +168,30 @@ public class ArtisansWorkshop  {
 	}
 
 	public static void openIngotCreation(Player player, final ReqItem[] ingots) {
-		player.getDialogueManager().execute(new MatrixDialogue() {
-			@Override
-			public void start() {
-				SkillsDialogue.sendSkillsDialogue(player, SkillsDialogue.SELECT, "What kind of bar would you like?", player.getInventory().getFreeSlots(), ingots, null);
-			}
-
-			@Override
-			public void run(int interfaceId, int componentId) {
-				int option = SkillsDialogue.getItemSlot(componentId);
-				if (option > ingots.length) {
-					end();
-					return;
-				}
-				int quantity = SkillsDialogue.getQuantity(player);
+		Dialogue dialogue = new Dialogue()
+				.addNext(new MakeXStatement("What kind of bar would you like?", Arrays.stream(ingots).mapToInt(ingot -> ingot.getProduct().getId()).toArray(), player.getInventory().getFreeSlots()));
+		for (ReqItem item : ingots) {
+			dialogue.addNext(() -> {
+				int quantity = MakeXStatement.getQuantity(player);
 				if (quantity > player.getInventory().getFreeSlots())
 					quantity = player.getInventory().getFreeSlots();
-				Item[] materials = ingots[option].getMaterialsFor(quantity);
+				Item[] materials = item.getMaterialsFor(quantity);
 				if (materials.length <= 0)
 					return;
-				for (Item mat : materials)
+				for (Item mat : materials) {
 					if (player.getInventory().getAmountOf(mat.getId()) < mat.getAmount()) {
-						player.sendMessage("You need " + mat.getAmount() + " " + mat.getDefinitions().name + " to make " + quantity + " " + ingots[option].getProduct().getDefinitions().name+ (quantity > 1 ? "s" : "") +".");
-						end();
+						player.sendMessage("You need " + mat.getAmount() + " " + mat.getDefinitions().name + " to make " + quantity + " " + item.getProduct().getDefinitions().name+ (quantity > 1 ? "s" : "") +".");
 						return;
 					}
-				for (Item mat : materials)
+				}
+				for (Item mat : materials) {
 					if (mat.getId() >= 25629 && mat.getId() <= 25633)
 						removeOres(player, mat.getDefinitions().name, mat.getAmount());
-				player.getInventory().addItem(new Item(ingots[option].getProduct().setAmount(quantity)));
-				end();
-			}
-
-			@Override
-			public void finish() {
-
-			}
-
-		});
+				}
+				player.getInventory().addItem(new Item(item.getProduct().setAmount(quantity)));
+			});
+		}
+		player.startConversation(dialogue);
 	}
 
 	//	@Override
@@ -274,7 +260,7 @@ public class ArtisansWorkshop  {
 		public void handle(ObjectClickEvent e) {
 			int highestIngot = getHighestIngot(e.getPlayer());
 			if (highestIngot != -1)
-				e.getPlayer().getDialogueManager().execute(new CreationActionD(Category.ARTISANS, highestIngot, 898, 15).setConsistentAnimation());
+				e.getPlayer().startConversation(new CreationActionD(e.getPlayer(), Category.ARTISANS, highestIngot, 898, 15, true));
 			else
 				e.getPlayer().sendMessage("You don't have any ingots to smith.");
 		}

@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -41,7 +40,7 @@ public class DungeoneeringStaves extends PlayerAction {
 	public boolean start(Player player) {
 		int levelReq = LEVELS[index];
 		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < levelReq) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a Runecrafting level of " + levelReq + " in order to imbue this stave.");
+			player.simpleDialogue("You need a Runecrafting level of " + levelReq + " in order to imbue this stave.");
 			return false;
 		}
 		int staves = getUsableStaves(player, index);
@@ -70,7 +69,7 @@ public class DungeoneeringStaves extends PlayerAction {
 		player.setNextAnimation(new Animation(13662));
 
 		player.getInventory().deleteItem(new Item(stave, 1));
-		player.getInventory().addItem(new Item(DungeoneeringRCD.RUNES[3][index]));
+		player.getInventory().addItem(new Item(DungeoneeringRCD.STAVES[index]));
 
 		double experience = EXPERIENCE[index];
 		player.getSkills().addXp(Constants.RUNECRAFTING, experience);

@@ -1,6 +1,5 @@
 package com.rs.game.content.quests.handlers.piratestreasure;
 
-import static com.rs.game.content.dialogues_matrix.BoatingDialogue.getBoatForShip;
 import static com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure.CUSTOMS_OFFICER;
 import static com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure.RUM;
 
@@ -8,6 +7,7 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
+import com.rs.game.content.transportation.BoatingD;
 import com.rs.game.content.transportation.TravelMethods;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -42,7 +42,7 @@ public class CustomsOfficerPiratesTreasureD extends Conversation {
 							.addPlayer(HeadE.WORRIED, "Search away, I have nothing to hide.")
 							.addNPC(CUSTOMS_OFFICER, HeadE.CALM_TALK, "Well, you've got some odd stuff, but it's all legal. You can board...")
 							.addNext(()->{
-								Object[] attributes = getBoatForShip(player, CUSTOMS_OFFICER);
+								Object[] attributes = BoatingD.getBoatForShip(player, CUSTOMS_OFFICER);
 								TravelMethods.Carrier ship = (TravelMethods.Carrier) attributes[0];
 								boolean returning = (Boolean) attributes[1];
 								TravelMethods.sendCarrier(player, ship, returning);

@@ -18,7 +18,7 @@ package com.rs.game.content.controllers;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.NexEntrance;
+import com.rs.game.content.dialogue.impl.NexEntrance;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.godwars.zaros.NexArena;

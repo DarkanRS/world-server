@@ -25,10 +25,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.content.combat.AttackType;
-import com.rs.game.content.dialogues_matrix.CreateActionD;
-import com.rs.game.content.dialogues_matrix.CreationActionD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.SmugglerD;
+import com.rs.game.content.dialogue.impl.SmugglerD;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.dungeoneering.Door;
 import com.rs.game.content.skills.dungeoneering.DungManager;
@@ -68,6 +65,7 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining.DungeoneeringRocks;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD;
+import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD.DungRCSet;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringSmithing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringTraps;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringWoodcutting;
@@ -77,6 +75,8 @@ import com.rs.game.content.skills.magic.RuneSet;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.util.Category;
+import com.rs.game.content.skills.util.CreateActionD;
+import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -393,7 +393,7 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		if (dungeon == null || !player.getCombatDefinitions().isDungeonneringSpellBook() || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
+		if (dungeon == null || !player.getCombatDefinitions().isDungSpellbook() || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		if (Utils.getDistance(toTile, dungeon.getHomeTile()) > 500)
 			return false;
@@ -522,7 +522,7 @@ public class DungeonController extends Controller {
 		}
 		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			npc.faceEntity(player);
-			player.getDialogueManager().execute(new SmugglerD(), dungeon.getParty().getComplexity());
+			player.startConversation(new SmugglerD(player, dungeon.getParty().getComplexity()));
 			return false;
 		} else if (npc.getId() >= 11076 && npc.getId() <= 11085) {
 			DungeoneeringTraps.removeTrap(player, (MastyxTrap) npc, dungeon);
@@ -747,7 +747,7 @@ public class DungeonController extends Controller {
 				player.sendMessage("You have already voted to move on.");
 				return false;
 			}
-			player.getDialogueManager().execute(new DungeonClimbLadder(), this);
+			player.startConversation(new DungeonClimbLadder(player, this));
 			return false;
 		} else if (object.getId() == 53977 || object.getId() == 53978 || object.getId() == 53979) {
 			int type = object.getId() == 53977 ? 0 : object.getId() == 53979 ? 1 : 2;
@@ -759,10 +759,10 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "dungeon exit":
-			player.getDialogueManager().execute(new DungeonExit(), this);
+			player.startConversation(new DungeonExit(player, this));
 			return false;
 		case "water trough":
-			player.getDialogueManager().execute(new CreateActionD(new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
+			player.startConversation(new CreateActionD(player, new Item[][] {{ new Item(17490) }}, new Item[][] {{ new Item(17492) }}, null, new int[] { 883 }, -1, 1));
 			return false;
 		case "salve nettles":
 			DungeoneeringFarming.initHarvest(player, Harvest.SALVE_NETTLES, object);
@@ -865,13 +865,13 @@ public class DungeonController extends Controller {
 				}
 			return false;
 		case "runecrafting altar":
-			player.getDialogueManager().execute(new DungeoneeringRCD(), 0);
+			player.startConversation(new DungeoneeringRCD(player, null));
 			return false;
 		case "spinning wheel":
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING);
 			if (products == null || products.length <= 0)
 				return false;
-			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, products, 883, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_SPINNING, products, 883, 2));
 			return false;
 		case "summoning obelisk":
 			Summoning.openInfusionInterface(player, true);
@@ -930,7 +930,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.getDialogueManager().execute(new DungeoneeringRCD(), 1);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.ELEMENTAL));
 			return false;
 		case "summoning obelisk":
 			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
@@ -961,7 +961,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.getDialogueManager().execute(new DungeoneeringRCD(), 2);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.COMBAT));
 			return false;
 		}
 		return true;
@@ -974,7 +974,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.getDialogueManager().execute(new DungeoneeringRCD(), 3);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.OTHER));
 			return false;
 		}
 		return true;
@@ -990,7 +990,7 @@ public class DungeonController extends Controller {
 		String name = object.getDefinitions().getName().toLowerCase();
 		switch (name) {
 		case "runecrafting altar":
-			player.getDialogueManager().execute(new DungeoneeringRCD(), 4);
+			player.startConversation(new DungeoneeringRCD(player, DungRCSet.STAVES));
 			return false;
 		}
 		return true;
@@ -1032,7 +1032,7 @@ public class DungeonController extends Controller {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_SPINNING, item.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_SPINNING, item.getId(), 883, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_SPINNING, item.getId(), 883, 2));
 			return false;
 		}
 		return true;
@@ -1048,28 +1048,28 @@ public class DungeonController extends Controller {
 				products = ReqItem.getProducts(Category.DUNG_NEEDLE_CRAFTING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_NEEDLE_CRAFTING, products[0].getMaterials()[0].getId(), -1, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_NEEDLE_CRAFTING, products[0].getMaterials()[0].getId(), -1, 2));
 		} else if (itemUsed.getId() == 17752 || usedWith.getId() == 17752) {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_BOWSTRINGING, usedWith.getId());
 			if (products == null || products.length <= 0)
 				products = ReqItem.getProducts(Category.DUNG_BOWSTRINGING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_BOWSTRINGING, products[0].getMaterials()[0].getId(), -1, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_BOWSTRINGING, products[0].getMaterials()[0].getId(), -1, 2));
 		} else if (itemUsed.getId() == 17754 || usedWith.getId() == 17754) {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_KNIFE_FLETCHING, usedWith.getId());
 			if (products == null || products.length <= 0)
 				products = ReqItem.getProducts(Category.DUNG_KNIFE_FLETCHING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_KNIFE_FLETCHING, products[0].getMaterials()[0].getId(), -1, 2));
+			player.startConversation(new CreationActionD(player, Category.DUNG_KNIFE_FLETCHING, products[0].getMaterials()[0].getId(), -1, 2));
 		} else if (itemUsed.getId() == 17742 || usedWith.getId() == 17742 || itemUsed.getId() == 17747 || usedWith.getId() == 17747) {
 			ReqItem[] products = ReqItem.getProducts(Category.DUNG_ARROW_COMBINING, usedWith.getId());
 			if (products == null || products.length <= 0)
 				products = ReqItem.getProducts(Category.DUNG_ARROW_COMBINING, itemUsed.getId());
 			if (products == null || products.length <= 0)
 				return false;
-			player.getDialogueManager().execute(new CreationActionD(Category.DUNG_ARROW_COMBINING, products[0].getMaterials()[1].getId(), -1, 1));
+			player.startConversation(new CreationActionD(player, Category.DUNG_ARROW_COMBINING, products[0].getMaterials()[1].getId(), -1, 1));
 		}
 		return true;
 	}
@@ -1111,7 +1111,7 @@ public class DungeonController extends Controller {
 			if (interfaceId == 933)
 				if (componentId >= 318 && componentId <= 322)
 					if (packet == ClientPacket.IF_OP2)
-						player.getDialogueManager().execute(new DungeonLeave(), this);
+						player.startConversation(new DungeonLeave(player, this));
 					else {
 						if (voteStage == 2)
 							return false;
@@ -1237,7 +1237,7 @@ public class DungeonController extends Controller {
 	@Override
 	public boolean canDropItem(Item item) {
 		if (item.getName().contains("Ring of kinship")) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You cannot destroy that here.");
+			player.simpleDialogue("You cannot destroy that here.");
 			return false;
 		}
 		if (item.getDefinitions().isDestroyItem())

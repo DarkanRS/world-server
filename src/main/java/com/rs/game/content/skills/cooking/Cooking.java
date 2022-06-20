@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -189,12 +188,12 @@ public class Cooking extends PlayerAction {
 		if ((cook = Cookables.forId((short) item.getId())) == null)
 			return false;
 		if (cook.isFireOnly() && !object.getDefinitions(player).getName().equals("Fire"))
-			player.getDialogueManager().execute(new SimpleMessage(), "You may only cook this on a fire.");
+			player.simpleDialogue("You may only cook this on a fire.");
 		else if (cook.isSpitRoast() && object.getId() != 11363) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You may only cook this on an iron spit.");
+			player.simpleDialogue("You may only cook this on an iron spit.");
 			return false;
 		} else if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a cooking level of " + cook.getLvl() + " to cook this food.");
+			player.simpleDialogue("You need a cooking level of " + cook.getLvl() + " to cook this food.");
 			return false;
 		}
 		player.sendMessage("You attempt to cook the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
@@ -223,7 +222,7 @@ public class Cooking extends PlayerAction {
 		if (!World.getRegion(object.getRegionId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a level of " + cook.getLvl() + " to cook this.");
+			player.simpleDialogue("You need a level of " + cook.getLvl() + " to cook this.");
 			return false;
 		}
 		return true;

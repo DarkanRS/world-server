@@ -42,6 +42,7 @@ public class Conversation {
 	protected Player player;
 	protected Dialogue current;
 	private int npcId;
+	private boolean created = false;
 
 	public Conversation(Dialogue current) {
 		this(null, current);
@@ -78,6 +79,7 @@ public class Conversation {
 
 	public boolean create() {
 		try {
+			created = true;
 			if (current != null) {
 				setFirst(firstDialogue);
 				return true;
@@ -181,6 +183,16 @@ public class Conversation {
 
 	public Dialogue addOptions(String title, Consumer<Options> create) {
 		Options options = new Options() {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(title, options);
+	}
+	
+	public Dialogue addOptions(String stageName, String title, Consumer<Options> create) {
+		Options options = new Options(stageName, this) {
 			@Override
 			public void create() {
 				create.accept(this);
@@ -318,6 +330,8 @@ public class Conversation {
 	}
 	
 	public void process(int opIndex) {
+		if (current != null)
+			current.close(player);
 		current = current.getNext(opIndex);
 		if (current == null) {
 			player.endConversation();
@@ -353,5 +367,9 @@ public class Conversation {
 		}
 		curr = head;
 		return str.toString();
+	}
+
+	public boolean isCreated() {
+		return created;
 	}
 }

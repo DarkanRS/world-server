@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.achievements;
 
+import com.rs.game.content.DropCleaners;
 import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
@@ -54,6 +55,8 @@ public class AchievementSetRewards {
 		public void handle(NPCDropEvent e) {
 			if (e.getPlayer().getEquipment().getBootsId() == 19766)
 				e.getItem().setId(e.getItem().getDefinitions().getCertId());
+			else
+				DropCleaners.bonecrusher.handle(e);
 		}
 	};
 

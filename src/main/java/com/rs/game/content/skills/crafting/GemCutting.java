@@ -17,8 +17,7 @@
 package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogues_matrix.GemCuttingD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
+import com.rs.game.content.dialogue.impl.GemCuttingD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -123,7 +122,7 @@ public class GemCutting extends PlayerAction {
 		if (player.getInventory().getItems().getNumberOf(new Item(gem.getUncut(), 1)) <= 1)
 			player.getActionManager().setAction(new GemCutting(gem, 1));
 		else
-			player.getDialogueManager().execute(new GemCuttingD(), gem);
+			player.startConversation(new GemCuttingD(player, gem));
 	}
 
 	private Gem gem;
@@ -136,11 +135,11 @@ public class GemCutting extends PlayerAction {
 
 	public boolean checkAll(Player player) {
 		if (player.getSkills().getLevel(Constants.CRAFTING) < gem.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a crafting level of " + gem.getLevelRequired() + " to cut that gem.");
+			player.simpleDialogue("You need a crafting level of " + gem.getLevelRequired() + " to cut that gem.");
 			return false;
 		}
 		if (!player.getInventory().containsOneItem(gem.getUncut())) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have any " + ItemDefinitions.getDefs(gem.getUncut()).getName().toLowerCase() + " to cut.");
+			player.simpleDialogue("You don't have any " + ItemDefinitions.getDefs(gem.getUncut()).getName().toLowerCase() + " to cut.");
 			return false;
 		}
 		return true;

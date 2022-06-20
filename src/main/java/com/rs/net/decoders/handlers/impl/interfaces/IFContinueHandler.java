@@ -34,7 +34,6 @@ public class IFContinueHandler implements PacketHandler<Player, IFContinue> {
 			player.getConversation().process(packet.getInterfaceId(), packet.getComponentId());
 			return;
 		}
-		player.getDialogueManager().continueDialogue(packet.getInterfaceId(), packet.getComponentId());
 		PluginManager.handle(new ButtonClickEvent(player, packet.getInterfaceId(), packet.getComponentId(), -1, -1, ClientPacket.IF_CONTINUE));
 	}
 

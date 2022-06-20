@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.dialogue.impl.skilling;
 
-import com.rs.game.content.SkillsDialogue;
 import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogues_matrix.CreateAction;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.content.skills.util.CreateAction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
@@ -29,7 +29,7 @@ public class MakeXItem extends Dialogue {
 	public MakeXItem(Player player, Item[] materials, Item[] products, double xp, int anim, int req, int skill, int delay) {
 		itemId = products[0].getId();
 		setFunc(() -> {
-			int quantity = SkillsDialogue.getQuantity(player);
+			int quantity = MakeXStatement.getQuantity(player);
 			for (Item mat : materials) {
 				int newQ = player.getInventory().getNumberOf(mat.getId()) / mat.getAmount();
 				if (newQ < quantity)

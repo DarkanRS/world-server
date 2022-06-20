@@ -16,9 +16,10 @@
 //
 package com.rs.game.content.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.game.World;
-import com.rs.game.content.commands.Commands;
-import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;
@@ -30,16 +31,9 @@ import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 public class FightArenaFightCutsceneController extends Controller {
 	public DynamicRegionReference instance;

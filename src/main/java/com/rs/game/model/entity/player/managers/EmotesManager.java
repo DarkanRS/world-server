@@ -22,7 +22,6 @@ import java.util.HashMap;
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -281,9 +280,9 @@ public final class EmotesManager {
 		player.getTreasureTrailsManager().useEmote(emote);
 		if (!unlockedEmote(emote)) {
 			if (emote == Emote.AIR_GUITAR)
-				player.getDialogueManager().execute(new SimpleMessage(), "This emote can be acessed by unlocking " + Settings.AIR_GUITAR_MUSICS_COUNT + " pieces of music.");
+				player.simpleDialogue("This emote can be acessed by unlocking " + Settings.AIR_GUITAR_MUSICS_COUNT + " pieces of music.");
 			else
-				player.getDialogueManager().execute(new SimpleMessage(), "You haven't unlocked "+emote.name+" yet.");
+				player.simpleDialogue("You haven't unlocked "+emote.name+" yet.");
 		} else {
 			if (World.getServerTicks() < nextEmoteEnd) {
 				player.sendMessage("You're already doing an emote!");
