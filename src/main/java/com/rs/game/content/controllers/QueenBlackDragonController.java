@@ -19,7 +19,7 @@ package com.rs.game.content.controllers;
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.RewardChest;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -114,7 +114,9 @@ public final class QueenBlackDragonController extends Controller {
 			return false;
 		}
 		if (object.getId() == 70815) {
-			player.startConversation(new RewardChest(), npc);
+			player.startConversation(new Dialogue()
+					.addSimple("This strange device is covered in indecipherable script. It opens for you, displaying only a small sample of the objects it contains.")
+					.addNext(() -> npc.openRewardChest(true)));
 			return false;
 		}
 		if (object.getId() == 70817) {

@@ -16,7 +16,9 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
@@ -122,7 +124,12 @@ public class PoltergeistRoom extends PuzzleRoom {
 				player.sendMessage("You need a herblore level of " + requiredHerblore + " to harvest these herbs.");
 				return false;
 			}
-			player.startConversation(new PoltergeistFarmD(), this, object);
+			player.startConversation(new Dialogue().addOptions(ops -> {
+				for (int i = 0;i < HERBS.length;i++) {
+					final int index = i;
+					ops.add(ItemDefinitions.getDefs(HERBS[i]).name, () -> takeHerb(player, object, index));
+				}
+			}));
 			return false;
 		}
 		return true;

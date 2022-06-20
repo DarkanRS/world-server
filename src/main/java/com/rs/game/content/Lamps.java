@@ -17,8 +17,8 @@
 package com.rs.game.content;
 
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.statements.LampXPSelectStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
@@ -81,86 +81,51 @@ public class Lamps {
         long key = map.getKeyForValue(lamp.getSelectedSkill());
         player.getPackets().sendVarc(1796, (int) key);
     }
+    
+    private static int getLampsLevelReq(int id) {
+        switch (id) {
+            case 4447://Shield of Arrav
+                return 20;
+        }
+        return 1;
+    }
 
     public static void openSelectableInterface(Player player, int slot, int id) {
-        player.startConversation(new MatrixDialogue() {
-            Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
-
-            private int getLampsLevelReq(int id) {
-                switch (id) {
-                    case 4447://Shield of Arrav
-                        return 20;
-                }
-                return 1;
+    	Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
+    	Dialogue lampD = new Dialogue().addNext(new LampXPSelectStatement(new Lamp(id, slot, getLampsLevelReq(id))));
+    	lampD.addNext(() -> {
+    		if (!player.getInventory().containsItem(lamp.getId(), 1)) {
+                player.getTempAttribs().removeO("lampInstance");
+                player.closeInterfaces();
+                return;
             }
+            int lvl = player.getSkills().getLevelForXp(lamp.getSelectedSkill());
+            if (lvl < lamp.getReq())//makes unmet req skill xp unclickable
+                return;
 
-            @Override
-            public void start() {
-                if (id == 12628)
-                    lamp.setXp(500);
-                player.getTempAttribs().setO("lampInstance", lamp);
-                player.getVars().setVar(738, 1); //has house
-                player.getVars().setVarBit(2187, 1);
-                player.getInterfaceManager().sendInterface(1263);
-                player.getPackets().sendVarcString(358, "What skill would you like XP in?");
-                sendSelectedSkill(player);
-                player.getPackets().sendVarc(1797, 0);
-                player.getPackets().sendVarc(1798, lamp.getReq()); //level required to use lamp
-                player.getPackets().sendVarc(1799, getVarCValueForLamp(id));
-                for (int i = 13; i < 38; i++)
-                    player.getPackets().setIFRightClickOps(1263, i, -1, 0, 0);
-                player.getPackets().setIFEvents(new IFEvents(1263, 39, 1, 26).enableContinueButton());
-            }
-
-            private int getVarCValueForLamp(int id) {
-                switch (id) {
-                    case 4447://Shield of Arrav
-                        return 23713;
-                }
-                return id;
-            }
-
-            @Override
-            public void run(int interfaceId, int componentId) {
-                if (componentId == 39) {
-                    if (!player.getInventory().containsItem(lamp.getId(), 1)) {
-                        player.getTempAttribs().removeO("lampInstance");
-                        player.closeInterfaces();
-                        return;
-                    }
-                    int lvl = player.getSkills().getLevelForXp(lamp.getSelectedSkill());
-                    if (lvl < lamp.getReq())//makes unmet req skill xp unclickable
-                        return;
-
-                    player.getInventory().deleteItem(slot, new Item(lamp.getId(), 1));
-                    double xpAmt = lamp.getXp() != 0 ? lamp.getXp() : getExp(player.getSkills().getLevelForXp(lamp.getSelectedSkill()), selectableLampType(lamp.getId()));
-                    if (lamp.getId() == 18782) {
-                        if (lvl < 30)
-                            xpAmt = (EnumDefinitions.getEnum(716).getIntValueAtIndex(lvl) - EnumDefinitions.getEnum(716).getIntValueAtIndex(lvl - 1));
-                        else
-                            xpAmt = (Math.pow(lvl, 3) - 2 * Math.pow(lvl, 2) + 100 * lvl) / 20.0;
-                    } else if (lamp.getId() == 20960)
-                        xpAmt = (lvl * lvl) - (2 * lvl) + 100;
-                    else if (lamp.getId() == 2528 || lamp.getId() == 24151)
-                        xpAmt = player.getSkills().getLevelForXp(lamp.getSelectedSkill()) * 10;
-                    else if (lamp.getId() == 4447)
-                        xpAmt = 1000;
-                    double exp = player.getSkills().addXpLamp(lamp.getSelectedSkill(), xpAmt);
-                    player.closeInterfaces();
-                    player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");
-                    player.getTempAttribs().removeO("lampInstance");
-                } else {
-                    player.getTempAttribs().removeO("lampInstance");
-                    player.closeInterfaces();
-                }
-            }
-
-            @Override
-            public void finish() {
-
-            }
-
-        });
+            player.getInventory().deleteItem(slot, new Item(lamp.getId(), 1));
+            double xpAmt = lamp.getXp() != 0 ? lamp.getXp() : getExp(player.getSkills().getLevelForXp(lamp.getSelectedSkill()), selectableLampType(lamp.getId()));
+            if (lamp.getId() == 18782) {
+                if (lvl < 30)
+                    xpAmt = (EnumDefinitions.getEnum(716).getIntValueAtIndex(lvl) - EnumDefinitions.getEnum(716).getIntValueAtIndex(lvl - 1));
+                else
+                    xpAmt = (Math.pow(lvl, 3) - 2 * Math.pow(lvl, 2) + 100 * lvl) / 20.0;
+            } else if (lamp.getId() == 20960)
+                xpAmt = (lvl * lvl) - (2 * lvl) + 100;
+            else if (lamp.getId() == 2528 || lamp.getId() == 24151)
+                xpAmt = player.getSkills().getLevelForXp(lamp.getSelectedSkill()) * 10;
+            else if (lamp.getId() == 4447)
+                xpAmt = 1000;
+            double exp = player.getSkills().addXpLamp(lamp.getSelectedSkill(), xpAmt);
+            player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");
+    		 player.getTempAttribs().removeO("lampInstance");
+             player.closeInterfaces();
+    	});
+    	lampD.addNext(() -> {
+    		 player.getTempAttribs().removeO("lampInstance");
+             player.closeInterfaces();
+    	});
+    	player.startConversation(lampD);
         player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeO("lampInstance"));
     }
 
@@ -183,29 +148,15 @@ public class Lamps {
     private static void openSkillDialog(Player player, final int slot, final int id) {
         final int type = skillLampType(id);
         final int skillId = skillLampSkillId(id);
-
-        player.startConversation(new MatrixDialogue() {
-            @Override
-            public void start() {
-                sendOptionsDialogue("Rub Lamp?", "Gain <col=ff0000>" + Skills.SKILL_NAME[skillId] + "</col> experience", "Cancel");
-            }
-
-            @Override
-            public void run(int interfaceId, int componentId) {
-                if (componentId != MatrixDialogue.OPTION_1 || !player.getInventory().containsItem(id, 1)) {
-                    end();
-                    return;
-                }
-
-                player.getInventory().deleteItem(slot, new Item(id, 1));
+        player.sendOptionDialogue("Rub Lamp?", ops -> {
+        	ops.add("Gain <col=ff0000>" + Skills.SKILL_NAME[skillId] + "</col> experience", () -> {
+        		if (!player.containsItem(id))
+        			return;
+        		player.getInventory().deleteItem(slot, new Item(id, 1));
                 double exp = player.getSkills().addXpLamp(skillId, getExp(player.getSkills().getLevelForXp(skillId), type));
-                sendDialogue("<col=0000ff>Your wish has been granted!</col>", "You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[skillId] + "!");
-            }
-
-            @Override
-            public void finish() {
-            }
-
+                player.simpleDialogue("<col=0000ff>Your wish has been granted!</col>", "You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[skillId] + "!");
+        	});
+        	ops.add("Cancel");
         });
     }
 
