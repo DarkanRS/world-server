@@ -55,7 +55,8 @@ public class Conversation {
 	public Conversation(Player player, Dialogue current) {
 		this.player = player;
 		this.current = current;
-		markedStages = new HashMap<>();
+		this.firstDialogue = current;
+		this.markedStages = new HashMap<>();
 	}
 
 	public Conversation(Statement statement) {
