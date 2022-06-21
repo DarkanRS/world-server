@@ -3761,10 +3761,10 @@ public class Player extends Entity {
 	public boolean startConversation(Conversation conversation) {
 		if (conversation.getCurrent() == null)
 			return false;
+		conversation.setPlayer(this);
 		if (!conversation.isCreated())
 			conversation.create();
 		this.conversation = conversation;
-		this.conversation.setPlayer(this);
 		conversation.start();
 		return true;
 	}
