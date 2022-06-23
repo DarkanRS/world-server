@@ -41,10 +41,7 @@ public class PotteryCrafting  {
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer())
 					.addNext(new MakeXStatement(new int[] { 1931, 20347 }, new String[] { "Normal Pottery", "Skilling Urns" }),
-							() -> {
-								e.getPlayer().endConversation();
-								e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_MATS, UNF_PRODS, XP, 896, REQS, Constants.CRAFTING, 2));
-							},
+							() -> e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_MATS, UNF_PRODS, XP, 896, REQS, Constants.CRAFTING, 2)),
 							() -> e.getPlayer().startConversation(new CreateUnfUrnD(e.getPlayer()))));
 		}
 	};
