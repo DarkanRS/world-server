@@ -129,6 +129,10 @@ public class ItemTeleports {
 		int index = getIndex(item);
 		if (index < 0)
 			return;
+		if (optionIndex > COORDINATES[index].length) {
+			player.sendMessage("Error handling teleport option. Report this to administrators.");
+			return;
+		}
 		Magic.sendTeleportSpell(player, getFirstEmote(index), -1, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.OBJECT_TELEPORT, null);
 	}
 

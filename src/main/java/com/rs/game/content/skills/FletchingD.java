@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
@@ -32,7 +30,11 @@ public class FletchingD extends Conversation {
 		super(player);
 		
 		boolean maxQuantityTen = Fletching.maxMakeQuantityTen(items) && items.getProduct()[0] != 52;
-		Dialogue makeX = addNext(new MakeXStatement(maxQuantityTen ? MakeXType.MAKE_SET : MakeXType.MAKE, maxQuantityTen ? 10 : 28, "Choose how many you wish to make,<br>then click on the item to begin.", items.getProduct(), maxQuantityTen ? null : (String[]) Arrays.stream(items.getProduct()).mapToObj(i -> ItemDefinitions.getDefs(i).name.replace(" (u)", "")).toArray()));
+		String[] replaced = new String[items.getProduct().length];
+		for (int i = 0;i < items.getProduct().length;i++)
+			replaced[i] = ItemDefinitions.getDefs(items.getProduct()[i]).name.replace(" (u)", "");
+		
+		Dialogue makeX = addNext(new MakeXStatement(maxQuantityTen ? MakeXType.MAKE_SET : MakeXType.MAKE, maxQuantityTen ? 10 : 28, "Choose how many you wish to make,<br>then click on the item to begin.", items.getProduct(), maxQuantityTen ? null : replaced));
 		
 		for (int i = 0;i < items.getProduct().length;i++) {
 			final int option = i;

@@ -57,15 +57,17 @@ public final class Pet extends NPC {
 	@Override
 	public void processNPC() {
 		Familiar.sendLeftClickOption(owner);
-		if (pet != Pets.TROLL_BABY || pet.getFood().length > 0) {
-			details.updateHunger(0.025);
-			owner.getVars().setVarBit(4286, (int) details.getHunger());
-		}
-		if (growthRate > 0.000) {
-			details.updateGrowth(growthRate);
-			owner.getVars().setVarBit(4285, (int) details.getGrowth());
-			if (details.getGrowth() == 100.0)
-				growNextStage();
+		if (details != null) {
+			if (pet != Pets.TROLL_BABY || pet.getFood().length > 0) {
+				details.updateHunger(0.025);
+				owner.getVars().setVarBit(4286, (int) details.getHunger());
+			}
+			if (growthRate > 0.000) {
+				details.updateGrowth(growthRate);
+				owner.getVars().setVarBit(4285, (int) details.getGrowth());
+				if (details.getGrowth() == 100.0)
+					growNextStage();
+			}
 		}
 		if (!withinDistance(owner, 12)) {
 			call();
