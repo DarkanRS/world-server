@@ -24,7 +24,6 @@ import java.util.Map;
 
 import com.rs.Settings;
 import com.rs.game.content.controllers.PestControlLobbyController;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.pest.PestControl.PestData;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -187,7 +186,7 @@ public class Lander {
 	public static boolean canEnter(Player player, int landerIndex) {
 		Lander lander = landers[landerIndex];
 		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequierment().requirement) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a combat level of " + lander.getLanderRequierment().getRequirement() + " or more to enter in boat.");
+			player.simpleDialogue("You need a combat level of " + lander.getLanderRequierment().getRequirement() + " or more to enter in boat.");
 			return false;
 		}
 		if (player.getPet() != null || player.getFamiliar() != null) {

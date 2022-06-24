@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.controllers;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.creations.Helper;
 import com.rs.game.content.minigames.creations.StealingCreationLobby;
 import com.rs.game.model.entity.ForceMovement;
@@ -77,13 +76,13 @@ public class StealingCreationLobbyController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "A magical force prevents you from teleporting from the arena.");
+		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "A magical force prevents you from teleporting from the arena.");
+		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 

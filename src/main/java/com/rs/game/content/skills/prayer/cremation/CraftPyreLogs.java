@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.prayer.cremation;
 
 import com.rs.game.content.Potions;
-import com.rs.game.content.SkillsDialogue;
+import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -36,7 +36,7 @@ public class CraftPyreLogs extends PlayerAction {
 
 	@Override
 	public boolean start(Player player) {
-		makeX = SkillsDialogue.getQuantity(player);
+		makeX = MakeXStatement.getQuantity(player);
 		return true;
 	}
 

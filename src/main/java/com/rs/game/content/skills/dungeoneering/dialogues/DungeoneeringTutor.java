@@ -16,85 +16,61 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.minigames.treasuretrails.UgiDialogue;
+import com.rs.game.model.entity.npc.others.Ugi;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 
-public class DungeoneeringTutor extends MatrixDialogue {
-
+@PluginEventHandler
+public class DungeoneeringTutor extends Conversation {
+	
 	private static final int DUNGEON_TUTOR = 9712;
+	
+	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { DUNGEON_TUTOR }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (e.getNPC() instanceof Ugi ugi)
+				e.getPlayer().startConversation(new UgiDialogue(e.getPlayer(), ugi));
+		}
+	};
 
-	@Override
-	public void start() {
-		sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "Greetings, adventurer!");
-		if (!player.containsItem(15707))
-			stage = -1;
-		else
-			stage = 2;
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == -1) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "Before we carry on, let me give you this.");
+	public DungeoneeringTutor(Player player) {
+		super(player);
+		
+		addNPC(HeadE.CHEERFUL, "Greetings, adventurer!");
+		if (!player.containsItem(15707)) {
+			addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL, "Before we carry on, let me give you this.");
 			if (player.getInventory().hasFreeSlots())
-				stage = 0;
-			else
-				stage = 1;
-		} else if (stage == 0) {
-			sendDialogue("He hands you a ring.");
-			player.getInventory().addItem(new Item(15707, 1));
-			stage = 2;
-		} else if (stage == 1) {
-			sendDialogue("Your inventory is currently full!");
-			stage = 2;
-		} else if (stage == 2) {
-			sendOptionsDialogue("Select an Option.", "What is this place?", "What can I do here?", "What does this ring do?");
-			stage = 3;
-		} else if (stage == 3) {
-			if (componentId == OPTION_1) {
-				sendPlayerDialogue(NORMAL, "What is this place?");
-				stage = 4;
-			} else if (componentId == OPTION_2) {
-				sendPlayerDialogue(NORMAL, "What can I do here?");
-				stage = 8;
-			} else if (componentId == OPTION_3) {
-				sendPlayerDialogue(NORMAL, "What does this ring do?");
-				stage = 10;
+				addItem(15707, "He hands you a ring.", () -> player.getInventory().addItem(new Item(15707, 1)));
+			else {
+				addSimple("Your inventory is currently full.");
+				create();
+				return;
 			}
-		} else if (stage == 4) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "This is a place of treasures, fierce battles and bitter defeats.");
-			stage = 5;
-		} else if (stage == 5) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "We fought our way into the dungeons beneath this place.");
-			stage = 6;
-		} else if (stage == 6) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "Those of us who made it out alive...");
-			stage = 7;
-		} else if (stage == 7) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "...called this place Daemonhiem.");
-			stage = 100;
-		} else if (stage == 8) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "Beneath these ruins you will find a multitude of dungeons, filled with strange creatures and resources.");
-			stage = 9;
-		} else if (stage == 9) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "Unfortunately, due to the taint that permiates this place, we cannot risk you taking items in or out of Daemonhiem.");
-			stage = 100;
-		} else if (stage == 10) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "Raiding these foresaken dungeons can be alot more rewarding if you're fighting alongside friends and allies. It should be more fun and you gain experience faster.");
-			stage = 11;
-		} else if (stage == 11) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "The ring shows others you are interested in raiding a dungeon. It allowes you to form, join, and manage a raiding party.");
-			stage = 12;
-		} else if (stage == 12) {
-			sendNPCDialogue(DUNGEON_TUTOR, NORMAL, "We've also setup rooms with the specific purpose of finding a party for you.");
-			stage = 100;
-		} else if (stage == 100)
-			end();
+		}
+		addOptions(ops -> {
+			ops.add("What is this place?", new Dialogue()
+					.addPlayer(HeadE.CONFUSED, "What is this place?")
+					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "This is a place of treasures, fierce battles and bitter defeats.")
+					.addNPC(DUNGEON_TUTOR, HeadE.ANGRY, "We fought our way into the dungeons beneath this place.")
+					.addNPC(DUNGEON_TUTOR, HeadE.ANGRY, "Those of us who made it out alive...")
+					.addNPC(DUNGEON_TUTOR, HeadE.ANGRY, "...called this place Daemonhiem."));
+			ops.add("What can I do here?", new Dialogue()
+					.addPlayer(HeadE.CONFUSED, "What can I do here?")
+					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "Beneath these ruins you will find a multitude of dungeons, filled with strange creatures and resources.")
+					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "Unfortunately, due to the taint that permiates this place, we cannot risk you taking items in or out of Daemonhiem."));
+			ops.add("What does this ring do?", new Dialogue()
+					.addPlayer(HeadE.CONFUSED, "What does this ring do?")
+					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "Raiding these foresaken dungeons can be alot more rewarding if you're fighting alongside friends and allies. It should be more fun and you gain experience faster.")
+					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "The ring shows others you are interested in raiding a dungeon. It allowes you to form, join, and manage a raiding party.")
+					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "We've also setup rooms with the specific purpose of finding a party for you."));
+			ops.add("Nevermind.");
+		});
 	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

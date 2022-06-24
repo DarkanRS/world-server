@@ -32,14 +32,15 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.commands.Commands;
-import com.rs.game.content.controllers.RunespanController;
 import com.rs.game.content.controllers.TutorialIslandController;
 import com.rs.game.content.cutscenes.ExampleCutscene;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.randomevents.RandomEvents;
+import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
@@ -72,10 +73,12 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
-import com.rs.utils.music.*;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
+import com.rs.utils.music.Song;
+import com.rs.utils.music.Voices;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
-import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 
 @PluginEventHandler
@@ -443,18 +446,18 @@ public class MiscTest {
 			switch(args[0].toLowerCase()) {
 			case "modern":
 			case "normal":
-				p.getCombatDefinitions().setSpellBook(0);
+				p.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
 				break;
 			case "ancient":
 			case "ancients":
-				p.getCombatDefinitions().setSpellBook(1);
+				p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
 				break;
 			case "lunar":
 			case "lunars":
-				p.getCombatDefinitions().setSpellBook(2);
+				p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
 				break;
 			case "dung":
-				p.getCombatDefinitions().setSpellBook(3);
+				p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING);
 				break;
 			default:
 				p.sendMessage("Invalid spellbook. Spellbooks are modern, lunar, ancient, and dung");
@@ -627,17 +630,20 @@ public class MiscTest {
 
 		});
 
-		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
+			int i = 0;
+			List<NPC> npcs = new ArrayList<>();
 			for (NPC npc : World.getNPCs())
 				if (npc.getId() == Integer.valueOf(args[0])) {
-					p.setNextWorldTile(new WorldTile(npc.getTile()));
-					return;
+					npcs.add(npc);
 				}
-			for (NPCSpawn spawns : NPCSpawns.getAllSpawns())
-				if (spawns.getNPCId() == Integer.valueOf(args[0])) {
-					p.setNextWorldTile(new WorldTile(spawns.getTile()));
-					return;
-				}
+			for(NPC npc : npcs)
+				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
+			if (args.length == 1) {
+				p.setNextWorldTile(new WorldTile(npcs.get(0).getTile()));
+				return;
+			}
+			p.setNextWorldTile(npcs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "hide", "Hides the player from other players.", (p, args) -> {

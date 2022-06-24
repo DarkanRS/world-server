@@ -16,6 +16,8 @@
 //
 package com.rs.game.content;
 
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -23,37 +25,88 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
 
-/**
- * Handles ancient effigies non-dialogue related stuff.
- *
- * @author Raghav/Own4g3 <Raghav_ftw@hotmail.com>
- *
- */
+@PluginEventHandler
 public class AncientEffigies {
 
-	/**
-	 * First skill to be nourished.
-	 */
-	public static int[] SKILL_1 = { Constants.AGILITY, Constants.CONSTRUCTION, Constants.COOKING, Constants.FISHING, Constants.FLETCHING, Constants.HERBLORE, Constants.MINING, Constants.SUMMONING };
-
-	/**
-	 * Second skill to be nourished.
-	 */
-	public static int[] SKILL_2 = { Constants.CRAFTING, Constants.THIEVING, Constants.FIREMAKING, Constants.FARMING, Constants.WOODCUTTING, Constants.HUNTER, Constants.SMITHING, Constants.RUNECRAFTING };
-
-	/**
-	 * Ancient effigies' item ids.
-	 */
+	public static final int[] SKILL_1 = { Constants.AGILITY, Constants.CONSTRUCTION, Constants.COOKING, Constants.FISHING, Constants.FLETCHING, Constants.HERBLORE, Constants.MINING, Constants.SUMMONING };
+	public static final int[] SKILL_2 = { Constants.CRAFTING, Constants.THIEVING, Constants.FIREMAKING, Constants.FARMING, Constants.WOODCUTTING, Constants.HUNTER, Constants.SMITHING, Constants.RUNECRAFTING };
 	public static final int STARVED_ANCIENT_EFFIGY = 18778, NOURISHED_ANCIENT_EFFIGY = 18779, SATED_ANCIENT_EFFIGY = 18780, GORGED_ANCIENT_EFFIGY = 18781, DRAGONKIN_LAMP = 18782;
 
-	/**
-	 * Getting the required level for each effigy.
-	 *
-	 * @param id
-	 *            The effigy's item id.
-	 * @return Required level.
-	 */
+	public static ItemClickHandler handleEffigies = new ItemClickHandler(new Object[] { SATED_ANCIENT_EFFIGY, GORGED_ANCIENT_EFFIGY, NOURISHED_ANCIENT_EFFIGY, STARVED_ANCIENT_EFFIGY }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			int type = -1;
+			if(e.getItem().getMetaData("effigyType") != null) {
+				type = e.getItem().getMetaDataI("effigyType");
+				if (((int) Math.floor(type)) >= SKILL_1.length) {
+					type = Utils.getRandomInclusive(7);
+					e.getPlayer().getInventory().replace(e.getItem(), new Item(e.getItem().getId(), e.getItem().getAmount()).addMetaData("effigyType", type));
+				}
+			}
+			if (e.getItem().getMetaData("effigyType") == null) {
+				type = Utils.getRandomInclusive(7);
+				e.getPlayer().getInventory().replace(e.getItem(), new Item(e.getItem().getId(), e.getItem().getAmount()).addMetaData("effigyType", type));
+			}
+
+			final int skill1 = AncientEffigies.SKILL_1[type];
+			final int skill2 = AncientEffigies.SKILL_2[type];
+			e.getPlayer().startConversation(new Dialogue()
+					.addSimple("As you inspect the ancient effigy you begin to feel a strange sensation of the relic searching your mind, drawing on your knowledge.")
+					.addSimple("Images from your experiences of " + AncientEffigies.getMessage(skill1) + "fill your mind.", ()->{
+						e.getPlayer().getTempAttribs().setI("skill1", skill1);
+						e.getPlayer().getTempAttribs().setI("skill2", skill2);
+					})
+					.addOptions("Which images do you wish to focus on?", new Options() {
+						@Override
+						public void create() {
+							if(e.getPlayer().getSkills().getLevel(e.getPlayer().getTempAttribs().getI("skill1")) < AncientEffigies.getRequiredLevel(e.getItem().getId()))
+								option(Constants.SKILL_NAME[skill1], new Dialogue()
+										.addSimple("The images in your mind fade; the ancient effigy seems to desire knowledge of experiences you have not yet had.", () -> {
+											e.getPlayer().sendMessage("You require at least level " + getRequiredLevel(e.getItem().getId()) + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
+											e.getPlayer().setNextAnimation(new Animation(4067));
+										})
+								);
+							else
+								option(Constants.SKILL_NAME[skill1], new Dialogue()
+										.addSimple("As you focus on your memories, you can almost hear a voice in the back of your mind whispering to you...", ()->{
+											e.getPlayer().getTempAttribs().setI("skill", skill1);
+										})
+										.addSimple("The ancient effigy glows briefly; it seems changed somehow and no longer responds to the same memories as before.", ()->{
+											e.getPlayer().getSkills().addXpLamp(e.getPlayer().getTempAttribs().getI("skill"), AncientEffigies.getExp(e.getItem().getId()));
+											e.getPlayer().sendMessage("You have gained " + AncientEffigies.getExp(e.getItem().getId()) + " " + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill1")] + " experience!");
+											AncientEffigies.effigyInvestigation(e.getPlayer(), e.getItem());
+										})
+										.addSimple("A sudden bolt of inspiration flashes through your mind, revealing new insight into your experiences!")
+								);
+							if(e.getPlayer().getSkills().getLevel(e.getPlayer().getTempAttribs().getI("skill2")) < AncientEffigies.getRequiredLevel(e.getItem().getId()))
+								option(Constants.SKILL_NAME[skill2], new Dialogue()
+										.addSimple("The images in your mind fade; the ancient effigy seems to desire knowledge of experiences you have not yet had.", () -> {
+											e.getPlayer().sendMessage("You require at least level " + getRequiredLevel(e.getItem().getId()) + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill2")] + " to investigate the ancient effigy further.");
+											e.getPlayer().setNextAnimation(new Animation(4067));
+										})
+								);
+							else
+								option(Constants.SKILL_NAME[skill2], new Dialogue()
+										.addSimple("As you focus on your memories, you can almost hear a voice in the back of your mind whispering to you...", ()->{
+											e.getPlayer().getTempAttribs().setI("skill", skill2);
+										})
+										.addSimple("The ancient effigy glows briefly; it seems changed somehow and no longer responds to the same memories as before.", ()->{
+											e.getPlayer().getSkills().addXpLamp(e.getPlayer().getTempAttribs().getI("skill"), AncientEffigies.getExp(e.getItem().getId()));
+											e.getPlayer().sendMessage("You have gained " + AncientEffigies.getExp(e.getItem().getId()) + " " + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill")] + " experience!");
+											AncientEffigies.effigyInvestigation(e.getPlayer(), e.getItem());
+										})
+										.addSimple("A sudden bolt of inspiration flashes through your mind, revealing new insight into your experiences!")
+								);
+						}
+					})
+			);
+		}
+	};
+
 	public static int getRequiredLevel(int id) {
 		switch (id) {
 		case STARVED_ANCIENT_EFFIGY:
@@ -68,13 +121,6 @@ public class AncientEffigies {
 		return -1;
 	}
 
-	/**
-	 * Getting the message.
-	 *
-	 * @param skill
-	 *            The skill
-	 * @return message
-	 */
 	public static String getMessage(int skill) {
 		switch (skill) {
 		case Constants.AGILITY:
@@ -97,13 +143,6 @@ public class AncientEffigies {
 		return null;
 	}
 
-	/**
-	 * Getting the experience amount.
-	 *
-	 * @param itemId
-	 *            The effigy's item id.
-	 * @return The amount of experience.
-	 */
 	public static int getExp(int itemId) {
 		switch (itemId) {
 		case STARVED_ANCIENT_EFFIGY:
@@ -118,14 +157,6 @@ public class AncientEffigies {
 		return -1;
 	}
 
-	/**
-	 * Investigation of an effigy.
-	 *
-	 * @param player
-	 *            The player who is doing investigation.
-	 * @param id
-	 *            The effigy item id.
-	 */
 	public static void effigyInvestigation(Player player, Item item) {
 		Inventory inv = player.getInventory();
 		if (item.getId() == STARVED_ANCIENT_EFFIGY)

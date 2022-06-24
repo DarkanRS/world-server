@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -46,7 +45,7 @@ public class DungeoneeringRunecrafting extends PlayerAction {
 	public boolean start(Player player) {
 		int actualLevel = player.getSkills().getLevel(Constants.RUNECRAFTING);
 		if (actualLevel < levelRequirement) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a runecrafting level of " + levelRequirement + " to craft this rune.");
+			player.simpleDialogue("You need a runecrafting level of " + levelRequirement + " to craft this rune.");
 			return false;
 		}
 		int essense = player.getInventory().getNumberOf(DungeonConstants.ESSENCE);

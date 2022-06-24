@@ -1,0 +1,27 @@
+{
+  "names": [
+    "Har-Aken (Ranged Tentacle)"
+  ],
+  "attackAnim": 16239,
+  "defenceAnim": 16253,
+  "deathAnim": 16240,
+  "deathDelay": 6,
+  "respawnDelay": 59,
+  "hitpoints": 700,
+  "maxHit": 230,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 200,
+    "RANGE": 250,
+    "STRENGTH": 150,
+    "DEFENSE": 500,
+    "MAGE": 500
+  },
+  "attackRange": 10,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 64,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

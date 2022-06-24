@@ -19,7 +19,7 @@ package com.rs.game.content.skills.slayer;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -105,7 +105,7 @@ public class SlayerTaskManager {
 	public void speakToMaster(Player player, Master master) {
 		if (master == null) {
 			if (player.hasSlayerTask())
-				player.getDialogueManager().execute(new EnchantedGemD(), player.getSlayer().getMaster());
+				player.startConversation(new EnchantedGemD(player, player.getSlayer().getMaster()));
 			else
 				player.sendMessage("You have no task currently.");
 		} else
@@ -143,28 +143,27 @@ public class SlayerTaskManager {
 	public void getTaskFrom(Player player, final Master master) {
 		if (player.hasSlayerTask()) {
 			if ((master == Master.Turael) && (player.getSlayer().getTask().getMaster().name().indexOf("Turael") == -1)) {
-				MatrixDialogue.sendNPCDialogue(player, master.npcId, MatrixDialogue.HAPPY_TALKING, "You already have a task of " + player.getSlayer().getTask().getMonster().getName() + "" + (master == getMaster() ? "" : (" from "+ player.getSlayer().getTask().getMaster().name())) + ".");
 				player.sendOptionDialogue("You already have a task, would you like me to assign you something easier?", ops -> {
 					ops.add("Yes, please give me an easier task, " + master.name(), () -> {
 						player.consecutiveTasks = 0;
 						player.getSlayer().removeTask();
 						player.getSlayer().generateNewTask(player, master);
 						player.updateSlayerTask();
-						MatrixDialogue.sendNPCDialogue(player, master.npcId, MatrixDialogue.HAPPY_TALKING, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());
+						player.npcDialogue(master.npcId, HeadE.CHEERFUL_EXPOSITION, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());
 					});
 					ops.add("No, not now.");
 				});
 			} else
-				MatrixDialogue.sendNPCDialogue(player, master.npcId, MatrixDialogue.HAPPY_TALKING, "You already have a task of " + player.getSlayer().getTask().getMonster().getName() + "" + (master == getMaster() ? "" : (" from "+ player.getSlayer().getTask().getMaster().name())) + ".");
+				player.npcDialogue(master.npcId, HeadE.CHEERFUL_EXPOSITION, "You already have a task of " + player.getSlayer().getTask().getMonster().getName() + "" + (master == getMaster() ? "" : (" from "+ player.getSlayer().getTask().getMaster().name())) + ".");
 		} else {
 			if (player.getSkills().getLevelForXp(Constants.SLAYER) < master.reqSlayerLevel || player.getSkills().getCombatLevelWithSummoning() < master.requiredCombatLevel) {
-				MatrixDialogue.sendNPCDialogue(player, master.npcId, MatrixDialogue.HAPPY_TALKING, "You are not yet experienced enough to recieve my tasks. Come back when you're stronger.");
+				player.npcDialogue(master.npcId, HeadE.CHEERFUL_EXPOSITION, "You are not yet experienced enough to recieve my tasks. Come back when you're stronger.");
 				return;
 			}
 			player.sendOptionDialogue("Get a task from " + master.name()+"?", ops -> {
 				ops.add("Yes, give me a new task from " + master.name(), () -> {
 					player.getSlayer().generateNewTask(player, master);
-					MatrixDialogue.sendNPCDialogue(player, master.npcId, MatrixDialogue.HAPPY_TALKING, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());
+					player.npcDialogue(master.npcId, HeadE.CHEERFUL_EXPOSITION, "You're doing okay, I suppose. Your new task is to kill " + player.getSlayer().getTaskMonstersLeft() + " " + player.getSlayer().getTask().getMonster().getName());
 				});
 				ops.add("No, not now.");
 			});

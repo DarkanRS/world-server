@@ -44,7 +44,7 @@ public class MonksFriend extends QuestOutline {
 				lines.add("");
 			}
 			case GET_BLANKET -> {
-				lines.add("I need to find the thieve's hideout who took a blanket");
+				lines.add("I need to find the thief's hideout who took a blanket");
 				lines.add("from a poor child. I will need to look around to find it.");
 				lines.add("");
 			}

@@ -20,11 +20,9 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogues_matrix.CookingD;
-import com.rs.game.content.dialogues_matrix.FillingD;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
-import com.rs.game.content.dialogues_matrix.SimpleNPCMessage;
+import com.rs.game.content.dialogue.impl.FillingD;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.construction.House.ObjectReference;
@@ -40,6 +38,7 @@ import com.rs.game.content.skills.construction.SitChair;
 import com.rs.game.content.skills.construction.TabletMaking;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
+import com.rs.game.content.skills.cooking.CookingD;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
@@ -102,13 +101,13 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean processNPCClick1(NPC npc) {
-		if (npc instanceof ServantNPC) {
+		if (npc instanceof ServantNPC servant) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.getDialogueManager().execute(new SimpleNPCMessage(), npc.getId(), "Sorry, I only serve my master.");
+				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "Sorry, I only serve my master.");
 				return false;
 			}
-			player.getDialogueManager().execute(new ServantHouseD(), npc, false);
+			player.startConversation(new ServantHouseD(player, servant, false));
 			return false;
 		}
 		return true;
@@ -116,13 +115,13 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean processNPCClick2(NPC npc) {
-		if (npc instanceof ServantNPC) {
+		if (npc instanceof ServantNPC servant) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.getDialogueManager().execute(new SimpleNPCMessage(), npc.getId(), "The servant ignores your request.");
+				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
 			}
-			player.getDialogueManager().execute(new ServantHouseD(), npc, true);
+			player.startConversation(new ServantHouseD(player, servant, true));
 			return false;
 		}
 		return true;
@@ -133,10 +132,10 @@ public class HouseController extends Controller {
 		if (npc instanceof ServantNPC) {
 			npc.faceEntity(player);
 			if (!house.isOwner(player)) {
-				player.getDialogueManager().execute(new SimpleNPCMessage(), npc.getId(), "The servant ignores your request.");
+				player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "The servant ignores your request.");
 				return false;
 			}
-			player.getDialogueManager().execute(new ItemOnServantD(), npc, item.getId(), house.getServant().isSawmill());
+			player.startConversation(new ItemOnServantD(player, npc, item.getId(), house.getServant().isSawmill()));
 			return false;
 		}
 		return false;
@@ -451,7 +450,7 @@ public class HouseController extends Controller {
 		if (Builds.SINK.containsObject(object)) {
 			Filler fill = FillAction.isFillable(item);
 			if (fill != null)
-				player.getDialogueManager().execute(new FillingD(), fill);
+				player.startConversation(new FillingD(player, fill));
 		} else if (HouseConstants.Builds.STOVE.containsObject(object)) {
 			if (item.getId() == 7690) {
 				player.getInventory().deleteItem(7690, 1);
@@ -462,10 +461,10 @@ public class HouseController extends Controller {
 			}
 			final Cookables cook = Cooking.isCookingSkill(item);
 			if (cook != null) {
-				player.getDialogueManager().execute(new CookingD(), cook, object);
+				player.startConversation(new CookingD(player, cook, object));
 				return false;
 			}
-			player.getDialogueManager().execute(new SimpleMessage(), "You can't cook that on a " + (object.getDefinitions().getName().equals("Fire") ? "fire" : "range") + ".");
+			player.simpleDialogue("You can't cook that on a " + (object.getDefinitions().getName().equals("Fire") ? "fire" : "range") + ".");
 			return false;
 		}
 		return true;

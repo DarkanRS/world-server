@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -95,11 +94,11 @@ public class GemTipCutting extends PlayerAction {
 
 	public boolean checkAll(Player player) {
 		if (player.getSkills().getLevel(Constants.FLETCHING) < gem.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a fletching level of " + gem.getLevelRequired() + " to cut that gem.");
+			player.simpleDialogue("You need a fletching level of " + gem.getLevelRequired() + " to cut that gem.");
 			return false;
 		}
 		if (!player.getInventory().containsOneItem(gem.getCut())) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You don't have any " + ItemDefinitions.getDefs(gem.getCut()).getName().toLowerCase() + " to cut.");
+			player.simpleDialogue("You don't have any " + ItemDefinitions.getDefs(gem.getCut()).getName().toLowerCase() + " to cut.");
 			return false;
 		}
 		return true;

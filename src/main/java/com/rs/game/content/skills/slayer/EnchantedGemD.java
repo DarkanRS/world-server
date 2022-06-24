@@ -16,66 +16,37 @@
 //
 package com.rs.game.content.skills.slayer;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.dialogue.Options;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 
-public class EnchantedGemD extends MatrixDialogue {
-
-	private Master npc;
-
-	@Override
-	public void start() {
-		npc = (Master) parameters[0];
-		sendNPCDialogue(npc.npcId, 9827, "Hello there, "+player.getDisplayName()+", what can I help you with?");
-	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		switch (stage) {
-		case -1:
-			stage = 0;
-			sendOptionsDialogue(SEND_DEFAULT_OPTIONS_TITLE, "How am I doing so far?", "Who are you?", "Where are you?");
-			break;
-		case 0:
-			switch (componentId) {
-			case OPTION_1:
-				stage = 3;
-				sendPlayerDialogue(9827, "How am I doing so far?");
-				break;
-			case OPTION_2:
-				stage = 1;
-				sendPlayerDialogue(9827, "Who are you?");
-				break;
-			case OPTION_3:
-				stage = 2;
-				sendPlayerDialogue(9827, "Where are you?");
-				break;
-			default:
-				end();
-				break;
+public class EnchantedGemD extends Conversation {
+	public EnchantedGemD(Player player, Master master) {
+		super(player);
+		int NPC = master.npcId;
+		addNPC(NPC, HeadE.CALM_TALK, "Hello there, "+ player.getDisplayName() + ", what can I help you with?");
+		addOptions("Choose an option:", new Options() {
+			@Override
+			public void create() {
+				option("How am I doing so far?", new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "How am I doing so far?")
+						.addNPC(NPC, HeadE.CALM_TALK, player.getSlayer().getTaskString())
+				);
+				option("Who are you?", new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "Who are you?")
+						.addNPC(NPC, HeadE.CALM_TALK, "My name is "+Utils.formatPlayerNameForDisplay(Master.getMasterForId(NPC).name().toLowerCase())+"; I'm a Slayer Master.")
+				);
+				option("Where are you?", new Dialogue()
+						.addPlayer(HeadE.HAPPY_TALKING, "Where are you?")
+						.addNPC(NPC, HeadE.CALM_TALK, "I am talking to you through a spectral dimension and don't want to reveal my location.")
+						.addPlayer(HeadE.HAPPY_TALKING, "Is that so?")
+						.addNPC(NPC, HeadE.CALM_TALK, "Yes.")
+				);
 			}
-			break;
-		case 1:
-			stage = -2;
-			sendNPCDialogue(npc.npcId, 9827, "My name is "+Utils.formatPlayerNameForDisplay(Master.getMasterForId(npc.npcId).name().toLowerCase())+"; I'm a Slayer Master.");
-			break;
-		case 2:
-			stage = -2;
-			sendNPCDialogue(npc.npcId, 9827, "I'm in a meme.");
-			break;
-		case 3:
-			stage = -2;
-			sendNPCDialogue(npc.npcId, 9827, player.getSlayer().getTaskString());
-			break;
-		default:
-			end();
-			break;
-		}
+		});
+		create();
 	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

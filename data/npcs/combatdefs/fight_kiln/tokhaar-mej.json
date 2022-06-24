@@ -1,0 +1,27 @@
+{
+  "names": [
+    "TokHaar-Mej"
+  ],
+  "attackAnim": 16127,
+  "defenceAnim": 16124,
+  "deathAnim": 16123,
+  "deathDelay": 4,
+  "respawnDelay": 59,
+  "hitpoints": 1940,
+  "maxHit": 245,
+  "attackStyle": "RANGE",
+  "combatLevels": {
+    "ATTACK": 160,
+    "RANGE": 0,
+    "STRENGTH": 100,
+    "DEFENSE": 200,
+    "MAGE": 120
+  },
+  "attackRange": 10,
+  "attackGfx": -1,
+  "attackProjectile": -1,
+  "agressivenessType": "AGGRESSIVE",
+  "aggroDistance": 64,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

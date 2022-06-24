@@ -2,9 +2,9 @@
   "names": [
     "Dagon'hai Monk"
   ],
-  "attackAnim": -1,
-  "defenceAnim": -1,
-  "deathAnim": -1,
+  "attackAnim": 422,
+  "defenceAnim": 383,
+  "deathAnim": 836,
   "deathDelay": 6,
   "respawnDelay": 59,
   "hitpoints": 880,

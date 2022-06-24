@@ -19,7 +19,7 @@ package com.rs.game.content.skills.herblore;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -86,7 +86,7 @@ public class PestleAndMortar  {
 				p = PestleMortar.forId(e.getItem2().getId());
 			if (p == null)
 				return;
-			e.getPlayer().getDialogueManager().execute(new CreateActionD(new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 0));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 0));
 		}
 	};
 

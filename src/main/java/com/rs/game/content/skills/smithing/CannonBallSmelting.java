@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.smithing;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
 import com.rs.game.content.quests.Quest;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -41,7 +41,7 @@ public class CannonBallSmelting  {
 		public void handle(ItemOnObjectEvent e) {
 			if ((e.getItem().getId() == AMMO_MOULD || e.getItem().getId() == STEEL_BAR) && e.getPlayer().getInventory().containsItem(AMMO_MOULD))
 				if (e.getPlayer().getQuestManager().isComplete(Quest.DWARF_CANNON))
-					e.getPlayer().getDialogueManager().execute(new CreateActionD(mats, prods, xp, anims, reqs, Constants.SMITHING, 7));
+					e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), mats, prods, xp, anims, reqs, Constants.SMITHING, 7));
 				else
 					e.getPlayer().sendMessage("You must complete the Dwarf Cannon quest before smithing cannonballs.");
 		}

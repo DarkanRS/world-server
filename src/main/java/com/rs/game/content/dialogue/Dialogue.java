@@ -162,6 +162,16 @@ public class Dialogue {
 		};
 		return addOptions(title, options);
 	}
+	
+	public Dialogue addOptions(String stageName, Conversation conv, String title, Consumer<Options> create) {
+		Options options = new Options(stageName, conv) {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(title, options);
+	}
 
 	public Dialogue addOptions(String title, Options options) {
 		if (options.getOptions().size() <= 1) {
@@ -330,5 +340,10 @@ public class Dialogue {
 		copy.prev = null;
 		conversation.addStage(stageName, copy);
 		return this;
+	}
+
+	public void close(Player player) {
+		if (statement != null)
+			statement.close(player);
 	}
 }

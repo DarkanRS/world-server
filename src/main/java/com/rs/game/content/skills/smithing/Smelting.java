@@ -19,7 +19,6 @@ package com.rs.game.content.skills.smithing;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -145,9 +144,9 @@ public class Smelting extends PlayerAction {
 	public GameObject object;
 	public int ticks;
 
-	public Smelting(int slotId, GameObject object, int ticks) {
+	public Smelting(SmeltingBar bar, GameObject object, int ticks) {
 		this.object = object;
-		bar = SmeltingBar.forId(slotId);
+		this.bar = bar;
 		this.ticks = ticks;
 	}
 
@@ -157,16 +156,16 @@ public class Smelting extends PlayerAction {
 			return false;
 
 		if (!player.getInventory().containsItem(bar.getItemsRequired()[0].getId(), bar.getItemsRequired()[0].getAmount())) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need " + bar.getItemsRequired()[0].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
+			player.simpleDialogue("You need " + bar.getItemsRequired()[0].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
 			return false;
 		}
 		if (bar.getItemsRequired().length > 1)
 			if (!player.getInventory().containsItem(bar.getItemsRequired()[1].getId(), bar.getItemsRequired()[1].getAmount()) && !(bar.getItemsRequired()[1].getId() == 453 && player.getInventory().containsItem(18339) && (player.getI("coalBag")+player.getInventory().getAmountOf(453)) >= bar.getItemsRequired()[1].getAmount())) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You need " + bar.getItemsRequired()[1].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
+				player.simpleDialogue("You need " + bar.getItemsRequired()[1].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
 				return false;
 			}
 		if (player.getSkills().getLevel(Constants.SMITHING) < bar.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a Smithing level of at least " + bar.getLevelRequired() + " to smelt " + bar.getProducedBar().getDefinitions().getName());
+			player.simpleDialogue("You need a Smithing level of at least " + bar.getLevelRequired() + " to smelt " + bar.getProducedBar().getDefinitions().getName());
 			return false;
 		}
 		player.sendMessage("You place the required ores and attempt to create a bar of " + bar.getProducedBar().getDefinitions().getName().toLowerCase().replace(" bar", "") + ".", true);
@@ -178,16 +177,16 @@ public class Smelting extends PlayerAction {
 		if (bar == null || player == null || object == null)
 			return false;
 		if (!player.getInventory().containsItem(bar.getItemsRequired()[0].getId(), bar.getItemsRequired()[0].getAmount())) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need " + bar.getItemsRequired()[0].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
+			player.simpleDialogue("You need " + bar.getItemsRequired()[0].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
 			return false;
 		}
 		if (bar.getItemsRequired().length > 1)
 			if (!player.getInventory().containsItem(bar.getItemsRequired()[1].getId(), bar.getItemsRequired()[1].getAmount()) && !(bar.getItemsRequired()[1].getId() == 453 && player.getInventory().containsItem(18339) && (player.getI("coalBag")+player.getInventory().getAmountOf(453)) >= bar.getItemsRequired()[1].getAmount())) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You need " + bar.getItemsRequired()[1].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
+				player.simpleDialogue("You need " + bar.getItemsRequired()[1].getDefinitions().getName() + " to create a " + bar.getProducedBar().getDefinitions().getName() + ".");
 				return false;
 			}
 		if (player.getSkills().getLevel(Constants.SMITHING) < bar.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a Smithing level of at least " + bar.getLevelRequired() + " to smelt " + bar.getProducedBar().getDefinitions().getName());
+			player.simpleDialogue("You need a Smithing level of at least " + bar.getLevelRequired() + " to smelt " + bar.getProducedBar().getDefinitions().getName());
 			return false;
 		}
 		player.faceObject(object);

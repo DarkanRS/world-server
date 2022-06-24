@@ -42,4 +42,9 @@ public class DestroyItemStatement implements Statement {
 	public int getOptionId(int componentId) {
 		return componentId == 9 ? 0 : 1;
 	}
+
+	@Override
+	public void close(Player player) {
+		
+	}
 }

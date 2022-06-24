@@ -25,7 +25,6 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.statements.NPCStatement;
 import com.rs.game.content.dialogue.statements.OptionStatement;
-import com.rs.game.content.dialogues_matrix.ItemMessage;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.fishing.Fish;
 import com.rs.game.content.skills.fishing.Fishing;
@@ -1170,7 +1169,7 @@ public final class TutorialIslandController extends Controller {
 	@Override
 	public boolean processItemOnObject(GameObject object, Item item) {
 		if ((item.getId() == 438 || item.getId() == 436) && object.getId() == 3044)
-			player.getActionManager().setAction(new Smelting(Smelting.SmeltingBar.BRONZE.getButtonId(), object, 1));
+			player.getActionManager().setAction(new Smelting(Smelting.SmeltingBar.BRONZE, object, 1));
 		else if (item.getId() == Fish.SHRIMP.getId() || item.getId() == 2307)
 			return true;
 		return false;
@@ -1224,7 +1223,7 @@ public final class TutorialIslandController extends Controller {
 	public boolean canAddInventoryItem(int itemId, int amount) {
 		if (getStage() == Stage.CHOP_TREE && itemId == TreeType.NORMAL.getLogsId()[0]) {
 			nextStage(Stage.MAKE_A_FIRE);
-			player.getDialogueManager().execute(new ItemMessage(), "You get some logs.", itemId);
+			player.startConversation(new Dialogue().addItem(itemId, "You get some logs."));
 		} else if (itemId == Fish.SHRIMP.getId()) {
 			if (getStage() == Stage.CATCH_SHRIMP)
 				nextStage(Stage.BURN_SHRIMP);

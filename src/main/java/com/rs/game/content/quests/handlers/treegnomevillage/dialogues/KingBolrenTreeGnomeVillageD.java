@@ -173,6 +173,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void treeGnomeParty(Player p) {
 
 	}

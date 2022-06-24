@@ -54,4 +54,9 @@ public class LegacyItemStatement implements Statement {
 	public int getOptionId(int componentId) {
 		return 0;
 	}
+
+	@Override
+	public void close(Player player) {
+		
+	}
 }

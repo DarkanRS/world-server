@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.transportation;
 
-import com.rs.game.content.dialogues_matrix.QuickCharter;
+import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -183,7 +183,13 @@ public class TravelMethods {
 		player.closeInterfaces();
 
 		int costIndex = getOriginIndex(player.getRegionId());
-		player.getDialogueManager().execute(new QuickCharter(), ship, costIndex);
+		player.startConversation(new Dialogue()
+				.addSimple("Sailing to " + ship.getFixedName(false) + " will cost you " + ship.getFares()[costIndex] + " gold.")
+				.addOptions("Are you sure?", ops -> {
+					ops.add("Okay", () -> TravelMethods.sendCarrier(player, ship, costIndex, false));
+					ops.add("Choose Again", () -> TravelMethods.openCharterInterface(player));
+					ops.add("No");
+				}));
 	}
 
 	private static int getOriginIndex(int regionId) {

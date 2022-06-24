@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
@@ -159,7 +158,7 @@ public class SiphonNodeAction extends PlayerAction {
 
 	public boolean checkAll(final Player player) {
 		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < nodes.getLevelRequired()) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You need a runecrafting level of " + nodes.getLevelRequired() + " to siphon from that node.");
+			player.simpleDialogue("You need a runecrafting level of " + nodes.getLevelRequired() + " to siphon from that node.");
 			return false;
 		}
 		if (!started && !player.withinDistance(node, 6))

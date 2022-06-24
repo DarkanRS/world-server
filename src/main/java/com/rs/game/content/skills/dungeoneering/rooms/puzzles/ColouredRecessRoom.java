@@ -17,10 +17,12 @@
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogues_matrix.ColouredRecessShelvesD;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.model.entity.ForceMovement;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -174,10 +176,37 @@ public class ColouredRecessRoom extends PuzzleRoom {
 		return true;
 	}
 
+	private static void getVial(Player p, int itemId) {
+		if (Math.random() < 0.2) {
+			p.sendMessage("The vial reacts explosively as you pick it up.");
+			p.applyHit(new Hit(p, (int) (p.getMaxHitpoints() * 0.25D), Hit.HitLook.TRUE_DAMAGE));
+			return;
+		}
+		p.getInventory().addItem(itemId, 1);
+		p.setNextAnimation(new Animation(832));
+	}
+
 	@Override
 	public boolean processObjectClick1(Player p, GameObject object) {
 		if (object.getId() == SHELVES[type]) {
-			p.getDialogueManager().execute(new ColouredRecessShelvesD(), (Object[]) null);
+			p.startConversation(new Dialogue()
+					.addOptions("Choose an option:", new Options() {
+						@Override
+						public void create() {
+							option("Blue vial.", new Dialogue()
+									.addNext(()->{getVial(p, 19869);})
+							);
+							option("Green vial.", new Dialogue()
+									.addNext(()->{getVial(p, 19871);})
+							);
+							option("Yellow vial.", new Dialogue()
+									.addNext(()->{getVial(p, 19873);})
+							);
+							option("Violet vial.", new Dialogue()
+									.addNext(()->{getVial(p, 19875);})
+							);
+						}
+					}));
 			return false;
 		}
 		return true;

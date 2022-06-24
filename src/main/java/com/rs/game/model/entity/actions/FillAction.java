@@ -19,7 +19,7 @@ package com.rs.game.model.entity.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.dialogues_matrix.FillingD;
+import com.rs.game.content.dialogue.impl.FillingD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
@@ -40,7 +40,7 @@ public class FillAction extends PlayerAction {
 		public void handle(ItemOnObjectEvent e) {
 			Filler fill = FillAction.isFillable(e.getItem());
 			if (fill != null)
-				e.getPlayer().getDialogueManager().execute(new FillingD(), fill);
+				e.getPlayer().startConversation(new FillingD(e.getPlayer(), fill));
 		}
 	};
 

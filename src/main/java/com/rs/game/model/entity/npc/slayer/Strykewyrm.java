@@ -26,6 +26,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
@@ -118,7 +120,7 @@ public class Strykewyrm extends NPC {
 		return stompId;
 	}
 
-	public static void handleStomping(final Player player, final NPC npc) {
+	public static void handleStomping(final Player player, final Strykewyrm npc) {
 		if (npc.isCantInteract())
 			return;
 		if (!player.canAttackMulti(npc))
@@ -159,26 +161,26 @@ public class Strykewyrm extends NPC {
 		}
 		npc.setAttackedBy(player);
 		player.setNextAnimation(new Animation(4278));
-		player.lock(2);
+		player.lock(1);
 		npc.setCantInteract(true);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				npc.setNextAnimation(new Animation(12795));
-				npc.transformIntoNPC(((Strykewyrm) npc).stompId + 1);
-				stop();
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						npc.setTarget(player);
-						npc.setAttackedBy(player);
-						npc.setCantInteract(false);
-					}
-				}, 2);
-			}
-
-		}, 2);
+		WorldTasks.delay(2, () -> {
+			npc.setNextAnimation(new Animation(12795));
+			npc.transformIntoNPC(npc.stompId + 1);
+		});
+		WorldTasks.delay(4, () -> {
+			npc.setTarget(player);
+			npc.setAttackedBy(player);
+			npc.setCantInteract(false);
+		});
 	}
+	
+	public static NPCClickHandler handleStomp = new NPCClickHandler(new Object[] { 9462, 9464, 9466 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (e.getNPC() instanceof Strykewyrm s)
+				handleStomping(e.getPlayer(), s);
+		}
+	};
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(9462, 9463, 9464, 9465, 9466, 9467) {
 		@Override

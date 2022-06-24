@@ -20,24 +20,20 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.AncientEffigies;
 import com.rs.game.content.Dicing;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Lamps;
 import com.rs.game.content.controllers.FightKilnController;
-import com.rs.game.content.controllers.SorceressGardenController;
 import com.rs.game.content.dialogue.impl.DestroyItem;
-import com.rs.game.content.dialogues_matrix.AncientEffigiesD;
-import com.rs.game.content.dialogues_matrix.FletchingD;
-import com.rs.game.content.dialogues_matrix.FlowerPickup;
-import com.rs.game.content.dialogues_matrix.ItemMessage;
-import com.rs.game.content.dialogues_matrix.LeatherCraftingD;
-import com.rs.game.content.dialogues_matrix.SimplePlayerMessage;
+import com.rs.game.content.dialogue.impl.FlowerPickup;
+import com.rs.game.content.dialogue.impl.LeatherCraftingD;
 import com.rs.game.content.minigames.barrows.BarrowsController;
+import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.game.content.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.content.skills.Fletching;
+import com.rs.game.content.skills.FletchingD;
 import com.rs.game.content.skills.Fletching.Fletch;
 import com.rs.game.content.skills.cooking.CookingCombos;
 import com.rs.game.content.skills.cooking.Foods;
@@ -226,19 +222,18 @@ public class InventoryOptionsHandler {
 				player.sendMessage("You cannot plant flowers here..");
 				return;
 			}
-			final Player thisman = player;
 			final double random = Utils.random(100.0);
 			final WorldTile tile = new WorldTile(player.getTile());
 			int flower = Utils.random(2980, 2987);
 			if (random < 0.2)
 				flower = Utils.random(2987, 2989);
-			final int finalFlowerId = flower;
 			if (!player.addWalkSteps(player.getX() - 1, player.getY(), 1))
 				if (!player.addWalkSteps(player.getX() + 1, player.getY(), 1))
 					if (!player.addWalkSteps(player.getX(), player.getY() + 1, 1))
 						player.addWalkSteps(player.getX(), player.getY() - 1, 1);
 			player.getInventory().deleteItem(299, 1);
 			final GameObject flowerObject = new GameObject(2987, ObjectType.SCENERY_INTERACT, Utils.getRandomInclusive(4), tile.getX(), tile.getY(), tile.getPlane());
+			final int flowerId = flower;
 			World.spawnObjectTemporary(flowerObject, Ticks.fromSeconds(45));
 			player.lock();
 			WorldTasks.schedule(new WorldTask() {
@@ -246,12 +241,12 @@ public class InventoryOptionsHandler {
 
 				@Override
 				public void run() {
-					if (thisman == null || thisman.hasFinished())
+					if (player == null || player.hasFinished())
 						stop();
 					if (step == 1) {
-						thisman.getDialogueManager().execute(new FlowerPickup(), flowerObject, finalFlowerId);
-						thisman.setNextFaceWorldTile(tile);
-						thisman.unlock();
+						player.startConversation(new FlowerPickup(player, flowerObject, flowerId));
+						player.setNextFaceWorldTile(tile);
+						player.unlock();
 						stop();
 					}
 					step++;
@@ -330,9 +325,7 @@ public class InventoryOptionsHandler {
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}
-		if (itemId == AncientEffigies.SATED_ANCIENT_EFFIGY || itemId == AncientEffigies.GORGED_ANCIENT_EFFIGY || itemId == AncientEffigies.NOURISHED_ANCIENT_EFFIGY || itemId == AncientEffigies.STARVED_ANCIENT_EFFIGY)
-			player.getDialogueManager().execute(new AncientEffigiesD(), item);
-		else if (itemId >= 23653 && itemId <= 23658)
+		if (itemId >= 23653 && itemId <= 23658)
 			FightKilnController.useCrystal(player, itemId);
 		else if (player.getTreasureTrailsManager().useItem(item, slotId))
 			return;
@@ -341,7 +334,7 @@ public class InventoryOptionsHandler {
 		else if (itemId == 2798 || itemId == 3565 || itemId == 3576 || itemId == 19042)
 			player.getTreasureTrailsManager().openPuzzle(itemId);
 		else if (item.getDefinitions().getName().startsWith("Burnt"))
-			player.getDialogueManager().execute(new SimplePlayerMessage(), "Ugh, this is inedible.");
+			player.simpleDialogue("Ugh, this is inedible.");
 		if (player.hasRights(Rights.DEVELOPER))
 			player.sendMessage("ItemOption1: item: " + itemId + ", slotId: " + slotId);
 	}
@@ -483,25 +476,25 @@ public class InventoryOptionsHandler {
 		if (usedWith.getId() == 946 || used.getId() == 946) {
 			CuttableFruit fruit = CuttableFruit.forId(used.getId());
 			if (fruit != null && usedWith.getId() == 946) {
-				player.getDialogueManager().execute(new FruitCuttingD(), fruit);
+				player.startConversation(new FruitCuttingD(player, fruit));
 				return true;
 			}
 
 			fruit = CuttableFruit.forId(usedWith.getId());
 			if (fruit != null && used.getId() == 946) {
-				player.getDialogueManager().execute(new FruitCuttingD(), fruit);
+				player.startConversation(new FruitCuttingD(player, fruit));
 				return true;
 			}
 		}
 
 		Fletch fletch = Fletching.isFletching(usedWith, used);
 		if (fletch != null) {
-			player.getDialogueManager().execute(new FletchingD(), fletch);
+			player.startConversation(new FletchingD(player, fletch));
 			return true;
 		}
 		int leatherIndex = LeatherCraftingD.getIndex(usedId) == -1 ? LeatherCraftingD.getIndex(usedWith.getId()) : LeatherCraftingD.getIndex(usedId);
 		if (leatherIndex != -1 && ((usedId == 1733 || usedWith.getId() == 1733) || LeatherCraftingD.isExtraItem(usedWith.getId()) || LeatherCraftingD.isExtraItem(usedId))) {
-			player.getDialogueManager().execute(new LeatherCraftingD(), leatherIndex);
+			player.startConversation(new LeatherCraftingD(player, leatherIndex));
 			return true;
 		}
 		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
@@ -665,7 +658,7 @@ public class InventoryOptionsHandler {
 								i.setId(20659);
 						}
 						player.getInventory().refresh();
-						player.getDialogueManager().execute(new ItemMessage(), "Your ring of wealth and amulet of glory have all been recharged.", 1712);
+						player.itemDialogue(1712, "Your ring of wealth and amulet of glory have all been recharged.");
 					}
 			} else if (npc instanceof Pet p) {
 				player.faceEntity(npc);

@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.construction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,7 +27,9 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.controllers.HouseController;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.statements.Statement;
 import com.rs.game.content.pet.Pets;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
 import com.rs.game.content.skills.construction.HouseConstants.HObject;
@@ -51,7 +54,9 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
 
 @PluginEventHandler
@@ -93,6 +98,31 @@ public class House {
 	private boolean isOwnerInside() {
 		return players.contains(player);
 	}
+	
+	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray()) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
+				ops.add("Go to your house.", () -> {
+					e.getPlayer().getHouse().setBuildMode(false);
+					e.getPlayer().getHouse().enterMyHouse();
+				});
+				ops.add("Go to your house (building mode).", () -> {
+					e.getPlayer().getHouse().kickGuests();
+					e.getPlayer().getHouse().setBuildMode(true);
+					e.getPlayer().getHouse().enterMyHouse();
+				});
+				ops.add("Go to a friend's house.", () -> {
+					if (e.getPlayer().isIronMan()) {
+						e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
+						return;
+					}
+					e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
+				});
+				ops.add("Nevermind.");
+			}));
+		}
+	};
 
 	public static ButtonClickHandler handleHouseOptions = new ButtonClickHandler(398) {
 		@Override
@@ -175,7 +205,7 @@ public class House {
 		if (room == null)
 			return;
 		if (room.getZ() != 1) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You cannot remove a building that is supporting this room.");
+			player.simpleDialogue("You cannot remove a building that is supporting this room.");
 			return;
 		}
 
@@ -184,7 +214,7 @@ public class House {
 
 		RoomReference roomTo = above != null && above.getStaircaseSlot() != -1 ? above : below != null && below.getStaircaseSlot() != -1 ? below : null;
 		if (roomTo == null) {
-			player.getDialogueManager().execute(new SimpleMessage(), "These stairs do not lead anywhere.");
+			player.simpleDialogue("These stairs do not lead anywhere.");
 			return;
 		}
 		openRoomCreationMenu(roomTo.getX(), roomTo.getY(), roomTo.getZ());
@@ -195,37 +225,46 @@ public class House {
 	 */
 	public void openRoomCreationMenu(int roomX, int roomY, int plane) {
 		if (!buildMode) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		RoomReference room = getRoom(roomX, roomY, plane);
 		if (room != null) {
 			if (room.plane == 1 && getRoom(roomX, roomY, room.plane + 1) != null) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You can't remove a room that is supporting another room.");
+				player.simpleDialogue("You can't remove a room that is supporting another room.");
 				return;
 			}
 			if (room.room == Room.THRONE_ROOM && room.plane == 1) {
 				RoomReference bellow = getRoom(roomX, roomY, room.plane - 1);
 				if (bellow != null && bellow.room == Room.OUTBLIETTE) {
-					player.getDialogueManager().execute(new SimpleMessage(), "You can't remove a throne room that is supporting a outbliette.");
+					player.simpleDialogue("You can't remove a throne room that is supporting a outbliette.");
 					return;
 				}
 			}
-			if ((room.room == Room.GARDEN || room.room == Room.FORMAL_GARDEN) && getPortalCount() < 2)
+			if ((room.room == Room.GARDEN || room.room == Room.FORMAL_GARDEN) && getPortalCount() < 2) {
 				if (room == getPortalRoom()) {
-					player.getDialogueManager().execute(new SimpleMessage(), "Your house must have at least one exit portal.");
+					player.simpleDialogue("Your house must have at least one exit portal.");
 					return;
 				}
-			player.getDialogueManager().execute(new RemoveRoomD(), room);
+			}
+			player.startConversation(new Dialogue().
+					addOptions("Do you really want to remove the room?", ops -> {
+						ops.add("Yes")
+							.addOptions("You can't get anything back? Remove room?", conf -> {
+								conf.add("Yes, get rid of my money already!", () -> player.getHouse().removeRoom(room));
+								conf.add("No.");
+							});
+						ops.add("No");
+					}));
 		} else {
 			if (roomX == 0 || roomY == 0 || roomX == 7 || roomY == 7) {
-				player.getDialogueManager().execute(new SimpleMessage(), "You can't create a room here.");
+				player.simpleDialogue("You can't create a room here.");
 				return;
 			}
 			if (plane == 2) {
 				RoomReference r = getRoom(roomX, roomY, 1);
 				if (r == null || (r.room == Room.GARDEN || r.room == Room.FORMAL_GARDEN || r.room == Room.MENAGERIE)) {
-					player.getDialogueManager().execute(new SimpleMessage(), "You can't create a room here.");
+					player.simpleDialogue("You can't create a room here.");
 					return;
 				}
 
@@ -381,9 +420,25 @@ public class House {
 		}
 		RoomReference roomTo = getRoom(roomX, roomY, room.plane + (up ? 1 : -1));
 		if (roomTo == null) {
-			if (buildMode)
-				player.getDialogueManager().execute(new CreateLadderRoomD(), room, up);
-			else
+			if (buildMode) {
+				player.startConversation(new Dialogue()
+						.addOptions("This "+(up ? "ladder" : "trapdoor")+" does not lead anywhere. Do you want to build a room at the " + (up ? "top" : "bottom") + "?", ops -> {
+							ops.add("Yes.").addOptions("Select a room", conf -> {
+								conf.add((room.getZ() == 1 && !up) ? "Oubliette" : "Throne room", () -> {
+									Room r = (room.getZ() == 1 && !up) ? Room.OUTBLIETTE : Room.THRONE_ROOM;
+									Builds ladderTrap = (room.getZ() == 1 && !up) ? Builds.OUB_LADDER : Builds.TRAPDOOR;
+									RoomReference newRoom = new RoomReference(r, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+									int slot = room.getLadderTrapSlot();
+									if (slot != -1) {
+										newRoom.addObject(ladderTrap, slot);
+										player.getHouse().createRoom(newRoom);
+									}
+								});
+								conf.add("Nevermind.");
+							});
+							ops.add("No.");
+						}));
+			} else
 				player.sendMessage("This does not lead anywhere.");
 			// start dialogue
 			return;
@@ -442,9 +497,39 @@ public class House {
 		}
 		RoomReference roomTo = getRoom(roomX, roomY, room.plane + (up ? 1 : -1));
 		if (roomTo == null) {
-			if (buildMode)
-				player.getDialogueManager().execute(new CreateRoomStairsD(), room, up);
-			else
+			if (buildMode) {
+				player.startConversation(new Dialogue()
+						.addOptions("These stairs do not lead anywhere. Do you want to build a room at the " + (up ? "top" : "bottom") + "?", ops -> {
+							ops.add("Yes.").addOptions("Select a room", conf -> {
+								conf.add("Skill hall", () -> {
+									RoomReference newRoom = new RoomReference(up ? Room.HALL_SKILL_DOWN : Room.HALL_SKILL, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+									int slot = room.getStaircaseSlot();
+									if (slot != -1) {
+										newRoom.addObject(up ? Builds.STAIRCASE_DOWN : Builds.STAIRCASE, slot);
+										player.getHouse().createRoom(newRoom);
+									}
+								});
+								conf.add("Quest hall", () -> {
+									RoomReference newRoom = new RoomReference(up ? Room.HALL_QUEST_DOWN : Room.HALL_QUEST, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+									int slot = room.getStaircaseSlot();
+									if (slot != -1) {
+										newRoom.addObject(up ? Builds.STAIRCASE_DOWN_1 : Builds.STAIRCASE_1, slot);
+										player.getHouse().createRoom(newRoom);
+									}
+								});
+								if (room.getZ() == 1 && !up)
+									conf.add("Dungeon stairs room", () -> {
+										RoomReference newRoom = new RoomReference(Room.DUNGEON_STAIRS, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+										int slot = room.getStaircaseSlot();
+										if (slot != -1) {
+											newRoom.addObject(Builds.STAIRCASE_2, slot);
+											player.getHouse().createRoom(newRoom);
+										}
+									});
+							});
+							ops.add("No.");
+						}));
+			} else
 				player.sendMessage("These stairs do not lead anywhere.");
 			// start dialogue
 			return;
@@ -510,7 +595,29 @@ public class House {
 			player.sendMessage("You have reached the maxium quantity of rooms.");
 			return;
 		}
-		player.getDialogueManager().execute(new CreateRoomD(), new RoomReference(room, position[0], position[1], position[2], 0));
+
+		final RoomReference roomRef = new RoomReference(room, position[0], position[1], position[2], 0);
+		player.startConversation(new Conversation(player) {
+			{
+				player.getHouse().previewRoom(roomRef, false);
+				addOptions("What would you like to do?", ops -> {
+					ops.add("Rotate clockwise", () -> {
+						player.getHouse().previewRoom(roomRef, true);
+						roomRef.setRotation((roomRef.getRotation() + 1) & 0x3);
+						create();
+						player.startConversation(this);
+					});
+					ops.add("Rotate anticlockwise.", () -> {
+						player.getHouse().previewRoom(roomRef, true);
+						roomRef.setRotation((roomRef.getRotation() - 1) & 0x3);
+						create();
+						player.startConversation(this);
+					});
+					ops.add("Build.", () -> player.getHouse().createRoom(roomRef));
+					ops.add("Cancel");
+				});
+			}
+		});
 	}
 
 	public boolean hasRoom(Room room) {
@@ -545,7 +652,7 @@ public class House {
 
 	public void openBuildInterface(GameObject object, final Builds build) {
 		if (!buildMode) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -554,26 +661,51 @@ public class House {
 		if (room == null)
 			return;
 		Item[] itemArray = new Item[build.getPieces().length];
-		int requirimentsValue = 0;
+		int requirementsValue = 0;
 		for (int index = 0; index < build.getPieces().length; index++) {
 			if ((build == Builds.PORTALS1 || build == Builds.PORTALS2 || build == Builds.PORTALS3) && index > 2)
 				continue;
 			HObject piece = build.getPieces()[index];
 			itemArray[index] = new Item(piece.getItemId(), 1);
 			if (hasRequirimentsToBuild(false, build, piece))
-				requirimentsValue += Math.pow(2, index + 1);
+				requirementsValue += Math.pow(2, index + 1);
 		}
-		player.getPackets().sendVarc(841, requirimentsValue);
-		player.getPackets().sendItems(398, itemArray);
-		player.getPackets().setIFEvents(new IFEvents(1306, 55, -1, -1).enableContinueButton()); // exit
-		// button
-		for (int i = 0; i < itemArray.length; i++)
-			player.getPackets().setIFEvents(new IFEvents(1306, 8 + 7 * i, 4, 4).enableContinueButton());
-		// options
-		player.getInterfaceManager().sendInterface(1306);
-		player.getTempAttribs().setO("OpenedBuild", build);
-		player.getTempAttribs().setO("OpenedBuildObject", object);
-		player.getDialogueManager().execute(new BuildD());
+	
+		final int reqVal = requirementsValue;
+		
+		Dialogue buildD = new Dialogue()
+		.addNext(new Statement() {
+			@Override
+			public void send(Player player) {
+				player.getInterfaceManager().sendInterface(1306);
+				player.getPackets().sendVarc(841, reqVal);
+				player.getPackets().sendItems(398, itemArray);
+				player.getPackets().setIFEvents(new IFEvents(1306, 55, -1, -1).enableContinueButton()); // exit
+				// button
+				for (int i = 0; i < itemArray.length; i++)
+					player.getPackets().setIFEvents(new IFEvents(1306, 8 + 7 * i, 4, 4).enableContinueButton());
+				// options
+				player.getInterfaceManager().sendInterface(1306);
+				player.getTempAttribs().setO("OpenedBuild", build);
+				player.getTempAttribs().setO("OpenedBuildObject", object);
+			}
+
+			@Override
+			public int getOptionId(int componentId) {
+				return componentId == 55 ? Integer.MAX_VALUE : (componentId - 8) / 7;
+			}
+
+			@Override
+			public void close(Player player) {
+				player.closeInterfaces();
+			}
+		});
+		
+		for (int i = 0;i < itemArray.length;i++) {
+			final int index = i;
+			buildD.addNext(() -> player.getHouse().build(index));
+		}
+		player.startConversation(buildD);
 		player.setCloseInterfacesEvent(() -> {
 			player.getTempAttribs().removeO("OpenedBuild");
 			player.getTempAttribs().removeO("OpenedBuildObject");
@@ -697,11 +829,11 @@ public class House {
 
 	public void openRemoveBuild(GameObject object) {
 		if (!buildMode) {
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		if (object.getId() == HouseConstants.HObject.EXIT_PORTAL.getId() && getPortalCount() <= 1) {
-			player.getDialogueManager().execute(new SimpleMessage(), "Your house must have at least one exit portal.");
+			player.simpleDialogue("Your house must have at least one exit portal.");
 			return;
 		}
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -711,22 +843,26 @@ public class House {
 			return;
 		ObjectReference ref = room.getObject(object);
 		if (ref != null) {
-			if (ref.build.toString().contains("STAIRCASE"))
+			if (ref.build.toString().contains("STAIRCASE")) {
 				if (object.getPlane() != 1) {
 					RoomReference above = getRoom(roomX, roomY, 2);
 					RoomReference below = getRoom(roomX, roomY, 0);
 					if ((above != null && above.getStaircaseSlot() != -1) || (below != null && below.getStaircaseSlot() != -1))
-						player.getDialogueManager().execute(new SimpleMessage(), "You cannot remove a building that is supporting this room.");
+						player.simpleDialogue("You cannot remove a building that is supporting this room.");
 					return;
 				}
-			player.getDialogueManager().execute(new RemoveBuildD(), object);
+			}
+			player.sendOptionDialogue("Really remove it?", ops -> {
+				ops.add("Yes.", () -> player.getHouse().removeBuild(object));
+				ops.add("No.");
+			});
 		}
 	}
 
 	public void removeBuild(final GameObject object) {
 		if (!buildMode) { // imagine u use settings to change while dialogue
 			// open, cheater :p
-			player.getDialogueManager().execute(new SimpleMessage(), "You can only do that in building mode.");
+			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
 		int roomX = object.getChunkX() - region.getBaseChunkX();
@@ -768,11 +904,11 @@ public class House {
 		}
 		locked = !locked;
 		if (locked)
-			player.getDialogueManager().execute(new SimpleMessage(), "Your house is now locked to visitors.");
+			player.simpleDialogue("Your house is now locked to visitors.");
 		else if (buildMode)
-			player.getDialogueManager().execute(new SimpleMessage(), "Visitors will be able to enter your house once you leave building mode.");
+			player.simpleDialogue("Visitors will be able to enter your house once you leave building mode.");
 		else
-			player.getDialogueManager().execute(new SimpleMessage(), "You have unlocked your house.");
+			player.simpleDialogue("You have unlocked your house.");
 	}
 
 	public static void enterHouse(Player player, String username) {
@@ -886,7 +1022,7 @@ public class House {
 			servantInstance.setFollowing(true);
 			servantInstance.setNextWorldTile(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
-			player.getDialogueManager().execute(new ServantDialogue(), servantInstance);
+			player.startConversation(new ServantDialogue(player, servantInstance));
 		}
 	}
 

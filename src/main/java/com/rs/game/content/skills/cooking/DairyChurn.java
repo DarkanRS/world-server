@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -34,7 +34,7 @@ public class DairyChurn  {
 	public static ObjectClickHandler handleChurns = new ObjectClickHandler(new Object[] { "Dairy churn", "Dairy Churn" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.COOKING, 8));
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.COOKING, 8));
 		}
 	};
 }

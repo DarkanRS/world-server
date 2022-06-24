@@ -18,7 +18,7 @@ package com.rs.game.model.entity.npc.nomad;
 
 import java.util.ArrayList;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.Entity;
@@ -94,12 +94,11 @@ public class Nomad extends NPC {
 		if (throneTile != null) {
 			target.lock();
 			target.getVars().setVarBit(6962, 0);
-			MatrixDialogue.sendNPCDialogueNoContinue(target, getId(), 9802, "You...<br>You have doomed this world.");
+			target.npcDialogue(getId(), HeadE.ANGRY, "You...<br>You have doomed this world.");
 			target.getPackets().sendVoice(8260);
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					MatrixDialogue.closeNoContinueDialogue(target);
 					FadingScreen.fade(target, () -> {
 						target.getControllerManager().forceStop();
 						target.unlock();

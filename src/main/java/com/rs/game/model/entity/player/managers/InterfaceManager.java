@@ -106,7 +106,7 @@ public class InterfaceManager {
 		/* CONFIRMED */	TAB_MAGIC(119, 183) {
 							@Override
 							public int getDefaultInterfaceId(Player p) {
-								return p.getCombatDefinitions().getSpellBook();
+								return p.getCombatDefinitions().getSpellbook().getInterfaceId();
 							}
 						},
 		/* CONFIRMED */	TAB_FOLLOWER(120, 184),

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.smithing;
 
-import com.rs.game.content.dialogues_matrix.CreateActionD;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
+import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -41,7 +41,7 @@ public class MoltenGlassMaking {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if (e.getItem().getId() == SODA_ASH || e.getItem().getId() == BUCKET_OF_SAND)
-				e.getPlayer().getDialogueManager().execute(new CreateActionD(materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 		}
 	};
 }

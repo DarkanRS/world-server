@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.controllers;
 
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.pest.Lander;
 import com.rs.game.content.minigames.pest.PestControl;
 import com.rs.game.model.entity.Entity;
@@ -76,13 +75,13 @@ public class PestControlGameController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave the pest control area like this.");
+		player.simpleDialogue("You can't leave the pest control area like this.");
 		return false;
 	}
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "You can't leave the pest control area like this.");
+		player.simpleDialogue("You can't leave the pest control area like this.");
 		return false;
 	}
 

@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import com.rs.game.content.dialogues_matrix.FremennikScoutD;
+import com.rs.game.content.dialogue.impl.FremennikScoutD;
 import com.rs.game.content.skills.Fletching;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
@@ -101,14 +101,14 @@ public class FremennikCampRoom extends PuzzleRoom {
 	public void advance(Player player) {
 		if (++stage == 3) {
 			setComplete();
-			player.getDialogueManager().execute(new FremennikScoutD(), this);
+			player.startConversation(new FremennikScoutD(player, this));
 		}
 	}
 
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
 		if (npc.getId() == FREMENNIK_SCOUT) {
-			player.getDialogueManager().execute(new FremennikScoutD(), this);
+			player.startConversation(new FremennikScoutD(player, this));
 			return false;
 		}
 		return true;

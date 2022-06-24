@@ -16,31 +16,24 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.dialogues_matrix.MatrixDialogue;
+import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.Options;
+import com.rs.game.model.entity.player.Player;
 
-public class DungeonLeaveParty extends MatrixDialogue {
-
-	@Override
-	public void start() {
-		sendDialogue("Warning: If you leave the dungeon, you will not be able to return to it!");
-
+public class DungeonLeaveParty extends Conversation {
+	public DungeonLeaveParty(Player player) {
+		super(player);
+		addSimple("Warning: If you leave the dungeon, you will not be able to return to it!");
+		addOptions("Leave the dungeon for good?", new Options() {
+			@Override
+			public void create() {
+				option("Yes.", new Dialogue()
+						.addNext(()->{player.getDungManager().leaveParty();})
+				);
+				option("No.", new Dialogue());
+			}
+		});
+		create();
 	}
-
-	@Override
-	public void run(int interfaceId, int componentId) {
-		if (stage == -1) {
-			sendOptionsDialogue("Leave the dungeon for good?", "Yes.", "No.");
-			stage = 0;
-		} else if (stage == 0) {
-			if (componentId == OPTION_1)
-				player.getDungManager().leaveParty();
-			end();
-		}
-	}
-
-	@Override
-	public void finish() {
-
-	}
-
 }

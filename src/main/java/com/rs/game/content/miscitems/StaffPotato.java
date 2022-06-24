@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions.Potion;
+import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.minigames.barrows.BarrowsController;
@@ -59,10 +60,10 @@ public class StaffPotato {
 		}),
 		MAGE_BOOK("Magic book", p -> {
 			p.startConversation(new Dialogue().addOptions(o2 -> {
-				o2.add("Modern", () -> p.getCombatDefinitions().setSpellBook(0));
-				o2.add("Ancient", () -> p.getCombatDefinitions().setSpellBook(1));
-				o2.add("Lunar", () -> p.getCombatDefinitions().setSpellBook(2));
-				o2.add("Dungeoneering", () -> p.getCombatDefinitions().setSpellBook(3));
+				o2.add("Modern", () -> p.getCombatDefinitions().setSpellbook(Spellbook.MODERN));
+				o2.add("Ancient", () -> p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT));
+				o2.add("Lunar", () -> p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR));
+				o2.add("Dungeoneering", () -> p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING));
 			}));
 		}),
 		PRAY_BOOK("Prayer book", p -> {

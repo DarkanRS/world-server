@@ -50,4 +50,9 @@ public class OptionStatement implements Statement {
 	public int getOptionId(int componentId) {
 		return componentId == 11 ? 0 : componentId-12;
 	}
+
+	@Override
+	public void close(Player player) {
+		
+	}
 }

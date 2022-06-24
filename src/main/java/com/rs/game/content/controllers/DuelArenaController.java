@@ -21,8 +21,6 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.dialogues_matrix.ForfeitDialouge;
-import com.rs.game.content.dialogues_matrix.SimpleMessage;
 import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.Entity;
@@ -404,13 +402,13 @@ public class DuelArenaController extends Controller {
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "A magical force prevents you from teleporting from the arena.");
+		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 
 	@Override
 	public boolean processItemTeleport(WorldTile toTile) {
-		player.getDialogueManager().execute(new SimpleMessage(), "A magical force prevents you from teleporting from the arena.");
+		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 
@@ -422,7 +420,10 @@ public class DuelArenaController extends Controller {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
-		player.getDialogueManager().execute(new ForfeitDialouge());
+		player.sendOptionDialogue("Forfeit Duel?", ops -> {
+			ops.add("Yes.", () -> { if (!player.getLastDuelRules().getRule(7)) endDuel(player.getLastDuelRules().getTarget(), player); else player.simpleDialogue("You can't forfeit during this duel."); });
+			ops.add("No.");
+		});
 		return true;
 	}
 
