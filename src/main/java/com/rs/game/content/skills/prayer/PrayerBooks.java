@@ -57,7 +57,10 @@ public class PrayerBooks {
 	};
 
 	public static void bindPages(Player player, int bookId) {
-		int god = (bookId - (bookId > 5000 ? BOOKS[3] - 6 : BOOKS[0])) / 2;
+		int god = -1;
+		for (int i = 0;i < BOOKS.length;i++)
+			if (BOOKS[i] == bookId)
+				god = i;
 		boolean containsGodPages = true;
 
 		for (int pageIndex = 0; pageIndex < 4; pageIndex++)
