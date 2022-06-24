@@ -394,7 +394,7 @@ public class PlayerCombat extends PlayerAction {
 	public boolean castSpellAtTarget(Player player, Entity target, CombatSpell spell, int hitDelay) {
 		Hit hit = getMagicHit(player, getRandomMagicMaxHit(player, spell.getBaseDamage(player)));
 		if (spell == CombatSpell.STORM_OF_ARMADYL && hit.getDamage() > 0) {
-			int minHit = (player.getSkills().getLevel(Constants.MAGIC) - 77) * 5;
+			int minHit = (player.getSkills().getLevelForXp(Constants.MAGIC) - 77) * 5;
 			hit.setDamage(hit.getDamage() + minHit);
 			max_hit = CombatSpell.STORM_OF_ARMADYL.getBaseDamage(player) + minHit;
 		}
