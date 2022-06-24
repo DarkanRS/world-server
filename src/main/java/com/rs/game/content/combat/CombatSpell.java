@@ -205,6 +205,13 @@ public enum CombatSpell {
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.lowerStat(Constants.DEFENSE, 1, 0.0);
 		}
+		
+		@Override
+		public int getBaseDamage(Entity caster) {
+			if (caster instanceof Player player)
+				return baseDamage + (player.getSkills().getLevelForXp(Constants.MAGIC) - 77) * 5;
+			return baseDamage;
+		}
 	},
 	CONFUSE(3, 13, -1, new Animation(711), new SpotAnim(102, 0, 96), 103, new SpotAnim(104, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
 		@Override

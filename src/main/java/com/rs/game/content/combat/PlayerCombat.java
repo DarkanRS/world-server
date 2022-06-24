@@ -395,8 +395,9 @@ public class PlayerCombat extends PlayerAction {
 		Hit hit = getMagicHit(player, getRandomMagicMaxHit(player, spell.getBaseDamage(player)));
 		if (spell == CombatSpell.STORM_OF_ARMADYL && hit.getDamage() > 0) {
 			int minHit = (player.getSkills().getLevelForXp(Constants.MAGIC) - 77) * 5;
-			hit.setDamage(hit.getDamage() + minHit);
-			max_hit = CombatSpell.STORM_OF_ARMADYL.getBaseDamage(player) + minHit;
+			if (hit.getDamage() < minHit)
+				hit.setDamage(hit.getDamage() + minHit);
+			System.out.println("Base SOA max hit: " + max_hit);
 		}
 		hit.setData("combatSpell", spell);
 		boolean sparkle = target.getSize() >= 2 || target.hasEffect(Effect.FREEZE) || target.hasEffect(Effect.FREEZE_BLOCK);
