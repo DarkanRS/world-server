@@ -16,12 +16,9 @@
 //
 package com.rs.game.content.skills.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.dialogue.impl.skilling.MakeXActionD;
 import com.rs.game.content.dialogue.impl.skilling.MakeXItem;
-import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 
@@ -43,7 +40,7 @@ public class CreateActionD extends Conversation {
 		skill = -1;
 		anims = null;
 		xp = null;
-		start();
+		initialize();
 		create();
 	}
 
@@ -55,7 +52,7 @@ public class CreateActionD extends Conversation {
 		this.skill = skill;
 		anims = null;
 		this.xp = xp;
-		start();
+		initialize();
 		create();
 	}
 
@@ -67,7 +64,7 @@ public class CreateActionD extends Conversation {
 		this.skill = skill;
 		this.anims = anims;
 		this.xp = xp;
-		start();
+		initialize();
 		create();
 	}
 
@@ -80,7 +77,7 @@ public class CreateActionD extends Conversation {
 		this.anims = anims;
 		this.xp = xp;
 		this.reqs = reqs;
-		start();
+		initialize();
 		create();
 	}
 
@@ -94,7 +91,7 @@ public class CreateActionD extends Conversation {
 		for (int i = 0;i < products.length;i++)
 			anims[i] = anim;
 		this.xp = xp;
-		start();
+		initialize();
 		create();
 	}
 
@@ -109,17 +106,14 @@ public class CreateActionD extends Conversation {
 			anims[i] = anim;
 		this.xp = xp;
 		this.reqs = reqs;
-		start();
+		initialize();
 		create();
 	}
 
-	public void start() {
-		List<MakeXItem> items = new ArrayList<>();
+	public void initialize() {
+		MakeXActionD makeX = new MakeXActionD();
 		for (int i = 0; i < this.products.length; i++)
-			items.add(new MakeXItem(player, materials[i], products[i], xp[i], anims[i], reqs[i], skill, delay));
-		addNext(new MakeXStatement((MakeXItem[]) items.toArray(), 30));
-		
-//		int type = MakeXStatement.getItemSlot(componentId);
-//		player.getActionManager().setAction(new CreateAction(materials, products, xp, anims, reqs, skill, delay, type));
+			makeX.addOption(new MakeXItem(player, materials[i], products[i], xp[i], anims[i], reqs[i], skill, delay));
+		addNext(makeX);
 	}
 }

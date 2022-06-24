@@ -45,7 +45,7 @@ public class Lamps {
 
 	public static final int[] OTHER_SELECTABLE_LAMPS = { 2528, 4447, 24151 }; // 2528:random event genie lamp, 4447: Shield Of Arrav Lamp
 
-	private static final int[] DIALOGUE_INTERFACE_C2S = { Skills.ATTACK, Skills.MAGIC, Skills.MINING, Skills.WOODCUTTING, Skills.AGILITY, Skills.FLETCHING, Skills.THIEVING, Skills.STRENGTH, Skills.RANGE, Skills.SMITHING, Skills.FIREMAKING, Skills.HERBLORE, Skills.SLAYER, Skills.CONSTRUCTION, Skills.DEFENSE, Skills.PRAYER, Skills.FISHING, Skills.CRAFTING, Skills.FARMING, Skills.HUNTER, Skills.SUMMONING, Skills.HITPOINTS, Skills.DUNGEONEERING, Skills.COOKING, Skills.RUNECRAFTING };
+	private static final int[] DIALOGUE_INTERFACE_CS2 = { Skills.ATTACK, Skills.MAGIC, Skills.MINING, Skills.WOODCUTTING, Skills.AGILITY, Skills.FLETCHING, Skills.THIEVING, Skills.STRENGTH, Skills.RANGE, Skills.SMITHING, Skills.FIREMAKING, Skills.HERBLORE, Skills.SLAYER, Skills.CONSTRUCTION, Skills.DEFENSE, Skills.PRAYER, Skills.FISHING, Skills.CRAFTING, Skills.FARMING, Skills.HUNTER, Skills.SUMMONING, Skills.HITPOINTS, Skills.DUNGEONEERING, Skills.COOKING, Skills.RUNECRAFTING };
 
 	private static final double[] BASE_LAMPS_XP = { 62.5, 69, 77, 85, 94, 104, 115, 127, 139, 154, 170, 188, 206, 229, 252, 262, 274, 285, 298, 310, 325, 337, 352, 367.5, 384, 399, 405, 414, 453, 473, 514, 528, 536, 551, 583, 609, 635, 662, 692, 721, 752, 785, 818, 854, 890, 929, 971, 1013, 1055, 1101, 1149, 1200, 1250, 1305, 1362, 1422, 1485, 1542, 1617, 1685, 1758, 1836, 1912, 2004.5, 2085, 2172, 2269, 2379, 2471, 2593, 2693, 2810, 2947, 3082, 3214, 3339, 3496, 3648, 3793, 3980, 4166, 4348,
 			4522, 4762, 4919, 5150, 5376, 5593, 5923, 6122, 6452, 6615, 6929, 7236, 7533, 8065, 8348, 8602 };
@@ -83,7 +83,7 @@ public class Lamps {
 
 	public static void openSelectableInterface(Player player, int slot, int id) {
 		Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
-		Dialogue lampD = new Dialogue().addNext(new LampXPSelectStatement(new Lamp(id, slot, getLampsLevelReq(id))));
+		Dialogue lampD = new Dialogue().addNext(new LampXPSelectStatement(lamp));
 		lampD.addNext(() -> {
 			if (!player.getInventory().containsItem(lamp.getId(), 1)) {
 				player.getTempAttribs().removeO("lampInstance");
@@ -127,7 +127,7 @@ public class Lamps {
 			}
 			Lamp lamp = e.getPlayer().getTempAttribs().getO("lampInstance");
 			if (e.getComponentId() >= 13 && e.getComponentId() <= 37) {
-				int skill = DIALOGUE_INTERFACE_C2S[e.getComponentId() - 13];
+				int skill = DIALOGUE_INTERFACE_CS2[e.getComponentId() - 13];
 				lamp.setSelectedSkill(skill);
 				sendSelectedSkill(e.getPlayer());
 			}

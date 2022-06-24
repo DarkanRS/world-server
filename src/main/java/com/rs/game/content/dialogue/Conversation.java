@@ -367,6 +367,7 @@ public class Conversation {
 				break;
 		}
 		curr = head;
+		str.append(created);
 		return str.toString();
 	}
 

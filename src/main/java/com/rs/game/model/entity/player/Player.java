@@ -325,6 +325,7 @@ public class Player extends Entity {
 	private transient long potionDelay;
 	private transient long boneDelay;
 	private transient Runnable closeInterfacesEvent;
+	private transient Runnable finishConversationEvent;
 	private transient boolean disableEquip;
 	private transient MachineInformation machineInformation;
 	private transient boolean castedVeng;
@@ -2734,6 +2735,10 @@ public class Player extends Entity {
 	public void setCloseInterfacesEvent(Runnable closeInterfacesEvent) {
 		this.closeInterfacesEvent = closeInterfacesEvent;
 	}
+	
+	public void setFinishConversationEvent(Runnable finishConversationEvent) {
+		this.finishConversationEvent = finishConversationEvent;
+	}
 
 	public boolean[] getKilledBarrowBrothers() {
 		return killedBarrowBrothers;
@@ -3773,6 +3778,10 @@ public class Player extends Entity {
 		conversation = null;
 		if (getInterfaceManager().containsChatBoxInter())
 			getInterfaceManager().closeChatBoxInterface();
+		if (finishConversationEvent != null) {
+			finishConversationEvent.run();
+			finishConversationEvent = null;
+		}
 	}
 
 	public Conversation getConversation() {

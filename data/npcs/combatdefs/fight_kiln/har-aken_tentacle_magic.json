@@ -1,23 +1,23 @@
 {
   "names": [
-    "TokHaar-Ket-Zek"
+    "Har-Aken (Magic Tentacle)"
   ],
-  "attackAnim": 16134,
-  "defenceAnim": 16135,
-  "deathAnim": 16111,
+  "attackAnim": 16252,
+  "defenceAnim": 16253,
+  "deathAnim": 16243,
   "deathDelay": 6,
   "respawnDelay": 59,
-  "hitpoints": 2000,
-  "maxHit": 780,
+  "hitpoints": 700,
+  "maxHit": 230,
   "attackStyle": "RANGE",
   "combatLevels": {
-    "ATTACK": 400,
+    "ATTACK": 200,
     "RANGE": 0,
-    "STRENGTH": 200,
-    "DEFENSE": 350,
-    "MAGE": 320
+    "STRENGTH": 100,
+    "DEFENSE": 300,
+    "MAGE": 200
   },
-  "attackRange": -1,
+  "attackRange": 10,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",

@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.dialogue.statements;
 
+import java.util.Arrays;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogue.impl.skilling.MakeXItem;
 import com.rs.game.model.entity.player.Player;
@@ -61,11 +63,7 @@ public class MakeXStatement implements Statement {
 	}
 
 	public MakeXStatement(MakeXItem[] items, int maxQuantity) {
-		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", null, null);
-		int[] itemIds = new int[items.length];
-		for (int i = 0;i < items.length;i++)
-			itemIds[i] = items[i].getItemId();
-		this.items = itemIds;
+		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", Arrays.stream(items).mapToInt(item -> item.getItemId()).toArray(), null);
 	}
 	
 	public MakeXStatement(MakeXType type, String question, int[] items, int maxQuantity) {

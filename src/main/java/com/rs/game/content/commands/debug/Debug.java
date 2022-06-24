@@ -131,6 +131,10 @@ public class Debug {
 			attemptSpawnRandom(p, true);
 		});
 
+		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> {
+			p.incrementCount("Fight Caves clears");
+		});
+		
 		Commands.add(Rights.PLAYER, "showhitchance", "Toggles the display of your hit chance when attacking opponents.", (p, args) -> {
 			p.getNSV().setB("hitChance", !p.getNSV().getB("hitChance"));
 			p.sendMessage("Hit chance display: " + p.getNSV().getB("hitChance"));
