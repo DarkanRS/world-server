@@ -397,7 +397,6 @@ public class PlayerCombat extends PlayerAction {
 			int minHit = (player.getSkills().getLevelForXp(Constants.MAGIC) - 77) * 5;
 			if (hit.getDamage() < minHit)
 				hit.setDamage(hit.getDamage() + minHit);
-			System.out.println("Base SOA max hit: " + max_hit);
 		}
 		hit.setData("combatSpell", spell);
 		boolean sparkle = target.getSize() >= 2 || target.hasEffect(Effect.FREEZE) || target.hasEffect(Effect.FREEZE_BLOCK);
