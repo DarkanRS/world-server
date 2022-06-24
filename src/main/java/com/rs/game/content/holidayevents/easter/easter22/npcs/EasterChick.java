@@ -79,7 +79,7 @@ public class EasterChick extends OwnedNPC {
             getOwner().getInventory().addItem(Easter2022.XP_LAMP);
             getOwner().sendMessage("You are rewarded with an XP lamp and " + Easter2022.LOYALTY_POINTS_AWARDED + " loyalty points for finding 5 eggs in a single hunt.");
             getOwner().incrementCount(Easter2022.STAGE_KEY+"CompletedHunts");
-            int completedHunts = getOwner().getCounter().get(Easter2022.STAGE_KEY+"CompletedHunts");
+            int completedHunts = getOwner().getCounterValue(Easter2022.STAGE_KEY+"CompletedHunts");
             if (completedHunts == 3) {
                 getOwner().startConversation(new Dialogue().addItem(Easter2022.PERMANENT_EGGSTERMINATOR,"You have earned a permanent version of the Eggsterminator for finding 5 eggs in 3 hunts. Speak to the Evil Chicken or Chocatrice in Varrock Square to claim it."));
                 getOwner().sendMessage("You have earned a permanent version of the Eggsterminator for finding 5 eggs in 3 hunts. Speak to the Evil Chicken or Chocatrice in Varrock Square to claim it.");

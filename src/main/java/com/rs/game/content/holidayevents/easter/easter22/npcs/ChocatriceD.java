@@ -43,7 +43,7 @@ public class ChocatriceD extends Conversation {
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, EggHunt.getTimeString());
             }
 
-            if (player.getCounter().get(Easter2022.STAGE_KEY + "CompletedHunts") != null && player.getCounter().get(Easter2022.STAGE_KEY + "CompletedHunts") >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
+            if (player.getCounterValue(Easter2022.STAGE_KEY + "CompletedHunts") >= 3 && !player.getDiangoReclaim().contains(Easter2022.PERMANENT_EGGSTERMINATOR)) {
                 addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Good work, you must enjoy smashing those eggs. Seeing you've been so helpfully destructive I can enchant your Eggsterminator so that it will last after Easter. " +
                         "Want me to do that for you?");
                 addOptions(new Options("unlockPermanent", ChocatriceD.this) {

@@ -1543,7 +1543,7 @@ public class Player extends Entity {
 		return 0;
 	}
 
-	public Map<String, Integer> getCounter() {
+	private Map<String, Integer> getCounter() {
 		return variousCounter;
 	}
 
