@@ -1943,7 +1943,7 @@ public class PlayerCombat extends PlayerAction {
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
 		switch (hit.getLook()) {
 			case MAGIC_DAMAGE:
-				combatXp = (damage / 5);
+				combatXp = (damage / 5.0);
 				if (combatXp > 0) {
 					if (player.getCombatDefinitions().isDefensiveCasting() || (PolyporeStaff.isWielding(player) && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.POLYPORE_LONGRANGE)) {
 						int defenceXp = (int) (hit.getDamage() / 7.5);
@@ -1952,7 +1952,8 @@ public class PlayerCombat extends PlayerAction {
 							player.getSkills().addXp(Constants.DEFENSE, defenceXp / 7.5);
 						}
 					}
-					player.getSkills().addXp(Constants.MAGIC, combatXp);
+					if (combatXp > 0.0)
+						player.getSkills().addXp(Constants.MAGIC, combatXp);
 					//				double hpXp = (hit.getDamage() / 7.5);
 					//				if (hpXp > 0)
 					//					player.getSkills().addXp(Constants.HITPOINTS, hpXp);
