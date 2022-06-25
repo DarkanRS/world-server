@@ -1946,10 +1946,10 @@ public class PlayerCombat extends PlayerAction {
 				combatXp = (damage / 5.0);
 				if (combatXp > 0) {
 					if (player.getCombatDefinitions().isDefensiveCasting() || (PolyporeStaff.isWielding(player) && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.POLYPORE_LONGRANGE)) {
-						int defenceXp = (int) (hit.getDamage() / 7.5);
-						if (defenceXp > 0) {
+						double defenceXp = (damage / 7.5);
+						if (defenceXp > 0.0) {
 							combatXp -= defenceXp;
-							player.getSkills().addXp(Constants.DEFENSE, defenceXp / 7.5);
+							player.getSkills().addXp(Constants.DEFENSE, defenceXp);
 						}
 					}
 					if (combatXp > 0.0)
