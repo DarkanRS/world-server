@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.combat;
 
+import java.util.Map;
+
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -449,11 +451,15 @@ public final class CombatDefinitions {
 	}
 
 	public void setAttackStyle(int style) {
-		AttackStyle[] styles = AttackStyle.getStyles(player.getEquipment().getWeaponId());
+		Map<Integer, AttackStyle> styles = AttackStyle.getStyles(player.getEquipment().getWeaponId());
 		if (style < 0)
 			style = 0;
-		if (style >= styles.length)
-			style = styles.length-1;
+		for (int i = style;i >= 0;i--) {
+			if (styles.get(i) != null) {
+				style = i;
+				break;
+			}
+		}
 		if (style != attackStyle) {
 			attackStyle = (byte) style;
 			if (autoCast != null)
@@ -519,11 +525,17 @@ public final class CombatDefinitions {
 	}
 
 	public AttackStyle getAttackStyle() {
-		AttackStyle[] styles = AttackStyle.getStyles(player.getEquipment().getWeaponId());
+		Map<Integer, AttackStyle> styles = AttackStyle.getStyles(player.getEquipment().getWeaponId());
 		int style = attackStyle;
-		if (style >= styles.length)
-			style = styles.length-1;
-		return styles[style];
+		for (int i = style;i >= 0;i--) {
+			if (styles.get(i) != null) {
+				style = i;
+				break;
+			}
+		}
+		if (style != attackStyle)
+			setAttackStyle(style);
+		return styles.get(style);
 	}
 
 	public int getAttackBonusForStyle() {

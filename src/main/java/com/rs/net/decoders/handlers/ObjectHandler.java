@@ -1044,7 +1044,7 @@ public final class ObjectHandler {
 					public void send(Player player) { player.getInterfaceManager().sendInterface(382); }
 
 					@Override
-					public int getOptionId(int componentId) { return componentId == 19 ? 1 : 2; }
+					public int getOptionId(int componentId) { return componentId == 19 ? 0 : 1; }
 
 					@Override
 					public void close(Player player) {
