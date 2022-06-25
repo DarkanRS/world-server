@@ -395,8 +395,8 @@ public class PlayerCombat extends PlayerAction {
 		Hit hit = getMagicHit(player, getRandomMagicMaxHit(player, spell.getBaseDamage(player)));
 		if (spell == CombatSpell.STORM_OF_ARMADYL && hit.getDamage() > 0) {
 			int minHit = (player.getSkills().getLevelForXp(Constants.MAGIC) - 77) * 5;
-			hit.setDamage(hit.getDamage() + minHit);
-			max_hit = CombatSpell.STORM_OF_ARMADYL.getBaseDamage(player) + minHit;
+			if (hit.getDamage() < minHit)
+				hit.setDamage(hit.getDamage() + minHit);
 		}
 		hit.setData("combatSpell", spell);
 		boolean sparkle = target.getSize() >= 2 || target.hasEffect(Effect.FREEZE) || target.hasEffect(Effect.FREEZE_BLOCK);
@@ -534,7 +534,7 @@ public class PlayerCombat extends PlayerAction {
 					dropAmmo(player, Equipment.AMMO, 2);
 				}
 				case HAND_CANNON -> {
-					player.setNextAnimation(new Animation(12174));
+					player.setNextAnimation(new Animation(12175));
 					player.setNextSpotAnim(new SpotAnim(2138));
 					WorldProjectile p = World.sendProjectile(player, target, 2143, 0, 50, 1.5);
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
@@ -1943,16 +1943,17 @@ public class PlayerCombat extends PlayerAction {
 		int damage = Utils.clampI(hit.getDamage(), 0, target.getHitpoints());
 		switch (hit.getLook()) {
 			case MAGIC_DAMAGE:
-				combatXp = (damage / 5);
+				combatXp = (damage / 5.0);
 				if (combatXp > 0) {
 					if (player.getCombatDefinitions().isDefensiveCasting() || (PolyporeStaff.isWielding(player) && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.POLYPORE_LONGRANGE)) {
-						int defenceXp = (int) (hit.getDamage() / 7.5);
-						if (defenceXp > 0) {
+						double defenceXp = (damage / 7.5);
+						if (defenceXp > 0.0) {
 							combatXp -= defenceXp;
-							player.getSkills().addXp(Constants.DEFENSE, defenceXp / 7.5);
+							player.getSkills().addXp(Constants.DEFENSE, defenceXp);
 						}
 					}
-					player.getSkills().addXp(Constants.MAGIC, combatXp);
+					if (combatXp > 0.0)
+						player.getSkills().addXp(Constants.MAGIC, combatXp);
 					//				double hpXp = (hit.getDamage() / 7.5);
 					//				if (hpXp > 0)
 					//					player.getSkills().addXp(Constants.HITPOINTS, hpXp);
