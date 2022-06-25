@@ -534,7 +534,7 @@ public class PlayerCombat extends PlayerAction {
 					dropAmmo(player, Equipment.AMMO, 2);
 				}
 				case HAND_CANNON -> {
-					player.setNextAnimation(new Animation(12174));
+					player.setNextAnimation(new Animation(12175));
 					player.setNextSpotAnim(new SpotAnim(2138));
 					WorldProjectile p = World.sendProjectile(player, target, 2143, 0, 50, 1.5);
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
