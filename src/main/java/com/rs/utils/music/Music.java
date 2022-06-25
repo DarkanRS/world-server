@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.JsonIOException;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -42,10 +43,12 @@ public class Music {
 	 * locked. This works to increase variety but never adds to unlocked music. This is
 	 * mostly used just to increase ambient song variety and does not affect region or
 	 * playlist music.
+	 * Chunks are secondary and do not change the current music but whatever plays next.
 	 */
 	private static Map<Integer, Song> MUSICS = new HashMap<>();//Full music listing
 	private static Map<Integer, int[]> MUSICS_REGION = new HashMap<>();//hints & unlocks
 
+	private static Map<Integer, Genre> GENRE_CHUNKS = new HashMap<>();//Genre per chunk
 	private static Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region
 	private static List<Genre> genres = new ArrayList<>();
 	private static Genre[] parentGenres;
@@ -78,6 +81,7 @@ public class Music {
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/dungeons.json"), Genre[].class)));
             genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/karamja.json"), Genre[].class)));
 			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/other.json"), Genre[].class)));
+			addGenresToChunkMap();
 			addGenresToRegionMap();
 
 			//Auto-unlock songs list.
@@ -99,7 +103,21 @@ public class Music {
 					GENRE_REGION.put(regionId, g);//none of the values can be empty
 				}
 	}
+	private static void addGenresToChunkMap() {
+		for(Genre g : genres)
+			if(g.isActive())
+				for (int chunkId : g.getChunkIds()) {
+					if (GENRE_CHUNKS.containsKey(chunkId))
+						throw new java.lang.Error("Error, duplicate key at: " + chunkId);
+					GENRE_CHUNKS.put(chunkId, g);//none of the values can be empty
+				}
+	}
 
+	/**
+	 * This is for the music system to check if a song is unlocked.
+	 * @param regionId
+	 * @return
+	 */
 	public static int[] getRegionMusics(int regionId) {
 		return MUSICS_REGION.get(regionId);
 	}
@@ -108,12 +126,18 @@ public class Music {
 		return MUSICS.get(musicId);
 	}
 
-	public static Genre getGenre(int regionId) {
-		if(!GENRE_REGION.containsKey(regionId))
+	/**
+	 * Start with the region genre but if there are genre chunks then default to that.
+	 * Lastly make sure the genre is active.
+	 * @param player
+	 * @return
+	 */
+	public static Genre getGenre(Player player) {
+		if(!GENRE_REGION.containsKey(player.getRegionId()))
 			return null;
-		Genre g = GENRE_REGION.get(regionId);
-		//		if(g.getSongs().length < 10)
-		//			return null;
+		Genre g = GENRE_REGION.get(player.getRegionId());
+		if(GENRE_CHUNKS.containsKey(player.getChunkId()))
+			g = GENRE_CHUNKS.get(player.getChunkId());
 		if(g.isActive())
 			return g;
 		return null;

@@ -82,7 +82,7 @@ public abstract class Controller {
 	 * @return
 	 */
     public Genre getGenre() {
-        return Music.getGenre(player.getRegionId());
+        return Music.getGenre(player);
     }
 
 	/**
