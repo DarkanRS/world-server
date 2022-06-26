@@ -441,7 +441,7 @@ public class NPC extends Entity {
 	}
 	
 	public int getLevel(Skill skill) {
-		return getLevel(skill);
+		return combatLevels == null ? 1 : combatLevels.get(skill);
 	}
 
 	public int getAttackLevel() {
