@@ -248,25 +248,29 @@ public class NPCCombatDefinitions {
 	public String[] getNames() {
 		return names;
 	}
+	
+	public int getLevel(Skill skill) {
+		return getLevels().get(skill) == null ? 0 : getLevel(skill);
+	}
 
 	public int getAttackLevel() {
-		return getLevels().get(Skill.ATTACK);
+		return getLevel(Skill.ATTACK);
 	}
 
 	public int getStrengthLevel() {
-		return getLevels().get(Skill.STRENGTH);
+		return getLevel(Skill.STRENGTH);
 	}
 
 	public int getDefenseLevel() {
-		return getLevels().get(Skill.DEFENSE);
+		return getLevel(Skill.DEFENSE);
 	}
 
 	public int getMagicLevel() {
-		return getLevels().get(Skill.MAGE);
+		return getLevel(Skill.MAGE);
 	}
 
 	public int getRangeLevel() {
-		return getLevels().get(Skill.RANGE);
+		return getLevel(Skill.RANGE);
 	}
 
 	public static Map<Skill, Integer> generateLevels(int combat, int hp) {
@@ -286,12 +290,12 @@ public class NPCCombatDefinitions {
 	}
 
 	public int getCombatLevel() {
-		int attack = getLevels().get(Skill.ATTACK);
-		int defence = getLevels().get(Skill.DEFENSE);
-		int strength = getLevels().get(Skill.STRENGTH);
+		int attack = getLevel(Skill.ATTACK);
+		int defence = getLevel(Skill.DEFENSE);
+		int strength = getLevel(Skill.STRENGTH);
 		int hp = hitpoints/10;
-		int ranged = getLevels().get(Skill.RANGE);
-		int magic = getLevels().get(Skill.MAGE);
+		int ranged = getLevel(Skill.RANGE);
+		int magic = getLevel(Skill.MAGE);
 		int combatLevel = 3;
 		combatLevel = (int) ((defence + hp) * 0.25) + 1;
 		double melee = (attack + strength) * 0.325;
