@@ -250,7 +250,7 @@ public class NPCCombatDefinitions {
 	}
 	
 	public int getLevel(Skill skill) {
-		return getLevels().get(skill) == null ? 0 : getLevel(skill);
+		return getLevels().get(skill) == null ? 1 : getLevels().get(skill);
 	}
 
 	public int getAttackLevel() {
