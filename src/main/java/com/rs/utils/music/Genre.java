@@ -12,6 +12,7 @@ public class Genre {
 	private String parent;
 	private String comment;
 	private boolean isActive;
+	private int[] chunkIds;
 	private int[] regionIds;
 	private int[] songs;
 
@@ -29,6 +30,12 @@ public class Genre {
 
 	public boolean isActive() {
 		return isActive;
+	}
+
+	public int[] getChunkIds() {
+		if(chunkIds == null)
+			return new int[0];
+		return chunkIds;
 	}
 
 	public int[] getRegionIds() {
