@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.minigames;
+package com.rs.game.content.minigames.castlewars;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,8 +23,6 @@ import java.util.List;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.controllers.CastleWarsPlayingController;
-import com.rs.game.content.controllers.CastleWarsWaitingController;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.npc.others.CastleWarBarricade;
 import com.rs.game.model.entity.player.Equipment;

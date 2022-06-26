@@ -17,10 +17,10 @@
 package com.rs.game.content.world.regions;
 
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.controllers.FishingTrawlerGameController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.minigames.trawler.FishingTrawler;
+import com.rs.game.content.minigames.trawler.FishingTrawlerGameController;
 import com.rs.game.content.minigames.trawler.MontyConversation;
 import com.rs.game.content.minigames.trawler.MontyGameConversation;
 import com.rs.plugin.annotations.PluginEventHandler;

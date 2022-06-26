@@ -19,7 +19,6 @@ package com.rs.game.content.tutorialisland;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
-import com.rs.game.content.controllers.TutorialIslandController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

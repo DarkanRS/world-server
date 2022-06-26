@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 

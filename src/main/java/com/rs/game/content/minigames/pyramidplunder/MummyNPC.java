@@ -1,6 +1,5 @@
 package com.rs.game.content.minigames.pyramidplunder;
 
-import com.rs.game.content.controllers.PyramidPlunderController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

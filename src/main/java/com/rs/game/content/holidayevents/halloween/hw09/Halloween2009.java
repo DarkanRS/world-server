@@ -23,7 +23,6 @@ import java.util.Set;
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.controllers.Halloween2009Controller;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.impl.DestroyItem;

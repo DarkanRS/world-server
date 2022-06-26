@@ -49,7 +49,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
-public class Familiar extends NPC {
+public final class Familiar extends NPC {
 
 	private static final int ITEMS_KEY = 530;
 	

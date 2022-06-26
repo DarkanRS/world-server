@@ -19,7 +19,6 @@ package com.rs.game.content.minigames.creations;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rs.game.content.controllers.StealingCreationLobbyController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

@@ -17,12 +17,11 @@
 package com.rs.game.content.tutorialisland;
 
 import com.rs.Settings;
-import com.rs.game.content.controllers.TutorialIslandController;
-import com.rs.game.content.controllers.TutorialIslandController.Stage;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.statements.NPCStatement;
+import com.rs.game.content.tutorialisland.TutorialIslandController.Stage;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;

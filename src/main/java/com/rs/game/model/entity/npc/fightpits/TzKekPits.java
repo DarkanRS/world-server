@@ -17,7 +17,7 @@
 package com.rs.game.model.entity.npc.fightpits;
 
 import com.rs.game.World;
-import com.rs.game.content.minigames.FightPits;
+import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

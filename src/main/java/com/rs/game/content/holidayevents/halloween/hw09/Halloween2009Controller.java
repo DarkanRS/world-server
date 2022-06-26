@@ -14,15 +14,14 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.holidayevents.halloween.hw09;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
-import com.rs.game.content.holidayevents.halloween.hw09.SpiderStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;

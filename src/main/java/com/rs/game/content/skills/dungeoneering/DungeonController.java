@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.skills.dungeoneering;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -25,20 +25,11 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.content.combat.AttackType;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.impl.SmugglerD;
 import com.rs.game.content.skills.cooking.Foods;
-import com.rs.game.content.skills.dungeoneering.Door;
-import com.rs.game.content.skills.dungeoneering.DungManager;
-import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.SkillDoors;
-import com.rs.game.content.skills.dungeoneering.DungeonManager;
-import com.rs.game.content.skills.dungeoneering.DungeonResourceShop;
-import com.rs.game.content.skills.dungeoneering.DungeonUtils;
-import com.rs.game.content.skills.dungeoneering.KinshipPerk;
-import com.rs.game.content.skills.dungeoneering.Room;
-import com.rs.game.content.skills.dungeoneering.RoomReference;
-import com.rs.game.content.skills.dungeoneering.VisibleRoom;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeonClimbLadder;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeonExit;
 import com.rs.game.content.skills.dungeoneering.dialogues.DungeonLeave;
