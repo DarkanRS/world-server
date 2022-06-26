@@ -589,6 +589,12 @@
     "genre": "Daemonheim, Dungeoneering",
     "comment": "",
     "isActive": true,
+    "chunkIds": [
+      5868880,
+      5852496,
+      5852488,
+      5868872
+    ],
     "regionIds": [
       13627,
       13883,

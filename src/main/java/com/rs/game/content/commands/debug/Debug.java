@@ -43,16 +43,19 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
+import com.rs.utils.music.Music;
 
 
 @PluginEventHandler
 public class Debug {
-
+	private static boolean musicMoveOn = false;
 	public static EnterChunkHandler handleTempleChunks = new EnterChunkHandler() {
 		@Override
 		public void handle(EnterChunkEvent e) {
 			if (!Settings.getConfig().isDebug())
 				return;
+			if(musicMoveOn && e.getPlayer() != null && e.getPlayer().hasStarted())
+				e.getPlayer().sendMessage("Region: " + e.getPlayer().getRegionId() + ", Chunk: " + e.getChunkId() + ", Genre: " + Music.getGenre(e.getPlayer()).getGenreName());
 			if (e.getEntity() instanceof Player player)
 				if (player.getNSV().getB("visChunks") && player.hasStarted()) {
 					player.devisualizeChunk(e.getEntity().getLastChunkId());
@@ -83,6 +86,10 @@ public class Debug {
 		//		Commands.add(Rights.PLAYER, "example [arg1 (optionalArg2)]", "This is an example command to replicate.", (p, args) -> {
 		//
 		//		});
+
+		Commands.add(Rights.ADMIN, "shapemusic", "Starts showing music shape.", (p, args) -> {
+			musicMoveOn = !musicMoveOn;
+		});
 
 		Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());

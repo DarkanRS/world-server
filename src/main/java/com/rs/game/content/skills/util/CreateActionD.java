@@ -113,7 +113,7 @@ public class CreateActionD extends Conversation {
 	public void initialize() {
 		MakeXActionD makeX = new MakeXActionD();
 		for (int i = 0; i < this.products.length; i++)
-			makeX.addOption(new MakeXItem(player, materials[i], products[i], xp[i], anims[i], reqs[i], skill, delay));
+			makeX.addOption(new MakeXItem(player, materials[i], products[i], xp == null ? 0.0 : xp[i], anims == null ? -1 : anims[i], reqs == null ? 1 : reqs[i], skill, delay));
 		addNext(makeX);
 	}
 }
