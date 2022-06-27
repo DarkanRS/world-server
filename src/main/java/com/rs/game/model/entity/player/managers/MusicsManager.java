@@ -336,7 +336,7 @@ public final class MusicsManager {
      */
     private void pickAmbientSong() {
         playingGenre = player.getControllerManager().getController() == null ?
-                Music.getGenre(player.getRegionId()) : player.getControllerManager().getController().getGenre();
+                Music.getGenre(player) : player.getControllerManager().getController().getGenre();
         if (playingGenre == null) {
 			playingMusic = NULL_SOUND_TRACK;//don't play music.
 			return;
@@ -417,7 +417,7 @@ public final class MusicsManager {
         settedMusic = false;
         if (playingMusic != requestMusicId)
             playSongWithoutUnlocking(requestMusicId);
-        playingGenre = Music.getGenre(player.getRegionId());
+        playingGenre = Music.getGenre(player);
     }
 
     public void forcePlayMusic(int musicId) {
