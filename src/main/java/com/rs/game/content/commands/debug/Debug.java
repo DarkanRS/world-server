@@ -112,7 +112,7 @@ public class Debug {
 			}
 		});
 
-		Commands.add(Rights.ADMIN, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
+		Commands.add(Rights.PLAYER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
 			switch (Integer.valueOf(args[0])) {
 				case 0 -> {
 					p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
@@ -165,6 +165,40 @@ public class Debug {
 					return;
 				}
 		});
+		
+		Commands.add(Rights.PLAYER, "resetquest [questName]", "Resets the specified quest.", (p, args) -> {
+			for (Quest quest : Quest.values())
+				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+					p.getQuestManager().resetQuest(quest);
+					p.sendMessage("Resetted quest: " + quest.name());
+					return;
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "completequest [questName]", "Resets the specified quest.", (p, args) -> {
+			for (Quest quest : Quest.values())
+				if (quest.name().toLowerCase().contains(args[0])) {
+					p.getQuestManager().completeQuest(quest);
+					p.sendMessage("Completed quest: " + quest.name());
+					return;
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "completeallquests", "Completes all quests.", (p, args) -> {
+			for (Quest quest : Quest.values())
+				if (quest.isImplemented()) {
+					p.getQuestManager().completeQuest(quest);
+					p.sendMessage("Completed quest: " + quest.name());
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "resetallquests", "Resets all quests.", (p, args) -> {
+			for (Quest quest : Quest.values())
+				if (quest.isImplemented()) {
+					p.getQuestManager().resetQuest(quest);
+					p.sendMessage("Reset quest: " + quest.name());
+				}
+		});
 
 		Commands.add(Rights.PLAYER, "getqstage [questName]", "Resets the specified quest.", (p, args) -> {
 			for (Quest quest : Quest.values())
@@ -208,6 +242,10 @@ public class Debug {
 			for (int skill = 0; skill < 25; skill++)
 				p.getSkills().setXp(skill, 0);
 			p.getSkills().init();
+		});
+		
+		Commands.add(Rights.PLAYER, "spec", "Restores special attack energy to full.", (p, args) -> {
+			p.getCombatDefinitions().resetSpecialAttack();
 		});
 
 		Commands.add(Rights.PLAYER, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
