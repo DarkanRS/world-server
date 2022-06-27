@@ -26,7 +26,6 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.content.controllers.Controller;
-import com.rs.game.content.controllers.HouseController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.Statement;

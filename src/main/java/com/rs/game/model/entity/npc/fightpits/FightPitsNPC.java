@@ -19,7 +19,7 @@ package com.rs.game.model.entity.npc.fightpits;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rs.game.content.minigames.FightPits;
+import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

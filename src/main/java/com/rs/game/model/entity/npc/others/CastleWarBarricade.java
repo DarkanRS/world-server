@@ -16,7 +16,7 @@
 //
 package com.rs.game.model.entity.npc.others;
 
-import com.rs.game.content.minigames.CastleWars;
+import com.rs.game.content.minigames.castlewars.CastleWars;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;

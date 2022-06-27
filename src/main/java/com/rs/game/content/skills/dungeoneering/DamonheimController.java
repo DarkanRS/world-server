@@ -14,9 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.skills.dungeoneering;
 
-import com.rs.game.content.skills.dungeoneering.DungeonManager;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;

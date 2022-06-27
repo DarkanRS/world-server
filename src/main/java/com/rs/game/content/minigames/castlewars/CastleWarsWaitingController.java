@@ -14,9 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.castlewars;
 
-import com.rs.game.content.minigames.CastleWars;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;

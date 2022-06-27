@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills;
+package com.rs.game.content.skills.fletching;
 
 import java.util.HashMap;
 import java.util.Map;

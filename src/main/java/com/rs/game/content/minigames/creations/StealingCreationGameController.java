@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.creations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +26,7 @@ import java.util.Map.Entry;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
-import com.rs.game.content.minigames.creations.GameArea;
-import com.rs.game.content.minigames.creations.Helper;
-import com.rs.game.content.minigames.creations.Score;
-import com.rs.game.content.minigames.creations.StealingCreationManager;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;

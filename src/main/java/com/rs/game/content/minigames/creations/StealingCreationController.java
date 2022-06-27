@@ -14,18 +14,12 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.creations;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.minigames.creations.GameArea;
-import com.rs.game.content.minigames.creations.Helper;
-import com.rs.game.content.minigames.creations.Score;
-import com.rs.game.content.minigames.creations.StealingCreationClay;
-import com.rs.game.content.minigames.creations.StealingCreationMagic;
-import com.rs.game.content.minigames.creations.StealingCreationManagerD;
-import com.rs.game.content.minigames.creations.StealingCreationRange;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceMovement;
@@ -716,8 +710,10 @@ public class StealingCreationController extends Controller {
 						player.setNextAnimation(new Animation(10589));
 						step++;
 					} else if (step == 1) {
-						if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[t], 4)) && !game.buildBarrier(getTeam(), t + 1, x, y))
+						if (player.getInventory().containsItem(new Item(Helper.BARRIER_ITEMS[t], 4)) && !game.buildBarrier(getTeam(), t + 1, x, y)) {
+							player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[t], 4));
 							player.getInventory().addItem(new Item(Helper.BARRIER_ITEMS[t], 4));
+						}
 						player.unlock();
 						stop();
 					}
@@ -778,8 +774,10 @@ public class StealingCreationController extends Controller {
 							player.setNextAnimation(new Animation(10589));
 							step++;
 						} else if (step == 1) {
-							if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[tier - 1], 1)) && !game.repairBarrier(x, y))
+							if (player.getInventory().containsItem(new Item(Helper.BARRIER_ITEMS[tier - 1], 1)) && !game.repairBarrier(x, y)) {
+								player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[tier - 1], 1));
 								player.getInventory().addItem(new Item(Helper.BARRIER_ITEMS[tier - 1], 1));
+							}
 							player.unlock();
 							stop();
 						}

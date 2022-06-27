@@ -23,7 +23,6 @@ import java.util.List;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.controllers.PestControlGameController;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.pest.PestMonsters;
 import com.rs.game.model.entity.npc.pest.PestPortal;

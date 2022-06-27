@@ -4,7 +4,7 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.minigames.FightPits;
+import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.model.entity.player.Player;
 
 public class TzHaarMejKah extends Conversation {

@@ -18,8 +18,8 @@ package com.rs.game.content.skills.firemaking;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.controllers.DuelArenaController;
-import com.rs.game.content.controllers.DuelController;
+import com.rs.game.content.minigames.duel.DuelArenaController;
+import com.rs.game.content.minigames.duel.DuelController;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.DamonheimController;
+import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;

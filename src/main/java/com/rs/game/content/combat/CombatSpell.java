@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.controllers.DungeonController;
+import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;

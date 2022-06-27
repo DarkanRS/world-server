@@ -19,7 +19,6 @@ package com.rs.game.content.minigames.creations;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.StealingCreationGameController;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
