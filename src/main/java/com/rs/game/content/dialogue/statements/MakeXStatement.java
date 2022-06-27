@@ -170,7 +170,7 @@ public class MakeXStatement implements Statement {
 	}
 
 	public static int getQuantity(Player player) {
-		if (player.getTempAttribs().getB("makeAll-X"))
+		if (player.getVars().getVarBit(8094) <= 0)
 			return 60;
 		return player.getVars().getVarBit(8095);
 	}
