@@ -676,7 +676,6 @@ public class House {
 		.addNext(new Statement() {
 			@Override
 			public void send(Player player) {
-				player.getInterfaceManager().sendInterface(1306);
 				player.getPackets().sendVarc(841, reqVal);
 				player.getPackets().sendItems(398, itemArray);
 				player.getPackets().setIFEvents(new IFEvents(1306, 55, -1, -1).enableContinueButton()); // exit
@@ -705,10 +704,6 @@ public class House {
 			buildD.addNext(() -> player.getHouse().build(index));
 		}
 		player.startConversation(buildD);
-		player.setCloseInterfacesEvent(() -> {
-			player.getTempAttribs().removeO("OpenedBuild");
-			player.getTempAttribs().removeO("OpenedBuildObject");
-		});
 	}
 
 	private boolean hasRequirimentsToBuild(boolean warn, Builds build, HObject piece) {
@@ -755,7 +750,8 @@ public class House {
 		if (!player.hasRights(Rights.ADMIN))
 			for (Item item : piece.getRequirements(player))
 				player.getInventory().deleteItem(item);
-		player.lock();
+		player.getTempAttribs().removeO("OpenedBuild");
+		player.getTempAttribs().removeO("OpenedBuildObject");
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -763,9 +759,9 @@ public class House {
 				if (build.isWater())
 					player.getSkills().addXp(Constants.FARMING, piece.getXP());
 				refreshObject(room, oref, false);
-				player.lock(1);
+				player.unlock();
 			}
-		}, 2);
+		}, 0);
 	}
 
 	private void refreshObject(RoomReference rref, ObjectReference oref, boolean remove) {
@@ -879,9 +875,9 @@ public class House {
 			public void run() {
 				World.removeObject(object);
 				refreshObject(room, oref, true);
-				player.lock(1);
+				player.unlock();
 			}
-		}, 1);
+		});
 	}
 
 	public boolean isDoor(GameObject object) {
