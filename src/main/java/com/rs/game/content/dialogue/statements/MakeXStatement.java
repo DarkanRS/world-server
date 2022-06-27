@@ -49,7 +49,7 @@ public class MakeXStatement implements Statement {
 	}
 
 	private MakeXType type;
-	private int maxQuantity = -1;
+	private int maxQuantity = -50;
 	private String question;
 	private int[] items;
 	private String[] options;
@@ -75,11 +75,11 @@ public class MakeXStatement implements Statement {
 	}
 
 	public MakeXStatement(MakeXType type, int[] items, String[] options) {
-		this(type, -1, "Select an item.", items, options);
+		this(type, -50, "Select an item.", items, options);
 	}
 
 	public MakeXStatement(MakeXType type, int[] items) {
-		this(type, -1, "Select an item.", items, null);
+		this(type, -50, "Select an item.", items, null);
 	}
 	
 	public MakeXStatement(String question, int[] items, int maxQuantity) {
@@ -91,15 +91,16 @@ public class MakeXStatement implements Statement {
 	}
 
 	public MakeXStatement(int[] items, String[] options) {
-		this(MakeXType.SELECT, -1, "Select an item.", items, options);
+		this(MakeXType.SELECT, -50, "Select an item.", items, options);
 	}
 
 	public MakeXStatement(int[] items) {
-		this(MakeXType.SELECT, -1, "Select an item.", items, null);
+		this(MakeXType.SELECT, -50, "Select an item.", items, null);
 	}
 
 	@Override
 	public void send(Player player) {
+		player.getTempAttribs().setB("makeAll-X", maxQuantity == -50);
 		player.getPackets().setIFRightClickOps(916, 8, -1, 0, 0);
 		player.getPackets().setIFText(916, 6, question);
 		player.getPackets().sendVarc(754, type.ordinal());
@@ -169,6 +170,8 @@ public class MakeXStatement implements Statement {
 	}
 
 	public static int getQuantity(Player player) {
+		if (player.getTempAttribs().getB("makeAll-X"))
+			return 60;
 		return player.getVars().getVarBit(8095);
 	}
 
