@@ -710,8 +710,10 @@ public class StealingCreationController extends Controller {
 						player.setNextAnimation(new Animation(10589));
 						step++;
 					} else if (step == 1) {
-						if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[t], 4)) && !game.buildBarrier(getTeam(), t + 1, x, y))
+						if (player.getInventory().containsItem(new Item(Helper.BARRIER_ITEMS[t], 4)) && !game.buildBarrier(getTeam(), t + 1, x, y)) {
+							player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[t], 4));
 							player.getInventory().addItem(new Item(Helper.BARRIER_ITEMS[t], 4));
+						}
 						player.unlock();
 						stop();
 					}
@@ -772,8 +774,10 @@ public class StealingCreationController extends Controller {
 							player.setNextAnimation(new Animation(10589));
 							step++;
 						} else if (step == 1) {
-							if (player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[tier - 1], 1)) && !game.repairBarrier(x, y))
+							if (player.getInventory().containsItem(new Item(Helper.BARRIER_ITEMS[tier - 1], 1)) && !game.repairBarrier(x, y)) {
+								player.getInventory().removeItems(new Item(Helper.BARRIER_ITEMS[tier - 1], 1));
 								player.getInventory().addItem(new Item(Helper.BARRIER_ITEMS[tier - 1], 1));
+							}
 							player.unlock();
 							stop();
 						}

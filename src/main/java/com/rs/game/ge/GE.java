@@ -350,8 +350,10 @@ public class GE {
 
 	private static boolean deleteItems(Player player, Offer offer) {
 		if (!offer.isSelling()) {
-			if (player.getInventory().removeItems(new Item(995, offer.getPrice() * offer.getAmount())))
+			if (player.getInventory().containsItem(new Item(995, offer.getPrice() * offer.getAmount()))) {
+				player.getInventory().deleteItem(new Item(995, offer.getPrice() * offer.getAmount()));
 				return true;
+			}
 			return false;
 		}
 

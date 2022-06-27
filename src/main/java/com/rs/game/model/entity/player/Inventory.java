@@ -198,15 +198,12 @@ public final class Inventory {
 		refreshItems(itemsBefore);
 	}
 
-	public boolean removeItems(Item... list) {
+	public void removeItems(Item... list) {
 		for (Item item : list) {
 			if (item == null)
 				continue;
-			if (!containsItem(item))
-				return false;
 			deleteItem(item);
 		}
-		return true;
 	}
 	
 	public void removeAllItems(int... list) {
