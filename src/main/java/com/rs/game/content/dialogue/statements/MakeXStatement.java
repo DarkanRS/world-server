@@ -100,7 +100,6 @@ public class MakeXStatement implements Statement {
 
 	@Override
 	public void send(Player player) {
-		player.getTempAttribs().setB("makeAll-X", maxQuantity == -50);
 		player.getPackets().setIFRightClickOps(916, 8, -1, 0, 0);
 		player.getPackets().setIFText(916, 6, question);
 		player.getPackets().sendVarc(754, type.ordinal());
