@@ -976,7 +976,7 @@ public class NPC extends Entity {
 	}
 
 	public boolean checkAggressivity() {
-		if (this instanceof Familiar || !getDefinitions().hasAttackOption())
+		if ((this instanceof Familiar || !getDefinitions().hasAttackOption()) && !forceAgressive)
 			return false;
 		List<Entity> possibleTarget = getPossibleTargets();
 		if (!possibleTarget.isEmpty()) {

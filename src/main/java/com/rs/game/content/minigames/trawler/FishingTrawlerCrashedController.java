@@ -1,4 +1,6 @@
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.trawler;
+
+import com.rs.game.content.controllers.Controller;
 
 public class FishingTrawlerCrashedController extends Controller {
 

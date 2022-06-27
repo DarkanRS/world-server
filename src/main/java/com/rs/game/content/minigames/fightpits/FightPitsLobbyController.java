@@ -14,9 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.fightpits;
 
-import com.rs.game.content.minigames.FightPits;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.actions.FightPitsViewingOrb;
 import com.rs.game.model.object.GameObject;
 

@@ -14,11 +14,12 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.fightcaves;
 
 import java.util.Set;
 
 import com.rs.game.World;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.pet.Pets;
 import com.rs.game.content.skills.summoning.Summoning;

@@ -14,28 +14,22 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.skills.construction;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.content.PlayerLook;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.dialogue.impl.FillingD;
 import com.rs.game.content.quests.Quest;
-import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.construction.House.ObjectReference;
 import com.rs.game.content.skills.construction.House.RoomReference;
-import com.rs.game.content.skills.construction.HouseConstants;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
 import com.rs.game.content.skills.construction.HouseConstants.HObject;
 import com.rs.game.content.skills.construction.HouseConstants.POHLocation;
-import com.rs.game.content.skills.construction.ItemOnServantD;
-import com.rs.game.content.skills.construction.ServantHouseD;
-import com.rs.game.content.skills.construction.ServantNPC;
-import com.rs.game.content.skills.construction.SitChair;
-import com.rs.game.content.skills.construction.TabletMaking;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.content.skills.cooking.CookingD;

@@ -14,12 +14,13 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.tutorialisland;
 
 import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.game.World;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -34,16 +35,6 @@ import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.content.skills.smithing.Smelting;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
-import com.rs.game.content.tutorialisland.BrotherBrace;
-import com.rs.game.content.tutorialisland.CombatInstructor;
-import com.rs.game.content.tutorialisland.FinancialAdvisor;
-import com.rs.game.content.tutorialisland.MagicInstructor;
-import com.rs.game.content.tutorialisland.MasterChef;
-import com.rs.game.content.tutorialisland.MiningInstructor;
-import com.rs.game.content.tutorialisland.QuestGuide;
-import com.rs.game.content.tutorialisland.RuneScapeGuide;
-import com.rs.game.content.tutorialisland.Skippy;
-import com.rs.game.content.tutorialisland.SurvivalExpert;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;

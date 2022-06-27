@@ -18,9 +18,9 @@ package com.rs.game.content.dialogue.impl;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.skills.Fletching;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FremennikCampRoom;
+import com.rs.game.content.skills.fletching.Fletching;
 import com.rs.game.model.entity.player.Player;
 
 public class FremennikScoutD extends Conversation {
