@@ -1543,10 +1543,6 @@ public class Player extends Entity {
 		return 0;
 	}
 
-	private Map<String, Integer> getCounter() {
-		return variousCounter;
-	}
-
 	public void incrementCount(String string) {
 		incrementCount(string, 1);
 	}
