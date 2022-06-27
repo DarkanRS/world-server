@@ -37,6 +37,12 @@
     "parent": "Asgarnia",
     "comment": "City specific of both + rogues den",
     "isActive": true,
+    "chunkIds": [
+      5885272,
+      5885264,
+      5885280,
+      5868888
+    ],
     "regionIds": [
       12109,
       11575,
