@@ -2990,7 +2990,9 @@ public class Player extends Entity {
 					resetWalkSteps();
 					getInteractionManager().setInteraction(new PlayerCombatInteraction(this, target));
 				}
-				PlayerCombat pcb = ((PlayerCombatInteraction) getInteractionManager().getInteraction()).getAction();
+				PlayerCombat pcb = null;
+				if (getInteractionManager().getInteraction() != null && getInteractionManager().getInteraction() instanceof PlayerCombatInteraction pci)
+					pcb = pci.getAction();
 				if (pcb == null ||!inMeleeRange(target) || !PlayerCombat.specialExecute(this))
 					return;
 				setNextAnimation(new Animation(weaponId == 4153 ? 1667 : 10505));
