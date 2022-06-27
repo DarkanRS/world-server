@@ -70,7 +70,7 @@ public class FightKilnController extends Controller {
 
 
 	private final int[][] WAVES = { { Hur, Hur, Xil, Xil, Tok_Xil }, // 1
-			{ Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 2
+			{ Hur, Xil, Xil, Tok_Xil, Tok_Xil }, // 2
 			{ Tok_Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 3
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 4
 			{ Xil, Tok_Xil, Tok_Xil, Ket_Dill, Tok_Xil }, // 5
