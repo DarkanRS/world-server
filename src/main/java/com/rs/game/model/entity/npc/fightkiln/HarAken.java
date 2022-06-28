@@ -22,6 +22,7 @@ import java.util.List;
 import com.rs.game.content.controllers.FightKilnController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -39,12 +40,19 @@ public class HarAken extends NPC {
 		underLava = !underLava;
 		if (time == 0)
 			spawnTentacleTime = System.currentTimeMillis() + 9000;
+		if(tentacles.size() == 8)
+			spawnTentacleTime = System.currentTimeMillis() + 25000;
 		time = System.currentTimeMillis() + (underLava ? 43000 : 31000);
 	}
 
 	@Override
 	public boolean ignoreWallsWhenMeleeing() {
 		return true;
+	}
+
+	@Override
+	public boolean canMove(Direction dir) {
+		return false;
 	}
 
 	public HarAken(int id, WorldTile tile, FightKilnController controller) {
@@ -82,7 +90,7 @@ public class HarAken extends NPC {
 					resetTimer();
 				} else
 					controller.hideHarAken();
-			if (spawnTentacleTime < System.currentTimeMillis())
+			if (tentacles.size() < 9 && spawnTentacleTime < System.currentTimeMillis())
 				spawnTentacle();
 
 		}

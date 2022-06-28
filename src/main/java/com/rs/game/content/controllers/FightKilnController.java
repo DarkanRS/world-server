@@ -41,6 +41,8 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 /**
  * T70+
@@ -58,6 +60,21 @@ public class FightKilnController extends Controller {
 		player.getMusicsManager().playSongAndUnlock(selectedMusic);
 	}
 
+	@Override
+	public Genre getGenre() {
+		return Music.getGenreByName("Tzhaar City");
+	}
+
+	@Override
+	public boolean playAmbientOnControllerRegionEnter() {
+		return false;
+	}
+
+	@Override
+	public boolean playAmbientStrictlyBackgroundMusic() {
+		return true;
+	}
+
 	/*
 	 * 0 - south east 1 - south west 2 - north west 3 - north east TokHaar-Hur -
 	 * 15201 TokHaar-Xil - 15202 TokHaar-Mej - 15203 TokHaar-Ket - 15204
@@ -69,41 +86,41 @@ public class FightKilnController extends Controller {
 			Ket_Zek = 15207, Jad = 15208, Ket_Dill = 15213;
 
 
-	private final int[][] WAVES = { { Xil, Xil, Tok_Xil, Hur, Hur }, // 1
-			{ Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 2
-			{ Xil, Tok_Xil, Tok_Xil, Tok_Xil, Hur }, // 3
+	private final int[][] WAVES = { { Hur, Hur, Xil, Xil, Tok_Xil }, // 1
+			{ Hur, Xil, Xil, Tok_Xil, Tok_Xil }, // 2
+			{ Tok_Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 3
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 4
-			{ Xil, Tok_Xil, Tok_Xil, Tok_Xil, Ket_Dill }, // 5
-			{ Xil, Tok_Xil, Mej, Mej, Tok_Xil, Tok_Xil }, // 6
+			{ Xil, Tok_Xil, Tok_Xil, Ket_Dill, Tok_Xil }, // 5
+			{ Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 6
 			{ Mej, Tok_Xil, Tok_Xil, Tok_Xil, Xil, Tok_Xil }, // 7
 			{ Ket_Zek, Tok_Xil, Tok_Xil }, // 8
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 9
 			{ Tok_Xil, Jad }, // 10
 			{ Mej, Mej, Mej, Mej }, // 11
 			{ Mej, Tok_Xil, Tok_Xil, Mej }, // 12
-			{ Mej, Ket_Zek, Mej }, // 13
+			{ Ket_Zek, Hur, Mej }, // 13
 			{ Ket_Zek, Ket_Zek, Mej, Mej }, // 14
 			{ Ket_Zek, Ket_Zek, Tok_Xil }, // 15
 			{ Ket_Zek, Ket_Zek, Tok_Xil, Mej, Mej }, // 16
-			{ Ket_Zek, Ket_Zek, Tok_Xil, Mej, Yt_Mejkot }, // 17
-			{ Ket_Zek, Ket_Zek, Tok_Xil, Yt_Mejkot, Tok_Xil, Tok_Xil }, // 18
-			{ Mej, Mej, Mej, Mej, Mej, Mej, Mej, Mej, Ket_Dill}, // 19
+			{ Ket_Zek, Ket_Zek, Tok_Xil, Yt_Mejkot, Mej }, // 17
+			{ Ket_Zek, Ket_Zek, Tok_Xil, Yt_Mejkot, Tok_Xil, Mej }, // 18
+			{ Mej, Mej, Mej, Mej, Mej, Mej, Mej, Ket_Dill, Mej}, // 19
 			{ Ket_Zek, Jad }, // 20
 			{ Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur, Hur }, // 21
-			{ Yt_Mejkot, Hur, Ket, Ket, Hur }, // 22
-			{ Yt_Mejkot, Yt_Mejkot, Ket, Hur, Hur }, // 23
-			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Tok_Xil, Yt_Mejkot }, // 24
+			{ Hur, Hur, Ket, Ket, Yt_Mejkot }, // 22
+			{ Hur, Hur, Ket, Yt_Mejkot, Yt_Mejkot }, // 23
+			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Yt_Mejkot, Yt_Mejkot }, // 24
 			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Tok_Xil, Ket_Zek }, // 25
 			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Ket_Zek, Ket_Zek }, // 26
-			{ Ket_Zek, Ket, Yt_Mejkot, Tok_Xil, Ket, Yt_Mejkot }, // 27
-			{ Ket_Dill, Ket_Dill, Ket_Zek, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
+			{ Ket, Ket, Tok_Xil, Ket_Zek, Yt_Mejkot, Yt_Mejkot }, // 27
+			{ Ket_Dill, Ket_Dill, Xil, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
 			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 29
 			{ Yt_Mejkot, Jad, Yt_Mejkot, Yt_Mejkot }, // 30
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 31
 			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 32
 			{ Ket_Zek, Ket_Zek, Ket_Zek, Ket_Zek }, // 33
-			{ Tok_Xil, Jad, Yt_Mejkot }, // 34
-			{ Ket_Zek, Yt_Mejkot, Tok_Xil, Jad }, // 35
+			{ Jad, Tok_Xil, Yt_Mejkot }, // 34
+			{ Ket_Zek, Tok_Xil, Yt_Mejkot, Jad }, // 35
 			{ Jad, Jad } // 36
 	};
 
@@ -290,7 +307,6 @@ public class FightKilnController extends Controller {
 						harAken.spawn();
 						harAken.sendDeath(player);
 						WorldTasks.schedule(Ticks.fromSeconds(5), () -> {
-							player.setFinishConversationEvent(() -> removeScene());
 							player.startConversation(new Conversation(player) {
 								{
 									addNPC(TOKHAAR_HOK_SCENE, HeadE.T_SURPRISED, "You are a Tokhaar... born in a human's body. Truly, we have not seen such skill from anyone out of our kiln.");
@@ -536,23 +552,27 @@ public class FightKilnController extends Controller {
 		}
 	}
 
-	public WorldTile getSpawnTile(int count, int size) {
-		int position = count % 4;
-		switch (position) {
-		case 0: // east south
-			WorldTile maxTile = getMaxTile();
-			WorldTile minTile = getMinTile();
-			return new WorldTile(maxTile.getX() - 1 - size, minTile.getY() + 2, 1);
-		case 1: // west south
-			return getMinTile().transform(2, 2, 0);
-		case 2: // west north
-			maxTile = getMaxTile();
-			minTile = getMinTile();
-			return new WorldTile(minTile.getX() + 2, maxTile.getY() - 1 - size, 1);
-		case 3: // east north
-		default:
-			return getMaxTile().transform(-1 - size, -1 - size, 0);
+	static final String[] COMPASS = new String[] { "SE", "SW", "NW", "NE" };
+	private WorldTile getTileOfSide(String side, int size) {
+		switch(side.toUpperCase()) {
+			case "SE": // South East
+				WorldTile maxTile = getMaxTile();
+				WorldTile minTile = getMinTile();
+				return new WorldTile(maxTile.getX() - 1 - size, minTile.getY() + 2, 1);
+			case "SW": // South West
+				return getMinTile().transform(2, 2, 0);
+			case "NW": // North West
+				maxTile = getMaxTile();
+				minTile = getMinTile();
+				return new WorldTile(minTile.getX() + 2, maxTile.getY() - 1 - size, 1);
+			case "NE": // North East
+			default:
+				return getMaxTile().transform(-1 - size, -1 - size, 0);
 		}
+	}
+
+	public WorldTile getSpawnTile(int npcId, int waveIndex) {
+		return getTileOfSide(COMPASS[waveIndex % 4], NPCDefinitions.getDefs(npcId).size);
 	}
 
 	@Override
@@ -601,10 +621,9 @@ public class FightKilnController extends Controller {
 		for (int i = index; i < (index + 4 > WAVES[currentWave - 1].length ? WAVES[currentWave - 1].length : index + 4); i++) {
 			int npcId = WAVES[currentWave - 1][i];
 			if (npcId == 15213)
-				new TokHaarKetDill(WAVES[currentWave - 1][i], getSpawnTile(i, NPCDefinitions.getDefs(npcId).size), this);
+				new TokHaarKetDill(npcId, getSpawnTile(npcId, i), this);
 			else
-				new FightKilnNPC(WAVES[currentWave - 1][i], getSpawnTile(i, NPCDefinitions.getDefs(npcId).size), this);
-
+				new FightKilnNPC(npcId, getSpawnTile(npcId, i), this);
 		}
 	}
 
