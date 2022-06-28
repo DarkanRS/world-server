@@ -78,7 +78,7 @@ public class NPCCombatDefinitions {
 	private int attackGfx;
 	private int attackProjectile;
 	private AggressiveType agressivenessType;
-	public int aggroDistance = -1; //4 for melee, 8 for range default
+	private int aggroDistance = -1; //4 for melee, 8 for range default
 	private int deAggroDistance = -1; //16 by default
 	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
 

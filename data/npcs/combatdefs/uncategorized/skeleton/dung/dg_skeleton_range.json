@@ -32,7 +32,7 @@
   "attackGfx": 2267,
   "attackProjectile": 2268,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 16,
+  "aggroDistance": 8,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

@@ -61,12 +61,7 @@ public class NPCCombatDefMerger {
 		for (File file : ORIGINAL.keySet()) {
 			NPCCombatDefinitions def = ORIGINAL.get(file);
 
-			if (def.getAggroDistance() == 16) {
-				if (def.getAttackRange() > 2)
-					def.aggroDistance = 8;
-				else
-					def.aggroDistance = 4;
-			}
+			//TODO any bulk processing here
 			
 			JsonFileManager.saveJsonFile(def, file);
 			System.out.println("Processed: " + file);
