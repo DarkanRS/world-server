@@ -4,7 +4,6 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 import java.util.ArrayList;
 
-import com.rs.game.content.controllers.FightArenaFightCutsceneController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;

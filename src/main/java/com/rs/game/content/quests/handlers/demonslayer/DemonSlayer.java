@@ -18,7 +18,6 @@ package com.rs.game.content.quests.handlers.demonslayer;
 
 import java.util.ArrayList;
 
-import com.rs.game.content.controllers.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.quests.Quest;

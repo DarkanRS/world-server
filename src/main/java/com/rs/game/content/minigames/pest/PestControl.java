@@ -23,12 +23,12 @@ import java.util.List;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.minigames.pest.npcs.PestMonsters;
+import com.rs.game.content.minigames.pest.npcs.PestPortal;
+import com.rs.game.content.minigames.pest.npcs.Shifter;
+import com.rs.game.content.minigames.pest.npcs.Spinner;
+import com.rs.game.content.minigames.pest.npcs.Splatter;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.pest.PestMonsters;
-import com.rs.game.model.entity.npc.pest.PestPortal;
-import com.rs.game.model.entity.npc.pest.Shifter;
-import com.rs.game.model.entity.npc.pest.Spinner;
-import com.rs.game.model.entity.npc.pest.Splatter;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;

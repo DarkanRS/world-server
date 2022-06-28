@@ -17,7 +17,7 @@
 package com.rs.game.content.world.regions;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.GodwarsController;
+import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;

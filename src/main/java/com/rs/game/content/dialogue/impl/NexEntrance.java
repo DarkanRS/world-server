@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.content.controllers.NexController;
+import com.rs.game.content.bosses.godwars.zaros.NexArena;
+import com.rs.game.content.bosses.godwars.zaros.NexController;
 import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.model.entity.npc.godwars.zaros.NexArena;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 

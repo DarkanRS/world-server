@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

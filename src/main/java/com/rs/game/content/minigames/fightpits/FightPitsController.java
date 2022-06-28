@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.minigames.fightpits;
 
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;

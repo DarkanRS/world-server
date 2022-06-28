@@ -10,7 +10,6 @@ import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.REPO
 import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
 import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
 
-import com.rs.game.content.controllers.DragonSlayer_BoatScene;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

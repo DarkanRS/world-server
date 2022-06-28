@@ -21,13 +21,13 @@ import java.util.List;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.minigames.treasuretrails.ClueNPC;
+import com.rs.game.content.minigames.treasuretrails.Ugi;
+import com.rs.game.content.world.regions.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.others.ClueNPC;
-import com.rs.game.model.entity.npc.others.Ugi;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;

@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import com.rs.game.content.controllers.Controller;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;

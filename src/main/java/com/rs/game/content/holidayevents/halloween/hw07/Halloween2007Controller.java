@@ -19,9 +19,9 @@ package com.rs.game.content.holidayevents.halloween.hw07;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
