@@ -555,21 +555,8 @@ public class FightKilnController extends Controller {
 		}
 	}
 
-	public WorldTile getSpawnTile(int wave, int npcId, int waveIndex) {
-		int size = NPCDefinitions.getDefs(npcId).size;
-		if(wave == 2) {
-			switch(waveIndex) {
-				case 0:
-				case 1:
-					return getTileOfSide("NW", size);
-				case 2:
-					return getTileOfSide("NE", size);
-				case 3:
-				case 4:
-					return getTileOfSide("SE", size);
-			}
-		}
-		return getTileOfSide(COMPASS[waveIndex % 4], size);
+	public WorldTile getSpawnTile(int npcId, int waveIndex) {
+		return getTileOfSide(COMPASS[waveIndex % 4], NPCDefinitions.getDefs(npcId).size);
 	}
 
 	@Override
@@ -618,10 +605,9 @@ public class FightKilnController extends Controller {
 		for (int i = index; i < (index + 4 > WAVES[currentWave - 1].length ? WAVES[currentWave - 1].length : index + 4); i++) {
 			int npcId = WAVES[currentWave - 1][i];
 			if (npcId == 15213)
-				new TokHaarKetDill(npcId, getSpawnTile(currentWave, npcId, i), this);
+				new TokHaarKetDill(npcId, getSpawnTile(npcId, i), this);
 			else
-				new FightKilnNPC(npcId, getSpawnTile(currentWave, npcId, i), this);
-
+				new FightKilnNPC(npcId, getSpawnTile(npcId, i), this);
 		}
 	}
 
