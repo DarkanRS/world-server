@@ -23,7 +23,6 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
-import com.rs.game.model.entity.npc.pet.Pet;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;

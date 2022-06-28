@@ -18,6 +18,7 @@ package com.rs.net.decoders.handlers.impl.interfaces;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.firemaking.Firemaking;
 import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
@@ -26,7 +27,6 @@ import com.rs.game.content.skills.magic.RuneSet;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;

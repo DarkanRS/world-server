@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world;
 
-import com.rs.game.content.world.regions.dungeons.UndergroundDungeonController;
+import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 

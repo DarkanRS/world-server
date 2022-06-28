@@ -1,8 +1,8 @@
 package com.rs.game.content.combat;
 
+import com.rs.game.content.world.npcs.DoorSupport;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
-import com.rs.game.model.entity.npc.others.DoorSupport;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
