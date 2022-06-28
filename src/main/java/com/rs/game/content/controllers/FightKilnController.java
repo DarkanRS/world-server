@@ -74,14 +74,14 @@ public class FightKilnController extends Controller {
 			{ Tok_Xil, Xil, Tok_Xil, Tok_Xil, Hur }, // 3
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 4
 			{ Xil, Tok_Xil, Tok_Xil, Ket_Dill, Tok_Xil }, // 5
-			{ Xil, Tok_Xil, Tok_Xil, Mej, Mej, Tok_Xil }, // 6
+			{ Xil, Tok_Xil, Tok_Xil, Mej, Mej }, // 6
 			{ Mej, Tok_Xil, Tok_Xil, Tok_Xil, Xil, Tok_Xil }, // 7
 			{ Ket_Zek, Tok_Xil, Tok_Xil }, // 8
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 9
 			{ Tok_Xil, Jad }, // 10
 			{ Mej, Mej, Mej, Mej }, // 11
 			{ Mej, Tok_Xil, Tok_Xil, Mej }, // 12
-			{ Ket_Zek, Mej, Mej }, // 13
+			{ Ket_Zek, Hur, Mej }, // 13
 			{ Ket_Zek, Ket_Zek, Mej, Mej }, // 14
 			{ Ket_Zek, Ket_Zek, Tok_Xil }, // 15
 			{ Ket_Zek, Ket_Zek, Tok_Xil, Mej, Mej }, // 16
@@ -96,7 +96,7 @@ public class FightKilnController extends Controller {
 			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Tok_Xil, Ket_Zek }, // 25
 			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Ket_Zek, Ket_Zek }, // 26
 			{ Ket, Ket, Tok_Xil, Ket_Zek, Yt_Mejkot, Yt_Mejkot }, // 27
-			{ Ket_Dill, Ket_Dill, Ket_Zek, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
+			{ Ket_Dill, Ket_Dill, Xil, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
 			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 29
 			{ Yt_Mejkot, Jad, Yt_Mejkot, Yt_Mejkot }, // 30
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 31
