@@ -19,13 +19,12 @@ package com.rs.game.content.minigames.castlewars;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.others.CastleWarBarricade;
 import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;

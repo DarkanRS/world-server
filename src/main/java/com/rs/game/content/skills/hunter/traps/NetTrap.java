@@ -21,9 +21,9 @@ import java.util.Map;
 
 import com.rs.db.WorldDB;
 import com.rs.game.World;
+import com.rs.game.content.skills.hunter.BoxHunterNPC;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.hunter.BoxTrapType;
-import com.rs.game.model.entity.npc.others.BoxHunterNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;

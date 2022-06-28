@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.quests.handlers.demonslayer;
 
-import com.rs.game.content.controllers.DemonSlayer_WallyVSDelrith;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

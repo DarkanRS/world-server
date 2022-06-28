@@ -17,13 +17,13 @@
 package com.rs.game.model.entity.npc.combat;
 
 import com.rs.game.content.Effect;
+import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.npc.godwars.zaros.Nex;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;

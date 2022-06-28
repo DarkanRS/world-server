@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;

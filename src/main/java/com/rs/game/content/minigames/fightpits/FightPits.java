@@ -26,8 +26,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.FightPitsViewingOrb;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.fightpits.FightPitsNPC;
-import com.rs.game.model.entity.npc.fightpits.TzKekPits;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

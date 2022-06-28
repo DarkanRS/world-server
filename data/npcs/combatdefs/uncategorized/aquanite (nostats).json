@@ -21,7 +21,7 @@
   "attackGfx": 2120,
   "attackProjectile": 2119,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": 16,
+  "aggroDistance": 8,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

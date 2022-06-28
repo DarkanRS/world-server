@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.minigames.wguild;
 
-import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
