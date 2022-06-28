@@ -18,7 +18,7 @@ package com.rs.game.content.quests.handlers.merlinscrystal;
 
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.others.OwnedNPC;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;

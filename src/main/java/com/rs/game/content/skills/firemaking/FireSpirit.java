@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.firemaking;
 
-import com.rs.game.model.entity.npc.others.OwnedNPC;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

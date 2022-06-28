@@ -64,9 +64,9 @@ import com.rs.game.content.skills.smithing.Smithing.ForgingBar;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.transportation.WildernessObelisk;
+import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
+import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.content.world.regions.dungeons.UndergroundDungeonController;
-import com.rs.game.content.world.regions.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -211,12 +211,7 @@ public final class ObjectHandler {
 				WildernessObelisk.activateObelisk(id, player);
 			else if (id == 10229) { // dag up ladder
 				player.setNextAnimation(new Animation(828));
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						player.setNextWorldTile(new WorldTile(1910, 4367, 0));
-					}
-				}, 1);
+				WorldTasks.schedule(1, () -> player.setNextWorldTile(new WorldTile(1910, 4367, 0)));
 				return;
 			} else if (id == 17757) {
 				Agility.handleObstacle(player, 3303, 1, player.transform(0, player.getY() < object.getY() ? 2 : -2, 0), 0);

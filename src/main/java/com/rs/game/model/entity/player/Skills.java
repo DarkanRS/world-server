@@ -24,7 +24,7 @@ import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Skillcapes;
 import com.rs.game.content.randomevents.RandomEvents;
-import com.rs.game.content.world.regions.wilderness.WildernessController;
+import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
