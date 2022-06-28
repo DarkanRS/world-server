@@ -2,7 +2,6 @@ package com.rs.game.content.minigames.pyramidplunder;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.controllers.PyramidPlunderController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.ForceMovement;

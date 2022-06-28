@@ -1,6 +1,6 @@
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.trawler;
 
-import com.rs.game.content.minigames.trawler.FishingTrawler;
+import com.rs.game.content.controllers.Controller;
 import com.rs.lib.game.WorldTile;
 
 public class FishingTrawlerLobbyController extends Controller {

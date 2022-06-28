@@ -18,8 +18,8 @@ package com.rs.game.content.world;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.controllers.DamonheimController;
 import com.rs.game.content.controllers.WildernessController;
+import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.content.world.doors.DoorPair;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.object.GameObject;

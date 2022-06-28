@@ -14,10 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.pest;
 
-import com.rs.game.content.minigames.pest.Lander;
-import com.rs.game.content.minigames.pest.LanderD;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;

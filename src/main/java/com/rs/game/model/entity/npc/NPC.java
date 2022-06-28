@@ -248,10 +248,24 @@ public class NPC extends Entity {
 			return true;
 		return World.checkNPCClip(this, dir);
 	}
+	
+	private void restoreTick() {
+		for (Skill skill : Skill.values()) {
+			int currentLevel = getLevel(skill);
+			int normalLevel = getCombatDefinitions().getLevel(skill);
+			if (currentLevel > normalLevel)
+				setStat(skill, currentLevel - 1);
+			else if (currentLevel < normalLevel)
+				setStat(skill, Utils.clampI(currentLevel + 1, 0, normalLevel));
+		}
+	}
 
 	public void processNPC() {
 		if (isDead() || locked || World.getPlayersInRegionRange(getRegionId()).isEmpty())
 			return;
+		//Restore combat stats
+		if (getTickCounter() % 100 == 0)
+			restoreTick();
 		if (!combat.process() && routeEvent == null)
 			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE))
 				if (!hasWalkSteps() && shouldRandomWalk()) {
@@ -425,25 +439,29 @@ public class NPC extends Entity {
 	public NPCCombat getCombat() {
 		return combat;
 	}
+	
+	public int getLevel(Skill skill) {
+		return combatLevels == null ? 1 : combatLevels.get(skill);
+	}
 
 	public int getAttackLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.ATTACK);
+		return getLevel(Skill.ATTACK);
 	}
 
 	public int getDefenseLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.DEFENSE);
+		return getLevel(Skill.DEFENSE);
 	}
 
 	public int getStrengthLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.STRENGTH);
+		return getLevel(Skill.STRENGTH);
 	}
 
 	public int getRangeLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.RANGE);
+		return getLevel(Skill.RANGE);
 	}
 
 	public int getMagicLevel() {
-		return combatLevels == null ? 0 : combatLevels.get(Skill.MAGE);
+		return getLevel(Skill.MAGE);
 	}
 
 	@Override
@@ -958,7 +976,7 @@ public class NPC extends Entity {
 	}
 
 	public boolean checkAggressivity() {
-		if (this instanceof Familiar || !getDefinitions().hasAttackOption())
+		if ((this instanceof Familiar || !getDefinitions().hasAttackOption()) && !forceAgressive)
 			return false;
 		List<Entity> possibleTarget = getPossibleTargets();
 		if (!possibleTarget.isEmpty()) {

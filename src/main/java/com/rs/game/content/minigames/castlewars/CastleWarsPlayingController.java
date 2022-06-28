@@ -14,12 +14,12 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.castlewars;
 
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.minigames.CastleWars;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

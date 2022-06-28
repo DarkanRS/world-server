@@ -14,10 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.controllers;
+package com.rs.game.content.minigames.creations;
 
-import com.rs.game.content.minigames.creations.Helper;
-import com.rs.game.content.minigames.creations.StealingCreationLobby;
+import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;

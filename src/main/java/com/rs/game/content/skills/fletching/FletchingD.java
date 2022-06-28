@@ -14,14 +14,14 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills;
+package com.rs.game.content.skills.fletching;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.dialogue.statements.MakeXStatement.MakeXType;
-import com.rs.game.content.skills.Fletching.Fletch;
+import com.rs.game.content.skills.fletching.Fletching.Fletch;
 import com.rs.game.model.entity.player.Player;
 
 public class FletchingD extends Conversation {

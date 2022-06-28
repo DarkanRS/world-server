@@ -87,7 +87,7 @@ public final class WorldThread extends Thread {
 				npc.processMovement();
 			}
 			for (Player player : World.getPlayers()) {
-				if (player == null)
+				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
 				try {
 					player.getPackets().sendLocalPlayersUpdate();

@@ -233,7 +233,7 @@ public class Smelting extends PlayerAction {
 		} else
 			player.sendMessage("The ore is too impure and you fail to refine it.", true);
 		if (ticks > 0)
-			return 1;
+			return 2;
 		return -1;
 	}
 

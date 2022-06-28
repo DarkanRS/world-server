@@ -14,15 +14,13 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.minigames;
+package com.rs.game.content.minigames.fightpits;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.FightPitsController;
-import com.rs.game.content.controllers.FightPitsLobbyController;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
