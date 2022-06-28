@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;

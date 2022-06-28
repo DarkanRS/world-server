@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.MerlinsCrystalCrateScene;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

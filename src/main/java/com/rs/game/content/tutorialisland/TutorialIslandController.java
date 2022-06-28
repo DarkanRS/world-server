@@ -20,7 +20,6 @@ import java.util.function.Consumer;
 
 import com.rs.Settings;
 import com.rs.game.World;
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
@@ -38,6 +37,7 @@ import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;

@@ -18,7 +18,6 @@ package com.rs.game.content.minigames.treasuretrails;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.model.entity.npc.others.Ugi;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.TreasureTrailsManager;
 import com.rs.lib.util.Utils;

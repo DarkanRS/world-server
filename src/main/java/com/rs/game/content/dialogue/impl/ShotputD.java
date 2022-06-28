@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.dialogue.impl;
 
-import com.rs.game.content.controllers.WarriorsGuild;
 import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.content.minigames.wguild.WarriorsGuild;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 

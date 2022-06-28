@@ -21,10 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;

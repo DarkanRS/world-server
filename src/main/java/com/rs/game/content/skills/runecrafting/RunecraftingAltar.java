@@ -19,9 +19,9 @@ package com.rs.game.content.skills.runecrafting;
 import java.util.ArrayList;
 
 import com.rs.game.World;
-import com.rs.game.content.controllers.WildernessController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.world.regions.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world;
 
-import com.rs.game.content.controllers.QueenBlackDragonController;
+import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;

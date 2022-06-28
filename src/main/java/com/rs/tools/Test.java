@@ -24,7 +24,7 @@ import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.BASDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.content.controllers.Controller;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.packets.Packet;

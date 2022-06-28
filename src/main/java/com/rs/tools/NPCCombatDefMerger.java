@@ -26,8 +26,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.game.content.controllers.Controller;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
 import com.rs.lib.net.packets.Packet;
@@ -61,7 +61,12 @@ public class NPCCombatDefMerger {
 		for (File file : ORIGINAL.keySet()) {
 			NPCCombatDefinitions def = ORIGINAL.get(file);
 
-			
+			if (def.getAggroDistance() == 16) {
+				if (def.getAttackRange() > 2)
+					def.aggroDistance = 8;
+				else
+					def.aggroDistance = 4;
+			}
 			
 			JsonFileManager.saveJsonFile(def, file);
 			System.out.println("Processed: " + file);

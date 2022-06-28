@@ -18,9 +18,9 @@ package com.rs.game.model.entity.player;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.controllers.DomTowerController;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.impl.StrangeFace;
+import com.rs.game.content.minigames.domtower.DomTowerController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;

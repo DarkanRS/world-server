@@ -24,7 +24,6 @@ import java.util.List;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.skills.cooking.Foods.Food;
-import com.rs.game.model.entity.npc.others.CastleWarBarricade;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

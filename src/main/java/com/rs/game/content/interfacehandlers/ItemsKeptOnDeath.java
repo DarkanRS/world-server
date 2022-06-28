@@ -17,7 +17,7 @@
 package com.rs.game.content.interfacehandlers;
 
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.game.content.controllers.DeathOfficeController;
+import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.model.entity.npc.others.GraveStone;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
