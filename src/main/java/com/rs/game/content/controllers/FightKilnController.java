@@ -41,6 +41,8 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+import com.rs.utils.music.Genre;
+import com.rs.utils.music.Music;
 
 /**
  * T70+
@@ -56,6 +58,21 @@ public class FightKilnController extends Controller {
 
 	public void playMusic() {
 		player.getMusicsManager().playSongAndUnlock(selectedMusic);
+	}
+
+	@Override
+	public Genre getGenre() {
+		return Music.getGenreByName("Tzhaar City");
+	}
+
+	@Override
+	public boolean playAmbientOnControllerRegionEnter() {
+		return false;
+	}
+
+	@Override
+	public boolean playAmbientStrictlyBackgroundMusic() {
+		return true;
 	}
 
 	/*
@@ -290,7 +307,6 @@ public class FightKilnController extends Controller {
 						harAken.spawn();
 						harAken.sendDeath(player);
 						WorldTasks.schedule(Ticks.fromSeconds(5), () -> {
-							player.setFinishConversationEvent(() -> removeScene());
 							player.startConversation(new Conversation(player) {
 								{
 									addNPC(TOKHAAR_HOK_SCENE, HeadE.T_SURPRISED, "You are a Tokhaar... born in a human's body. Truly, we have not seen such skill from anyone out of our kiln.");
