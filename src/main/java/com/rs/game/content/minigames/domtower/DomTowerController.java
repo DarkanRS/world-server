@@ -19,7 +19,6 @@ package com.rs.game.content.minigames.domtower;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.model.entity.player.DominionTower;
 import com.rs.game.model.object.GameObject;
 
 public class DomTowerController extends Controller {

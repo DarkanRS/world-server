@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.skills.summoning.Familiar;
-import com.rs.game.content.world.regions.wilderness.WildernessController;
+import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
