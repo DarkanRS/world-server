@@ -246,6 +246,7 @@ public class FightKilnController extends Controller {
 	public void loadCave(final boolean login) {
 		stage = Stages.LOADING;
 		player.lock(); // locks player
+		player.setLargeSceneView(true);
 		int currentWave = getCurrentWave();
 		Runnable event = () -> {
 			// selects a music
@@ -870,6 +871,7 @@ public class FightKilnController extends Controller {
 		if (stage != Stages.RUNNING)
 			return;
 		exitCave(2);
+		player.setLargeSceneView(false);
 	}
 
 	public void showHarAken() {
@@ -961,34 +963,24 @@ public class FightKilnController extends Controller {
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Magic prowess, at the expense of your Defence, Strength and Ranged ability.");
 		else if (skill == Constants.STRENGTH)
 			player.sendMessage("<col=7E2217>The power of the crystal improves your Strength prowess, at the expense of your Defence, Ranged and Magical ability.");
-		WorldTasks.schedule(new WorldTask() {
-
-			private int count;
-
-			@Override
-			public void run() {
-				try {
-					if (count++ == 7 || !(player.getControllerManager().getController() instanceof FightKilnController)) {
-						player.getTempAttribs().removeB("FightKilnCrystal");
-						player.sendMessage("<col=7E2217>The power of the crystal dwindles and your " + Constants.SKILL_NAME[skill] + " prowess returns to normal.");
-						player.getSkills().set(Constants.DEFENSE, player.getSkills().getLevelForXp(Constants.DEFENSE));
-						player.getSkills().set(Constants.STRENGTH, player.getSkills().getLevelForXp(Constants.STRENGTH));
-						player.getSkills().set(Constants.RANGE, player.getSkills().getLevelForXp(Constants.RANGE));
-						player.getSkills().set(Constants.MAGIC, player.getSkills().getLevelForXp(Constants.MAGIC));
-						stop();
-					} else {
-						for (int i = 1; i < 7; i++) {
-							if (i == skill || i == 3 || i == 5)
-								continue;
-							player.getSkills().set(i, player.getSkills().getLevelForXp(i) / 2);
-						}
-						player.getSkills().set(skill, (int) (player.getSkills().getLevelForXp(skill) * 1.5));
-					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
+		WorldTasks.scheduleTimer(timer -> {
+			if (timer >= Ticks.fromMinutes(3.5) || !(player.getControllerManager().getController() instanceof FightKilnController)) {
+				player.getTempAttribs().removeB("FightKilnCrystal");
+				player.sendMessage("<col=7E2217>The power of the crystal dwindles and your " + Constants.SKILL_NAME[skill] + " prowess returns to normal.");
+				player.getSkills().set(Constants.DEFENSE, player.getSkills().getLevelForXp(Constants.DEFENSE));
+				player.getSkills().set(Constants.STRENGTH, player.getSkills().getLevelForXp(Constants.STRENGTH));
+				player.getSkills().set(Constants.RANGE, player.getSkills().getLevelForXp(Constants.RANGE));
+				player.getSkills().set(Constants.MAGIC, player.getSkills().getLevelForXp(Constants.MAGIC));
+				return false;
 			}
-		}, 0, Ticks.fromSeconds(30));
+			for (int i = 1; i < 7; i++) {
+				if (i == skill || i == 3 || i == 5)
+					continue;
+				player.getSkills().set(i, player.getSkills().getLevelForXp(i) / 2);
+			}
+			player.getSkills().set(skill, (int) (player.getSkills().getLevelForXp(skill) * 1.5));
+			return true;
+		});
 	}
 
 	@Override
@@ -1010,6 +1002,8 @@ public class FightKilnController extends Controller {
 	public void hideHarAken() {
 		if (stage != Stages.RUNNING)
 			return;
+		if (harAken == null)
+			showHarAken();
 		harAken.resetTimer();
 		harAken.setCantInteract(true);
 		harAken.setNextAnimation(new Animation(16234));
