@@ -175,7 +175,7 @@ public class PlayerCombat extends PlayerAction {
 			player.setNextAnimation(new Animation(15448));
 			PolyporeStaff.drainCharge(player);
 			WorldProjectile p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2, 0, 0);
-			Hit hit = getMagicHit(player, getRandomMagicMaxHit(player, (5 * player.getSkills().getLevel(Constants.MAGIC)) - 180));
+			Hit hit = getMagicHit(player, getRandomMagicMaxHit(player, (5 * player.getSkills().getLevel(Constants.MAGIC)) - 180, false));
 			delayMagicHit(p.getTaskDelay(), hit, () -> {
 				if (hit.getDamage() > 0)
 					target.setNextSpotAnim(new SpotAnim(2036, 0, 96));
@@ -1385,9 +1385,17 @@ public class PlayerCombat extends PlayerAction {
 				return 0;
 		}
 	}
-
+	
 	public int getRandomMagicMaxHit(Player player, int baseDamage) {
-		int current = calculateMagicHit(player, baseDamage);
+		return getRandomMagicMaxHit(player, baseDamage, true);
+	}
+
+	public int calculateMagicHit(Player player, int maxHit) {
+		return calculateMagicHit(player, maxHit, true);
+	}
+	
+	public int getRandomMagicMaxHit(Player player, int baseDamage, boolean applyMageLevelBoost) {
+		int current = calculateMagicHit(player, baseDamage, applyMageLevelBoost);
 		if (current <= 0) // Splash.
 			return 0;
 
@@ -1399,7 +1407,7 @@ public class PlayerCombat extends PlayerAction {
 		return hit;
 	}
 
-	private int calculateMagicHit(Player player, int maxHit) {
+	private int calculateMagicHit(Player player, int maxHit, boolean applyMageLevelBoost) {
 		double lvl = Math.floor(player.getSkills().getLevel(Constants.MAGIC) * player.getPrayer().getMageMultiplier());
 		lvl += 8;
 		if (fullVoidEquipped(player, 11663, 11674))
@@ -1452,9 +1460,11 @@ public class PlayerCombat extends PlayerAction {
 			return 0;
 
 		max_hit = maxHit;
-		double boost = 1 + ((player.getSkills().getLevel(Constants.MAGIC) - player.getSkills().getLevelForXp(Constants.MAGIC)) * 0.03);
-		if (boost > 1)
-			max_hit *= boost;
+		if (applyMageLevelBoost) {
+			double boostedMageLevelBonus = 1 + ((player.getSkills().getLevel(Constants.MAGIC) - player.getSkills().getLevelForXp(Constants.MAGIC)) * 0.03);
+			if (boostedMageLevelBonus > 1)
+				max_hit *= boostedMageLevelBonus;
+		}
 		double magicPerc = player.getCombatDefinitions().getBonus(Bonus.MAGIC_STR);
 		if (spellcasterGloveSpell != null)
 			if (maxHit > 60) {
@@ -1468,8 +1478,8 @@ public class PlayerCombat extends PlayerAction {
 				}
 				player.sendMessage("Your magic surged with extra power.");
 			}
-		boost = magicPerc / 100 + 1;
-		max_hit *= boost;
+		double mageBonusBoost = magicPerc / 100 + 1;
+		max_hit *= mageBonusBoost;
 
 		if (player.hasSlayerTask())
 			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n))
