@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.rs.game.model.entity.npc.others.GraveStone;
+import com.rs.game.content.death.GraveStone;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;

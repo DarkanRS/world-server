@@ -10,7 +10,7 @@ import com.rs.game.content.quests.QuestHandler;
 import com.rs.game.content.quests.QuestManager;
 import com.rs.game.content.quests.QuestOutline;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.npc.others.OwnedNPC;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;

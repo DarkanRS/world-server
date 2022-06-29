@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.minigames.treasuretrails;
 
-import com.rs.game.model.entity.npc.others.OwnedNPC;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 

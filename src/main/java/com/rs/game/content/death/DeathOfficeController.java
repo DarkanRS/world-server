@@ -19,7 +19,6 @@ package com.rs.game.content.death;
 import java.util.Arrays;
 
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.npc.others.GraveStone;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
