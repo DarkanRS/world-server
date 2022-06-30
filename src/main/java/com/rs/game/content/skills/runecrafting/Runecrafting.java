@@ -300,7 +300,6 @@ public class Runecrafting {
 			}
 			player.getSkills().addXp(Constants.RUNECRAFTING, rune.xp * runes);
 			player.getInventory().addItem(21773, numberArma);
-			player.getInventory().addItem(PURE_ESS, runes-amount-1);
 			player.incrementCount("Armadyl rune runecrafted", numberArma);
 			return;
 		}
@@ -417,23 +416,17 @@ public class Runecrafting {
 			if (pouch == -1)
 				continue;
 
-			if (p.getPouchesType()[pouch] != (essence == PURE_ESS))
+			if (p.getPouches()[pouch] > 0 && p.getPouchesType()[pouch] != (essence == PURE_ESS))
 				continue;
 
 			if (p.getSkills().getLevel(Skills.RUNECRAFTING) >= LEVEL_REQ[pouch]) {
 				if (p.getBank().containsItem(essence, 1)) {
 					int essenceToAdd = POUCH_SIZE[pouch] - p.getPouches()[pouch];
-					if (essenceToAdd == POUCH_SIZE[pouch])
-						p.getPouchesType()[pouch] = p.getBank().getItem(essence).getAmount() > 0;
 					if (essenceToAdd > p.getBank().getItem(essence).getAmount())
 						essenceToAdd = p.getBank().getItem(essence).getAmount();
-					if (essenceToAdd > POUCH_SIZE[pouch] - p.getPouches()[pouch])
-						essenceToAdd = POUCH_SIZE[pouch] - p.getPouches()[pouch];
 					if (essenceToAdd > 0) {
 						p.getBank().removeItem(p.getBank().getSlot(essence), essenceToAdd, true, false);
 						p.getPouches()[pouch] += essenceToAdd;
-					}
-					if (essenceToAdd != 0) {
 						p.sendMessage(essenceToAdd + " " + ItemDefinitions.getDefs(essence).getName() + " has been placed into your " + i.getName().toLowerCase() + ".");
 						p.getPouchesType()[pouch] = (essence == PURE_ESS ? true : false);
 					}
