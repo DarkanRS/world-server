@@ -75,6 +75,7 @@ public class Conversation {
 	}
 
 	public void create(String stageName) {
+		created = true;
 		setFirst(getStage(stageName).getHead());
 	}
 

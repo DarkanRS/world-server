@@ -1,4 +1,4 @@
-package com.rs.game.content.miscitems;
+package com.rs.game.content.items;
 
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
