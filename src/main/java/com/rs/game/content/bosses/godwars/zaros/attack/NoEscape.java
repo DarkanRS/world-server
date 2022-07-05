@@ -17,7 +17,7 @@
 package com.rs.game.content.bosses.godwars.zaros.attack;
 
 import com.rs.game.content.bosses.godwars.zaros.Nex;
-import com.rs.game.content.cutscenes.NexCutScene;
+import com.rs.game.content.bosses.godwars.zaros.NexCutScene;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;

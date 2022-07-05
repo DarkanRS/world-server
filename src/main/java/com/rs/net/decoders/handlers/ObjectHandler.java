@@ -23,14 +23,15 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.cutscenes.DTPreview;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.impl.StrongholdRewardD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
 import com.rs.game.content.dialogue.statements.Statement;
+import com.rs.game.content.items.Spade;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
+import com.rs.game.content.minigames.domtower.DTPreview;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.fightcaves.FightCavesController;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
@@ -351,7 +352,7 @@ public final class ObjectHandler {
 			} else if (id == 2353 && (object.getX() == 3177 && object.getY() == 5730 && object.getPlane() == 0))
 				player.useStairs(828, new WorldTile(3353, 3416, 0));
 			else if (id == 66115 || id == 66116)
-				InventoryOptionsHandler.dig(player);
+				Spade.dig(player);
 			else if (id == 2478)
 				Runecrafting.runecraft(player, RCRune.AIR);
 			else if (id == 2479)
@@ -1268,12 +1269,12 @@ public final class ObjectHandler {
 					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							InventoryOptionsHandler.dig(player);
+							Spade.dig(player);
 						}
 
 					}, 1);
 				} else
-					InventoryOptionsHandler.dig(player);
+					Spade.dig(player);
 			} else if (id == 11724)
 				player.useStairs(-1, new WorldTile(2968, 3348, 1), 0, 1);
 			else if (id == 11725)

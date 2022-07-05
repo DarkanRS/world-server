@@ -1,4 +1,4 @@
-package com.rs.game.content.miscitems;
+package com.rs.game.content.items;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.function.Consumer;
