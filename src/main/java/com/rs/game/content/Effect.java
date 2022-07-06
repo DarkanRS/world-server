@@ -81,6 +81,8 @@ public enum Effect {
 	DUNG_HS_SCROLL_BOOST("hoardstalker boost", true),
 	
 	AGGRESSION_POTION("aggression potion", false),
+	
+	OVERLOAD_PVP_REDUCTION(true),
 
 	BONFIRE("bonfire boost", false) {
 		@Override
