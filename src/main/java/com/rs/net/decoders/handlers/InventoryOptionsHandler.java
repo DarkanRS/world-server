@@ -20,7 +20,6 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.Dicing;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Lamps;
 import com.rs.game.content.dialogue.impl.DestroyItem;
@@ -60,7 +59,6 @@ import com.rs.game.content.skills.smithing.GodSwordCreation;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.ItemTeleports;
-import com.rs.game.content.world.LightSource;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -92,21 +90,166 @@ import com.rs.utils.drop.WeightedSet;
 import com.rs.utils.drop.WeightedTable;
 
 public class InventoryOptionsHandler {
+	
+	public static boolean handleItemOnItem(Player player, Item used, Item usedWith, int fromSlot, int toSlot) {
+		int usedId = used.getId(), usedWithId = usedWith.getId();
 
-	public static void handleItemOption2(final Player player, final int slotId, final int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(1))) || Firemaking.isFiremaking(player, itemId))
-			return;
-		if (item.getDefinitions().containsInventoryOption(1, "Extinguish")) {
-			if (LightSource.extinguishSource(player, slotId, false))
-				return;
-		} else if (itemId >= 15086 && itemId <= 15100) {
-			Dicing.handleRoll(player, itemId, true);
-			return;
+		if (!player.getControllerManager().canUseItemOnItem(used, usedWith))
+			return false;
+
+		if (GodSwordCreation.handleGodSword(player, usedWithId, usedId) || WeaponPoison.poison(player, used, usedWith, false))
+			return true;
+
+		if (PrayerBooks.isGodBook(usedId, false) || PrayerBooks.isGodBook(usedWithId, false)) {
+			PrayerBooks.bindPages(player, used.getName().contains(" page ") ? usedWithId : usedId);
+			return true;
 		}
-		if (player.hasRights(Rights.DEVELOPER))
-			player.sendMessage("ItemOption2: item: " + itemId + ", slotId: " + slotId);
-	}
 
+		if (CookingCombos.handleCombos(player, used, usedWith))
+			return true;
+
+		if (TreeSaplings.hasSaplingRequest(player, usedId, usedWithId)) {
+			if (usedId == 5354)
+				TreeSaplings.plantSeed(player, usedWithId, fromSlot);
+			else
+				TreeSaplings.plantSeed(player, usedId, toSlot);
+			return true;
+		}
+
+		if (usedWithId == 22332) {
+			WickedHoodRune rune = null;
+			for (WickedHoodRune r : WickedHoodRune.values())
+				if (r.getTalismanId() == usedId || r.getTiaraId() == usedId)
+					rune = r;
+			if (rune != null) {
+				if (player.hasWickedHoodTalisman(rune)) {
+					//failsafe check for players who manually use all elemental runes so they can still use the talisman to unlock pure ess.
+					if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId() && !player.getUsedElementalTalisman()) {
+						player.getInventory().deleteItem(usedId, 1);
+						player.setUsedElementalTalisman(true);
+						player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
+						return true;
+					}
+					player.sendMessage("The hood doesn't appear to be interested in that anymore.");
+					return true;
+				}
+				player.getInventory().deleteItem(usedId, 1);
+				player.getSkills().addXp(Constants.RUNECRAFTING, 50);
+				if (usedId == WickedHoodRune.OMNI.getTalismanId()) {
+					for (WickedHoodRune r : WickedHoodRune.values())
+						player.unlockWickedHoodRune(r);
+					player.setUsedOmniTalisman(true);
+				} else if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId()) {
+					player.unlockWickedHoodRune(WickedHoodRune.AIR);
+					player.unlockWickedHoodRune(WickedHoodRune.WATER);
+					player.unlockWickedHoodRune(WickedHoodRune.EARTH);
+					player.unlockWickedHoodRune(WickedHoodRune.FIRE);
+					player.setUsedElementalTalisman(true);
+					player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
+				}
+				player.unlockWickedHoodRune(rune);
+			}
+			return true;
+		}
+
+		if ((usedId == 7225 && usedWithId == 9978) || (usedId == 1391 && usedWithId == 9978)) {
+			player.getInventory().deleteItem(7225, 1);
+			player.getInventory().deleteItem(9978, 1);
+			player.getInventory().addItem(9984, 1);
+			return true;
+		}
+
+		if (usedId == 1759 && Lunars.getStrungIndex(usedWithId) != -1)
+			if (player.getInventory().containsItem(1759, 1) && player.getInventory().containsItem(usedWithId, 1)) {
+				player.getInventory().deleteItem(used.getId(), 1);
+				player.getInventory().deleteItem(usedWith.getId(), 1);
+				player.getInventory().addItem(Lunars.strung[Lunars.getStrungIndex(usedWithId)], 1);
+				return true;
+			}
+
+		if ((usedId == 21775 && usedWithId == 1391) || (usedId == 1391 && usedWithId == 21775)) {
+			if (player.getSkills().getLevel(Constants.CRAFTING) >= 77) {
+				if (player.getInventory().containsItem(21775, 1) && player.getInventory().containsItem(1391, 1)) {
+					player.getInventory().deleteItem(21775, 1);
+					player.getInventory().deleteItem(1391, 1);
+					player.getSkills().addXp(Constants.CRAFTING, 150);
+					player.getInventory().addItem(21777, 1);
+					player.sendMessage("You fuse the orb with the battlestaff.");
+				}
+			} else
+				player.sendMessage("You need 77 crafting to create an armadyl battlestaff.");
+			return true;
+		}
+
+		if ((usedId >= 20121 && usedId <= 20124) || (usedWithId >= 20121 && usedWithId <= 20124)) {
+			if (player.getInventory().containsItem(20121, 1) && player.getInventory().containsItem(20122, 1) && player.getInventory().containsItem(20123, 1) && player.getInventory().containsItem(20124, 1)) {
+				player.getInventory().deleteItem(20121, 1);
+				player.getInventory().deleteItem(20122, 1);
+				player.getInventory().deleteItem(20123, 1);
+				player.getInventory().deleteItem(20124, 1);
+				player.getInventory().addItem(new Item(20120, 1).addMetaData("frozenKeyCharges", 6.0));
+			} else
+				player.sendMessage("You need all 4 peices to create a frozen key.");
+			return true;
+		}
+
+		if (usedId == 12435 && player.getFamiliarPouch() == Pouch.PACK_YAK) {
+			usedWith.setSlot(usedWith.getSlot());
+			player.getFamiliar().castSpecial(usedWith);
+			return true;
+		}
+
+		if (usedWith.getId() == 946 || used.getId() == 946) {
+			CuttableFruit fruit = CuttableFruit.forId(used.getId());
+			if (fruit != null && usedWith.getId() == 946) {
+				player.startConversation(new FruitCuttingD(player, fruit));
+				return true;
+			}
+
+			fruit = CuttableFruit.forId(usedWith.getId());
+			if (fruit != null && used.getId() == 946) {
+				player.startConversation(new FruitCuttingD(player, fruit));
+				return true;
+			}
+		}
+
+		Fletch fletch = Fletching.isFletching(usedWith, used);
+		if (fletch != null) {
+			player.startConversation(new FletchingD(player, fletch));
+			return true;
+		}
+		int leatherIndex = LeatherCraftingD.getIndex(usedId) == -1 ? LeatherCraftingD.getIndex(usedWith.getId()) : LeatherCraftingD.getIndex(usedId);
+		if (leatherIndex != -1 && ((usedId == 1733 || usedWith.getId() == 1733) || LeatherCraftingD.isExtraItem(usedWith.getId()) || LeatherCraftingD.isExtraItem(usedId))) {
+			player.startConversation(new LeatherCraftingD(player, leatherIndex));
+			return true;
+		}
+		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
+			return true;
+		if (contains(1755, Gem.OPAL.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.OPAL);
+		else if (contains(1755, Gem.JADE.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.JADE);
+		else if (contains(1755, Gem.RED_TOPAZ.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.RED_TOPAZ);
+		else if (contains(1755, Gem.SAPPHIRE.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.SAPPHIRE);
+		else if (contains(1755, Gem.EMERALD.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.EMERALD);
+		else if (contains(1755, Gem.RUBY.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.RUBY);
+		else if (contains(1755, Gem.DIAMOND.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.DIAMOND);
+		else if (contains(1755, Gem.DRAGONSTONE.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.DRAGONSTONE);
+		else if (contains(1755, Gem.ONYX.getCut(), used, usedWith))
+			GemTipCutting.cut(player, GemTips.ONYX);
+		else if (PluginManager.handle(new ItemOnItemEvent(player, used.setSlot(fromSlot), usedWith.setSlot(toSlot))))
+			return true;
+		if (Settings.getConfig().isDebug())
+			Logger.log("ItemHandler", "Used:" + used.getId() + ", With:" + usedWith.getId());
+		return false;
+	}
+	
 	public static void handleItemOption1(Player player, final int slotId, final int itemId, Item item) {
 		if (player.isLocked() || player.getEmotesManager().isAnimating())
 			return;
@@ -135,8 +278,6 @@ public class InventoryOptionsHandler {
 				if (item != null)
 					player.getInventory().addItem(l);
 		}
-		if (LightSource.lightSource(player, slotId) || LightSource.extinguishSource(player, slotId, false))
-			return;
 		if (item.getId() == 20120) {
 			player.sendMessage("Your key has " + (item.getMetaDataI("frozenKeyCharges")-1) + " uses left.");
 			return;
@@ -300,190 +441,10 @@ public class InventoryOptionsHandler {
 		if (player.hasRights(Rights.DEVELOPER))
 			player.sendMessage("ItemOption1: item: " + itemId + ", slotId: " + slotId);
 	}
-
-	/*
-	 * returns the other
-	 */
-	public static Item contains(int id1, Item item1, Item item2) {
-		if (item1.getId() == id1)
-			return item2;
-		if (item2.getId() == id1)
-			return item1;
-		return null;
-	}
-
-	public static boolean contains(int id1, int id2, Item... items) {
-		boolean containsId1 = false;
-		boolean containsId2 = false;
-		for (Item item : items)
-			if (item.getId() == id1)
-				containsId1 = true;
-			else if (item.getId() == id2)
-				containsId2 = true;
-		return containsId1 && containsId2;
-	}
-
-	public static boolean handleItemOnItem(Player player, Item used, Item usedWith, int fromSlot, int toSlot) {
-		int usedId = used.getId(), usedWithId = usedWith.getId();
-
-		if (!player.getControllerManager().canUseItemOnItem(used, usedWith))
-			return false;
-
-		if (GodSwordCreation.handleGodSword(player, usedWithId, usedId) || WeaponPoison.poison(player, used, usedWith, false))
-			return true;
-
-		if (PrayerBooks.isGodBook(usedId, false) || PrayerBooks.isGodBook(usedWithId, false)) {
-			PrayerBooks.bindPages(player, used.getName().contains(" page ") ? usedWithId : usedId);
-			return true;
-		}
-
-		if (CookingCombos.handleCombos(player, used, usedWith))
-			return true;
-
-		if (TreeSaplings.hasSaplingRequest(player, usedId, usedWithId)) {
-			if (usedId == 5354)
-				TreeSaplings.plantSeed(player, usedWithId, fromSlot);
-			else
-				TreeSaplings.plantSeed(player, usedId, toSlot);
-			return true;
-		}
-
-		if (usedId == 590)
-			if (LightSource.lightSource(player, toSlot))
-				return true;
-
-		if (usedWithId == 22332) {
-			WickedHoodRune rune = null;
-			for (WickedHoodRune r : WickedHoodRune.values())
-				if (r.getTalismanId() == usedId || r.getTiaraId() == usedId)
-					rune = r;
-			if (rune != null) {
-				if (player.hasWickedHoodTalisman(rune)) {
-					//failsafe check for players who manually use all elemental runes so they can still use the talisman to unlock pure ess.
-					if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId() && !player.getUsedElementalTalisman()) {
-						player.getInventory().deleteItem(usedId, 1);
-						player.setUsedElementalTalisman(true);
-						player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
-						return true;
-					}
-					player.sendMessage("The hood doesn't appear to be interested in that anymore.");
-					return true;
-				}
-				player.getInventory().deleteItem(usedId, 1);
-				player.getSkills().addXp(Constants.RUNECRAFTING, 50);
-				if (usedId == WickedHoodRune.OMNI.getTalismanId()) {
-					for (WickedHoodRune r : WickedHoodRune.values())
-						player.unlockWickedHoodRune(r);
-					player.setUsedOmniTalisman(true);
-				} else if (usedId == WickedHoodRune.ELEMENTAL.getTalismanId()) {
-					player.unlockWickedHoodRune(WickedHoodRune.AIR);
-					player.unlockWickedHoodRune(WickedHoodRune.WATER);
-					player.unlockWickedHoodRune(WickedHoodRune.EARTH);
-					player.unlockWickedHoodRune(WickedHoodRune.FIRE);
-					player.setUsedElementalTalisman(true);
-					player.sendMessage("You unlock the ability to receive pure essence from the wicked hood.");
-				}
-				player.unlockWickedHoodRune(rune);
-			}
-			return true;
-		}
-
-		if ((usedId == 7225 && usedWithId == 9978) || (usedId == 1391 && usedWithId == 9978)) {
-			player.getInventory().deleteItem(7225, 1);
-			player.getInventory().deleteItem(9978, 1);
-			player.getInventory().addItem(9984, 1);
-			return true;
-		}
-
-		if (usedId == 1759 && Lunars.getStrungIndex(usedWithId) != -1)
-			if (player.getInventory().containsItem(1759, 1) && player.getInventory().containsItem(usedWithId, 1)) {
-				player.getInventory().deleteItem(used.getId(), 1);
-				player.getInventory().deleteItem(usedWith.getId(), 1);
-				player.getInventory().addItem(Lunars.strung[Lunars.getStrungIndex(usedWithId)], 1);
-				return true;
-			}
-
-		if ((usedId == 21775 && usedWithId == 1391) || (usedId == 1391 && usedWithId == 21775)) {
-			if (player.getSkills().getLevel(Constants.CRAFTING) >= 77) {
-				if (player.getInventory().containsItem(21775, 1) && player.getInventory().containsItem(1391, 1)) {
-					player.getInventory().deleteItem(21775, 1);
-					player.getInventory().deleteItem(1391, 1);
-					player.getSkills().addXp(Constants.CRAFTING, 150);
-					player.getInventory().addItem(21777, 1);
-					player.sendMessage("You fuse the orb with the battlestaff.");
-				}
-			} else
-				player.sendMessage("You need 77 crafting to create an armadyl battlestaff.");
-			return true;
-		}
-
-		if ((usedId >= 20121 && usedId <= 20124) || (usedWithId >= 20121 && usedWithId <= 20124)) {
-			if (player.getInventory().containsItem(20121, 1) && player.getInventory().containsItem(20122, 1) && player.getInventory().containsItem(20123, 1) && player.getInventory().containsItem(20124, 1)) {
-				player.getInventory().deleteItem(20121, 1);
-				player.getInventory().deleteItem(20122, 1);
-				player.getInventory().deleteItem(20123, 1);
-				player.getInventory().deleteItem(20124, 1);
-				player.getInventory().addItem(new Item(20120, 1).addMetaData("frozenKeyCharges", 6.0));
-			} else
-				player.sendMessage("You need all 4 peices to create a frozen key.");
-			return true;
-		}
-
-		if (usedId == 12435 && player.getFamiliarPouch() == Pouch.PACK_YAK) {
-			usedWith.setSlot(usedWith.getSlot());
-			player.getFamiliar().castSpecial(usedWith);
-			return true;
-		}
-
-		if (usedWith.getId() == 946 || used.getId() == 946) {
-			CuttableFruit fruit = CuttableFruit.forId(used.getId());
-			if (fruit != null && usedWith.getId() == 946) {
-				player.startConversation(new FruitCuttingD(player, fruit));
-				return true;
-			}
-
-			fruit = CuttableFruit.forId(usedWith.getId());
-			if (fruit != null && used.getId() == 946) {
-				player.startConversation(new FruitCuttingD(player, fruit));
-				return true;
-			}
-		}
-
-		Fletch fletch = Fletching.isFletching(usedWith, used);
-		if (fletch != null) {
-			player.startConversation(new FletchingD(player, fletch));
-			return true;
-		}
-		int leatherIndex = LeatherCraftingD.getIndex(usedId) == -1 ? LeatherCraftingD.getIndex(usedWith.getId()) : LeatherCraftingD.getIndex(usedId);
-		if (leatherIndex != -1 && ((usedId == 1733 || usedWith.getId() == 1733) || LeatherCraftingD.isExtraItem(usedWith.getId()) || LeatherCraftingD.isExtraItem(usedId))) {
-			player.startConversation(new LeatherCraftingD(player, leatherIndex));
-			return true;
-		}
-		if (Firemaking.isFiremaking(player, used, usedWith) || GemCutting.isCutting(player, used, usedWith))
-			return true;
-		if (contains(1755, Gem.OPAL.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.OPAL);
-		else if (contains(1755, Gem.JADE.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.JADE);
-		else if (contains(1755, Gem.RED_TOPAZ.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.RED_TOPAZ);
-		else if (contains(1755, Gem.SAPPHIRE.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.SAPPHIRE);
-		else if (contains(1755, Gem.EMERALD.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.EMERALD);
-		else if (contains(1755, Gem.RUBY.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.RUBY);
-		else if (contains(1755, Gem.DIAMOND.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.DIAMOND);
-		else if (contains(1755, Gem.DRAGONSTONE.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.DRAGONSTONE);
-		else if (contains(1755, Gem.ONYX.getCut(), used, usedWith))
-			GemTipCutting.cut(player, GemTips.ONYX);
-		else if (PluginManager.handle(new ItemOnItemEvent(player, used.setSlot(fromSlot), usedWith.setSlot(toSlot))))
-			return true;
-		if (Settings.getConfig().isDebug())
-			Logger.log("ItemHandler", "Used:" + used.getId() + ", With:" + usedWith.getId());
-		return false;
+	
+	public static void handleItemOption2(final Player player, final int slotId, final int itemId, Item item) {
+		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(1))) || Firemaking.isFiremaking(player, itemId))
+			return;
 	}
 
 	public static void handleItemOption3(Player player, int slotId, int itemId, Item item) {
@@ -499,8 +460,6 @@ public class InventoryOptionsHandler {
 					player.getInventory().addItem(item.getId() + 2, 1);
 				player.refreshForinthry();
 			}
-		if (LightSource.lightSource(player, slotId) || LightSource.extinguishSource(player, slotId, false))
-			return;
 		if (itemId >= 5509 && itemId <= 5514) {
 			int pouch = -1;
 			if (itemId == 5509)
@@ -524,7 +483,7 @@ public class InventoryOptionsHandler {
 	}
 
 	public static void handleItemOption4(Player player, int slotId, int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating() || LightSource.lightSource(player, slotId) || LightSource.extinguishSource(player, slotId, false))
+		if (player.isLocked() || player.getEmotesManager().isAnimating())
 			return;
 	}
 
@@ -745,5 +704,24 @@ public class InventoryOptionsHandler {
 			}));
 			break;
 		}
+	}
+	
+	public static Item contains(int id1, Item item1, Item item2) {
+		if (item1.getId() == id1)
+			return item2;
+		if (item2.getId() == id1)
+			return item1;
+		return null;
+	}
+
+	public static boolean contains(int id1, int id2, Item... items) {
+		boolean containsId1 = false;
+		boolean containsId2 = false;
+		for (Item item : items)
+			if (item.getId() == id1)
+				containsId1 = true;
+			else if (item.getId() == id2)
+				containsId2 = true;
+		return containsId1 && containsId2;
 	}
 }
