@@ -1336,6 +1336,8 @@ public abstract class Entity {
 	}
 
 	public void playSound(int soundId, int type) {
+		if (soundId == -1)
+			return;
 		for (int regionId : getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
 			if (playerIndexes != null)
