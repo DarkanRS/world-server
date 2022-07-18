@@ -64,9 +64,12 @@ public class NPCCombatDefinitions {
 	private int[] ids;
 	private String[] names;
 	private int attackAnim;
+	private int attackSound = -1;
 	private int defenceAnim;
+	private int defendSound = -1;
 	private int deathAnim;
 	private int deathDelay;
+	private int deathSound = -1;
 	private int respawnDelay;
 	private int hitpoints;
 	private int maxHit;
@@ -373,5 +376,17 @@ public class NPCCombatDefinitions {
 		if (bonuses.get(bonus) == null)
 			return 0;
 		return (Integer) bonuses.get(bonus);
+	}
+
+	public int getAttackSound() {
+		return attackSound;
+	}
+
+	public int getDefendSound() {
+		return defendSound;
+	}
+
+	public int getDeathSound() {
+		return deathSound;
 	}
 }

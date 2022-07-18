@@ -477,8 +477,11 @@ public class NPC extends Entity {
 		setNextAnimation(null);
 		PluginManager.handle(new NPCDeathEvent(this, source));
 		WorldTasks.scheduleTimer(loop -> {
-			if (loop == 0)
+			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
+				if (source instanceof Player p)
+					p.playSound(getCombatDefinitions().getDeathSound(), 1);
+			}
 			else if (loop >= defs.getDeathDelay()) {
 				if (source instanceof Player player)
 					player.getControllerManager().processNPCDeath(NPC.this);
