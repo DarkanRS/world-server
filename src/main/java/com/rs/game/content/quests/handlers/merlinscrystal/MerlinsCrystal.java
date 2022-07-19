@@ -18,13 +18,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -190,12 +188,6 @@ public class MerlinsCrystal extends QuestOutline {
 	final static int LIT_BLACK_CANDLE = 32;
 	final static int UNLIT_BLACK_CANDLE = 38;
 	final static int TINDERBOX = 590;
-	public static ItemOnItemHandler handleCandleLighting = new ItemOnItemHandler(new int[]{UNLIT_BLACK_CANDLE}, new int[]{TINDERBOX}) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().getInventory().replaceItem(LIT_BLACK_CANDLE, 1, e.getUsedWith(TINDERBOX).getSlot());
-		}
-	};
 
 	public static ItemClickHandler handleLitCandle = new ItemClickHandler(LIT_BLACK_CANDLE) {
 		@Override

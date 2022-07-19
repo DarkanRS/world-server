@@ -331,6 +331,7 @@ public final class ControllerManager {
 	}
 
 	public void removeControllerWithoutCheck() {
+		controller.forceClose();
 		controller = null;
 		inited = false;
 	}
