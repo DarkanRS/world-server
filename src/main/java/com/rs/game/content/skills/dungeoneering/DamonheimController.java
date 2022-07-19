@@ -35,7 +35,7 @@ public class DamonheimController extends Controller {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getControllerManager().getController() instanceof DungeonController)
-				e.getPlayer().getControllerManager().removeControllerWithoutCheck();
+				e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, Direction.NORTH));
 			e.getPlayer().getPackets().sendVarc(234, 0);// Party Config Interface
 			e.getPlayer().getControllerManager().startController(new DamonheimController());
@@ -64,16 +64,14 @@ public class DamonheimController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		setInviteOption(false);
 		player.getDungManager().leaveParty();
-		removeController();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override
 	public boolean sendDeath() {
-		setInviteOption(false);
 		player.getDungManager().leaveParty();
-		removeController();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 
@@ -112,9 +110,8 @@ public class DamonheimController extends Controller {
 		if (player.getDungManager().isInsideDungeon())
 			return;
 		if (!isAtKalaboss(player.getTile())) {
-			setInviteOption(false);
 			player.getDungManager().leaveParty();
-			removeController();
+			player.getControllerManager().forceStop();
 		} else
 			setInviteOption(true);
 	}

@@ -988,7 +988,7 @@ public class DungeonManager {
 		resetItems(player, true, logout);
 		party.remove(player, logout);
 		player.stopAll();
-		player.getControllerManager().removeControllerWithoutCheck();
+		player.getControllerManager().forceStop();
 		player.getControllerManager().startController(new DamonheimController());
 		resetTraps(player);
 		if (player.getFamiliar() != null)

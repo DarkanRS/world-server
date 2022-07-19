@@ -37,13 +37,6 @@ public class LightSource {
 		}
 	};
 	
-	public static ItemClickHandler handleLight = new ItemClickHandler(LIGHT_SOURCES[0], new String[] { "Light" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			lightSource(e.getPlayer(), e.getSlotId());
-		}
-	};
-	
 	public static ItemClickHandler handleExtinguish = new ItemClickHandler(LIGHT_SOURCES[1], new String[] { "Extinguish" }) {
 		@Override
 		public void handle(ItemClickEvent e) {

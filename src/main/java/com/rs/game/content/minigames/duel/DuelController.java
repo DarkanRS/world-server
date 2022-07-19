@@ -76,16 +76,13 @@ public class DuelController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
-		remove();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override
 	public void moved() {
-		if (!isAtDuelArena(player.getTile())) {
-			removeController();
-			remove();
-		}
+		if (!isAtDuelArena(player.getTile()))
+			player.getControllerManager().forceStop();
 	}
 
 	@Override
@@ -96,8 +93,8 @@ public class DuelController extends Controller {
 			return false;
 		}
 		if (target.getTempAttribs().getO("DuelChallenged") == player) {
-			player.getControllerManager().removeControllerWithoutCheck();
-			target.getControllerManager().removeControllerWithoutCheck();
+			player.getControllerManager().forceStop();
+			target.getControllerManager().forceStop();
 			target.getTempAttribs().removeO("DuelChallenged");
 			player.setLastDuelRules(new DuelRules(player, target));
 			target.setLastDuelRules(new DuelRules(target, player));

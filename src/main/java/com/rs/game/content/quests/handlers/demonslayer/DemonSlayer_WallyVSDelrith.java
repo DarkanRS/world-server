@@ -189,7 +189,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 
 	@Override
 	public boolean login() {
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
@@ -205,7 +205,6 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 		player.setNextWorldTile(locationBeforeCutscene);
 		removeInstance();
 		player.unlock();
-		removeController();
 	}
 
 	private void removeInstance() {

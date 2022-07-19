@@ -99,7 +99,7 @@ public class StealingCreationLobby {
 		if (!hasRequiredPlayers())
 			removeTask();
 		player.getInterfaceManager().removeOverlay(false);
-		player.getControllerManager().removeControllerWithoutCheck();
+		player.getControllerManager().forceStop();
 		updateInterfaces();
 	}
 

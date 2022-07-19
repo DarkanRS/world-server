@@ -75,7 +75,7 @@ public class FightPitsController extends Controller {
 
 	@Override
 	public boolean login() { // shouldnt happen
-		removeController();
+		player.getControllerManager().forceStop();
 		FightPits.leaveArena(player, 2);
 		return false;
 	}

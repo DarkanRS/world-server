@@ -814,10 +814,10 @@ public class FightKilnController extends Controller {
 		if (type == 0) {
 			player.getTile().setLocation(outside);
 			if (getCurrentWave() == 0) // leaves if didnt start
-				removeController();
+				player.getControllerManager().forceStop();
 		} else if (type == 2) {
 			player.getTile().setLocation(outside);
-			removeController();
+			player.getControllerManager().forceStop();
 		} else {
 			player.setForceMultiArea(false);
 			player.getInterfaceManager().removeOverlay();
@@ -835,7 +835,7 @@ public class FightKilnController extends Controller {
 			}
 			player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
 			removeCrystalEffects();
-			removeController();
+			player.getControllerManager().forceStop();
 		}
 		region.destroy();
 	}

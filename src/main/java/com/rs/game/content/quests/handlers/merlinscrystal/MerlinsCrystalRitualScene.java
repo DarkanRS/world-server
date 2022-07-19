@@ -53,7 +53,7 @@ public class MerlinsCrystalRitualScene extends Controller {
 
 	@Override
 	public boolean login() {
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
@@ -66,7 +66,6 @@ public class MerlinsCrystalRitualScene extends Controller {
 	@Override
 	public void forceClose() {
 		player.unlock();
-		removeController();
 	}
 
 }

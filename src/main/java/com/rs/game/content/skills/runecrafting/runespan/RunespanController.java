@@ -542,7 +542,7 @@ public class RunespanController extends Controller {
 
 	public void exitRunespan() {
 		player.getInterfaceManager().removeOverlay();
-		removeController();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override

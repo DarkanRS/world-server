@@ -57,15 +57,13 @@ public class NexController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		remove();
-		removeController();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 
 	@Override
 	public void magicTeleported(int type) {
-		remove();
-		removeController();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override

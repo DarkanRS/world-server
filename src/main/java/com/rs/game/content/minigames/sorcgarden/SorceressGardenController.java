@@ -111,8 +111,7 @@ public class SorceressGardenController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
-
+		player.getControllerManager().forceStop();
 	}
 
 	public static void teleportToSorceressGardenNPC(NPC npc, final Player player) {
@@ -157,7 +156,7 @@ public class SorceressGardenController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		removeController();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 

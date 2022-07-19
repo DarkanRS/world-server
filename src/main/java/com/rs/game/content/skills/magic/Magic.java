@@ -587,7 +587,7 @@ public class Magic {
 			@Override
 			public void run() {
 				if (stage == 0) {
-					player.getControllerManager().removeControllerWithoutCheck();
+					player.getControllerManager().forceStop();
 					stage = 1;
 				} else if (stage == 1) {
 					player.getControllerManager().magicTeleported(MAGIC_TELEPORT);

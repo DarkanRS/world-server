@@ -256,14 +256,14 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 		player.sendMessage("You have been defeated!");
 		player.setNextWorldTile(locationOnDeath);
 		player.getVars().setVarBit(2569, 0);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
 	@Override
 	public boolean login() {
 		player.setNextWorldTile(locationOnDeath);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
@@ -281,7 +281,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 		removeInstance();
 		player.getTempAttribs().setB("FinalDemonSlayerCutscene", false);
 		player.unlock();
-		removeController();
+		player.getControllerManager().forceStop();
 	}
 
 	private void removeInstance() {
