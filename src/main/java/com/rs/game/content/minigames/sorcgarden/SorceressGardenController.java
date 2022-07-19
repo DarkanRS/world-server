@@ -111,7 +111,7 @@ public class SorceressGardenController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
+		forceClose();
 
 	}
 
@@ -157,7 +157,7 @@ public class SorceressGardenController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		removeController();
+		forceClose();
 		return true;
 	}
 

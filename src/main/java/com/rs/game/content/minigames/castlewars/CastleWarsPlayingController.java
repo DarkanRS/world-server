@@ -251,7 +251,7 @@ public class CastleWarsPlayingController extends Controller {
 	public boolean processObjectClick1(GameObject object) {
 		int id = object.getId();
 		if (id == 4406 || id == 4407) {
-			removeController();
+			forceClose();
 			leave();
 			return false;
 		}
@@ -426,7 +426,7 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
+		forceClose();
 		leave();
 	}
 

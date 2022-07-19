@@ -281,7 +281,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 		removeInstance();
 		player.getTempAttribs().setB("FinalDemonSlayerCutscene", false);
 		player.unlock();
-		removeController();
+		forceClose();
 	}
 
 	private void removeInstance() {

@@ -150,7 +150,7 @@ public class WildernessController extends Controller {
 					player.setNextWorldTile(toTile);
 					player.faceObject(object);
 					removeIcon();
-					removeController();
+					forceClose();
 					player.resetReceivedDamage();
 					player.unlock();
 				}
@@ -211,7 +211,7 @@ public class WildernessController extends Controller {
 				player.setNextAnimation(new Animation(-1));
 			} else if (loop == 4) {
 				removeIcon();
-				removeController();
+				forceClose();
 				player.getPackets().sendMusicEffect(90);
 				return false;
 			}
@@ -227,7 +227,7 @@ public class WildernessController extends Controller {
 		if (!isAtWildSafe && !isAtWild) {
 			player.setCanPvp(false);
 			removeIcon();
-			removeController();
+			forceClose();
 		} else if (!showingSkull && isAtWild && !isAtWildSafe) {
 			showingSkull = true;
 			player.setCanPvp(true);

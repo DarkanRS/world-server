@@ -516,7 +516,7 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean login() {
-		removeController();
+		forceClose();
 		player.setNextWorldTile(POHLocation.RIMMINGTON.getTile());
 		return false;
 	}

@@ -131,7 +131,7 @@ public class AgilityPyramidController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
+		forceClose();
 	}
 
 	@Override

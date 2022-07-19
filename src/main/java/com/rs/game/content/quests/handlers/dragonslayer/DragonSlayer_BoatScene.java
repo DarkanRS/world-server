@@ -622,7 +622,7 @@ public class DragonSlayer_BoatScene extends Controller {
 		player.getPackets().setBlockMinimapState(0);
 		removeInstance();
 		player.unlock();
-		removeController();
+		forceClose();
 	}
 
 	private void removeInstance() {

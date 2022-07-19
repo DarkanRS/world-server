@@ -89,7 +89,7 @@ public class Helper {
 		player.getAppearance().setHidden(false);
 		player.sendDefaultPlayersOptions();
 		player.getInterfaceManager().removeOverlay(false);
-		player.getControllerManager().removeControllerWithoutCheck();
+		player.getControllerManager().forceStop();
 	}
 
 	public static void reset(Player player) {

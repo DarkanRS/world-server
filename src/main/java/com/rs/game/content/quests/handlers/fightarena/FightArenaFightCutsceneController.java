@@ -357,7 +357,7 @@ public class FightArenaFightCutsceneController extends Controller {
 		player.setForceMultiArea(false);
 		removeInstance();
 		player.unlock();
-		removeController();
+		forceClose();
 	}
 
 	private void removeInstance() {

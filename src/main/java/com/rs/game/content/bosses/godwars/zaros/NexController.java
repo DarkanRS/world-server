@@ -58,14 +58,14 @@ public class NexController extends Controller {
 	@Override
 	public boolean sendDeath() {
 		remove();
-		removeController();
+		forceClose();
 		return true;
 	}
 
 	@Override
 	public void magicTeleported(int type) {
 		remove();
-		removeController();
+		forceClose();
 	}
 
 	@Override

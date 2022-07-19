@@ -232,7 +232,7 @@ public final class CastleWars {
 	public static void joinPlayingGame(Player player, int team) {
 		playingGame.refresh(player);
 		waiting[team].remove(player);
-		player.getControllerManager().removeControllerWithoutCheck();
+		player.getControllerManager().forceStop();
 		player.getInterfaceManager().removeOverlay();
 		playing[team].add(player);
 		player.setCanPvp(true);

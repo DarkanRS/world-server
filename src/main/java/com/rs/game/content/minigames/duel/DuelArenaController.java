@@ -126,7 +126,7 @@ public class DuelArenaController extends Controller {
 				oldTarget.setCloseInterfacesEvent(null);
 				oldTarget.closeInterfaces();
 				if (duelStage != DuelStage.DONE)
-					player.getControllerManager().removeControllerWithoutCheck();
+					player.getControllerManager().forceStop();
 				if (started)
 					targetConfiguration.closeDuelInteraction(false, duelStage);
 				if (duelStage == DuelStage.DONE)
@@ -283,13 +283,13 @@ public class DuelArenaController extends Controller {
 			isDueling = false;
 		}
 		if (loser.getControllerManager().getController() != null && removeLoserController)
-			loser.getControllerManager().removeControllerWithoutCheck();
+			loser.getControllerManager().forceStop();
 		loser.setCanPvp(false);
 		loser.getHintIconsManager().removeUnsavedHintIcon();
 		loser.reset();
 		loser.closeInterfaces();
 		if (victor.getControllerManager().getController() != null)
-			victor.getControllerManager().removeControllerWithoutCheck();
+			victor.getControllerManager().forceStop();
 		victor.setCanPvp(false);
 		victor.getHintIconsManager().removeUnsavedHintIcon();
 		victor.reset();
@@ -454,7 +454,7 @@ public class DuelArenaController extends Controller {
 	@Override
 	public boolean login() {
 		startEndingTeleport(player);
-		removeController();
+		forceClose();
 		return true;
 	}
 

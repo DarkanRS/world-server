@@ -114,7 +114,7 @@ public class PyramidPlunderController extends Controller {
 	@Override
 	public void forceClose() {
 		player.getInterfaceManager().removeOverlay();
-		removeController();
+		forceClose();
 	}
 
 	public void exitMinigame() {

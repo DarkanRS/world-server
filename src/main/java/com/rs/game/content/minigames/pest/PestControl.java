@@ -88,7 +88,7 @@ public class PestControl {
 			sendBeginningWave();
 			unlockPortal();
 			for (Player player : team) {
-				player.getControllerManager().removeControllerWithoutCheck();
+				player.getControllerManager().forceStop();
 				player.useStairs(-1, getWorldTile(35 - Utils.random(4), 54 - (Utils.random(3))), 1, 2);
 				player.getControllerManager().startController(new PestControlGameController(this));
 			}

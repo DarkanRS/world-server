@@ -50,7 +50,7 @@ public class CorporealBeastController extends Controller {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 37929 || object.getId() == 38811) {
-			removeController();
+			forceClose();
 			player.stopAll();
 			player.setNextWorldTile(new WorldTile(2970, 4384, player.getPlane()));
 			return false;
@@ -60,7 +60,7 @@ public class CorporealBeastController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
+		forceClose();
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class CorporealBeastController extends Controller {
 					player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
-					removeController();
+					forceClose();
 					player.getPackets().sendMusicEffect(90);
 					stop();
 				}

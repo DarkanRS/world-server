@@ -144,7 +144,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 					else if(tick == 33) {
 						player.getInterfaceManager().setFadingInterface(170);
 						removeInstance();
-						removeController();
+						forceClose();
 						player.unlock();
 						stop();
 					}
@@ -174,7 +174,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 		removeInstance();
 		player.unlock();
 		player.getPackets().setBlockMinimapState(0);
-		removeController();
+		forceClose();
 	}
 
 	private void removeInstance() {

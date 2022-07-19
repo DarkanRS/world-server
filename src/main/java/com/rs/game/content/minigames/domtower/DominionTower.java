@@ -297,7 +297,7 @@ public final class DominionTower {
 		/*
 		 * if(mapBaseCoords == null) { //died on logout
 		 * player.setNextWorldTile(new WorldTile(3744, 6425, 0));
-		 * player.getControllerManager().removeControllerWithoutCheck(); return; }
+		 * player.getControllerManager().forceStop(); return; }
 		 */
 		removeItem();
 		nextBossIndex = -1;
@@ -402,7 +402,7 @@ public final class DominionTower {
 		if (logout)
 			player.getTile().setLocation(tile);
 		else {
-			player.getControllerManager().removeControllerWithoutCheck();
+			player.getControllerManager().forceStop();
 			player.lock();
 			player.setNextWorldTile(tile);
 			if (mode == ENDURANCE)

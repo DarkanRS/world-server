@@ -145,7 +145,7 @@ public final class FightPits {
 		for (Iterator<Player> it = lobby.iterator(); it.hasNext();) {
 			Player player = it.next();
 			player.stopAll();
-			player.getControllerManager().removeControllerWithoutCheck();
+			player.getControllerManager().forceStop();
 			enterArena(player);
 			it.remove();
 		}
@@ -176,7 +176,7 @@ public final class FightPits {
 		synchronized (lock) {
 			arena.remove(player);
 			player.reset();
-			player.getControllerManager().removeControllerWithoutCheck();
+			player.getControllerManager().forceStop();
 			if (type != 3)
 				player.getControllerManager().startController(new FightPitsLobbyController());
 			if (type == 0)
@@ -231,7 +231,7 @@ public final class FightPits {
 					player.lock(5);
 					player.addWalkSteps(4597, 5064, 5, false);
 				}
-				player.getControllerManager().removeControllerWithoutCheck();
+				player.getControllerManager().forceStop();
 			}
 			lobby.remove(player);
 			checkPlayersAmmount();

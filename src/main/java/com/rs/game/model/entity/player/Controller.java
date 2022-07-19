@@ -41,11 +41,7 @@ public abstract class Controller {
 	public Player getPlayer() {
 		return player;
 	}
-
-	public final void removeController() {
-		player.getControllerManager().removeControllerWithoutCheck();
-	}
-
+	
 	public abstract void start();
 
 	public boolean canEat(Food food) {

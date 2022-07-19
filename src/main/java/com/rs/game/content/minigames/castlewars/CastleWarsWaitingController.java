@@ -68,7 +68,7 @@ public class CastleWarsWaitingController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		removeController();
+		forceClose();
 		leave();
 		return true;
 	}
@@ -101,7 +101,7 @@ public class CastleWarsWaitingController extends Controller {
 	public boolean processObjectClick1(GameObject object) {
 		int id = object.getId();
 		if (id == 4389 || id == 4390) {
-			removeController();
+			forceClose();
 			leave();
 			return false;
 		}
@@ -110,7 +110,7 @@ public class CastleWarsWaitingController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removeController();
+		forceClose();
 		leave();
 	}
 

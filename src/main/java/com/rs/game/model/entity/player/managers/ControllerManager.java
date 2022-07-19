@@ -330,12 +330,6 @@ public final class ControllerManager {
 		inited = false;
 	}
 
-	public void removeControllerWithoutCheck() {
-		controller.forceClose();
-		controller = null;
-		inited = false;
-	}
-
 	public boolean processObjectClick4(GameObject object) {
 		if (controller == null || !inited)
 			return true;

@@ -205,7 +205,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 		player.setNextWorldTile(locationBeforeCutscene);
 		removeInstance();
 		player.unlock();
-		removeController();
+		forceClose();
 	}
 
 	private void removeInstance() {

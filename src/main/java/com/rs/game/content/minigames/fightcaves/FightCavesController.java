@@ -346,7 +346,7 @@ public class FightCavesController extends Controller {
 					// TODO tokens
 				}
 			}
-			removeController();
+			forceClose();
 		}
 		region.destroy();
 	}

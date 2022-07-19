@@ -1347,7 +1347,7 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean login() {
-		removeController();
+		forceClose();
 		player.setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
 		return false;
 	}
