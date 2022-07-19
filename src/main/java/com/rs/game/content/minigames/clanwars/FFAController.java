@@ -130,7 +130,7 @@ public final class FFAController extends Controller {
 
 	private void remove(boolean needRemove) {
 		if (needRemove)
-			forceClose();
+			player.getControllerManager().forceStop();
 		if (wasInArea)
 			player.setCanPvp(false);
 		player.getInterfaceManager().removeOverlay();

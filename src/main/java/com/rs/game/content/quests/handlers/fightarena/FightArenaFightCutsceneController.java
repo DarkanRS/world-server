@@ -295,7 +295,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					if(tick == 5) {
 						player.getInterfaceManager().setFadingInterface(170);
 						player.getPackets().setBlockMinimapState(0);
-						forceClose();
+						player.getControllerManager().forceStop();
 					}
 					if(tick == 6) {
 						player.getVars().setVarBit(6163, 2);
@@ -333,14 +333,14 @@ public class FightArenaFightCutsceneController extends Controller {
 		player.sendMessage("You have been defeated!");
 		player.setNextWorldTile(locationOnFail);
 		player.getVars().setVarBit(2569, 0);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
 	@Override
 	public boolean login() {
 		player.setNextWorldTile(locationOnFail);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
@@ -357,7 +357,6 @@ public class FightArenaFightCutsceneController extends Controller {
 		player.setForceMultiArea(false);
 		removeInstance();
 		player.unlock();
-		forceClose();
 	}
 
 	private void removeInstance() {

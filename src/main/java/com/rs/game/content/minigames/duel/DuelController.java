@@ -76,16 +76,13 @@ public class DuelController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		forceClose();
-		remove();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override
 	public void moved() {
-		if (!isAtDuelArena(player.getTile())) {
-			forceClose();
-			remove();
-		}
+		if (!isAtDuelArena(player.getTile()))
+			player.getControllerManager().forceStop();
 	}
 
 	@Override

@@ -178,7 +178,7 @@ public class UndergroundDungeonController extends Controller {
 	public boolean sendDeath() {
 		player.getPackets().setBlockMinimapState(0);
 		player.getInterfaceManager().removeOverlay(true);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 

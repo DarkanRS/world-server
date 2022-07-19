@@ -300,7 +300,7 @@ public final class QueenBlackDragonController extends Controller {
 			player.getPackets().sendVarc(184, -1);
 		} else
 			player.getTile().setLocation(OUTSIDE);
-		forceClose();
+		player.getControllerManager().forceStop();
 		if (npc != null)
 			player.getBank().addItems(npc.getRewards().toArray(), false);
 		region.destroy();

@@ -77,20 +77,20 @@ public class KuradalDungeonController extends Controller {
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 47231) {
 			player.setNextWorldTile(new WorldTile(1735, 5313, 1));
-			forceClose();
+			player.getControllerManager().forceStop();
 		}
 		return true;
 	}
 
 	@Override
 	public void magicTeleported(int type) {
-		forceClose();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override
 	public void moved() {
 		if (player.getRegionId() != 6482)
-			forceClose();
+			player.getControllerManager().forceStop();
 	}
 
 	@Override

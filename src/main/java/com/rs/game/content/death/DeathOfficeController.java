@@ -316,7 +316,7 @@ public class DeathOfficeController extends Controller {
 		destroyRoom();
 		player.getPackets().setBlockMinimapState(0);
 		player.getInterfaceManager().sendSubDefaults(Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_EMOTES);
-		forceClose();
+		player.getControllerManager().forceStop();
 	}
 
 	public void destroyRoom() {

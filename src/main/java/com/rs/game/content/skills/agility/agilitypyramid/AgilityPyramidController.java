@@ -116,7 +116,7 @@ public class AgilityPyramidController extends Controller {
 		else if (id == 16536)
 			climbRocks(player, object);
 		else if (id == 16535) {
-			forceClose();
+			player.getControllerManager().forceStop();
 			climbRocks(player, object);
 		}
 		return false;
@@ -131,7 +131,7 @@ public class AgilityPyramidController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		forceClose();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override

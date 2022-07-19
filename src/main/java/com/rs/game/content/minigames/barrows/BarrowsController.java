@@ -111,7 +111,7 @@ public final class BarrowsController extends Controller {
 				player.getPackets().sendStopCameraShake();
 			else
 				player.getInterfaceManager().removeOverlay();
-			forceClose();
+			player.getControllerManager().forceStop();
 		}
 	}
 

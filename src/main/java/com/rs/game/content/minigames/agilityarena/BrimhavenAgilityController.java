@@ -161,8 +161,7 @@ public final class BrimhavenAgilityController extends Controller {
 
 	@Override
 	public void magicTeleported(int type) {
-		removePlayer(player);
-		forceClose();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override
@@ -172,8 +171,7 @@ public final class BrimhavenAgilityController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		removePlayer(player);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 

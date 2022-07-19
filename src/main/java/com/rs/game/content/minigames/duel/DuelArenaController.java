@@ -454,7 +454,7 @@ public class DuelArenaController extends Controller {
 	@Override
 	public boolean login() {
 		startEndingTeleport(player);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 

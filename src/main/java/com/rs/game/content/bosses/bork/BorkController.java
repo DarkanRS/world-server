@@ -46,7 +46,7 @@ public class BorkController extends Controller {
 		if (borkStage == 0) {
 			if(player.getTempAttribs().getB("justSawBorkCutscene")) {
 				player.setNextWorldTile(new WorldTile(3115, 5528, 0));
-				forceClose();
+				player.getControllerManager().forceStop();
 				return;
 			}
 			if (stage == 0) {
@@ -67,7 +67,7 @@ public class BorkController extends Controller {
 				player.unlock();
 				player.getPackets().setBlockMinimapState(0);
 				player.getTempAttribs().setB("justSawBorkCutscene", true);
-				forceClose();
+				player.getControllerManager().forceStop();
 			}
 		} else if (borkStage == 1)
 			if (stage == 4) {
@@ -80,7 +80,7 @@ public class BorkController extends Controller {
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
 				bork.setCantInteract(false);
 				bork.setNextForceTalk(new ForceTalk("Destroy the intruder, my Legions!"));
-				forceClose();
+				player.getControllerManager().forceStop();
 			}
 		stage++;
 	}
@@ -104,7 +104,7 @@ public class BorkController extends Controller {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 29537)
-			forceClose();
+			player.getControllerManager().forceStop();
 		return true;
 	}
 

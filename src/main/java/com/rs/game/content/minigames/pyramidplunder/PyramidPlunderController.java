@@ -102,24 +102,23 @@ public class PyramidPlunderController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		forceClose();
+		player.getControllerManager().forceStop();
 		return true;
 	}
 
 	@Override
 	public void magicTeleported(int type) {
-		forceClose();
+		player.getControllerManager().forceStop();
 	}
 
 	@Override
 	public void forceClose() {
 		player.getInterfaceManager().removeOverlay();
-		forceClose();
 	}
 
 	public void exitMinigame() {
 		player.setNextWorldTile(PyramidPlunder.EXIT_TILE);
-		forceClose();
+		player.getControllerManager().forceStop();
 	}
 
 	public void nextRoom() {

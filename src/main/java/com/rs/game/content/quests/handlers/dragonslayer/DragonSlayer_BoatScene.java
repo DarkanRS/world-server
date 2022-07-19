@@ -597,7 +597,7 @@ public class DragonSlayer_BoatScene extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
@@ -605,7 +605,7 @@ public class DragonSlayer_BoatScene extends Controller {
 	public boolean login() {
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
 		player.setNextWorldTile(startingTile);
-		forceClose();
+		player.getControllerManager().forceStop();
 		return false;
 	}
 
@@ -622,7 +622,6 @@ public class DragonSlayer_BoatScene extends Controller {
 		player.getPackets().setBlockMinimapState(0);
 		removeInstance();
 		player.unlock();
-		forceClose();
 	}
 
 	private void removeInstance() {
