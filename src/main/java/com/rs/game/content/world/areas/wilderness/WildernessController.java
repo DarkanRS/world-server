@@ -257,6 +257,11 @@ public class WildernessController extends Controller {
 		removeIcon();
 		player.removeEffect(Effect.OVERLOAD_PVP_REDUCTION);
 	}
+	
+	@Override
+	public void onRemove() {
+		player.removeEffect(Effect.OVERLOAD_PVP_REDUCTION);
+	}
 
 	public static final boolean isAtWild(WorldTile tile) {// TODO fix this
 		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175) // fortihrny
