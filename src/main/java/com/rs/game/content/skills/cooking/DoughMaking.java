@@ -38,9 +38,9 @@ public class DoughMaking  {
 			super(player);
 			
 			int[] items = new int[] { 2307, 1953, 2283, 1863 };
-			addNext(new MakeXStatement(items, getMaxAmount()));
+			var makeX = addNext(new MakeXStatement(items, getMaxAmount()));
 			for (int itemId : items)
-				addNext(() -> player.getActionManager().setAction(new DoughMakeAction(itemId)));
+				makeX.addNext(() -> player.getActionManager().setAction(new DoughMakeAction(itemId)));
 		}
 
 		public int getAmountOfWaterItems() {

@@ -309,6 +309,10 @@ public abstract class Controller {
 
 	public void forceClose() {
 	}
+	
+	public void onRemove() {
+		
+	}
 
 	public boolean processItemOnObject(GameObject object, Item item) {
 		return true;
