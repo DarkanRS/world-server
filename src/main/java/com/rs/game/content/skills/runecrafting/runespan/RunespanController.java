@@ -343,7 +343,7 @@ public class RunespanController extends Controller {
 		}
 	};
 	
-	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { new WorldTile(3107, 3160, 3) }) {
+	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { new WorldTile(3107, 3160, 1) }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().startConversation(new Dialogue().addOptions("Where would you like to travel to?", ops -> {
