@@ -21,13 +21,17 @@ import com.rs.game.model.entity.player.Player;
 public class Highscore {
 
 	private String username;
+	private String displayName;
 	private boolean ironman;
 	private int totalLevel;
 	private long totalXp;
 	private int[] xp;
 
 	public Highscore(Player player) {
+		if (player.getDisplayName() == null)
+			throw new RuntimeException("No display name found for player: " + player.getUsername());
 		username = player.getUsername();
+		displayName = player.getDisplayName();
 		ironman = player.isIronMan();
 		totalLevel = player.getSkills().getTotalLevel();
 		totalXp = player.getSkills().getTotalXp();
@@ -54,4 +58,7 @@ public class Highscore {
 		return username;
 	}
 
+	public String getDisplayName() {
+		return displayName;
+	}
 }
