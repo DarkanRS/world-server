@@ -75,8 +75,6 @@ import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
 
-
-
 @PluginEventHandler
 public final class World {
 
