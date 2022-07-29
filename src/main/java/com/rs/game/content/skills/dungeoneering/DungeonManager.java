@@ -1343,6 +1343,8 @@ public class DungeonManager {
 
 	public void ready(Player player) {
 		int index = party.getIndex(player);
+		if (rewardsTimer == null)
+			setRewardsTimer();
 		rewardsTimer.increaseReadyCount();
 		for (Player p2 : party.getTeam())
 			p2.getPackets().sendVarc(1397 + index, 1);
