@@ -53,11 +53,12 @@ public class CreateAction extends PlayerAction {
 	public boolean checkAll(Player player) {
 		if ((choice >= materials.length) || !player.getInventory().containsItems(materials[choice]) || !player.getInventory().hasRoomFor(materials[choice], products[choice]))
 			return false;
-		if (reqs != null)
-			if (player.getSkills().getLevel(skill) < reqs[choice]) {
+		if (reqs != null) {
+			if (skill != -1 && player.getSkills().getLevel(skill) < reqs[choice]) {
 				player.sendMessage("You need a " + Constants.SKILL_NAME[skill] + " level of " + reqs[choice] + " to make a " + products[choice][0].getName() + ".");
 				return false;
 			}
+		}
 		return true;
 	}
 
