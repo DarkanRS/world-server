@@ -4402,4 +4402,10 @@ public class Player extends Entity {
 		this.pvpCombatLevelThreshhold = pvpCombatLevelThreshhold;
 		getAppearance().generateAppearanceData();
 	}
+	
+	public void playSound(int soundId, int type) {
+		if (soundId == -1)
+			return;
+		getPackets().sendSound(soundId, 0, type);
+	}
 }

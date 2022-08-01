@@ -39,6 +39,7 @@ public class Dialogue {
 	private ArrayList<Dialogue> next = new ArrayList<>();
 	private Runnable event;
 	private Statement statement;
+	private int voiceId = -1;
 	private boolean started = true;
 
 	public Dialogue(Statement statement, Runnable extraFunctionality) {
@@ -302,6 +303,8 @@ public class Dialogue {
 			event.run();
 		if (statement != null)
 			statement.send(player);
+		if (voiceId != -1)
+			player.playSound(voiceId, 2);
 	}
 
 	public Dialogue getPrev() {
@@ -345,5 +348,14 @@ public class Dialogue {
 	public void close(Player player) {
 		if (statement != null)
 			statement.close(player);
+	}
+
+	public int getVoiceId() {
+		return voiceId;
+	}
+
+	public Dialogue setVoiceId(int voiceId) {
+		this.voiceId = voiceId;
+		return this;
 	}
 }

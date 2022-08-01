@@ -1335,21 +1335,6 @@ public abstract class Entity {
 		return sceneBaseChunkId;
 	}
 
-	public void playSound(int soundId, int type) {
-		if (soundId == -1)
-			return;
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || !player.isRunning() || !withinDistance(player.getTile()))
-						continue;
-					player.getPackets().sendSound(soundId, 0, type);
-				}
-		}
-	}
-
 	public long getFindTargetDelay() {
 		return findTargetDelay;
 	}
