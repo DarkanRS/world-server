@@ -332,8 +332,11 @@ public class Conversation {
 	}
 	
 	public void process(int opIndex) {
-		if (current != null)
+		if (current != null) {
 			current.close(player);
+			if (current.getVoiceEffect() > -1)
+				player.getPackets().resetSounds();
+		}
 		current = current.getNext(opIndex);
 		if (current == null) {
 			player.endConversation();
