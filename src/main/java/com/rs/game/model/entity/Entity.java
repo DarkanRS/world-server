@@ -733,6 +733,7 @@ public abstract class Entity {
 				return true;
 			}
 			switch(npc.getName()) {
+			case "Tool leprechaun":
 			case "Xuan":
 			case "Fremennik shipmaster":
 			case "Fishing spot":
