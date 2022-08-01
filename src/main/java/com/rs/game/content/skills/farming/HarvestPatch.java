@@ -39,6 +39,7 @@ public class HarvestPatch extends PlayerAction {
 			break;
 		case ALLOTMENT:
 		case HOP:
+		case EVIL_TURNIP:
 			tool = 952;
 			animation = FarmPatch.SPADE_ANIMATION;
 			break;

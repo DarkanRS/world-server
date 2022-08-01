@@ -354,6 +354,7 @@ public class FarmPatch {
 		case FLOWER:
 		case VINE_FLOWER:
 		case BELLADONNA:
+		case EVIL_TURNIP:
 			lives = 1;
 			break;
 		case COMPOST:
@@ -427,7 +428,7 @@ public class FarmPatch {
 	public boolean isDiseaseProtected(Player player) {
 		if (seed == null|| watered || diseaseProtected || fullyGrown())
 			return true;
-		if ((seed == ProduceType.Poison_ivy) || location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
+		if ((seed == ProduceType.Poison_ivy) || seed == ProduceType.Evil_turnip || location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
 			return true;
 		if (seed.type == PatchType.ALLOTMENT) {
 			ProduceType flower = seed.getFlowerProtection();

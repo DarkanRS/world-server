@@ -196,6 +196,12 @@ public enum PatchType {
 			return baseValue;
 		}
 	},
+	EVIL_TURNIP(1) {
+		@Override
+		int getVarBitValue(FarmPatch patch) {
+			return patch.seed.varBitPlanted + patch.growthStage;
+		}
+	},
 	MUSHROOM(8) {
 		@Override
 		int getVarBitValue(FarmPatch patch) {

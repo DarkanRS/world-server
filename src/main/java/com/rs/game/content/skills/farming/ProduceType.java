@@ -91,6 +91,8 @@ public enum ProduceType {
 
 	Bittercap(5282, 53, new Item(6004, 6), 4, 61.5, 57.7, 6, PatchType.MUSHROOM),
 	Morchella(21620, 74, new Item(21622, 9), 26, 22, 77.7, 6, PatchType.MUSHROOM),
+	
+	Evil_turnip(12148, 42, new Item(12134, 1), 4, 41, 46, 1, PatchType.EVIL_TURNIP),
 
 	Belladonna(5281, 63, new Item(2398), 4, 91, 512, 4, PatchType.BELLADONNA),
 

@@ -129,9 +129,10 @@ public class Toolbelt {
 		}
 	}
 
-	public static ItemClickHandler handleToolbeltOps = new ItemClickHandler(new String[] { "Add-to-toolbelt", "Light", "Grind", "Powder", "Squeeze", "Craft", "Fletch", "Gut" }) {
+	public static ItemClickHandler handleToolbeltOps = new ItemClickHandler(new String[] { "Add-to-toolbelt", "Carve", "Light", "Grind", "Powder", "Squeeze", "Craft", "Fletch", "Gut" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
+			System.out.println();
 			switch(e.getOption()) {
 			case "Add-to-toolbelt":
 				if (e.getPlayer().addToolbelt(e.getItem().getId())) {
@@ -148,6 +149,7 @@ public class Toolbelt {
 				InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.PESTLE_AND_MORTAR.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
 				break;
 			case "Craft":
+			case "Carve":
 				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()) || InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
 					return;
 				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
