@@ -309,6 +309,8 @@ public enum PatchType {
 		@Override
 		int getVarBitValue(FarmPatch patch) {
 			int baseValue = patch.growthStage + patch.seed.varBitPlanted;
+			if (!patch.checkedHealth && patch.fullyGrown())
+				return 34;
 			if (patch.fullyGrown())
 				return baseValue + patch.lives;
 			if (patch.dead)

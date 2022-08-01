@@ -69,7 +69,7 @@ public class Summoning {
 					return false;
 				e.getPlayer().getInventory().deleteItem(12134, 1);
 				e.getPlayer().getInventory().addItem(12153, 1);
-				e.getPlayer().anim(5756);
+				e.getPlayer().anim(6702);
 				return true;
 			});
 		}
