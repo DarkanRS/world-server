@@ -1806,7 +1806,12 @@ public class Player extends Entity {
 	}
 
 	public WorldEncoder getPackets() {
-		return session.getEncoder(WorldEncoder.class);
+		try {
+			return session.getEncoder(WorldEncoder.class);
+		} catch(Throwable e) {
+			System.err.println("Error casting player's encoder to world encoder.");
+			return null;
+		}
 	}
 
 	public void visualizeChunk(int chunkId) {
@@ -4401,5 +4406,11 @@ public class Player extends Entity {
 	public void setPvpCombatLevelThreshhold(int pvpCombatLevelThreshhold) {
 		this.pvpCombatLevelThreshhold = pvpCombatLevelThreshhold;
 		getAppearance().generateAppearanceData();
+	}
+	
+	public void playSound(int soundId, int type) {
+		if (soundId == -1)
+			return;
+		getPackets().sendSound(soundId, 0, type);
 	}
 }

@@ -76,6 +76,8 @@ public enum PatchLocation {
 	Herblore_Habitat_east_herbs(56683, PatchType.VINE_HERB),
 	Herblore_Habitat_bush(56562, PatchType.VINE_BUSH),
 	Herblore_Habitat_flower(56685, PatchType.VINE_FLOWER),
+	
+	Draynor_manor_evil_turnip(23760, PatchType.EVIL_TURNIP),
 
 	Al_Kharid_cactus(7771, PatchType.CACTUS),
 

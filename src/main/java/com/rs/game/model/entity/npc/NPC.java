@@ -480,7 +480,7 @@ public class NPC extends Entity {
 			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
 				if (source instanceof Player p)
-					p.playSound(getCombatDefinitions().getDeathSound(), 1);
+					playSound(getCombatDefinitions().getDeathSound(), 1);
 			}
 			else if (loop >= defs.getDeathDelay()) {
 				if (source instanceof Player player)
@@ -1302,5 +1302,11 @@ public class NPC extends Entity {
 
 	public void setIgnoreNPCClipping(boolean ignoreNPCClipping) {
 		this.ignoreNPCClipping = ignoreNPCClipping;
+	}
+	
+	public void playSound(int soundId, int type) {
+		if (soundId == -1)
+			return;
+		World.playSound(this, soundId, type);
 	}
 }

@@ -85,8 +85,10 @@ public class WildernessController extends Controller {
 		if (target instanceof NPC)
 			return true;
 		Player p2 = (Player) target;
-		if (Math.abs(player.getSkills().getCombatLevel() - p2.getSkills().getCombatLevel()) > Math.min(player.getPvpCombatLevelThreshhold(), p2.getPvpCombatLevelThreshhold()))
+		if (Math.abs(player.getSkills().getCombatLevel() - p2.getSkills().getCombatLevel()) > Math.min(player.getPvpCombatLevelThreshhold(), p2.getPvpCombatLevelThreshhold())) {
+			player.sendMessage("Your level difference is too great!<br>You need to move deeper into the Wilderness.");
 			return false;
+		}
 		return true;
 	}
 
@@ -225,15 +227,15 @@ public class WildernessController extends Controller {
 		boolean isAtWild = isAtWild(player.getTile());
 		boolean isAtWildSafe = isAtWildSafe();
 		if (!isAtWildSafe && !isAtWild) {
+			player.setPvpCombatLevelThreshhold(-1);
 			player.setCanPvp(false);
 			removeIcon();
 			removeController();
 		} else if (!showingSkull && isAtWild && !isAtWildSafe) {
 			showingSkull = true;
 			player.setCanPvp(true);
-			player.setPvpCombatLevelThreshhold(getWildLevel());
 			showSkull();
-			player.getAppearance().generateAppearanceData();
+			player.setPvpCombatLevelThreshhold(getWildLevel());
 		} else if (showingSkull && (isAtWildSafe || !isAtWild))
 			removeIcon();
 	}
@@ -243,7 +245,7 @@ public class WildernessController extends Controller {
 			showingSkull = false;
 			player.setCanPvp(false);
 			player.getInterfaceManager().removeOverlay();
-			player.getAppearance().generateAppearanceData();
+			player.setPvpCombatLevelThreshhold(-1);
 			player.getEquipment().refresh(null);
 		}
 	}
