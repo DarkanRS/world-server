@@ -104,6 +104,8 @@ public class Appearance {
 
 	public void generateAppearanceData() {
 		OutputStream stream = new OutputStream();
+		boolean pvpArea = World.isPvpArea(player);
+		boolean showSkillTotal = player.getTempAttribs().getB("showSkillTotal") && !pvpArea;
 		if (glowRed && player.getNextBodyGlow() == null)
 			player.setNextBodyGlow(new BodyGlow(90, 0, 0, 0, 255));
 		int flag = 0;
@@ -111,7 +113,7 @@ public class Appearance {
 			flag |= 0x1;
 		if (transformedNpcId >= 0 && NPCDefinitions.getDefs(transformedNpcId).aBool4872)
 			flag |= 0x2;
-		if (player.getTempAttribs().getB("showSkillTotal") && !World.isPvpArea(player))
+		if (showSkillTotal)
 			flag |= 0x4;
 		if (title != 0 || player.getTitle() != null)
 			flag |= isTitleAfter(title) || player.isTitleAfter() ? 0x80 : 0x40; // after/before
@@ -198,13 +200,12 @@ public class Appearance {
 
 		stream.writeShort(getRenderEmote());
 		stream.writeString(player.getDisplayName());
-		boolean pvpArea = World.isPvpArea(player);
 		stream.writeByte(pvpArea ? player.getSkills().getCombatLevel() : player.getSkills().getCombatLevelWithSummoning());
-		if (player.getTempAttribs().getB("showSkillTotal") && !pvpArea)
+		if (showSkillTotal)
 			stream.writeShort(player.getSkills().getTotalLevel());
 		else {
 			stream.writeByte(pvpArea ? player.getSkills().getCombatLevelWithSummoning() : 0);
-			stream.writeByte(-1);
+			stream.writeByte(player.getPvpCombatLevelThreshhold());
 		}
 		stream.writeByte(transformedNpcId >= 0 ? 1 : 0);
 		if (transformedNpcId >= 0) {
