@@ -69,7 +69,6 @@ import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
-import com.rs.lib.util.reflect.ReflectionChecks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;

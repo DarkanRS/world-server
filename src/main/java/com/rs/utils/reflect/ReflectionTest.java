@@ -1,6 +1,7 @@
 package com.rs.utils.reflect;
 
 import java.util.function.Function;
+
 import com.rs.lib.util.reflect.ReflectionCheck;
 
 public class ReflectionTest {
