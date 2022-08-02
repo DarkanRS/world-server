@@ -99,6 +99,10 @@ public final class Inventory {
 	}
 
 	public void replace(Item item, Item newItem) {
+		if (items.get(item.getSlot()) == null)
+			throw new RuntimeException("Yikes. Expected a " + item.getId() + " but was not found.");
+		if (item.getId() != items.get(item.getSlot()).getId())
+			throw new RuntimeException("Yikes. Expected a " + item.getId() + " but found " + items.get(item.getSlot()).getId() + " instead.");
 		items.set(item.getSlot(), newItem);
 		refresh();
 	}
