@@ -1029,6 +1029,14 @@ public class MiscTest {
 			else
 				target.addReflectionCheck(new ReflectionCheck("com.Loader", "private", "void", "doFrame", true));
 		});
+		
+		Commands.add(Rights.ADMIN, "reflect [player_name, class, modifier, returnType, methodName]", "Verifies the user's client.", (p, args) -> {
+			Player target = World.getPlayerByDisplay(args[0]);
+			if (target == null)
+				p.sendMessage("Couldn't find player.");
+			else
+				target.addReflectionCheck(new ReflectionCheck(args[1], args[2], args[3], args[4], true));
+		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {
 			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
