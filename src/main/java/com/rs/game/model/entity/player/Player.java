@@ -1311,6 +1311,7 @@ public class Player extends Entity {
 			petManager.init();
 		running = true;
 		updateMovementType = true;
+		pvpCombatLevelThreshhold = -1;
 		appearence.generateAppearanceData();
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
