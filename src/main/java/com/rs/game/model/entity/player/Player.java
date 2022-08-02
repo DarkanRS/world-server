@@ -149,7 +149,6 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
-import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
 import com.rs.lib.web.dto.FCData;
 import com.rs.net.LobbyCommunicator;
@@ -165,6 +164,7 @@ import com.rs.plugin.events.LoginEvent;
 import com.rs.utils.Click;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
+import com.rs.utils.reflect.ReflectionAnalysis;
 
 public class Player extends Entity {
 
@@ -178,7 +178,7 @@ public class Player extends Entity {
 	private long timePlayed = 0;
 	private long timeLoggedOut;
 
-	private transient HashMap<Integer, ReflectionCheck> reflectionChecks = new HashMap<>();
+	private transient HashMap<Integer, ReflectionAnalysis> reflectionAnalyses = new HashMap<>();
 
 	private long docileTimer;
 
@@ -654,7 +654,7 @@ public class Player extends Entity {
 			herbicideSettings = new HashSet<>();
 		if (notes == null)
 			notes = new Notes();
-		reflectionChecks = new HashMap<>();
+		reflectionAnalyses = new HashMap<>();
 		attackedBy = new ArrayList<>();
 		interfaceManager = new InterfaceManager(this);
 		hintIconsManager = new HintIconsManager(this);
@@ -3849,13 +3849,15 @@ public class Player extends Entity {
 		return wickedHoodTalismans[rune.ordinal()];
 	}
 
-	public ReflectionCheck getReflectionCheck(int id) {
-		return reflectionChecks.get(id);
+	public ReflectionAnalysis getReflectionAnalysis(int id) {
+		return reflectionAnalyses.get(id);
 	}
 
-	public void addReflectionCheck(ReflectionCheck reflectionCheck) {
-		reflectionChecks.put(reflectionCheck.getId(), reflectionCheck);
-		getSession().writeToQueue(new ReflectionCheckRequest(reflectionCheck));
+	public void queueReflectionAnalysis(ReflectionAnalysis reflectionCheck) {
+		if (!reflectionCheck.isBuilt())
+			throw new RuntimeException("Cannot queue an unbuilt reflection analysis.");
+		reflectionAnalyses.put(reflectionCheck.getId(), reflectionCheck);
+		getSession().writeToQueue(new ReflectionCheckRequest(reflectionCheck.getChecks()));
 	}
 
 	public void unlockWickedHoodRune(WickedHoodRune rune) {

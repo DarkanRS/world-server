@@ -65,9 +65,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
-import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
+import com.rs.lib.util.reflect.ReflectionCheck;
+import com.rs.lib.util.reflect.ReflectionChecks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;
@@ -77,6 +79,8 @@ import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
 import com.rs.utils.music.Voices;
+import com.rs.utils.reflect.ReflectionAnalysis;
+import com.rs.utils.reflect.ReflectionTest;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
@@ -1027,15 +1031,23 @@ public class MiscTest {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				target.addReflectionCheck(new ReflectionCheck("com.Loader", "private", "void", "doFrame", true));
-		});
-		
-		Commands.add(Rights.ADMIN, "reflect [player_name, class, modifier, returnType, methodName]", "Verifies the user's client.", (p, args) -> {
-			Player target = World.getPlayerByDisplay(args[0]);
-			if (target == null)
-				p.sendMessage("Couldn't find player.");
-			else
-				target.addReflectionCheck(new ReflectionCheck(args[1], args[2], args[3], args[4], true));
+				target.queueReflectionAnalysis(new ReflectionAnalysis()
+						.addTest(new ReflectionTest("Client", "validates client class", new ReflectionCheck("com.Loader", "MAJOR_BUILD"), check -> {
+							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static final");
+						}))
+						.addTest(new ReflectionTest("Loader", "validates launcher class", new ReflectionCheck("com.darkan.Loader", "DOWNLOAD_URL"), check -> {
+							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static");
+						}))
+						.addTest(new ReflectionTest("Player rights", "validates player rights client sided", new ReflectionCheck("com.jagex.client", "PLAYER_RIGHTS", true), check -> {
+							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getData() == target.getRights().getCrown();
+						}))
+						.addTest(new ReflectionTest("Lobby port method", "validates getPort", new ReflectionCheck("com.Loader", "I", "getPort", new Object[] { Integer.valueOf(1115) }), check -> {
+							return check.getResponse().getCode() == ResponseCode.NUMBER && check.getResponse().getData() == 43594;
+						}))
+						.addTest(new ReflectionTest("Local checksum method", "validates getLocalChecksum", new ReflectionCheck("com.darkan.Download", "java.lang.String", "getLocalChecksum", new Object[] { }), check -> {
+							return check.getResponse().getCode() == ResponseCode.STRING && check.getResponse().getStringData().equals("e4d95327297ffca1698dff85eda6622d");
+						}))
+						.build());
 		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {
