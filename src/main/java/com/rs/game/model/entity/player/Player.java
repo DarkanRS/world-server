@@ -203,6 +203,7 @@ public class Player extends Entity {
 	public transient long dyingTime = 0;
 	public transient long spellDelay = 0;
 	public transient boolean disconnected = false;
+	private transient int pvpCombatLevelThreshhold = -1;
 	private transient String[] playerOptions = new String[10];
 
 	private int hw07Stage;
@@ -1805,7 +1806,12 @@ public class Player extends Entity {
 	}
 
 	public WorldEncoder getPackets() {
-		return session.getEncoder(WorldEncoder.class);
+		try {
+			return session.getEncoder(WorldEncoder.class);
+		} catch(Throwable e) {
+			System.err.println("Error casting player's encoder to world encoder.");
+			return null;
+		}
 	}
 
 	public void visualizeChunk(int chunkId) {
@@ -2478,7 +2484,7 @@ public class Player extends Entity {
 	}
 
 	public void setCanPvp(boolean canPvp) {
-		setCanPvp(canPvp, false);
+		setCanPvp(canPvp, true);
 	}
 
 	public PrayerManager getPrayer() {
@@ -4391,5 +4397,20 @@ public class Player extends Entity {
 
 	public void setTileMan(boolean tileMan) {
 		this.tileMan = tileMan;
+	}
+
+	public int getPvpCombatLevelThreshhold() {
+		return pvpCombatLevelThreshhold;
+	}
+
+	public void setPvpCombatLevelThreshhold(int pvpCombatLevelThreshhold) {
+		this.pvpCombatLevelThreshhold = pvpCombatLevelThreshhold;
+		getAppearance().generateAppearanceData();
+	}
+	
+	public void playSound(int soundId, int type) {
+		if (soundId == -1)
+			return;
+		getPackets().sendSound(soundId, 0, type);
 	}
 }

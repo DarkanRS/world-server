@@ -47,7 +47,7 @@ public class Default extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		if (target instanceof Player p)
-			p.playSound(npc.getCombatDefinitions().getAttackSound(), 1);
+			npc.playSound(npc.getCombatDefinitions().getAttackSound(), 1);
 		return npc.getAttackSpeed();
 	}
 }

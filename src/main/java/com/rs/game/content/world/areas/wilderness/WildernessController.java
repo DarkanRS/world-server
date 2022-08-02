@@ -85,14 +85,16 @@ public class WildernessController extends Controller {
 		if (target instanceof NPC)
 			return true;
 		Player p2 = (Player) target;
-		if (Math.abs(player.getSkills().getCombatLevel() - p2.getSkills().getCombatLevel()) > getWildLevel())
+		if (Math.abs(player.getSkills().getCombatLevel() - p2.getSkills().getCombatLevel()) > Math.min(player.getPvpCombatLevelThreshhold(), p2.getPvpCombatLevelThreshhold())) {
+			player.sendMessage("Your level difference is too great!<br>You need to move deeper into the Wilderness.");
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		if ((getWildLevel() > 20) || player.hasEffect(Effect.TELEBLOCK)) {
+		if (getWildLevel() > 20 || player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
@@ -225,6 +227,7 @@ public class WildernessController extends Controller {
 		boolean isAtWild = isAtWild(player.getTile());
 		boolean isAtWildSafe = isAtWildSafe();
 		if (!isAtWildSafe && !isAtWild) {
+			player.setPvpCombatLevelThreshhold(-1);
 			player.setCanPvp(false);
 			removeIcon();
 			removeController();
@@ -232,7 +235,7 @@ public class WildernessController extends Controller {
 			showingSkull = true;
 			player.setCanPvp(true);
 			showSkull();
-			player.getAppearance().generateAppearanceData();
+			player.setPvpCombatLevelThreshhold(getWildLevel());
 		} else if (showingSkull && (isAtWildSafe || !isAtWild))
 			removeIcon();
 	}
@@ -242,7 +245,7 @@ public class WildernessController extends Controller {
 			showingSkull = false;
 			player.setCanPvp(false);
 			player.getInterfaceManager().removeOverlay();
-			player.getAppearance().generateAppearanceData();
+			player.setPvpCombatLevelThreshhold(-1);
 			player.getEquipment().refresh(null);
 		}
 	}
@@ -264,8 +267,7 @@ public class WildernessController extends Controller {
 	}
 
 	public static final boolean isAtWild(WorldTile tile) {// TODO fix this
-		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175) // fortihrny
-				// dungeon
+		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175)
 				|| (tile.getX() >= 2940 && tile.getX() <= 3395 && tile.getY() >= 3525 && tile.getY() <= 4000)
 				|| (tile.getX() >= 3078 && tile.getX() <= 3139 && tile.getY() >= 9923 && tile.getY() <= 10002)
 				|| (tile.getX() >= 3264 && tile.getX() <= 3279 && tile.getY() >= 3279 && tile.getY() <= 3672)

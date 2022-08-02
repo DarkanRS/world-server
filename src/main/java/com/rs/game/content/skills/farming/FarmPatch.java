@@ -27,6 +27,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -102,6 +103,8 @@ public class FarmPatch {
 			player.getActionManager().setAction(new RakeAction(this));
 			return;
 		case "Inspect":
+			if (player.hasRights(Rights.DEVELOPER))
+				player.sendMessage(this.toString());
 			player.startConversation(new Dialogue().addSimple("Yep! Looks like a " + object.getDefinitions(player).getName().toLowerCase() + " to me!"));
 			return;
 		case "Guide":
@@ -354,6 +357,7 @@ public class FarmPatch {
 		case FLOWER:
 		case VINE_FLOWER:
 		case BELLADONNA:
+		case EVIL_TURNIP:
 			lives = 1;
 			break;
 		case COMPOST:
@@ -384,7 +388,7 @@ public class FarmPatch {
 			case BUSH:
 			case CACTUS:
 			case VINE_BUSH:
-				if (totalGrowthTicks % 2 == 0 && checkedHealth && lives < 4)
+				if (totalGrowthTicks % 2 == 0 && checkedHealth && lives < (seed.type == PatchType.CACTUS ? 3 : 4))
 					lives++;
 				break;
 			case CALQUAT:
@@ -427,7 +431,7 @@ public class FarmPatch {
 	public boolean isDiseaseProtected(Player player) {
 		if (seed == null|| watered || diseaseProtected || fullyGrown())
 			return true;
-		if ((seed == ProduceType.Poison_ivy) || location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
+		if ((seed == ProduceType.Poison_ivy) || seed == ProduceType.Evil_turnip || location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
 			return true;
 		if (seed.type == PatchType.ALLOTMENT) {
 			ProduceType flower = seed.getFlowerProtection();
@@ -522,4 +526,9 @@ public class FarmPatch {
 			e.getPlayer().putPatch(patch);
 		}
 	};
+	
+	@Override
+	public String toString() {
+		return "{ loc: " + location + ", seed: " + seed + ", weeds: " + weeds + ", growth: " + growthStage + ", totalGrow: " + totalGrowthTicks + ", disease: " + diseased + ", water: " + watered + ", dead: " + dead + ", prot: " + diseaseProtected + ", compost: " + compostLevel + ", lives: " + lives + ", checked: " + checkedHealth + " }";
+	}
 }
