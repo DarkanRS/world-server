@@ -154,7 +154,8 @@ public class FlaskPotions {
 					if (dosesLeft -Flasks.getDose(potionId) < 0) {
 						int dosesOver =Flasks.getDose(potionId) - dosesLeft;
 						int potionIdOver =Flasks.getFlaskEnum(potionId).getPotions()[dosesOver - 1];
-						p.getInventory().replace(p.getInventory().getItemById(potionId), new Item(potionIdOver, 1));
+						p.getInventory().deleteItem(potionId, 1);
+						p.getInventory().addItemDrop(potionIdOver, 1);
 						p.getInventory().replace(e.getUsedWith(usedOnFlask), new Item(Flasks.getFlaskIdFromPotionId(potionId), 1));
 						break;
 					}
