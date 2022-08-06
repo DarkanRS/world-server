@@ -79,6 +79,10 @@ public class Dialogue {
 		event = consumer;
 		return this;
 	}
+	
+	public Runnable getFunc() {
+		return event;
+	}
 
 	public Dialogue addGotoStage(String stageName, Conversation conversation) {
 		return addNext(new StageSelectDialogue(stageName, conversation));

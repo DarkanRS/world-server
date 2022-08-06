@@ -596,24 +596,25 @@ public class House {
 		}
 
 		final RoomReference roomRef = new RoomReference(room, position[0], position[1], position[2], 0);
+		player.setFinishConversationEvent(() -> player.getHouse().previewRoom(roomRef, true));
+		player.getHouse().previewRoom(roomRef, true);
+		roomRef.setRotation((roomRef.getRotation() + 1) & 0x3);
+		player.getHouse().previewRoom(roomRef, false);
 		player.startConversation(new Conversation(player) {
 			{
-				player.getHouse().previewRoom(roomRef, false);
-				addOptions("What would you like to do?", ops -> {
-					ops.add("Rotate clockwise", () -> {
+				addOptions("start", "What would you like to do?", ops -> {
+					ops.add("Rotate clockwise", new Dialogue().addGotoStage("start", this).setFunc(() -> {
 						player.getHouse().previewRoom(roomRef, true);
 						roomRef.setRotation((roomRef.getRotation() + 1) & 0x3);
-						create();
-						player.startConversation(this);
-					});
-					ops.add("Rotate anticlockwise.", () -> {
+						player.getHouse().previewRoom(roomRef, false);
+					}));
+					ops.add("Rotate anticlockwise.", new Dialogue().addGotoStage("start", this).setFunc(() -> {
 						player.getHouse().previewRoom(roomRef, true);
 						roomRef.setRotation((roomRef.getRotation() - 1) & 0x3);
-						create();
-						player.startConversation(this);
-					});
+						player.getHouse().previewRoom(roomRef, false);
+					}));
 					ops.add("Build.", () -> player.getHouse().createRoom(roomRef));
-					ops.add("Cancel");
+					ops.empty("Cancel");
 				});
 			}
 		});
@@ -1214,8 +1215,10 @@ public class House {
 	}
 
 	public void previewRoom(RoomReference reference, boolean remove) {
-		if (!loaded)
+		if (!loaded) {
+			System.out.println("Preview cancelled.");
 			return;
+		}
 		int boundX = region.getLocalX(reference.x, 0);
 		int boundY = region.getLocalY(reference.y, 0);
 		int realChunkX = reference.room.getChunkX();

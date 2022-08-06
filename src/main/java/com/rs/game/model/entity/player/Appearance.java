@@ -234,11 +234,31 @@ public class Appearance {
 			slotFlag++;
 			if (player.getEquipment().getId(slotId) == -1)
 				continue;
-			ItemDefinitions defs = ItemDefinitions.getDefs(player.getEquipment().getId(slotId));
+			Item item = player.getEquipment().get(slotId);
+			if (item == null)
+				continue;
+			ItemDefinitions defs = item.getDefinitions();
 			if (defs == null)
 				continue;
 
 			switch(defs.getId()) {
+			case 1833:
+			case 1835:
+			case 1171:
+			case 2637:
+				MeshModifier mod = new MeshModifier(defs, slotFlag);
+				boolean add = false;
+				if (item.getMetaDataI("drTOr", -1) > 0) {
+					mod.addTextures(item.getMetaDataI("drTOr", -1), item.getMetaDataI("drTOr", -1), item.getMetaDataI("drTOr", -1));
+					add = true;
+				}
+				if (item.getMetaDataI("drCOr", -1) > 0) {
+					mod.addColors(item.getMetaDataI("drCOr", -1));
+					add = true;
+				}
+				if (add)
+					modifiers.add(mod);
+				break;
 			case 20767:
 			case 20768:
 				modifiers.add(new MeshModifier(defs, slotFlag)
