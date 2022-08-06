@@ -182,7 +182,7 @@ public class Dialogue {
 		if (options.getOptions().size() <= 1) {
 			for (String opName : options.getOptions().keySet()) {
 				Option op = options.getOptions().get(opName);
-				if (op.show())
+				if (op.show() && op.getDialogue() != null)
 					addNext(op.getDialogue());
 			}
 			if (options.getConv() != null)
@@ -197,7 +197,7 @@ public class Dialogue {
 			Dialogue op = new Dialogue(new OptionStatement(title, ops.stream().toArray(String[] ::new)));
 			for (String opName : options.getOptions().keySet()) {
 				Option o = options.getOptions().get(opName);
-				if (o.show())
+				if (o.show() && o.getDialogue() != null)
 					op.addNext(o.getDialogue());
 			}
 			addNext(op);
@@ -214,7 +214,7 @@ public class Dialogue {
 			Dialogue currPage = baseOption;
 			for (int i = 0;i < ops.length;i++) {
 				Option op = options.getOptions().get(ops[i]);
-				if (op.show()) {
+				if (op.show() && op.getDialogue() != null) {
 					currPage.addNext(op.getDialogue());
 					if (i >= 3 && ((i+1) % 4) == 0) {
 						String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
