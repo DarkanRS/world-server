@@ -51,6 +51,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.game.model.entity.pathing.RouteFinder;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -125,6 +126,30 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "drtor [texId]", "Set equipment texture override", (p, args) -> {
+			if (p.getEquipment().get(Equipment.CHEST) != null)
+				p.getEquipment().get(Equipment.CHEST).addMetaData("drTOr", Integer.valueOf(args[0]));
+			if (p.getEquipment().get(Equipment.LEGS) != null)
+				p.getEquipment().get(Equipment.LEGS).addMetaData("drTOr", Integer.valueOf(args[0]));
+			if (p.getEquipment().get(Equipment.SHIELD) != null)
+				p.getEquipment().get(Equipment.SHIELD).addMetaData("drTOr", Integer.valueOf(args[0]));
+			if (p.getEquipment().get(Equipment.HEAD) != null)
+				p.getEquipment().get(Equipment.HEAD).addMetaData("drTOr", Integer.valueOf(args[0]));
+			p.getAppearance().generateAppearanceData();
+		});
+		
+		Commands.add(Rights.DEVELOPER, "drcor [r, g, b]", "Set equipment color override", (p, args) -> {
+			if (p.getEquipment().get(Equipment.CHEST) != null)
+				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			if (p.getEquipment().get(Equipment.LEGS) != null)
+				p.getEquipment().get(Equipment.LEGS).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			if (p.getEquipment().get(Equipment.SHIELD) != null)
+				p.getEquipment().get(Equipment.SHIELD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			if (p.getEquipment().get(Equipment.HEAD) != null)
+				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			p.getAppearance().generateAppearanceData();
 		});
 		
 		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
@@ -630,7 +655,6 @@ public class MiscTest {
 				return;
 			}
 			p.setNextWorldTile(objs.get(Integer.valueOf(args[1])));
-
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
@@ -686,8 +710,6 @@ public class MiscTest {
 		Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> {
 			p.playSound(Integer.valueOf(args[0]), 2);
 		});
-
-
 
 		Commands.add(Rights.PLAYER, "playthroughvoices [start finish tick_delay]", "Gets player rights", (p, args) -> {
 			//		Voice[] voices = new Voice[3];
@@ -837,8 +859,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
-			p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]),
-					Integer.valueOf(args[4]));
+			p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
