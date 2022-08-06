@@ -128,6 +128,15 @@ public class MiscTest {
 			p.getControllerManager().startController(new TutorialIslandController());
 		});
 		
+		/**
+		 * 31 orange glow
+		 * 40 fire cape
+		 * 54 old hitsplats
+		 * 61 sick fire glow
+		 * 62 smokey pulsating
+		 * 89 colored glow
+		 * 361 bright white with bright colored glow
+		 */
 		Commands.add(Rights.DEVELOPER, "drtor [texId]", "Set equipment texture override", (p, args) -> {
 			if (p.getEquipment().get(Equipment.CHEST) != null)
 				p.getEquipment().get(Equipment.CHEST).addMetaData("drTOr", Integer.valueOf(args[0]));
