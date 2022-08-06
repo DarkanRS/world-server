@@ -185,7 +185,7 @@ public class Trade {
 				Item item = player.getInventory().getItem(slot);
 				if (item == null)
 					return;
-				if (!ItemConstants.isTradeable(item)) {
+				if (!player.hasRights(Rights.OWNER) && !ItemConstants.isTradeable(item)) {
 					player.sendMessage("That item isn't tradeable.");
 					return;
 				}

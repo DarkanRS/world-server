@@ -4416,4 +4416,12 @@ public class Player extends Entity {
 			return;
 		getPackets().sendSound(soundId, 0, type);
 	}
+	
+	public Map<Integer, MachineInformation> getMachineMap() {
+		return machineMap;
+	}
+	
+	public MachineInformation getMachineInfo() {
+		return machineInformation;
+	}
 }

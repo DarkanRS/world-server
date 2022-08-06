@@ -106,6 +106,8 @@ public class MeshModifier {
 			modifiedTextures = new int[defs.modifiedTextureIds.length];
 			System.arraycopy(defs.modifiedTextureIds, 0, modifiedTextures, 0, modifiedTextures.length);
 		}
+		if (modifiedTextures == null)
+			return this;
 		for (int i = 0;i < modifiedTextures.length;i++) {
 			if (i >= textures.length)
 				break;

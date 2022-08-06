@@ -28,7 +28,6 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.WorldProjectile;
@@ -76,7 +75,7 @@ public class Region {
 	private List<GroundItem> groundItemList;
 	protected List<WorldProjectile> projectiles;
 	protected GameObject[][][][] objects;
-	private volatile int loadMapStage;
+	private int loadMapStage;
 	private boolean loadedNPCSpawns;
 	private boolean loadedObjectSpawns;
 	private boolean loadedItemSpawns;
@@ -368,8 +367,8 @@ public class Region {
 	public void checkLoadMap() {
 		if (getLoadMapStage() == 0) {
 			setLoadMapStage(1);
-			CoresManager.execute(() -> {
-				try {
+//			CoresManager.execute(() -> {
+//				try {
 					loadRegionMap();
 					setLoadMapStage(2);
 					if (!isLoadedObjectSpawns()) {
@@ -384,10 +383,10 @@ public class Region {
 						loadItemSpawns();
 						setLoadedItemSpawns(true);
 					}
-				} catch (Throwable e) {
-					Logger.handle(e);
-				}
-			});
+//				} catch (Throwable e) {
+//					Logger.handle(e);
+//				}
+//			});
 		}
 	}
 

@@ -23,7 +23,9 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse;
+import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
+import com.rs.utils.MachineInformation;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import com.rs.utils.reflect.ReflectionTest;
 
@@ -44,6 +46,37 @@ public class ReflectionCheckResponseHandler implements PacketHandler<Player, Ref
 			if (staff == null || !staff.hasStarted() || staff.hasFinished() || !staff.hasRights(Rights.ADMIN))
 				continue;
 			ArrayList<String> lines = new ArrayList<>();
+			
+			lines.add("<u><shad=000000><col=FF0000>Current Machine</col></shad></u>");
+			lines.add("");
+			lines.add("<u>Operating System:</u> " + switch(player.getMachineInfo().operatingSystem) {
+			case 1 -> "Windows";
+			case 2 -> "Mac";
+			case 3 -> "Linux";
+			default -> "Other/Uknown";
+			} + " (x" + (player.getMachineInfo().x64os ? "64" : "86") + ")");
+			
+			lines.add("");
+			
+			lines.add("<u>Java:</u> ");
+			lines.add("Version: " + player.getMachineInfo().javaBuild + " (" + player.getMachineInfo().javaUpdate + "." + player.getMachineInfo().javaSubBuild + "_" + switch(player.getMachineInfo().javaVersion) {
+			case 1 -> "sun";
+			case 2 -> "microsoft";
+			case 3 -> "apple";
+			default -> "open";
+			} + ")");
+			lines.add("JVM max memory: " + Utils.formatNumber(player.getMachineInfo().maxMem) + "mb");
+			
+			lines.add("");
+			
+			lines.add("<u>Processor:</u> ");
+			lines.add("Model: " + player.getMachineInfo().cpuData);
+			lines.add("Type: " + player.getMachineInfo().cpuType);
+			lines.add("Cores: " + player.getMachineInfo().processors);
+			lines.add("RAM: " + Utils.formatNumber(player.getMachineInfo().ram) + "mb");
+			
+			lines.add("");
+			
 			for (ReflectionTest check : analysis.getTests()) {
 				boolean pass = check.getValidation().apply(check.getCheck());
 				lines.add("<u>" + check.getName() + "</u> (" + check.getDescription() + "): <shad=000000><col=" + (pass ? "00FF00>passed</col></shad>" : "FF0000>failed</col></shad>"));
