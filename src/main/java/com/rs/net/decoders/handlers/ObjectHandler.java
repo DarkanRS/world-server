@@ -61,7 +61,7 @@ import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 import com.rs.game.content.skills.smithing.ForgingInterface;
 import com.rs.game.content.skills.smithing.SmeltingD;
-import com.rs.game.content.skills.smithing.Smithing.ForgingBar;
+import com.rs.game.content.skills.smithing.Smithing.Smithable;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.transportation.WildernessObelisk;
@@ -1476,13 +1476,8 @@ public final class ObjectHandler {
 					}
 					break;
 				case "anvil":
-					if (objectDef.containsOption(0, "Smith")) {
-						ForgingBar bar = ForgingBar.getBar(player);
-						if (bar != null)
-							ForgingInterface.sendSmithingInterface(player, bar);
-						else
-							player.sendMessage("You have no bars which you have smithing level to use.");
-					}
+					if (objectDef.containsOption(0, "Smith"))
+						ForgingInterface.openSmithingInterfaceForHighestBar(player);
 					break;
 					//					case "gate":
 					//					case "large door":
@@ -1883,9 +1878,11 @@ public final class ObjectHandler {
 					return;
 				switch (objectDef.getName().toLowerCase()) {
 				case "anvil":
-					ForgingBar bar = ForgingBar.forId(itemId);
-					if (bar != null)
+					int bar = Smithable.getHighestBar(player);
+					if (bar != -1)
 						ForgingInterface.sendSmithingInterface(player, bar);
+					else
+						player.sendMessage("You can't find a way to smith that.");
 					break;
 				case "fire":
 					if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))

@@ -26,7 +26,6 @@ import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.QuestHandler;
 import com.rs.game.content.quests.QuestOutline;
 import com.rs.game.content.skills.smithing.ForgingInterface;
-import com.rs.game.content.skills.smithing.Smithing.ForgingBar;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -194,13 +193,8 @@ public class DoricsQuest extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			if (!e.getPlayer().getQuestManager().isComplete(Quest.DORICS_QUEST))
 				e.getPlayer().startConversation(new DoricD(e.getPlayer()));
-			else if (e.getObject().getDefinitions().containsOption(0, "Smith")) {
-				ForgingBar bar = ForgingBar.getBar(e.getPlayer());
-				if (bar != null)
-					ForgingInterface.sendSmithingInterface(e.getPlayer(), bar);
-				else
-					e.getPlayer().sendMessage("You have no bars which you have smithing level to use.");
-			}
+			else if (e.getObject().getDefinitions().containsOption(0, "Smith"))
+				ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer());
 		}
 	};
 }

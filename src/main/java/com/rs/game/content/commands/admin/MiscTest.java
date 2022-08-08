@@ -107,7 +107,7 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-
+		
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
 		});
@@ -136,6 +136,34 @@ public class MiscTest {
 		 * 62 smokey pulsating
 		 * 89 colored glow
 		 * 361 bright white with bright colored glow
+		 * 451 running watery color
+		 * 637 ghostlyish mostly transparent
+		 * 647 another bright glow with less bloom
+		 * 648 breathing texture almost
+		 * 649 recolorable ghostly
+		 * 654, 656, 658 storm with thunder
+		 * 655 subtle dripping recolor
+		 * 657 fast pulsating ecto recolor
+		 * 676, 677 some colorful wheel
+		 * 679 recolorable ghillie suit
+		 * 691 another bright bloom glow
+		 * 707 transparent with black stars pulsating
+		 * 718 explosion bloom particles
+		 * 722 sick glow particle swirl recolorable
+		 * 811 eye blinding bloom
+		 * 824 bright looking lava
+		 * 825 recolorable bloom lava
+		 * 826 magical psychadelic moving
+		 * 831 recolorable upward flowing liquid
+		 * 847 sick bright yellow magical
+		 * 856 recolorable fast flowing liquid
+		 * 870 very bloomy recolorable
+		 * 875 bright but low bloom recolorable
+		 * 876-878 bright cool bloom
+		 * 880 alternate fire cape lava
+		 * 906 recolorable dragonhide lookin
+		 * 916 eye rape bloom
+		 * 
 		 */
 		Commands.add(Rights.DEVELOPER, "drtor [texId]", "Set equipment texture override", (p, args) -> {
 			if (p.getEquipment().get(Equipment.CHEST) != null)
