@@ -25,7 +25,6 @@ import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
-import com.rs.utils.MachineInformation;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import com.rs.utils.reflect.ReflectionTest;
 
