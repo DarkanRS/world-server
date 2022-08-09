@@ -65,6 +65,7 @@ public class NPCCombatDefMerger {
 			//TODO any bulk processing here
 			if (def.getAggroDistance() > 60) {
 				def.aggroDistance = def.getAttackStyle() == AttackStyle.MELEE ? 4 : def.getAttackRange() - 2;
+				System.out.println("Modified: " + file);
 			}
 			
 			JsonFileManager.saveJsonFile(def, file);

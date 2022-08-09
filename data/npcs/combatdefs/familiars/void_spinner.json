@@ -3,9 +3,12 @@
     "Void spinner"
   ],
   "attackAnim": 8172,
+  "attackSound": -1,
   "defenceAnim": 8173,
+  "defendSound": -1,
   "deathAnim": 8176,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 590,
   "maxHit": 44,

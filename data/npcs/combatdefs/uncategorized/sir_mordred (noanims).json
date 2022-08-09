@@ -3,9 +3,12 @@
     "Sir Mordred"
   ],
   "attackAnim": 6489,
+  "attackSound": -1,
   "defenceAnim": 6488,
+  "defendSound": -1,
   "deathAnim": 6490,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 500,
   "maxHit": 57,

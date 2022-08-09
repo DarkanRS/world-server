@@ -3,9 +3,12 @@
     "Nex"
   ],
   "attackAnim": 6354,
+  "attackSound": -1,
   "defenceAnim": 6983,
+  "defendSound": -1,
   "deathAnim": 6951,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 30000,
   "maxHit": 369,

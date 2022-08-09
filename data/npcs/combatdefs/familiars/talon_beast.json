@@ -3,9 +3,12 @@
     "Talon beast"
   ],
   "attackAnim": 5989,
+  "attackSound": -1,
   "defenceAnim": 5988,
+  "defendSound": -1,
   "deathAnim": 5990,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 4540,
   "maxHit": 100,

@@ -3,9 +3,12 @@
     "Giant crypt rat"
   ],
   "attackAnim": 15514,
+  "attackSound": -1,
   "defenceAnim": 14861,
+  "defendSound": -1,
   "deathAnim": 15518,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 700,
   "maxHit": 90,

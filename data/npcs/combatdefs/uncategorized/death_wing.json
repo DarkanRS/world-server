@@ -3,9 +3,12 @@
     "Death wing"
   ],
   "attackAnim": 4915,
+  "attackSound": -1,
   "defenceAnim": 4916,
+  "defendSound": -1,
   "deathAnim": 4917,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 780,
   "maxHit": 80,

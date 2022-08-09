@@ -3,9 +3,12 @@
     "Grifolapine"
   ],
   "attackAnim": 15486,
+  "attackSound": -1,
   "defenceAnim": 15485,
+  "defendSound": -1,
   "deathAnim": 15488,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2000,
   "maxHit": 234,

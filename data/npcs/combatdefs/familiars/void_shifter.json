@@ -3,9 +3,12 @@
     "Void shifter"
   ],
   "attackAnim": 8131,
+  "attackSound": -1,
   "defenceAnim": 8132,
+  "defendSound": -1,
   "deathAnim": 8133,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1210,
   "maxHit": 44,

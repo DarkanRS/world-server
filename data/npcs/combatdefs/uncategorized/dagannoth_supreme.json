@@ -3,9 +3,12 @@
     "Dagannoth Supreme"
   ],
   "attackAnim": 2855,
+  "attackSound": -1,
   "defenceAnim": 2852,
+  "defendSound": -1,
   "deathAnim": 2856,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2560,
   "maxHit": 300,

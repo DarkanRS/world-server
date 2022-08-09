@@ -3,9 +3,12 @@
     "Forgotten warrior"
   ],
   "attackAnim": 401,
+  "attackSound": -1,
   "defenceAnim": 13038,
+  "defendSound": -1,
   "deathAnim": 836,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 600,
   "maxHit": 120,

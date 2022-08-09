@@ -3,9 +3,12 @@
     "Molanisk"
   ],
   "attackAnim": 6012,
+  "attackSound": -1,
   "defenceAnim": 6015,
+  "defendSound": -1,
   "deathAnim": 6014,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 520,
   "maxHit": 53,

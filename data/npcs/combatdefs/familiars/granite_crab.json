@@ -3,9 +3,12 @@
     "Granite crab"
   ],
   "attackAnim": 8104,
+  "attackSound": -1,
   "defenceAnim": 8105,
+  "defendSound": -1,
   "deathAnim": 8106,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 160,
   "maxHit": 40,

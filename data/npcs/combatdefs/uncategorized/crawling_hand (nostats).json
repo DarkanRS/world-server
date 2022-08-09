@@ -3,9 +3,12 @@
     "Crawling hand"
   ],
   "attackAnim": 9125,
+  "attackSound": -1,
   "defenceAnim": 9127,
+  "defendSound": -1,
   "deathAnim": 9126,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1,
   "maxHit": 1,

@@ -3,9 +3,12 @@
     "Nomad"
   ],
   "attackAnim": -1,
+  "attackSound": -1,
   "defenceAnim": 12693,
+  "defendSound": -1,
   "deathAnim": 12694,
   "deathDelay": 10,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 10000,
   "maxHit": 322,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 5,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

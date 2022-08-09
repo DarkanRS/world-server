@@ -3,9 +3,12 @@
     "Spiritual guardian"
   ],
   "attackAnim": 390,
+  "attackSound": -1,
   "defenceAnim": 387,
+  "defendSound": -1,
   "deathAnim": 4200,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1,
   "maxHit": 1,

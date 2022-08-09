@@ -3,9 +3,12 @@
     "Compost mound"
   ],
   "attackAnim": 7769,
+  "attackSound": -1,
   "defenceAnim": 7771,
+  "defendSound": -1,
   "deathAnim": 7770,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 930,
   "maxHit": 37,

@@ -3,9 +3,12 @@
     "Mutated jadinko male"
   ],
   "attackAnim": 3214,
+  "attackSound": -1,
   "defenceAnim": 3209,
+  "defendSound": -1,
   "deathAnim": 3232,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2800,
   "maxHit": 385,

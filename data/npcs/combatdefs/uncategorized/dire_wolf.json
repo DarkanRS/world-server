@@ -3,9 +3,12 @@
     "Dire Wolf"
   ],
   "attackAnim": 6559,
+  "attackSound": -1,
   "defenceAnim": 6557,
+  "defendSound": -1,
   "deathAnim": 6558,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 850,
   "maxHit": 80,

@@ -3,9 +3,12 @@
     "Abyssal parasite"
   ],
   "attackAnim": 8910,
+  "attackSound": -1,
   "defenceAnim": 7670,
+  "defendSound": -1,
   "deathAnim": 7671,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2340,
   "maxHit": 70,

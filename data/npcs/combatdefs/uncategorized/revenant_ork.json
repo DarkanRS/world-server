@@ -3,9 +3,12 @@
     "Revenant ork"
   ],
   "attackAnim": 7411,
+  "attackSound": -1,
   "defenceAnim": 7413,
+  "defendSound": -1,
   "deathAnim": 7412,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 236,
   "hitpoints": 1080,
   "maxHit": 270,
@@ -22,7 +25,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 5,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

@@ -3,9 +3,12 @@
     "Mithril minotaur"
   ],
   "attackAnim": 8024,
+  "attackSound": -1,
   "defenceAnim": 8023,
+  "defendSound": -1,
   "deathAnim": 8025,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 3400,
   "maxHit": 110,

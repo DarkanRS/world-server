@@ -3,9 +3,12 @@
     "Balfrug Kreeyath"
   ],
   "attackAnim": 7033,
+  "attackSound": -1,
   "defenceAnim": 65,
+  "defendSound": -1,
   "deathAnim": 67,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 1610,
   "maxHit": 170,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": 1213,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

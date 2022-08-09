@@ -3,9 +3,12 @@
     "Brine rat"
   ],
   "attackAnim": 6117,
+  "attackSound": -1,
   "defenceAnim": 6116,
+  "defendSound": -1,
   "deathAnim": 6115,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 500,
   "maxHit": 93,

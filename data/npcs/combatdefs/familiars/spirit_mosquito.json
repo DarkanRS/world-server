@@ -3,9 +3,12 @@
     "Spirit mosquito"
   ],
   "attackAnim": 8032,
+  "attackSound": -1,
   "defenceAnim": 8034,
+  "defendSound": -1,
   "deathAnim": 8033,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 430,
   "maxHit": 42,

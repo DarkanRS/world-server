@@ -3,9 +3,12 @@
     "Living rock protector"
   ],
   "attackAnim": 12204,
+  "attackSound": -1,
   "defenceAnim": 12194,
+  "defendSound": -1,
   "deathAnim": 12199,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 239,
   "hitpoints": 2000,
   "maxHit": 120,

@@ -3,9 +3,12 @@
     "Entrana firebird"
   ],
   "attackAnim": 6811,
+  "attackSound": -1,
   "defenceAnim": 6810,
+  "defendSound": -1,
   "deathAnim": 6812,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 50,
   "maxHit": 10,

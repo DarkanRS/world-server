@@ -3,9 +3,12 @@
     "Spirit wolf"
   ],
   "attackAnim": 8292,
+  "attackSound": -1,
   "defenceAnim": 6557,
+  "defendSound": -1,
   "deathAnim": 8295,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 150,
   "maxHit": 40,

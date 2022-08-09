@@ -3,9 +3,12 @@
     "Living rock striker"
   ],
   "attackAnim": 12204,
+  "attackSound": -1,
   "defenceAnim": 12194,
+  "defendSound": -1,
   "deathAnim": 12199,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 239,
   "hitpoints": 3160,
   "maxHit": 140,
@@ -14,7 +17,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 5,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

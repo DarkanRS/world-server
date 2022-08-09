@@ -3,9 +3,12 @@
     "Leech"
   ],
   "attackAnim": 1273,
+  "attackSound": -1,
   "defenceAnim": 1271,
+  "defendSound": -1,
   "deathAnim": 1272,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 450,
   "maxHit": 40,

@@ -3,9 +3,12 @@
     "Glacor"
   ],
   "attackAnim": 9955,
+  "attackSound": -1,
   "defenceAnim": 9962,
+  "defendSound": -1,
   "deathAnim": 9961,
   "deathDelay": 2,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 5000,
   "maxHit": 260,
@@ -14,7 +17,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 5,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

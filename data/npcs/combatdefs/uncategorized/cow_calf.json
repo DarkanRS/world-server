@@ -3,9 +3,12 @@
     "Cow calf"
   ],
   "attackAnim": 5332,
+  "attackSound": -1,
   "defenceAnim": 5330,
+  "defendSound": -1,
   "deathAnim": 5331,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 69,
   "maxHit": 11,

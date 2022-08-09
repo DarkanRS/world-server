@@ -3,9 +3,12 @@
     "Jungle savage"
   ],
   "attackAnim": 428,
+  "attackSound": -1,
   "defenceAnim": 431,
+  "defendSound": -1,
   "deathAnim": 836,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 900,
   "maxHit": 140,

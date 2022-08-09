@@ -3,9 +3,12 @@
     "Albino rat"
   ],
   "attackAnim": 15514,
+  "attackSound": -1,
   "defenceAnim": 14861,
+  "defendSound": -1,
   "deathAnim": 15518,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 680,
   "maxHit": 50,

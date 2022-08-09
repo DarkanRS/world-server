@@ -4,9 +4,12 @@
     "Gnome"
   ],
   "attackAnim": 190,
+  "attackSound": -1,
   "defenceAnim": 193,
+  "defendSound": -1,
   "deathAnim": 196,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 100,
   "maxHit": 20,

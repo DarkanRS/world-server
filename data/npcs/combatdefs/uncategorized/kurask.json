@@ -3,9 +3,12 @@
     "Kurask"
   ],
   "attackAnim": 9439,
+  "attackSound": -1,
   "defenceAnim": 9441,
+  "defendSound": -1,
   "deathAnim": 9440,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 970,
   "maxHit": 120,

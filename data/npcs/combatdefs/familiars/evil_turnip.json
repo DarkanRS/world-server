@@ -3,9 +3,12 @@
     "Evil turnip"
   ],
   "attackAnim": 8248,
+  "attackSound": -1,
   "defenceAnim": 8249,
+  "defendSound": -1,
   "deathAnim": 8250,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1670,
   "maxHit": 58,

@@ -3,9 +3,12 @@
     "Crypt rat"
   ],
   "attackAnim": 240,
+  "attackSound": -1,
   "defenceAnim": 241,
+  "defendSound": -1,
   "deathAnim": 243,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 350,
   "maxHit": 30,

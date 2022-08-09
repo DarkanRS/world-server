@@ -3,9 +3,12 @@
     "Warped gulega"
   ],
   "attackAnim": 15001,
+  "attackSound": -1,
   "defenceAnim": 15000,
+  "defendSound": -1,
   "deathAnim": 15003,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1,
   "maxHit": 1,

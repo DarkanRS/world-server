@@ -3,9 +3,12 @@
     "Bree"
   ],
   "attackAnim": 7009,
+  "attackSound": -1,
   "defenceAnim": 7010,
+  "defendSound": -1,
   "deathAnim": 7011,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 1620,
   "maxHit": 210,
@@ -21,7 +24,7 @@
   "attackGfx": 1187,
   "attackProjectile": 1188,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

@@ -3,9 +3,12 @@
     "Arctic bear"
   ],
   "attackAnim": 5327,
+  "attackSound": -1,
   "defenceAnim": 5328,
+  "defendSound": -1,
   "deathAnim": 5329,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 3810,
   "maxHit": 92,

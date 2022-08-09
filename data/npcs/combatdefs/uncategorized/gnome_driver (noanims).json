@@ -3,9 +3,12 @@
     "Gnome Driver"
   ],
   "attackAnim": 191,
+  "attackSound": -1,
   "defenceAnim": 193,
+  "defendSound": -1,
   "deathAnim": 196,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 100,
   "maxHit": 10,

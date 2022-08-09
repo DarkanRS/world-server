@@ -3,9 +3,12 @@
     "Obsidian golem"
   ],
   "attackAnim": 8050,
+  "attackSound": -1,
   "defenceAnim": 8051,
+  "defendSound": -1,
   "deathAnim": 8052,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 4060,
   "maxHit": 120,

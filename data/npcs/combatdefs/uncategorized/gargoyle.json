@@ -3,9 +3,12 @@
     "Gargoyle"
   ],
   "attackAnim": 9454,
+  "attackSound": -1,
   "defenceAnim": 9455,
+  "defendSound": -1,
   "deathAnim": 9513,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1050,
   "maxHit": 119,

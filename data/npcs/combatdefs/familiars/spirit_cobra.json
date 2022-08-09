@@ -3,9 +3,12 @@
     "Spirit cobra"
   ],
   "attackAnim": 8152,
+  "attackSound": -1,
   "defenceAnim": 8154,
+  "defendSound": -1,
   "deathAnim": 8153,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 3140,
   "maxHit": 82,

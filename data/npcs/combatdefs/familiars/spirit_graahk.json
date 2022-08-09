@@ -3,9 +3,12 @@
     "Spirit graahk"
   ],
   "attackAnim": 5229,
+  "attackSound": -1,
   "defenceAnim": 5227,
+  "defendSound": -1,
   "deathAnim": 5230,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2680,
   "maxHit": 75,

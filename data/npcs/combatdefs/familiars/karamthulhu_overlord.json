@@ -3,9 +3,12 @@
     "Karamthulhu overlord"
   ],
   "attackAnim": 7963,
+  "attackSound": -1,
   "defenceAnim": 7962,
+  "defendSound": -1,
   "deathAnim": 7964,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2760,
   "maxHit": 76,

@@ -3,9 +3,12 @@
     "Steel titan"
   ],
   "attackAnim": 8183,
+  "attackSound": -1,
   "defenceAnim": 8185,
+  "defendSound": -1,
   "deathAnim": 8184,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 7540,
   "maxHit": 244,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 6,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

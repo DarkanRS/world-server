@@ -3,13 +3,15 @@
     "Spirit Tz-Kih"
   ],
   "attackAnim": 8257,
+  "attackSound": -1,
   "defenceAnim": 8256,
+  "defendSound": -1,
   "deathAnim": 8258,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 630,
   "maxHit": 50,
-  "attackStyle": "MAGIC",
   "combatLevels": {
     "ATTACK": 20,
     "RANGE": 20,
@@ -21,7 +23,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 6,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

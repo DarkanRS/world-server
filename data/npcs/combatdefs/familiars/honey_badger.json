@@ -3,9 +3,12 @@
     "Honey badger"
   ],
   "attackAnim": 7928,
+  "attackSound": -1,
   "defenceAnim": 7927,
+  "defendSound": -1,
   "deathAnim": 7925,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1100,
   "maxHit": 41,

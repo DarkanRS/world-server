@@ -3,9 +3,12 @@
     "Suqah"
   ],
   "attackAnim": 4388,
+  "attackSound": -1,
   "defenceAnim": 4385,
+  "defendSound": -1,
   "deathAnim": 4389,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 29,
   "hitpoints": 1050,
   "maxHit": 100,

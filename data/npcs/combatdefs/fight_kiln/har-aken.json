@@ -3,9 +3,12 @@
     "Har-Aken"
   ],
   "attackAnim": -1,
+  "attackSound": -1,
   "defenceAnim": 16246,
+  "defendSound": -1,
   "deathAnim": 16235,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 12800,
   "maxHit": 1,

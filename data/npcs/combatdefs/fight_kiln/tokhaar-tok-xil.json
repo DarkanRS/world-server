@@ -3,9 +3,12 @@
     "TokHaar-Tok-Xil"
   ],
   "attackAnim": 16131,
+  "attackSound": -1,
   "defenceAnim": 16130,
+  "defendSound": -1,
   "deathAnim": 16110,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 700,
   "maxHit": 234,

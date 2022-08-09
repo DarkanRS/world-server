@@ -3,9 +3,12 @@
     "Saradomin priest"
   ],
   "attackAnim": 811,
+  "attackSound": -1,
   "defenceAnim": 424,
+  "defendSound": -1,
   "deathAnim": 836,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 29,
   "hitpoints": 890,
   "maxHit": 200,

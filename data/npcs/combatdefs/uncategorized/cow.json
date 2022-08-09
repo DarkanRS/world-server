@@ -3,9 +3,12 @@
     "Cow"
   ],
   "attackAnim": 245,
+  "attackSound": -1,
   "defenceAnim": 150,
+  "defendSound": -1,
   "deathAnim": 244,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 107,
   "maxHit": 15,

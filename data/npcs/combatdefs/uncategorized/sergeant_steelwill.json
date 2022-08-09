@@ -3,9 +3,12 @@
     "Sergeant Steelwill"
   ],
   "attackAnim": 6154,
+  "attackSound": -1,
   "defenceAnim": 6155,
+  "defendSound": -1,
   "deathAnim": 6156,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 1270,
   "maxHit": 170,
@@ -21,7 +24,7 @@
   "attackGfx": 1202,
   "attackProjectile": 1203,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

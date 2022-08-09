@@ -3,9 +3,12 @@
     "Vyrewatch guard"
   ],
   "attackAnim": 36,
+  "attackSound": -1,
   "defenceAnim": 4704,
+  "defendSound": -1,
   "deathAnim": 4708,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1,
   "maxHit": 1,

@@ -3,9 +3,12 @@
     "Dust devil"
   ],
   "attackAnim": 1557,
+  "attackSound": -1,
   "defenceAnim": 1555,
+  "defendSound": -1,
   "deathAnim": 1558,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1050,
   "maxHit": 90,

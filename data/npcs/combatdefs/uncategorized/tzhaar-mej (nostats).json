@@ -3,9 +3,12 @@
     "TzHaar-Mej"
   ],
   "attackAnim": 16122,
+  "attackSound": -1,
   "defenceAnim": 16124,
+  "defendSound": -1,
   "deathAnim": 16123,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1000,
   "maxHit": 134,
