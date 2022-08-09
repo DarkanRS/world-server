@@ -3,9 +3,12 @@
     "Renegade Knight"
   ],
   "attackAnim": 6896,
+  "attackSound": -1,
   "defenceAnim": 388,
+  "defendSound": -1,
   "deathAnim": 6897,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 490,
   "maxHit": 75,

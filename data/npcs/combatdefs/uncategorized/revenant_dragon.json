@@ -3,9 +3,12 @@
     "Revenant dragon"
   ],
   "attackAnim": 14261,
+  "attackSound": -1,
   "defenceAnim": 14264,
+  "defendSound": -1,
   "deathAnim": 14265,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1550,
   "maxHit": 302,
@@ -22,7 +25,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 5,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

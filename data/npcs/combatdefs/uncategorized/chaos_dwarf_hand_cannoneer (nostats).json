@@ -3,9 +3,12 @@
     "Chaos dwarf hand cannoneer"
   ],
   "attackAnim": 12141,
+  "attackSound": -1,
   "defenceAnim": -1,
+  "defendSound": -1,
   "deathAnim": 12181,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1220,
   "maxHit": 110,

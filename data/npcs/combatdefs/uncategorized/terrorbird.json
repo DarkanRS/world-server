@@ -3,9 +3,12 @@
     "Terrorbird"
   ],
   "attackAnim": 1010,
+  "attackSound": -1,
   "defenceAnim": 1012,
+  "defendSound": -1,
   "deathAnim": 1013,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 340,
   "maxHit": 30,

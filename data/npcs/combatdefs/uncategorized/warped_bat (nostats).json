@@ -3,9 +3,12 @@
     "Warped bat"
   ],
   "attackAnim": 12461,
+  "attackSound": -1,
   "defenceAnim": 12462,
+  "defendSound": -1,
   "deathAnim": 8276,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 113,
   "maxHit": 20,

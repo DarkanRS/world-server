@@ -3,9 +3,12 @@
     "Abyssal titan"
   ],
   "attackAnim": 7693,
+  "attackSound": -1,
   "defenceAnim": 7691,
+  "defendSound": -1,
   "deathAnim": 7979,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 6670,
   "maxHit": 229,

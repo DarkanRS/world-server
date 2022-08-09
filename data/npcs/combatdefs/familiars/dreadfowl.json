@@ -3,9 +3,12 @@
     "Dreadfowl"
   ],
   "attackAnim": 7810,
+  "attackSound": -1,
   "defenceAnim": 5388,
+  "defendSound": -1,
   "deathAnim": 5389,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 160,
   "maxHit": 40,

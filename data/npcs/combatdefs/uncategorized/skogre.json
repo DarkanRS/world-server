@@ -3,9 +3,12 @@
     "Skogre"
   ],
   "attackAnim": 11438,
+  "attackSound": -1,
   "defenceAnim": 11437,
+  "defendSound": -1,
   "deathAnim": 11435,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 710,
   "maxHit": 50,

@@ -3,9 +3,12 @@
     "Rockslug"
   ],
   "attackAnim": 9506,
+  "attackSound": -1,
   "defenceAnim": 9508,
+  "defendSound": -1,
   "deathAnim": 9507,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 270,
   "maxHit": 41,

@@ -3,9 +3,12 @@
     "Rock Crab"
   ],
   "attackAnim": 1313,
+  "attackSound": -1,
   "defenceAnim": 1312,
+  "defendSound": -1,
   "deathAnim": 1314,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 510,
   "maxHit": 15,

@@ -3,9 +3,12 @@
     "Living rock patriarch"
   ],
   "attackAnim": 12205,
+  "attackSound": -1,
   "defenceAnim": 12201,
+  "defendSound": -1,
   "deathAnim": 12206,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 7199,
   "hitpoints": 4000,
   "maxHit": 160,

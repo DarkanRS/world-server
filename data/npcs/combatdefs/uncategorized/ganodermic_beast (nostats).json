@@ -3,9 +3,12 @@
     "Ganodermic beast"
   ],
   "attackAnim": 15470,
+  "attackSound": -1,
   "defenceAnim": 15468,
+  "defendSound": -1,
   "deathAnim": 15473,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2500,
   "maxHit": 264,

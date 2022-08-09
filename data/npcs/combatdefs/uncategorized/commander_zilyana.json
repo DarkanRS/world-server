@@ -3,9 +3,12 @@
     "Commander Zilyana"
   ],
   "attackAnim": 6964,
+  "attackSound": -1,
   "defenceAnim": 6966,
+  "defendSound": -1,
   "deathAnim": 6965,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 2550,
   "maxHit": 315,

@@ -3,9 +3,12 @@
     "TzHaar-Ket"
   ],
   "attackAnim": 16180,
+  "attackSound": -1,
   "defenceAnim": 16096,
+  "defendSound": -1,
   "deathAnim": 16181,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1400,
   "maxHit": 154,

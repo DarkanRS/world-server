@@ -3,9 +3,12 @@
     "Cockatrice"
   ],
   "attackAnim": 7762,
+  "attackSound": -1,
   "defenceAnim": 7761,
+  "defendSound": -1,
   "deathAnim": 7763,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 370,
   "maxHit": 51,

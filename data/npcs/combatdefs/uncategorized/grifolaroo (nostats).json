@@ -3,9 +3,12 @@
     "Grifolaroo"
   ],
   "attackAnim": 15492,
+  "attackSound": -1,
   "defenceAnim": 15497,
+  "defendSound": -1,
   "deathAnim": 15499,
   "deathDelay": 10,
+  "deathSound": -1,
   "respawnDelay": 119,
   "hitpoints": 1780,
   "maxHit": 175,

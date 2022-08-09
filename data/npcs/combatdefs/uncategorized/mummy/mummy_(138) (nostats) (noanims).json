@@ -11,9 +11,12 @@
     1968
   ],
   "attackAnim": -1,
+  "attackSound": -1,
   "defenceAnim": -1,
+  "defendSound": -1,
   "deathAnim": -1,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 680,
   "maxHit": 60,

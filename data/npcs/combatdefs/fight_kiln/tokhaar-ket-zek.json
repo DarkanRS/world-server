@@ -3,9 +3,12 @@
     "TokHaar-Ket-Zek"
   ],
   "attackAnim": 16134,
+  "attackSound": -1,
   "defenceAnim": 16135,
+  "defendSound": -1,
   "deathAnim": 16111,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2000,
   "maxHit": 780,

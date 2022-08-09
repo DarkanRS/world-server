@@ -3,9 +3,12 @@
     "Wormbrain"
   ],
   "attackAnim": 6184,
+  "attackSound": -1,
   "defenceAnim": 6189,
+  "defendSound": -1,
   "deathAnim": 6182,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 50,
   "maxHit": 0,

@@ -3,9 +3,12 @@
     "Nechryael"
   ],
   "attackAnim": 9487,
+  "attackSound": -1,
   "defenceAnim": 9489,
+  "defendSound": -1,
   "deathAnim": 9488,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1050,
   "maxHit": 119,

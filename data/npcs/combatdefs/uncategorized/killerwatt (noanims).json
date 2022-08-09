@@ -3,9 +3,12 @@
     "Killerwatt"
   ],
   "attackAnim": 11937,
+  "attackSound": -1,
   "defenceAnim": 11938,
+  "defendSound": -1,
   "deathAnim": 11939,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 510,
   "maxHit": 64,

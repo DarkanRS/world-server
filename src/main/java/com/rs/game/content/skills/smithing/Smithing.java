@@ -274,6 +274,7 @@ public class Smithing extends PlayerAction {
 
 		player.getInventory().deleteItem(item.bar.getId(), amount);
 		player.getInventory().addItemDrop(item.product);
+		player.incrementCount(item.product.getName() + " smithed", item.product.getAmount());
 		player.getSkills().addXp(Constants.SMITHING, item.xp);
 		if (ticks > 0)
 			return 3;

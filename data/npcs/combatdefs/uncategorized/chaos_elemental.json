@@ -3,9 +3,12 @@
     "Chaos Elemental"
   ],
   "attackAnim": 5443,
+  "attackSound": -1,
   "defenceAnim": 5444,
+  "defendSound": -1,
   "deathAnim": 5446,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 119,
   "hitpoints": 2500,
   "maxHit": 284,
@@ -17,11 +20,11 @@
     "DEFENSE": 270,
     "MAGE": 270
   },
-  "attackRange": -1,
+  "attackRange": 12,
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 10,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

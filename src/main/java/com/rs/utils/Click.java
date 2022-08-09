@@ -21,13 +21,13 @@ public class Click {
 	private int x;
 	private int y;
 	private int time;
-	private long timeMillis;
+	private long tick;
 
-	public Click(int x, int y, int time, long timeMillis) {
+	public Click(int x, int y, int time, long tick) {
 		this.x = x;
 		this.y = y;
 		this.time = time;
-		this.timeMillis = timeMillis;
+		this.tick = tick;
 	}
 
 	public int getX() {
@@ -50,13 +50,13 @@ public class Click {
 		return click2.time == time;
 	}
 
-	public long getTimeMillis() {
-		return timeMillis;
+	public long getTick() {
+		return tick;
 	}
 
 	@Override
 	public String toString() {
-		return "["+x+", "+y+"]: " + time+"ms";
+		return "{ t:"+tick+" ["+x+", "+y+"], " + time+"ms }";
 	}
 
 }

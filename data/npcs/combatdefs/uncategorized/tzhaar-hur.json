@@ -3,9 +3,12 @@
     "TzHaar-Hur"
   ],
   "attackAnim": 16098,
+  "attackSound": -1,
   "defenceAnim": 16173,
+  "defendSound": -1,
   "deathAnim": 16178,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 800,
   "maxHit": 94,

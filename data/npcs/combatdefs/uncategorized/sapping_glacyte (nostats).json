@@ -3,9 +3,12 @@
     "Sapping glacyte"
   ],
   "attackAnim": 9955,
+  "attackSound": -1,
   "defenceAnim": 9962,
+  "defendSound": -1,
   "deathAnim": 9961,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1000,
   "maxHit": 54,

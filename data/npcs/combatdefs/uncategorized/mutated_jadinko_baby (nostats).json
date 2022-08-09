@@ -3,9 +3,12 @@
     "Mutated jadinko baby"
   ],
   "attackAnim": 3009,
+  "attackSound": -1,
   "defenceAnim": 3025,
+  "defendSound": -1,
   "deathAnim": 3011,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1270,
   "maxHit": 170,

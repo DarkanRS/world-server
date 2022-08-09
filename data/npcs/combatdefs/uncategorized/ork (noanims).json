@@ -3,9 +3,12 @@
     "Ork"
   ],
   "attackAnim": 13934,
+  "attackSound": -1,
   "defenceAnim": 13893,
+  "defendSound": -1,
   "deathAnim": 13892,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1100,
   "maxHit": 150,

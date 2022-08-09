@@ -3,9 +3,12 @@
     "Fire elemental"
   ],
   "attackAnim": 1029,
+  "attackSound": -1,
   "defenceAnim": 1030,
+  "defendSound": -1,
   "deathAnim": 1031,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 300,
   "maxHit": 60,

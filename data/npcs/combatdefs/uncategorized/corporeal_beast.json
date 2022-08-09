@@ -3,9 +3,12 @@
     "Corporeal Beast"
   ],
   "attackAnim": 10057,
+  "attackSound": -1,
   "defenceAnim": 10386,
+  "defendSound": -1,
   "deathAnim": 10385,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 99,
   "hitpoints": 20000,
   "maxHit": 513,

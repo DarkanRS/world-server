@@ -3,9 +3,12 @@
     "Warped tortoise"
   ],
   "attackAnim": 7093,
+  "attackSound": -1,
   "defenceAnim": 7092,
+  "defendSound": -1,
   "deathAnim": 7091,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 4,
   "hitpoints": 870,
   "maxHit": 106,

@@ -3,9 +3,12 @@
     "Baby black dragon"
   ],
   "attackAnim": 14270,
+  "attackSound": -1,
   "defenceAnim": 14269,
+  "defendSound": -1,
   "deathAnim": 14271,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 800,
   "maxHit": 81,

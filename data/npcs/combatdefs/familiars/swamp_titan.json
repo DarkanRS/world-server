@@ -3,9 +3,12 @@
     "Swamp titan"
   ],
   "attackAnim": 8222,
+  "attackSound": -1,
   "defenceAnim": 8224,
+  "defendSound": -1,
   "deathAnim": 8226,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 5660,
   "maxHit": 160,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 4,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

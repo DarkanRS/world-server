@@ -3,9 +3,12 @@
     "Wolpertinger"
   ],
   "attackAnim": 8304,
+  "attackSound": -1,
   "defenceAnim": 8306,
+  "defendSound": -1,
   "deathAnim": 8305,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 6510,
   "maxHit": 120,

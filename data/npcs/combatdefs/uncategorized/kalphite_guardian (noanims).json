@@ -3,9 +3,12 @@
     "Kalphite Guardian"
   ],
   "attackAnim": 6224,
+  "attackSound": -1,
   "defenceAnim": 6227,
+  "defendSound": -1,
   "deathAnim": 6228,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1240,
   "maxHit": 124,

@@ -3,9 +3,12 @@
     "Giant mosquito"
   ],
   "attackAnim": 2397,
+  "attackSound": -1,
   "defenceAnim": 2399,
+  "defendSound": -1,
   "deathAnim": 2398,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 150,
   "maxHit": 30,

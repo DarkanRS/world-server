@@ -3,9 +3,12 @@
     "TzHaar-Xil"
   ],
   "attackAnim": 16148,
+  "attackSound": -1,
   "defenceAnim": 16146,
+  "defendSound": -1,
   "deathAnim": 16145,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1200,
   "maxHit": 138,

@@ -27,6 +27,7 @@ import com.google.gson.JsonIOException;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -62,6 +63,10 @@ public class NPCCombatDefMerger {
 			NPCCombatDefinitions def = ORIGINAL.get(file);
 
 			//TODO any bulk processing here
+//			if (def.getAggroDistance() > 60) {
+//				def.aggroDistance = def.getAttackStyle() == AttackStyle.MELEE ? 4 : def.getAttackRange() - 2;
+//				System.out.println("Modified: " + file);
+//			}
 			
 			JsonFileManager.saveJsonFile(def, file);
 			System.out.println("Processed: " + file);

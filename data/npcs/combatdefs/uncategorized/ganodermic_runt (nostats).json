@@ -3,9 +3,12 @@
     "Ganodermic runt"
   ],
   "attackAnim": 14577,
+  "attackSound": -1,
   "defenceAnim": 14578,
+  "defendSound": -1,
   "deathAnim": 14580,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1250,
   "maxHit": 139,

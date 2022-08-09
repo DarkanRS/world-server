@@ -3,9 +3,12 @@
     "TokHaar-Jad"
   ],
   "attackAnim": 16204,
+  "attackSound": -1,
   "defenceAnim": 16201,
+  "defendSound": -1,
   "deathAnim": 16188,
   "deathDelay": 12,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 2500,
   "maxHit": 1014,

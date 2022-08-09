@@ -3,9 +3,12 @@
     "Fire titan"
   ],
   "attackAnim": 7834,
+  "attackSound": -1,
   "defenceAnim": 7832,
+  "defendSound": -1,
   "deathAnim": 7833,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 4760,
   "maxHit": 152,

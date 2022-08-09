@@ -3,9 +3,12 @@
     "Dark beast"
   ],
   "attackAnim": 2731,
+  "attackSound": -1,
   "defenceAnim": 2732,
+  "defendSound": -1,
   "deathAnim": 2733,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2200,
   "maxHit": 0,

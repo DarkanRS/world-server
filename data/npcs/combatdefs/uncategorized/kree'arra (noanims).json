@@ -3,9 +3,12 @@
     "Kree'arra"
   ],
   "attackAnim": -1,
+  "attackSound": -1,
   "defenceAnim": 6974,
+  "defendSound": -1,
   "deathAnim": 6975,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 2550,
   "maxHit": 715,

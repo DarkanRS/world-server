@@ -3,9 +3,12 @@
     "Zombie rat"
   ],
   "attackAnim": 7905,
+  "attackSound": -1,
   "defenceAnim": 4934,
+  "defendSound": -1,
   "deathAnim": 4935,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 50,
   "maxHit": 10,

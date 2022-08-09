@@ -3,9 +3,12 @@
     "Cave horror"
   ],
   "attackAnim": 4234,
+  "attackSound": -1,
   "defenceAnim": 4232,
+  "defendSound": -1,
   "deathAnim": 4233,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 550,
   "maxHit": 90,

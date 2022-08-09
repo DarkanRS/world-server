@@ -3,9 +3,12 @@
     "Bloated leech"
   ],
   "attackAnim": 7657,
+  "attackSound": -1,
   "defenceAnim": 7655,
+  "defendSound": -1,
   "deathAnim": 7656,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2110,
   "maxHit": 65,

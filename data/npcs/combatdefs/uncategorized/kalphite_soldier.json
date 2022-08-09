@@ -3,9 +3,12 @@
     "Kalphite Soldier"
   ],
   "attackAnim": 6223,
+  "attackSound": -1,
   "defenceAnim": 6227,
+  "defendSound": -1,
   "deathAnim": 6229,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 900,
   "maxHit": 80,

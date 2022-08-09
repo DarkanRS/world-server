@@ -3,9 +3,12 @@
     "Spirit dagannoth"
   ],
   "attackAnim": 7786,
+  "attackSound": -1,
   "defenceAnim": 7785,
+  "defendSound": -1,
   "deathAnim": 7780,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 5280,
   "maxHit": 108,

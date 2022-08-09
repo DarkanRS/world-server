@@ -3,9 +3,12 @@
     "Corpse Spider"
   ],
   "attackAnim": 12894,
+  "attackSound": -1,
   "defenceAnim": 12895,
+  "defendSound": -1,
   "deathAnim": 12896,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 47,
   "maxHit": 12,

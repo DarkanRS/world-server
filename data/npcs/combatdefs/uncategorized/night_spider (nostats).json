@@ -3,9 +3,12 @@
     "Night spider"
   ],
   "attackAnim": 5319,
+  "attackSound": -1,
   "defenceAnim": 5320,
+  "defendSound": -1,
   "deathAnim": 5321,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 650,
   "maxHit": 55,

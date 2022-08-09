@@ -3,9 +3,12 @@
     "TokHaar-Ket-Dill"
   ],
   "attackAnim": 16210,
+  "attackSound": -1,
   "defenceAnim": 16160,
+  "defendSound": -1,
   "deathAnim": 16197,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 750,
   "maxHit": 250,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 4,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

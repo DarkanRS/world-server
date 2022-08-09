@@ -3,9 +3,12 @@
     "Delrith"
   ],
   "attackAnim": 64,
+  "attackSound": -1,
   "defenceAnim": 65,
+  "defendSound": -1,
   "deathAnim": 67,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 70,
   "maxHit": 30,

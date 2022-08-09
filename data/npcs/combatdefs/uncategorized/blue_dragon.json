@@ -3,9 +3,12 @@
     "Blue dragon"
   ],
   "attackAnim": 12252,
+  "attackSound": -1,
   "defenceAnim": 12251,
+  "defendSound": -1,
   "deathAnim": 12250,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1050,
   "maxHit": 110,
@@ -22,7 +25,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 4,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }
