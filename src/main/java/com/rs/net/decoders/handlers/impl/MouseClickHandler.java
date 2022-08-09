@@ -16,6 +16,7 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.MouseClick;
@@ -31,8 +32,8 @@ public class MouseClickHandler implements PacketHandler<Player, MouseClick> {
 		player.refreshIdleTime();
 
 		if (player.clickQueue != null) {
-			player.clickQueue.add(new Click(packet.getX(), packet.getY(), packet.getTime(), System.currentTimeMillis()));
-			player.lastClick = new Click(packet.getX(), packet.getY(), packet.getTime(), System.currentTimeMillis());
+			player.clickQueue.add(new Click(packet.getX(), packet.getY(), packet.getTime(), World.getServerTicks()));
+			player.lastClick = new Click(packet.getX(), packet.getY(), packet.getTime(), World.getServerTicks());
 			if (player.clickQueue.size() > 50)
 				player.clickQueue.poll();
 		}

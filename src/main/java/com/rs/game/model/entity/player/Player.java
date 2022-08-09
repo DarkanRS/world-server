@@ -3368,10 +3368,10 @@ public class Player extends Entity {
 		sendMessage("<col=FF0000>Revenants will have no aggression towards you for one hour.");
 	}
 
-	public long getTimeSinceLastClick() {
+	public long getTicksSinceLastClick() {
 		if (lastClick == null)
 			return Long.MAX_VALUE;
-		return System.currentTimeMillis() - lastClick.getTimeMillis();
+		return World.getServerTicks() - lastClick.getTick();
 	}
 
 	public void sendGodwarsKill(NPC npc) {

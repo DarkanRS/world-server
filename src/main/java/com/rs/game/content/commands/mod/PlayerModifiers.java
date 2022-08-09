@@ -16,6 +16,10 @@
 //
 package com.rs.game.content.commands.mod;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.rs.game.World;
 import com.rs.game.content.commands.Commands;
 import com.rs.game.model.entity.player.Player;
@@ -130,6 +134,39 @@ public class PlayerModifiers {
 					p.getPackets().setIFText(275, numa, ": " + click.toString());
 					numa++;
 				}
+			}
+		});
+		
+		Commands.add(Rights.MOD, "clicks [player_name ...]", "Displays the last 200 clicks the players specified have done.", (p, args) -> {
+			List<SimpleEntry<String, Click>> clicks = new ArrayList<>();
+			for (String name : args) {
+				Player target = World.getPlayerByDisplay(name);
+				if (target == null)
+					p.sendMessage("Couldn't find player " + name + ".");
+				else {
+					if (target.clickQueue == null)
+						return;
+					for (Click click : target.clickQueue)
+						clicks.add(new SimpleEntry<String, Click>(name, click));
+				}	
+			}
+			clicks.sort((e1, e2) -> Long.compare(e1.getValue().getTick(), e2.getValue().getTick()));
+			p.getPackets().sendRunScriptReverse(1207, clicks.size());
+			p.getInterfaceManager().sendInterface(275);
+			p.getPackets().setIFText(275, 1, "Past 200 clicks for:  " + Utils.concat(args));
+			int numa = 10;
+			SimpleEntry<String, Click> prev = null;
+			for (SimpleEntry<String, Click> click : clicks) {
+				if (numa > 200)
+					break;
+				boolean flag = false;
+				if (prev != null) {
+					if (prev.getValue().getTick() == click.getValue().getTick() && !prev.getKey().equals(click.getKey()))
+						flag = true;
+				}
+				p.getPackets().setIFText(275, numa, (flag ? "<shad=000000><col=FF0000>" : "") + click.getKey() + ": " + click.getValue().toString());
+				numa++;
+				prev = click;
 			}
 		});
 	}
