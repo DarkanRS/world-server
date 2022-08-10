@@ -66,7 +66,6 @@ public class MerlinsCrystalRitualScene extends Controller {
 	@Override
 	public void forceClose() {
 		player.unlock();
-		removeController();
 	}
 
 }
