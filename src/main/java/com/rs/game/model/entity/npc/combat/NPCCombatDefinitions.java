@@ -56,8 +56,7 @@ public class NPCCombatDefinitions {
 	}
 
 	public enum AggressiveType {
-		PASSIVE,
-		AGGRESSIVE
+		PASSIVE, AGGRESSIVE
 	}
 
 	private transient boolean realStats = true;

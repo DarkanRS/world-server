@@ -324,8 +324,8 @@ public final class ControllerManager {
 
 	public void forceStop() {
 		if (controller != null) {
-			controller.forceClose();
 			controller.onRemove();
+			controller.forceClose();
 			controller = null;
 		}
 		inited = false;

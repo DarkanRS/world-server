@@ -205,6 +205,8 @@ public class Player extends Entity {
 	public transient boolean disconnected = false;
 	private transient int pvpCombatLevelThreshhold = -1;
 	private transient String[] playerOptions = new String[10];
+	
+	private WorldTile lastNonDynamicTile;
 
 	private int hw07Stage;
 
@@ -406,7 +408,6 @@ public class Player extends Entity {
 	public int totalDonated;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
-	private boolean killedQueenBlackDragon;
 	private double runeSpanPoints;
 	private transient double bonusXpRate = 0.0;
 	private int crystalSeedRepairs;
@@ -888,14 +889,7 @@ public class Player extends Entity {
 			delete("isLoggedOutInDungeon");
 			delete("dungeoneering_enter_floor_inventory");
 		}
-		if (getI("cutsceneManagerStartTileX") != -1) {
-			WorldTile tile = new WorldTile(getI("cutsceneManagerStartTileX"), getI("cutsceneManagerStartTileY"), getI("cutsceneManagerStartTileZ"));
-			setNextWorldTile(tile);
-			delete("cutsceneManagerStartTileX");
-			delete("cutsceneManagerStartTileY");
-			delete("cutsceneManagerStartTileZ");
-		}
-
+		checkWasInDynamicRegion();
 		if (isDead())
 			sendDeath(null);
 	}
@@ -3187,25 +3181,6 @@ public class Player extends Entity {
 		this.hpBoostMultiplier = hpBoostMultiplier;
 	}
 
-	/**
-	 * Gets the killedQueenBlackDragon.
-	 *
-	 * @return The killedQueenBlackDragon.
-	 */
-	public boolean isKilledQueenBlackDragon() {
-		return killedQueenBlackDragon;
-	}
-
-	/**
-	 * Sets the killedQueenBlackDragon.
-	 *
-	 * @param killedQueenBlackDragon
-	 *            The killedQueenBlackDragon to set.
-	 */
-	public void setKilledQueenBlackDragon(boolean killedQueenBlackDragon) {
-		this.killedQueenBlackDragon = killedQueenBlackDragon;
-	}
-
 	public boolean hasLargeSceneView() {
 		return largeSceneView;
 	}
@@ -3347,7 +3322,7 @@ public class Player extends Entity {
 			sendMessage("You need to have completed the fight kiln at least once.");
 			return false;
 		}
-		if (!isKilledQueenBlackDragon() && !Settings.getConfig().isDebug()) {
+		if (getNumberKilled("Queen Black Dragon") > 0 && !Settings.getConfig().isDebug()) {
 			sendMessage("You need to have killed the Queen black dragon at least once.");
 			return false;
 		}
@@ -4423,5 +4398,20 @@ public class Player extends Entity {
 	
 	public MachineInformation getMachineInfo() {
 		return machineInformation;
+	}
+	
+	private void checkWasInDynamicRegion() {
+		if (lastNonDynamicTile != null) {
+			setNextWorldTile(new WorldTile(lastNonDynamicTile));
+			clearLastNonDynamicTile();
+		}
+	}
+	
+	public void clearLastNonDynamicTile() {
+		lastNonDynamicTile = null;
+	}
+
+	public void setLastNonDynamicTile(WorldTile lastNonDynamicTile) {
+		this.lastNonDynamicTile = lastNonDynamicTile;
 	}
 }

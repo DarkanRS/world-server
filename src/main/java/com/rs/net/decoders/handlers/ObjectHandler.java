@@ -20,7 +20,6 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.dialogue.Conversation;
@@ -1230,21 +1229,6 @@ public final class ObjectHandler {
 						.addOptions("Slide down the worm burrow?", ops -> {
 							ops.add("Yes.", () -> player.useStairs(new WorldTile(1206, 6506, 0)));
 							ops.add("No.");
-						}));
-			} else if (id == 70812) {
-				player.startConversation(new Dialogue()
-						.addSimple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
-						.addOptions(ops -> {
-							ops.add("Proceed.", () -> {
-								if (player.getSkills().getLevelForXp(Constants.SUMMONING) < 60) {
-									player.sendMessage("You need a Summoning level of 60 to go through this portal.");
-									return;
-								}
-								player.lock();
-								player.getControllerManager().startController(new QueenBlackDragonController());
-								player.setNextAnimation(new Animation(16752));
-							});
-							ops.add("Step away from the portal.");
 						}));
 			} else if (id == 70799)
 				player.useStairs(-1, new WorldTile(1178, 6355, 0));

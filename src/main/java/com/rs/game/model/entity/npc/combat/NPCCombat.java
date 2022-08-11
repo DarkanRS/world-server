@@ -142,7 +142,7 @@ public final class NPCCombat {
 		// checks for no multi area :)
 		if (npc instanceof Familiar familiar && !familiar.canAttack(target))
 			return false;
-		if (!npc.isForceMultiAttacked())
+		if (!(npc instanceof Familiar f && f.getOwner().isForceMultiArea()) && !npc.isForceMultiAttacked())
 			if (!target.isAtMultiArea() || !npc.isAtMultiArea())
 				if ((npc.getAttackedBy() != target && npc.inCombat()) || (target.getAttackedBy() != npc && target.inCombat()))
 					return false;
