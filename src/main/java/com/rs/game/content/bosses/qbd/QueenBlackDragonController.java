@@ -26,16 +26,22 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Controller;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+@PluginEventHandler
 public final class QueenBlackDragonController extends Controller {
 
 	public static final WorldTile OUTSIDE = Settings.getConfig().getPlayerRespawnTile();
@@ -52,18 +58,46 @@ public final class QueenBlackDragonController extends Controller {
 
 	private int platformStand;
 	private transient QueenBlackDragon npc;
-	private DynamicRegionReference region;
-	private WorldTile base;
+	private DynamicRegionReference bossRegion;
+	private WorldTile bossBase;
+	private DynamicRegionReference rewardRegion;
+	private WorldTile rewardBase;
+	
+	public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[] { 70812 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (e.getOption().equals("Investigate")) {
+				e.getPlayer().startConversation(new Dialogue()
+						.addSimple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
+						.addOptions(ops -> {
+							ops.add("Proceed.", () -> enterPortal(e.getPlayer()));
+							ops.add("Step away from the portal.");
+						}));
+			} else if (e.getOption().equals("Pass through"))
+				enterPortal(e.getPlayer());
+		}
+	};
+	
+	private static void enterPortal(Player player) {
+		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < 60) {
+			player.sendMessage("You need a Summoning level of 60 to go through this portal.");
+			return;
+		}
+		player.lock();
+		player.getControllerManager().startController(new QueenBlackDragonController());
+		player.setNextAnimation(new Animation(16752));
+	}
 
 	@Override
 	public void start() {
 		player.lock();
-		region = new DynamicRegionReference(8, 8);
-		region.copyMapAllPlanes(176, 792, () -> {
-			base = region.getBase().transform(0, 0, 1);
+		bossRegion = new DynamicRegionReference(8, 8);
+		bossRegion.copyMapAllPlanes(176, 792, () -> {
+			bossBase = bossRegion.getBase().transform(0, 0, 1);
 			player.fadeScreen(() -> {
-				npc = new QueenBlackDragon(player, base.transform(31, 37, 0), base);
-				player.setNextWorldTile(base.transform(33, 28, 0));
+				player.resetReceivedHits();
+				npc = new QueenBlackDragon(player, bossBase.transform(31, 37, 0), bossBase);
+				player.setNextWorldTile(bossBase.transform(33, 28, 0));
 				player.setLargeSceneView(true);
 				player.setForceMultiArea(true);
 				player.unlock();
@@ -84,31 +118,26 @@ public final class QueenBlackDragonController extends Controller {
 			if (npc.getPhase() < 5)
 				return true;
 			player.lock();
-			player.getPackets().sendAddObject(new GameObject(70849, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
-			player.getPackets().sendAddObject(new GameObject(70837, ObjectType.SCENERY_INTERACT, 0, base.transform(22, 24, -1)));
-			player.getPackets().sendAddObject(new GameObject(70840, ObjectType.SCENERY_INTERACT, 0, base.transform(34, 24, -1)));
-			player.getPackets().sendAddObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
-			player.getPackets().sendAddObject(new GameObject(70818, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
 			player.fadeScreen(() -> {
+				player.resetReceivedHits();
 				player.sendMessage("You descend the stairs that appeared when you defeated the Queen Black Dragon.");
 				player.getPackets().sendVarc(184, -1);
 				npc.finish();
-				DynamicRegionReference old = region;
-				region = new DynamicRegionReference(8, 8);
-				region.copyMapAllPlanes(160, 760, () -> {
-					base = region.getBase().transform(0, 0, 1);
-					player.setNextWorldTile(base.transform(31, 36, -1));
+				rewardRegion = new DynamicRegionReference(8, 8);
+				rewardRegion.copyMapAllPlanes(160, 760, () -> {
+					player.resetReceivedHits();
+					rewardBase = rewardRegion.getBase().transform(0, 0, 0);
+					player.setNextWorldTile(rewardBase.transform(31, 36, 0));
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
 					player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
 					player.unlock();
-					old.destroy();
 				});
 			});
 			return false;
 		}
 		if (object.getId() == 70813) {
-			Magic.sendObjectTeleportSpell(player, true, Settings.getConfig().getPlayerRespawnTile());
+			Magic.sendObjectTeleportSpell(player, true, new WorldTile(2994, 3233, 0));
 			return false;
 		}
 		if (object.getId() == 70814) {
@@ -137,19 +166,28 @@ public final class QueenBlackDragonController extends Controller {
 			switch (object.getId()) {
 			case 70777:
 				player.getPackets().sendVarc(1924, 2);
-				player.getPackets().sendRemoveObject(new GameObject(70843, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+				World.spawnObject(new GameObject(70843, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(24, 21, -1)));
 				break;
 			case 70780:
 				player.getPackets().sendVarc(1924, 4);
-				player.getPackets().sendRemoveObject(new GameObject(70845, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+				World.spawnObject(new GameObject(70845, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(24, 21, -1)));
 				break;
 			case 70783:
 				player.getPackets().sendVarc(1924, 6);
-				player.getPackets().sendRemoveObject(new GameObject(70847, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+				World.spawnObject(new GameObject(70847, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(24, 21, -1)));
 				break;
 			case 70786:
 				player.getPackets().sendVarc(1924, 8);
-				player.getPackets().sendRemoveObject(new GameObject(70849, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+				player.getPackets().sendRemoveObject(new GameObject(70849, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(24, 21, -1)));
+				World.removeObject(new GameObject(70778, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(33, 31, 0)));
+				World.removeObject(new GameObject(70776, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(33, 31, 0)));
+				World.spawnObject(new GameObject(70790, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(31, 29, 0)));
+				World.spawnObject(new GameObject(70775, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(31, 29, -1)));
+				World.spawnObject(new GameObject(70849, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(24, 21, -1)));
+				World.spawnObject(new GameObject(70837, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(22, 24, -1)));
+				World.spawnObject(new GameObject(70840, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(34, 24, -1)));
+				World.spawnObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(21, 35, -1)));
+				World.spawnObject(new GameObject(70818, ObjectType.SCENERY_INTERACT, 0, bossBase.transform(39, 35, -1)));
 				break;
 			}
 			return false;
@@ -161,7 +199,7 @@ public final class QueenBlackDragonController extends Controller {
 	public void process() {
 		if (npc == null)
 			return;
-		if (player.getY() < base.getY() + 28) {
+		if (player.getY() < bossBase.getY() + 28) {
 			if (npc.hasFinished())
 				return;
 			if (platformStand++ == 6) {
@@ -175,18 +213,18 @@ public final class QueenBlackDragonController extends Controller {
 
 	@Override
 	public boolean checkWalkStep(int lastX, int lastY, int nextX, int nextY) {
-		if (npc != null && nextY < base.getY() + 28) {
+		if (npc != null && nextY < bossBase.getY() + 28) {
 			if (npc.getPhase() > 1) {
 				for (int[] step : PLATFORM_STEPS[0])
-					if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY)
+					if (bossBase.getX() + (step[0] - 64) == nextX && bossBase.getY() + (step[1] - 64) == nextY)
 						return true;
 				if (npc.getPhase() > 2) {
 					for (int[] step : PLATFORM_STEPS[1])
-						if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY)
+						if (bossBase.getX() + (step[0] - 64) == nextX && bossBase.getY() + (step[1] - 64) == nextY)
 							return true;
 					if (npc.getPhase() > 3)
 						for (int[] step : PLATFORM_STEPS[2])
-							if (base.getX() + (step[0] - 64) == nextX && base.getY() + (step[1] - 64) == nextY)
+							if (bossBase.getX() + (step[0] - 64) == nextX && bossBase.getY() + (step[1] - 64) == nextY)
 								return true;
 				}
 			}
@@ -303,11 +341,13 @@ public final class QueenBlackDragonController extends Controller {
 		removeController();
 		if (npc != null)
 			player.getBank().addItems(npc.getRewards().toArray(), false);
-		region.destroy();
+		bossRegion.destroy();
+		if (rewardRegion != null)
+			rewardRegion.destroy();
 	}
 
 	public WorldTile getBase() {
-		return base;
+		return bossBase;
 	}
 
 	public QueenBlackDragon getNpc() {

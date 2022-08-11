@@ -610,6 +610,12 @@ public abstract class Entity {
 			World.updateEntityRegion(this);
 			if (needMapUpdate())
 				loadMapRegions();
+			if (player != null) {
+				if (World.getRegion(getRegionId(), true) instanceof DynamicRegion)
+					player.setLastNonDynamicTile(new WorldTile(lastWorldTile));
+				else
+					player.clearLastNonDynamicTile();
+			}
 			resetWalkSteps();
 			return;
 		}

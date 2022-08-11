@@ -32,6 +32,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
+import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.commands.Commands;
@@ -126,6 +127,10 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "qbd", "Start qbd", (p, args) -> {
+			p.getControllerManager().startController(new QueenBlackDragonController());
 		});
 		
 		/**
