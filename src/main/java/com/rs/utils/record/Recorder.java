@@ -85,6 +85,8 @@ public class Recorder {
 		long startTime = initialActions.get(0).getValue().getTimeLogged();
 		player.getPackets().sendDevConsoleMessage("Starting watch for: " + Arrays.toString(displayNames));
 		WorldTasks.scheduleTimer(tick -> {
+			if (player == null || !player.isRunning() || player.hasFinished())
+				return false;
 			List<SimpleEntry<String, RecordedAction>> actions = getActionsFor(displayNames);
 			player.getNSV().setO("lastWatchActionLogged", initialActions.get(0));
 			if (actions == null || actions.isEmpty() || player.getNSV().getB("stopWatchActionLoop")) {
