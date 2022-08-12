@@ -14,49 +14,17 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.utils;
+package com.rs.net.decoders.handlers.impl.record;
 
-public class Click {
+import com.rs.game.model.entity.player.Player;
+import com.rs.lib.net.packets.PacketHandler;
+import com.rs.lib.net.packets.decoders.mouse.MouseClick;
+import com.rs.utils.record.impl.ClickJav;
 
-	private int x;
-	private int y;
-	private int time;
-	private long tick;
-
-	public Click(int x, int y, int time, long tick) {
-		this.x = x;
-		this.y = y;
-		this.time = time;
-		this.tick = tick;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getTime() {
-		return time;
-	}
-
-	public boolean sameSpot(Click click2) {
-		return click2.x == x && click2.y == y;
-	}
-
-	public boolean sameTime(Click click2) {
-		return click2.time == time;
-	}
-
-	public long getTick() {
-		return tick;
-	}
+public class MouseClickHandler implements PacketHandler<Player, MouseClick> {
 
 	@Override
-	public String toString() {
-		return "{ t:"+tick+" ["+x+", "+y+"], " + time+"ms }";
+	public void handle(Player player, MouseClick packet) {
+		player.getRecorder().record(new ClickJav(packet.getTimeRecieved(), packet.getTime(), packet.getX(), packet.getY(), packet.getMouseButton()));
 	}
-
 }

@@ -23,10 +23,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -161,9 +159,9 @@ import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.LoginEvent;
-import com.rs.utils.Click;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
+import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 
 public class Player extends Entity {
@@ -282,11 +280,9 @@ public class Player extends Entity {
 	private Set<Reward> favoritedLoyaltyRewards;
 
 	private Map<Tools, Integer> toolbelt;
-
+	
 	private transient ArrayList<String> attackedBy = new ArrayList<>();
-
-	public transient Queue<Click> clickQueue = new LinkedList<>();
-	public transient Click lastClick;
+	private transient Recorder recorder;
 
 	public int[] artisanOres = new int[5];
 	public double artisanXp = 0.0;
@@ -655,6 +651,7 @@ public class Player extends Entity {
 			herbicideSettings = new HashSet<>();
 		if (notes == null)
 			notes = new Notes();
+		recorder = new Recorder(this);
 		reflectionAnalyses = new HashMap<>();
 		attackedBy = new ArrayList<>();
 		interfaceManager = new InterfaceManager(this);
@@ -691,8 +688,6 @@ public class Player extends Entity {
 		setFaceAngle(Utils.getAngleTo(0, -1));
 		tempMoveType = null;
 		initEntity();
-		if (clickQueue == null)
-			clickQueue = new LinkedList<>();
 		if (pouchesType == null)
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
@@ -3343,10 +3338,8 @@ public class Player extends Entity {
 		sendMessage("<col=FF0000>Revenants will have no aggression towards you for one hour.");
 	}
 
-	public long getTicksSinceLastClick() {
-		if (lastClick == null)
-			return Long.MAX_VALUE;
-		return World.getServerTicks() - lastClick.getTick();
+	public long getTicksSinceLastAction() {
+		return recorder.getTicksSinceLastAction();
 	}
 
 	public void sendGodwarsKill(NPC npc) {
@@ -4413,5 +4406,9 @@ public class Player extends Entity {
 
 	public void setLastNonDynamicTile(WorldTile lastNonDynamicTile) {
 		this.lastNonDynamicTile = lastNonDynamicTile;
+	}
+
+	public Recorder getRecorder() {
+		return recorder;
 	}
 }
