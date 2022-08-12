@@ -1,6 +1,6 @@
 package com.rs.utils.record.impl;
 
-public class ClickHW extends ClickJav {
+public class ClickHW extends Click {
 
 	private boolean hardware;
 	
