@@ -14,28 +14,39 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.net.decoders.handlers.impl;
+package com.rs.utils.record;
 
 import com.rs.game.World;
-import com.rs.game.model.entity.player.Player;
-import com.rs.lib.net.packets.PacketHandler;
-import com.rs.lib.net.packets.decoders.MouseClick;
-import com.rs.utils.Click;
 
-public class MouseClickHandler implements PacketHandler<Player, MouseClick> {
+public class RecordedAction implements Comparable<RecordedAction> {
+	private int time;
+	private long tick;
+	private long timeLogged;
+
+	public RecordedAction(long timeLogged, int time) {
+		this.timeLogged = timeLogged;
+		this.time = time;
+		this.tick = World.getServerTicks();
+	}
 
 	@Override
-	public void handle(Player player, MouseClick packet) {
-		if (packet.getTime() <= 1)
-			return;
+	public int compareTo(RecordedAction other) {
+		return Long.compare(timeLogged, other.timeLogged);
+	}
 
-		player.refreshIdleTime();
+	public int getTime() {
+		return time;
+	}
 
-		if (player.clickQueue != null) {
-			player.clickQueue.add(new Click(packet.getX(), packet.getY(), packet.getTime(), World.getServerTicks()));
-			player.lastClick = new Click(packet.getX(), packet.getY(), packet.getTime(), World.getServerTicks());
-			if (player.clickQueue.size() > 50)
-				player.clickQueue.poll();
-		}
+	public long getTick() {
+		return tick;
+	}
+	public long getTimeLogged() {
+		return timeLogged;
+	}
+	
+	@Override
+	public String toString() {
+		return "("+time+"ms) " + getClass().getSimpleName() + ": ";
 	}
 }
