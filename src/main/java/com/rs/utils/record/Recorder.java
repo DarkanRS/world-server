@@ -14,6 +14,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
 import com.rs.utils.record.impl.ClickHW;
+import com.rs.utils.record.impl.MouseMove;
 
 public class Recorder {	
 	private Player player;
@@ -112,6 +113,8 @@ public class Recorder {
 				flag = true;
 		}
 		if (action.getValue() instanceof ClickHW hw && !hw.isHardware())
+			flag = true;
+		if (action.getValue() instanceof MouseMove mm && mm.containsSoftwareClicks())
 			flag = true;
 		player.getPackets().sendDevConsoleMessage((flag ? "<shad=000000><col=FF0000>" : "") + "[" + formatTimePrecise((action.getValue().getTimeLogged() - startTime)) + "] " + action.getKey() + ": " + action.getValue().toString());
 	}

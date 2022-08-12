@@ -18,13 +18,13 @@ package com.rs.net.decoders.handlers.impl.record;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
-import com.rs.lib.net.packets.decoders.mouse.MouseClick;
-import com.rs.utils.record.impl.ClickJav;
+import com.rs.lib.net.packets.decoders.mouse.MouseClickJav;
+import com.rs.utils.record.impl.Click;
 
-public class MouseClickHandler implements PacketHandler<Player, MouseClick> {
+public class MouseClickJavHandler implements PacketHandler<Player, MouseClickJav> {
 
 	@Override
-	public void handle(Player player, MouseClick packet) {
-		player.getRecorder().record(new ClickJav(packet.getTimeRecieved(), packet.getTime(), packet.getX(), packet.getY(), packet.getMouseButton()));
+	public void handle(Player player, MouseClickJav packet) {
+		player.getRecorder().record(new Click(packet.getTimeRecieved(), packet.getTime(), packet.getX(), packet.getY(), packet.getMouseButton()));
 	}
 }
