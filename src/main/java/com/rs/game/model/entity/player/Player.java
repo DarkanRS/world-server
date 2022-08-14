@@ -1761,7 +1761,7 @@ public class Player extends Entity {
 	}
 
 	public void refreshHitPoints() {
-		getVars().setVarBit(7198, getHitpoints());
+		getVars().setVarBit(7198, Utils.clampI(getHitpoints(), 0, Short.MAX_VALUE));
 	}
 
 	@Override
