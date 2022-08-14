@@ -271,9 +271,15 @@ public final class LocalNPCUpdate {
 			} else if (hit.getSoaking() != null) {
 				data.writeSmart(32767);
 				data.writeSmart(hit.getMark(player, n));
-				data.writeSmart(hit.getDamage());
+				if (hit.getDamage() >= Short.MAX_VALUE)
+					data.writeSmart(Short.MAX_VALUE-10);
+				else
+					data.writeSmart(hit.getDamage());
 				data.writeSmart(hit.getSoaking().getMark(player, n));
-				data.writeSmart(hit.getSoaking().getDamage());
+				if (hit.getSoaking().getDamage() >= Short.MAX_VALUE)
+					data.writeSmart(Short.MAX_VALUE-10);
+				else
+					data.writeSmart(hit.getSoaking().getDamage());
 			} else {
 				data.writeSmart(hit.getMark(player, n));
 				data.writeSmart(hit.getDamage());
