@@ -905,13 +905,14 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
-		getInteractionManager().forceStop();
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
 			resetWalkSteps();
-		if (stopActions)
+		if (stopActions) {
 			getActionManager().forceStop();
+			getInteractionManager().forceStop();
+		}
 		combatDefinitions.resetSpells(false);
 	}
 
