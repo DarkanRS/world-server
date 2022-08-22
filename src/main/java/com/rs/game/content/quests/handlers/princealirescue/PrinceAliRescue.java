@@ -208,7 +208,7 @@ public class PrinceAliRescue extends QuestOutline {
 	public static ItemOnNPCHandler handleLadyKeliRope = new ItemOnNPCHandler(LADY_KELI) {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
-			if(e.getItem().getId() != ROPE || e.getPlayer().getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
+			if(e.getItem().getId() != ROPE || e.getPlayer().isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 				return;
 			Player p = e.getPlayer();
 			if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk") && p.getInventory().containsItem(BRONZE_KEY, 1) &&

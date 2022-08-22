@@ -3,9 +3,12 @@
     "Mighty banshee"
   ],
   "attackAnim": 9449,
+  "attackSound": -1,
   "defenceAnim": 9451,
+  "defendSound": -1,
   "deathAnim": 9450,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 850,
   "maxHit": 90,

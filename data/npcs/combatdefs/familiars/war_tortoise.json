@@ -3,9 +3,12 @@
     "War tortoise"
   ],
   "attackAnim": 8286,
+  "attackSound": -1,
   "defenceAnim": 8287,
+  "defendSound": -1,
   "deathAnim": 8285,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 3480,
   "maxHit": 87,

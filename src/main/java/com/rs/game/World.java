@@ -75,8 +75,6 @@ import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
 
-
-
 @PluginEventHandler
 public final class World {
 
@@ -1348,6 +1346,19 @@ public final class World {
 
 	public static boolean isPvpArea(Player player) {
 		return WildernessController.isAtWild(player.getTile());
+	}
+	
+	public static void playSound(Entity source, int soundId, int type) {
+		for (int regionId : source.getMapRegionsIds()) {
+			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
+			if (playerIndexes != null)
+				for (int playerIndex : playerIndexes) {
+					Player player = World.getPlayers().get(playerIndex);
+					if (player == null || !player.isRunning() || !source.withinDistance(player.getTile()))
+						continue;
+					player.getPackets().sendSound(soundId, 0, type);
+				}
+		}
 	}
 
 	public static GameObject getClosestObject(int objectId, WorldTile tile) {

@@ -356,7 +356,7 @@ public class Karamja  {
 	public static ObjectClickHandler handleElvargHiddenWall = new ObjectClickHandler(new Object[] { 2606 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER) || e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.FINISHED_BOAT_SCENE_ATTR)) {
+			if(e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER) || e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.FINISHED_BOAT_SCENE_ATTR)) {
 				e.getPlayer().sendMessage("You know from your boat accident there is more behind this wall...");
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 			} else

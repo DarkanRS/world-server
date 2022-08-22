@@ -104,6 +104,8 @@ public class Appearance {
 
 	public void generateAppearanceData() {
 		OutputStream stream = new OutputStream();
+		boolean pvpArea = World.isPvpArea(player);
+		boolean showSkillTotal = player.getTempAttribs().getB("showSkillTotal") && !pvpArea;
 		if (glowRed && player.getNextBodyGlow() == null)
 			player.setNextBodyGlow(new BodyGlow(90, 0, 0, 0, 255));
 		int flag = 0;
@@ -111,7 +113,7 @@ public class Appearance {
 			flag |= 0x1;
 		if (transformedNpcId >= 0 && NPCDefinitions.getDefs(transformedNpcId).aBool4872)
 			flag |= 0x2;
-		if (player.getTempAttribs().getB("showSkillTotal") && !World.isPvpArea(player))
+		if (showSkillTotal)
 			flag |= 0x4;
 		if (title != 0 || player.getTitle() != null)
 			flag |= isTitleAfter(title) || player.isTitleAfter() ? 0x80 : 0x40; // after/before
@@ -198,13 +200,12 @@ public class Appearance {
 
 		stream.writeShort(getRenderEmote());
 		stream.writeString(player.getDisplayName());
-		boolean pvpArea = World.isPvpArea(player);
 		stream.writeByte(pvpArea ? player.getSkills().getCombatLevel() : player.getSkills().getCombatLevelWithSummoning());
-		if (player.getTempAttribs().getB("showSkillTotal") && !pvpArea)
+		if (showSkillTotal)
 			stream.writeShort(player.getSkills().getTotalLevel());
 		else {
 			stream.writeByte(pvpArea ? player.getSkills().getCombatLevelWithSummoning() : 0);
-			stream.writeByte(-1);
+			stream.writeByte(player.getPvpCombatLevelThreshhold());
 		}
 		stream.writeByte(transformedNpcId >= 0 ? 1 : 0);
 		if (transformedNpcId >= 0) {
@@ -233,11 +234,31 @@ public class Appearance {
 			slotFlag++;
 			if (player.getEquipment().getId(slotId) == -1)
 				continue;
-			ItemDefinitions defs = ItemDefinitions.getDefs(player.getEquipment().getId(slotId));
+			Item item = player.getEquipment().get(slotId);
+			if (item == null)
+				continue;
+			ItemDefinitions defs = item.getDefinitions();
 			if (defs == null)
 				continue;
 
 			switch(defs.getId()) {
+			case 1833:
+			case 1835:
+			case 1171:
+			case 2637:
+				MeshModifier mod = new MeshModifier(defs, slotFlag);
+				boolean add = false;
+				if (item.getMetaDataI("drTOr", -1) > 0) {
+					mod.addTextures(item.getMetaDataI("drTOr", -1), item.getMetaDataI("drTOr", -1), item.getMetaDataI("drTOr", -1));
+					add = true;
+				}
+				if (item.getMetaDataI("drCOr", -1) > 0) {
+					mod.addColors(item.getMetaDataI("drCOr", -1));
+					add = true;
+				}
+				if (add)
+					modifiers.add(mod);
+				break;
 			case 20767:
 			case 20768:
 				modifiers.add(new MeshModifier(defs, slotFlag)

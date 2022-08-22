@@ -3,9 +3,12 @@
     "Moss titan"
   ],
   "attackAnim": 7844,
+  "attackSound": -1,
   "defenceAnim": 7842,
+  "defendSound": -1,
   "deathAnim": 7843,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 4760,
   "maxHit": 150,

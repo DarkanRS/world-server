@@ -3,9 +3,12 @@
     "TokHaar-Hur"
   ],
   "attackAnim": 16098,
+  "attackSound": -1,
   "defenceAnim": 16173,
+  "defendSound": -1,
   "deathAnim": 16178,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 900,
   "maxHit": 124,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 4,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

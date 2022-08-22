@@ -3,9 +3,12 @@
     "General Graardor"
   ],
   "attackAnim": 7060,
+  "attackSound": -1,
   "defenceAnim": 7061,
+  "defendSound": -1,
   "deathAnim": 7062,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 2540,
   "maxHit": 610,

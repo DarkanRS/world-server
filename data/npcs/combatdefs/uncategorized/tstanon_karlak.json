@@ -3,9 +3,12 @@
     "Tstanon Karlak"
   ],
   "attackAnim": 64,
+  "attackSound": -1,
   "defenceAnim": 65,
+  "defendSound": -1,
   "deathAnim": 67,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 1420,
   "maxHit": 210,
@@ -22,7 +25,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 4,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

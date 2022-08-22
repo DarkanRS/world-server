@@ -3,9 +3,12 @@
     "Unicorn"
   ],
   "attackAnim": 6376,
+  "attackSound": -1,
   "defenceAnim": 6375,
+  "defendSound": -1,
   "deathAnim": 6377,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 190,
   "maxHit": 20,

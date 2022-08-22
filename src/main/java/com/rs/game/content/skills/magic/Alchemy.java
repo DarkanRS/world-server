@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.magic;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.entity.player.Equipment;
@@ -109,7 +110,7 @@ public class Alchemy {
 				player.setNextSpotAnim(new SpotAnim(112));
 
 			}
-			player.playSound(98, 1);
+			World.playSound(player, 98, 1);
 			player.getInventory().deleteItem(item.getId(), 1);
 			player.getInventory().addItem(995, def.getSellPrice());
 			player.getSkills().addXp(Constants.MAGIC, 31);
@@ -122,7 +123,7 @@ public class Alchemy {
 				player.setNextAnimation(new Animation(713));
 				player.setNextSpotAnim(new SpotAnim(113));
 			}
-			player.playSound(98, 1); //low alch id... high alch doesnt match osrs... reeeee
+			World.playSound(player, 98, 1); //low alch id... high alch doesnt match osrs... reeeee
 			player.getInventory().deleteItem(item.getId(), 1);
 			player.getInventory().addItem(995, def.getHighAlchPrice());
 			player.getSkills().addXp(Constants.MAGIC, 65);

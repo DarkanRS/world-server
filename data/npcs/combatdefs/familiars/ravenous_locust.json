@@ -3,9 +3,12 @@
     "Ravenous locust"
   ],
   "attackAnim": 7994,
+  "attackSound": -1,
   "defenceAnim": 7995,
+  "defendSound": -1,
   "deathAnim": 7996,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 3700,
   "maxHit": 90,

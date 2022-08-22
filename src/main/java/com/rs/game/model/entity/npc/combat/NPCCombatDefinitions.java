@@ -56,17 +56,19 @@ public class NPCCombatDefinitions {
 	}
 
 	public enum AggressiveType {
-		PASSIVE,
-		AGGRESSIVE
+		PASSIVE, AGGRESSIVE
 	}
 
 	private transient boolean realStats = true;
 	private int[] ids;
 	private String[] names;
 	private int attackAnim;
+	private int attackSound = -1;
 	private int defenceAnim;
+	private int defendSound = -1;
 	private int deathAnim;
 	private int deathDelay;
+	private int deathSound = -1;
 	private int respawnDelay;
 	private int hitpoints;
 	private int maxHit;
@@ -78,7 +80,7 @@ public class NPCCombatDefinitions {
 	private int attackGfx;
 	private int attackProjectile;
 	private AggressiveType agressivenessType;
-	private int aggroDistance = -1; //4 for melee, 8 for range default
+	public int aggroDistance = -1; //4 for melee, 8 for range default
 	private int deAggroDistance = -1; //16 by default
 	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
 
@@ -373,5 +375,17 @@ public class NPCCombatDefinitions {
 		if (bonuses.get(bonus) == null)
 			return 0;
 		return (Integer) bonuses.get(bonus);
+	}
+
+	public int getAttackSound() {
+		return attackSound;
+	}
+
+	public int getDefendSound() {
+		return defendSound;
+	}
+
+	public int getDeathSound() {
+		return deathSound;
 	}
 }

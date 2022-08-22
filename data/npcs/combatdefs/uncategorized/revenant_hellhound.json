@@ -3,9 +3,12 @@
     "Revenant hellhound"
   ],
   "attackAnim": 7460,
+  "attackSound": -1,
   "defenceAnim": 7462,
+  "defendSound": -1,
   "deathAnim": 7461,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 800,
   "maxHit": 250,
@@ -22,7 +25,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 5,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

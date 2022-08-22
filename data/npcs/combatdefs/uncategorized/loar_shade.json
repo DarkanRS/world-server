@@ -3,9 +3,12 @@
     "Loar Shade"
   ],
   "attackAnim": 1284,
+  "attackSound": -1,
   "defenceAnim": 1286,
+  "defendSound": -1,
   "deathAnim": 1287,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 380,
   "maxHit": 40,

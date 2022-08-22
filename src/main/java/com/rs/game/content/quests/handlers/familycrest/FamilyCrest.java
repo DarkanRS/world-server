@@ -213,7 +213,7 @@ public class FamilyCrest extends QuestOutline {
 		public void handle(ItemClickEvent e) {
 			if (e.getPlayer().isEquipDisabled())
 				return;
-			if (!e.getPlayer().getQuestManager().isComplete(Quest.FAMILY_CREST)) {
+			if (!e.getPlayer().isQuestComplete(Quest.FAMILY_CREST)) {
 				e.getPlayer().sendMessage("You must complete the Family Crest quest to use this item...");
 				return;
 			}

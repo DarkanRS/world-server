@@ -28,10 +28,10 @@ public class CreationActionD extends Conversation {
 		super(player);
 		options = product != -1 ? new ReqItem[] { ReqItem.getRequirements(product) } : options != null ? options : ReqItem.getProducts(category, material);
 
-		addNext(new MakeXStatement("What would you like to make?", Arrays.stream(options).mapToInt(item -> item.getProduct().getId()).toArray(), 28));
+		var makeX = addNext(new MakeXStatement("What would you like to make?", Arrays.stream(options).mapToInt(item -> item.getProduct().getId()).toArray(), 28));
 
 		for (ReqItem item : options) {
-			addNext(() -> {
+			makeX.addNext(() -> {
 				int quantity = MakeXStatement.getQuantity(player);
 				ReqItem produce = product == -1 ? item : ReqItem.getRequirements(product);
 				player.getActionManager().setAction(customAction != null ? customAction : new CreationAction(produce, animation, gfx, delay, quantity).setConsistentAnimation(consistentAnim));

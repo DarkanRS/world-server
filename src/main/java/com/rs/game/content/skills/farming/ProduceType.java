@@ -38,6 +38,7 @@ public enum ProduceType {
 	Tarromin(5293, 19, new Item(203), 4, 16, 18, 4, PatchType.HERB, 31, 80),
 	Harralander(5294, 26, new Item(205), 4, 21.5, 24, 4, PatchType.HERB, 36, 80),
 	Rannar(5295, 32, new Item(207), 4, 27, 30.5, 4, PatchType.HERB, 39, 80),
+	Spirit_weed(12176, 36, new Item(12174), 4, 32, 36, 4, PatchType.HERB, 40, 80),
 	Toadflax(5296, 38, new Item(3049), 4, 34, 38.5, 4, PatchType.HERB, 43, 80),
 	Irit(5297, 44, new Item(209), 4, 43, 48.5, 4, PatchType.HERB, 46, 80),
 	Avantoe(5298, 50, new Item(211), 4, 54.4, 61.5, 4, PatchType.HERB, 50, 80),
@@ -90,6 +91,8 @@ public enum ProduceType {
 
 	Bittercap(5282, 53, new Item(6004, 6), 4, 61.5, 57.7, 6, PatchType.MUSHROOM),
 	Morchella(21620, 74, new Item(21622, 9), 26, 22, 77.7, 6, PatchType.MUSHROOM),
+	
+	Evil_turnip(12148, 42, new Item(12134, 1), 4, 41, 46, 1, PatchType.EVIL_TURNIP),
 
 	Belladonna(5281, 63, new Item(2398), 4, 91, 512, 4, PatchType.BELLADONNA),
 

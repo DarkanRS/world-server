@@ -85,9 +85,6 @@ public abstract class Cutscene {
 		deleteObjects();
 		if (region != null)
 			region.destroy();
-		player.delete("cutsceneManagerStartTileX");
-		player.delete("cutsceneManagerStartTileY");
-		player.delete("cutsceneManagerStartTileZ");
 		player.getTempAttribs().removeB("CUTSCENE_INTERFACE_CLOSE_DISABLED");
 	}
 
@@ -98,10 +95,6 @@ public abstract class Cutscene {
 		player.setLargeSceneView(true);
 		player.lock();
 		player.stopAll(true, false);
-		WorldTile tile = new WorldTile(player.getTile());
-		player.save("cutsceneManagerStartTileX", tile.getX());
-		player.save("cutsceneManagerStartTileY", tile.getY());
-		player.save("cutsceneManagerStartTileZ", tile.getPlane());
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
 	}
 

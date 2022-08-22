@@ -3,9 +3,12 @@
     "Khazard warlord"
   ],
   "attackAnim": 390,
+  "attackSound": -1,
   "defenceAnim": 383,
+  "defendSound": -1,
   "deathAnim": 4200,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1690,
   "maxHit": 92,

@@ -3,9 +3,12 @@
     "Umbra"
   ],
   "attackAnim": 1979,
+  "attackSound": -1,
   "defenceAnim": 425,
+  "defendSound": -1,
   "deathAnim": 836,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 6000,
   "maxHit": 164,
@@ -14,7 +17,7 @@
   "attackGfx": -1,
   "attackProjectile": 380,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 10,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

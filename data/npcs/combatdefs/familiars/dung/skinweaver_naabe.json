@@ -3,9 +3,12 @@
     "Naabe skinweaver"
   ],
   "attackAnim": 13678,
+  "attackSound": -1,
   "defenceAnim": 13674,
+  "defendSound": -1,
   "deathAnim": 13675,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 812,
   "maxHit": 156,

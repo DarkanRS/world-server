@@ -16,37 +16,78 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
+import java.util.ArrayList;
+
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.game.Rights;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse;
-import com.rs.lib.util.ReflectionCheck;
+import com.rs.lib.util.Utils;
+import com.rs.lib.util.reflect.ReflectionCheck;
+import com.rs.utils.reflect.ReflectionAnalysis;
+import com.rs.utils.reflect.ReflectionTest;
 
 public class ReflectionCheckResponseHandler implements PacketHandler<Player, ReflectionCheckResponse> {
 
 	@Override
 	public void handle(Player player, ReflectionCheckResponse packet) {
-		ReflectionCheck check = player.getReflectionCheck(packet.getId());
-		if (check == null) {
+		ReflectionAnalysis analysis = player.getReflectionAnalysis(packet.getId());
+		if (analysis == null) {
 			World.sendWorldMessage("<col=FF0000>" + player.getDisplayName() + " failed reflection check. Reason: Check id not found.", true);
 			return;
 		}
-		if (packet.exists()) {
-			if (check.exists()) {
-				if (packet.getModifiers().equals(check.getModifiers()))
-					World.sendWorldMessage("<col=00FF00>" + player.getDisplayName() + " passed reflection check.", true);
-				else {
-					World.sendWorldMessage("<col=FF0000>" + player.getDisplayName() + " failed reflection check. Reason: Method modifiers don't match.", true);
-					World.sendWorldMessage("<col=FF0000>" + "Expected: \"" + check.getModifiers() + "\" but found: \"" + packet.getModifiers() + "\"", true);
-				}
-			} else {
-				World.sendWorldMessage("<col=FF0000>" + player.getDisplayName() + " failed reflection check. Reason: Method modifiers don't match.", true);
-				World.sendWorldMessage("<col=FF0000>" + "Expected: \"" + check.getModifiers() + "\" but found: \"" + packet.getModifiers() + "\"", true);
+		
+		for (ReflectionCheck check : analysis.getChecks().getChecks())
+			check.decode(packet.getData());
+		
+		for (Player staff : World.getPlayers()) {
+			if (staff == null || !staff.hasStarted() || staff.hasFinished() || !staff.hasRights(Rights.ADMIN))
+				continue;
+			ArrayList<String> lines = new ArrayList<>();
+			
+			lines.add("<u><shad=000000><col=FF0000>Current Machine</col></shad></u>");
+			lines.add("");
+			lines.add("<u>Operating System:</u> " + switch(player.getMachineInfo().operatingSystem) {
+			case 1 -> "Windows";
+			case 2 -> "Mac";
+			case 3 -> "Linux";
+			default -> "Other/Uknown";
+			} + " (x" + (player.getMachineInfo().x64os ? "64" : "86") + ")");
+			
+			lines.add("");
+			
+			lines.add("<u>Java:</u> ");
+			lines.add("Version: " + player.getMachineInfo().javaBuild + " (" + player.getMachineInfo().javaUpdate + "." + player.getMachineInfo().javaSubBuild + "_" + switch(player.getMachineInfo().javaVersion) {
+			case 1 -> "sun";
+			case 2 -> "microsoft";
+			case 3 -> "apple";
+			default -> "open";
+			} + ")");
+			lines.add("JVM max memory: " + Utils.formatNumber(player.getMachineInfo().maxMem) + "mb");
+			
+			lines.add("");
+			
+			lines.add("<u>Processor:</u> ");
+			lines.add("Model: " + player.getMachineInfo().cpuData);
+			lines.add("Type: " + player.getMachineInfo().cpuType);
+			lines.add("Cores: " + player.getMachineInfo().processors);
+			lines.add("RAM: " + Utils.formatNumber(player.getMachineInfo().ram) + "mb");
+			
+			lines.add("");
+			
+			for (ReflectionTest check : analysis.getTests()) {
+				boolean pass = check.getValidation().apply(check.getCheck());
+				lines.add("<u>" + check.getName() + "</u> (" + check.getDescription() + "): <shad=000000><col=" + (pass ? "00FF00>passed</col></shad>" : "FF0000>failed</col></shad>"));
+				lines.add(check.getCheck().getResponse().toString());
+				lines.add("");
 			}
-		} else if (!check.exists())
-			World.sendWorldMessage("<col=00FF00>" + player.getDisplayName() + " passed reflection check.", true);
-		else
-			World.sendWorldMessage("<col=FF0000>" + player.getDisplayName() + " failed reflection check. Reason: Method not found when it should have been.", true);
+			staff.getInterfaceManager().sendInterface(275);
+			staff.getPackets().sendRunScriptReverse(1207, lines.size());
+			staff.getPackets().setIFText(275, 1, "Client Analysis Results for " + player.getDisplayName());
+	        for (int i = 10; i < 289; i++)
+	        	staff.getPackets().setIFText(275, i, ((i - 10) >= lines.size() ? " " : lines.get(i - 10)));
+		}
 	}
 
 }

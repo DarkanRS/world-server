@@ -3,9 +3,12 @@
     "Zakl'n Gritch"
   ],
   "attackAnim": 6945,
+  "attackSound": -1,
   "defenceAnim": 65,
+  "defendSound": -1,
   "deathAnim": 67,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 1500,
   "maxHit": 265,
@@ -21,7 +24,7 @@
   "attackGfx": 1208,
   "attackProjectile": 1209,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

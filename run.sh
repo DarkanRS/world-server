@@ -1,5 +1,5 @@
 while :
 do
   git pull origin
-  ./gradlew run >> mainlog.txt
+  ./gradlew clean build run >> mainlog.txt
 done

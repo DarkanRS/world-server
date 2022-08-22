@@ -3,9 +3,12 @@
     "Chaos dwogre"
   ],
   "attackAnim": 12146,
+  "attackSound": -1,
   "defenceAnim": 12147,
+  "defendSound": -1,
   "deathAnim": 12150,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1000,
   "maxHit": 121,

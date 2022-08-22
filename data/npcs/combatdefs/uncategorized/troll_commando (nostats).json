@@ -3,9 +3,12 @@
     "Troll commando"
   ],
   "attackAnim": 7282,
+  "attackSound": -1,
   "defenceAnim": 5375,
+  "defendSound": -1,
   "deathAnim": 5209,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 50,
   "maxHit": 15,

@@ -206,7 +206,7 @@ public class IkovDungeon {
 	public static ObjectClickHandler handleSouthIceGate = new ObjectClickHandler(new Object[]{ 89, 90 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.TEMPLE_OF_IKOV) || e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).getB("LeverIcePulled")) {
+			if(e.getPlayer().isQuestComplete(Quest.TEMPLE_OF_IKOV) || e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).getB("LeverIcePulled")) {
 				handleDoubleDoor(e.getPlayer(), e.getObject());
 				return;
 			}

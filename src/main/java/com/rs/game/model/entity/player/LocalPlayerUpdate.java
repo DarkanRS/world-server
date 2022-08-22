@@ -441,12 +441,12 @@ public final class LocalPlayerUpdate {
 			} else if (hit.getSoaking() != null) {
 				data.writeSmart(32767);
 				data.writeSmart(hit.getMark(player, p));
-				data.writeSmart(hit.getDamage());
+				data.writeSmart(Utils.clampI(hit.getDamage(), 0, Short.MAX_VALUE/2));
 				data.writeSmart(hit.getSoaking().getMark(player, p));
-				data.writeSmart(hit.getSoaking().getDamage());
+				data.writeSmart(Utils.clampI(hit.getSoaking().getDamage(), 0, Short.MAX_VALUE/2));
 			} else {
 				data.writeSmart(hit.getMark(player, p));
-				data.writeSmart(hit.getDamage());
+				data.writeSmart(Utils.clampI(hit.getDamage(), 0, Short.MAX_VALUE/2));
 			}
 			data.writeSmart(hit.getDelay());
 		}

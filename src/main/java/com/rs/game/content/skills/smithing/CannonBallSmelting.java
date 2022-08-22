@@ -40,10 +40,8 @@ public class CannonBallSmelting  {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if ((e.getItem().getId() == AMMO_MOULD || e.getItem().getId() == STEEL_BAR) && e.getPlayer().getInventory().containsItem(AMMO_MOULD))
-				if (e.getPlayer().getQuestManager().isComplete(Quest.DWARF_CANNON))
+				if (e.getPlayer().isQuestComplete(Quest.DWARF_CANNON, "before you can smith cannonballs."))
 					e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), mats, prods, xp, anims, reqs, Constants.SMITHING, 7));
-				else
-					e.getPlayer().sendMessage("You must complete the Dwarf Cannon quest before smithing cannonballs.");
 		}
 	};
 

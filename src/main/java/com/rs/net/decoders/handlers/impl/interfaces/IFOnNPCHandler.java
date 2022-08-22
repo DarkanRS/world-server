@@ -39,9 +39,9 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		NPC npc = World.getNPCs().get(packet.getNpcIndex());
 		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapRegionsIds().contains(npc.getRegionId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
 			return;
-		player.stopAll(false);
 		switch (packet.getInterfaceId()) {
 		case Inventory.INVENTORY_INTERFACE:
+			player.stopAll(false);
 			Item item = player.getInventory().getItem(packet.getSlotId());
 			if (item == null || !player.getControllerManager().processItemOnNPC(npc, item))
 				return;
@@ -49,6 +49,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 			break;
 		case 662:
 		case 747:
+			player.stopAll(false, true, false);
 			if (player.getFamiliar() == null)
 				return;
 			player.resetWalkSteps();
@@ -60,6 +61,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		case 950:
 		case 193:
 		case 192:
+			player.stopAll(false);
 			CombatSpell combat = CombatSpell.forId(packet.getInterfaceId(), packet.getComponentId());
 			if (combat != null) {
 				if (!npc.getDefinitions().hasAttackOption()) {

@@ -56,7 +56,7 @@ public class ZamorakMage extends Conversation {
 			public void create() {
 				switch(p.getMiniquestManager().getStage(Miniquest.ENTER_THE_ABYSS)) {
 					case 1 -> {
-						if (p.getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+						if (p.isQuestComplete(Quest.RUNE_MYSTERIES)) {
 							option("Where do you get your runes from?", new Dialogue()
 									.addPlayer(HeadE.CONFUSED, "Where do you get your runes from? No offence, but people around here don't exactly like 'your type'.")
 									.addNPC(NPC, HeadE.FRUSTRATED, "My 'type'? Explain.")

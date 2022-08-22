@@ -14,27 +14,17 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.net.decoders.handlers.impl;
+package com.rs.net.decoders.handlers.impl.record;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
-import com.rs.lib.net.packets.decoders.MouseClick;
-import com.rs.utils.Click;
+import com.rs.lib.net.packets.decoders.mouse.MouseClickJav;
+import com.rs.utils.record.impl.Click;
 
-public class MouseClickHandler implements PacketHandler<Player, MouseClick> {
+public class MouseClickJavHandler implements PacketHandler<Player, MouseClickJav> {
 
 	@Override
-	public void handle(Player player, MouseClick packet) {
-		if (packet.getTime() <= 1)
-			return;
-
-		player.refreshIdleTime();
-
-		if (player.clickQueue != null) {
-			player.clickQueue.add(new Click(packet.getX(), packet.getY(), packet.getTime(), System.currentTimeMillis()));
-			player.lastClick = new Click(packet.getX(), packet.getY(), packet.getTime(), System.currentTimeMillis());
-			if (player.clickQueue.size() > 50)
-				player.clickQueue.poll();
-		}
+	public void handle(Player player, MouseClickJav packet) {
+		player.getRecorder().record(new Click(packet.getTimeRecieved(), packet.getTime(), packet.getX(), packet.getY(), packet.getMouseButton()));
 	}
 }

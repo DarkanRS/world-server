@@ -3,9 +3,12 @@
     "Young grotworm"
   ],
   "attackAnim": 16777,
+  "attackSound": -1,
   "defenceAnim": 16779,
+  "defendSound": -1,
   "deathAnim": 16778,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 29,
   "hitpoints": 150,
   "maxHit": 20,

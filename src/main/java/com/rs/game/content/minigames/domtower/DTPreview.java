@@ -14,34 +14,31 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.cutscenes;
+package com.rs.game.content.minigames.domtower;
 
+import com.rs.game.content.cutscenes.Cutscene;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
 
-public class NexCutScene extends Cutscene {
-	
-	private WorldTile dir;
-	private int selected;
-
-	public NexCutScene(WorldTile dir, int selected) {
-		this.dir = dir;
-		this.selected = selected;
-	}
-
+public class DTPreview extends Cutscene {
 	@Override
 	public void construct(Player player) {
-		int xExtra = 0;
-		int yExtra = 0;
-		if (selected == 0)
-			yExtra -= 7;
-		else if (selected == 2)
-			yExtra += 7;
-		else if (selected == 1)
-			xExtra -= 7;
-		else
-			xExtra += 7;
-		camPos(2925 + xExtra, 5203 + yExtra, 2500, -1);
-		camLook(dir.getX(), dir.getY(), 2500, 3);
+		camLook(3386, 3104, 1000, 6, 6, -1);
+		camPos(3395, 3104, 5000, 7, 8, 5);
+		camLook(3390, 3115, 6000, 6, 6, -1);
+		camPos(3395, 3115, 6000, 7, 8, 5);
+		camLook(3380, 3125, 6000, 6, 6, -1);
+		camPos(3380, 3125, 6000, 7, 6, 5);
+		camLook(3375, 3125, 6000, 6, 6, -1);
+		camPos(3375, 3125, 6000, 7, 6, 5);
+		camLook(3370, 3125, 6000, 6, 6, -1);
+		camPos(3370, 3125, 6000, 7, 6, 5);
+		camLook(3358, 3120, 5500, 6, 6, -1);
+		camPos(3358, 3125, 5500, 7, 6, 5);
+		camLook(3358, 3095, 4000, 6, 6, -1);
+		camPos(3358, 3095, 4000, 7, 8, 5);
+		camLook(3374, 3084, 2500, 6, 6, -1);
+		camPos(3374, 3084, 2500, 7, 8, 5);
+		camLook(3374, 3097, 2300, 9, 9, -1);
+		camPos(3374, 3097, 2300, 7, 8, 5);
 	}
 }

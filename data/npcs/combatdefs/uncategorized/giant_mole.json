@@ -3,9 +3,12 @@
     "Giant Mole"
   ],
   "attackAnim": 3312,
+  "attackSound": -1,
   "defenceAnim": 3311,
+  "defendSound": -1,
   "deathAnim": 3310,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 16,
   "hitpoints": 2000,
   "maxHit": 214,

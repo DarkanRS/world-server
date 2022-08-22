@@ -70,7 +70,7 @@ public class EstateAgentDialogue extends Conversation {
 							option("Tropical wood - 50,000 coins", new Dialogue().addNext(() -> promptHouseChange("tropical wood", 4, 40, 50000)));
 						if (player.getSkills().getLevelForXp(Skills.CONSTRUCTION) >= 50)
 							option("Fancy stone - 100,000 coins", new Dialogue().addNext(() -> promptHouseChange("fancy stone", 5, 50, 100000)));
-						if (Quest.LOVE_STORY.meetsRequirements(player, "to have a dark stone themed house."))
+						if (player.isQuestComplete(Quest.LOVE_STORY, "to have a dark stone themed house."))
 							option("Dark stone - 500,000 coins", new Dialogue().addNext(() -> promptHouseChange("dark stone", 6, 80, 500000)));
 					}
 				}));

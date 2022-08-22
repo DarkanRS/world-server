@@ -24,7 +24,7 @@ import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.utils.Click;
+import com.rs.utils.record.Recorder;
 
 @PluginEventHandler
 public class PlayerModifiers {
@@ -112,26 +112,11 @@ public class PlayerModifiers {
 					p.sendMessage("Unable to find player.");
 			});
 		});
+		
+		Commands.add(Rights.MOD, "actions [player_name ...]", "Displays the last recorded actions the players specified have done.", (p, args) -> Recorder.showConcatenatedActions(p, args));
+		Commands.add(Rights.MOD, "watch [player_name ...]", "Continuously displays recorded actions for the players specified.", (p, args) -> Recorder.watchPlayers(p, args));
+		Commands.add(Rights.MOD, "stopwatch", "Stops watching players.", (p, args) -> p.getNSV().setB("stopWatchActionLoop", true));
 
-		Commands.add(Rights.MOD, "clicks [player name]", "Displays the last 50 clicks the player has done.", (p, args) -> {
-			Player target = World.getPlayerByDisplay(Utils.concat(args));
-			if (target == null)
-				p.sendMessage("Couldn't find player " + Utils.concat(args) + ".");
-			else {
-				if (target.clickQueue == null)
-					return;
-				p.getPackets().sendRunScriptReverse(1207, target.clickQueue.size());
-				p.getInterfaceManager().sendInterface(275);
-				p.getPackets().setIFText(275, 1, "Past 50 clicks for:  " + Utils.concat(args));
-				int numa = 10;
-				for (Click click : target.clickQueue) {
-					if (numa > 288)
-						break;
-					p.getPackets().setIFText(275, numa, ": " + click.toString());
-					numa++;
-				}
-			}
-		});
 	}
 
 }

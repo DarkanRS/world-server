@@ -3,9 +3,12 @@
     "Bear Cub"
   ],
   "attackAnim": 4925,
+  "attackSound": -1,
   "defenceAnim": 4927,
+  "defendSound": -1,
   "deathAnim": 4929,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 200,
   "maxHit": 20,

@@ -14,49 +14,39 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.utils;
+package com.rs.utils.record;
 
-public class Click {
+import com.rs.game.World;
 
-	private int x;
-	private int y;
+public class RecordedAction implements Comparable<RecordedAction> {
 	private int time;
-	private long timeMillis;
+	private long tick;
+	private long timeLogged;
 
-	public Click(int x, int y, int time, long timeMillis) {
-		this.x = x;
-		this.y = y;
+	public RecordedAction(long timeLogged, int time) {
+		this.timeLogged = timeLogged;
 		this.time = time;
-		this.timeMillis = timeMillis;
+		this.tick = World.getServerTicks();
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
+	@Override
+	public int compareTo(RecordedAction other) {
+		return Long.compare(timeLogged, other.timeLogged);
 	}
 
 	public int getTime() {
 		return time;
 	}
 
-	public boolean sameSpot(Click click2) {
-		return click2.x == x && click2.y == y;
+	public long getTick() {
+		return tick;
 	}
-
-	public boolean sameTime(Click click2) {
-		return click2.time == time;
+	public long getTimeLogged() {
+		return timeLogged;
 	}
-
-	public long getTimeMillis() {
-		return timeMillis;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "["+x+", "+y+"]: " + time+"ms";
+		return "("+time+"ms) " + getClass().getSimpleName() + ": ";
 	}
-
 }

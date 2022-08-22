@@ -3,9 +3,12 @@
     "Ancient ranger"
   ],
   "attackAnim": 426,
+  "attackSound": -1,
   "defenceAnim": 6183,
+  "defendSound": -1,
   "deathAnim": 6182,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1300,
   "maxHit": 650,

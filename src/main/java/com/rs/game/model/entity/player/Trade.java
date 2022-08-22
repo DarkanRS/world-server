@@ -144,11 +144,13 @@ public class Trade {
 				if (item == null)
 					return;
 				Item[] itemsBefore = items.getItemsCopy();
-				int maxAmount = items.getNumberOf(item);
-				if (amount < maxAmount)
-					item = new Item(item.getId(), amount);
-				else
-					item = new Item(item.getId(), maxAmount);
+				if (!item.containsMetaData()) {
+					int maxAmount = items.getNumberOf(item);
+					if (amount < maxAmount)
+						item = new Item(item.getId(), amount);
+					else
+						item = new Item(item.getId(), maxAmount);
+				}
 				items.remove(slot, item);
 				player.getInventory().addItem(item);
 				refreshItems(itemsBefore);
@@ -185,16 +187,18 @@ public class Trade {
 				Item item = player.getInventory().getItem(slot);
 				if (item == null)
 					return;
-				if (!ItemConstants.isTradeable(item)) {
+				if (!player.hasRights(Rights.OWNER) && !ItemConstants.isTradeable(item)) {
 					player.sendMessage("That item isn't tradeable.");
 					return;
 				}
 				Item[] itemsBefore = items.getItemsCopy();
-				int maxAmount = player.getInventory().getItems().getNumberOf(item);
-				if (amount < maxAmount)
-					item = new Item(item.getId(), amount);
-				else
-					item = new Item(item.getId(), maxAmount);
+				if (!item.containsMetaData()) {
+					int maxAmount = player.getInventory().getItems().getNumberOf(item);
+					if (amount < maxAmount)
+						item = new Item(item.getId(), amount);
+					else
+						item = new Item(item.getId(), maxAmount);
+				}
 				items.add(item);
 				player.getInventory().deleteItem(slot, item);
 				refreshItems(itemsBefore);

@@ -3,9 +3,12 @@
     "TokHaar-Mej"
   ],
   "attackAnim": 16127,
+  "attackSound": -1,
   "defenceAnim": 16124,
+  "defendSound": -1,
   "deathAnim": 16123,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1940,
   "maxHit": 245,

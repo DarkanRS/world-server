@@ -3,9 +3,12 @@
     "Monkey"
   ],
   "attackAnim": 220,
+  "attackSound": -1,
   "defenceAnim": 221,
+  "defendSound": -1,
   "deathAnim": 223,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 24,
   "hitpoints": 60,
   "maxHit": 24,

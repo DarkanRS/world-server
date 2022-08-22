@@ -3,9 +3,12 @@
     "Spinolyp"
   ],
   "attackAnim": 2868,
+  "attackSound": -1,
   "defenceAnim": 2869,
+  "defendSound": -1,
   "deathAnim": 2866,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 49,
   "hitpoints": 750,
   "maxHit": 100,

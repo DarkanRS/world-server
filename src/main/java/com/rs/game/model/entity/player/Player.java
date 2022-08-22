@@ -23,10 +23,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -149,7 +147,6 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
-import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
 import com.rs.lib.web.dto.FCData;
 import com.rs.net.LobbyCommunicator;
@@ -162,9 +159,10 @@ import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.LoginEvent;
-import com.rs.utils.Click;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
+import com.rs.utils.record.Recorder;
+import com.rs.utils.reflect.ReflectionAnalysis;
 
 public class Player extends Entity {
 
@@ -178,7 +176,7 @@ public class Player extends Entity {
 	private long timePlayed = 0;
 	private long timeLoggedOut;
 
-	private transient HashMap<Integer, ReflectionCheck> reflectionChecks = new HashMap<>();
+	private transient HashMap<Integer, ReflectionAnalysis> reflectionAnalyses = new HashMap<>();
 
 	private long docileTimer;
 
@@ -203,7 +201,10 @@ public class Player extends Entity {
 	public transient long dyingTime = 0;
 	public transient long spellDelay = 0;
 	public transient boolean disconnected = false;
+	private transient int pvpCombatLevelThreshhold = -1;
 	private transient String[] playerOptions = new String[10];
+	
+	private WorldTile lastNonDynamicTile;
 
 	private int hw07Stage;
 
@@ -279,11 +280,9 @@ public class Player extends Entity {
 	private Set<Reward> favoritedLoyaltyRewards;
 
 	private Map<Tools, Integer> toolbelt;
-
+	
 	private transient ArrayList<String> attackedBy = new ArrayList<>();
-
-	public transient Queue<Click> clickQueue = new LinkedList<>();
-	public transient Click lastClick;
+	private transient Recorder recorder;
 
 	public int[] artisanOres = new int[5];
 	public double artisanXp = 0.0;
@@ -405,7 +404,6 @@ public class Player extends Entity {
 	public int totalDonated;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
-	private boolean killedQueenBlackDragon;
 	private double runeSpanPoints;
 	private transient double bonusXpRate = 0.0;
 	private int crystalSeedRepairs;
@@ -653,7 +651,8 @@ public class Player extends Entity {
 			herbicideSettings = new HashSet<>();
 		if (notes == null)
 			notes = new Notes();
-		reflectionChecks = new HashMap<>();
+		recorder = new Recorder(this);
+		reflectionAnalyses = new HashMap<>();
 		attackedBy = new ArrayList<>();
 		interfaceManager = new InterfaceManager(this);
 		hintIconsManager = new HintIconsManager(this);
@@ -689,8 +688,6 @@ public class Player extends Entity {
 		setFaceAngle(Utils.getAngleTo(0, -1));
 		tempMoveType = null;
 		initEntity();
-		if (clickQueue == null)
-			clickQueue = new LinkedList<>();
 		if (pouchesType == null)
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
@@ -887,14 +884,7 @@ public class Player extends Entity {
 			delete("isLoggedOutInDungeon");
 			delete("dungeoneering_enter_floor_inventory");
 		}
-		if (getI("cutsceneManagerStartTileX") != -1) {
-			WorldTile tile = new WorldTile(getI("cutsceneManagerStartTileX"), getI("cutsceneManagerStartTileY"), getI("cutsceneManagerStartTileZ"));
-			setNextWorldTile(tile);
-			delete("cutsceneManagerStartTileX");
-			delete("cutsceneManagerStartTileY");
-			delete("cutsceneManagerStartTileZ");
-		}
-
+		checkWasInDynamicRegion();
 		if (isDead())
 			sendDeath(null);
 	}
@@ -915,13 +905,14 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
-		getInteractionManager().forceStop();
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
 			resetWalkSteps();
-		if (stopActions)
+		if (stopActions) {
 			getActionManager().forceStop();
+			getInteractionManager().forceStop();
+		}
 		combatDefinitions.resetSpells(false);
 	}
 
@@ -1310,6 +1301,7 @@ public class Player extends Entity {
 			petManager.init();
 		running = true;
 		updateMovementType = true;
+		pvpCombatLevelThreshhold = -1;
 		appearence.generateAppearanceData();
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
@@ -1409,9 +1401,9 @@ public class Player extends Entity {
 
 	public boolean unlockedLodestone(Lodestone stone) {
 		if (stone == Lodestone.BANDIT_CAMP)
-			return getQuestManager().isComplete(Quest.DESERT_TREASURE);
+			return isQuestComplete(Quest.DESERT_TREASURE);
 		if (stone == Lodestone.LUNAR_ISLE)
-			return getQuestManager().isComplete(Quest.LUNAR_DIPLOMACY);
+			return isQuestComplete(Quest.LUNAR_DIPLOMACY);
 		return lodestones[stone.ordinal()];
 	}
 
@@ -1770,7 +1762,7 @@ public class Player extends Entity {
 	}
 
 	public void refreshHitPoints() {
-		getVars().setVarBit(7198, getHitpoints());
+		getVars().setVarBit(7198, Utils.clampI(getHitpoints(), 0, Short.MAX_VALUE));
 	}
 
 	@Override
@@ -1805,7 +1797,12 @@ public class Player extends Entity {
 	}
 
 	public WorldEncoder getPackets() {
-		return session.getEncoder(WorldEncoder.class);
+		try {
+			return session.getEncoder(WorldEncoder.class);
+		} catch(Throwable e) {
+			System.err.println("Error casting player's encoder to world encoder.");
+			return null;
+		}
 	}
 
 	public void visualizeChunk(int chunkId) {
@@ -2478,7 +2475,7 @@ public class Player extends Entity {
 	}
 
 	public void setCanPvp(boolean canPvp) {
-		setCanPvp(canPvp, false);
+		setCanPvp(canPvp, true);
 	}
 
 	public PrayerManager getPrayer() {
@@ -3180,25 +3177,6 @@ public class Player extends Entity {
 		this.hpBoostMultiplier = hpBoostMultiplier;
 	}
 
-	/**
-	 * Gets the killedQueenBlackDragon.
-	 *
-	 * @return The killedQueenBlackDragon.
-	 */
-	public boolean isKilledQueenBlackDragon() {
-		return killedQueenBlackDragon;
-	}
-
-	/**
-	 * Sets the killedQueenBlackDragon.
-	 *
-	 * @param killedQueenBlackDragon
-	 *            The killedQueenBlackDragon to set.
-	 */
-	public void setKilledQueenBlackDragon(boolean killedQueenBlackDragon) {
-		this.killedQueenBlackDragon = killedQueenBlackDragon;
-	}
-
 	public boolean hasLargeSceneView() {
 		return largeSceneView;
 	}
@@ -3340,7 +3318,7 @@ public class Player extends Entity {
 			sendMessage("You need to have completed the fight kiln at least once.");
 			return false;
 		}
-		if (!isKilledQueenBlackDragon() && !Settings.getConfig().isDebug()) {
+		if (getNumberKilled("Queen Black Dragon") > 0 && !Settings.getConfig().isDebug()) {
 			sendMessage("You need to have killed the Queen black dragon at least once.");
 			return false;
 		}
@@ -3361,10 +3339,8 @@ public class Player extends Entity {
 		sendMessage("<col=FF0000>Revenants will have no aggression towards you for one hour.");
 	}
 
-	public long getTimeSinceLastClick() {
-		if (lastClick == null)
-			return Long.MAX_VALUE;
-		return System.currentTimeMillis() - lastClick.getTimeMillis();
+	public long getTicksSinceLastAction() {
+		return recorder.getTicksSinceLastAction();
 	}
 
 	public void sendGodwarsKill(NPC npc) {
@@ -3843,13 +3819,15 @@ public class Player extends Entity {
 		return wickedHoodTalismans[rune.ordinal()];
 	}
 
-	public ReflectionCheck getReflectionCheck(int id) {
-		return reflectionChecks.get(id);
+	public ReflectionAnalysis getReflectionAnalysis(int id) {
+		return reflectionAnalyses.get(id);
 	}
 
-	public void addReflectionCheck(ReflectionCheck reflectionCheck) {
-		reflectionChecks.put(reflectionCheck.getId(), reflectionCheck);
-		getSession().writeToQueue(new ReflectionCheckRequest(reflectionCheck));
+	public void queueReflectionAnalysis(ReflectionAnalysis reflectionCheck) {
+		if (!reflectionCheck.isBuilt())
+			throw new RuntimeException("Cannot queue an unbuilt reflection analysis.");
+		reflectionAnalyses.put(reflectionCheck.getId(), reflectionCheck);
+		getSession().writeToQueue(new ReflectionCheckRequest(reflectionCheck.getChecks()));
 	}
 
 	public void unlockWickedHoodRune(WickedHoodRune rune) {
@@ -4391,5 +4369,55 @@ public class Player extends Entity {
 
 	public void setTileMan(boolean tileMan) {
 		this.tileMan = tileMan;
+	}
+
+	public int getPvpCombatLevelThreshhold() {
+		return pvpCombatLevelThreshhold;
+	}
+
+	public void setPvpCombatLevelThreshhold(int pvpCombatLevelThreshhold) {
+		this.pvpCombatLevelThreshhold = pvpCombatLevelThreshhold;
+		getAppearance().generateAppearanceData();
+	}
+	
+	public void playSound(int soundId, int type) {
+		if (soundId == -1)
+			return;
+		getPackets().sendSound(soundId, 0, type);
+	}
+	
+	public Map<Integer, MachineInformation> getMachineMap() {
+		return machineMap;
+	}
+	
+	public MachineInformation getMachineInfo() {
+		return machineInformation;
+	}
+	
+	private void checkWasInDynamicRegion() {
+		if (lastNonDynamicTile != null) {
+			setNextWorldTile(new WorldTile(lastNonDynamicTile));
+			clearLastNonDynamicTile();
+		}
+	}
+	
+	public void clearLastNonDynamicTile() {
+		lastNonDynamicTile = null;
+	}
+
+	public void setLastNonDynamicTile(WorldTile lastNonDynamicTile) {
+		this.lastNonDynamicTile = lastNonDynamicTile;
+	}
+
+	public Recorder getRecorder() {
+		return recorder;
+	}
+
+	public boolean isQuestComplete(Quest quest, String actionString) {
+		return getQuestManager().isComplete(quest, actionString);
+	}
+	
+	public boolean isQuestComplete(Quest quest) {
+		return isQuestComplete(quest, null);
 	}
 }

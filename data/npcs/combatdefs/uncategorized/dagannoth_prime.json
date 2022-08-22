@@ -3,9 +3,12 @@
     "Dagannoth Prime"
   ],
   "attackAnim": 2854,
+  "attackSound": -1,
   "defenceAnim": 2852,
+  "defendSound": -1,
   "deathAnim": 2856,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 2550,
   "maxHit": 610,

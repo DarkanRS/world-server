@@ -3,9 +3,12 @@
     "TokHaar-Xil"
   ],
   "attackAnim": 16148,
+  "attackSound": -1,
   "defenceAnim": 16146,
+  "defendSound": -1,
   "deathAnim": 16145,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1300,
   "maxHit": 194,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": 2985,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

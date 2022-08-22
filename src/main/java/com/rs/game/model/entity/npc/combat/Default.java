@@ -21,6 +21,7 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 
@@ -45,6 +46,8 @@ public class Default extends CombatScript {
 		if (defs.getAttackGfx() != -1)
 			npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
+		if (target instanceof Player p)
+			npc.playSound(npc.getCombatDefinitions().getAttackSound(), 1);
 		return npc.getAttackSpeed();
 	}
 }

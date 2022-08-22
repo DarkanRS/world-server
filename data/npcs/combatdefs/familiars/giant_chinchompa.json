@@ -3,9 +3,12 @@
     "Giant chinchompa"
   ],
   "attackAnim": 7755,
+  "attackSound": -1,
   "defenceAnim": 7753,
+  "defendSound": -1,
   "deathAnim": 7758,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 970,
   "maxHit": 38,

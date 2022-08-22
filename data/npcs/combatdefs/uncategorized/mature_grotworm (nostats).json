@@ -3,9 +3,12 @@
     "Mature grotworm"
   ],
   "attackAnim": 16789,
+  "attackSound": -1,
   "defenceAnim": 16779,
+  "defendSound": -1,
   "deathAnim": 16790,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 29,
   "hitpoints": 2000,
   "maxHit": 160,

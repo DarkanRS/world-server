@@ -3,9 +3,12 @@
     "Geyser titan"
   ],
   "attackAnim": 7883,
+  "attackSound": -1,
   "defenceAnim": 7878,
+  "defendSound": -1,
   "deathAnim": 7880,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 6100,
   "maxHit": 190,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "PASSIVE",
-  "aggroDistance": 64,
+  "aggroDistance": 6,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

@@ -32,8 +32,10 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
 public class Summoning {
@@ -54,6 +56,24 @@ public class Summoning {
 	public static boolean isFollower(int npcId) {
 		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
 	}
+	
+	public static ItemOnItemHandler handleCarveTurnip = new ItemOnItemHandler(946, 12134) {
+		@Override
+		public void handle(ItemOnItemEvent e) {
+			e.getPlayer().repeatAction(2, () -> {
+				if (!e.getPlayer().getInventory().containsItem(946, 1)) {
+					e.getPlayer().sendMessage("You need a knife to cut the turnip.");
+					return false;
+				}
+				if (!e.getPlayer().getInventory().containsItem(12134))
+					return false;
+				e.getPlayer().getInventory().deleteItem(12134, 1);
+				e.getPlayer().getInventory().addItem(12153, 1);
+				e.getPlayer().anim(6702);
+				return true;
+			});
+		}
+	};
 
 	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getId()).toArray(), new String[] { "Summon" }) {
 		@Override

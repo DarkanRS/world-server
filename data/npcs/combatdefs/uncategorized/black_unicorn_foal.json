@@ -3,9 +3,12 @@
     "Black unicorn Foal"
   ],
   "attackAnim": 6376,
+  "attackSound": -1,
   "defenceAnim": 6375,
+  "defendSound": -1,
   "deathAnim": 6377,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 250,
   "maxHit": 32,

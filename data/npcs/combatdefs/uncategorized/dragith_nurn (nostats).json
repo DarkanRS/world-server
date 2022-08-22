@@ -3,9 +3,12 @@
     "Dragith Nurn"
   ],
   "attackAnim": 12844,
+  "attackSound": -1,
   "defenceAnim": 12867,
+  "defendSound": -1,
   "deathAnim": 12870,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 250,
   "maxHit": 30,

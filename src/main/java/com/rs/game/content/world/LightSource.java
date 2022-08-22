@@ -19,10 +19,30 @@ package com.rs.game.content.world;
 import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnItemHandler;
 
+@PluginEventHandler
 public class LightSource {
 
 	private static final int[][] LIGHT_SOURCES = { { 596, 36, 38, 4529, 4522, 4537, 7051, 4548, 5014, 4701 }, { 594, 33, 32, 4534, 4524, 4539, 7053, 4550, 5013, 4702 } };
+	
+	public static ItemOnItemHandler lightTinder = new ItemOnItemHandler(LIGHT_SOURCES[0], new int[] { 590 }) {
+		@Override
+		public void handle(ItemOnItemEvent e) {
+			lightSource(e.getPlayer(), e.getUsedWith(590).getSlot());
+		}
+	};
+	
+	public static ItemClickHandler handleExtinguish = new ItemClickHandler(LIGHT_SOURCES[1], new String[] { "Extinguish" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			extinguishSource(e.getPlayer(), e.getSlotId(), false);
+		}
+	};
 
 	public static boolean hasExplosiveSource(Player player) {
 		for (Item item : player.getInventory().getItems().array()) {

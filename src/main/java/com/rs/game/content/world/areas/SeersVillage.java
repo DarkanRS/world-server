@@ -188,7 +188,7 @@ public class SeersVillage {
 	public static NPCClickHandler handleThormacDialogue = new NPCClickHandler(new Object[] { 389 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (!e.getPlayer().getQuestManager().isComplete(Quest.SCORPION_CATCHER))
+			if (!e.getPlayer().isQuestComplete(Quest.SCORPION_CATCHER))
 				e.getPlayer().startConversation(new ThormacScorpionCatcherD(e.getPlayer()).getStart());
 			else
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -216,7 +216,7 @@ public class SeersVillage {
 							if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED)
 								option("About Holy Grail", new Dialogue()
 										.addNext(()->{e.getPlayer().startConversation(new SirKayHolyGrailD(e.getPlayer()).getStart());}));
-							if (!player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+							if (!player.isQuestComplete(Quest.MERLINS_CRYSTAL))
 								option("About Merlin's Crystal", new Dialogue()
 										.addNext(()->{e.getPlayer().startConversation(new SirKayMerlinsCrystalD(e.getPlayer()).getStart());}));
 						}
@@ -306,7 +306,7 @@ public class SeersVillage {
 	public static NPCClickHandler handleKingArthur = new NPCClickHandler(new Object[] { 251 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL)) {//After merlins crystal is holy grail...
+			if(e.getPlayer().isQuestComplete(Quest.MERLINS_CRYSTAL)) {//After merlins crystal is holy grail...
 				e.getPlayer().startConversation(new KingArthurHolyGrailD(e.getPlayer()).getStart());
 				return;
 			}
@@ -321,7 +321,7 @@ public class SeersVillage {
 				e.getPlayer().startConversation(new MerlinHolyGrailD(e.getPlayer()).getStart());
 				return;
 			}
-			if(e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+			if(e.getPlayer().isQuestComplete(Quest.MERLINS_CRYSTAL))
 				e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Thank you for saving me from that crystal!"));
 		}
 	};

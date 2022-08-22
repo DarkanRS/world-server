@@ -3,9 +3,12 @@
     "Yt-HurKot"
   ],
   "attackAnim": 16087,
+  "attackSound": -1,
   "defenceAnim": 16086,
+  "defendSound": -1,
   "deathAnim": -1,
   "deathDelay": 12,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 600,
   "maxHit": 140,

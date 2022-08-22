@@ -1831,6 +1831,8 @@ public class PlayerCombat extends PlayerAction {
 			if (afterDelay != null)
 				afterDelay.run();
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
+			if (target instanceof NPC n)
+				World.playSound(n, n.getCombatDefinitions().getDefendSound(), 1);
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (!p2.isLocked() && p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())

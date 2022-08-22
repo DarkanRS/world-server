@@ -3,9 +3,12 @@
     "Ork legion"
   ],
   "attackAnim": 8760,
+  "attackSound": -1,
   "defenceAnim": 8762,
+  "defendSound": -1,
   "deathAnim": 8761,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 500,
   "maxHit": 82,

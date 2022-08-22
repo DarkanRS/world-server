@@ -3,9 +3,12 @@
     "Bork"
   ],
   "attackAnim": 8754,
+  "attackSound": -1,
   "defenceAnim": 8755,
+  "defendSound": -1,
   "deathAnim": 8756,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 3000,
   "maxHit": 254,

@@ -194,7 +194,7 @@ public class DemonSlayer extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			p.sendMessage("You peer into the drain.");
-            if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(PRYSIN_KEY) && p.getVars().getVarBit(2568) != 1)
+            if(!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(PRYSIN_KEY) && p.getVars().getVarBit(2568) != 1)
                 p.getVars().setVarBit(2568, 0);
 			p.startConversation(new Conversation(p) {
 				{
@@ -215,7 +215,7 @@ public class DemonSlayer extends QuestOutline {
 		public void handle(ItemClickEvent e) {
 			if (e.getPlayer().isEquipDisabled())
 				return;
-			if (!e.getPlayer().getQuestManager().isComplete(Quest.DEMON_SLAYER)) {
+			if (!e.getPlayer().isQuestComplete(Quest.DEMON_SLAYER)) {
 				e.getPlayer().sendMessage("You must complete the Demon Slayer quest to use this item...");
 				return;
 			}
@@ -253,7 +253,7 @@ public class DemonSlayer extends QuestOutline {
 	public static LoginHandler onLogin = new LoginHandler() {
 		@Override
 		public void handle(LoginEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.DEMON_SLAYER))
+			if(e.getPlayer().isQuestComplete(Quest.DEMON_SLAYER))
 				e.getPlayer().getVars().setVarBit(2568, 2);
 			else
 				e.getPlayer().getVars().setVarBit(2568, 0);

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class ItemOnItemEvent implements PluginEvent {
@@ -90,8 +91,11 @@ public class ItemOnItemEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
 			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, method);
-			if (old != null)
-				System.err.println("ERROR: Duplicate ItemOnItem methods for key: " + key + " " + method);
+			if (old != null) {
+				int item1 = Utils.interfaceIdFromHash((int) key);
+				int item2 = Utils.componentIdFromHash((int) key);
+				System.err.println("ERROR: Duplicate ItemOnItem methods for key: " + key + "(" + item1 + ", " + item2 + ") " + method);
+			}
 		}
 	}
 }

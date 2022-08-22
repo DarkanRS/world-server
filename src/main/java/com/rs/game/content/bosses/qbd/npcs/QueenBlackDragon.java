@@ -188,26 +188,27 @@ public final class QueenBlackDragon extends NPC {
 			break;
 		case 2:
 			attacker.getPackets().sendVarc(1924, 3);
-			attacker.getPackets().sendRemoveObject(new GameObject(70844, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+			World.spawnObject(new GameObject(70844, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
 			activeArtifact = new GameObject(70780, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, 0));
 			attacker.sendMessage("The Queen Black Dragon's concentration wavers; the second artefact is now");
 			attacker.sendMessage("unguarded.");
 			break;
 		case 3:
 			attacker.getPackets().sendVarc(1924, 5);
-			attacker.getPackets().sendRemoveObject(new GameObject(70846, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+			World.spawnObject(new GameObject(70846, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
 			activeArtifact = new GameObject(70783, ObjectType.SCENERY_INTERACT, 0, base.transform(42, 21, 0));
 			attacker.sendMessage("The Queen Black Dragon's concentration wavers; the third artefact is now");
 			attacker.sendMessage("unguarded.");
 			break;
 		case 4:
 			attacker.getPackets().sendVarc(1924, 7);
-			attacker.getPackets().sendRemoveObject(new GameObject(70848, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
+			World.spawnObject(new GameObject(70848, ObjectType.SCENERY_INTERACT, 0, base.transform(24, 21, -1)));
 			activeArtifact = new GameObject(70786, ObjectType.SCENERY_INTERACT, 0, base.transform(33, 21, 0));
 			attacker.sendMessage("The Queen Black Dragon's concentration wavers; the last artefact is now unguarded.");
 			break;
 		}
-		World.spawnObject(activeArtifact);
+		if (phase <= 4)
+			World.spawnObject(activeArtifact);
 		setCantInteract(true);
 		if (phase < 5) {
 			setSpawningWorms(true);
@@ -231,10 +232,9 @@ public final class QueenBlackDragon extends NPC {
 		if (ticks == -20) {
 			switchState(QueenState.DEFAULT);
 			switchState(QueenState.SLEEPING);
-			super.setNextAnimation(SLEEP_ANIMATION);
-			World.removeObject(new GameObject(70778, ObjectType.SCENERY_INTERACT, 0, base.transform(33, 31, 0)));
-			World.spawnObject(new GameObject(70790, ObjectType.SCENERY_INTERACT, 0, base.transform(31, 29, 0)));
-			World.spawnObject(new GameObject(70775, ObjectType.SCENERY_INTERACT, 0, base.transform(31, 29, -1)));
+			setNextAnimation(SLEEP_ANIMATION);
+		} else if (ticks >= -19 && ticks <= -10) {
+			setNextAnimation(SLEEP_ANIMATION);
 		} else if (ticks == -1)
 			return;
 		ticks++;
@@ -334,20 +334,20 @@ public final class QueenBlackDragon extends NPC {
 		setCapDamage(1000);
 		switch (state) {
 		case DEFAULT:
-			attacker.getPackets().sendRemoveObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendRemoveObject(new GameObject(70818, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
+			World.spawnObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
+			World.spawnObject(new GameObject(70818, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
 			break;
 		case HARDEN:
-			attacker.getPackets().sendRemoveObject(new GameObject(70824, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendRemoveObject(new GameObject(70820, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
+			World.spawnObject(new GameObject(70824, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
+			World.spawnObject(new GameObject(70820, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
 			break;
 		case CRYSTAL_ARMOUR:
-			attacker.getPackets().sendRemoveObject(new GameObject(70823, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendRemoveObject(new GameObject(70819, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
+			World.spawnObject(new GameObject(70823, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
+			World.spawnObject(new GameObject(70819, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
 			break;
 		default:
-			attacker.getPackets().sendRemoveObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
-			attacker.getPackets().sendRemoveObject(new GameObject(70818, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
+			World.spawnObject(new GameObject(70822, ObjectType.SCENERY_INTERACT, 0, base.transform(21, 35, -1)));
+			World.spawnObject(new GameObject(70818, ObjectType.SCENERY_INTERACT, 0, base.transform(39, 35, -1)));
 			break;
 		}
 	}
@@ -442,12 +442,13 @@ public final class QueenBlackDragon extends NPC {
 				worm.finish();
 			ticks = -22;
 			prepareRewards();
-			attacker.setKilledQueenBlackDragon(true);
-			attacker.getPackets().sendRemoveObject(new GameObject(70837, ObjectType.SCENERY_INTERACT, 0, base.transform(22, 24, -1)));
-			attacker.getPackets().sendRemoveObject(new GameObject(70840, ObjectType.SCENERY_INTERACT, 0, base.transform(34, 24, -1)));
+			World.removeObject(World.getObject(base.transform(22, 24, -1), ObjectType.SCENERY_INTERACT));
+			World.removeObject(World.getObject(base.transform(34, 24, -1), ObjectType.SCENERY_INTERACT));
 			attacker.sendMessage("<col=33FFFF>The enchantment is restored! The Queen Black Dragon falls back into her cursed</col>");
 			attacker.sendMessage("<col=33FFFF>slumber.</col>");
 			attacker.sendNPCKill("Queen Black Dragon");
+			if (attacker.hasSlayerTask() && attacker.getSlayer().isOnTaskAgainst(this))
+				attacker.getSlayer().sendKill(attacker, this);
 			break;
 		}
 	}

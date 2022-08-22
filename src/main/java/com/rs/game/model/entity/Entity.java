@@ -26,6 +26,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
@@ -40,6 +41,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -608,6 +610,12 @@ public abstract class Entity {
 			World.updateEntityRegion(this);
 			if (needMapUpdate())
 				loadMapRegions();
+			if (player != null) {
+				if (World.getRegion(getRegionId(), true) instanceof DynamicRegion)
+					player.setLastNonDynamicTile(new WorldTile(lastWorldTile));
+				else
+					player.clearLastNonDynamicTile();
+			}
 			resetWalkSteps();
 			return;
 		}
@@ -731,6 +739,7 @@ public abstract class Entity {
 				return true;
 			}
 			switch(npc.getName()) {
+			case "Tool leprechaun":
 			case "Xuan":
 			case "Fremennik shipmaster":
 			case "Fishing spot":
@@ -1335,19 +1344,6 @@ public abstract class Entity {
 		return sceneBaseChunkId;
 	}
 
-	public void playSound(int soundId, int type) {
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || !player.isRunning() || !withinDistance(player.getTile()))
-						continue;
-					player.getPackets().sendSound(soundId, 0, type);
-				}
-		}
-	}
-
 	public long getFindTargetDelay() {
 		return findTargetDelay;
 	}
@@ -1717,5 +1713,31 @@ public abstract class Entity {
 			case Skills.RANGE -> npc.lowerRange(amt, maxDrain);
 			}
 		}
+	}
+	
+	public void repeatAction(int ticks, Supplier<Boolean> action) {
+		getActionManager().setAction(new Action() {
+			@Override
+			public boolean start(Entity entity) {
+				return true;
+			}
+
+			@Override
+			public boolean process(Entity entity) {
+				return true;
+			}
+
+			@Override
+			public int processWithDelay(Entity entity) {
+				if (action.get())
+					return ticks;
+				return -1;
+			}
+
+			@Override
+			public void stop(Entity entity) {
+				
+			}
+		});
 	}
 }

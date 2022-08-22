@@ -18,6 +18,7 @@ package com.rs.game.content.world.areas.wilderness;
 
 import com.rs.Settings;
 import com.rs.game.content.Effect;
+import com.rs.game.content.Potions;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceMovement;
@@ -29,7 +30,6 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -40,43 +40,8 @@ public class WildernessController extends Controller {
 
 	@Override
 	public void start() {
-		checkBoosts(player);
-	}
-
-	public static void checkBoosts(Player player) {
-		boolean changed = false;
-		int level = player.getSkills().getLevelForXp(Constants.ATTACK);
-		int maxLevel = (int) (level + 5 + (level * 0.15));
-		if (maxLevel < player.getSkills().getLevel(Constants.ATTACK)) {
-			player.getSkills().set(Constants.ATTACK, maxLevel);
-			changed = true;
-		}
-		level = player.getSkills().getLevelForXp(Constants.STRENGTH);
-		maxLevel = (int) (level + 5 + (level * 0.15));
-		if (maxLevel < player.getSkills().getLevel(Constants.STRENGTH)) {
-			player.getSkills().set(Constants.STRENGTH, maxLevel);
-			changed = true;
-		}
-		level = player.getSkills().getLevelForXp(Constants.DEFENSE);
-		maxLevel = (int) (level + 5 + (level * 0.15));
-		if (maxLevel < player.getSkills().getLevel(Constants.DEFENSE)) {
-			player.getSkills().set(Constants.DEFENSE, maxLevel);
-			changed = true;
-		}
-		level = player.getSkills().getLevelForXp(Constants.RANGE);
-		maxLevel = (int) (level + 5 + (level * 0.1));
-		if (maxLevel < player.getSkills().getLevel(Constants.RANGE)) {
-			player.getSkills().set(Constants.RANGE, maxLevel);
-			changed = true;
-		}
-		level = player.getSkills().getLevelForXp(Constants.MAGIC);
-		maxLevel = level + 5;
-		if (maxLevel < player.getSkills().getLevel(Constants.MAGIC)) {
-			player.getSkills().set(Constants.MAGIC, maxLevel);
-			changed = true;
-		}
-		if (changed)
-			player.sendMessage("Your extreme potion bonus has been reduced.");
+		Potions.checkOverloads(player);
+		player.addEffect(Effect.OVERLOAD_PVP_REDUCTION, Integer.MAX_VALUE);
 	}
 
 	@Override
@@ -120,14 +85,16 @@ public class WildernessController extends Controller {
 		if (target instanceof NPC)
 			return true;
 		Player p2 = (Player) target;
-		if (Math.abs(player.getSkills().getCombatLevel() - p2.getSkills().getCombatLevel()) > getWildLevel())
+		if (Math.abs(player.getSkills().getCombatLevel() - p2.getSkills().getCombatLevel()) > Math.min(player.getPvpCombatLevelThreshhold(), p2.getPvpCombatLevelThreshhold())) {
+			player.sendMessage("Your level difference is too great!<br>You need to move deeper into the Wilderness.");
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean processMagicTeleport(WorldTile toTile) {
-		if ((getWildLevel() > 20) || player.hasEffect(Effect.TELEBLOCK)) {
+		if (getWildLevel() > 20 || player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}
@@ -224,39 +191,34 @@ public class WildernessController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					player.setNextAnimation(new Animation(836));
-				else if (loop == 1)
-					player.sendMessage("Oh dear, you have died.");
-				else if (loop == 3) {
-					Player killer = player.getMostDamageReceivedSourcePlayer();
-					if (killer != null) {
-						killer.removeDamage(player);
-						killer.increaseKillCount(player);
-					}
-					player.sendItemsOnDeath(killer);
-					player.getEquipment().init();
-					player.getInventory().init();
-					player.reset();
-					if (player.get("customspawn") instanceof WorldTile spawn)
-						player.setNextWorldTile(spawn);
-					else
-						player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
-					player.setNextAnimation(new Animation(-1));
-				} else if (loop == 4) {
-					removeIcon();
-					removeController();
-					player.getPackets().sendMusicEffect(90);
-					stop();
+		WorldTasks.scheduleTimer(0, 1, loop -> {
+			if (loop == 0)
+				player.setNextAnimation(new Animation(836));
+			else if (loop == 1)
+				player.sendMessage("Oh dear, you have died.");
+			else if (loop == 3) {
+				Player killer = player.getMostDamageReceivedSourcePlayer();
+				if (killer != null) {
+					killer.removeDamage(player);
+					killer.increaseKillCount(player);
 				}
-				loop++;
+				player.sendItemsOnDeath(killer);
+				player.getEquipment().init();
+				player.getInventory().init();
+				player.reset();
+				if (player.get("customspawn") instanceof WorldTile spawn)
+					player.setNextWorldTile(spawn);
+				else
+					player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
+				player.setNextAnimation(new Animation(-1));
+			} else if (loop == 4) {
+				removeIcon();
+				removeController();
+				player.getPackets().sendMusicEffect(90);
+				return false;
 			}
-		}, 0, 1);
+			return true;
+		});
 		return false;
 	}
 
@@ -265,6 +227,7 @@ public class WildernessController extends Controller {
 		boolean isAtWild = isAtWild(player.getTile());
 		boolean isAtWildSafe = isAtWildSafe();
 		if (!isAtWildSafe && !isAtWild) {
+			player.setPvpCombatLevelThreshhold(-1);
 			player.setCanPvp(false);
 			removeIcon();
 			removeController();
@@ -272,7 +235,7 @@ public class WildernessController extends Controller {
 			showingSkull = true;
 			player.setCanPvp(true);
 			showSkull();
-			player.getAppearance().generateAppearanceData();
+			player.setPvpCombatLevelThreshhold(getWildLevel());
 		} else if (showingSkull && (isAtWildSafe || !isAtWild))
 			removeIcon();
 	}
@@ -282,7 +245,7 @@ public class WildernessController extends Controller {
 			showingSkull = false;
 			player.setCanPvp(false);
 			player.getInterfaceManager().removeOverlay();
-			player.getAppearance().generateAppearanceData();
+			player.setPvpCombatLevelThreshhold(-1);
 			player.getEquipment().refresh(null);
 		}
 	}
@@ -295,11 +258,16 @@ public class WildernessController extends Controller {
 	@Override
 	public void forceClose() {
 		removeIcon();
+		player.removeEffect(Effect.OVERLOAD_PVP_REDUCTION);
+	}
+	
+	@Override
+	public void onRemove() {
+		player.removeEffect(Effect.OVERLOAD_PVP_REDUCTION);
 	}
 
 	public static final boolean isAtWild(WorldTile tile) {// TODO fix this
-		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175) // fortihrny
-				// dungeon
+		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175)
 				|| (tile.getX() >= 2940 && tile.getX() <= 3395 && tile.getY() >= 3525 && tile.getY() <= 4000)
 				|| (tile.getX() >= 3078 && tile.getX() <= 3139 && tile.getY() >= 9923 && tile.getY() <= 10002)
 				|| (tile.getX() >= 3264 && tile.getX() <= 3279 && tile.getY() >= 3279 && tile.getY() <= 3672)

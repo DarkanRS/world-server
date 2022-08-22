@@ -3,9 +3,12 @@
     "Flockleader Geerin"
   ],
   "attackAnim": 6954,
+  "attackSound": -1,
   "defenceAnim": 6955,
+  "defendSound": -1,
   "deathAnim": 6956,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1320,
   "maxHit": 250,
@@ -21,7 +24,7 @@
   "attackGfx": -1,
   "attackProjectile": 1190,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 8,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

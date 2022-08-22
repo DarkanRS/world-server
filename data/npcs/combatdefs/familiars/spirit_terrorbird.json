@@ -3,9 +3,12 @@
     "Spirit terrorbird"
   ],
   "attackAnim": 1010,
+  "attackSound": -1,
   "defenceAnim": 1011,
+  "defendSound": -1,
   "deathAnim": 1012,
   "deathDelay": 8,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 2330,
   "maxHit": 68,

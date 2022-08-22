@@ -3,9 +3,12 @@
     "Black Knight Titan"
   ],
   "attackAnim": 128,
+  "attackSound": -1,
   "defenceAnim": 129,
+  "defendSound": -1,
   "deathAnim": 131,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 4,
   "hitpoints": 1420,
   "maxHit": 150,

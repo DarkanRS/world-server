@@ -46,9 +46,12 @@
     10603
   ],
   "attackAnim": 0,
+  "attackSound": -1,
   "defenceAnim": 1156,
+  "defendSound": -1,
   "deathAnim": 836,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 500,
   "maxHit": 1,

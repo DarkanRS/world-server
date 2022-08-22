@@ -20,17 +20,17 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.cutscenes.DTPreview;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.impl.StrongholdRewardD;
 import com.rs.game.content.dialogue.statements.NPCStatement;
 import com.rs.game.content.dialogue.statements.Statement;
+import com.rs.game.content.items.Spade;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
+import com.rs.game.content.minigames.domtower.DTPreview;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.fightcaves.FightCavesController;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
@@ -60,7 +60,7 @@ import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 import com.rs.game.content.skills.smithing.ForgingInterface;
 import com.rs.game.content.skills.smithing.SmeltingD;
-import com.rs.game.content.skills.smithing.Smithing.ForgingBar;
+import com.rs.game.content.skills.smithing.Smithing.Smithable;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.transportation.WildernessObelisk;
@@ -351,7 +351,7 @@ public final class ObjectHandler {
 			} else if (id == 2353 && (object.getX() == 3177 && object.getY() == 5730 && object.getPlane() == 0))
 				player.useStairs(828, new WorldTile(3353, 3416, 0));
 			else if (id == 66115 || id == 66116)
-				InventoryOptionsHandler.dig(player);
+				Spade.dig(player);
 			else if (id == 2478)
 				Runecrafting.runecraft(player, RCRune.AIR);
 			else if (id == 2479)
@@ -1230,21 +1230,6 @@ public final class ObjectHandler {
 							ops.add("Yes.", () -> player.useStairs(new WorldTile(1206, 6506, 0)));
 							ops.add("No.");
 						}));
-			} else if (id == 70812) {
-				player.startConversation(new Dialogue()
-						.addSimple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
-						.addOptions(ops -> {
-							ops.add("Proceed.", () -> {
-								if (player.getSkills().getLevelForXp(Constants.SUMMONING) < 60) {
-									player.sendMessage("You need a Summoning level of 60 to go through this portal.");
-									return;
-								}
-								player.lock();
-								player.getControllerManager().startController(new QueenBlackDragonController());
-								player.setNextAnimation(new Animation(16752));
-							});
-							ops.add("Step away from the portal.");
-						}));
 			} else if (id == 70799)
 				player.useStairs(-1, new WorldTile(1178, 6355, 0));
 			else if (id == 70796)
@@ -1268,12 +1253,12 @@ public final class ObjectHandler {
 					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							InventoryOptionsHandler.dig(player);
+							Spade.dig(player);
 						}
 
 					}, 1);
 				} else
-					InventoryOptionsHandler.dig(player);
+					Spade.dig(player);
 			} else if (id == 11724)
 				player.useStairs(-1, new WorldTile(2968, 3348, 1), 0, 1);
 			else if (id == 11725)
@@ -1475,13 +1460,8 @@ public final class ObjectHandler {
 					}
 					break;
 				case "anvil":
-					if (objectDef.containsOption(0, "Smith")) {
-						ForgingBar bar = ForgingBar.getBar(player);
-						if (bar != null)
-							ForgingInterface.sendSmithingInterface(player, bar);
-						else
-							player.sendMessage("You have no bars which you have smithing level to use.");
-					}
+					if (objectDef.containsOption(0, "Smith"))
+						ForgingInterface.openSmithingInterfaceForHighestBar(player);
 					break;
 					//					case "gate":
 					//					case "large door":
@@ -1574,7 +1554,7 @@ public final class ObjectHandler {
 			if (object.getDefinitions(player).getName().equalsIgnoreCase("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))
 				player.startConversation(new SmeltingD(player, object));
 			else if (id == 17010) {
-				if (!Quest.LUNAR_DIPLOMACY.meetsRequirements(player, "to use the Lunar Spellbook."))
+				if (!player.isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use the Lunar Spellbook."))
 					return;
 				player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
 					ops.add("Yes, replace my spellbook.", () -> {
@@ -1882,9 +1862,11 @@ public final class ObjectHandler {
 					return;
 				switch (objectDef.getName().toLowerCase()) {
 				case "anvil":
-					ForgingBar bar = ForgingBar.forId(itemId);
-					if (bar != null)
+					int bar = Smithable.getHighestBar(player);
+					if (bar != -1)
 						ForgingInterface.sendSmithingInterface(player, bar);
+					else
+						player.sendMessage("You can't find a way to smith that.");
 					break;
 				case "fire":
 					if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))

@@ -3,9 +3,12 @@
     "Smoke devil"
   ],
   "attackAnim": 7816,
+  "attackSound": -1,
   "defenceAnim": 7817,
+  "defendSound": -1,
   "deathAnim": 7818,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 39,
   "hitpoints": 3000,
   "maxHit": 150,

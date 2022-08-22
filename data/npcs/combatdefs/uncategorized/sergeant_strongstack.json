@@ -3,9 +3,12 @@
     "Sergeant Strongstack"
   ],
   "attackAnim": 6154,
+  "attackSound": -1,
   "defenceAnim": 6155,
+  "defendSound": -1,
   "deathAnim": 6156,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 149,
   "hitpoints": 1280,
   "maxHit": 200,
@@ -22,7 +25,7 @@
   "attackGfx": -1,
   "attackProjectile": -1,
   "agressivenessType": "AGGRESSIVE",
-  "aggroDistance": 4,
+  "aggroDistance": 64,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1
 }

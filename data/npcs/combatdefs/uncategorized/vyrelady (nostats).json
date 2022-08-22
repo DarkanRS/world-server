@@ -3,9 +3,12 @@
     "Vyrelady"
   ],
   "attackAnim": 36,
+  "attackSound": -1,
   "defenceAnim": 7625,
+  "defendSound": -1,
   "deathAnim": 7604,
   "deathDelay": 4,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 1610,
   "maxHit": 264,

@@ -3,9 +3,12 @@
     "Jungle horror"
   ],
   "attackAnim": 4235,
+  "attackSound": -1,
   "defenceAnim": 4232,
+  "defendSound": -1,
   "deathAnim": 4233,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 450,
   "maxHit": 84,

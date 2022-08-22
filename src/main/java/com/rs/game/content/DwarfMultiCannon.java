@@ -119,7 +119,7 @@ public class DwarfMultiCannon extends OwnedObject {
 	}
 
 	public static void setUp(Player player, int type) {
-		if (!player.getQuestManager().isComplete(Quest.DWARF_CANNON)) {
+		if (!player.isQuestComplete(Quest.DWARF_CANNON)) {
 			player.sendMessage("You have no idea how to operate this machine.");
 			return;
 		}

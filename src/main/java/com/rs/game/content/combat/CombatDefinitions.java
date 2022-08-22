@@ -19,11 +19,10 @@ package com.rs.game.content.combat;
 import java.util.Map;
 
 import com.rs.cache.loaders.Bonus;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.util.Utils;
 
 public final class CombatDefinitions {
 	
@@ -376,27 +375,10 @@ public final class CombatDefinitions {
 		for (Item item : player.getEquipment().getItemsCopy()) {
 			if (item == null)
 				continue;
-			int[] bonuses = item.getDefinitions().getBonuses();
-			if (bonuses == null)
-				continue;
 			for (Bonus bonus : Bonus.values()) {
 				if (bonus == Bonus.RANGE_STR && getBonus(Bonus.RANGE_STR) != 0)
 					continue;
-				this.bonuses[bonus.ordinal()] += bonuses[bonus.ordinal()];
-			}
-			switch(item.getId()) {
-			case 11283:
-			case 11284:
-				this.bonuses[Bonus.STAB_DEF.ordinal()] += item.getMetaDataI("dfsCharges", 0);
-				this.bonuses[Bonus.SLASH_DEF.ordinal()] += item.getMetaDataI("dfsCharges", 0);
-				this.bonuses[Bonus.CRUSH_DEF.ordinal()] += item.getMetaDataI("dfsCharges", 0);
-				this.bonuses[Bonus.RANGE_DEF.ordinal()] += item.getMetaDataI("dfsCharges", 0);
-				break;
-			case 19152:
-			case 19157:
-			case 19162:
-				this.bonuses[Bonus.RANGE_STR.ordinal()] += Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
-				break;
+				this.bonuses[bonus.ordinal()] += Equipment.getBonus(player, item, bonus);
 			}
 		}
 	}

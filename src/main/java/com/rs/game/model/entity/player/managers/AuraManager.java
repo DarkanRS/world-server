@@ -144,7 +144,7 @@ public class AuraManager {
 		}
 	}
 
-	public static ItemClickHandler handleAuraOptions = new ItemClickHandler(Aura.ITEMID_MAP.keySet().toArray(), new String[] { "Activate aura", "Activate Aura", "Aura time remaining", "Time-Remaining" }) {
+	public static ItemClickHandler handleAuraOptions = new ItemClickHandler(Aura.ITEMID_MAP.keySet().toArray(), new String[] { "Activate aura", "Activate Aura", "Aura Time remaining", "Aura time remaining", "Time-Remaining" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			switch(e.getOption()) {
@@ -153,6 +153,7 @@ public class AuraManager {
 				e.getPlayer().getAuraManager().activate();
 				break;
 			case "Aura time remaining":
+			case "Aura Time remaining":
 			case "Time-Remaining":
 				Aura aura = Aura.forId(e.getItem().getId());
 				e.getPlayer().getAuraManager().sendAuraRemainingTime(aura);
@@ -233,7 +234,7 @@ public class AuraManager {
 	public void deactivate() {
 		if (currAura == null)
 			return;
-		if (currAura == Aura.JACK_OF_TRADES)
+		if (currAura == Aura.JACK_OF_TRADES && getJotSkills() >= 10)
 			player.setDailyB("usedJoT", true);
 		else if (currAura == Aura.WISDOM)
 			player.setDailyB("usedWisdom", true);

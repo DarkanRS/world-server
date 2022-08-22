@@ -143,7 +143,7 @@ public class BlackKnightsFortress extends QuestOutline {
 		@Override
 		public void handle(EnterChunkEvent e) {
 			if (e.getEntity() instanceof Player p && p.hasStarted() && FORTRESS_CHUNKS.contains(e.getChunkId())) {
-				if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) >= STARTED && !p.getQuestManager().isComplete(Quest.BLACK_KNIGHTS_FORTRESS)) {
+				if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) >= STARTED && !p.isQuestComplete(Quest.BLACK_KNIGHTS_FORTRESS)) {
 					for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
 						if (npc.getName().equalsIgnoreCase("Black Knight"))
 							if (npc.lineOfSightTo(p, false)) {

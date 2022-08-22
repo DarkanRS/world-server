@@ -45,7 +45,7 @@ public class TzHaar {
 	public static ItemClickHandler handleCheckTokkulZoOptions = new ItemClickHandler(new Object[] { TOKKUL_ZO_CHARGED }, new String[] { "Check-charge", "Check-charges", "Teleport" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (!Quest.ELDER_KILN.meetsRequirements(e.getPlayer(), "to use the Tokkul-Zo."))
+			if (!e.getPlayer().isQuestComplete(Quest.ELDER_KILN, "to use the Tokkul-Zo."))
 				return;
 			if (e.getOption().equals("Teleport")) {
 				if (e.isEquipped()) {
@@ -86,7 +86,7 @@ public class TzHaar {
 						public void create() {
 							boolean recTZ = player.getBool("recTokkulZo");
 							if (!player.containsItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
-								if (Quest.ELDER_KILN.meetsRequirements(player, "to obtain a Tokkul-Zo."))
+								if (player.isQuestComplete(Quest.ELDER_KILN, "to obtain a Tokkul-Zo."))
 									option("Can I have a Tokkul-Zo?" + (recTZ ? " I've lost mine." : ""), new Dialogue()
 											.addPlayer(HeadE.CONFUSED, "Can I have a Tokkul-Zo?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
 											.addNPC(15166, HeadE.CALM_TALK, "Alright, you have proven yourself. Try not to lose it."

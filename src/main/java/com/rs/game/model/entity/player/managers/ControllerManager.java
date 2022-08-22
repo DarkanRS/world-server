@@ -324,6 +324,7 @@ public final class ControllerManager {
 
 	public void forceStop() {
 		if (controller != null) {
+			controller.onRemove();
 			controller.forceClose();
 			controller = null;
 		}
@@ -331,6 +332,8 @@ public final class ControllerManager {
 	}
 
 	public void removeControllerWithoutCheck() {
+		if (controller != null)
+			controller.onRemove();
 		controller = null;
 		inited = false;
 	}

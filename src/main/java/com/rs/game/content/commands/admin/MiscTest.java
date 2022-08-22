@@ -32,6 +32,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
+import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.commands.Commands;
@@ -51,6 +52,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.game.model.entity.pathing.RouteFinder;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -65,9 +67,10 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
-import com.rs.lib.util.ReflectionCheck;
 import com.rs.lib.util.Utils;
+import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;
@@ -77,6 +80,8 @@ import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
 import com.rs.utils.music.Voices;
+import com.rs.utils.reflect.ReflectionAnalysis;
+import com.rs.utils.reflect.ReflectionTest;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
@@ -96,14 +101,14 @@ public class MiscTest {
 			14962, 14401, 14673, 14639, 14645, 14722, 14733, 14748, 14780, 14787, 14941, 14841, 14845, 14886, 14929, 14982, 3302, 3300, 3288, 3290, 15239, 15034, 15063, 15097, 7573, 15103, 15105, 15217, 15187, 15176, 15181, 6292, 6998, 7493, 15261, 7502, 7437, 7436, 7434, 15906, 15317, 15305, 15308, 15275, 15276, 2916, 15304, 16077, 107, 379, 307, 10825, 1478, 4207, 10860, 10824, 10116, 7456, 9573, 12465, 5848, 15353, 10964, 1174, 1291, 12437, 9674, 16875, 1202, 1730, 1786, 2120, 2566, 2231, 15740, 2605, 3413, 3536, 3497, 3052, 3929, 7055, 8644, 7157, 6787, 5684, 8498, 6066, 6575, 6366, 5784,
 			6786, 4405, 9856, 4729, 9818, 9211, 9700, 9699, 9694, 9503, 9953, 11553, 16501, 12361, 11843, 10731, 10734, 11957, 11235, 16325, 10978, 12666, 12546, 12760, 12901, 12934, 15644, 13686, 13510, 13597, 13956, 13700, 14528, 14306, 16921, 14878, 14955, 15313, 15376, 15330, 15402, 15382, 15429, 15433, 15536, 15560, 15573, 15566, 15576, 15900, 15584, 15592, 15602, 15733, 15702, 15637, 15639, 15658, 15645, 15717, 15716, 16212, 15746, 15754, 15940, 16404, 15994, 15898, 15757, 16062, 15802, 15808, 15937, 16072, 8527, 15943, 8545, 16245, 16410, 16439, 16429, 16370, 16532, 16548, 16533, 16632,
 			16686, 16647, 16617, 16623, 16620, 16629, 16603, 16671, 16940, 16929, 16870, 16826, 16835, 16855, 16825, 16770, 16767, 16760, 16850, 16864, 16881, 16917, 16894, 16935, 16938, 16973, 16964, 16958, 16978, 16987, 17064, 17010, 17132, 17118, 17159, 17184, 17169, 17155, 17149, 17158, 17168 };
-
+	
 	@ServerStartupEvent
 	public static void loadCommands() {
 
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-
+		
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
 		});
@@ -122,6 +127,71 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
+		});
+		
+		Commands.add(Rights.DEVELOPER, "qbd", "Start qbd", (p, args) -> {
+			p.getControllerManager().startController(new QueenBlackDragonController());
+		});
+		
+		/**
+		 * 31 orange glow
+		 * 40 fire cape
+		 * 54 old hitsplats
+		 * 61 sick fire glow
+		 * 62 smokey pulsating
+		 * 89 colored glow
+		 * 361 bright white with bright colored glow
+		 * 451 running watery color
+		 * 637 ghostlyish mostly transparent
+		 * 647 another bright glow with less bloom
+		 * 648 breathing texture almost
+		 * 649 recolorable ghostly
+		 * 654, 656, 658 storm with thunder
+		 * 655 subtle dripping recolor
+		 * 657 fast pulsating ecto recolor
+		 * 676, 677 some colorful wheel
+		 * 679 recolorable ghillie suit
+		 * 691 another bright bloom glow
+		 * 707 transparent with black stars pulsating
+		 * 718 explosion bloom particles
+		 * 722 sick glow particle swirl recolorable
+		 * 811 eye blinding bloom
+		 * 824 bright looking lava
+		 * 825 recolorable bloom lava
+		 * 826 magical psychadelic moving
+		 * 831 recolorable upward flowing liquid
+		 * 847 sick bright yellow magical
+		 * 856 recolorable fast flowing liquid
+		 * 870 very bloomy recolorable
+		 * 875 bright but low bloom recolorable
+		 * 876-878 bright cool bloom
+		 * 880 alternate fire cape lava
+		 * 906 recolorable dragonhide lookin
+		 * 916 eye rape bloom
+		 * 
+		 */
+		Commands.add(Rights.DEVELOPER, "drtor [texId]", "Set equipment texture override", (p, args) -> {
+			if (p.getEquipment().get(Equipment.CHEST) != null)
+				p.getEquipment().get(Equipment.CHEST).addMetaData("drTOr", Integer.valueOf(args[0]));
+			if (p.getEquipment().get(Equipment.LEGS) != null)
+				p.getEquipment().get(Equipment.LEGS).addMetaData("drTOr", Integer.valueOf(args[0]));
+			if (p.getEquipment().get(Equipment.SHIELD) != null)
+				p.getEquipment().get(Equipment.SHIELD).addMetaData("drTOr", Integer.valueOf(args[0]));
+			if (p.getEquipment().get(Equipment.HEAD) != null)
+				p.getEquipment().get(Equipment.HEAD).addMetaData("drTOr", Integer.valueOf(args[0]));
+			p.getAppearance().generateAppearanceData();
+		});
+		
+		Commands.add(Rights.DEVELOPER, "drcor [r, g, b]", "Set equipment color override", (p, args) -> {
+			if (p.getEquipment().get(Equipment.CHEST) != null)
+				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			if (p.getEquipment().get(Equipment.LEGS) != null)
+				p.getEquipment().get(Equipment.LEGS).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			if (p.getEquipment().get(Equipment.SHIELD) != null)
+				p.getEquipment().get(Equipment.SHIELD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			if (p.getEquipment().get(Equipment.HEAD) != null)
+				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+			p.getAppearance().generateAppearanceData();
 		});
 		
 		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
@@ -627,7 +697,6 @@ public class MiscTest {
 				return;
 			}
 			p.setNextWorldTile(objs.get(Integer.valueOf(args[1])));
-
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
@@ -683,8 +752,6 @@ public class MiscTest {
 		Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> {
 			p.playSound(Integer.valueOf(args[0]), 2);
 		});
-
-
 
 		Commands.add(Rights.PLAYER, "playthroughvoices [start finish tick_delay]", "Gets player rights", (p, args) -> {
 			//		Voice[] voices = new Voice[3];
@@ -834,8 +901,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
-			p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]),
-					Integer.valueOf(args[4]));
+			p.getPackets().sendCameraShake(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
@@ -1027,7 +1093,23 @@ public class MiscTest {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				target.addReflectionCheck(new ReflectionCheck("com.Loader", "private", "void", "doFrame", true));
+				target.queueReflectionAnalysis(new ReflectionAnalysis()
+						.addTest(new ReflectionTest("Client", "validates client class", new ReflectionCheck("com.Loader", "MAJOR_BUILD"), check -> {
+							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static final");
+						}))
+						.addTest(new ReflectionTest("Loader", "validates launcher class", new ReflectionCheck("com.darkan.Loader", "DOWNLOAD_URL"), check -> {
+							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static");
+						}))
+						.addTest(new ReflectionTest("Player rights", "validates player rights client sided", new ReflectionCheck("com.jagex.client", "PLAYER_RIGHTS", true), check -> {
+							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getData() == target.getRights().getCrown();
+						}))
+						.addTest(new ReflectionTest("Lobby port method", "validates getPort", new ReflectionCheck("com.Loader", "I", "getPort", new Object[] { Integer.valueOf(1115) }), check -> {
+							return check.getResponse().getCode() == ResponseCode.NUMBER && check.getResponse().getData() == 43594;
+						}))
+						.addTest(new ReflectionTest("Local checksum method", "validates getLocalChecksum", new ReflectionCheck("com.darkan.Download", "java.lang.String", "getLocalChecksum", new Object[] { }), check -> {
+							return check.getResponse().getCode() == ResponseCode.STRING && check.getResponse().getStringData().equals("e4d95327297ffca1698dff85eda6622d");
+						}))
+						.build());
 		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {

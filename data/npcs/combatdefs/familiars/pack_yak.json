@@ -3,9 +3,12 @@
     "Pack yak"
   ],
   "attackAnim": 853,
+  "attackSound": -1,
   "defenceAnim": 851,
+  "defendSound": -1,
   "deathAnim": 852,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 0,
   "hitpoints": 7100,
   "maxHit": 125,

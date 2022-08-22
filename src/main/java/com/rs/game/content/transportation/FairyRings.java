@@ -41,7 +41,7 @@ public class FairyRings {
 		DLS(77, "Dungeons: Myreque hideout", new WorldTile(3501, 9821, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.IN_SEARCH_OF_MYREQUE.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.IN_SEARCH_OF_MYREQUE, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		DLR(76, "Islands: Poison Waste south of Isafdar", new WorldTile(2213, 3099, 0)),
@@ -52,7 +52,7 @@ public class FairyRings {
 		DKQ(71, "Glacor Cave", new WorldTile(4183, 5726, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.RITUAL_OF_MAHJARRAT.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.RITUAL_OF_MAHJARRAT, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		DKP(70, "Karamja: South of Musa Point", new WorldTile(2900, 3111, 0)),
@@ -70,7 +70,7 @@ public class FairyRings {
 		ALP(26, "Kandarin: Feldip Hills", new WorldTile(2468, 4189, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		AKS(25, "Feldip Hills: Feldip Hunter area", new WorldTile(2571, 2956, 0)),
@@ -82,7 +82,7 @@ public class FairyRings {
 		AJQ(19, "Dungeons: Dark cave south of Dorgesh-Kaan", new WorldTile(2735, 5221, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.DEATH_TO_DORGESHUUN.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.DEATH_TO_DORGESHUUN, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		AJP(18, "Nowhere", null),
@@ -94,14 +94,14 @@ public class FairyRings {
 		DIP(62, "Mos Le'Harmless: Isle on the coast of Mos Le'Harmless", new WorldTile(3763, 2930, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		CLS(61, "Islands: Jungle spiders near Yanille", new WorldTile(2682, 3081, 0)),
 		CLR(60, "Ape Atoll: West of the Ape Atoll Agility Course", new WorldTile(2735, 2742, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		CLQ(59, "Nowhere", null),
@@ -120,7 +120,7 @@ public class FairyRings {
 		CIP(46, "North-west Miscellania", new WorldTile(2513, 3884, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.FREMENNIK_TRIALS.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.FREMENNIK_TRIALS, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		BLS(45, "Nowhere", null),
@@ -128,7 +128,7 @@ public class FairyRings {
 		BLQ(43, "Yu'biusk", new WorldTile(2228, 4244, 1)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.CHOSEN_COMMANDER.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.CHOSEN_COMMANDER, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		BLP(42, "Dungeons: TzHaar area", new WorldTile(4622, 5147, 0)),
@@ -140,7 +140,7 @@ public class FairyRings {
 		BJR(36, "Fisher Realm", new WorldTile(2650, 4730, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.HOLY_GRAIL.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.HOLY_GRAIL, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		BJQ(35, "Dungeons: Ancient cavern", new WorldTile(1737, 5342, 0)) {
@@ -154,7 +154,7 @@ public class FairyRings {
 		BIR(32, "Sparse Plane", new WorldTile(2455, 4396, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
-				return Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player, silent ? null : "to use this fairy ring code.");
+				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
 
@@ -190,12 +190,11 @@ public class FairyRings {
 				sendTeleport(e.getPlayer(), new WorldTile(3202, 3169, 0));
 				return;
 			}
-			if(e.getPlayer().getQuestManager().isComplete(Quest.LOST_CITY)) {
+			if(e.getPlayer().isQuestComplete(Quest.FAIRY_TALE_I_GROWING_PAINS, "to use the fairy ring system.")) {
 				FairyRings.openRingInterface(e.getPlayer(), e.getObject(), e.getObjectId() == 12128);
 				return;
 			}
 			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "I don't know what's supposed to be happening here..."));
-			e.getPlayer().sendMessage("You require The Lost City quest");
 		}
 	};
 
@@ -218,7 +217,7 @@ public class FairyRings {
 	};
 
 	public static boolean checkAll(Player player) {
-		if ((player.getQuestManager().isComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT) && Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT.meetsRequirements(player)) || player.getEquipment().getWeaponId() == 772 || player.getEquipment().getWeaponId() == 9084)
+		if ((player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT)) || player.getEquipment().getWeaponId() == 772 || player.getEquipment().getWeaponId() == 9084)
 			return true;
 		player.sendMessage("The fairy ring only works for those who wield fairy magic.");
 		return false;

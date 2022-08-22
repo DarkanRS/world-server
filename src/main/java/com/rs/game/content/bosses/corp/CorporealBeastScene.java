@@ -14,8 +14,9 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.cutscenes;
+package com.rs.game.content.bosses.corp;
 
+import com.rs.game.content.cutscenes.Cutscene;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
 

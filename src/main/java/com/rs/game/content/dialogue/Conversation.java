@@ -75,6 +75,7 @@ public class Conversation {
 	}
 
 	public void create(String stageName) {
+		created = true;
 		setFirst(getStage(stageName).getHead());
 	}
 
@@ -228,7 +229,7 @@ public class Conversation {
 		if (options.getOptions().size() <= 1) {
 			for (String opName : options.getOptions().keySet()) {
 				Option op = options.getOptions().get(opName);
-				if (op.show()) {
+				if (op.show() && op.getDialogue() != null) {
 					Dialogue next = addNext(op.getDialogue());
 					if (options.getConv() != null)
 						options.getConv().addStage(options.getStageName(), next);
@@ -247,7 +248,7 @@ public class Conversation {
 			Dialogue op = new Dialogue(new OptionStatement(title, ops.stream().toArray(String[] ::new)));
 			for (String opName : options.getOptions().keySet()) {
 				Option o = options.getOptions().get(opName);
-				if (o.show())
+				if (o.show() && o.getDialogue() != null)
 					op.addNext(o.getDialogue());
 			}
 			if (options.getConv() != null)
@@ -264,7 +265,7 @@ public class Conversation {
 		Dialogue currPage = baseOption;
 		for (int i = 0;i < ops.length;i++) {
 			Option op = options.getOptions().get(ops[i]);
-			if (op.show()) {
+			if (op.show() && op.getDialogue() != null) {
 				currPage.addNext(op.getDialogue());
 				if (i >= 3 && ((i+1) % 4) == 0) {
 					String[] nextOps = new String[Utils.clampI(ops.length-i, 0, 5)];
@@ -331,15 +332,21 @@ public class Conversation {
 	}
 	
 	public void process(int opIndex) {
-		if (current != null)
+		if (current != null) {
 			current.close(player);
+			if (current.getVoiceEffect() > -1)
+				player.getPackets().resetSounds();
+		}
 		current = current.getNext(opIndex);
 		if (current == null) {
 			player.endConversation();
 			return;
 		}
-		if (current instanceof StageSelectDialogue d)
+		if (current instanceof StageSelectDialogue d) {
+			if (d.getFunc() != null)
+				d.getFunc().run();
 			current = d.getConversation().getStage(d.getStageName());
+		}
 		if (player.getInterfaceManager().containsChatBoxInter())
 			player.getInterfaceManager().closeChatBoxInterface();
 		current.run(player);

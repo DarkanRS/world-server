@@ -3,9 +3,12 @@
     "Crawling corpse torso"
   ],
   "attackAnim": 12891,
+  "attackSound": -1,
   "defenceAnim": 12890,
+  "defendSound": -1,
   "deathAnim": 12893,
   "deathDelay": 6,
+  "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 87,
   "maxHit": 21,

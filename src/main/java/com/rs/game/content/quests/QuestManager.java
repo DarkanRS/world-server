@@ -203,10 +203,18 @@ public class QuestManager {
 		return true;
 	}
 
-	public boolean isComplete(Quest quest) {
+	public boolean isComplete(Quest quest, String actionForUnimplemented) {
 		if (!quest.isImplemented())
+			return quest.meetsReqs(player, actionForUnimplemented);
+		if (getStage(quest) == quest.getHandler().getCompletedStage())
 			return true;
-		return getStage(quest) == quest.getHandler().getCompletedStage();
+		if (actionForUnimplemented != null)
+			player.sendMessage("You must have completed " + quest.getDefs().name + " " + actionForUnimplemented);
+		return false;
+	}
+	
+	public boolean isComplete(Quest quest) {
+		return isComplete(quest, null);
 	}
 
 	public int getQuestPoints() {
@@ -231,7 +239,7 @@ public class QuestManager {
 	}
 
 	public void sendQuestStage(Quest quest, boolean refresh) {
-		if (isComplete(quest))
+		if (!quest.isImplemented() || isComplete(quest))
 			quest.getDefs().sendCompleted(player);
 		else if (getStage(quest) > 0)
 			quest.getDefs().sendStarted(player);
