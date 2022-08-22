@@ -64,7 +64,7 @@ public class Piscatoris {
 	public static ObjectClickHandler handleColonyTunnels = new ObjectClickHandler(new Object[] { 14922 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Quest.SWAN_SONG.meetsRequirements(e.getPlayer(), "to enter the Piscatoris Fishing Colony."))
+			if (!e.getPlayer().isQuestComplete(Quest.SWAN_SONG, "to enter the Piscatoris Fishing Colony."))
 				return;
 			final boolean isNorth = e.getPlayer().getY() > 3653;
 			final WorldTile tile = isNorth ? new WorldTile(2344, 3650, 0) : new WorldTile(2344, 3655, 0);

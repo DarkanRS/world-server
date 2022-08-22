@@ -122,7 +122,7 @@ public class SlayerTaskManager {
 		for (Task task : Task.values()) {
 			if ((task.getMaster() != master) || player.blockedTaskContains(task.getMonster()) || lastMonster == task.getMonster() || (player.getSkills().getLevelForXp(Constants.SLAYER) < task.getMonster().getLevel()))
 				continue;
-			if (task.getMonster().getQuestReq() != null && (!task.getMonster().getQuestReq().meetsRequirements(player) || !player.getQuestManager().isComplete(task.getMonster().getQuestReq())))
+			if (task.getMonster().getQuestReq() != null && !player.isQuestComplete(task.getMonster().getQuestReq()))
 				continue;
 			if ((task.getMonster() == TaskMonster.AQUANITES && !player.aquanitesUnlocked()) || (task.getMonster() == TaskMonster.CYCLOPES && !((player.getSkills().getLevelForXp(Constants.ATTACK) + player.getSkills().getLevelForXp(Constants.STRENGTH)) >= 130)))
 				continue;

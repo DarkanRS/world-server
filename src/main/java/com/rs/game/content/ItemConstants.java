@@ -351,12 +351,12 @@ public class ItemConstants {
 			}
 		Quest quest = Quest.forSlot(item.getDefinitions().getWieldQuestReq());
 		if (quest != null) {
-			if (!player.getQuestManager().isComplete(quest)) {
+			if (!player.isQuestComplete(quest)) {
 				if (player.getSession() != null)
 					player.sendMessage("You need to complete " + quest.getDefs().name + " to use this.");
 				return false;
 			}
-			if (!quest.meetsRequirements(player, "to wear this."))
+			if (!player.isQuestComplete(quest, "to wear this."))
 				return false;
 		}
 		HashMap<Integer, Integer> requiriments = item.getDefinitions().getWearingSkillRequiriments();

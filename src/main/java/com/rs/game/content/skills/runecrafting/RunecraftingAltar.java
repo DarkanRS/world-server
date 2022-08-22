@@ -370,7 +370,7 @@ public class RunecraftingAltar {
 	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 171, 300, 462, 844, 5913 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+			if (!e.getPlayer().isQuestComplete(Quest.RUNE_MYSTERIES)) {
 				e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
 				return;
 			}

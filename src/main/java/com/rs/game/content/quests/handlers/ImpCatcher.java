@@ -151,7 +151,7 @@ public class ImpCatcher extends QuestOutline {
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("talk-to"))
 				e.getPlayer().startConversation(new MizgogD(e.getPlayer()));
-			else if (e.getOption().equalsIgnoreCase("trade") && e.getPlayer().getQuestManager().isComplete(Quest.IMP_CATCHER))
+			else if (e.getOption().equalsIgnoreCase("trade") && e.getPlayer().isQuestComplete(Quest.IMP_CATCHER))
 				ShopsHandler.openShop(e.getPlayer(), "wizard_mizgog");
 			else
 				e.getPlayer().startConversation(new MizgogD(e.getPlayer()));

@@ -67,7 +67,7 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 		super(p);
 		this.p = p;
 
-		if(p.getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
+		if(p.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 			addNPC(PRINCE_ALI, HeadE.CALM_TALK, "I owe you my life for that escape. You cannot help me this time, they know who you are. Go in peace, " +
 					"friend of Al-Kharid.");
 		else if(p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&

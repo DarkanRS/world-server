@@ -83,7 +83,7 @@ public class Falador {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
-							if(!player.getQuestManager().isComplete(Quest.PIRATES_TREASURE))
+							if(!player.isQuestComplete(Quest.PIRATES_TREASURE))
 								option("About Pirate's Treasure", new Dialogue()
 										.addNext(()->{
 											e.getPlayer().startConversation(new RedbeardFrankPiratesTreasureD(e.getPlayer()).getStart());
@@ -128,7 +128,7 @@ public class Falador {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
-							if(!player.getQuestManager().isComplete(Quest.KNIGHTS_SWORD))
+							if(!player.isQuestComplete(Quest.KNIGHTS_SWORD))
 								option("About Knight's Sword.", new Dialogue()
 										.addNext(()->{e.getPlayer().startConversation(new SquireKnightsSwordD(e.getPlayer()).getStart());}));
 							option("About the Achievement System...",

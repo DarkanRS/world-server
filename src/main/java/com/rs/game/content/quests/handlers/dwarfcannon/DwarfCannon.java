@@ -146,7 +146,7 @@ public class DwarfCannon extends QuestOutline {
 	public static void updateVars(Player player) {
 		if (player.getQuestManager().getStage(Quest.DWARF_CANNON) == 3 && !player.getInventory().containsItem(DWARF_REMAINS))
 			player.getVars().setVar(0, 3);
-		else if (player.getQuestManager().getStage(Quest.DWARF_CANNON) >= 8 && !player.getQuestManager().isComplete(Quest.DWARF_CANNON))
+		else if (player.getQuestManager().getStage(Quest.DWARF_CANNON) >= 8 && !player.isQuestComplete(Quest.DWARF_CANNON))
 			player.getVars().setVar(0, 8);
 	}
 

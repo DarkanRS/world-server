@@ -329,9 +329,9 @@ public class RuneMysteries extends QuestOutline {
 									option("No thanks", () -> {
 
 									});
-									if (e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+									if (e.getPlayer().isQuestComplete(Quest.RUNE_MYSTERIES)) {
 										option("Can you teleport me to the rune essence?", () -> {
-											if (!e.getPlayer().getQuestManager().isComplete(Quest.RUNE_MYSTERIES)) {
+											if (!e.getPlayer().isQuestComplete(Quest.RUNE_MYSTERIES)) {
 												e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
 												return;
 											}

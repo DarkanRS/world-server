@@ -297,7 +297,7 @@ public class Draynor {
 	public static NPCClickHandler handleAva = new NPCClickHandler(new Object[] { 5199 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (!Quest.ANIMAL_MAGNETISM.meetsRequirements(e.getPlayer(), "to enter this area."))
+			if (!e.getPlayer().isQuestComplete(Quest.ANIMAL_MAGNETISM, "to buy Ava's devices."))
 				return;
 			Conversation chooseDevice = new Conversation(e.getPlayer()) {
 				{
@@ -329,7 +329,7 @@ public class Draynor {
 												HeadE.NO_EXPRESSION,
 												"I'm not running a charity. You need at least 999 coins and 75 steel arrows to buy a new accumulator."));
 								});
-							if (Quest.DO_NO_EVIL.meetsRequirements(player, "to claim an alerter."))
+							if (player.isQuestComplete(Quest.DO_NO_EVIL, "to claim an alerter."))
 								option("The alerter", () -> {
 									if (player.getInventory().containsItem(995, 999)
 											&& player.getInventory().containsItem(886, 75)) {
@@ -409,8 +409,6 @@ public class Draynor {
 	public static ObjectClickHandler handleEnterDraynorAvaSecret = new ObjectClickHandler(new Object[] { 160, 47404 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Quest.ANIMAL_MAGNETISM.meetsRequirements(e.getPlayer(), "to enter this area."))
-				return;
 			e.getPlayer().lock();
 			e.getPlayer().setNextFaceWorldTile(e.getObject());
 			e.getPlayer().setNextAnimation(new Animation(1548));

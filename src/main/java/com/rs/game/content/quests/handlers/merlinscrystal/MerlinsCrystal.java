@@ -123,7 +123,7 @@ public class MerlinsCrystal extends QuestOutline {
 		final int BUCKET_WAX = 30;
 
         private static void openShop(Player p) {
-            if(p.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL))
+            if(p.isQuestComplete(Quest.MERLINS_CRYSTAL))
                 ShopsHandler.openShop(p, "candle_with_black_shop");
             else
                 ShopsHandler.openShop(p, "candle_shop");
@@ -133,7 +133,7 @@ public class MerlinsCrystal extends QuestOutline {
 		public void handle(NPCClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("Talk-to")) {
                 if (e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= MerlinsCrystal.THE_BLACK_CANDLE
-                        && !e.getPlayer().getQuestManager().isComplete(Quest.MERLINS_CRYSTAL)) {
+                        && !e.getPlayer().isQuestComplete(Quest.MERLINS_CRYSTAL)) {
                     e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
                         {
                             if (e.getPlayer().getInventory().containsItem(UNLIT_BLACK_CANDLE)) {

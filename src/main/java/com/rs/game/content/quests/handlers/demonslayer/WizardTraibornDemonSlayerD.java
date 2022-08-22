@@ -47,7 +47,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 		this.p = p;
 
 		addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Ello young thingummywut.");
-		if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER) && p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_RITUAL_KNOWN_ATTR))
+		if(!p.isQuestComplete(Quest.DEMON_SLAYER) && p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_RITUAL_KNOWN_ATTR))
 			if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR)) {
 				if(!p.getInventory().containsItem(DemonSlayer.WIZARD_KEY)) {
 					addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, RETRIEVE_KEY_AGAIN).getStart());});
@@ -108,7 +108,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 										.addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Cheerio then. It was nice chatting to you."));
 							}
 						}));
-				if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER)
+				if(!p.isQuestComplete(Quest.DEMON_SLAYER)
 						&& p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
 						&& !p.getInventory().containsItem(DemonSlayer.WIZARD_KEY))
 					option("I need to get a key given to you by Sir Prysin.", new Dialogue()

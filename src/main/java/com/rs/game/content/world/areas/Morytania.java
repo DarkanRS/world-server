@@ -273,7 +273,7 @@ public class Morytania  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getOpNum() == ClientPacket.OBJECT_OP2)
-				e.getPlayer().useLadder(new WorldTile(2272, 5334, e.getPlayer().getQuestManager().isComplete(Quest.NATURE_SPIRIT) ? 1 : 0));
+				e.getPlayer().useLadder(new WorldTile(2272, 5334, e.getPlayer().isQuestComplete(Quest.NATURE_SPIRIT) ? 1 : 0));
 		}
 	};
 
@@ -325,7 +325,7 @@ public class Morytania  {
 	public static ItemClickHandler handleDrakansMedallion = new ItemClickHandler(new Object[] { 21576 }, new String[] { "Teleport", "Check-charges" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (!Quest.BRANCHES_OF_DARKMEYER.meetsRequirements(e.getPlayer(), "to use the medallion."))
+			if (!e.getPlayer().isQuestComplete(Quest.BRANCHES_OF_DARKMEYER, "to use the medallion."))
 				return;
 			if (e.getOption().equals("Teleport")) {
 				if (e.getItem().getMetaDataI("drakanCharges") <= 0) {
@@ -367,7 +367,7 @@ public class Morytania  {
 	public static ObjectClickHandler handleDrakanMedallionCave = new ObjectClickHandler(new Object[] { 61091, 59921 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Quest.BRANCHES_OF_DARKMEYER.meetsRequirements(e.getPlayer(), "to enter the cave."))
+			if (!e.getPlayer().isQuestComplete(Quest.BRANCHES_OF_DARKMEYER, "to enter the cave."))
 				return;
 			e.getPlayer().fadeScreen(() -> {
 				e.getPlayer().setNextWorldTile(e.getObjectId() == 59921 ? new WorldTile(2273, 5152, 0) : new WorldTile(3498, 3204, 0));
@@ -378,7 +378,7 @@ public class Morytania  {
 	public static ObjectClickHandler handleClaimDrakanMedallion = new ObjectClickHandler(new Object[] { 61092 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (!Quest.BRANCHES_OF_DARKMEYER.meetsRequirements(e.getPlayer(), "to search this."))
+			if (!e.getPlayer().isQuestComplete(Quest.BRANCHES_OF_DARKMEYER, "to search this."))
 				return;
 			if (e.getPlayer().containsItem(21576)) {
 				e.getPlayer().sendMessage("You have already retrieved the medallion from here.");

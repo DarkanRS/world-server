@@ -55,7 +55,7 @@ public class HolyGrail extends QuestOutline {
 				lines.add("go to King Arthur for further orders.");
 				lines.add("");
 				lines.add("~~~Quest Requirements~~~");
-				lines.add((player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL) ? "<str>" : "") + "Merlin's Crystal");
+				lines.add((player.isQuestComplete(Quest.MERLINS_CRYSTAL) ? "<str>" : "") + "Merlin's Crystal");
 				lines.add("");
 				lines.add("~~~Skill Requirements~~~");
 				lines.add((player.getSkills().getLevel(Constants.ATTACK) >= 20 ? "<str>" : "") + "20 Attack(Wield Excalibur)");
@@ -153,7 +153,7 @@ public class HolyGrail extends QuestOutline {
 			new WorldTile(2649, 4684, 2)) {
 		@Override
 		public void handle(PickupItemEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.HOLY_GRAIL) || e.getPlayer().getInventory().containsItem(19))
+			if(e.getPlayer().isQuestComplete(Quest.HOLY_GRAIL) || e.getPlayer().getInventory().containsItem(19))
 				e.cancelPickup();
 		}
 	};

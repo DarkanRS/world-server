@@ -69,7 +69,8 @@ public class DeathOfficeController extends Controller {
 			// ALKARID
 			, new WorldTile(3275, 3166, 0)
 			// DRAYNOR VILLAGE
-			, new WorldTile(3079, 3250, 0) };
+			, new WorldTile(3079, 3250, 0) 
+	};
 
 	// 3796 - 0 - Lumbridge Castle - {1=Falador Castle, 2=Camelot, 3=Soul Wars,
 	// 4=Burthorpe}

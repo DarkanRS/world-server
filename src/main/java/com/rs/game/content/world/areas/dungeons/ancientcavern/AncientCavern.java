@@ -35,12 +35,17 @@ public class AncientCavern {
 	public static ObjectClickHandler handleFixRing = new ObjectClickHandler(new Object[] { "Enchanted land" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getInventory().containsItem(6004, 5)) {
-				e.getPlayer().setNextAnimation(new Animation(2291));
-				e.getPlayer().getInventory().deleteItem(6004, 5);
-				e.getPlayer().getVars().saveVarBit(FIXED_RING_VARBIT, 1);
-			} else
+			if (!e.getOption().equals("Plant")) {
+				e.getPlayer().sendMessage("YIKES");
+				return;
+			}
+			if (!e.getPlayer().getInventory().containsItem(6004, 5)) {
 				e.getPlayer().sendMessage("You need 5 bittercap mushrooms to repair the fairy ring.");
+				return;
+			}
+			e.getPlayer().setNextAnimation(new Animation(2291));
+			e.getPlayer().getInventory().deleteItem(6004, 5);
+			e.getPlayer().getVars().saveVarBit(FIXED_RING_VARBIT, 1);
 		}
 	};
 	
@@ -99,7 +104,7 @@ public class AncientCavern {
 //	public static ObjectClickHandler handleUpStepsKuradal = new ObjectClickHandler(new Object[] { 25337 }) {
 //		@Override
 //		public void handle(ObjectClickEvent e) {
-//			e.getPlayer().setNextWorldTile(e.getPlayer().getQuestManager().isComplete(Quest.WHILE_GUTHIX_SLEEPS) ? new WorldTile(1774, 5321, 1) : new WorldTile(1694, 5296, 1));
+//			e.getPlayer().setNextWorldTile(e.getPlayer().isQuestComplete(Quest.WHILE_GUTHIX_SLEEPS) ? new WorldTile(1774, 5321, 1) : new WorldTile(1694, 5296, 1));
 //		}
 //	};
 

@@ -1401,9 +1401,9 @@ public class Player extends Entity {
 
 	public boolean unlockedLodestone(Lodestone stone) {
 		if (stone == Lodestone.BANDIT_CAMP)
-			return getQuestManager().isComplete(Quest.DESERT_TREASURE);
+			return isQuestComplete(Quest.DESERT_TREASURE);
 		if (stone == Lodestone.LUNAR_ISLE)
-			return getQuestManager().isComplete(Quest.LUNAR_DIPLOMACY);
+			return isQuestComplete(Quest.LUNAR_DIPLOMACY);
 		return lodestones[stone.ordinal()];
 	}
 
@@ -4411,5 +4411,13 @@ public class Player extends Entity {
 
 	public Recorder getRecorder() {
 		return recorder;
+	}
+
+	public boolean isQuestComplete(Quest quest, String actionString) {
+		return getQuestManager().isComplete(quest, actionString);
+	}
+	
+	public boolean isQuestComplete(Quest quest) {
+		return isQuestComplete(quest, null);
 	}
 }

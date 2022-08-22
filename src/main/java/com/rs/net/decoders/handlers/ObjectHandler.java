@@ -1554,7 +1554,7 @@ public final class ObjectHandler {
 			if (object.getDefinitions(player).getName().equalsIgnoreCase("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))
 				player.startConversation(new SmeltingD(player, object));
 			else if (id == 17010) {
-				if (!Quest.LUNAR_DIPLOMACY.meetsRequirements(player, "to use the Lunar Spellbook."))
+				if (!player.isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use the Lunar Spellbook."))
 					return;
 				player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
 					ops.add("Yes, replace my spellbook.", () -> {

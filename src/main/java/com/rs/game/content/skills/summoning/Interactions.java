@@ -1660,7 +1660,7 @@ public class Interactions {
 			case GRANITE_LOBSTER -> {
 				if(!canTalk)
 					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "CLomp! Clap Clamp!");
-				if(player.getQuestManager().isComplete(Quest.FREMENNIK_TRIALS))
+				if(player.isQuestComplete(Quest.FREMENNIK_TRIALS))
 					yield random(
 							new Dialogue()
 									.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Ho, my Fremennik brother, shall we go raiding?")

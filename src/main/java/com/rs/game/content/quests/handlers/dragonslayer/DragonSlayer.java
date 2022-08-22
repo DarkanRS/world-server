@@ -264,7 +264,7 @@ public class DragonSlayer extends QuestOutline {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
-			if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR) || p.getQuestManager().isComplete(Quest.DRAGON_SLAYER)) {
+			if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR) || p.isQuestComplete(Quest.DRAGON_SLAYER)) {
 				if(p.getInventory().containsItem(new Item(HAMMER, 1)) || p.containsTool(HAMMER)) {
 					if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) <= 2)
 						if (p.getInventory().containsItem(STEEL_NAILS, 30) && p.getInventory().containsItem(PLANKS, 1)) {

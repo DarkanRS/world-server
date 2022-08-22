@@ -19,7 +19,9 @@ package com.rs.game.content.quests;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.rs.game.content.quests.data.QuestDefinitions;
 import com.rs.game.model.entity.player.Player;
@@ -270,18 +272,30 @@ public enum Quest {
 		return handler;
 	}
 
-	public boolean meetsRequirements(Player player) {
-		return meetsRequirements(player, null);
+	public boolean meetsReqs(Player player) {
+		return meetsReqs(player, null);
 	}
 
-	public boolean meetsRequirements(Player player, String actionStr) {
+	public boolean meetsReqs(Player player, String actionStr) {
 		boolean meetsRequirements = true;
-		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet())
+		Set<Quest> visited = new HashSet<>();
+		for (Quest quest : getDefs().getExtraInfo().getPreReqs()) {
+			if (visited.contains(quest))
+				continue;
+			visited.add(quest);
+			if (!player.isQuestComplete(quest)) {
+				if (actionStr != null)
+					player.sendMessage("You must have completed " + quest.getDefs().name + ".");
+				meetsRequirements = false;
+			}
+		}
+		for (int skillId : getDefs().getExtraInfo().getPreReqSkillReqs().keySet()) {
 			if (player.getSkills().getLevelForXp(skillId) < getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)) {
 				if (actionStr != null)
 					player.sendMessage("You need a " + Skills.SKILL_NAME[skillId] + " level of " + getDefs().getExtraInfo().getPreReqSkillReqs().get(skillId)+".");
 				meetsRequirements = false;
 			}
+		}
 		if (!meetsRequirements && actionStr != null)
 			player.sendMessage("You must meet the requirements for " + getDefs().name + " " + actionStr);
 		return meetsRequirements;

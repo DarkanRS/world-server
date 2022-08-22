@@ -29,7 +29,7 @@ public class PeerTheSeer {
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
 			case "Deposit":
-				if (Quest.FREMENNIK_TRIALS.meetsRequirements(e.getPlayer(), "to deposit with Peer."))
+				if (e.getPlayer().isQuestComplete(Quest.FREMENNIK_TRIALS, "to deposit with Peer."))
 					e.getPlayer().getBank().openDepositBox();
 				break;
 			}

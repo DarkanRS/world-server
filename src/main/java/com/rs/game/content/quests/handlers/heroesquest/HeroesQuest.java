@@ -48,11 +48,11 @@ public class HeroesQuest extends QuestOutline {
 				lines.add("");
 				lines.add("~~~Quest Requirements~~~");
 				lines.add((player.getQuestManager().getQuestPoints() >= 56 ? "<str>" : "") + "56 Quest Points");
-				lines.add((player.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV) ? "<str>" : "") + "Shield Of Arrav");
-				lines.add((player.getQuestManager().isComplete(Quest.LOST_CITY) ? "<str>" : "") + "Lost City");
-				lines.add((player.getQuestManager().isComplete(Quest.DRAGON_SLAYER) ? "<str>" : "") + "Dragon Slayer");
-				lines.add((player.getQuestManager().isComplete(Quest.MERLINS_CRYSTAL) ? "<str>" : "") + "Merlin's Crystal");
-				lines.add((player.getQuestManager().isComplete(Quest.DRUIDIC_RITUAL) ? "<str>" : "") + "Druidic Ritual");
+				lines.add((player.isQuestComplete(Quest.SHIELD_OF_ARRAV) ? "<str>" : "") + "Shield Of Arrav");
+				lines.add((player.isQuestComplete(Quest.LOST_CITY) ? "<str>" : "") + "Lost City");
+				lines.add((player.isQuestComplete(Quest.DRAGON_SLAYER) ? "<str>" : "") + "Dragon Slayer");
+				lines.add((player.isQuestComplete(Quest.MERLINS_CRYSTAL) ? "<str>" : "") + "Merlin's Crystal");
+				lines.add((player.isQuestComplete(Quest.DRUIDIC_RITUAL) ? "<str>" : "") + "Druidic Ritual");
 				lines.add("");
 				lines.add("~~~Skill Requirements~~~");
 				lines.add((player.getSkills().getLevel(Constants.COOKING) >= 53 ? "<str>" : "") + "53 Cooking");

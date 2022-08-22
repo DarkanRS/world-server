@@ -43,7 +43,7 @@ public class BoatingD extends Conversation {
 			player.startConversation(new CustomsOfficerPiratesTreasureD(player).getStart());
 			return;
 		}
-		if (npcId == 744 && !player.getQuestManager().isComplete(Quest.DRAGON_SLAYER)) {
+		if (npcId == 744 && !player.isQuestComplete(Quest.DRAGON_SLAYER)) {
 			player.startConversation(new KlarenseDragonSlayerD(player).getStart());
 			return;
 		}
