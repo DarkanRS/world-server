@@ -239,7 +239,7 @@ public class QuestManager {
 	}
 
 	public void sendQuestStage(Quest quest, boolean refresh) {
-		if (isComplete(quest))
+		if (!quest.isImplemented() || isComplete(quest))
 			quest.getDefs().sendCompleted(player);
 		else if (getStage(quest) > 0)
 			quest.getDefs().sendStarted(player);

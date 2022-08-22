@@ -284,7 +284,7 @@ public enum Quest {
 				continue;
 			visited.add(quest);
 			if (!player.isQuestComplete(quest)) {
-				if (actionStr != null)
+				if (actionStr != null && quest.isImplemented())
 					player.sendMessage("You must have completed " + quest.getDefs().name + ".");
 				meetsRequirements = false;
 			}

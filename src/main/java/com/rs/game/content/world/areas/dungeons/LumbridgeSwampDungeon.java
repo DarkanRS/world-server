@@ -35,6 +35,8 @@ public class LumbridgeSwampDungeon {
 	public static ItemOnNPCHandler handleLightCreatures = new ItemOnNPCHandler(false, new Object[] { 2021, 2022 }) {
 		@Override
 		public void handle(ItemOnNPCEvent e) {
+			if (e.isAtNPC())
+				return;
 			if (!e.getPlayer().isQuestComplete(Quest.WHILE_GUTHIX_SLEEPS, "to lure the light creature."))
 				return;
 			//spotanims 1932 1933

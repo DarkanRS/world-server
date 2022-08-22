@@ -190,12 +190,11 @@ public class FairyRings {
 				sendTeleport(e.getPlayer(), new WorldTile(3202, 3169, 0));
 				return;
 			}
-			if(e.getPlayer().isQuestComplete(Quest.LOST_CITY)) {
+			if(e.getPlayer().isQuestComplete(Quest.FAIRY_TALE_I_GROWING_PAINS, "to use the fairy ring system.")) {
 				FairyRings.openRingInterface(e.getPlayer(), e.getObject(), e.getObjectId() == 12128);
 				return;
 			}
 			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "I don't know what's supposed to be happening here..."));
-			e.getPlayer().sendMessage("You require The Lost City quest");
 		}
 	};
 
