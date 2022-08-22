@@ -18,17 +18,9 @@ package com.rs.db.collection;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import java.util.ArrayList;
-
 import org.bson.Document;
-import org.bson.conversions.Bson;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
-import com.mongodb.client.model.Sorts;
 import com.rs.db.model.Highscore;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.db.DBItemManager;
