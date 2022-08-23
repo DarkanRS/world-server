@@ -63,6 +63,23 @@
     "songs": []
   },
   {
+    "genre": "Pest Control",
+    "comment": "",
+    "isActive": false,
+    "regionIds": [],
+    "songs": []
+  },
+  {
+    "genre": "Void Knight Outpost",
+    "comment": "",
+    "isActive": false,
+    "regionIds": [
+      10793,
+      10537
+    ],
+    "songs": []
+  },
+  {
     "genre": "Dorgesh-kaan",
     "comment": "",
     "isActive": true,

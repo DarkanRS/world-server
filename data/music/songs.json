@@ -5534,9 +5534,7 @@
     "comment": "Minigame controller",
     "allowAmbient": false,
     "id": 588,
-    "regionIds": [
-      10536
-    ]
+    "regionIds": []
   },
   {
     "name": "The Sound of Guthix",
