@@ -4420,4 +4420,10 @@ public class Player extends Entity {
 	public boolean isQuestComplete(Quest quest) {
 		return isQuestComplete(quest, null);
 	}
+
+	public void delayLock(int ticks, Runnable task) {
+		lock();
+		WorldTasks.delay(ticks, task);
+		WorldTasks.delay(ticks+1, () -> unlock());
+	}
 }

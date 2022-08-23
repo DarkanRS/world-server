@@ -203,7 +203,9 @@ public class RunecraftingAltar {
 						if (e.getPlayer().hasWickedHoodTalisman(selection)) {
 							if (e.getPlayer().getDailyI("wickedTeles") < 2) {
 								e.getPlayer().incDailyI("wickedTeles");
-								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null, null);
+								Altar altar = Altar.valueOf(selection.name());
+								if (altar != null && altar.canEnter(e.getPlayer(), false))
+									Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null, null);
 							}
 						} else
 							e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
@@ -276,9 +278,29 @@ public class RunecraftingAltar {
 		public int getStaff() {
 			return talisman[2];
 		}
-
-		public WorldTile getInside() {
-			return inside;
+		
+		public boolean canEnter(Player player, boolean teleport) {
+			return switch(this) {
+			case COSMIC -> {
+				if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
+					yield false;
+				if (teleport)
+					player.delayLock(1, () -> player.setNextWorldTile(inside));
+				yield true;
+			}
+			case BLOOD -> {
+				if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
+					yield false;
+				if (teleport)
+					player.delayLock(1, () -> player.setNextWorldTile(inside));
+				yield true;
+			}
+			default -> {
+				if (teleport)
+					player.delayLock(1, () -> player.setNextWorldTile(inside));
+				yield true;
+			}
+			};
 		}
 
 		public WorldTile getOutside() {
@@ -337,10 +359,9 @@ public class RunecraftingAltar {
 								altar = altars;
 								break;
 							}
-						if (altar != null && checkItems(e.getPlayer(), altar)) {
+						if (altar != null && checkItems(e.getPlayer(), altar) && altar.canEnter(e.getPlayer(), true))
 							e.getPlayer().sendMessage("...and you appear within the ruin!");
-							e.getPlayer().setNextWorldTile(altar.getInside());
-						} else
+						else
 							e.getPlayer().sendMessage("...and nothing happens...");
 					}
 				}, 2);
