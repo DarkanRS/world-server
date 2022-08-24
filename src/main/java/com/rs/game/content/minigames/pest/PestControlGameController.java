@@ -31,6 +31,15 @@ public class PestControlGameController extends Controller {
 	private transient PestControl control;
 	private double points;
 
+	@Override
+	public boolean playAmbientOnControllerRegionEnter() {
+		return false;
+	}
+	@Override
+	public boolean playAmbientStrictlyBackgroundMusic() {
+		return true;
+	}
+
 	public PestControlGameController(PestControl control) {
 		this.control = control;
 	}
@@ -40,6 +49,7 @@ public class PestControlGameController extends Controller {
 		setPoints(0.0D);
 		sendInterfaces();
 		player.setForceMultiArea(true);
+		player.getMusicsManager().playSongAndUnlock(588);
 	}
 
 	@Override
