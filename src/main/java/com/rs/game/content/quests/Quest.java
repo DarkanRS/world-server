@@ -19,10 +19,7 @@ package com.rs.game.content.quests;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import com.rs.game.content.quests.data.QuestDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -278,11 +275,7 @@ public enum Quest {
 
 	public boolean meetsReqs(Player player, String actionStr) {
 		boolean meetsRequirements = true;
-		Set<Quest> visited = new HashSet<>();
 		for (Quest quest : getDefs().getExtraInfo().getPreReqs()) {
-			if (visited.contains(quest))
-				continue;
-			visited.add(quest);
 			if (!player.isQuestComplete(quest)) {
 				if (actionStr != null && quest.isImplemented())
 					player.sendMessage("You must have completed " + quest.getDefs().name + ".");
