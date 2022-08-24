@@ -81,7 +81,7 @@ public class ItemsKeptOnDeath {
 		if (wilderness)
 			text.append("Your hub will be set to:").append("<br>").append("Edgeville.");
 		else
-			text.append("Current hub: " + EnumDefinitions.getEnum(3792).getStringValue(DeathOfficeController.getCurrentHub(player.getTile())));
+			text.append("Current hub: " + EnumDefinitions.getEnum(3792).getStringValue(DeathOfficeController.getCurrentHub(player, player.getTile()).ordinal()));
 		player.getPackets().sendVarcString(352, text.toString());
 	}
 

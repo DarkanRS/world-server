@@ -68,6 +68,7 @@ import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.minigames.wguild.WarriorsGuild;
+import com.rs.game.content.miniquests.Miniquest;
 import com.rs.game.content.miniquests.MiniquestManager;
 import com.rs.game.content.pet.Pet;
 import com.rs.game.content.pet.PetManager;
@@ -4419,6 +4420,14 @@ public class Player extends Entity {
 	
 	public boolean isQuestComplete(Quest quest) {
 		return isQuestComplete(quest, null);
+	}
+	
+	public boolean isMiniquestComplete(Miniquest quest, String actionString) {
+		return getMiniquestManager().isComplete(quest, actionString);
+	}
+	
+	public boolean isMiniquestComplete(Miniquest quest) {
+		return isMiniquestComplete(quest, null);
 	}
 
 	public void delayLock(int ticks, Runnable task) {
