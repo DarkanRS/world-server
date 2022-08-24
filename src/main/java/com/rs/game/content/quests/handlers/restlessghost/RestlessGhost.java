@@ -89,7 +89,7 @@ public class RestlessGhost extends QuestOutline {
 	}
 
 	private static boolean hasSkull(Player player) {
-		if (player.getInventory().containsItem(553, 1) || player.getQuestManager().isComplete(Quest.RESTLESS_GHOST))
+		if (player.getInventory().containsItem(553, 1) || player.isQuestComplete(Quest.RESTLESS_GHOST))
 			return true;
 		return false;
 	}

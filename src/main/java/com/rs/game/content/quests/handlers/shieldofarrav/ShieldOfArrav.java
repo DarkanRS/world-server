@@ -641,7 +641,7 @@ public class ShieldOfArrav extends QuestOutline {
 //    public static LoginHandler onLogin = new LoginHandler() {
 //        @Override
 //        public void handle(LoginEvent e) {
-//            if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+//            if (e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
 //				e.getPlayer().getVars().setVarBit(5394, 1);
 //            else
 //                e.getPlayer().getVars().setVarBit(5394, 0);

@@ -114,7 +114,7 @@ public class FightKilnController extends Controller {
 			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Tok_Xil, Ket_Zek }, // 25
 			{ Yt_Mejkot, Yt_Mejkot, Tok_Xil, Ket_Zek, Ket_Zek }, // 26
 			{ Ket, Ket, Tok_Xil, Ket_Zek, Yt_Mejkot, Yt_Mejkot }, // 27
-			{ Ket_Dill, Ket_Dill, Xil, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
+			{ Ket_Dill, Ket_Dill, Ket_Zek, Ket_Dill, Ket_Dill, Ket_Dill, Ket_Dill }, // 28
 			{ Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot, Yt_Mejkot }, // 29
 			{ Yt_Mejkot, Jad, Yt_Mejkot, Yt_Mejkot }, // 30
 			{ Tok_Xil, Tok_Xil, Tok_Xil, Tok_Xil }, // 31
@@ -135,9 +135,16 @@ public class FightKilnController extends Controller {
 	private boolean login;
 	public int selectedMusic;
 	private int wave;
+	private boolean debug;
 
 	public FightKilnController(int wave) {
 		this.wave = wave;
+		this.debug = false;
+	}
+
+	public FightKilnController(int wave, boolean debug) {
+		this.wave = wave;
+		this.debug = true;
 	}
 
 	public static void enterFightKiln(Player player, boolean quickEnter) {
@@ -168,7 +175,7 @@ public class FightKilnController extends Controller {
 
 	@Override
 	public void start() {
-		loadCave(false);
+		loadCave(debug);
 	}
 
 	@Override
@@ -472,7 +479,7 @@ public class FightKilnController extends Controller {
 					player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
 					player.setFinishConversationEvent(() -> removeScene());
 					player.startConversation(new Dialogue()
-							.addNPC(TOKHAAR_HOK_SCENE, HeadE.CALM_TALK, "So...you accept our challenge. Let our sport be glorious. Xil - attack!"));
+							.addNPC(TOKHAAR_HOK_SCENE, HeadE.T_CALM_TALK, "So...you accept our challenge. Let our sport be glorious. Xil - attack!"));
 					stage = Stages.RUNNING;
 					player.unlock();
 				});
@@ -589,8 +596,13 @@ public class FightKilnController extends Controller {
 		if (stage != Stages.RUNNING)
 			return;
 		int currentWave = getCurrentWave();
+		player.getInterfaceManager().removeOverlay();//Spawns every wave now
 		player.getInterfaceManager().sendOverlay(316);
 		player.getVars().setVar(639, currentWave);
+		if(currentWave == 37)
+			WorldTasks.delay(1, ()->{
+				player.getPackets().setIFText(316, 5, "Har-Aken");//Says Har-Aken now
+			});
 		if (currentWave > WAVES.length) {
 			if (currentWave == 37)
 				aliveNPCSCount = 1;
@@ -688,6 +700,8 @@ public class FightKilnController extends Controller {
 	public void unlockPlayer() {
 		stage = Stages.RUNNING;
 		player.unlock(); // unlocks player
+		if(player.getFamiliar() != null)
+			player.getFamiliar().sendMainConfigs();//Resets familiar configs for debug mode
 	}
 
 	public void removeScene() {

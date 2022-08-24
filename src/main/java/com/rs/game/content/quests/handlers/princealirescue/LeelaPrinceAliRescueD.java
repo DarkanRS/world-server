@@ -116,7 +116,7 @@ public class LeelaPrinceAliRescueD extends Conversation {
 
 			}
 
-		if(p.getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
+		if(p.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 			addNPC(LEELA, HeadE.HAPPY_TALKING, "Thank you, Al-Kharid will forever owe you for your help. I think that if there is ever anything that " +
 					"needs to be done, you will be someone they can rely on.");
 

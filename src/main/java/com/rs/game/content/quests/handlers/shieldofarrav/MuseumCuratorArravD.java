@@ -32,7 +32,7 @@ public class MuseumCuratorArravD extends Conversation {
 		super(p);
 		addPlayer(HeadE.HAPPY_TALKING, "Hello.");
 		addNPC(CURATOR, HeadE.CALM_TALK, "Hi.");
-		if(player.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV)) {
+		if(player.isQuestComplete(Quest.SHIELD_OF_ARRAV)) {
 			addPlayer(HeadE.HAPPY_TALKING, "Can I have another half of my certificate?");
 			addNPC(CURATOR, HeadE.CALM_TALK, "Sure, though I don't see why you want one...");
 			addSimple("He scribbles on a piece of paper and tears it in half.");

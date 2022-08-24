@@ -25,6 +25,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.commands.Commands;
+import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.demonslayer.DemonSlayer_PlayerVSDelrith;
 import com.rs.game.content.quests.handlers.demonslayer.DemonSlayer_WallyVSDelrith;
@@ -132,6 +133,22 @@ public class Debug {
 
 		Commands.add(Rights.PLAYER, "getcontroller", "Shows current controller", (p, args) -> {
 			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getController().getClass().getName()));
+		});
+
+		Commands.add(Rights.PLAYER, "fightkiln [wave]", "Starts Fight kiln at a wave", (p, args) -> {
+			if(args.length != 1) {
+				p.sendMessage("Must be one argument.");
+				return;
+			}
+			if(p.getControllerManager().getController() != null) {
+				p.sendMessage("You are already in a minigame, dedicated area(controller)!");
+				return;
+			}
+			if(Integer.valueOf(args[0]) > 37 || Integer.valueOf(args[0]) < 1) {
+				p.sendMessage("Invalid wave, must be between 1 and 37.");
+				return;
+			}
+			p.getControllerManager().startController(new FightKilnController(Integer.valueOf(args[0]), true));
 		});
 
 		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {

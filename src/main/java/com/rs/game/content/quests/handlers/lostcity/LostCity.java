@@ -118,7 +118,7 @@ public class LostCity extends QuestOutline {
 								p.lock(4);
 							}
 							if(tick == 4)
-								if(!p.getQuestManager().isComplete(Quest.LOST_CITY)) {
+								if(!p.isQuestComplete(Quest.LOST_CITY)) {
 									p.lock(3);//so players dont cancel it out by accident and not see it...
 									p.getQuestManager().completeQuest(Quest.LOST_CITY);
 								}

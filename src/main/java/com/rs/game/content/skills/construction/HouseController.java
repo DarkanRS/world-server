@@ -651,10 +651,8 @@ public class HouseController extends Controller {
 					if (portalId != 13619 && !player.getHouse().containsAnyObject(13619, 13626, 13633))
 						option("Ardougne Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.LAW, 200, Rune.WATER, 200);
-							if (!player.getQuestManager().isComplete(Quest.PLAGUE_CITY) || !Quest.PLAGUE_CITY.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Plague City to tune your portal to Ardougne.");
+							if (!player.isQuestComplete(Quest.PLAGUE_CITY, "to tune your portal to Ardougne."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(7, player.getHouse().getWorldObject(room, portal.getId()));
@@ -663,10 +661,8 @@ public class HouseController extends Controller {
 					if (portalId != 13620 && !player.getHouse().containsAnyObject(13620, 13627, 13634))
 						option("Yanille Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.LAW, 200, Rune.EARTH, 200);
-							if (!player.getQuestManager().isComplete(Quest.WATCHTOWER) || !Quest.WATCHTOWER.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Watchtower to tune your portal to Yanille.");
+							if (!player.isQuestComplete(Quest.WATCHTOWER, "to tune your portal to Yanille."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(8, player.getHouse().getWorldObject(room, portal.getId()));
@@ -675,10 +671,8 @@ public class HouseController extends Controller {
 					if (portalId != 13621 && !player.getHouse().containsAnyObject(13621, 13628, 13635))
 						option("Kharyrll Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.BLOOD, 100, Rune.LAW, 200);
-							if (!player.getQuestManager().isComplete(Quest.DESERT_TREASURE) || !Quest.DESERT_TREASURE.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Desert treasure to tune your portal to Kharyrll (Canifis).");
+							if (!player.isQuestComplete(Quest.DESERT_TREASURE, "to tune your portal to Kharyrll (Canifis)."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(9, player.getHouse().getWorldObject(room, portal.getId()));
@@ -722,10 +716,8 @@ public class HouseController extends Controller {
 					if (portalId != 13626 && !player.getHouse().containsAnyObject(13619, 13626, 13633))
 						option("Ardougne Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.LAW, 200, Rune.WATER, 200);
-							if (!player.getQuestManager().isComplete(Quest.PLAGUE_CITY) || !Quest.PLAGUE_CITY.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Plague City to tune your portal to Ardougne.");
+							if (!player.isQuestComplete(Quest.PLAGUE_CITY, "to tune your portal to Ardougne."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(14, player.getHouse().getWorldObject(room, portal.getId()));
@@ -734,10 +726,8 @@ public class HouseController extends Controller {
 					if (portalId != 13627 && !player.getHouse().containsAnyObject(13620, 13627, 13634))
 						option("Yanille Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.LAW, 200, Rune.EARTH, 200);
-							if (!player.getQuestManager().isComplete(Quest.WATCHTOWER) || !Quest.WATCHTOWER.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Watchtower to tune your portal to Yanille.");
+							if (!player.isQuestComplete(Quest.WATCHTOWER, "to tune your portal to Yanille."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(15, player.getHouse().getWorldObject(room, portal.getId()));
@@ -746,10 +736,8 @@ public class HouseController extends Controller {
 					if (portalId != 13628 && !player.getHouse().containsAnyObject(13621, 13628, 13635))
 						option("Kharyrll Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.BLOOD, 100, Rune.LAW, 200);
-							if (!player.getQuestManager().isComplete(Quest.DESERT_TREASURE) || !Quest.DESERT_TREASURE.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Desert treasure to tune your portal to Kharyrll (Canifis).");
+							if (!player.isQuestComplete(Quest.DESERT_TREASURE, "to tune your portal to Kharyrll (Canifis)."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(16, player.getHouse().getWorldObject(room, portal.getId()));
@@ -793,10 +781,8 @@ public class HouseController extends Controller {
 					if (portalId != 13633 && !player.getHouse().containsAnyObject(13619, 13626, 13633))
 						option("Ardougne Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.LAW, 200, Rune.WATER, 200);
-							if (!player.getQuestManager().isComplete(Quest.PLAGUE_CITY) || !Quest.PLAGUE_CITY.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Plague City to tune your portal to Ardougne.");
+							if (!player.isQuestComplete(Quest.PLAGUE_CITY, "to tune your portal to Ardougne."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(21, player.getHouse().getWorldObject(room, portal.getId()));
@@ -805,10 +791,8 @@ public class HouseController extends Controller {
 					if (portalId != 13634 && !player.getHouse().containsAnyObject(13620, 13627, 13634))
 						option("Yanille Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.LAW, 200, Rune.EARTH, 200);
-							if (!player.getQuestManager().isComplete(Quest.WATCHTOWER) || !Quest.WATCHTOWER.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Watchtower to tune your portal to Yanille.");
+							if (!player.isQuestComplete(Quest.WATCHTOWER, "to tune your portal to Yanille."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(22, player.getHouse().getWorldObject(room, portal.getId()));
@@ -817,10 +801,8 @@ public class HouseController extends Controller {
 					if (portalId != 13635 && !player.getHouse().containsAnyObject(13621, 13628, 13635))
 						option("Kharyrll Teleport", new Dialogue().addOption("This will cost 100 teleports to tune", "Pay runes", "Nevermind").addNext(() -> {
 							RuneSet requiredRunes = new RuneSet(Rune.BLOOD, 100, Rune.LAW, 200);
-							if (!player.getQuestManager().isComplete(Quest.DESERT_TREASURE) || !Quest.DESERT_TREASURE.meetsRequirements(player)) {
-								player.sendMessage("You must complete the quest Desert treasure to tune your portal to Kharyrll (Canifis).");
+							if (!player.isQuestComplete(Quest.DESERT_TREASURE, "to tune your portal to Kharyrll (Canifis)."))
 								return;
-							}
 							if (requiredRunes.meetsPortalRequirements(player)) {
 								requiredRunes.deleteRunes(player);
 								portal.setSlot(23, player.getHouse().getWorldObject(room, portal.getId()));

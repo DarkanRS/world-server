@@ -42,7 +42,7 @@ public class NulodionD extends Conversation {
 			if (e.getOption().equals("Talk-to"))
 				e.getPlayer().startConversation(new NulodionD(e.getPlayer()));
 			else if (e.getOption().equals("Trade")) {
-				if (!e.getPlayer().getQuestManager().isComplete(Quest.DWARF_CANNON)) {
+				if (!e.getPlayer().isQuestComplete(Quest.DWARF_CANNON)) {
 					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "Who are you?")));
 					return;
 				}
@@ -81,7 +81,7 @@ public class NulodionD extends Conversation {
 			});
 			addPlayer(HeadE.HAPPY_TALKING, "That's great, thanks.");
 			addNPC(NULODION, HeadE.HAPPY_TALKING, "Thank you, adventurer. The Dwarf Black Guard will remember this.");
-		} else if (player.getQuestManager().isComplete(Quest.DWARF_CANNON) && !player.getInventory().containsItem(AMMO_MOULD) && !player.getBank().containsItem(AMMO_MOULD, 1)) {
+		} else if (player.isQuestComplete(Quest.DWARF_CANNON) && !player.getInventory().containsItem(AMMO_MOULD) && !player.getBank().containsItem(AMMO_MOULD, 1)) {
 			addPlayer(HeadE.UPSET, "Hello again.");
 			addPlayer(HeadE.UPSET, "I've lost the cannonball mould.");
 			addNPC(NULODION, HeadE.SHAKING_HEAD, "Deary me, you are trouble. Here, take this one.");

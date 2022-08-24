@@ -43,7 +43,7 @@ public class Taverly {
 	public static NPCClickHandler handleAchietties = new NPCClickHandler(new Object[] { 796 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getPlayer().getQuestManager().isComplete(Quest.HEROES_QUEST)) {
+			if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST)) {
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 					int NPC = e.getNPCId();
 

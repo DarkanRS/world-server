@@ -16,8 +16,12 @@
 //
 package com.rs.game.content.death;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import com.rs.game.content.miniquests.Miniquest;
+import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -34,68 +38,113 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 
 public class DeathOfficeController extends Controller {
+	
+	public enum Hub {
+		LUMBRIDGE(new WorldTile(3222, 3219, 0)),
+		VARROCK(new WorldTile(3212, 3422, 0)),
+		EDGEVILLE(new WorldTile(3094, 3502, 0)),
+		FALADOR(new WorldTile(2965, 3386, 0)),
+		SEERS_VILLAGE(new WorldTile(2725, 3491, 0)),
+		ARDOUGNE(new WorldTile(2662, 3305, 0)),
+		YANILLE(new WorldTile(2605, 3093, 0)), 
+		KELDAGRIM(new WorldTile(2845, 10210, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player) {
+				return player.isQuestComplete(Quest.GIANT_DWARF);
+			}
+		}, 
+		DORGESH_KAAN(new WorldTile(2720, 5351, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player) {
+				return player.isQuestComplete(Quest.DEATH_TO_DORGESHUUN);
+			}
+		},
+		LLETYA(new WorldTile(2341, 3171, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player) {
+				return player.isQuestComplete(Quest.ROVING_ELVES);
+			}
+		},
+		ETCETERIA(new WorldTile(2614, 3894, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player) {
+				return player.isQuestComplete(Quest.THRONE_OF_MISCELLANIA);
+			}
+		},
+		DAEMONHEIM(new WorldTile(3450, 3718, 0)),
+		CANIFIS(new WorldTile(3496, 3489, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player) {
+				return player.isQuestComplete(Quest.PRIEST_IN_PERIL);
+			}
+		},
+		TZHAAR_CITY(new WorldTile(4651, 5151, 0)),
+		BURTHORPE(new WorldTile(2889, 3528, 0)),
+		AL_KHARID(new WorldTile(3275, 3166, 0)),
+		DRAYNOR_VILLAGE(new WorldTile(3079, 3250, 0)),
+		
+		//Extra unlocked hubs
+		LUMBRIDGE_CASTLE(new WorldTile(3222, 3219, 0)),
+		FALADOR_CASTLE(new WorldTile(2971, 3343, 0)),
+		CAMELOT(new WorldTile(2758, 3486, 0)),
+		SOUL_WARS(new WorldTile(1891, 3177, 0));
+		
+		private WorldTile tile;
+		
+		Hub(WorldTile tile) {
+			this.tile = tile;
+		}
+		
+		public boolean meetsRequirements(Player player) {
+			return true;
+		}
+	}
+	
+	public static List<Hub> getUnlockedHubs(Player player) {
+		List<Hub> hubs = new ArrayList<>();
+		hubs.add(Hub.LUMBRIDGE_CASTLE);
+		if (player.isQuestComplete(Quest.RECRUITMENT_DRIVE)) {
+			player.getVars().setVarBit(668, 1);
+			hubs.add(Hub.FALADOR_CASTLE);
+		}
+		if (player.isMiniquestComplete(Miniquest.KNIGHTS_WAVE_TRAINING_GROUNDS)) {
+			player.getVars().setVarBit(3910, 1);
+			hubs.add(Hub.CAMELOT);
+		}
+		if (player.isQuestComplete(Quest.NOMADS_REQUIEM)) {
+			player.getVars().setVarBit(6982, 1);
+			hubs.add(Hub.SOUL_WARS);
+		}
+		return hubs;
+	}
 
-	public static final WorldTile[] HUBS = {
-			// Lumbridge
-			new WorldTile(3222, 3219, 0)
-			// Varrock
-			, new WorldTile(3212, 3422, 0)
-			// EDGEVILLE
-			, new WorldTile(3094, 3502, 0)
-			// FALADOR
-			, new WorldTile(2965, 3386, 0)
-			// SEERS VILLAGE
-			, new WorldTile(2725, 3491, 0)
-			// ARDOUDGE
-			, new WorldTile(2662, 3305, 0)
-			// YANNILE
-			, new WorldTile(2605, 3093, 0)
-			// KELDAGRIM
-			, new WorldTile(2845, 10210, 0)
-			// DORGESH-KAN
-			, new WorldTile(2720, 5351, 0)
-			// LYETYA
-			, new WorldTile(2341, 3171, 0)
-			// ETCETERIA
-			, new WorldTile(2614, 3894, 0)
-			// DAEMONHEIM
-			, new WorldTile(3450, 3718, 0)
-			// CANIFIS
-			, new WorldTile(3496, 3489, 0)
-			// THZAAR AREA
-			, new WorldTile(4651, 5151, 0)
-			// BURTHORPE
-			, new WorldTile(2889, 3528, 0)
-			// ALKARID
-			, new WorldTile(3275, 3166, 0)
-			// DRAYNOR VILLAGE
-			, new WorldTile(3079, 3250, 0) };
-
-	// 3796 - 0 - Lumbridge Castle - {1=Falador Castle, 2=Camelot, 3=Soul Wars,
-	// 4=Burthorpe}
-	public static final WorldTile[] RESPAWN_LOCATIONS = { new WorldTile(3222, 3219, 0), new WorldTile(2971, 3343, 0), new WorldTile(2758, 3486, 0), new WorldTile(1891, 3177, 0), new WorldTile(2889, 3528, 0) };
-
-	public static int getCurrentHub(WorldTile tile) {
-		int nearestHub = -1;
-		int distance = 0;
-		for (int i = 0; i < HUBS.length; i++) {
-			int d = (int) Utils.getDistance(HUBS[i], tile);
-			if (nearestHub == -1 || d < distance) {
+	public static Hub getCurrentHub(Player player, WorldTile tile) {
+		Hub nearestHub = null;
+		int distance = Integer.MAX_VALUE;
+		for (Hub hub : Hub.values()) {
+			if (hub.ordinal() >= Hub.LUMBRIDGE_CASTLE.ordinal())
+				break;
+			if (!hub.meetsRequirements(player))
+				continue;
+			int d = (int) Utils.getDistance(hub.tile, tile);
+			if (d < distance) {
 				distance = d;
-				nearestHub = i;
+				nearestHub = hub;
 			}
 		}
 		return nearestHub;
 	}
 
-	public static WorldTile getRespawnHub(Player player) {
-		return HUBS[getCurrentHub(player.getTile())];
+	public static Hub getRespawnHub(Player player) {
+		return getCurrentHub(player, new WorldTile(player.getTile()));
 	}
 
 	private transient DynamicRegionReference region = new DynamicRegionReference(2, 2);
 	private Stages stage;
 	private Integer[][] slots;
-	private int currentHub;
+	private Hub defaultHub;
+	private Hub currentHub;
+	private List<Hub> optionalHubs;
 	private WorldTile deathTile;
 	private boolean hadSkull;
 
@@ -211,10 +260,19 @@ public class DeathOfficeController extends Controller {
 				if (packet == ClientPacket.IF_OP1)
 					protect(slotId2);
 			} else if (componentId == 45) {
-				// slotid - 1
-				if (slotId > RESPAWN_LOCATIONS.length)
+				int index = slotId-1;
+				if (index < 0) {
+					currentHub = defaultHub;
+					player.getVars().setVarBit(9228, 0);
+					return true;
+				}
+				if (index >= optionalHubs.size())
 					return false;
-				currentHub = 255 + slotId;
+				Hub hub = optionalHubs.get(slotId-1);
+				if (hub == null || !hub.meetsRequirements(player))
+					return false;
+				currentHub = hub;
+				player.getVars().setVarBit(9228, slotId);
 			}
 			return false;
 		}
@@ -223,6 +281,8 @@ public class DeathOfficeController extends Controller {
 
 	public void getReadyToRespawn() {
 		slots = GraveStone.getItemSlotsKeptOnDeath(player, false, hadSkull(), player.getPrayer().isProtectingItem());
+		currentHub = defaultHub = getCurrentHub(player, getDeathTile());
+		optionalHubs = getUnlockedHubs(player);
 		player.getInterfaceManager().sendInterface(18);
 		if (slots[0].length > 0) {
 			player.getVars().setVarBit(9227, slots[0].length);
@@ -233,23 +293,20 @@ public class DeathOfficeController extends Controller {
 			player.getVars().setVarBit(9227, 1);
 			player.save("protectSlots", 1);
 		}
-		player.getVars().setVarBit(668, 1); // unlocks camelot respawn
-		// spot
-		player.getVars().setVar(105, -1);
-		player.getVars().setVarBit(9231, currentHub = getCurrentHub(getDeathTile()));
+		player.getVars().setVar(105, -1); //unlocks choose respawn location
+		player.getVars().setVarBit(9231, currentHub.ordinal());
 		player.getPackets().setIFRightClickOps(18, 9, 0, slots[0].length, 0);
 		player.getPackets().setIFRightClickOps(18, 17, 0, 100, 0);
-		player.getPackets().setIFRightClickOps(18, 45, 0, RESPAWN_LOCATIONS.length, 0);
+		player.getPackets().setIFRightClickOps(18, 45, 0, 6, 0);
 		player.setCloseInterfacesEvent(() -> {
-			WorldTile respawnTile = currentHub >= 256 ? RESPAWN_LOCATIONS[currentHub - 256] : HUBS[currentHub];
 			synchronized (slots) {
 				if (!player.hasRights(Rights.ADMIN))
-					player.sendItemsOnDeath(null, getDeathTile(), respawnTile, false, slots);
+					player.sendItemsOnDeath(null, getDeathTile(), currentHub.tile, false, slots);
 				else
 					player.sendMessage("Slots saved: " + Arrays.deepToString(GraveStone.getItemsKeptOnDeath(player, slots)));
 			}
 			player.setCloseInterfacesEvent(null);
-			Magic.sendObjectTeleportSpell(player, true, respawnTile);
+			Magic.sendObjectTeleportSpell(player, true, currentHub.tile);
 		});
 	}
 

@@ -78,7 +78,7 @@ public class OsmanPrinceAliRescueD extends Conversation {
 			}
 
 
-		if(p.getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
+		if(p.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 			addNPC(OSMAN, HeadE.HAPPY_TALKING, "Well done. A great rescue. I will remember you if I have anything dangerous to do.");
 		create();
 	}

@@ -158,7 +158,7 @@ public class GertrudesCat extends QuestOutline {
 	public static void updateFluffs(Player player) {
 		if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 2 && player.getQuestManager().getStage(Quest.GERTRUDES_CAT) < 8)
 			player.getVars().setVar(180, 2);
-		else if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 8 && !player.getQuestManager().isComplete(Quest.GERTRUDES_CAT))
+		else if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 8 && !player.isQuestComplete(Quest.GERTRUDES_CAT))
 			player.getVars().setVar(180, 5);
 	}
 

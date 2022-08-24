@@ -225,43 +225,43 @@ public class ItemConstants {
 		private int defaultCharges;
 		private int cost;
 
-		private static Map<Integer, ItemDegrade> broken = new HashMap<>();
-		private static Map<Integer, ItemDegrade> degraded = new HashMap<>();
-		private static Map<Integer, ItemDegrade> repaired = new HashMap<>();
+		private static Map<Integer, ItemDegrade> BROKEN = new HashMap<>();
+		private static Map<Integer, ItemDegrade> DEGRADE = new HashMap<>();
+		private static Map<Integer, ItemDegrade> REPAIRED = new HashMap<>();
 
 		static {
 			for (ItemDegrade item : ItemDegrade.values()) {
 				if (item.getBrokenId() != -1)
-					broken.put(item.getBrokenId(), item);
+					BROKEN.put(item.getBrokenId(), item);
 				if (item.getDegradedId() != -1)
-					degraded.put(item.getDegradedId(), item);
+					DEGRADE.put(item.getDegradedId(), item);
 				else
-					degraded.put(item.getItemId(), item);
-				repaired.put(item.getItemId(), item);
+					DEGRADE.put(item.getItemId(), item);
+				REPAIRED.put(item.getItemId(), item);
 			}
 		}
 
 		public static ItemDegrade forId(int itemId) {
-			ItemDegrade deg = broken.get(itemId);
+			ItemDegrade deg = BROKEN.get(itemId);
 			if (deg == null)
-				deg = degraded.get(itemId);
+				deg = DEGRADE.get(itemId);
 			if (deg == null)
-				deg = repaired.get(itemId);
+				deg = REPAIRED.get(itemId);
 			if (deg == null)
-				deg = broken.get(itemId);
+				deg = BROKEN.get(itemId);
 			return deg;
 		}
 
 		public static ItemDegrade forBrokenId(int itemId) {
-			return broken.get(itemId);
+			return BROKEN.get(itemId);
 		}
 
 		public static ItemDegrade forDegradedId(int itemId) {
-			return degraded.get(itemId);
+			return DEGRADE.get(itemId);
 		}
 
 		public static ItemDegrade forNewId(int itemId) {
-			return repaired.get(itemId);
+			return REPAIRED.get(itemId);
 		}
 
 		private ItemDegrade(int itemId, int degradedId, int brokenId, int defaultCharges, int repairCost) {
@@ -351,12 +351,12 @@ public class ItemConstants {
 			}
 		Quest quest = Quest.forSlot(item.getDefinitions().getWieldQuestReq());
 		if (quest != null) {
-			if (!player.getQuestManager().isComplete(quest)) {
+			if (!player.isQuestComplete(quest)) {
 				if (player.getSession() != null)
 					player.sendMessage("You need to complete " + quest.getDefs().name + " to use this.");
 				return false;
 			}
-			if (!quest.meetsRequirements(player, "to wear this."))
+			if (!player.isQuestComplete(quest, "to wear this."))
 				return false;
 		}
 		HashMap<Integer, Integer> requiriments = item.getDefinitions().getWearingSkillRequiriments();

@@ -160,17 +160,17 @@ public class TeleportTabs {
 			}
 		}
 
-		if (itemId == 8012 && !p.getQuestManager().isComplete(Quest.WATCHTOWER)) {
+		if (itemId == 8012 && !p.isQuestComplete(Quest.WATCHTOWER)) {
 			p.sendMessage("You must have completed Watchtower to use this teleport.");
 			return false;
 		}
 
-		if (itemId == 13610 && !p.getQuestManager().isComplete(Quest.LEGACY_OF_SEERGAZE)) {
+		if (itemId == 13610 && !p.isQuestComplete(Quest.LEGACY_OF_SEERGAZE)) {
 			p.sendMessage("You must have completed Legacy of Seergaze to use this teleport.");
 			return false;
 		}
 
-		if (itemId == 13609 && !p.getQuestManager().isComplete(Quest.MOURNINGS_ENDS_PART_II)) {
+		if (itemId == 13609 && !p.isQuestComplete(Quest.MOURNINGS_ENDS_PART_II)) {
 			p.sendMessage("You must have completed Mournings End Part II to use this teleport.");
 			return false;
 		}

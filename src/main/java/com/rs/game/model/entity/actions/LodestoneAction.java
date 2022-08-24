@@ -117,7 +117,7 @@ public class LodestoneAction extends PlayerAction {
 			e.getPlayer().stopAll();
 			Lodestone stone = Lodestone.forComponent(e.getComponentId());
 			if (stone != null) {
-				if ((stone == Lodestone.BANDIT_CAMP && !Quest.DESERT_TREASURE.meetsRequirements(e.getPlayer(), "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !Quest.LUNAR_DIPLOMACY.meetsRequirements(e.getPlayer(), "to use this lodestone.")))
+				if ((stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
 					return;
 				if (e.getPlayer().unlockedLodestone(stone))
 					e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));

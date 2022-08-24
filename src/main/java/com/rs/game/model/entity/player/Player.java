@@ -68,6 +68,7 @@ import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.minigames.wguild.WarriorsGuild;
+import com.rs.game.content.miniquests.Miniquest;
 import com.rs.game.content.miniquests.MiniquestManager;
 import com.rs.game.content.pet.Pet;
 import com.rs.game.content.pet.PetManager;
@@ -905,13 +906,14 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
-		getInteractionManager().forceStop();
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
 			resetWalkSteps();
-		if (stopActions)
+		if (stopActions) {
 			getActionManager().forceStop();
+			getInteractionManager().forceStop();
+		}
 		combatDefinitions.resetSpells(false);
 	}
 
@@ -1400,9 +1402,9 @@ public class Player extends Entity {
 
 	public boolean unlockedLodestone(Lodestone stone) {
 		if (stone == Lodestone.BANDIT_CAMP)
-			return getQuestManager().isComplete(Quest.DESERT_TREASURE);
+			return isQuestComplete(Quest.DESERT_TREASURE);
 		if (stone == Lodestone.LUNAR_ISLE)
-			return getQuestManager().isComplete(Quest.LUNAR_DIPLOMACY);
+			return isQuestComplete(Quest.LUNAR_DIPLOMACY);
 		return lodestones[stone.ordinal()];
 	}
 
@@ -1761,7 +1763,7 @@ public class Player extends Entity {
 	}
 
 	public void refreshHitPoints() {
-		getVars().setVarBit(7198, getHitpoints());
+		getVars().setVarBit(7198, Utils.clampI(getHitpoints(), 0, Short.MAX_VALUE));
 	}
 
 	@Override
@@ -4410,5 +4412,27 @@ public class Player extends Entity {
 
 	public Recorder getRecorder() {
 		return recorder;
+	}
+
+	public boolean isQuestComplete(Quest quest, String actionString) {
+		return getQuestManager().isComplete(quest, actionString);
+	}
+	
+	public boolean isQuestComplete(Quest quest) {
+		return isQuestComplete(quest, null);
+	}
+	
+	public boolean isMiniquestComplete(Miniquest quest, String actionString) {
+		return getMiniquestManager().isComplete(quest, actionString);
+	}
+	
+	public boolean isMiniquestComplete(Miniquest quest) {
+		return isMiniquestComplete(quest, null);
+	}
+
+	public void delayLock(int ticks, Runnable task) {
+		lock();
+		WorldTasks.delay(ticks, task);
+		WorldTasks.delay(ticks+1, () -> unlock());
 	}
 }

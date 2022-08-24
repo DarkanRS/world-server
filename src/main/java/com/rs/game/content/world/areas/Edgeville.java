@@ -162,7 +162,7 @@ public class Edgeville  {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (e.getOption().equalsIgnoreCase("trade"))
-				if(e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+				if(e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER))
 					ShopsHandler.openShop(e.getPlayer(), "oziach");
 				else
 					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
@@ -172,7 +172,7 @@ public class Edgeville  {
 						}
 					});
 			if(e.getOption().equalsIgnoreCase("Talk-to"))
-				if(e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+				if(e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER))
 					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 						{
 							addPlayer(HeadE.CALM, "Good day to you.");

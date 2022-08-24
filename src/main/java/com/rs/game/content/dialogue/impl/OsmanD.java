@@ -96,7 +96,7 @@ public class OsmanD extends Conversation {
 			addOptions("Choose an option:", new Options() {
 				@Override
 				public void create() {
-					if(!player.getQuestManager().isComplete(Quest.PRINCE_ALI_RESCUE))
+					if(!player.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 						option("About Prince Ali To The Rescue", new Dialogue()
 								.addNext(()->{player.startConversation(new OsmanPrinceAliRescueD(player));}));
 					option("Sorcerer's Garden", new Dialogue()

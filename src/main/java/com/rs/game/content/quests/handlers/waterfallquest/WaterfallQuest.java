@@ -222,13 +222,13 @@ public class WaterfallQuest extends QuestOutline {
 			if (e.getItem().getId() == 954 && e.getObject().getId() == 2020) {
 				e.getPlayer().sendMessage("You carefully climb down the tree using your rope.");
 				e.getPlayer().setNextWorldTile(new WorldTile(2511, 3463, 0));
-			} else if (e.getItem().getId() == 296 && e.getObject().getId() == 2014 && !e.getPlayer().getQuestManager().isComplete(Quest.WATERFALL_QUEST)) {
+			} else if (e.getItem().getId() == 296 && e.getObject().getId() == 2014 && !e.getPlayer().isQuestComplete(Quest.WATERFALL_QUEST)) {
 				if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) == 5) {
 					e.getPlayer().getQuestManager().completeQuest(Quest.WATERFALL_QUEST);
 					e.getPlayer().setNextWorldTile(new WorldTile(e.getPlayer().getX() - 38, e.getPlayer().getY() + 1, 0));
 				} else
 					e.getPlayer().sendMessage("I don't know how you got in here, but you shouldn't be.");
-			} else if (e.getItem().getId() == 295 && e.getObject().getId() == 2006 && !e.getPlayer().getQuestManager().isComplete(Quest.WATERFALL_QUEST)) {
+			} else if (e.getItem().getId() == 295 && e.getObject().getId() == 2006 && !e.getPlayer().isQuestComplete(Quest.WATERFALL_QUEST)) {
 				if (e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfWaterRunes") >= 6 && e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfAirRunes") >= 6 && e.getPlayer().getQuestManager().getAttribs(Quest.WATERFALL_QUEST).getI("wfEarthRunes") >= 6) {
 					e.getPlayer().setNextWorldTile(new WorldTile(e.getPlayer().getX() + 38, e.getPlayer().getY() - 1, 0));
 					e.getPlayer().sendMessage("You place the necklace on the statue.");

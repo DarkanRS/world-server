@@ -189,6 +189,8 @@ public class Tirannwn {
 	public static ObjectClickHandler handleLletyaTreePass = new ObjectClickHandler(new Object[] { 8742 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
+			if (!e.getPlayer().isQuestComplete(Quest.ROVING_ELVES, "to navigate the forest."))
+				return;
 			Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0), 0);
 		}
 	};
@@ -280,7 +282,7 @@ public class Tirannwn {
 	public static NPCClickHandler handleArianwynCampTalk = new NPCClickHandler(new Object[] { "Arianwyn" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (!Quest.REGICIDE.meetsRequirements(e.getPlayer(), "to talk to Arianwyn about teleport seeds and crystal weaponry."))
+			if (!e.getPlayer().isQuestComplete(Quest.ROVING_ELVES, "to talk to Arianwyn about teleport seeds and crystal weaponry."))
 				return;
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{

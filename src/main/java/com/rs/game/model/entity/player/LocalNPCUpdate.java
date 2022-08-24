@@ -27,6 +27,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.io.OutputStream;
+import com.rs.lib.util.Utils;
 
 public final class LocalNPCUpdate {
 
@@ -271,12 +272,12 @@ public final class LocalNPCUpdate {
 			} else if (hit.getSoaking() != null) {
 				data.writeSmart(32767);
 				data.writeSmart(hit.getMark(player, n));
-				data.writeSmart(hit.getDamage());
+				data.writeSmart(Utils.clampI(hit.getDamage(), 0, Short.MAX_VALUE/2));
 				data.writeSmart(hit.getSoaking().getMark(player, n));
-				data.writeSmart(hit.getSoaking().getDamage());
+				data.writeSmart(Utils.clampI(hit.getSoaking().getDamage(), 0, Short.MAX_VALUE/2));
 			} else {
 				data.writeSmart(hit.getMark(player, n));
-				data.writeSmart(hit.getDamage());
+				data.writeSmart(Utils.clampI(hit.getDamage(), 0, Short.MAX_VALUE/2));
 			}
 			data.writeSmart(hit.getDelay());
 		}

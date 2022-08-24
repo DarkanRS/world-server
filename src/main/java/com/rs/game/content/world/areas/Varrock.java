@@ -308,10 +308,10 @@ public class Varrock {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
-							if(!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+							if(!e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
 								option("About Shield Of Arrav...", new ReldoShieldOfArravD(player).getStart());
 							if(e.getPlayer().getQuestManager().getStage(Quest.KNIGHTS_SWORD) >= KnightsSword.TALK_TO_RELDO
-									&& !e.getPlayer().getQuestManager().isComplete(Quest.KNIGHTS_SWORD))
+									&& !e.getPlayer().isQuestComplete(Quest.KNIGHTS_SWORD))
 								option("About Knight's Sword...", new ReldoKnightsSwordD(player).getStart());
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.VARROCK_ARMOR).getStart());
 						}
@@ -336,7 +336,7 @@ public class Varrock {
 	public static NPCClickHandler handleBaraek = new NPCClickHandler(new Object[] { 547 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+			if(e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
 				e.getPlayer().sendMessage("Nothing interesting happens");
 			else
 				e.getPlayer().startConversation(new BaraekShieldOfArravD(e.getPlayer()).getStart());
@@ -346,7 +346,7 @@ public class Varrock {
 	public static NPCClickHandler handleCharlie = new NPCClickHandler(new Object[] { 641 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+			if(e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
 				e.getPlayer().sendMessage("Nothing interesting happens");
 			else
 				e.getPlayer().startConversation(new CharlieTheTrampArravD(e.getPlayer()).getStart());
@@ -357,7 +357,7 @@ public class Varrock {
 		@Override
 		public void handle(NPCClickEvent e) {
             Player p = e.getPlayer();
-			if(p.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV )
+			if(p.isQuestComplete(Quest.SHIELD_OF_ARRAV )
                     && ShieldOfArrav.isBlackArmGang(p) && p.getQuestManager().getStage(Quest.HEROES_QUEST) > 0)
 				p.startConversation(new KatrineHeroesQuestD(p).getStart());
 			else
@@ -369,7 +369,7 @@ public class Varrock {
 		@Override
 		public void handle(NPCClickEvent e) {
             Player p = e.getPlayer();
-			if(p.getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV )
+			if(p.isQuestComplete(Quest.SHIELD_OF_ARRAV )
                     && ShieldOfArrav.isPhoenixGang(p) && p.getQuestManager().getStage(Quest.HEROES_QUEST) > 0) //started
                 p.startConversation(new StravenHeroesQuestD(p).getStart());
             else
@@ -390,7 +390,7 @@ public class Varrock {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
 					addPlayer(HeadE.CHEERFUL, "Hello.");
-					if (!e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+					if (!e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
 						addOptions("What would you like to say?", new Options() {
 							@Override
 							public void create() {
@@ -437,7 +437,7 @@ public class Varrock {
 						addOptions("What would you like to say?", new Options() {
 							@Override
 							public void create() {
-								if (e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV) && !((boolean)e.getPlayer().get("claimedArravLamp")))
+								if (e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV) && !((boolean)e.getPlayer().get("claimedArravLamp")))
 									option("About Shield Of Arrav...", new Dialogue()
 											.addNPC(5931, HeadE.HAPPY_TALKING, "Thank you for returning the shield")
 											.addSimple("A lamp is placed in your hand")
@@ -445,7 +445,7 @@ public class Varrock {
 												e.getPlayer().getInventory().addItem(4447, 1);
 												e.getPlayer().save("claimedArravLamp", true);
 											}));
-								else if(e.getPlayer().getQuestManager().isComplete(Quest.SHIELD_OF_ARRAV))
+								else if(e.getPlayer().isQuestComplete(Quest.SHIELD_OF_ARRAV))
 									option("About Shield Of Arrav...", new Dialogue()
 											.addNPC(5931, HeadE.HAPPY_TALKING, "Thank you for returning the shield"));
 								else
@@ -666,7 +666,7 @@ public class Varrock {
 									.addPlayer(HeadE.HAPPY_TALKING, "What is this place?")
 									.addNPC(198, HeadE.HAPPY_TALKING, "This is the Champions' Guild. Only adventurers who have proved themselves worthy " +
 											"by gaining influence from quests are allowed in here."));
-							if(!e.getPlayer().getQuestManager().isComplete(Quest.DRAGON_SLAYER))
+							if(!e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER))
 								option("About Dragon Slayer", new Dialogue()
 										.addNext(()->{e.getPlayer().startConversation(new GuildMasterDragonSlayerD(e.getPlayer()).getStart());}));
 						}

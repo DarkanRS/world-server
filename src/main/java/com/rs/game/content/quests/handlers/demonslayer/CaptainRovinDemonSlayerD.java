@@ -60,7 +60,7 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 						.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_THINKING, "Well, yes, I suppose we'd let him up. He doesn't generally want to come up here, but if" +
 								" he did want to, he could.")
 						.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, "Anyway, you're not the King either. So get out of my sight."));
-				if(!p.getQuestManager().isComplete(Quest.DEMON_SLAYER)
+				if(!p.isQuestComplete(Quest.DEMON_SLAYER)
 						&& p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
 						&& !p.getInventory().containsItem(DemonSlayer.ROVIN_KEY))
 					option("Yes I know, but this is important.", new Dialogue()

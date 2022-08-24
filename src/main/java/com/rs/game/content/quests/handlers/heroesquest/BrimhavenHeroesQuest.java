@@ -69,7 +69,7 @@ public class BrimhavenHeroesQuest {
 				handleDoor(p, e.getObject());
 				return;
 			}
-			if (p.getQuestManager().isComplete(Quest.HEROES_QUEST) || p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_hideout_open")) {
+			if (p.isQuestComplete(Quest.HEROES_QUEST) || p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_hideout_open")) {
 				handleDoor(p, e.getObject());
 				return;
 			}

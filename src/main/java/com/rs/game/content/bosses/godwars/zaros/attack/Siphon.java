@@ -43,7 +43,7 @@ public class Siphon implements NexAttack {
 			if (tile != null)
 				nex.getBloodReavers()[respawnedBloodReaverCount++] = new NPC(13458, tile, true);
 		}
-		WorldTasks.schedule(9, () -> nex.getTempAttribs().setB("siphoning", false));
+		WorldTasks.schedule(6, () -> nex.getTempAttribs().setB("siphoning", false));
 		return nex.getAttackSpeed();
 	}
 
