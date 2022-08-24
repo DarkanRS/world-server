@@ -45,7 +45,7 @@ public class Musician {
 									.addNPC(npcId, HeadE.CALM_TALK, "Well, you may rest anywhere, simply choose the Rest option on the run buttons. When you are nice and relaxed, you will recharge your run energy more quickly and your life points twice as fast as you would do so normally.")
 									.addNPC(npcId, HeadE.CALM_TALK, "Of course, you can’t do anything else while you’re resting, other than talk.")
 									.addPlayer(HeadE.CALM_TALK, "Why not?")
-									.addNPC(npcId, HeadE.CALM_TALK, "Well, you wouldn’t be resting, now would you? Also, you should know that resting by a musician, has a similar effect but the benefits are greater.");
+									.addNPC(npcId, HeadE.CALM_TALK, "Well, you wouldn’t be resting, now would you? Also, you should know that resting by a musician, has a similar effect but the benefits are greater."));
 
 							option("What's special about resting by a musician?", new Dialogue()
 									.addNPC(npcId, HeadE.CALM_TALK, "The effects of resting are enhanced by music. Your run energy will recharge many times the normal rate, and your life points three times as fast. Simply sit down and rest as you would normally, nice and close to the musician. ")
