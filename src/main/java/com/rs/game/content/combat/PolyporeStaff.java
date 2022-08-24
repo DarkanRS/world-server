@@ -74,16 +74,23 @@ public class PolyporeStaff {
 		public void handle(ItemOnItemEvent e) {
 			Item stick = e.getUsedWith(22448);
 			if (stick.getId() == 22498) {
+				boolean canMake = true;
 				if (!e.getPlayer().getInventory().containsItem(22448, 3000)) {
 					e.getPlayer().sendMessage("You need 3,000 polypore spores to create a polypore staff.");
-					return;
+					canMake = false;
 				}
 				if (!e.getPlayer().getInventory().containsItem(Rune.FIRE.id(), 15000)) {
 					e.getPlayer().sendMessage("You need 15,000 fire runes to create a polypore staff.");
-					return;
+					canMake = false;
 				}
+				if (!e.getPlayer().getInventory().containsItem(Rune.FIRE.id(), 3000)) {
+					e.getPlayer().sendMessage("You need 3,000 chaos runes to create a polypore staff.");
+					canMake = false;
+				}
+				if (!canMake)
+					return;
 				e.getPlayer().startConversation(new Conversation(e.getPlayer())
-						.addSimple("To create a polypore staff you will need 3,000 polypore spores and 15,000 fire runes.")
+						.addSimple("To create a polypore staff you will need 3,000 polypore spores, 3,000 chaos runes and 15,000 fire runes.")
 						.addOption("Are you sure you want to create the staff?", "Yes, please.", "No, thanks.")
 						.addItem(22494, "You plant the spores on the stick and they quickly grow with the power of the fire runes.", () -> {
 							Item staff = e.getPlayer().getInventory().getItem(stick.getSlot());
@@ -92,6 +99,7 @@ public class PolyporeStaff {
 								e.getPlayer().setNextSpotAnim(new SpotAnim(2032));
 								staff.setId(22494);
 								e.getPlayer().getInventory().deleteItem(Rune.FIRE.id(), 15000);
+								e.getPlayer().getInventory().deleteItem(Rune.CHAOS.id(), 3000);
 								e.getPlayer().getInventory().deleteItem(22448, 3000);
 								e.getPlayer().getInventory().refresh(stick.getSlot());
 								e.getPlayer().getSkills().addXp(Constants.FARMING, 300);
@@ -103,13 +111,13 @@ public class PolyporeStaff {
 					e.getPlayer().sendMessage("This polypore staff is already full.");
 					return;
 				}
-				int recharge = 3000 - charges;
-				int maxRecharge = e.getPlayer().getInventory().getNumberOf(22448);
-				if (e.getPlayer().getInventory().getNumberOf(Rune.FIRE.id()) / 5000 > maxRecharge)
-					maxRecharge = e.getPlayer().getInventory().getNumberOf(Rune.FIRE.id()) / 5000;
-				if (maxRecharge > recharge)
-					maxRecharge = recharge;
+				int canRecharge = 3000 - charges;
+				int maxRecharge = getMaxCharges(e.getPlayer(), canRecharge);
 				int newCharges = charges + maxRecharge;
+				if (maxRecharge <= 0) {
+					e.getPlayer().sendMessage("You need 1 polypore spore, 1 chaos rune, and 5 fire runes per charge.");
+					return;
+				}
 				e.getPlayer().setNextAnimation(new Animation(15434));
 				e.getPlayer().setNextSpotAnim(new SpotAnim(2032));
 				if (newCharges == 3000) {
@@ -119,12 +127,26 @@ public class PolyporeStaff {
 				} else
 					stick.addMetaData("polyporeCasts", newCharges);
 				e.getPlayer().getInventory().deleteItem(Rune.FIRE.id(), maxRecharge * 5);
+				e.getPlayer().getInventory().deleteItem(Rune.CHAOS.id(), maxRecharge);
 				e.getPlayer().getInventory().deleteItem(22448, maxRecharge);
 				e.getPlayer().getSkills().addXp(Constants.FARMING, maxRecharge * 0.1);
 				e.getPlayer().sendMessage("You charge the staff with " + maxRecharge + " charges. It now has " + newCharges);
 			}
 		}
 	};
+	
+	public static int getMaxCharges(Player player, int max) {
+		int numSpores = player.getInventory().getNumberOf(22448);
+		int numFires = player.getInventory().getNumberOf(Rune.FIRE.id());
+		int numChaos = player.getInventory().getNumberOf(Rune.CHAOS.id());
+		if (numSpores < max)
+			max = numSpores;
+		if (numChaos < max)
+			max = numChaos;
+		if (((int) (numFires/5.0)) < max)
+			max = ((int) (numFires/5.0));
+		return max;
+	}
 
 	public static boolean isWielding(Player player) {
 		int weaponId = player.getEquipment().getWeaponId();
