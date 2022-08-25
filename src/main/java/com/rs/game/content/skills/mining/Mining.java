@@ -193,12 +193,14 @@ public class Mining extends Action {
 
 	private RockType type;
 	private Pickaxe pick;
+	private int rockId;
 	private GameObject rockObj;
 	private NPC rockNPC;
 	private Supplier<Integer> replaceId;
 
 	public Mining(RockType type, GameObject rock) {
 		this.type = type;
+		this.rockId = rock.getId();
 		rockObj = rock;
 	}
 
@@ -254,7 +256,7 @@ public class Mining extends Action {
 	public boolean depleteOre(Entity entity) {
 		if (type.depletes()) {
 			if (rockObj != null)
-				World.spawnObjectTemporary(new GameObject(DepletedOres.get(rockObj.getId()), rockObj.getType(), rockObj.getRotation(), rockObj.getX(), rockObj.getY(), rockObj.getPlane()), type.getRespawnTime());
+				rockObj.setIdTemporary(DepletedOres.get(rockObj.getId()), type.getRespawnTime());
 			if (rockNPC != null) {
 				rockNPC.setNPC(replaceId.get());
 				rockNPC.setLocation(rockNPC.getRespawnTile());
@@ -301,7 +303,7 @@ public class Mining extends Action {
 	}
 
 	public boolean checkRock() {
-		return rockObj != null ? World.getRegion(rockObj.getRegionId()).objectExists(rockObj) : !rockNPC.hasFinished();
+		return rockObj != null ? World.getRegion(rockObj.getRegionId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
 	}
 
 	public static double getXPMultiplier(Player player) {
