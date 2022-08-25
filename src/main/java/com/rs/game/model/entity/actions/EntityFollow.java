@@ -17,24 +17,23 @@
 package com.rs.game.model.entity.actions;
 
 import com.rs.game.content.Effect;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.EntityStrategy;
 import com.rs.game.model.entity.pathing.RouteFinder;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
-public class PlayerFollow extends PlayerAction {
+public class EntityFollow extends Action {
 
-	private Player target;
+	private Entity target;
 
-	public PlayerFollow(Player target) {
+	public EntityFollow(Entity target) {
 		this.target = target;
 	}
 
 	@Override
-	public boolean start(Player player) {
+	public boolean start(Entity player) {
 		player.setNextFaceEntity(target);
 		if (checkAll(player))
 			return true;
@@ -42,7 +41,7 @@ public class PlayerFollow extends PlayerAction {
 		return false;
 	}
 
-	private boolean checkAll(Player player) {
+	private boolean checkAll(Entity player) {
 		if (player.isDead() || player.hasFinished() || target.isDead() || target.hasFinished())
 			return false;
 		if (player.getPlane() != target.getPlane())
@@ -57,7 +56,7 @@ public class PlayerFollow extends PlayerAction {
 			return false;
 		int lastFaceEntity = target.getLastFaceEntity();
 		WorldTile toTile = target.getTileBehind() != null && Utils.getDistance(target.getTile(), target.getTileBehind()) <= 3 ? target.getTileBehind() : target.getBackfacingTile();
-		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof PlayerFollow)
+		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof EntityFollow)
 			player.addWalkSteps(toTile.getX(), toTile.getY());
 		else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {
 			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, player.getX(), player.getY(), player.getPlane(), player.getSize(), new EntityStrategy(target), true);
@@ -79,17 +78,17 @@ public class PlayerFollow extends PlayerAction {
 	}
 
 	@Override
-	public boolean process(Player player) {
+	public boolean process(Entity player) {
 		return checkAll(player);
 	}
 
 	@Override
-	public int processWithDelay(Player player) {
+	public int processWithDelay(Entity player) {
 		return 0;
 	}
 
 	@Override
-	public void stop(final Player player) {
+	public void stop(final Entity player) {
 		player.setNextFaceEntity(null);
 	}
 }

@@ -1,5 +1,6 @@
 package com.rs.game.content.world.npcs.max;
 
+import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -15,8 +16,11 @@ public class Max extends NPC {
 		public void handle(NPCClickEvent e) {
 			if (!(e.getNPC() instanceof Max max))
 				return;
-			if (e.getOption().toLowerCase().contains("talk"))
-				e.getPlayer().startConversation(new MaxD(e.getPlayer(), max));
+			switch(e.getOption()) {
+				case "Talk-to" -> e.getPlayer().startConversation(new MaxD(e.getPlayer(), max));
+				case "Trade" -> e.getPlayer().sendMessage("Sending trade request...");
+				case "Follow" -> e.getPlayer().getActionManager().setAction(new EntityFollow(e.getNPC()));
+			}
 		}
 	};
 

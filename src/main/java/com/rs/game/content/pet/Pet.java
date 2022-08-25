@@ -16,13 +16,12 @@
 //
 package com.rs.game.content.pet;
 
-import com.rs.game.content.Effect;
 import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.WorldTile;
-import com.rs.utils.WorldUtil;
 
 public final class Pet extends NPC {
 
@@ -71,7 +70,8 @@ public final class Pet extends NPC {
 			call();
 			return;
 		}
-		sendFollow();
+		if (!getActionManager().hasSkillWorking())
+			getActionManager().setAction(new EntityFollow(owner));
 	}
 
 	public void growNextStage() {
@@ -111,33 +111,6 @@ public final class Pet extends NPC {
 		WorldTile teleTile = owner.getNearestTeleTile(this);
 		if (teleTile != null)
 			setNextWorldTile(teleTile);
-	}
-
-	private void sendFollow() {
-		if (getLastFaceEntity() != owner.getClientIndex())
-			setNextFaceEntity(owner);
-		if (hasEffect(Effect.FREEZE))
-			return;
-		int size = getSize();
-		int targetSize = owner.getSize();
-		if (WorldUtil.collides(getX(), getY(), size, owner.getX(), owner.getY(), targetSize) && !owner.hasWalkSteps()) {
-			resetWalkSteps();
-			if (!addWalkSteps(owner.getX() + targetSize, getY())) {
-				resetWalkSteps();
-				if (!addWalkSteps(owner.getX() - size, getY())) {
-					resetWalkSteps();
-					if (!addWalkSteps(getX(), owner.getY() + targetSize)) {
-						resetWalkSteps();
-						if (!addWalkSteps(getX(), owner.getY() - size))
-							return;
-					}
-				}
-			}
-			return;
-		}
-		resetWalkSteps();
-		if (!lineOfSightTo(owner, true) || !WorldUtil.isInRange(getX(), getY(), size, owner.getX(), owner.getY(), targetSize, 0))
-			calcFollow(owner, 2, false);
 	}
 
 	/**

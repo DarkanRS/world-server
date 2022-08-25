@@ -17,7 +17,7 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.World;
-import com.rs.game.model.entity.actions.PlayerFollow;
+import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.RouteEvent;
@@ -80,7 +80,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 			if (!player.getControllerManager().canPlayerOption2(target))
 				return;
 			player.stopAll(true);
-			player.getActionManager().setAction(new PlayerFollow(target));
+			player.getActionManager().setAction(new EntityFollow(target));
 			break;
 		case PLAYER_OP3:
 			if (!player.getControllerManager().canPlayerOption3(target))

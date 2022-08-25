@@ -137,11 +137,11 @@ public enum Ore {
 	}
 
 	public boolean checkRequirements(Player player) {
-		return player.getSkills().getLevel(Constants.MINING) >= level;
+		return player == null ? true : player.getSkills().getLevel(Constants.MINING) >= level;
 	}
 
 	public boolean rollSuccess(Player player, int level) {
-		return Utils.skillSuccess(level, player.getAuraManager().getMiningMul(), rate1, rate99);
+		return Utils.skillSuccess(level, player != null ? player.getAuraManager().getMiningMul() : 1.0, rate1, rate99);
 	}
 
 	public void onGiveOre(Player player) { }
