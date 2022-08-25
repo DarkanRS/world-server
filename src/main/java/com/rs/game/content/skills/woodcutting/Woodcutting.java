@@ -31,6 +31,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -46,13 +47,20 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class Woodcutting extends Action {
 
+	private int treeId;
 	private GameObject treeObj;
 	private TreeType type;
 	private Hatchet hatchet;
 
 	public Woodcutting(GameObject treeObj, TreeType type) {
+		this.treeId = treeObj.getId();
 		this.treeObj = treeObj;
 		this.type = type;
+	}
+	
+	public Woodcutting setHatchet(Hatchet hatchet) {
+		this.hatchet = hatchet;
+		return this;
 	}
 
 	public static LoginHandler unlockBlisterwoodTree = new LoginHandler() {
@@ -195,7 +203,8 @@ public class Woodcutting extends Action {
 	}
 
 	private boolean checkAll(Entity entity) {
-		hatchet = entity instanceof Player player ? Hatchet.getBest(player) : Hatchet.MITHRIL;
+		if (hatchet == null)
+			hatchet = entity instanceof Player player ? Hatchet.getBest(player) : Hatchet.MITHRIL;
 		if (entity instanceof Player player) {
 			if (hatchet == null) {
 				player.sendMessage("You dont have the required level to use that axe or you don't have a hatchet.");
@@ -230,6 +239,8 @@ public class Woodcutting extends Action {
 
 	@Override
 	public int processWithDelay(Entity entity) {
+		if (!checkTree())
+			return -1;
 		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : 60;
 		entity.faceObject(treeObj);
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
@@ -329,7 +340,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getRegion(treeObj.getRegionId()).objectExists(treeObj);
+		return World.getRegion(treeObj.getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

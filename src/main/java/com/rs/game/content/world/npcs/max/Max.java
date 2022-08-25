@@ -11,7 +11,32 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class Max extends NPC {
 	
-	public static NPCClickHandler click = new NPCClickHandler(new Object[] { "Max" }) {
+	private static final int MAX_NORM = 3373, MAX_PESTLE = 3374, MAX_FLETCH = 3380, MAX_SMITH = 3399, MAX_ADZE = 3705;
+	
+	private enum Task {
+		FARMING,
+		WOODCUTTING,
+		MINING,
+		FLETCHING,
+		SMITHING
+	}
+	
+	private Task task;
+
+	public Max(int id, WorldTile tile) {
+		super(id, tile);
+		setRun(true);
+		setIgnoreNPCClipping(true);
+		task = Task.FARMING;
+		transformIntoNPC(MAX_NORM);
+	}
+	
+	@Override
+	public void processNPC() {
+		
+	}
+	
+	public static NPCClickHandler clickClose = new NPCClickHandler(new Object[] { MAX_NORM, MAX_PESTLE, MAX_FLETCH, MAX_SMITH, MAX_ADZE }, new String[] { "Talk-to", "Trade" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			if (!(e.getNPC() instanceof Max max))
@@ -19,17 +44,18 @@ public class Max extends NPC {
 			switch(e.getOption()) {
 				case "Talk-to" -> e.getPlayer().startConversation(new MaxD(e.getPlayer(), max));
 				case "Trade" -> e.getPlayer().sendMessage("Sending trade request...");
-				case "Follow" -> e.getPlayer().getActionManager().setAction(new EntityFollow(e.getNPC()));
 			}
 		}
 	};
 
-	public Max(int id, WorldTile tile) {
-		super(id, tile);
-		
-	}
-
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Max") {
+	public static NPCClickHandler clickDistance = new NPCClickHandler(false, new Object[] { MAX_NORM, MAX_PESTLE, MAX_FLETCH, MAX_SMITH, MAX_ADZE }, new String[] { "Follow" }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getPlayer().getActionManager().setAction(new EntityFollow(e.getNPC()));
+		}
+	};
+	
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(MAX_NORM, MAX_PESTLE, MAX_FLETCH, MAX_SMITH, MAX_ADZE) {
 		@Override
 		public NPC getNPC(int npcId, WorldTile tile) {
 			return new Max(npcId, tile);
