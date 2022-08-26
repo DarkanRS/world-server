@@ -27,6 +27,7 @@ import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -569,6 +570,57 @@ public class Magic {
 			}
 		}, delay, 0);
 		return true;
+	}
+	
+	public static void npcTeleport(NPC npc, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, final WorldTile tile, int delay, final boolean randomize, Consumer<NPC> onArrive) {
+		npc.resetWalkSteps();
+		npc.setRouteEvent(null);
+		npc.getActionManager().forceStop();
+		npc.getInteractionManager().forceStop();
+		if (upEmoteId != -1)
+			npc.setNextAnimation(new Animation(upEmoteId));
+		if (upGraphicId != -1)
+			npc.setNextSpotAnim(new SpotAnim(upGraphicId));
+		WorldTasks.delay(delay, () -> {
+			WorldTile teleTile = tile;
+			if (randomize) {
+				for (int trycount = 0; trycount < 10; trycount++) {
+					teleTile = new WorldTile(tile, 2);
+					if (World.floorAndWallsFree(teleTile, npc.getSize()))
+						break;
+					teleTile = tile;
+				}
+			}
+			npc.setNextWorldTile(teleTile);
+			if (downEmoteId != -1)
+				npc.setNextAnimation(new Animation(downEmoteId == -2 ? -1 : downEmoteId));
+			if (downGraphicId != -1)
+				npc.setNextSpotAnim(new SpotAnim(downGraphicId));
+			if (onArrive != null)
+				onArrive.accept(npc);
+			npc.resetReceivedDamage();
+			npc.resetReceivedHits();
+		});
+	}
+	
+	public static final void npcNormalTeleport(NPC npc, WorldTile tile, boolean randomize, Consumer<NPC> onArrive) {
+		npcTeleport(npc, 8939, 8941, 1576, 1577, tile, 3, randomize, onArrive);
+	}
+	
+	public static final void npcAncientTeleport(NPC npc, WorldTile tile, boolean randomize, Consumer<NPC> onArrive) {
+		npcTeleport(npc, 9599, -2, 1681, -1, tile, 5, randomize, onArrive);
+	}
+	
+	public static final void npcLunarTeleport(NPC npc, WorldTile tile, boolean randomize, Consumer<NPC> onArrive) {
+		npcTeleport(npc, 9606, -1, 1685, -1, tile, 5, randomize, onArrive);
+	}
+	
+	public static final void npcDaemonheimTeleport(NPC npc, WorldTile tile, boolean randomize, Consumer<NPC> onArrive) {
+		npcTeleport(npc, 13652, 13654, 2602, 2603, tile, 10, randomize, onArrive);
+	}
+	
+	public static final void npcItemTeleport(NPC npc, WorldTile tile, boolean randomize, Consumer<NPC> onArrive) {
+		npcTeleport(npc, 9603, -1, 1684, -1, tile, 4, randomize, onArrive);
 	}
 
 	public static boolean useHouseTeleport(final Player player) {

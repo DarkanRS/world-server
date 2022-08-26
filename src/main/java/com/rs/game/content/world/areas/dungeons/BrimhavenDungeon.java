@@ -40,7 +40,7 @@ public class BrimhavenDungeon {
 				return;
 			}
 			e.getPlayer().lock();
-			e.getPlayer().setNextAnimation(defs.getAnim());
+			e.getPlayer().setNextAnimation(defs.animNormal());
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {

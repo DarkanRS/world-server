@@ -225,8 +225,8 @@ public class Appearance {
 		md5AppearanceDataHash = md5Hash;
 	}
 
-	private ArrayList<MeshModifier> getMeshModifiers() {
-		ArrayList<MeshModifier> modifiers = new ArrayList<>();
+	private ArrayList<ItemMeshModifier> getMeshModifiers() {
+		ArrayList<ItemMeshModifier> modifiers = new ArrayList<>();
 		int slotFlag = -1;
 		for (int slotId = 0; slotId < Equipment.SIZE; slotId++) {
 			if (Equipment.DISABLED_SLOTS[slotId] != 0)
@@ -246,7 +246,7 @@ public class Appearance {
 			case 1835:
 			case 1171:
 			case 2637:
-				MeshModifier mod = new MeshModifier(defs, slotFlag);
+				ItemMeshModifier mod = new ItemMeshModifier(defs, slotFlag);
 				boolean add = false;
 				if (item.getMetaDataI("drTOr", -1) > 0) {
 					mod.addTextures(item.getMetaDataI("drTOr", -1), item.getMetaDataI("drTOr", -1), item.getMetaDataI("drTOr", -1));
@@ -261,27 +261,27 @@ public class Appearance {
 				break;
 			case 20767:
 			case 20768:
-				modifiers.add(new MeshModifier(defs, slotFlag)
+				modifiers.add(new ItemMeshModifier(defs, slotFlag)
 						.addColors(player.getMaxedCapeCustomized()));
 				break;
 			case 20769:
 			case 20770:
 			case 20771:
 			case 20772:
-				modifiers.add(new MeshModifier(defs, slotFlag)
+				modifiers.add(new ItemMeshModifier(defs, slotFlag)
 						.addColors(player.getCompletionistCapeCustomized()));
 				break;
 			case 20708:
 			case 20709:
 				if (player.getClan() != null)
-					modifiers.add(new MeshModifier(defs, slotFlag)
+					modifiers.add(new ItemMeshModifier(defs, slotFlag)
 							.addColors(player.getClan().getMottifColors())
 							.addTextures(player.getClan().getMottifTextures()));
 				break;
 			}
 
 			if (slotId == Equipment.AURA && player.getAuraManager().isActive())
-				modifiers.add(new MeshModifier(defs, slotFlag)
+				modifiers.add(new ItemMeshModifier(defs, slotFlag)
 						.addBodyModels(player.getAuraManager().getAuraModelId(), player.getAuraManager().getAuraModelId2()));
 
 		}
@@ -292,7 +292,7 @@ public class Appearance {
 		int start = stream.getOffset();
 		stream.writeShort(0);
 		int slotHash = 0;
-		for (MeshModifier modifier : getMeshModifiers()) {
+		for (ItemMeshModifier modifier : getMeshModifiers()) {
 			int slot = modifier.encode(stream);
 			if (slot != -1)
 				slotHash |= 1 << slot;

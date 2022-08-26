@@ -26,8 +26,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
-import java.util.function.Supplier;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
@@ -1715,8 +1713,9 @@ public abstract class Entity {
 		}
 	}
 	
-	public void repeatAction(int ticks, Supplier<Boolean> action) {
+	public void repeatAction(int ticks, Function<Integer, Boolean> action) {
 		getActionManager().setAction(new Action() {
+			int count = 0;
 			@Override
 			public boolean start(Entity entity) {
 				return true;
@@ -1729,7 +1728,7 @@ public abstract class Entity {
 
 			@Override
 			public int processWithDelay(Entity entity) {
-				if (action.get())
+				if (action.apply(++count))
 					return ticks;
 				return -1;
 			}

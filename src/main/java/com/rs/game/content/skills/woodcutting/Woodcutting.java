@@ -50,6 +50,7 @@ public class Woodcutting extends Action {
 	private GameObject treeObj;
 	private TreeType type;
 	private Hatchet hatchet;
+	private int wcLevel = -1;
 
 	public Woodcutting(GameObject treeObj, TreeType type) {
 		this.treeId = treeObj.getId();
@@ -59,6 +60,11 @@ public class Woodcutting extends Action {
 	
 	public Woodcutting setHatchet(Hatchet hatchet) {
 		this.hatchet = hatchet;
+		return this;
+	}
+	
+	public Woodcutting setLevel(int level) {
+		this.wcLevel = level;
 		return this;
 	}
 
@@ -230,7 +236,7 @@ public class Woodcutting extends Action {
 
 	@Override
 	public boolean process(Entity entity) {
-		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim());
+		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim(type));
 		if (entity instanceof Familiar)
 			entity.spotAnim(1459);
 		return checkAll(entity) && checkTree();
@@ -240,7 +246,7 @@ public class Woodcutting extends Action {
 	public int processWithDelay(Entity entity) {
 		if (!checkTree())
 			return -1;
-		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : 60;
+		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : wcLevel;
 		entity.faceObject(treeObj);
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
 			giveLog(entity, type);
