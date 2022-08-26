@@ -35,7 +35,7 @@ import com.rs.lib.net.packets.encoders.WorldLoginDetails;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.net.encoders.WorldEncoder;
-import com.rs.utils.AntiFlood;
+import com.rs.utils.AccountLimiter;
 import com.rs.utils.MachineInformation;
 
 public final class WorldLoginDecoder extends Decoder {
@@ -151,7 +151,7 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 
-		if (AntiFlood.getSessionsIP(session.getIP()) > 3) {
+		if (AccountLimiter.getSessionsIP(session.getIP()) > 3) {
 			session.sendClientPacket(9);
 			return -1;
 		}

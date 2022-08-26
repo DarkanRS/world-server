@@ -1,18 +1,26 @@
 package com.rs.game.content.world.npcs.max;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.db.WorldDB;
-import com.rs.game.content.skills.farming.FarmPatch;
-import com.rs.game.content.world.npcs.max.tasks.Farming;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskFarm;
+import com.rs.game.World;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskFM;
 import com.rs.game.content.world.npcs.max.tasks.Task;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskWC;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -33,8 +41,9 @@ public class Max extends NPC {
 		super(id, tile);
 		setRun(true);
 		setIgnoreNPCClipping(true);
-		task = new Farming();
 		transformIntoNPC(PESTLE);
+		//nextTask();
+		task = new MaxTaskFM();
 		checkTopPlayer();
 	}
 	
@@ -88,6 +97,18 @@ public class Max extends NPC {
 		return realBase;
 	}
 	
+	@ServerStartupEvent
+	public static void loadMaxRegions() {
+		WorldTasks.schedule(new WorldTask() {
+			@Override
+			public void run() {
+				World.getRegion(12342, true);
+				World.getRegion(12853, true);
+				World.getRegion(12854, true);
+			}
+		}, 10);
+	}
+	
 	public static NPCClickHandler clickClose = new NPCClickHandler(new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, new String[] { "Talk-to", "Trade" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
@@ -131,5 +152,21 @@ public class Max extends NPC {
 		wearItems(anim.getDefs().rightHandItem, anim.getDefs().leftHandItem);
 		setNextAnimation(anim);
 		WorldTasks.delay(delay, () -> wearItems(prevRight, prevLeft));
+	}
+
+	public void nextTask() {
+		getActionManager().forceStop();
+		task = getNextPossibleTasks().get(0);
+	}
+
+	private List<Task> getNextPossibleTasks() {
+		List<Task> nextTasks = new ArrayList<>();
+		nextTasks.add(new MaxTaskWC());
+		nextTasks.add(new MaxTaskFarm());
+		nextTasks.add(new MaxTaskFM());
+		Collections.shuffle(nextTasks);
+		if (task == null)
+			return nextTasks;
+		return nextTasks.stream().filter(pred -> !pred.getClass().isAssignableFrom(task.getClass())).toList();
 	}
 }

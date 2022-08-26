@@ -125,21 +125,20 @@ public class Firemaking extends Action {
 	@Override
 	public boolean start(Entity entity) {
 		Player player = getPlayer(entity);
-		if (player == null)
-			return false;
 		
 		if (!checkAll(entity))
 			return false;
 		entity.resetWalkSteps();
-		player.sendMessage("You attempt to light the logs.", true);
-		if (groundItem == null) {
+		if (player != null)
+			player.sendMessage("You attempt to light the logs.", true);
+		if (player != null && groundItem == null) {
 			player.getInventory().deleteItem(fire.getLogId(), 1);
 			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(entity.getTile()), player, true, 180);
 		}
 		boolean quickFire = entity.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
 		setActionDelay(entity, quickFire ? 1 : 2);
 		if (!quickFire)
-			entity.setNextAnimation(new Animation(entity instanceof Player ? 16700 : 8085));
+			entity.setNextAnimation(new Animation(entity instanceof Familiar ? 8085 : 16700));
 		return true;
 	}
 
@@ -162,19 +161,17 @@ public class Firemaking extends Action {
 
 	public boolean checkAll(Entity entity) {
 		Player player = getPlayer(entity);
-		if (player == null)
-			return false;
-
 		if (entity instanceof Player && !player.getInventory().containsItem(590, 1) && (fire.ordinal() >= Fire.TANGLE_GUM_BRANCHES.ordinal() && !player.getInventory().containsItem(DungeonConstants.TINDERBOX))) {
 			player.sendMessage("You do not have the required items to light this.");
 			return false;
 		}
-		if (player.getSkills().getLevel(Constants.FIREMAKING) < fire.getLevel()) {
+		if (player != null && player.getSkills().getLevel(Constants.FIREMAKING) < fire.getLevel()) {
 			player.sendMessage("You do not have the required level to light this.");
 			return false;
 		}
-		if (!World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || World.getRegion(entity.getRegionId()).getSpawnedObject(entity.getTile()) != null || player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController) { // contains
-			player.sendMessage("You can't light a fire here.");
+		if (!World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || World.getRegion(entity.getRegionId()).getSpawnedObject(entity.getTile()) != null || (player != null && (player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController))) { // contains
+			if (player != null)
+				player.sendMessage("You can't light a fire here.");
 			return false;
 		}
 		return true;
@@ -196,23 +193,25 @@ public class Firemaking extends Action {
 	@Override
 	public int processWithDelay(Entity entity) {
 		Player player = getPlayer(entity);
-		if (player == null)
-			return -1;
 		
 		final WorldTile tile = new WorldTile(entity.getTile());
 		if (!entity.addWalkSteps(entity.getX() - 1, entity.getY(), 1))
 			if (!entity.addWalkSteps(entity.getX() + 1, entity.getY(), 1))
 				if (!entity.addWalkSteps(entity.getX(), entity.getY() + 1, 1))
 					entity.addWalkSteps(entity.getX(), entity.getY() - 1, 1);
-		player.sendMessage("The fire catches and the logs begin to burn.", true);
+		if (player != null)
+			player.sendMessage("The fire catches and the logs begin to burn.", true);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				final GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(fire.getLogId(), tile, player);
-				if ((item == null) || !World.removeGroundItem(player, item, false))
-					return;
+				if (player != null) {
+					final GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(fire.getLogId(), tile, player);
+					if ((item == null) || !World.removeGroundItem(player, item, false))
+						return;
+				}
 				World.spawnTempGroundObject(new GameObject(fire.getFireId(), ObjectType.SCENERY_INTERACT, 0, tile.getX(), tile.getY(), tile.getPlane()), 592, fire.getLife());
-				player.getSkills().addXp(Constants.FIREMAKING, increasedExperience(player, fire.getExperience()));
+				if (player != null)
+					player.getSkills().addXp(Constants.FIREMAKING, increasedExperience(player, fire.getExperience()));
 				entity.setNextFaceWorldTile(tile);
 			}
 		}, 1);

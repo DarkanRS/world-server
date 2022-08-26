@@ -620,7 +620,7 @@ public class Magic {
 	}
 	
 	public static final void npcItemTeleport(NPC npc, WorldTile tile, boolean randomize, Consumer<NPC> onArrive) {
-		npcTeleport(npc, 9603, -1, 1684, -1, tile, 4, randomize, onArrive);
+		npcTeleport(npc, 9603, -2, 1684, -1, tile, 4, randomize, onArrive);
 	}
 
 	public static boolean useHouseTeleport(final Player player) {

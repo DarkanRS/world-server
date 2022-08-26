@@ -68,7 +68,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.NPCInstanceEvent;
-import com.rs.utils.AntiFlood;
+import com.rs.utils.AccountLimiter;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
@@ -190,14 +190,14 @@ public final class World {
 		PLAYER_MAP_USERNAME.put(player.getUsername(), player);
 		PLAYER_MAP_DISPLAYNAME.put(player.getDisplayName(), player);
 		if (player.getSession() != null)
-			AntiFlood.add(player.getSession().getIP());
+			AccountLimiter.add(player.getSession().getIP());
 	}
 
 	public static void removePlayer(Player player) {
 		PLAYERS.remove(player);
 		PLAYER_MAP_USERNAME.remove(player.getUsername(), player);
 		PLAYER_MAP_DISPLAYNAME.remove(player.getDisplayName(), player);
-		AntiFlood.remove(player.getSession().getIP());
+		AccountLimiter.remove(player.getSession().getIP());
 	}
 
 	public static final void addNPC(NPC npc) {
@@ -1376,8 +1376,19 @@ public final class World {
 		for (int dist = 0;dist < 16;dist++)
 			for (int x = -dist;x < dist;x++)
 				for (int y = -dist; y < dist;y++) {
-					GameObject object = World.getObject(tile.transform(x, y));
+					GameObject object = World.getObject(tile.transform(x, y), type);
 					if (object != null && object.getType() == type)
+						return object;
+				}
+		return null;
+	}
+	
+	public static GameObject getClosestObject(ObjectType type, int objectId, WorldTile tile) {
+		for (int dist = 0;dist < 16;dist++)
+			for (int x = -dist;x < dist;x++)
+				for (int y = -dist; y < dist;y++) {
+					GameObject object = World.getObject(tile.transform(x, y), type);
+					if (object != null && object.getId() == objectId)
 						return object;
 				}
 		return null;

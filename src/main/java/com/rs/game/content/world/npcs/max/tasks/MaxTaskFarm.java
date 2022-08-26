@@ -9,7 +9,7 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
 
-public class Farming implements Task {
+public class MaxTaskFarm implements Task {
 	
 	private boolean started = false;
 	private GameObject patch;
@@ -21,10 +21,10 @@ public class Farming implements Task {
 		if (patch == null)
 			return 0;
 		if (!started) {
-			max.wearItems(7409, 19749);
+			max.wearItems(5341, 19749);
 			started = true;
 		}
-		if (!max.withinDistance(max.getTile(), 80)) {
+		if (!max.withinDistance(patch, 80)) {
 			Magic.npcNormalTeleport(max, new WorldTile(3213, 3423, 0), true, null);
 			return 10;
 		}
@@ -40,8 +40,7 @@ public class Farming implements Task {
 			if (rakeCount > 5) {
 				max.repeatAction(10, compostCount -> {
 					if (compostCount >= 2) {
-						max.getActionManager().forceStop();
-						max.setTask(new WC());
+						max.nextTask();
 						return true;
 					}
 					max.itemAnim(FarmPatch.COMPOST_ANIMATION, 5);
@@ -49,7 +48,7 @@ public class Farming implements Task {
 				});
 				return true;
 			}
-			max.itemAnim(FarmPatch.RAKING_ANIMATION, 4);
+			max.itemAnim(FarmPatch.RAKING_ANIMATION, 5);
 			return true;
 		});
 		return 2;

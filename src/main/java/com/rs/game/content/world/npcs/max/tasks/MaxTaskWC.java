@@ -11,10 +11,11 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
-public class WC implements Task {
+public class MaxTaskWC implements Task {
 		
 	private boolean started = false;
 	private GameObject currentIvy;
+	private int ivysCut = Utils.random(4, 7);
 	
 	@Override
 	public int tick(Max max) {
@@ -22,17 +23,30 @@ public class WC implements Task {
 			max.wearItems(6739, -1);
 			started = true;
 		}
-		if (!max.withinDistance(new WorldTile(3213, 3423, 0), 80)) {
-			Magic.npcNormalTeleport(max, new WorldTile(3213, 3423, 0), true, null);
+		if (max.getTile().getRegionId() != 12854) {
+			if (max.getTile().getRegionId() != 12853)
+				Magic.npcNormalTeleport(max, new WorldTile(3213, 3423, 0), true, null);
+			else {
+				if (!max.hasWalkSteps())
+					max.setRouteEvent(new RouteEvent(new WorldTile(3232, 3459, 0), () -> {  }));
+			}
+			return 10;
+		}
+		if (ivysCut <= 0) {
+			max.nextTask();
 			return 10;
 		}
 		currentIvy = getClosestIvy(max.getTile());
-		if (currentIvy == null || !currentIvy.getDefinitions().containsOption("Chop")) {
-			System.out.println("Ivy not found... " + currentIvy);
+		if (currentIvy == null || !currentIvy.getDefinitions().containsOption("Chop"))
 			return 0;
-		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
-			max.setRouteEvent(new RouteEvent(currentIvy, () -> max.getActionManager().setAction(new Woodcutting(currentIvy, TreeType.IVY).setHatchet(Hatchet.DRAGON).setLevel(110))));
+			max.setRouteEvent(new RouteEvent(currentIvy, () -> max.getActionManager().setAction(new Woodcutting(currentIvy, TreeType.IVY) {
+				@Override
+				public void fellTree() {
+					super.fellTree();
+					ivysCut--;
+				}
+			}.setHatchet(Hatchet.DRAGON).setLevel(110))));
 			return 10;
 		}
 		return 0;
