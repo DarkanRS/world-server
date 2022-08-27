@@ -47,8 +47,7 @@ public class Max extends NPC {
 		setRun(true);
 		setIgnoreNPCClipping(true);
 		transformIntoNPC(PESTLE);
-		//nextTask();
-		task = new MaxTaskCook();
+		nextTask();
 		rank = RANK_DISPLAY;
 		RANK_DISPLAY++;
 		updateName();
