@@ -15,7 +15,7 @@ public class MaxTaskWC implements Task {
 		
 	private boolean started = false;
 	private GameObject currentIvy;
-	private int ivysCut = Utils.random(4, 7);
+	private int ivysCut = Utils.random(3, 5);
 	
 	@Override
 	public int tick(Max max) {

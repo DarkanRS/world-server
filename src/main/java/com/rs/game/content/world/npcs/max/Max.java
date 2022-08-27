@@ -7,7 +7,10 @@ import java.util.List;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.db.WorldDB;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskFarm;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskSmith;
 import com.rs.game.World;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskAlch;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskCook;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskFM;
 import com.rs.game.content.world.npcs.max.tasks.Task;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskWC;
@@ -29,13 +32,15 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 public class Max extends NPC {
 	
 	public static final int NORM = 3373, PESTLE = 3374, FLETCH = 3380, SMITH = 3399, ADZE = 3705;
+	private static int RANK_DISPLAY = 0;
 	
 	private Task task;
 	private int sleepTicks;
 	private int right = -1, left = -1;
 	
-	private volatile String displayName;
-	private volatile int cbLevel;
+	private int rank;
+	private String displayName;
+	private int cbLevel;
 
 	public Max(int id, WorldTile tile) {
 		super(id, tile);
@@ -43,8 +48,10 @@ public class Max extends NPC {
 		setIgnoreNPCClipping(true);
 		transformIntoNPC(PESTLE);
 		//nextTask();
-		task = new MaxTaskFM();
-		checkTopPlayer();
+		task = new MaxTaskCook();
+		rank = RANK_DISPLAY;
+		RANK_DISPLAY++;
+		updateName();
 	}
 	
 	public void setTask(Task task) {
@@ -60,14 +67,23 @@ public class Max extends NPC {
 			setPermName(displayName);
 		if (cbLevel > 0)
 			setCombatLevel(cbLevel);
-		if (getTickCounter() % 15 == 0)
-			checkTopPlayer();
+		if (getTickCounter() % 300 == 0)
+			updateName();
 	}
 	
-	private void checkTopPlayer() {
+	public String getRankColor() {
+		return switch(rank) {
+		case 0 -> "<img=7><col=FFD700>";
+		case 1 -> "<img=6><col=C0C0C0>";
+		case 2 -> "<img=5><col=CD7F30>";
+		default -> "<col=FFFFF0>";
+		};
+	}
+	
+	private void updateName() {
 		try {
-			WorldDB.getHighscores().getTopPlayer(hs -> {
-				displayName = hs.getDisplayName() + "<col=FFFFFF> (total: " + hs.getTotalLevel() + ")</col>";
+			WorldDB.getHighscores().getPlayerAtPosition(rank, hs -> {
+				displayName = getRankColor() + hs.getDisplayName() + "</col><col=FFFFFF> (total: " + hs.getTotalLevel() + ")</col>";
 				cbLevel = getCombatLevel(
 						Skills.getLevelForXp(Skills.ATTACK, hs.getXp()[Skills.ATTACK]),
 						Skills.getLevelForXp(Skills.STRENGTH, hs.getXp()[Skills.STRENGTH]),
@@ -95,6 +111,45 @@ public class Max extends NPC {
 		realBase *= 1.3;
 		realBase = ((realBase + def + hp + (pray / 2)) + (summ / 2)) / 4;
 		return realBase;
+	}
+	
+	public void wearItems(int weapon, int shield) {
+		this.right = weapon;
+		this.left = shield;
+		setBodyMeshModifier(new NPCBodyMeshModifier(getDefinitions())
+						 //head   body   legs   boots  gloves
+				.addModels(65291, 62746, 62743, 53327, 2301, weapon == -1 ? -1 : ItemDefinitions.getDefs(weapon).maleEquip1, 65300, shield == -1 ? -1 : ItemDefinitions.getDefs(shield).maleEquip1, 252));
+	}
+
+	public String getCurrName() {
+		return getCustomName() == null ? "Max" : getCustomName().substring(getCustomName().indexOf("0>")+2, getCustomName().indexOf("</"));
+	}
+
+	public void itemAnim(Animation anim, int delay) {
+		int prevRight = right;
+		int prevLeft = left;
+		wearItems(anim.getDefs().rightHandItem, anim.getDefs().leftHandItem);
+		setNextAnimation(anim);
+		WorldTasks.delay(delay, () -> wearItems(prevRight, prevLeft));
+	}
+
+	public void nextTask() {
+		getActionManager().forceStop();
+		task = getNextPossibleTasks().get(0);
+	}
+
+	private List<Task> getNextPossibleTasks() {
+		List<Task> nextTasks = new ArrayList<>();
+		nextTasks.add(new MaxTaskWC());
+		nextTasks.add(new MaxTaskFarm());
+		nextTasks.add(new MaxTaskFM());
+		nextTasks.add(new MaxTaskAlch());
+		nextTasks.add(new MaxTaskSmith());
+		nextTasks.add(new MaxTaskCook());
+		Collections.shuffle(nextTasks);
+		if (task == null)
+			return nextTasks;
+		return nextTasks.stream().filter(pred -> !pred.getClass().isAssignableFrom(task.getClass())).toList();
 	}
 	
 	@ServerStartupEvent
@@ -134,39 +189,4 @@ public class Max extends NPC {
 			return new Max(npcId, tile);
 		}
 	};
-	
-	public void wearItems(int weapon, int shield) {
-		this.right = weapon;
-		this.left = shield;
-		setBodyMeshModifier(new NPCBodyMeshModifier(getDefinitions())
-				.addModels(65291, 62746, 62743, 27738, 13307, weapon == -1 ? -1 : ItemDefinitions.getDefs(weapon).maleEquip1, 65300, shield == -1 ? -1 : ItemDefinitions.getDefs(shield).maleEquip1, 252));
-	}
-
-	public String getCurrName() {
-		return getCustomName() == null ? "Max" : getCustomName().substring(0, getCustomName().indexOf("<"));
-	}
-
-	public void itemAnim(Animation anim, int delay) {
-		int prevRight = right;
-		int prevLeft = left;
-		wearItems(anim.getDefs().rightHandItem, anim.getDefs().leftHandItem);
-		setNextAnimation(anim);
-		WorldTasks.delay(delay, () -> wearItems(prevRight, prevLeft));
-	}
-
-	public void nextTask() {
-		getActionManager().forceStop();
-		task = getNextPossibleTasks().get(0);
-	}
-
-	private List<Task> getNextPossibleTasks() {
-		List<Task> nextTasks = new ArrayList<>();
-		nextTasks.add(new MaxTaskWC());
-		nextTasks.add(new MaxTaskFarm());
-		nextTasks.add(new MaxTaskFM());
-		Collections.shuffle(nextTasks);
-		if (task == null)
-			return nextTasks;
-		return nextTasks.stream().filter(pred -> !pred.getClass().isAssignableFrom(task.getClass())).toList();
-	}
 }

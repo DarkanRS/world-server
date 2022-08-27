@@ -5,9 +5,6 @@ import com.rs.game.World;
 import com.rs.game.content.skills.firemaking.Firemaking;
 import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.skills.woodcutting.Hatchet;
-import com.rs.game.content.skills.woodcutting.TreeType;
-import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.RouteEvent;
@@ -19,7 +16,7 @@ public class MaxTaskFM implements Task {
 		
 	private boolean started = false;
 	private GameObject currentBonfire;
-	private int firesRelit = Utils.random(2, 4);
+	private int logsBurned = Utils.random(85, 150);
 	
 	@Override
 	public int tick(Max max) {
@@ -31,7 +28,7 @@ public class MaxTaskFM implements Task {
 			Magic.npcItemTeleport(max, new WorldTile(3087, 3494, 0), true, null);
 			return 10;
 		}
-		if (firesRelit <= 0) {
+		if (logsBurned <= 0) {
 			max.nextTask();
 			return 10;
 		}
@@ -41,27 +38,29 @@ public class MaxTaskFM implements Task {
 				@Override
 				public void stop(Entity entity) {
 					super.stop(entity);
-					firesRelit--;
 				}
 			});
 			return 20;
 		}
-		if (!max.getActionManager().hasSkillWorking()) {
-			max.setBasAnim(2498);
-			max.repeatAction(5, count -> {
-				if (World.getObjectWithType(currentBonfire, currentBonfire.getType()) != currentBonfire) {
-					max.anim(-1);
-					max.setBasAnim(-1);
-					currentBonfire = null;
-					return false;
-				}
-				max.faceObject(currentBonfire);
-				max.anim(16703);
-				max.spotAnim(3135);
-				return true;
-			});
+		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
+			max.setRouteEvent(new RouteEvent(currentBonfire, () -> {
+				max.setBasAnim(2498);
+				max.repeatAction(5, count -> {
+					if (World.getObjectWithType(currentBonfire, currentBonfire.getType()) != currentBonfire) {
+						max.anim(-1);
+						max.setBasAnim(-1);
+						currentBonfire = null;
+						return false;
+					}
+					max.faceObject(currentBonfire);
+					max.anim(16703);
+					max.spotAnim(3135);
+					logsBurned--;
+					return true;
+				});
+			}));
 		}
-		return 0;
+		return 5;
 	}
 	
 	public GameObject getClosestIvy(WorldTile tile) {

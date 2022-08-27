@@ -45,9 +45,12 @@ import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
+import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
@@ -108,6 +111,42 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
+		
+		Commands.add(Rights.DEVELOPER, "allstopfaceme", "Stops all body model rotators.", (p, args) -> {
+			for (Player player : World.getPlayers()) {
+				if (player == null || !player.hasStarted() || player.hasFinished())
+					continue;
+				player.setBodyModelRotator(null);
+			}
+			for (NPC npc : World.getNPCs()) {
+				if (npc == null || npc.hasFinished())
+					continue;
+				npc.setBodyModelRotator(null);
+			}
+		});
+		
+		Commands.add(Rights.DEVELOPER, "allfaceme", "Sets body model rotators for all entities in the server.", (p, args) -> {
+			for (Player player : World.getPlayers()) {
+				if (player == null || !player.hasStarted() || player.hasFinished())
+					continue;
+				player.setBodyModelRotator(new ModelRotator().addRotator(new Rotation(p).enableAll()));
+			}
+			for (NPC npc : World.getNPCs()) {
+				if (npc == null || npc.hasFinished())
+					continue;
+				npc.setBodyModelRotator(new ModelRotator().addRotator(new Rotation(p).enableAll()));
+			}
+		});
+		
+		Commands.add(Rights.DEVELOPER, "testnpcrecol", "Spawns another max into the world on top of the player.", (p, args) -> {
+			World.spawnNPC(4907, new WorldTile(p.getTile()), -1, true, true, true).setBodyMeshModifier(new NPCBodyMeshModifier(NPCDefinitions.getDefs(4907))
+					.addColors(Utils.RGB_to_RS2HSB(255, 0, 0), Utils.RGB_to_RS2HSB(0, 255, 0), Utils.RGB_to_RS2HSB(0, 0, 255), Utils.RGB_to_RS2HSB(255, 0, 255), Utils.RGB_to_RS2HSB(255, 255, 0), Utils.RGB_to_RS2HSB(0, 255, 255))
+					.addTextures(870, 876, 61));
+		});
+		
+		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
+			World.spawnNPC(3373, new WorldTile(p.getTile()), -1, true, true, true);
+		});
 		
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
@@ -299,7 +338,7 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "testnpc", "spawn npc walking dir", (player, args) -> {
+		Commands.add(Rights.DEVELOPER, "npcwalkdir", "Spawn npc walking dir.", (player, args) -> {
 			Direction dir = Arrays.stream(Direction.values()).filter(n -> n.name().equalsIgnoreCase(args[0])).findFirst().get();
 			if (dir == null)
 				return;

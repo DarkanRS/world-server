@@ -1333,8 +1333,10 @@ public class NPC extends Entity {
 	}
 
 	public void setBasAnim(int basAnim) {
-		if (basAnim == -1)
-			basAnim = -2;
+		if (basAnim == -1) {
+			this.basAnim = -2;
+			return;
+		}
 		this.basAnim = basAnim;
 	}
 }

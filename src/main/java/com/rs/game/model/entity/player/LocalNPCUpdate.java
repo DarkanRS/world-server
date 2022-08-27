@@ -204,12 +204,10 @@ public final class LocalNPCUpdate {
 			maskData |= 0x2;
 			applyForceTalkMask(n, block);
 		}
-		/*
-		 * 0x4000 modifies an array of equipment array size? 
-		 * Looks to be related to rotation. It will modify an array
-		 * of ints that gets passed into the renderer through
-		 * inverse tangent function.
-		 */
+		if (n.getBodyModelRotator() != null) {
+			maskData |= 0x4000;
+			n.getBodyModelRotator().encodeNPC(block);
+		}
 		if (n.getNextSpotAnim1() != null) {
 			maskData |= 0x20;
 			applyGraphicsMask1(n, block);

@@ -64,10 +64,10 @@ public class HighscoresManager extends DBItemManager {
 		}
 	}
 
-	public void getTopPlayer(Consumer<Highscore> top) {
+	public void getPlayerAtPosition(int rank, Consumer<Highscore> top) {
 		execute(() -> {
 			try {
-				top.accept(JsonFileManager.fromJSONString(getDocs().find().sort(Sorts.descending("totalLevel", "totalXp")).limit(1).first().toJson(), Highscore.class));
+				top.accept(JsonFileManager.fromJSONString(getDocs().find().sort(Sorts.descending("totalLevel", "totalXp")).skip(rank).limit(1).first().toJson(), Highscore.class));
 			} catch(Throwable e) {
 				top.accept(null);
 			}
