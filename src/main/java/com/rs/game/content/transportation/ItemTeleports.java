@@ -133,7 +133,7 @@ public class ItemTeleports {
 			player.sendMessage("Error handling teleport option. Report this to administrators.");
 			return;
 		}
-		Magic.sendTeleportSpell(player, getFirstEmote(index), -1, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.OBJECT_TELEPORT, null);
 	}
 
 	public static void sendTeleport(Player player, Item item, int optionIndex, boolean equipmentTeleport) {
@@ -146,7 +146,7 @@ public class ItemTeleports {
 			return;
 		if (HeroesGuild.isGloryOrROW(item.getId()))
 			player.getTempAttribs().setB("glory", true);
-		if (Magic.sendTeleportSpell(player, getFirstEmote(index), -1, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.ITEM_TELEPORT, null)) {
+		if (Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.ITEM_TELEPORT, null)) {
 			if (!hasCharges(index))
 				return;
 			int newItemId = item.getId() + ((isNegative(index) ? -1 : 1) * (isIncremented(index) ? 2 : 1)), slot = equipmentTeleport ? Equipment.getItemSlot(item.getId()) : player.getInventory().getItems().getThisItemSlot(item);

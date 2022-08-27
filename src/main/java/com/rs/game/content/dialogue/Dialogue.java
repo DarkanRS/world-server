@@ -29,6 +29,7 @@ import com.rs.game.content.dialogue.statements.OptionStatement;
 import com.rs.game.content.dialogue.statements.PlayerStatement;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
 import com.rs.game.content.dialogue.statements.Statement;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
@@ -120,6 +121,14 @@ public class Dialogue {
 
 	public Dialogue addNPC(int npcId, HeadE expression, String text, Runnable extraFunctionality) {
 		return addNext(new Dialogue(new NPCStatement(npcId, expression, text), extraFunctionality));
+	}
+	
+	public Dialogue addNPC(NPC npc, HeadE expression, String text) {
+		return addNext(new NPCStatement(npc.getCustomName(), npc.getId(), expression, text));
+	}
+
+	public Dialogue addNPC(NPC npc, HeadE expression, String text, Runnable extraFunctionality) {
+		return addNext(new Dialogue(new NPCStatement(npc.getCustomName(), npc.getId(), expression, text), extraFunctionality));
 	}
 
 	public Dialogue addItem(int itemId, String text) {

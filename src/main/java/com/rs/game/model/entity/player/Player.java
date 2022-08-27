@@ -68,6 +68,7 @@ import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.minigames.wguild.WarriorsGuild;
+import com.rs.game.content.miniquests.Miniquest;
 import com.rs.game.content.miniquests.MiniquestManager;
 import com.rs.game.content.pet.Pet;
 import com.rs.game.content.pet.PetManager;
@@ -3618,6 +3619,10 @@ public class Player extends Entity {
 		startConversation(new Dialogue().addNPC(npcId, emote, message));
 	}
 	
+	public void npcDialogue(NPC npc, HeadE emote, String message) {
+		startConversation(new Dialogue().addNPC(npc, emote, message));
+	}
+	
 	public void itemDialogue(int itemId, String message) {
 		startConversation(new Dialogue().addItem(itemId, message));
 	}
@@ -4419,5 +4424,19 @@ public class Player extends Entity {
 	
 	public boolean isQuestComplete(Quest quest) {
 		return isQuestComplete(quest, null);
+	}
+	
+	public boolean isMiniquestComplete(Miniquest quest, String actionString) {
+		return getMiniquestManager().isComplete(quest, actionString);
+	}
+	
+	public boolean isMiniquestComplete(Miniquest quest) {
+		return isMiniquestComplete(quest, null);
+	}
+
+	public void delayLock(int ticks, Runnable task) {
+		lock();
+		WorldTasks.delay(ticks, task);
+		WorldTasks.delay(ticks+1, () -> unlock());
 	}
 }

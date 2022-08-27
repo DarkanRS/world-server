@@ -17,6 +17,7 @@
 package com.rs.game.content.quests.data;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
@@ -103,7 +104,7 @@ public class QuestInformationParser {
 			}
 		}
 		for (QuestInformation info : QUESTS_ID.values())
-			for (Quest quest : info.getPreReqs())
+			for (Quest quest : new HashSet<>(info.getPreReqs()))
 				addPreReqs(info, quest);
 		Quest.RITUAL_OF_MAHJARRAT.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 76);
 		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 60);
@@ -115,8 +116,10 @@ public class QuestInformationParser {
 	}
 
 	public static void addPreReqs(QuestInformation info, Quest quest) {
-		for (Quest q : quest.getDefs().getExtraInfo().getPreReqs())
+		for (Quest q : new HashSet<>(quest.getDefs().getExtraInfo().getPreReqs()))
 			addPreReqs(info, q);
+		for (Quest preReq : new HashSet<>(quest.getDefs().getExtraInfo().getPreReqs()))
+			info.addPreReq(preReq);
 		for (int skill : quest.getDefs().getExtraInfo().getSkillReq().keySet())
 			info.addPreReqSkillReq(skill, quest.getDefs().getExtraInfo().getSkillReq().get(skill));
 	}

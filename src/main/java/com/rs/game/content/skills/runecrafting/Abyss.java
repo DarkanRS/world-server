@@ -53,18 +53,18 @@ public class Abyss {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			switch(e.getObjectId()) {
-				case 7137 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.WATER.getInside());
-				case 7139 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.AIR.getInside());
-				case 7140 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.MIND.getInside());
-				case 7131 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.BODY.getInside());
-				case 7130 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.EARTH.getInside());
-				case 7129 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.FIRE.getInside());
-				case 7136 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.DEATH.getInside());
-				case 7135 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.LAW.getInside());
-				case 7133 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.NATURE.getInside());
-				case 7132 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.COSMIC.getInside());
-				case 7141 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.BLOOD.getInside());
-				case 7134 -> e.getPlayer().setNextWorldTile(RunecraftingAltar.Altar.CHAOS.getInside());
+				case 7137 -> RunecraftingAltar.Altar.WATER.canEnter(e.getPlayer(), true);
+				case 7139 -> RunecraftingAltar.Altar.AIR.canEnter(e.getPlayer(), true);
+				case 7140 -> RunecraftingAltar.Altar.MIND.canEnter(e.getPlayer(), true);
+				case 7131 -> RunecraftingAltar.Altar.BODY.canEnter(e.getPlayer(), true);
+				case 7130 -> RunecraftingAltar.Altar.EARTH.canEnter(e.getPlayer(), true);
+				case 7129 -> RunecraftingAltar.Altar.FIRE.canEnter(e.getPlayer(), true);
+				case 7136 -> RunecraftingAltar.Altar.DEATH.canEnter(e.getPlayer(), true);
+				case 7135 -> RunecraftingAltar.Altar.LAW.canEnter(e.getPlayer(), true);
+				case 7133 -> RunecraftingAltar.Altar.NATURE.canEnter(e.getPlayer(), true);
+				case 7132 -> RunecraftingAltar.Altar.COSMIC.canEnter(e.getPlayer(), true);
+				case 7141 -> RunecraftingAltar.Altar.BLOOD.canEnter(e.getPlayer(), true);
+				case 7134 -> RunecraftingAltar.Altar.CHAOS.canEnter(e.getPlayer(), true);
 				case 7138 -> e.getPlayer().sendMessage("A strange power blocks your exit..");
 
 			}
@@ -133,7 +133,7 @@ public class Abyss {
 				if (ticks == 1)
 					player.faceObject(object);
 				else if (ticks == 2)
-					player.setNextAnimation(hatchet.getAnim());
+					player.setNextAnimation(hatchet.animNormal());
 				else if (ticks == 3) {
 					if (!success(player, Constants.WOODCUTTING)) {
 						player.unlock();

@@ -338,12 +338,10 @@ public final class LocalPlayerUpdate {
 
 		//maskData |= 0x10000; //map dot edit
 
-		//maskData |= 0x100000; //no clue
-		//		block.write128Byte(7);
-		//		for (int i = 0;i < 7;i++) {
-		//			block.writeShort128(4151);
-		//			block.writeShort(0x1);
-		//		}
+		if (p.getBodyModelRotator() != null) {
+			maskData |= 0x100000;
+			p.getBodyModelRotator().encodePlayer(block);
+		}
 
 		if (p.getNextForceTalk() != null) {
 			maskData |= 0x4000;

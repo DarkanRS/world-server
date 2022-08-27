@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.io.OutputStream;
 
-public class MeshModifier {
+public class ItemMeshModifier {
 
 	private static final byte BODY_MODEL_FLAG = 0x1, HEAD_MODEL_FLAG = 0x2, COLOR_FLAG = 0x4, TEXTURE_FLAG = 0x8;
 	private static final byte EMPTY_VALUE = 0xF;
@@ -35,12 +35,12 @@ public class MeshModifier {
 	private int[] modifiedColors;
 	private int[] modifiedTextures;
 
-	public MeshModifier(ItemDefinitions defs, int slotFlag) {
+	public ItemMeshModifier(ItemDefinitions defs, int slotFlag) {
 		this.defs = defs;
 		this.slotFlag = slotFlag;
 	}
 
-	public MeshModifier addBodyModels(int[] maleBodies, int[] femaleBodies) {
+	public ItemMeshModifier addBodyModels(int[] maleBodies, int[] femaleBodies) {
 		maleBody = new int[3];
 		femaleBody = new int[3];
 		maleBody[0] = defs.maleEquip1;
@@ -59,11 +59,11 @@ public class MeshModifier {
 		return this;
 	}
 
-	public MeshModifier addBodyModels(int... bodies) {
+	public ItemMeshModifier addBodyModels(int... bodies) {
 		return addBodyModels(bodies, bodies);
 	}
 
-	public MeshModifier addHeadModels(int[] maleHeads, int[] femaleHeads) {
+	public ItemMeshModifier addHeadModels(int[] maleHeads, int[] femaleHeads) {
 		maleHead = new int[2];
 		femaleHead = new int[2];
 		maleHead[0] = defs.maleHead1;
@@ -80,11 +80,11 @@ public class MeshModifier {
 		return this;
 	}
 
-	public MeshModifier addHeadModels(int... heads) {
+	public ItemMeshModifier addHeadModels(int... heads) {
 		return addHeadModels(heads, heads);
 	}
 
-	public MeshModifier addColors(int... colors) {
+	public ItemMeshModifier addColors(int... colors) {
 		if (Arrays.equals(colors, defs.originalModelColors))
 			return this;
 		if (defs.modifiedModelColors != null) {
@@ -99,7 +99,7 @@ public class MeshModifier {
 		return this;
 	}
 
-	public MeshModifier addTextures(int... textures) {
+	public ItemMeshModifier addTextures(int... textures) {
 		if (Arrays.equals(textures, defs.originalTextureIds))
 			return this;
 		if (defs.modifiedTextureIds != null) {

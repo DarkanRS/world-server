@@ -22,14 +22,20 @@ import com.rs.game.model.entity.player.Player;
 
 public class NPCStatement implements Statement {
 
+	private String nameOverride;
 	private int npcId;
 	private HeadE emote;
 	private String[] texts;
 
-	public NPCStatement(int npcId, HeadE emote, String... texts) {
+	public NPCStatement(String nameOverride, int npcId, HeadE emote, String... texts) {
+		this.nameOverride = nameOverride;
 		this.npcId = npcId;
 		this.emote = emote;
 		this.texts = texts;
+	}
+	
+	public NPCStatement(int npcId, HeadE emote, String... texts) {
+		this(null, npcId, emote, texts);
 	}
 
 	@Override
@@ -39,7 +45,7 @@ public class NPCStatement implements Statement {
 			builder.append(" " + text2);
 		String text = builder.toString();
 		player.getInterfaceManager().sendChatBoxInterface(1184);
-		player.getPackets().setIFText(1184, 17, NPCDefinitions.getDefs(npcId, player.getVars()).getName());
+		player.getPackets().setIFText(1184, 17, nameOverride != null ? nameOverride : NPCDefinitions.getDefs(npcId, player.getVars()).getName());
 		player.getPackets().setIFText(1184, 13, text);
 		player.getPackets().setIFNPCHead(1184, 11, npcId);
 		if (emote != null && emote.getEmoteId() != -1)

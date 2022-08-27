@@ -19,9 +19,10 @@ package com.rs.game.content.skills.mining;
 import java.util.function.Supplier;
 
 import com.rs.game.World;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -35,7 +36,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class Mining extends PlayerAction {
+public class Mining extends Action {
 
 	public static ObjectClickHandler handleClay = new ObjectClickHandler(new Object[] { "Clay rocks", "Clay vein" }) {
 		@Override
@@ -192,12 +193,14 @@ public class Mining extends PlayerAction {
 
 	private RockType type;
 	private Pickaxe pick;
+	private int rockId;
 	private GameObject rockObj;
 	private NPC rockNPC;
 	private Supplier<Integer> replaceId;
 
 	public Mining(RockType type, GameObject rock) {
 		this.type = type;
+		this.rockId = rock.getId();
 		rockObj = rock;
 	}
 
@@ -208,46 +211,52 @@ public class Mining extends PlayerAction {
 	}
 
 	@Override
-	public boolean start(Player player) {
-		pick = Pickaxe.getBest(player);
-		if (!checkAll(player))
+	public boolean start(Entity entity) {
+		if (entity instanceof Player player)
+			pick = Pickaxe.getBest(player);
+		else
+			pick = Pickaxe.DRAGON_G;
+		if (!checkAll(entity))
 			return false;
-		player.sendMessage("You swing your pickaxe at the rock...", true);
-		setActionDelay(player, ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? 1 : 2);
+		if (entity instanceof Player player)
+			player.sendMessage("You swing your pickaxe at the rock...", true);
+		setActionDelay(entity, ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? 1 : 2);
 		return true;
 	}
 
 	@Override
-	public boolean process(Player player) {
-		player.setNextAnimation(pick.getAnimation());
-		return checkAll(player);
+	public boolean process(Entity entity) {
+		entity.setNextAnimation(pick.getAnimation());
+		return checkAll(entity);
 	}
 
 	@Override
-	public int processWithDelay(Player player) {
-		int level = player.getSkills().getLevel(Constants.MINING) + player.getInvisibleSkillBoost(Constants.MINING);
+	public int processWithDelay(Entity entity) {
+		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.MINING) + player.getInvisibleSkillBoost(Constants.MINING) : 99;
 		boolean success = false;
-		if (type.getOres().size() == 1 && !type.getOres().get(0).checkRequirements(player))
+		if (type.getOres().size() == 1 && !type.getOres().get(0).checkRequirements(entity instanceof Player player ? player : null))
 			return -1;
-		for (Ore ore : type.getOres())
-			if (ore.checkRequirements(player) && ore.rollSuccess(player, level)) {
-				ore.giveOre(player);
+		for (Ore ore : type.getOres()) {
+			if (ore.checkRequirements(entity instanceof Player player ? player : null) && ore.rollSuccess(entity instanceof Player player ? player : null, level)) {
+				if (entity instanceof Player player)
+					ore.giveOre(player);
 				success = true;
-				if (ore.getRollGem() == 1)
+				if (ore.getRollGem() == 1 && entity instanceof Player player)
 					rollForGem(player);
 				break;
 			}
-		if (success && depleteOre(player)) {
-			player.setNextAnimation(new Animation(-1));
+		}
+		if (success && depleteOre(entity)) {
+			entity.setNextAnimation(new Animation(-1));
 			return -1;
 		}
 		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
 	}
 
-	public boolean depleteOre(Player player) {
+	public boolean depleteOre(Entity entity) {
 		if (type.depletes()) {
 			if (rockObj != null)
-				World.spawnObjectTemporary(new GameObject(DepletedOres.get(rockObj.getId()), rockObj.getType(), rockObj.getRotation(), rockObj.getX(), rockObj.getY(), rockObj.getPlane()), type.getRespawnTime());
+				rockObj.setIdTemporary(DepletedOres.get(rockObj.getId()), type.getRespawnTime());
 			if (rockNPC != null) {
 				rockNPC.setNPC(replaceId.get());
 				rockNPC.setLocation(rockNPC.getRespawnTile());
@@ -261,36 +270,40 @@ public class Mining extends PlayerAction {
 		return false;
 	}
 
-	private boolean checkAll(Player player) {
+	private boolean checkAll(Entity entity) {
 		if (!checkRock())
 			return false;
 		if (rockObj != null && DepletedOres.isDepleted(rockObj.getId())) {
-			player.sendMessage("This rock is empty right now.");
+			if (entity instanceof Player player)
+				player.sendMessage("This rock is empty right now.");
 			return false;
 		}
 		if (pick == null) {
-			player.sendMessage("You need a pickaxe and the level required to use it to mine.");
+			if (entity instanceof Player player)
+				player.sendMessage("You need a pickaxe and the level required to use it to mine.");
 			return false;
 		}
-		if (player.getSkills().getLevel(Constants.MINING) < type.getLevel()) {
-			player.sendMessage("You need a mining level of " + type.getLevel() + " to mine here.");
-			return false;
-		}
-		if (!player.getInventory().hasFreeSlots()) {
-			player.setNextAnimation(new Animation(-1));
-			player.sendMessage("You don't have enough inventory space.");
-			return false;
+		if (entity instanceof Player player) {
+			if (player.getSkills().getLevel(Constants.MINING) < type.getLevel()) {
+				player.sendMessage("You need a mining level of " + type.getLevel() + " to mine here.");
+				return false;
+			}
+			if (!player.getInventory().hasFreeSlots()) {
+				player.setNextAnimation(new Animation(-1));
+				player.sendMessage("You don't have enough inventory space.");
+				return false;
+			}
 		}
 		return true;
 	}
 
 	@Override
-	public void stop(final Player player) {
-		setActionDelay(player, pick.getTicks());
+	public void stop(final Entity entity) {
+		setActionDelay(entity, pick.getTicks());
 	}
 
 	public boolean checkRock() {
-		return rockObj != null ? World.getRegion(rockObj.getRegionId()).objectExists(rockObj) : !rockNPC.hasFinished();
+		return rockObj != null ? World.getRegion(rockObj.getRegionId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
 	}
 
 	public static double getXPMultiplier(Player player) {

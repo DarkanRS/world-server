@@ -29,6 +29,7 @@ import com.rs.lib.util.Utils;
 
 public enum Miniquest {
 	ENTER_THE_ABYSS("Enter the Abyss", new Quest[] { Quest.RUNE_MYSTERIES }, null, null),
+	KNIGHTS_WAVE_TRAINING_GROUNDS("Knights Waves Training Grounds", new Quest[] { Quest.KINGS_RANSOM }, null, null),
 	;
 
 	static {
