@@ -16,18 +16,12 @@
 //
 package com.rs.utils;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.rs.Settings;
+public final class AccountLimiter {
 
-/**
- * Anti Flood
- *
- * @Author Apache Ah64
- */
-public final class AntiFlood {
-
-	private static ArrayList<String> CONNECTIONS = new ArrayList<>(Settings.PLAYERS_LIMIT * 3);
+	private static List<String> CONNECTIONS = new CopyOnWriteArrayList<>();
 
 	public static void add(String ip) {
 		CONNECTIONS.add(ip);

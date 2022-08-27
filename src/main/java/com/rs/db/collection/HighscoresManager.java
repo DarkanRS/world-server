@@ -18,9 +18,12 @@ package com.rs.db.collection;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import java.util.function.Consumer;
+
 import org.bson.Document;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.Indexes;
+import com.mongodb.client.model.Sorts;
 import com.rs.db.model.Highscore;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.db.DBItemManager;
@@ -59,5 +62,15 @@ public class HighscoresManager extends DBItemManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void getPlayerAtPosition(int rank, Consumer<Highscore> top) {
+		execute(() -> {
+			try {
+				top.accept(JsonFileManager.fromJSONString(getDocs().find().sort(Sorts.descending("totalLevel", "totalXp")).skip(rank).limit(1).first().toJson(), Highscore.class));
+			} catch(Throwable e) {
+				top.accept(null);
+			}
+		});
 	}
 }

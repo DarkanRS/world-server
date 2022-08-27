@@ -46,13 +46,26 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class Woodcutting extends Action {
 
+	private int treeId;
 	private GameObject treeObj;
 	private TreeType type;
 	private Hatchet hatchet;
+	private int wcLevel = -1;
 
 	public Woodcutting(GameObject treeObj, TreeType type) {
+		this.treeId = treeObj.getId();
 		this.treeObj = treeObj;
 		this.type = type;
+	}
+	
+	public Woodcutting setHatchet(Hatchet hatchet) {
+		this.hatchet = hatchet;
+		return this;
+	}
+	
+	public Woodcutting setLevel(int level) {
+		this.wcLevel = level;
+		return this;
 	}
 
 	public static LoginHandler unlockBlisterwoodTree = new LoginHandler() {
@@ -195,7 +208,8 @@ public class Woodcutting extends Action {
 	}
 
 	private boolean checkAll(Entity entity) {
-		hatchet = entity instanceof Player player ? Hatchet.getBest(player) : Hatchet.MITHRIL;
+		if (hatchet == null)
+			hatchet = entity instanceof Player player ? Hatchet.getBest(player) : Hatchet.MITHRIL;
 		if (entity instanceof Player player) {
 			if (hatchet == null) {
 				player.sendMessage("You dont have the required level to use that axe or you don't have a hatchet.");
@@ -222,7 +236,7 @@ public class Woodcutting extends Action {
 
 	@Override
 	public boolean process(Entity entity) {
-		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim());
+		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim(type));
 		if (entity instanceof Familiar)
 			entity.spotAnim(1459);
 		return checkAll(entity) && checkTree();
@@ -230,7 +244,9 @@ public class Woodcutting extends Action {
 
 	@Override
 	public int processWithDelay(Entity entity) {
-		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : 60;
+		if (!checkTree())
+			return -1;
+		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : wcLevel;
 		entity.faceObject(treeObj);
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
 			giveLog(entity, type);
@@ -329,7 +345,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getRegion(treeObj.getRegionId()).objectExists(treeObj);
+		return World.getRegion(treeObj.getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

@@ -115936,8 +115936,26 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3230,
-      "y": 3461
+      "x": 3253,
+      "y": 3426
+    },
+    "comment": "Max",
+    "npcId": 3705
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3213,
+      "y": 3424
+    },
+    "comment": "Max",
+    "npcId": 3705
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3213,
+      "y": 3423
     },
     "comment": "Max",
     "npcId": 3705

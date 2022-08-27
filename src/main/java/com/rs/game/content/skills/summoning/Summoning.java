@@ -60,7 +60,7 @@ public class Summoning {
 	public static ItemOnItemHandler handleCarveTurnip = new ItemOnItemHandler(946, 12134) {
 		@Override
 		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().repeatAction(2, () -> {
+			e.getPlayer().repeatAction(2, count -> {
 				if (!e.getPlayer().getInventory().containsItem(946, 1)) {
 					e.getPlayer().sendMessage("You need a knife to cut the turnip.");
 					return false;

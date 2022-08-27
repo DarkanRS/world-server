@@ -20,12 +20,12 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.World;
-import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.skills.summoning.EnchantedHeadwear.Headwear;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Equipment;
@@ -46,7 +46,6 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
 public final class Familiar extends NPC {
@@ -531,33 +530,6 @@ public final class Familiar extends NPC {
 		owner.getInventory().deleteItem(pouch.getScroll().getId(), 1);
 	}
 
-	private void sendFollow() {
-		if (getLastFaceEntity() != owner.getClientIndex())
-			setNextFaceEntity(owner);
-		if (hasEffect(Effect.FREEZE))
-			return;
-		int size = getSize();
-		int targetSize = owner.getSize();
-		if (WorldUtil.collides(getX(), getY(), size, owner.getX(), owner.getY(), targetSize) && !owner.hasWalkSteps()) {
-			resetWalkSteps();
-			if (!addWalkSteps(owner.getX() + targetSize, getY())) {
-				resetWalkSteps();
-				if (!addWalkSteps(owner.getX() - size, getY())) {
-					resetWalkSteps();
-					if (!addWalkSteps(getX(), owner.getY() + targetSize)) {
-						resetWalkSteps();
-						if (!addWalkSteps(getX(), owner.getY() - size))
-							return;
-					}
-				}
-			}
-			return;
-		}
-		resetWalkSteps();
-		if (!lineOfSightTo(owner, true) || !WorldUtil.isInRange(getX(), getY(), size, owner.getX(), owner.getY(), targetSize, 0))
-			calcFollow(owner, 2, false);
-	}
-
 	@Override
 	public void processNPC() {
 		if (isDead() || isCantInteract())
@@ -596,7 +568,7 @@ public final class Familiar extends NPC {
 			if (isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(25) == 0)
 				getCombat().setTarget(owner.getAttackedBy());
 			else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
-				sendFollow();
+				getActionManager().setAction(new EntityFollow(owner));
 	}
 
 	public boolean canAttack(Entity target) {

@@ -143,12 +143,18 @@ public final class LocalNPCUpdate {
 			maskData |= 0x10;
 			applyAnimationMask(n, block);
 		}
-		//0x100 texture/model modification
+		if (n.getBodyMeshModifier() != null) {
+			maskData |= 0x100;
+			applyBodyMeshModifierMask(n, block);
+		}
 		if (n.getNextForceMovement() != null) {
 			maskData |= 0x400;
 			applyForceMovementMask(n, block);
 		}
-		//0x1000 single unsigned short
+		if (n.getBasAnim() != -1) {
+			maskData |= 0x1000;
+			block.writeShort(n.getBasAnim() == -2 ? -1 : n.getBasAnim());
+		}
 		//0x200000 unused outdated varn
 		if (n.getNextSpotAnim4() != null) {
 			maskData |= 0x1000000;
@@ -176,7 +182,7 @@ public final class LocalNPCUpdate {
 			applyGraphicsMask3(n, block);
 		}
 		//0x80000 unused double array of size 6 modification?
-		//0x40000 unused head model/texture modification
+		//0x40000 mesh modifier for npc chatheads?
 		if (n.hasChangedCombatLevel() || (added && n.getCustomCombatLevel() >= 0)) {
 			maskData |= 0x10000;
 			applyChangeLevelMask(n, block);
@@ -198,7 +204,10 @@ public final class LocalNPCUpdate {
 			maskData |= 0x2;
 			applyForceTalkMask(n, block);
 		}
-		//0x4000 modifies an array of equipment array size?
+		if (n.getBodyModelRotator() != null) {
+			maskData |= 0x4000;
+			n.getBodyModelRotator().encodeNPC(block);
+		}
 		if (n.getNextSpotAnim1() != null) {
 			maskData |= 0x20;
 			applyGraphicsMask1(n, block);
@@ -220,6 +229,10 @@ public final class LocalNPCUpdate {
 		if (maskData > 0xffffff)
 			data.writeByte(maskData >> 24);
 		data.writeBytes(block.toByteArray());
+	}
+
+	private void applyBodyMeshModifierMask(NPC n, OutputStream block) {
+		n.getBodyMeshModifier().encode(block);
 	}
 
 	private void applyBodyGlowMask(NPC n, OutputStream data) {
