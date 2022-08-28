@@ -1242,16 +1242,8 @@ public class Player extends Entity {
 			setRights(Rights.PLAYER);
 			LobbyCommunicator.updateRights(this);
 		}
-		getClan(clan -> {
-			if (clan == null)
-				return;
-			getPackets().sendClanSettings(clan, false);
-		});
-		getGuestClan(clan -> {
-			if (clan == null)
-				return;
-			getPackets().sendClanSettings(clan, true);
-		});
+		getClan();
+		getGuestClan();
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);

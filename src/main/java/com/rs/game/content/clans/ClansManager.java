@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-import com.rs.game.World;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
@@ -173,37 +172,37 @@ public class ClansManager {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			if (e.getComponentId() == 41)
-				viewClammateDetails(e.getPlayer(), e.getSlotId());
-			else if (e.getComponentId() == 94)
-				switchGuestsInChatCanEnterInterface(e.getPlayer());
-			else if (e.getComponentId() == 95)
-				switchGuestsInChatCanTalkInterface(e.getPlayer());
-			else if (e.getComponentId() == 96)
-				switchRecruitingInterface(e.getPlayer());
-			else if (e.getComponentId() == 97)
-				switchClanTimeInterface(e.getPlayer());
-			else if (e.getComponentId() == 124)
-				openClanMottifInterface(e.getPlayer());
-			else if (e.getComponentId() == 131)
-				openClanMottoInterface(e.getPlayer());
-			else if (e.getComponentId() == 240)
-				setTimeZoneInterface(e.getPlayer(), -720 + e.getSlotId() * 10);
-			else if (e.getComponentId() == 262)
-				e.getPlayer().getTemporaryAttributes().put("editclanmatejob", e.getSlotId());
-			else if (e.getComponentId() == 276)
-				e.getPlayer().getTemporaryAttributes().put("editclanmaterank", e.getSlotId());
-			else if (e.getComponentId() == 309)
-				kickClanmate(e.getPlayer());
-			else if (e.getComponentId() == 318)
-				saveClanmateDetails(e.getPlayer());
-			else if (e.getComponentId() == 290)
-				setWorldIdInterface(e.getPlayer(), e.getSlotId());
-			else if (e.getComponentId() == 297)
-				openForumThreadInterface(e.getPlayer());
-			else if (e.getComponentId() == 346)
-				openNationalFlagInterface(e.getPlayer());
-			else if (e.getComponentId() == 113)
+//			if (e.getComponentId() == 41)
+//				viewClammateDetails(e.getPlayer(), e.getSlotId());
+//			else if (e.getComponentId() == 94)
+//				switchGuestsInChatCanEnterInterface(e.getPlayer());
+//			else if (e.getComponentId() == 95)
+//				switchGuestsInChatCanTalkInterface(e.getPlayer());
+//			else if (e.getComponentId() == 96)
+//				switchRecruitingInterface(e.getPlayer());
+//			else if (e.getComponentId() == 97)
+//				switchClanTimeInterface(e.getPlayer());
+//			else if (e.getComponentId() == 124)
+//				openClanMottifInterface(e.getPlayer());
+//			else if (e.getComponentId() == 131)
+//				openClanMottoInterface(e.getPlayer());
+//			else if (e.getComponentId() == 240)
+//				setTimeZoneInterface(e.getPlayer(), -720 + e.getSlotId() * 10);
+//			else if (e.getComponentId() == 262)
+//				e.getPlayer().getTemporaryAttributes().put("editclanmatejob", e.getSlotId());
+//			else if (e.getComponentId() == 276)
+//				e.getPlayer().getTemporaryAttributes().put("editclanmaterank", e.getSlotId());
+//			else if (e.getComponentId() == 309)
+//				kickClanmate(e.getPlayer());
+//			else if (e.getComponentId() == 318)
+//				saveClanmateDetails(e.getPlayer());
+//			else if (e.getComponentId() == 290)
+//				setWorldIdInterface(e.getPlayer(), e.getSlotId());
+//			else if (e.getComponentId() == 297)
+//				openForumThreadInterface(e.getPlayer());
+//			else if (e.getComponentId() == 346)
+//				openNationalFlagInterface(e.getPlayer());
+			if (e.getComponentId() == 113)
 				showClanSettingsClanMates(e.getPlayer());
 			else if (e.getComponentId() == 120)
 				showClanSettingsSettings(e.getPlayer());
@@ -215,7 +214,7 @@ public class ClansManager {
 					selectedRank = 125;
 				else if (selectedRank > 5)
 					selectedRank = 100 + selectedRank - 6;
-				selectPermissionRank(e.getPlayer(), selectedRank);
+				//selectPermissionRank(e.getPlayer(), selectedRank);
 			} else if (e.getComponentId() == 489)
 				selectPermissionTab(e.getPlayer(), 1);
 			else if (e.getComponentId() == 498)
