@@ -52,6 +52,7 @@ import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.content.books.Book;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
+import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.death.DeathOfficeController;
@@ -1241,6 +1242,16 @@ public class Player extends Entity {
 			setRights(Rights.PLAYER);
 			LobbyCommunicator.updateRights(this);
 		}
+		getClan(clan -> {
+			if (clan == null)
+				return;
+			getPackets().sendClanSettings(clan, false);
+		});
+		getGuestClan(clan -> {
+			if (clan == null)
+				return;
+			getPackets().sendClanSettings(clan, true);
+		});
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);
@@ -4100,7 +4111,19 @@ public class Player extends Entity {
 	}
 
 	public Clan getClan() {
-		return LobbyCommunicator.getClan(getAccount().getSocial().getClanName());
+		return ClansManager.getClan(getAccount().getSocial().getClanName());
+	}
+	
+	public void getClan(Consumer<Clan> cb) {
+		ClansManager.getClan(getAccount().getSocial().getClanName(), cb);
+	}
+	
+	public Clan getGuestClan() {
+		return ClansManager.getClan(getAccount().getSocial().getGuestedClanChat());
+	}
+	
+	public void getGuestClan(Consumer<Clan> cb) {
+		ClansManager.getClan(getAccount().getSocial().getGuestedClanChat(), cb);
 	}
 
 	public void setHabitatFeature(HabitatFeature habitatFeature) {

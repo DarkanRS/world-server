@@ -1327,6 +1327,15 @@ public class NPC extends Entity {
 		}
 		bodyMeshModifier = meshModifier;
 	}
+	
+	public NPCBodyMeshModifier modifyMesh() {
+		bodyMeshModifier = new NPCBodyMeshModifier(getDefinitions());
+		return bodyMeshModifier;
+	}
+	
+	public void resetMesh() {
+		setBodyMeshModifier(NPCBodyMeshModifier.RESET);
+	}
 
 	public int getBasAnim() {
 		return basAnim;

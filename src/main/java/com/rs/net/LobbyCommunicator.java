@@ -97,18 +97,27 @@ public class LobbyCommunicator {
 		post(Boolean.class, new PacketDto(player.getUsername(), packet), "forwardpackets", cb);
 	}
 
-	public static Clan getClan(String clan) {
-		// TODO Auto-generated method stub
-		return null;
+	public static void getClan(String clan, Consumer<Clan> cb) {
+		get(Clan.class, "clans/"+clan, cb);
 	}
 
-	public static void updateClan(Clan clan) {
-		// TODO Auto-generated method stub
-
+	public static boolean updateClan(Clan clan) {
+		if (clan == null)
+			return false;
+		post(Boolean.class, clan, "clans/update", null);
+		return true;
 	}
 
 	public static void post(Object body, String endpoint) {
 		post(null, body, endpoint, null);
+	}
+	
+	public static <T> void get(Class<T> type, String endpoint, Consumer<T> cb) {
+		APIUtil.get(type, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
+	}
+
+	public static <T> T getSync(Class<T> type, String endpoint) throws InterruptedException, ExecutionException, IOException {
+		return APIUtil.getSync(type, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 
 	public static <T> void post(Class<T> type, Object body, String endpoint, Consumer<T> cb) {

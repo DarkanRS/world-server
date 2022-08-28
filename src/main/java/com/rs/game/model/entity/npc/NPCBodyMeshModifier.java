@@ -37,16 +37,38 @@ public class NPCBodyMeshModifier {
 	public NPCBodyMeshModifier(NPCDefinitions defs) {
 		this.defs = defs;
 	}
+	
+	public NPCBodyMeshModifier setModel(int index, int modelId) {
+		if (modelIds == null) {
+			modelIds = new int[defs.modelIds.length];
+			System.arraycopy(defs.modelIds, 0, modelIds, 0, modelIds.length);
+		}
+		if (index < 0 || index >= modelIds.length)
+			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
+		modelIds[index] = modelId;
+		return this;
+	}
 
 	public NPCBodyMeshModifier addModels(int... models) {
 		modelIds = new int[defs.modelIds.length];
-		System.arraycopy(modelIds, 0, defs.modelIds, 0, defs.modelIds.length);
+		System.arraycopy(defs.modelIds, 0, modelIds, 0, modelIds.length);
 
 		for (int i = 0;i < defs.modelIds.length;i++) {
 			if (i >= models.length)
 				continue;
 			modelIds[i] = models[i];
 		}
+		return this;
+	}
+	
+	public NPCBodyMeshModifier setColor(int index, int color) {
+		if (modifiedColors == null && defs.modifiedColors != null) {
+			modifiedColors = new short[defs.modifiedColors.length];
+			System.arraycopy(defs.modifiedColors, 0, modifiedColors, 0, modifiedColors.length);
+		}
+		if (modifiedColors == null || index < 0 || index >= modifiedColors.length)
+			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
+		modifiedColors[index] = (short) color;
 		return this;
 	}
 	
@@ -60,6 +82,17 @@ public class NPCBodyMeshModifier {
 				break;
 			modifiedColors[i] = (short) colors[i];
 		}
+		return this;
+	}
+	
+	public NPCBodyMeshModifier setTexture(int index, int texId) {
+		if (modifiedColors == null && defs.modifiedTextures != null) {
+			modifiedTextures = new short[defs.modifiedTextures.length];
+			System.arraycopy(defs.modifiedTextures, 0, modifiedTextures, 0, modifiedTextures.length);
+		}
+		if (modifiedTextures == null || index < 0 || index >= modifiedTextures.length)
+			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
+		modifiedTextures[index] = (short) texId;
 		return this;
 	}
 

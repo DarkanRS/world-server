@@ -33,6 +33,7 @@ import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
+import com.rs.game.content.clans.ClanVexillum;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.commands.Commands;
@@ -50,7 +51,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
@@ -138,10 +138,12 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Rights.DEVELOPER, "testnpcrecol", "Spawns another max into the world on top of the player.", (p, args) -> {
-			World.spawnNPC(4907, new WorldTile(p.getTile()), -1, true, true, true).setBodyMeshModifier(new NPCBodyMeshModifier(NPCDefinitions.getDefs(4907))
-					.addColors(Utils.RGB_to_RS2HSB(255, 0, 0), Utils.RGB_to_RS2HSB(0, 255, 0), Utils.RGB_to_RS2HSB(0, 0, 255), Utils.RGB_to_RS2HSB(255, 0, 255), Utils.RGB_to_RS2HSB(255, 255, 0), Utils.RGB_to_RS2HSB(0, 255, 255))
-					.addTextures(870, 876, 61));
+		Commands.add(Rights.DEVELOPER, "clanvex", "Spawns another max into the world on top of the player.", (p, args) -> {
+			if (p.getClan() == null) {
+				p.sendMessage("You either aren't in a clan or your clan is still loading from the clan service.");
+				return;
+			}
+			new ClanVexillum(p, new WorldTile(p.getTile()));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
