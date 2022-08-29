@@ -6,14 +6,14 @@ import java.util.List;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.db.WorldDB;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskFarm;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskSmith;
 import com.rs.game.World;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskAlch;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskCook;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskFM;
-import com.rs.game.content.world.npcs.max.tasks.Task;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskFarm;
+import com.rs.game.content.world.npcs.max.tasks.MaxTaskSmith;
 import com.rs.game.content.world.npcs.max.tasks.MaxTaskWC;
+import com.rs.game.content.world.npcs.max.tasks.Task;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
@@ -47,8 +47,7 @@ public class Max extends NPC {
 		setRun(true);
 		setIgnoreNPCClipping(true);
 		transformIntoNPC(PESTLE);
-		//nextTask();
-		task = new MaxTaskCook();
+		nextTask();
 		rank = RANK_DISPLAY;
 		RANK_DISPLAY++;
 		updateName();
