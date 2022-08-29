@@ -403,7 +403,7 @@ public class ClansManager {
 			player.getPackets().setIFGraphic(1107, 106, Clan.getMottifSprite(clan.getMottifBottom()));
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+		cal.setTimeZone(TimeZone.getTimeZone("UTC"));
 		player.getPackets().setIFText(1107, 186, dateFormat.format(cal.getTime()));
 		cal.add(Calendar.MINUTE, clan.getTimeZone());
 		player.getPackets().setIFText(1107, 185, dateFormat.format(cal.getTime()));

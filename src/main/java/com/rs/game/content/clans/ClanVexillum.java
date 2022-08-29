@@ -9,6 +9,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.Clan;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -106,7 +107,7 @@ public class ClanVexillum extends OwnedNPC {
 		setFaceAngle(getOwner().getDirection().getAngle());
 		anim(3495);
 		modifyMesh()
-			//.setModel(0, 64928) //t5 citadel
+			.setModel(0, getOwner().hasRights(Rights.DEVELOPER) ? 64928 : -1) //t5 citadel
 			.addColors(clan.getMottifColors()[0], clan.getMottifColors()[1], clan.getMottifColors()[2]-20, clan.getMottifColors()[2]-16, clan.getMottifColors()[2]-12, clan.getMottifColors()[2]-8, clan.getMottifColors()[2]-4, clan.getMottifColors()[2], clan.getMottifColors()[3]-20, clan.getMottifColors()[3]-16, clan.getMottifColors()[3]-12, clan.getMottifColors()[3]-8, clan.getMottifColors()[3]-4, clan.getMottifColors()[3])
 			.addTextures(clan.getMottifTextures()[0], clan.getMottifTextures()[1]);
 	}

@@ -47,7 +47,10 @@ public class NPCBodyMeshModifier {
 		}
 		if (index < 0 || index >= modelIds.length)
 			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
-		modelIds[index] = modelId;
+		if (modelId == -1)
+			modelIds[index] = defs.modelIds[index];
+		else
+			modelIds[index] = modelId;
 		return this;
 	}
 
@@ -72,7 +75,10 @@ public class NPCBodyMeshModifier {
 		}
 		if (modifiedColors == null || index < 0 || index >= modifiedColors.length)
 			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
-		modifiedColors[index] = (short) color;
+		if (color == -1)
+			modifiedColors[index] = defs.modifiedColors[index];
+		else
+			modifiedColors[index] = (short) color;
 		return this;
 	}
 	
@@ -92,13 +98,16 @@ public class NPCBodyMeshModifier {
 	}
 	
 	public NPCBodyMeshModifier setTexture(int index, int texId) {
-		if (modifiedColors == null && defs.modifiedTextures != null) {
+		if (modifiedTextures == null && defs.modifiedTextures != null) {
 			modifiedTextures = new short[defs.modifiedTextures.length];
 			System.arraycopy(defs.modifiedTextures, 0, modifiedTextures, 0, modifiedTextures.length);
 		}
 		if (modifiedTextures == null || index < 0 || index >= modifiedTextures.length)
 			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
-		modifiedTextures[index] = (short) texId;
+		if (texId == -1)
+			modifiedTextures[index] = defs.modifiedTextures[index];
+		else
+			modifiedTextures[index] = (short) texId;
 		return this;
 	}
 
