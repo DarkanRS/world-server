@@ -2,6 +2,7 @@ package com.rs.game.content.clans;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
