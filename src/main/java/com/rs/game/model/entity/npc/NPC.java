@@ -83,6 +83,7 @@ public class NPC extends Entity {
 	private transient boolean ignoreNPCClipping;
 	public WorldTile forceWalk;
 	private int size;
+	private boolean hidden = false;
 
 	private long lastAttackedByTarget;
 	private boolean cantInteract;
@@ -1137,7 +1138,7 @@ public class NPC extends Entity {
 	}
 
 	public boolean withinDistance(Player tile, int distance) {
-		return super.withinDistance(tile.getTile(), distance);
+		return !hidden && super.withinDistance(tile.getTile(), distance);
 	}
 
 	/**
@@ -1347,5 +1348,13 @@ public class NPC extends Entity {
 			return;
 		}
 		this.basAnim = basAnim;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 }

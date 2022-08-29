@@ -16,6 +16,8 @@
 //
 package com.rs.game.model.entity.npc;
 
+import java.util.Arrays;
+
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.lib.io.OutputStream;
 
@@ -50,6 +52,8 @@ public class NPCBodyMeshModifier {
 	}
 
 	public NPCBodyMeshModifier addModels(int... models) {
+		if (Arrays.equals(models, defs.modelIds))
+			return this;
 		modelIds = new int[defs.modelIds.length];
 		System.arraycopy(defs.modelIds, 0, modelIds, 0, modelIds.length);
 
@@ -77,6 +81,8 @@ public class NPCBodyMeshModifier {
 			modifiedColors = new short[defs.modifiedColors.length];
 			System.arraycopy(defs.modifiedColors, 0, modifiedColors, 0, modifiedColors.length);
 		}
+		if (modifiedColors == null)
+			return this;
 		for (int i = 0;i < modifiedColors.length;i++) {
 			if (i >= colors.length)
 				break;

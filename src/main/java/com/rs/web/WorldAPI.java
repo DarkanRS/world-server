@@ -44,6 +44,24 @@ public class WorldAPI extends WebAPI {
 			});
 		});
 		
+		routes.post("/logout", ex -> {
+			ex.dispatch(() -> {
+				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+					return;
+				}
+				APIUtil.readJSON(ex, Account.class, account -> {
+					Player player = World.getPlayerByUsername(account.getUsername());
+					if (player == null || player.getSession() == null) {
+						APIUtil.sendResponse(ex, StatusCodes.OK, true);
+						return;
+					}
+					player.forceLogout();
+					APIUtil.sendResponse(ex, StatusCodes.OK, true);
+				});
+			});
+		});
+		
 		routes.post("/updateclan", ex -> {
 			ex.dispatch(() -> {
 				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {

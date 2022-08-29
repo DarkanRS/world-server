@@ -175,10 +175,11 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 
-		WorldDB.getPlayers().getByUsername(account.getUsername(), player -> {
-			if (player == null)
-				player = new Player(account);
-
+		WorldDB.getPlayers().getByUsername(account.getUsername(), pRes -> {
+			if (pRes == null)
+				pRes = new Player(account);
+			final Player player = pRes;
+			
 			if (account.isBanned()) {
 				session.sendClientPacket(4);
 				return;

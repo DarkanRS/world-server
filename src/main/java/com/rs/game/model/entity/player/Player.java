@@ -1232,8 +1232,8 @@ public class Player extends Entity {
 	}
 
 	public void run() {
-		LobbyCommunicator.addWorldPlayer(this, response -> {
-			if (!Settings.getConfig().isDebug() && !response) {
+		LobbyCommunicator.addWorldPlayer(account, response -> {
+			if (!response) {
 				forceLogout();
 				return;
 			}
@@ -1242,7 +1242,7 @@ public class Player extends Entity {
 			setRights(Rights.PLAYER);
 			LobbyCommunicator.updateRights(this);
 		}
-		getClan();
+		getClan(clan -> appearence.generateAppearanceData());
 		getGuestClan();
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)

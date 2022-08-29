@@ -29,13 +29,14 @@ import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
 import com.rs.lib.web.dto.PacketDto;
+import com.rs.lib.web.dto.UpdateClanGuest;
 import com.rs.lib.web.dto.UpdateFC;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
 
-	public static void addWorldPlayer(Player player, Consumer<Boolean> cb) {
-		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "addworldplayer", cb);
+	public static void addWorldPlayer(Account account, Consumer<Boolean> cb) {
+		post(Boolean.class, new WorldPlayerAction(account, Settings.getConfig().getWorldInfo()), "addworldplayer", cb);
 	}
 
 	public static void removeWorldPlayer(Player player) {
@@ -106,6 +107,10 @@ public class LobbyCommunicator {
 			return false;
 		post(Boolean.class, clan, "clans/update", null);
 		return true;
+	}
+	
+	public static void updateClanGuest(String username, Clan clan) {
+		post(Boolean.class, new UpdateClanGuest(username, clan), "clans/updateguest", null);
 	}
 
 	public static void post(Object body, String endpoint) {

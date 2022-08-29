@@ -138,14 +138,6 @@ public class MiscTest {
 			}
 		});
 		
-		Commands.add(Rights.DEVELOPER, "clanvex", "Spawns another max into the world on top of the player.", (p, args) -> {
-			if (p.getClan() == null) {
-				p.sendMessage("You either aren't in a clan or your clan is still loading from the clan service.");
-				return;
-			}
-			new ClanVexillum(p, new WorldTile(p.getTile()));
-		});
-		
 		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
 			World.spawnNPC(3373, new WorldTile(p.getTile()), -1, true, true, true);
 		});
