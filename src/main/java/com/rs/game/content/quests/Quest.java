@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
+
 import com.rs.game.content.quests.data.QuestDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;

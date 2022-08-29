@@ -39,7 +39,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.model.Account;
-import com.rs.lib.model.Clan;
 import com.rs.lib.net.Encoder;
 import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.Session;
@@ -85,7 +84,6 @@ import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveGroundI
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveNPC;
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveObject;
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActivePlayer;
-import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.net.packets.encoders.social.MessageClan;
 import com.rs.lib.net.packets.encoders.social.MessageFriendsChat;
 import com.rs.lib.net.packets.encoders.social.MessageGame;
@@ -785,9 +783,5 @@ public class WorldEncoder extends Encoder {
 
 	public void sendInputLongTextScript(String message) {
 		sendRunScriptReverse(110, message);
-	}
-
-	public void sendClanSettings(Clan clan, boolean guest) {
-		session.writeToQueue(new ClanSettingsFull(clan, guest, (int) World.getServerTicks()));
 	}
 }

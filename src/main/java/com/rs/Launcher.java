@@ -220,10 +220,4 @@ public final class Launcher {
 			}
 		});
 	}
-
-	public static void pullAndCompile() {
-		executeCommand("git pull origin");
-		executeCommand("./gradlew clean build");
-	}
-
 }

@@ -931,7 +931,6 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		Launcher.pullAndCompile();
 		CoresManager.schedule(() -> {
 			try {
 				for (Player player : World.getPlayers()) {
