@@ -17,13 +17,13 @@
 package com.rs.net.decoders.handlers.impl.interfaces;
 
 import com.rs.game.World;
-import com.rs.game.content.combat.CombatSpell;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnPlayer;
 import com.rs.lib.util.Utils;
-import com.rs.net.decoders.handlers.InventoryOptionsHandler;
+import com.rs.plugin.PluginManager;
+import com.rs.plugin.events.IFOnPlayerEvent;
 
 public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 
@@ -37,33 +37,11 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 		if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))
 			return;
 		player.stopAll(false);
-		switch (packet.getInterfaceId()) {
-		case 1110:
-			if (packet.getComponentId() == 87) {
-				//TODO send clan invite
-			}
-			break;
-
-		case 679:
-			InventoryOptionsHandler.handleItemOnPlayer(player, p2, packet.getSlotId());
-			break;
-
-		case 662:
-		case 747:
-			if (player.getFamiliar() == null)
-				return;
-			player.resetWalkSteps();
-			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65))
-				player.getFamiliar().commandAttack(p2);
-			if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || (packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
-				player.getFamiliar().executeSpecial(p2);
-			break;
-		case 193:
-		case 192:
-			CombatSpell combat = CombatSpell.forId(packet.getInterfaceId(), packet.getComponentId());
-			if (combat != null)
-				Magic.manualCast(player, p2, combat);
-			break;
-		}
+		if (PluginManager.handle(new IFOnPlayerEvent(player, p2, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), false)))
+			return;
+		player.setRouteEvent(new RouteEvent(p2, () -> {
+			player.faceEntity(p2);
+			PluginManager.handle(new IFOnPlayerEvent(player, p2, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), true));
+		}));
 	}
 }

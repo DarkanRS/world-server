@@ -40,7 +40,11 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.IFOnNPCEvent;
+import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnNPCHandler;
+import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 
 @PluginEventHandler
 public class Magic {
@@ -91,6 +95,30 @@ public class Magic {
 			player.getInteractionManager().setInteraction(new PlayerCombatInteraction(player, target));
 		}
 	}
+	
+	public static InterfaceOnPlayerHandler manualCastPlayer = new InterfaceOnPlayerHandler(false, new int[] { 192, 193, 950 }) {
+		@Override
+		public void handle(IFOnPlayerEvent e) {
+			CombatSpell combat = CombatSpell.forId(e.getInterfaceId(), e.getComponentId());
+			if (combat != null)
+				manualCast(e.getPlayer(), e.getTarget(), combat);
+		}
+	};
+	
+	public static InterfaceOnNPCHandler manualCastNPC = new InterfaceOnNPCHandler(false, new int[] { 192, 193, 950 }) {
+		@Override
+		public void handle(IFOnNPCEvent e) {
+			e.getPlayer().stopAll(false);
+			CombatSpell combat = CombatSpell.forId(e.getInterfaceId(), e.getComponentId());
+			if (combat != null) {
+				if (!e.getTarget().getDefinitions().hasAttackOption()) {
+					e.getPlayer().sendMessage("You can't attack that.");
+					return;
+				}
+				manualCast(e.getPlayer(), e.getTarget(), combat);
+			}
+		}
+	};
 
 	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192) {
 		@Override

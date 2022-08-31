@@ -20,15 +20,12 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Lamps;
 import com.rs.game.content.dialogue.impl.DestroyItem;
 import com.rs.game.content.dialogue.impl.FlowerPickup;
 import com.rs.game.content.dialogue.impl.LeatherCraftingD;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
-import com.rs.game.content.pet.Pet;
-import com.rs.game.content.quests.handlers.shieldofarrav.ShieldOfArrav;
 import com.rs.game.content.skills.cooking.CookingCombos;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
@@ -54,15 +51,10 @@ import com.rs.game.content.skills.prayer.Burying.Bone;
 import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar.WickedHoodRune;
-import com.rs.game.content.skills.slayer.npcs.ConditionalDeath;
 import com.rs.game.content.skills.smithing.GodSwordCreation;
-import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.model.entity.ForceTalk;
-import com.rs.game.model.entity.interactions.StandardEntityInteraction;
-import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
@@ -79,15 +71,9 @@ import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.DropItemEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
-import com.rs.utils.drop.Drop;
-import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
-import com.rs.utils.drop.WeightedSet;
-import com.rs.utils.drop.WeightedTable;
 
 public class InventoryOptionsHandler {
 	
@@ -544,166 +530,6 @@ public class InventoryOptionsHandler {
 
 	public static void handleItemOption8(Player player, int slotId, int itemId, Item item) {
 		player.getInventory().sendExamine(slotId);
-	}
-
-	public static void handleItemOnNPC(final Player player, final NPC npc, final Item item, final int slot) {
-		if (item == null)
-			return;
-
-		PluginManager.handle(new ItemOnNPCEvent(player, npc, item.setSlot(slot), false));
-
-		Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(player, npc));
-		int distance = 0;
-		if (dist != null)
-			distance = (int) dist;
-
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, distance, () -> {
-			if (!player.getInventory().containsItem(item.getId(), item.getAmount()))
-				return;
-
-			if (npc.getId() == 519) {
-				ItemConstants.handleRepairs(player, item, false, slot);
-				return;
-			}
-			if (npc instanceof Familiar f && f.getPouch() == Pouch.GEYSER_TITAN) {
-				if (npc.getId() == 7339 || npc.getId() == 7339)
-					if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {
-						for (Item i : player.getInventory().getItems().array()) {
-							if (i == null)
-								continue;
-							if (i.getId() >= 1704 && i.getId() <= 1710 && i.getId() % 2 == 0)
-								i.setId(1712);
-							else if (i.getId() >= 10356 && i.getId() <= 10362 && i.getId() % 2 == 0)
-								i.setId(10354);
-							else if (i.getId() == 2572 || (i.getId() >= 20653 && i.getId() <= 20657 && i.getId() % 2 != 0))
-								i.setId(20659);
-						}
-						player.getInventory().refresh();
-						player.itemDialogue(1712, "Your ring of wealth and amulet of glory have all been recharged.");
-					}
-			} else if (npc instanceof Pet p) {
-				player.faceEntity(npc);
-				player.getPetManager().eat(item.getId(), p);
-				return;
-			} else if (npc instanceof ConditionalDeath cd) {
-				cd.useHammer(player);
-				return;
-			}
-			PluginManager.handle(new ItemOnNPCEvent(player, npc, item, true));
-		}));
-	}
-
-	private static DropSet PARTY_HATS = new WeightedSet(
-			new WeightedTable(32, new Drop(1038)),
-			new WeightedTable(28, new Drop(1040)),
-			new WeightedTable(23, new Drop(1048)),
-			new WeightedTable(20, new Drop(1044)),
-			new WeightedTable(15, new Drop(1042)),
-			new WeightedTable(10, new Drop(1046))
-			);
-
-	private static DropSet CRACKER_SECONDARIES = new WeightedSet(
-			new WeightedTable(11, new Drop(1718)),
-			new WeightedTable(11, new Drop(950)),
-			new WeightedTable(9, new Drop(1635)),
-			new WeightedTable(16, new Drop(1969)),
-			new WeightedTable(15, new Drop(1897)),
-			new WeightedTable(24, new Drop(1973)),
-			new WeightedTable(17, new Drop(2355)),
-			new WeightedTable(15, new Drop(441, 5)),
-			new WeightedTable(5, new Drop(563)),
-			new WeightedTable(5, new Drop(1217))
-			);
-
-	public static void handleItemOnPlayer(Player player, Player other, int slotId) {
-		if (other.hasFinished() || player.hasFinished())
-			return;
-		Item item = player.getInventory().getItem(slotId);
-		if (item == null)
-			return;
-
-		if(item.getId() == ShieldOfArrav.WEAPONS_KEY || item.getId() == ShieldOfArrav.CERTIFICATE_LEFT || item.getId() == ShieldOfArrav.CERTIFICATE_RIGHT) {
-			player.getInteractionManager().setInteraction(new StandardEntityInteraction(other, 0, () -> {
-				player.faceEntity(other);
-				if (item.getAmount() >= 1) {
-					if (other.getInventory().getFreeSlots() >= 1)
-						WorldTasks.delay(0, () -> {
-							player.setNextAnimation(new Animation(881));
-							player.getInventory().removeItems(new Item(item.getId(), 1));
-							other.getInventory().addItem(new Item(item.getId(), 1));
-							if (other.isIronMan())
-								player.sendMessage("They stand alone, but not this once!");
-						});
-					else {
-						other.sendMessage("You need to make space in your inventory");
-						player.sendMessage(other.getUsername() + " does not have enough space.");
-					}
-				} else
-					player.sendMessage("You need at least 1 of this item to give!");
-			}));
-			return;
-		}
-
-
-		if (other.isIronMan()) {
-			player.sendMessage("They stand alone!");
-			return;
-		}
-		if (!player.getControllerManager().processItemOnPlayer(other, item, slotId))
-			return;
-		player.setNextFaceWorldTile(other.getTile());
-		switch (item.getId()) {
-		//		case 4155:
-		//			if (other.getCoopSlayerPartner() != null) {
-		//				player.sendMessage("This player is already in a slayer group with: " + other.getCoopSlayerPartner().getDisplayName());
-		//				return;
-		//			}
-		//			if (player.getCoopSlayerPartner() != null) {
-		//				player.sendMessage("You are already in a slayer group with: " + player.getCoopSlayerPartner().getDisplayName());
-		//				return;
-		//			}
-		//			player.sendMessage("Sending co-op slayer request...");
-		//			other.getPackets().sendCoOpSlayerRequestMessage(player);
-		//			player.getTemporaryAttributtes().put("coopSlayerRequest", other);
-		//			break;
-		case 962:
-			player.setRouteEvent(new RouteEvent(other, () -> {
-				if (other.getInventory().getFreeSlots() <= 2) {
-					player.sendMessage("The other player does not have enough inventory space to recieve a cracker if they win.");
-					return;
-				}
-
-				if (player.getInventory().getFreeSlots() <= 2) {
-					player.sendMessage("You don't have enough inventory space to do this.");
-					return;
-				}
-
-				int random = Utils.random(1000);
-				other.setNextFaceWorldTile(player.getTile());
-				player.setNextAnimation(new Animation(15152));
-				other.setNextAnimation(new Animation(15153));
-				player.setNextSpotAnim(new SpotAnim(2952));
-				player.sendMessage("You use the cracker on " + other.getDisplayName() + "..");
-				other.sendMessage(player.getDisplayName() + " has used a christmas cracker on you..");
-				player.getInventory().deleteItem(item.getId(), 1);
-				if (random < 500 || player.isIronMan()) {
-					for (Item rew : DropTable.calculateDrops(PARTY_HATS))
-						player.getInventory().addItemDrop(rew);
-					for (Item rew : DropTable.calculateDrops(CRACKER_SECONDARIES))
-						other.getInventory().addItemDrop(rew);
-					player.sendMessage("and you got the reward!" + (player.isIronMan() ? " Because you stand alone." : ""));
-					other.sendMessage("but you didn't get the reward." + (player.isIronMan() ? " Because they stand alone." : ""));
-				} else {
-					for (Item rew : DropTable.calculateDrops(PARTY_HATS))
-						other.getInventory().addItemDrop(rew);
-					for (Item rew : DropTable.calculateDrops(CRACKER_SECONDARIES))
-						player.getInventory().addItemDrop(rew);
-					other.sendMessage("and you got the reward!");
-					player.sendMessage("but you didn't get the reward.");
-				}
-			}));
-			break;
-		}
 	}
 	
 	public static Item contains(int id1, Item item1, Item item2) {

@@ -32,8 +32,10 @@ import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemClickEvent;
+import com.rs.plugin.events.ItemOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.ItemOnPlayerHandler;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
@@ -47,6 +49,24 @@ public class Slayer {
 		@Override
 		public void handle(ItemClickEvent e) {
 			e.getPlayer().sendMessage(e.getPlayer().getSlayer().getTaskString());
+		}
+	};
+	
+	public static ItemOnPlayerHandler groupSlayer = new ItemOnPlayerHandler(4155) {
+		@Override
+		public void handle(ItemOnPlayerEvent e) {
+			e.getPlayer().sendMessage("Group slayer is in progress.");
+//			if (other.getCoopSlayerPartner() != null) {
+//				player.sendMessage("This player is already in a slayer group with: " + other.getCoopSlayerPartner().getDisplayName());
+//				return;
+//			}
+//			if (player.getCoopSlayerPartner() != null) {
+//				player.sendMessage("You are already in a slayer group with: " + player.getCoopSlayerPartner().getDisplayName());
+//				return;
+//			}
+//			player.sendMessage("Sending co-op slayer request...");
+//			other.getPackets().sendCoOpSlayerRequestMessage(player);
+//			player.getTemporaryAttributtes().put("coopSlayerRequest", other);
 		}
 	};
 

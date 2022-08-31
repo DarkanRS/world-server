@@ -1232,16 +1232,16 @@ public class Player extends Entity {
 	}
 
 	public void run() {
+		if (getAccount().getRights() == null) {
+			setRights(Rights.PLAYER);
+			LobbyCommunicator.updateRights(this);
+		}
 		LobbyCommunicator.addWorldPlayer(account, response -> {
 			if (!response) {
 				forceLogout();
 				return;
 			}
 		});
-		if (getAccount().getRights() == null) {
-			setRights(Rights.PLAYER);
-			LobbyCommunicator.updateRights(this);
-		}
 		getClan(clan -> appearence.generateAppearanceData());
 		getGuestClan();
 		int updateTimer = (int) World.getTicksTillUpdate();

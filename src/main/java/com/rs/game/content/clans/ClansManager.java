@@ -40,7 +40,9 @@ import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 
 @PluginEventHandler
 public class ClansManager {
@@ -112,35 +114,6 @@ public class ClansManager {
 		}));
 	}
 
-	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			switch(e.getComponentId()) {
-			case 82 -> {
-				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
-					leaveChannel(e.getPlayer(), null);
-				else
-					joinChannel(e.getPlayer(), null);
-			}
-			case 91 -> {
-				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
-					leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
-				else
-					e.getPlayer().sendInputName("Which clan chat would you like to join?",
-							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
-							name -> joinChannel(e.getPlayer(), name));
-			}
-			case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
-			case 78 -> openSettings(e.getPlayer());
-			case 75 -> openDetails(e.getPlayer());
-			case 109 -> leaveClan(e.getPlayer());
-			case 11 -> unban(e.getPlayer(), e.getSlotId());
-			case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
-			}
-		}
-	};
-
 	public static void create(Player player, String name) {
 		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", ops -> {
 			ops.add("Yes, create " + name + ".", () -> LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> { }));
@@ -160,6 +133,36 @@ public class ClansManager {
 			});
 		});
 	}
+	
+	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
+		@Override
+		public void handle(ButtonClickEvent e) {
+			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+			switch(e.getComponentId()) {
+			case 82 -> {
+				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
+					leaveChannel(e.getPlayer(), null);
+				else
+					joinChannel(e.getPlayer(), null);
+			}
+			case 91 -> {
+				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
+					leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
+				else
+					e.getPlayer().sendInputName("Which clan chat would you like to join?",
+							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
+							name -> joinChannel(e.getPlayer(), name));
+			}
+			case 59 -> e.getPlayer().getPackets().sendRunScript(4443, -1);
+			case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
+			case 78 -> openSettings(e.getPlayer());
+			case 75 -> openDetails(e.getPlayer());
+			case 109 -> leaveClan(e.getPlayer());
+			case 11 -> unban(e.getPlayer(), e.getSlotId());
+			case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
+			}
+		}
+	};
 
 	public static ButtonClickHandler handleClanFlagButtons = new ButtonClickHandler(1089) {
 		@Override
@@ -259,6 +262,16 @@ public class ClansManager {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			e.getPlayer().closeInterfaces();
+		}
+	};
+	
+	public static InterfaceOnPlayerHandler handleInvite = new InterfaceOnPlayerHandler(false, new int[] { 1110 }) {
+		@Override
+		public void handle(IFOnPlayerEvent e) {
+			if (e.getComponentId() == 87) {
+				e.getPlayer().sendMessage("INVITED " + e.getTarget().getDisplayName());
+				e.getTarget().sendMessage("INVITED BY " + e.getPlayer().getDisplayName());
+			}
 		}
 	};
 	
