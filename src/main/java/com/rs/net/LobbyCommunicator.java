@@ -29,7 +29,6 @@ import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.dto.LoginRequest;
 import com.rs.lib.web.dto.PacketDto;
-import com.rs.lib.web.dto.UpdateClanGuest;
 import com.rs.lib.web.dto.UpdateFC;
 import com.rs.lib.web.dto.WorldPlayerAction;
 
@@ -102,15 +101,12 @@ public class LobbyCommunicator {
 		get(Clan.class, "clans/"+clan, cb);
 	}
 
-	public static boolean updateClan(Clan clan) {
-		if (clan == null)
-			return false;
-		post(Boolean.class, clan, "clans/update", null);
-		return true;
-	}
-	
-	public static void updateClanGuest(String username, Clan clan) {
-		post(Boolean.class, new UpdateClanGuest(username, clan), "clans/updateguest", null);
+	public static void updateClan(Clan clan, Consumer<Clan> res) {
+		if (clan == null) {
+			res.accept(null);
+			return;
+		}
+		post(Clan.class, clan, "clans/update", res);
 	}
 
 	public static void post(Object body, String endpoint) {

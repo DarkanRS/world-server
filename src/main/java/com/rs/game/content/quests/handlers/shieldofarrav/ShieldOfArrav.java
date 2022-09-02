@@ -30,6 +30,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
@@ -37,11 +38,13 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
+import com.rs.plugin.events.ItemOnPlayerEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PickupItemEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.ItemOnPlayerHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
@@ -631,6 +634,29 @@ public class ShieldOfArrav extends QuestOutline {
                 }
             });
         }
+    };
+    
+    public static ItemOnPlayerHandler giveCerts = new ItemOnPlayerHandler(WEAPONS_KEY, CERTIFICATE_LEFT, CERTIFICATE_RIGHT) {
+		@Override
+		public void handle(ItemOnPlayerEvent e) {
+			if (e.getItem().getAmount() >= 1) {
+				if (e.getTarget().getInventory().getFreeSlots() >= 1) {
+					e.getPlayer().lock();
+					e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+					WorldTasks.delay(0, () -> {
+						e.getPlayer().setNextAnimation(new Animation(881));
+						e.getTarget().getInventory().addItem(e.getItem().getId(), 1);
+						if (e.getTarget().isIronMan())
+							e.getPlayer().sendMessage("They stand alone, but not this once!");
+						e.getPlayer().unlock();
+					});
+				} else {
+					e.getTarget().sendMessage("You need to make space in your inventory");
+					e.getPlayer().sendMessage(e.getTarget().getUsername() + " does not have enough space.");
+				}
+			} else
+				e.getPlayer().sendMessage("You need at least 1 of this item to give!");
+		}
     };
 
     /**

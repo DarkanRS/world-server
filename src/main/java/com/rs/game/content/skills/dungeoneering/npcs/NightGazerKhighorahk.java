@@ -112,7 +112,7 @@ public final class NightGazerKhighorahk extends DungeonBoss {
 								player.sendMessage("You are damaged by the shadows engulfing the pillar of light.");
 						}
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(NightGazerKhighorahk.class, "lightPillar", e);
 				}
 
 			}

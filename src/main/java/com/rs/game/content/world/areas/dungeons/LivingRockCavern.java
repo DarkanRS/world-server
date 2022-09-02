@@ -53,7 +53,7 @@ public final class LivingRockCavern {
 			try {
 				removeRock(rock);
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(LivingRockCavern.class, "respawnRock", e);
 			}
 		}, Ticks.fromMinutes(Utils.random(8) + 3));
 	}
@@ -64,7 +64,7 @@ public final class LivingRockCavern {
 			try {
 				respawnRock(rock);
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(LivingRockCavern.class, "removeRock", e);
 			}
 		}, Ticks.fromMinutes(3));
 	}

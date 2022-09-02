@@ -22,6 +22,7 @@ import com.rs.db.collection.HighscoresManager;
 import com.rs.db.collection.PlayerManager;
 import com.rs.db.collection.logs.LogManager;
 import com.rs.lib.db.DBConnection;
+import com.rs.lib.util.Logger;
 
 public class WorldDB extends DBConnection {
 
@@ -32,6 +33,7 @@ public class WorldDB extends DBConnection {
 
 	public WorldDB() {
 		super(Settings.getConfig().getMongoDb(), Settings.getConfig().getMongoDBName());
+		Logger.info(WorldDB.class, "constructor()", "Connecting to MongoDB and initializing databases...");
 		addItemManager(PLAYERS);
 		addItemManager(HIGHSCORES);
 		addItemManager(GE);

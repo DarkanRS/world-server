@@ -181,7 +181,7 @@ public class Woodcutting extends Action {
 								if (e.getPlayer() != null && !e.getPlayer().hasFinished())
 									e.getPlayer().getVars().setVarBit(9776, 1);
 							} catch (Throwable e1) {
-								Logger.handle(e1);
+								Logger.handle(Woodcutting.class, "handleBlisterwood", e1);
 							}
 						}, Ticks.fromMinutes(2));
 					}

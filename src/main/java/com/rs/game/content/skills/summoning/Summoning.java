@@ -31,9 +31,13 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.IFOnNPCEvent;
+import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnNPCHandler;
+import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
@@ -85,6 +89,32 @@ public class Summoning {
 				else
 					e.getPlayer().sendMessage("You need a summoning level of " + pouches.getLevel() + " to summon this familiar.");
 			}
+		}
+	};
+	
+	public static InterfaceOnPlayerHandler scrollOnPlayer = new InterfaceOnPlayerHandler(false, new int[] { 662, 747 }) {
+		@Override
+		public void handle(IFOnPlayerEvent e) {
+			if (e.getPlayer().getFamiliar() == null)
+				return;
+			e.getPlayer().stopAll(false, true, false);
+			if ((e.getInterfaceId() == 747 && e.getComponentId() == 15) || (e.getInterfaceId() == 662 && e.getComponentId() == 65) || e.getInterfaceId() == 747 && e.getComponentId() == 24)
+				e.getPlayer().getFamiliar().commandAttack(e.getTarget());
+			if ((e.getInterfaceId() == 662 && e.getComponentId() == 74) || (e.getInterfaceId() == 747 && e.getComponentId() == 18))
+				e.getPlayer().getFamiliar().executeSpecial(e.getTarget());
+		}
+	};
+	
+	public static InterfaceOnNPCHandler scrollOnNPC = new InterfaceOnNPCHandler(false, new int[] { 662, 747 }) {
+		@Override
+		public void handle(IFOnNPCEvent e) {
+			if (e.getPlayer().getFamiliar() == null)
+				return;
+			e.getPlayer().stopAll(false, true, false);
+			if ((e.getInterfaceId() == 747 && e.getComponentId() == 15) || (e.getInterfaceId() == 662 && e.getComponentId() == 65) || e.getInterfaceId() == 747 && e.getComponentId() == 24)
+				e.getPlayer().getFamiliar().commandAttack(e.getTarget());
+			if ((e.getInterfaceId() == 662 && e.getComponentId() == 74) || (e.getInterfaceId() == 747 && e.getComponentId() == 18))
+				e.getPlayer().getFamiliar().executeSpecial(e.getTarget());
 		}
 	};
 	

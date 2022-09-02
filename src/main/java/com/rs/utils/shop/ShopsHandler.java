@@ -51,13 +51,13 @@ public class ShopsHandler {
 	}
 
 	private static void loadShopFiles() {
-		Logger.log("ShopsHandler", "Loading shops...");
+		Logger.info(ShopsHandler.class, "loadShopFiles", "Loading shops...");
 		try {
 			File[] dropFiles = new File(PATH).listFiles();
 			for (File f : dropFiles)
 				loadFile(f);
 		} catch (Throwable e) {
-			Logger.handle(e);
+			Logger.handle(ShopsHandler.class, "loadShopFiles", e);
 		}
 		for (String key : SHOP_DEFS.keySet()) {
 			ShopDef shop = SHOP_DEFS.get(key);
@@ -66,7 +66,7 @@ public class ShopsHandler {
 				for (int npcId : shop.getNpcIds())
 					NPC_SHOPS.put(npcId, key);
 		}
-		Logger.log("ShopsHandler", "Loaded "+SHOPS.size()+" shops...");
+		Logger.info(ShopsHandler.class, "loadShopFiles", "Loaded "+SHOPS.size()+" shops...");
 	}
 
 	private static void loadFile(File f) {

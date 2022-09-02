@@ -116,6 +116,7 @@ public final class Settings {
 	public static ArrayList<String> COMMIT_HISTORY = new ArrayList<>();
 
 	public static void loadConfig() {
+		Logger.info(Settings.class, "loadConfig", "Loading config...");
 		try {
 			File configFile = new File("./worldConfig.json");
 			if (configFile.exists())
@@ -150,12 +151,12 @@ public final class Settings {
 			}
 			proc.waitFor();
 			in.close();
-			System.out.println(COMMIT_HISTORY);
+			Logger.info(Settings.class, "loadConfig", "Commit history loaded: " + COMMIT_HISTORY);
 		} catch (JsonIOException | IOException | InterruptedException e) {
-			Logger.handle(e);
+			Logger.handle(Settings.class, "loadConfig", e);
 		}
 		Globals.DEBUG = getConfig().debug;
-		Logger.log("Settings", "Loaded lobby IP: " + getConfig().lobbyIp);
+		Logger.info(Settings.class, "loadConfig", "Loaded lobby IP: " + getConfig().lobbyIp);
 	}
 
 	public String getServerName() {
