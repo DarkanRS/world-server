@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.rs.Settings;
 import com.rs.lib.thread.CatchExceptionRunnable;
+import com.rs.lib.util.Logger;
 
 public final class CoresManager {
 
@@ -35,6 +36,7 @@ public final class CoresManager {
 	private static List<Future<?>> PENDING_FUTURES = new ArrayList<>();
 
 	public static void startThreads() {
+		Logger.info(CoresManager.class, "startThreads", "Initializing world threads...");
 		worldExemptExecutor = Executors.newSingleThreadScheduledExecutor(new SlowThreadFactory());
 		worldExecutor = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());
 	}

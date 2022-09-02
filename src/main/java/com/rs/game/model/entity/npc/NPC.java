@@ -27,7 +27,6 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cores.CoresManager;
-import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
@@ -60,6 +59,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.NPCDeathEvent;
@@ -316,7 +316,7 @@ public class NPC extends Entity {
 			super.processEntity();
 			processNPC();
 		} catch (Throwable e) {
-			WorldDB.getLogs().logError(e);
+			Logger.handle(NPC.class, "processEntity", e);
 		}
 	}
 

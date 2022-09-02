@@ -67,7 +67,7 @@ public class DoorSupport extends NPC {
 				if (door != null)
 					World.spawnObject(door);
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(DoorSupport.class, "sendDeath", e);
 			}
 		}, Ticks.fromSeconds(60));
 	}

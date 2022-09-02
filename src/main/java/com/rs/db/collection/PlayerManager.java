@@ -75,7 +75,7 @@ public class PlayerManager extends DBItemManager {
 		try {
 			return JsonFileManager.fromJSONString(JsonFileManager.toJson(accDoc), Player.class);
 		} catch (JsonIOException | IOException e) {
-			Logger.handle(e);
+			Logger.handle(PlayerManager.class, "getSyncUsername", e);
 			return null;
 		}
 	}

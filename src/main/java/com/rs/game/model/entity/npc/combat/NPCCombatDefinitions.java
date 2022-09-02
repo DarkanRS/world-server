@@ -156,7 +156,7 @@ public class NPCCombatDefinitions {
 			for (File f : dropFiles)
 				loadFile(f);
 		} catch (Throwable e) {
-			Logger.handle(e);
+			Logger.handle(NPCCombatDefinitions.class, "loadPackedCombatDefinitions", e);
 		}
 	}
 

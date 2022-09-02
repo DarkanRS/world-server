@@ -184,7 +184,7 @@ public final class TormentedDemon extends NPC {
 				checkMultiArea();
 				shieldTimer = 0;
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(TormentedDemon.class, "setRespawnTask", e);
 			}
 		}, getCombatDefinitions().getRespawnDelay());
 	}

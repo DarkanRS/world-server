@@ -36,11 +36,14 @@ import com.rs.lib.model.MemberData;
 import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 import com.rs.lib.net.packets.decoders.lobby.CCCreate;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
+import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 
 @PluginEventHandler
 public class ClansManager {
@@ -78,7 +81,7 @@ public class ClansManager {
 		cb.accept(null);
 	}
 	
-	public static void updateClan(Clan clan) {
+	public static void syncClanFromLobby(Clan clan) {
 		CACHED_CLANS.put(clan.getName(), clan);
 		for (String username : clan.getMembers().keySet()) {
 			Player player = World.getPlayerByUsername(username);
@@ -88,8 +91,15 @@ public class ClansManager {
 		}
 	}
 	
-	public static boolean syncClanToLobby(String name) {
-		return LobbyCommunicator.updateClan(CACHED_CLANS.get(name));
+	public static void syncClanToLobby(String name, Runnable done) {
+		LobbyCommunicator.updateClan(CACHED_CLANS.get(name), clan -> {
+			if (clan == null) {
+				done.run();
+				return;
+			}
+			CACHED_CLANS.put(name, clan);
+			done.run();
+		});
 	}
 
 	public static void clanMotto(Player player) {
@@ -112,35 +122,6 @@ public class ClansManager {
 		}));
 	}
 
-	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			switch(e.getComponentId()) {
-			case 82 -> {
-				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
-					leaveChannel(e.getPlayer(), null);
-				else
-					joinChannel(e.getPlayer(), null);
-			}
-			case 91 -> {
-				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
-					leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
-				else
-					e.getPlayer().sendInputName("Which clan chat would you like to join?",
-							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
-							name -> joinChannel(e.getPlayer(), name));
-			}
-			case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
-			case 78 -> openSettings(e.getPlayer());
-			case 75 -> openDetails(e.getPlayer());
-			case 109 -> leaveClan(e.getPlayer());
-			case 11 -> unban(e.getPlayer(), e.getSlotId());
-			case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
-			}
-		}
-	};
-
 	public static void create(Player player, String name) {
 		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", ops -> {
 			ops.add("Yes, create " + name + ".", () -> LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> { }));
@@ -160,6 +141,36 @@ public class ClansManager {
 			});
 		});
 	}
+	
+	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
+		@Override
+		public void handle(ButtonClickEvent e) {
+			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+			switch(e.getComponentId()) {
+			case 82 -> {
+				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
+					leaveChannel(e.getPlayer(), null);
+				else
+					joinChannel(e.getPlayer(), null);
+			}
+			case 91 -> {
+				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
+					leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
+				else
+					e.getPlayer().sendInputName("Which clan chat would you like to join?",
+							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
+							name -> joinChannel(e.getPlayer(), name));
+			}
+			case 59 -> e.getPlayer().getPackets().sendRunScript(4443, -1);
+			case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
+			case 78 -> openSettings(e.getPlayer());
+			case 75 -> openDetails(e.getPlayer());
+			case 109 -> leaveClan(e.getPlayer());
+			case 11 -> unban(e.getPlayer(), e.getSlotId());
+			case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
+			}
+		}
+	};
 
 	public static ButtonClickHandler handleClanFlagButtons = new ButtonClickHandler(1089) {
 		@Override
@@ -262,6 +273,16 @@ public class ClansManager {
 		}
 	};
 	
+	public static InterfaceOnPlayerHandler handleInvite = new InterfaceOnPlayerHandler(false, new int[] { 1110 }) {
+		@Override
+		public void handle(IFOnPlayerEvent e) {
+			if (e.getComponentId() == 87) {
+				e.getPlayer().sendMessage("INVITED " + e.getTarget().getDisplayName());
+				e.getTarget().sendMessage("INVITED BY " + e.getPlayer().getDisplayName());
+			}
+		}
+	};
+	
 	public static void viewClanmateDetails(Player player, int index) {
 		String username = new ArrayList<>(player.getClan().getMembers().keySet()).get(index);
 		MemberData member = player.getClan().getMembers().get(username);
@@ -340,7 +361,7 @@ public class ClansManager {
 			return;
 		}
 		player.getInterfaceManager().sendInterface(1096);
-		player.setCloseInterfacesEvent(() -> LobbyCommunicator.updateClan(player.getClan()));
+		player.setCloseInterfacesEvent(() -> syncClanToLobby(player.getClan().getName(), () -> player.sendMessage("Saved clan details successfully.")));
 		showClanSettingsClanMates(player);
 		selectPermissionTab(player, 1);
 		player.getPackets().setIFText(1096, 373, "Permissions are currently disabled and set to default.");
@@ -393,7 +414,10 @@ public class ClansManager {
 	}
 	
 	public static void openClanDetails(Player player, Player inviter, Clan clan) {
-		LobbyCommunicator.updateClanGuest(player.getUsername(), clan);
+		if (clan.getUpdateBlock() == null) {
+			player.sendMessage("Error loading clan update block.");
+			return;
+		}
 		player.getInterfaceManager().sendInterface(1107);
 		if (clan.getMotto() != null)
 			player.getPackets().setIFText(1107, 88, clan.getMotto());
@@ -411,6 +435,7 @@ public class ClansManager {
 			player.getPackets().setIFText(1107, 92, inviter.getDisplayName());
 		else
 			player.getPackets().setIFHidden(1107, 90, true);
+		player.getSession().write(new ClanSettingsFull(clan.getUpdateBlock(), true));
 	}
 	
 //	public static void openNationalFlagInterface(Player player) {
@@ -443,14 +468,14 @@ public class ClansManager {
 		player.getVars().setVarBit(9087, player.getClan().getMottifBottom() + 1);
 		for (int i = 0; i < player.getClan().getMottifColors().length; i++)
 			player.getVars().setVar(2094 + i, player.getClan().getMottifColors()[i]);
-		player.setCloseInterfacesEvent(() -> LobbyCommunicator.updateClan(player.getClan()));
+		player.setCloseInterfacesEvent(() -> syncClanToLobby(player.getClan().getName(), () -> player.sendMessage("Saved clan details successfully.")));
 	}
 
 	public static void openSetMottifColor(Player player, int part) {
 		player.getInterfaceManager().sendInterface(1106);
 		player.sendInputHSL(color -> {
 			player.getClan().setMottifColour(part, color);
-			LobbyCommunicator.updateClan(player.getClan());
+			syncClanToLobby(player.getClan().getName(), () -> player.sendMessage("Saved clan details successfully."));
 			openClanMottifInterface(player);
 		});
 	}

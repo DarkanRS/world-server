@@ -52,7 +52,7 @@ public class EasterEggSpawning {
 				spawnEggs();
 				World.sendWorldMessage("<col=FF0000><shad=000000>Easter Eggs have spawned in various cities around the world!", false);
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(EasterEggSpawning.class, "initSpawning", e);
 			}
 		}, Ticks.fromSeconds(30), Ticks.fromMinutes(30));
 	}

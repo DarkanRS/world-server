@@ -35,7 +35,7 @@ public class WorldTasks {
 			try {
 				task.getTask().run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(WorldTasks.class, "processTasks:"+(task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
 			}
 			if (task.getTask().needRemove)
 				TASKS.remove(task);

@@ -88,7 +88,7 @@ public class Bork extends NPC {
 			try {
 				spawn();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(Bork.class, "setRespawnTask", e);
 			}
 		}, Ticks.fromHours(1));
 	}

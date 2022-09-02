@@ -210,7 +210,7 @@ public class Glacor extends NPC {
 				loadMapRegions();
 				checkMultiArea();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(Glacor.class, "setRespawnTask", e);
 			}
 		}, getCombatDefinitions().getRespawnDelay());
 	}

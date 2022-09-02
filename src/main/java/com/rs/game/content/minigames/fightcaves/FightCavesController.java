@@ -154,7 +154,7 @@ public class FightCavesController extends Controller {
 						try {
 							startWave();
 						} catch (Throwable t) {
-							Logger.handle(t);
+							Logger.handle(FightCavesController.class, "loadCave", t);
 						}
 					}
 				}, Ticks.fromSeconds(30));
@@ -240,7 +240,7 @@ public class FightCavesController extends Controller {
 						return;
 					startWave();
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(FightCavesController.class, "setWaveEvent", e);
 				}
 			}
 		}, 1);
