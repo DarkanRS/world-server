@@ -36,7 +36,7 @@ public final class CoresManager {
 	private static List<Future<?>> PENDING_FUTURES = new ArrayList<>();
 
 	public static void startThreads() {
-		Logger.info(new Object() {}, "Initializing world threads...");
+		Logger.info(CoresManager.class, "startThreads", "Initializing world threads...");
 		worldExemptExecutor = Executors.newSingleThreadScheduledExecutor(new SlowThreadFactory());
 		worldExecutor = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());
 	}

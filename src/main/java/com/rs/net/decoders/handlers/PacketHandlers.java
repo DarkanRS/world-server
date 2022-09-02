@@ -46,9 +46,8 @@ public class PacketHandlers {
 
 	@SuppressWarnings("unchecked")
 	public static void loadHandlersFromPackage(String pack) {
-		Object ctx = new Object() {};
 		try {
-			Logger.info(ctx, "Initializing packet handlers ("+pack+")...");
+			Logger.info(PacketHandlers.class, "loadHandlersFromPackage", "Initializing packet handlers ("+pack+")...");
 			List<Class<?>> classes = Utils.getClasses(pack);
 
 			for (Class<?> clazz : classes)
@@ -60,8 +59,8 @@ public class PacketHandlers {
 					missing.add(packet);
 
 			int handled = ClientPacket.values().length - missing.size();
-			Logger.info(ctx, "Packet handlers loaded for " + handled + " packets...");
-			Logger.info(ctx, "Packets missing: " + missing);
+			Logger.info(PacketHandlers.class, "loadHandlersFromPackage", "Packet handlers loaded for " + handled + " packets...");
+			Logger.info(PacketHandlers.class, "loadHandlersFromPackage", "Packets missing: " + missing);
 		} catch (ClassNotFoundException | IOException | IllegalArgumentException | SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}

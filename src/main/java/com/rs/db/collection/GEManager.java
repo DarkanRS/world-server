@@ -84,7 +84,7 @@ public class GEManager extends DBItemManager {
 			}
 			return offers;
 		} catch (JsonIOException | IOException e) {
-			Logger.handle(this, e);
+			Logger.handle(GEManager.class, "getSync", e);
 			return null;
 		}
 	}

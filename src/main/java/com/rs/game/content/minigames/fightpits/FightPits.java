@@ -109,7 +109,7 @@ public final class FightPits {
 					}
 				}
 			} catch (Throwable e) {
-				Logger.handle(this, e);
+				Logger.handle(GameTask.class, "run", e);
 			}
 		}
 

@@ -72,7 +72,7 @@ public class PestControl {
 					sendPortalInterfaces();
 				seconds--;
 			} catch (Exception e) {
-				Logger.handle(this, e);
+				Logger.handle(PestGameTimer.class, "run", e);
 			}
 		}
 	}

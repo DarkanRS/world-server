@@ -39,7 +39,7 @@ public final class WorldThread extends Thread {
 	protected WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
 		setName("World Thread");
-		setUncaughtExceptionHandler((th, ex) -> Logger.handle(this, ex));
+		setUncaughtExceptionHandler((th, ex) -> Logger.handle(WorldThread.class, "uncaughtExceptionHandler", ex));
 	}
 
 	@ServerStartupEvent
@@ -95,7 +95,7 @@ public final class WorldThread extends Thread {
 					player.processProjectiles();
 					player.getSession().flush();
 				} catch(Throwable e) {
-					Logger.handle(this, e);
+					Logger.handle(WorldThread.class, "processPlayersPostSync", e);
 				}
 			}
 			World.removeProjectiles();
@@ -112,7 +112,7 @@ public final class WorldThread extends Thread {
 			World.processEntityLists();
 			Telemetry.queueTelemetryTick((System.currentTimeMillis() - startTime));
 		} catch (Throwable e) {
-			Logger.handle(this, e);
+			Logger.handle(WorldThread.class, "tick", e);
 		}
 	}
 }

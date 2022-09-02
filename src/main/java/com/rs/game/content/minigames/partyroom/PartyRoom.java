@@ -259,7 +259,7 @@ public class PartyRoom {
 				isDropping = false;
 				timer = -1;
 			} catch (Throwable e) {
-				Logger.handle(new Object() {}, e);
+				Logger.handle(PartyRoom.class, "spawnBalloons", e);
 			}
 		}, Ticks.fromMinutes(2));
 	}

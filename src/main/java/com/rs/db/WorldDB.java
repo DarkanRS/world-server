@@ -33,7 +33,7 @@ public class WorldDB extends DBConnection {
 
 	public WorldDB() {
 		super(Settings.getConfig().getMongoDb(), Settings.getConfig().getMongoDBName());
-		Logger.info(this, "Connecting to MongoDB and initializing databases...");
+		Logger.info(WorldDB.class, "constructor()", "Connecting to MongoDB and initializing databases...");
 		addItemManager(PLAYERS);
 		addItemManager(HIGHSCORES);
 		addItemManager(GE);

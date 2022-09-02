@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.Date;
+import java.util.logging.Level;
 
 import com.google.gson.GsonBuilder;
 import com.rs.cache.Cache;
@@ -58,7 +59,7 @@ public final class Launcher {
 
 	public static void main(String[] args) throws Exception {
 		Logger.setupFormat();
-		Object ctx = new Object() {};
+		Logger.setLevel(Level.FINE); //FINER for traces
 		JsonFileManager.setGSON(new GsonBuilder()
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
@@ -70,6 +71,8 @@ public final class Launcher {
 				.create());
 		
 		Settings.loadConfig();
+		if (!Settings.getConfig().isDebug())
+			Logger.setLevel(Level.WARNING);
 		
 		long currentTime = System.currentTimeMillis();
 
@@ -90,22 +93,22 @@ public final class Launcher {
 		try {
 			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().getPort(), BaseWorldDecoder.class);
 		} catch (Throwable e) {
-			Logger.handle(ctx, e);
-			Logger.error(ctx, "Failed to initialize server channel handler. Shutting down...");
+			Logger.handle(Launcher.class, "main", e);
+			Logger.error(Launcher.class, "main", "Failed to initialize server channel handler. Shutting down...");
 			System.exit(1);
 			return;
 		}
-		Logger.info(ctx, "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
-		Logger.info(ctx, "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().getPort() + "...");
-		Logger.info(ctx, "Player will be directed to "+Settings.getConfig().getWorldInfo()+"...");
-		Logger.info(ctx, "Registering world with lobby server...");
-		Logger.info(ctx, Settings.getConfig().getWorldInfo());
+		Logger.info(Launcher.class, "main", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
+		Logger.info(Launcher.class, "main", "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().getPort() + "...");
+		Logger.info(Launcher.class, "main", "Player will be directed to "+Settings.getConfig().getWorldInfo()+"...");
+		Logger.info(Launcher.class, "main", "Registering world with lobby server...");
+		Logger.info(Launcher.class, "main", Settings.getConfig().getWorldInfo());
 		new WorldAPI().start();
 		LobbyCommunicator.post(Boolean.class, Settings.getConfig().getWorldInfo(), "addworld", success -> {
 			if (success)
-				Logger.info(ctx, "Registered world with lobby server...");
+				Logger.info(Launcher.class, "main", "Registered world with lobby server...");
 			else
-				Logger.error(ctx, "Failed to register world with lobby server... You can still login locally but social features will not work properly.");
+				Logger.warn(Launcher.class, "main", "Failed to register world with lobby server... You can still login locally but social features will not work properly.");
 		});
 		addAccountsSavingTask();
 		addCleanMemoryTask();
@@ -137,7 +140,7 @@ public final class Launcher {
 			try {
 				cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
 			} catch (Throwable e) {
-				Logger.handle(new Object() {}, e);
+				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
 		}, 0, Ticks.fromMinutes(10));
 	}
@@ -147,7 +150,7 @@ public final class Launcher {
 			try {
 				saveFiles();
 			} catch (Throwable e) {
-				Logger.handle(new Object() {}, e);
+				Logger.handle(Launcher.class, "addAccountsSavingTask", e);
 			}
 
 		}, Ticks.fromMinutes(15));
@@ -212,7 +215,7 @@ public final class Launcher {
 			} catch (IOException | InterruptedException e) {
 				if (player != null)
 					player.getPackets().sendDevConsoleMessage("Error: " + e.getMessage());
-				Logger.handle(new Object() {}, e);
+				Logger.handle(Launcher.class, "executeCommand", e);
 			}
 		});
 	}

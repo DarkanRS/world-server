@@ -1429,7 +1429,7 @@ public class DungeonManager {
 				}
 				destroy();
 			} catch (Throwable e) {
-				Logger.handle(this, e);
+				Logger.handle(DestroyTimer.class, "run", e);
 			}
 		}
 
@@ -1463,7 +1463,7 @@ public class DungeonManager {
 				} else
 					nextFloor();
 			} catch (Throwable e) {
-				Logger.handle(this, e);
+				Logger.handle(RewardsTimer.class, "run", e);
 			}
 		}
 
@@ -1508,7 +1508,7 @@ public class DungeonManager {
 					stage = 1;
 				});
 			} catch (Throwable e) {
-				Logger.handle(this, e);
+				Logger.handle(DungeonManager.class, "load", e);
 			}
 		});
 	}

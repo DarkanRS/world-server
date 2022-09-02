@@ -55,7 +55,7 @@ public class CombatScriptsHandler {
 			e.printStackTrace();
 		}
 
-		Logger.info(new Object() {}, "Loaded combat scripts for " + MAPPED_SCRIPTS.size() + " NPCs...");
+		Logger.info(CombatScriptsHandler.class, "loadScripts", "Loaded combat scripts for " + MAPPED_SCRIPTS.size() + " NPCs...");
 	}
 
 	public static int attack(final NPC npc, final Entity target) {

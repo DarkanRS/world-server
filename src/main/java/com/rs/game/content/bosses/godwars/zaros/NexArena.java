@@ -140,7 +140,7 @@ public class NexArena {
 			try {
 				startWar();
 			} catch (Throwable e) {
-				Logger.handle(this, e);
+				Logger.handle(NexArena.class, "endWar", e);
 			}
 		}, Ticks.fromMinutes(1));
 	}

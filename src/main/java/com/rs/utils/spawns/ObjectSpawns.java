@@ -42,8 +42,7 @@ public final class ObjectSpawns {
 
 	@ServerStartupEvent
 	public static final void init() throws JsonIOException, IOException {
-		Object ctx = new Object() {};
-		Logger.info(ctx, "Loading map object spawns...");
+		Logger.info(ObjectSpawns.class, "init", "Loading map object spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {
 			ObjectSpawn[] spawns = (ObjectSpawn[]) JsonFileManager.loadJsonFile(f, ObjectSpawn[].class);
@@ -52,7 +51,7 @@ public final class ObjectSpawns {
 					if (spawn != null)
 						add(spawn);
 		}
-		Logger.info(ctx, "Loaded " + ALL_SPAWNS.size() + " map object spawns...");
+		Logger.info(ObjectSpawns.class, "init", "Loaded " + ALL_SPAWNS.size() + " map object spawns...");
 	}
 
 	public static void loadObjectSpawns(int regionId) {

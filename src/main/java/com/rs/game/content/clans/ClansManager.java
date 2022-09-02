@@ -93,6 +93,10 @@ public class ClansManager {
 	
 	public static void syncClanToLobby(String name, Runnable done) {
 		LobbyCommunicator.updateClan(CACHED_CLANS.get(name), clan -> {
+			if (clan == null) {
+				done.run();
+				return;
+			}
 			CACHED_CLANS.put(name, clan);
 			done.run();
 		});

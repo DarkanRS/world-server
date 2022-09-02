@@ -71,7 +71,7 @@ public class DropSets {
 			for (File f : dropFiles)
 				loadFile(f);
 		} catch (Throwable e) {
-			Logger.handle(new Object() {}, e);
+			Logger.handle(DropSets.class, "loadPackedNPCDrops", e);
 		}
 	}
 

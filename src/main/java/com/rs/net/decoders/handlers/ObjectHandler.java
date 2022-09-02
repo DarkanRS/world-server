@@ -1535,7 +1535,7 @@ public final class ObjectHandler {
 					break;
 				}
 		}));
-		Logger.debug(new Object() {}, "Object interaction 1: " + object);
+		Logger.debug(ObjectHandler.class, "handleOption1", "Object interaction 1: " + object);
 	}
 
 	public static void handleOption2(final Player player, final GameObject object) {
@@ -1627,7 +1627,7 @@ public final class ObjectHandler {
 				default:
 					break;
 				}
-			Logger.debug(new Object() {}, "Object interaction 2: " + object);
+			Logger.debug(ObjectHandler.class, "handleOption2", "Object interaction 2: " + object);
 		}));
 	}
 
@@ -1671,7 +1671,7 @@ public final class ObjectHandler {
 			default:
 				break;
 			}
-			Logger.debug(new Object() {}, "Object interaction 3: " + object);
+			Logger.debug(ObjectHandler.class, "handleOption3", "Object interaction 3: " + object);
 		}));
 	}
 
@@ -1691,7 +1691,7 @@ public final class ObjectHandler {
 				player.sendMessage("Nothing interesting happens.");
 				break;
 			}
-			Logger.debug(new Object() {}, "Object interaction 4: " + object);
+			Logger.debug(ObjectHandler.class, "handleOption4", "Object interaction 4: " + object);
 		}));
 	}
 
@@ -1722,7 +1722,7 @@ public final class ObjectHandler {
 					player.sendMessage("Nothing interesting happens.");
 					break;
 				}
-			Logger.debug(new Object() {}, "Object interaction 5: " + object);
+			Logger.debug(ObjectHandler.class, "handleOption5", "Object interaction 5: " + object);
 		}));
 	}
 

@@ -130,11 +130,11 @@ public class CharmDrop {
 
 					charmDrops.put(npcName, new int[] {charmPerc[0], charmPerc[1], charmPerc[2], charmPerc[3]});
 				}
-				Logger.info(new Object() {}, "Parsed " + lineNumber + " lines of NPC charm drops.");
+				Logger.info(CharmDrop.class, "loadCharmDrops", "Parsed " + lineNumber + " lines of NPC charm drops.");
 
 			}
 		} catch (Throwable e) {
-			Logger.handle(new Object() {}, e);
+			Logger.handle(CharmDrop.class, "loadCharmDrops", e);
 		}
 	}
 

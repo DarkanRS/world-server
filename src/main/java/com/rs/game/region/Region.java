@@ -292,7 +292,7 @@ public class Region {
 			if (clip && mapObject != null)
 				unclip(mapObject, localX, localY);
 		} else if (spawned == null) {
-			Logger.info(this, "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
+			Logger.info(Region.class, "spawnObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
 			return;
 		}
 
@@ -327,7 +327,7 @@ public class Region {
 			unclip(object, localX, localY);
 			addRemovedObject(mapObject);
 		} else {
-			Logger.info(this, "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
+			Logger.info(Region.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
 			return;
 		}
 		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
@@ -516,7 +516,7 @@ public class Region {
 		//			}
 		//		}
 		if (landContainerData == null && landArchiveId != -1 && MapXTEAs.getMapKeys(regionId) != null)
-			Logger.info(this, "Missing xteas for region " + regionId + ".");
+			Logger.warn(Region.class, "loadRegionMap", "Missing xteas for region " + regionId + ".");
 	}
 
 	public Set<Integer> getPlayerIndexes() {

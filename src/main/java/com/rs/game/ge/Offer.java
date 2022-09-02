@@ -126,7 +126,7 @@ public class Offer {
 		completedAmount += num;
 		if (completedAmount >= amount) {
 			if (completedAmount > amount)
-				Logger.handle(this, "GE completed amount higher than sale amount: " + this.toString(), null);
+				Logger.handle(Offer.class, "addCompleted", "GE completed amount higher than sale amount: " + this.toString(), null);
 			state = State.FINISHED;
 		}
 	}

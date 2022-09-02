@@ -81,7 +81,7 @@ public class NetTrap extends BoxStyleTrap {
 			this.tree = new OwnedObject(player, tree);
 			treeType = TreeType.fromBase(tree.getId());
 			if (treeType == null)
-				Logger.handle(this, "Tree type null: " + tree, null);
+				Logger.handle(NetTrap.class, "constructor()", "Tree type null: " + tree, null);
 			setIdNoRefresh(treeType.net);
 			setRotation(tree.getRotation());
 		}

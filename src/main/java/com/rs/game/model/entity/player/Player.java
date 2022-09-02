@@ -694,7 +694,7 @@ public class Player extends Entity {
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
 		World.updateEntityRegion(this);
-		Logger.info(this, "Initiated player: " + account.getUsername());
+		Logger.info(Player.class, "init", "Initiated player: " + account.getUsername());
 
 		// Do not delete >.>, useful for security purpose. this wont waste that
 		// much space..
@@ -1022,7 +1022,7 @@ public class Player extends Entity {
 			prayer.processPrayer();
 			controllerManager.process();
 		} catch (Throwable e) {
-			Logger.handle(this, e);
+			Logger.handle(Player.class, "processEntity", e);
 		}
 	}
 	
@@ -1703,7 +1703,7 @@ public class Player extends Entity {
 					else
 						finish(tryCount + 1);
 				} catch (Throwable e) {
-					Logger.handle(this, e);
+					Logger.handle(Player.class, "finish", e);
 				}
 			}, Ticks.fromSeconds(10));
 			return;
@@ -1733,7 +1733,7 @@ public class Player extends Entity {
 			World.removePlayer(this);
 			World.updateEntityRegion(this);
 			WorldDB.getHighscores().save(this);
-			Logger.info(this, "Finished Player: " + getUsername());
+			Logger.info(Player.class, "realFinish", "Finished Player: " + getUsername());
 		});
 		World.updateEntityRegion(this);
 	}

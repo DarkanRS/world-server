@@ -111,7 +111,7 @@ public final class BrimhavenAgilityController extends Controller {
 						addIcon(player);
 				}
 			} catch (Throwable e) {
-				Logger.handle(this, e);
+				Logger.handle(PlayingGame.class, "run", e);
 			}
 		}
 
