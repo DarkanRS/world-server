@@ -57,7 +57,7 @@ public class PumpkinSpawning {
 				spawnPumpkins();
 				World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		}, Ticks.fromSeconds(30), Ticks.fromHours(1));
 	}

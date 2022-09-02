@@ -40,13 +40,14 @@ public class Areas {
 	@SuppressWarnings("unchecked")
 	@ServerStartupEvent
 	public static final void init() throws JsonIOException, IOException {
-		Logger.log("Areas", "Loading areas...");
+		Object ctx = new Object() {};
+		Logger.info(ctx, "Loading areas...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {
 			Set<Integer> area = (Set<Integer>) JsonFileManager.loadJsonFile(f, Set.class);
 			AREAS.put(f.getName().replace(".json", ""), area);
 		}
-		Logger.log("Areas", "Loaded " + AREAS.size() + " areas...");
+		Logger.info(ctx, "Loaded " + AREAS.size() + " areas...");
 	}
 
 	@SuppressWarnings("unlikely-arg-type")

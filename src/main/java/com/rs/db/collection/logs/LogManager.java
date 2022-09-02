@@ -18,8 +18,6 @@ package com.rs.db.collection.logs;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import java.io.CharArrayWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +27,6 @@ import org.bson.Document;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
-import com.rs.Settings;
 import com.rs.game.content.death.GraveStone;
 import com.rs.game.ge.Offer;
 import com.rs.game.model.entity.player.Player;
@@ -71,24 +68,6 @@ public class LogManager extends DBItemManager {
 		} catch(Throwable e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void logError(Throwable throwable) {
-		if (Settings.getConfig().isDebug())
-			throwable.printStackTrace();
-		String stackTrace = throwable.getMessage() + "\r\n";
-		CharArrayWriter cw = new CharArrayWriter();
-		PrintWriter w = new PrintWriter(cw);
-		throwable.printStackTrace(w);
-		w.close();
-		stackTrace += cw.toString();
-		save(new LogEntry(LogEntry.LogType.ERROR, stackTrace.hashCode(), stackTrace));
-	}
-
-	public void logError(String error) {
-		if (Settings.getConfig().isDebug())
-			System.err.println(error);
-		save(new LogEntry(LogEntry.LogType.ERROR, error.hashCode(), error));
 	}
 
 	public void logGE(Offer offer, Offer other, int num, int price) {

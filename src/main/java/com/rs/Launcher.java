@@ -19,6 +19,7 @@ package com.rs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.Date;
 
 import com.google.gson.GsonBuilder;
@@ -56,8 +57,8 @@ public final class Launcher {
 	private static WorldDB DB;
 
 	public static void main(String[] args) throws Exception {
-		System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$s %2$s %5$s%6$s%n");
-		Logger.log("Settings", "Loading config...");
+		Logger.setupFormat();
+		Object ctx = new Object() {};
 		JsonFileManager.setGSON(new GsonBuilder()
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
@@ -67,49 +68,44 @@ public final class Launcher {
 				.disableHtmlEscaping()
 				.setPrettyPrinting()
 				.create());
-
+		
 		Settings.loadConfig();
-
+		
 		long currentTime = System.currentTimeMillis();
 
-		Logger.log("Cache", "Loading cache...");
 		Cache.init(Settings.getConfig().getCachePath());
 
-		Logger.log("XTEAs", "Loading map XTEAs...");
 		MapXTEAs.loadKeys();
 
-		Logger.log("CoresManager", "Initializing world threads...");
 		CoresManager.startThreads();
 
-		Logger.log("GameDecoder", "Initializing packet decoders...");
 		GameDecoder.loadPacketDecoders();
 
-		Logger.log("PluginManager", "Initializing plugins...");
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
 
-		Logger.log("MongoDB", "Connecting to MongoDB and initializing databases...");
 		DB = new WorldDB();
 		DB.init();
 
-		Logger.log("ServerChannelHandler", "Putting server online...");
 		try {
 			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().getPort(), BaseWorldDecoder.class);
 		} catch (Throwable e) {
-			Logger.handle(e);
-			Logger.log("Launcher", "Failed to initialize server channel handler. Shutting down...");
+			Logger.handle(ctx, e);
+			Logger.error(ctx, "Failed to initialize server channel handler. Shutting down...");
 			System.exit(1);
 			return;
 		}
-		Logger.log("Launcher", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
-		Logger.log("Launcher", "Registering world with lobby server...");
-		Logger.log("Launcher", Settings.getConfig().getWorldInfo());
+		Logger.info(ctx, "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
+		Logger.info(ctx, "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().getPort() + "...");
+		Logger.info(ctx, "Player will be directed to "+Settings.getConfig().getWorldInfo()+"...");
+		Logger.info(ctx, "Registering world with lobby server...");
+		Logger.info(ctx, Settings.getConfig().getWorldInfo());
 		new WorldAPI().start();
 		LobbyCommunicator.post(Boolean.class, Settings.getConfig().getWorldInfo(), "addworld", success -> {
 			if (success)
-				Logger.log("Launcher", "Registered world with lobby server...");
+				Logger.info(ctx, "Registered world with lobby server...");
 			else
-				Logger.log("Launcher", "Failed to register world with lobby server...");
+				Logger.error(ctx, "Failed to register world with lobby server... You can still login locally but social features will not work properly.");
 		});
 		addAccountsSavingTask();
 		addCleanMemoryTask();
@@ -130,7 +126,7 @@ public final class Launcher {
 //					PartyRoom.save();
 //					Launcher.shutdown();
 //				} catch (Throwable e) {
-//					Logger.handle(e);
+//					Logger.handle(this, e);
 //				}
 //			}
 //		});
@@ -141,7 +137,7 @@ public final class Launcher {
 			try {
 				cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		}, 0, Ticks.fromMinutes(10));
 	}
@@ -151,7 +147,7 @@ public final class Launcher {
 			try {
 				saveFiles();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 
 		}, Ticks.fromMinutes(15));
@@ -216,7 +212,7 @@ public final class Launcher {
 			} catch (IOException | InterruptedException e) {
 				if (player != null)
 					player.getPackets().sendDevConsoleMessage("Error: " + e.getMessage());
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}

@@ -71,7 +71,7 @@ public class LivingRock extends NPC {
 				if (remainsId == getId())
 					takeRemains();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(this, e);
 			}
 		}, Ticks.fromMinutes(3));
 

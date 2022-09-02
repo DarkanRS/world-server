@@ -36,6 +36,7 @@ import com.rs.lib.model.MemberData;
 import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
 import com.rs.lib.net.packets.decoders.lobby.CCCreate;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
+import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -80,7 +81,7 @@ public class ClansManager {
 		cb.accept(null);
 	}
 	
-	public static void updateClan(Clan clan) {
+	public static void syncClanFromLobby(Clan clan) {
 		CACHED_CLANS.put(clan.getName(), clan);
 		for (String username : clan.getMembers().keySet()) {
 			Player player = World.getPlayerByUsername(username);
@@ -90,8 +91,11 @@ public class ClansManager {
 		}
 	}
 	
-	public static boolean syncClanToLobby(String name) {
-		return LobbyCommunicator.updateClan(CACHED_CLANS.get(name));
+	public static void syncClanToLobby(String name, Runnable done) {
+		LobbyCommunicator.updateClan(CACHED_CLANS.get(name), clan -> {
+			CACHED_CLANS.put(name, clan);
+			done.run();
+		});
 	}
 
 	public static void clanMotto(Player player) {
@@ -353,7 +357,7 @@ public class ClansManager {
 			return;
 		}
 		player.getInterfaceManager().sendInterface(1096);
-		player.setCloseInterfacesEvent(() -> LobbyCommunicator.updateClan(player.getClan()));
+		player.setCloseInterfacesEvent(() -> syncClanToLobby(player.getClan().getName(), () -> player.sendMessage("Saved clan details successfully.")));
 		showClanSettingsClanMates(player);
 		selectPermissionTab(player, 1);
 		player.getPackets().setIFText(1096, 373, "Permissions are currently disabled and set to default.");
@@ -406,7 +410,10 @@ public class ClansManager {
 	}
 	
 	public static void openClanDetails(Player player, Player inviter, Clan clan) {
-		LobbyCommunicator.updateClanGuest(player.getUsername(), clan);
+		if (clan.getUpdateBlock() == null) {
+			player.sendMessage("Error loading clan update block.");
+			return;
+		}
 		player.getInterfaceManager().sendInterface(1107);
 		if (clan.getMotto() != null)
 			player.getPackets().setIFText(1107, 88, clan.getMotto());
@@ -424,6 +431,7 @@ public class ClansManager {
 			player.getPackets().setIFText(1107, 92, inviter.getDisplayName());
 		else
 			player.getPackets().setIFHidden(1107, 90, true);
+		player.getSession().write(new ClanSettingsFull(clan.getUpdateBlock(), true));
 	}
 	
 //	public static void openNationalFlagInterface(Player player) {
@@ -456,14 +464,14 @@ public class ClansManager {
 		player.getVars().setVarBit(9087, player.getClan().getMottifBottom() + 1);
 		for (int i = 0; i < player.getClan().getMottifColors().length; i++)
 			player.getVars().setVar(2094 + i, player.getClan().getMottifColors()[i]);
-		player.setCloseInterfacesEvent(() -> LobbyCommunicator.updateClan(player.getClan()));
+		player.setCloseInterfacesEvent(() -> syncClanToLobby(player.getClan().getName(), () -> player.sendMessage("Saved clan details successfully.")));
 	}
 
 	public static void openSetMottifColor(Player player, int part) {
 		player.getInterfaceManager().sendInterface(1106);
 		player.sendInputHSL(color -> {
 			player.getClan().setMottifColour(part, color);
-			LobbyCommunicator.updateClan(player.getClan());
+			syncClanToLobby(player.getClan().getName(), () -> player.sendMessage("Saved clan details successfully."));
 			openClanMottifInterface(player);
 		});
 	}

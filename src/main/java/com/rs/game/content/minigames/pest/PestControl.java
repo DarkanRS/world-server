@@ -72,7 +72,7 @@ public class PestControl {
 					sendPortalInterfaces();
 				seconds--;
 			} catch (Exception e) {
-				Logger.handle(e);
+				Logger.handle(this, e);
 			}
 		}
 	}

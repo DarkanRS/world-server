@@ -38,7 +38,7 @@ public class StealingCreationManager {
 					try {
 						processWatcher();
 					} catch (Throwable e) {
-						Logger.handle(e);
+						Logger.handle(this, e);
 					}
 				}
 			}, 0, 1);

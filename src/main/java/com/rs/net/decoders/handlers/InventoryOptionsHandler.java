@@ -16,7 +16,6 @@
 //
 package com.rs.net.decoders.handlers;
 
-import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -76,6 +75,8 @@ import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropTable;
 
 public class InventoryOptionsHandler {
+	
+	private static Object CTX;
 	
 	public static boolean handleItemOnItem(Player player, Item used, Item usedWith, int fromSlot, int toSlot) {
 		int usedId = used.getId(), usedWithId = usedWith.getId();
@@ -231,8 +232,7 @@ public class InventoryOptionsHandler {
 			GemTipCutting.cut(player, GemTips.ONYX);
 		else if (PluginManager.handle(new ItemOnItemEvent(player, used.setSlot(fromSlot), usedWith.setSlot(toSlot))))
 			return true;
-		if (Settings.getConfig().isDebug())
-			Logger.log("ItemHandler", "Used:" + used.getId() + ", With:" + usedWith.getId());
+		Logger.debug(CTX, "Used:" + used.getId() + ", With:" + usedWith.getId());
 		return false;
 	}
 	

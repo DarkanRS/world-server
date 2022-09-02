@@ -259,7 +259,7 @@ public class PartyRoom {
 				isDropping = false;
 				timer = -1;
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		}, Ticks.fromMinutes(2));
 	}

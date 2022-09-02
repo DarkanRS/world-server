@@ -69,7 +69,7 @@ public class WorldAPI extends WebAPI {
 					return;
 				}
 				APIUtil.readJSON(ex, Clan.class, clan -> {
-					ClansManager.updateClan(clan);
+					ClansManager.syncClanFromLobby(clan);
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
 				});
 			});

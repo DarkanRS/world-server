@@ -19,7 +19,7 @@ package com.rs.plugin;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import com.rs.db.WorldDB;
+import com.rs.lib.util.Logger;
 import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.PluginHandler;
 
@@ -42,7 +42,7 @@ public class PluginMethodRepository {
 				method.handle(event);
 				return true;
 			} catch (Exception e) {
-				WorldDB.getLogs().logError(e);
+				Logger.handle(event, e);
 				return false;
 			}
 		List<PluginHandler<? extends PluginEvent>> methods = event.getMethods();
@@ -53,7 +53,7 @@ public class PluginMethodRepository {
 				PluginHandler<PluginEvent> pHandle = (PluginHandler<PluginEvent>) m;
 				pHandle.handle(event);
 			} catch (Exception e) {
-				WorldDB.getLogs().logError(e);
+				Logger.handle(event, e);
 				return false;
 			}
 		return true;
@@ -72,7 +72,7 @@ public class PluginMethodRepository {
 					PluginHandler<PluginEvent> pHandle = (PluginHandler<PluginEvent>) m;
 					obj = pHandle.getObj(event);
 				} catch (Exception e) {
-					WorldDB.getLogs().logError(e);
+					Logger.handle(event, e);
 					return null;
 				}
 			return obj;
@@ -82,7 +82,7 @@ public class PluginMethodRepository {
 			if (obj != null)
 				return obj;
 		} catch (Exception e) {
-			WorldDB.getLogs().logError(e);
+			Logger.handle(event, e);
 			return null;
 		}
 		return null;

@@ -1535,8 +1535,7 @@ public final class ObjectHandler {
 					break;
 				}
 		}));
-		if (Settings.getConfig().isDebug())
-			Logger.log("ObjectHandler", "clicked 1 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", " + object.getPlane());
+		Logger.debug(new Object() {}, "Object interaction 1: " + object);
 	}
 
 	public static void handleOption2(final Player player, final GameObject object) {
@@ -1628,14 +1627,12 @@ public final class ObjectHandler {
 				default:
 					break;
 				}
-			if (Settings.getConfig().isDebug())
-				Logger.log("ObjectHandler", "clicked 2 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", " + object.getPlane());
+			Logger.debug(new Object() {}, "Object interaction 2: " + object);
 		}));
 	}
 
 	public static void handleOption3(final Player player, final GameObject object) {
 		final ObjectDefinitions def = object.getDefinitions(player);
-		final int id = object.getId();
 
 		if (!def.containsOption(2) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP3, false)))
 			return;
@@ -1674,14 +1671,12 @@ public final class ObjectHandler {
 			default:
 				break;
 			}
-			if (Settings.getConfig().isDebug())
-				Logger.log("ObjectHandler", "cliked 3 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", " + object.getPlane() + ", ");
+			Logger.debug(new Object() {}, "Object interaction 3: " + object);
 		}));
 	}
 
 	public static void handleOption4(final Player player, final GameObject object) {
 		final ObjectDefinitions def = object.getDefinitions(player);
-		final int id = object.getId();
 
 		if (!def.containsOption(3) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP4, false)))
 			return;
@@ -1696,8 +1691,7 @@ public final class ObjectHandler {
 				player.sendMessage("Nothing interesting happens.");
 				break;
 			}
-			if (Settings.getConfig().isDebug())
-				Logger.log("ObjectHandler", "cliked 4 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", " + object.getPlane() + ", ");
+			Logger.debug(new Object() {}, "Object interaction 4: " + object);
 		}));
 	}
 
@@ -1728,8 +1722,7 @@ public final class ObjectHandler {
 					player.sendMessage("Nothing interesting happens.");
 					break;
 				}
-			if (Settings.getConfig().isDebug())
-				Logger.log("ObjectHandler", "cliked 5 at object id : " + id + ", " + object.getX() + ", " + object.getY() + ", " + object.getPlane() + ", ");
+			Logger.debug(new Object() {}, "Object interaction 5: " + object);
 		}));
 	}
 

@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.rs.db.WorldDB;
 import com.rs.game.content.skills.smithing.ArtisansWorkshop;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Logger;
@@ -55,13 +54,14 @@ public class PluginManager {
 
 	public static void loadPlugins() {
 		try {
+			Object ctx = new Object() {};
 			long start = System.currentTimeMillis();
-			Logger.log("PluginManager", "Loading plugins...");
+			Logger.info(ctx, "Loading plugins...");
 			List<Class<?>> eventTypes = Utils.getClasses("com.rs.plugin.events");
 			List<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs", PluginEventHandler.class);
 			Set<Method> visitedMethods = new HashSet<>();
 			Set<Field> visitedFields = new HashSet<>();
-			Logger.log("PluginManager", "Loading " + eventTypes.size() + " event types and " + classes.size() + " plugin enabled classes.");
+			Logger.info(ctx, "Loading " + eventTypes.size() + " event types and " + classes.size() + " plugin enabled classes.");
 			int handlers = 0;
 			for (Class<?> clazz : classes) {
 				for (Method method : clazz.getMethods()) {
@@ -99,7 +99,7 @@ public class PluginManager {
 					handlers += processField(field, eventTypes);
 				}
 			}
-			Logger.log("PluginManager", "Loaded " + handlers + " plugin event handlers in " + (System.currentTimeMillis()-start) + "ms.");
+			Logger.info(ctx, "Loaded " + handlers + " plugin event handlers in " + (System.currentTimeMillis()-start) + "ms.");
 		} catch (ClassNotFoundException | IOException | IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
@@ -168,7 +168,7 @@ public class PluginManager {
 			}
 			long time = System.currentTimeMillis() - start;
 			if (time > 100L)
-				Logger.log(m.getDeclaringClass().getSimpleName(), "Executed " + m.getName() + " in " + time + "ms...");
+				Logger.info(new Object() {}, m.getDeclaringClass().getSimpleName() + ": Executed " + m.getName() + " in " + time + "ms...");
 		}
 	}
 
@@ -204,7 +204,7 @@ public class PluginManager {
 		try {
 			return (boolean) method.invoke(null, event);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			WorldDB.getLogs().logError(e);
+			Logger.handle(method, e);
 		}
 		return false;
 	}

@@ -443,7 +443,7 @@ public class StealingCreationGameController {
 						try {
 							area.destroy();
 						} catch (Throwable e) {
-							Logger.handle(e);
+							Logger.handle(this, e);
 						}
 					}, 2);
 				}

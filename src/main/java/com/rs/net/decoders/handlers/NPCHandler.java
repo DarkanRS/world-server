@@ -90,8 +90,7 @@ public class NPCHandler {
 				ops.add("Show drops (10,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 10000));
 				ops.add("Nevermind");
 			});
-		if (Settings.getConfig().isDebug())
-			Logger.log("NPCHandler", "examined npc: " + npc.getIndex() + ", " + npc.getId());
+		Logger.debug("NPCHandler", "Examined NPC: " + npc.getIndex() + ", " + npc.getId());
 	}
 
 	public static void handleOption1(final Player player, final NPC npc) {

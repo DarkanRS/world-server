@@ -63,7 +63,8 @@ public final class ItemSpawns {
 
 	@ServerStartupEvent
 	public static final void init() throws JsonIOException, IOException {
-		Logger.log("ItemSpawns", "Loading item spawns...");
+		Object ctx = new Object() {};
+		Logger.info(ctx, "Loading item spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {
 			ItemSpawn[] spawns = (ItemSpawn[]) JsonFileManager.loadJsonFile(f, ItemSpawn[].class);
@@ -78,7 +79,7 @@ public final class ItemSpawns {
 						ITEM_SPAWNS.put(spawn.getTile().getRegionId(), regionSpawns);
 					}
 		}
-		Logger.log("ItemSpawns", "Loaded " + ALL_SPAWNS.size() + " item spawns...");
+		Logger.info(ctx, "Loaded " + ALL_SPAWNS.size() + " item spawns...");
 	}
 
 	public static final void loadItemSpawns(int regionId) {

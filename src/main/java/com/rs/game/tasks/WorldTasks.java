@@ -35,7 +35,7 @@ public class WorldTasks {
 			try {
 				task.getTask().run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(task, e);
 			}
 			if (task.getTask().needRemove)
 				TASKS.remove(task);

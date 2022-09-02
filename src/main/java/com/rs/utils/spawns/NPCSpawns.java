@@ -61,7 +61,8 @@ public final class NPCSpawns {
 
 	@ServerStartupEvent
 	public static final void init() throws JsonIOException, IOException {
-		Logger.log("NPCSpawns", "Loading NPC spawns...");
+		Object ctx = new Object() {};
+		Logger.info(ctx, "Loading NPC spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {
 			if (f.getName().startsWith("_"))
@@ -72,7 +73,7 @@ public final class NPCSpawns {
 					if (spawn != null)
 						add(spawn);
 		}
-		Logger.log("NPCSpawns", "Loaded " + ALL_SPAWNS.size() + " NPC spawns...");
+		Logger.info(ctx, "Loaded " + ALL_SPAWNS.size() + " NPC spawns...");
 	}
 
 	public static void add(NPCSpawn spawn) {

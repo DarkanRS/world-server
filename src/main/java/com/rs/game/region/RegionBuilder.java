@@ -290,7 +290,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}
@@ -341,7 +341,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		}, 8);
 	}
@@ -372,7 +372,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}
@@ -395,7 +395,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}
@@ -433,7 +433,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}
@@ -468,7 +468,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}
@@ -484,7 +484,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}
@@ -515,7 +515,7 @@ public final class RegionBuilder {
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(new Object() {}, e);
 			}
 		});
 	}

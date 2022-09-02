@@ -18,6 +18,7 @@ package com.rs.game.content.world.areas;
 
 import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
 
+import com.rs.game.content.ItemConstants;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.dialogue.Conversation;
@@ -31,10 +32,12 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -46,6 +49,13 @@ public class Lumbridge {
 
 	public static final String WHEAT_DEPOSITED = "wheatInMill";
 	public static final String WHEAT_GRINDED = "wheatGrinded";
+	
+	public static ItemOnNPCHandler handleBobRepairs = new ItemOnNPCHandler(519) {
+		@Override
+		public void handle(ItemOnNPCEvent e) {
+			ItemConstants.handleRepairs(e.getPlayer(), e.getItem(), false, e.getItem().getSlot());
+		}
+	};
 
 	public static NPCClickHandler handleExplorerJack = new NPCClickHandler(new Object[] { 7969 }) {
 		@Override

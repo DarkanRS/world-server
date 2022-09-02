@@ -694,8 +694,7 @@ public class Player extends Entity {
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
 		World.updateEntityRegion(this);
-		if (Settings.getConfig().isDebug())
-			Logger.log(this, "Initiated player: " + account.getUsername());
+		Logger.info(this, "Initiated player: " + account.getUsername());
 
 		// Do not delete >.>, useful for security purpose. this wont waste that
 		// much space..
@@ -1023,7 +1022,7 @@ public class Player extends Entity {
 			prayer.processPrayer();
 			controllerManager.process();
 		} catch (Throwable e) {
-			WorldDB.getLogs().logError(e);
+			Logger.handle(this, e);
 		}
 	}
 	
@@ -1704,7 +1703,7 @@ public class Player extends Entity {
 					else
 						finish(tryCount + 1);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(this, e);
 				}
 			}, Ticks.fromSeconds(10));
 			return;
@@ -1734,8 +1733,7 @@ public class Player extends Entity {
 			World.removePlayer(this);
 			World.updateEntityRegion(this);
 			WorldDB.getHighscores().save(this);
-			if (Settings.getConfig().isDebug())
-				Logger.log(this, "Finished Player: " + getUsername());
+			Logger.info(this, "Finished Player: " + getUsername());
 		});
 		World.updateEntityRegion(this);
 	}
@@ -3797,6 +3795,9 @@ public class Player extends Entity {
 	
 	public void markTile(WorldTile tile) {
 		getPackets().sendAddObject(new GameObject(21777, ObjectType.GROUND_DECORATION, 0, tile));
+		//model 4162 = orange square
+		//model 2636 = white dot?
+		
 	}
 	
 	public void updateTilemanTiles() {

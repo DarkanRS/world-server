@@ -113,7 +113,6 @@ public final class Inventory {
 				if (!e.getPlayer().getInventory().containsItem(item.getId(), item.getAmount()))
 					return;
 				e.getPlayer().faceEntity(e.getTarget());
-				System.out.println();
 				PluginManager.handle(new ItemOnPlayerEvent(e.getPlayer(), e.getTarget(), item, true));
 			}));
 		}
@@ -126,7 +125,7 @@ public final class Inventory {
 			if (item == null)
 				return;
 			e.getPlayer().stopAll(false);
-			if (PluginManager.handle(new ItemOnNPCEvent(e.getPlayer(), e.getTarget(), item, false)))
+			if (PluginManager.handle(new ItemOnNPCEvent(e.getPlayer(), e.getTarget(), item.setSlot(e.getSlotId()), false)))
 				return;
 			Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(e.getPlayer(), e.getTarget()));
 			int distance = 0;
@@ -139,10 +138,6 @@ public final class Inventory {
 				e.getPlayer().faceEntity(e.getTarget());
 				
 				//TODO move this block to plugins after mapping NPC ids support
-				if (e.getTarget().getId() == 519) {
-					ItemConstants.handleRepairs(e.getPlayer(), item, false, e.getSlotId());
-					return;
-				}
 				if (e.getTarget() instanceof Familiar f && f.getPouch() == Pouch.GEYSER_TITAN) {
 					if (e.getTarget().getId() == 7339 || e.getTarget().getId() == 7339)
 						if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {

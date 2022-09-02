@@ -78,7 +78,7 @@ public class NPCCombatDefMerger {
 			for (File f : files)
 				loadFile(f, ORIGINAL);
 		} catch (Throwable e) {
-			Logger.handle(e);
+			Logger.handle(new Object() {}, e);
 		}
 	}
 
