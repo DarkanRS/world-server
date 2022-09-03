@@ -12,6 +12,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.Clan;
+import com.rs.lib.util.RSColor;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -55,7 +56,7 @@ public class ClanVexillum extends OwnedNPC {
 					ops.add("No, leave it.");
 				});
 			} else {
-				ClansManager.openClanDetails(e.getPlayer(), null, vex.clan);
+				ClansManager.openClanDetails(e.getPlayer(), vex.getOwner(), vex.clan);
 			}
 		}
 	};
@@ -106,10 +107,12 @@ public class ClanVexillum extends OwnedNPC {
 		setHidden(false);
 		setFaceAngle(getOwner().getDirection().getAngle());
 		anim(3495);
+		RSColor primary = RSColor.fromHSL(clan.getMotifColors()[2]);
+		RSColor secondary = RSColor.fromHSL(clan.getMotifColors()[3]);
 		modifyMesh()
 			.setModel(0, getOwner().hasRights(Rights.DEVELOPER) ? 64928 : -1) //t5 citadel
-			.addColors(clan.getMottifColors()[0], clan.getMottifColors()[1], clan.getMottifColors()[2]-20, clan.getMottifColors()[2]-16, clan.getMottifColors()[2]-12, clan.getMottifColors()[2]-8, clan.getMottifColors()[2]-4, clan.getMottifColors()[2], clan.getMottifColors()[3]-20, clan.getMottifColors()[3]-16, clan.getMottifColors()[3]-12, clan.getMottifColors()[3]-8, clan.getMottifColors()[3]-4, clan.getMottifColors()[3])
-			.addTextures(clan.getMottifTextures()[0], clan.getMottifTextures()[1]);
+			.addColors(clan.getMotifColors()[0], clan.getMotifColors()[1], primary.adjustLuminance(20).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(20).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue())
+			.addTextures(clan.getMotifTextures()[0], clan.getMotifTextures()[1]);
 	}
 
 	@Override

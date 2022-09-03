@@ -17,6 +17,7 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -147,8 +148,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 			break;
 		case PLAYER_OP9:
 			player.stopAll();
-			// player.getSlayerManager().invitePlayer(p2);
-			//ClansManager.viewInvite(player, target); //TODO
+			ClansManager.openClanDetails(player, target, target.getClan());
 			break;
 		case PLAYER_OP10:
 			break;

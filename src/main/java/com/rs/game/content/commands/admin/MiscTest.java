@@ -71,6 +71,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
+import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -216,13 +217,13 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "drcor [r, g, b]", "Set equipment color override", (p, args) -> {
 			if (p.getEquipment().get(Equipment.CHEST) != null)
-				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			if (p.getEquipment().get(Equipment.LEGS) != null)
-				p.getEquipment().get(Equipment.LEGS).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.LEGS).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			if (p.getEquipment().get(Equipment.SHIELD) != null)
-				p.getEquipment().get(Equipment.SHIELD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.SHIELD).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			if (p.getEquipment().get(Equipment.HEAD) != null)
-				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			p.getAppearance().generateAppearanceData();
 		});
 		
@@ -536,6 +537,11 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
 			p.getNSV().setB("infPrayer", !p.getNSV().getB("infPrayer"));
 			p.sendMessage("INFINITE PRAYER: " + p.getNSV().getB("infPrayer"));
+		});
+		
+		Commands.add(Rights.ADMIN, "infrun", "Toggles infinite run for the player.", (p, args) -> {
+			p.getNSV().setB("infRun", !p.getNSV().getB("infRun"));
+			p.sendMessage("INFINITE RUN: " + p.getNSV().getB("infRun"));
 		});
 
 		Commands.add(Rights.ADMIN, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
