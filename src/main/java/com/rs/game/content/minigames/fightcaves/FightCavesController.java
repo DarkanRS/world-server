@@ -144,7 +144,7 @@ public class FightCavesController extends Controller {
 					WorldTile walkTo = getWorldTile(32, 32);
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
 				}
-				center = new WorldTile(player.getTile());
+				center = new WorldTile(getWorldTile(32, 32));
 				player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "You're on your own now, JalYt.<br>Prepare to fight for your life!");
 				player.setForceMultiArea(true);
 				playMusic();
