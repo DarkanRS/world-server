@@ -4425,7 +4425,6 @@ public class Player extends Entity {
 	
 	private void checkWasInDynamicRegion() {
 		if (lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
-			sendMessage("YIKES");
 			setNextWorldTile(new WorldTile(lastNonDynamicTile));
 			clearLastNonDynamicTile();
 		}
