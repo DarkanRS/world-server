@@ -37,6 +37,7 @@ public class GameObject extends WorldObject {
 	}
 
 	protected RouteType routeType = RouteType.NORMAL;
+	private ObjectMeshModifier meshModifier;
 
 	public GameObject(int id, ObjectType type, int rotation, WorldTile tile) {
 		super(id, type, rotation, tile);
@@ -85,6 +86,12 @@ public class GameObject extends WorldObject {
 			WorldTasks.remove(respawnTask);
 		return this;
 	}
+	
+	public ObjectMeshModifier modifyMesh() {
+		this.meshModifier = new ObjectMeshModifier(this);
+		World.refreshObject(this);
+		return this.meshModifier;
+	}
 
 	public void setIdTemporary(int id, int ticks) {
 		if (this.id == id)
@@ -118,5 +125,9 @@ public class GameObject extends WorldObject {
 
 	public GenericAttribMap getAttribs() {
 		return attribs;
+	}
+
+	public ObjectMeshModifier getMeshModifier() {
+		return meshModifier;
 	}
 }

@@ -33,7 +33,6 @@ public class JadCombat extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {
-
 		return new Object[] { 2745, 15208 };
 	}
 

@@ -51,7 +51,7 @@ public class FightCavesController extends Controller {
 		player.getMusicsManager().playSongAndUnlock(selectedMusic);
 	}
 
-	private final int[][] WAVES = { { 2734 }, { 2734, 2734 }, { 2736 }, { 2736, 2734 }, { 2736, 2734, 2734 }, { 2736, 2736 }, { 2739 }, { 2739, 2734 }, { 2739, 2734, 2734 }, { 2739, 2736 }, { 2739, 2736, 2734 }, { 2739, 2736, 2734, 2734 }, { 2739, 2736, 2736 }, { 2739, 2739 }, { 2741 }, { 2741, 2734 }, { 2741, 2734, 2734 }, { 2741, 2736 }, { 2741, 2736, 2734 }, { 2741, 2736, 2734, 2734 }, { 2741, 2736, 2736 }, { 2741, 2739 }, { 2741, 2739, 2734 }, { 2741, 2739, 2734, 2734 },
+	private static final int[][] WAVES = { { 2734 }, { 2734, 2734 }, { 2736 }, { 2736, 2734 }, { 2736, 2734, 2734 }, { 2736, 2736 }, { 2739 }, { 2739, 2734 }, { 2739, 2734, 2734 }, { 2739, 2736 }, { 2739, 2736, 2734 }, { 2739, 2736, 2734, 2734 }, { 2739, 2736, 2736 }, { 2739, 2739 }, { 2741 }, { 2741, 2734 }, { 2741, 2734, 2734 }, { 2741, 2736 }, { 2741, 2736, 2734 }, { 2741, 2736, 2734, 2734 }, { 2741, 2736, 2736 }, { 2741, 2739 }, { 2741, 2739, 2734 }, { 2741, 2739, 2734, 2734 },
 			{ 2741, 2739, 2736 }, { 2741, 2739, 2736, 2734 }, { 2741, 2739, 2736, 2734, 2734 }, { 2741, 2739, 2736, 2736 }, { 2741, 2739, 2739 }, { 2741, 2741 }, { 2743 }, { 2743, 2734 }, { 2743, 2734, 2734 }, { 2743, 2736 }, { 2743, 2736, 2734 }, { 2743, 2736, 2734, 2734 }, { 2743, 2736, 2736 }, { 2743, 2739 }, { 2743, 2739, 2734 }, { 2743, 2739, 2734, 2734 }, { 2743, 2739, 2736 }, { 2743, 2739, 2736, 2734 }, { 2743, 2739, 2736, 2734, 2734 }, { 2743, 2739, 2736, 2736 }, { 2743, 2739, 2739 },
 			{ 2743, 2741 }, { 2743, 2741, 2734 }, { 2743, 2741, 2734, 2734 }, { 2743, 2741, 2736 }, { 2743, 2741, 2736, 2734 }, { 2743, 2741, 2736, 2734, 2734 }, { 2743, 2741, 2736, 2736 }, { 2743, 2741, 2739 }, { 2743, 2741, 2739, 2734 }, { 2743, 2741, 2739, 2734, 2734 }, { 2743, 2741, 2739, 2736 }, { 2743, 2741, 2739, 2736, 2734 }, { 2743, 2741, 2739, 2736, 2734, 2734 }, { 2743, 2741, 2739, 2736, 2736 }, { 2743, 2741, 2739, 2739 }, { 2743, 2741, 2741 }, { 2743, 2743 }, { 2745 } };
 
@@ -84,6 +84,11 @@ public class FightCavesController extends Controller {
 	@Override
 	public void start() {
 		loadCave(false);
+	}
+	
+	@Override
+	public boolean reenableDynamicRegion() {
+		return true;
 	}
 
 	@Override
@@ -139,25 +144,26 @@ public class FightCavesController extends Controller {
 					WorldTile walkTo = getWorldTile(32, 32);
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
 				}
-				center = new WorldTile(player.getTile());
+				center = new WorldTile(getWorldTile(32, 32));
 				player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "You're on your own now, JalYt.<br>Prepare to fight for your life!");
 				player.setForceMultiArea(true);
 				playMusic();
 				player.unlock(); // unlocks player
-			});
-			if (!login)
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						if (stage != Stages.RUNNING)
-							return;
-						try {
-							startWave();
-						} catch (Throwable t) {
-							Logger.handle(FightCavesController.class, "loadCave", t);
+				if (!login) {
+					WorldTasks.schedule(new WorldTask() {
+						@Override
+						public void run() {
+							if (stage != Stages.RUNNING)
+								return;
+							try {
+								startWave();
+							} catch (Throwable t) {
+								Logger.handle(FightCavesController.class, "loadCave", t);
+							}
 						}
-					}
-				}, Ticks.fromSeconds(30));
+					}, Ticks.fromSeconds(30));
+				}
+			});
 		});
 	}
 
