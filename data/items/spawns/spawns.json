@@ -3320,8 +3320,8 @@
     }
   },
   {
-    "comment": "Empty jug",
-    "itemId": 3732,
+    "comment": "Jug",
+    "itemId": 1935,
     "amount": 1,
     "tile": {
       "x": 3211,
@@ -4250,8 +4250,8 @@
     }
   },
   {
-    "comment": "Empty jug",
-    "itemId": 3732,
+    "comment": "Jug",
+    "itemId": 1935,
     "amount": 1,
     "tile": {
       "x": 3271,

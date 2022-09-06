@@ -38,7 +38,7 @@ public class FairyRings {
 	private final static int FIRST_GRAPHICS = 2670, SECOND_GRAPHICS = 2671;
 
 	public static enum Ring {
-		DLS(77, "Dungeons: Myreque hideout", new WorldTile(3501, 9821, 0)) {
+		DLS(77, "Dungeons: Myreque hideout", new WorldTile(3501, 9821, 3)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.IN_SEARCH_OF_MYREQUE, silent ? null : "to use this fairy ring code.");

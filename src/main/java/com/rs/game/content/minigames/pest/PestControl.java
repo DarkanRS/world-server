@@ -108,7 +108,7 @@ public class PestControl {
 	}
 
 	public boolean createPestNPC(int index) {
-		if (pestCounts[index] >= (index == 4 ? 4 : (portals[index] != null && portals[index].isLocked()) ? 5 : 15))
+		if (region == null || pestCounts[index] >= (index == 4 ? 4 : (portals[index] != null && portals[index].isLocked()) ? 5 : 15))
 			return false;
 		pestCounts[index]++;
 		WorldTile baseTile = getWorldTile(PORTAL_LOCATIONS[0][index], PORTAL_LOCATIONS[1][index]);
