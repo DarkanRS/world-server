@@ -275,8 +275,8 @@ public class Appearance {
 			case 20709:
 				if (player.getClan() != null)
 					modifiers.add(new ItemMeshModifier(defs, slotFlag)
-							.addColors(player.getClan().getMottifColors())
-							.addTextures(player.getClan().getMottifTextures()));
+							.addColors(player.getClan().getMotifColors())
+							.addTextures(player.getClan().getMotifTextures()));
 				break;
 			}
 

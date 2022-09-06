@@ -19,12 +19,12 @@ package com.rs.net.decoders.handlers.impl.clan;
 import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
-import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
+import com.rs.lib.net.packets.decoders.lobby.ClanCheckName;
 
-public class CCCheckNameHandler implements PacketHandler<Player, CCCheckName> {
+public class ClanCheckNameHandler implements PacketHandler<Player, ClanCheckName> {
 
 	@Override
-	public void handle(Player player, CCCheckName packet) {
+	public void handle(Player player, ClanCheckName packet) {
 		if (packet.isApproved())
 			ClansManager.create(player, packet.getName());
 		else

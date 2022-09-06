@@ -1015,7 +1015,7 @@ public class DungeonManager {
 	}
 
 	public void setWorldMap(Player player, boolean dungIcon) {
-		player.getVars().setVarBit(11297, dungIcon ? 1 : 0);
+		player.getVars().setVarBit(6090, dungIcon ? 1 : 0);
 	}
 
 	public void endFarming() {

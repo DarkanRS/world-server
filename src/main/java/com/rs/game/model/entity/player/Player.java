@@ -1223,6 +1223,8 @@ public class Player extends Entity {
 	}
 
 	public void drainRunEnergy(double energy) {
+		if (getNSV().getB("infRun"))
+			return;
 		if ((runEnergy - energy) < 0.0)
 			runEnergy = 0.0;
 		else
@@ -1976,6 +1978,11 @@ public class Player extends Entity {
 	}
 
 	public void setRunEnergy(double runEnergy) {
+		if (getNSV().getB("infRun")) {
+			this.runEnergy = 100.0;
+			getPackets().sendRunEnergy(this.runEnergy);
+			return;
+		}
 		this.runEnergy = runEnergy;
 		if (this.runEnergy < 0.0)
 			this.runEnergy = 0.0;
@@ -3886,6 +3893,7 @@ public class Player extends Entity {
 	public void processPackets() {
 		Packet packet;
 		while ((packet = session.getPacketQueue().poll()) != null) {
+			//Logger.trace(Player.class, "processPackets", "Packet processed: " + packet.getOpcode());
 			if (hasStarted() && packet.getOpcode() != ClientPacket.IF_CONTINUE && packet.getOpcode() != ClientPacket.IF_OP1 && !isChosenAccountType())
 				continue;
 			PacketHandler<Player, Packet> handler = PacketHandlers.getHandler(packet.getOpcode());
@@ -4416,7 +4424,7 @@ public class Player extends Entity {
 	}
 	
 	private void checkWasInDynamicRegion() {
-		if (lastNonDynamicTile != null) {
+		if (lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
 			setNextWorldTile(new WorldTile(lastNonDynamicTile));
 			clearLastNonDynamicTile();
 		}
