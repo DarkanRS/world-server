@@ -148,7 +148,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 			break;
 		case PLAYER_OP9:
 			player.stopAll();
-			ClansManager.openClanDetails(player, target, target.getClan());
+			ClansManager.openClanInvite(player, target, target.getClan());
 			break;
 		case PLAYER_OP10:
 			break;

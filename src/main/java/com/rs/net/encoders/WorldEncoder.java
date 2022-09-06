@@ -27,6 +27,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.model.object.ObjectMeshModifier;
 import com.rs.game.region.DynamicRegion;
 import com.rs.game.region.Region;
 import com.rs.lib.game.Animation;
@@ -359,11 +360,13 @@ public class WorldEncoder extends Encoder {
 	public void sendAddObject(GameObject object) {
 		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
 		session.writeToQueue(new AddObject(object));
+		if (object.getMeshModifier() != null)
+			sendCustomizeObject(object.getMeshModifier());
 	}
 
-	public void sendCustomizeObject(GameObject object, int[] modifiedModels, int[] modifiedColors, int[] modifiedTextures) {
-		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
-		session.writeToQueue(new CustomizeObject(object, modifiedModels, modifiedColors, modifiedTextures));
+	public void sendCustomizeObject(ObjectMeshModifier modifier) {
+		session.writeToQueue(new UpdateZoneFullFollows(modifier.getObject(), player.getSceneBaseChunkId()));
+		session.writeToQueue(new CustomizeObject(modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
 	}
 
 	public void sendMessage(MessageType type, String text, Player p) {

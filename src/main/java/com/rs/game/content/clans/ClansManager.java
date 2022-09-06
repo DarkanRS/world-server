@@ -30,9 +30,12 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.model.Clan;
 import com.rs.lib.model.ClanSetting;
 import com.rs.lib.model.MemberData;
-import com.rs.lib.net.packets.decoders.lobby.CCCheckName;
-import com.rs.lib.net.packets.decoders.lobby.CCCreate;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
+import com.rs.lib.net.packets.decoders.lobby.CCLeave;
+import com.rs.lib.net.packets.decoders.lobby.ClanAddMember;
+import com.rs.lib.net.packets.decoders.lobby.ClanCheckName;
+import com.rs.lib.net.packets.decoders.lobby.ClanCreate;
+import com.rs.lib.net.packets.decoders.lobby.ClanLeave;
 import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
@@ -121,7 +124,7 @@ public class ClansManager {
 
 	public static void create(Player player, String name) {
 		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", ops -> {
-			ops.add("Yes, create " + name + ".", () -> LobbyCommunicator.forwardPacket(player, new CCCreate(name), cb -> { }));
+			ops.add("Yes, create " + name + ".", () -> LobbyCommunicator.forwardPacket(player, new ClanCreate(name), cb -> { }));
 			ops.add("No, I want to pick another name.");
 			return;
 		});
@@ -130,11 +133,11 @@ public class ClansManager {
 	public static void promptName(Player player) {
 		player.sendInputName("Which name would you like for your clan?", name -> {
 			if (player.getTempAttribs().getB("ccCreateLock")) {
-				player.simpleDialogue("Your previous request to create a clan is still in progress... Please wait.");
+				player.simpleDialogue("Your previous request to create a clan is still in progress... Please wait or relog.");
 				return;
 			}
 			player.getTempAttribs().setB("ccCreateLock", true);
-			LobbyCommunicator.forwardPacket(player, new CCCheckName(name, false), cb -> {
+			LobbyCommunicator.forwardPacket(player, new ClanCheckName(name, false), cb -> {
 				player.getTempAttribs().removeB("ccCreateLock");
 			});
 		});
@@ -147,13 +150,13 @@ public class ClansManager {
 			switch(e.getComponentId()) {
 			case 82 -> {
 				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
-					leaveChannel(e.getPlayer(), null);
+					leaveChannel(e.getPlayer(), false);
 				else
 					joinChannel(e.getPlayer(), null);
 			}
 			case 91 -> {
 				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
-					leaveChannel(e.getPlayer(), e.getPlayer().getSocial().getGuestedClanChat());
+					leaveChannel(e.getPlayer(), true);
 				else
 					e.getPlayer().sendInputName("Which clan chat would you like to join?",
 							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
@@ -263,11 +266,31 @@ public class ClansManager {
 				e.getPlayer().stopAll();
 		}
 	};
-
+	
 	public static ButtonClickHandler handleCloseButton = new ButtonClickHandler(1079) {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			e.getPlayer().closeInterfaces();
+		}
+	};
+
+	public static ButtonClickHandler handleInviteInter = new ButtonClickHandler(1095) {
+		@Override
+		public void handle(ButtonClickEvent e) {
+			if (e.getComponentId() == 33) {
+				Player inviter = e.getPlayer().getTempAttribs().removeO("clanInviter");
+				if (inviter == null) {
+					e.getPlayer().sendMessage("There is a pending request to join a clan submitted to the clan service. Relog or try again later.");
+					return;
+				}
+				if (inviter.hasStarted() && !inviter.hasFinished()) {
+					LobbyCommunicator.forwardPacket(inviter, new ClanAddMember(e.getPlayer().getUsername()), success -> {
+						if (!success)
+							e.getPlayer().sendMessage("There was an error communicating with the clan service.");
+					});
+				}
+				e.getPlayer().closeInterfaces();
+			}
 		}
 	};
 	
@@ -316,9 +339,7 @@ public class ClansManager {
 			return;
 		}
 		player.getTempAttribs().setB("ccJoinLock", true);
-		LobbyCommunicator.forwardPacket(player, new CCJoin(guestClanName), cb -> {
-			player.getTempAttribs().removeB("ccJoinLock");
-		});
+		LobbyCommunicator.forwardPacket(player, new CCJoin(guestClanName), cb -> player.getTempAttribs().removeB("ccJoinLock"));
 	}
 
 	private static void createClan(Player player) {
@@ -327,12 +348,34 @@ public class ClansManager {
 				.addNext(() -> promptName(player)));
 	}
 
-	private static void leaveChannel(Player player, String guestClanName) {
-		// TODO Auto-generated method stub
+	private static void leaveChannel(Player player, boolean guest) {
+		if (player.getTempAttribs().getB("ccLeaveLock")) {
+			player.sendMessage("Please wait...");
+			return;
+		}
+		player.getTempAttribs().setB("ccLeaveLock", true);
+		LobbyCommunicator.forwardPacket(player, new CCLeave(guest), cb -> player.getTempAttribs().removeB("ccLeaveLock"));
 	}
 
 	private static void leaveClan(Player player) {
-		// TODO Auto-generated method stub
+		if (player.getSocial().getClanName() == null) {
+			player.sendMessage("You aren't in a clan.");
+			return;
+		}
+		if (player.getTempAttribs().getB("ccLeaveLock")) {
+			player.sendMessage("Please wait...");
+			return;
+		}
+		player.sendOptionDialogue("Are you sure you want to leave your clan?", conf1 -> {
+			conf1.add("I am sure I want to leave the clan.").addOptions("Are you ABSOLUTELY sure you want to leave?", conf2 -> {
+				conf2.add("Yes, I am absolutely sure I want to leave my clan.", () -> {
+					player.getTempAttribs().setB("ccLeaveLock", true);
+					LobbyCommunicator.forwardPacket(player, new ClanLeave(), cb -> player.getTempAttribs().removeB("ccLeaveLock"));
+				});
+				conf2.add("No, I've changed my mind.");
+			});
+			conf1.add("Nevermind.");
+		});
 	}
 
 	private static void banPlayer(Player player, String name) {
@@ -409,6 +452,17 @@ public class ClansManager {
 		player.getPackets().setIFHidden(1096, 385, hide);
 	}
 	
+	public static void openClanInvite(Player player, Player inviter, Clan clan) {
+		if (clan.getUpdateBlock() == null) {
+			player.sendMessage("Error loading clan update block.");
+			return;
+		}
+		player.getSession().write(new ClanSettingsFull(clan.getUpdateBlock(), true));
+		player.getInterfaceManager().sendInterface(1095);
+		player.getTempAttribs().setO("clanInviter", inviter);
+		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeO("clanInviter"));
+	}
+	
 	public static void openClanDetails(Player player, Player vexPlanter, Clan clan) {
 		if (clan.getUpdateBlock() == null) {
 			player.sendMessage("Error loading clan update block.");
@@ -416,18 +470,6 @@ public class ClansManager {
 		}
 		player.getSession().write(new ClanSettingsFull(clan.getUpdateBlock(), true));
 		player.getInterfaceManager().sendInterface(1107);
-//		if (clan.getMotto() != null)
-//			player.getPackets().setIFText(1107, 88, clan.getMotto());
-//		if (clan.getMotifTop() != 0)
-//			player.getPackets().setIFGraphic(1107, 96, Clan.getMotifSprite(clan.getMotifTop()));
-//		if (clan.getMotifBottom() != 0)
-//			player.getPackets().setIFGraphic(1107, 106, Clan.getMotifSprite(clan.getMotifBottom()));
-//		DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-//		Calendar cal = Calendar.getInstance();
-//		cal.setTimeZone(TimeZone.getTimeZone("UTC"));
-//		player.getPackets().setIFText(1107, 186, dateFormat.format(cal.getTime()));
-//		cal.add(Calendar.MINUTE, clan.getTimeZone());
-//		player.getPackets().setIFText(1107, 185, dateFormat.format(cal.getTime()));
 		if (vexPlanter != null) {
 			player.getPackets().setIFText(1107, 92, vexPlanter.getDisplayName());
 			player.getPackets().sendRunScript(4423);
