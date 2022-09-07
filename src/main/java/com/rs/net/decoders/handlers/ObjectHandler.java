@@ -1880,8 +1880,6 @@ public final class ObjectHandler {
 					player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
 					break;
 				}
-				if (Settings.getConfig().isDebug())
-					System.out.println("Item on object: " + object.getId());
 			}
 		}));
 	}

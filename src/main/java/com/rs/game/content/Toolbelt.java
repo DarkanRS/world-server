@@ -132,7 +132,6 @@ public class Toolbelt {
 	public static ItemClickHandler handleToolbeltOps = new ItemClickHandler(new String[] { "Add-to-toolbelt", "Carve", "Light", "Grind", "Powder", "Squeeze", "Craft", "Fletch", "Gut" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			System.out.println();
 			switch(e.getOption()) {
 			case "Add-to-toolbelt":
 				if (e.getPlayer().addToolbelt(e.getItem().getId())) {

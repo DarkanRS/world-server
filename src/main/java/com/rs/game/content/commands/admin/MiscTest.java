@@ -71,6 +71,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
@@ -327,8 +328,8 @@ public class MiscTest {
 										objects.add(obj);
 						}
 			for (GameObject o : objects) {
-				System.out.println(o);
-				System.out.println("vb: " + o.getDefinitions().varpBit);
+				Logger.debug(MiscTest.class, "areaobj", o);
+				Logger.debug(MiscTest.class, "areaobj", "vb: " + o.getDefinitions().varpBit);
 			}
 		});
 
@@ -447,12 +448,12 @@ public class MiscTest {
 					Song song = Music.getSong(i);
 					count++;
 					if(song == null)
-						System.out.println("Error @" + i);
+						Logger.error(MiscTest.class, "unusedmusic", "Error @" + i);
 					else
-						System.out.println(i + " " + song.getName() + ": " + song.getHint());
+						Logger.debug(MiscTest.class, "unusedmusic", i + " " + song.getName() + ": " + song.getHint());
 				}
-			System.out.println("Total unused: " + count);
-			System.out.println("Unused is " + Math.ceil(count/1099.0*100) + "%");
+			Logger.debug(MiscTest.class, "unusedmusic", "Total unused: " + count);
+			Logger.debug(MiscTest.class, "unusedmusic", "Unused is " + Math.ceil(count/1099.0*100) + "%");
 		});
 
 		Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
@@ -799,7 +800,7 @@ public class MiscTest {
 			//		try {
 			//			JsonFileManager.saveJsonFile(voices, new File("developer-information/voice.json"));
 			//		} catch(Exception e) {
-			//			System.out.println(e.getStackTrace());
+			//			Logger.debug(e.getStackTrace());
 			//		}
 
 			int tickDelay = Integer.valueOf(args[2]);
@@ -997,7 +998,7 @@ public class MiscTest {
 				return;
 			p.getPackets().sendDevConsoleMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
 			p.sendMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
-			System.out.println(defs.getCompatibleAnimations().toString());
+			Logger.debug(MiscTest.class, "companim", defs.getCompatibleAnimations().toString());
 		});
 
 		Commands.add(Rights.DEVELOPER, "varcstr [id value]", "Sets a varc string value.", (p, args) -> {

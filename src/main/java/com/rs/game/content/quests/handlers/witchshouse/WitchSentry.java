@@ -30,6 +30,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
@@ -95,7 +96,7 @@ public class WitchSentry extends NPC {
 	public boolean lineOfSightTo(Object target, boolean melee) {
 		WorldTile tile = WorldUtil.targetToTile(target);
 		if(World.hasLineOfSight(getMiddleWorldTile(), target instanceof Entity e ? e.getMiddleWorldTile() : tile)) {
-			System.out.println(getDirection().getDx());
+			Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().getDx());
 			if (getDirection().getDx() == 1) {
 				if (tile.getX() > getX() && checkByConeSightX(tile))
 					return true;

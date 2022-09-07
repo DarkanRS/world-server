@@ -9,6 +9,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.LoginEvent;
@@ -122,8 +123,7 @@ public class EggHunt {
             if (!eggs.contains(spawn.ordinal())) {
                 eggs.add(spawn.ordinal());
                 spawn.getEgg().setId(70105 + eggs.size());
-        		if (Settings.getConfig().isDebug())
-        			System.out.println("Setting egg [" + spawn.ordinal() + "] " + spawn.getEgg().getX() + ", " + spawn.getEgg().getY() + " with a varbit of " + spawn.getEgg().getDefinitions().varpBit);
+        		Logger.debug(EggHunt.class, "start", "Setting egg [" + spawn.ordinal() + "] " + spawn.getEgg().getX() + ", " + spawn.getEgg().getY() + " with a varbit of " + spawn.getEgg().getDefinitions().varpBit);
             }
         }
         for (Player p : World.getPlayers()) {

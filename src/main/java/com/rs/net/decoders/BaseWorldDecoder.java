@@ -20,6 +20,7 @@ import com.rs.lib.io.InputStream;
 import com.rs.lib.net.Decoder;
 import com.rs.lib.net.Encoder;
 import com.rs.lib.net.Session;
+import com.rs.lib.util.Logger;
 
 public final class BaseWorldDecoder extends Decoder {
 
@@ -39,11 +40,11 @@ public final class BaseWorldDecoder extends Decoder {
 		case 14:
 			return decodeLogin(stream);
 		default:
-			System.out.println("Connection type: " + packetId + " Remaining: " + stream.getRemaining());
+			Logger.debug(BaseWorldDecoder.class, "decode", "Connection type: " + packetId + " Remaining: " + stream.getRemaining());
 			String hex = "";
 			for (byte i : stream.getBuffer())
 				hex += String.format("%02X", i);
-			System.out.println(hex);
+			Logger.debug(BaseWorldDecoder.class, "decode", hex);
 			return -1;
 		}
 	}
