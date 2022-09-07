@@ -136,7 +136,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.VarManager;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.Account;
-import com.rs.lib.model.Clan;
+import com.rs.lib.model.clan.Clan;
 import com.rs.lib.model.Social;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.ServerPacket;

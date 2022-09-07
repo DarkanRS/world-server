@@ -11,7 +11,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.model.Clan;
+import com.rs.lib.model.clan.Clan;
 import com.rs.lib.util.RSColor;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;

@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import com.rs.Settings;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.model.Account;
-import com.rs.lib.model.Clan;
+import com.rs.lib.model.clan.Clan;
 import com.rs.lib.model.FriendsChat;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;

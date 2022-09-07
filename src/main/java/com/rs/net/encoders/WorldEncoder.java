@@ -110,6 +110,7 @@ import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
 import com.rs.lib.net.packets.encoders.updatezone.SetGroundItemAmount;
 import com.rs.lib.net.packets.encoders.updatezone.TileMessage;
 import com.rs.lib.net.packets.encoders.updatezone.UpdateZoneFullFollows;
+import com.rs.lib.net.packets.encoders.vars.VarClan;
 import com.rs.lib.net.packets.encoders.vars.Varc;
 import com.rs.lib.net.packets.encoders.vars.VarcString;
 import com.rs.lib.net.packets.encoders.vars.Varp;
@@ -786,5 +787,9 @@ public class WorldEncoder extends Encoder {
 
 	public void sendInputLongTextScript(String message) {
 		sendRunScriptReverse(110, message);
+	}
+
+	public void setClanVar(int varId, Object value) {
+		session.writeToQueue(new VarClan(varId, value));
 	}
 }
