@@ -858,7 +858,10 @@ public class Player extends Entity {
 				getPackets().sendRemoveObject(object);
 			for (GameObject object : World.getRegion(regionId).getSpawnedObjects())
 				getPackets().sendAddObject(object);
-			for (GameObject object : World.getRegion(regionId).getAllObjects())
+			List<GameObject> all =  World.getRegion(regionId).getAllObjects();
+			if (all == null)
+				continue;
+			for (GameObject object : all)
 				if (object.getMeshModifier() != null)
 					getPackets().sendCustomizeObject(object.getMeshModifier());
 		}
