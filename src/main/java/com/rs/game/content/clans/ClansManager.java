@@ -1314,31 +1314,39 @@ public class ClansManager {
 	//		p2.getTemporaryAttributes().put("claninvite", Boolean.TRUE);
 	//	}
 	
-	public static void clanifyObject(Clan clan, GameObject object) {
-		if (object.getDefinitions().modifiedColors == null)
-			return;
+	public static int[] generateColorGradient(Clan clan, int length, boolean hasTextures) {
 		RSColor primary = RSColor.fromHSL((int) clan.getSetting(ClanSetting.MOTIF_PRIMARY_COLOR));
 		RSColor secondary = RSColor.fromHSL((int) clan.getSetting(ClanSetting.MOTIF_SECONDARY_COLOR));
 		
-		int[] colors = new int[object.getDefinitions().modifiedColors.length];
-		boolean symbols = object.getDefinitions().modifiedTextures != null;
+		int[] colors = new int[length];
 		
-		if (symbols) {
+		if (hasTextures) {
 			colors[0] = (int) clan.getSetting(ClanSetting.MOTIF_TOP_COLOR);
 			colors[1] = (int) clan.getSetting(ClanSetting.MOTIF_BOTTOM_COLOR);
 		}
-		int offset = symbols ? 2 : 0;
+		int offset = hasTextures ? 2 : 0;
 		int luminanceAdjustor = 40 / (colors.length - offset);
 		int sizeDiff = (colors.length - offset) / 2;
-		for (int i = offset;i < colors.length;i++) {
-			if (sizeDiff-- > 0)
-				colors[i] = primary.adjustLuminance(luminanceAdjustor).getValue();
-			else
-				colors[i] = secondary.adjustLuminance(luminanceAdjustor).getValue();
+		boolean initedPrimary = false, initedSecondary = false;
+		for (int i = colors.length-1;i >= offset;i--) {
+			if (sizeDiff-- > 0) {
+				colors[i] = secondary.adjustLuminance(initedSecondary ? luminanceAdjustor : 0).getValue();
+				initedSecondary = true;
+			} else {
+				colors[i] = primary.adjustLuminance(initedPrimary ? luminanceAdjustor : 0).getValue();
+				initedPrimary = true;
+			}
 		}
-		
+		return colors;
+	}
+	
+	public static void clanifyObject(Clan clan, GameObject object) {
+		if (object.getDefinitions().modifiedColors == null)
+			return;
+		boolean hasTextures = object.getDefinitions().modifiedTextures != null;
+		int[] colors = generateColorGradient(clan, object.getDefinitions().modifiedColors.length, hasTextures);
 		ObjectMeshModifier modifier = object.modifyMesh().addColors(colors);
-		if (symbols)
+		if (hasTextures)
 			modifier.addTextures(clan.getMotifTextures());
 		object.refresh();
 	}
@@ -1346,28 +1354,10 @@ public class ClansManager {
 	public static NPCBodyMeshModifier clanifyNPC(Clan clan, NPC npc) {
 		if (npc.getDefinitions().modifiedColors == null)
 			return null;
-		RSColor primary = RSColor.fromHSL((int) clan.getSetting(ClanSetting.MOTIF_PRIMARY_COLOR));
-		RSColor secondary = RSColor.fromHSL((int) clan.getSetting(ClanSetting.MOTIF_SECONDARY_COLOR));
-		
-		int[] colors = new int[npc.getDefinitions().modifiedColors.length];
-		boolean symbols = npc.getDefinitions().modifiedTextures != null;
-		
-		if (symbols) {
-			colors[0] = (int) clan.getSetting(ClanSetting.MOTIF_TOP_COLOR);
-			colors[1] = (int) clan.getSetting(ClanSetting.MOTIF_BOTTOM_COLOR);
-		}
-		int offset = symbols ? 2 : 0;
-		int luminanceAdjustor = 40 / (colors.length - offset);
-		int sizeDiff = (colors.length - offset) / 2;
-		for (int i = offset;i < colors.length;i++) {
-			if (sizeDiff-- > 0)
-				colors[i] = primary.adjustLuminance(luminanceAdjustor).getValue();
-			else
-				colors[i] = secondary.adjustLuminance(luminanceAdjustor).getValue();
-		}
-		
+		boolean hasTextures = npc.getDefinitions().modifiedTextures != null;
+		int[] colors = generateColorGradient(clan, npc.getDefinitions().modifiedColors.length, hasTextures);
 		NPCBodyMeshModifier modifier = npc.modifyMesh().addColors(colors);
-		if (symbols)
+		if (hasTextures)
 			modifier.addTextures(clan.getMotifTextures());
 		return modifier;
 	}

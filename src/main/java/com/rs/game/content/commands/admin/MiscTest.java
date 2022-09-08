@@ -113,6 +113,11 @@ public class MiscTest {
 		//
 		//		});
 		
+		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
+			p.getNSV().setB("clanifyStuff", !p.getNSV().getB("clanifyStuff"));
+			p.sendMessage("CLANIFY: " + p.getNSV().getB("clanifyStuff"));
+		});
+		
 		Commands.add(Rights.DEVELOPER, "allstopfaceme", "Stops all body model rotators.", (p, args) -> {
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())

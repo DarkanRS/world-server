@@ -20,7 +20,6 @@ import com.rs.game.World;
 import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
@@ -44,7 +43,7 @@ public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
 
 		if (packet.getOpcode() == ClientPacket.OBJECT_EXAMINE) {
 			ObjectHandler.handleOptionExamine(player, object);
-			if (player.hasRights(Rights.DEVELOPER))
+			if (player.getNSV().getB("clanifyStuff"))
 				ClansManager.clanifyObject(player.getClan(), object);
 			return;
 		}
