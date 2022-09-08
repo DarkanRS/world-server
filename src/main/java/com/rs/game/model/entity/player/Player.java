@@ -854,12 +854,13 @@ public class Player extends Entity {
 
 	public void refreshSpawnedObjects() {
 		for (int regionId : getMapRegionsIds()) {
-			List<GameObject> removedObjects = new ArrayList<>(World.getRegion(regionId).getRemovedObjects().values());
-			for (GameObject object : removedObjects)
+			for (GameObject object : new ArrayList<>(World.getRegion(regionId).getRemovedObjects().values()))
 				getPackets().sendRemoveObject(object);
-			List<GameObject> spawnedObjects = World.getRegion(regionId).getSpawnedObjects();
-			for (GameObject object : spawnedObjects)
+			for (GameObject object : World.getRegion(regionId).getSpawnedObjects())
 				getPackets().sendAddObject(object);
+			for (GameObject object : World.getRegion(regionId).getAllObjects())
+				if (object.getMeshModifier() != null)
+					getPackets().sendCustomizeObject(object.getMeshModifier());
 		}
 	}
 
