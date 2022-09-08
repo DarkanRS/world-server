@@ -25,6 +25,7 @@ import com.rs.game.World;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.ObjectMeshModifier;
@@ -147,7 +148,7 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendPlayerInterface(Player player, boolean overlay, int topId, int topChildId, int subId) {
-		session.writeToQueue(new IFOpenSubActivePlayer(topId, topChildId, subId, overlay, player.getIndex()));
+		session.writeToQueue(new IFOpenSubActivePlayer(topId, topChildId, subId, overlay, player.getClientIndex()));
 	}
 
 	public void sendGroundItemInterface(GroundItem item, boolean overlay, int topId, int topChildId, int subId) {
@@ -712,7 +713,7 @@ public class WorldEncoder extends Encoder {
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendPlayerInterface(player, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendPlayerInterface(player, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
 	public void sendNPCMessage(Player player, int border, int color, NPC npc, String message) {
@@ -721,7 +722,7 @@ public class WorldEncoder extends Encoder {
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendNPCInterface(npc, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendNPCInterface(npc, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
 	public void sendGroundItemMessage(Player player, GroundItem item, String message, int border, int color) {
@@ -730,7 +731,7 @@ public class WorldEncoder extends Encoder {
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendGroundItemInterface(item, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendGroundItemInterface(item, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
 	public void sendObjectMessage(Player player, int border, int color, GameObject object, String message) {
@@ -739,7 +740,7 @@ public class WorldEncoder extends Encoder {
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendObjectInterface(object, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendObjectInterface(object, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
 	public void openGESearch(Player player) {

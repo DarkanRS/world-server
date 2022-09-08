@@ -58,6 +58,7 @@ public class InterfaceManager {
 	
 	public enum Sub {
 						/* GAME WINDOWS */
+						RENDER_SPACE(48, 0),
 						CENTRAL(29, 44),
 						//CENTRAL_SMALL(10, 44),
 						
