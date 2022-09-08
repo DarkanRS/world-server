@@ -20,6 +20,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.World;
+import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.prayer.Leech;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.prayer.Sap;
@@ -79,10 +80,8 @@ public class PrayerManager {
 			player.sendMessage("You need a prayer level of at least " + prayer.getReq() + " to use this prayer.");
 			return false;
 		}
-		if (prayer.isCurse() && player.getSkills().getLevelForXp(Constants.DEFENSE) < 30) {
-			player.sendMessage("You need a Defense level of at least 30 to use this prayer.");
+		if (prayer.isCurse() && !player.isQuestComplete(Quest.TEMPLE_AT_SENNTISTEN, "to use ancient curses."))
 			return false;
-		}
 		switch(prayer) {
 		case RAPID_RENEWAL:
 			if (!player.hasRenewalPrayer) {
@@ -508,6 +507,8 @@ public class PrayerManager {
 	}
 
 	public void setPrayerBook(boolean curses) {
+		if (curses && !player.isQuestComplete(Quest.TEMPLE_AT_SENNTISTEN, "to use ancient curses."))
+			return;
 		closeAllPrayers();
 		this.curses = curses;
 		player.getInterfaceManager().sendSubDefault(Sub.TAB_PRAYER);
