@@ -39,11 +39,6 @@ public class ClanVexillum extends OwnedNPC {
 		setAutoDespawnAtDistance(false);
 		setIgnoreNPCClipping(true);
 		setHidden(true);
-		Direction faceDir = Direction.getDirectionTo(this, tile);
-		if (faceDir == null)
-			faceDir = Direction.fromAngle(owner.getFaceAngle());
-		if (faceDir != null)
-			setFaceAngle(faceDir.getAngle());
 		CLAN_VEXES.put(clan.getName(), this);
 	}
 	
@@ -155,7 +150,13 @@ public class ClanVexillum extends OwnedNPC {
 	
 	public void display() {
 		setHidden(false);
-		setFaceAngle(getOwner().getDirection().getAngle());
+		Direction faceDir = Direction.getDirectionTo(getOwner(), getTile());
+		if (faceDir == null)
+			faceDir = getOwner().getDirection();
+		if (faceDir != null)
+			setFaceAngle(faceDir.getAngle());
+		else
+			setFaceAngle(getOwner().getFaceAngle());
 		anim(3495);
 		RSColor primary = RSColor.fromHSL(clan.getMotifColors()[2]);
 		RSColor secondary = RSColor.fromHSL(clan.getMotifColors()[3]);
