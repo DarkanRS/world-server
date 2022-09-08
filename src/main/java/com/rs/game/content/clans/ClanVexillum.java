@@ -13,7 +13,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.clan.Clan;
-import com.rs.lib.util.RSColor;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -28,6 +27,7 @@ public class ClanVexillum extends OwnedNPC {
 	private static Map<String, ClanVexillum> CLAN_VEXES = new ConcurrentHashMap<>();
 	
 	private Clan clan;
+	private int hint = -1;
 	
 	/*
 	 * anim skeleton 3606 = clan teleports
@@ -100,7 +100,7 @@ public class ClanVexillum extends OwnedNPC {
 					e.getPlayer().sendMessage("Could not find your vexillum.");
 					return;
 				}
-				e.getPlayer().getHintIconsManager().addHintIcon(vex, 0, -1, false);
+				vex.hint = e.getPlayer().getHintIconsManager().addHintIcon(vex, 0, -1, false);
 			}
 		}
 	};
@@ -158,17 +158,14 @@ public class ClanVexillum extends OwnedNPC {
 		else
 			setFaceAngle(getOwner().getFaceAngle());
 		anim(3495);
-		RSColor primary = RSColor.fromHSL(clan.getMotifColors()[2]);
-		RSColor secondary = RSColor.fromHSL(clan.getMotifColors()[3]);
-		modifyMesh()
-			.setModel(0, getOwner().hasRights(Rights.DEVELOPER) ? 64928 : -1) //t5 citadel
-			.addColors(clan.getMotifColors()[0], clan.getMotifColors()[1], primary.adjustLuminance(20).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(20).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue())
-			.addTextures(clan.getMotifTextures()[0], clan.getMotifTextures()[1]);
+		ClansManager.clanifyNPC(clan, this).setModel(0, getOwner().hasRights(Rights.DEVELOPER) ? 64928 : -1);
 	}
 
 	@Override
 	public void finish() {
 		super.finish();
 		CLAN_VEXES.remove(clan.getName());
+		if (hint != -1 && getOwner() != null)
+			getOwner().getHintIconsManager().removeHintIcon(hint);
 	}
 }
