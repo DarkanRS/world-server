@@ -16,7 +16,6 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
-import com.rs.Settings;
 import com.rs.game.content.skills.magic.Alchemy;
 import com.rs.game.content.skills.magic.Enchanting;
 import com.rs.game.content.skills.magic.Lunars;
@@ -27,6 +26,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnIF;
+import com.rs.lib.util.Logger;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 
 public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
@@ -122,8 +122,7 @@ public class IFOnIFHandler implements PacketHandler<Player, IFOnIF> {
 			return;
 		}
 		
-		if (Settings.getConfig().isDebug())
-			System.out.println("IF on IF: (" + packet.getFromInter() + ", " + packet.getFromComp() + ", " + packet.getFromSlot() + ") -> (" + packet.getToInter() + ", " + packet.getToComp() + ", " + packet.getToSlot() + ")");
+		Logger.debug(IFOnIFHandler.class, "handle", "IF on IF: (" + packet.getFromInter() + ", " + packet.getFromComp() + ", " + packet.getFromSlot() + ") -> (" + packet.getToInter() + ", " + packet.getToComp() + ", " + packet.getToSlot() + ")");
 	}
 
 }

@@ -208,7 +208,7 @@ public final class Launcher {
 				while ((line = in.readLine()) != null) {
 					if (player != null)
 						player.getPackets().sendDevConsoleMessage(line);
-					System.out.println(line);
+					Logger.debug(Launcher.class, "executeCommand", line);
 				}
 				proc.waitFor();
 				in.close();

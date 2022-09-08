@@ -88,8 +88,4 @@ public enum ClipFlag {
 			flag |= f.flag;
 		return flag;
 	}
-
-	public static void main(String[] args) {
-		System.out.println(getFlags(0x80000));
-	}
 }

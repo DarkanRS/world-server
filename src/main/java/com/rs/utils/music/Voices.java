@@ -6,12 +6,14 @@ import java.util.Set;
 
 import com.rs.Settings;
 import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 
 @PluginEventHandler
 public class Voices {//set
 	public static Set<Integer> voicesMarked = new HashSet<>();
+	
 	@ServerStartupEvent
 	public static void init() {
 		if(!Settings.getConfig().isDebug())
@@ -22,7 +24,7 @@ public class Voices {//set
 				for(int voiceID : voice.getVoiceIDs())
 					voicesMarked.add(voiceID);
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			Logger.handle(Voices.class, "init", "Error initializing voices", e);
 		}
 	}
 }

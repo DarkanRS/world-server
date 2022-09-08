@@ -984,7 +984,6 @@ public final class TutorialIslandController extends Controller {
 			if (item != null && item.getId() == 1511)
 				sendText(true, "Please wait.", "", "Your character is now attempting to light the fire.", "This should only take a few seconds.");
 		}
-		System.out.println(interfaceId + " - " + componentId);
 		if (getStage() == Stage.OPEN_SETTINGS && componentId == 87)
 			nextStage(Stage.TALK_TO_GUIDE_2);
 		else if (getStage() == Stage.OPEN_INVENTORY && (componentId == 79 || componentId == 116))

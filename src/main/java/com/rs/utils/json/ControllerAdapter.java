@@ -31,6 +31,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.rs.game.model.entity.player.Controller;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -46,12 +47,12 @@ public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeseri
 			List<Class<?>> classes = Utils.getSubClasses("com.rs", Controller.class);
 			for (Class<?> clazz : classes) {
 				if (CONTROLLER_CLASSES.put(clazz.getSimpleName(), clazz) != null)
-					System.out.println("Duplicate controller class: " + clazz.getName());
+					Logger.error(ControllerAdapter.class, "init", "Duplicate controller class: " + clazz.getName());
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Loaded " + CONTROLLER_CLASSES.size() + " controllers...");
+		Logger.info(ControllerAdapter.class, "init", "Loaded " + CONTROLLER_CLASSES.size() + " controllers...");
 	}
 
 	@Override

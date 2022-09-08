@@ -27,8 +27,9 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.statements.SimpleStatement;
 import com.rs.game.content.dialogue.statements.Statement;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.model.Clan;
-import com.rs.lib.model.ClanSetting;
+import com.rs.lib.model.clan.Clan;
+import com.rs.lib.model.clan.ClanSetting;
+import com.rs.lib.model.clan.ClanVar;
 import com.rs.lib.model.MemberData;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
 import com.rs.lib.net.packets.decoders.lobby.CCLeave;
@@ -88,6 +89,8 @@ public class ClansManager {
 			if (player == null || player.hasFinished() || !player.hasStarted())
 				continue;
 			player.getAppearance().generateAppearanceData();
+			for (int key : clan.getVars().keySet())
+				player.getPackets().setClanVar(key, clan.getVar(key));
 		}
 	}
 	
@@ -530,11 +533,21 @@ public class ClansManager {
 
 	public static void setClanMotifTexture(Player player, boolean top, int slot) {
 		if (top)
-			player.getClan().setVar(ClanSetting.MOTIF_TOP_ICON, slot+1);
+			player.getClan().setSetting(ClanSetting.MOTIF_TOP_ICON, slot+1);
 		else
-			player.getClan().setVar(ClanSetting.MOTIF_BOTTOM_ICON, slot+1);
+			player.getClan().setSetting(ClanSetting.MOTIF_BOTTOM_ICON, slot+1);
 		player.getVars().setVarBit(9086, player.getClan().getMotifTopIcon());
 		player.getVars().setVarBit(9087, player.getClan().getMotifBottomIcon());
+	}
+	
+	public static void setVar(Clan clan, int id, Object value) {
+		clan.setVar(id, value);
+		syncClanToLobby(clan.getName(), () -> {});
+	}
+	
+	public static void setVar(Clan clan, ClanVar var, Object value) {
+		clan.setVar(var, value);
+		syncClanToLobby(clan.getName(), () -> {});
 	}
 
 	//	public ClansManager(Clan clan) {

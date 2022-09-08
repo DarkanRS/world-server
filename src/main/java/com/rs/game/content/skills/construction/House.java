@@ -50,6 +50,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -1216,7 +1217,7 @@ public class House {
 
 	public void previewRoom(RoomReference reference, boolean remove) {
 		if (!loaded) {
-			System.out.println("Preview cancelled.");
+			Logger.debug(House.class, "previewRoom", "Preview cancelled.");
 			return;
 		}
 		int boundX = region.getLocalX(reference.x, 0);
@@ -1567,7 +1568,7 @@ public class House {
 
 		public HObject getPiece() {
 			if (slot > build.getPieces().length - 1) {
-				System.out.println("Error getting peice for " + build.name());
+				Logger.error(House.class, "getPiece", "Error getting peice for " + build.name());
 				return build.getPieces()[0];
 			}
 			return build.getPieces()[slot];
@@ -1575,7 +1576,7 @@ public class House {
 
 		public int getId() {
 			if (slot > build.getPieces().length - 1) {
-				System.out.println("Error getting id for " + build.name());
+				Logger.error(House.class, "getId", "Error getting id for " + build.name());
 				return build.getPieces()[0].getId();
 			}
 			return build.getPieces()[slot].getId();
@@ -1594,7 +1595,7 @@ public class House {
 
 		public int[] getIds() {
 			if (slot > build.getPieces().length - 1) {
-				System.out.println("Error getting ids for " + build.name());
+				Logger.error(House.class, "getIds", "Error getting ids for " + build.name());
 				return build.getPieces()[0].getIds();
 			}
 			return build.getPieces()[slot].getIds();
@@ -1606,7 +1607,7 @@ public class House {
 
 		public int getId(int slot2) {
 			if (slot2 > getIds().length - 1) {
-				System.out.println("Error getting id2 for " + build.name());
+				Logger.error(House.class, "getId", "Error getting id2 for " + build.name());
 				return getIds()[0];
 			}
 			return getIds()[slot2];

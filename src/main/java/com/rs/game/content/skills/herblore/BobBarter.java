@@ -88,7 +88,7 @@ public class BobBarter {
 
 			String potionName = getNameWithoutDoses(i.getName());
 			int doses = p.getInventory().getNumberOf(i.getId()) * getDosage(i.getName());
-			//System.out.println("doses " + doses);
+			//Logger.debug("doses " + doses);
 			if (potionDoses.containsKey(potionName)) {
 				ArrayList<Integer> temp = potionDoses.get(potionName);
 				doses += temp.get(0);
@@ -110,15 +110,15 @@ public class BobBarter {
 				int totalDoses = pot.get(0);
 				int fullQty = totalDoses / dose;
 				int partialDose = totalDoses % dose;
-				//				System.out.println("Making " + dose + " dose " + name + " potions.");
-				//				System.out.println("Total doses available: " + totalDoses + ", converting to " + fullQty + " potions with a remaining " + partialDose + " dose");
+				//				Logger.debug("Making " + dose + " dose " + name + " potions.");
+				//				Logger.debug("Total doses available: " + totalDoses + ", converting to " + fullQty + " potions with a remaining " + partialDose + " dose");
 				//
-				//				System.out.println("item id full: " + ((int)(pot.get(pot.size()-dose))+1));
+				//				Logger.debug("item id full: " + ((int)(pot.get(pot.size()-dose))+1));
 				ItemDefinitions fullDef = ItemDefinitions.getDefs(((pot.get(pot.size()-dose))));
 				if (fullDef.name.contains(name) && fullQty > 0)
 					p.getInventory().addItemDrop(fullDef.getCertId() == -1 ? fullDef.getId() : fullDef.getCertId(), fullQty);
 				if (partialDose > 0) {
-					//System.out.println("item id partial: " + ((int)(pot.get(pot.size()-partialDose))));
+					//Logger.debug("item id partial: " + ((int)(pot.get(pot.size()-partialDose))));
 					ItemDefinitions partialDef = ItemDefinitions.getDefs((pot.get(pot.size()-partialDose)));
 					if (partialDef.name.contains(name))
 						p.getInventory().addItemDrop(partialDef.getCertId() == -1 ? partialDef.getId() : partialDef.getCertId(), 1);

@@ -26,6 +26,7 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.io.InputStream;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
 /**
@@ -86,9 +87,9 @@ public class QuestDefinitions {
 		//		Cache.init();
 		//		for (int i = 0;i < Cache.STORE.getIndex(IndexType.CONFIG).getValidFilesCount(ArchiveType.QUESTS.getId());i++) {
 		//			QuestDefinitions def = new QuestDefinitions(i);
-		//			//System.out.println(def.name.toUpperCase().replace(" ", "_").replaceAll("[^A-Za-z0-9_]", "") + "(" + i + "),");
+		//			//Logger.debug(def.name.toUpperCase().replace(" ", "_").replaceAll("[^A-Za-z0-9_]", "") + "(" + i + "),");
 		//			if (i == 0)
-		//				System.out.println(def);
+		//				Logger.debug(def);
 		//		}
 	}
 
@@ -316,7 +317,7 @@ public class QuestDefinitions {
 					params.put(key, value);
 				}
 			} else
-				System.out.println("Error unrecognised .quest config code: {" + opcode + "}");
+				Logger.error(QuestDefinitions.class, "decode", "Error unrecognized quest config code: {" + opcode + "}");
 		}
 	}
 
@@ -342,7 +343,7 @@ public class QuestDefinitions {
 				result.append(field.getType().getCanonicalName() + " " + field.getName() + ": ");
 				result.append(Utils.getFieldValue(this, field));
 			} catch (Throwable ex) {
-				System.out.println(ex);
+				Logger.handleNoRecord(QuestDefinitions.class, "toString", "Error getting field info:" + field, ex);
 			}
 			result.append(newLine);
 		}
