@@ -26,6 +26,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
@@ -62,7 +63,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 		instance = new DynamicRegionReference(4, 4);
 		instance.copyMapAllPlanes(401, 419, () -> {
 			spawn = instance.getLocalTile(19, 17);
-			System.out.println(spawn);
+			Logger.debug(DemonSlayer_WallyVSDelrith.class, "playCutscene", spawn);
 
 			WorldTasks.schedule(new WorldTask() {
 				int tick;

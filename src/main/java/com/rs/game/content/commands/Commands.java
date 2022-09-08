@@ -37,6 +37,7 @@ import com.rs.lib.game.GroundItem.GroundItemType;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
 
@@ -121,7 +122,7 @@ public final class Commands {
 				return true;
 			p.getPackets().sendDevConsoleMessage(Integer.valueOf(args[1]) + ": " + defs.getCompatibleAnimations().toString());
 			p.sendMessage(Integer.valueOf(args[1]) + ": " + defs.getCompatibleAnimations().toString());
-			System.out.println(defs.getCompatibleAnimations().toString());
+			Logger.debug(Commands.class, "REFACTOR.compAnim", defs.getCompatibleAnimations().toString());
 			return true;
 
 		case "trenttitle":

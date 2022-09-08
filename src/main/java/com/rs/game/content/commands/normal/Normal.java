@@ -24,6 +24,7 @@ import com.rs.game.content.commands.Commands;
 import com.rs.game.ge.Offer;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Rights;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -123,12 +124,12 @@ public class Normal {
                 p.getPackets().sendGameMessage("size: " + p.getDungManager().getParty().getSize());
                 p.getPackets().sendGameMessage("complexity: " + p.getDungManager().getParty().getComplexity());
 
-                System.out.println("floor seed difficulty size complexity");
-                System.out.print(" " + String.valueOf(floor));
-                System.out.print(" " + String.valueOf(seed));
-                System.out.print(" " + p.getDungManager().getParty().getDificulty());
-                System.out.print(" " + p.getDungManager().getParty().getSize());
-                System.out.print(" " + p.getDungManager().getParty().getComplexity());
+                Logger.debug(Normal.class, "dungInfo", "Dungeon Info:");
+                Logger.debug(Normal.class, "dungInfo", "floor: " + String.valueOf(floor));
+                Logger.debug(Normal.class, "dungInfo", "seed: " + String.valueOf(seed));
+                Logger.debug(Normal.class, "dungInfo", "difficulty: " + p.getDungManager().getParty().getDificulty());
+                Logger.debug(Normal.class, "dungInfo", "size: " + p.getDungManager().getParty().getSize());
+                Logger.debug(Normal.class, "dungInfo", "complexity: " + p.getDungManager().getParty().getComplexity());
             } catch (NullPointerException e) {
                 p.getPackets().sendGameMessage("You need to be in a dungeon");
             }

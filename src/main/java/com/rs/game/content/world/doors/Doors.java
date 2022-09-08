@@ -30,6 +30,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -673,13 +674,13 @@ public class Doors {
 			if (openedList.isEmpty())
 				continue;
 			ObjectDefinitions closedDef = ObjectDefinitions.getDefs(closed);
-			System.out.println(closedDef.id + " - " + closedDef.getName() + " - " + closedDef.modelIds[0][0] + " - " + Arrays.toString(closedDef.types) + " {");
+			Logger.debug(Doors.class, "searchDoors", closedDef.id + " - " + closedDef.getName() + " - " + closedDef.modelIds[0][0] + " - " + Arrays.toString(closedDef.types) + " {");
 			for (int open : openedList) {
 				ObjectDefinitions openedDef = ObjectDefinitions.getDefs(open);
-				System.out.println("\t" + openedDef.id + " - " + openedDef.getName() + " - " + openedDef.modelIds[0][0] + " - " + Arrays.toString(openedDef.types) + " - " + Arrays.toString(openedDef.options));
-				System.out.println("\tap(" + search + ", " + openedDef.id + ");");
+				Logger.debug(Doors.class, "searchDoors", "\t" + openedDef.id + " - " + openedDef.getName() + " - " + openedDef.modelIds[0][0] + " - " + Arrays.toString(openedDef.types) + " - " + Arrays.toString(openedDef.options));
+				Logger.debug(Doors.class, "searchDoors", "\tap(" + search + ", " + openedDef.id + ");");
 			}
-			System.out.println("}");
+			Logger.debug(Doors.class, "searchDoors", "}");
 		}
 	}
 

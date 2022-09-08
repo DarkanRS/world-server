@@ -26,6 +26,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.BodyGlow;
 import com.rs.lib.game.Item;
 import com.rs.lib.io.OutputStream;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
 public class Appearance {
@@ -589,8 +590,8 @@ public class Appearance {
 
 	public void printDebug() {
 		for (int i = 0;i < lookI.length;i++)
-			System.out.println("lookI["+i+"] = " + lookI[i] + ";");
+			Logger.debug(Appearance.class, "printDebug", "lookI["+i+"] = " + lookI[i] + ";");
 		for (int i = 0;i < colour.length;i++)
-			System.out.println("colour["+i+"] = " + colour[i] + ";");
+			Logger.debug(Appearance.class, "printDebug", "colour["+i+"] = " + colour[i] + ";");
 	}
 }

@@ -110,11 +110,11 @@ import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
 import com.rs.lib.net.packets.encoders.updatezone.SetGroundItemAmount;
 import com.rs.lib.net.packets.encoders.updatezone.TileMessage;
 import com.rs.lib.net.packets.encoders.updatezone.UpdateZoneFullFollows;
-import com.rs.lib.net.packets.encoders.vars.VarClan;
-import com.rs.lib.net.packets.encoders.vars.Varc;
-import com.rs.lib.net.packets.encoders.vars.VarcString;
-import com.rs.lib.net.packets.encoders.vars.Varp;
-import com.rs.lib.net.packets.encoders.vars.VarpBit;
+import com.rs.lib.net.packets.encoders.vars.SetVarClan;
+import com.rs.lib.net.packets.encoders.vars.SetVarc;
+import com.rs.lib.net.packets.encoders.vars.SetVarcString;
+import com.rs.lib.net.packets.encoders.vars.SetVarp;
+import com.rs.lib.net.packets.encoders.vars.SetVarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
 import com.rs.lib.util.Utils;
 
@@ -289,21 +289,21 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendVarc(int id, int value) {
-		session.writeToQueue(new Varc(id, value));
+		session.writeToQueue(new SetVarc(id, value));
 	}
 
 	public void sendVarcString(int id, String string) {
-		session.writeToQueue(new VarcString(id, string));
+		session.writeToQueue(new SetVarcString(id, string));
 	}
 
 	@Deprecated
 	public void sendVar(int id, int value) {
-		session.writeToQueue(new Varp(id, value));
+		session.writeToQueue(new SetVarp(id, value));
 	}
 
 	@Deprecated
 	public void sendVarBit(int id, int value) {
-		session.writeToQueue(new VarpBit(id, value));
+		session.writeToQueue(new SetVarpBit(id, value));
 	}
 
 	@Deprecated
@@ -790,6 +790,6 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void setClanVar(int varId, Object value) {
-		session.writeToQueue(new VarClan(varId, value));
+		session.writeToQueue(new SetVarClan(varId, value));
 	}
 }
