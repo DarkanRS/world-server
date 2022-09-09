@@ -123,7 +123,7 @@ public class GE {
 		case 186 -> confirmOffer(e.getPlayer());
 
 		//Search item
-		case 190 -> e.getPlayer().getPackets().openGESearch(e.getPlayer());
+		case 190 -> e.getPlayer().getPackets().openGESearch();
 
 		default -> Logger.debug(GE.class, "mainInterface", "Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
 		}
@@ -255,7 +255,7 @@ public class GE {
 	public static void openBuy(Player player, int box) {
 		player.getVars().setVar(VAR_CURR_BOX, box);
 		player.getVars().setVar(VAR_IS_SELLING, 0);
-		player.getPackets().openGESearch(player);
+		player.getPackets().openGESearch();
 	}
 
 	public static void openSell(Player player, int box) {

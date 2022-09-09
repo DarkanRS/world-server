@@ -7,17 +7,19 @@ import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.clan.Clan;
-import com.rs.lib.util.RSColor;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class ClanVexillum extends OwnedNPC {
@@ -25,6 +27,7 @@ public class ClanVexillum extends OwnedNPC {
 	private static Map<String, ClanVexillum> CLAN_VEXES = new ConcurrentHashMap<>();
 	
 	private Clan clan;
+	private int hint = -1;
 	
 	/*
 	 * anim skeleton 3606 = clan teleports
@@ -36,6 +39,7 @@ public class ClanVexillum extends OwnedNPC {
 		setAutoDespawnAtDistance(false);
 		setIgnoreNPCClipping(true);
 		setHidden(true);
+		CLAN_VEXES.put(clan.getName(), this);
 	}
 	
 	public static NPCClickHandler interact = new NPCClickHandler(new Object[] { 13634 }) {
@@ -61,17 +65,54 @@ public class ClanVexillum extends OwnedNPC {
 		}
 	};
 	
-	public static ItemClickHandler vexOps = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport", "Place" }) {
+	public static ItemClickHandler vexOps = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport", "Place", "Recall", "Find" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
 			if (e.getOption().equals("Teleport"))
 				Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, new WorldTile(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
-			else
-				create(e.getPlayer());
+			else if (e.getOption().equals("Place"))
+				create(e.getPlayer(), true);
+			else if (e.getOption().equals("Recall")) {
+				if (e.getPlayer().getClan() == null) {
+					e.getPlayer().sendMessage("Could not find a vexillum to recall.");
+					return;
+				}
+				ClanVexillum vex = CLAN_VEXES.get(e.getPlayer().getClan().getName());
+				if (vex == null) {
+					e.getPlayer().sendMessage("Could not find a vexillum to recall.");
+					return;
+				}
+				if (vex.getOwner() != e.getPlayer()) {
+					e.getPlayer().sendMessage("This isn't your vexillum to remove.");
+					return;
+				}
+				e.getPlayer().sendOptionDialogue("Would you like to pick up the vexillum?", ops -> {
+					ops.add("Yes, pick it up.", () -> vex.finish());
+					ops.add("No, leave it.");
+				});
+			} else if (e.getOption().equals("Find")) {
+				if (e.getPlayer().getClan() == null) {
+					e.getPlayer().sendMessage("Could not find your vexillum.");
+					return;
+				}
+				ClanVexillum vex = CLAN_VEXES.get(e.getPlayer().getClan().getName());
+				if (vex == null) {
+					e.getPlayer().sendMessage("Could not find your vexillum.");
+					return;
+				}
+				vex.hint = e.getPlayer().getHintIconsManager().addHintIcon(vex, 0, -1, false);
+			}
 		}
 	};
 	
-	public static void create(Player player) {
+	public static ObjectClickHandler plantStand = new ObjectClickHandler(new Object[] { "Vexillum stand" }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			create(e.getPlayer(), false);
+		}
+	};
+	
+	public static void create(Player player, boolean checkClip) {
 		Clan clan = player.getClan();
 		if (clan == null) {
 			player.sendMessage("You must be in a clan to place a vexillum.");
@@ -86,6 +127,10 @@ public class ClanVexillum extends OwnedNPC {
 			return;
 		}
 		final WorldTile tile = player.transform(player.getDirection().getDx(), player.getDirection().getDy());
+		if (checkClip && !World.canLightFire(tile.getPlane(), tile.getX(), tile.getY())) {
+			player.sendMessage("You can't place a vexillum here.");
+			return;
+		}
 		for (NPC npc : World.getNPCsInRegionRange(player.getRegionId())) {
 			if (npc == null || npc.hasFinished())
 				continue;
@@ -105,19 +150,22 @@ public class ClanVexillum extends OwnedNPC {
 	
 	public void display() {
 		setHidden(false);
-		setFaceAngle(getOwner().getDirection().getAngle());
+		Direction faceDir = Direction.getDirectionTo(getOwner(), getTile());
+		if (faceDir == null)
+			faceDir = getOwner().getDirection();
+		if (faceDir != null)
+			setFaceAngle(faceDir.getAngle());
+		else
+			setFaceAngle(getOwner().getFaceAngle());
 		anim(3495);
-		RSColor primary = RSColor.fromHSL(clan.getMotifColors()[2]);
-		RSColor secondary = RSColor.fromHSL(clan.getMotifColors()[3]);
-		modifyMesh()
-			.setModel(0, getOwner().hasRights(Rights.DEVELOPER) ? 64928 : -1) //t5 citadel
-			.addColors(clan.getMotifColors()[0], clan.getMotifColors()[1], primary.adjustLuminance(20).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), primary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(20).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue(), secondary.adjustLuminance(-4).getValue())
-			.addTextures(clan.getMotifTextures()[0], clan.getMotifTextures()[1]);
+		ClansManager.clanifyNPC(clan, this).setModel(0, getOwner().hasRights(Rights.DEVELOPER) ? 64928 : -1);
 	}
 
 	@Override
 	public void finish() {
 		super.finish();
 		CLAN_VEXES.remove(clan.getName());
+		if (hint != -1 && getOwner() != null)
+			getOwner().getHintIconsManager().removeHintIcon(hint);
 	}
 }

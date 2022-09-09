@@ -90,7 +90,7 @@ public final class WorldThread extends Thread {
 					continue;
 				try {
 					player.getPackets().sendLocalPlayersUpdate();
-					player.getPackets().sendLocalNPCsUpdate(player);
+					player.getPackets().sendLocalNPCsUpdate();
 					player.postSync();
 					player.processProjectiles();
 					player.getSession().flush();

@@ -75143,7 +75143,7 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2971,
+      "x": 2964,
       "y": 3288
     },
     "comment": "Avalani",
@@ -82635,8 +82635,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2976,
-      "y": 3283
+      "x": 2984,
+      "y": 3288
     },
     "comment": "Captain of the Guard",
     "npcId": 13633
@@ -131074,8 +131074,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2960,
-      "y": 3280
+      "x": 2991,
+      "y": 3305
     },
     "comment": "Scribe",
     "npcId": 5915
@@ -131308,8 +131308,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2977,
-      "y": 3282
+      "x": 2969,
+      "y": 3288
     },
     "comment": "Sergeant-at-Arms",
     "npcId": 5914

@@ -749,6 +749,7 @@ public abstract class Entity {
 			case "Rocktail shoal":
 			case "Musician":
 			case "Ghostly piper":
+			case "Clan vexillum":
 				return true;
 			}
 		}

@@ -19,6 +19,7 @@ package com.rs.game.content.combat;
 import java.util.Map;
 
 import com.rs.cache.loaders.Bonus;
+import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -269,6 +270,10 @@ public final class CombatDefinitions {
 	}
 
 	public void setSpellbook(Spellbook book) {
+		if (book == Spellbook.LUNAR && !player.isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use the Lunar spellbook."))
+			return;
+		if (book == Spellbook.ANCIENT && !player.isQuestComplete(Quest.DESERT_TREASURE, "to use the Ancient spellbook."))
+			return;
 		if (book == Spellbook.DUNGEONEERING)
 			dungSpellbook = true;
 		else

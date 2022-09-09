@@ -936,7 +936,7 @@ public final class World {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
-					player.getPackets().sendLogout(player, true);
+					player.getPackets().sendLogout(true);
 					player.realFinish();
 				}
 				PartyRoom.save();
@@ -1107,16 +1107,16 @@ public final class World {
 		NORMAL, TURN_UNTRADEABLES_TO_COINS
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile) {
-		addGroundItem(item, tile, null, false, -1, DropMethod.NORMAL, -1);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile) {
+		return addGroundItem(item, tile, null, false, -1, DropMethod.NORMAL, -1);
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile, Player owner) {
-		addGroundItem(item, tile, owner, true, 60);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner) {
+		return addGroundItem(item, tile, owner, true, 60);
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs) {
-		addGroundItem(item, tile, owner, invisible, hiddenSecs, DropMethod.NORMAL, 150);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs) {
+		return addGroundItem(item, tile, owner, invisible, hiddenSecs, DropMethod.NORMAL, 150);
 	}
 
 	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs, DropMethod type) {

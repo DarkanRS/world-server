@@ -137,8 +137,8 @@ public class FightArenaFightCutsceneController extends Controller {
 						general_khazard.setRandomWalk(false);
 						dynamicNPCs.add(general_khazard);
 
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(41), instance.getLocalY(35), 0), 1500);
-						player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(44), instance.getLocalY(26), 0), 0);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(41), instance.getLocalY(35), 0), 1500);
+						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(44), instance.getLocalY(26), 0), 0);
 						player.faceNorth();
 						jeremy.faceNorth();
 						player.setNextWorldTile(new WorldTile(instance.getLocalX(43), instance.getLocalY(26), player.getPlane()));

@@ -70,7 +70,7 @@ public class Debug {
 	public static ButtonClickHandler debugButtons = new ButtonClickHandler() {
 		@Override
 		public boolean handleGlobal(ButtonClickEvent e) {
-			Logger.debug(Debug.class, "debugButtons", e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
+			Logger.debug(Debug.class, "debugButtons", e.getPacket() + ", " + e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
 			return false;
 		}
 

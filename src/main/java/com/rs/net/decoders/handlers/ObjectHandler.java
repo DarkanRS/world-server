@@ -1553,11 +1553,11 @@ public final class ObjectHandler {
 			if (object.getDefinitions(player).getName().equalsIgnoreCase("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))
 				player.startConversation(new SmeltingD(player, object));
 			else if (id == 17010) {
-				if (!player.isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use the Lunar Spellbook."))
-					return;
 				player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
 					ops.add("Yes, replace my spellbook.", () -> {
 						if (player.getCombatDefinitions().getSpellbook() != Spellbook.LUNAR) {
+							if (!player.isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use the Lunar Spellbook."))
+								return;
 							player.sendMessage("Your mind clears and you switch back to the ancient spellbook.");
 							player.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
 						} else {
@@ -1727,7 +1727,7 @@ public final class ObjectHandler {
 	}
 
 	public static void handleOptionExamine(final Player player, final GameObject object) {
-		player.getPackets().sendObjectMessage(player, 0, 0xFFFFFF, object, "It's " + Utils.addArticle(object.getDefinitions(player).getName()).toLowerCase() + ".");
+		player.getPackets().sendObjectMessage(0, 0xFFFFFF, object, "It's " + Utils.addArticle(object.getDefinitions(player).getName()).toLowerCase() + ".");
 		if (player.hasRights(Rights.DEVELOPER)) {
 			player.sendMessage(object.toString());
 			if (object.getDefinitions().varpBit != -1)

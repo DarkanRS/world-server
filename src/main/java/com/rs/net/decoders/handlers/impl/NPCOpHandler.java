@@ -17,6 +17,7 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.World;
+import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.ClientPacket;
@@ -40,6 +41,8 @@ public class NPCOpHandler implements PacketHandler<Player, NPCOp> {
 
 		if (packet.getOpcode() == ClientPacket.NPC_EXAMINE) {
 			NPCHandler.handleExamine(player, npc);
+			if (player.getNSV().getB("clanifyStuff"))
+				ClansManager.clanifyNPC(player.getClan(), npc);
 			return;
 		}
 
