@@ -40,7 +40,7 @@ public class FishingTrawlerGameController extends Controller {
 	}
 
 	public void sendMessage() {
-		player.getPackets().sendPlayerMessage(player, "You're too far away from shore to teleport!", 0, 0xFF0000);
+		player.getPackets().sendPlayerMessage(0, 0xFF0000, "You're too far away from shore to teleport!");
 	}
 
 	@Override

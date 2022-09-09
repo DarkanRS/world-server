@@ -1291,7 +1291,7 @@ public class Player extends Entity {
 		questManager.unlockQuestTabOptions();
 		questManager.updateAllQuestStages();
 		miniquestManager.updateAllStages();
-		getPackets().sendGameBarStages(this);
+		getPackets().sendGameBarStages();
 		musicsManager.init();
 		emotesManager.refreshListConfigs();
 		sendUnlockedObjectConfigs();
@@ -1665,20 +1665,20 @@ public class Player extends Entity {
 		}
 		if (isDead() || isDying())
 			return;
-		getPackets().sendLogout(this, lobby);
+		getPackets().sendLogout(lobby);
 		finish();
 		running = false;
 	}
 
 	public void forceLogout() {
-		getPackets().sendLogout(this, false);
+		getPackets().sendLogout(false);
 		running = false;
 		realFinish();
 	}
 
 	public void idleLog() {
 		incrementCount("Idle logouts");
-		getPackets().sendLogout(this, true);
+		getPackets().sendLogout(true);
 		finish();
 	}
 
