@@ -79,7 +79,8 @@ public class ObjectMeshModifier {
 	public ObjectMeshModifier setColor(int index, int color) {
 		if (modifiedColors == null && object.getDefinitions().modifiedColors != null) {
 			modifiedColors = new int[object.getDefinitions().modifiedColors.length];
-			System.arraycopy(object.getDefinitions().modifiedColors, 0, modifiedColors, 0, modifiedColors.length);
+			for (int i = 0;i < modifiedColors.length;i++)
+				modifiedColors[i] = object.getDefinitions().modifiedColors[i];
 		}
 		if (modifiedColors == null || index < 0 || index >= modifiedColors.length)
 			throw new RuntimeException("Index " + index + " for models of " + object.getDefinitions().id + " is out of bounds.");
@@ -93,7 +94,8 @@ public class ObjectMeshModifier {
 	public ObjectMeshModifier addColors(int... colors) {
 		if (object.getDefinitions().modifiedColors != null) {
 			modifiedColors = new int[object.getDefinitions().modifiedColors.length];
-			System.arraycopy(object.getDefinitions().modifiedColors, 0, modifiedColors, 0, modifiedColors.length);
+			for (int i = 0;i < modifiedColors.length;i++)
+				modifiedColors[i] = object.getDefinitions().modifiedColors[i];
 		}
 		if (modifiedColors == null)
 			return this;
@@ -108,7 +110,8 @@ public class ObjectMeshModifier {
 	public ObjectMeshModifier setTexture(int index, int texId) {
 		if (modifiedTextures == null && object.getDefinitions().modifiedTextures != null) {
 			modifiedTextures = new int[object.getDefinitions().modifiedTextures.length];
-			System.arraycopy(object.getDefinitions().modifiedTextures, 0, modifiedTextures, 0, modifiedTextures.length);
+			for (int i = 0;i < modifiedTextures.length;i++)
+				modifiedTextures[i] = object.getDefinitions().modifiedTextures[i];
 		}
 		if (modifiedTextures == null || index < 0 || index >= modifiedTextures.length)
 			throw new RuntimeException("Index " + index + " for models of " + object.getDefinitions().id + " is out of bounds.");
@@ -122,7 +125,8 @@ public class ObjectMeshModifier {
 	public ObjectMeshModifier addTextures(int... textures) {
 		if (object.getDefinitions().modifiedTextures != null) {
 			modifiedTextures = new int[object.getDefinitions().modifiedTextures.length];
-			System.arraycopy(object.getDefinitions().modifiedTextures, 0, modifiedTextures, 0, modifiedTextures.length);
+			for (int i = 0;i < modifiedTextures.length;i++)
+				modifiedTextures[i] = object.getDefinitions().modifiedTextures[i];
 		}
 		if (modifiedTextures == null)
 			return this;

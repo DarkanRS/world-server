@@ -785,7 +785,7 @@ public final class Skills {
 		else
 			player.getVars().setVar(2044, 0);
 		player.getVars().syncVarsToClient();
-		player.getPackets().updateStats(player, markedForUpdate.stream().mapToInt(e -> e.intValue()).toArray());
+		player.getPackets().updateStats(markedForUpdate.stream().mapToInt(e -> e.intValue()).toArray());
 		if (markedForLevelUp != -1)
 			sendLevelUp(markedForLevelUp);
 		markedForUpdate.clear();

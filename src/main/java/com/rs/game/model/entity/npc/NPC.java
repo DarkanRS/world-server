@@ -57,6 +57,7 @@ import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
@@ -649,13 +650,7 @@ public class NPC extends Entity {
 			World.broadcastLoot(dropTo.getDisplayName() + " has just received a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
 
 		final int size = getSize();
-
-		//final WorldTile tile = new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane());
-		int value = item.getDefinitions().getValue() * item.getAmount();
-		if (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId()))
-			player.sendMessage("<col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName()); //
-		//player.getPackets().sendTileMessage("<shad=000000>"+item.getDefinitions().getName() + " (" + item.getAmount() + ")", tile, 20000, 50, 0xFF0000);
-
+		
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		if (item.getId() != -1 && dropTo.getNSV().getB("sendingDropsToBank")) {
 			if (item.getDefinitions().isNoted())
@@ -663,7 +658,10 @@ public class NPC extends Entity {
 			sendDropDirectlyToBank(dropTo, item);
 			return;
 		}
-		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
+		GroundItem gItem = World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
+		int value = item.getDefinitions().getValue() * item.getAmount();
+		if (gItem != null && (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId())))
+			player.getPackets().sendGroundItemMessage(50, 0xFF0000, gItem, "<shad=000000><col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName());
 	}
 
 	public static void sendDropDirectlyToBank(Player player, Item item) {

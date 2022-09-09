@@ -81,7 +81,7 @@ public class NPCHandler {
 			if (npc.getDefinitions().transformTo != null)
 				player.sendMessage(npc.getDefinitions().getConfigInfoString());
 		}
-		player.getPackets().sendNPCMessage(player, 0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
+		player.getPackets().sendNPCMessage(0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
 		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate"))
 			player.sendOptionDialogue("Would you like to check the drops on this monster?", ops -> {
 				ops.add("Show drops (1,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 1000));

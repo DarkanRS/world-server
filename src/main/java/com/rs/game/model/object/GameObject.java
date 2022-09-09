@@ -89,8 +89,11 @@ public class GameObject extends WorldObject {
 	
 	public ObjectMeshModifier modifyMesh() {
 		this.meshModifier = new ObjectMeshModifier(this);
-		World.refreshObject(this);
 		return this.meshModifier;
+	}
+	
+	public void refresh() {
+		World.refreshObject(this);
 	}
 
 	public void setIdTemporary(int id, int ticks) {
