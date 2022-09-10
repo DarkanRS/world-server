@@ -36,6 +36,7 @@ import com.rs.lib.model.clan.ClanPermission;
 import com.rs.lib.model.clan.ClanRank;
 import com.rs.lib.model.clan.ClanSetting;
 import com.rs.lib.model.clan.ClanVar;
+import com.rs.lib.game.Rights;
 import com.rs.lib.model.MemberData;
 import com.rs.lib.net.packets.decoders.lobby.CCJoin;
 import com.rs.lib.net.packets.decoders.lobby.CCLeave;
@@ -44,6 +45,7 @@ import com.rs.lib.net.packets.decoders.lobby.ClanCheckName;
 import com.rs.lib.net.packets.decoders.lobby.ClanCreate;
 import com.rs.lib.net.packets.decoders.lobby.ClanLeave;
 import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
@@ -63,9 +65,15 @@ public class ClansManager {
 			return null;
 		if (CACHED_CLANS.get(name) == null) {
 			try {
-				LobbyCommunicator.getClan(name, clan -> CACHED_CLANS.put(name, clan));
+				LobbyCommunicator.getClan(name, clan -> {
+					if (clan == null || clan.getName() == null) {
+						Logger.error(ClansManager.class, "getClan", "Clan returned from lobby server was null " + name);
+						return;
+					}
+					CACHED_CLANS.put(name, clan);	
+				});
 			} catch(Throwable e) {
-				System.err.println("Error communicating with clan service.");
+				Logger.error(ClansManager.class, "getClan", "Error communicating with clan service. " + name);
 			}
 			return null;
 		}
@@ -78,6 +86,11 @@ public class ClansManager {
 		if (CACHED_CLANS.get(name) == null) {
 			try {
 				LobbyCommunicator.getClan(name, clan -> {
+					if (clan == null || clan.getName() == null) {
+						Logger.error(ClansManager.class, "getClan", "Clan returned from lobby server was null " + name);
+						cb.accept(null);
+						return;
+					}
 					CACHED_CLANS.put(name, clan);
 					cb.accept(clan);
 				});
@@ -90,6 +103,10 @@ public class ClansManager {
 	}
 	
 	public static void syncClanFromLobby(Clan clan) {
+		if (clan == null || clan.getName() == null) {
+			Logger.error(ClansManager.class, "syncClanFromLobby", "Clan returned from lobby server was null");
+			return;
+		}
 		CACHED_CLANS.put(clan.getName(), clan);
 		for (String username : clan.getMembers().keySet()) {
 			Player player = World.getPlayerByUsername(username);
@@ -156,7 +173,8 @@ public class ClansManager {
 	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+			if (e.getPlayer().hasRights(Rights.DEVELOPER))
+				e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 			switch(e.getComponentId()) {
 			case 82 -> {
 				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
@@ -206,7 +224,8 @@ public class ClansManager {
 	public static ButtonClickHandler handleClanSettingsButtonsMain = new ButtonClickHandler(1096) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+			if (e.getPlayer().hasRights(Rights.DEVELOPER))
+				e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 			if (e.getComponentId() == 41)
 				viewClanmateDetails(e.getPlayer(), e.getSlotId());
 //			else if (e.getComponentId() == 94)
@@ -266,7 +285,8 @@ public class ClansManager {
 	public static ButtonClickHandler handleMotifButtons = new ButtonClickHandler(1105) {
 		@Override
 		public void handle(ButtonClickEvent e) {
-			e.getPlayer().sendMessage("handleMotifButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+			if (e.getPlayer().hasRights(Rights.DEVELOPER))
+				e.getPlayer().sendMessage("handleMotifButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
 			if (e.getComponentId() == 63 || e.getComponentId() == 66)
 				ClansManager.setClanMotifTextureInterface(e.getPlayer(), e.getComponentId() == 66, e.getSlotId());
 			if (e.getComponentId() == 35)

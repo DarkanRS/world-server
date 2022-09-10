@@ -151,9 +151,9 @@ public final class LocalNPCUpdate {
 			maskData |= 0x400;
 			applyForceMovementMask(n, block);
 		}
-		if (n.getBasAnim() != -1) {
+		if (n.getBas() != -1) {
 			maskData |= 0x1000;
-			block.writeShort(n.getBasAnim() == -2 ? -1 : n.getBasAnim());
+			block.writeShort(n.getBas() == -2 ? -1 : n.getBas());
 		}
 		//0x200000 unused outdated varn
 		if (n.getNextSpotAnim4() != null) {
