@@ -103,7 +103,6 @@ public class NPC extends Entity {
 	// npc masks
 	private transient Transformation nextTransformation;
 	private transient NPCBodyMeshModifier bodyMeshModifier;
-	private transient int basAnim = -1;
 	protected transient ConcurrentHashMap<Object, Object> temporaryAttributes;
 	// name changing masks
 	private String name;
@@ -187,7 +186,7 @@ public class NPC extends Entity {
 
 	@Override
 	public boolean needMasksUpdate() {
-		return super.needMasksUpdate() || nextTransformation != null || bodyMeshModifier != null || basAnim != -1 || changedCombatLevel || changedName || maskTest || permName;
+		return super.needMasksUpdate() || nextTransformation != null || bodyMeshModifier != null || getBas() != -1 || changedCombatLevel || changedName || maskTest || permName;
 	}
 
 	public void resetLevels() {
@@ -226,8 +225,8 @@ public class NPC extends Entity {
 		changedName = false;
 		if (bodyMeshModifier == NPCBodyMeshModifier.RESET)
 			bodyMeshModifier = null;
-		if (basAnim == -2)
-			basAnim = -1;
+		if (getBas() == -2)
+			setBasNoReset(-1);
 	}
 
 	public NPCDefinitions getDefinitions(Player player) {
@@ -1334,18 +1333,6 @@ public class NPC extends Entity {
 	
 	public void resetMesh() {
 		setBodyMeshModifier(NPCBodyMeshModifier.RESET);
-	}
-
-	public int getBasAnim() {
-		return basAnim;
-	}
-
-	public void setBasAnim(int basAnim) {
-		if (basAnim == -1) {
-			this.basAnim = -2;
-			return;
-		}
-		this.basAnim = basAnim;
 	}
 
 	public boolean isHidden() {
