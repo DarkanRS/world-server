@@ -31,7 +31,6 @@ import com.rs.lib.util.Utils;
 
 public class Appearance {
 
-	private transient int bas;
 	private int title;
 	private int[] lookI;
 	private int[] colour;
@@ -54,7 +53,6 @@ public class Appearance {
 
 	public Appearance() {
 		male = true;
-		bas = -1;
 		title = -1;
 		resetAppearance();
 	}
@@ -67,7 +65,6 @@ public class Appearance {
 	public void setPlayer(Player player) {
 		this.player = player;
 		transformedNpcId = -1;
-		bas = -1;
 		if (lookI == null)
 			resetAppearance();
 	}
@@ -311,7 +308,7 @@ public class Appearance {
 	}
 
 	public void setBAS(int id) {
-		bas = id;
+		player.setBas(id);
 		generateAppearanceData();
 	}
 
@@ -339,8 +336,8 @@ public class Appearance {
 	}
 
 	public int getRenderEmote() {
-		if (bas >= 0)
-			return bas;
+		if (player.getBas() >= 0)
+			return player.getBas();
 		if (transformedNpcId >= 0)
 			return NPCDefinitions.getDefs(transformedNpcId).basId;
 		return player.getEquipment().getWeaponBAS();

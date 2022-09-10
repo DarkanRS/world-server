@@ -28,7 +28,7 @@ public class MaxTaskFM implements Task {
 			return 10;
 		}
 		if (logsBurned <= 0) {
-			max.setBasAnim(-1);
+			max.setBas(-1);
 			max.nextTask();
 			return 10;
 		}
@@ -39,11 +39,11 @@ public class MaxTaskFM implements Task {
 		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
 			max.setRouteEvent(new RouteEvent(currentBonfire, () -> {
-				max.setBasAnim(2498);
+				max.setBas(2498);
 				max.repeatAction(5, count -> {
 					if (World.getObjectWithType(currentBonfire, currentBonfire.getType()) != currentBonfire) {
 						max.anim(-1);
-						max.setBasAnim(-1);
+						max.setBas(-1);
 						currentBonfire = null;
 						return false;
 					}

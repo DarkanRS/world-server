@@ -44,6 +44,7 @@ import com.rs.lib.net.packets.decoders.lobby.ClanCheckName;
 import com.rs.lib.net.packets.decoders.lobby.ClanCreate;
 import com.rs.lib.net.packets.decoders.lobby.ClanLeave;
 import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
@@ -63,9 +64,15 @@ public class ClansManager {
 			return null;
 		if (CACHED_CLANS.get(name) == null) {
 			try {
-				LobbyCommunicator.getClan(name, clan -> CACHED_CLANS.put(name, clan));
+				LobbyCommunicator.getClan(name, clan -> {
+					if (clan == null || clan.getName() == null) {
+						Logger.error(ClansManager.class, "getClan", "Clan returned from lobby server was null " + name);
+						return;
+					}
+					CACHED_CLANS.put(name, clan);	
+				});
 			} catch(Throwable e) {
-				System.err.println("Error communicating with clan service.");
+				Logger.error(ClansManager.class, "getClan", "Error communicating with clan service. " + name);
 			}
 			return null;
 		}
@@ -78,6 +85,11 @@ public class ClansManager {
 		if (CACHED_CLANS.get(name) == null) {
 			try {
 				LobbyCommunicator.getClan(name, clan -> {
+					if (clan == null || clan.getName() == null) {
+						Logger.error(ClansManager.class, "getClan", "Clan returned from lobby server was null " + name);
+						cb.accept(null);
+						return;
+					}
 					CACHED_CLANS.put(name, clan);
 					cb.accept(clan);
 				});
@@ -90,6 +102,10 @@ public class ClansManager {
 	}
 	
 	public static void syncClanFromLobby(Clan clan) {
+		if (clan == null || clan.getName() == null) {
+			Logger.error(ClansManager.class, "syncClanFromLobby", "Clan returned from lobby server was null");
+			return;
+		}
 		CACHED_CLANS.put(clan.getName(), clan);
 		for (String username : clan.getMembers().keySet()) {
 			Player player = World.getPlayerByUsername(username);
