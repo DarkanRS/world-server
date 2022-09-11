@@ -239,73 +239,59 @@ public class ClansManager {
 		public void handle(ButtonClickEvent e) {
 			if (e.getPlayer().hasRights(Rights.DEVELOPER))
 				e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			if (e.getComponentId() == 41)
-				viewClanmateDetails(e.getPlayer(), e.getSlotId());
-			else if (e.getComponentId() == 94)
-				setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_ENTER_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_ENTER_CC) == 0 ? 1 : 0);
-			else if (e.getComponentId() == 95)
-				setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_TALK_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_TALK_CC) == 0 ? 1 : 0);
-			else if (e.getComponentId() == 222) {
-				if (!canEditSettings(e.getPlayer()))
-					return;
-				setVar(e.getPlayer().getClan(), 2811, Utils.clampI(e.getSlotId(), 0, 4)); //signpost permissions
-			} else if (e.getComponentId() == 207)
-				setClanSetting(e.getPlayer(), ClanSetting.GUEST_CITADEL_ACCESS, Utils.clampI(e.getSlotId(), 0, 3));
-			else if (e.getComponentId() == 96) {
+			switch(e.getComponentId()) {
+			case 41 -> viewClanmateDetails(e.getPlayer(), e.getSlotId());
+			case 94 -> setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_ENTER_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_ENTER_CC) == 0 ? 1 : 0);
+			case 95 -> setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_TALK_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_TALK_CC) == 0 ? 1 : 0);
+			case 96 -> {
 				boolean set = ((int) e.getPlayer().getClan().getSetting(ClanSetting.IS_RECRUITING)) == 1;
 				setClanSetting(e.getPlayer(), ClanSetting.IS_RECRUITING, set ? 0 : 1);
 				syncClanToLobby(e.getPlayer().getClan());
-			} else if (e.getComponentId() == 97) {
+			}
+			case 97 -> {
 				boolean set = ((int) e.getPlayer().getClan().getSetting(ClanSetting.USES_CLANTIMEZONE)) == 1;
 				setClanSetting(e.getPlayer(), ClanSetting.USES_CLANTIMEZONE, set ? 0 : 1);
 				syncClanToLobby(e.getPlayer().getClan());
-			} else if (e.getComponentId() == 124)
-				openClanMotifInterface(e.getPlayer());
-			else if (e.getComponentId() == 131)
-				openClanMottoInterface(e.getPlayer());
-			else if (e.getComponentId() == 240)
-				setClanSetting(e.getPlayer(), ClanSetting.GAME_TIME, -720 + e.getSlotId() * 10);
-			else if (e.getComponentId() == 262)
-				e.getPlayer().getTempAttribs().setI("editclanmatejob", e.getSlotId());
-			else if (e.getComponentId() == 276)
-				e.getPlayer().getTempAttribs().setI("editclanmaterank", e.getSlotId());
-			else if (e.getComponentId() == 366)
-				e.getPlayer().getPackets().sendVarc(1516, e.getSlotId());
-			else if (e.getComponentId() == 160)
-				openKeywordEditor(e.getPlayer());
-//			else if (e.getComponentId() == 309)
-//				kickClanmate(e.getPlayer());
-//			else if (e.getComponentId() == 318)
-//				saveClanmateDetails(e.getPlayer());
-			else if (e.getComponentId() == 290)
-				setClanSetting(e.getPlayer(), ClanSetting.HOME_WORLD, Utils.clampI(e.getSlotId(), 0, 200));
-			else if (e.getComponentId() == 297)
-				openForumThreadInterface(e.getPlayer());
-			else if (e.getComponentId() == 346)
-				openNationalFlagInterface(e.getPlayer());
-			if (e.getComponentId() == 113)
-				showClanSettingsClanMates(e.getPlayer());
-			else if (e.getComponentId() == 120)
-				showClanSettingsSettings(e.getPlayer());
-			else if (e.getComponentId() == 386)
-				showClanSettingsPermissions(e.getPlayer());
-			else if (e.getComponentId() >= 395 && e.getComponentId() <= 475) {
-				int selectedRank = (e.getComponentId() - 395) / 8;
-				if (selectedRank == 10)
-					selectedRank = 125;
-				else if (selectedRank > 5)
-					selectedRank = 100 + selectedRank - 6;
-				selectPermissionRank(e.getPlayer(), ClanRank.forId(selectedRank));
-			} else if (e.getComponentId() == 489)
-				selectPermissionTab(e.getPlayer(), 1);
-			else if (e.getComponentId() == 498)
-				selectPermissionTab(e.getPlayer(), 2);
-			else if (e.getComponentId() == 506)
-				selectPermissionTab(e.getPlayer(), 3);
-			else if (e.getComponentId() == 514)
-				selectPermissionTab(e.getPlayer(), 4);
-			else if (e.getComponentId() == 522)
-				selectPermissionTab(e.getPlayer(), 5);
+			}
+			case 113 -> showClanSettingsClanMates(e.getPlayer());
+			case 120 -> showClanSettingsSettings(e.getPlayer());
+			case 124 -> openClanMotifInterface(e.getPlayer());
+			case 131 -> openClanMottoInterface(e.getPlayer());
+			case 160 -> openKeywordEditor(e.getPlayer());
+			case 222 -> {
+				if (!canEditSettings(e.getPlayer()))
+					return;
+				setVar(e.getPlayer().getClan(), 2811, Utils.clampI(e.getSlotId(), 0, 4)); //signpost permissions
+			}
+			case 207 -> setClanSetting(e.getPlayer(), ClanSetting.GUEST_CITADEL_ACCESS, Utils.clampI(e.getSlotId(), 0, 3));
+			case 240 -> setClanSetting(e.getPlayer(), ClanSetting.GAME_TIME, -720 + e.getSlotId() * 10);
+			case 290 -> setClanSetting(e.getPlayer(), ClanSetting.HOME_WORLD, Utils.clampI(e.getSlotId(), 0, 200));
+			case 297 -> openForumThreadInterface(e.getPlayer());
+			case 346 -> openNationalFlagInterface(e.getPlayer());
+			case 386 -> showClanSettingsPermissions(e.getPlayer());
+			case 489 -> selectPermissionTab(e.getPlayer(), 1);
+			case 498 -> selectPermissionTab(e.getPlayer(), 2);
+			case 506 -> selectPermissionTab(e.getPlayer(), 3);
+			case 514 -> selectPermissionTab(e.getPlayer(), 4);
+			case 522 -> selectPermissionTab(e.getPlayer(), 5);
+			
+			case 262 -> e.getPlayer().getTempAttribs().setI("editClanMateJob", e.getSlotId());
+			case 276 -> e.getPlayer().getTempAttribs().setI("editClanMateRank", e.getSlotId());
+			case 309 -> kick(e.getPlayer());
+			case 318 -> saveClanmateDetails(e.getPlayer());
+			case 366 -> e.getPlayer().getPackets().sendVarc(1516, e.getSlotId());
+			
+			default -> {
+				if (e.getComponentId() >= 395 && e.getComponentId() <= 475) {
+					int selectedRank = (e.getComponentId() - 395) / 8;
+					if (selectedRank == 10)
+						selectedRank = 125;
+					else if (selectedRank > 5)
+						selectedRank = 100 + selectedRank - 6;
+					selectPermissionRank(e.getPlayer(), ClanRank.forId(selectedRank));
+				}
+			}
+			}
 		}
 	};
 
@@ -324,8 +310,10 @@ public class ClansManager {
 				ClansManager.openSetMotifColor(e.getPlayer(), 2);
 			else if (e.getComponentId() == 104)
 				ClansManager.openSetMotifColor(e.getPlayer(), 3);
-			else if (e.getComponentId() == 120)
+			else if (e.getComponentId() == 120) {
+				syncClanToLobby(e.getPlayer().getClan());
 				e.getPlayer().stopAll();
+			}
 		}
 	};
 	
@@ -389,7 +377,7 @@ public class ClansManager {
 					}
 				}
 			}
-			case 160, 171, 172, 173, 174, 175, 176, 178, 179 -> {
+			case 160, 171, 172, 173, 174, 175, 176, 177, 178, 179 -> {
 				int index = e.getComponentId() == 160 ? 0 : e.getComponentId() - 170;
 				int baseVar = 9155 + (index * 2);
 				e.getPlayer().getVars().setVarBit(baseVar, 0);
@@ -435,8 +423,14 @@ public class ClansManager {
 	public static InterfaceOnPlayerHandler handleInvite = new InterfaceOnPlayerHandler(false, new int[] { 1110 }) {
 		@Override
 		public void handle(IFOnPlayerEvent e) {
-			if (e.getComponentId() == 87)
+			if (e.getComponentId() == 87) {
+				if (e.getTarget().getSocial().getClanName() != null) {
+					e.getPlayer().sendMessage(e.getTarget().getDisplayName() + " is already in a clan.");
+					return;
+				}
+				e.getPlayer().sendMessage("Sending clan invite to " + e.getTarget().getDisplayName() + ".");
 				e.getTarget().getPackets().sendClanInviteMessage(e.getPlayer());
+			}
 		}
 	};
 	
@@ -452,10 +446,26 @@ public class ClansManager {
 		if (member == null)
 			return;
 		viewClanmateDetails(player, username, member);
-		player.getTempAttribs().removeO("editclanmaterank");
-		player.getTempAttribs().removeO("editclanmatejob");
+		player.getTempAttribs().removeO("editClanMateRank");
+		player.getTempAttribs().removeO("editClanMateJob");
 		if (player.getClan().hasPermissions(player.getUsername(), ClanRank.ADMIN))
-			player.getTempAttribs().setO("editclanmatedetails", member);
+			player.getTempAttribs().setO("editClanMate", username);
+	}
+
+	private static void kick(Player player) {
+		// TODO Auto-generated method stub
+	}
+	
+	private static void banPlayer(Player player, String name) {
+		// TODO Auto-generated method stub
+	}
+
+	private static void unban(Player player, String displayName) {
+		// TODO Auto-generated method stub
+	}
+
+	private static void unban(Player player, int slotId) {
+		// TODO Auto-generated method stub
 	}
 
 	public static void viewClanmateDetails(Player player, String username, MemberData member) {
@@ -468,6 +478,51 @@ public class ClansManager {
 		player.getPackets().sendVarc(1568, member.firstWeek() ? 1 : 0);
 		player.getPackets().sendVarcString(347, username);
 		player.getPackets().sendRunScriptBlank(4319);
+	}
+	
+	private static void saveClanmateDetails(Player player) {
+		int jobId = player.getTempAttribs().getI("editClanMateJob", -1);
+		int rankId = player.getTempAttribs().getI("editClanMateRank");
+		String editingUser = player.getTempAttribs().getO("editClanMate");
+		ClanRank currRank = player.getClan().getRank(editingUser);
+		ClanRank newRank = ClanRank.forId(rankId);
+		ClanRank playerRank = player.getClan().getRank(player.getUsername());
+		if (!player.getClan().hasPermissions(player.getUsername(), ClanRank.ADMIN)) {
+			player.sendMessage("Only clan admins can edit ranks and jobs.");
+			return;
+		}
+		if (newRank == ClanRank.NONE || newRank == ClanRank.OWNER)
+			return;
+		if (newRank != currRank) {
+			if (currRank.ordinal() >= playerRank.ordinal()) {
+				player.sendMessage("You can only edit the rank of players with lesser rank than you.");
+				return;
+			}
+			if (newRank.ordinal() > playerRank.ordinal()) {
+				player.sendMessage("You cannot promote someone to a rank higher than your own.");
+				return;
+			}
+		}
+		if (currRank == ClanRank.OWNER && newRank != ClanRank.OWNER) {
+			String deputyOwner = null;
+			for (String memberName : player.getClan().getMembers().keySet()) {
+				if (player.getClan().getMembers().get(memberName).getRank() == ClanRank.DEPUTY_OWNER) {
+					deputyOwner = memberName;
+					break;
+				}
+			}
+			if (deputyOwner == null) {
+				if (player != null)
+					player.sendMessage("You are currently the clan owner, you must at least have one deputy owner in the clan to demote yourself.");
+				return;
+			}
+			player.getClan().setClanLeaderUsername(deputyOwner);
+			player.getClan().getMembers().get(deputyOwner).setRank(ClanRank.OWNER);
+		}
+		player.getClan().getMembers().get(editingUser).setRank(newRank);
+		if (jobId != -1 && EnumDefinitions.getEnum(3720).getStringValue(jobId) != null)
+			player.getClan().getMembers().get(editingUser).setJob(jobId);
+		syncClanToLobby(player.getClan());
 	}
 
 	public static void unlockBanList(Player player) {
@@ -521,18 +576,6 @@ public class ClansManager {
 			});
 			conf1.add("Nevermind.");
 		});
-	}
-
-	private static void banPlayer(Player player, String name) {
-		// TODO Auto-generated method stub
-	}
-
-	private static void unban(Player player, String displayName) {
-		// TODO Auto-generated method stub
-	}
-
-	private static void unban(Player player, int slotId) {
-		// TODO Auto-generated method stub
 	}
 
 	private static void openSettings(Player player) {
@@ -693,7 +736,7 @@ public class ClansManager {
 		player.getVars().setVarBit(9087, player.getClan().getMotifBottomIcon());
 		for (int i = 0; i < player.getClan().getMotifColors().length; i++)
 			player.getVars().setVar(2094 + i, player.getClan().getMotifColors()[i]);
-		player.setCloseInterfacesEvent(() -> syncClanToLobby(player.getClan(), () -> player.sendMessage("Saved clan details successfully.")));
+		player.setCloseInterfacesEvent(() -> openSettings(player));
 	}
 
 	public static void openSetMotifColor(Player player, int part) {
@@ -752,715 +795,6 @@ public class ClansManager {
 		}
 		return true;
 	}
-
-	//	public ClansManager(Clan clan) {
-	//		this.clan = clan;
-	//		this.channelPlayers = new ArrayList<Player>();
-	//		this.membersOnline = new ArrayList<Player>();
-	//		this.bannedChannelPlayers = new HashMap<String, Long>();
-	//		generateClanSettingsDataBlock();
-	//		generateClanChannelDataBlock();
-	//	}
-	//
-	//	public static void viewClammateDetails(Player player, int index) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		ClanMember member = manager.getMemberByIndex(index);
-	//		if (member == null)
-	//			return;
-	//		viewClanmateDetails(player, member);
-	//		player.getTemporaryAttributes().remove("editclanmaterank");
-	//		player.getTemporaryAttributes().remove("editclanmatejob");
-	//		if (manager.hasRankToEditSettings(player))
-	//			player.getTemporaryAttributes().put("editclanmatedetails", member);
-	//		else
-	//			player.getTemporaryAttributes().remove("editclanmatedetails");
-	//	}
-	//
-	//	public static void kickClanmate(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		ClanMember member = (ClanMember) player.getTemporaryAttributes().remove("editclanmatedetails");
-	//		if (member == null) // means u not owner
-	//			return;
-	//		if (member.getUsername().equals(player.getUsername())) {
-	//			player.sendMessage("You can't kick yourself!");
-	//			return;
-	//		}
-	//		if (manager.hasRights(player, ClanRank.OWNER)) {
-	//			player.sendMessage("You can't kick leader!");
-	//			return;
-	//		}
-	//		manager.kickPlayer(member);
-	//	}
-	//
-	//	public static void leaveClan(Player player) {
-	//		if (player.getClanManager() == null)
-	//			return;
-	//		player.startConversation(new LeaveClan());
-	//	}
-	//
-	//	public static void leaveClanCompletly(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		ClanMember mate = manager.getMemberByUsername(player.getUsername());
-	//		if (mate == null)
-	//			return;
-	//		manager.kickPlayer(mate);
-	//	}
-	//
-	//	public void kickAllChannelPlayers() {
-	//		synchronized (this) {
-	//			for (Player player : new ArrayList<Player>(channelPlayers))
-	//				disconnect(player, !membersOnline.contains(player));
-	//		}
-	//	}
-	//
-	//	public void kickPlayer(ClanMember mate) {
-	//		synchronized (cachedClans) {
-	//			synchronized (this) {
-	//				clan.getMembers().remove(mate);
-	//				Player player = World.getPlayer(mate.getUsername());
-	//				if (player != null) {
-	//					player.setClanName(null); // automaticaly sets to null when
-	//					// logins if logged out
-	//					player.getClanManager().disconnect(player, false);
-	//					player.sendMessage("You're no longer part of a clan.");
-	//				}
-	//				if (clan.getMembers().isEmpty()) {
-	//					kickAllChannelPlayers();
-	//					JsonFileManager.deleteClan(clan);
-	//				} else {
-	//					if (mate.getRank() == ClanRank.OWNER) {
-	//						ClanMember newLeader = getHighestRank();
-	//						if (newLeader != null) {
-	//							newLeader.setRank(ClanRank.OWNER);
-	//							clan.setClanLeaderUsername(newLeader);
-	//							generateClanChannelDataBlock();
-	//							refreshClanChannel();
-	//							sendGlobalMessage("<col=7E2217>" + Utils.formatPlayerNameForDisplay(newLeader.getUsername()) + " has been appointed as new leader!");
-	//						}
-	//					}
-	//					generateClanSettingsDataBlock();
-	//					refreshClanSettings();
-	//				}
-	//			}
-	//		}
-	//	}
-	//
-	//	public static void saveClanmateDetails(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		ClanMember member = (ClanMember) player.getTemporaryAttributes().get("editclanmatedetails");
-	//		if (member == null) // means u not owner
-	//			return;
-	//		Integer rank = (Integer) player.getTemporaryAttributes().remove("editclanmaterank");
-	//		Integer job = (Integer) player.getTemporaryAttributes().remove("editclanmatejob");
-	//		if (rank == null && job == null)
-	//			return;
-	//		synchronized (manager) {
-	//			if (rank != null && member.getRank() == ClanRank.OWNER) {
-	//				// sets highest rank member to leader
-	//				ClanMember newLeader = manager.getDeputyOwner();
-	//				if (newLeader == null) {
-	//					player.sendMessage("Please select a deputy owner before changing your own rank.");
-	//					return;
-	//				}
-	//				newLeader.setRank(ClanRank.OWNER);
-	//				manager.clan.setClanLeaderUsername(newLeader);
-	//				manager.sendGlobalMessage("<col=7E2217>" + Utils.formatPlayerNameForDisplay(newLeader.getUsername()) + " has been appointed as new leader!");
-	//			}
-	//			if (rank != null) {
-	//				member.setRank(ClanRank.forId(rank));
-	//				player.getPackets().sendVarc(1500, rank);
-	//				manager.generateClanChannelDataBlock();
-	//				manager.refreshClanChannel();
-	//			}
-	//			if (job != null) {
-	//				member.setJob(job);
-	//				player.getPackets().sendVarc(1501, job);
-	//			}
-	//			manager.generateClanSettingsDataBlock();
-	//			manager.refreshClanSettings();
-	//		}
-	//	}
-	//
-	//	public void sendGlobalMessage(String message) {
-	//		synchronized (this) {
-	//			for (Player player : membersOnline)
-	//				player.sendMessage(message);
-	//		}
-	//	}
-	//
-	//	public ClanMember getHighestRank() {
-	//		synchronized (this) {
-	//			ClanMember highest = null;
-	//			for (ClanMember member : clan.getMembers())
-	//				if (highest == null || member.getRank().getIconId() > highest.getRank().getIconId())
-	//					highest = member;
-	//			return highest;
-	//		}
-	//	}
-	//
-	//	public ClanMember getDeputyOwner() {
-	//		synchronized (this) {
-	//			for (ClanMember member : clan.getMembers())
-	//				if (member.getRank() == ClanRank.DEPUTY_OWNER)
-	//					return member;
-	//			return null;
-	//		}
-	//	}
-	//
-	//	public ClanMember getMemberByIndex(int index) {
-	//		synchronized (this) {
-	//			if (clan.getMembers().size() <= index)
-	//				return null;
-	//			return clan.getMembers().get(index);
-	//		}
-	//	}
-	//
-	//	public ClanMember getMemberByUsername(String username) {
-	//		synchronized (this) {
-	//			for (ClanMember member : clan.getMembers())
-	//				if (member.getUsername().equals(username))
-	//					return member;
-	//			return null;
-	//		}
-	//	}
-	//
-	//	public static void switchRecruitingInterface(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		manager.switchRecruiting(player);
-	//		// TODO switch flag on inter
-	//	}
-	//
-	//	public static void switchClanTimeInterface(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		manager.switchClanTime(player);
-	//		// TODO switch flag on inter
-	//	}
-	//
-	//	public void switchClanTime(Player player) {
-	//		synchronized (this) {
-	//			if (!hasRankToEditSettings(player))
-	//				return;
-	//			clan.switchClanTime();
-	//			generateClanSettingsDataBlock();
-	//			refreshClanSettings();
-	//		}
-	//	}
-	//
-	//	public Clan getClan() {
-	//		synchronized (this) {
-	//			return clan;
-	//		}
-	//	}
-	//
-	//	public void setWorldId(Player player, int worldId) {
-	//		synchronized (this) {
-	//			if (!hasRankToEditSettings(player))
-	//				return;
-	//			clan.setWorldId(worldId);
-	//			generateClanSettingsDataBlock();
-	//			refreshClanSettings();
-	//		}
-	//	}
-	//
-	//	public void switchRecruiting(Player player) {
-	//		synchronized (this) {
-	//			if (!hasRankToEditSettings(player))
-	//				return;
-	//			clan.switchRecruiting();
-	//			generateClanSettingsDataBlock();
-	//			refreshClanSettings();
-	//		}
-	//	}
-	//
-	//	public static void switchGuestsInChatCanEnterInterface(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		manager.switchGuestsInChatCanEnter(player);
-	//	}
-	//
-	//	public static void switchGuestsInChatCanTalkInterface(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		manager.switchGuestsInChatCanTalk(player);
-	//	}
-	//
-	//	public void switchGuestsInChatCanTalk(Player player) {
-	//		synchronized (this) {
-	//			if (!hasRankToEditSettings(player))
-	//				return;
-	//			clan.switchGuestsInChatCanTalk();
-	//			generateClanChannelDataBlock();
-	//			refreshClanChannel();
-	//		}
-	//	}
-	//
-	//	public void sendMessage(Player player, String message) {
-	//		synchronized (this) {
-	//			String displayName = player.getDisplayName();
-	//			int rights = player.getRights().getCrown();
-	//			for (Player p2 : channelPlayers)
-	//				p2.getPackets().receiveClanChatMessage(displayName, rights, message, !membersOnline.contains(p2));
-	//		}
-	//	}
-	//
-	//	public Player getPlayer(String username) {
-	//		synchronized (this) {
-	//			String formatedUsername = Utils.formatPlayerNameForProtocol(username);
-	//			for (Player player : channelPlayers) {
-	//				if (player.getUsername().equals(formatedUsername) || player.getDisplayName().equalsIgnoreCase(username))
-	//					return player;
-	//			}
-	//			return null;
-	//		}
-	//	}
-	//
-	//	public void kickPlayerFromChat(Player player, String username) {
-	//		String name = "";
-	//		for (char character : username.toLowerCase().toCharArray()) {
-	//			name += Utils.containsInvalidCharacter(character) ? " " : character;
-	//		}
-	//		synchronized (this) {
-	//			Player kicked = getPlayer(name);
-	//			if (kicked == null) {
-	//				player.sendMessage("This player is not this channel.");
-	//				return;
-	//			}
-	//			if (getMemberByUsername(kicked.getUsername()) != null)
-	//				return;
-	//			bannedChannelPlayers.put(kicked.getUsername(), System.currentTimeMillis());
-	//			disconnect(kicked, true);
-	//			kicked.sendMessage("You have been kicked from the guest clan chat channel.");
-	//			player.sendMessage("You have kicked " + kicked.getUsername() + " from clan chat channel.");
-	//
-	//		}
-	//	}
-	//
-	//	public void sendQuickMessage(Player player, QuickChatMessage message) {
-	//		synchronized (this) {
-	//			String displayName = player.getDisplayName();
-	//			int rights = player.getRights().getCrown();
-	//			for (Player p2 : channelPlayers)
-	//				p2.getPackets().receiveClanChatQuickMessage(displayName, rights, message, !membersOnline.contains(p2));
-	//		}
-	//	}
-	//
-	//	public void switchGuestsInChatCanEnter(Player player) {
-	//		synchronized (this) {
-	//			if (!hasRankToEditSettings(player))
-	//				return;
-	//			clan.switchGuestsInChatCanEnter();
-	//			generateClanSettingsDataBlock();
-	//			refreshClanSettings();
-	//		}
-	//	}
-	//
-	//	public boolean isMember(Player player) {
-	//		synchronized (this) {
-	//			for (ClanMember member : clan.getMembers())
-	//				if (member.getUsername().equals(player.getUsername()))
-	//					return true;
-	//			return false;
-	//		}
-	//	}
-	//
-	//	public boolean hasRankToEditSettings(Player player) {
-	//		return hasRights(player, ClanRank.ADMIN);
-	//	}
-	//
-	//	public boolean hasRankToInvite(Player player) {
-	//		return hasRights(player, ClanRank.ADMIN);
-	//	}
-	//
-	//	public ClanRank getRank(Player player) {
-	//		synchronized (this) {
-	//			for (ClanMember member : clan.getMembers())
-	//				if (member.getUsername().equals(player.getUsername()))
-	//					return member.getRank();
-	//			return ClanRank.NONE;
-	//		}
-	//	}
-	//
-	//	public boolean hasRights(Player player, ClanRank rank) {
-	//		return getRank(player).ordinal() >= rank.ordinal();
-	//	}
-	//
-	//	public void refreshClanSettings() {
-	//		synchronized (this) {
-	//			for (Player player : membersOnline)
-	//				player.getPackets().sendClanSettings(this, false);
-	//		}
-	//	}
-	//
-	//	public void refreshClanChannel() {
-	//		synchronized (this) {
-	//			for (Player player : channelPlayers)
-	//				player.getPackets().sendClanChannel(this, !membersOnline.contains(player));
-	//		}
-	//	}
-	//
-	//	public void connect(Player player, boolean guestClan) {
-	//		synchronized (this) {
-	//			if (!guestClan) {
-	//				membersOnline.add(player);
-	//				player.getPackets().sendClanSettings(this, false);
-	//			}
-	//			if (guestClan || player.isConnectedClanChannel())
-	//				connectChannel(player);
-	//			linkClan(player, guestClan);
-	//		}
-	//	}
-	//
-	//	public void linkClan(Player player, boolean guestClan) {
-	//		if (guestClan)
-	//			player.setGuestClanManager(this);
-	//		else
-	//			player.setClanManager(this);
-	//	}
-	//
-	//	public void unlinkClan(Player player, boolean guestClan) {
-	//		if (guestClan)
-	//			player.setGuestClanManager(null);
-	//		else
-	//			player.setClanManager(null);
-	//	}
-	//
-	//	public void disconnect(Player player, boolean guestClan) {
-	//		synchronized (cachedClans) {
-	//			synchronized (this) {
-	//				if (guestClan || player.isConnectedClanChannel())
-	//					disconnectChannel(player);
-	//				if (!guestClan)
-	//					membersOnline.remove(player);
-	//				unlinkClan(player, guestClan);
-	//				destroyIfEmpty();
-	//			}
-	//		}
-	//	}
-	//
-	//	/*
-	//	 * dont use this without synchronized (cachedClans) and synchronized (this)
-	//	 * else exept disconnect
-	//	 */
-	//	private void destroyIfEmpty() {
-	//		if (empty()) {
-	//			JsonFileManager.saveClan(clan);
-	//			cachedClans.remove(clan.getName());
-	//		}
-	//	}
-	//
-	//	public void connectChannel(Player player) {
-	//		synchronized (this) {
-	//			channelPlayers.add(player);
-	//			generateClanChannelDataBlock();
-	//			refreshClanChannel();
-	//		}
-	//	}
-	//
-	//	/*
-	//	 * only used by normal channel by itself
-	//	 */
-	//	private void disconnectChannel(Player player) {
-	//		synchronized (this) {
-	//			channelPlayers.remove(player);
-	//			player.getPackets().sendClanChannel(null, !membersOnline.contains(player));
-	//			generateClanChannelDataBlock();
-	//			refreshClanChannel();
-	//		}
-	//	}
-	//
-	//	public boolean empty() {
-	//		return membersOnline.size() == 0 && channelPlayers.size() == 0;
-	//	}
-	//
-	//	public static void linkClanMember(Player player, String clanName) {
-	//		player.setClanName(clanName);
-	//		player.setConnectedClanChannel(true);
-	//		player.sendMessage("You have joined the clan, so you are now part of " + clanName + ".");
-	//		connectToClan(player, clanName, false);
-	//	}
-	//
-	//	public static void createClan(Player player, String clanName) {
-	//		clanName = Utils.formatPlayerNameForDisplay(clanName);
-	//		if (player.getClanManager() != null)
-	//			return;
-	//		synchronized (cachedClans) {
-	//			if (JsonFileManager.containsClan(clanName)) {
-	//				player.sendMessage("The clan name you tried already exists.");
-	//				return;
-	//			}
-	//			Clan clan = new Clan(clanName, player);
-	//			JsonFileManager.saveClan(clan);
-	//			linkClanMember(player, clanName);
-	//		}
-	//	}
-	//
-	//	public static void joinClan(Player player, Player inviter) {
-	//		player.stopAll();
-	//		if (inviter == null)
-	//			return;
-	//		ClansManager manager = inviter.getClanManager();
-	//		if (manager == null)
-	//			return;
-	//		synchronized (manager) {
-	//			if (player.getGuestClanManager() != null)
-	//				player.getGuestClanManager().disconnect(player, true);
-	//			manager.clan.addMember(player.getAccount(), ClanRank.RECRUIT);
-	//			manager.generateClanSettingsDataBlock();
-	//			manager.refreshClanSettings();
-	//			linkClanMember(player, manager.clan.getName());
-	//		}
-	//	}
-	//
-	//	public static boolean connectToClan(Player player, String clanName, boolean guest) {
-	//		clanName = Utils.formatPlayerNameForDisplay(clanName);
-	//		ClansManager manager = guest ? player.getGuestClanManager() : player.getClanManager();
-	//		if (manager != null || guest && player.getClanName() != null && clanName.equalsIgnoreCase(player.getClanName())) // already
-	//			// connected
-	//			// to
-	//			// a
-	//			// clan
-	//			return false;
-	//		synchronized (cachedClans) {
-	//			manager = cachedClans.get(clanName); // grabs clan
-	//			boolean created = manager != null;
-	//			if (!created) { // not loaded
-	//				if (!JsonFileManager.containsClan(clanName)) {
-	//					player.getPackets().setIFText(1110, 70, "Could not find a clan named " + clanName + ". Please check the name and try again.");
-	//					return false;
-	//				}
-	//				Clan clan = JsonFileManager.loadClan(clanName);
-	//				if (clan == null)
-	//					return false;
-	//				clan.init(clanName);
-	//				manager = new ClansManager(clan);
-	//			} else {
-	//				synchronized (manager) {
-	//					if (guest) {
-	//						Long bannedSince = manager.bannedChannelPlayers.get(player.getUsername());
-	//						if (bannedSince != null) {
-	//							if (bannedSince + 3600000 > System.currentTimeMillis()) {
-	//								player.sendMessage("You have been banned from this channel.");
-	//								return false;
-	//							}
-	//							manager.bannedChannelPlayers.remove(player.getUsername());
-	//						}
-	//					}
-	//				}
-	//			}
-	//			synchronized (manager) {
-	//				if (!guest && !manager.isMember(player)) {
-	//					player.sendMessage("You have beem kicked from the clan.");
-	//					return false;
-	//				}
-	//				if (guest) {
-	//					if (!manager.clan.isGuestsInChatCanEnter()) {
-	//						player.sendMessage("This clan only allows clanmates to join their channel.");
-	//						player.getPackets().setIFText(1110, 70, "This clan only allows clanmates to join their channel.");
-	//						return false;
-	//					}
-	//					if (manager.getClan().getBannedUsers().contains(player.getUsername())) {
-	//						player.sendMessage("You have been banned from this channel.");
-	//						return false;
-	//					}
-	//				}
-	//				if (!created)
-	//					cachedClans.put(clanName, manager);
-	//				if (guest)
-	//					player.getPackets().sendRunScriptReverse(4453);
-	//				manager.connect(player, guest);
-	//				return true;
-	//			}
-	//		}
-	//	}
-	//
-	//	public static void openClanDetails(Player player) {
-	//		if (player.getClanManager() == null) {
-	//			player.sendMessage("You're not in a clan.");
-	//			return;
-	//		}
-	//		if (player.getInterfaceManager().containsScreenInter() || player.getInterfaceManager().containsInventoryInter()) {
-	//			player.sendMessage("Please close the interface you have open first.");
-	//			return;
-	//		}
-	//		openClanDetails(player, null, player.getClanManager());
-	//	}
-	//
-	//	public static void banPlayer(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null) {
-	//			player.sendMessage("You're  not in a clan.");
-	//			return;
-	//		}
-	//		if (manager.hasRights(player, ClanRank.ADMIN)) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		player.getTemporaryAttributes().put("banclanplayer", Boolean.TRUE);
-	//		player.getPackets().sendInputNameScript("Enter the name of the play you wish to ban:");
-	//	}
-	//
-	//	public static void banPlayer(Player player, String name) {
-	//		name = Utils.formatPlayerNameForDisplay(name);
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null) {
-	//			player.sendMessage("You're  not in a clan.");
-	//			return;
-	//		}
-	//		if (manager.hasRights(player, ClanRank.ADMIN)) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		manager.ban(player, name);
-	//	}
-	//
-	//	public void ban(Player player, String name) {
-	//		synchronized (this) {
-	//			if (getMemberByUsername(name) != null) {
-	//				player.sendMessage("You can't add a member from your clan to banlist.");
-	//				return;
-	//			}
-	//			if (clan.getBannedUsers().size() >= 100) {
-	//				player.sendMessage("Ban list is currently full.");
-	//				return;
-	//			}
-	//			player.sendMessage("Attempting to ban " + name + ".");
-	//			clan.getBannedUsers().add(name);
-	//			generateClanSettingsDataBlock();
-	//			refreshClanSettings();
-	//		}
-	//	}
-	//
-	//	public static void clanEvent(String event, Player player) {
-	//		if (player.getUsername().equalsIgnoreCase("danny"))
-	//			World.sendWorldMessage("<img=7><col=ff0000>[Clan Event] The clan " + player.getClanName() + " is currently hosting: " + event + "", false);
-	//	}
-	//
-	//	public static void unbanPlayer(Player player) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		if (manager.hasRights(player, ClanRank.ADMIN)) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		player.getTemporaryAttributes().put("unbanclanplayer", Boolean.TRUE);
-	//		player.getPackets().sendInputNameScript("Enter the name of the play you wish to unban:");
-	//	}
-	//
-	//	public static void unbanPlayer(Player player, String name) {
-	//		name = Utils.formatPlayerNameForDisplay(name);
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		if (manager.hasRights(player, ClanRank.ADMIN)) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		manager.unban(player, name);
-	//	}
-	//
-	//	public static void unbanPlayer(Player player, int index) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		if (manager.hasRights(player, ClanRank.ADMIN)) {
-	//			player.sendMessage("You must be a clan admin to do that.");
-	//			return;
-	//		}
-	//		manager.unban(player, index);
-	//	}
-	//
-	//	public void unban(Player player, int slot) {
-	//		synchronized (this) {
-	//			if (clan.getBannedUsers().size() <= slot)
-	//				return;
-	//			unban(player, clan.getBannedUsers().get(slot));
-	//		}
-	//	}
-	//
-	//	public void unban(Player player, String name) {
-	//		player.sendMessage("Attempting to unban " + name + ".");
-	//		synchronized (this) {
-	//			if (clan.getBannedUsers().remove(name)) {
-	//				generateClanSettingsDataBlock();
-	//				refreshClanSettings();
-	//			} else
-	//				player.sendMessage("An error was encountered while applying trying to unban " + name + ". No player of that name could be found.");
-	//		}
-	//	}
-	//
-	//	public static void joinClanChatChannel(Player player) {
-	//		if (player.getClanManager() == null) {
-	//			player.sendMessage("You must be a member of a clan in order to join their channel.");
-	//			player.startConversation(new ClanCreateD());
-	//			return;
-	//		}
-	//		if (player.isConnectedClanChannel()) {
-	//			player.setConnectedClanChannel(false);
-	//			player.getClanManager().disconnectChannel(player);
-	//		} else {
-	//			player.setConnectedClanChannel(true);
-	//			player.getClanManager().connectChannel(player);
-	//		}
-	//	}
-	//
-	//	public static void viewInvite(final Player player, Player p2) {
-	//		if (player.getTemporaryAttributes().remove("claninvite") != null) {
-	//			player.startConversation(new ClanInvite(), p2);
-	//		}
-	//	}
-	//
-	//	public static void invite(Player player, Player p2) {
-	//		ClansManager manager = player.getClanManager();
-	//		if (manager == null) {
-	//			player.sendMessage("You must be in a clan to do that.");
-	//			return;
-	//		}
-	//		synchronized (manager) {
-	//			if (!manager.hasRankToInvite(player)) {
-	//				player.sendMessage("You don't have permissions to invite.");
-	//				return;
-	//			}
-	//			if (manager.getClan().getBannedUsers().contains(p2.getUsername())) {
-	//				player.sendMessage("This player has been banned from this clan.");
-	//				return;
-	//			}
-	//			if (manager.clan.getMembers().size() >= Clan.MAX_MEMBERS) {
-	//				player.sendMessage("Clans can't have over 500 members.");
-	//			}
-	//		}
-	//		if (p2.getClanManager() != null) {
-	//			player.sendMessage("This player is already a member of another clan.");
-	//			return;
-	//		}
-	//		if (p2.getInterfaceManager().containsScreenInter() || p2.getControllerManager().getController() != null) {
-	//			player.sendMessage("The other player is busy.");
-	//			return;
-	//		}
-	//		player.sendMessage("Sending " + p2.getDisplayName() + " a invitation...");
-	//		p2.getPackets().sendClanInviteMessage(player);
-	//		p2.getTemporaryAttributes().put("claninvite", Boolean.TRUE);
-	//	}
 	
 	public static int[] generateColorGradient(Clan clan, int length, boolean hasTextures) {
 		RSColor primary = RSColor.fromHSL((int) clan.getSetting(ClanSetting.MOTIF_PRIMARY_COLOR));
