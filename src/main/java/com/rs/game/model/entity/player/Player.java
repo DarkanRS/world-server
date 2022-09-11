@@ -952,8 +952,9 @@ public class Player extends Entity {
 		endConversation();
 		getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 		if (closeInterfacesEvent != null) {
-			closeInterfacesEvent.run();
+			Runnable event = closeInterfacesEvent;
 			closeInterfacesEvent = null;
+			event.run();
 		}
 	}
 
@@ -3770,8 +3771,9 @@ public class Player extends Entity {
 		if (getInterfaceManager().containsChatBoxInter())
 			getInterfaceManager().closeChatBoxInterface();
 		if (finishConversationEvent != null) {
-			finishConversationEvent.run();
+			Runnable event = finishConversationEvent;
 			finishConversationEvent = null;
+			event.run();
 		}
 	}
 

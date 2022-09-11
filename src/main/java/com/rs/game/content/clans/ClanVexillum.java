@@ -55,10 +55,8 @@ public class ClanVexillum extends OwnedNPC {
 					e.getPlayer().sendMessage("This isn't your vexillum to remove.");
 					return;
 				}
-				e.getPlayer().sendOptionDialogue("Would you like to pick up the vexillum?", ops -> {
-					ops.add("Yes, pick it up.", () -> vex.finish());
-					ops.add("No, leave it.");
-				});
+				e.getPlayer().anim(8177);
+				vex.finish();
 			} else {
 				ClansManager.openClanDetails(e.getPlayer(), vex.getOwner(), vex.clan);
 			}
@@ -86,10 +84,7 @@ public class ClanVexillum extends OwnedNPC {
 					e.getPlayer().sendMessage("This isn't your vexillum to remove.");
 					return;
 				}
-				e.getPlayer().sendOptionDialogue("Would you like to pick up the vexillum?", ops -> {
-					ops.add("Yes, pick it up.", () -> vex.finish());
-					ops.add("No, leave it.");
-				});
+				vex.finish();
 			} else if (e.getOption().equals("Find")) {
 				if (e.getPlayer().getClan() == null) {
 					e.getPlayer().sendMessage("Could not find your vexillum.");
