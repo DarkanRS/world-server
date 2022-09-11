@@ -47,6 +47,7 @@ import com.rs.lib.net.packets.decoders.lobby.CCLeave;
 import com.rs.lib.net.packets.decoders.lobby.ClanAddMember;
 import com.rs.lib.net.packets.decoders.lobby.ClanCheckName;
 import com.rs.lib.net.packets.decoders.lobby.ClanCreate;
+import com.rs.lib.net.packets.decoders.lobby.ClanKickMember;
 import com.rs.lib.net.packets.decoders.lobby.ClanLeave;
 import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.util.Logger;
@@ -451,23 +452,7 @@ public class ClansManager {
 		if (player.getClan().hasPermissions(player.getUsername(), ClanRank.ADMIN))
 			player.getTempAttribs().setO("editClanMate", username);
 	}
-
-	private static void kick(Player player) {
-		// TODO Auto-generated method stub
-	}
 	
-	private static void banPlayer(Player player, String name) {
-		// TODO Auto-generated method stub
-	}
-
-	private static void unban(Player player, String displayName) {
-		// TODO Auto-generated method stub
-	}
-
-	private static void unban(Player player, int slotId) {
-		// TODO Auto-generated method stub
-	}
-
 	public static void viewClanmateDetails(Player player, String username, MemberData member) {
 		player.getPackets().sendVarc(1500, member.getRank().getIconId());
 		player.getPackets().sendVarc(1501, member.getJob());
@@ -523,6 +508,29 @@ public class ClansManager {
 		if (jobId != -1 && EnumDefinitions.getEnum(3720).getStringValue(jobId) != null)
 			player.getClan().getMembers().get(editingUser).setJob(jobId);
 		syncClanToLobby(player.getClan());
+	}
+
+	private static void kick(Player player) {
+		String editingUser = player.getTempAttribs().getO("editClanMate");
+		player.sendOptionDialogue("Are you sure you would like to kick this player from the clan?", ops -> {
+			ops.add("Yes, I am sure I want to kick them.", () -> LobbyCommunicator.forwardPacket(player, new ClanKickMember(editingUser), res -> {
+				if (!res)
+					player.sendMessage("Failed to send kick request to social server.");
+			}));
+			ops.add("Nevermind");
+		});
+	}
+	
+	private static void banPlayer(Player player, String name) {
+		// TODO Auto-generated method stub
+	}
+
+	private static void unban(Player player, String displayName) {
+		// TODO Auto-generated method stub
+	}
+
+	private static void unban(Player player, int slotId) {
+		// TODO Auto-generated method stub
 	}
 
 	public static void unlockBanList(Player player) {
