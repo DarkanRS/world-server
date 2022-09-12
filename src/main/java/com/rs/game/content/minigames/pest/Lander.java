@@ -33,7 +33,7 @@ public class Lander {
 
 	public static Lander[] landers = new Lander[3];
 	private static final int AUTO_GAME = Settings.getConfig().isDebug() ? 2 : 15;
-	private static final int TIME = 150;
+	private static final int TIME = 30;
 
 	private List<Player> lobby = Collections.synchronizedList(new LinkedList<Player>());
 	private LobbyTimer timer;
