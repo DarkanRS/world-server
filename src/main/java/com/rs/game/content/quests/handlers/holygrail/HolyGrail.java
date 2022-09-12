@@ -69,7 +69,7 @@ public class HolyGrail extends QuestOutline {
 				}
 			}
 			case TALK_TO_MERLIN -> {
-				lines.add("King Arthur recommended I get more informatoion about the");
+				lines.add("King Arthur recommended I get more information about the");
 				lines.add("Holy Grail from King Arthur.");
 				lines.add("");
 			}

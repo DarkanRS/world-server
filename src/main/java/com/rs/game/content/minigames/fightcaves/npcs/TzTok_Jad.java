@@ -19,6 +19,7 @@ package com.rs.game.content.minigames.fightcaves.npcs;
 import com.rs.game.content.minigames.fightcaves.FightCavesController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -57,6 +58,8 @@ public class TzTok_Jad extends FightCavesNPC {
 			} else if (loop >= defs.getDeathDelay()) {
 				reset();
 				finish();
+				if (source instanceof Player p)
+					p.sendNPCKill(getDefinitions().getName(p.getVars()));
 				controller.win();
 				return false;
 			}

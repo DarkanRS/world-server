@@ -109,7 +109,7 @@ public final class World {
 						PartyRoom.spawnBalloons();
 				}
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(World.class, "processPartyRoom", e);
 			}
 		}, 2, 2);
 	}
@@ -123,7 +123,7 @@ public final class World {
 						player.getPhasmatysBrewery().process();
 					}
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(World.class, "addBrewingProcessTask", e);
 			}
 		}, Ticks.fromHours(1), Ticks.fromHours(1));
 	}
@@ -133,7 +133,7 @@ public final class World {
 			try {
 				ShopsHandler.restoreShops();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(World.class, "addRestoreShopItemsTask", e);
 			}
 		}, 0, 1);
 	}
@@ -931,19 +931,18 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		Launcher.pullAndCompile();
 		CoresManager.schedule(() -> {
 			try {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
-					player.getPackets().sendLogout(player, true);
+					player.getPackets().sendLogout(true);
 					player.realFinish();
 				}
 				PartyRoom.save();
 				Launcher.shutdown();
 			} catch (Throwable e) {
-				Logger.handle(e);
+				Logger.handle(World.class, "safeShutdown", e);
 			}
 		}, delay);
 	}
@@ -978,7 +977,7 @@ public final class World {
 						return;
 					removeObject(object);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(World.class, "spawnObjectTemporary", e);
 				}
 			}
 		}, Utils.clampI(ticks - 1, 0, Integer.MAX_VALUE));
@@ -998,7 +997,7 @@ public final class World {
 				try {
 					spawnObject(object);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(World.class, "removeObjectTemporary", e);
 				}
 			}
 		}, Utils.clampI(ticks, 0, Integer.MAX_VALUE));
@@ -1014,7 +1013,7 @@ public final class World {
 					removeObject(object);
 					addGroundItem(new Item(replaceId), object, null, false, 180);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(World.class, "spawnTempGroundObject", e);
 				}
 			}
 		}, Utils.clampI(ticks - 1, 0, Integer.MAX_VALUE));
@@ -1108,16 +1107,16 @@ public final class World {
 		NORMAL, TURN_UNTRADEABLES_TO_COINS
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile) {
-		addGroundItem(item, tile, null, false, -1, DropMethod.NORMAL, -1);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile) {
+		return addGroundItem(item, tile, null, false, -1, DropMethod.NORMAL, -1);
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile, Player owner) {
-		addGroundItem(item, tile, owner, true, 60);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner) {
+		return addGroundItem(item, tile, owner, true, 60);
 	}
 
-	public static final void addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs) {
-		addGroundItem(item, tile, owner, invisible, hiddenSecs, DropMethod.NORMAL, 150);
+	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs) {
+		return addGroundItem(item, tile, owner, invisible, hiddenSecs, DropMethod.NORMAL, 150);
 	}
 
 	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs, DropMethod type) {
@@ -1201,7 +1200,7 @@ public final class World {
 					try {
 						addGroundItemForever(groundItem, groundItem.getTile());
 					} catch (Throwable e) {
-						Logger.handle(e);
+						Logger.handle(World.class, "removeGroundItem", e);
 					}
 				}, Ticks.fromSeconds(15));
 			return true;
@@ -1325,7 +1324,7 @@ public final class World {
 					event.run();
 					stop();
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(World.class, "executeAfterLoadRegion", e);
 				}
 			}
 

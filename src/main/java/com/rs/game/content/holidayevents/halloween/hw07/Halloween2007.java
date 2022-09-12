@@ -539,8 +539,8 @@ public class Halloween2007 {
 					e.getPlayer().faceObject(e.getObject());
 					e.getPlayer().addWalkSteps(e.getPlayer().transform(0, -1, 0), 1, false);
 					WorldTile camTile = new WorldTile(1638, 4827, 0);
-					e.getPlayer().getPackets().sendCameraPos(e.getPlayer(), camTile, 2000);
-					e.getPlayer().getPackets().sendCameraLook(e.getPlayer(), e.getPlayer().transform(-2, 0, 0), 2000);
+					e.getPlayer().getPackets().sendCameraPos(camTile, 2000);
+					e.getPlayer().getPackets().sendCameraLook(e.getPlayer().transform(-2, 0, 0), 2000);
 				} else if (stage == 1)
 					e.getPlayer().setNextAnimation(new Animation(7274));
 				else if (stage == 9) {

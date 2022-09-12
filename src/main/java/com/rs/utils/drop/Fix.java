@@ -94,9 +94,9 @@ public class Fix {
 							//e.printStackTrace();
 							//System.err.println("Error with table: " + f.getName() + ", " + table.getDrops()[0].toItem().getName());
 						}
-					//System.out.println("Fixed. Checking validity.");
+					//Logger.debug("Fixed. Checking validity.");
 					set.createDropList();
-					//System.out.println(set);
+					//Logger.debug(set);
 					if (!set.isOverflowed())
 						JsonFileManager.saveJsonFile(set, new File("./fixed/"+f.getName()));
 				}

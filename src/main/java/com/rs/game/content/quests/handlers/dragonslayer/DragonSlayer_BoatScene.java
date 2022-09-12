@@ -102,9 +102,9 @@ public class DragonSlayer_BoatScene extends Controller {
 						closeInterfaces();
 
 						player.getPackets().sendCameraShake(1, 0, 8, 5, 8);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 0);
-						player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(21), instance.getLocalY(13), 0), 0);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(26), instance.getLocalY(13), 0), 600, 0, 4);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 0);
+						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(21), instance.getLocalY(13), 0), 0);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(26), instance.getLocalY(13), 0), 600, 0, 4);
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Ah, it's good to feel the salt spray on my face once again!");
@@ -114,7 +114,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 
 					if(tick == PAUSE_FOR_NED1) {
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(26), instance.getLocalY(9), 0), 2050, 0, 2);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(26), instance.getLocalY(9), 0), 2050, 0, 2);
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "And this is a mighty fine ship. She don't look much but she handles like a dream.");
@@ -170,9 +170,9 @@ public class DragonSlayer_BoatScene extends Controller {
 								addNPC(CABIN_BOY_JENKINS, HeadE.HAPPY_TALKING, "Looks like there's a storm coming up, cap'n. Soon we won't be able to see anything!");
 							}
 						});
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(23), instance.getLocalY(21), 0), 5000);
-						player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(14), instance.getLocalY(14), 0), 0);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(18), instance.getLocalY(21), 0), 5000, 0, 2);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(23), instance.getLocalY(21), 0), 5000);
+						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(14), instance.getLocalY(14), 0), 0);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(18), instance.getLocalY(21), 0), 5000, 0, 2);
 					}
 
 					if(tick == PAUSE_FOR_NED3) {
@@ -228,9 +228,9 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 
 					if(tick == 28) {
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(24), instance.getLocalY(13), 0), 1150);
-						player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(18), instance.getLocalY(13), 0), 0);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(24), instance.getLocalY(19), 0), 1150, 0, 3);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(24), instance.getLocalY(13), 0), 1150);
+						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(18), instance.getLocalY(13), 0), 0);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(24), instance.getLocalY(19), 0), 1150, 0, 3);
 					}
 					if(tick == 29) {
 						WorldTile tile = new WorldTile(instance.getLocalX(17), instance.getLocalY(12), 1);
@@ -330,9 +330,9 @@ public class DragonSlayer_BoatScene extends Controller {
 
 					if(tick == 34) {
 						player.getPackets().sendCameraShake(1, 0, 8, 5, 8);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(19), instance.getLocalY(14), 0), 1200);
-						player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(26), instance.getLocalY(14), 0), 1200, 0, 3);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(19), instance.getLocalY(14), 0), 1200);
+						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(26), instance.getLocalY(14), 0), 1200, 0, 3);
 						closeInterfaces();
 						WorldTile tile = new WorldTile(instance.getLocalX(13), instance.getLocalY(14), 1);
 						captainNed.faceTile(tile);
@@ -496,9 +496,9 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 41) {
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(34), instance.getLocalY(14), 0), 1900);
-						player.getPackets().sendCameraLook(player, new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 1200, 0, 3);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(34), instance.getLocalY(14), 0), 1900);
+						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 1200, 0, 3);
 					}
 					if(tick == PAUSE_FOR_NED5)
 						player.startConversation(new Conversation(player) {
@@ -524,7 +524,7 @@ public class DragonSlayer_BoatScene extends Controller {
 							}
 						});
 					if(tick == 44) {
-						player.getPackets().sendCameraPos(player, new WorldTile(instance.getLocalX(20), instance.getLocalY(14), 0), 1200, 0, 3);
+						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(20), instance.getLocalY(14), 0), 1200, 0, 3);
 						player.faceEntity(captainNed);
 						captainNed.setNextFaceWorldTile(new WorldTile(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
 					}

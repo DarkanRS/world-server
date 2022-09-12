@@ -21,7 +21,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.rs.Settings;
-import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -40,7 +39,7 @@ public final class WorldThread extends Thread {
 	protected WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
 		setName("World Thread");
-		setUncaughtExceptionHandler((th, ex) -> Logger.handle(ex));
+		setUncaughtExceptionHandler((th, ex) -> Logger.handle(WorldThread.class, "uncaughtExceptionHandler", ex));
 	}
 
 	@ServerStartupEvent
@@ -91,12 +90,12 @@ public final class WorldThread extends Thread {
 					continue;
 				try {
 					player.getPackets().sendLocalPlayersUpdate();
-					player.getPackets().sendLocalNPCsUpdate(player);
+					player.getPackets().sendLocalNPCsUpdate();
 					player.postSync();
 					player.processProjectiles();
 					player.getSession().flush();
 				} catch(Throwable e) {
-					WorldDB.getLogs().logError(e);
+					Logger.handle(WorldThread.class, "processPlayersPostSync", e);
 				}
 			}
 			World.removeProjectiles();
@@ -113,7 +112,7 @@ public final class WorldThread extends Thread {
 			World.processEntityLists();
 			Telemetry.queueTelemetryTick((System.currentTimeMillis() - startTime));
 		} catch (Throwable e) {
-			Logger.handle(e);
+			Logger.handle(WorldThread.class, "tick", e);
 		}
 	}
 }

@@ -16,7 +16,6 @@
 //
 package com.rs.net.decoders.handlers;
 
-import com.rs.Settings;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.Skillcapes;
@@ -82,7 +81,7 @@ public class NPCHandler {
 			if (npc.getDefinitions().transformTo != null)
 				player.sendMessage(npc.getDefinitions().getConfigInfoString());
 		}
-		player.getPackets().sendNPCMessage(player, 0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
+		player.getPackets().sendNPCMessage(0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
 		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate"))
 			player.sendOptionDialogue("Would you like to check the drops on this monster?", ops -> {
 				ops.add("Show drops (1,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 1000));
@@ -90,8 +89,7 @@ public class NPCHandler {
 				ops.add("Show drops (10,000 kills)", () -> NPC.displayDropsFor(player, npc.getId(), 10000));
 				ops.add("Nevermind");
 			});
-		if (Settings.getConfig().isDebug())
-			Logger.log("NPCHandler", "examined npc: " + npc.getIndex() + ", " + npc.getId());
+		Logger.debug(NPCHandler.class, "handleExamine", "Examined NPC: index: " + npc.getIndex() + ", id: " + npc.getId());
 	}
 
 	public static void handleOption1(final Player player, final NPC npc) {
@@ -239,8 +237,7 @@ public class NPCHandler {
 				pet.pickup();
 			} else {
 				player.sendMessage("Nothing interesting happens." + npc.getId());
-				if (Settings.getConfig().isDebug())
-					System.out.println("clicked 1 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
+				Logger.debug(NPCHandler.class, "handleOption1", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ")");
 			}
 		}));
 	}
@@ -368,8 +365,7 @@ public class NPCHandler {
 				return;
 			else {
 				player.sendMessage("Nothing interesting happens." + npc.getId());
-				if (Settings.getConfig().isDebug())
-					System.out.println("cliked 2 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
+				Logger.debug(NPCHandler.class, "handleOption2", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ")");
 			}
 		}));
 	}
@@ -406,9 +402,7 @@ public class NPCHandler {
 			else
 				player.sendMessage("Nothing interesting happens." + npc.getId());
 		}));
-
-		if (Settings.getConfig().isDebug())
-			System.out.println("cliked 3 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
+		Logger.debug(NPCHandler.class, "handleOption4", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ")");
 	}
 
 	public static void handleOption5(final Player player, final NPC npc) {
@@ -437,9 +431,7 @@ public class NPCHandler {
 			if (PluginManager.handle(new NPCClickEvent(player, npc, 5, true)))
 				return;
 			player.sendMessage("Nothing interesting happens. " + npc.getId());
-
-			if (Settings.getConfig().isDebug())
-				System.out.println("cliked 4 at npc id : " + npc.getId() + ", " + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane());
+			Logger.debug(NPCHandler.class, "handleOption5", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ")");
 		}));
 	}
 

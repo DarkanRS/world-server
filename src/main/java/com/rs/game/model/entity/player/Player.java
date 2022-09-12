@@ -52,6 +52,7 @@ import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.content.books.Book;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
+import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.death.DeathOfficeController;
@@ -135,7 +136,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.VarManager;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.Account;
-import com.rs.lib.model.Clan;
+import com.rs.lib.model.clan.Clan;
 import com.rs.lib.model.Social;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.ServerPacket;
@@ -693,8 +694,7 @@ public class Player extends Entity {
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
 		World.updateEntityRegion(this);
-		if (Settings.getConfig().isDebug())
-			Logger.log(this, "Initiated player: " + account.getUsername());
+		Logger.info(Player.class, "init", "Initiated player: " + account.getUsername());
 
 		// Do not delete >.>, useful for security purpose. this wont waste that
 		// much space..
@@ -854,12 +854,16 @@ public class Player extends Entity {
 
 	public void refreshSpawnedObjects() {
 		for (int regionId : getMapRegionsIds()) {
-			List<GameObject> removedObjects = new ArrayList<>(World.getRegion(regionId).getRemovedObjects().values());
-			for (GameObject object : removedObjects)
+			for (GameObject object : new ArrayList<>(World.getRegion(regionId).getRemovedObjects().values()))
 				getPackets().sendRemoveObject(object);
-			List<GameObject> spawnedObjects = World.getRegion(regionId).getSpawnedObjects();
-			for (GameObject object : spawnedObjects)
+			for (GameObject object : World.getRegion(regionId).getSpawnedObjects())
 				getPackets().sendAddObject(object);
+			List<GameObject> all =  World.getRegion(regionId).getAllObjects();
+			if (all == null)
+				continue;
+			for (GameObject object : all)
+				if (object.getMeshModifier() != null)
+					getPackets().sendCustomizeObject(object.getMeshModifier());
 		}
 	}
 
@@ -948,8 +952,9 @@ public class Player extends Entity {
 		endConversation();
 		getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 		if (closeInterfacesEvent != null) {
-			closeInterfacesEvent.run();
+			Runnable event = closeInterfacesEvent;
 			closeInterfacesEvent = null;
+			event.run();
 		}
 	}
 
@@ -1022,7 +1027,7 @@ public class Player extends Entity {
 			prayer.processPrayer();
 			controllerManager.process();
 		} catch (Throwable e) {
-			WorldDB.getLogs().logError(e);
+			Logger.handle(Player.class, "processEntity", e);
 		}
 	}
 	
@@ -1223,6 +1228,8 @@ public class Player extends Entity {
 	}
 
 	public void drainRunEnergy(double energy) {
+		if (getNSV().getB("infRun"))
+			return;
 		if ((runEnergy - energy) < 0.0)
 			runEnergy = 0.0;
 		else
@@ -1231,16 +1238,18 @@ public class Player extends Entity {
 	}
 
 	public void run() {
-		LobbyCommunicator.addWorldPlayer(this, response -> {
-			if (!Settings.getConfig().isDebug() && !response) {
-				forceLogout();
-				return;
-			}
-		});
 		if (getAccount().getRights() == null) {
 			setRights(Rights.PLAYER);
 			LobbyCommunicator.updateRights(this);
 		}
+		LobbyCommunicator.addWorldPlayer(account, response -> {
+			if (!response) {
+				forceLogout();
+				return;
+			}
+		});
+		getClan(clan -> appearence.generateAppearanceData());
+		getGuestClan();
 		int updateTimer = (int) World.getTicksTillUpdate();
 		if (updateTimer != -1)
 			getPackets().sendSystemUpdate(updateTimer);
@@ -1283,7 +1292,7 @@ public class Player extends Entity {
 		questManager.unlockQuestTabOptions();
 		questManager.updateAllQuestStages();
 		miniquestManager.updateAllStages();
-		getPackets().sendGameBarStages(this);
+		getPackets().sendGameBarStages();
 		musicsManager.init();
 		emotesManager.refreshListConfigs();
 		sendUnlockedObjectConfigs();
@@ -1657,20 +1666,20 @@ public class Player extends Entity {
 		}
 		if (isDead() || isDying())
 			return;
-		getPackets().sendLogout(this, lobby);
+		getPackets().sendLogout(lobby);
 		finish();
 		running = false;
 	}
 
 	public void forceLogout() {
-		getPackets().sendLogout(this, false);
+		getPackets().sendLogout(false);
 		running = false;
 		realFinish();
 	}
 
 	public void idleLog() {
 		incrementCount("Idle logouts");
-		getPackets().sendLogout(this, true);
+		getPackets().sendLogout(true);
 		finish();
 	}
 
@@ -1701,7 +1710,7 @@ public class Player extends Entity {
 					else
 						finish(tryCount + 1);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(Player.class, "finish", e);
 				}
 			}, Ticks.fromSeconds(10));
 			return;
@@ -1731,8 +1740,7 @@ public class Player extends Entity {
 			World.removePlayer(this);
 			World.updateEntityRegion(this);
 			WorldDB.getHighscores().save(this);
-			if (Settings.getConfig().isDebug())
-				Logger.log(this, "Finished Player: " + getUsername());
+			Logger.info(Player.class, "realFinish", "Finished Player: " + getUsername());
 		});
 		World.updateEntityRegion(this);
 	}
@@ -1975,6 +1983,11 @@ public class Player extends Entity {
 	}
 
 	public void setRunEnergy(double runEnergy) {
+		if (getNSV().getB("infRun")) {
+			this.runEnergy = 100.0;
+			getPackets().sendRunEnergy(this.runEnergy);
+			return;
+		}
 		this.runEnergy = runEnergy;
 		if (this.runEnergy < 0.0)
 			this.runEnergy = 0.0;
@@ -3758,8 +3771,9 @@ public class Player extends Entity {
 		if (getInterfaceManager().containsChatBoxInter())
 			getInterfaceManager().closeChatBoxInterface();
 		if (finishConversationEvent != null) {
-			finishConversationEvent.run();
+			Runnable event = finishConversationEvent;
 			finishConversationEvent = null;
+			event.run();
 		}
 	}
 
@@ -3794,6 +3808,9 @@ public class Player extends Entity {
 	
 	public void markTile(WorldTile tile) {
 		getPackets().sendAddObject(new GameObject(21777, ObjectType.GROUND_DECORATION, 0, tile));
+		//model 4162 = orange square
+		//model 2636 = white dot?
+		
 	}
 	
 	public void updateTilemanTiles() {
@@ -3882,6 +3899,7 @@ public class Player extends Entity {
 	public void processPackets() {
 		Packet packet;
 		while ((packet = session.getPacketQueue().poll()) != null) {
+			//Logger.trace(Player.class, "processPackets", "Packet processed: " + packet.getOpcode());
 			if (hasStarted() && packet.getOpcode() != ClientPacket.IF_CONTINUE && packet.getOpcode() != ClientPacket.IF_OP1 && !isChosenAccountType())
 				continue;
 			PacketHandler<Player, Packet> handler = PacketHandlers.getHandler(packet.getOpcode());
@@ -4100,7 +4118,19 @@ public class Player extends Entity {
 	}
 
 	public Clan getClan() {
-		return LobbyCommunicator.getClan(getAccount().getSocial().getClanName());
+		return ClansManager.getClan(getAccount().getSocial().getClanName());
+	}
+	
+	public void getClan(Consumer<Clan> cb) {
+		ClansManager.getClan(getAccount().getSocial().getClanName(), cb);
+	}
+	
+	public Clan getGuestClan() {
+		return ClansManager.getClan(getAccount().getSocial().getGuestedClanChat());
+	}
+	
+	public void getGuestClan(Consumer<Clan> cb) {
+		ClansManager.getClan(getAccount().getSocial().getGuestedClanChat(), cb);
 	}
 
 	public void setHabitatFeature(HabitatFeature habitatFeature) {
@@ -4400,7 +4430,7 @@ public class Player extends Entity {
 	}
 	
 	private void checkWasInDynamicRegion() {
-		if (lastNonDynamicTile != null) {
+		if (lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
 			setNextWorldTile(new WorldTile(lastNonDynamicTile));
 			clearLastNonDynamicTile();
 		}

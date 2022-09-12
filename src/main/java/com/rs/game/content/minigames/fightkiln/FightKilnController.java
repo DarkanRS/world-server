@@ -623,7 +623,7 @@ public class FightKilnController extends Controller {
 							return;
 						spawn(next);
 					} catch (Throwable e) {
-						Logger.handle(e);
+						Logger.handle(FightKilnController.class, "startWave", e);
 					}
 				}
 			}, (next / 4) * Ticks.fromSeconds(4));
@@ -767,7 +767,7 @@ public class FightKilnController extends Controller {
 						return;
 					startWave();
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(FightKilnController.class, "setWaveEvent", e);
 				}
 			}
 		}, Ticks.fromSeconds(6));
@@ -932,7 +932,7 @@ public class FightKilnController extends Controller {
 					player.sendMessage("<col=7E2217>The power of the crystal dwindles and you're vulnerable once more.");
 					player.setInvulnerable(false);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(FightKilnController.class, "useCrystal", e);
 				}
 			}, Ticks.fromSeconds(15));
 			break;
@@ -963,7 +963,7 @@ public class FightKilnController extends Controller {
 					player.setHpBoostMultiplier(0);
 					player.getEquipment().refreshConfigs(false);
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(FightKilnController.class, "useCrystal", e);
 				}
 			}, Ticks.fromSeconds(210));
 			break;
@@ -1030,7 +1030,7 @@ public class FightKilnController extends Controller {
 						return;
 					harAken.finish();
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(FightKilnController.class, "hideHarAken", e);
 				}
 			}
 		}, Ticks.fromSeconds(3));

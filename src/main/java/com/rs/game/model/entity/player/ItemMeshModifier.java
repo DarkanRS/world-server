@@ -16,8 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.io.OutputStream;
 
@@ -85,8 +83,6 @@ public class ItemMeshModifier {
 	}
 
 	public ItemMeshModifier addColors(int... colors) {
-		if (Arrays.equals(colors, defs.originalModelColors))
-			return this;
 		if (defs.modifiedModelColors != null) {
 			modifiedColors = new int[defs.modifiedModelColors.length];
 			System.arraycopy(defs.modifiedModelColors, 0, modifiedColors, 0, modifiedColors.length);
@@ -100,8 +96,6 @@ public class ItemMeshModifier {
 	}
 
 	public ItemMeshModifier addTextures(int... textures) {
-		if (Arrays.equals(textures, defs.originalTextureIds))
-			return this;
 		if (defs.modifiedTextureIds != null) {
 			modifiedTextures = new int[defs.modifiedTextureIds.length];
 			System.arraycopy(defs.modifiedTextureIds, 0, modifiedTextures, 0, modifiedTextures.length);

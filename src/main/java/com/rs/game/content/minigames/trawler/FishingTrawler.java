@@ -26,6 +26,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -452,7 +453,7 @@ public class FishingTrawler {
 			Item item = e.getPlayer().getTrawlerRewards().get(e.getSlotId());
 			if(item == null) return;
 			if(item.getId() != e.getSlotId2()) {
-				System.out.println("Trawler item "+item.getId()+" does not match "+e.getSlotId2());
+				Logger.error(FishingTrawler.class, "rewardsInterfaceHandler", "Trawler item "+item.getId()+" does not match "+e.getSlotId2());
 				return;
 			}
 			int amount = e.getPacket() == ClientPacket.IF_OP1 ? 1 : -1;

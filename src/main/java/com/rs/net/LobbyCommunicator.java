@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 import com.rs.Settings;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.model.Account;
-import com.rs.lib.model.Clan;
+import com.rs.lib.model.clan.Clan;
 import com.rs.lib.model.FriendsChat;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
@@ -34,8 +34,8 @@ import com.rs.lib.web.dto.WorldPlayerAction;
 
 public class LobbyCommunicator {
 
-	public static void addWorldPlayer(Player player, Consumer<Boolean> cb) {
-		post(Boolean.class, new WorldPlayerAction(player.getAccount(), Settings.getConfig().getWorldInfo()), "addworldplayer", cb);
+	public static void addWorldPlayer(Account account, Consumer<Boolean> cb) {
+		post(Boolean.class, new WorldPlayerAction(account, Settings.getConfig().getWorldInfo()), "addworldplayer", cb);
 	}
 
 	public static void removeWorldPlayer(Player player) {
@@ -97,18 +97,28 @@ public class LobbyCommunicator {
 		post(Boolean.class, new PacketDto(player.getUsername(), packet), "forwardpackets", cb);
 	}
 
-	public static Clan getClan(String clan) {
-		// TODO Auto-generated method stub
-		return null;
+	public static void getClan(String clan, Consumer<Clan> cb) {
+		get(Clan.class, "clans/"+clan, cb);
 	}
 
-	public static void updateClan(Clan clan) {
-		// TODO Auto-generated method stub
-
+	public static void updateClan(Clan clan, Consumer<Clan> res) {
+		if (clan == null) {
+			res.accept(null);
+			return;
+		}
+		post(Clan.class, clan, "clans/update", res);
 	}
 
 	public static void post(Object body, String endpoint) {
 		post(null, body, endpoint, null);
+	}
+	
+	public static <T> void get(Class<T> type, String endpoint, Consumer<T> cb) {
+		APIUtil.get(type, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
+	}
+
+	public static <T> T getSync(Class<T> type, String endpoint) throws InterruptedException, ExecutionException, IOException {
+		return APIUtil.getSync(type, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 
 	public static <T> void post(Class<T> type, Object body, String endpoint, Consumer<T> cb) {

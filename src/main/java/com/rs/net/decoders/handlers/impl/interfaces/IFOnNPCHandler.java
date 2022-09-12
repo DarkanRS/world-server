@@ -17,16 +17,14 @@
 package com.rs.net.decoders.handlers.impl.interfaces;
 
 import com.rs.game.World;
-import com.rs.game.content.combat.CombatSpell;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Inventory;
+import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnNPC;
 import com.rs.lib.util.Utils;
-import com.rs.net.decoders.handlers.InventoryOptionsHandler;
+import com.rs.plugin.PluginManager;
+import com.rs.plugin.events.IFOnNPCEvent;
 
 public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 
@@ -39,39 +37,13 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		NPC npc = World.getNPCs().get(packet.getNpcIndex());
 		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapRegionsIds().contains(npc.getRegionId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
 			return;
-		switch (packet.getInterfaceId()) {
-		case Inventory.INVENTORY_INTERFACE:
-			player.stopAll(false);
-			Item item = player.getInventory().getItem(packet.getSlotId());
-			if (item == null || !player.getControllerManager().processItemOnNPC(npc, item))
-				return;
-			InventoryOptionsHandler.handleItemOnNPC(player, npc, item, packet.getSlotId());
-			break;
-		case 662:
-		case 747:
-			player.stopAll(false, true, false);
-			if (player.getFamiliar() == null)
-				return;
-			player.resetWalkSteps();
-			if ((packet.getInterfaceId() == 747 && packet.getComponentId() == 15) || (packet.getInterfaceId() == 662 && packet.getComponentId() == 65) || packet.getInterfaceId() == 747 && packet.getComponentId() == 24)
-				player.getFamiliar().commandAttack(npc);
-			if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || (packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
-				player.getFamiliar().executeSpecial(npc);
-			break;
-		case 950:
-		case 193:
-		case 192:
-			player.stopAll(false);
-			CombatSpell combat = CombatSpell.forId(packet.getInterfaceId(), packet.getComponentId());
-			if (combat != null) {
-				if (!npc.getDefinitions().hasAttackOption()) {
-					player.sendMessage("You can't attack that.");
-					return;
-				}
-				Magic.manualCast(player, npc, combat);
-			}
-			break;
-		}
+		player.stopAll(true);
+		if (PluginManager.handle(new IFOnNPCEvent(player, npc, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), false)))
+			return;
+		player.setRouteEvent(new RouteEvent(npc, () -> {
+			player.faceEntity(npc);
+			PluginManager.handle(new IFOnNPCEvent(player, npc, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), true));
+		}));
 	}
 
 }

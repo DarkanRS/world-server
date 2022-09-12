@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -293,8 +292,7 @@ public class Region {
 			if (clip && mapObject != null)
 				unclip(mapObject, localX, localY);
 		} else if (spawned == null) {
-			if (Settings.getConfig().isDebug())
-				Logger.log(this, "Requested object to spawn is already spawned.(Shouldnt happen)");
+			Logger.info(Region.class, "spawnObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
 			return;
 		}
 
@@ -329,8 +327,7 @@ public class Region {
 			unclip(object, localX, localY);
 			addRemovedObject(mapObject);
 		} else {
-			if (Settings.getConfig().isDebug())
-				Logger.log(this, "Requested object to remove wasnt found.(Shouldnt happen)");
+			Logger.info(Region.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
 			return;
 		}
 		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
@@ -384,7 +381,7 @@ public class Region {
 						setLoadedItemSpawns(true);
 					}
 //				} catch (Throwable e) {
-//					Logger.handle(e);
+//					Logger.handle(this, e);
 //				}
 //			});
 		}
@@ -518,8 +515,8 @@ public class Region {
 		//				}
 		//			}
 		//		}
-		if (Settings.getConfig().isDebug() && landContainerData == null && landArchiveId != -1 && MapXTEAs.getMapKeys(regionId) != null)
-			Logger.log(this, "Missing xteas for region " + regionId + ".");
+		if (landContainerData == null && landArchiveId != -1 && MapXTEAs.getMapKeys(regionId) != null)
+			Logger.warn(Region.class, "loadRegionMap", "Missing xteas for region " + regionId + ".");
 	}
 
 	public Set<Integer> getPlayerIndexes() {

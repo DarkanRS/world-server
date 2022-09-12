@@ -32,6 +32,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.ServerPacket;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -122,9 +123,9 @@ public class GE {
 		case 186 -> confirmOffer(e.getPlayer());
 
 		//Search item
-		case 190 -> e.getPlayer().getPackets().openGESearch(e.getPlayer());
+		case 190 -> e.getPlayer().getPackets().openGESearch();
 
-		default -> System.out.println("Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
+		default -> Logger.debug(GE.class, "mainInterface", "Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
 		}
 		}
 	};
@@ -165,7 +166,7 @@ public class GE {
 			case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
 			case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
 			case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			default -> System.out.println("Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
+			default -> Logger.debug(GE.class, "collBox", "Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
 			}
 		}
 	};
@@ -254,7 +255,7 @@ public class GE {
 	public static void openBuy(Player player, int box) {
 		player.getVars().setVar(VAR_CURR_BOX, box);
 		player.getVars().setVar(VAR_IS_SELLING, 0);
-		player.getPackets().openGESearch(player);
+		player.getPackets().openGESearch();
 	}
 
 	public static void openSell(Player player, int box) {

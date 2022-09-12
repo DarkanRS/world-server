@@ -26,6 +26,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
+
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
@@ -122,6 +123,7 @@ public abstract class Entity {
 	private transient boolean finished;
 	private transient long tickCounter = 0;
 	// entity masks
+	private transient int bas = -1;
 	private transient Animation nextAnimation;
 	private transient SpotAnim nextSpotAnim1;
 	private transient SpotAnim nextSpotAnim2;
@@ -271,6 +273,7 @@ public abstract class Entity {
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
 		nextFaceEntity = -2;
+		bas = -1;
 		if (!(this instanceof NPC))
 			faceAngle = 2;
 		poison.setEntity(this);
@@ -748,6 +751,7 @@ public abstract class Entity {
 			case "Rocktail shoal":
 			case "Musician":
 			case "Ghostly piper":
+			case "Clan vexillum":
 				return true;
 			}
 		}
@@ -1754,5 +1758,21 @@ public abstract class Entity {
 			return;
 		}
 		this.bodyModelRotator = bodyModelRotator;
+	}
+
+	public int getBas() {
+		return bas;
+	}
+
+	public void setBas(int basAnim) {
+		if (basAnim == -1) {
+			setBasNoReset(-2);
+			return;
+		}
+		setBasNoReset(basAnim);
+	}
+	
+	public void setBasNoReset(int bas) {
+		this.bas = bas;
 	}
 }

@@ -21,6 +21,7 @@ import com.rs.db.WorldDB;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
+import com.rs.lib.util.Logger;
 
 public class Offer {
 	private String owner;
@@ -125,7 +126,7 @@ public class Offer {
 		completedAmount += num;
 		if (completedAmount >= amount) {
 			if (completedAmount > amount)
-				WorldDB.getLogs().logError("GE completed amount higher than sale amount: " + this.toString());
+				Logger.handle(Offer.class, "addCompleted", "GE completed amount higher than sale amount: " + this.toString(), null);
 			state = State.FINISHED;
 		}
 	}

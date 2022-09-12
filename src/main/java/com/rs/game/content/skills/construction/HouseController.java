@@ -51,6 +51,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.util.Logger;
 
 
 public class HouseController extends Controller {
@@ -811,7 +812,7 @@ public class HouseController extends Controller {
 					option("Nevermind");
 					break;
 				default:
-					System.out.println("woahhh this might be broken...");
+					Logger.debug(HouseController.class, "getTeleports", "woahhh this might be broken... " + frameType);
 				}
 			}
 		});

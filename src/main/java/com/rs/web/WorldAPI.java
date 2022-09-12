@@ -18,9 +18,11 @@ package com.rs.web;
 
 import com.rs.Settings;
 import com.rs.game.World;
+import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.lib.model.Account;
+import com.rs.lib.model.clan.Clan;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.ErrorResponse;
@@ -41,6 +43,37 @@ public class WorldAPI extends WebAPI {
 				APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size());
 			});
 		});
+		
+		routes.post("/logout", ex -> {
+			ex.dispatch(() -> {
+				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+					return;
+				}
+				APIUtil.readJSON(ex, Account.class, account -> {
+					Player player = World.getPlayerByUsername(account.getUsername());
+					if (player == null || player.getSession() == null) {
+						APIUtil.sendResponse(ex, StatusCodes.OK, true);
+						return;
+					}
+					player.forceLogout();
+					APIUtil.sendResponse(ex, StatusCodes.OK, true);
+				});
+			});
+		});
+		
+		routes.post("/updateclan", ex -> {
+			ex.dispatch(() -> {
+				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+					return;
+				}
+				APIUtil.readJSON(ex, Clan.class, clan -> {
+					ClansManager.syncClanFromLobby(clan);
+					APIUtil.sendResponse(ex, StatusCodes.OK, true);
+				});
+			});
+		});
 
 		routes.post("/updatesocial", ex -> {
 			ex.dispatch(() -> {
@@ -53,6 +86,7 @@ public class WorldAPI extends WebAPI {
 					if (player == null || player.getSession() == null)
 						return;
 					player.getAccount().setSocial(account.getSocial());
+					player.getClan();
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
 				});
 			});

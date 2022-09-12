@@ -22,6 +22,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 
+import com.rs.lib.util.Logger;
+
 /**
  * My custom Runtime debugging tool
  * Author: Jawarrior1
@@ -53,9 +55,9 @@ public class Getlineonce {
 					tempLines = lines.get(key);
 					tempLines.add(line);
 					lines.put(fileName, tempLines);
-					System.out.println(fileName + ": " + line);// should run once
+					Logger.debug(Getlineonce.class, "constructor()", fileName + ": " + line);// should run once
 				} else if (repeat)
-					System.out.println(fileName + ": " + line);
+					Logger.debug(Getlineonce.class, "constructor()", fileName + ": " + line);
 			}
 			//If after searching all of those you found nothing
 			if (!keyExists) {

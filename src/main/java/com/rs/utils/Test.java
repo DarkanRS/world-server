@@ -90,22 +90,22 @@ public class Test {
 //		sorted.sort((o1, o2) -> o1.getId() - o2.getId());
 //
 //		for (Item item : sorted)
-//			System.out.println(item.getName() + " - " + item.getAmount() + " Rate: 1/" + (numKills / item.getAmount()));
+//			Logger.debug(item.getName() + " - " + item.getAmount() + " Rate: 1/" + (numKills / item.getAmount()));
 //	}
 
 	//		for (int i = 0;i < 2000;i++) {
 	//			int musicIndex = (int) EnumDefinitions.getEnum(1351).getKeyForValue(i);
 	//			if (musicIndex != -1) {
 	//				String musicName = EnumDefinitions.getEnum(1345).getStringValue(musicIndex);
-	//				System.out.println(i + " - " + musicName + " - musicIndex: " + musicIndex);
+	//				Logger.debug(i + " - " + musicName + " - musicIndex: " + musicIndex);
 	//			}
 	//		}
 
 	//		for (NPCDirection dir : NPCDirection.values()) {
-	//			System.out.println(dir.name() + " - " + dir.getFaceDirection());
+	//			Logger.debug(dir.name() + " - " + dir.getFaceDirection());
 	//			int d = ((int) (Math.atan2(dir.getDx(), dir.getDy()) * 2607.5945876176133));
 	//			double ang = d / 2607.5945876176133;
-	//			System.out.println(Math.round(Math.sin(ang)) + ", " + Math.round(Math.cos(ang)));
+	//			Logger.debug(Math.round(Math.sin(ang)) + ", " + Math.round(Math.cos(ang)));
 	//		}
 	//
 	//
@@ -117,17 +117,17 @@ public class Test {
 	//				if (i % 5 == 0 || i == rock.getLevel() || i == 99) {
 	//					String average = getMiningAverage(rock, i, Pickaxe.values()[pickIdx]);
 	//					if (!average.isEmpty())
-	//						System.out.println(average);
+	//						Logger.debug(average);
 	//				}
 	//			}
-	//			System.out.println();
+	//			Logger.debug();
 	//		}
 
 	//		for (int i = 1; i <= 99; i += 1) {
 	//			if (i % 5 == 0 || i == rock.getLevel() || i == 99) {
 	//				String average = getMiningAverage(rock, i, pick);
 	//				if (!average.isEmpty())
-	//					System.out.println(average);
+	//					Logger.debug(average);
 	//			}
 	//		}
 	//	}

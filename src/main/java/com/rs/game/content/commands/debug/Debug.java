@@ -37,6 +37,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -69,8 +70,7 @@ public class Debug {
 	public static ButtonClickHandler debugButtons = new ButtonClickHandler() {
 		@Override
 		public boolean handleGlobal(ButtonClickEvent e) {
-			if (Settings.getConfig().isDebug())
-				System.out.println(e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
+			Logger.debug(Debug.class, "debugButtons", e.getPacket() + ", " + e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
 			return false;
 		}
 
@@ -95,8 +95,7 @@ public class Debug {
 		Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
 			p.sendMessage("JagCoords: " + p.getPlane() + "," + p.getRegionX() + "," + p.getRegionY() + "," + p.getXInScene(p.getSceneBaseChunkId()) + "," + p.getYInScene(p.getSceneBaseChunkId()));
-			if (Settings.getConfig().isDebug())
-				System.out.println("new WorldTile(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
+			Logger.debug(Debug.class, "coordsCommand", "new WorldTile(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
 		});
 
 		Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
@@ -383,11 +382,11 @@ public class Debug {
 				int complexity = Integer.parseInt(args[4]);
 
 				if (!p.getDungManager().isInsideDungeon()) {
-					System.out.println("floor: " + args[0]);
-					System.out.println("seed: " + args[1]);
-					System.out.println("difficulty: " + args[2]);
-					System.out.println("size: " + args[3]);
-					System.out.println("complexity: " + args[4]);
+					Logger.debug(Debug.class, "startdung", "floor: " + args[0]);
+					Logger.debug(Debug.class, "startdung", "seed: " + args[1]);
+					Logger.debug(Debug.class, "startdung", "difficulty: " + args[2]);
+					Logger.debug(Debug.class, "startdung", "size: " + args[3]);
+					Logger.debug(Debug.class, "startdung", "complexity: " + args[4]);
 
 					p.getDungManager().getParty().setFloor(floor);
 					p.getDungManager().getParty().setStartingSeed(seed);
@@ -411,7 +410,7 @@ public class Debug {
 			}
 			for (Item item : p.getInventory().getItems().array()) {
 				if (item != null)
-					System.out.println(item.getName() + ": " + item.getAmount());
+					Logger.debug(Debug.class, "droptest", item.getName() + ": " + item.getAmount());
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
 				World.addGroundItem(item, new WorldTile(p.getTile()));

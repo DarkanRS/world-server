@@ -25,6 +25,11 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.pet.Pet;
+import com.rs.game.content.skills.slayer.npcs.ConditionalDeath;
+import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.content.skills.summoning.Pouch;
+import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
@@ -34,8 +39,15 @@ import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
+import com.rs.plugin.events.IFOnNPCEvent;
+import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.events.ItemAddedToInventoryEvent;
+import com.rs.plugin.events.ItemOnNPCEvent;
+import com.rs.plugin.events.ItemOnPlayerEvent;
+import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnNPCHandler;
+import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import com.rs.utils.ItemExamines;
 import com.rs.utils.ItemWeights;
 
@@ -83,6 +95,76 @@ public final class Inventory {
 				else if (e.getPacket() == ClientPacket.IF_OP10)
 					InventoryOptionsHandler.handleItemOption8(e.getPlayer(), e.getSlotId(), e.getSlotId2(), item);
 			}
+		}
+	};
+	
+	public static InterfaceOnPlayerHandler handleItemOnPlayer = new InterfaceOnPlayerHandler(false, new int[] { 679 }) {
+		@Override
+		public void handle(IFOnPlayerEvent e) {
+			Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+			if (item == null)
+				return;
+			if (!e.getPlayer().getControllerManager().processItemOnPlayer(e.getTarget(), item, e.getSlotId()))
+				return;
+			e.getPlayer().stopAll(false);
+			if (PluginManager.handle(new ItemOnPlayerEvent(e.getPlayer(), e.getTarget(), item, false)))
+				return;
+			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getTarget(), 0, () -> {
+				if (!e.getPlayer().getInventory().containsItem(item.getId(), item.getAmount()))
+					return;
+				e.getPlayer().faceEntity(e.getTarget());
+				PluginManager.handle(new ItemOnPlayerEvent(e.getPlayer(), e.getTarget(), item, true));
+			}));
+		}
+	};
+	
+	public static InterfaceOnNPCHandler handleItemOnNpc = new InterfaceOnNPCHandler(false, new int[] { 679 }) {
+		@Override
+		public void handle(IFOnNPCEvent e) {
+			Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+			if (item == null)
+				return;
+			e.getPlayer().stopAll(false);
+			if (PluginManager.handle(new ItemOnNPCEvent(e.getPlayer(), e.getTarget(), item.setSlot(e.getSlotId()), false)))
+				return;
+			Object dist = PluginManager.getObj(new NPCInteractionDistanceEvent(e.getPlayer(), e.getTarget()));
+			int distance = 0;
+			if (dist != null)
+				distance = (int) dist;
+
+			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getTarget(), distance, () -> {
+				if (!e.getPlayer().getInventory().containsItem(item.getId(), item.getAmount()))
+					return;
+				e.getPlayer().faceEntity(e.getTarget());
+				
+				//TODO move this block to plugins after mapping NPC ids support
+				if (e.getTarget() instanceof Familiar f && f.getPouch() == Pouch.GEYSER_TITAN) {
+					if (e.getTarget().getId() == 7339 || e.getTarget().getId() == 7339)
+						if ((item.getId() >= 1704 && item.getId() <= 1710 && item.getId() % 2 == 0) || (item.getId() >= 10356 && item.getId() <= 10366 && item.getId() % 2 == 0) || (item.getId() == 2572 || (item.getId() >= 20653 && item.getId() <= 20657 && item.getId() % 2 != 0))) {
+							for (Item i : e.getPlayer().getInventory().getItems().array()) {
+								if (i == null)
+									continue;
+								if (i.getId() >= 1704 && i.getId() <= 1710 && i.getId() % 2 == 0)
+									i.setId(1712);
+								else if (i.getId() >= 10356 && i.getId() <= 10362 && i.getId() % 2 == 0)
+									i.setId(10354);
+								else if (i.getId() == 2572 || (i.getId() >= 20653 && i.getId() <= 20657 && i.getId() % 2 != 0))
+									i.setId(20659);
+							}
+							e.getPlayer().getInventory().refresh();
+							e.getPlayer().itemDialogue(1712, "Your ring of wealth and amulet of glory have all been recharged.");
+						}
+				} else if (e.getTarget() instanceof Pet p) {
+					e.getPlayer().faceEntity(e.getTarget());
+					e.getPlayer().getPetManager().eat(item.getId(), p);
+					return;
+				} else if (e.getTarget() instanceof ConditionalDeath cd) {
+					cd.useHammer(e.getPlayer());
+					return;
+				}
+				
+				PluginManager.handle(new ItemOnNPCEvent(e.getPlayer(), e.getTarget(), item, true));
+			}));
 		}
 	};
 

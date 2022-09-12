@@ -58,6 +58,7 @@ public class InterfaceManager {
 	
 	public enum Sub {
 						/* GAME WINDOWS */
+						RENDER_SPACE(48, 0),
 						CENTRAL(29, 44),
 						//CENTRAL_SMALL(10, 44),
 						
@@ -207,7 +208,7 @@ public class InterfaceManager {
 	}
 	
 	public void sendSubSpecific(boolean clickThrough, int parentInterfaceId, int parentInterfaceComponentId, int interfaceId) {
-		//System.out.println(parentInterfaceId + " - " + parentInterfaceComponentId + " - " + interfaceId + " - " + clickThrough);
+		//Logger.debug(parentInterfaceId + " - " + parentInterfaceComponentId + " - " + interfaceId + " - " + clickThrough);
 		int parentComponentUID = getComponentUId(parentInterfaceId, parentInterfaceComponentId);
 		//int parentId = getInterfaceParentId(interfaceId);
 

@@ -6,7 +6,6 @@ import com.rs.game.content.skills.firemaking.Firemaking;
 import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.npcs.max.Max;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.WorldTile;
@@ -29,26 +28,22 @@ public class MaxTaskFM implements Task {
 			return 10;
 		}
 		if (logsBurned <= 0) {
+			max.setBas(-1);
 			max.nextTask();
 			return 10;
 		}
 		currentBonfire = World.getClosestObject(ObjectType.SCENERY_INTERACT, Fire.MAGIC.getFireId(), max.getTile());
 		if (currentBonfire == null) {
-			max.getActionManager().setAction(new Firemaking(Fire.MAGIC) {
-				@Override
-				public void stop(Entity entity) {
-					super.stop(entity);
-				}
-			});
+			max.getActionManager().setAction(new Firemaking(Fire.MAGIC));
 			return 20;
 		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
 			max.setRouteEvent(new RouteEvent(currentBonfire, () -> {
-				max.setBasAnim(2498);
+				max.setBas(2498);
 				max.repeatAction(5, count -> {
 					if (World.getObjectWithType(currentBonfire, currentBonfire.getType()) != currentBonfire) {
 						max.anim(-1);
-						max.setBasAnim(-1);
+						max.setBas(-1);
 						currentBonfire = null;
 						return false;
 					}

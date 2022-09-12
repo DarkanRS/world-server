@@ -63,7 +63,7 @@ public class ReportsManager {
 //			if (rule != null)
 //				WorldDB.getLogs().logReport(player, reported, rule);
 		} catch (Throwable e) {
-			Logger.handle(e);
+			Logger.handle(ReportsManager.class, "report", e);
 		}
 	}
 

@@ -57,9 +57,12 @@ public class CreationAction extends PlayerAction {
 	}
 
 	public boolean checkAll(Player player) {
-		int pLvl = player.getSkills().getLevel(skill);
-		if (skill == Constants.SUMMONING)
-			pLvl = player.getSkills().getLevelForXp(skill);
+		int pLvl = 1;
+		if (skill >= 0) {
+			pLvl = player.getSkills().getLevel(skill);
+			if (skill == Constants.SUMMONING)
+				pLvl = player.getSkills().getLevelForXp(skill);
+		}
 		if (pLvl < level) {
 			player.sendMessage("You need a " + Constants.SKILL_NAME[skill] + " level of " + level + " to make that.");
 			return false;
@@ -102,7 +105,7 @@ public class CreationAction extends PlayerAction {
 				xp += experience;
 				player.getInventory().addItem(product.getId(), product.getAmount(), true);
 			}
-			if (xp > 0)
+			if (skill >= 0 && xp > 0)
 				player.getSkills().addXp(skill, xp);
 			return false;
 		}
@@ -161,7 +164,8 @@ public class CreationAction extends PlayerAction {
 		for (Item item : mats)
 			if (item != null)
 				player.getInventory().deleteItem(item);
-		player.getSkills().addXp(skill, experience);
+		if (skill >= 0)
+			player.getSkills().addXp(skill, experience);
 		player.getInventory().addItem(product.getId(), product.getAmount());
 		return delay;
 	}

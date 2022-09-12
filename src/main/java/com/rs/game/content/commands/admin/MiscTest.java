@@ -45,12 +45,11 @@ import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
@@ -72,6 +71,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
+import com.rs.lib.util.Logger;
+import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -112,6 +113,11 @@ public class MiscTest {
 		//
 		//		});
 		
+		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
+			p.getNSV().setB("clanifyStuff", !p.getNSV().getB("clanifyStuff"));
+			p.sendMessage("CLANIFY: " + p.getNSV().getB("clanifyStuff"));
+		});
+		
 		Commands.add(Rights.DEVELOPER, "allstopfaceme", "Stops all body model rotators.", (p, args) -> {
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
@@ -136,12 +142,6 @@ public class MiscTest {
 					continue;
 				npc.setBodyModelRotator(new ModelRotator().addRotator(new Rotation(p).enableAll()));
 			}
-		});
-		
-		Commands.add(Rights.DEVELOPER, "testnpcrecol", "Spawns another max into the world on top of the player.", (p, args) -> {
-			World.spawnNPC(4907, new WorldTile(p.getTile()), -1, true, true, true).setBodyMeshModifier(new NPCBodyMeshModifier(NPCDefinitions.getDefs(4907))
-					.addColors(Utils.RGB_to_RS2HSB(255, 0, 0), Utils.RGB_to_RS2HSB(0, 255, 0), Utils.RGB_to_RS2HSB(0, 0, 255), Utils.RGB_to_RS2HSB(255, 0, 255), Utils.RGB_to_RS2HSB(255, 255, 0), Utils.RGB_to_RS2HSB(0, 255, 255))
-					.addTextures(870, 876, 61));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
@@ -223,13 +223,13 @@ public class MiscTest {
 		
 		Commands.add(Rights.DEVELOPER, "drcor [r, g, b]", "Set equipment color override", (p, args) -> {
 			if (p.getEquipment().get(Equipment.CHEST) != null)
-				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			if (p.getEquipment().get(Equipment.LEGS) != null)
-				p.getEquipment().get(Equipment.LEGS).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.LEGS).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			if (p.getEquipment().get(Equipment.SHIELD) != null)
-				p.getEquipment().get(Equipment.SHIELD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.SHIELD).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			if (p.getEquipment().get(Equipment.HEAD) != null)
-				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", Utils.RGB_to_RS2HSB(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
+				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			p.getAppearance().generateAppearanceData();
 		});
 		
@@ -333,8 +333,8 @@ public class MiscTest {
 										objects.add(obj);
 						}
 			for (GameObject o : objects) {
-				System.out.println(o);
-				System.out.println("vb: " + o.getDefinitions().varpBit);
+				Logger.debug(MiscTest.class, "areaobj", o);
+				Logger.debug(MiscTest.class, "areaobj", "vb: " + o.getDefinitions().varpBit);
 			}
 		});
 
@@ -453,12 +453,12 @@ public class MiscTest {
 					Song song = Music.getSong(i);
 					count++;
 					if(song == null)
-						System.out.println("Error @" + i);
+						Logger.error(MiscTest.class, "unusedmusic", "Error @" + i);
 					else
-						System.out.println(i + " " + song.getName() + ": " + song.getHint());
+						Logger.debug(MiscTest.class, "unusedmusic", i + " " + song.getName() + ": " + song.getHint());
 				}
-			System.out.println("Total unused: " + count);
-			System.out.println("Unused is " + Math.ceil(count/1099.0*100) + "%");
+			Logger.debug(MiscTest.class, "unusedmusic", "Total unused: " + count);
+			Logger.debug(MiscTest.class, "unusedmusic", "Unused is " + Math.ceil(count/1099.0*100) + "%");
 		});
 
 		Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
@@ -543,6 +543,11 @@ public class MiscTest {
 		Commands.add(Rights.ADMIN, "infpray", "Toggles infinite prayer for the player.", (p, args) -> {
 			p.getNSV().setB("infPrayer", !p.getNSV().getB("infPrayer"));
 			p.sendMessage("INFINITE PRAYER: " + p.getNSV().getB("infPrayer"));
+		});
+		
+		Commands.add(Rights.ADMIN, "infrun", "Toggles infinite run for the player.", (p, args) -> {
+			p.getNSV().setB("infRun", !p.getNSV().getB("infRun"));
+			p.sendMessage("INFINITE RUN: " + p.getNSV().getB("infRun"));
 		});
 
 		Commands.add(Rights.ADMIN, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
@@ -800,7 +805,7 @@ public class MiscTest {
 			//		try {
 			//			JsonFileManager.saveJsonFile(voices, new File("developer-information/voice.json"));
 			//		} catch(Exception e) {
-			//			System.out.println(e.getStackTrace());
+			//			Logger.debug(e.getStackTrace());
 			//		}
 
 			int tickDelay = Integer.valueOf(args[2]);
@@ -998,7 +1003,7 @@ public class MiscTest {
 				return;
 			p.getPackets().sendDevConsoleMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
 			p.sendMessage(Integer.valueOf(args[0]) + ": " + defs.getCompatibleAnimations().toString());
-			System.out.println(defs.getCompatibleAnimations().toString());
+			Logger.debug(MiscTest.class, "companim", defs.getCompatibleAnimations().toString());
 		});
 
 		Commands.add(Rights.DEVELOPER, "varcstr [id value]", "Sets a varc string value.", (p, args) -> {

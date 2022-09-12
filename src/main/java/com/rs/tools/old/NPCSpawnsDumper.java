@@ -24,7 +24,6 @@ import java.io.IOException;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.lib.io.InputStream;
-import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapXTEAs;
 
 public class NPCSpawnsDumper {
@@ -33,9 +32,7 @@ public class NPCSpawnsDumper {
 
 	public static final void main(String[] args) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter("data/npcs/unpackedSpawnsList.txt", true));
-		Logger.log("Launcher", "Initing Cache...");
 		//Cache.init();
-		Logger.log("Launcher", "Initing Data File...");
 		MapXTEAs.loadKeys();
 		for (int regionId = 0; regionId < 20000; regionId++) {
 			if (new File("data/npcs/packedSpawns/" + regionId + ".ns").exists())

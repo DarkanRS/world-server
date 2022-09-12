@@ -25,8 +25,10 @@ import com.rs.game.World;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.model.object.ObjectMeshModifier;
 import com.rs.game.region.DynamicRegion;
 import com.rs.game.region.Region;
 import com.rs.lib.game.Animation;
@@ -39,7 +41,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.model.Account;
-import com.rs.lib.model.Clan;
 import com.rs.lib.net.Encoder;
 import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.Session;
@@ -85,7 +86,6 @@ import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveGroundI
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveNPC;
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActiveObject;
 import com.rs.lib.net.packets.encoders.interfaces.opensub.IFOpenSubActivePlayer;
-import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.net.packets.encoders.social.MessageClan;
 import com.rs.lib.net.packets.encoders.social.MessageFriendsChat;
 import com.rs.lib.net.packets.encoders.social.MessageGame;
@@ -111,10 +111,11 @@ import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
 import com.rs.lib.net.packets.encoders.updatezone.SetGroundItemAmount;
 import com.rs.lib.net.packets.encoders.updatezone.TileMessage;
 import com.rs.lib.net.packets.encoders.updatezone.UpdateZoneFullFollows;
-import com.rs.lib.net.packets.encoders.vars.Varc;
-import com.rs.lib.net.packets.encoders.vars.VarcString;
-import com.rs.lib.net.packets.encoders.vars.Varp;
-import com.rs.lib.net.packets.encoders.vars.VarpBit;
+import com.rs.lib.net.packets.encoders.vars.SetVarClan;
+import com.rs.lib.net.packets.encoders.vars.SetVarc;
+import com.rs.lib.net.packets.encoders.vars.SetVarcString;
+import com.rs.lib.net.packets.encoders.vars.SetVarp;
+import com.rs.lib.net.packets.encoders.vars.SetVarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
 import com.rs.lib.util.Utils;
 
@@ -146,7 +147,7 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new IFOpenSubActiveObject(topId, topChildId, subId, overlay, object));
 	}
 
-	public void sendPlayerInterface(Player player, boolean overlay, int topId, int topChildId, int subId) {
+	public void sendPlayerInterface(boolean overlay, int topId, int topChildId, int subId) {
 		session.writeToQueue(new IFOpenSubActivePlayer(topId, topChildId, subId, overlay, player.getIndex()));
 	}
 
@@ -230,11 +231,11 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_RESET);
 	}
 
-	public void sendCameraLook(Player player, WorldTile tile, int viewZ) {
+	public void sendCameraLook(WorldTile tile, int viewZ) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ);
 	}
 
-	public void sendCameraLook(Player player, WorldTile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
+	public void sendCameraLook(WorldTile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ, speedToExactDestination, speedOnRoutePath);
 	}
 
@@ -250,11 +251,11 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_SMOOTHRESET);
 	}
 
-	public void sendCameraPos(Player player, WorldTile tile, int z) {
+	public void sendCameraPos(WorldTile tile, int z) {
 		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z);
 	}
 
-	public void sendCameraPos(Player player, WorldTile tile, int z, int speedToWorldTile, int speedToExactDestination) {
+	public void sendCameraPos(WorldTile tile, int z, int speedToWorldTile, int speedToExactDestination) {
 		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z, speedToWorldTile, speedToExactDestination);
 	}
 
@@ -289,21 +290,21 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendVarc(int id, int value) {
-		session.writeToQueue(new Varc(id, value));
+		session.writeToQueue(new SetVarc(id, value));
 	}
 
 	public void sendVarcString(int id, String string) {
-		session.writeToQueue(new VarcString(id, string));
+		session.writeToQueue(new SetVarcString(id, string));
 	}
 
 	@Deprecated
 	public void sendVar(int id, int value) {
-		session.writeToQueue(new Varp(id, value));
+		session.writeToQueue(new SetVarp(id, value));
 	}
 
 	@Deprecated
 	public void sendVarBit(int id, int value) {
-		session.writeToQueue(new VarpBit(id, value));
+		session.writeToQueue(new SetVarpBit(id, value));
 	}
 
 	@Deprecated
@@ -361,11 +362,13 @@ public class WorldEncoder extends Encoder {
 	public void sendAddObject(GameObject object) {
 		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
 		session.writeToQueue(new AddObject(object));
+		if (object.getMeshModifier() != null)
+			sendCustomizeObject(object.getMeshModifier());
 	}
 
-	public void sendCustomizeObject(GameObject object, int[] modifiedModels, int[] modifiedColors, int[] modifiedTextures) {
-		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
-		session.writeToQueue(new CustomizeObject(object, modifiedModels, modifiedColors, modifiedTextures));
+	public void sendCustomizeObject(ObjectMeshModifier modifier) {
+		session.writeToQueue(new UpdateZoneFullFollows(modifier.getObject(), player.getSceneBaseChunkId()));
+		session.writeToQueue(new CustomizeObject(modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
 	}
 
 	public void sendMessage(MessageType type, String text, Player p) {
@@ -500,7 +503,7 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new PlayerUpdate(stream.toByteArray()));
 	}
 
-	public void sendLocalNPCsUpdate(Player player) {
+	public void sendLocalNPCsUpdate() {
 		OutputStream stream = new OutputStream();
 		player.getLocalNPCUpdate().write(stream, player.hasLargeSceneView());
 		session.writeToQueue(new NPCUpdate(player.hasLargeSceneView(), stream.toByteArray()));
@@ -549,7 +552,7 @@ public class WorldEncoder extends Encoder {
 		sendItems(key, key < 0, items);
 	}
 
-	public void sendLogout(Player player, boolean lobby) {
+	public void sendLogout(boolean lobby) {
 		session.writeToQueue(lobby ? ServerPacket.LOGOUT_LOBBY : ServerPacket.LOGOUT_FULL);
 		ChannelFuture future = player.getSession().flush();
 		if (player.hasFinished())
@@ -591,7 +594,7 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new MusicTrack(id, delay, volume));
 	}
 
-	public void updateStats(Player player, int... skills) {
+	public void updateStats(int... skills) {
 		UpdateStat[] updateStats = new UpdateStat[skills.length];
 		for (int i = 0;i < skills.length;i++)
 			updateStats[i] = new UpdateStat(skills[i], (int) player.getSkills().getXp(skills[i]), player.getSkills().getLevel(skills[i]));
@@ -610,7 +613,7 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new SetCursor(walkHereReplace, cursor));
 	}
 
-	public void sendGameBarStages(Player player) {
+	public void sendGameBarStages() {
 		sendVar(1054, player.getClanStatus());
 		sendVar(1055, player.getAssistStatus());
 		sendVar(1056, player.isFilterGame() ? 1 : 0);
@@ -700,47 +703,47 @@ public class WorldEncoder extends Encoder {
 		sendRunScriptReverse(scriptId);
 	}
 
-	public void sendGroundItemMessage(Player player, GroundItem item, String message) {
-		sendGroundItemMessage(player, item, message, 0, 0xFFFFFF);
+	public void sendGroundItemMessage(GroundItem item, String message) {
+		sendGroundItemMessage(0, 0xFFFFFF, item, message);
 	}
 
-	public void sendPlayerMessage(Player player, String message, int border, int color) {
+	public void sendPlayerMessage(int border, int color, String message) {
 		sendGameMessage(message);
 		sendVarcString(306, message);
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendPlayerInterface(player, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendPlayerInterface(true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
-	public void sendNPCMessage(Player player, int border, int color, NPC npc, String message) {
+	public void sendNPCMessage(int border, int color, NPC npc, String message) {
 		sendGameMessage(message);
 		sendVarcString(306, message);
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendNPCInterface(npc, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendNPCInterface(npc, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
-	public void sendGroundItemMessage(Player player, GroundItem item, String message, int border, int color) {
+	public void sendGroundItemMessage(int border, int color, GroundItem item, String message) {
 		sendGameMessage(message);
 		sendVarcString(306, message);
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendGroundItemInterface(item, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendGroundItemInterface(item, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
-	public void sendObjectMessage(Player player, int border, int color, GameObject object, String message) {
+	public void sendObjectMessage(int border, int color, GameObject object, String message) {
 		sendGameMessage(message);
 		sendVarcString(306, message);
 		sendVarc(1699, color);
 		sendVarc(1700, border);
 		sendVarc(1695, 1);
-		sendObjectInterface(object, true, player.getInterfaceManager().getTopInterface(), 0, 1177);
+		sendObjectInterface(object, true, player.getInterfaceManager().getTopInterface(), Sub.RENDER_SPACE.getComponent(player.resizeable()), 1177);
 	}
 
-	public void openGESearch(Player player) {
+	public void openGESearch() {
 		player.getInterfaceManager().sendChatBoxInterface(7, 389);
 		sendRunScriptReverse(570, "Grand Exchange Item Search");
 	}
@@ -787,7 +790,7 @@ public class WorldEncoder extends Encoder {
 		sendRunScriptReverse(110, message);
 	}
 
-	public void sendClanSettings(Clan clan, boolean guest) {
-		session.writeToQueue(new ClanSettingsFull(clan, guest, (int) World.getServerTicks()));
+	public void setClanVar(int varId, Object value) {
+		session.writeToQueue(new SetVarClan(varId, value));
 	}
 }

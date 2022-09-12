@@ -26,11 +26,11 @@ import com.rs.game.World;
 import com.rs.game.model.entity.BodyGlow;
 import com.rs.lib.game.Item;
 import com.rs.lib.io.OutputStream;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
 public class Appearance {
 
-	private transient int bas;
 	private int title;
 	private int[] lookI;
 	private int[] colour;
@@ -53,7 +53,6 @@ public class Appearance {
 
 	public Appearance() {
 		male = true;
-		bas = -1;
 		title = -1;
 		resetAppearance();
 	}
@@ -66,7 +65,6 @@ public class Appearance {
 	public void setPlayer(Player player) {
 		this.player = player;
 		transformedNpcId = -1;
-		bas = -1;
 		if (lookI == null)
 			resetAppearance();
 	}
@@ -275,8 +273,8 @@ public class Appearance {
 			case 20709:
 				if (player.getClan() != null)
 					modifiers.add(new ItemMeshModifier(defs, slotFlag)
-							.addColors(player.getClan().getMottifColors())
-							.addTextures(player.getClan().getMottifTextures()));
+							.addColors(player.getClan().getMotifColors())
+							.addTextures(player.getClan().getMotifTextures()));
 				break;
 			}
 
@@ -310,7 +308,7 @@ public class Appearance {
 	}
 
 	public void setBAS(int id) {
-		bas = id;
+		player.setBas(id);
 		generateAppearanceData();
 	}
 
@@ -338,8 +336,8 @@ public class Appearance {
 	}
 
 	public int getRenderEmote() {
-		if (bas >= 0)
-			return bas;
+		if (player.getBas() >= 0)
+			return player.getBas();
 		if (transformedNpcId >= 0)
 			return NPCDefinitions.getDefs(transformedNpcId).basId;
 		return player.getEquipment().getWeaponBAS();
@@ -589,8 +587,8 @@ public class Appearance {
 
 	public void printDebug() {
 		for (int i = 0;i < lookI.length;i++)
-			System.out.println("lookI["+i+"] = " + lookI[i] + ";");
+			Logger.debug(Appearance.class, "printDebug", "lookI["+i+"] = " + lookI[i] + ";");
 		for (int i = 0;i < colour.length;i++)
-			System.out.println("colour["+i+"] = " + colour[i] + ";");
+			Logger.debug(Appearance.class, "printDebug", "colour["+i+"] = " + colour[i] + ";");
 	}
 }

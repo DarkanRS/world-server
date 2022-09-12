@@ -44,7 +44,7 @@ public final class FadingScreen {
 					try {
 						unfade(player, event);
 					} catch (Throwable e) {
-						Logger.handle(e);
+						Logger.handle(FadingScreen.class, "unfade", e);
 					}
 				}
 			}, leftTime);
@@ -61,7 +61,7 @@ public final class FadingScreen {
 				try {
 					player.getInterfaceManager().closeFadingInterface();
 				} catch (Throwable e) {
-					Logger.handle(e);
+					Logger.handle(FadingScreen.class, "unfade", e);
 				}
 			}
 		}, 4);

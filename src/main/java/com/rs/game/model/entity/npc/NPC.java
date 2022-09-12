@@ -27,7 +27,6 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cores.CoresManager;
-import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
@@ -58,8 +57,10 @@ import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.NPCDeathEvent;
@@ -83,6 +84,7 @@ public class NPC extends Entity {
 	private transient boolean ignoreNPCClipping;
 	public WorldTile forceWalk;
 	private int size;
+	private boolean hidden = false;
 
 	private long lastAttackedByTarget;
 	private boolean cantInteract;
@@ -101,7 +103,6 @@ public class NPC extends Entity {
 	// npc masks
 	private transient Transformation nextTransformation;
 	private transient NPCBodyMeshModifier bodyMeshModifier;
-	private transient int basAnim = -1;
 	protected transient ConcurrentHashMap<Object, Object> temporaryAttributes;
 	// name changing masks
 	private String name;
@@ -185,7 +186,7 @@ public class NPC extends Entity {
 
 	@Override
 	public boolean needMasksUpdate() {
-		return super.needMasksUpdate() || nextTransformation != null || bodyMeshModifier != null || basAnim != -1 || changedCombatLevel || changedName || maskTest || permName;
+		return super.needMasksUpdate() || nextTransformation != null || bodyMeshModifier != null || getBas() != -1 || changedCombatLevel || changedName || maskTest || permName;
 	}
 
 	public void resetLevels() {
@@ -224,8 +225,8 @@ public class NPC extends Entity {
 		changedName = false;
 		if (bodyMeshModifier == NPCBodyMeshModifier.RESET)
 			bodyMeshModifier = null;
-		if (basAnim == -2)
-			basAnim = -1;
+		if (getBas() == -2)
+			setBasNoReset(-1);
 	}
 
 	public NPCDefinitions getDefinitions(Player player) {
@@ -315,7 +316,7 @@ public class NPC extends Entity {
 			super.processEntity();
 			processNPC();
 		} catch (Throwable e) {
-			WorldDB.getLogs().logError(e);
+			Logger.handle(NPC.class, "processEntity", e);
 		}
 	}
 
@@ -648,13 +649,7 @@ public class NPC extends Entity {
 			World.broadcastLoot(dropTo.getDisplayName() + " has just received a " + item.getName() + " drop from " + getDefinitions().getName() + "!");
 
 		final int size = getSize();
-
-		//final WorldTile tile = new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane());
-		int value = item.getDefinitions().getValue() * item.getAmount();
-		if (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId()))
-			player.sendMessage("<col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName()); //
-		//player.getPackets().sendTileMessage("<shad=000000>"+item.getDefinitions().getName() + " (" + item.getAmount() + ")", tile, 20000, 50, 0xFF0000);
-
+		
 		PluginManager.handle(new NPCDropEvent(dropTo, this, item));
 		if (item.getId() != -1 && dropTo.getNSV().getB("sendingDropsToBank")) {
 			if (item.getDefinitions().isNoted())
@@ -662,7 +657,10 @@ public class NPC extends Entity {
 			sendDropDirectlyToBank(dropTo, item);
 			return;
 		}
-		World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
+		GroundItem gItem = World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
+		int value = item.getDefinitions().getValue() * item.getAmount();
+		if (gItem != null && (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId())))
+			player.getPackets().sendGroundItemMessage(50, 0xFF0000, gItem, "<shad=000000><col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName());
 	}
 
 	public static void sendDropDirectlyToBank(Player player, Item item) {
@@ -1137,7 +1135,7 @@ public class NPC extends Entity {
 	}
 
 	public boolean withinDistance(Player tile, int distance) {
-		return super.withinDistance(tile.getTile(), distance);
+		return !hidden && super.withinDistance(tile.getTile(), distance);
 	}
 
 	/**
@@ -1327,16 +1325,21 @@ public class NPC extends Entity {
 		}
 		bodyMeshModifier = meshModifier;
 	}
-
-	public int getBasAnim() {
-		return basAnim;
+	
+	public NPCBodyMeshModifier modifyMesh() {
+		bodyMeshModifier = new NPCBodyMeshModifier(getDefinitions());
+		return bodyMeshModifier;
+	}
+	
+	public void resetMesh() {
+		setBodyMeshModifier(NPCBodyMeshModifier.RESET);
 	}
 
-	public void setBasAnim(int basAnim) {
-		if (basAnim == -1) {
-			this.basAnim = -2;
-			return;
-		}
-		this.basAnim = basAnim;
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 }

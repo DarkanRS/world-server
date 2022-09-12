@@ -16,6 +16,8 @@
 //
 package com.rs.game.model.entity.npc;
 
+import java.util.Arrays;
+
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.lib.io.OutputStream;
 
@@ -37,10 +39,26 @@ public class NPCBodyMeshModifier {
 	public NPCBodyMeshModifier(NPCDefinitions defs) {
 		this.defs = defs;
 	}
+	
+	public NPCBodyMeshModifier setModel(int index, int modelId) {
+		if (modelIds == null) {
+			modelIds = new int[defs.modelIds.length];
+			System.arraycopy(defs.modelIds, 0, modelIds, 0, modelIds.length);
+		}
+		if (index < 0 || index >= modelIds.length)
+			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
+		if (modelId == -1)
+			modelIds[index] = defs.modelIds[index];
+		else
+			modelIds[index] = modelId;
+		return this;
+	}
 
 	public NPCBodyMeshModifier addModels(int... models) {
+		if (Arrays.equals(models, defs.modelIds))
+			return this;
 		modelIds = new int[defs.modelIds.length];
-		System.arraycopy(modelIds, 0, defs.modelIds, 0, defs.modelIds.length);
+		System.arraycopy(defs.modelIds, 0, modelIds, 0, modelIds.length);
 
 		for (int i = 0;i < defs.modelIds.length;i++) {
 			if (i >= models.length)
@@ -50,16 +68,46 @@ public class NPCBodyMeshModifier {
 		return this;
 	}
 	
+	public NPCBodyMeshModifier setColor(int index, int color) {
+		if (modifiedColors == null && defs.modifiedColors != null) {
+			modifiedColors = new short[defs.modifiedColors.length];
+			System.arraycopy(defs.modifiedColors, 0, modifiedColors, 0, modifiedColors.length);
+		}
+		if (modifiedColors == null || index < 0 || index >= modifiedColors.length)
+			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
+		if (color == -1)
+			modifiedColors[index] = defs.modifiedColors[index];
+		else
+			modifiedColors[index] = (short) color;
+		return this;
+	}
+	
 	public NPCBodyMeshModifier addColors(int... colors) {
 		if (defs.modifiedColors != null) {
 			modifiedColors = new short[defs.modifiedColors.length];
 			System.arraycopy(defs.modifiedColors, 0, modifiedColors, 0, modifiedColors.length);
 		}
+		if (modifiedColors == null)
+			return this;
 		for (int i = 0;i < modifiedColors.length;i++) {
 			if (i >= colors.length)
 				break;
 			modifiedColors[i] = (short) colors[i];
 		}
+		return this;
+	}
+	
+	public NPCBodyMeshModifier setTexture(int index, int texId) {
+		if (modifiedTextures == null && defs.modifiedTextures != null) {
+			modifiedTextures = new short[defs.modifiedTextures.length];
+			System.arraycopy(defs.modifiedTextures, 0, modifiedTextures, 0, modifiedTextures.length);
+		}
+		if (modifiedTextures == null || index < 0 || index >= modifiedTextures.length)
+			throw new RuntimeException("Index " + index + " for models of " + defs.id + " is out of bounds.");
+		if (texId == -1)
+			modifiedTextures[index] = defs.modifiedTextures[index];
+		else
+			modifiedTextures[index] = (short) texId;
 		return this;
 	}
 

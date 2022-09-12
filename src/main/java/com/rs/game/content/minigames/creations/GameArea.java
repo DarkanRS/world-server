@@ -23,6 +23,7 @@ import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
 /**
@@ -100,7 +101,7 @@ public class GameArea {
 			int type = Utils.random(5) + 3;
 			int rotation = type == 5 ? 3 : Utils.random(4);
 			if (!setRandom(100, 0, 0, flags.length, flags.length, type, 0, rotation))
-				System.out.println("Failed");
+				Logger.debug(GameArea.class, "calculate", "Failed");
 		}
 
 		// ensure that at least one kiln per team is created.

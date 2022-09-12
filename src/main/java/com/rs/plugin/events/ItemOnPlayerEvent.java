@@ -21,20 +21,23 @@ import java.util.Map;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+import com.rs.plugin.handlers.ItemOnPlayerHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 public class ItemOnPlayerEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static Map<Object, ItemOnPlayerHandler> HANDLERS = new HashMap<>();
 
 	private Player player;
 	private Player otherPlayer;
 	private Item item;
+	private boolean atPlayer;
 
-	public ItemOnPlayerEvent(Player player, Player otherPlayer, Item item) {
+	public ItemOnPlayerEvent(Player player, Player otherPlayer, Item item, boolean atPlayer) {
 		this.player = player;
 		this.otherPlayer = otherPlayer;
 		this.item = item;
+		this.atPlayer = atPlayer;
 	}
 
 	public Player getPlayer() {
@@ -49,19 +52,23 @@ public class ItemOnPlayerEvent implements PluginEvent {
 		return item;
 	}
 
+	public boolean isAtPlayer() {
+		return atPlayer;
+	}
+
 	@Override
 	public PluginHandler<? extends PluginEvent> getMethod() {
-		PluginHandler<? extends PluginEvent> method = HANDLERS.get(item.getId());
+		ItemOnPlayerHandler method = HANDLERS.get(item.getId());
 		if (method == null)
 			method = HANDLERS.get(item.getDefinitions().getName());
-		if (method == null)
+		if ((method == null) || (!isAtPlayer() && method.isCheckDistance()))
 			return null;
 		return method;
 	}
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		for (Object key : method.keys()) {
-			PluginHandler<? extends PluginEvent> old = HANDLERS.put(key, method);
+			ItemOnPlayerHandler old = HANDLERS.put(key, (ItemOnPlayerHandler) method);
 			if (old != null)
 				System.err.println("ERROR: Duplicate ItemOnPlayer methods for key: " + key);
 		}

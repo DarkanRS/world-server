@@ -84,7 +84,7 @@ public class GEManager extends DBItemManager {
 			}
 			return offers;
 		} catch (JsonIOException | IOException e) {
-			Logger.handle(e);
+			Logger.handle(GEManager.class, "getSync", e);
 			return null;
 		}
 	}
@@ -111,7 +111,7 @@ public class GEManager extends DBItemManager {
 				Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);
 				result.add(offer);
 			} catch (JsonIOException | IOException e) {
-				System.out.println("Error converting document: " + result);
+				Logger.handleNoRecord(GEManager.class, "getBestOffersSync", "Error converting document: " + result, e);
 			}
 		return result;
 	}
@@ -136,7 +136,7 @@ public class GEManager extends DBItemManager {
 					Offer offer = JsonFileManager.fromJSONString(JsonFileManager.toJson(doc), Offer.class);
 					result.add(offer);
 				} catch (JsonIOException | IOException e) {
-					System.out.println("Error converting document: " + result);
+					Logger.handleNoRecord(GEManager.class, "getAllOffersOfType", "Error converting document: " + result, e);
 				}
 			func.accept(result);
 		});
