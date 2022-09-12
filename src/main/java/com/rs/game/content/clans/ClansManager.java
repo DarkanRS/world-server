@@ -532,7 +532,7 @@ public class ClansManager {
 	
 	private static void saveClanmateDetails(Player player) {
 		int jobId = player.getTempAttribs().getI("editClanMateJob", -1);
-		int rankId = player.getTempAttribs().getI("editClanMateRank");
+		int rankId = player.getTempAttribs().getI("editClanMateRank", -1);
 		String editingUser = player.getTempAttribs().getO("editClanMate");
 		ClanRank currRank = player.getClan().getRank(editingUser);
 		ClanRank newRank = ClanRank.forId(rankId);
