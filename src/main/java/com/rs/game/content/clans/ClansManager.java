@@ -281,7 +281,24 @@ public class ClansManager {
 			case 309 -> kick(e.getPlayer());
 			case 318 -> saveClanmateDetails(e.getPlayer());
 			case 366 -> e.getPlayer().getPackets().sendVarc(1516, e.getSlotId());
-			
+			case 558 -> {
+				ClanRank rank = e.getPlayer().getTempAttribs().getO("permissionRankEditing");
+				if (rank == null) {
+					e.getPlayer().sendMessage("Please select a rank before setting the chat ranking.");
+					return;
+				}
+				e.getPlayer().getClan().setCcChatRank(rank);
+			}
+			case 570 -> {
+				ClanRank rank = e.getPlayer().getTempAttribs().getO("permissionRankEditing");
+				if (rank == null) {
+					e.getPlayer().sendMessage("Please select a rank before setting the kick ranking.");
+					return;
+				}
+				e.getPlayer().getClan().setCcKickRank(rank);
+			}
+			case 534, 547, 752, 739, 483, 659, 581, 592, 648, 684, 671, 
+				 793, 696, 603, 614, 782, 625, 815, 720, 708, 804 -> togglePermissionSetting(e.getPlayer(), e.getComponentId());
 			default -> {
 				if (e.getComponentId() >= 395 && e.getComponentId() <= 475) {
 					int selectedRank = (e.getComponentId() - 395) / 8;
@@ -453,6 +470,54 @@ public class ClansManager {
 			player.getTempAttribs().setO("editClanMate", username);
 	}
 	
+	protected static void togglePermissionSetting(Player player, int componentId) {
+		ClanRank rank = player.getTempAttribs().getO("permissionRankEditing");
+		if (rank == null) {
+			player.sendMessage("Please select a rank to edit before editing permissions.");
+			return;
+		}
+		String settingName = switch(componentId) {
+		case 534 -> "PERMISSION_LOCK_KEEP";
+		case 547 -> "PERMISSION_LOCK_CITADEL";
+		case 739 -> "PERMISSION_ENTER_KEEP";
+		case 752 -> "PERMISSION_ENTER_CITADEL";
+		case 483 -> "PERMISSION_INVITE";
+		case 659 -> "PERMISSION_LEAD_CLANWARS";
+		case 581 -> "PERMISSION_SIGNPOST";
+		case 592 -> "PERMISSION_NOTICEBOARD";
+		case 648 -> "PERMISSION_START_BATTLE";
+		case 671 -> "PERMISSION_CALL_VOTE";
+		case 684 -> "PERMISSION_BEGIN_MEETING";
+		case 793 -> "PERMISSION_THEATER";
+		case 696 -> "PERMISSION_PARTY_ROOM";
+		case 603 -> "PERMISSION_CITADEL_UPGRADE";
+		case 614 -> "PERMISSION_CITADEL_DOWNGRADE";
+		case 625 -> "PERMISSION_EDIT_BATTLEFIELD";
+		case 782 -> "PERMISSION_CITADEL_LANGUAGE";
+		case 815 -> "PERMISSION_CHECK_RESOURCES";
+		case 720 -> "PERMISSION_BUILD_TIME";
+		case 804 -> "PERMISSION_LOCK_PLOTS";
+		case 708 -> "PERMISSION_RESOURCE_GATHER";
+		default -> null;
+		};
+		if (settingName == null) {
+			player.sendMessage("Unknown clan setting for component: " + componentId);
+			return;
+		}
+		ClanSetting setting = null;
+		for (ClanSetting s : ClanSetting.values()) {
+			if (s.name().equals(rank.name() + "_" + settingName)) {
+				setting = s;
+				break;
+			}
+		}
+		if (setting == null) {
+			player.sendMessage("Cannot edit permission " + settingName + " for rank " + rank + ".");
+			return;
+		}
+		player.getClan().setSetting(setting, (int) player.getClan().getSetting(setting) == 1 ? 0 : 1);
+	}
+
 	public static void viewClanmateDetails(Player player, String username, MemberData member) {
 		player.getPackets().sendVarc(1500, member.getRank().getIconId());
 		player.getPackets().sendVarc(1501, member.getJob());
