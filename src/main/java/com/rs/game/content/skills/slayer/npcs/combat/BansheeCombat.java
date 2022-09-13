@@ -39,16 +39,14 @@ public class BansheeCombat extends CombatScript {
 		NPCCombatDefinitions def = npc.getCombatDefinitions();
 		if (!Slayer.hasEarmuffs(target)) {
 			Player targetPlayer = (Player) target;
-			if (!targetPlayer.getPrayer().isProtectingMelee()) {
-				int randomSkill = Utils.random(0, 6);
-				if (randomSkill != Constants.HITPOINTS) {
-					int currentLevel = targetPlayer.getSkills().getLevel(randomSkill);
-					targetPlayer.getSkills().set(randomSkill, currentLevel < 5 ? 0 : currentLevel - 5);
-					targetPlayer.sendMessage("The screams of the banshee make you feel slightly weaker.");
-					npc.setNextForceTalk(new ForceTalk("*EEEEHHHAHHH*"));
-				}
+			int randomSkill = Utils.random(0, 6);
+			if (randomSkill != Constants.HITPOINTS) {
+				int currentLevel = targetPlayer.getSkills().getLevel(randomSkill);
+				targetPlayer.getSkills().set(randomSkill, currentLevel < 5 ? 0 : currentLevel - 5);
+				targetPlayer.sendMessage("The screams of the banshee make you feel slightly weaker.");
+				npc.setNextForceTalk(new ForceTalk("*EEEEHHHAHHH*"));
 			}
-			delayHit(npc, 1, target, getMeleeHit(npc, targetPlayer.getMaxHitpoints() / 10));
+			delayHit(npc, 1, target, getRegularHit(npc, targetPlayer.getMaxHitpoints() / 10));
 			// TODO player emote hands on ears
 		} else
 			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, npc.getMaxHit(), def.getAttackStyle(), target)));

@@ -44,7 +44,7 @@ public class Basilisk extends CombatScript {
 			if (randomSkill != Constants.HITPOINTS) {
 				int currentLevel = targetPlayer.getSkills().getLevel(randomSkill);
 				targetPlayer.getSkills().set(randomSkill, currentLevel < 5 ? 0 : currentLevel - 5);
-				delayHit(npc, 0, target, getMeleeHit(npc, targetPlayer.getMaxHitpoints() / 10));
+				delayHit(npc, 0, target, getRegularHit(npc, targetPlayer.getMaxHitpoints() / 10));
 				WorldTasks.schedule(() -> target.setNextSpotAnim(new SpotAnim(747)));
 			}
 		} else
