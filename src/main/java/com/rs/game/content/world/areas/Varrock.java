@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.cache.loaders.InventoryDefinitions;
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.AchievementDef.Area;
@@ -62,7 +63,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
-import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
@@ -369,16 +369,16 @@ public class Varrock {
 			
 			static {
 				for (FurItem item : FurItem.values())
-					BY_ITEMID.put(item.itemId, item);
+					BY_ITEMID.put(item.id, item);
 			}
 			
-			private final int itemId;
+			private final int id;
 			private final int gpCost;
 			private final int furCost;
 			private final int[] furIds;
 			
 			FurItem(int itemId, int gpCost, int furCost, int... furIds) {
-				this.itemId = itemId;
+				this.id = itemId;
 				this.gpCost = gpCost;
 				this.furCost = furCost;
 				this.furIds = furIds;
@@ -391,22 +391,40 @@ public class Varrock {
 		
 		@Override
 		public void handle(ButtonClickEvent e) {
-			e.getPlayer().sendOptionDialogue("Are you sure you'd like to buy a PLACEHOLDER?", ops -> {
-				ops.add("Yes, I am sure (COST coins)", () -> buy(e.getPlayer(), e.getPacket(), e.getSlotId2()));
-				ops.add("No thanks.");
-			});
-		}
-
-		private void buy(Player player, ClientPacket packet, int itemId) {
-			FurItem item = FurItem.forId(itemId);
+			FurItem item = FurItem.forId(e.getSlotId2());
 			if (item == null)
 				return;
-			switch(packet) {
-			case IF_OP1 -> player.sendMessage(ItemDefinitions.get(itemId) + "");
-			case IF_OP2 -> {}
-			case IF_OP3 -> {}
-			case IF_OP4 -> {}
+			String name = ItemDefinitions.getDefs(e.getSlotId2()).name;
+			switch(e.getPacket()) {
+			case IF_OP1 -> e.getPlayer().sendMessage(name + " costs " + Utils.formatNumber(item.gpCost) + "gp and " + item.furCost + " " + ItemDefinitions.getDefs(item.furIds[0]).name.toLowerCase() + ".");
+			case IF_OP2 -> buy(e.getPlayer(), item, 1);
+			case IF_OP3 -> buy(e.getPlayer(), item, 5);
+			case IF_OP4 -> buy(e.getPlayer(), item, 10);
+			default -> {}
 			}
+		}
+
+		private void buy(Player player, FurItem item, int amount) {
+			player.sendOptionDialogue("Are you sure you'd like to buy " + amount + " " + ItemDefinitions.getDefs(item.id).name + "?", ops -> {
+				ops.add("Yes, I am sure ("+Utils.formatNumber(item.gpCost*amount) + " coins)", () -> {
+					if (item.furCost*amount > player.getInventory().getTotalNumberOf(item.furIds)) {
+						player.sendMessage("You don't have enough furs to exchange for that.");
+						return;
+					}
+					int paid = 0;
+					for (int i = 0;i < amount*2;i++) {
+						for (int furId : item.furIds) {
+							if (player.getInventory().containsItem(furId)) {
+								player.getInventory().deleteItem(furId, 1);
+								if (++paid == (item.furCost*amount))
+									break;
+							}
+						}
+					}
+					player.getInventory().addItemDrop(item.id, amount);
+				});
+				ops.add("No thanks.");
+			});
 		}
 	};
 	
@@ -415,7 +433,7 @@ public class Varrock {
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
 			case "Talk-to" -> e.getPlayer().sendMessage("Lmao you think I'm gonna write dialogue?");
-			case "Trade" -> {}
+			case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "fancy_clothes_store");
 			case "Fur-shop" -> {
 				e.getPlayer().getPackets().sendItems(482, Arrays.stream(InventoryDefinitions.getContainer(482).ids).mapToObj(id -> new Item(id, 1)).toArray(Item[]::new));
 				e.getPlayer().getInterfaceManager().sendInterface(477);

@@ -25,7 +25,6 @@ import com.rs.Settings;
 import com.rs.cache.ArchiveType;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
-import com.rs.cache.loaders.InventoryDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -113,14 +112,6 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-		
-		Commands.add(Rights.ADMIN, "furmeme [args]", "mememes", (p, args) -> {
-			//p.getPackets().setIFRightClickOps(477, 26, 0, 482, 0, 1);
-			//p.getPackets().sendInterSetItemsOptionsScript(477, 26, 482, 12, 36, "Withdraw", "Examine");
-			p.getPackets().sendItems(482, Arrays.stream(InventoryDefinitions.getContainer(482).ids).mapToObj(id -> new Item(id, 1)).toArray(Item[]::new));
-			p.getInterfaceManager().sendInterface(477);
-			p.getPackets().setIFRightClickOps(477, 26, 0, 20, 0, 1, 2, 3);
-		});
 		
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
 			p.getNSV().setB("clanifyStuff", !p.getNSV().getB("clanifyStuff"));

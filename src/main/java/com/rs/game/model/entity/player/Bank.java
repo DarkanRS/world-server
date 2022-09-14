@@ -37,7 +37,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.utils.ItemExamines;
+import com.rs.utils.ItemConfig;
 
 @PluginEventHandler
 public class Bank {
@@ -692,7 +692,7 @@ public class Bank {
 		if (slot == null)
 			return;
 		Item item = bankTabs[slot[0]][slot[1]];
-		player.sendMessage(ItemExamines.getExamine(item));
+		player.sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 		if (item.getMetaData("combatCharges") != null)
 			player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
 	}

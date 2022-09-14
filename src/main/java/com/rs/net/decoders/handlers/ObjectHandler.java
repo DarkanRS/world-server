@@ -53,7 +53,6 @@ import com.rs.game.content.skills.crafting.SandBucketFill;
 import com.rs.game.content.skills.crafting.Silver;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FishingFerretRoom;
 import com.rs.game.content.skills.firemaking.Bonfire;
-import com.rs.game.content.skills.hunter.FalconryController;
 import com.rs.game.content.skills.hunter.PuroPuroController;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
@@ -436,9 +435,7 @@ public final class ObjectHandler {
 							});
 							ops.add("Nevermind.");
 						}));
-			} else if (id == 19222)
-				FalconryController.beginFalconry(player);
-			else if (id == 9356)
+			} else if (id == 9356)
 				FightCavesController.enterFightCaves(player);
 			else if (id == 68107)
 				FightKilnController.enterFightKiln(player, false);

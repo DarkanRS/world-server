@@ -40,8 +40,7 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.utils.ItemExamines;
-import com.rs.utils.ItemWeights;
+import com.rs.utils.ItemConfig;
 
 @PluginEventHandler
 public final class Equipment {
@@ -138,7 +137,7 @@ public final class Equipment {
 		Item item = items.get(slotId);
 		if (item == null)
 			return;
-		player.sendMessage(ItemExamines.getExamine(item));
+		player.sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 		if (item.getMetaData("combatCharges") != null)
 			player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
 		else if (item.getMetaData("brawlerCharges") != null)
@@ -195,7 +194,7 @@ public final class Equipment {
 		for (Item item : items.array()) {
 			if (item == null)
 				continue;
-			w += ItemWeights.getWeight(item, true);
+			w += ItemConfig.get(item.getId()).getWeight(true);
 		}
 		equipmentWeight = w;
 		player.getPackets().refreshWeight(player.getInventory().getInventoryWeight() + equipmentWeight);
@@ -606,7 +605,7 @@ public final class Equipment {
 					if (item == null)
 						return;
 					if (e.getPacket() == ClientPacket.IF_OP10) {
-						e.getPlayer().sendMessage(ItemExamines.getExamine(item));
+						e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 						if (item.getMetaData("combatCharges") != null)
 							e.getPlayer().sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
 					} else if (e.getPacket() == ClientPacket.IF_OP1) {
@@ -801,7 +800,7 @@ public final class Equipment {
 		
 		player.getAppearance().generateAppearanceData();
 		player.getPackets().sendVarc(779, player.getAppearance().getRenderEmote());
-		player.getPackets().sendSound(2240, 0, 1);
+		player.getPackets().sendSoundEffect(2240);
 		if (targetSlot == WEAPON)
 			player.getCombatDefinitions().drainSpec(0);
 		return true;

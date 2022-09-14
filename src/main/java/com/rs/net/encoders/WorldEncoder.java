@@ -568,6 +568,14 @@ public class WorldEncoder extends Encoder {
 		else if (effectType == 2)
 			sendVorbisSpeechSound(id, delay);
 	}
+	
+	public void sendSoundEffect(int id, int delay) {
+		sendSound(id, delay, 1);
+	}
+	
+	public void sendSoundEffect(int id) {
+		sendSoundEffect(id, 0);
+	}
 
 	public void sendVoice(int id) {
 		resetSounds();

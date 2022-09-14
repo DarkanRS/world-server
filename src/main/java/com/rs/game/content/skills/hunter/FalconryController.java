@@ -29,7 +29,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+@PluginEventHandler
 public class FalconryController extends Controller {
 
 	public int[] xp = { 103, 132, 156 };
@@ -43,7 +47,14 @@ public class FalconryController extends Controller {
 	 * Dashing: 0/256 - 205/256
 	 */
 
-	public static void beginFalconry(Player player) {
+	public static ObjectClickHandler enterArea = new ObjectClickHandler(new Object[] { 19222 }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			beginFalconry(e.getPlayer());
+		}
+	};
+	
+	private static void beginFalconry(Player player) {
 		if (!player.hasRights(Rights.DEVELOPER)) {
 			player.sendMessage("Falconry is temporarily closed.");
 			return;

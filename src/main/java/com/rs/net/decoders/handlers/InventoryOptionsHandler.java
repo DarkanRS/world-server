@@ -523,7 +523,7 @@ public class InventoryOptionsHandler {
 			return;
 		player.getInventory().deleteItem(slotId, item);
 		World.addGroundItem(item, new WorldTile(player.getTile()), player);
-		player.getPackets().sendSound(2739, 0, 1);
+		player.getPackets().sendSoundEffect(2739);
 	}
 
 	public static void handleItemOption8(Player player, int slotId, int itemId, Item item) {

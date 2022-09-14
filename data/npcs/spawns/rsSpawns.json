@@ -1,5 +1,23 @@
 [
   {
+    "comment": "Bill Teach added by trent",
+    "npcId": 3157,
+    "tile": {
+      "x": 3713,
+      "y": 3498,
+      "plane": 1
+    }
+  },
+  {
+    "comment": "Bill Teach added by trent",
+    "npcId": 3157,
+    "tile": {
+      "x": 3682,
+      "y": 2948,
+      "plane": 1
+    }
+  },
+  {
     "comment": "Lady Servil added by jazneta",
     "npcId": 258,
     "tile": {
