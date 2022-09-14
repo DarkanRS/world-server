@@ -75,6 +75,10 @@ public class ItemConfig {
 		return CONFIG_CACHE.get(itemId);
 	}
 	
+	public static ItemConfig get(Item item) {
+		return CONFIG_CACHE.get(item.getId());
+	}
+	
 	public static int forUid(String uid) {
 		if (UID_TO_ID.get(uid) == null)
 			throw new IllegalArgumentException("No item with UID " + uid + " found in item configuration.");
