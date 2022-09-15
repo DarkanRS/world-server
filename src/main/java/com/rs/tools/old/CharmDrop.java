@@ -30,6 +30,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.drop.DropTable;
 
 @PluginEventHandler
@@ -101,7 +102,7 @@ public class CharmDrop {
 		return charm;
 	}
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadCharmDrops() {
 		try {
 			charmDrops = new HashMap<>();

@@ -14,11 +14,10 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.hunter;
+package com.rs.game.content.skills.hunter.falconry;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
@@ -32,9 +31,7 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -102,7 +99,7 @@ public class FalconryController extends Controller {
 					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							World.sendProjectile(player, npc, 918, 41, 16, 31, 35, 16, 0);
+							World.sendProjectile(player, npc, 922, 41, 16, 31, 35, 16, 0);
 							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
@@ -121,11 +118,11 @@ public class FalconryController extends Controller {
 					WorldTasks.schedule(new WorldTask() {
 						@Override
 						public void run() {
-							World.sendProjectile(player, npc, 918, 41, 16, 31, 35, 16, 0);
+							World.sendProjectile(player, npc, 922, 41, 16, 31, 35, 16, 0);
 							WorldTasks.schedule(new WorldTask() {
 								@Override
 								public void run() {
-									World.sendProjectile(npc, player, 918, 41, 16, 31, 35, 16, 0);
+									World.sendProjectile(npc, player, 922, 41, 16, 31, 35, 16, 0);
 									WorldTasks.schedule(new WorldTask() {
 										@Override
 										public void run() {
@@ -209,67 +206,4 @@ public class FalconryController extends Controller {
 		}
 		player.getControllerManager().startController(new FalconryController());
 	}
-	
-//	"Sorry, you really need both hands free for falconry. I'd"
-//	" suggest that you put away your weapons and gloves before we start."
-//
-//	Pay 500 coins.
-//		"The falconer gives you a large leather glove and brings one of the smaller"
-//		"birds over to land on it."
-//
-//		"Don't worry; I'll keep an eye on you to make sure you "
-//		"don't upset it too much."
-//	Not right now.
-
-
-// "You should speak to Matthias to get this removed safely.
-//"Hello again."
-//"Ah, you're back. How are you getting along with her then?"
-//"It's certainly harder than it looks."
-//"Sorry, but I was talking to the falcon, not you. But yes it "
-//"is. Have you had enough yet?"
-//	"Actually, I'd like to keep trying a little longer."
-//		"Ok then, just come talk to me when you're done."
-//	"I think I'll leave it for now."
-//		"You give the falcon and glove back to Matthias."
-//
-//"It'll cost you 500 coins to borrow one of my birds."
-	
-	public static NPCClickHandler handleMatthias = new NPCClickHandler(new Object[] { 5092 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Talk-to" -> {
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					{
-						addPlayer(HeadE.CHEERFUL, "Hello there.");
-						addNPC(e.getNPCId(), HeadE.CONFUSED, "Greetings. Can I help you at all?");
-						addOptions(ops -> {
-							ops.add("Do you have any quests I could do?")
-								.addNPC(e.getNPCId(), HeadE.CONFUSED, "A quest? What a strange notion. Do you normally go around asking complete strangers for quests?")
-								.addPlayer(HeadE.SKEPTICAL, "Er, yes, now that you come to mention it.")
-								.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Oh, ok then. Well, no, I don't. Sorry.");
-							ops.add("What is this place?")
-								.addNPC(e.getNPCId(), HeadE.CHEERFUL, "A good question; straight and to the point.")
-								.addNPC(e.getNPCId(), HeadE.CHEERFUL, "My name is Matthias, I am a falconer, and this is where I train my birds.")
-								.addOptions(watOp -> {
-									watOp.add("That sounds like fun; could I have a go?")
-										;
-									
-									watOp.add("That doesn't sound like my sort of thing.")
-										.addNPC(e.getNPCId(), HeadE.CALM_TALK, "Fair enough; it does require a great deal of patience and skill, so I can understand if you might feel intimidated.");
-									
-									watOp.add("What's this falconry thing all about then?")
-										.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Well, some people see it as a sport, although such a term does not really convey the amount of patience and dedication to be profiecient at the task.")
-										.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Putting it simply, it is the training and use of birds of prey in hunting quarry.");
-								});
-						});
-						create();
-					}
-				});
-			}
-			case "Falconry" -> {}
-			}
-		}
-	};
 }

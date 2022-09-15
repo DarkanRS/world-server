@@ -25,4 +25,8 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface ServerStartupEvent {
+	public enum Priority {
+		SYSTEM, FILE_IO, GENERAL, POST_PROCESS
+	}
+	public Priority value() default Priority.GENERAL;
 }

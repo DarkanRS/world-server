@@ -12,6 +12,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class ItemConfig {
@@ -25,7 +26,7 @@ public class ItemConfig {
 	private double weight;
 	private String examine;
 	
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static final void init() throws JsonIOException, IOException {
 		if (new File(PATH).exists())
 			CONFIG_CACHE = JsonFileManager.loadJsonFile(new File(PATH), new TypeToken<Map<Integer, ItemConfig>>(){}.getType());

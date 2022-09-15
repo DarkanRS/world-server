@@ -1126,6 +1126,14 @@ public abstract class Entity {
 	public int getLastFaceEntity() {
 		return lastFaceEntity;
 	}
+	
+	public void unfreeze() {
+		removeEffect(Effect.FREEZE);
+	}
+	
+	public void freeze() {
+		freeze(Integer.MAX_VALUE, false);
+	}
 
 	public void freeze(int ticks) {
 		freeze(ticks, false);
