@@ -26,6 +26,7 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -38,7 +39,7 @@ public class ShopsHandler {
 
 	private static final String PATH = "data/items/shops/";
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadShops() {
 		loadShopFiles();
 	}

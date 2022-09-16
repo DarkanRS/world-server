@@ -27,7 +27,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
-import com.rs.utils.ItemExamines;
+import com.rs.utils.ItemConfig;
 
 @PluginEventHandler
 public class Trade {
@@ -309,7 +309,7 @@ public class Trade {
 		Item item = traders ? target.getTrade().items.get(slot) : items.get(slot);
 		if (item == null)
 			return;
-		player.sendMessage(ItemExamines.getExamine(item));
+		player.sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 		if (player.hasRights(Rights.DEVELOPER))
 			player.sendMessage("Item: " + (item.getId() + ", "+item.getMetaData()));
 	}

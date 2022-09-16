@@ -35,13 +35,14 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeserializer<Controller> {
 	
 	private static Map<String, Class<?>> CONTROLLER_CLASSES = new HashMap<>();
 	
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void init() {
 		try {
 			List<Class<?>> classes = Utils.getSubClasses("com.rs", Controller.class);

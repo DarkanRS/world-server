@@ -29,6 +29,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class Music {
@@ -54,7 +55,7 @@ public class Music {
 	private static Genre[] parentGenres;
 	private static ArrayList<Integer> allowAmbientMusic = new ArrayList<>();
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void init() {
 		try {
 			Song[] songs = JsonFileManager.loadJsonFile(new File("./data/music/songs.json"), Song[].class);

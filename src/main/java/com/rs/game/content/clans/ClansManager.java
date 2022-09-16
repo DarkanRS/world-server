@@ -463,9 +463,19 @@ public class ClansManager {
 		MemberData member = player.getClan().getMembers().get(username);
 		if (member == null)
 			return;
-		viewClanmateDetails(player, username, member);
-		player.getTempAttribs().removeO("editClanMateRank");
-		player.getTempAttribs().removeO("editClanMateJob");
+		LobbyCommunicator.getAccount(username, acc -> {
+			if (acc == null) {
+				player.sendMessage("Error finding player profile for target character.");
+				return;
+			}
+			viewClanmateDetails(player, acc.getDisplayName(), member);
+			player.getTempAttribs().removeI("editClanMateRank");
+			player.getTempAttribs().removeI("editClanMateJob");
+			if (player.getClan().hasPermissions(player.getUsername(), ClanRank.ADMIN))
+				player.getTempAttribs().setO("editClanMate", username);
+		});
+		player.getTempAttribs().removeI("editClanMateRank");
+		player.getTempAttribs().removeI("editClanMateJob");
 		if (player.getClan().hasPermissions(player.getUsername(), ClanRank.ADMIN))
 			player.getTempAttribs().setO("editClanMate", username);
 	}
@@ -532,7 +542,7 @@ public class ClansManager {
 	
 	private static void saveClanmateDetails(Player player) {
 		int jobId = player.getTempAttribs().getI("editClanMateJob", -1);
-		int rankId = player.getTempAttribs().getI("editClanMateRank");
+		int rankId = player.getTempAttribs().getI("editClanMateRank", -1);
 		String editingUser = player.getTempAttribs().getO("editClanMate");
 		ClanRank currRank = player.getClan().getRank(editingUser);
 		ClanRank newRank = ClanRank.forId(rankId);

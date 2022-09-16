@@ -27,6 +27,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class DoorPair {
@@ -39,7 +40,7 @@ public class DoorPair {
 	private int closed;
 	private int open;
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPairs() {
 		try {
 			DOOR_PAIRS = (DoorPair[]) JsonFileManager.loadJsonFile(new File(PATH), DoorPair[].class);
