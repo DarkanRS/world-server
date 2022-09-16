@@ -179,7 +179,7 @@ public class Kebbit extends NPC {
 			player.sendMessage("You don't have enough space in your inventory.");
 			return;
 		}
-		player.incrementCount(NPCDefinitions.getDefs(type.kebbitId) + " hunted at falconry");
+		player.incrementCount(NPCDefinitions.getDefs(type.kebbitId).getName() + " hunted at falconry");
 		player.faceEntity(this);
 		player.lock();
 		player.anim(827);
