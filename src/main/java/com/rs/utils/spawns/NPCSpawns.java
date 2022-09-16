@@ -33,6 +33,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public final class NPCSpawns {
@@ -59,7 +60,7 @@ public final class NPCSpawns {
 		}
 	}
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static final void init() throws JsonIOException, IOException {
 		Logger.info(NPCSpawns.class, "init", "Loading NPC spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();

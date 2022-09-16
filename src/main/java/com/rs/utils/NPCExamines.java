@@ -30,13 +30,14 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class NPCExamines {
 	private static Map<Integer, String> EXAMINES = new HashMap<>();
 	private final static String PATH = "./data/npcs/examines.json";
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static final void init() throws JsonIOException, IOException {
 		if (new File(PATH).exists())
 			EXAMINES = JsonFileManager.loadJsonFile(new File(PATH), new TypeToken<Map<Integer, String>>(){}.getType());

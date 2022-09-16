@@ -71,6 +71,7 @@ import com.rs.plugin.events.DropItemEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.utils.DropSets;
+import com.rs.utils.ItemConfig;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropTable;
 
@@ -523,7 +524,7 @@ public class InventoryOptionsHandler {
 			return;
 		player.getInventory().deleteItem(slotId, item);
 		World.addGroundItem(item, new WorldTile(player.getTile()), player);
-		player.getPackets().sendSound(2739, 0, 1);
+		player.getPackets().sendSoundEffect(ItemConfig.get(item.getId()).getDropSound());
 	}
 
 	public static void handleItemOption8(Player player, int slotId, int itemId, Item item) {

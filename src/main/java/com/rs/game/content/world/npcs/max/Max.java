@@ -18,7 +18,6 @@ import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
@@ -153,14 +152,9 @@ public class Max extends NPC {
 	
 	@ServerStartupEvent
 	public static void loadMaxRegions() {
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				World.getRegion(12342, true);
-				World.getRegion(12853, true);
-				World.getRegion(12854, true);
-			}
-		}, 10);
+		World.getRegion(12342, true);
+		World.getRegion(12853, true);
+		World.getRegion(12854, true);
 	}
 	
 	public static NPCClickHandler clickClose = new NPCClickHandler(new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, new String[] { "Talk-to", "Trade" }) {

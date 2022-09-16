@@ -33,6 +33,21 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class PortPhasmatys {
+	
+	public static NPCClickHandler handleBillTeach = new NPCClickHandler(new Object[] { 3157 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (!e.getPlayer().isQuestComplete(Quest.CABIN_FEVER, "to travel to Mos' Le Harmless."))
+				return;
+			e.getPlayer().sendOptionDialogue(ops -> {
+				if (e.getPlayer().getRegionId() == 14638)
+					ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextWorldTile(new WorldTile(3713, 3497, 1)));
+				else
+					ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextWorldTile(new WorldTile(3682, 2949, 1)));
+				ops.add("Nevermind.");
+			});
+		}
+	};
 
 	public static ItemClickHandler handleEctophial = new ItemClickHandler(4251) {
 		@Override

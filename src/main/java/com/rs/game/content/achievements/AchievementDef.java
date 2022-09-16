@@ -30,6 +30,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class AchievementDef {
@@ -146,7 +147,7 @@ public class AchievementDef {
 		return taskSet;
 	}
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void init() {
 		QuestDefinitions.init();
 		QuestInformationParser.init();

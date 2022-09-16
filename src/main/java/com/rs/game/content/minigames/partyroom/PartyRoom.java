@@ -48,7 +48,7 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.ItemExamines;
+import com.rs.utils.ItemConfig;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
@@ -345,7 +345,7 @@ public class PartyRoom {
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						removeDeposit(e.getPlayer(), e.getSlotId());
 					else
-						e.getPlayer().sendMessage(ItemExamines.getExamine(item));
+						e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 				} else if (e.getComponentId() == 21)
 					addToChest(e.getPlayer());
 				else if (e.getComponentId() == 23) {
@@ -355,7 +355,7 @@ public class PartyRoom {
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						e.getPlayer().sendMessage("Item valued at: " + item.getDefinitions().getValue());
 					else
-						e.getPlayer().sendMessage(ItemExamines.getExamine(item));
+						e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 				}
 			} else if (e.getInterfaceId() == INVENTORY_INTERFACE) {
 				final Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
@@ -378,7 +378,7 @@ public class PartyRoom {
 					e.getPlayer().sendInputInteger("How many would you like to deposit?", amount -> addDeposit(e.getPlayer(), item, amount));
 					break;
 				case IF_OP10:
-					e.getPlayer().sendMessage(ItemExamines.getExamine(item));
+					e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
 					break;
 				default:
 					break;

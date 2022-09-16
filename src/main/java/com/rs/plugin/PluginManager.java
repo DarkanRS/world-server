@@ -157,6 +157,7 @@ public class PluginManager {
 	}
 
 	public static void executeStartupHooks() {
+		STARTUP_HOOKS.sort((m1, m2) -> m1.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal() - m2.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal());
 		for (Method m : STARTUP_HOOKS) {
 			long start = System.currentTimeMillis();
 			try {
