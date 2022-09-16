@@ -181,8 +181,6 @@ public final class World {
 			}
 			if (load)
 				region.checkLoadMap();
-			if (load)
-				System.out.println("Loaded region " + id);
 			return region;
 		}
 	}

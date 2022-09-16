@@ -321,7 +321,6 @@ public class Player extends Entity {
 	private transient boolean resting;
 	private transient boolean canPvp;
 	private transient boolean cantTrade;
-	private transient long lockDelay; // used for doors and stuff like that
 	private transient long foodDelay;
 	private transient long potionDelay;
 	private transient long boneDelay;
@@ -1163,8 +1162,6 @@ public class Player extends Entity {
 
 	@Override
 	public void processReceivedHits() {
-		if (lockDelay > World.getServerTicks())
-			return;
 		super.processReceivedHits();
 	}
 
@@ -2494,27 +2491,6 @@ public class Player extends Entity {
 
 	public PrayerManager getPrayer() {
 		return prayer;
-	}
-
-	public boolean isLocked() {
-		return lockDelay >= World.getServerTicks();
-	}
-
-	/**
-	 * You are invincible & cannot use your character until unlocked.
-	 * All hits are processed after unlocking.
-	 * If you use resetRecievedHits you lose those hits.
-	 */
-	public void lock() {
-		lockDelay = Long.MAX_VALUE;
-	}
-
-	public void lock(int ticks) {
-		lockDelay = World.getServerTicks() + ticks;
-	}
-
-	public void unlock() {
-		lockDelay = 0;
 	}
 
 	public void useStairs(WorldTile dest) {
@@ -4419,6 +4395,14 @@ public class Player extends Entity {
 		if (soundId == -1)
 			return;
 		getPackets().sendSound(soundId, 0, type);
+	}
+	
+	public void soundEffect(int soundId) {
+		playSound(soundId, 1);
+	}
+	
+	public void voiceEffect(int voiceId) {
+		playSound(voiceId, 2);
 	}
 	
 	public Map<Integer, MachineInformation> getMachineMap() {

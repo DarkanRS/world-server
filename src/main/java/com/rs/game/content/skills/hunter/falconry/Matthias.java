@@ -76,7 +76,7 @@ public class Matthias extends NPC {
 			.toList();
 	}
 
-	public static NPCClickHandler handleMatthias = new NPCClickHandler(new Object[] { 5092 }) {
+	public static NPCClickHandler handleMatthias = new NPCClickHandler(new Object[] { 5092, 5093 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
@@ -109,7 +109,7 @@ public class Matthias extends NPC {
 					}
 				});
 			}
-			case "Falconry" -> {}
+			case "Falconry" -> FalconryController.beginFalconry(e.getPlayer());
 			}
 		}
 	};

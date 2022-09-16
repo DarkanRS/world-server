@@ -16,50 +16,89 @@
 //
 package com.rs.game.content.skills.hunter.falconry;
 
-import com.rs.game.World;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.model.entity.npc.NPC;
+import java.util.Arrays;
+import com.rs.game.content.skills.hunter.falconry.Kebbit.KebbitType;
+import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemEquipEvent;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.ItemEquipHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class FalconryController extends Controller {
+	
+	public static final int BIRD_GLOVE = 10024, EMPTY_GLOVE = 10023;
 
-	public int[] xp = { 103, 132, 156 };
-	public int[] furRewards = { 10125, 10115, 10127 };
-	public int[] levels = { 43, 57, 69 };
+	public static NPCClickHandler catchKebbit = new NPCClickHandler(false, Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray()) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (!e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
+				e.getPlayer().sendMessage("I should speak to Matthias about using my own falcon before catching these.");
+				return;
+			}
+			if (!(e.getNPC() instanceof Kebbit kebbit)) {
+				e.getPlayer().sendMessage("This shouldn't have happened. Report it as a bug please.");
+				return;
+			}
+			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), 8, () -> kebbit.sendFalcon(e.getPlayer())));
+		}
+	};
+
+	public static NPCClickHandler lootKebbit = new NPCClickHandler(Arrays.stream(KebbitType.values()).map(k -> k.caughtId).toArray()) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			if (!e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
+				e.getPlayer().sendMessage("I should speak to Matthias about using my own falcon before catching these.");
+				return;
+			}
+			if (!(e.getNPC() instanceof Kebbit kebbit)) {
+				e.getPlayer().sendMessage("This shouldn't have happened. Report it as a bug please.");
+				return;
+			}
+			kebbit.loot(e.getPlayer());
+		}
+	};
 
 	@Override
 	public void start() {
-		player.setNextAnimation(new Animation(1560));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextWorldTile(new WorldTile(2371, 3619, 0));
-			}
-		});
-		player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
+		player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(BIRD_GLOVE, 1));
+		player.getEquipment().refresh(Equipment.WEAPON);
 		player.getAppearance().generateAppearanceData();
 		player.simpleDialogue("Simply click on the target and try your luck.");
 	}
 
+	public static ItemEquipHandler handleFalconersGlove = new ItemEquipHandler(BIRD_GLOVE, EMPTY_GLOVE) {
+		@Override
+		public void handle(ItemEquipEvent e) {
+			if (e.equip()) {
+				e.cancel();
+				e.getPlayer().getInventory().deleteItem(e.getItem());
+				return;
+			}
+			e.getPlayer().getPackets().sendPlayerMessage(0, 0xFF0000, "You should speak to Matthias to get this removed safely.");
+			e.cancel();
+		}
+	};
+	
 	@Override
-	public boolean canEquip(int slotId, int itemId) {
-		if (slotId == 3 || slotId == 5)
-			return false;
-		return true;
+	public boolean login() {
+		return false;
+	}
+	
+	@Override
+	public boolean logout() {
+		return false;
 	}
 
 	@Override
@@ -69,128 +108,33 @@ public class FalconryController extends Controller {
 
 	@Override
 	public void forceClose() {
-		player.getEquipment().deleteSlot(Equipment.WEAPON);
-		player.getInventory().deleteItem(10024, Integer.MAX_VALUE);
+		if (player.getEquipment().containsOneItem(BIRD_GLOVE, EMPTY_GLOVE))
+			player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, null);
+		player.getEquipment().refresh(Equipment.WEAPON);
 		player.getAppearance().generateAppearanceData();
-	}
-
-	@Override
-	public boolean processNPCClick1(final NPC npc) {
-		player.setNextFaceEntity(npc);
-		if (npc.getDefinitions().getName().toLowerCase().contains("kebbit")) {
-			if (player.getTempAttribs().getB("falconReleased")) {
-				player.simpleDialogue("You cannot catch a kebbit without your falcon.");
-				return false;
-			}
-			int level = levels[(npc.getId() - 5098)];
-			if (proccessFalconAttack(npc)) {
-				if (player.getSkills().getLevel(Constants.HUNTER) < level) {
-					player.simpleDialogue("You need a Hunter level of " + level + " to capture this kebbit.");
-					return true;
-				}
-				if (FlyingEntityHunter.isSuccessful(player, level, player -> {
-					if (player.getEquipment().getGlovesId() == 10075)
-						return 3;
-					return 1;
-				})) {
-					player.getEquipment().setSlot(Equipment.WEAPON, new Item(10023, 1));
-					player.getAppearance().generateAppearanceData();
-					player.getTempAttribs().setB("falconReleased", true);
-					WorldTasks.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							World.sendProjectile(player, npc, 922, 41, 16, 31, 35, 16, 0);
-							WorldTasks.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									npc.transformIntoNPC(npc.getId() - 4);
-									player.getTempAttribs().setO("ownedFalcon", npc);
-									player.sendMessage("The falcon successfully swoops down and captures the kebbit.");
-									player.getHintIconsManager().addHintIcon(npc, 1, -1, false);
-								}
-							});
-						}
-					});
-				} else {
-					player.getEquipment().setSlot(Equipment.WEAPON, new Item(10023, 1));
-					player.getAppearance().generateAppearanceData();
-					player.getTempAttribs().setB("falconReleased", true);
-					WorldTasks.schedule(new WorldTask() {
-						@Override
-						public void run() {
-							World.sendProjectile(player, npc, 922, 41, 16, 31, 35, 16, 0);
-							WorldTasks.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									World.sendProjectile(npc, player, 922, 41, 16, 31, 35, 16, 0);
-									WorldTasks.schedule(new WorldTask() {
-										@Override
-										public void run() {
-											player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
-											player.getAppearance().generateAppearanceData();
-											player.getTempAttribs().removeB("falconReleased");
-											player.sendMessage("The falcon swoops down on the kebbit, but just barely misses catching it.");
-										}
-									});
-								}
-							}, Utils.getDistance(player.getTile(), npc.getTile()) > 3 ? 2 : 1);
-						}
-					});
-				}
-			}
-			return false;
-		}
-		if (npc.getDefinitions().getName().toLowerCase().contains("gyr falcon")) {
-			NPC kill = player.getTempAttribs().getO("ownedFalcon");
-			if (kill == null)
-				return false;
-			if (kill != npc) {
-				player.simpleDialogue("This isn't your kill!");
-				return false;
-			}
-			npc.transformIntoNPC(npc.getId() + 4);
-			npc.setRespawnTask();
-			// player.getInventory().addItem(new Item(furRewards[(npc.getId() -
-			// 5094)], 1));
-			player.getInventory().addItem(new Item(526, 1));
-			// player.getSkills().addXp(Constants.HUNTER, xp[(npc.getId() -
-			// 5094)]);
-			player.sendMessage("You retreive the falcon as well as the fur of the dead kebbit.");
-			player.getHintIconsManager().removeUnsavedHintIcon();
-			player.getEquipment().setSlot(Equipment.WEAPON, new Item(10024, 1));
-			player.getAppearance().generateAppearanceData();
-			player.getTempAttribs().removeO("ownedFalcon");
-			player.getTempAttribs().removeB("falconReleased");
-			return false;
-		}
-		return true;
-	}
-
-	private boolean proccessFalconAttack(NPC target) {
-		int distanceX = player.getX() - target.getX();
-		int distanceY = player.getY() - target.getY();
-		int size = player.getSize();
-		int maxDistance = 16;
-		player.resetWalkSteps();
-		if ((!player.lineOfSightTo(target, maxDistance == 0)) || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
-			if (!player.calcFollow(target, 2, true))
-				return true;
-		return true;
 	}
 
 	public static ObjectClickHandler enterArea = new ObjectClickHandler(new Object[] { 19222 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			beginFalconry(e.getPlayer());
+			if (e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
+				e.getPlayer().sendOptionDialogue("Are you sure you would like to leave?", ops -> {
+					ops.add("Yes", () -> {
+						e.getPlayer().getControllerManager().forceStop();
+						e.getPlayer().lock(2);
+						e.getPlayer().setNextAnimation(new Animation(1560));
+						WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+					});
+					ops.add("No");
+				});
+				return;
+			}
+			e.getPlayer().lock(2);
+			e.getPlayer().setNextAnimation(new Animation(1560));
+			WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 		}
 	};
-	
-	/**
-	 * Success rates:
-	 * Spotted: 26/256 - 310/256
-	 * Dark: 0/256 - 253/256
-	 * Dashing: 0/256 - 205/256
-	 */
+
 	public static void beginFalconry(Player player) {
 		if (!player.hasRights(Rights.DEVELOPER)) {
 			player.sendMessage("Falconry is temporarily closed.");
@@ -204,6 +148,16 @@ public class FalconryController extends Controller {
 			player.simpleDialogue("You need a Hunter level of at least 43 to use a falcon, come back later.");
 			return;
 		}
-		player.getControllerManager().startController(new FalconryController());
+		player.sendOptionDialogue("Pay 500 coins to borrow a falcon?", ops -> {
+			ops.add("Yes", () -> {
+				if (!player.getInventory().containsItem(995, 500)) {
+					player.sendMessage("You need 500 coins to borrow a falcon.");
+					return;
+				}
+				player.getInventory().deleteItem(995, 500);
+				player.getControllerManager().startController(new FalconryController());
+			});
+			ops.add("No");
+		});
 	}
 }
