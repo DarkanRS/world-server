@@ -311,7 +311,7 @@ public enum Quest {
 			jingleNum = 318;
 		else
 			jingleNum+=152;
-		player.getPackets().sendMusicEffect(jingleNum);
+		player.jingle(jingleNum);
 
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);

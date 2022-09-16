@@ -102,16 +102,10 @@ public class WitchsHouse extends QuestOutline {
 		return lines;
 	}
 
-	public static ItemClickHandler handleClickOnWitchDiary = new ItemClickHandler(WITCH_DIARY) {
+	public static ItemClickHandler handleClickOnWitchDiary = new ItemClickHandler(new Object[] { WITCH_DIARY }, new String[] { "Read" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("read"))
-				e.getPlayer().openBook(new WitchsDiary());;
-				if(e.getOption().equalsIgnoreCase("drop")) {
-					e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-					World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-					e.getPlayer().getPackets().sendSound(2739, 0, 1);
-				}
+			e.getPlayer().openBook(new WitchsDiary());;
 		}
 	};
 

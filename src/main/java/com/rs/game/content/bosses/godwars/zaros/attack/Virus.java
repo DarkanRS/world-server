@@ -32,7 +32,7 @@ public class Virus implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Let the virus flow through you."));
-		nex.playSound(3296, 2);
+		nex.voiceEffect(3296);
 		nex.setNextAnimation(new Animation(6987));
 		sendVirus(nex, new ArrayList<Entity>(), nex.getPossibleTargets(), target);
 		return nex.getAttackSpeed();

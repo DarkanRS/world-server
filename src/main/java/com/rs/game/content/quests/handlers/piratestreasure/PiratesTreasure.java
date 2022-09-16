@@ -154,36 +154,23 @@ public class PiratesTreasure extends QuestOutline {
 	};
 
 
-	public static ItemClickHandler openCasket = new ItemClickHandler(CASKET) {
+	public static ItemClickHandler openCasket = new ItemClickHandler(new Object[] { CASKET }, new String[] { "Open" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().removeItems(e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
-				return;
-			}
 			e.getPlayer().getInventory().removeItems(new Item(CASKET, 1));
 			e.getPlayer().getInventory().addItem(new Item(1605, 1), true);//gold ring
 			e.getPlayer().getInventory().addItem(new Item(1635, 1), true);//cut emerald
 		}
 	};
 
-	public static ItemClickHandler readMessage = new ItemClickHandler(PIRATE_MESSAGE) {
+	public static ItemClickHandler readMessage = new ItemClickHandler(new Object[] { PIRATE_MESSAGE }, new String[] { "Read" }) {
 		private final int MESSAGE_INTERFACE = 220;
 		@Override
 		public void handle(ItemClickEvent e) {
-			Player p = e.getPlayer();
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				p.getInventory().removeItems(e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
-				return;
-			}
-			p.getInterfaceManager().sendInterface(MESSAGE_INTERFACE);//Message interface
-			p.getPackets().setIFText(MESSAGE_INTERFACE, 8, "Visit the city of the White Knights. In the park,");
-			p.getPackets().setIFText(MESSAGE_INTERFACE, 9, "Saradomin points to the X which marks the spot.");
-			p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(KNOWS_TREASURE_LOC_ATTR, true);
+			e.getPlayer().getInterfaceManager().sendInterface(MESSAGE_INTERFACE);//Message interface
+			e.getPlayer().getPackets().setIFText(MESSAGE_INTERFACE, 8, "Visit the city of the White Knights. In the park,");
+			e.getPlayer().getPackets().setIFText(MESSAGE_INTERFACE, 9, "Saradomin points to the X which marks the spot.");
+			e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(KNOWS_TREASURE_LOC_ATTR, true);
 		}
 	};
 

@@ -171,7 +171,7 @@ public class FishingContest extends QuestOutline {
 			if(e.getOption().equalsIgnoreCase("drop")) {
 				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
 				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
+				e.getPlayer().soundEffect(2739);
 			}
 		}
 	};

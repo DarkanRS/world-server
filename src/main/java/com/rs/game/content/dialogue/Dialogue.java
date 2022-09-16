@@ -317,7 +317,7 @@ public class Dialogue {
 		if (statement != null)
 			statement.send(player);
 		if (voiceEffectId != -1)
-			player.playSound(voiceEffectId, 2);
+			player.voiceEffect(voiceEffectId);
 	}
 
 	public Dialogue getPrev() {

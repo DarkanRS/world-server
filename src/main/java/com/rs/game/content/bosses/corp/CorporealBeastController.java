@@ -81,7 +81,7 @@ public class CorporealBeastController extends Controller {
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					removeController();
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

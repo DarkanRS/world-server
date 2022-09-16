@@ -305,7 +305,7 @@ public class DungeonController extends Controller {
 	public boolean sendDeath() {
 		player.lock(8);
 		player.stopAll();
-		player.getPackets().sendMusicEffect(418);
+		player.jingle(418);
 		if (player.getInventory().containsItem(DungeonConstants.GROUP_GATESTONE, 1)) {
 			WorldTile tile = new WorldTile(player.getTile());
 			dungeon.setGroupGatestone(new WorldTile(player.getTile()));

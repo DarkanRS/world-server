@@ -59,6 +59,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.packets.encoders.Sound;
+import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -1347,7 +1349,7 @@ public final class World {
 		return WildernessController.isAtWild(player.getTile());
 	}
 	
-	public static void playSound(Entity source, int soundId, int type) {
+	public static Sound playSound(Entity source, Sound sound) {
 		for (int regionId : source.getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
 			if (playerIndexes != null)
@@ -1355,9 +1357,50 @@ public final class World {
 					Player player = World.getPlayers().get(playerIndex);
 					if (player == null || !player.isRunning() || !source.withinDistance(player.getTile()))
 						continue;
-					player.getPackets().sendSound(soundId, 0, type);
+					player.playSound(sound);
 				}
 		}
+		return sound;
+	}
+	
+	private static Sound playSound(Entity source, int soundId, int delay, SoundType type) {
+		return playSound(source, new Sound(soundId, delay, type));
+	}
+	
+	public static void jingle(Entity source, int jingleId, int delay) {
+		playSound(source, jingleId, delay, SoundType.JINGLE);
+	}
+	
+	public static void jingle(Entity source, int jingleId) {
+		playSound(source, jingleId, 0, SoundType.JINGLE);
+	}
+	
+	public static void musicTrack(Entity source, int trackId, int delay, int volume) {
+		playSound(source, trackId, delay, SoundType.MUSIC).volume(volume);
+	}
+	
+	public static void musicTrack(Entity source, int trackId, int delay) {
+		playSound(source, trackId, delay, SoundType.MUSIC);
+	}
+	
+	public static void musicTrack(Entity source, int trackId) {
+		musicTrack(source, trackId, 100);
+	}
+	
+	public static void soundEffect(Entity source, int soundId, int delay) {
+		playSound(source, soundId, delay, SoundType.EFFECT);
+	}
+	
+	public static void soundEffect(Entity source, int soundId) {
+		soundEffect(source, soundId, 0);
+	}
+	
+	public static void voiceEffect(Entity source, int voiceId, int delay) {
+		playSound(source, voiceId, delay, SoundType.VOICE);
+	}
+	
+	public static void voiceEffect(Entity source, int voiceId) {
+		voiceEffect(source, voiceId, 0);
 	}
 
 	public static GameObject getClosestObject(int objectId, WorldTile tile) {

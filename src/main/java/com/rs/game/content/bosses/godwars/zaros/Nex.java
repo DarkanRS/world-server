@@ -96,28 +96,28 @@ public final class Nex extends NPC {
 			setNextForceTalk(new ForceTalk("Fumus, don't fail me!"));
 			getCombat().addCombatDelay(1);
 			arena.breakFumusBarrier();
-			playSound(3321, 2);
+			voiceEffect(3321);
 			minionStage = 1;
 		} else if (phase == Phase.SHADOW && minionStage == 1 && getHitpoints() <= 18000) {
 			setCapDamage(0);
 			setNextForceTalk(new ForceTalk("Umbra, don't fail me!"));
 			getCombat().addCombatDelay(1);
 			arena.breakUmbraBarrier();
-			playSound(3307, 2);
+			voiceEffect(3307);
 			minionStage = 2;
 		} else if (phase == Phase.BLOOD && minionStage == 2 && getHitpoints() <= 12000) {
 			setCapDamage(0);
 			setNextForceTalk(new ForceTalk("Cruor, don't fail me!"));
 			getCombat().addCombatDelay(1);
 			arena.breakCruorBarrier();
-			playSound(3298, 2);
+			voiceEffect(3298);
 			minionStage = 3;
 		} else if (phase == Phase.ICE && minionStage == 3 && getHitpoints() <= 6000) {
 			setCapDamage(0);
 			setNextForceTalk(new ForceTalk("Glacies, don't fail me!"));
 			getCombat().addCombatDelay(1);
 			arena.breakGlaciesBarrier();
-			playSound(3327, 2);
+			voiceEffect(3327);
 			minionStage = 4;
 		}
 		if (isDead() || isCantInteract())
@@ -165,7 +165,7 @@ public final class Nex extends NPC {
 			return true;
 		});
 		setNextForceTalk(new ForceTalk("Taste my wrath!"));
-		playSound(3323, 2);
+		voiceEffect(3323);
 		sendWrath();
 	}
 
@@ -220,20 +220,20 @@ public final class Nex extends NPC {
 			setNextForceTalk(new ForceTalk("Darken my shadow!"));
 			World.sendProjectile(arena.umbra, this, 2244, 18, 18, 60, 30, 0, 0);
 			getCombat().addCombatDelay(1);
-			playSound(3302, 2);
+			voiceEffect(3302);
 		} else if (phase == Phase.SHADOW && minionStage == 2) {
 			setCapDamage(500);
 			setNextForceTalk(new ForceTalk("Flood my lungs with blood!"));
 			World.sendProjectile(arena.cruor, this, 2244, 18, 18, 60, 30, 0, 0);
 			getCombat().addCombatDelay(1);
-			playSound(3306, 2);
+			voiceEffect(3306);
 		} else if (phase == Phase.BLOOD && minionStage == 3) {
 			setCapDamage(500);
 			killBloodReavers();
 			setNextForceTalk(new ForceTalk("Infuse me with the power of ice!"));
 			World.sendProjectile(arena.glacies, this, 2244, 18, 18, 60, 30, 0, 0);
 			getCombat().addCombatDelay(1);
-			playSound(3303, 2);
+			voiceEffect(3303);
 		} else if (phase == Phase.ICE && minionStage == 4) {
 			setCapDamage(500);
 			setNextForceTalk(new ForceTalk("NOW, THE POWER OF ZAROS!"));
@@ -241,7 +241,7 @@ public final class Nex extends NPC {
 			setNextSpotAnim(new SpotAnim(1204));
 			getCombat().addCombatDelay(1);
 			heal(6000);
-			playSound(3312, 2);
+			voiceEffect(3312);
 		}
 	}
 

@@ -214,7 +214,7 @@ public class WildernessController extends Controller {
 			} else if (loop == 4) {
 				removeIcon();
 				removeController();
-				player.getPackets().sendMusicEffect(90);
+				player.jingle(90);
 				return false;
 			}
 			return true;

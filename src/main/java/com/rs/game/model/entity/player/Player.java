@@ -145,6 +145,8 @@ import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.net.packets.encoders.ReflectionCheckRequest;
+import com.rs.lib.net.packets.encoders.Sound;
+import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
@@ -205,6 +207,7 @@ public class Player extends Entity {
 	public transient boolean disconnected = false;
 	private transient int pvpCombatLevelThreshhold = -1;
 	private transient String[] playerOptions = new String[10];
+	private transient Set<Sound> sounds = new HashSet<Sound>();
 	
 	private WorldTile lastNonDynamicTile;
 
@@ -662,6 +665,7 @@ public class Player extends Entity {
 		if (varManager == null)
 			varManager = new VarManager();
 		varManager.setSession(session);
+		sounds = new HashSet<>();
 		cutsceneManager = new CutsceneManager(this);
 		trade = new Trade(this);
 		// loads player on saved instances
@@ -1144,6 +1148,11 @@ public class Player extends Entity {
 		getInventory().processRefresh();
 		getVars().syncVarsToClient();
 		skills.updateXPDrops();
+		
+		for (Sound sound : sounds)
+			if (sound != null)
+				getPackets().sendSound(sound);
+		sounds.clear();
 	}
 
 	public void tickFarming() {
@@ -2293,7 +2302,7 @@ public class Player extends Entity {
 				} else if (loop == 3) {
 					setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
-					getPackets().sendMusicEffect(90);
+					jingle(90);
 					unlock();
 					stop();
 				}
@@ -4391,18 +4400,51 @@ public class Player extends Entity {
 		getAppearance().generateAppearanceData();
 	}
 	
-	public void playSound(int soundId, int type) {
-		if (soundId == -1)
-			return;
-		getPackets().sendSound(soundId, 0, type);
+	public Sound playSound(Sound sound) {
+		if (sound.getId() == -1)
+			return null;
+		sounds.add(sound);
+		return sound;
+	}
+	
+	private Sound playSound(int soundId, int delay, SoundType type) {
+		return playSound(new Sound(soundId, delay, type));
+	}
+	
+	public void jingle(int jingleId, int delay) {
+		playSound(jingleId, delay, SoundType.JINGLE);
+	}
+	
+	public void jingle(int jingleId) {
+		playSound(jingleId, 0, SoundType.JINGLE);
+	}
+	
+	public void musicTrack(int trackId, int delay, int volume) {
+		playSound(trackId, delay, SoundType.MUSIC).volume(volume);
+	}
+	
+	public void musicTrack(int trackId, int delay) {
+		playSound(trackId, delay, SoundType.MUSIC);
+	}
+	
+	public void musicTrack(int trackId) {
+		musicTrack(trackId, 100);
+	}
+	
+	public void soundEffect(int soundId, int delay) {
+		playSound(soundId, delay, SoundType.EFFECT);
 	}
 	
 	public void soundEffect(int soundId) {
-		playSound(soundId, 1);
+		soundEffect(soundId, 0);
+	}
+	
+	public void voiceEffect(int voiceId, int delay) {
+		playSound(voiceId, delay, SoundType.VOICE);
 	}
 	
 	public void voiceEffect(int voiceId) {
-		playSound(voiceId, 2);
+		voiceEffect(voiceId, 0);
 	}
 	
 	public Map<Integer, MachineInformation> getMachineMap() {
